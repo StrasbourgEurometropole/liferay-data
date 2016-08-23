@@ -33,26 +33,35 @@
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
-				
+
 				<aui:input name="image">
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
-				
+
 				<div id="dynamicImages">
 					<div class="lfr-form-row">
-						<aui:input fieldParam="image0" id="image0" name="image0" type="text"/>
+						<aui:input fieldParam="image0" id="image0" name="image0" type="text" label="other-image"/>
 					</div>
+					
+					<c:set var="images" value="${fn:split(dc.artwork.images, ',')}" />
+					<c:forEach var="image" items="${images}" varStatus="imagesStatus">
+						<div class="lfr-form-row">
+							<aui:input fieldParam="image${imagesStatus.count}"
+								id="image${imagesStatus.count}" name="image${imagesStatus.count}"
+								type="text" label="other-image" value="${image}"/>
+						</div>
+					</c:forEach>
 				</div>
+				
+				
 				<aui:script use="liferay-auto-fields">
-					new Liferay.AutoFields(
-					    {
-					        contentBox: '#dynamicImages', // this is the container within which the fields would be added dynamically
-					        fieldIndexes: '<portlet:namespace />imagesIndexes' // this is the field which will store the values of the 
-					    }
-					).render();
+					new Liferay.AutoFields({
+						contentBox : '#dynamicImages', // this is the container within which the fields would be added dynamically
+						fieldIndexes : '<portlet:namespace />imagesIndexes' // this is the field which will store the values of the 
+					}).render();
 				</aui:script>
-
+				
 				<label><liferay-ui:message key="Description" /></label>
 				<liferay-ui:input-editor
 					contents="${dc.artwork.descriptionMap[locale]}"
@@ -63,16 +72,16 @@
 				<label><liferay-ui:message key="technical-information" /></label>
 				<liferay-ui:input-editor
 					contents="${dc.artwork.technicalInformationMap[locale]}"
-					editorName="tinymce" name="technicalInformationEditor" placeholder=""
-					showSource="<%=true %>" />
+					editorName="tinymce" name="technicalInformationEditor"
+					placeholder="" showSource="<%=true %>" />
 				<aui:input type="hidden" name="technicalInformation" />
-				
+
 				<aui:input name="noticeLink" />
 				<aui:input name="artistName" />
 				<aui:input name="creationYear" />
 				<aui:input name="origin" />
 			</aui:fieldset>
-		
+
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="artwork-movement">
 				<aui:input name="exhibitionName" />
@@ -87,23 +96,24 @@
 				<aui:input name="categories" type="assetCategories" />
 
 				<aui:input name="tags" type="assetTags" />
-				 
-				 <liferay-ui:input-asset-links
-				       className="<%= Artwork.class.getName() %>"
-				       classPK="${dc.artwork.artworkId}"
-				   />
+
+				<liferay-ui:input-asset-links
+					className="<%= Artwork.class.getName() %>"
+					classPK="${dc.artwork.artworkId}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="forceStatus" value="" />
-			<aui:button cssClass="btn-lg" type="submit" value="save"/>
+			<aui:button cssClass="btn-lg" type="submit" value="save" />
 			<c:if test="${not empty dc.artwork and dc.artwork.status}">
-				<aui:button cssClass="btn-lg" type="submit" name="unpublish" value="unpublish" />
+				<aui:button cssClass="btn-lg" type="submit" name="unpublish"
+					value="unpublish" />
 			</c:if>
 			<c:if test="${not empty dc.artwork and not dc.artwork.status}">
-				<aui:button cssClass="btn-lg" type="submit" name="publish" value="publish" />
+				<aui:button cssClass="btn-lg" type="submit" name="publish"
+					value="publish" />
 			</c:if>
 			<c:if test="${not empty dc.artwork}">
 				<aui:button cssClass="btn-lg" href="${deleteArtworkURL}"

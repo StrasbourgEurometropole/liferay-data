@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.artwork.model.Artwork;
@@ -74,7 +75,23 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 			String image = ParamUtil.getString(request, "image");
 			artwork.setImage(image);
 
-			String technicalInformation = ParamUtil.getString(request, "technicalInformation");
+			String images = "";
+			long[] imagesIndexes = ParamUtil.getLongValues(request,
+				"imagesIndexes");
+			for (long imageIndex : imagesIndexes) {
+				String nextImage = ParamUtil.getString(request,
+					"image" + imageIndex);
+				if (Validator.isNotNull(nextImage)) {
+					if (images.length() > 0) {
+						images += ",";
+					}
+					images += nextImage;
+				}
+			}
+			artwork.setImages(images);
+
+			String technicalInformation = ParamUtil.getString(request,
+				"technicalInformation");
 			artwork.setTechnicalInformation(technicalInformation);
 
 			Map<Locale, String> noticeLink = LocalizationUtil
