@@ -1,4 +1,4 @@
-package eu.strasbourg.service.artwork.asset;
+package eu.strasbourg.portlet.artwork.asset;
 
 import java.util.Locale;
 
@@ -7,21 +7,21 @@ import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.liferay.asset.kernel.model.BaseAssetRenderer;
+import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
 
-import eu.strasbourg.service.artwork.model.Artwork;
+import eu.strasbourg.service.artwork.model.ArtworkCollection;
 
-public class ArtworkAssetRenderer extends BaseAssetRenderer<Artwork> {
+public class ArtworkCollectionAssetRenderer extends BaseJSPAssetRenderer<ArtworkCollection> {
 	
-	public static final String TYPE = "artwork";
-	private Artwork _entry;
+	public static final String TYPE = "artworkCollection";
+	private ArtworkCollection _entry;
 	
-	public ArtworkAssetRenderer(Artwork entry) {
+	public ArtworkCollectionAssetRenderer(ArtworkCollection entry) {
 		_entry = entry;
 	}
 	
 	@Override
-	public Artwork getAssetObject() {
+	public ArtworkCollection getAssetObject() {
 		return _entry;
 	}
 
@@ -47,12 +47,12 @@ public class ArtworkAssetRenderer extends BaseAssetRenderer<Artwork> {
 
 	@Override
 	public String getClassName() {
-		return Artwork.class.getName();
+		return ArtworkCollection.class.getName();
 	}
 
 	@Override
 	public long getClassPK() {
-		return _entry.getArtworkId();
+		return _entry.getCollectionId();
 	}
 
 	@Override
@@ -67,9 +67,15 @@ public class ArtworkAssetRenderer extends BaseAssetRenderer<Artwork> {
 	}
 
 	@Override
-	public boolean include(HttpServletRequest request,
-		HttpServletResponse response, String template) throws Exception {
-		return false;
+	public String getJspPath(HttpServletRequest request, String template) {
+		if (template.equals(TEMPLATE_ABSTRACT) ||
+			template.equals(TEMPLATE_FULL_CONTENT)) {
+
+			return "/artwork-collection/asset/" + template + ".jsp";
+		}
+		else {
+			return null;
+		}
 	}
 
 }

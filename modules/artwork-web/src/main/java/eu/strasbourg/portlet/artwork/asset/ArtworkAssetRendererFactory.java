@@ -1,4 +1,4 @@
-package eu.strasbourg.service.artwork.asset;
+package eu.strasbourg.portlet.artwork.asset;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -14,7 +14,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO},
+	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_WEB},
 	service = AssetRendererFactory.class
 )
 public class ArtworkAssetRendererFactory extends BaseAssetRendererFactory<Artwork> {
@@ -24,7 +24,7 @@ public class ArtworkAssetRendererFactory extends BaseAssetRendererFactory<Artwor
 	public ArtworkAssetRendererFactory() {
 		setClassName(Artwork.class.getName());
 		setLinkable(true);
-		setPortletId(StrasbourgPortletKeys.ARTWORK_BO);
+		setPortletId(StrasbourgPortletKeys.ARTWORK_WEB);
 		setSearchable(true);
 	}
 
