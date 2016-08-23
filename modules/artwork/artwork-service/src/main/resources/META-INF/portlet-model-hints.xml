@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.artwork.model.Artwork">
+		<field name="uuid" type="String" />
+		<field name="artworkId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="description" type="String" />
+		<field name="image" type="String">
+			<hint name="max-length">250</hint>
+		</field>
+		<field name="images" type="String">
+			<hint name="max-length">2500</hint>
+		</field>
+		<field localized="true" name="technicalInformation" type="String" />
+		<field localized="true" name="noticeLink" type="String" />
+		<field localized="true" name="artistName" type="String" />
+		<field localized="true" name="creationYear" type="String" />
+		<field localized="true" name="origin" type="String" />
+		<field localized="true" name="exhibitionName" type="String" />
+		<field localized="true" name="exhibitionPlace" type="String" />
+		<field localized="true" name="loanPeriod" type="String" />
+		<field localized="true" name="linkName" type="String" />
+		<field localized="true" name="link" type="String" />
+		<field name="status" type="boolean" />
+	</model>
+	<model name="eu.strasbourg.service.artwork.model.ArtworkCollection">
+		<field name="uuid" type="String" />
+		<field name="collectionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="description" type="String" />
+		<field name="image" type="String">
+			<hint name="max-length">250</hint>
+		</field>
+		<field localized="true" name="contributors" type="String" />
+		<field name="status" type="boolean" />
+	</model>
+</model-hints>

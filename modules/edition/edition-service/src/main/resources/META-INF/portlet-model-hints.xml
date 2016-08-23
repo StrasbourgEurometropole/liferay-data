@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.edition.model.Edition">
+		<field name="uuid" type="String" />
+		<field name="editionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="subtitle" type="String" />
+		<field localized="true" name="description" type="String" />
+		<field name="image" type="String">
+			<hint name="max-length">250</hint>
+		</field>
+		<field localized="true" name="URL" type="String" />
+		<field localized="true" name="author" type="String" />
+		<field localized="true" name="editor" type="String" />
+		<field name="distribution" type="String" />
+		<field name="ISBN" type="String" />
+		<field name="price" type="String" />
+		<field name="availableForExchange" type="boolean" />
+		<field name="inStock" type="boolean" />
+		<field name="diffusionDate" type="String" />
+		<field name="pageNumber" type="String" />
+		<field name="pictureNumber" type="String" />
+		<field name="publicationDate" type="Date" />
+		<field name="status" type="boolean" />
+		<field name="galleryId" type="Long" />
+	</model>
+	<model name="eu.strasbourg.service.edition.model.EditionGallery">
+		<field name="uuid" type="String" />
+		<field name="galleryId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="description" type="String" />
+		<field name="image" type="String">
+			<hint name="max-length">250</hint>
+		</field>
+		<field name="publicationDate" type="Date" />
+		<field name="status" type="boolean" />
+	</model>
+</model-hints>

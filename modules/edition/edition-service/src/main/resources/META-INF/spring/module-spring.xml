@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.edition.service.impl.EditionLocalServiceImpl" id="eu.strasbourg.service.edition.service.EditionLocalService" />
+	<bean class="eu.strasbourg.service.edition.service.impl.EditionServiceImpl" id="eu.strasbourg.service.edition.service.EditionService" />
+	<bean class="eu.strasbourg.service.edition.service.persistence.impl.EditionPersistenceImpl" id="eu.strasbourg.service.edition.service.persistence.EditionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.edition.service.persistence.impl.EditionFinderImpl" id="eu.strasbourg.service.edition.service.persistence.EditionFinder" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.edition.service.impl.EditionGalleryLocalServiceImpl" id="eu.strasbourg.service.edition.service.EditionGalleryLocalService" />
+	<bean class="eu.strasbourg.service.edition.service.impl.EditionGalleryServiceImpl" id="eu.strasbourg.service.edition.service.EditionGalleryService" />
+	<bean class="eu.strasbourg.service.edition.service.persistence.impl.EditionGalleryPersistenceImpl" id="eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence" parent="basePersistence" />
+</beans>

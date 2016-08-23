@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.artwork">
+	<author>BenjaminBini</author>
+	<namespace>artwork</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="Artwork" remote-service="true" uuid="true" >
+		
+		<!-- PK fields -->
+		<column name="artworkId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="image" type="String" />
+        <column name="images" type="String" />
+        <column name="technicalInformation" type="String" localized="true" />
+        <column name="noticeLink" type="String" localized="true" />
+        <column name="artistName" type="String" localized="true" />
+        <column name="creationYear" type="String" localized="true" />
+        <column name="origin" type="String" localized="true" />
+        <column name="exhibitionName" type="String" localized="true" />
+        <column name="exhibitionPlace" type="String" localized="true" />
+        <column name="loanPeriod" type="String" localized="true" />
+        <column name="linkName" type="String" localized="true" />
+        <column name="link" type="String" localized="true" />
+        
+		<column name="status" type="boolean" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+	
+	<entity local-service="true" name="ArtworkCollection" cache-enabled="true" remote-service="true" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="collectionId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+        <column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="image" type="String" />
+        <column name="contributors" type="String" localized="true" />        
+        <column name="status" type="boolean" />
+        
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+</service-builder>

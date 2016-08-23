@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="eu.strasbourg.service.artwork.model.Artwork" />
+	<import class="eu.strasbourg.service.artwork.model.ArtworkCollection" />
+	<class name="eu.strasbourg.service.artwork.model.impl.ArtworkImpl" table="artwork_Artwork">
+		<id name="artworkId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="image" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="images" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="technicalInformation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="noticeLink" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="artistName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="creationYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="origin" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="exhibitionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="exhibitionPlace" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="loanPeriod" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="linkName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl" table="artwork_ArtworkCollection">
+		<id name="collectionId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="image" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contributors" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+</hibernate-mapping>

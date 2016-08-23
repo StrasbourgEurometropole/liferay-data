@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">
+
+<look-and-feel>
+  <compatibility>
+    <version>7.0.0+</version>
+  </compatibility>
+  <theme id="museum-theme" name="Museum Theme">
+    <template-extension>ftl</template-extension>
+    <color-scheme id="01" name="Défaut">
+      <default-cs>true</default-cs>
+      <css-class>cs-default</css-class>
+    </color-scheme>
+    <color-scheme id="02" name="Histoire d'un réseau exceptionnel">
+      <css-class>cs-hre</css-class>
+    </color-scheme>
+    <color-scheme id="03" name="Cabinet des Estampes et des Dessins">
+      <css-class>cs-ced</css-class>
+    </color-scheme>
+    <color-scheme id="04" name="Musée Alsacien">
+      <css-class>cs-mals</css-class>
+    </color-scheme>
+    <color-scheme id="05" name="Musée Archéologique">
+      <css-class>cs-marc</css-class>
+    </color-scheme>
+    <color-scheme id="06" name="Musée des Arts Décoratifs">
+      <css-class>cs-mard</css-class>
+    </color-scheme>
+    <color-scheme id="07" name="Musée d'Art Moderne et Contemporain">
+      <css-class>cs-mamc</css-class>
+    </color-scheme>
+    <color-scheme id="08" name="Musée des Beaux Arts">
+      <css-class>cs-mba</css-class>
+    </color-scheme>
+    <color-scheme id="09" name="Musée Historique">
+      <css-class>cs-mh</css-class>
+    </color-scheme>
+    <color-scheme id="10" name="Musée de l'Oeuvre Notre-Dame">
+      <css-class>cs-mond</css-class>
+    </color-scheme>
+    <color-scheme id="11" name="Musée Toni Ungerer">
+      <css-class>cs-mtu</css-class>
+    </color-scheme>
+    <color-scheme id="12" name="Musée Zoologique">
+      <css-class>cs-mz</css-class>
+    </color-scheme>
+    <color-scheme id="13" name="Aubette 1958">
+      <css-class>cs-aub</css-class>
+    </color-scheme>
+    <color-scheme id="14" name="Auditorium">
+      <css-class>cs-aud</css-class>
+    </color-scheme>
+    <portlet-decorator id="barebone" name="Barebone">
+      <portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
+    </portlet-decorator>
+    <portlet-decorator id="borderless" name="Borderless">
+      <portlet-decorator-css-class>portlet-borderless</portlet-decorator-css-class>
+    </portlet-decorator>
+    <portlet-decorator id="decorate" name="Decorate">
+      <default-portlet-decorator>true</default-portlet-decorator>
+      <portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
+    </portlet-decorator>
+  </theme>
+</look-and-feel>

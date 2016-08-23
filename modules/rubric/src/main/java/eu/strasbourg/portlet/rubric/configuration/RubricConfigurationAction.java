@@ -1,0 +1,61 @@
+package eu.strasbourg.portlet.rubric.configuration;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.portlet.ConfigurationAction;
+import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+
+@Component(
+	configurationPid = "eu.strasbourg.portlet.rubric.configuration.RubricConfiguration",
+	configurationPolicy = ConfigurationPolicy.OPTIONAL,
+	immediate = true,
+	property = {
+		"javax.portlet.name=eu_strasbourg_portlet_rubric_RubricPortlet" },
+	service = ConfigurationAction.class)
+public class RubricConfigurationAction extends DefaultConfigurationAction {
+
+	
+
+	@Override
+	public String getJspPath(HttpServletRequest request) {
+		request.setAttribute("test", "test");
+		return "/rubric-configuration.jsp";
+	}
+
+	@Override
+	public void processAction(PortletConfig portletConfig,
+		ActionRequest actionRequest, ActionResponse actionResponse)
+		throws Exception {
+
+		super.processAction(portletConfig, actionRequest, actionResponse);
+	}
+
+	@Override
+	public void include(PortletConfig portletConfig, HttpServletRequest request,
+		HttpServletResponse response) throws Exception {
+		try {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+				.getAttribute(WebKeys.THEME_DISPLAY);
+
+			RubricConfiguration configuration = themeDisplay
+				.getPortletDisplay()
+				.getPortletInstanceConfiguration(RubricConfiguration.class);
+
+			super.include(portletConfig, request, response);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

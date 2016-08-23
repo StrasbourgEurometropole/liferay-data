@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.artwork.service.impl.ArtworkLocalServiceImpl" id="eu.strasbourg.service.artwork.service.ArtworkLocalService" />
+	<bean class="eu.strasbourg.service.artwork.service.impl.ArtworkServiceImpl" id="eu.strasbourg.service.artwork.service.ArtworkService" />
+	<bean class="eu.strasbourg.service.artwork.service.persistence.impl.ArtworkPersistenceImpl" id="eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.artwork.service.impl.ArtworkCollectionLocalServiceImpl" id="eu.strasbourg.service.artwork.service.ArtworkCollectionLocalService" />
+	<bean class="eu.strasbourg.service.artwork.service.impl.ArtworkCollectionServiceImpl" id="eu.strasbourg.service.artwork.service.ArtworkCollectionService" />
+	<bean class="eu.strasbourg.service.artwork.service.persistence.impl.ArtworkCollectionPersistenceImpl" id="eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersistence" parent="basePersistence" />
+</beans>

@@ -1,0 +1,7 @@
+Bundle-SymbolicName: artwork-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.artwork.exception,\
+	eu.strasbourg.service.artwork.model,\
+	eu.strasbourg.service.artwork.service,\
+	eu.strasbourg.service.artwork.service.persistence
