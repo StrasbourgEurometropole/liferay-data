@@ -66,4 +66,16 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	*
+	* @throws PortalException
+	* @throws NumberFormatException
+	*/
+	public java.lang.String getImageURL();
+
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks();
+
+	public java.lang.String getArtworksIds();
 }

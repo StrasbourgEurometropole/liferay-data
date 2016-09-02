@@ -70,6 +70,12 @@ public interface ArtworkLocalService extends BaseLocalService,
 	 * Never modify or reference this interface directly. Always use {@link ArtworkLocalServiceUtil} to access the artwork local service. Add custom service methods to {@link eu.strasbourg.service.artwork.service.impl.ArtworkLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasArtworkCollectionArtwork(long collectionId, long artworkId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasArtworkCollectionArtworks(long collectionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
@@ -196,6 +202,9 @@ public interface ArtworkLocalService extends BaseLocalService,
 	public Artwork updateArtwork(Artwork artwork, ServiceContext sc)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getArtworkCollectionArtworksCount(long collectionId);
+
 	/**
 	* Returns the number of artworks.
 	*
@@ -249,6 +258,20 @@ public interface ArtworkLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	public List<Artwork> findByKeyword(java.lang.String keyword, long groupId,
+		int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Artwork> getArtworkCollectionArtworks(long collectionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Artwork> getArtworkCollectionArtworks(long collectionId,
+		int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Artwork> getArtworkCollectionArtworks(long collectionId,
+		int start, int end, OrderByComparator<Artwork> orderByComparator);
 
 	/**
 	* Returns a range of all the artworks.
@@ -314,9 +337,46 @@ public interface ArtworkLocalService extends BaseLocalService,
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
 
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Returns the collectionIds of the artwork collections associated with the artwork.
+	*
+	* @param artworkId the artworkId of the artwork
+	* @return long[] the collectionIds of artwork collections associated with the artwork
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getArtworkCollectionPrimaryKeys(long artworkId);
+
+	public void addArtworkCollectionArtwork(long collectionId, Artwork artwork);
+
+	public void addArtworkCollectionArtwork(long collectionId, long artworkId);
+
+	public void addArtworkCollectionArtworks(long collectionId,
+		List<Artwork> artworks);
+
+	public void addArtworkCollectionArtworks(long collectionId,
+		long[] artworkIds);
+
 	/**
 	* Change the publication status of the artwork
 	*/
 	public void changeStatus(Artwork artwork, boolean publicationStatus)
 		throws PortalException;
+
+	public void clearArtworkCollectionArtworks(long collectionId);
+
+	public void deleteArtworkCollectionArtwork(long collectionId,
+		Artwork artwork);
+
+	public void deleteArtworkCollectionArtwork(long collectionId, long artworkId);
+
+	public void deleteArtworkCollectionArtworks(long collectionId,
+		List<Artwork> artworks);
+
+	public void deleteArtworkCollectionArtworks(long collectionId,
+		long[] artworkIds);
+
+	public void setArtworkCollectionArtworks(long collectionId,
+		long[] artworkIds);
 }

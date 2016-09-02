@@ -644,6 +644,214 @@ public class ArtworkUtil {
 		return getPersistence().countAll();
 	}
 
+	/**
+	* Returns the primaryKeys of artwork collections associated with the artwork.
+	*
+	* @param pk the primary key of the artwork
+	* @return long[] of the primaryKeys of artwork collections associated with the artwork
+	*/
+	public static long[] getArtworkCollectionPrimaryKeys(long pk) {
+		return getPersistence().getArtworkCollectionPrimaryKeys(pk);
+	}
+
+	/**
+	* Returns all the artwork collections associated with the artwork.
+	*
+	* @param pk the primary key of the artwork
+	* @return the artwork collections associated with the artwork
+	*/
+	public static List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk) {
+		return getPersistence().getArtworkCollections(pk);
+	}
+
+	/**
+	* Returns a range of all the artwork collections associated with the artwork.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the artwork
+	* @param start the lower bound of the range of artworks
+	* @param end the upper bound of the range of artworks (not inclusive)
+	* @return the range of artwork collections associated with the artwork
+	*/
+	public static List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk, int start, int end) {
+		return getPersistence().getArtworkCollections(pk, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the artwork collections associated with the artwork.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the artwork
+	* @param start the lower bound of the range of artworks
+	* @param end the upper bound of the range of artworks (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of artwork collections associated with the artwork
+	*/
+	public static List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk, int start, int end,
+		OrderByComparator<eu.strasbourg.service.artwork.model.ArtworkCollection> orderByComparator) {
+		return getPersistence()
+				   .getArtworkCollections(pk, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the number of artwork collections associated with the artwork.
+	*
+	* @param pk the primary key of the artwork
+	* @return the number of artwork collections associated with the artwork
+	*/
+	public static int getArtworkCollectionsSize(long pk) {
+		return getPersistence().getArtworkCollectionsSize(pk);
+	}
+
+	/**
+	* Returns <code>true</code> if the artwork collection is associated with the artwork.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPK the primary key of the artwork collection
+	* @return <code>true</code> if the artwork collection is associated with the artwork; <code>false</code> otherwise
+	*/
+	public static boolean containsArtworkCollection(long pk,
+		long artworkCollectionPK) {
+		return getPersistence()
+				   .containsArtworkCollection(pk, artworkCollectionPK);
+	}
+
+	/**
+	* Returns <code>true</code> if the artwork has any artwork collections associated with it.
+	*
+	* @param pk the primary key of the artwork to check for associations with artwork collections
+	* @return <code>true</code> if the artwork has any artwork collections associated with it; <code>false</code> otherwise
+	*/
+	public static boolean containsArtworkCollections(long pk) {
+		return getPersistence().containsArtworkCollections(pk);
+	}
+
+	/**
+	* Adds an association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPK the primary key of the artwork collection
+	*/
+	public static void addArtworkCollection(long pk, long artworkCollectionPK) {
+		getPersistence().addArtworkCollection(pk, artworkCollectionPK);
+	}
+
+	/**
+	* Adds an association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollection the artwork collection
+	*/
+	public static void addArtworkCollection(long pk,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		getPersistence().addArtworkCollection(pk, artworkCollection);
+	}
+
+	/**
+	* Adds an association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPKs the primary keys of the artwork collections
+	*/
+	public static void addArtworkCollections(long pk,
+		long[] artworkCollectionPKs) {
+		getPersistence().addArtworkCollections(pk, artworkCollectionPKs);
+	}
+
+	/**
+	* Adds an association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollections the artwork collections
+	*/
+	public static void addArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		getPersistence().addArtworkCollections(pk, artworkCollections);
+	}
+
+	/**
+	* Clears all associations between the artwork and its artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork to clear the associated artwork collections from
+	*/
+	public static void clearArtworkCollections(long pk) {
+		getPersistence().clearArtworkCollections(pk);
+	}
+
+	/**
+	* Removes the association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPK the primary key of the artwork collection
+	*/
+	public static void removeArtworkCollection(long pk, long artworkCollectionPK) {
+		getPersistence().removeArtworkCollection(pk, artworkCollectionPK);
+	}
+
+	/**
+	* Removes the association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollection the artwork collection
+	*/
+	public static void removeArtworkCollection(long pk,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		getPersistence().removeArtworkCollection(pk, artworkCollection);
+	}
+
+	/**
+	* Removes the association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPKs the primary keys of the artwork collections
+	*/
+	public static void removeArtworkCollections(long pk,
+		long[] artworkCollectionPKs) {
+		getPersistence().removeArtworkCollections(pk, artworkCollectionPKs);
+	}
+
+	/**
+	* Removes the association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollections the artwork collections
+	*/
+	public static void removeArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		getPersistence().removeArtworkCollections(pk, artworkCollections);
+	}
+
+	/**
+	* Sets the artwork collections associated with the artwork, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollectionPKs the primary keys of the artwork collections to be associated with the artwork
+	*/
+	public static void setArtworkCollections(long pk,
+		long[] artworkCollectionPKs) {
+		getPersistence().setArtworkCollections(pk, artworkCollectionPKs);
+	}
+
+	/**
+	* Sets the artwork collections associated with the artwork, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the artwork
+	* @param artworkCollections the artwork collections to be associated with the artwork
+	*/
+	public static void setArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		getPersistence().setArtworkCollections(pk, artworkCollections);
+	}
+
 	public static java.util.Set<java.lang.String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
 	}

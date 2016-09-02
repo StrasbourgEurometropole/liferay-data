@@ -21,10 +21,14 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
+import eu.strasbourg.service.artwork.model.ArtworkCollection;
+import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 
 /**
  * The extended model implementation for the Artwork service. Represents a row
@@ -70,5 +74,40 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			categories.add(category);
 		}
 		return categories;
+	}
+	
+	/**
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * 
+	 * @throws PortalException
+	 * @throws NumberFormatException
+	 */
+	public String getImageURL() {
+		String fileURL = "";
+		DLFileEntry file = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntry(this.getImageId());
+		if (file != null) {
+			fileURL = "/documents/" + file.getGroupId() + "/"
+				+ file.getFolderId() + "/" + file.getTitle() + "/"
+				+ file.getUuid();
+		}
+
+		return fileURL;
+	}
+	
+	public List<ArtworkCollection> getArtworkCollections() {
+		return ArtworkCollectionLocalServiceUtil.getArtworkArtworkCollections(this.getArtworkId());
+	}
+	
+	public String getArtworkCollectionsIds() {
+		List<ArtworkCollection> collections = this.getArtworkCollections();
+		String ids = "";
+		for (ArtworkCollection collection : collections) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += collection.getCollectionId();
+		}
+		return ids;
 	}
 }

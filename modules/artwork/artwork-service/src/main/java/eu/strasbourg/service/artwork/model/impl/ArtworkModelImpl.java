@@ -91,8 +91,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
-			{ "image", Types.VARCHAR },
-			{ "images", Types.VARCHAR },
 			{ "technicalInformation", Types.VARCHAR },
 			{ "noticeLink", Types.VARCHAR },
 			{ "artistName", Types.VARCHAR },
@@ -103,7 +101,9 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			{ "loanPeriod", Types.VARCHAR },
 			{ "linkName", Types.VARCHAR },
 			{ "link", Types.VARCHAR },
-			{ "status", Types.BOOLEAN }
+			{ "status", Types.BOOLEAN },
+			{ "imageId", Types.BIGINT },
+			{ "imagesIds", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -118,8 +118,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("image", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("images", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("technicalInformation", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("noticeLink", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("artistName", Types.VARCHAR);
@@ -131,9 +129,11 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("linkName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("link", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("imagesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description STRING null,image VARCHAR(250) null,images VARCHAR(2500) null,technicalInformation STRING null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,status BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description STRING null,technicalInformation STRING null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,status BOOLEAN,imageId LONG,imagesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table artwork_Artwork";
 	public static final String ORDER_BY_JPQL = " ORDER BY artwork.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY artwork_Artwork.modifiedDate DESC";
@@ -177,8 +177,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
-		model.setImage(soapModel.getImage());
-		model.setImages(soapModel.getImages());
 		model.setTechnicalInformation(soapModel.getTechnicalInformation());
 		model.setNoticeLink(soapModel.getNoticeLink());
 		model.setArtistName(soapModel.getArtistName());
@@ -190,6 +188,8 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		model.setLinkName(soapModel.getLinkName());
 		model.setLink(soapModel.getLink());
 		model.setStatus(soapModel.getStatus());
+		model.setImageId(soapModel.getImageId());
+		model.setImagesIds(soapModel.getImagesIds());
 
 		return model;
 	}
@@ -214,6 +214,20 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		return models;
 	}
 
+	public static final String MAPPING_TABLE_ARTWORK_ARTWORKTOARTWORKCOLLECTION_NAME =
+		"artwork_ArtworkToArtworkCollection";
+	public static final Object[][] MAPPING_TABLE_ARTWORK_ARTWORKTOARTWORKCOLLECTION_COLUMNS =
+		{
+			{ "companyId", Types.BIGINT },
+			{ "artworkId", Types.BIGINT },
+			{ "collectionId", Types.BIGINT }
+		};
+	public static final String MAPPING_TABLE_ARTWORK_ARTWORKTOARTWORKCOLLECTION_SQL_CREATE =
+		"create table artwork_ArtworkToArtworkCollection (companyId LONG not null,artworkId LONG not null,collectionId LONG not null,primary key (artworkId, collectionId))";
+	public static final boolean FINDER_CACHE_ENABLED_ARTWORK_ARTWORKTOARTWORKCOLLECTION =
+		GetterUtil.getBoolean(eu.strasbourg.service.artwork.service.util.PropsUtil.get(
+				"value.object.finder.cache.enabled.artwork_ArtworkToArtworkCollection"),
+			true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.artwork.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.artwork.model.Artwork"));
 
@@ -264,8 +278,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
-		attributes.put("images", getImages());
 		attributes.put("technicalInformation", getTechnicalInformation());
 		attributes.put("noticeLink", getNoticeLink());
 		attributes.put("artistName", getArtistName());
@@ -277,6 +289,8 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		attributes.put("linkName", getLinkName());
 		attributes.put("link", getLink());
 		attributes.put("status", getStatus());
+		attributes.put("imageId", getImageId());
+		attributes.put("imagesIds", getImagesIds());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -346,18 +360,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			setDescription(description);
 		}
 
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
-		}
-
-		String images = (String)attributes.get("images");
-
-		if (images != null) {
-			setImages(images);
-		}
-
 		String technicalInformation = (String)attributes.get(
 				"technicalInformation");
 
@@ -423,6 +425,18 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String imagesIds = (String)attributes.get("imagesIds");
+
+		if (imagesIds != null) {
+			setImagesIds(imagesIds);
 		}
 	}
 
@@ -780,38 +794,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		setDescription(LocalizationUtil.updateLocalization(descriptionMap,
 				getDescription(), "Description",
 				LocaleUtil.toLanguageId(defaultLocale)));
-	}
-
-	@JSON
-	@Override
-	public String getImage() {
-		if (_image == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _image;
-		}
-	}
-
-	@Override
-	public void setImage(String image) {
-		_image = image;
-	}
-
-	@JSON
-	@Override
-	public String getImages() {
-		if (_images == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _images;
-		}
-	}
-
-	@Override
-	public void setImages(String images) {
-		_images = images;
 	}
 
 	@JSON
@@ -1854,6 +1836,33 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		_status = status;
 	}
 
+	@JSON
+	@Override
+	public Long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
+	}
+
+	@JSON
+	@Override
+	public String getImagesIds() {
+		if (_imagesIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _imagesIds;
+		}
+	}
+
+	@Override
+	public void setImagesIds(String imagesIds) {
+		_imagesIds = imagesIds;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -2194,8 +2203,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		artworkImpl.setModifiedDate(getModifiedDate());
 		artworkImpl.setTitle(getTitle());
 		artworkImpl.setDescription(getDescription());
-		artworkImpl.setImage(getImage());
-		artworkImpl.setImages(getImages());
 		artworkImpl.setTechnicalInformation(getTechnicalInformation());
 		artworkImpl.setNoticeLink(getNoticeLink());
 		artworkImpl.setArtistName(getArtistName());
@@ -2207,6 +2214,8 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		artworkImpl.setLinkName(getLinkName());
 		artworkImpl.setLink(getLink());
 		artworkImpl.setStatus(getStatus());
+		artworkImpl.setImageId(getImageId());
+		artworkImpl.setImagesIds(getImagesIds());
 
 		artworkImpl.resetOriginalValues();
 
@@ -2346,22 +2355,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			artworkCacheModel.description = null;
 		}
 
-		artworkCacheModel.image = getImage();
-
-		String image = artworkCacheModel.image;
-
-		if ((image != null) && (image.length() == 0)) {
-			artworkCacheModel.image = null;
-		}
-
-		artworkCacheModel.images = getImages();
-
-		String images = artworkCacheModel.images;
-
-		if ((images != null) && (images.length() == 0)) {
-			artworkCacheModel.images = null;
-		}
-
 		artworkCacheModel.technicalInformation = getTechnicalInformation();
 
 		String technicalInformation = artworkCacheModel.technicalInformation;
@@ -2445,6 +2438,16 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 
 		artworkCacheModel.status = getStatus();
 
+		artworkCacheModel.imageId = getImageId();
+
+		artworkCacheModel.imagesIds = getImagesIds();
+
+		String imagesIds = artworkCacheModel.imagesIds;
+
+		if ((imagesIds != null) && (imagesIds.length() == 0)) {
+			artworkCacheModel.imagesIds = null;
+		}
+
 		return artworkCacheModel;
 	}
 
@@ -2472,10 +2475,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", image=");
-		sb.append(getImage());
-		sb.append(", images=");
-		sb.append(getImages());
 		sb.append(", technicalInformation=");
 		sb.append(getTechnicalInformation());
 		sb.append(", noticeLink=");
@@ -2498,6 +2497,10 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		sb.append(getLink());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", imageId=");
+		sb.append(getImageId());
+		sb.append(", imagesIds=");
+		sb.append(getImagesIds());
 		sb.append("}");
 
 		return sb.toString();
@@ -2552,14 +2555,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>image</column-name><column-value><![CDATA[");
-		sb.append(getImage());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>images</column-name><column-value><![CDATA[");
-		sb.append(getImages());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>technicalInformation</column-name><column-value><![CDATA[");
 		sb.append(getTechnicalInformation());
 		sb.append("]]></column-value></column>");
@@ -2603,6 +2598,14 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imagesIds</column-name><column-value><![CDATA[");
+		sb.append(getImagesIds());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -2631,8 +2634,6 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 	private String _titleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
-	private String _image;
-	private String _images;
 	private String _technicalInformation;
 	private String _technicalInformationCurrentLanguageId;
 	private String _noticeLink;
@@ -2654,6 +2655,8 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 	private String _link;
 	private String _linkCurrentLanguageId;
 	private boolean _status;
+	private Long _imageId;
+	private String _imagesIds;
 	private long _columnBitmask;
 	private Artwork _escapedModel;
 }

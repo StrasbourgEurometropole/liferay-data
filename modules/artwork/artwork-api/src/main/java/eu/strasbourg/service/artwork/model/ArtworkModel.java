@@ -415,36 +415,6 @@ public interface ArtworkModel extends BaseModel<Artwork>, GroupedModel,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the image of this artwork.
-	 *
-	 * @return the image of this artwork
-	 */
-	@AutoEscape
-	public String getImage();
-
-	/**
-	 * Sets the image of this artwork.
-	 *
-	 * @param image the image of this artwork
-	 */
-	public void setImage(String image);
-
-	/**
-	 * Returns the images of this artwork.
-	 *
-	 * @return the images of this artwork
-	 */
-	@AutoEscape
-	public String getImages();
-
-	/**
-	 * Sets the images of this artwork.
-	 *
-	 * @param images the images of this artwork
-	 */
-	public void setImages(String images);
-
-	/**
 	 * Returns the technical information of this artwork.
 	 *
 	 * @return the technical information of this artwork
@@ -1471,6 +1441,35 @@ public interface ArtworkModel extends BaseModel<Artwork>, GroupedModel,
 	 * @param status the status of this artwork
 	 */
 	public void setStatus(boolean status);
+
+	/**
+	 * Returns the image ID of this artwork.
+	 *
+	 * @return the image ID of this artwork
+	 */
+	public Long getImageId();
+
+	/**
+	 * Sets the image ID of this artwork.
+	 *
+	 * @param imageId the image ID of this artwork
+	 */
+	public void setImageId(Long imageId);
+
+	/**
+	 * Returns the images IDs of this artwork.
+	 *
+	 * @return the images IDs of this artwork
+	 */
+	@AutoEscape
+	public String getImagesIds();
+
+	/**
+	 * Sets the images IDs of this artwork.
+	 *
+	 * @param imagesIds the images IDs of this artwork
+	 */
+	public void setImagesIds(String imagesIds);
 
 	@Override
 	public boolean isNew();

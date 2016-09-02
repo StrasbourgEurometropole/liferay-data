@@ -87,10 +87,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", image=");
-		sb.append(image);
-		sb.append(", images=");
-		sb.append(images);
 		sb.append(", technicalInformation=");
 		sb.append(technicalInformation);
 		sb.append(", noticeLink=");
@@ -113,6 +109,10 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		sb.append(link);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", imageId=");
+		sb.append(imageId);
+		sb.append(", imagesIds=");
+		sb.append(imagesIds);
 		sb.append("}");
 
 		return sb.toString();
@@ -167,20 +167,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 		else {
 			artworkImpl.setDescription(description);
-		}
-
-		if (image == null) {
-			artworkImpl.setImage(StringPool.BLANK);
-		}
-		else {
-			artworkImpl.setImage(image);
-		}
-
-		if (images == null) {
-			artworkImpl.setImages(StringPool.BLANK);
-		}
-		else {
-			artworkImpl.setImages(images);
 		}
 
 		if (technicalInformation == null) {
@@ -254,6 +240,14 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 
 		artworkImpl.setStatus(status);
+		artworkImpl.setImageId(imageId);
+
+		if (imagesIds == null) {
+			artworkImpl.setImagesIds(StringPool.BLANK);
+		}
+		else {
+			artworkImpl.setImagesIds(imagesIds);
+		}
 
 		artworkImpl.resetOriginalValues();
 
@@ -276,8 +270,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		modifiedDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
-		image = objectInput.readUTF();
-		images = objectInput.readUTF();
 		technicalInformation = objectInput.readUTF();
 		noticeLink = objectInput.readUTF();
 		artistName = objectInput.readUTF();
@@ -290,6 +282,9 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		link = objectInput.readUTF();
 
 		status = objectInput.readBoolean();
+
+		imageId = objectInput.readLong();
+		imagesIds = objectInput.readUTF();
 	}
 
 	@Override
@@ -332,20 +327,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(description);
-		}
-
-		if (image == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(image);
-		}
-
-		if (images == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(images);
 		}
 
 		if (technicalInformation == null) {
@@ -419,6 +400,15 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 
 		objectOutput.writeBoolean(status);
+
+		objectOutput.writeLong(imageId);
+
+		if (imagesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(imagesIds);
+		}
 	}
 
 	public String uuid;
@@ -431,8 +421,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public long modifiedDate;
 	public String title;
 	public String description;
-	public String image;
-	public String images;
 	public String technicalInformation;
 	public String noticeLink;
 	public String artistName;
@@ -444,4 +432,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public String linkName;
 	public String link;
 	public boolean status;
+	public long imageId;
+	public String imagesIds;
 }

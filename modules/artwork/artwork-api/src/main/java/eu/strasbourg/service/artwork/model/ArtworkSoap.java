@@ -44,8 +44,6 @@ public class ArtworkSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setImage(model.getImage());
-		soapModel.setImages(model.getImages());
 		soapModel.setTechnicalInformation(model.getTechnicalInformation());
 		soapModel.setNoticeLink(model.getNoticeLink());
 		soapModel.setArtistName(model.getArtistName());
@@ -57,6 +55,8 @@ public class ArtworkSoap implements Serializable {
 		soapModel.setLinkName(model.getLinkName());
 		soapModel.setLink(model.getLink());
 		soapModel.setStatus(model.getStatus());
+		soapModel.setImageId(model.getImageId());
+		soapModel.setImagesIds(model.getImagesIds());
 
 		return soapModel;
 	}
@@ -189,22 +189,6 @@ public class ArtworkSoap implements Serializable {
 		_description = description;
 	}
 
-	public String getImage() {
-		return _image;
-	}
-
-	public void setImage(String image) {
-		_image = image;
-	}
-
-	public String getImages() {
-		return _images;
-	}
-
-	public void setImages(String images) {
-		_images = images;
-	}
-
 	public String getTechnicalInformation() {
 		return _technicalInformation;
 	}
@@ -297,6 +281,22 @@ public class ArtworkSoap implements Serializable {
 		_status = status;
 	}
 
+	public Long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
+	}
+
+	public String getImagesIds() {
+		return _imagesIds;
+	}
+
+	public void setImagesIds(String imagesIds) {
+		_imagesIds = imagesIds;
+	}
+
 	private String _uuid;
 	private long _artworkId;
 	private long _groupId;
@@ -307,8 +307,6 @@ public class ArtworkSoap implements Serializable {
 	private Date _modifiedDate;
 	private String _title;
 	private String _description;
-	private String _image;
-	private String _images;
 	private String _technicalInformation;
 	private String _noticeLink;
 	private String _artistName;
@@ -320,4 +318,6 @@ public class ArtworkSoap implements Serializable {
 	private String _linkName;
 	private String _link;
 	private boolean _status;
+	private Long _imageId;
+	private String _imagesIds;
 }

@@ -439,6 +439,142 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addArtworkArtworkCollection(long artworkId, long collectionId) {
+		artworkPersistence.addArtworkCollection(artworkId, collectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void addArtworkArtworkCollection(long artworkId,
+		ArtworkCollection artworkCollection) {
+		artworkPersistence.addArtworkCollection(artworkId, artworkCollection);
+	}
+
+	/**
+	 */
+	@Override
+	public void addArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		artworkPersistence.addArtworkCollections(artworkId, collectionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void addArtworkArtworkCollections(long artworkId,
+		List<ArtworkCollection> artworkCollections) {
+		artworkPersistence.addArtworkCollections(artworkId, artworkCollections);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearArtworkArtworkCollections(long artworkId) {
+		artworkPersistence.clearArtworkCollections(artworkId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteArtworkArtworkCollection(long artworkId, long collectionId) {
+		artworkPersistence.removeArtworkCollection(artworkId, collectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteArtworkArtworkCollection(long artworkId,
+		ArtworkCollection artworkCollection) {
+		artworkPersistence.removeArtworkCollection(artworkId, artworkCollection);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		artworkPersistence.removeArtworkCollections(artworkId, collectionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteArtworkArtworkCollections(long artworkId,
+		List<ArtworkCollection> artworkCollections) {
+		artworkPersistence.removeArtworkCollections(artworkId,
+			artworkCollections);
+	}
+
+	/**
+	 * Returns the artworkIds of the artworks associated with the artwork collection.
+	 *
+	 * @param collectionId the collectionId of the artwork collection
+	 * @return long[] the artworkIds of artworks associated with the artwork collection
+	 */
+	@Override
+	public long[] getArtworkPrimaryKeys(long collectionId) {
+		return artworkCollectionPersistence.getArtworkPrimaryKeys(collectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<ArtworkCollection> getArtworkArtworkCollections(long artworkId) {
+		return artworkPersistence.getArtworkCollections(artworkId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end) {
+		return artworkPersistence.getArtworkCollections(artworkId, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end,
+		OrderByComparator<ArtworkCollection> orderByComparator) {
+		return artworkPersistence.getArtworkCollections(artworkId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getArtworkArtworkCollectionsCount(long artworkId) {
+		return artworkPersistence.getArtworkCollectionsSize(artworkId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasArtworkArtworkCollection(long artworkId, long collectionId) {
+		return artworkPersistence.containsArtworkCollection(artworkId,
+			collectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasArtworkArtworkCollections(long artworkId) {
+		return artworkPersistence.containsArtworkCollections(artworkId);
+	}
+
+	/**
+	 */
+	@Override
+	public void setArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		artworkPersistence.setArtworkCollections(artworkId, collectionIds);
+	}
+
+	/**
 	 * Returns the artwork local service.
 	 *
 	 * @return the artwork local service

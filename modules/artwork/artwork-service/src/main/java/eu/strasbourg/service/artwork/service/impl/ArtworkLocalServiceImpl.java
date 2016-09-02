@@ -22,6 +22,9 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -200,6 +203,31 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			}
 		}
 		return attachedVocabularies;
+	}
+	
+	public List<Artwork> findByKeyword(String keyword, long groupId, int start, int end) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+		
+		if (keyword.length() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+		
+		return artworkPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+	
+	public long findByKeywordCount(String keyword, long groupId) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+		if (keyword.length() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+		if (groupId > 0) {
+			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+
+		return artworkPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 	
 	/**

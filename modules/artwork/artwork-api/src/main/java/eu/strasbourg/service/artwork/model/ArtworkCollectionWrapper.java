@@ -70,9 +70,9 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
 		attributes.put("contributors", getContributors());
 		attributes.put("status", getStatus());
+		attributes.put("imageId", getImageId());
 
 		return attributes;
 	}
@@ -139,12 +139,6 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 			setDescription(description);
 		}
 
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
-		}
-
 		String contributors = (String)attributes.get("contributors");
 
 		if (contributors != null) {
@@ -155,6 +149,12 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
 		}
 	}
 
@@ -238,9 +238,24 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		return _artworkCollection.getPrimaryKeyObj();
 	}
 
+	/**
+	* Returns the image ID of this artwork collection.
+	*
+	* @return the image ID of this artwork collection
+	*/
+	@Override
+	public java.lang.Long getImageId() {
+		return _artworkCollection.getImageId();
+	}
+
 	@Override
 	public java.lang.Object clone() {
 		return new ArtworkCollectionWrapper((ArtworkCollection)_artworkCollection.clone());
+	}
+
+	@Override
+	public java.lang.String getArtworksIds() {
+		return _artworkCollection.getArtworksIds();
 	}
 
 	/**
@@ -385,13 +400,14 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Returns the image of this artwork collection.
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
 	*
-	* @return the image of this artwork collection
+	* @throws PortalException
+	* @throws NumberFormatException
 	*/
 	@Override
-	public java.lang.String getImage() {
-		return _artworkCollection.getImage();
+	public java.lang.String getImageURL() {
+		return _artworkCollection.getImageURL();
 	}
 
 	/**
@@ -524,6 +540,11 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	@Override
 	public Date getModifiedDate() {
 		return _artworkCollection.getModifiedDate();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks() {
+		return _artworkCollection.getArtworks();
 	}
 
 	/**
@@ -823,13 +844,13 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Sets the image of this artwork collection.
+	* Sets the image ID of this artwork collection.
 	*
-	* @param image the image of this artwork collection
+	* @param imageId the image ID of this artwork collection
 	*/
 	@Override
-	public void setImage(java.lang.String image) {
-		_artworkCollection.setImage(image);
+	public void setImageId(java.lang.Long imageId) {
+		_artworkCollection.setImageId(imageId);
 	}
 
 	/**

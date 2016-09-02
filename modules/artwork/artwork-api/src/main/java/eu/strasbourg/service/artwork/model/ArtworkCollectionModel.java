@@ -415,21 +415,6 @@ public interface ArtworkCollectionModel extends BaseModel<ArtworkCollection>,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the image of this artwork collection.
-	 *
-	 * @return the image of this artwork collection
-	 */
-	@AutoEscape
-	public String getImage();
-
-	/**
-	 * Sets the image of this artwork collection.
-	 *
-	 * @param image the image of this artwork collection
-	 */
-	public void setImage(String image);
-
-	/**
 	 * Returns the contributors of this artwork collection.
 	 *
 	 * @return the contributors of this artwork collection
@@ -550,6 +535,20 @@ public interface ArtworkCollectionModel extends BaseModel<ArtworkCollection>,
 	 * @param status the status of this artwork collection
 	 */
 	public void setStatus(boolean status);
+
+	/**
+	 * Returns the image ID of this artwork collection.
+	 *
+	 * @return the image ID of this artwork collection
+	 */
+	public Long getImageId();
+
+	/**
+	 * Sets the image ID of this artwork collection.
+	 *
+	 * @param imageId the image ID of this artwork collection
+	 */
+	public void setImageId(Long imageId);
 
 	@Override
 	public boolean isNew();

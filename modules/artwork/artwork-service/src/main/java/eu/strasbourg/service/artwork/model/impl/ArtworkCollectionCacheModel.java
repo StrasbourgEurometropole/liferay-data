@@ -88,12 +88,12 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", image=");
-		sb.append(image);
 		sb.append(", contributors=");
 		sb.append(contributors);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", imageId=");
+		sb.append(imageId);
 		sb.append("}");
 
 		return sb.toString();
@@ -150,13 +150,6 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			artworkCollectionImpl.setDescription(description);
 		}
 
-		if (image == null) {
-			artworkCollectionImpl.setImage(StringPool.BLANK);
-		}
-		else {
-			artworkCollectionImpl.setImage(image);
-		}
-
 		if (contributors == null) {
 			artworkCollectionImpl.setContributors(StringPool.BLANK);
 		}
@@ -165,6 +158,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		}
 
 		artworkCollectionImpl.setStatus(status);
+		artworkCollectionImpl.setImageId(imageId);
 
 		artworkCollectionImpl.resetOriginalValues();
 
@@ -187,10 +181,11 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		modifiedDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
-		image = objectInput.readUTF();
 		contributors = objectInput.readUTF();
 
 		status = objectInput.readBoolean();
+
+		imageId = objectInput.readLong();
 	}
 
 	@Override
@@ -235,13 +230,6 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			objectOutput.writeUTF(description);
 		}
 
-		if (image == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(image);
-		}
-
 		if (contributors == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -250,6 +238,8 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		}
 
 		objectOutput.writeBoolean(status);
+
+		objectOutput.writeLong(imageId);
 	}
 
 	public String uuid;
@@ -262,7 +252,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 	public long modifiedDate;
 	public String title;
 	public String description;
-	public String image;
 	public String contributors;
 	public boolean status;
+	public long imageId;
 }

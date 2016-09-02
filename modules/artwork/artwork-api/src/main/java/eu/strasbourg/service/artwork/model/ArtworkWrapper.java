@@ -69,8 +69,6 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
-		attributes.put("images", getImages());
 		attributes.put("technicalInformation", getTechnicalInformation());
 		attributes.put("noticeLink", getNoticeLink());
 		attributes.put("artistName", getArtistName());
@@ -82,6 +80,8 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		attributes.put("linkName", getLinkName());
 		attributes.put("link", getLink());
 		attributes.put("status", getStatus());
+		attributes.put("imageId", getImageId());
+		attributes.put("imagesIds", getImagesIds());
 
 		return attributes;
 	}
@@ -146,18 +146,6 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
-		}
-
-		String images = (String)attributes.get("images");
-
-		if (images != null) {
-			setImages(images);
 		}
 
 		String technicalInformation = (String)attributes.get(
@@ -225,6 +213,18 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String imagesIds = (String)attributes.get("imagesIds");
+
+		if (imagesIds != null) {
+			setImagesIds(imagesIds);
 		}
 	}
 
@@ -307,6 +307,16 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.getPrimaryKeyObj();
 	}
 
+	/**
+	* Returns the image ID of this artwork.
+	*
+	* @return the image ID of this artwork
+	*/
+	@Override
+	public java.lang.Long getImageId() {
+		return _artwork.getImageId();
+	}
+
 	@Override
 	public java.lang.Object clone() {
 		return new ArtworkWrapper((Artwork)_artwork.clone());
@@ -378,6 +388,11 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	@Override
 	public java.lang.String getArtistNameCurrentValue() {
 		return _artwork.getArtistNameCurrentValue();
+	}
+
+	@Override
+	public java.lang.String getArtworkCollectionsIds() {
+		return _artwork.getArtworkCollectionsIds();
 	}
 
 	/**
@@ -658,23 +673,24 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Returns the image of this artwork.
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
 	*
-	* @return the image of this artwork
+	* @throws PortalException
+	* @throws NumberFormatException
 	*/
 	@Override
-	public java.lang.String getImage() {
-		return _artwork.getImage();
+	public java.lang.String getImageURL() {
+		return _artwork.getImageURL();
 	}
 
 	/**
-	* Returns the images of this artwork.
+	* Returns the images IDs of this artwork.
 	*
-	* @return the images of this artwork
+	* @return the images IDs of this artwork
 	*/
 	@Override
-	public java.lang.String getImages() {
-		return _artwork.getImages();
+	public java.lang.String getImagesIds() {
+		return _artwork.getImagesIds();
 	}
 
 	/**
@@ -1214,6 +1230,11 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	@Override
 	public Date getModifiedDate() {
 		return _artwork.getModifiedDate();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections() {
+		return _artwork.getArtworkCollections();
 	}
 
 	/**
@@ -1795,23 +1816,23 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Sets the image of this artwork.
+	* Sets the image ID of this artwork.
 	*
-	* @param image the image of this artwork
+	* @param imageId the image ID of this artwork
 	*/
 	@Override
-	public void setImage(java.lang.String image) {
-		_artwork.setImage(image);
+	public void setImageId(java.lang.Long imageId) {
+		_artwork.setImageId(imageId);
 	}
 
 	/**
-	* Sets the images of this artwork.
+	* Sets the images IDs of this artwork.
 	*
-	* @param images the images of this artwork
+	* @param imagesIds the images IDs of this artwork
 	*/
 	@Override
-	public void setImages(java.lang.String images) {
-		_artwork.setImages(images);
+	public void setImagesIds(java.lang.String imagesIds) {
+		_artwork.setImagesIds(imagesIds);
 	}
 
 	/**

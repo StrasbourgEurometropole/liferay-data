@@ -23,8 +23,6 @@
 		<!-- Other fields -->
 		<column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
-        <column name="image" type="String" />
-        <column name="images" type="String" />
         <column name="technicalInformation" type="String" localized="true" />
         <column name="noticeLink" type="String" localized="true" />
         <column name="artistName" type="String" localized="true" />
@@ -35,9 +33,13 @@
         <column name="loanPeriod" type="String" localized="true" />
         <column name="linkName" type="String" localized="true" />
         <column name="link" type="String" localized="true" />
-        
 		<column name="status" type="boolean" />
 
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="imagesIds" type="String" />
+        <column name="collections" type="Collection" entity="ArtworkCollection" mapping-table="ArtworkToArtworkCollection" />
+        
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="modifiedDate" />
@@ -69,9 +71,12 @@
 		<!-- Other fields -->
         <column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
-        <column name="image" type="String" />
         <column name="contributors" type="String" localized="true" />        
         <column name="status" type="boolean" />
+        
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="artworks" type="Collection" entity="Artwork" mapping-table="ArtworkToArtworkCollection" />
         
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

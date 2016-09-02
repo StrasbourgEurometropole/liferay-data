@@ -12,12 +12,6 @@
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String" />
-		<field name="image" type="String">
-			<hint name="max-length">250</hint>
-		</field>
-		<field name="images" type="String">
-			<hint name="max-length">2500</hint>
-		</field>
 		<field localized="true" name="technicalInformation" type="String" />
 		<field localized="true" name="noticeLink" type="String" />
 		<field localized="true" name="artistName" type="String" />
@@ -29,6 +23,8 @@
 		<field localized="true" name="linkName" type="String" />
 		<field localized="true" name="link" type="String" />
 		<field name="status" type="boolean" />
+		<field name="imageId" type="Long" />
+		<field name="imagesIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.artwork.model.ArtworkCollection">
 		<field name="uuid" type="String" />
@@ -41,10 +37,8 @@
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String" />
-		<field name="image" type="String">
-			<hint name="max-length">250</hint>
-		</field>
 		<field localized="true" name="contributors" type="String" />
 		<field name="status" type="boolean" />
+		<field name="imageId" type="Long" />
 	</model>
 </model-hints>

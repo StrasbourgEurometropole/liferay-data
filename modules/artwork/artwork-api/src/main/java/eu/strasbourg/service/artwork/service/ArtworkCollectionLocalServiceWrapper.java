@@ -35,6 +35,17 @@ public class ArtworkCollectionLocalServiceWrapper
 	}
 
 	@Override
+	public boolean hasArtworkArtworkCollection(long artworkId, long collectionId) {
+		return _artworkCollectionLocalService.hasArtworkArtworkCollection(artworkId,
+			collectionId);
+	}
+
+	@Override
+	public boolean hasArtworkArtworkCollections(long artworkId) {
+		return _artworkCollectionLocalService.hasArtworkArtworkCollections(artworkId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _artworkCollectionLocalService.getActionableDynamicQuery();
 	}
@@ -227,6 +238,11 @@ public class ArtworkCollectionLocalServiceWrapper
 			sc);
 	}
 
+	@Override
+	public int getArtworkArtworkCollectionsCount(long artworkId) {
+		return _artworkCollectionLocalService.getArtworkArtworkCollectionsCount(artworkId);
+	}
+
 	/**
 	* Returns the number of artwork collections.
 	*
@@ -299,6 +315,34 @@ public class ArtworkCollectionLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _artworkCollectionLocalService.dynamicQuery(dynamicQuery, start,
 			end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _artworkCollectionLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId) {
+		return _artworkCollectionLocalService.getArtworkArtworkCollections(artworkId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end) {
+		return _artworkCollectionLocalService.getArtworkArtworkCollections(artworkId,
+			start, end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.artwork.model.ArtworkCollection> orderByComparator) {
+		return _artworkCollectionLocalService.getArtworkArtworkCollections(artworkId,
+			start, end, orderByComparator);
 	}
 
 	/**
@@ -386,6 +430,50 @@ public class ArtworkCollectionLocalServiceWrapper
 			projection);
 	}
 
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _artworkCollectionLocalService.findByKeywordCount(keyword,
+			groupId);
+	}
+
+	/**
+	* Returns the artworkIds of the artworks associated with the artwork collection.
+	*
+	* @param collectionId the collectionId of the artwork collection
+	* @return long[] the artworkIds of artworks associated with the artwork collection
+	*/
+	@Override
+	public long[] getArtworkPrimaryKeys(long collectionId) {
+		return _artworkCollectionLocalService.getArtworkPrimaryKeys(collectionId);
+	}
+
+	@Override
+	public void addArtworkArtworkCollection(long artworkId,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId,
+			artworkCollection);
+	}
+
+	@Override
+	public void addArtworkArtworkCollection(long artworkId, long collectionId) {
+		_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId,
+			collectionId);
+	}
+
+	@Override
+	public void addArtworkArtworkCollections(long artworkId,
+		java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		_artworkCollectionLocalService.addArtworkArtworkCollections(artworkId,
+			artworkCollections);
+	}
+
+	@Override
+	public void addArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		_artworkCollectionLocalService.addArtworkArtworkCollections(artworkId,
+			collectionIds);
+	}
+
 	/**
 	* Change the publication status of the artworkCollection
 	*/
@@ -396,6 +484,45 @@ public class ArtworkCollectionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 		_artworkCollectionLocalService.changeStatus(artworkCollection,
 			publicationStatus);
+	}
+
+	@Override
+	public void clearArtworkArtworkCollections(long artworkId) {
+		_artworkCollectionLocalService.clearArtworkArtworkCollections(artworkId);
+	}
+
+	@Override
+	public void deleteArtworkArtworkCollection(long artworkId,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		_artworkCollectionLocalService.deleteArtworkArtworkCollection(artworkId,
+			artworkCollection);
+	}
+
+	@Override
+	public void deleteArtworkArtworkCollection(long artworkId, long collectionId) {
+		_artworkCollectionLocalService.deleteArtworkArtworkCollection(artworkId,
+			collectionId);
+	}
+
+	@Override
+	public void deleteArtworkArtworkCollections(long artworkId,
+		java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		_artworkCollectionLocalService.deleteArtworkArtworkCollections(artworkId,
+			artworkCollections);
+	}
+
+	@Override
+	public void deleteArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		_artworkCollectionLocalService.deleteArtworkArtworkCollections(artworkId,
+			collectionIds);
+	}
+
+	@Override
+	public void setArtworkArtworkCollections(long artworkId,
+		long[] collectionIds) {
+		_artworkCollectionLocalService.setArtworkArtworkCollections(artworkId,
+			collectionIds);
 	}
 
 	@Override

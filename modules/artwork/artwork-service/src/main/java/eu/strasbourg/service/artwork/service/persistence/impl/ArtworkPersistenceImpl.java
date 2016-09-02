@@ -16,6 +16,7 @@ package eu.strasbourg.service.artwork.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -30,6 +31,10 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -42,6 +47,7 @@ import eu.strasbourg.service.artwork.exception.NoSuchArtworkException;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.impl.ArtworkImpl;
 import eu.strasbourg.service.artwork.model.impl.ArtworkModelImpl;
+import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersistence;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 
 import java.io.Serializable;
@@ -1682,6 +1688,8 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 	protected Artwork removeImpl(Artwork artwork) {
 		artwork = toUnwrappedModel(artwork);
 
+		artworkToArtworkCollectionTableMapper.deleteLeftPrimaryKeyTableMappings(artwork.getPrimaryKey());
+
 		Session session = null;
 
 		try {
@@ -1842,8 +1850,6 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		artworkImpl.setModifiedDate(artwork.getModifiedDate());
 		artworkImpl.setTitle(artwork.getTitle());
 		artworkImpl.setDescription(artwork.getDescription());
-		artworkImpl.setImage(artwork.getImage());
-		artworkImpl.setImages(artwork.getImages());
 		artworkImpl.setTechnicalInformation(artwork.getTechnicalInformation());
 		artworkImpl.setNoticeLink(artwork.getNoticeLink());
 		artworkImpl.setArtistName(artwork.getArtistName());
@@ -1855,6 +1861,8 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		artworkImpl.setLinkName(artwork.getLinkName());
 		artworkImpl.setLink(artwork.getLink());
 		artworkImpl.setStatus(artwork.isStatus());
+		artworkImpl.setImageId(artwork.getImageId());
+		artworkImpl.setImagesIds(artwork.getImagesIds());
 
 		return artworkImpl;
 	}
@@ -2238,6 +2246,313 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the primaryKeys of artwork collections associated with the artwork.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @return long[] of the primaryKeys of artwork collections associated with the artwork
+	 */
+	@Override
+	public long[] getArtworkCollectionPrimaryKeys(long pk) {
+		long[] pks = artworkToArtworkCollectionTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.clone();
+	}
+
+	/**
+	 * Returns all the artwork collections associated with the artwork.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @return the artwork collections associated with the artwork
+	 */
+	@Override
+	public List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk) {
+		return getArtworkCollections(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the artwork collections associated with the artwork.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param start the lower bound of the range of artworks
+	 * @param end the upper bound of the range of artworks (not inclusive)
+	 * @return the range of artwork collections associated with the artwork
+	 */
+	@Override
+	public List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk, int start, int end) {
+		return getArtworkCollections(pk, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the artwork collections associated with the artwork.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param start the lower bound of the range of artworks
+	 * @param end the upper bound of the range of artworks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of artwork collections associated with the artwork
+	 */
+	@Override
+	public List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections(
+		long pk, int start, int end,
+		OrderByComparator<eu.strasbourg.service.artwork.model.ArtworkCollection> orderByComparator) {
+		return artworkToArtworkCollectionTableMapper.getRightBaseModels(pk,
+			start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the number of artwork collections associated with the artwork.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @return the number of artwork collections associated with the artwork
+	 */
+	@Override
+	public int getArtworkCollectionsSize(long pk) {
+		long[] pks = artworkToArtworkCollectionTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.length;
+	}
+
+	/**
+	 * Returns <code>true</code> if the artwork collection is associated with the artwork.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPK the primary key of the artwork collection
+	 * @return <code>true</code> if the artwork collection is associated with the artwork; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsArtworkCollection(long pk, long artworkCollectionPK) {
+		return artworkToArtworkCollectionTableMapper.containsTableMapping(pk,
+			artworkCollectionPK);
+	}
+
+	/**
+	 * Returns <code>true</code> if the artwork has any artwork collections associated with it.
+	 *
+	 * @param pk the primary key of the artwork to check for associations with artwork collections
+	 * @return <code>true</code> if the artwork has any artwork collections associated with it; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsArtworkCollections(long pk) {
+		if (getArtworkCollectionsSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds an association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPK the primary key of the artwork collection
+	 */
+	@Override
+	public void addArtworkCollection(long pk, long artworkCollectionPK) {
+		Artwork artwork = fetchByPrimaryKey(pk);
+
+		if (artwork == null) {
+			artworkToArtworkCollectionTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, artworkCollectionPK);
+		}
+		else {
+			artworkToArtworkCollectionTableMapper.addTableMapping(artwork.getCompanyId(),
+				pk, artworkCollectionPK);
+		}
+	}
+
+	/**
+	 * Adds an association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollection the artwork collection
+	 */
+	@Override
+	public void addArtworkCollection(long pk,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		Artwork artwork = fetchByPrimaryKey(pk);
+
+		if (artwork == null) {
+			artworkToArtworkCollectionTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, artworkCollection.getPrimaryKey());
+		}
+		else {
+			artworkToArtworkCollectionTableMapper.addTableMapping(artwork.getCompanyId(),
+				pk, artworkCollection.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Adds an association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPKs the primary keys of the artwork collections
+	 */
+	@Override
+	public void addArtworkCollections(long pk, long[] artworkCollectionPKs) {
+		long companyId = 0;
+
+		Artwork artwork = fetchByPrimaryKey(pk);
+
+		if (artwork == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = artwork.getCompanyId();
+		}
+
+		artworkToArtworkCollectionTableMapper.addTableMappings(companyId, pk,
+			artworkCollectionPKs);
+	}
+
+	/**
+	 * Adds an association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollections the artwork collections
+	 */
+	@Override
+	public void addArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		addArtworkCollections(pk,
+			ListUtil.toLongArray(artworkCollections,
+				eu.strasbourg.service.artwork.model.ArtworkCollection.COLLECTION_ID_ACCESSOR));
+	}
+
+	/**
+	 * Clears all associations between the artwork and its artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork to clear the associated artwork collections from
+	 */
+	@Override
+	public void clearArtworkCollections(long pk) {
+		artworkToArtworkCollectionTableMapper.deleteLeftPrimaryKeyTableMappings(pk);
+	}
+
+	/**
+	 * Removes the association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPK the primary key of the artwork collection
+	 */
+	@Override
+	public void removeArtworkCollection(long pk, long artworkCollectionPK) {
+		artworkToArtworkCollectionTableMapper.deleteTableMapping(pk,
+			artworkCollectionPK);
+	}
+
+	/**
+	 * Removes the association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollection the artwork collection
+	 */
+	@Override
+	public void removeArtworkCollection(long pk,
+		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
+		artworkToArtworkCollectionTableMapper.deleteTableMapping(pk,
+			artworkCollection.getPrimaryKey());
+	}
+
+	/**
+	 * Removes the association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPKs the primary keys of the artwork collections
+	 */
+	@Override
+	public void removeArtworkCollections(long pk, long[] artworkCollectionPKs) {
+		artworkToArtworkCollectionTableMapper.deleteTableMappings(pk,
+			artworkCollectionPKs);
+	}
+
+	/**
+	 * Removes the association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollections the artwork collections
+	 */
+	@Override
+	public void removeArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		removeArtworkCollections(pk,
+			ListUtil.toLongArray(artworkCollections,
+				eu.strasbourg.service.artwork.model.ArtworkCollection.COLLECTION_ID_ACCESSOR));
+	}
+
+	/**
+	 * Sets the artwork collections associated with the artwork, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollectionPKs the primary keys of the artwork collections to be associated with the artwork
+	 */
+	@Override
+	public void setArtworkCollections(long pk, long[] artworkCollectionPKs) {
+		Set<Long> newArtworkCollectionPKsSet = SetUtil.fromArray(artworkCollectionPKs);
+		Set<Long> oldArtworkCollectionPKsSet = SetUtil.fromArray(artworkToArtworkCollectionTableMapper.getRightPrimaryKeys(
+					pk));
+
+		Set<Long> removeArtworkCollectionPKsSet = new HashSet<Long>(oldArtworkCollectionPKsSet);
+
+		removeArtworkCollectionPKsSet.removeAll(newArtworkCollectionPKsSet);
+
+		artworkToArtworkCollectionTableMapper.deleteTableMappings(pk,
+			ArrayUtil.toLongArray(removeArtworkCollectionPKsSet));
+
+		newArtworkCollectionPKsSet.removeAll(oldArtworkCollectionPKsSet);
+
+		long companyId = 0;
+
+		Artwork artwork = fetchByPrimaryKey(pk);
+
+		if (artwork == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = artwork.getCompanyId();
+		}
+
+		artworkToArtworkCollectionTableMapper.addTableMappings(companyId, pk,
+			ArrayUtil.toLongArray(newArtworkCollectionPKsSet));
+	}
+
+	/**
+	 * Sets the artwork collections associated with the artwork, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the artwork
+	 * @param artworkCollections the artwork collections to be associated with the artwork
+	 */
+	@Override
+	public void setArtworkCollections(long pk,
+		List<eu.strasbourg.service.artwork.model.ArtworkCollection> artworkCollections) {
+		try {
+			long[] artworkCollectionPKs = new long[artworkCollections.size()];
+
+			for (int i = 0; i < artworkCollections.size(); i++) {
+				eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection =
+					artworkCollections.get(i);
+
+				artworkCollectionPKs[i] = artworkCollection.getPrimaryKey();
+			}
+
+			setArtworkCollections(pk, artworkCollectionPKs);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+	}
+
 	@Override
 	public Set<String> getBadColumnNames() {
 		return _badColumnNames;
@@ -2252,6 +2567,9 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 	 * Initializes the artwork persistence.
 	 */
 	public void afterPropertiesSet() {
+		artworkToArtworkCollectionTableMapper = TableMapperFactory.getTableMapper("artwork_ArtworkToArtworkCollection",
+				"companyId", "artworkId", "collectionId", this,
+				artworkCollectionPersistence);
 	}
 
 	public void destroy() {
@@ -2259,6 +2577,9 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		TableMapperFactory.removeTableMapper(
+			"artwork_ArtworkToArtworkCollection");
 	}
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
@@ -2267,6 +2588,9 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+	@BeanReference(type = ArtworkCollectionPersistence.class)
+	protected ArtworkCollectionPersistence artworkCollectionPersistence;
+	protected TableMapper<Artwork, eu.strasbourg.service.artwork.model.ArtworkCollection> artworkToArtworkCollectionTableMapper;
 	private static final String _SQL_SELECT_ARTWORK = "SELECT artwork FROM Artwork artwork";
 	private static final String _SQL_SELECT_ARTWORK_WHERE_PKS_IN = "SELECT artwork FROM Artwork artwork WHERE artworkId IN (";
 	private static final String _SQL_SELECT_ARTWORK_WHERE = "SELECT artwork FROM Artwork artwork WHERE ";

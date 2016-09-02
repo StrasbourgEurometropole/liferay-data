@@ -17,8 +17,6 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="image" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="images" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="technicalInformation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="noticeLink" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="artistName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -30,6 +28,8 @@
 		<property name="linkName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imagesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl" table="artwork_ArtworkCollection">
 		<id name="collectionId" type="long">
@@ -44,8 +44,8 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="image" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contributors" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

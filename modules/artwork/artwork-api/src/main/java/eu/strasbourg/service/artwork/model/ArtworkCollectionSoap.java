@@ -44,9 +44,9 @@ public class ArtworkCollectionSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setImage(model.getImage());
 		soapModel.setContributors(model.getContributors());
 		soapModel.setStatus(model.getStatus());
+		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
 	}
@@ -182,14 +182,6 @@ public class ArtworkCollectionSoap implements Serializable {
 		_description = description;
 	}
 
-	public String getImage() {
-		return _image;
-	}
-
-	public void setImage(String image) {
-		_image = image;
-	}
-
 	public String getContributors() {
 		return _contributors;
 	}
@@ -210,6 +202,14 @@ public class ArtworkCollectionSoap implements Serializable {
 		_status = status;
 	}
 
+	public Long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
+	}
+
 	private String _uuid;
 	private long _collectionId;
 	private long _groupId;
@@ -220,7 +220,7 @@ public class ArtworkCollectionSoap implements Serializable {
 	private Date _modifiedDate;
 	private String _title;
 	private String _description;
-	private String _image;
 	private String _contributors;
 	private boolean _status;
+	private Long _imageId;
 }
