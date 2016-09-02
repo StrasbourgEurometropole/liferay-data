@@ -17,6 +17,7 @@ package eu.strasbourg.portlet.edition.action;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -69,8 +71,8 @@ public class SaveEditionActionCommand
 				.getLocalizationMap(request, "title");
 			edition.setTitleMap(title);
 			
-			String image = ParamUtil.getString(request, "image");
-			edition.setImage(image);
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			edition.setImageId(imageId);
 			
 			Map<Locale, String> subtitle = LocalizationUtil
 				.getLocalizationMap(request, "subtitle");
@@ -119,9 +121,15 @@ public class SaveEditionActionCommand
 			Date publicationDate = DateUtil.parseDate(publicationDateString, request.getLocale());
 			edition.setPublicationDate(publicationDate);
 			
-			Long galleryId = ParamUtil.getLong(request, "galleryId");
-			if (galleryId > 0) {
-				edition.setGalleryId(galleryId);
+			List<EditionGallery> oldGalleries = edition.getEditionGalleries();
+			for (EditionGallery gallery : oldGalleries) {
+				_editionLocalService.deleteEditionGalleryEdition(gallery.getGalleryId(), edition);
+			}
+			long[] galleriesIds = ParamUtil.getLongValues(request, "galleriesIds");
+			for (long galleryId : galleriesIds) {
+				if (galleryId > 0) {
+					_editionLocalService.addEditionGalleryEdition(galleryId, edition);
+				}
 			}
 			
 			// Status

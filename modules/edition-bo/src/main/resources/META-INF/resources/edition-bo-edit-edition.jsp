@@ -33,13 +33,11 @@
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
-				<aui:input name="subtitle">
-				</aui:input>
-				
-				<aui:input name="image">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>				
+
+				<aui:input name="subtitle" />
+
+				<strasbourg-picker:image label="image" name="imageId"
+					required="true" value="${dc.edition.imageId}" />
 
 				<label><liferay-ui:message key="Description" /></label>
 				<liferay-ui:input-editor
@@ -59,6 +57,11 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 
+				<strasbourg-picker:entity label="galleries" name="galleriesIds"
+					value="${dc.edition.editionGalleriesIds}"
+					type="eu.strasbourg.service.edition.model.EditionGallery"
+					multiple="true" />
+
 			</aui:fieldset>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="file">
@@ -75,11 +78,6 @@
 					helpMessage="diffusion-date-help-message" />
 				<aui:input name="pageNumber" />
 				<aui:input name="pictureNumber" />
-				<aui:select name="galleryId" showEmptyOption="true" label="gallery">
-					<c:forEach var="gallery" items="${dc.galleries}">
-				    	<aui:option value="${gallery.galleryId}" selected="${gallery.galleryId eq dc.edition.galleryId}">${gallery.titleMap[locale]}</aui:option>
-				    </c:forEach>
-				</aui:select>
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
@@ -87,11 +85,10 @@
 				<aui:input name="categories" type="assetCategories" />
 
 				<aui:input name="tags" type="assetTags" />
-				 
-				 <liferay-ui:input-asset-links
-				       className="<%= Edition.class.getName() %>"
-				       classPK="${dc.edition.editionId}"
-				   />
+
+				<liferay-ui:input-asset-links
+					className="<%= Edition.class.getName() %>"
+					classPK="${dc.edition.editionId}" />
 			</aui:fieldset>
 
 
@@ -103,12 +100,14 @@
 
 		<aui:button-row>
 			<aui:input type="hidden" name="forceStatus" value="" />
-			<aui:button cssClass="btn-lg" type="submit" value="save"/>
+			<aui:button cssClass="btn-lg" type="submit" value="save" />
 			<c:if test="${not empty dc.edition and dc.edition.status}">
-				<aui:button cssClass="btn-lg" type="submit" name="unpublish" value="unpublish" />
+				<aui:button cssClass="btn-lg" type="submit" name="unpublish"
+					value="unpublish" />
 			</c:if>
 			<c:if test="${not empty dc.edition and not dc.edition.status}">
-				<aui:button cssClass="btn-lg" type="submit" name="publish" value="publish" />
+				<aui:button cssClass="btn-lg" type="submit" name="publish"
+					value="publish" />
 			</c:if>
 			<c:if test="${not empty dc.edition}">
 				<aui:button cssClass="btn-lg" href="${deleteEditionURL}"

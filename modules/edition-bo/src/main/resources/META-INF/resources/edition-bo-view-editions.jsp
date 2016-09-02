@@ -100,7 +100,7 @@
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
-					<img src="${edition.image}" style="max-height:120px;"/>
+					<img src="${edition.imageURL}" style="max-height:120px;"/>
 				</liferay-ui:search-container-column-text>
 				
 				<liferay-ui:search-container-column-text cssClass="content-column"

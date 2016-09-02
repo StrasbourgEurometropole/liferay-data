@@ -47,32 +47,6 @@ public class EditEditionDisplayContext {
 		}
 		return _edition;
 	}
-	
-	public List<EditionGallery> getGalleries() throws PortalException {
-		if (this._galleries == null) {
-			HttpServletRequest servletRequest = PortalUtil
-				.getHttpServletRequest(_request);
-			SearchContext searchContext = SearchContextFactory
-				.getInstance(servletRequest);
-
-			// Init attributes
-			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getSiteGroupIdOrLiveGroupId()});
-			
-			// Results
-			List<EditionGallery> results = new ArrayList<EditionGallery>();
-			Hits hits = EditionGalleryLocalServiceUtil.search(searchContext);
-			for (Document document : hits.getDocs()) {
-				EditionGallery gallery = EditionGalleryLocalServiceUtil.fetchEditionGallery(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (gallery != null) {
-					results.add(gallery);
-				}
-			}
-			this._galleries = results;
-		}
-		return this._galleries;
-	}
 
 	public Locale[] getAvailableLocales() {
 		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getSiteGroupIdOrLiveGroupId());
