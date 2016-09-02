@@ -1,0 +1,9 @@
+Bundle-Name: Item Picker Taglib
+Bundle-SymbolicName: eu.strasbourg.taglib.item.picker
+Bundle-Version: 1.0.6
+Export-Package: \
+	eu.strasbourg.picker.taglib.image.servlet.taglib,\
+	eu.strasbourg.picker.taglib.entity.servlet.taglib,\
+	eu.strasbourg.picker.taglib.file.servlet.taglib
+Provide-Capability: osgi.extender;osgi.extender="jsp.taglib";uri="http://strasbourg.eu/tld/picker";version:Version="${Bundle-Version}"
+Web-ContextPath: /item-picker-taglib
