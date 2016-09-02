@@ -70,7 +70,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
 		attributes.put("URL", getURL());
 		attributes.put("author", getAuthor());
 		attributes.put("editor", getEditor());
@@ -84,7 +83,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
-		attributes.put("galleryId", getGalleryId());
+		attributes.put("imageId", getImageId());
 
 		return attributes;
 	}
@@ -155,12 +154,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
 		}
 
 		String URL = (String)attributes.get("URL");
@@ -242,10 +235,10 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 			setStatus(status);
 		}
 
-		Long galleryId = (Long)attributes.get("galleryId");
+		Long imageId = (Long)attributes.get("imageId");
 
-		if (galleryId != null) {
-			setGalleryId(galleryId);
+		if (imageId != null) {
+			setImageId(imageId);
 		}
 	}
 
@@ -368,13 +361,13 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the gallery ID of this edition.
+	* Returns the image ID of this edition.
 	*
-	* @return the gallery ID of this edition
+	* @return the image ID of this edition
 	*/
 	@Override
-	public java.lang.Long getGalleryId() {
-		return _edition.getGalleryId();
+	public java.lang.Long getImageId() {
+		return _edition.getImageId();
 	}
 
 	@Override
@@ -543,6 +536,11 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.getDistribution();
 	}
 
+	@Override
+	public java.lang.String getEditionGalleriesIds() {
+		return _edition.getEditionGalleriesIds();
+	}
+
 	/**
 	* Returns the editor of this edition.
 	*
@@ -622,13 +620,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the image of this edition.
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
 	*
-	* @return the image of this edition
+	* @throws PortalException
+	* @throws NumberFormatException
 	*/
 	@Override
-	public java.lang.String getImage() {
-		return _edition.getImage();
+	public java.lang.String getImageURL() {
+		return _edition.getImageURL();
 	}
 
 	/**
@@ -939,12 +938,18 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
+	* Renvoie la liste des AssetCategory rattach�es � cet item (via
+	* l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _edition.getCategories();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries() {
+		return _edition.getEditionGalleries();
 	}
 
 	/**
@@ -1345,16 +1350,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the gallery ID of this edition.
-	*
-	* @param galleryId the gallery ID of this edition
-	*/
-	@Override
-	public void setGalleryId(java.lang.Long galleryId) {
-		_edition.setGalleryId(galleryId);
-	}
-
-	/**
 	* Sets the group ID of this edition.
 	*
 	* @param groupId the group ID of this edition
@@ -1375,13 +1370,13 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the image of this edition.
+	* Sets the image ID of this edition.
 	*
-	* @param image the image of this edition
+	* @param imageId the image ID of this edition
 	*/
 	@Override
-	public void setImage(java.lang.String image) {
-		_edition.setImage(image);
+	public void setImageId(java.lang.Long imageId) {
+		_edition.setImageId(imageId);
 	}
 
 	/**

@@ -809,6 +809,208 @@ public class EditionGalleryUtil {
 		return getPersistence().countAll();
 	}
 
+	/**
+	* Returns the primaryKeys of editions associated with the edition gallery.
+	*
+	* @param pk the primary key of the edition gallery
+	* @return long[] of the primaryKeys of editions associated with the edition gallery
+	*/
+	public static long[] getEditionPrimaryKeys(long pk) {
+		return getPersistence().getEditionPrimaryKeys(pk);
+	}
+
+	/**
+	* Returns all the editions associated with the edition gallery.
+	*
+	* @param pk the primary key of the edition gallery
+	* @return the editions associated with the edition gallery
+	*/
+	public static List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk) {
+		return getPersistence().getEditions(pk);
+	}
+
+	/**
+	* Returns a range of all the editions associated with the edition gallery.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the edition gallery
+	* @param start the lower bound of the range of edition galleries
+	* @param end the upper bound of the range of edition galleries (not inclusive)
+	* @return the range of editions associated with the edition gallery
+	*/
+	public static List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk, int start, int end) {
+		return getPersistence().getEditions(pk, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the editions associated with the edition gallery.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the edition gallery
+	* @param start the lower bound of the range of edition galleries
+	* @param end the upper bound of the range of edition galleries (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of editions associated with the edition gallery
+	*/
+	public static List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk, int start, int end,
+		OrderByComparator<eu.strasbourg.service.edition.model.Edition> orderByComparator) {
+		return getPersistence().getEditions(pk, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the number of editions associated with the edition gallery.
+	*
+	* @param pk the primary key of the edition gallery
+	* @return the number of editions associated with the edition gallery
+	*/
+	public static int getEditionsSize(long pk) {
+		return getPersistence().getEditionsSize(pk);
+	}
+
+	/**
+	* Returns <code>true</code> if the edition is associated with the edition gallery.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPK the primary key of the edition
+	* @return <code>true</code> if the edition is associated with the edition gallery; <code>false</code> otherwise
+	*/
+	public static boolean containsEdition(long pk, long editionPK) {
+		return getPersistence().containsEdition(pk, editionPK);
+	}
+
+	/**
+	* Returns <code>true</code> if the edition gallery has any editions associated with it.
+	*
+	* @param pk the primary key of the edition gallery to check for associations with editions
+	* @return <code>true</code> if the edition gallery has any editions associated with it; <code>false</code> otherwise
+	*/
+	public static boolean containsEditions(long pk) {
+		return getPersistence().containsEditions(pk);
+	}
+
+	/**
+	* Adds an association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPK the primary key of the edition
+	*/
+	public static void addEdition(long pk, long editionPK) {
+		getPersistence().addEdition(pk, editionPK);
+	}
+
+	/**
+	* Adds an association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param edition the edition
+	*/
+	public static void addEdition(long pk,
+		eu.strasbourg.service.edition.model.Edition edition) {
+		getPersistence().addEdition(pk, edition);
+	}
+
+	/**
+	* Adds an association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPKs the primary keys of the editions
+	*/
+	public static void addEditions(long pk, long[] editionPKs) {
+		getPersistence().addEditions(pk, editionPKs);
+	}
+
+	/**
+	* Adds an association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editions the editions
+	*/
+	public static void addEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		getPersistence().addEditions(pk, editions);
+	}
+
+	/**
+	* Clears all associations between the edition gallery and its editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery to clear the associated editions from
+	*/
+	public static void clearEditions(long pk) {
+		getPersistence().clearEditions(pk);
+	}
+
+	/**
+	* Removes the association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPK the primary key of the edition
+	*/
+	public static void removeEdition(long pk, long editionPK) {
+		getPersistence().removeEdition(pk, editionPK);
+	}
+
+	/**
+	* Removes the association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param edition the edition
+	*/
+	public static void removeEdition(long pk,
+		eu.strasbourg.service.edition.model.Edition edition) {
+		getPersistence().removeEdition(pk, edition);
+	}
+
+	/**
+	* Removes the association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPKs the primary keys of the editions
+	*/
+	public static void removeEditions(long pk, long[] editionPKs) {
+		getPersistence().removeEditions(pk, editionPKs);
+	}
+
+	/**
+	* Removes the association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editions the editions
+	*/
+	public static void removeEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		getPersistence().removeEditions(pk, editions);
+	}
+
+	/**
+	* Sets the editions associated with the edition gallery, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editionPKs the primary keys of the editions to be associated with the edition gallery
+	*/
+	public static void setEditions(long pk, long[] editionPKs) {
+		getPersistence().setEditions(pk, editionPKs);
+	}
+
+	/**
+	* Sets the editions associated with the edition gallery, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the edition gallery
+	* @param editions the editions to be associated with the edition gallery
+	*/
+	public static void setEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		getPersistence().setEditions(pk, editions);
+	}
+
 	public static java.util.Set<java.lang.String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
 	}

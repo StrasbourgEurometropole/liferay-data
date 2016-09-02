@@ -92,7 +92,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "title", Types.VARCHAR },
 			{ "subtitle", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
-			{ "image", Types.VARCHAR },
 			{ "URL", Types.VARCHAR },
 			{ "author", Types.VARCHAR },
 			{ "editor", Types.VARCHAR },
@@ -106,7 +105,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "pictureNumber", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "status", Types.BOOLEAN },
-			{ "galleryId", Types.BIGINT }
+			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -122,7 +121,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("image", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("URL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("author", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("editor", Types.VARCHAR);
@@ -136,10 +134,10 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("pictureNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("galleryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description STRING null,image VARCHAR(250) null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,galleryId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description STRING null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table edition_Edition";
 	public static final String ORDER_BY_JPQL = " ORDER BY edition.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_Edition.modifiedDate DESC";
@@ -185,7 +183,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setTitle(soapModel.getTitle());
 		model.setSubtitle(soapModel.getSubtitle());
 		model.setDescription(soapModel.getDescription());
-		model.setImage(soapModel.getImage());
 		model.setURL(soapModel.getURL());
 		model.setAuthor(soapModel.getAuthor());
 		model.setEditor(soapModel.getEditor());
@@ -199,7 +196,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setPictureNumber(soapModel.getPictureNumber());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setStatus(soapModel.getStatus());
-		model.setGalleryId(soapModel.getGalleryId());
+		model.setImageId(soapModel.getImageId());
 
 		return model;
 	}
@@ -224,6 +221,20 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		return models;
 	}
 
+	public static final String MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_NAME =
+		"edition_EditionToEditionGallery";
+	public static final Object[][] MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_COLUMNS =
+		{
+			{ "companyId", Types.BIGINT },
+			{ "editionId", Types.BIGINT },
+			{ "galleryId", Types.BIGINT }
+		};
+	public static final String MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_SQL_CREATE =
+		"create table edition_EditionToEditionGallery (companyId LONG not null,editionId LONG not null,galleryId LONG not null,primary key (editionId, galleryId))";
+	public static final boolean FINDER_CACHE_ENABLED_EDITION_EDITIONTOEDITIONGALLERY =
+		GetterUtil.getBoolean(eu.strasbourg.service.edition.service.util.PropsUtil.get(
+				"value.object.finder.cache.enabled.edition_EditionToEditionGallery"),
+			true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.edition.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.edition.model.Edition"));
 
@@ -275,7 +286,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
 		attributes.put("URL", getURL());
 		attributes.put("author", getAuthor());
 		attributes.put("editor", getEditor());
@@ -289,7 +299,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
-		attributes.put("galleryId", getGalleryId());
+		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -363,12 +373,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
 		}
 
 		String URL = (String)attributes.get("URL");
@@ -450,10 +454,10 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			setStatus(status);
 		}
 
-		Long galleryId = (Long)attributes.get("galleryId");
+		Long imageId = (Long)attributes.get("imageId");
 
-		if (galleryId != null) {
-			setGalleryId(galleryId);
+		if (imageId != null) {
+			setImageId(imageId);
 		}
 	}
 
@@ -926,22 +930,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@JSON
 	@Override
-	public String getImage() {
-		if (_image == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _image;
-		}
-	}
-
-	@Override
-	public void setImage(String image) {
-		_image = image;
-	}
-
-	@JSON
-	@Override
 	public String getURL() {
 		if (_URL == null) {
 			return StringPool.BLANK;
@@ -1396,13 +1384,13 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@JSON
 	@Override
-	public Long getGalleryId() {
-		return _galleryId;
+	public Long getImageId() {
+		return _imageId;
 	}
 
 	@Override
-	public void setGalleryId(Long galleryId) {
-		_galleryId = galleryId;
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
 	}
 
 	@Override
@@ -1615,7 +1603,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setTitle(getTitle());
 		editionImpl.setSubtitle(getSubtitle());
 		editionImpl.setDescription(getDescription());
-		editionImpl.setImage(getImage());
 		editionImpl.setURL(getURL());
 		editionImpl.setAuthor(getAuthor());
 		editionImpl.setEditor(getEditor());
@@ -1629,7 +1616,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setPictureNumber(getPictureNumber());
 		editionImpl.setPublicationDate(getPublicationDate());
 		editionImpl.setStatus(getStatus());
-		editionImpl.setGalleryId(getGalleryId());
+		editionImpl.setImageId(getImageId());
 
 		editionImpl.resetOriginalValues();
 
@@ -1779,14 +1766,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			editionCacheModel.description = null;
 		}
 
-		editionCacheModel.image = getImage();
-
-		String image = editionCacheModel.image;
-
-		if ((image != null) && (image.length() == 0)) {
-			editionCacheModel.image = null;
-		}
-
 		editionCacheModel.URL = getURL();
 
 		String URL = editionCacheModel.URL;
@@ -1874,14 +1853,14 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		editionCacheModel.status = getStatus();
 
-		editionCacheModel.galleryId = getGalleryId();
+		editionCacheModel.imageId = getImageId();
 
 		return editionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1905,8 +1884,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getSubtitle());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", image=");
-		sb.append(getImage());
 		sb.append(", URL=");
 		sb.append(getURL());
 		sb.append(", author=");
@@ -1933,8 +1910,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getPublicationDate());
 		sb.append(", status=");
 		sb.append(getStatus());
-		sb.append(", galleryId=");
-		sb.append(getGalleryId());
+		sb.append(", imageId=");
+		sb.append(getImageId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1942,7 +1919,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(82);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.Edition");
@@ -1991,10 +1968,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>image</column-name><column-value><![CDATA[");
-		sb.append(getImage());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>URL</column-name><column-value><![CDATA[");
@@ -2049,8 +2022,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>galleryId</column-name><column-value><![CDATA[");
-		sb.append(getGalleryId());
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -2083,7 +2056,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private String _subtitleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
-	private String _image;
 	private String _URL;
 	private String _URLCurrentLanguageId;
 	private String _author;
@@ -2100,7 +2072,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private String _pictureNumber;
 	private Date _publicationDate;
 	private boolean _status;
-	private Long _galleryId;
+	private Long _imageId;
 	private long _columnBitmask;
 	private Edition _escapedModel;
 }

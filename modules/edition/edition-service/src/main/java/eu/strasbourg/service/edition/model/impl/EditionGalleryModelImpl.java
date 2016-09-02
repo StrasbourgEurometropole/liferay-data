@@ -88,9 +88,9 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "imageId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
-			{ "image", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "status", Types.BOOLEAN }
 		};
@@ -105,14 +105,14 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("image", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description STRING null,image VARCHAR(250) null,publicationDate DATE null,status BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,imageId LONG,title STRING null,description STRING null,publicationDate DATE null,status BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table edition_EditionGallery";
 	public static final String ORDER_BY_JPQL = " ORDER BY editionGallery.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_EditionGallery.title ASC";
@@ -154,9 +154,9 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setImageId(soapModel.getImageId());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
-		model.setImage(soapModel.getImage());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setStatus(soapModel.getStatus());
 
@@ -183,6 +183,20 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		return models;
 	}
 
+	public static final String MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_NAME =
+		"edition_EditionToEditionGallery";
+	public static final Object[][] MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_COLUMNS =
+		{
+			{ "companyId", Types.BIGINT },
+			{ "editionId", Types.BIGINT },
+			{ "galleryId", Types.BIGINT }
+		};
+	public static final String MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_SQL_CREATE =
+		"create table edition_EditionToEditionGallery (companyId LONG not null,editionId LONG not null,galleryId LONG not null,primary key (editionId, galleryId))";
+	public static final boolean FINDER_CACHE_ENABLED_EDITION_EDITIONTOEDITIONGALLERY =
+		GetterUtil.getBoolean(eu.strasbourg.service.edition.service.util.PropsUtil.get(
+				"value.object.finder.cache.enabled.edition_EditionToEditionGallery"),
+			true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.edition.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.edition.model.EditionGallery"));
 
@@ -231,9 +245,9 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
 
@@ -293,6 +307,12 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			setModifiedDate(modifiedDate);
 		}
 
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -303,12 +323,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -474,6 +488,17 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		_setModifiedDate = true;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@JSON
+	@Override
+	public Long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
 	}
 
 	@JSON
@@ -690,22 +715,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@JSON
 	@Override
-	public String getImage() {
-		if (_image == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _image;
-		}
-	}
-
-	@Override
-	public void setImage(String image) {
-		_image = image;
-	}
-
-	@JSON
-	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -859,9 +868,9 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		editionGalleryImpl.setUserName(getUserName());
 		editionGalleryImpl.setCreateDate(getCreateDate());
 		editionGalleryImpl.setModifiedDate(getModifiedDate());
+		editionGalleryImpl.setImageId(getImageId());
 		editionGalleryImpl.setTitle(getTitle());
 		editionGalleryImpl.setDescription(getDescription());
-		editionGalleryImpl.setImage(getImage());
 		editionGalleryImpl.setPublicationDate(getPublicationDate());
 		editionGalleryImpl.setStatus(getStatus());
 
@@ -987,6 +996,8 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			editionGalleryCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		editionGalleryCacheModel.imageId = getImageId();
+
 		editionGalleryCacheModel.title = getTitle();
 
 		String title = editionGalleryCacheModel.title;
@@ -1001,14 +1012,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 		if ((description != null) && (description.length() == 0)) {
 			editionGalleryCacheModel.description = null;
-		}
-
-		editionGalleryCacheModel.image = getImage();
-
-		String image = editionGalleryCacheModel.image;
-
-		if ((image != null) && (image.length() == 0)) {
-			editionGalleryCacheModel.image = null;
 		}
 
 		Date publicationDate = getPublicationDate();
@@ -1045,12 +1048,12 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", imageId=");
+		sb.append(getImageId());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", image=");
-		sb.append(getImage());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", status=");
@@ -1101,16 +1104,16 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>image</column-name><column-value><![CDATA[");
-		sb.append(getImage());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
@@ -1144,12 +1147,12 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private Long _imageId;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _originalTitle;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
-	private String _image;
 	private Date _publicationDate;
 	private boolean _status;
 	private long _columnBitmask;

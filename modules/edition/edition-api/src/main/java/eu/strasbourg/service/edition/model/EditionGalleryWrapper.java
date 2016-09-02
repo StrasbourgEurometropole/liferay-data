@@ -68,9 +68,9 @@ public class EditionGalleryWrapper implements EditionGallery,
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
-		attributes.put("image", getImage());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
 
@@ -127,6 +127,12 @@ public class EditionGalleryWrapper implements EditionGallery,
 			setModifiedDate(modifiedDate);
 		}
 
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -137,12 +143,6 @@ public class EditionGalleryWrapper implements EditionGallery,
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		String image = (String)attributes.get("image");
-
-		if (image != null) {
-			setImage(image);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -237,6 +237,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 		return _editionGallery.getPrimaryKeyObj();
 	}
 
+	/**
+	* Returns the image ID of this edition gallery.
+	*
+	* @return the image ID of this edition gallery
+	*/
+	@Override
+	public java.lang.Long getImageId() {
+		return _editionGallery.getImageId();
+	}
+
 	@Override
 	public java.lang.Object clone() {
 		return new EditionGalleryWrapper((EditionGallery)_editionGallery.clone());
@@ -315,14 +325,20 @@ public class EditionGalleryWrapper implements EditionGallery,
 		return _editionGallery.getDescriptionCurrentValue();
 	}
 
+	@Override
+	public java.lang.String getEditionsIds() {
+		return _editionGallery.getEditionsIds();
+	}
+
 	/**
-	* Returns the image of this edition gallery.
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
 	*
-	* @return the image of this edition gallery
+	* @throws PortalException
+	* @throws NumberFormatException
 	*/
 	@Override
-	public java.lang.String getImage() {
-		return _editionGallery.getImage();
+	public java.lang.String getImageURL() {
+		return _editionGallery.getImageURL();
 	}
 
 	/**
@@ -474,6 +490,11 @@ public class EditionGalleryWrapper implements EditionGallery,
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _editionGallery.getCategories();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions() {
+		return _editionGallery.getEditions();
 	}
 
 	/**
@@ -690,13 +711,13 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
-	* Sets the image of this edition gallery.
+	* Sets the image ID of this edition gallery.
 	*
-	* @param image the image of this edition gallery
+	* @param imageId the image ID of this edition gallery
 	*/
 	@Override
-	public void setImage(java.lang.String image) {
-		_editionGallery.setImage(image);
+	public void setImageId(java.lang.Long imageId) {
+		_editionGallery.setImageId(imageId);
 	}
 
 	/**

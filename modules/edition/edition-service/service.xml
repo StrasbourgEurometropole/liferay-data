@@ -25,7 +25,6 @@
         <column name="title" type="String" localized="true" />
         <column name="subtitle" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
-        <column name="image" type="String" />
         <column name="URL" type="String" localized="true" />
         <column name="author" type="String" localized="true" />
         <column name="editor" type="String" localized="true" />
@@ -39,7 +38,10 @@
         <column name="pictureNumber" type="String" />
 		<column name="publicationDate" type="Date" />
 		<column name="status" type="boolean" />
-		<column name="galleryId" type="Long" />
+		
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="galleries" type="Collection" entity="EditionGallery" mapping-table="EditionToEditionGallery" />
 
 		<!-- Order -->
 		<order by="desc">
@@ -80,11 +82,13 @@
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="editions" type="Collection" entity="Edition" mapping-table="EditionToEditionGallery" />
 
 		<!-- Other fields -->
         <column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
-        <column name="image" type="String" />
         <column name="publicationDate" type="Date" />
         <column name="status" type="boolean" />
 

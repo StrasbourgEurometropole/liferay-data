@@ -42,9 +42,9 @@ public class EditionGallerySoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setImageId(model.getImageId());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setImage(model.getImage());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setStatus(model.getStatus());
 
@@ -163,6 +163,14 @@ public class EditionGallerySoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public Long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
+	}
+
 	public String getTitle() {
 		return _title;
 	}
@@ -177,14 +185,6 @@ public class EditionGallerySoap implements Serializable {
 
 	public void setDescription(String description) {
 		_description = description;
-	}
-
-	public String getImage() {
-		return _image;
-	}
-
-	public void setImage(String image) {
-		_image = image;
 	}
 
 	public Date getPublicationDate() {
@@ -215,9 +215,9 @@ public class EditionGallerySoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private Long _imageId;
 	private String _title;
 	private String _description;
-	private String _image;
 	private Date _publicationDate;
 	private boolean _status;
 }

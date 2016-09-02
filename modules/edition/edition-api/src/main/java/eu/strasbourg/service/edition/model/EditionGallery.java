@@ -64,4 +64,16 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	*
+	* @throws PortalException
+	* @throws NumberFormatException
+	*/
+	public java.lang.String getImageURL();
+
+	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions();
+
+	public java.lang.String getEditionsIds();
 }

@@ -429,6 +429,133 @@ public abstract class EditionLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addEditionGalleryEdition(long galleryId, long editionId) {
+		editionGalleryPersistence.addEdition(galleryId, editionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void addEditionGalleryEdition(long galleryId, Edition edition) {
+		editionGalleryPersistence.addEdition(galleryId, edition);
+	}
+
+	/**
+	 */
+	@Override
+	public void addEditionGalleryEditions(long galleryId, long[] editionIds) {
+		editionGalleryPersistence.addEditions(galleryId, editionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void addEditionGalleryEditions(long galleryId, List<Edition> editions) {
+		editionGalleryPersistence.addEditions(galleryId, editions);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearEditionGalleryEditions(long galleryId) {
+		editionGalleryPersistence.clearEditions(galleryId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteEditionGalleryEdition(long galleryId, long editionId) {
+		editionGalleryPersistence.removeEdition(galleryId, editionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteEditionGalleryEdition(long galleryId, Edition edition) {
+		editionGalleryPersistence.removeEdition(galleryId, edition);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteEditionGalleryEditions(long galleryId, long[] editionIds) {
+		editionGalleryPersistence.removeEditions(galleryId, editionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteEditionGalleryEditions(long galleryId,
+		List<Edition> editions) {
+		editionGalleryPersistence.removeEditions(galleryId, editions);
+	}
+
+	/**
+	 * Returns the galleryIds of the edition galleries associated with the edition.
+	 *
+	 * @param editionId the editionId of the edition
+	 * @return long[] the galleryIds of edition galleries associated with the edition
+	 */
+	@Override
+	public long[] getEditionGalleryPrimaryKeys(long editionId) {
+		return editionPersistence.getEditionGalleryPrimaryKeys(editionId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Edition> getEditionGalleryEditions(long galleryId) {
+		return editionGalleryPersistence.getEditions(galleryId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Edition> getEditionGalleryEditions(long galleryId, int start,
+		int end) {
+		return editionGalleryPersistence.getEditions(galleryId, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Edition> getEditionGalleryEditions(long galleryId, int start,
+		int end, OrderByComparator<Edition> orderByComparator) {
+		return editionGalleryPersistence.getEditions(galleryId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getEditionGalleryEditionsCount(long galleryId) {
+		return editionGalleryPersistence.getEditionsSize(galleryId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasEditionGalleryEdition(long galleryId, long editionId) {
+		return editionGalleryPersistence.containsEdition(galleryId, editionId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasEditionGalleryEditions(long galleryId) {
+		return editionGalleryPersistence.containsEditions(galleryId);
+	}
+
+	/**
+	 */
+	@Override
+	public void setEditionGalleryEditions(long galleryId, long[] editionIds) {
+		editionGalleryPersistence.setEditions(galleryId, editionIds);
+	}
+
+	/**
 	 * Returns the edition local service.
 	 *
 	 * @return the edition local service

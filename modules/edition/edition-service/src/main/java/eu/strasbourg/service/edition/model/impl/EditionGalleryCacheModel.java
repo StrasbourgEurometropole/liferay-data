@@ -84,12 +84,12 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", imageId=");
+		sb.append(imageId);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", image=");
-		sb.append(image);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", status=");
@@ -136,6 +136,8 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 			editionGalleryImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		editionGalleryImpl.setImageId(imageId);
+
 		if (title == null) {
 			editionGalleryImpl.setTitle(StringPool.BLANK);
 		}
@@ -148,13 +150,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		}
 		else {
 			editionGalleryImpl.setDescription(description);
-		}
-
-		if (image == null) {
-			editionGalleryImpl.setImage(StringPool.BLANK);
-		}
-		else {
-			editionGalleryImpl.setImage(image);
 		}
 
 		if (publicationDate == Long.MIN_VALUE) {
@@ -185,9 +180,10 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
+		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
-		image = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 
 		status = objectInput.readBoolean();
@@ -221,6 +217,8 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
+		objectOutput.writeLong(imageId);
+
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -233,13 +231,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		}
 		else {
 			objectOutput.writeUTF(description);
-		}
-
-		if (image == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(image);
 		}
 
 		objectOutput.writeLong(publicationDate);
@@ -255,9 +246,9 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long imageId;
 	public String title;
 	public String description;
-	public String image;
 	public long publicationDate;
 	public boolean status;
 }

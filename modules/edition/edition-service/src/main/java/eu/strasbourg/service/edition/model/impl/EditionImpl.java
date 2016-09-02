@@ -21,16 +21,24 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 
 /**
- * The extended model implementation for the Edition service. Represents a row in the &quot;edition&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the Edition service. Represents a row
+ * in the &quot;edition&quot; database table, with each column mapped to a
+ * property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.edition.model.Edition} interface.
+ * Helper methods and all application logic should be put in this class.
+ * Whenever methods are added, rerun ServiceBuilder to copy their definitions
+ * into the {@link eu.strasbourg.service.edition.model.Edition} interface.
  * </p>
  *
  * @author BenjaminBini
@@ -40,33 +48,74 @@ public class EditionImpl extends EditionBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a edition model instance should use the {@link eu.strasbourg.service.edition.model.Edition} interface instead.
+	 * Never reference this class directly. All methods that expect a edition
+	 * model instance should use the {@link
+	 * eu.strasbourg.service.edition.model.Edition} interface instead.
 	 */
 	public EditionImpl() {
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry rattachée à cet item
 	 */
 	public AssetEntry getAssetEntry() {
 		try {
-			return AssetEntryLocalServiceUtil.getEntry(Edition.class.getName(), this.getEditionId());
+			return AssetEntryLocalServiceUtil.getEntry(Edition.class.getName(),
+				this.getEditionId());
 		} catch (PortalException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
 	 */
 	public List<AssetCategory> getCategories() throws PortalException {
 		AssetEntry entry = this.getAssetEntry();
 		long[] categoryIds = entry.getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		for (long categoryId : categoryIds) {
-			categories.add(AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
+			categories.add(
+				AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
 		}
 		return categories;
 	}
+
+	/**
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * 
+	 * @throws PortalException
+	 * @throws NumberFormatException
+	 */
+	public String getImageURL() {
+		String fileURL = "";
+		DLFileEntry file = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntry(this.getImageId());
+		if (file != null) {
+			fileURL = "/documents/" + file.getGroupId() + "/"
+				+ file.getFolderId() + "/" + file.getTitle() + "/"
+				+ file.getUuid();
+		}
+
+		return fileURL;
+	}
+	
+	public List<EditionGallery> getEditionGalleries() {
+		return EditionGalleryLocalServiceUtil.getEditionEditionGalleries(this.getEditionId());
+	}
+	
+	public String getEditionGalleriesIds() {
+		List<EditionGallery> galleries = this.getEditionGalleries();
+		String ids = "";
+		for (EditionGallery gallery : galleries) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += gallery.getGalleryId();
+		}
+		return ids;
+	}
+	
 }

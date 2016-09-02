@@ -215,6 +215,20 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the image ID of this edition gallery.
+	 *
+	 * @return the image ID of this edition gallery
+	 */
+	public Long getImageId();
+
+	/**
+	 * Sets the image ID of this edition gallery.
+	 *
+	 * @param imageId the image ID of this edition gallery
+	 */
+	public void setImageId(Long imageId);
+
+	/**
 	 * Returns the title of this edition gallery.
 	 *
 	 * @return the title of this edition gallery
@@ -413,21 +427,6 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	 */
 	public void setDescriptionMap(Map<Locale, String> descriptionMap,
 		Locale defaultLocale);
-
-	/**
-	 * Returns the image of this edition gallery.
-	 *
-	 * @return the image of this edition gallery
-	 */
-	@AutoEscape
-	public String getImage();
-
-	/**
-	 * Sets the image of this edition gallery.
-	 *
-	 * @param image the image of this edition gallery
-	 */
-	public void setImage(String image);
 
 	/**
 	 * Returns the publication date of this edition gallery.

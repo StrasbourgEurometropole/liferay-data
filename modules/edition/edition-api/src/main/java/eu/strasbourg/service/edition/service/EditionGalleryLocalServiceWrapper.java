@@ -35,6 +35,17 @@ public class EditionGalleryLocalServiceWrapper
 	}
 
 	@Override
+	public boolean hasEditionEditionGalleries(long editionId) {
+		return _editionGalleryLocalService.hasEditionEditionGalleries(editionId);
+	}
+
+	@Override
+	public boolean hasEditionEditionGallery(long editionId, long galleryId) {
+		return _editionGalleryLocalService.hasEditionEditionGallery(editionId,
+			galleryId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _editionGalleryLocalService.getActionableDynamicQuery();
 	}
@@ -237,6 +248,11 @@ public class EditionGalleryLocalServiceWrapper
 			sc);
 	}
 
+	@Override
+	public int getEditionEditionGalleriesCount(long editionId) {
+		return _editionGalleryLocalService.getEditionEditionGalleriesCount(editionId);
+	}
+
 	/**
 	* Returns the number of edition galleries.
 	*
@@ -311,9 +327,37 @@ public class EditionGalleryLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _editionGalleryLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
 		return _editionGalleryLocalService.getAttachedVocabularies(groupId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId) {
+		return _editionGalleryLocalService.getEditionEditionGalleries(editionId);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId, int start, int end) {
+		return _editionGalleryLocalService.getEditionEditionGalleries(editionId,
+			start, end);
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.edition.model.EditionGallery> orderByComparator) {
+		return _editionGalleryLocalService.getEditionEditionGalleries(editionId,
+			start, end, orderByComparator);
 	}
 
 	/**
@@ -393,11 +437,90 @@ public class EditionGalleryLocalServiceWrapper
 	}
 
 	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _editionGalleryLocalService.findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Returns the editionIds of the editions associated with the edition gallery.
+	*
+	* @param galleryId the galleryId of the edition gallery
+	* @return long[] the editionIds of editions associated with the edition gallery
+	*/
+	@Override
+	public long[] getEditionPrimaryKeys(long galleryId) {
+		return _editionGalleryLocalService.getEditionPrimaryKeys(galleryId);
+	}
+
+	@Override
+	public void addEditionEditionGalleries(long editionId,
+		java.util.List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
+		_editionGalleryLocalService.addEditionEditionGalleries(editionId,
+			editionGalleries);
+	}
+
+	@Override
+	public void addEditionEditionGalleries(long editionId, long[] galleryIds) {
+		_editionGalleryLocalService.addEditionEditionGalleries(editionId,
+			galleryIds);
+	}
+
+	@Override
+	public void addEditionEditionGallery(long editionId,
+		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
+		_editionGalleryLocalService.addEditionEditionGallery(editionId,
+			editionGallery);
+	}
+
+	@Override
+	public void addEditionEditionGallery(long editionId, long galleryId) {
+		_editionGalleryLocalService.addEditionEditionGallery(editionId,
+			galleryId);
+	}
+
+	@Override
 	public void changeStatus(
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery,
 		boolean status)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		_editionGalleryLocalService.changeStatus(editionGallery, status);
+	}
+
+	@Override
+	public void clearEditionEditionGalleries(long editionId) {
+		_editionGalleryLocalService.clearEditionEditionGalleries(editionId);
+	}
+
+	@Override
+	public void deleteEditionEditionGalleries(long editionId,
+		java.util.List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
+		_editionGalleryLocalService.deleteEditionEditionGalleries(editionId,
+			editionGalleries);
+	}
+
+	@Override
+	public void deleteEditionEditionGalleries(long editionId, long[] galleryIds) {
+		_editionGalleryLocalService.deleteEditionEditionGalleries(editionId,
+			galleryIds);
+	}
+
+	@Override
+	public void deleteEditionEditionGallery(long editionId,
+		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
+		_editionGalleryLocalService.deleteEditionEditionGallery(editionId,
+			editionGallery);
+	}
+
+	@Override
+	public void deleteEditionEditionGallery(long editionId, long galleryId) {
+		_editionGalleryLocalService.deleteEditionEditionGallery(editionId,
+			galleryId);
+	}
+
+	@Override
+	public void setEditionEditionGalleries(long editionId, long[] galleryIds) {
+		_editionGalleryLocalService.setEditionEditionGalleries(editionId,
+			galleryIds);
 	}
 
 	@Override

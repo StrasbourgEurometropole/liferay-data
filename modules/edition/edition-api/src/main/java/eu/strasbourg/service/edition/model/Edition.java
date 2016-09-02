@@ -60,8 +60,21 @@ public interface Edition extends EditionModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
+	* Renvoie la liste des AssetCategory rattach�es � cet item (via
+	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	*
+	* @throws PortalException
+	* @throws NumberFormatException
+	*/
+	public java.lang.String getImageURL();
+
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries();
+
+	public java.lang.String getEditionGalleriesIds();
 }

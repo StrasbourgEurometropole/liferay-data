@@ -41,6 +41,15 @@ public class EditionGalleryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.edition.service.impl.EditionGalleryLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean hasEditionEditionGalleries(long editionId) {
+		return getService().hasEditionEditionGalleries(editionId);
+	}
+
+	public static boolean hasEditionEditionGallery(long editionId,
+		long galleryId) {
+		return getService().hasEditionEditionGallery(editionId, galleryId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -222,6 +231,10 @@ public class EditionGalleryLocalServiceUtil {
 		return getService().updateEditionGallery(editionGallery, sc);
 	}
 
+	public static int getEditionEditionGalleriesCount(long editionId) {
+		return getService().getEditionEditionGalleriesCount(editionId);
+	}
+
 	/**
 	* Returns the number of edition galleries.
 	*
@@ -290,9 +303,32 @@ public class EditionGalleryLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
 		return getService().getAttachedVocabularies(groupId);
+	}
+
+	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId) {
+		return getService().getEditionEditionGalleries(editionId);
+	}
+
+	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId, int start, int end) {
+		return getService().getEditionEditionGalleries(editionId, start, end);
+	}
+
+	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
+		long editionId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<eu.strasbourg.service.edition.model.EditionGallery> orderByComparator) {
+		return getService()
+				   .getEditionEditionGalleries(editionId, start, end,
+			orderByComparator);
 	}
 
 	/**
@@ -366,11 +402,73 @@ public class EditionGalleryLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Returns the editionIds of the editions associated with the edition gallery.
+	*
+	* @param galleryId the galleryId of the edition gallery
+	* @return long[] the editionIds of editions associated with the edition gallery
+	*/
+	public static long[] getEditionPrimaryKeys(long galleryId) {
+		return getService().getEditionPrimaryKeys(galleryId);
+	}
+
+	public static void addEditionEditionGalleries(long editionId,
+		java.util.List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
+		getService().addEditionEditionGalleries(editionId, editionGalleries);
+	}
+
+	public static void addEditionEditionGalleries(long editionId,
+		long[] galleryIds) {
+		getService().addEditionEditionGalleries(editionId, galleryIds);
+	}
+
+	public static void addEditionEditionGallery(long editionId,
+		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
+		getService().addEditionEditionGallery(editionId, editionGallery);
+	}
+
+	public static void addEditionEditionGallery(long editionId, long galleryId) {
+		getService().addEditionEditionGallery(editionId, galleryId);
+	}
+
 	public static void changeStatus(
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery,
 		boolean status)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().changeStatus(editionGallery, status);
+	}
+
+	public static void clearEditionEditionGalleries(long editionId) {
+		getService().clearEditionEditionGalleries(editionId);
+	}
+
+	public static void deleteEditionEditionGalleries(long editionId,
+		java.util.List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
+		getService().deleteEditionEditionGalleries(editionId, editionGalleries);
+	}
+
+	public static void deleteEditionEditionGalleries(long editionId,
+		long[] galleryIds) {
+		getService().deleteEditionEditionGalleries(editionId, galleryIds);
+	}
+
+	public static void deleteEditionEditionGallery(long editionId,
+		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
+		getService().deleteEditionEditionGallery(editionId, editionGallery);
+	}
+
+	public static void deleteEditionEditionGallery(long editionId,
+		long galleryId) {
+		getService().deleteEditionEditionGallery(editionId, galleryId);
+	}
+
+	public static void setEditionEditionGalleries(long editionId,
+		long[] galleryIds) {
+		getService().setEditionEditionGalleries(editionId, galleryIds);
 	}
 
 	public static EditionGalleryLocalService getService() {

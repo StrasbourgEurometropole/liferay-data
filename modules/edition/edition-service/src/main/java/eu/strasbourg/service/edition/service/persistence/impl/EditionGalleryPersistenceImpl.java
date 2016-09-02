@@ -16,6 +16,7 @@ package eu.strasbourg.service.edition.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -30,6 +31,10 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -43,6 +48,7 @@ import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.model.impl.EditionGalleryImpl;
 import eu.strasbourg.service.edition.model.impl.EditionGalleryModelImpl;
 import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence;
+import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
 
@@ -2250,6 +2256,8 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 	protected EditionGallery removeImpl(EditionGallery editionGallery) {
 		editionGallery = toUnwrappedModel(editionGallery);
 
+		editionGalleryToEditionTableMapper.deleteLeftPrimaryKeyTableMappings(editionGallery.getPrimaryKey());
+
 		Session session = null;
 
 		try {
@@ -2429,9 +2437,9 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		editionGalleryImpl.setUserName(editionGallery.getUserName());
 		editionGalleryImpl.setCreateDate(editionGallery.getCreateDate());
 		editionGalleryImpl.setModifiedDate(editionGallery.getModifiedDate());
+		editionGalleryImpl.setImageId(editionGallery.getImageId());
 		editionGalleryImpl.setTitle(editionGallery.getTitle());
 		editionGalleryImpl.setDescription(editionGallery.getDescription());
-		editionGalleryImpl.setImage(editionGallery.getImage());
 		editionGalleryImpl.setPublicationDate(editionGallery.getPublicationDate());
 		editionGalleryImpl.setStatus(editionGallery.isStatus());
 
@@ -2819,6 +2827,310 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the primaryKeys of editions associated with the edition gallery.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @return long[] of the primaryKeys of editions associated with the edition gallery
+	 */
+	@Override
+	public long[] getEditionPrimaryKeys(long pk) {
+		long[] pks = editionGalleryToEditionTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.clone();
+	}
+
+	/**
+	 * Returns all the editions associated with the edition gallery.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @return the editions associated with the edition gallery
+	 */
+	@Override
+	public List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk) {
+		return getEditions(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the editions associated with the edition gallery.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param start the lower bound of the range of edition galleries
+	 * @param end the upper bound of the range of edition galleries (not inclusive)
+	 * @return the range of editions associated with the edition gallery
+	 */
+	@Override
+	public List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk, int start, int end) {
+		return getEditions(pk, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the editions associated with the edition gallery.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param start the lower bound of the range of edition galleries
+	 * @param end the upper bound of the range of edition galleries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of editions associated with the edition gallery
+	 */
+	@Override
+	public List<eu.strasbourg.service.edition.model.Edition> getEditions(
+		long pk, int start, int end,
+		OrderByComparator<eu.strasbourg.service.edition.model.Edition> orderByComparator) {
+		return editionGalleryToEditionTableMapper.getRightBaseModels(pk, start,
+			end, orderByComparator);
+	}
+
+	/**
+	 * Returns the number of editions associated with the edition gallery.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @return the number of editions associated with the edition gallery
+	 */
+	@Override
+	public int getEditionsSize(long pk) {
+		long[] pks = editionGalleryToEditionTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.length;
+	}
+
+	/**
+	 * Returns <code>true</code> if the edition is associated with the edition gallery.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPK the primary key of the edition
+	 * @return <code>true</code> if the edition is associated with the edition gallery; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsEdition(long pk, long editionPK) {
+		return editionGalleryToEditionTableMapper.containsTableMapping(pk,
+			editionPK);
+	}
+
+	/**
+	 * Returns <code>true</code> if the edition gallery has any editions associated with it.
+	 *
+	 * @param pk the primary key of the edition gallery to check for associations with editions
+	 * @return <code>true</code> if the edition gallery has any editions associated with it; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsEditions(long pk) {
+		if (getEditionsSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds an association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPK the primary key of the edition
+	 */
+	@Override
+	public void addEdition(long pk, long editionPK) {
+		EditionGallery editionGallery = fetchByPrimaryKey(pk);
+
+		if (editionGallery == null) {
+			editionGalleryToEditionTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, editionPK);
+		}
+		else {
+			editionGalleryToEditionTableMapper.addTableMapping(editionGallery.getCompanyId(),
+				pk, editionPK);
+		}
+	}
+
+	/**
+	 * Adds an association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param edition the edition
+	 */
+	@Override
+	public void addEdition(long pk,
+		eu.strasbourg.service.edition.model.Edition edition) {
+		EditionGallery editionGallery = fetchByPrimaryKey(pk);
+
+		if (editionGallery == null) {
+			editionGalleryToEditionTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, edition.getPrimaryKey());
+		}
+		else {
+			editionGalleryToEditionTableMapper.addTableMapping(editionGallery.getCompanyId(),
+				pk, edition.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Adds an association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPKs the primary keys of the editions
+	 */
+	@Override
+	public void addEditions(long pk, long[] editionPKs) {
+		long companyId = 0;
+
+		EditionGallery editionGallery = fetchByPrimaryKey(pk);
+
+		if (editionGallery == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = editionGallery.getCompanyId();
+		}
+
+		editionGalleryToEditionTableMapper.addTableMappings(companyId, pk,
+			editionPKs);
+	}
+
+	/**
+	 * Adds an association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editions the editions
+	 */
+	@Override
+	public void addEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		addEditions(pk,
+			ListUtil.toLongArray(editions,
+				eu.strasbourg.service.edition.model.Edition.EDITION_ID_ACCESSOR));
+	}
+
+	/**
+	 * Clears all associations between the edition gallery and its editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery to clear the associated editions from
+	 */
+	@Override
+	public void clearEditions(long pk) {
+		editionGalleryToEditionTableMapper.deleteLeftPrimaryKeyTableMappings(pk);
+	}
+
+	/**
+	 * Removes the association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPK the primary key of the edition
+	 */
+	@Override
+	public void removeEdition(long pk, long editionPK) {
+		editionGalleryToEditionTableMapper.deleteTableMapping(pk, editionPK);
+	}
+
+	/**
+	 * Removes the association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param edition the edition
+	 */
+	@Override
+	public void removeEdition(long pk,
+		eu.strasbourg.service.edition.model.Edition edition) {
+		editionGalleryToEditionTableMapper.deleteTableMapping(pk,
+			edition.getPrimaryKey());
+	}
+
+	/**
+	 * Removes the association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPKs the primary keys of the editions
+	 */
+	@Override
+	public void removeEditions(long pk, long[] editionPKs) {
+		editionGalleryToEditionTableMapper.deleteTableMappings(pk, editionPKs);
+	}
+
+	/**
+	 * Removes the association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editions the editions
+	 */
+	@Override
+	public void removeEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		removeEditions(pk,
+			ListUtil.toLongArray(editions,
+				eu.strasbourg.service.edition.model.Edition.EDITION_ID_ACCESSOR));
+	}
+
+	/**
+	 * Sets the editions associated with the edition gallery, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editionPKs the primary keys of the editions to be associated with the edition gallery
+	 */
+	@Override
+	public void setEditions(long pk, long[] editionPKs) {
+		Set<Long> newEditionPKsSet = SetUtil.fromArray(editionPKs);
+		Set<Long> oldEditionPKsSet = SetUtil.fromArray(editionGalleryToEditionTableMapper.getRightPrimaryKeys(
+					pk));
+
+		Set<Long> removeEditionPKsSet = new HashSet<Long>(oldEditionPKsSet);
+
+		removeEditionPKsSet.removeAll(newEditionPKsSet);
+
+		editionGalleryToEditionTableMapper.deleteTableMappings(pk,
+			ArrayUtil.toLongArray(removeEditionPKsSet));
+
+		newEditionPKsSet.removeAll(oldEditionPKsSet);
+
+		long companyId = 0;
+
+		EditionGallery editionGallery = fetchByPrimaryKey(pk);
+
+		if (editionGallery == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = editionGallery.getCompanyId();
+		}
+
+		editionGalleryToEditionTableMapper.addTableMappings(companyId, pk,
+			ArrayUtil.toLongArray(newEditionPKsSet));
+	}
+
+	/**
+	 * Sets the editions associated with the edition gallery, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the edition gallery
+	 * @param editions the editions to be associated with the edition gallery
+	 */
+	@Override
+	public void setEditions(long pk,
+		List<eu.strasbourg.service.edition.model.Edition> editions) {
+		try {
+			long[] editionPKs = new long[editions.size()];
+
+			for (int i = 0; i < editions.size(); i++) {
+				eu.strasbourg.service.edition.model.Edition edition = editions.get(i);
+
+				editionPKs[i] = edition.getPrimaryKey();
+			}
+
+			setEditions(pk, editionPKs);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+	}
+
 	@Override
 	public Set<String> getBadColumnNames() {
 		return _badColumnNames;
@@ -2833,6 +3145,8 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 	 * Initializes the edition gallery persistence.
 	 */
 	public void afterPropertiesSet() {
+		editionGalleryToEditionTableMapper = TableMapperFactory.getTableMapper("edition_EditionToEditionGallery",
+				"companyId", "galleryId", "editionId", this, editionPersistence);
 	}
 
 	public void destroy() {
@@ -2840,6 +3154,8 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		TableMapperFactory.removeTableMapper("edition_EditionToEditionGallery");
 	}
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
@@ -2848,6 +3164,9 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+	@BeanReference(type = EditionPersistence.class)
+	protected EditionPersistence editionPersistence;
+	protected TableMapper<EditionGallery, eu.strasbourg.service.edition.model.Edition> editionGalleryToEditionTableMapper;
 	private static final String _SQL_SELECT_EDITIONGALLERY = "SELECT editionGallery FROM EditionGallery editionGallery";
 	private static final String _SQL_SELECT_EDITIONGALLERY_WHERE_PKS_IN = "SELECT editionGallery FROM EditionGallery editionGallery WHERE galleryId IN (";
 	private static final String _SQL_SELECT_EDITIONGALLERY_WHERE = "SELECT editionGallery FROM EditionGallery editionGallery WHERE ";

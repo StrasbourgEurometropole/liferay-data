@@ -65,7 +65,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -89,8 +89,6 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		sb.append(subtitle);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", image=");
-		sb.append(image);
 		sb.append(", URL=");
 		sb.append(URL);
 		sb.append(", author=");
@@ -117,8 +115,8 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		sb.append(publicationDate);
 		sb.append(", status=");
 		sb.append(status);
-		sb.append(", galleryId=");
-		sb.append(galleryId);
+		sb.append(", imageId=");
+		sb.append(imageId);
 		sb.append("}");
 
 		return sb.toString();
@@ -180,13 +178,6 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 		else {
 			editionImpl.setDescription(description);
-		}
-
-		if (image == null) {
-			editionImpl.setImage(StringPool.BLANK);
-		}
-		else {
-			editionImpl.setImage(image);
 		}
 
 		if (URL == null) {
@@ -263,7 +254,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 
 		editionImpl.setStatus(status);
-		editionImpl.setGalleryId(galleryId);
+		editionImpl.setImageId(imageId);
 
 		editionImpl.resetOriginalValues();
 
@@ -287,7 +278,6 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
 		description = objectInput.readUTF();
-		image = objectInput.readUTF();
 		URL = objectInput.readUTF();
 		author = objectInput.readUTF();
 		editor = objectInput.readUTF();
@@ -305,7 +295,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 		status = objectInput.readBoolean();
 
-		galleryId = objectInput.readLong();
+		imageId = objectInput.readLong();
 	}
 
 	@Override
@@ -355,13 +345,6 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(description);
-		}
-
-		if (image == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(image);
 		}
 
 		if (URL == null) {
@@ -435,7 +418,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 		objectOutput.writeBoolean(status);
 
-		objectOutput.writeLong(galleryId);
+		objectOutput.writeLong(imageId);
 	}
 
 	public String uuid;
@@ -449,7 +432,6 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public String title;
 	public String subtitle;
 	public String description;
-	public String image;
 	public String URL;
 	public String author;
 	public String editor;
@@ -463,5 +445,5 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public String pictureNumber;
 	public long publicationDate;
 	public boolean status;
-	public long galleryId;
+	public long imageId;
 }

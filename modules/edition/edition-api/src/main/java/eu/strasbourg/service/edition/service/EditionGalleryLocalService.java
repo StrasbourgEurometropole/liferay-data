@@ -70,6 +70,12 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	 * Never modify or reference this interface directly. Always use {@link EditionGalleryLocalServiceUtil} to access the edition gallery local service. Add custom service methods to {@link eu.strasbourg.service.edition.service.impl.EditionGalleryLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasEditionEditionGalleries(long editionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasEditionEditionGallery(long editionId, long galleryId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
@@ -211,6 +217,9 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public EditionGallery updateEditionGallery(EditionGallery editionGallery,
 		ServiceContext sc) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getEditionEditionGalleriesCount(long editionId);
+
 	/**
 	* Returns the number of edition galleries.
 	*
@@ -265,8 +274,22 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	public List<EditionGallery> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EditionGallery> getEditionEditionGalleries(long editionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EditionGallery> getEditionEditionGalleries(long editionId,
+		int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EditionGallery> getEditionEditionGalleries(long editionId,
+		int start, int end, OrderByComparator<EditionGallery> orderByComparator);
 
 	/**
 	* Returns a range of all the edition galleries.
@@ -326,6 +349,41 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
 
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Returns the editionIds of the editions associated with the edition gallery.
+	*
+	* @param galleryId the galleryId of the edition gallery
+	* @return long[] the editionIds of editions associated with the edition gallery
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getEditionPrimaryKeys(long galleryId);
+
+	public void addEditionEditionGalleries(long editionId,
+		List<EditionGallery> editionGalleries);
+
+	public void addEditionEditionGalleries(long editionId, long[] galleryIds);
+
+	public void addEditionEditionGallery(long editionId,
+		EditionGallery editionGallery);
+
+	public void addEditionEditionGallery(long editionId, long galleryId);
+
 	public void changeStatus(EditionGallery editionGallery, boolean status)
 		throws PortalException;
+
+	public void clearEditionEditionGalleries(long editionId);
+
+	public void deleteEditionEditionGalleries(long editionId,
+		List<EditionGallery> editionGalleries);
+
+	public void deleteEditionEditionGalleries(long editionId, long[] galleryIds);
+
+	public void deleteEditionEditionGallery(long editionId,
+		EditionGallery editionGallery);
+
+	public void deleteEditionEditionGallery(long editionId, long galleryId);
+
+	public void setEditionEditionGalleries(long editionId, long[] galleryIds);
 }

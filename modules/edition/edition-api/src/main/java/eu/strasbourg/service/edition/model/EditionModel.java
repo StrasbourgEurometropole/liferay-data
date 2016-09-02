@@ -515,21 +515,6 @@ public interface EditionModel extends BaseModel<Edition>, GroupedModel,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the image of this edition.
-	 *
-	 * @return the image of this edition
-	 */
-	@AutoEscape
-	public String getImage();
-
-	/**
-	 * Sets the image of this edition.
-	 *
-	 * @param image the image of this edition
-	 */
-	public void setImage(String image);
-
-	/**
 	 * Returns the u r l of this edition.
 	 *
 	 * @return the u r l of this edition
@@ -994,18 +979,18 @@ public interface EditionModel extends BaseModel<Edition>, GroupedModel,
 	public void setStatus(boolean status);
 
 	/**
-	 * Returns the gallery ID of this edition.
+	 * Returns the image ID of this edition.
 	 *
-	 * @return the gallery ID of this edition
+	 * @return the image ID of this edition
 	 */
-	public Long getGalleryId();
+	public Long getImageId();
 
 	/**
-	 * Sets the gallery ID of this edition.
+	 * Sets the image ID of this edition.
 	 *
-	 * @param galleryId the gallery ID of this edition
+	 * @param imageId the image ID of this edition
 	 */
-	public void setGalleryId(Long galleryId);
+	public void setImageId(Long imageId);
 
 	@Override
 	public boolean isNew();

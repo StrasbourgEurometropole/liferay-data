@@ -45,7 +45,6 @@ public class EditionSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setSubtitle(model.getSubtitle());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setImage(model.getImage());
 		soapModel.setURL(model.getURL());
 		soapModel.setAuthor(model.getAuthor());
 		soapModel.setEditor(model.getEditor());
@@ -59,7 +58,7 @@ public class EditionSoap implements Serializable {
 		soapModel.setPictureNumber(model.getPictureNumber());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setStatus(model.getStatus());
-		soapModel.setGalleryId(model.getGalleryId());
+		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
 	}
@@ -200,14 +199,6 @@ public class EditionSoap implements Serializable {
 		_description = description;
 	}
 
-	public String getImage() {
-		return _image;
-	}
-
-	public void setImage(String image) {
-		_image = image;
-	}
-
 	public String getURL() {
 		return _URL;
 	}
@@ -324,12 +315,12 @@ public class EditionSoap implements Serializable {
 		_status = status;
 	}
 
-	public Long getGalleryId() {
-		return _galleryId;
+	public Long getImageId() {
+		return _imageId;
 	}
 
-	public void setGalleryId(Long galleryId) {
-		_galleryId = galleryId;
+	public void setImageId(Long imageId) {
+		_imageId = imageId;
 	}
 
 	private String _uuid;
@@ -343,7 +334,6 @@ public class EditionSoap implements Serializable {
 	private String _title;
 	private String _subtitle;
 	private String _description;
-	private String _image;
 	private String _URL;
 	private String _author;
 	private String _editor;
@@ -357,5 +347,5 @@ public class EditionSoap implements Serializable {
 	private String _pictureNumber;
 	private Date _publicationDate;
 	private boolean _status;
-	private Long _galleryId;
+	private Long _imageId;
 }

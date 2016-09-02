@@ -21,10 +21,14 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 
 /**
  * The extended model implementation for the EditionGallery service. Represents a row in the &quot;edition_EditionGallery&quot; database table, with each column mapped to a property of this class.
@@ -68,5 +72,40 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 			categories.add(AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
 		}
 		return categories;
+	}
+
+	/**
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * 
+	 * @throws PortalException
+	 * @throws NumberFormatException
+	 */
+	public String getImageURL() {
+		String fileURL = "";
+		DLFileEntry file = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntry(this.getImageId());
+		if (file != null) {
+			fileURL = "/documents/" + file.getGroupId() + "/"
+				+ file.getFolderId() + "/" + file.getTitle() + "/"
+				+ file.getUuid();
+		}
+
+		return fileURL;
+	}
+
+	public List<Edition> getEditions() {
+		return EditionLocalServiceUtil.getEditionGalleryEditions(this.getGalleryId());
+	}
+	
+	public String getEditionsIds() {
+		List<Edition> editions = this.getEditions();
+		String ids = "";
+		for (Edition edition : editions) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += edition.getEditionId();
+		}
+		return ids;
 	}
 }
