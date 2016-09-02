@@ -1,2 +1,3 @@
 Bundle-SymbolicName: edition.web
 Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.edition.itemselector
