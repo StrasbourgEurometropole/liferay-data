@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.artwork.action;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -71,13 +73,25 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 			String description = ParamUtil.getString(request, "description");
 			collection.setDescription(description);
 			
-			String image = ParamUtil.getString(request, "image");
-			collection.setImage(image);
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			collection.setImageId(imageId);
 
 			Map<Locale, String> contributors = LocalizationUtil
 				.getLocalizationMap(request, "contributors");
 			collection.setContributorsMap(contributors);
 
+			// Artworks
+			List<Artwork> artworks = collection.getArtworks();
+			for (Artwork artwork : artworks) {
+				_artworkCollectionLocalService.deleteArtworkArtworkCollection(artwork.getArtworkId(), collection);
+			}
+			long[] artworksIds = ParamUtil.getLongValues(request, "artworksIds");
+			for (long artworkId : artworksIds) {
+				if (artworkId > 0) {
+					_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId, collection);
+				}
+			}
+			
 			// Status
 			String forceStatus = ParamUtil.getString(request, "forceStatus");
 			if (forceStatus.equals("publish")) {

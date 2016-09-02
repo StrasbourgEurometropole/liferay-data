@@ -35,10 +35,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="image">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
+				<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.collection.imageId}"/>
 
 				<label><liferay-ui:message key="Description" /></label>
 				<liferay-ui:input-editor
@@ -48,6 +45,12 @@
 				<aui:input type="hidden" name="description" />
 
 				<aui:input name="contributors" />
+				
+				<strasbourg-picker:entity label="artworks" name="artworksIds"
+					value="${dc.collection.artworksIds}"
+					type="eu.strasbourg.service.artwork.model.Artwork"
+					multiple="true" />
+					
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"

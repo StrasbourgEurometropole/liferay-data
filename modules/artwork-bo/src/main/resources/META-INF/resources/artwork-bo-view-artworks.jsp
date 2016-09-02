@@ -99,7 +99,7 @@
 				</liferay-portlet:renderURL>
 					
 				<liferay-ui:search-container-column-text>
-					<img src="${artwork.image}" style="max-height:120px;"/>
+					<img src="${artwork.imageURL}" style="max-height:120px;"/>
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"

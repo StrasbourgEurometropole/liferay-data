@@ -33,34 +33,10 @@
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
-
-				<aui:input name="image">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
-
-				<div id="dynamicImages">
-					<div class="lfr-form-row">
-						<aui:input fieldParam="image0" id="image0" name="image0" type="text" label="other-image"/>
-					</div>
-					
-					<c:set var="images" value="${fn:split(dc.artwork.images, ',')}" />
-					<c:forEach var="image" items="${images}" varStatus="imagesStatus">
-						<div class="lfr-form-row">
-							<aui:input fieldParam="image${imagesStatus.count}"
-								id="image${imagesStatus.count}" name="image${imagesStatus.count}"
-								type="text" label="other-image" value="${image}"/>
-						</div>
-					</c:forEach>
-				</div>
 				
+				<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.artwork.imageId}" multiple="false"/>
 				
-				<aui:script use="liferay-auto-fields">
-					new Liferay.AutoFields({
-						contentBox : '#dynamicImages', // this is the container within which the fields would be added dynamically
-						fieldIndexes : '<portlet:namespace />imagesIndexes' // this is the field which will store the values of the 
-					}).render();
-				</aui:script>
+				<strasbourg-picker:image label="additional-images" name="imagesIds" value="${dc.artwork.imagesIds}" multiple="true"/>
 				
 				<label><liferay-ui:message key="Description" /></label>
 				<liferay-ui:input-editor
@@ -80,6 +56,11 @@
 				<aui:input name="artistName" />
 				<aui:input name="creationYear" />
 				<aui:input name="origin" />
+				
+				<strasbourg-picker:entity label="collections" name="collectionsIds"
+					value="${dc.artwork.artworkCollectionsIds}"
+					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
+					multiple="true" />
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"

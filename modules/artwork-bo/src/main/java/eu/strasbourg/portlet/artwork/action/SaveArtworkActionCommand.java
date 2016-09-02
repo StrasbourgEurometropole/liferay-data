@@ -15,7 +15,7 @@
  */
 package eu.strasbourg.portlet.artwork.action;
 
-import java.text.ParseException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,10 +33,10 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.artwork.model.Artwork;
+import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -72,24 +72,12 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 			String description = ParamUtil.getString(request, "description");
 			artwork.setDescription(description);
 
-			String image = ParamUtil.getString(request, "image");
-			artwork.setImage(image);
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			artwork.setImageId(imageId);
 
-			String images = "";
-			long[] imagesIndexes = ParamUtil.getLongValues(request,
-				"imagesIndexes");
-			for (long imageIndex : imagesIndexes) {
-				String nextImage = ParamUtil.getString(request,
-					"image" + imageIndex);
-				if (Validator.isNotNull(nextImage)) {
-					if (images.length() > 0) {
-						images += ",";
-					}
-					images += nextImage;
-				}
-			}
-			artwork.setImages(images);
-
+			String imagesIds = ParamUtil.getString(request, "imagesIds");
+			artwork.setImagesIds(imagesIds);
+			
 			String technicalInformation = ParamUtil.getString(request,
 				"technicalInformation");
 			artwork.setTechnicalInformation(technicalInformation);
@@ -129,6 +117,19 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 			Map<Locale, String> link = LocalizationUtil
 				.getLocalizationMap(request, "link");
 			artwork.setLinkMap(link);
+			
+			// Collections
+			List<ArtworkCollection> artworkCollections = artwork.getArtworkCollections();
+			for (ArtworkCollection artworkCollection : artworkCollections) {
+				_artworkLocalService.deleteArtworkCollectionArtwork(artworkCollection.getCollectionId(), artwork);
+			}
+			long[] collectionsIds = ParamUtil.getLongValues(request, "collectionsIds");
+			for (long collectionId : collectionsIds) {
+				if (collectionId > 0) {
+					_artworkLocalService.addArtworkCollectionArtwork(collectionId, artwork);
+				}
+			}
+			
 
 			// Status
 			String forceStatus = ParamUtil.getString(request, "forceStatus");
