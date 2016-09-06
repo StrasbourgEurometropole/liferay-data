@@ -29,6 +29,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
+import eu.strasbourg.utils.DLFileEntryHelper;
 
 /**
  * The extended model implementation for the Artwork service. Represents a row
@@ -83,16 +84,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 * @throws NumberFormatException
 	 */
 	public String getImageURL() {
-		String fileURL = "";
-		DLFileEntry file = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(this.getImageId());
-		if (file != null) {
-			fileURL = "/documents/" + file.getGroupId() + "/"
-				+ file.getFolderId() + "/" + file.getTitle() + "/"
-				+ file.getUuid();
-		}
-
-		return fileURL;
+		return DLFileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 	
 	public List<ArtworkCollection> getArtworkCollections() {

@@ -29,6 +29,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.utils.DLFileEntryHelper;
 
 /**
  * The extended model implementation for the EditionGallery service. Represents a row in the &quot;edition_EditionGallery&quot; database table, with each column mapped to a property of this class.
@@ -81,16 +82,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	 * @throws NumberFormatException
 	 */
 	public String getImageURL() {
-		String fileURL = "";
-		DLFileEntry file = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(this.getImageId());
-		if (file != null) {
-			fileURL = "/documents/" + file.getGroupId() + "/"
-				+ file.getFolderId() + "/" + file.getTitle() + "/"
-				+ file.getUuid();
-		}
-
-		return fileURL;
+		return DLFileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 
 	public List<Edition> getEditions() {
