@@ -12,7 +12,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     immediate = true,
     property = {
     	"panel.category.key=" + PanelCategoryKeys.SITE_ADMINISTRATION_CONTENT,
-        "panel.category.order:Integer=1"
+        "panel.category.order:Integer=2"
     },
     service = PanelApp.class
 )
