@@ -69,8 +69,9 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "title");
 			artwork.setTitleMap(title);
 
-			String description = ParamUtil.getString(request, "description");
-			artwork.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+				.getLocalizationMap(request, "description");
+			artwork.setDescriptionMap(description);
 
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			artwork.setImageId(imageId);

@@ -11,7 +11,9 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
-		<field localized="true" name="description" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field localized="true" name="technicalInformation" type="String" />
 		<field localized="true" name="noticeLink" type="String" />
 		<field localized="true" name="artistName" type="String" />
@@ -36,7 +38,9 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
-		<field localized="true" name="description" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field localized="true" name="contributors" type="String" />
 		<field name="status" type="boolean" />
 		<field name="imageId" type="Long" />

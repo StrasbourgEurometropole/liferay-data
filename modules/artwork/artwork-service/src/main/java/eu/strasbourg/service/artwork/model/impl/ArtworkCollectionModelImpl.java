@@ -89,7 +89,7 @@ public class ArtworkCollectionModelImpl extends BaseModelImpl<ArtworkCollection>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "contributors", Types.VARCHAR },
 			{ "status", Types.BOOLEAN },
 			{ "imageId", Types.BIGINT }
@@ -106,13 +106,13 @@ public class ArtworkCollectionModelImpl extends BaseModelImpl<ArtworkCollection>
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("contributors", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table artwork_ArtworkCollection (uuid_ VARCHAR(75) null,collectionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description STRING null,contributors STRING null,status BOOLEAN,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table artwork_ArtworkCollection (uuid_ VARCHAR(75) null,collectionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,contributors STRING null,status BOOLEAN,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table artwork_ArtworkCollection";
 	public static final String ORDER_BY_JPQL = " ORDER BY artworkCollection.collectionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY artwork_ArtworkCollection.collectionId ASC";

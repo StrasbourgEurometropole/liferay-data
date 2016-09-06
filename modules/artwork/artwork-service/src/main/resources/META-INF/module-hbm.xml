@@ -16,7 +16,7 @@
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="technicalInformation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="noticeLink" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="artistName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -43,7 +43,7 @@
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="contributors" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

@@ -38,14 +38,8 @@
 
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.edition.imageId}" />
-
-				<label><liferay-ui:message key="Description" /></label>
-				<liferay-ui:input-editor
-					contents="${dc.edition.descriptionMap[locale]}"
-					editorName="tinymce" name="descriptionEditor" placeholder="caption"
-					showSource="<%=true %>" />
-				<aui:input type="hidden" name="description" />
-
+				
+				<aui:input name="description" />
 
 				<aui:input name="author">
 					<aui:validator name="required"

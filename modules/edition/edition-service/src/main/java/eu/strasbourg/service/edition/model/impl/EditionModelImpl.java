@@ -120,7 +120,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("URL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("author", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("editor", Types.VARCHAR);
@@ -137,7 +137,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description STRING null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG,fileId STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table edition_Edition";
 	public static final String ORDER_BY_JPQL = " ORDER BY edition.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_Edition.modifiedDate DESC";

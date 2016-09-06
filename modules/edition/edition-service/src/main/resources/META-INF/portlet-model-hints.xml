@@ -12,7 +12,9 @@
 		<field name="modifiedDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="subtitle" type="String" />
-		<field localized="true" name="description" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field localized="true" name="URL" type="String" />
 		<field localized="true" name="author" type="String" />
 		<field localized="true" name="editor" type="String" />
@@ -39,7 +41,9 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="imageId" type="Long" />
 		<field localized="true" name="title" type="String" />
-		<field localized="true" name="description" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="publicationDate" type="Date" />
 		<field name="status" type="boolean" />
 	</model>

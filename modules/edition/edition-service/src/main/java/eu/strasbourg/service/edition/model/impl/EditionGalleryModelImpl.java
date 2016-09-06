@@ -90,7 +90,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "status", Types.BOOLEAN }
 		};
@@ -107,12 +107,12 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,imageId LONG,title STRING null,description STRING null,publicationDate DATE null,status BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,imageId LONG,title STRING null,description TEXT null,publicationDate DATE null,status BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table edition_EditionGallery";
 	public static final String ORDER_BY_JPQL = " ORDER BY editionGallery.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_EditionGallery.title ASC";

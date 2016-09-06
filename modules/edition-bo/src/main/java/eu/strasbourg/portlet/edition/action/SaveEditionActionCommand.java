@@ -78,8 +78,9 @@ public class SaveEditionActionCommand
 				.getLocalizationMap(request, "subtitle");
 			edition.setSubtitleMap(subtitle);
 
-			String description = ParamUtil.getString(request, "description");
-			edition.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+				.getLocalizationMap(request, "description");
+			edition.setDescriptionMap(description);
 			
 			Map<Locale, String> author = LocalizationUtil
 				.getLocalizationMap(request, "author");

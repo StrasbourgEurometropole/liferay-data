@@ -38,12 +38,7 @@
 				
 				<strasbourg-picker:image label="additional-images" name="imagesIds" value="${dc.artwork.imagesIds}" multiple="true"/>
 				
-				<label><liferay-ui:message key="Description" /></label>
-				<liferay-ui:input-editor
-					contents="${dc.artwork.descriptionMap[locale]}"
-					editorName="tinymce" name="descriptionEditor" placeholder="caption"
-					showSource="<%=true %>" />
-				<aui:input type="hidden" name="description" />
+				<aui:input name="description" />
 
 				<label><liferay-ui:message key="technical-information" /></label>
 				<liferay-ui:input-editor

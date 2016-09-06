@@ -57,50 +57,51 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
 					.getSiteGroupIdOrLiveGroupId());
 			long collectionId = ParamUtil.getLong(request, "collectionId");
-			ArtworkCollection collection;
+			ArtworkCollection artworkCollection;
 			if (collectionId == 0) {
-				collection = _artworkCollectionLocalService
+				artworkCollection = _artworkCollectionLocalService
 					.addArtworkCollection();
 			} else {
-				collection = _artworkCollectionLocalService
+				artworkCollection = _artworkCollectionLocalService
 					.getArtworkCollection(collectionId);
 			}
 
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
-			collection.setTitleMap(title);
-
-			String description = ParamUtil.getString(request, "description");
-			collection.setDescription(description);
+			artworkCollection.setTitleMap(title);
+			
+			Map<Locale, String> description = LocalizationUtil
+				.getLocalizationMap(request, "description");
+			artworkCollection.setDescriptionMap(description);
 			
 			Long imageId = ParamUtil.getLong(request, "imageId");
-			collection.setImageId(imageId);
+			artworkCollection.setImageId(imageId);
 
 			Map<Locale, String> contributors = LocalizationUtil
 				.getLocalizationMap(request, "contributors");
-			collection.setContributorsMap(contributors);
+			artworkCollection.setContributorsMap(contributors);
 
 			// Artworks
-			List<Artwork> artworks = collection.getArtworks();
+			List<Artwork> artworks = artworkCollection.getArtworks();
 			for (Artwork artwork : artworks) {
-				_artworkCollectionLocalService.deleteArtworkArtworkCollection(artwork.getArtworkId(), collection);
+				_artworkCollectionLocalService.deleteArtworkArtworkCollection(artwork.getArtworkId(), artworkCollection);
 			}
 			long[] artworksIds = ParamUtil.getLongValues(request, "artworksIds");
 			for (long artworkId : artworksIds) {
 				if (artworkId > 0) {
-					_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId, collection);
+					_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId, artworkCollection);
 				}
 			}
 			
 			// Status
 			String forceStatus = ParamUtil.getString(request, "forceStatus");
 			if (forceStatus.equals("publish")) {
-				collection.setStatus(true);
+				artworkCollection.setStatus(true);
 			} else if (forceStatus.equals("unpublish")) {
-				collection.setStatus(false);
+				artworkCollection.setStatus(false);
 			}
 
-			_artworkCollectionLocalService.updateArtworkCollection(collection,
+			_artworkCollectionLocalService.updateArtworkCollection(artworkCollection,
 				sc);
 		} catch (PortalException e) {
 			e.printStackTrace();

@@ -73,9 +73,10 @@ public class SaveGalleryActionCommand
 			
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			editionGallery.setImageId(imageId);
-			
-			String description = ParamUtil.getString(request, "description");
-			editionGallery.setDescription(description);
+
+			Map<Locale, String> description = LocalizationUtil
+				.getLocalizationMap(request, "description");
+			editionGallery.setDescriptionMap(description);
 
 			String publicationDateString = ParamUtil.getString(request, "publicationDate");
 			Date publicationDate = DateUtil.parseDate(publicationDateString, request.getLocale());

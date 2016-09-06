@@ -17,7 +17,7 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="subtitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="URL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="author" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="editor" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -46,7 +46,7 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
