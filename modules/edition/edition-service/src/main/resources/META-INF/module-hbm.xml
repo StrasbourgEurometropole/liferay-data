@@ -32,6 +32,7 @@
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="fileId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.edition.model.impl.EditionGalleryImpl" table="edition_EditionGallery">
 		<id name="galleryId" type="long">

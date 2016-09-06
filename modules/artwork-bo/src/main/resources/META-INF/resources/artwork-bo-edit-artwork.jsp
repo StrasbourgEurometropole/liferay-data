@@ -51,11 +51,6 @@
 				<aui:input name="artistName" />
 				<aui:input name="creationYear" />
 				<aui:input name="origin" />
-				
-				<strasbourg-picker:entity label="collections" name="collectionsIds"
-					value="${dc.artwork.artworkCollectionsIds}"
-					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
-					multiple="true" />
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
@@ -69,6 +64,12 @@
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
+				
+				<strasbourg-picker:entity label="collections" name="collectionsIds"
+					value="${dc.artwork.artworkCollectionsIds}"
+					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
+					multiple="true" />
+					
 				<aui:input name="categories" type="assetCategories" />
 
 				<aui:input name="tags" type="assetTags" />

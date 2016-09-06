@@ -992,6 +992,105 @@ public interface EditionModel extends BaseModel<Edition>, GroupedModel,
 	 */
 	public void setImageId(Long imageId);
 
+	/**
+	 * Returns the file ID of this edition.
+	 *
+	 * @return the file ID of this edition
+	 */
+	public String getFileId();
+
+	/**
+	 * Returns the localized file ID of this edition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized file ID of this edition
+	 */
+	@AutoEscape
+	public String getFileId(Locale locale);
+
+	/**
+	 * Returns the localized file ID of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized file ID of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getFileId(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized file ID of this edition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized file ID of this edition
+	 */
+	@AutoEscape
+	public String getFileId(String languageId);
+
+	/**
+	 * Returns the localized file ID of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized file ID of this edition
+	 */
+	@AutoEscape
+	public String getFileId(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getFileIdCurrentLanguageId();
+
+	@AutoEscape
+	public String getFileIdCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized file IDs of this edition.
+	 *
+	 * @return the locales and localized file IDs of this edition
+	 */
+	public Map<Locale, String> getFileIdMap();
+
+	/**
+	 * Sets the file ID of this edition.
+	 *
+	 * @param fileId the file ID of this edition
+	 */
+	public void setFileId(String fileId);
+
+	/**
+	 * Sets the localized file ID of this edition in the language.
+	 *
+	 * @param fileId the localized file ID of this edition
+	 * @param locale the locale of the language
+	 */
+	public void setFileId(String fileId, Locale locale);
+
+	/**
+	 * Sets the localized file ID of this edition in the language, and sets the default locale.
+	 *
+	 * @param fileId the localized file ID of this edition
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setFileId(String fileId, Locale locale, Locale defaultLocale);
+
+	public void setFileIdCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized file IDs of this edition from the map of locales and localized file IDs.
+	 *
+	 * @param fileIdMap the locales and localized file IDs of this edition
+	 */
+	public void setFileIdMap(Map<Locale, String> fileIdMap);
+
+	/**
+	 * Sets the localized file IDs of this edition from the map of locales and localized file IDs, and sets the default locale.
+	 *
+	 * @param fileIdMap the locales and localized file IDs of this edition
+	 * @param defaultLocale the default locale
+	 */
+	public void setFileIdMap(Map<Locale, String> fileIdMap, Locale defaultLocale);
+
 	@Override
 	public boolean isNew();
 

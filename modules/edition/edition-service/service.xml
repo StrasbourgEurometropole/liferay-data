@@ -41,6 +41,7 @@
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
+        <column name="fileId" type="String" localized="true" /> <!-- Devrait être Long, mais impossible car localized -->
         <column name="galleries" type="Collection" entity="EditionGallery" mapping-table="EditionToEditionGallery" />
 
 		<!-- Order -->

@@ -94,6 +94,9 @@ public class SaveEditionActionCommand
 				.getLocalizationMap(request, "URL");
 			edition.setURLMap(URL);
 			
+			Map<Locale, String> fileId = LocalizationUtil.getLocalizationMap(request, "fileId");
+			edition.setFileIdMap(fileId);
+			
 			String distribution = ParamUtil.getString(request, "distribution");
 			edition.setDistribution(distribution);
 			

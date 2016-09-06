@@ -51,15 +51,15 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 
-				<strasbourg-picker:entity label="galleries" name="galleriesIds"
-					value="${dc.edition.editionGalleriesIds}"
-					type="eu.strasbourg.service.edition.model.EditionGallery"
-					multiple="true" />
 
 			</aui:fieldset>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="file">
 				<aui:input name="URL" />
+				
+				
+				<strasbourg-picker:file label="file" name="fileId"
+					required="false" value="${dc.edition.fileId}" localized="true" multiple="true" />
 			</aui:fieldset>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="metadata">
@@ -76,6 +76,12 @@
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
+				
+				<strasbourg-picker:entity label="galleries" name="galleriesIds"
+					value="${dc.edition.editionGalleriesIds}"
+					type="eu.strasbourg.service.edition.model.EditionGallery"
+					multiple="true" />
+					
 				<aui:input name="categories" type="assetCategories" />
 
 				<aui:input name="tags" type="assetTags" />

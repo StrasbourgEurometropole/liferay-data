@@ -91,7 +91,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "subtitle", Types.VARCHAR },
-			{ "description", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "URL", Types.VARCHAR },
 			{ "author", Types.VARCHAR },
 			{ "editor", Types.VARCHAR },
@@ -105,7 +105,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "pictureNumber", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "status", Types.BOOLEAN },
-			{ "imageId", Types.BIGINT }
+			{ "imageId", Types.BIGINT },
+			{ "fileId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -135,6 +136,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("fileId", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG,fileId STRING null)";
@@ -197,6 +199,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setStatus(soapModel.getStatus());
 		model.setImageId(soapModel.getImageId());
+		model.setFileId(soapModel.getFileId());
 
 		return model;
 	}
@@ -300,6 +303,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
+		attributes.put("fileId", getFileId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -458,6 +462,12 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		String fileId = (String)attributes.get("fileId");
+
+		if (fileId != null) {
+			setFileId(fileId);
 		}
 	}
 
@@ -1393,6 +1403,105 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		_imageId = imageId;
 	}
 
+	@JSON
+	@Override
+	public String getFileId() {
+		if (_fileId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _fileId;
+		}
+	}
+
+	@Override
+	public String getFileId(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFileId(languageId);
+	}
+
+	@Override
+	public String getFileId(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFileId(languageId, useDefault);
+	}
+
+	@Override
+	public String getFileId(String languageId) {
+		return LocalizationUtil.getLocalization(getFileId(), languageId);
+	}
+
+	@Override
+	public String getFileId(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getFileId(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getFileIdCurrentLanguageId() {
+		return _fileIdCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getFileIdCurrentValue() {
+		Locale locale = getLocale(_fileIdCurrentLanguageId);
+
+		return getFileId(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getFileIdMap() {
+		return LocalizationUtil.getLocalizationMap(getFileId());
+	}
+
+	@Override
+	public void setFileId(String fileId) {
+		_fileId = fileId;
+	}
+
+	@Override
+	public void setFileId(String fileId, Locale locale) {
+		setFileId(fileId, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setFileId(String fileId, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(fileId)) {
+			setFileId(LocalizationUtil.updateLocalization(getFileId(),
+					"FileId", fileId, languageId, defaultLanguageId));
+		}
+		else {
+			setFileId(LocalizationUtil.removeLocalization(getFileId(),
+					"FileId", languageId));
+		}
+	}
+
+	@Override
+	public void setFileIdCurrentLanguageId(String languageId) {
+		_fileIdCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setFileIdMap(Map<Locale, String> fileIdMap) {
+		setFileIdMap(fileIdMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setFileIdMap(Map<Locale, String> fileIdMap, Locale defaultLocale) {
+		if (fileIdMap == null) {
+			return;
+		}
+
+		setFileId(LocalizationUtil.updateLocalization(fileIdMap, getFileId(),
+				"FileId", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -1478,6 +1587,17 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		Map<Locale, String> editorMap = getEditorMap();
 
 		for (Map.Entry<Locale, String> entry : editorMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> fileIdMap = getFileIdMap();
+
+		for (Map.Entry<Locale, String> entry : fileIdMap.entrySet()) {
 			Locale locale = entry.getKey();
 			String value = entry.getValue();
 
@@ -1576,6 +1696,15 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		else {
 			setEditor(getEditor(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String fileId = getFileId(defaultLocale);
+
+		if (Validator.isNull(fileId)) {
+			setFileId(getFileId(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setFileId(getFileId(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1617,6 +1746,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setPublicationDate(getPublicationDate());
 		editionImpl.setStatus(getStatus());
 		editionImpl.setImageId(getImageId());
+		editionImpl.setFileId(getFileId());
 
 		editionImpl.resetOriginalValues();
 
@@ -1855,12 +1985,20 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		editionCacheModel.imageId = getImageId();
 
+		editionCacheModel.fileId = getFileId();
+
+		String fileId = editionCacheModel.fileId;
+
+		if ((fileId != null) && (fileId.length() == 0)) {
+			editionCacheModel.fileId = null;
+		}
+
 		return editionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(51);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1912,6 +2050,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getStatus());
 		sb.append(", imageId=");
 		sb.append(getImageId());
+		sb.append(", fileId=");
+		sb.append(getFileId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1919,7 +2059,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(79);
+		StringBundler sb = new StringBundler(82);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.Edition");
@@ -2025,6 +2165,10 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>fileId</column-name><column-value><![CDATA[");
+		sb.append(getFileId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -2073,6 +2217,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private Date _publicationDate;
 	private boolean _status;
 	private Long _imageId;
+	private String _fileId;
+	private String _fileIdCurrentLanguageId;
 	private long _columnBitmask;
 	private Edition _escapedModel;
 }

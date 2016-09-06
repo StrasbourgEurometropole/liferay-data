@@ -84,6 +84,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
+		attributes.put("fileId", getFileId());
 
 		return attributes;
 	}
@@ -239,6 +240,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 		if (imageId != null) {
 			setImageId(imageId);
+		}
+
+		String fileId = (String)attributes.get("fileId");
+
+		if (fileId != null) {
+			setFileId(fileId);
 		}
 	}
 
@@ -607,6 +614,74 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public java.lang.String getEditorCurrentValue() {
 		return _edition.getEditorCurrentValue();
+	}
+
+	/**
+	* Returns the file ID of this edition.
+	*
+	* @return the file ID of this edition
+	*/
+	@Override
+	public java.lang.String getFileId() {
+		return _edition.getFileId();
+	}
+
+	/**
+	* Returns the localized file ID of this edition in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized file ID of this edition
+	*/
+	@Override
+	public java.lang.String getFileId(java.lang.String languageId) {
+		return _edition.getFileId(languageId);
+	}
+
+	/**
+	* Returns the localized file ID of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized file ID of this edition
+	*/
+	@Override
+	public java.lang.String getFileId(java.lang.String languageId,
+		boolean useDefault) {
+		return _edition.getFileId(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized file ID of this edition in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized file ID of this edition
+	*/
+	@Override
+	public java.lang.String getFileId(java.util.Locale locale) {
+		return _edition.getFileId(locale);
+	}
+
+	/**
+	* Returns the localized file ID of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized file ID of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getFileId(java.util.Locale locale,
+		boolean useDefault) {
+		return _edition.getFileId(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getFileIdCurrentLanguageId() {
+		return _edition.getFileIdCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getFileIdCurrentValue() {
+		return _edition.getFileIdCurrentValue();
 	}
 
 	/**
@@ -983,6 +1058,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Returns a map of the locales and localized file IDs of this edition.
+	*
+	* @return the locales and localized file IDs of this edition
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getFileIdMap() {
+		return _edition.getFileIdMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized subtitles of this edition.
 	*
 	* @return the locales and localized subtitles of this edition
@@ -1347,6 +1432,68 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_edition.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the file ID of this edition.
+	*
+	* @param fileId the file ID of this edition
+	*/
+	@Override
+	public void setFileId(java.lang.String fileId) {
+		_edition.setFileId(fileId);
+	}
+
+	/**
+	* Sets the localized file ID of this edition in the language.
+	*
+	* @param fileId the localized file ID of this edition
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setFileId(java.lang.String fileId, java.util.Locale locale) {
+		_edition.setFileId(fileId, locale);
+	}
+
+	/**
+	* Sets the localized file ID of this edition in the language, and sets the default locale.
+	*
+	* @param fileId the localized file ID of this edition
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFileId(java.lang.String fileId, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_edition.setFileId(fileId, locale, defaultLocale);
+	}
+
+	@Override
+	public void setFileIdCurrentLanguageId(java.lang.String languageId) {
+		_edition.setFileIdCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized file IDs of this edition from the map of locales and localized file IDs.
+	*
+	* @param fileIdMap the locales and localized file IDs of this edition
+	*/
+	@Override
+	public void setFileIdMap(Map<java.util.Locale, java.lang.String> fileIdMap) {
+		_edition.setFileIdMap(fileIdMap);
+	}
+
+	/**
+	* Sets the localized file IDs of this edition from the map of locales and localized file IDs, and sets the default locale.
+	*
+	* @param fileIdMap the locales and localized file IDs of this edition
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFileIdMap(
+		Map<java.util.Locale, java.lang.String> fileIdMap,
+		java.util.Locale defaultLocale) {
+		_edition.setFileIdMap(fileIdMap, defaultLocale);
 	}
 
 	/**

@@ -3552,6 +3552,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		editionImpl.setPublicationDate(edition.getPublicationDate());
 		editionImpl.setStatus(edition.isStatus());
 		editionImpl.setImageId(edition.getImageId());
+		editionImpl.setFileId(edition.getFileId());
 
 		return editionImpl;
 	}

@@ -16,7 +16,8 @@ page import="com.liferay.portal.kernel.util.StringBundler" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %><%@
 page import="com.liferay.taglib.aui.AUIUtil" %><%@
 page import="com.liferay.taglib.servlet.PipingServletResponse" %>
-<%@ page import="java.util.List" %><%@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Locale" %><%@
 page import="java.util.Objects" %>
 
 <liferay-frontend:defineObjects />
