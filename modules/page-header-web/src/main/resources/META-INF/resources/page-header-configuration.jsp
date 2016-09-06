@@ -8,31 +8,33 @@
 <liferay-portlet:renderURL portletConfiguration="<%=true%>"
 	var="configurationRenderURL" />
 
-<aui:form action="<%=configurationActionURL%>" method="post" name="fm">
-
-	<aui:input name="<%=Constants.CMD%>" type="hidden"
-		value="<%=Constants.UPDATE%>" />
-
-	<aui:input name="redirect" type="hidden"
-		value="<%=configurationRenderURL%>" />
-
-	<aui:fieldset>
-		<aui:input name="imageCredit" type="text" value="${imageCredit}" />
-	</aui:fieldset>
+<div class="container-fluid-1280 main-content-body">
+	<aui:form action="<%=configurationActionURL%>" method="post" name="fm">
 	
-	<aui:fieldset>
-		<aui:input name="displayShareButtons" type="checkbox" value="${displayShareButtons}" />
-	</aui:fieldset>
+		<aui:input name="<%=Constants.CMD%>" type="hidden"
+			value="<%=Constants.UPDATE%>" />
 	
-	<aui:fieldset>
-		<aui:input name="displayImage" type="checkbox" value="${displayImage}" />
-	</aui:fieldset>
-
-	<aui:fieldset>
-		<aui:input name="alternativeTheme" type="checkbox" value="${alternativeTheme}" />
-	</aui:fieldset>
+		<aui:input name="redirect" type="hidden"
+			value="<%=configurationRenderURL%>" />
 	
-	<aui:button-row>
-		<aui:button type="submit"></aui:button>
-	</aui:button-row>
-</aui:form>
+		<aui:fieldset>
+			<aui:input name="imageCredit" type="text" value="${imageCredit}" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="displayShareButtons" type="checkbox" value="${displayShareButtons}" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="displayImage" type="checkbox" value="${displayImage}" />
+		</aui:fieldset>
+	
+		<aui:fieldset>
+			<aui:input name="alternativeTheme" type="checkbox" value="${alternativeTheme}" />
+		</aui:fieldset>
+		
+		<aui:button-row>
+			<aui:button type="submit"></aui:button>
+		</aui:button-row>
+	</aui:form>
+</div>
