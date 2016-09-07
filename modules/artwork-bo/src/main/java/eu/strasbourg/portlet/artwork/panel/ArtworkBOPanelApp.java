@@ -11,8 +11,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
     immediate = true,
     property = {
-    	"panel.category.key=" + PanelCategoryKeys.SITE_ADMINISTRATION_CONTENT,
-        "panel.category.order:Integer=2"
+        "panel.app.order:Integer=220",
+    	"panel.category.key=" + PanelCategoryKeys.SITE_ADMINISTRATION_CONTENT
     },
     service = PanelApp.class
 )
@@ -20,7 +20,6 @@ public class ArtworkBOPanelApp extends BasePanelApp {
 		
 	@Override
 	public String getPortletId() {
-		// TODO Auto-generated method stub
 		return StrasbourgPortletKeys.ARTWORK_BO;
 	}
 
