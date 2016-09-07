@@ -9,10 +9,11 @@
                 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
                 <#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
                 <#assign publishDate = curEntry.getPublishDate() />
-                
+                <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+                <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
             <div class="item"> 
                 <div class="item-image">
-                    <a href="#">
+                    <a href="${viewURL}">
                         <img src="${image}" >
                     </a>
                 </div>
@@ -21,7 +22,7 @@
                         <date>Publié le ${publishDate?date}</date>
                     </div>
                     <div class="item-title">
-                        <h4><a href="#">${title}</a></h4>
+                        <h4><a href="${viewURL}">${title}</a></h4>
                     </div>
                     <div class="item-content">
                         ${chapo}
