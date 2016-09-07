@@ -26,7 +26,7 @@ import eu.strasbourg.portlet.artwork.display.context.ViewCollectionsDisplayConte
 	property = {
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/artwork-bo-main.js",
-		"javax.portlet.display-name=Artworks",
+		"javax.portlet.display-name=Oeuvres",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/artwork-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
