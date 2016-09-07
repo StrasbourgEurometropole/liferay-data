@@ -50,7 +50,27 @@
 
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
-				<aui:input name="categories" type="assetCategories" />
+				
+				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				
+				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<div class="has-error">
+					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
+							function (val, fieldNode, ruleValue) {
+								var validated = true;
+								for (var fieldContent of document.querySelectorAll('.categories-selectors > .field-content')) {
+								    if ($(fieldContent).find('.icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    	validated = false;
+								    	break;
+								    }
+								}
+								return validated;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
 
 				<aui:input name="tags" type="assetTags" />
 				 
