@@ -7,12 +7,12 @@ Sinon affichage de la description
 <#list entries as currentPage>
   <div class="rubric-page">
     <div class="rubric-page-image">
-      <a href="${currentURL}${currentPage.friendlyURL}">
+      <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
         <img src="${currentPage.expandoBridge.attributes["image"]}" />
       </a>
     </div>
     <div class="rubric-page-name">
-      <a href="${currentURL}${currentPage.friendlyURL}">
+      <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
         ${currentPage.getName(locale)}
       </a>
     </div>
@@ -20,7 +20,7 @@ Sinon affichage de la description
       <ul class="rubric-page-links" role="nav">
         <#list currentPage.children as currentSubPage>
           <li>
-            <a href="${currentURL}${currentSubPage.friendlyURL}">
+            <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentSubPage.friendlyURL}">
               ${currentSubPage.getName(locale)}
             </a>
           </li>
@@ -33,7 +33,7 @@ Sinon affichage de la description
         </p>
       </div>
       <div class="rubric-page-read-more">
-        <a href="${currentURL}${currentPage.friendlyURL}">
+        <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
           <@liferay_ui.message key="read-more" />
         </a>
       </div>
