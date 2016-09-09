@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.rubric.configuration;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
+import javax.portlet.PortletPreferences;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,8 +13,12 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 @Component(
@@ -47,14 +52,25 @@ public class RubricConfigurationAction extends DefaultConfigurationAction {
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletResource = ParamUtil.getString(request,
+			    "portletResource");
+			PortletPreferences preferences = PortletPreferencesFactoryUtil.getPortletSetup(
+				request, portletResource);
 
 			RubricConfiguration configuration = themeDisplay
 				.getPortletDisplay()
 				.getPortletInstanceConfiguration(RubricConfiguration.class);
+			
+			// Tout ce qui est Application Display Template
+			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
+			long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
+			String refreshURL = PortalUtil.getCurrentURL(request);
+			request.setAttribute("displayStyle", displayStyle);
+			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
+			request.setAttribute("refreshURL", refreshURL);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

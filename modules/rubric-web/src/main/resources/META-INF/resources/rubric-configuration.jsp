@@ -1,6 +1,5 @@
 <%@ include file="/rubric-init.jsp"%>
 
-<%@ page import="com.liferay.portal.kernel.util.Constants"%>
 
 <liferay-portlet:actionURL portletConfiguration="<%=true%>"
 	var="configurationActionURL" />
@@ -10,11 +9,23 @@
 
 <aui:form action="<%=configurationActionURL%>" method="post" name="fm">
 
-	<aui:input name="<%=Constants.CMD%>" type="hidden"
-		value="<%=Constants.UPDATE%>" />
+	<aui:input name="cmd" type="hidden"
+		value="update" />
 
 	<aui:input name="redirect" type="hidden"
 		value="<%=configurationRenderURL%>" />
+		
+	<aui:fieldset>
+	    <div class="display-template">
+	        <liferay-ddm:template-selector
+	            className="<%= Layout.class.getName() %>"
+	            displayStyle="${displayStyle}"
+	            displayStyleGroupId="${displayStyleGroupId}"
+	            refreshURL="${refreshURL}"
+	            showEmptyOption="<%= true %>"
+	        />
+	    </div>
+	</aui:fieldset>
 
 	<aui:button-row>
 		<aui:button type="submit"></aui:button>

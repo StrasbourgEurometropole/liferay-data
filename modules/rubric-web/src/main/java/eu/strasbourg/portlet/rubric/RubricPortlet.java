@@ -1,19 +1,23 @@
 package eu.strasbourg.portlet.rubric;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 @Component(
@@ -34,6 +38,15 @@ public class RubricPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		List<Layout> layouts = themeDisplay.getLayout().getChildren();
 		request.setAttribute("childrenLayouts", layouts);
+		
+		// Application display templates stuff
+		PortletPreferences preferences = request.getPreferences();
+		String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
+		long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
+		Map<String, Object> contextObjects = new HashMap<String, Object>();
+		request.setAttribute("displayStyle", displayStyle);
+		request.setAttribute("displayStyleGroupId", displayStyleGroupId);
+		request.setAttribute("contextObjects", contextObjects);
 		
 		super.render(request, response);
 	}

@@ -5,4 +5,5 @@ public class StrasbourgPortletKeys {
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
 	public static final String ARTWORK_BO = "eu_strasbourg_portlet_artwork_ArtworkBOPortlet";
 	public static final String ARTWORK_WEB = "eu_strasbourg_portlet_artwork_ArtworkPortlet";
+	public static final String RUBRIC_WEB = "eu_strasbourg_portlet_rubric_RubricPortlet";
 }
