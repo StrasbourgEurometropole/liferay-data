@@ -22,15 +22,15 @@
 		</aui:fieldset>
 		
 		<aui:fieldset>
-			<aui:input name="displayShareButtons" type="checkbox" value="${displayShareButtons}" />
+			<aui:input name="displayShareButtons" type="toggle-switch" value="${displayShareButtons}" />
 		</aui:fieldset>
 		
 		<aui:fieldset>
-			<aui:input name="displayImage" type="checkbox" value="${displayImage}" />
+			<aui:input name="displayImage" type="toggle-switch" value="${displayImage}" />
 		</aui:fieldset>
 	
 		<aui:fieldset>
-			<aui:input name="alternativeTheme" type="checkbox" value="${alternativeTheme}" />
+			<aui:input name="alternativeTheme" type="toggle-switch" value="${alternativeTheme}" />
 		</aui:fieldset>
 		
 		<aui:button-row>

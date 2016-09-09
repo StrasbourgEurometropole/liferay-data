@@ -66,8 +66,8 @@
 				<aui:input name="distribution" />
 				<aui:input name="ISBN" />
 				<aui:input name="price" />
-				<aui:input name="availableForExchange" />
-				<aui:input name="inStock" />
+				<aui:input name="availableForExchange" type="toggle-switch" value="${not empty dc.edition ? dc.edition.availableForExchange : false}" />
+				<aui:input name="inStock" type="toggle-switch" value="${not empty dc.edition ? dc.edition.inStock : false}" />
 				<aui:input name="diffusionDate"
 					helpMessage="diffusion-date-help-message" />
 				<aui:input name="pageNumber" />
