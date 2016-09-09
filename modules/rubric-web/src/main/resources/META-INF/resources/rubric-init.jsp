@@ -11,7 +11,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ page import="com.liferay.portal.kernel.util.Constants"%>
-<%@ page import="com.liferay.portal.kernel.util.PortalUtil"%>
 <%@ page import="com.liferay.portal.kernel.model.Layout"%>
 
 <liferay-theme:defineObjects />
