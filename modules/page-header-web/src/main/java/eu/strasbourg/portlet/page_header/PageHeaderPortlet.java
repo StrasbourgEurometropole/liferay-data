@@ -1,19 +1,25 @@
 package eu.strasbourg.portlet.page_header;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
@@ -39,31 +45,33 @@ public class PageHeaderPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 		Layout layout = themeDisplay.getLayout();
-		ExpandoBridge expandoBridge = layout.getExpandoBridge();
-
-		String layoutName = layout.getName(renderRequest.getLocale());
-		String layoutImage = expandoBridge.getAttribute("image").toString();
-		String layoutDescription = layout
-			.getDescription(renderRequest.getLocale());
-
-		renderRequest.setAttribute("layoutName", layoutName);
-		renderRequest.setAttribute("layoutImage", layoutImage);
-		renderRequest.setAttribute("layoutDescription", layoutDescription);
+		
+		renderRequest.setAttribute("page", layout);
+		
+		String imageCredit = "";
 		try {
 			PageHeaderConfiguration configuration = themeDisplay
 				.getPortletDisplay()
 				.getPortletInstanceConfiguration(PageHeaderConfiguration.class);
-			renderRequest.setAttribute("displayShareButtons",
-				configuration.displayShareButtons());
-			renderRequest.setAttribute("displayImage",
-				configuration.displayImage());
-			renderRequest.setAttribute("alternativeTheme",
-				configuration.alternativeTheme());
+			imageCredit = configuration.imageCredit();
 			renderRequest.setAttribute("imageCredit",
-				configuration.imageCredit());
+				imageCredit);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
+		
+		// Application display templates stuff
+		PortletPreferences preferences = renderRequest.getPreferences();
+		String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
+		long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
+		Map<String, Object> contextObjects = new HashMap<String, Object>();
+		contextObjects.put("imageCredit", imageCredit);
+		contextObjects.put("page", layout);
+		List<Layout> entries = new ArrayList<Layout>() ;
+		renderRequest.setAttribute("displayStyle", displayStyle);
+		renderRequest.setAttribute("displayStyleGroupId", displayStyleGroupId);
+		renderRequest.setAttribute("contextObjects", contextObjects);
+		renderRequest.setAttribute("entries", entries);
 
 		super.render(renderRequest, renderResponse);
 	}

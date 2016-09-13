@@ -22,15 +22,15 @@
 		</aui:fieldset>
 		
 		<aui:fieldset>
-			<aui:input name="displayShareButtons" type="toggle-switch" value="${displayShareButtons}" />
-		</aui:fieldset>
-		
-		<aui:fieldset>
-			<aui:input name="displayImage" type="toggle-switch" value="${displayImage}" />
-		</aui:fieldset>
-	
-		<aui:fieldset>
-			<aui:input name="alternativeTheme" type="toggle-switch" value="${alternativeTheme}" />
+		    <div class="display-template">
+		        <liferay-ddm:template-selector
+		            className="<%= LayoutSet.class.getName() %>"
+		            displayStyle="${displayStyle}"
+		            displayStyleGroupId="${displayStyleGroupId}"
+		            refreshURL="${refreshURL}"
+		            showEmptyOption="<%= true %>"
+		        />
+		    </div>
 		</aui:fieldset>
 		
 		<aui:button-row>
