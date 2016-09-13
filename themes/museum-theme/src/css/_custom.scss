@@ -137,7 +137,7 @@
   }
 }
 /*
- *  Owl Carousel - Auto Height Plugin
+ * 	Owl Carousel - Auto Height Plugin
  */
 /* line 5, ../sass/partials/vendors/_autoheight.scss */
 .owl-height {
@@ -145,7 +145,7 @@
 }
 
 /*
- *  Owl Carousel - Lazy Load Plugin
+ * 	Owl Carousel - Lazy Load Plugin
  */
 /* line 7, ../sass/partials/vendors/_lazyload.scss */
 .owl-carousel .owl-item .owl-lazy {
@@ -158,7 +158,7 @@
 }
 
 /*
- *  Owl Carousel - Video Plugin
+ * 	Owl Carousel - Video Plugin
  */
 /* line 6, ../sass/partials/vendors/_video.scss */
 .owl-carousel .owl-video-wrapper {
@@ -208,7 +208,7 @@
 }
 
 /*
- *  Default theme - Owl Carousel CSS File
+ * 	Default theme - Owl Carousel CSS File
  */
 /* line 4, ../sass/partials/vendors/_theme.scss */
 .owl-theme .owl-nav {
@@ -318,11 +318,11 @@ ul[role="nav"] > li {
 }
 
 /* line 7, ../sass/partials/_layout.scss */
-.row, .header-top .header-top-inner, .title-header, .breadcrumb, .web-content, .news-carousel .item-content, .rubric-portlet {
+.row, .header-top .header-top-inner, .title-header, .breadcrumb, .web-content, .items-carousel .item-content, .rubric-portlet {
   padding: 0 20px;
 }
 /* line 9, ../sass/partials/_layout.scss */
-.row.portlet-layout, .header-top .portlet-layout.header-top-inner, .portlet-layout.title-header, .portlet-layout.breadcrumb, .portlet-layout.web-content, .news-carousel .portlet-layout.item-content, .portlet-layout.rubric-portlet {
+.row.portlet-layout, .header-top .portlet-layout.header-top-inner, .portlet-layout.title-header, .portlet-layout.breadcrumb, .portlet-layout.web-content, .items-carousel .portlet-layout.item-content, .portlet-layout.rubric-portlet {
   padding: 0;
 }
 
@@ -1327,7 +1327,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 }
 
 /* line 3, ../sass/partials/_web-content.scss */
-.web-content h1, .news-carousel .item-content h1 {
+.web-content h1, .items-carousel .item-content h1 {
   text-align: center;
   max-width: 800px;
   margin-bottom: 0;
@@ -1336,7 +1336,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   display: block;
 }
 /* line 11, ../sass/partials/_web-content.scss */
-.web-content .web-content-chapo, .news-carousel .item-content .web-content-chapo {
+.web-content .web-content-chapo, .items-carousel .item-content .web-content-chapo {
   margin: 20px 0 30px 0;
   font-family: "Times", Serif;
   font-size: 20px;
@@ -1347,7 +1347,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 }
 @media (min-width: 602px) {
   /* line 11, ../sass/partials/_web-content.scss */
-  .web-content .web-content-chapo, .news-carousel .item-content .web-content-chapo {
+  .web-content .web-content-chapo, .items-carousel .item-content .web-content-chapo {
     font-size: 27px;
     margin: 40px auto 70px auto;
     max-width: 80%;
@@ -1355,7 +1355,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   }
 }
 /* line 26, ../sass/partials/_web-content.scss */
-.web-content h2, .news-carousel .item-content h2 {
+.web-content h2, .items-carousel .item-content h2 {
   color: #666666;
   font-size: 32px;
   text-transform: none;
@@ -1363,7 +1363,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   font-family: "proximanova-regular", sans-serif;
 }
 /* line 33, ../sass/partials/_web-content.scss */
-.web-content h3, .news-carousel .item-content h3, .web-content .title-header .site-title, .title-header .web-content .site-title, .news-carousel .item-content .title-header .site-title, .title-header .news-carousel .item-content .site-title {
+.web-content h3, .items-carousel .item-content h3, .web-content .title-header .site-title, .title-header .web-content .site-title, .items-carousel .item-content .title-header .site-title, .title-header .items-carousel .item-content .site-title {
   font-size: 20px;
   text-transform: none;
   color: #666666;
@@ -1371,39 +1371,39 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   padding-top: 10px;
 }
 /* line 40, ../sass/partials/_web-content.scss */
-.web-content p, .news-carousel .item-content p {
+.web-content p, .items-carousel .item-content p {
   margin: 10px 0;
   line-height: 20px;
 }
 /* line 44, ../sass/partials/_web-content.scss */
-.web-content li, .news-carousel .item-content li {
+.web-content li, .items-carousel .item-content li {
   padding: 2px 0;
 }
 /* line 47, ../sass/partials/_web-content.scss */
-.web-content ul, .news-carousel .item-content ul, .web-content ol, .news-carousel .item-content ol {
+.web-content ul, .items-carousel .item-content ul, .web-content ol, .items-carousel .item-content ol {
   margin: 10px 0;
   padding: 5px 0px 5px 20px;
 }
 @media (min-width: 602px) {
   /* line 47, ../sass/partials/_web-content.scss */
-  .web-content ul, .news-carousel .item-content ul, .web-content ol, .news-carousel .item-content ol {
+  .web-content ul, .items-carousel .item-content ul, .web-content ol, .items-carousel .item-content ol {
     padding: 5px 0 5px 40px;
   }
 }
 /* line 54, ../sass/partials/_web-content.scss */
-.web-content ul ul, .news-carousel .item-content ul ul {
+.web-content ul ul, .items-carousel .item-content ul ul {
   list-style-type: disc;
 }
 /* line 57, ../sass/partials/_web-content.scss */
-.web-content a, .news-carousel .item-content a {
+.web-content a, .items-carousel .item-content a {
   border-bottom: 1px solid #666666;
 }
 /* line 60, ../sass/partials/_web-content.scss */
-.web-content a[href$='jpg'], .news-carousel .item-content a[href$='jpg'], .web-content a[href$='png'], .news-carousel .item-content a[href$='png'], .web-content a[href$='jpeg'], .news-carousel .item-content a[href$='jpeg'] {
+.web-content a[href$='jpg'], .items-carousel .item-content a[href$='jpg'], .web-content a[href$='png'], .items-carousel .item-content a[href$='png'], .web-content a[href$='jpeg'], .items-carousel .item-content a[href$='jpeg'] {
   border-bottom: 0;
 }
 /* line 63, ../sass/partials/_web-content.scss */
-.web-content cite, .news-carousel .item-content cite {
+.web-content cite, .items-carousel .item-content cite {
   border-left: 10px solid #666666;
   padding: 20px 20px 20px 30px;
   font-family: "Times", Serif;
@@ -1415,33 +1415,33 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 }
 @media (min-width: 602px) {
   /* line 63, ../sass/partials/_web-content.scss */
-  .web-content cite, .news-carousel .item-content cite {
+  .web-content cite, .items-carousel .item-content cite {
     font-size: 28px;
     line-height: 38px;
   }
 }
 /* line 77, ../sass/partials/_web-content.scss */
-.web-content .video-container, .news-carousel .item-content .video-container {
+.web-content .video-container, .items-carousel .item-content .video-container {
   margin-bottom: 50px;
 }
 /* line 81, ../sass/partials/_web-content.scss */
-.web-content table, .news-carousel .item-content table {
+.web-content table, .items-carousel .item-content table {
   border-collapse: collapse;
   font-size: 13px;
   width: 100%;
 }
 /* line 86, ../sass/partials/_web-content.scss */
-.web-content td, .news-carousel .item-content td, .web-content th, .news-carousel .item-content th {
+.web-content td, .items-carousel .item-content td, .web-content th, .items-carousel .item-content th {
   padding: 20px;
 }
 /* line 89, ../sass/partials/_web-content.scss */
-.web-content th, .news-carousel .item-content th {
+.web-content th, .items-carousel .item-content th {
   background-color: #e6e6e6;
   font-family: "proximanova-bold", sans-serif;
   font-size: 15px;
 }
 /* line 94, ../sass/partials/_web-content.scss */
-.web-content tbody tr:nth-child(even) td, .news-carousel .item-content tbody tr:nth-child(even) td {
+.web-content tbody tr:nth-child(even) td, .items-carousel .item-content tbody tr:nth-child(even) td {
   background-color: #f2f2f2;
 }
 
@@ -1503,9 +1503,9 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 48, ../sass/partials/_page-header.scss */
 .page-header-portlet .page-header-share .facebook, .page-header-portlet .page-header-share .twitter {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  background-size: 40px 40px;
+  width: 33px;
+  height: 33px;
+  background-size: 33px;
   margin-top: 5px;
   opacity: 0.6;
 }
@@ -1608,16 +1608,17 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     color: #2d2d2d;
     margin-top: 20px;
     padding-bottom: 0;
+    text-align: left;
   }
-  /* line 141, ../sass/partials/_page-header.scss */
+  /* line 142, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook, .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     opacity: 0.6;
   }
-  /* line 144, ../sass/partials/_page-header.scss */
+  /* line 145, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook {
     background-image: url("../images/icons/facebook-dark.png");
   }
-  /* line 147, ../sass/partials/_page-header.scss */
+  /* line 148, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     background-image: url("../images/icons/twitter-dark.png");
   }
@@ -1629,7 +1630,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   }
 }
 @media (min-width: 919px) {
-  /* line 154, ../sass/partials/_page-header.scss */
+  /* line 155, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share h1 {
     color: #2D2D2D;
     padding: 40px 30px;
@@ -1637,12 +1638,22 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     background: white;
     text-align: left;
   }
-  /* line 162, ../sass/partials/_page-header.scss */
+  /* line 163, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image-credit {
     text-align: left;
     padding-left: 50px;
     color: #2d2d2d;
     margin-top: -40px;
+  }
+}
+@media (min-width: 919px) {
+  /* line 173, ../sass/partials/_page-header.scss */
+  .page-header-portlet .alt-theme-2 .page-header-image {
+    width: 48%;
+  }
+  /* line 176, ../sass/partials/_page-header.scss */
+  .page-header-portlet .alt-theme-2 .page-header-share {
+    margin-left: 30px;
   }
 }
 
@@ -1845,22 +1856,22 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background: #C79D49;
 }
 
-/* line 2, ../sass/partials/_news-carousel.scss */
-.news-carousel h3, .news-carousel .title-header .site-title, .title-header .news-carousel .site-title {
+/* line 2, ../sass/partials/_items-carousel.scss */
+.items-carousel h3, .items-carousel .title-header .site-title, .title-header .items-carousel .site-title {
   display: block;
   font-size: 25px;
   line-height: 25px;
   margin: 20px;
 }
 @media (min-width: 602px) {
-  /* line 2, ../sass/partials/_news-carousel.scss */
-  .news-carousel h3, .news-carousel .title-header .site-title, .title-header .news-carousel .site-title {
+  /* line 2, ../sass/partials/_items-carousel.scss */
+  .items-carousel h3, .items-carousel .title-header .site-title, .title-header .items-carousel .site-title {
     font-size: 44px;
     line-height: 44px;
   }
 }
-/* line 11, ../sass/partials/_news-carousel.scss */
-.news-carousel h3 span, .news-carousel .title-header .site-title span, .title-header .news-carousel .site-title span {
+/* line 11, ../sass/partials/_items-carousel.scss */
+.items-carousel h3 span, .items-carousel .title-header .site-title span, .title-header .items-carousel .site-title span {
   display: block;
   font-size: 31px;
   font-family: 'Times', serif;
@@ -1869,40 +1880,40 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   text-transform: none;
 }
 @media (min-width: 602px) {
-  /* line 11, ../sass/partials/_news-carousel.scss */
-  .news-carousel h3 span, .news-carousel .title-header .site-title span, .title-header .news-carousel .site-title span {
+  /* line 11, ../sass/partials/_items-carousel.scss */
+  .items-carousel h3 span, .items-carousel .title-header .site-title span, .title-header .items-carousel .site-title span {
     font-size: 44px;
     line-height: 44px;
   }
 }
-/* line 24, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-carousel {
+/* line 24, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-carousel {
   position: relative;
 }
-/* line 27, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-item {
+/* line 27, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-item {
   padding: 10px;
 }
 @media (min-width: 602px) {
-  /* line 27, ../sass/partials/_news-carousel.scss */
-  .news-carousel .owl-item {
+  /* line 27, ../sass/partials/_items-carousel.scss */
+  .items-carousel .owl-item {
     padding: 30px;
   }
 }
-/* line 33, ../sass/partials/_news-carousel.scss */
-.news-carousel .item-image {
+/* line 33, ../sass/partials/_items-carousel.scss */
+.items-carousel .item-image {
   margin-bottom: 30px;
 }
 @media (min-width: 602px) {
-  /* line 33, ../sass/partials/_news-carousel.scss */
-  .news-carousel .item-image {
+  /* line 33, ../sass/partials/_items-carousel.scss */
+  .items-carousel .item-image {
     width: 50%;
     display: inline-block;
   }
 }
 @media (min-width: 602px) {
-  /* line 40, ../sass/partials/_news-carousel.scss */
-  .news-carousel .item-info {
+  /* line 40, ../sass/partials/_items-carousel.scss */
+  .items-carousel .item-info {
     display: inline-block;
     width: 40%;
     vertical-align: top;
@@ -1910,37 +1921,37 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     margin-left: 25px;
   }
 }
-/* line 49, ../sass/partials/_news-carousel.scss */
-.news-carousel .item-date {
+/* line 49, ../sass/partials/_items-carousel.scss */
+.items-carousel .item-date {
   font-family: "Times", Serif;
   font-style: italic;
   font-size: 15px;
   color: #666666;
 }
-/* line 55, ../sass/partials/_news-carousel.scss */
-.news-carousel .item-title {
+/* line 55, ../sass/partials/_items-carousel.scss */
+.items-carousel .item-title {
   margin-bottom: 25px;
 }
-/* line 58, ../sass/partials/_news-carousel.scss */
-.news-carousel .item-title h4 {
+/* line 58, ../sass/partials/_items-carousel.scss */
+.items-carousel .item-title h4 {
   font-size: 16px;
   text-transform: none;
   margin: 0;
   line-height: 20px;
 }
-/* line 64, ../sass/partials/_news-carousel.scss */
-.news-carousel .item-content {
+/* line 64, ../sass/partials/_items-carousel.scss */
+.items-carousel .item-content {
   line-height: 20px;
   margin: 10px 0;
   padding: 0;
   height: 80px;
 }
-/* line 71, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-dots {
+/* line 71, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-dots {
   text-align: center;
 }
-/* line 74, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-dot {
+/* line 74, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-dot {
   margin: 5px 3px;
   display: inline-block;
   background-color: #e6e6e6;
@@ -1949,12 +1960,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   height: 7px;
   border-radius: 50%;
 }
-/* line 82, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-dot.active {
+/* line 82, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-dot.active {
   background-color: #333;
 }
-/* line 86, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-prev, .news-carousel .owl-next {
+/* line 86, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-prev, .items-carousel .owl-next {
   width: 36px;
   height: 36px;
   color: transparent;
@@ -1965,13 +1976,13 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   bottom: -7px;
   display: inline-block;
 }
-/* line 97, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-prev {
+/* line 97, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-prev {
   background-image: url(../images/icons/arrow-left-black.png);
   left: calc(50% - 100px);
 }
-/* line 101, ../sass/partials/_news-carousel.scss */
-.news-carousel .owl-next {
+/* line 101, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-next {
   background-image: url(../images/icons/arrow-right-black.png);
   left: calc(50% + 64px);
 }
@@ -2056,25 +2067,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #666666;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-default .web-content h2, .cs-default .news-carousel .item-content h2, .news-carousel .cs-default .item-content h2 {
+.cs-default .web-content h2, .cs-default .items-carousel .item-content h2, .items-carousel .cs-default .item-content h2 {
   color: #666666;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-default .web-content h3, .cs-default .news-carousel .item-content h3, .news-carousel .cs-default .item-content h3, .cs-default .web-content .title-header .site-title, .title-header .cs-default .web-content .site-title, .cs-default .news-carousel .item-content .title-header .site-title, .title-header .cs-default .news-carousel .item-content .site-title, .news-carousel .cs-default .item-content .title-header .site-title, .title-header .news-carousel .cs-default .item-content .site-title,
+.cs-default .web-content h3, .cs-default .items-carousel .item-content h3, .items-carousel .cs-default .item-content h3, .cs-default .web-content .title-header .site-title, .title-header .cs-default .web-content .site-title, .cs-default .items-carousel .item-content .title-header .site-title, .title-header .cs-default .items-carousel .item-content .site-title, .items-carousel .cs-default .item-content .title-header .site-title, .title-header .items-carousel .cs-default .item-content .site-title,
 .cs-default .web-content .title-header .site-title,
-.cs-default .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-default .item-content .title-header .site-title,
+.cs-default .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-default .item-content .title-header .site-title,
 .cs-default .title-header .web-content .site-title,
-.cs-default .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-default .title-header .item-content .site-title {
+.cs-default .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-default .title-header .item-content .site-title {
   color: #666666;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-default .web-content a, .cs-default .news-carousel .item-content a, .news-carousel .cs-default .item-content a {
+.cs-default .web-content a, .cs-default .items-carousel .item-content a, .items-carousel .cs-default .item-content a {
   border-bottom-color: #666666;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-default .web-content cite, .cs-default .news-carousel .item-content cite, .news-carousel .cs-default .item-content cite {
+.cs-default .web-content cite, .cs-default .items-carousel .item-content cite, .items-carousel .cs-default .item-content cite {
   border-left-color: #666666;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2082,11 +2093,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #666666;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-default .news-carousel h3 span, .cs-default .news-carousel .title-header .site-title span, .title-header .cs-default .news-carousel .site-title span {
+.cs-default .items-carousel h3 span, .cs-default .items-carousel .title-header .site-title span, .title-header .cs-default .items-carousel .site-title span {
   color: #666666;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-default .news-carousel .item-date {
+.cs-default .items-carousel .item-date {
   color: #666666;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2119,25 +2130,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #F3AC00;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-hre .web-content h2, .cs-hre .news-carousel .item-content h2, .news-carousel .cs-hre .item-content h2 {
+.cs-hre .web-content h2, .cs-hre .items-carousel .item-content h2, .items-carousel .cs-hre .item-content h2 {
   color: #F3AC00;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-hre .web-content h3, .cs-hre .news-carousel .item-content h3, .news-carousel .cs-hre .item-content h3, .cs-hre .web-content .title-header .site-title, .title-header .cs-hre .web-content .site-title, .cs-hre .news-carousel .item-content .title-header .site-title, .title-header .cs-hre .news-carousel .item-content .site-title, .news-carousel .cs-hre .item-content .title-header .site-title, .title-header .news-carousel .cs-hre .item-content .site-title,
+.cs-hre .web-content h3, .cs-hre .items-carousel .item-content h3, .items-carousel .cs-hre .item-content h3, .cs-hre .web-content .title-header .site-title, .title-header .cs-hre .web-content .site-title, .cs-hre .items-carousel .item-content .title-header .site-title, .title-header .cs-hre .items-carousel .item-content .site-title, .items-carousel .cs-hre .item-content .title-header .site-title, .title-header .items-carousel .cs-hre .item-content .site-title,
 .cs-hre .web-content .title-header .site-title,
-.cs-hre .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-hre .item-content .title-header .site-title,
+.cs-hre .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-hre .item-content .title-header .site-title,
 .cs-hre .title-header .web-content .site-title,
-.cs-hre .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-hre .title-header .item-content .site-title {
+.cs-hre .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-hre .title-header .item-content .site-title {
   color: #F3AC00;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-hre .web-content a, .cs-hre .news-carousel .item-content a, .news-carousel .cs-hre .item-content a {
+.cs-hre .web-content a, .cs-hre .items-carousel .item-content a, .items-carousel .cs-hre .item-content a {
   border-bottom-color: #F3AC00;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-hre .web-content cite, .cs-hre .news-carousel .item-content cite, .news-carousel .cs-hre .item-content cite {
+.cs-hre .web-content cite, .cs-hre .items-carousel .item-content cite, .items-carousel .cs-hre .item-content cite {
   border-left-color: #F3AC00;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2145,11 +2156,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #F3AC00;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-hre .news-carousel h3 span, .cs-hre .news-carousel .title-header .site-title span, .title-header .cs-hre .news-carousel .site-title span {
+.cs-hre .items-carousel h3 span, .cs-hre .items-carousel .title-header .site-title span, .title-header .cs-hre .items-carousel .site-title span {
   color: #F3AC00;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-hre .news-carousel .item-date {
+.cs-hre .items-carousel .item-date {
   color: #F3AC00;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2182,25 +2193,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #ED6B2A;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-ced .web-content h2, .cs-ced .news-carousel .item-content h2, .news-carousel .cs-ced .item-content h2 {
+.cs-ced .web-content h2, .cs-ced .items-carousel .item-content h2, .items-carousel .cs-ced .item-content h2 {
   color: #ED6B2A;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-ced .web-content h3, .cs-ced .news-carousel .item-content h3, .news-carousel .cs-ced .item-content h3, .cs-ced .web-content .title-header .site-title, .title-header .cs-ced .web-content .site-title, .cs-ced .news-carousel .item-content .title-header .site-title, .title-header .cs-ced .news-carousel .item-content .site-title, .news-carousel .cs-ced .item-content .title-header .site-title, .title-header .news-carousel .cs-ced .item-content .site-title,
+.cs-ced .web-content h3, .cs-ced .items-carousel .item-content h3, .items-carousel .cs-ced .item-content h3, .cs-ced .web-content .title-header .site-title, .title-header .cs-ced .web-content .site-title, .cs-ced .items-carousel .item-content .title-header .site-title, .title-header .cs-ced .items-carousel .item-content .site-title, .items-carousel .cs-ced .item-content .title-header .site-title, .title-header .items-carousel .cs-ced .item-content .site-title,
 .cs-ced .web-content .title-header .site-title,
-.cs-ced .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-ced .item-content .title-header .site-title,
+.cs-ced .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-ced .item-content .title-header .site-title,
 .cs-ced .title-header .web-content .site-title,
-.cs-ced .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-ced .title-header .item-content .site-title {
+.cs-ced .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-ced .title-header .item-content .site-title {
   color: #ED6B2A;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-ced .web-content a, .cs-ced .news-carousel .item-content a, .news-carousel .cs-ced .item-content a {
+.cs-ced .web-content a, .cs-ced .items-carousel .item-content a, .items-carousel .cs-ced .item-content a {
   border-bottom-color: #ED6B2A;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-ced .web-content cite, .cs-ced .news-carousel .item-content cite, .news-carousel .cs-ced .item-content cite {
+.cs-ced .web-content cite, .cs-ced .items-carousel .item-content cite, .items-carousel .cs-ced .item-content cite {
   border-left-color: #ED6B2A;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2208,11 +2219,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #ED6B2A;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-ced .news-carousel h3 span, .cs-ced .news-carousel .title-header .site-title span, .title-header .cs-ced .news-carousel .site-title span {
+.cs-ced .items-carousel h3 span, .cs-ced .items-carousel .title-header .site-title span, .title-header .cs-ced .items-carousel .site-title span {
   color: #ED6B2A;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-ced .news-carousel .item-date {
+.cs-ced .items-carousel .item-date {
   color: #ED6B2A;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2245,25 +2256,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #00A369;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mals .web-content h2, .cs-mals .news-carousel .item-content h2, .news-carousel .cs-mals .item-content h2 {
+.cs-mals .web-content h2, .cs-mals .items-carousel .item-content h2, .items-carousel .cs-mals .item-content h2 {
   color: #00A369;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mals .web-content h3, .cs-mals .news-carousel .item-content h3, .news-carousel .cs-mals .item-content h3, .cs-mals .web-content .title-header .site-title, .title-header .cs-mals .web-content .site-title, .cs-mals .news-carousel .item-content .title-header .site-title, .title-header .cs-mals .news-carousel .item-content .site-title, .news-carousel .cs-mals .item-content .title-header .site-title, .title-header .news-carousel .cs-mals .item-content .site-title,
+.cs-mals .web-content h3, .cs-mals .items-carousel .item-content h3, .items-carousel .cs-mals .item-content h3, .cs-mals .web-content .title-header .site-title, .title-header .cs-mals .web-content .site-title, .cs-mals .items-carousel .item-content .title-header .site-title, .title-header .cs-mals .items-carousel .item-content .site-title, .items-carousel .cs-mals .item-content .title-header .site-title, .title-header .items-carousel .cs-mals .item-content .site-title,
 .cs-mals .web-content .title-header .site-title,
-.cs-mals .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mals .item-content .title-header .site-title,
+.cs-mals .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mals .item-content .title-header .site-title,
 .cs-mals .title-header .web-content .site-title,
-.cs-mals .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mals .title-header .item-content .site-title {
+.cs-mals .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mals .title-header .item-content .site-title {
   color: #00A369;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mals .web-content a, .cs-mals .news-carousel .item-content a, .news-carousel .cs-mals .item-content a {
+.cs-mals .web-content a, .cs-mals .items-carousel .item-content a, .items-carousel .cs-mals .item-content a {
   border-bottom-color: #00A369;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mals .web-content cite, .cs-mals .news-carousel .item-content cite, .news-carousel .cs-mals .item-content cite {
+.cs-mals .web-content cite, .cs-mals .items-carousel .item-content cite, .items-carousel .cs-mals .item-content cite {
   border-left-color: #00A369;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2271,11 +2282,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #00A369;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mals .news-carousel h3 span, .cs-mals .news-carousel .title-header .site-title span, .title-header .cs-mals .news-carousel .site-title span {
+.cs-mals .items-carousel h3 span, .cs-mals .items-carousel .title-header .site-title span, .title-header .cs-mals .items-carousel .site-title span {
   color: #00A369;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mals .news-carousel .item-date {
+.cs-mals .items-carousel .item-date {
   color: #00A369;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2308,25 +2319,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #41C497;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-marc .web-content h2, .cs-marc .news-carousel .item-content h2, .news-carousel .cs-marc .item-content h2 {
+.cs-marc .web-content h2, .cs-marc .items-carousel .item-content h2, .items-carousel .cs-marc .item-content h2 {
   color: #41C497;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-marc .web-content h3, .cs-marc .news-carousel .item-content h3, .news-carousel .cs-marc .item-content h3, .cs-marc .web-content .title-header .site-title, .title-header .cs-marc .web-content .site-title, .cs-marc .news-carousel .item-content .title-header .site-title, .title-header .cs-marc .news-carousel .item-content .site-title, .news-carousel .cs-marc .item-content .title-header .site-title, .title-header .news-carousel .cs-marc .item-content .site-title,
+.cs-marc .web-content h3, .cs-marc .items-carousel .item-content h3, .items-carousel .cs-marc .item-content h3, .cs-marc .web-content .title-header .site-title, .title-header .cs-marc .web-content .site-title, .cs-marc .items-carousel .item-content .title-header .site-title, .title-header .cs-marc .items-carousel .item-content .site-title, .items-carousel .cs-marc .item-content .title-header .site-title, .title-header .items-carousel .cs-marc .item-content .site-title,
 .cs-marc .web-content .title-header .site-title,
-.cs-marc .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-marc .item-content .title-header .site-title,
+.cs-marc .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-marc .item-content .title-header .site-title,
 .cs-marc .title-header .web-content .site-title,
-.cs-marc .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-marc .title-header .item-content .site-title {
+.cs-marc .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-marc .title-header .item-content .site-title {
   color: #41C497;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-marc .web-content a, .cs-marc .news-carousel .item-content a, .news-carousel .cs-marc .item-content a {
+.cs-marc .web-content a, .cs-marc .items-carousel .item-content a, .items-carousel .cs-marc .item-content a {
   border-bottom-color: #41C497;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-marc .web-content cite, .cs-marc .news-carousel .item-content cite, .news-carousel .cs-marc .item-content cite {
+.cs-marc .web-content cite, .cs-marc .items-carousel .item-content cite, .items-carousel .cs-marc .item-content cite {
   border-left-color: #41C497;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2334,11 +2345,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #41C497;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-marc .news-carousel h3 span, .cs-marc .news-carousel .title-header .site-title span, .title-header .cs-marc .news-carousel .site-title span {
+.cs-marc .items-carousel h3 span, .cs-marc .items-carousel .title-header .site-title span, .title-header .cs-marc .items-carousel .site-title span {
   color: #41C497;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-marc .news-carousel .item-date {
+.cs-marc .items-carousel .item-date {
   color: #41C497;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2371,25 +2382,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #17B7CB;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mard .web-content h2, .cs-mard .news-carousel .item-content h2, .news-carousel .cs-mard .item-content h2 {
+.cs-mard .web-content h2, .cs-mard .items-carousel .item-content h2, .items-carousel .cs-mard .item-content h2 {
   color: #17B7CB;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mard .web-content h3, .cs-mard .news-carousel .item-content h3, .news-carousel .cs-mard .item-content h3, .cs-mard .web-content .title-header .site-title, .title-header .cs-mard .web-content .site-title, .cs-mard .news-carousel .item-content .title-header .site-title, .title-header .cs-mard .news-carousel .item-content .site-title, .news-carousel .cs-mard .item-content .title-header .site-title, .title-header .news-carousel .cs-mard .item-content .site-title,
+.cs-mard .web-content h3, .cs-mard .items-carousel .item-content h3, .items-carousel .cs-mard .item-content h3, .cs-mard .web-content .title-header .site-title, .title-header .cs-mard .web-content .site-title, .cs-mard .items-carousel .item-content .title-header .site-title, .title-header .cs-mard .items-carousel .item-content .site-title, .items-carousel .cs-mard .item-content .title-header .site-title, .title-header .items-carousel .cs-mard .item-content .site-title,
 .cs-mard .web-content .title-header .site-title,
-.cs-mard .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mard .item-content .title-header .site-title,
+.cs-mard .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mard .item-content .title-header .site-title,
 .cs-mard .title-header .web-content .site-title,
-.cs-mard .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mard .title-header .item-content .site-title {
+.cs-mard .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mard .title-header .item-content .site-title {
   color: #17B7CB;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mard .web-content a, .cs-mard .news-carousel .item-content a, .news-carousel .cs-mard .item-content a {
+.cs-mard .web-content a, .cs-mard .items-carousel .item-content a, .items-carousel .cs-mard .item-content a {
   border-bottom-color: #17B7CB;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mard .web-content cite, .cs-mard .news-carousel .item-content cite, .news-carousel .cs-mard .item-content cite {
+.cs-mard .web-content cite, .cs-mard .items-carousel .item-content cite, .items-carousel .cs-mard .item-content cite {
   border-left-color: #17B7CB;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2397,11 +2408,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #17B7CB;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mard .news-carousel h3 span, .cs-mard .news-carousel .title-header .site-title span, .title-header .cs-mard .news-carousel .site-title span {
+.cs-mard .items-carousel h3 span, .cs-mard .items-carousel .title-header .site-title span, .title-header .cs-mard .items-carousel .site-title span {
   color: #17B7CB;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mard .news-carousel .item-date {
+.cs-mard .items-carousel .item-date {
   color: #17B7CB;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2434,25 +2445,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #628BA7;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mamc .web-content h2, .cs-mamc .news-carousel .item-content h2, .news-carousel .cs-mamc .item-content h2 {
+.cs-mamc .web-content h2, .cs-mamc .items-carousel .item-content h2, .items-carousel .cs-mamc .item-content h2 {
   color: #628BA7;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mamc .web-content h3, .cs-mamc .news-carousel .item-content h3, .news-carousel .cs-mamc .item-content h3, .cs-mamc .web-content .title-header .site-title, .title-header .cs-mamc .web-content .site-title, .cs-mamc .news-carousel .item-content .title-header .site-title, .title-header .cs-mamc .news-carousel .item-content .site-title, .news-carousel .cs-mamc .item-content .title-header .site-title, .title-header .news-carousel .cs-mamc .item-content .site-title,
+.cs-mamc .web-content h3, .cs-mamc .items-carousel .item-content h3, .items-carousel .cs-mamc .item-content h3, .cs-mamc .web-content .title-header .site-title, .title-header .cs-mamc .web-content .site-title, .cs-mamc .items-carousel .item-content .title-header .site-title, .title-header .cs-mamc .items-carousel .item-content .site-title, .items-carousel .cs-mamc .item-content .title-header .site-title, .title-header .items-carousel .cs-mamc .item-content .site-title,
 .cs-mamc .web-content .title-header .site-title,
-.cs-mamc .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mamc .item-content .title-header .site-title,
+.cs-mamc .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mamc .item-content .title-header .site-title,
 .cs-mamc .title-header .web-content .site-title,
-.cs-mamc .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mamc .title-header .item-content .site-title {
+.cs-mamc .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mamc .title-header .item-content .site-title {
   color: #628BA7;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mamc .web-content a, .cs-mamc .news-carousel .item-content a, .news-carousel .cs-mamc .item-content a {
+.cs-mamc .web-content a, .cs-mamc .items-carousel .item-content a, .items-carousel .cs-mamc .item-content a {
   border-bottom-color: #628BA7;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mamc .web-content cite, .cs-mamc .news-carousel .item-content cite, .news-carousel .cs-mamc .item-content cite {
+.cs-mamc .web-content cite, .cs-mamc .items-carousel .item-content cite, .items-carousel .cs-mamc .item-content cite {
   border-left-color: #628BA7;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2460,11 +2471,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #628BA7;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mamc .news-carousel h3 span, .cs-mamc .news-carousel .title-header .site-title span, .title-header .cs-mamc .news-carousel .site-title span {
+.cs-mamc .items-carousel h3 span, .cs-mamc .items-carousel .title-header .site-title span, .title-header .cs-mamc .items-carousel .site-title span {
   color: #628BA7;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mamc .news-carousel .item-date {
+.cs-mamc .items-carousel .item-date {
   color: #628BA7;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2497,25 +2508,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #3F2575;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mba .web-content h2, .cs-mba .news-carousel .item-content h2, .news-carousel .cs-mba .item-content h2 {
+.cs-mba .web-content h2, .cs-mba .items-carousel .item-content h2, .items-carousel .cs-mba .item-content h2 {
   color: #3F2575;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mba .web-content h3, .cs-mba .news-carousel .item-content h3, .news-carousel .cs-mba .item-content h3, .cs-mba .web-content .title-header .site-title, .title-header .cs-mba .web-content .site-title, .cs-mba .news-carousel .item-content .title-header .site-title, .title-header .cs-mba .news-carousel .item-content .site-title, .news-carousel .cs-mba .item-content .title-header .site-title, .title-header .news-carousel .cs-mba .item-content .site-title,
+.cs-mba .web-content h3, .cs-mba .items-carousel .item-content h3, .items-carousel .cs-mba .item-content h3, .cs-mba .web-content .title-header .site-title, .title-header .cs-mba .web-content .site-title, .cs-mba .items-carousel .item-content .title-header .site-title, .title-header .cs-mba .items-carousel .item-content .site-title, .items-carousel .cs-mba .item-content .title-header .site-title, .title-header .items-carousel .cs-mba .item-content .site-title,
 .cs-mba .web-content .title-header .site-title,
-.cs-mba .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mba .item-content .title-header .site-title,
+.cs-mba .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mba .item-content .title-header .site-title,
 .cs-mba .title-header .web-content .site-title,
-.cs-mba .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mba .title-header .item-content .site-title {
+.cs-mba .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mba .title-header .item-content .site-title {
   color: #3F2575;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mba .web-content a, .cs-mba .news-carousel .item-content a, .news-carousel .cs-mba .item-content a {
+.cs-mba .web-content a, .cs-mba .items-carousel .item-content a, .items-carousel .cs-mba .item-content a {
   border-bottom-color: #3F2575;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mba .web-content cite, .cs-mba .news-carousel .item-content cite, .news-carousel .cs-mba .item-content cite {
+.cs-mba .web-content cite, .cs-mba .items-carousel .item-content cite, .items-carousel .cs-mba .item-content cite {
   border-left-color: #3F2575;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2523,11 +2534,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #3F2575;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mba .news-carousel h3 span, .cs-mba .news-carousel .title-header .site-title span, .title-header .cs-mba .news-carousel .site-title span {
+.cs-mba .items-carousel h3 span, .cs-mba .items-carousel .title-header .site-title span, .title-header .cs-mba .items-carousel .site-title span {
   color: #3F2575;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mba .news-carousel .item-date {
+.cs-mba .items-carousel .item-date {
   color: #3F2575;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2560,25 +2571,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #790C3A;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mh .web-content h2, .cs-mh .news-carousel .item-content h2, .news-carousel .cs-mh .item-content h2 {
+.cs-mh .web-content h2, .cs-mh .items-carousel .item-content h2, .items-carousel .cs-mh .item-content h2 {
   color: #790C3A;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mh .web-content h3, .cs-mh .news-carousel .item-content h3, .news-carousel .cs-mh .item-content h3, .cs-mh .web-content .title-header .site-title, .title-header .cs-mh .web-content .site-title, .cs-mh .news-carousel .item-content .title-header .site-title, .title-header .cs-mh .news-carousel .item-content .site-title, .news-carousel .cs-mh .item-content .title-header .site-title, .title-header .news-carousel .cs-mh .item-content .site-title,
+.cs-mh .web-content h3, .cs-mh .items-carousel .item-content h3, .items-carousel .cs-mh .item-content h3, .cs-mh .web-content .title-header .site-title, .title-header .cs-mh .web-content .site-title, .cs-mh .items-carousel .item-content .title-header .site-title, .title-header .cs-mh .items-carousel .item-content .site-title, .items-carousel .cs-mh .item-content .title-header .site-title, .title-header .items-carousel .cs-mh .item-content .site-title,
 .cs-mh .web-content .title-header .site-title,
-.cs-mh .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mh .item-content .title-header .site-title,
+.cs-mh .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mh .item-content .title-header .site-title,
 .cs-mh .title-header .web-content .site-title,
-.cs-mh .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mh .title-header .item-content .site-title {
+.cs-mh .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mh .title-header .item-content .site-title {
   color: #790C3A;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mh .web-content a, .cs-mh .news-carousel .item-content a, .news-carousel .cs-mh .item-content a {
+.cs-mh .web-content a, .cs-mh .items-carousel .item-content a, .items-carousel .cs-mh .item-content a {
   border-bottom-color: #790C3A;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mh .web-content cite, .cs-mh .news-carousel .item-content cite, .news-carousel .cs-mh .item-content cite {
+.cs-mh .web-content cite, .cs-mh .items-carousel .item-content cite, .items-carousel .cs-mh .item-content cite {
   border-left-color: #790C3A;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2586,11 +2597,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #790C3A;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mh .news-carousel h3 span, .cs-mh .news-carousel .title-header .site-title span, .title-header .cs-mh .news-carousel .site-title span {
+.cs-mh .items-carousel h3 span, .cs-mh .items-carousel .title-header .site-title span, .title-header .cs-mh .items-carousel .site-title span {
   color: #790C3A;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mh .news-carousel .item-date {
+.cs-mh .items-carousel .item-date {
   color: #790C3A;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2623,25 +2634,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #A30000;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mond .web-content h2, .cs-mond .news-carousel .item-content h2, .news-carousel .cs-mond .item-content h2 {
+.cs-mond .web-content h2, .cs-mond .items-carousel .item-content h2, .items-carousel .cs-mond .item-content h2 {
   color: #A30000;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mond .web-content h3, .cs-mond .news-carousel .item-content h3, .news-carousel .cs-mond .item-content h3, .cs-mond .web-content .title-header .site-title, .title-header .cs-mond .web-content .site-title, .cs-mond .news-carousel .item-content .title-header .site-title, .title-header .cs-mond .news-carousel .item-content .site-title, .news-carousel .cs-mond .item-content .title-header .site-title, .title-header .news-carousel .cs-mond .item-content .site-title,
+.cs-mond .web-content h3, .cs-mond .items-carousel .item-content h3, .items-carousel .cs-mond .item-content h3, .cs-mond .web-content .title-header .site-title, .title-header .cs-mond .web-content .site-title, .cs-mond .items-carousel .item-content .title-header .site-title, .title-header .cs-mond .items-carousel .item-content .site-title, .items-carousel .cs-mond .item-content .title-header .site-title, .title-header .items-carousel .cs-mond .item-content .site-title,
 .cs-mond .web-content .title-header .site-title,
-.cs-mond .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mond .item-content .title-header .site-title,
+.cs-mond .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mond .item-content .title-header .site-title,
 .cs-mond .title-header .web-content .site-title,
-.cs-mond .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mond .title-header .item-content .site-title {
+.cs-mond .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mond .title-header .item-content .site-title {
   color: #A30000;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mond .web-content a, .cs-mond .news-carousel .item-content a, .news-carousel .cs-mond .item-content a {
+.cs-mond .web-content a, .cs-mond .items-carousel .item-content a, .items-carousel .cs-mond .item-content a {
   border-bottom-color: #A30000;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mond .web-content cite, .cs-mond .news-carousel .item-content cite, .news-carousel .cs-mond .item-content cite {
+.cs-mond .web-content cite, .cs-mond .items-carousel .item-content cite, .items-carousel .cs-mond .item-content cite {
   border-left-color: #A30000;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2649,11 +2660,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #A30000;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mond .news-carousel h3 span, .cs-mond .news-carousel .title-header .site-title span, .title-header .cs-mond .news-carousel .site-title span {
+.cs-mond .items-carousel h3 span, .cs-mond .items-carousel .title-header .site-title span, .title-header .cs-mond .items-carousel .site-title span {
   color: #A30000;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mond .news-carousel .item-date {
+.cs-mond .items-carousel .item-date {
   color: #A30000;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2686,25 +2697,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #D42889;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mtu .web-content h2, .cs-mtu .news-carousel .item-content h2, .news-carousel .cs-mtu .item-content h2 {
+.cs-mtu .web-content h2, .cs-mtu .items-carousel .item-content h2, .items-carousel .cs-mtu .item-content h2 {
   color: #D42889;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mtu .web-content h3, .cs-mtu .news-carousel .item-content h3, .news-carousel .cs-mtu .item-content h3, .cs-mtu .web-content .title-header .site-title, .title-header .cs-mtu .web-content .site-title, .cs-mtu .news-carousel .item-content .title-header .site-title, .title-header .cs-mtu .news-carousel .item-content .site-title, .news-carousel .cs-mtu .item-content .title-header .site-title, .title-header .news-carousel .cs-mtu .item-content .site-title,
+.cs-mtu .web-content h3, .cs-mtu .items-carousel .item-content h3, .items-carousel .cs-mtu .item-content h3, .cs-mtu .web-content .title-header .site-title, .title-header .cs-mtu .web-content .site-title, .cs-mtu .items-carousel .item-content .title-header .site-title, .title-header .cs-mtu .items-carousel .item-content .site-title, .items-carousel .cs-mtu .item-content .title-header .site-title, .title-header .items-carousel .cs-mtu .item-content .site-title,
 .cs-mtu .web-content .title-header .site-title,
-.cs-mtu .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mtu .item-content .title-header .site-title,
+.cs-mtu .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mtu .item-content .title-header .site-title,
 .cs-mtu .title-header .web-content .site-title,
-.cs-mtu .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mtu .title-header .item-content .site-title {
+.cs-mtu .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mtu .title-header .item-content .site-title {
   color: #D42889;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mtu .web-content a, .cs-mtu .news-carousel .item-content a, .news-carousel .cs-mtu .item-content a {
+.cs-mtu .web-content a, .cs-mtu .items-carousel .item-content a, .items-carousel .cs-mtu .item-content a {
   border-bottom-color: #D42889;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mtu .web-content cite, .cs-mtu .news-carousel .item-content cite, .news-carousel .cs-mtu .item-content cite {
+.cs-mtu .web-content cite, .cs-mtu .items-carousel .item-content cite, .items-carousel .cs-mtu .item-content cite {
   border-left-color: #D42889;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2712,11 +2723,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #D42889;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mtu .news-carousel h3 span, .cs-mtu .news-carousel .title-header .site-title span, .title-header .cs-mtu .news-carousel .site-title span {
+.cs-mtu .items-carousel h3 span, .cs-mtu .items-carousel .title-header .site-title span, .title-header .cs-mtu .items-carousel .site-title span {
   color: #D42889;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mtu .news-carousel .item-date {
+.cs-mtu .items-carousel .item-date {
   color: #D42889;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2749,25 +2760,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #9528D4;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-mz .web-content h2, .cs-mz .news-carousel .item-content h2, .news-carousel .cs-mz .item-content h2 {
+.cs-mz .web-content h2, .cs-mz .items-carousel .item-content h2, .items-carousel .cs-mz .item-content h2 {
   color: #9528D4;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-mz .web-content h3, .cs-mz .news-carousel .item-content h3, .news-carousel .cs-mz .item-content h3, .cs-mz .web-content .title-header .site-title, .title-header .cs-mz .web-content .site-title, .cs-mz .news-carousel .item-content .title-header .site-title, .title-header .cs-mz .news-carousel .item-content .site-title, .news-carousel .cs-mz .item-content .title-header .site-title, .title-header .news-carousel .cs-mz .item-content .site-title,
+.cs-mz .web-content h3, .cs-mz .items-carousel .item-content h3, .items-carousel .cs-mz .item-content h3, .cs-mz .web-content .title-header .site-title, .title-header .cs-mz .web-content .site-title, .cs-mz .items-carousel .item-content .title-header .site-title, .title-header .cs-mz .items-carousel .item-content .site-title, .items-carousel .cs-mz .item-content .title-header .site-title, .title-header .items-carousel .cs-mz .item-content .site-title,
 .cs-mz .web-content .title-header .site-title,
-.cs-mz .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-mz .item-content .title-header .site-title,
+.cs-mz .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-mz .item-content .title-header .site-title,
 .cs-mz .title-header .web-content .site-title,
-.cs-mz .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-mz .title-header .item-content .site-title {
+.cs-mz .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-mz .title-header .item-content .site-title {
   color: #9528D4;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-mz .web-content a, .cs-mz .news-carousel .item-content a, .news-carousel .cs-mz .item-content a {
+.cs-mz .web-content a, .cs-mz .items-carousel .item-content a, .items-carousel .cs-mz .item-content a {
   border-bottom-color: #9528D4;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-mz .web-content cite, .cs-mz .news-carousel .item-content cite, .news-carousel .cs-mz .item-content cite {
+.cs-mz .web-content cite, .cs-mz .items-carousel .item-content cite, .items-carousel .cs-mz .item-content cite {
   border-left-color: #9528D4;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2775,11 +2786,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #9528D4;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-mz .news-carousel h3 span, .cs-mz .news-carousel .title-header .site-title span, .title-header .cs-mz .news-carousel .site-title span {
+.cs-mz .items-carousel h3 span, .cs-mz .items-carousel .title-header .site-title span, .title-header .cs-mz .items-carousel .site-title span {
   color: #9528D4;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-mz .news-carousel .item-date {
+.cs-mz .items-carousel .item-date {
   color: #9528D4;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2812,25 +2823,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #4C28D4;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-aub .web-content h2, .cs-aub .news-carousel .item-content h2, .news-carousel .cs-aub .item-content h2 {
+.cs-aub .web-content h2, .cs-aub .items-carousel .item-content h2, .items-carousel .cs-aub .item-content h2 {
   color: #4C28D4;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-aub .web-content h3, .cs-aub .news-carousel .item-content h3, .news-carousel .cs-aub .item-content h3, .cs-aub .web-content .title-header .site-title, .title-header .cs-aub .web-content .site-title, .cs-aub .news-carousel .item-content .title-header .site-title, .title-header .cs-aub .news-carousel .item-content .site-title, .news-carousel .cs-aub .item-content .title-header .site-title, .title-header .news-carousel .cs-aub .item-content .site-title,
+.cs-aub .web-content h3, .cs-aub .items-carousel .item-content h3, .items-carousel .cs-aub .item-content h3, .cs-aub .web-content .title-header .site-title, .title-header .cs-aub .web-content .site-title, .cs-aub .items-carousel .item-content .title-header .site-title, .title-header .cs-aub .items-carousel .item-content .site-title, .items-carousel .cs-aub .item-content .title-header .site-title, .title-header .items-carousel .cs-aub .item-content .site-title,
 .cs-aub .web-content .title-header .site-title,
-.cs-aub .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-aub .item-content .title-header .site-title,
+.cs-aub .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-aub .item-content .title-header .site-title,
 .cs-aub .title-header .web-content .site-title,
-.cs-aub .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-aub .title-header .item-content .site-title {
+.cs-aub .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-aub .title-header .item-content .site-title {
   color: #4C28D4;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-aub .web-content a, .cs-aub .news-carousel .item-content a, .news-carousel .cs-aub .item-content a {
+.cs-aub .web-content a, .cs-aub .items-carousel .item-content a, .items-carousel .cs-aub .item-content a {
   border-bottom-color: #4C28D4;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-aub .web-content cite, .cs-aub .news-carousel .item-content cite, .news-carousel .cs-aub .item-content cite {
+.cs-aub .web-content cite, .cs-aub .items-carousel .item-content cite, .items-carousel .cs-aub .item-content cite {
   border-left-color: #4C28D4;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2838,11 +2849,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #4C28D4;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-aub .news-carousel h3 span, .cs-aub .news-carousel .title-header .site-title span, .title-header .cs-aub .news-carousel .site-title span {
+.cs-aub .items-carousel h3 span, .cs-aub .items-carousel .title-header .site-title span, .title-header .cs-aub .items-carousel .site-title span {
   color: #4C28D4;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-aub .news-carousel .item-date {
+.cs-aub .items-carousel .item-date {
   color: #4C28D4;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */
@@ -2875,25 +2886,25 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #C79D49;
 }
 /* line 21, ../sass/partials/_color-schemes.scss */
-.cs-aud .web-content h2, .cs-aud .news-carousel .item-content h2, .news-carousel .cs-aud .item-content h2 {
+.cs-aud .web-content h2, .cs-aud .items-carousel .item-content h2, .items-carousel .cs-aud .item-content h2 {
   color: #C79D49;
 }
 /* line 25, ../sass/partials/_color-schemes.scss */
-.cs-aud .web-content h3, .cs-aud .news-carousel .item-content h3, .news-carousel .cs-aud .item-content h3, .cs-aud .web-content .title-header .site-title, .title-header .cs-aud .web-content .site-title, .cs-aud .news-carousel .item-content .title-header .site-title, .title-header .cs-aud .news-carousel .item-content .site-title, .news-carousel .cs-aud .item-content .title-header .site-title, .title-header .news-carousel .cs-aud .item-content .site-title,
+.cs-aud .web-content h3, .cs-aud .items-carousel .item-content h3, .items-carousel .cs-aud .item-content h3, .cs-aud .web-content .title-header .site-title, .title-header .cs-aud .web-content .site-title, .cs-aud .items-carousel .item-content .title-header .site-title, .title-header .cs-aud .items-carousel .item-content .site-title, .items-carousel .cs-aud .item-content .title-header .site-title, .title-header .items-carousel .cs-aud .item-content .site-title,
 .cs-aud .web-content .title-header .site-title,
-.cs-aud .news-carousel .item-content .title-header .site-title,
-.news-carousel .cs-aud .item-content .title-header .site-title,
+.cs-aud .items-carousel .item-content .title-header .site-title,
+.items-carousel .cs-aud .item-content .title-header .site-title,
 .cs-aud .title-header .web-content .site-title,
-.cs-aud .title-header .news-carousel .item-content .site-title,
-.news-carousel .cs-aud .title-header .item-content .site-title {
+.cs-aud .title-header .items-carousel .item-content .site-title,
+.items-carousel .cs-aud .title-header .item-content .site-title {
   color: #C79D49;
 }
 /* line 31, ../sass/partials/_color-schemes.scss */
-.cs-aud .web-content a, .cs-aud .news-carousel .item-content a, .news-carousel .cs-aud .item-content a {
+.cs-aud .web-content a, .cs-aud .items-carousel .item-content a, .items-carousel .cs-aud .item-content a {
   border-bottom-color: #C79D49;
 }
 /* line 35, ../sass/partials/_color-schemes.scss */
-.cs-aud .web-content cite, .cs-aud .news-carousel .item-content cite, .news-carousel .cs-aud .item-content cite {
+.cs-aud .web-content cite, .cs-aud .items-carousel .item-content cite, .items-carousel .cs-aud .item-content cite {
   border-left-color: #C79D49;
 }
 /* line 40, ../sass/partials/_color-schemes.scss */
@@ -2901,11 +2912,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background-color: #C79D49;
 }
 /* line 45, ../sass/partials/_color-schemes.scss */
-.cs-aud .news-carousel h3 span, .cs-aud .news-carousel .title-header .site-title span, .title-header .cs-aud .news-carousel .site-title span {
+.cs-aud .items-carousel h3 span, .cs-aud .items-carousel .title-header .site-title span, .title-header .cs-aud .items-carousel .site-title span {
   color: #C79D49;
 }
 /* line 48, ../sass/partials/_color-schemes.scss */
-.cs-aud .news-carousel .item-date {
+.cs-aud .items-carousel .item-date {
   color: #C79D49;
 }
 /* line 53, ../sass/partials/_color-schemes.scss */

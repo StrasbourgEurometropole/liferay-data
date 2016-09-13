@@ -147,10 +147,10 @@
   });
 }) (jQuery);
 
-// Carousel home news
+// Items carousel
 (function($) {
   $(document).ready(function() {
-    var carousel = $('.news-carousel .owl-carousel').owlCarousel({
+    var carousel = $('.items-carousel .owl-carousel').owlCarousel({
       items: 1,
       nav: true,
       stagePadding: 50,
@@ -165,7 +165,7 @@
       }
     });
   });
-  $('.news-carousel .item-content').dotdotdot({
+  $('.items-carousel .item-content').dotdotdot({
     watch: window
   });
 }) (jQuery);
