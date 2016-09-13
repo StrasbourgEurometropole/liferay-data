@@ -59,7 +59,7 @@
 				
 				
 				<strasbourg-picker:file label="file" name="fileId"
-					required="false" value="${dc.edition.fileId}" localized="true" multiple="true" />
+					required="false" value="${dc.edition.fileId}" localized="true" multiple="false" />
 			</aui:fieldset>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="metadata">
