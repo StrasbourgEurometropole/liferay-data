@@ -1,6 +1,6 @@
 <#if entries?has_content>
-    <div class="news-carousel">
-        <h3 class="news-carousel-title">Notre <span>Actualité</span></h3>
+    <div class="items-carousel news-carousel">
+        <h3 class="items-carousel-title">Notre <span>Actualité</span></h3>
         <div class="owl-carousel">
           <#list entries as curEntry>
             <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContent()) />
