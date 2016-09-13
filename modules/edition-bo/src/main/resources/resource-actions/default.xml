@@ -5,6 +5,7 @@
 		<portlet-name>eu_strasbourg_portlet_edition_EditionBOPortlet</portlet-name>
 		<permissions>
 			<supports>
+				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
 				<action-key>CONFIGURATION</action-key>
 				<action-key>VIEW</action-key>
@@ -15,6 +16,7 @@
 			</site-member-defaults>
 			<guest-defaults />
 			<guest-unsupported>
+				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
 				<action-key>CONFIGURATION</action-key>
 				<action-key>VIEW</action-key>
