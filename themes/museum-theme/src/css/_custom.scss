@@ -455,6 +455,14 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   font-family: "proximanova-bold", sans-serif;
 }
 
+/* line 81, ../sass/partials/_typography.scss */
+.portlet-serif-title, .editions-carousel h3, .editions-carousel .title-header .site-title, .title-header .editions-carousel .site-title {
+  font-family: 'Times', serif;
+  font-size: 32px !important;
+  font-style: italic;
+  text-transform: none;
+}
+
 /* line 1, ../sass/partials/_utils.scss */
 .pull-left {
   float: left !important;
@@ -1893,6 +1901,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 27, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-item {
   padding: 10px;
+  transition: background-color 0.2s ease-out;
+}
+/* line 30, ../sass/partials/_items-carousel.scss */
+.items-carousel .owl-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 @media (min-width: 602px) {
   /* line 27, ../sass/partials/_items-carousel.scss */
@@ -1900,19 +1913,19 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     padding: 30px;
   }
 }
-/* line 33, ../sass/partials/_items-carousel.scss */
+/* line 37, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-image {
   margin-bottom: 30px;
 }
 @media (min-width: 602px) {
-  /* line 33, ../sass/partials/_items-carousel.scss */
+  /* line 37, ../sass/partials/_items-carousel.scss */
   .items-carousel .item-image {
     width: 50%;
     display: inline-block;
   }
 }
 @media (min-width: 602px) {
-  /* line 40, ../sass/partials/_items-carousel.scss */
+  /* line 44, ../sass/partials/_items-carousel.scss */
   .items-carousel .item-info {
     display: inline-block;
     width: 40%;
@@ -1921,36 +1934,36 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     margin-left: 25px;
   }
 }
-/* line 49, ../sass/partials/_items-carousel.scss */
+/* line 53, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-date {
   font-family: "Times", Serif;
   font-style: italic;
   font-size: 15px;
   color: #666666;
 }
-/* line 55, ../sass/partials/_items-carousel.scss */
+/* line 59, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-title {
   margin-bottom: 25px;
 }
-/* line 58, ../sass/partials/_items-carousel.scss */
+/* line 62, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-title h4 {
   font-size: 16px;
   text-transform: none;
   margin: 0;
   line-height: 20px;
 }
-/* line 64, ../sass/partials/_items-carousel.scss */
+/* line 68, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-content {
   line-height: 20px;
   margin: 10px 0;
   padding: 0;
   height: 80px;
 }
-/* line 71, ../sass/partials/_items-carousel.scss */
+/* line 75, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dots {
   text-align: center;
 }
-/* line 74, ../sass/partials/_items-carousel.scss */
+/* line 78, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dot {
   margin: 5px 3px;
   display: inline-block;
@@ -1960,11 +1973,11 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   height: 7px;
   border-radius: 50%;
 }
-/* line 82, ../sass/partials/_items-carousel.scss */
+/* line 86, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dot.active {
   background-color: #333;
 }
-/* line 86, ../sass/partials/_items-carousel.scss */
+/* line 90, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-prev, .items-carousel .owl-next {
   width: 36px;
   height: 36px;
@@ -1976,15 +1989,65 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   bottom: -7px;
   display: inline-block;
 }
-/* line 97, ../sass/partials/_items-carousel.scss */
+/* line 101, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-prev {
   background-image: url(../images/icons/arrow-left-black.png);
   left: calc(50% - 100px);
 }
-/* line 101, ../sass/partials/_items-carousel.scss */
+/* line 105, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-next {
   background-image: url(../images/icons/arrow-right-black.png);
   left: calc(50% + 64px);
+}
+
+/* line 5, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .owl-item {
+  padding-right: 20px;
+  padding-bottom: 15px;
+  padding-top: 0;
+}
+/* line 9, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .owl-item:hover {
+  background-color: transparent;
+}
+/* line 13, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .item-image {
+  width: 37%;
+  display: inline-block !important;
+}
+/* line 17, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .item-info {
+  margin-left: 20px;
+  margin-top: 30px;
+  display: inline-block !important;
+  vertical-align: top;
+  max-width: 50%;
+}
+@media (min-width: 602px) {
+  /* line 17, ../sass/partials/_editions-carousel.scss */
+  .editions-carousel .item-info {
+    max-width: 100%;
+  }
+}
+/* line 27, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .item-title {
+  margin-bottom: 3px;
+}
+/* line 30, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .item-type-and-size {
+  color: #888888;
+}
+/* line 33, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .item-download-link {
+  margin-top: 15px;
+  display: inline-block;
+  font-family: "proximanova-bold", sans-serif;
+  font-weight: 400;
+  color: #2d2d2d;
+  font-size: 14px;
+  padding-right: 35px;
+  background: url("/o/museum-theme/images/icons/download.png") no-repeat right center;
+  background-size: 30px 30px;
 }
 
 /* line 3, ../sass/partials/_rubric.scss */
@@ -2112,6 +2175,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-default .rubric-portlet .rubric-page-links a:hover {
   color: #666666;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-default .portlet-serif-title, .cs-default .editions-carousel h3, .editions-carousel .cs-default h3, .cs-default .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-default .site-title, .cs-default .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-default .site-title {
+  border-bottom: 1px solid #666666;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-hre .breadcrumb {
@@ -2174,6 +2241,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-hre .rubric-portlet .rubric-page-links a:hover {
   color: #F3AC00;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-hre .portlet-serif-title, .cs-hre .editions-carousel h3, .editions-carousel .cs-hre h3, .cs-hre .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-hre .site-title, .cs-hre .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-hre .site-title {
+  border-bottom: 1px solid #F3AC00;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2238,6 +2309,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-ced .rubric-portlet .rubric-page-links a:hover {
   color: #ED6B2A;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-ced .portlet-serif-title, .cs-ced .editions-carousel h3, .editions-carousel .cs-ced h3, .cs-ced .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-ced .site-title, .cs-ced .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-ced .site-title {
+  border-bottom: 1px solid #ED6B2A;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mals .breadcrumb {
@@ -2300,6 +2375,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-mals .rubric-portlet .rubric-page-links a:hover {
   color: #00A369;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mals .portlet-serif-title, .cs-mals .editions-carousel h3, .editions-carousel .cs-mals h3, .cs-mals .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mals .site-title, .cs-mals .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mals .site-title {
+  border-bottom: 1px solid #00A369;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2364,6 +2443,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-marc .rubric-portlet .rubric-page-links a:hover {
   color: #41C497;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-marc .portlet-serif-title, .cs-marc .editions-carousel h3, .editions-carousel .cs-marc h3, .cs-marc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-marc .site-title, .cs-marc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-marc .site-title {
+  border-bottom: 1px solid #41C497;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mard .breadcrumb {
@@ -2426,6 +2509,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-mard .rubric-portlet .rubric-page-links a:hover {
   color: #17B7CB;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mard .portlet-serif-title, .cs-mard .editions-carousel h3, .editions-carousel .cs-mard h3, .cs-mard .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mard .site-title, .cs-mard .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mard .site-title {
+  border-bottom: 1px solid #17B7CB;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2490,6 +2577,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mamc .rubric-portlet .rubric-page-links a:hover {
   color: #628BA7;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mamc .portlet-serif-title, .cs-mamc .editions-carousel h3, .editions-carousel .cs-mamc h3, .cs-mamc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mamc .site-title, .cs-mamc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mamc .site-title {
+  border-bottom: 1px solid #628BA7;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mba .breadcrumb {
@@ -2552,6 +2643,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-mba .rubric-portlet .rubric-page-links a:hover {
   color: #3F2575;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mba .portlet-serif-title, .cs-mba .editions-carousel h3, .editions-carousel .cs-mba h3, .cs-mba .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mba .site-title, .cs-mba .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mba .site-title {
+  border-bottom: 1px solid #3F2575;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2616,6 +2711,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mh .rubric-portlet .rubric-page-links a:hover {
   color: #790C3A;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mh .portlet-serif-title, .cs-mh .editions-carousel h3, .editions-carousel .cs-mh h3, .cs-mh .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mh .site-title, .cs-mh .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mh .site-title {
+  border-bottom: 1px solid #790C3A;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mond .breadcrumb {
@@ -2678,6 +2777,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-mond .rubric-portlet .rubric-page-links a:hover {
   color: #A30000;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mond .portlet-serif-title, .cs-mond .editions-carousel h3, .editions-carousel .cs-mond h3, .cs-mond .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mond .site-title, .cs-mond .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mond .site-title {
+  border-bottom: 1px solid #A30000;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2742,6 +2845,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mtu .rubric-portlet .rubric-page-links a:hover {
   color: #D42889;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mtu .portlet-serif-title, .cs-mtu .editions-carousel h3, .editions-carousel .cs-mtu h3, .cs-mtu .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mtu .site-title, .cs-mtu .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mtu .site-title {
+  border-bottom: 1px solid #D42889;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mz .breadcrumb {
@@ -2804,6 +2911,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-mz .rubric-portlet .rubric-page-links a:hover {
   color: #9528D4;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-mz .portlet-serif-title, .cs-mz .editions-carousel h3, .editions-carousel .cs-mz h3, .cs-mz .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mz .site-title, .cs-mz .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mz .site-title {
+  border-bottom: 1px solid #9528D4;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2868,6 +2979,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-aub .rubric-portlet .rubric-page-links a:hover {
   color: #4C28D4;
 }
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-aub .portlet-serif-title, .cs-aub .editions-carousel h3, .editions-carousel .cs-aub h3, .cs-aub .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aub .site-title, .cs-aub .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aub .site-title {
+  border-bottom: 1px solid #4C28D4;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-aud .breadcrumb {
@@ -2930,4 +3045,8 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 61, ../sass/partials/_color-schemes.scss */
 .cs-aud .rubric-portlet .rubric-page-links a:hover {
   color: #C79D49;
+}
+/* line 66, ../sass/partials/_color-schemes.scss */
+.cs-aud .portlet-serif-title, .cs-aud .editions-carousel h3, .editions-carousel .cs-aud h3, .cs-aud .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aud .site-title, .cs-aud .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aud .site-title {
+  border-bottom: 1px solid #C79D49;
 }

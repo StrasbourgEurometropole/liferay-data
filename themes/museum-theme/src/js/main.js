@@ -150,7 +150,8 @@
 // Items carousel
 (function($) {
   $(document).ready(function() {
-    var carousel = $('.items-carousel .owl-carousel').owlCarousel({
+	// Carousel news
+    $('.items-carousel.news-carousel .owl-carousel').owlCarousel({
       items: 1,
       nav: true,
       stagePadding: 50,
@@ -164,6 +165,19 @@
         }
       }
     });
+    // Carousel editions
+    $('.items-carousel.editions-carousel .owl-carousel').owlCarousel({
+        items: 1,
+        nav: true,
+        responsive: {
+          601: {
+            items: 2
+          },
+          1000: {
+            items: 4
+          }
+        }
+      });
   });
   $('.items-carousel .item-content').dotdotdot({
     watch: window
