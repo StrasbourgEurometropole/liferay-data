@@ -337,6 +337,18 @@ div[class^=col-] {
   padding-top: 0;
 }
 
+@media (min-width: 919px) {
+  /* line 24, ../sass/partials/_layout.scss */
+  .portlet-column-first {
+    padding-right: 20px !important;
+  }
+
+  /* line 28, ../sass/partials/_layout.scss */
+  .portlet-column-last {
+    border-left: 1px solid #d8d8d8;
+    padding-left: 20px !important;
+  }
+}
 @font-face {
   font-family: proximanova-light;
   src: url("../fonts/proximanova/proximanova-light.eot");
@@ -456,11 +468,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 }
 
 /* line 81, ../sass/partials/_typography.scss */
-.portlet-serif-title, .editions-carousel h3, .editions-carousel .title-header .site-title, .title-header .editions-carousel .site-title {
+.portlet-serif-title, .editions-carousel h3, .editions-carousel .title-header .site-title, .title-header .editions-carousel .site-title, .useful-documents .useful-documents-title {
   font-family: 'Times', serif;
   font-size: 32px !important;
   font-style: italic;
   text-transform: none;
+  padding-bottom: 5px;
 }
 
 /* line 1, ../sass/partials/_utils.scss */
@@ -2049,6 +2062,17 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background: url("/o/museum-theme/images/icons/download.png") no-repeat right center;
   background-size: 30px 30px;
 }
+/* line 44, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .owl-dots {
+  padding: 10px 0px;
+  margin: 0 20px;
+  border-top: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+}
+/* line 50, ../sass/partials/_editions-carousel.scss */
+.editions-carousel .owl-prev, .editions-carousel .owl-next {
+  bottom: 4px;
+}
 
 /* line 3, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-pages {
@@ -2056,36 +2080,30 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   column-gap: 40px;
   margin: 20px 0;
 }
-@media (min-width: 1280px) {
-  /* line 3, ../sass/partials/_rubric.scss */
-  .rubric-portlet .rubric-pages {
-    columns: 380px;
-  }
-}
-/* line 11, ../sass/partials/_rubric.scss */
+/* line 8, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page {
   margin-bottom: 40px;
   break-inside: avoid;
 }
-/* line 15, ../sass/partials/_rubric.scss */
+/* line 12, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-image {
   margin-bottom: 20px;
 }
-/* line 18, ../sass/partials/_rubric.scss */
+/* line 15, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-name {
   color: #333333;
   font-size: 20px;
 }
-/* line 22, ../sass/partials/_rubric.scss */
+/* line 19, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-name a:hover {
   color: #666666;
 }
-/* line 26, ../sass/partials/_rubric.scss */
+/* line 23, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-links {
   width: 100%;
   padding: 5px 0;
 }
-/* line 29, ../sass/partials/_rubric.scss */
+/* line 26, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-links li {
   float: none;
   width: 100%;
@@ -2093,24 +2111,63 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   padding-top: 11px;
   padding-bottom: 9px;
 }
-/* line 35, ../sass/partials/_rubric.scss */
+/* line 32, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-links li a {
   border-bottom: 0;
 }
-/* line 37, ../sass/partials/_rubric.scss */
+/* line 34, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-links li a:hover {
   color: #666666;
 }
-/* line 44, ../sass/partials/_rubric.scss */
+/* line 41, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-description {
   line-height: 24px;
 }
-/* line 47, ../sass/partials/_rubric.scss */
+/* line 44, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-page-read-more a {
   margin: 5px 0;
   border-bottom: 1px solid #666666;
   padding-bottom: 1px;
   display: inline-block;
+}
+
+/* line 2, ../sass/partials/_useful-documents.scss */
+.useful-documents .useful-documents-title {
+  margin: 20px;
+  margin-bottom: 0;
+}
+/* line 7, ../sass/partials/_useful-documents.scss */
+.useful-documents ul {
+  list-style-type: none;
+  margin: 0 20px;
+  padding: 0;
+}
+/* line 12, ../sass/partials/_useful-documents.scss */
+.useful-documents li {
+  padding: 0;
+  display: block;
+  border-bottom: 1px solid #d8d8d8;
+  background: url("/o/museum-theme/images/icons/download.png") no-repeat right center;
+}
+/* line 17, ../sass/partials/_useful-documents.scss */
+.useful-documents li a {
+  display: block;
+  padding: 20px 50px 20px 0;
+  background-size: 30px 30px;
+  transition: transform 0.2s ease-out;
+}
+/* line 22, ../sass/partials/_useful-documents.scss */
+.useful-documents li a:hover {
+  transform: translateX(20px);
+}
+/* line 24, ../sass/partials/_useful-documents.scss */
+.useful-documents li a:hover .file-name {
+  font-family: "proximanova-bold", sans-serif;
+}
+/* line 30, ../sass/partials/_useful-documents.scss */
+.useful-documents .file-type-and-size {
+  color: #888888;
+  padding-top: 5px;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2176,8 +2233,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #666666;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-default .portlet-serif-title, .cs-default .editions-carousel h3, .editions-carousel .cs-default h3, .cs-default .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-default .site-title, .cs-default .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-default .site-title {
+.cs-default .portlet-serif-title, .cs-default .editions-carousel h3, .editions-carousel .cs-default h3, .cs-default .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-default .site-title, .cs-default .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-default .site-title, .cs-default .useful-documents .useful-documents-title, .useful-documents .cs-default .useful-documents-title {
   border-bottom: 1px solid #666666;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-default .useful-documents a:hover .file-name {
+  color: #666666;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2243,8 +2304,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #F3AC00;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-hre .portlet-serif-title, .cs-hre .editions-carousel h3, .editions-carousel .cs-hre h3, .cs-hre .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-hre .site-title, .cs-hre .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-hre .site-title {
+.cs-hre .portlet-serif-title, .cs-hre .editions-carousel h3, .editions-carousel .cs-hre h3, .cs-hre .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-hre .site-title, .cs-hre .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-hre .site-title, .cs-hre .useful-documents .useful-documents-title, .useful-documents .cs-hre .useful-documents-title {
   border-bottom: 1px solid #F3AC00;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-hre .useful-documents a:hover .file-name {
+  color: #F3AC00;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2310,8 +2375,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #ED6B2A;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-ced .portlet-serif-title, .cs-ced .editions-carousel h3, .editions-carousel .cs-ced h3, .cs-ced .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-ced .site-title, .cs-ced .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-ced .site-title {
+.cs-ced .portlet-serif-title, .cs-ced .editions-carousel h3, .editions-carousel .cs-ced h3, .cs-ced .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-ced .site-title, .cs-ced .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-ced .site-title, .cs-ced .useful-documents .useful-documents-title, .useful-documents .cs-ced .useful-documents-title {
   border-bottom: 1px solid #ED6B2A;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-ced .useful-documents a:hover .file-name {
+  color: #ED6B2A;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2377,8 +2446,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #00A369;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mals .portlet-serif-title, .cs-mals .editions-carousel h3, .editions-carousel .cs-mals h3, .cs-mals .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mals .site-title, .cs-mals .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mals .site-title {
+.cs-mals .portlet-serif-title, .cs-mals .editions-carousel h3, .editions-carousel .cs-mals h3, .cs-mals .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mals .site-title, .cs-mals .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mals .site-title, .cs-mals .useful-documents .useful-documents-title, .useful-documents .cs-mals .useful-documents-title {
   border-bottom: 1px solid #00A369;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mals .useful-documents a:hover .file-name {
+  color: #00A369;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2444,8 +2517,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #41C497;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-marc .portlet-serif-title, .cs-marc .editions-carousel h3, .editions-carousel .cs-marc h3, .cs-marc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-marc .site-title, .cs-marc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-marc .site-title {
+.cs-marc .portlet-serif-title, .cs-marc .editions-carousel h3, .editions-carousel .cs-marc h3, .cs-marc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-marc .site-title, .cs-marc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-marc .site-title, .cs-marc .useful-documents .useful-documents-title, .useful-documents .cs-marc .useful-documents-title {
   border-bottom: 1px solid #41C497;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-marc .useful-documents a:hover .file-name {
+  color: #41C497;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2511,8 +2588,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #17B7CB;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mard .portlet-serif-title, .cs-mard .editions-carousel h3, .editions-carousel .cs-mard h3, .cs-mard .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mard .site-title, .cs-mard .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mard .site-title {
+.cs-mard .portlet-serif-title, .cs-mard .editions-carousel h3, .editions-carousel .cs-mard h3, .cs-mard .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mard .site-title, .cs-mard .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mard .site-title, .cs-mard .useful-documents .useful-documents-title, .useful-documents .cs-mard .useful-documents-title {
   border-bottom: 1px solid #17B7CB;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mard .useful-documents a:hover .file-name {
+  color: #17B7CB;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2578,8 +2659,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #628BA7;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mamc .portlet-serif-title, .cs-mamc .editions-carousel h3, .editions-carousel .cs-mamc h3, .cs-mamc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mamc .site-title, .cs-mamc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mamc .site-title {
+.cs-mamc .portlet-serif-title, .cs-mamc .editions-carousel h3, .editions-carousel .cs-mamc h3, .cs-mamc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mamc .site-title, .cs-mamc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mamc .site-title, .cs-mamc .useful-documents .useful-documents-title, .useful-documents .cs-mamc .useful-documents-title {
   border-bottom: 1px solid #628BA7;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mamc .useful-documents a:hover .file-name {
+  color: #628BA7;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2645,8 +2730,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #3F2575;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mba .portlet-serif-title, .cs-mba .editions-carousel h3, .editions-carousel .cs-mba h3, .cs-mba .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mba .site-title, .cs-mba .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mba .site-title {
+.cs-mba .portlet-serif-title, .cs-mba .editions-carousel h3, .editions-carousel .cs-mba h3, .cs-mba .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mba .site-title, .cs-mba .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mba .site-title, .cs-mba .useful-documents .useful-documents-title, .useful-documents .cs-mba .useful-documents-title {
   border-bottom: 1px solid #3F2575;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mba .useful-documents a:hover .file-name {
+  color: #3F2575;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2712,8 +2801,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #790C3A;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mh .portlet-serif-title, .cs-mh .editions-carousel h3, .editions-carousel .cs-mh h3, .cs-mh .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mh .site-title, .cs-mh .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mh .site-title {
+.cs-mh .portlet-serif-title, .cs-mh .editions-carousel h3, .editions-carousel .cs-mh h3, .cs-mh .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mh .site-title, .cs-mh .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mh .site-title, .cs-mh .useful-documents .useful-documents-title, .useful-documents .cs-mh .useful-documents-title {
   border-bottom: 1px solid #790C3A;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mh .useful-documents a:hover .file-name {
+  color: #790C3A;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2779,8 +2872,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #A30000;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mond .portlet-serif-title, .cs-mond .editions-carousel h3, .editions-carousel .cs-mond h3, .cs-mond .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mond .site-title, .cs-mond .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mond .site-title {
+.cs-mond .portlet-serif-title, .cs-mond .editions-carousel h3, .editions-carousel .cs-mond h3, .cs-mond .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mond .site-title, .cs-mond .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mond .site-title, .cs-mond .useful-documents .useful-documents-title, .useful-documents .cs-mond .useful-documents-title {
   border-bottom: 1px solid #A30000;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mond .useful-documents a:hover .file-name {
+  color: #A30000;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2846,8 +2943,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #D42889;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mtu .portlet-serif-title, .cs-mtu .editions-carousel h3, .editions-carousel .cs-mtu h3, .cs-mtu .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mtu .site-title, .cs-mtu .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mtu .site-title {
+.cs-mtu .portlet-serif-title, .cs-mtu .editions-carousel h3, .editions-carousel .cs-mtu h3, .cs-mtu .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mtu .site-title, .cs-mtu .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mtu .site-title, .cs-mtu .useful-documents .useful-documents-title, .useful-documents .cs-mtu .useful-documents-title {
   border-bottom: 1px solid #D42889;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mtu .useful-documents a:hover .file-name {
+  color: #D42889;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2913,8 +3014,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #9528D4;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mz .portlet-serif-title, .cs-mz .editions-carousel h3, .editions-carousel .cs-mz h3, .cs-mz .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mz .site-title, .cs-mz .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mz .site-title {
+.cs-mz .portlet-serif-title, .cs-mz .editions-carousel h3, .editions-carousel .cs-mz h3, .cs-mz .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mz .site-title, .cs-mz .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mz .site-title, .cs-mz .useful-documents .useful-documents-title, .useful-documents .cs-mz .useful-documents-title {
   border-bottom: 1px solid #9528D4;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-mz .useful-documents a:hover .file-name {
+  color: #9528D4;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -2980,8 +3085,12 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #4C28D4;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-aub .portlet-serif-title, .cs-aub .editions-carousel h3, .editions-carousel .cs-aub h3, .cs-aub .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aub .site-title, .cs-aub .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aub .site-title {
+.cs-aub .portlet-serif-title, .cs-aub .editions-carousel h3, .editions-carousel .cs-aub h3, .cs-aub .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aub .site-title, .cs-aub .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aub .site-title, .cs-aub .useful-documents .useful-documents-title, .useful-documents .cs-aub .useful-documents-title {
   border-bottom: 1px solid #4C28D4;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-aub .useful-documents a:hover .file-name {
+  color: #4C28D4;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -3047,6 +3156,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #C79D49;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-aud .portlet-serif-title, .cs-aud .editions-carousel h3, .editions-carousel .cs-aud h3, .cs-aud .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aud .site-title, .cs-aud .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aud .site-title {
+.cs-aud .portlet-serif-title, .cs-aud .editions-carousel h3, .editions-carousel .cs-aud h3, .cs-aud .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aud .site-title, .cs-aud .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aud .site-title, .cs-aud .useful-documents .useful-documents-title, .useful-documents .cs-aud .useful-documents-title {
   border-bottom: 1px solid #C79D49;
+}
+/* line 71, ../sass/partials/_color-schemes.scss */
+.cs-aud .useful-documents a:hover .file-name {
+  color: #C79D49;
 }

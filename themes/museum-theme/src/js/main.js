@@ -155,6 +155,7 @@
       items: 1,
       nav: true,
       stagePadding: 50,
+      responsiveBaseElement: '.items-carousel.news-carousel',
       responsive: {
         601: {
           stagePadding: 0
@@ -169,6 +170,7 @@
     $('.items-carousel.editions-carousel .owl-carousel').owlCarousel({
         items: 1,
         nav: true,
+        responsiveBaseElement: '.items-carousel.editions-carousel',
         responsive: {
           601: {
             items: 2
