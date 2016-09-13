@@ -78,4 +78,8 @@ public class ArtworkCollectionAssetRenderer extends BaseJSPAssetRenderer<Artwork
 		}
 	}
 
+	public ArtworkCollection getCollection() {
+		return this._entry;
+	}
+	
 }

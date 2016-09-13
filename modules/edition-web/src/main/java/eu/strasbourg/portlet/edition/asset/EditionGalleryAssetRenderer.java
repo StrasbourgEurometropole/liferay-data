@@ -76,5 +76,8 @@ public class EditionGalleryAssetRenderer extends BaseJSPAssetRenderer<EditionGal
 		}
 	}
 
+	public EditionGallery getGallery() {
+		return this._entry;
+	}
 
 }

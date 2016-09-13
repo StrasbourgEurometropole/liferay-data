@@ -77,5 +77,9 @@ public class ArtworkAssetRenderer extends BaseJSPAssetRenderer<Artwork> {
 			return null;
 		}
 	}
+	
+	public Artwork getArtwork() {
+		return this._entry;
+	}
 
 }

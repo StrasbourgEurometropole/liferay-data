@@ -77,5 +77,8 @@ public class EditionAssetRenderer extends BaseJSPAssetRenderer<Edition> {
 		}
 	}
 
-
+	public Edition getEdition() {
+		return this._entry;
+	}
+	
 }
