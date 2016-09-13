@@ -543,6 +543,10 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.getDistribution();
 	}
 
+	/**
+	* Renvoie la liste des IDs des galleries auxquelles cette �dition appartient
+	* sous forme de String s�par�e par des virgules
+	*/
 	@Override
 	public java.lang.String getEditionGalleriesIds() {
 		return _edition.getEditionGalleriesIds();
@@ -617,6 +621,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Renvoie l'URL de t�l�chargement du fichier (que ce soit un FileEntry ou une URL externe)
+	*/
+	@Override
+	public java.lang.String getFileDownloadURL(java.util.Locale locale) {
+		return _edition.getFileDownloadURL(locale);
+	}
+
+	/**
 	* Returns the file ID of this edition.
 	*
 	* @return the file ID of this edition
@@ -682,6 +694,24 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public java.lang.String getFileIdCurrentValue() {
 		return _edition.getFileIdCurrentValue();
+	}
+
+	/**
+	* Renovie la taille du fichier sous forme de String
+	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	*/
+	@Override
+	public java.lang.String getFileSize(java.util.Locale locale) {
+		return _edition.getFileSize(locale);
+	}
+
+	/**
+	* Renovie le type du fichier sous forme de String
+	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	*/
+	@Override
+	public java.lang.String getFileType(java.util.Locale locale) {
+		return _edition.getFileType(locale);
 	}
 
 	/**
@@ -1022,6 +1052,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.getCategories();
 	}
 
+	/**
+	* Renvoie la liste des galleries auxquelles cette �dition appartient
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries() {
 		return _edition.getEditionGalleries();

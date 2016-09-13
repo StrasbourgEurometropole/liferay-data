@@ -74,7 +74,31 @@ public interface Edition extends EditionModel, PersistedModel {
 	*/
 	public java.lang.String getImageURL();
 
+	/**
+	* Renvoie la liste des galleries auxquelles cette �dition appartient
+	*/
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries();
 
+	/**
+	* Renvoie la liste des IDs des galleries auxquelles cette �dition appartient
+	* sous forme de String s�par�e par des virgules
+	*/
 	public java.lang.String getEditionGalleriesIds();
+
+	/**
+	* Renvoie l'URL de t�l�chargement du fichier (que ce soit un FileEntry ou une URL externe)
+	*/
+	public java.lang.String getFileDownloadURL(java.util.Locale locale);
+
+	/**
+	* Renovie la taille du fichier sous forme de String
+	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	*/
+	public java.lang.String getFileSize(java.util.Locale locale);
+
+	/**
+	* Renovie le type du fichier sous forme de String
+	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	*/
+	public java.lang.String getFileType(java.util.Locale locale);
 }

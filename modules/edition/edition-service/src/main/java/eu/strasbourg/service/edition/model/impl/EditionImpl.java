@@ -16,6 +16,7 @@ package eu.strasbourg.service.edition.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -24,6 +25,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
@@ -94,10 +97,17 @@ public class EditionImpl extends EditionBaseImpl {
 		return DLFileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 	
+	/**
+	 * Renvoie la liste des galleries auxquelles cette édition appartient
+	 */
 	public List<EditionGallery> getEditionGalleries() {
 		return EditionGalleryLocalServiceUtil.getEditionEditionGalleries(this.getEditionId());
 	}
 	
+	/**
+	 * Renvoie la liste des IDs des galleries auxquelles cette édition appartient
+	 * sous forme de String séparée par des virgules
+	 */
 	public String getEditionGalleriesIds() {
 		List<EditionGallery> galleries = this.getEditionGalleries();
 		String ids = "";
@@ -110,4 +120,39 @@ public class EditionImpl extends EditionBaseImpl {
 		return ids;
 	}
 	
+	/**
+	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
+	 */
+	public String getFileDownloadURL(Locale locale) {
+		String URL = this.getURL(locale);
+		if (Validator.isNull(URL)) {
+			URL = DLFileEntryHelper.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
+		}
+		return URL;
+	}
+	
+	/**
+	 * Renovie la taille du fichier sous forme de String 
+	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 */
+	public String getFileSize(Locale locale) {
+		if (Validator.isNotNull(this.getURL(locale))) {
+			return "";
+		} else {
+			return DLFileEntryHelper.getReadableFileEntrySize(Long.parseLong(this.getFileId(locale)), locale);
+		}
+	}
+	
+	/**
+	 * Renovie le type du fichier sous forme de String 
+	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 */
+	public String getFileType(Locale locale) {
+		if (Validator.isNotNull(this.getURL(locale))) {
+			return "";
+		} else {
+			DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
+			return fileEntry.getExtension().toUpperCase();
+		}
+	}
 }
