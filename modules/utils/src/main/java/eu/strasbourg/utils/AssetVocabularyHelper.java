@@ -7,6 +7,10 @@ import java.util.stream.LongStream;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 
+/**
+ * Classe Helper pour tout ce qui concerne les vocabulaires
+ *
+ */
 public class AssetVocabularyHelper {
 	public static List<AssetVocabulary> getVocabulariesForAssetType(
 		long groupId, long classNameId) {

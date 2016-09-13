@@ -3,7 +3,7 @@ package eu.strasbourg.picker.taglib;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 
-import eu.strasbourg.utils.DLFileEntryHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 public class FileObject {
 
@@ -16,7 +16,7 @@ public class FileObject {
 		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if (file != null) {
 			this._id = file.getFileEntryId();
-			this._url = DLFileEntryHelper.getFileEntryURL(file);
+			this._url = FileEntryHelper.getFileEntryURL(file);
 			this._title = file.getTitle();
 			this._fileName = file.getFileName();
 		}

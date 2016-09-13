@@ -6,7 +6,12 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 
-public class DLFileEntryHelper {
+/**
+ * Classe Helper pour tout ce qui concerne les fichiers
+ * @author Benjamin Bini
+ *
+ */
+public class FileEntryHelper {
 	public static String getFileEntryURL(long fileEntryId) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		return getFileEntryURL(fileEntry);

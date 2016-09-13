@@ -32,7 +32,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
-import eu.strasbourg.utils.DLFileEntryHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 /**
  * The extended model implementation for the Edition service. Represents a row
@@ -94,7 +94,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * @throws NumberFormatException
 	 */
 	public String getImageURL() {
-		return DLFileEntryHelper.getFileEntryURL(this.getImageId());
+		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class EditionImpl extends EditionBaseImpl {
 	public String getFileDownloadURL(Locale locale) {
 		String URL = this.getURL(locale);
 		if (Validator.isNull(URL)) {
-			URL = DLFileEntryHelper.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
+			URL = FileEntryHelper.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
 		}
 		return URL;
 	}
@@ -139,7 +139,7 @@ public class EditionImpl extends EditionBaseImpl {
 		if (Validator.isNotNull(this.getURL(locale))) {
 			return "";
 		} else {
-			return DLFileEntryHelper.getReadableFileEntrySize(Long.parseLong(this.getFileId(locale)), locale);
+			return FileEntryHelper.getReadableFileEntrySize(Long.parseLong(this.getFileId(locale)), locale);
 		}
 	}
 	
