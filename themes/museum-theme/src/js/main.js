@@ -185,3 +185,19 @@
     watch: window
   });
 }) (jQuery);
+
+// Onglets expositions
+(function($) {
+	$(document).ready(function() {
+		$('.exhibition-tab').on('click', function(e) {
+			e.preventDefault();
+			
+			$('.exhibition-tab').removeClass('active');
+			$(this).addClass('active');
+
+			var entryId = $(this).data('entry-id');
+			$('.exhibition-tab-content').removeClass('active');
+			$('.exhibition-tab-content[data-entry-id=' + entryId + ']').addClass('active');
+		});
+	});
+}) (jQuery);
