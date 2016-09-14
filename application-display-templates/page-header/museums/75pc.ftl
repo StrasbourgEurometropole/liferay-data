@@ -1,12 +1,12 @@
-<div class="page-header with-image alt-theme alt-theme-2">
+<div class="page-header with-image alt-theme">
     <div class="page-header-image">
         <img src="${layout.expandoBridge.getAttribute('image')}" />
+        <#if (imageCredit?length > 0)>
+            <div class="page-header-image-credit">
+                ${imageCredit}
+            </div>
+        </#if>
     </div>
-    <#if (imageCredit?length > 0)>
-        <div class="page-header-image-credit">
-            ${imageCredit}
-        </div>
-    </#if>
     <div class="page-header-info">
         <div class="page-header-title-and-share">
             <div class="page-header-title">
