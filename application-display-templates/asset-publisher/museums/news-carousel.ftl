@@ -1,9 +1,9 @@
 <#if entries?has_content>
     <div class="items-carousel news-carousel">
         <h3 class="items-carousel-title">Notre <span>Actualité</span></h3>
-        <div class="owl-carousel">
+        <div class="owl-carousel ">
           <#list entries as curEntry>
-            <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContent()) />
+            <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
