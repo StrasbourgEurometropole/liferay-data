@@ -26,7 +26,6 @@ import eu.strasbourg.portlet.artwork.display.context.ViewCollectionsDisplayConte
 	property = {
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/artwork-bo-main.js",
-		"javax.portlet.display-name=Oeuvres",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/artwork-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
@@ -48,7 +47,7 @@ public class ArtworkBOPortlet extends MVCPortlet {
 		
 		renderResponse.setTitle("Oeuvres");
 		
-		// If we are on an "add" page, we set a return URL and show the "back" button
+		// Si on est sur la page d'ajout, on affiche une lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
@@ -56,7 +55,7 @@ public class ArtworkBOPortlet extends MVCPortlet {
 			portletDisplay.setURLBack(returnURL.toString());
 		}
 		
-		// If we are on the Artwork edition page, we add the corresponding display context
+		// On set le displayContext selon la page sur laquelle on est
 		if (cmd.equals("editArtwork")) {
 			EditArtworkDisplayContext dc = new EditArtworkDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
