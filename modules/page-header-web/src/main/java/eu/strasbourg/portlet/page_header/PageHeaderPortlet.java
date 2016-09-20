@@ -27,11 +27,10 @@ import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
 @Component(
 	immediate = true,
 	configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration",
-	property = { "com.liferay.portlet.display-category=category.Strasbourg",
+	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.css-class-wrapper=page-header-portlet",
 		"com.liferay.portlet.header-portlet-css=/css/page-header-default-style.css",
-		"javax.portlet.display-name=Entête de page",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/page-header-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
@@ -72,7 +71,7 @@ public class PageHeaderPortlet extends MVCPortlet {
 		renderRequest.setAttribute("displayStyleGroupId", displayStyleGroupId);
 		renderRequest.setAttribute("contextObjects", contextObjects);
 		renderRequest.setAttribute("entries", entries);
-
+		
 		super.render(renderRequest, renderResponse);
 	}
 
