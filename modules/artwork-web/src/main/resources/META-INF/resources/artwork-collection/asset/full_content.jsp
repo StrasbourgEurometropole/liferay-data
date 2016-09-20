@@ -1,5 +1,3 @@
-<%@ include file="/artwork-collection/collection-init.jsp" %>
+<%@include file="/artwork-collection/collection-init.jsp" %>
 
-<p>
-	<b><liferay-ui:message key="edition_web_Artwork.caption"/></b>
-</p>
+Artwork collection (jsp full) : ${entry.getTitle(locale)}

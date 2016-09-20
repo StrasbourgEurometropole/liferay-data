@@ -60,7 +60,7 @@ public class ArtworkCollectionItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Galeries";
+		return "Collections";
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class ArtworkCollectionItemSelectorView
 			keywords, themeDisplay.getSiteGroupIdOrLiveGroupId());
 
 		servletRequest.setAttribute("total", collectionsCount);
-		servletRequest.setAttribute("galleries", collections);
+		servletRequest.setAttribute("collections", collections);
 		servletRequest.setAttribute("portletURL", portletURL);
 		servletRequest.setAttribute("itemSelectedEventName",
 			itemSelectedEventName);
