@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
 
 import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditionAssetRenderer extends BaseJSPAssetRenderer<Edition> {
 	
@@ -75,6 +76,16 @@ public class EditionAssetRenderer extends BaseJSPAssetRenderer<Edition> {
 		else {
 			return null;
 		}
+	}
+	
+	@Override
+	public boolean include(HttpServletRequest request,
+		HttpServletResponse response, String template) throws Exception {
+
+		request.setAttribute("entry", this._entry);
+		request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
+		
+		return super.include(request, response, template);
 	}
 
 	public Edition getEdition() {

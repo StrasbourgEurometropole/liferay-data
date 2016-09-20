@@ -75,10 +75,12 @@
 				this.checked = true;
 				$(this).parents('tr').addClass('info');
 			}
+			var id = $('.info .data').data('id');
+			var title = $('.info .data').data('title');
 			Liferay.Util.getOpener().Liferay.fire('${itemSelectedEventName}', {
 				data: {
-					entityId: $(this).find('.data').data('id'),
-					title: $(this).find('.data').data('title')
+					entityId: id,
+					title: title
 				}
 			});
 		} else {

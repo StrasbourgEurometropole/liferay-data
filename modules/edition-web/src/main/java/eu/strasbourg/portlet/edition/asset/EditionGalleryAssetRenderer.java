@@ -4,10 +4,12 @@ import java.util.Locale;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
 
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditionGalleryAssetRenderer extends BaseJSPAssetRenderer<EditionGallery> {
 	
@@ -74,6 +76,16 @@ public class EditionGalleryAssetRenderer extends BaseJSPAssetRenderer<EditionGal
 		else {
 			return null;
 		}
+	}
+	
+	@Override
+	public boolean include(HttpServletRequest request,
+		HttpServletResponse response, String template) throws Exception {
+
+		request.setAttribute("entry", this._entry);
+		request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
+		
+		return super.include(request, response, template);
 	}
 
 	public EditionGallery getGallery() {

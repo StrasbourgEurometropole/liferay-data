@@ -1,5 +1,3 @@
-<%@ include file="/edition/edition-init.jsp" %>
+<%@include file="/edition/edition-init.jsp" %>
 
-<p>
-	<b><liferay-ui:message key="edition_web_Edition.caption"/></b>
-</p>
+Edition (jsp full) : ${entry.getTitle(locale)}
