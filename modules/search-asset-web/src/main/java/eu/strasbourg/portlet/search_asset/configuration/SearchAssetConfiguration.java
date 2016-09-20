@@ -12,11 +12,17 @@ import aQute.bnd.annotation.metatype.Meta;
 	localization = "content/Language",
 	name = "portlet.search_asset.configuration.name")
 public interface SearchAssetConfiguration {
-	@Meta.AD(name="assetClassNameId", required=false)
-	public long assetClassNameId(); 
+	@Meta.AD(name="templatesKeys", required=false)
+	public String templatesKeys(); 
 	
-	@Meta.AD(name="assetClassName", required=false)
-	public String assetClassName(); 
+	@Meta.AD(name="assetClassNamesIds", required=false)
+	public String assetClassNamesIds(); 
+	
+	@Meta.AD(name="assetClassNames", required=false)
+	public String assetClassNames(); 
+	
+	@Meta.AD(name="layoutsFriendlyURLs", required=false)
+	public String layoutsFriendlyURLs();
 	
 	@Meta.AD(name="vocabulariesIds", required=false)
 	public String vocabulariesIds();

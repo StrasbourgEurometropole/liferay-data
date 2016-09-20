@@ -2,16 +2,16 @@ package eu.strasbourg.portlet.search_asset.display.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -85,16 +85,6 @@ public class SearchAssetDisplayContext {
 		return this._searchContainer;
 	}
 
-	/**
-	 * Renvoie l'AssetRendererFactory correspondant au type d'asset
-	 */
-	public AssetRendererFactory getAssetRendererFactory() {
-		if (this._assetRendererFactory == null) {
-			this._assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(this._configuration.assetClassName());
-		}
-		return this._assetRendererFactory;
-	}
-	
 	/**
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
 	 * entries
@@ -171,10 +161,25 @@ public class SearchAssetDisplayContext {
 
 			// Construction de la requête
 			BooleanQuery query = new BooleanQueryImpl();
-			query.addRequiredTerm(Field.ENTRY_CLASS_NAME,
-				this._configuration.assetClassName());
+
+			// ClassNames
+			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			for (String className : this._configuration.assetClassNames()
+				.split(",")) {
+				if (Validator.isNotNull(className)) {
+					// TermQuery termQuery = new TermQueryImpl(new
+					// QueryTermImpl(Field.EN, value))
+					classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className,
+						false, BooleanClauseOccur.SHOULD);
+				}
+			}
+			query.add(classNameQuery, BooleanClauseOccur.MUST);
+
+			// Group Id
 			query.addRequiredTerm(Field.GROUP_ID,
 				this._themeDisplay.getSiteGroupIdOrLiveGroupId());
+
+			// Status
 			query.addRequiredTerm(Field.STATUS, 1);
 
 			// Mots-clés
@@ -202,7 +207,8 @@ public class SearchAssetDisplayContext {
 				System.out.println();
 				for (Document document : hits.getDocs()) {
 					AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
-						this._configuration.assetClassName(),
+						GetterUtil
+							.getString(document.get(Field.ENTRY_CLASS_NAME)),
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 					if (entry != null) {
 						results.add(entry);
@@ -250,16 +256,34 @@ public class SearchAssetDisplayContext {
 			"status" };
 	}
 
+	public Map<String, String> getTemplatesMap()
+		throws NumberFormatException, PortalException {
+		if (this._templatesMap == null) {
+			Map<String, String> templatesMap = new HashMap<String, String>();
+			String templatesKeys = this._configuration.templatesKeys();
+			int i = 0;
+			for (String templateKey : templatesKeys.split(",")) {
+				if (Validator.isNotNull(templateKey)) {
+					String className = this._configuration.assetClassNames().split(",")[i];
+					templatesMap.put(className, "ddmTemplate_" + templateKey);
+				}
+				i++;
+			}
+			this._templatesMap = templatesMap;
+		}
+		return this._templatesMap;
+	}
+
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
-	private SearchAssetConfiguration _configuration;
+	private SearchAssetConfiguration _configuration;	
 
 	private SearchContainer<AssetEntry> _searchContainer;
 	private List<AssetEntry> _entries;
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private long[] _filterCategoriesIds;
-	private AssetRendererFactory _assetRendererFactory;
+	private Map<String, String> _templatesMap;
 
 }

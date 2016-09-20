@@ -29,13 +29,27 @@
 		<liferay-ui:search-container-row
 			className="com.liferay.asset.kernel.model.AssetEntry"
 			modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
-			<p>${entry.getTitle(locale)}</p>
-			<liferay-ui:asset-display
-				assetEntry="${entry}"
-				assetRenderer="${dc.assetRendererFactory.getAssetRenderer(entry.classPK) }"
-				assetRendererFactory="${dc.assetRendererFactory}"
-				template="full_content"
-			/>
+				<%
+					Map<String, Object> contextObjects = new HashMap<String, Object>();
+					contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
+					List<Object> entries = new ArrayList<Object>();
+				%>
+				<div>
+					<liferay-ddm:template-renderer
+					    className="${entry.className}"
+					    contextObjects="<%=contextObjects%>"
+					    displayStyle="${dc.templatesMap[entry.className]}"
+					    displayStyleGroupId="${themeDisplay.siteGroupIdOrLiveGroupId}"
+					    entries="<%=entries%>"
+					>
+						<liferay-ui:asset-display
+							assetEntry="${entry}"
+							assetRenderer="${entry.assetRenderer}"
+							assetRendererFactory="${entry.assetRendererFactory}"
+							template="abstract"
+						/>
+					</liferay-ddm:template-renderer>
+				</div>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator paginate="true" searchContainer="${dc.searchContainer}" />
