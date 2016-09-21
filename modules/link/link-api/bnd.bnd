@@ -1,0 +1,7 @@
+Bundle-SymbolicName: link-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.link.exception,\
+	eu.strasbourg.service.link.model,\
+	eu.strasbourg.service.link.service,\
+	eu.strasbourg.service.link.service.persistence
