@@ -325,7 +325,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Retourne l'AssetEntry rattach�e � cet item
+	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
@@ -544,8 +544,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des IDs des galleries auxquelles cette �dition appartient
-	* sous forme de String s�par�e par des virgules
+	* Renvoie la liste des IDs des galleries auxquelles cette édition appartient
+	* sous forme de String séparée par des virgules
 	*/
 	@Override
 	public java.lang.String getEditionGalleriesIds() {
@@ -621,7 +621,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie l'URL de t�l�chargement du fichier (que ce soit un FileEntry ou une URL externe)
+	* Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileDownloadURL(java.util.Locale locale) {
@@ -725,7 +725,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*
 	* @throws PortalException
 	* @throws NumberFormatException
@@ -1043,7 +1043,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattach�es � cet item (via
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
 	@Override
@@ -1053,7 +1053,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des galleries auxquelles cette �dition appartient
+	* Renvoie la liste des galleries auxquelles cette édition appartient
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries() {

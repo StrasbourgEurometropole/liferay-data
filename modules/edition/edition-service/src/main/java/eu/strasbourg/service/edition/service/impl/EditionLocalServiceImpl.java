@@ -22,7 +22,6 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -119,7 +118,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			edition.getStatus(), // Visible
 			edition.getPublicationDate(), // Start date
 			null, // End date
-			edition.getPublicationDate(), // Date of publication
+			edition.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			edition.getTitle(), // Title
@@ -178,10 +177,10 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 				entry.getEntryId());
 		}
 
-		// Delete the link with other entries
-		List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
+		// Supprime lien avec les autres entries
+		List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
 		for (AssetLink link : links) {
-			AssetLinkLocalServiceUtil.deleteAssetLink(link);
+			this.assetLinkLocalService.deleteAssetLink(link);
 		}
 
 		// Delete the AssetEntry

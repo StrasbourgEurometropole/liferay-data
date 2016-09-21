@@ -46,10 +46,15 @@ import eu.strasbourg.service.edition.service.base.EditionGalleryLocalServiceBase
  * The implementation of the edition gallery local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.edition.service.EditionGalleryLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link eu.strasbourg.service.edition.service.EditionGalleryLocalService}
+ * interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author BenjaminBini
@@ -62,7 +67,9 @@ public class EditionGalleryLocalServiceImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil} to access the edition gallery local service.
+	 * Never reference this class directly. Always use {@link
+	 * eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil} to
+	 * access the edition gallery local service.
 	 */
 
 	/**
@@ -71,11 +78,11 @@ public class EditionGalleryLocalServiceImpl
 	 * @return The added Edition Gallery
 	 * @throws PortalException
 	 */
-	public EditionGallery addEditionGallery()
-		throws PortalException {
+	public EditionGallery addEditionGallery() throws PortalException {
 		long pk = counterLocalService.increment();
 
-		EditionGallery editionGallery = this.editionGalleryLocalService.createEditionGallery(pk);
+		EditionGallery editionGallery = this.editionGalleryLocalService
+			.createEditionGallery(pk);
 		return editionGallery;
 	}
 
@@ -89,18 +96,19 @@ public class EditionGalleryLocalServiceImpl
 	 * @return The updated Edition
 	 * @throws PortalException
 	 */
-	public EditionGallery updateEditionGallery(EditionGallery editionGallery, ServiceContext sc)
-		throws PortalException {
+	public EditionGallery updateEditionGallery(EditionGallery editionGallery,
+		ServiceContext sc) throws PortalException {
 
 		editionGallery.setGroupId(sc.getScopeGroupId());
-		editionGallery = this.editionGalleryLocalService.updateEditionGallery(editionGallery);
+		editionGallery = this.editionGalleryLocalService
+			.updateEditionGallery(editionGallery);
 		updateAssetEntry(editionGallery, sc);
 
 		return editionGallery;
 	}
 
-	private void updateAssetEntry(EditionGallery editionGallery, ServiceContext sc)
-		throws PortalException {
+	private void updateAssetEntry(EditionGallery editionGallery,
+		ServiceContext sc) throws PortalException {
 
 		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
 			sc.getScopeGroupId(), // Group ID
@@ -116,7 +124,7 @@ public class EditionGalleryLocalServiceImpl
 			editionGallery.getStatus(), // Visible
 			editionGallery.getPublicationDate(), // Start date
 			null, // End date
-			editionGallery.getPublicationDate(), // Date of publication
+			editionGallery.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			editionGallery.getTitle(), // Title
@@ -132,16 +140,17 @@ public class EditionGalleryLocalServiceImpl
 			.nullSafeGetIndexer(EditionGallery.class);
 		indexer.reindex(editionGallery);
 	}
-	
 
-	public void changeStatus(EditionGallery editionGallery, boolean status) throws PortalException {
+	public void changeStatus(EditionGallery editionGallery, boolean status)
+		throws PortalException {
 		editionGallery.setStatus(status);
 		this.editionGalleryLocalService.updateEditionGallery(editionGallery);
-		
-		AssetEntry entry = this.assetEntryLocalService.getEntry(EditionGallery.class.getName(), editionGallery.getPrimaryKey());
+
+		AssetEntry entry = this.assetEntryLocalService.getEntry(
+			EditionGallery.class.getName(), editionGallery.getPrimaryKey());
 		entry.setVisible(status);
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		Indexer<EditionGallery> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(EditionGallery.class);
 		indexer.reindex(editionGallery);
@@ -156,7 +165,8 @@ public class EditionGalleryLocalServiceImpl
 	 * @throws PortalException
 	 */
 	public EditionGallery removeGallery(long galleryId) throws PortalException {
-		AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(EditionGallery.class.getName(), galleryId);
+		AssetEntry entry = AssetEntryLocalServiceUtil
+			.getEntry(EditionGallery.class.getName(), galleryId);
 		// Delete the link with categories
 		long[] categoryIds = entry.getCategoryIds();
 		for (int i = 0; i < categoryIds.length; i++) {
@@ -171,28 +181,28 @@ public class EditionGalleryLocalServiceImpl
 			AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
 				entry.getEntryId());
 		}
-		
+
 		// Delete the link with other entries
-		List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
+		List<AssetLink> links = this.assetLinkLocalService
+			.getLinks(entry.getEntryId());
 		for (AssetLink link : links) {
 			AssetLinkLocalServiceUtil.deleteAssetLink(link);
 		}
-
 		// Delete the AssetEntry
-		AssetEntryLocalServiceUtil.deleteEntry(EditionGallery.class.getName(), galleryId);
-		
+		AssetEntryLocalServiceUtil.deleteEntry(EditionGallery.class.getName(),
+			galleryId);
+
 		// Delete the Edition Gallery
-		EditionGallery editionGallery = editionGalleryPersistence.remove(galleryId);
-		
+		EditionGallery editionGallery = editionGalleryPersistence
+			.remove(galleryId);
 
 		// Delete the index
 		Indexer<EditionGallery> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(EditionGallery.class);
 		indexer.delete(editionGallery);
-		
+
 		return editionGallery;
 	}
-	
 
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
@@ -209,32 +219,38 @@ public class EditionGalleryLocalServiceImpl
 		}
 		return attachedVocabularies;
 	}
-	
-	public List<EditionGallery> findByKeyword(String keyword, long groupId, int start, int end) {
+
+	public List<EditionGallery> findByKeyword(String keyword, long groupId,
+		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
-		
+
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		
-		return editionPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+
+		return editionPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end);
 	}
-	
+
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return editionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
+
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<EditionGallery> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(EditionGallery.class);

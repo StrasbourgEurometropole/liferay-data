@@ -60,7 +60,7 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
-	 * Retourne l'AssetEntry rattachée à cet item
+	 * Retourne l'AssetEntry rattachÃ© cet item
 	 */
 	public AssetEntry getAssetEntry() {
 		try {
@@ -73,7 +73,7 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * Renvoie la liste des AssetCategory rattachÃ©es Ã  cet item (via
 	 * l'assetEntry)
 	 */
 	public List<AssetCategory> getCategories() throws PortalException {
@@ -88,7 +88,7 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * Renvoie l'URL de l'image Ã  partir de l'id du DLFileEntry
 	 * 
 	 * @throws PortalException
 	 * @throws NumberFormatException
@@ -98,15 +98,15 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 	
 	/**
-	 * Renvoie la liste des galleries auxquelles cette édition appartient
+	 * Renvoie la liste des galleries auxquelles cette Ã©dition appartient
 	 */
 	public List<EditionGallery> getEditionGalleries() {
 		return EditionGalleryLocalServiceUtil.getEditionEditionGalleries(this.getEditionId());
 	}
 	
 	/**
-	 * Renvoie la liste des IDs des galleries auxquelles cette édition appartient
-	 * sous forme de String séparée par des virgules
+	 * Renvoie la liste des IDs des galleries auxquelles cette Ã©dition appartient
+	 * sous forme de String sÃ©parÃ©e par des virgules
 	 */
 	public String getEditionGalleriesIds() {
 		List<EditionGallery> galleries = this.getEditionGalleries();
@@ -121,7 +121,7 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 	
 	/**
-	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
+	 * Renvoie l'URL de tÃ©lÃ©chargement du fichier (que ce soit un FileEntry ou une URL externe)
 	 */
 	public String getFileDownloadURL(Locale locale) {
 		String URL = this.getURL(locale);
@@ -133,7 +133,7 @@ public class EditionImpl extends EditionBaseImpl {
 	
 	/**
 	 * Renovie la taille du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 * (si c'est une FileEntry - renvoie une chaï¿½ne vide si c'est une URL externe)
 	 */
 	public String getFileSize(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
@@ -145,7 +145,7 @@ public class EditionImpl extends EditionBaseImpl {
 	
 	/**
 	 * Renovie le type du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 * (si c'est une FileEntry - renvoie une chaï¿½ne vide si c'est une URL externe)
 	 */
 	public String getFileType(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
