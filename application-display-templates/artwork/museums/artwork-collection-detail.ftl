@@ -1,0 +1,1 @@
+Détail collection d'oeuvres (ADT) - ${entry.getTitle(locale)}

@@ -1,0 +1,1 @@
+Détail édition (ADT) - ${entry.getTitle(locale)}

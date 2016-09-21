@@ -1,0 +1,1 @@
+Détail galerie d'éditions (ADT) - ${entry.getTitle(locale)}
