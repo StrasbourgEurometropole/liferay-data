@@ -1,10 +1,12 @@
 <#if entries?has_content>
     <div class="items-carousel editions-carousel">
-        <h3 class="items-carousel-title">Editions</h3>
+        <h3 class="items-carousel-title"><@liferay_ui["message"] key="eu.editions" /></h3>
         <div class="owl-carousel">
           <#list entries as curEntry>
             <#assign edition = curEntry.getAssetRenderer().getEdition() />
-            <#assign viewURL = "" />
+            <@liferay_portlet.renderURL var="viewURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+                <@liferay_portlet.param name="classPK" value="${edition.getEditionId()}" />
+            </@liferay_portlet.renderURL>
             <div class="item"> 
                 <div class="item-image">
                     <a href="${viewURL}">
@@ -22,7 +24,7 @@
                     </#if>
                     <div class="item-download-link">
                         <a href="${edition.getFileDownloadURL(locale)}" download>
-                            Télécharger
+                            <@liferay_ui["message"] key="download" />
                         </a>
                     </div>
                 </div>

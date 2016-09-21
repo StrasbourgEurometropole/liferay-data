@@ -13,7 +13,7 @@
                 <h1>${page.getName(locale)}</h1>
             </div>
             <div class="page-header-share">
-                <span><@liferay_ui.message key="share" /></span>
+                <span><@liferay_ui.message key="eu.share-page" /></span>
                 <div class="page-header-share-buttons">
                     <div class="facebook"></div>
                     <div class="twitter"></div>

@@ -1,6 +1,6 @@
 <div class="useful-documents">
     <h3 class="useful-documents-title">
-        Documents utiles
+        <@liferay_ui.message key="eu.useful-documents" />
     </h3>
     <#if entries?has_content>
         <#assign FileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
