@@ -1603,7 +1603,6 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 #footer .footer-bottom {
   background: #2d2d2d;
   margin-top: 15px;
-  padding: 0 20px;
   text-align: center;
 }
 @media (min-width: 602px) {
@@ -1612,16 +1611,20 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
     text-align: left;
   }
 }
-/* line 195, ../sass/partials/_footer.scss */
+/* line 194, ../sass/partials/_footer.scss */
 #footer .footer-bottom img {
   margin: 22px 0 16px 0;
   width: 120px;
 }
 @media (min-width: 602px) {
-  /* line 195, ../sass/partials/_footer.scss */
+  /* line 194, ../sass/partials/_footer.scss */
   #footer .footer-bottom img {
     margin: 13px 0 9px 0;
   }
+}
+/* line 201, ../sass/partials/_footer.scss */
+#footer .footer-bottom .footer-content {
+  padding: 0 20px;
 }
 
 /* line 3, ../sass/partials/_web-content.scss */
