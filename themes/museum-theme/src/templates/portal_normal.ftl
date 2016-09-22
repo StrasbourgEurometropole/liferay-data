@@ -220,13 +220,15 @@
 					</@>
 				</#if>
 			</section>
-
-			<footer id="footer" role="contentinfo">
-				<p class="powered-by">
-					<@liferay.language key="powered-by" /> <a href="http://www.liferay.com" rel="external">Liferay</a>
-				</p>
-			</footer>
 		</div>
+		<footer id="footer" role="contentinfo">
+			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+			<@liferay_portlet["runtime"]
+				defaultPreferences="${freeMarkerPortletPreferences}"
+				portletProviderAction=portletProviderAction.VIEW
+				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet" />
+			${freeMarkerPortletPreferences.reset()}
+		</footer>
 	</div>
 <!--
 	<header id="banner" role="banner">
