@@ -1,4 +1,4 @@
-<%@ include file="/artwork/artwork-init.jsp" %>
+<%@ include file="/link/link-init.jsp" %>
 
 <p>
 	Link

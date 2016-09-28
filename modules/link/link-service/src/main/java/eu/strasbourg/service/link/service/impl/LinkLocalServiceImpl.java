@@ -190,7 +190,14 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 		}
 		return attachedVocabularies;
 	}
-	
+
+	/**
+	 * Retourne tous les liens d'un groupe
+	 */
+	public List<Link> getByGroupId(long groupId) {
+		return this.linkPersistence.findByGroupId(groupId);
+	}
+
 	/**
 	 * Recherche par mot clés
 	 */
