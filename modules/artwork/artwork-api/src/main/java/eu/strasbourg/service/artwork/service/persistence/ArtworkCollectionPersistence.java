@@ -372,6 +372,138 @@ public interface ArtworkCollectionPersistence extends BasePersistence<ArtworkCol
 	public int countByUuid_C(java.lang.String uuid, long companyId);
 
 	/**
+	* Returns all the artwork collections where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching artwork collections
+	*/
+	public java.util.List<ArtworkCollection> findByGroupId(long groupId);
+
+	/**
+	* Returns a range of all the artwork collections where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of artwork collections
+	* @param end the upper bound of the range of artwork collections (not inclusive)
+	* @return the range of matching artwork collections
+	*/
+	public java.util.List<ArtworkCollection> findByGroupId(long groupId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the artwork collections where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of artwork collections
+	* @param end the upper bound of the range of artwork collections (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching artwork collections
+	*/
+	public java.util.List<ArtworkCollection> findByGroupId(long groupId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the artwork collections where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of artwork collections
+	* @param end the upper bound of the range of artwork collections (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching artwork collections
+	*/
+	public java.util.List<ArtworkCollection> findByGroupId(long groupId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first artwork collection in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching artwork collection
+	* @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
+	*/
+	public ArtworkCollection findByGroupId_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator)
+		throws NoSuchArtworkCollectionException;
+
+	/**
+	* Returns the first artwork collection in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
+	*/
+	public ArtworkCollection fetchByGroupId_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator);
+
+	/**
+	* Returns the last artwork collection in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching artwork collection
+	* @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
+	*/
+	public ArtworkCollection findByGroupId_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator)
+		throws NoSuchArtworkCollectionException;
+
+	/**
+	* Returns the last artwork collection in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
+	*/
+	public ArtworkCollection fetchByGroupId_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator);
+
+	/**
+	* Returns the artwork collections before and after the current artwork collection in the ordered set where groupId = &#63;.
+	*
+	* @param collectionId the primary key of the current artwork collection
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next artwork collection
+	* @throws NoSuchArtworkCollectionException if a artwork collection with the primary key could not be found
+	*/
+	public ArtworkCollection[] findByGroupId_PrevAndNext(long collectionId,
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ArtworkCollection> orderByComparator)
+		throws NoSuchArtworkCollectionException;
+
+	/**
+	* Removes all the artwork collections where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroupId(long groupId);
+
+	/**
+	* Returns the number of artwork collections where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching artwork collections
+	*/
+	public int countByGroupId(long groupId);
+
+	/**
 	* Caches the artwork collection in the entity cache if it is enabled.
 	*
 	* @param artworkCollection the artwork collection

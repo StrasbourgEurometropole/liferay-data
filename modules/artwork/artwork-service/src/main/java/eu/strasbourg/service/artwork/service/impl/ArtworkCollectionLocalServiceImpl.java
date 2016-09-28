@@ -209,6 +209,12 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 		return attachedVocabularies;
 	}
 
+	/**
+	 * Retourne toutes les collections d'oeuvres d'un groupe
+	 */
+	public List<ArtworkCollection> getByGroupId(long groupId) {
+		return this.artworkCollectionPersistence.findByGroupId(groupId);
+	}
 
 	public List<ArtworkCollection> findByKeyword(String keyword, long groupId, int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();

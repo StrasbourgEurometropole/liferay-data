@@ -330,6 +330,12 @@ public interface ArtworkCollectionLocalService extends BaseLocalService,
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
+	* Retourne toutes les collections d'oeuvres d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ArtworkCollection> getByGroupId(long groupId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

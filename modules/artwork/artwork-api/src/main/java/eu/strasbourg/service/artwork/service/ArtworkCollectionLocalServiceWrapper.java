@@ -404,6 +404,15 @@ public class ArtworkCollectionLocalServiceWrapper
 	}
 
 	/**
+	* Retourne toutes les collections d'oeuvres d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getByGroupId(
+		long groupId) {
+		return _artworkCollectionLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

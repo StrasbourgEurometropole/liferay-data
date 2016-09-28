@@ -395,6 +395,15 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 	}
 
 	/**
+	* Retourne toutes les oeuvres d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getByGroupId(
+		long groupId) {
+		return _artworkLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

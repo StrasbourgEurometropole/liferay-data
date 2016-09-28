@@ -45,7 +45,10 @@
 			<order-column name="modifiedDate" />
 		</order>
 
-		<!-- Finder methods -->
+		<!-- Finders-->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -77,6 +80,11 @@
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
         <column name="artworks" type="Collection" entity="Artwork" mapping-table="ArtworkToArtworkCollection" />
+        
+		<!-- Finders-->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
         
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

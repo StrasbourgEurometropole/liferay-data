@@ -206,6 +206,14 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	}
 	
 	public List<Artwork> findByKeyword(String keyword, long groupId, int start, int end) {
+
+	/**
+	 * Retourne toutes les oeuvres d'un groupe
+	 */
+	public List<Artwork> getByGroupId(long groupId) {
+		return this.artworkPersistence.findByGroupId(groupId);
+	}
+
 		DynamicQuery dynamicQuery = dynamicQuery();
 		
 		if (keyword.length() > 0) {

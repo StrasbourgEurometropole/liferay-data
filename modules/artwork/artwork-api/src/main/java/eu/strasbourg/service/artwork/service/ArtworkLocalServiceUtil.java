@@ -370,6 +370,14 @@ public class ArtworkLocalServiceUtil {
 	}
 
 	/**
+	* Retourne toutes les oeuvres d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.artwork.model.Artwork> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
