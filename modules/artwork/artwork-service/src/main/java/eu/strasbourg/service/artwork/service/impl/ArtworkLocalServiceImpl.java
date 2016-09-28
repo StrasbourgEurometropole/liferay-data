@@ -84,9 +84,10 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	public Artwork updateArtwork(Artwork artwork, ServiceContext sc)
 		throws PortalException {
 		artwork.setGroupId(sc.getScopeGroupId());
+		artwork.setUserId(sc.getUserId());
 		artwork = this.artworkLocalService.updateArtwork(artwork);
 		this.updateAssetEntry(artwork, sc);
-		this.reindex(artwork);
+		this.reindex(artwork, false);
 		return artwork;
 	}
 
@@ -137,7 +138,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 		this.assetEntryLocalService.updateAssetEntry(entry);
 
 		// Reindex it
-		this.reindex(artwork);
+		this.reindex(artwork, false);
 	}
 
 	/**
@@ -145,47 +146,57 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	 */
 	public Artwork removeArtwork(long artworkId) throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
-			.getEntry(Artwork.class.getName(), artworkId);
+			.fetchEntry(Artwork.class.getName(), artworkId);
 
-		// Delete the link with categories
-		for (long categoryId : entry.getCategoryIds()) {
-			this.assetEntryLocalService
-				.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-		}
+		if (entry != null) {
 
-		// Delete the link with tags
-		long[] tagsIds = this.assetEntryLocalService.getAssetTagPrimaryKeys(entry.getEntryId());
-		for (long tagId :tagsIds) {
-			this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId, entry.getEntryId());
-		}
+			// Delete the link with categories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+					categoryId, entry.getEntryId());
+			}
 
-		// Delete the link with other entries
-		List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
-		for (AssetLink link : links) {
-			this.assetLinkLocalService.deleteAssetLink(link);
+			// Delete the link with tags
+			long[] tagsIds = this.assetEntryLocalService
+				.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (long tagId : tagsIds) {
+				this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId,
+					entry.getEntryId());
+			}
+
+			// Delete the link with other entries
+			List<AssetLink> links = this.assetLinkLocalService
+				.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Delete the entry
+			this.assetEntryLocalService.deleteEntry(entry);
 		}
-		
-		// Delete the entry
-		this.assetEntryLocalService.deleteEntry(entry);
 
 		// Delete the artwork
 		Artwork artwork = this.artworkPersistence.remove(artworkId);
 
 		// Delete the index
-		reindex(artwork);
-		
+		reindex(artwork, true);
+
 		return artwork;
 	}
 
 	/**
 	 * Reindex the artwork in the search engine
 	 */
-	private void reindex(Artwork artwork) throws SearchException {
+	private void reindex(Artwork artwork, boolean delete) throws SearchException {
 		Indexer<Artwork> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Artwork.class);
-		indexer.reindex(artwork);
+		if (delete) {
+			indexer.delete(artwork);
+		} else {
+			indexer.reindex(artwork);
+		}
 	}
-	
+
 	/**
 	 * Return the vocabularies attached to the Artwork entity
 	 */
@@ -204,8 +215,6 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 		}
 		return attachedVocabularies;
 	}
-	
-	public List<Artwork> findByKeyword(String keyword, long groupId, int start, int end) {
 
 	/**
 	 * Retourne toutes les oeuvres d'un groupe
@@ -214,30 +223,37 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 		return this.artworkPersistence.findByGroupId(groupId);
 	}
 
+	public List<Artwork> findByKeyword(String keyword, long groupId, int start,
+		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
-		
+
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		
-		return artworkPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+
+		return artworkPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end);
 	}
-	
+
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return artworkPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
+
 	/**
 	 * Search
 	 */

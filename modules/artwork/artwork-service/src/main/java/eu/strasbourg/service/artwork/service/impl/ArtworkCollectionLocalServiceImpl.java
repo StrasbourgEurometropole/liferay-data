@@ -37,7 +37,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 
 import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceBaseImpl;
 
@@ -47,7 +46,8 @@ import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceB
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalService} interface.
+ * {@link eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalService}
+ * interface.
  *
  * <p>
  * This is a local service. Methods of this service will not have security
@@ -60,13 +60,15 @@ import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceB
  * @see eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalServiceUtil
  */
 @ProviderType
-public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalServiceBaseImpl {
+public class ArtworkCollectionLocalServiceImpl
+	extends ArtworkCollectionLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link
-	 * eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalServiceUtil} to access
-	 * the artworkCollection local service.
+	 * eu.strasbourg.service.artworkCollection.service.
+	 * ArtworkCollectionLocalServiceUtil} to access the artworkCollection local
+	 * service.
 	 */
 
 	/**
@@ -75,7 +77,8 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 	public ArtworkCollection addArtworkCollection() throws PortalException {
 		long pk = counterLocalService.increment();
 
-		ArtworkCollection artworkCollection = this.artworkCollectionLocalService.createArtworkCollection(pk);
+		ArtworkCollection artworkCollection = this.artworkCollectionLocalService
+			.createArtworkCollection(pk);
 
 		return artworkCollection;
 	}
@@ -85,20 +88,23 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 	 * 
 	 * @throws PortalException
 	 */
-	public ArtworkCollection updateArtworkCollection(ArtworkCollection artworkCollection, ServiceContext sc)
+	public ArtworkCollection updateArtworkCollection(
+		ArtworkCollection artworkCollection, ServiceContext sc)
 		throws PortalException {
 		artworkCollection.setGroupId(sc.getScopeGroupId());
-		artworkCollection = this.artworkCollectionLocalService.updateArtworkCollection(artworkCollection);
+		artworkCollection.setUserId(sc.getUserId());
+		artworkCollection = this.artworkCollectionLocalService
+			.updateArtworkCollection(artworkCollection);
 		this.updateAssetEntry(artworkCollection, sc);
-		this.reindex(artworkCollection);
+		this.reindex(artworkCollection, false);
 		return artworkCollection;
 	}
 
 	/**
 	 * Update the AssetEntry linked to the artworkCollection
 	 */
-	private void updateAssetEntry(ArtworkCollection artworkCollection, ServiceContext sc)
-		throws PortalException {
+	private void updateAssetEntry(ArtworkCollection artworkCollection,
+		ServiceContext sc) throws PortalException {
 		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
 			sc.getScopeGroupId(), // Group ID
 			artworkCollection.getCreateDate(), // Date of creation
@@ -129,11 +135,12 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 	/**
 	 * Change the publication status of the artworkCollection
 	 */
-	public void changeStatus(ArtworkCollection artworkCollection, boolean publicationStatus)
-		throws PortalException {
+	public void changeStatus(ArtworkCollection artworkCollection,
+		boolean publicationStatus) throws PortalException {
 		// Change the status of the item
 		artworkCollection.setStatus(publicationStatus);
-		this.artworkCollectionLocalService.updateArtworkCollection(artworkCollection);
+		this.artworkCollectionLocalService
+			.updateArtworkCollection(artworkCollection);
 
 		// Change the status of the AssetEntry
 		AssetEntry entry = artworkCollection.getAssetEntry();
@@ -141,13 +148,14 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 		this.assetEntryLocalService.updateAssetEntry(entry);
 
 		// Reindex it
-		this.reindex(artworkCollection);
+		this.reindex(artworkCollection, false);
 	}
 
 	/**
 	 * Delete an artworkCollection
 	 */
-	public ArtworkCollection removeArtworkCollection(long artworkCollectionId) throws PortalException {
+	public ArtworkCollection removeArtworkCollection(long artworkCollectionId)
+		throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(ArtworkCollection.class.getName(), artworkCollectionId);
 
@@ -158,38 +166,47 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 		}
 
 		// Delete the link with tags
-		long[] tagsIds = this.assetEntryLocalService.getAssetTagPrimaryKeys(entry.getEntryId());
-		for (long tagId :tagsIds) {
-			this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId, entry.getEntryId());
+		long[] tagsIds = this.assetEntryLocalService
+			.getAssetTagPrimaryKeys(entry.getEntryId());
+		for (long tagId : tagsIds) {
+			this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId,
+				entry.getEntryId());
 		}
 
 		// Delete the link with other entries
-		List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
+		List<AssetLink> links = AssetLinkLocalServiceUtil
+			.getLinks(entry.getEntryId());
 		for (AssetLink link : links) {
 			AssetLinkLocalServiceUtil.deleteAssetLink(link);
 		}
-		
+
 		// Delete the entry
 		this.assetEntryLocalService.deleteEntry(entry);
 
 		// Delete the artworkCollection
-		ArtworkCollection artworkCollection = this.artworkCollectionPersistence.remove(artworkCollectionId);
+		ArtworkCollection artworkCollection = this.artworkCollectionPersistence
+			.remove(artworkCollectionId);
 
 		// Delete the index
-		reindex(artworkCollection);
-		
+		reindex(artworkCollection, true);
+
 		return artworkCollection;
 	}
 
 	/**
 	 * Reindex the artworkCollection in the search engine
 	 */
-	private void reindex(ArtworkCollection artworkCollection) throws SearchException {
+	private void reindex(ArtworkCollection artworkCollection, boolean delete)
+		throws SearchException {
 		Indexer<ArtworkCollection> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(ArtworkCollection.class);
-		indexer.reindex(artworkCollection);
+		if (delete) {
+			indexer.delete(artworkCollection);
+		} else {
+			indexer.reindex(artworkCollection);
+		}
 	}
-	
+
 	/**
 	 * Return the vocabularies attached to the ArtworkCollection entity
 	 */
@@ -216,31 +233,37 @@ public class ArtworkCollectionLocalServiceImpl extends ArtworkCollectionLocalSer
 		return this.artworkCollectionPersistence.findByGroupId(groupId);
 	}
 
-	public List<ArtworkCollection> findByKeyword(String keyword, long groupId, int start, int end) {
+	public List<ArtworkCollection> findByKeyword(String keyword, long groupId,
+		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
-		
+
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		
-		return artworkCollectionPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+
+		return artworkCollectionPersistence.findWithDynamicQuery(dynamicQuery,
+			start, end);
 	}
-	
+
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return artworkCollectionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
+
 	/**
 	 * Search
 	 */
