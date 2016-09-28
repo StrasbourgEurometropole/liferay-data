@@ -95,12 +95,16 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		throws PortalException {
 
 		edition.setGroupId(sc.getScopeGroupId());
+		edition.setUserId(sc.getUserId());
 		edition = this.editionLocalService.updateEdition(edition);
 		updateAssetEntry(edition, sc);
 
 		return edition;
 	}
 
+	/**
+	 * Met à jour l'AssetEntry rattachée à l'édition
+	 */
 	private void updateAssetEntry(Edition edition, ServiceContext sc)
 		throws PortalException {
 
@@ -130,12 +134,13 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			0, // Height
 			null); // Priority
 
-		Indexer<Edition> indexer = IndexerRegistryUtil
-			.nullSafeGetIndexer(Edition.class);
-		indexer.reindex(edition);
-
+		// Réindexe l'édition
+		this.reindex(edition, false);
 	}
 
+	/**
+	 * Change le statut de l'édition
+	 */
 	public void changeStatus(Edition edition, boolean publicationStatus)
 		throws PortalException {
 		edition.setStatus(publicationStatus);
@@ -146,9 +151,8 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		entry.setVisible(publicationStatus);
 		this.assetEntryLocalService.updateAssetEntry(entry);
 
-		Indexer<Edition> indexer = IndexerRegistryUtil
-			.nullSafeGetIndexer(Edition.class);
-		indexer.reindex(edition);
+		// Réindexe l'édition
+		this.reindex(edition, false);
 	}
 
 	/**
@@ -161,43 +165,61 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	 */
 	public Edition removeEdition(long editionId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
-			.getEntry(Edition.class.getName(), editionId);
+			.fetchEntry(Edition.class.getName(), editionId);
 
-		// Delete the link with categories
-		for (long categoryId : entry.getCategoryIds()) {
-			this.assetEntryLocalService
-				.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
+		if (entry != null) {
+			// Delete the link with categories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+					categoryId, entry.getEntryId());
+			}
+
+			// Delete the link with tags
+			long[] tagIds = AssetEntryLocalServiceUtil
+				.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+					entry.getEntryId());
+			}
+
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService
+				.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Delete the AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(Edition.class.getName(),
+				editionId);
 		}
-
-		// Delete the link with tags
-		long[] tagIds = AssetEntryLocalServiceUtil
-			.getAssetTagPrimaryKeys(entry.getEntryId());
-		for (int i = 0; i < tagIds.length; i++) {
-			AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
-				entry.getEntryId());
-		}
-
-		// Supprime lien avec les autres entries
-		List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
-		for (AssetLink link : links) {
-			this.assetLinkLocalService.deleteAssetLink(link);
-		}
-
-		// Delete the AssetEntry
-		AssetEntryLocalServiceUtil.deleteEntry(Edition.class.getName(),
-			editionId);
 
 		// Delete the Edition
 		Edition edition = editionPersistence.remove(editionId);
 
 		// Delete the index
-		Indexer<Edition> indexer = IndexerRegistryUtil
-			.nullSafeGetIndexer(Edition.class);
-		indexer.delete(edition);
+		this.reindex(edition, true);
 
 		return edition;
 	}
 
+	/**
+	 * Reindex l'édition dans le moteur de recherche
+	 */
+	private void reindex(Edition edition, boolean delete)
+		throws SearchException {
+		Indexer<Edition> indexer = IndexerRegistryUtil
+			.nullSafeGetIndexer(Edition.class);
+		if (delete) {
+			indexer.delete(edition);
+		} else {
+			indexer.reindex(edition);
+		}
+	}
+
+	/**
+	 * Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	 */
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -221,32 +243,47 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		return this.editionPersistence.findByGroupId(groupId);
 	}
 
+	/**
+	 * Lance une recherche selon le searchContext
+	 */
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<Edition> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Edition.class);
 		return indexer.search(searchContext);
 	}
-	
-	public List<Edition> findByKeyword(String keyword, long groupId, int start, int end) {
+
+	/**
+	 * Lance une recherche par mots-clés
+	 */
+	public List<Edition> findByKeyword(String keyword, long groupId, int start,
+		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
-		
+
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		
-		return editionPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+
+		return editionPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end);
 	}
-	
+
+	/**
+	 * Compte de la recherche par mots-clés
+	 */
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return editionPersistence.countWithDynamicQuery(dynamicQuery);

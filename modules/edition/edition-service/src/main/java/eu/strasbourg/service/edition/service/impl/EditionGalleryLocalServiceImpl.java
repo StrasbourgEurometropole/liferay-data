@@ -38,7 +38,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 
 import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.base.EditionGalleryLocalServiceBaseImpl;
 
@@ -87,7 +86,7 @@ public class EditionGalleryLocalServiceImpl
 	}
 
 	/**
-	 * Update an Edition Gallery
+	 * Met à jour une galerie d'éditions
 	 * 
 	 * @param editionGallery
 	 *            The updated Edition Gallery
@@ -100,6 +99,7 @@ public class EditionGalleryLocalServiceImpl
 		ServiceContext sc) throws PortalException {
 
 		editionGallery.setGroupId(sc.getScopeGroupId());
+		editionGallery.setUserId(sc.getUserId());
 		editionGallery = this.editionGalleryLocalService
 			.updateEditionGallery(editionGallery);
 		updateAssetEntry(editionGallery, sc);
@@ -107,6 +107,9 @@ public class EditionGalleryLocalServiceImpl
 		return editionGallery;
 	}
 
+	/**
+	 * Met à jour l'AssetEntry rattaché à la galerie d'éditions
+	 */
 	private void updateAssetEntry(EditionGallery editionGallery,
 		ServiceContext sc) throws PortalException {
 
@@ -136,9 +139,8 @@ public class EditionGalleryLocalServiceImpl
 			0, // Height
 			null); // Priority
 
-		Indexer<EditionGallery> indexer = IndexerRegistryUtil
-			.nullSafeGetIndexer(EditionGallery.class);
-		indexer.reindex(editionGallery);
+		// Réindexe la galerie
+		this.reindex(editionGallery, false);
 	}
 
 	public void changeStatus(EditionGallery editionGallery, boolean status)
@@ -151,9 +153,8 @@ public class EditionGalleryLocalServiceImpl
 		entry.setVisible(status);
 		this.assetEntryLocalService.updateAssetEntry(entry);
 
-		Indexer<EditionGallery> indexer = IndexerRegistryUtil
-			.nullSafeGetIndexer(EditionGallery.class);
-		indexer.reindex(editionGallery);
+		// Réindexe la galerie
+		this.reindex(editionGallery, false);
 	}
 
 	/**
@@ -166,42 +167,60 @@ public class EditionGalleryLocalServiceImpl
 	 */
 	public EditionGallery removeGallery(long galleryId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
-			.getEntry(EditionGallery.class.getName(), galleryId);
-		// Delete the link with categories
-		long[] categoryIds = entry.getCategoryIds();
-		for (int i = 0; i < categoryIds.length; i++) {
-			AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(
-				categoryIds[i], entry.getEntryId());
+			.fetchEntry(EditionGallery.class.getName(), galleryId);
+
+		if (entry != null) {
+
+			// Supprime le lien avec les catégories
+			long[] categoryIds = entry.getCategoryIds();
+			for (int i = 0; i < categoryIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(
+					categoryIds[i], entry.getEntryId());
+			}
+
+			// Supprime le lien avec les tags
+			long[] tagIds = AssetEntryLocalServiceUtil
+				.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+					entry.getEntryId());
+			}
+
+			// Supprime le lien avec les autres entités
+			List<AssetLink> links = this.assetLinkLocalService
+				.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+			}
+
+			// Supprime l'AssetEntry
+			AssetEntryLocalServiceUtil
+				.deleteEntry(EditionGallery.class.getName(), galleryId);
+			
 		}
 
-		// Delete the link with tags
-		long[] tagIds = AssetEntryLocalServiceUtil
-			.getAssetTagPrimaryKeys(entry.getEntryId());
-		for (int i = 0; i < tagIds.length; i++) {
-			AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
-				entry.getEntryId());
-		}
-
-		// Delete the link with other entries
-		List<AssetLink> links = this.assetLinkLocalService
-			.getLinks(entry.getEntryId());
-		for (AssetLink link : links) {
-			AssetLinkLocalServiceUtil.deleteAssetLink(link);
-		}
-		// Delete the AssetEntry
-		AssetEntryLocalServiceUtil.deleteEntry(EditionGallery.class.getName(),
-			galleryId);
-
-		// Delete the Edition Gallery
+		// Supprime la galerie
 		EditionGallery editionGallery = editionGalleryPersistence
 			.remove(galleryId);
 
-		// Delete the index
+		// Supprime l'index
+		this.reindex(editionGallery, true);
+		
+		return editionGallery;
+	}
+	
+	/**
+	 * Reindex la galerie d'éditions dans le moteur de recherche
+	 */
+	private void reindex(EditionGallery editionGallery, boolean delete)
+		throws SearchException {
 		Indexer<EditionGallery> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(EditionGallery.class);
-		indexer.delete(editionGallery);
-
-		return editionGallery;
+		if (delete) {
+			indexer.delete(editionGallery);
+		} else {
+			indexer.reindex(editionGallery);
+		}
 	}
 
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
