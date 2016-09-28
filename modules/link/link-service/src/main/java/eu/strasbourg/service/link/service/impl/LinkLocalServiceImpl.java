@@ -84,9 +84,10 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	public Link updateLink(Link link, ServiceContext sc)
 		throws PortalException {
 		link.setGroupId(sc.getScopeGroupId());
+		link.setUserId(sc.getUserId());
 		link = this.linkLocalService.updateLink(link);
 		this.updateAssetEntry(link, sc);
-		this.reindex(link);
+		this.reindex(link, false);
 		return link;
 	}
 
@@ -127,37 +128,46 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	 */
 	public Link removeLink(long linkId) throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
-			.getEntry(Link.class.getName(), linkId);
+			.fetchEntry(Link.class.getName(), linkId);
 
-		// Supprime lien avec les catégories
-		for (long categoryId : entry.getCategoryIds()) {
-			this.assetEntryLocalService
-				.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
+		if (entry != null) {
+			// Supprime lien avec les catégories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+					categoryId, entry.getEntryId());
+			}
+
+			// Supprime lien avec les tags
+			long[] tagsIds = this.assetEntryLocalService
+				.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (long tagId : tagsIds) {
+				this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId,
+					entry.getEntryId());
+			}
+
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService
+				.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Supprime l'AssetEntry
+			this.assetEntryLocalService.deleteEntry(entry);
+
 		}
-
-		// Supprime lien avec les tags
-		long[] tagsIds = this.assetEntryLocalService
-			.getAssetTagPrimaryKeys(entry.getEntryId());
-		for (long tagId : tagsIds) {
-			this.assetEntryLocalService.deleteAssetTagAssetEntry(tagId,
-				entry.getEntryId());
-		}
-
-		// Supprime lien avec les autres entries
-		List<AssetLink> links = this.assetLinkLocalService
-			.getLinks(entry.getEntryId());
-		for (AssetLink link : links) {
-			this.assetLinkLocalService.deleteAssetLink(link);
-		}
-
-		// Supprime l'AssetEntry
-		this.assetEntryLocalService.deleteEntry(entry);
 
 		// Supprime le lien
 		Link link = this.linkPersistence.remove(linkId);
 
 		// Supprime l'index
-		reindex(link);
+		reindex(link, true);
+		
+		// S'il existe une version live du lien, on la supprime
+		Link liveLink = link.getLiveVersion();
+		if (liveLink != null) {
+			this.removeLink(liveLink.getLinkId());
+		}
 
 		return link;
 	}
@@ -172,13 +182,17 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Réindex le lien dans le moteur de recherche
 	 */
-	private void reindex(Link link) throws SearchException {
+	private void reindex(Link link, boolean delete) throws SearchException {
 		Indexer<Link> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Link.class);
+		if (delete) {
+			indexer.delete(link);
+		} else {
+			indexer.reindex(link);
+		}
 		indexer.reindex(link);
 	}
 
-	
 	/**
 	 * Retourne les vocabulaires rattachés à l'entité Link
 	 */
@@ -186,8 +200,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
 		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
-		long classNameId = ClassNameLocalServiceUtil
-			.getClassNameId(Link.class);
+		long classNameId = ClassNameLocalServiceUtil.getClassNameId(Link.class);
 		for (AssetVocabulary vocabulary : vocabularies) {
 			if (vocabulary.getGroupId() == groupId
 				&& LongStream.of(vocabulary.getSelectedClassNameIds())
@@ -199,25 +212,21 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Retourne tous les liens d'un groupe
-	 */
-	public List<Link> getByGroupId(long groupId) {
-		return this.linkPersistence.findByGroupId(groupId);
-	}
-
-	/**
 	 * Recherche par mot clés
 	 */
-	public List<Link> findByKeyword(String keyword, long groupId, int start, int end) {
+	public List<Link> findByKeyword(String keyword, long groupId, int start,
+		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
-		
+
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		
+
 		return linkPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -227,15 +236,17 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return linkPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
+
 	/**
 	 * Recherche
 	 */
