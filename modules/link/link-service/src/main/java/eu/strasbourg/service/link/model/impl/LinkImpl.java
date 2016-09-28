@@ -22,9 +22,13 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
+import eu.strasbourg.service.link.service.LinkLocalService;
+import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 
 /**
  * The extended model implementation for the Link service. Represents a row in the &quot;link_Link&quot; database table, with each column mapped to a property of this class.
@@ -71,5 +75,19 @@ public class LinkImpl extends LinkBaseImpl {
 				AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
 		}
 		return categories;
+	}
+	
+	/**
+	 * Renvoie la version live du lien, si elle existe
+	 */
+	public Link getLiveVersion() {
+		long groupId = this.getGroupId();
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null || !group.isStagingGroup()) {
+			return null;
+		}
+		long liveGroupId = group.getLiveGroupId();
+		Link liveLink = LinkLocalServiceUtil.fetchLinkByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveLink;
 	}
 }

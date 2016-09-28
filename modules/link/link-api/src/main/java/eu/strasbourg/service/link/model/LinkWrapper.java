@@ -176,6 +176,14 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		return _link.toCacheModel();
 	}
 
+	/**
+	* Renvoie la version live du lien, si elle existe
+	*/
+	@Override
+	public eu.strasbourg.service.link.model.Link getLiveVersion() {
+		return _link.getLiveVersion();
+	}
+
 	@Override
 	public eu.strasbourg.service.link.model.Link toEscapedModel() {
 		return new LinkWrapper(_link.toEscapedModel());

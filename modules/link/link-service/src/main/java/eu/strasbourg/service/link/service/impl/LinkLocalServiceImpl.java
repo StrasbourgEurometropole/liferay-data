@@ -163,6 +163,13 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Retourne tous les liens d'un groupe
+	 */
+	public List<Link> getByGroupId(long groupId) {
+		return this.linkPersistence.findByGroupId(groupId);
+	}
+
+	/**
 	 * Réindex le lien dans le moteur de recherche
 	 */
 	private void reindex(Link link) throws SearchException {

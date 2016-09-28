@@ -262,6 +262,12 @@ public interface LinkLocalService extends BaseLocalService,
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
+	* Retourne tous les liens d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Link> getByGroupId(long groupId);
+
+	/**
 	* Returns a range of all the links.
 	*
 	* <p>

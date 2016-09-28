@@ -307,6 +307,15 @@ public class LinkLocalServiceWrapper implements LinkLocalService,
 	}
 
 	/**
+	* Retourne tous les liens d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.link.model.Link> getByGroupId(
+		long groupId) {
+		return _linkLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the links.
 	*
 	* <p>

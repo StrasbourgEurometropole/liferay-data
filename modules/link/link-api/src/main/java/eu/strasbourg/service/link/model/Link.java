@@ -65,4 +65,9 @@ public interface Link extends LinkModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Renvoie la version live du lien, si elle existe
+	*/
+	public eu.strasbourg.service.link.model.Link getLiveVersion();
 }

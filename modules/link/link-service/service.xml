@@ -29,9 +29,13 @@
 		<order by="desc">
 			<order-column name="modifiedDate" />
 		</order>
+		
+		<!-- Finders-->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
 
 		<!-- References -->
-
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />

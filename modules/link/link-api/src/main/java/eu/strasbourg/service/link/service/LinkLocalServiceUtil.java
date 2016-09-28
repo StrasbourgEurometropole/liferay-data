@@ -290,6 +290,14 @@ public class LinkLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les liens d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.link.model.Link> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the links.
 	*
 	* <p>
