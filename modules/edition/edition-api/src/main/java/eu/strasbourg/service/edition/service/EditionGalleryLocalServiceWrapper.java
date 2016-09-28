@@ -339,6 +339,15 @@ public class EditionGalleryLocalServiceWrapper
 		return _editionGalleryLocalService.getAttachedVocabularies(groupId);
 	}
 
+	/**
+	* Retourne toutes les galeries éditions d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getByGroupId(
+		long groupId) {
+		return _editionGalleryLocalService.getByGroupId(groupId);
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
 		long editionId) {

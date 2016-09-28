@@ -277,6 +277,12 @@ public interface EditionLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
+	/**
+	* Retourne toutes les éditions d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Edition> getByGroupId(long groupId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Edition> getEditionGalleryEditions(long galleryId);
 

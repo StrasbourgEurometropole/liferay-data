@@ -214,6 +214,13 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		return attachedVocabularies;
 	}
 
+	/**
+	 * Retourne toutes les éditions d'un groupe
+	 */
+	public List<Edition> getByGroupId(long groupId) {
+		return this.editionPersistence.findByGroupId(groupId);
+	}
+
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<Edition> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Edition.class);

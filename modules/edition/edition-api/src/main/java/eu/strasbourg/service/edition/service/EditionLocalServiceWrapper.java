@@ -333,6 +333,15 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 		return _editionLocalService.getAttachedVocabularies(groupId);
 	}
 
+	/**
+	* Retourne toutes les éditions d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.Edition> getByGroupId(
+		long groupId) {
+		return _editionLocalService.getByGroupId(groupId);
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditionGalleryEditions(
 		long galleryId) {

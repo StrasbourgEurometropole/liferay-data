@@ -313,6 +313,14 @@ public class EditionGalleryLocalServiceUtil {
 		return getService().getAttachedVocabularies(groupId);
 	}
 
+	/**
+	* Retourne toutes les galeries éditions d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionEditionGalleries(
 		long editionId) {
 		return getService().getEditionEditionGalleries(editionId);

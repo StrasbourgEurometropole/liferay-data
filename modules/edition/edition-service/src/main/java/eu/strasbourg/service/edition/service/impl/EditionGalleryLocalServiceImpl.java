@@ -220,6 +220,13 @@ public class EditionGalleryLocalServiceImpl
 		return attachedVocabularies;
 	}
 
+	/**
+	 * Retourne toutes les galeries éditions d'un groupe
+	 */
+	public List<EditionGallery> getByGroupId(long groupId) {
+		return this.editionGalleryPersistence.findByGroupId(groupId);
+	}
+
 	public List<EditionGallery> findByKeyword(String keyword, long groupId,
 		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
