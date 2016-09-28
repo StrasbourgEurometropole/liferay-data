@@ -53,7 +53,7 @@ public class SaveLinkActionCommand implements MVCActionCommand {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(
 				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getSiteGroupIdOrLiveGroupId());
+					.getScopeGroupId());
 
 			long linkId = ParamUtil.getLong(request, "linkId");
 			Link link;
