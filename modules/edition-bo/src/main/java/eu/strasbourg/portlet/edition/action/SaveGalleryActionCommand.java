@@ -58,7 +58,7 @@ public class SaveGalleryActionCommand
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getSiteGroupIdOrLiveGroupId());
+			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getScopeGroupId());
 			long galleryId = ParamUtil.getLong(request, "galleryId");
 			EditionGallery editionGallery;
 			if (galleryId == 0) {

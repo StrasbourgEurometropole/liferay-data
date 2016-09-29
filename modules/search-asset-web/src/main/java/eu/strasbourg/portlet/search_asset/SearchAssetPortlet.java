@@ -56,7 +56,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			int i = 0;
 			for (String className : configuration.assetClassNames().split(",")) {
 				String layoutFriendlyURL = configuration.layoutsFriendlyURLs().split(",")[i];
-				Layout layout = LayoutLocalServiceUtil.getFriendlyURLLayout(themeDisplay.getSiteGroupIdOrLiveGroupId(), false, layoutFriendlyURL);
+				Layout layout = LayoutLocalServiceUtil.getFriendlyURLLayout(themeDisplay.getScopeGroupId(), false, layoutFriendlyURL);
 				className_layoutId.put(className, layout.getPlid());
 				i++;
 			}

@@ -15,6 +15,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataHandlerBoolean;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.xstream.XStreamAliasRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.xml.Element;
 
 import eu.strasbourg.service.link.model.Link;
@@ -43,9 +44,6 @@ public class LinkPortletDataHandler extends BasePortletDataHandler {
 	
 	@Activate
 	protected void activate() {
-		//setDeletionSystemEventStagedModelTypes(
-		//	new StagedModelType(Link.class));
-		
 		setExportControls(
 			new PortletDataHandlerBoolean(
 				NAMESPACE, "Link entity", true, false, null,
@@ -53,22 +51,6 @@ public class LinkPortletDataHandler extends BasePortletDataHandler {
 		setImportControls(getExportControls());
 		
 		XStreamAliasRegistryUtil.register(LinkImpl.class, "Link");
-	}
-
-	@Override
-	protected PortletPreferences doDeleteData(
-		PortletDataContext portletDataContext, String portletId,
-		PortletPreferences portletPreferences) throws Exception {
-		
-		/*if (portletDataContext.addPrimaryKey(LinkPortletDataHandler.class, "deleteData")) {
-			return portletPreferences;
-		}
-		
-		this._stagedModelRepository.deleteStagedModels(portletDataContext);
-		
-		return portletPreferences;
-		*/
-		return super.doDeleteData(portletDataContext, portletId, portletPreferences);
 	}
 
 	@Override
@@ -111,23 +93,7 @@ public class LinkPortletDataHandler extends BasePortletDataHandler {
 		}
 
 		return null;
-	}
-
-	@Override
-	protected void doPrepareManifestSummary(
-		PortletDataContext portletDataContext,
-		PortletPreferences portletPreferences) throws Exception {
-		/*
-		ActionableDynamicQuery entryExportActionableDynamicQuery =
-		
-			this._stagedModelRepository.
-				getExportActionableDynamicQuery(portletDataContext);
-
-		entryExportActionableDynamicQuery.performCount();
-		*/
-		super.doPrepareManifestSummary(portletDataContext, portletPreferences);
-	}
-	
+	}	
 
 	@Reference(unbind = "-")
 	protected void setLinkLocalService(LinkLocalService linkLocalService) {

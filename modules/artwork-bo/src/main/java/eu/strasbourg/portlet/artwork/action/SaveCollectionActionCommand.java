@@ -55,7 +55,7 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(
 				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getSiteGroupIdOrLiveGroupId());
+					.getScopeGroupId());
 			long collectionId = ParamUtil.getLong(request, "collectionId");
 			ArtworkCollection artworkCollection;
 			if (collectionId == 0) {

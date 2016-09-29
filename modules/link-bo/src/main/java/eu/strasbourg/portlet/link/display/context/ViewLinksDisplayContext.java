@@ -89,7 +89,7 @@ public class ViewLinksDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getSiteGroupId()});
+			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
 
 			// Ordre
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),

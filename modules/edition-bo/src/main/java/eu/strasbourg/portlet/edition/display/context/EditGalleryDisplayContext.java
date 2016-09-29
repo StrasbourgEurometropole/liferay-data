@@ -33,7 +33,7 @@ public class EditGalleryDisplayContext {
 	}
 
 	public Locale[] getAvailableLocales() {
-		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getSiteGroupIdOrLiveGroupId());
+		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
 		return availableLocales;

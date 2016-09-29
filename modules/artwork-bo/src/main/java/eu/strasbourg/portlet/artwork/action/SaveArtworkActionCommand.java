@@ -55,7 +55,7 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(
 				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getSiteGroupIdOrLiveGroupId());
+					.getScopeGroupId());
 
 			long artworkId = ParamUtil.getLong(request, "artworkId");
 			Artwork artwork;

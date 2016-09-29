@@ -58,7 +58,7 @@ public class SaveEditionActionCommand
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getSiteGroupIdOrLiveGroupId());
+			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getScopeGroupId());
 			long editionId = ParamUtil.getLong(request, "editionId");
 			Edition edition;
 			if (editionId == 0) {

@@ -98,11 +98,11 @@ public class ArtworkCollectionItemSelectorView
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<ArtworkCollection> collections = ArtworkCollectionLocalServiceUtil
-			.findByKeyword(keywords, themeDisplay.getSiteGroupIdOrLiveGroupId(),
+			.findByKeyword(keywords, themeDisplay.getScopeGroupId(),
 				(delta * cur) - delta, ((delta * cur) + delta));
 
 		long collectionsCount = ArtworkCollectionLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getSiteGroupIdOrLiveGroupId());
+			keywords, themeDisplay.getScopeGroupId());
 
 		servletRequest.setAttribute("total", collectionsCount);
 		servletRequest.setAttribute("collections", collections);

@@ -98,11 +98,11 @@ public class EditionGalleryItemSelectorView
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<EditionGallery> galleries = EditionGalleryLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getSiteGroupIdOrLiveGroupId(), (delta * cur) - delta,
+			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
 			((delta * cur) + delta));
 
 		long galleriesCount = EditionGalleryLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getSiteGroupIdOrLiveGroupId());
+			keywords, themeDisplay.getScopeGroupId());
 
 		servletRequest.setAttribute("total", galleriesCount);
 		servletRequest.setAttribute("galleries", galleries);

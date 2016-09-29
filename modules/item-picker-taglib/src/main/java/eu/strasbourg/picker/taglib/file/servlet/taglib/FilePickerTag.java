@@ -86,7 +86,7 @@ public class FilePickerTag extends IncludeTag {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 		Set<Locale> availableLocalesSet = LanguageUtil
-			.getAvailableLocales(themeDisplay.getSiteGroupIdOrLiveGroupId());
+			.getAvailableLocales(themeDisplay.getScopeGroupId());
 		Locale[] availableLocales;
 		if ("true".equals(_localized)) {
 			availableLocales = availableLocalesSet

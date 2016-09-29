@@ -98,11 +98,11 @@ public class LinkItemSelectorView
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<Link> links = LinkLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getSiteGroupIdOrLiveGroupId(), (delta * cur) - delta,
+			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
 			((delta * cur) + delta));
 
 		long linksCount = LinkLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getSiteGroupIdOrLiveGroupId());
+			keywords, themeDisplay.getScopeGroupId());
 
 		servletRequest.setAttribute("total", linksCount);
 		servletRequest.setAttribute("links", links);

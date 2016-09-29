@@ -98,11 +98,11 @@ public class EditionItemSelectorView
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<Edition> editions = EditionLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getSiteGroupIdOrLiveGroupId(), (delta * cur) - delta,
+			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
 			((delta * cur) + delta));
 
 		long editionsCount = EditionLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getSiteGroupIdOrLiveGroupId());
+			keywords, themeDisplay.getScopeGroupId());
 
 		servletRequest.setAttribute("total", editionsCount);
 		servletRequest.setAttribute("editions", editions);

@@ -188,7 +188,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
     		// Liste des templates
 			List<List<DDMTemplate>> templatesList = new ArrayList<List<DDMTemplate>>();
     		for (int i = 0; i < availableAssetRendererFactories.size(); i++) {
-    			List<DDMTemplate> templates = DDMTemplateLocalServiceUtil.getTemplates(themeDisplay.getSiteGroupIdOrLiveGroupId(), availableAssetRendererFactories.get(i).getClassNameId());
+    			List<DDMTemplate> templates = DDMTemplateLocalServiceUtil.getTemplates(themeDisplay.getScopeGroupId(), availableAssetRendererFactories.get(i).getClassNameId());
     			templatesList.add(templates);
     		}
     		request.setAttribute("templatesList", templatesList);

@@ -89,7 +89,7 @@ public class ViewEditionsDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getSiteGroupIdOrLiveGroupId()});
+			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -160,12 +160,12 @@ public class ViewEditionsDisplayContext {
 	}
 
 	/**
-	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer les
-	 * éditions Liste sous forme de string qui se présente comme suit :
-	 * ",categoryId1,categoryId2,categoryId3," Si le paramètre
-	 * "vocabularyToRemove" est présent, on enlève les catégories appartenant à
-	 * ce vocabulaire de la liste Si le paramètre "categoryToAdd" est présent,
-	 * on ajoute ladite catégorie à la liste
+	 * Retourne la liste des IDs des catï¿½gories sur lesquels on doit filtrer les
+	 * ï¿½ditions Liste sous forme de string qui se prï¿½sente comme suit :
+	 * ",categoryId1,categoryId2,categoryId3," Si le paramï¿½tre
+	 * "vocabularyToRemove" est prï¿½sent, on enlï¿½ve les catï¿½gories appartenant ï¿½
+	 * ce vocabulaire de la liste Si le paramï¿½tre "categoryToAdd" est prï¿½sent,
+	 * on ajoute ladite catï¿½gorie ï¿½ la liste
 	 * 
 	 * @return
 	 * @throws PortalException
@@ -200,9 +200,9 @@ public class ViewEditionsDisplayContext {
 	}
 
 	/**
-	 * Retourne le nom à afficher pour un filtre "Vocabulaire" - Si aucune
-	 * catégorie du vocabulaire n'a été sélectionnée, le nom du vocabulaire - Si
-	 * une catégorie du vocabulaire a été sélectionnée, le nom de la catégorie
+	 * Retourne le nom ï¿½ afficher pour un filtre "Vocabulaire" - Si aucune
+	 * catï¿½gorie du vocabulaire n'a ï¿½tï¿½ sï¿½lectionnï¿½e, le nom du vocabulaire - Si
+	 * une catï¿½gorie du vocabulaire a ï¿½tï¿½ sï¿½lectionnï¿½e, le nom de la catï¿½gorie
 	 */
 	public String getVocabularyFilterLabel(AssetVocabulary vocabulary)
 		throws PortalException {
