@@ -18,7 +18,6 @@ import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 public class EditGalleryDisplayContext {
 	public EditGalleryDisplayContext(RenderRequest request, RenderResponse response) {
 		this._request = request;
-		this._response = response;
 		this._themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
@@ -42,6 +41,5 @@ public class EditGalleryDisplayContext {
 	private EditionGallery _editionGallery;
 	
 	private final RenderRequest _request;
-	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
 }

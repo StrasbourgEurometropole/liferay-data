@@ -14,12 +14,10 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.WebKeys;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.rubric.configuration.RubricConfiguration",
@@ -50,16 +48,10 @@ public class RubricConfigurationAction extends DefaultConfigurationAction {
 	public void include(PortletConfig portletConfig, HttpServletRequest request,
 		HttpServletResponse response) throws Exception {
 		try {
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletResource = ParamUtil.getString(request,
 			    "portletResource");
 			PortletPreferences preferences = PortletPreferencesFactoryUtil.getPortletSetup(
 				request, portletResource);
-
-			RubricConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(RubricConfiguration.class);
 			
 			// Tout ce qui est Application Display Template
 			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));

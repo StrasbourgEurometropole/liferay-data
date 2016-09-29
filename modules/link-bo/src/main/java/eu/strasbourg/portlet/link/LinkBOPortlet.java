@@ -41,7 +41,6 @@ public class LinkBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
 		
 		renderResponse.setTitle("Liens");
 		

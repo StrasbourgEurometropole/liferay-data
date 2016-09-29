@@ -25,7 +25,6 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
@@ -49,6 +48,9 @@ import eu.strasbourg.utils.FileEntryHelper;
  */
 @ProviderType
 public class EditionImpl extends EditionBaseImpl {
+
+	private static final long serialVersionUID = -263639533491031888L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

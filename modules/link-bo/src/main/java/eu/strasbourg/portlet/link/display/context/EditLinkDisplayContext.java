@@ -19,7 +19,6 @@ public class EditLinkDisplayContext {
 	public EditLinkDisplayContext(RenderRequest request,
 		RenderResponse response) {
 		this._request = request;
-		this._response = response;
 		this._themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
@@ -43,7 +42,6 @@ public class EditLinkDisplayContext {
 	private Link _link;
 
 	private final RenderRequest _request;
-	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
 	
 }

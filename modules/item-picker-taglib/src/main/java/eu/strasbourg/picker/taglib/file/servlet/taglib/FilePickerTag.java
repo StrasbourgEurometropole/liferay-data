@@ -113,7 +113,7 @@ public class FilePickerTag extends IncludeTag {
 					}
 				}
 			}
-			Map<Locale, List> language_files = new HashMap<Locale, List>();
+			Map<Locale, List<FileObject>> language_files = new HashMap<Locale, List<FileObject>>();
 			Map<Locale, String> language_fileIds = new HashMap<Locale, String>();
 			language_files.put(defaultLocale, files);
 			language_fileIds.put(defaultLocale, _value);
@@ -122,7 +122,7 @@ public class FilePickerTag extends IncludeTag {
 		}
 		// avec localisation
 		else {
-			Map<Locale, List> locale_files = new HashMap<Locale, List>();
+			Map<Locale, List<FileObject>> locale_files = new HashMap<Locale, List<FileObject>>();
 			Map<Locale, String> locale_filesIds = LocalizationUtil
 				.getLocalizationMap(_value);
 

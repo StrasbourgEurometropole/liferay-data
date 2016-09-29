@@ -1,10 +1,6 @@
 package eu.strasbourg.picker.taglib.image.internal.servlet;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.PortletURL;
 import javax.servlet.ServletContext;
 
 import org.osgi.service.component.annotations.Activate;
@@ -13,10 +9,6 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 
 /**
  * @author Benjamin Bini

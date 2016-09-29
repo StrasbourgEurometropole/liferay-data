@@ -21,8 +21,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
@@ -42,6 +40,9 @@ import eu.strasbourg.utils.FileEntryHelper;
  */
 @ProviderType
 public class EditionGalleryImpl extends EditionGalleryBaseImpl {
+
+	private static final long serialVersionUID = -2751235155292359761L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -51,7 +52,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	}
 	
 	/**
-	 * Retourne l'AssetEntry rattachée à cet item
+	 * Retourne l'AssetEntry rattachï¿½e ï¿½ cet item
 	 */
 	public AssetEntry getAssetEntry() {
 		try {
@@ -63,7 +64,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	}
 	
 	/**
-	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 * Renvoie la liste des AssetCategory rattachï¿½es ï¿½ cet item (via l'assetEntry)
 	 */
 	public List<AssetCategory> getCategories() throws PortalException {
 		AssetEntry entry = this.getAssetEntry();
@@ -76,7 +77,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * Renvoie l'URL de l'image ï¿½ partir de l'id du DLFileEntry
 	 * 
 	 * @throws PortalException
 	 * @throws NumberFormatException

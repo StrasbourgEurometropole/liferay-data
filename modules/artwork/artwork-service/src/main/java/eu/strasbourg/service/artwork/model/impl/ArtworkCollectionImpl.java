@@ -21,8 +21,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
@@ -42,6 +40,9 @@ import eu.strasbourg.utils.FileEntryHelper;
  */
 @ProviderType
 public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
+
+	private static final long serialVersionUID = -3072412689727443267L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -51,7 +52,7 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 	
 	/**
-	 * Retourne l'AssetEntry correspondant à cet item
+	 * Retourne l'AssetEntry correspondant ï¿½ cet item
 	 */
 	public AssetEntry getAssetEntry() throws PortalException {
 		return AssetEntryLocalServiceUtil.getEntry(ArtworkCollection.class.getName(),
@@ -59,7 +60,7 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 	
 	/**
-	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	 * Retourne la liste des AssetCategory correspondant ï¿½ cet item (via l'AssetEntry)
 	 */
 	public List<AssetCategory> getCategories() throws PortalException {
 		long[] categoryIds = this.getAssetEntry().getCategoryIds();
@@ -72,7 +73,7 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 	
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * Renvoie l'URL de l'image ï¿½ partir de l'id du DLFileEntry
 	 * 
 	 * @throws PortalException
 	 * @throws NumberFormatException

@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
-import eu.strasbourg.service.link.service.LinkLocalService;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 
 /**
@@ -41,6 +40,9 @@ import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
  */
 @ProviderType
 public class LinkImpl extends LinkBaseImpl {
+
+	private static final long serialVersionUID = 5087080161396783521L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

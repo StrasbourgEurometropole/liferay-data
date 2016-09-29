@@ -18,7 +18,6 @@ import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 public class EditCollectionDisplayContext {
 	public EditCollectionDisplayContext(RenderRequest request, RenderResponse response) {
 		this._request = request;
-		this._response = response;
 		this._themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
@@ -42,6 +41,5 @@ public class EditCollectionDisplayContext {
 	private ArtworkCollection _collection;
 	
 	private final RenderRequest _request;
-	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
 }
