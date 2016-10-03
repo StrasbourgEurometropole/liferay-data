@@ -65,7 +65,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -83,6 +83,8 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", URL=");
@@ -131,6 +133,13 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 			linkImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		if (lastPublishDate == Long.MIN_VALUE) {
+			linkImpl.setLastPublishDate(null);
+		}
+		else {
+			linkImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
 		if (title == null) {
 			linkImpl.setTitle(StringPool.BLANK);
 		}
@@ -171,6 +180,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		URL = objectInput.readUTF();
 		hoverText = objectInput.readUTF();
@@ -203,6 +213,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -234,6 +245,7 @@ public class LinkCacheModel implements CacheModel<Link>, Externalizable {
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public String title;
 	public String URL;
 	public String hoverText;

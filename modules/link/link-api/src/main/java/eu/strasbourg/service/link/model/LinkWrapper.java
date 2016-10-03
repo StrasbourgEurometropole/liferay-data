@@ -67,6 +67,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("URL", getURL());
 		attributes.put("hoverText", getHoverText());
@@ -122,6 +123,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -477,6 +484,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
+	* Returns the last publish date of this link.
+	*
+	* @return the last publish date of this link
+	*/
+	@Override
+	public Date getLastPublishDate() {
+		return _link.getLastPublishDate();
+	}
+
+	/**
 	* Returns the modified date of this link.
 	*
 	* @return the modified date of this link
@@ -706,6 +723,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		Map<java.util.Locale, java.lang.String> hoverTextMap,
 		java.util.Locale defaultLocale) {
 		_link.setHoverTextMap(hoverTextMap, defaultLocale);
+	}
+
+	/**
+	* Sets the last publish date of this link.
+	*
+	* @param lastPublishDate the last publish date of this link
+	*/
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_link.setLastPublishDate(lastPublishDate);
 	}
 
 	/**

@@ -88,6 +88,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "lastPublishDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "URL", Types.VARCHAR },
 			{ "hoverText", Types.VARCHAR }
@@ -103,12 +104,13 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("URL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("hoverText", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table link_Link (uuid_ VARCHAR(75) null,linkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,URL STRING null,hoverText STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table link_Link (uuid_ VARCHAR(75) null,linkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,title STRING null,URL STRING null,hoverText STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table link_Link";
 	public static final String ORDER_BY_JPQL = " ORDER BY link.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY link_Link.modifiedDate DESC";
@@ -150,6 +152,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setLastPublishDate(soapModel.getLastPublishDate());
 		model.setTitle(soapModel.getTitle());
 		model.setURL(soapModel.getURL());
 		model.setHoverText(soapModel.getHoverText());
@@ -225,6 +228,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("URL", getURL());
 		attributes.put("hoverText", getHoverText());
@@ -283,6 +287,12 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -456,6 +466,17 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		_columnBitmask = -1L;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@JSON
+	@Override
+	public Date getLastPublishDate() {
+		return _lastPublishDate;
+	}
+
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_lastPublishDate = lastPublishDate;
 	}
 
 	@JSON
@@ -904,6 +925,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		linkImpl.setUserName(getUserName());
 		linkImpl.setCreateDate(getCreateDate());
 		linkImpl.setModifiedDate(getModifiedDate());
+		linkImpl.setLastPublishDate(getLastPublishDate());
 		linkImpl.setTitle(getTitle());
 		linkImpl.setURL(getURL());
 		linkImpl.setHoverText(getHoverText());
@@ -1030,6 +1052,15 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 			linkCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		Date lastPublishDate = getLastPublishDate();
+
+		if (lastPublishDate != null) {
+			linkCacheModel.lastPublishDate = lastPublishDate.getTime();
+		}
+		else {
+			linkCacheModel.lastPublishDate = Long.MIN_VALUE;
+		}
+
 		linkCacheModel.title = getTitle();
 
 		String title = linkCacheModel.title;
@@ -1059,7 +1090,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1077,6 +1108,8 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", lastPublishDate=");
+		sb.append(getLastPublishDate());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", URL=");
@@ -1090,7 +1123,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.link.model.Link");
@@ -1129,6 +1162,10 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>lastPublishDate</column-name><column-value><![CDATA[");
+		sb.append(getLastPublishDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
@@ -1164,6 +1201,7 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private Date _lastPublishDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _URL;
