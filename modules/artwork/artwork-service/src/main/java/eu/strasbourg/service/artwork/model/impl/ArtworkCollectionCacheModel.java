@@ -66,7 +66,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -84,6 +84,8 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
@@ -136,6 +138,13 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			artworkCollectionImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		if (lastPublishDate == Long.MIN_VALUE) {
+			artworkCollectionImpl.setLastPublishDate(null);
+		}
+		else {
+			artworkCollectionImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
 		if (title == null) {
 			artworkCollectionImpl.setTitle(StringPool.BLANK);
 		}
@@ -179,6 +188,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		contributors = objectInput.readUTF();
@@ -215,6 +225,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -250,6 +261,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public String title;
 	public String description;
 	public String contributors;

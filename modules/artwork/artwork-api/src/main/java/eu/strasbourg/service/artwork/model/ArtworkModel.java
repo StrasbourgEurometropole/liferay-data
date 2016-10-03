@@ -22,10 +22,9 @@ import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,8 +47,8 @@ import java.util.Map;
  * @generated
  */
 @ProviderType
-public interface ArtworkModel extends BaseModel<Artwork>, GroupedModel,
-	LocalizedModel, ShardedModel, StagedAuditedModel {
+public interface ArtworkModel extends BaseModel<Artwork>, LocalizedModel,
+	ShardedModel, StagedGroupedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -213,6 +212,22 @@ public interface ArtworkModel extends BaseModel<Artwork>, GroupedModel,
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate);
+
+	/**
+	 * Returns the last publish date of this artwork.
+	 *
+	 * @return the last publish date of this artwork
+	 */
+	@Override
+	public Date getLastPublishDate();
+
+	/**
+	 * Sets the last publish date of this artwork.
+	 *
+	 * @param lastPublishDate the last publish date of this artwork
+	 */
+	@Override
+	public void setLastPublishDate(Date lastPublishDate);
 
 	/**
 	 * Returns the title of this artwork.

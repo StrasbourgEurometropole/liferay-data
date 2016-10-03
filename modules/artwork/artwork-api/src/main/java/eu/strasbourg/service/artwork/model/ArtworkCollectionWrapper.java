@@ -68,6 +68,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("contributors", getContributors());
@@ -125,6 +126,12 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -533,6 +540,16 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
+	* Returns the last publish date of this artwork collection.
+	*
+	* @return the last publish date of this artwork collection
+	*/
+	@Override
+	public Date getLastPublishDate() {
+		return _artworkCollection.getLastPublishDate();
+	}
+
+	/**
 	* Returns the modified date of this artwork collection.
 	*
 	* @return the modified date of this artwork collection
@@ -851,6 +868,16 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	@Override
 	public void setImageId(java.lang.Long imageId) {
 		_artworkCollection.setImageId(imageId);
+	}
+
+	/**
+	* Sets the last publish date of this artwork collection.
+	*
+	* @param lastPublishDate the last publish date of this artwork collection
+	*/
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_artworkCollection.setLastPublishDate(lastPublishDate);
 	}
 
 	/**

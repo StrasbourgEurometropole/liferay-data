@@ -19,6 +19,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
 
 		<!-- Other fields -->
 		<column name="title" type="String" localized="true" />
@@ -70,6 +71,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
 
 		<!-- Other fields -->
         <column name="title" type="String" localized="true" />

@@ -2365,6 +2365,7 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		artworkImpl.setUserName(artwork.getUserName());
 		artworkImpl.setCreateDate(artwork.getCreateDate());
 		artworkImpl.setModifiedDate(artwork.getModifiedDate());
+		artworkImpl.setLastPublishDate(artwork.getLastPublishDate());
 		artworkImpl.setTitle(artwork.getTitle());
 		artworkImpl.setDescription(artwork.getDescription());
 		artworkImpl.setTechnicalInformation(artwork.getTechnicalInformation());

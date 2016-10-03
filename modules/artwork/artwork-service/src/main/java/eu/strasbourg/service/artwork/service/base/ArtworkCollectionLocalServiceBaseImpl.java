@@ -325,6 +325,8 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 
 		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 
+		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+
 		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<ArtworkCollection>() {
 				@Override
 				public void performAction(ArtworkCollection artworkCollection)

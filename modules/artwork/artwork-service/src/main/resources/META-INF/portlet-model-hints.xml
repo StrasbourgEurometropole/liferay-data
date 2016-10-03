@@ -10,6 +10,7 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
@@ -37,6 +38,7 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />

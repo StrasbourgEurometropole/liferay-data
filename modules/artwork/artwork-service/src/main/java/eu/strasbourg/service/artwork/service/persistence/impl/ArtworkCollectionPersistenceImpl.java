@@ -2400,6 +2400,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		artworkCollectionImpl.setUserName(artworkCollection.getUserName());
 		artworkCollectionImpl.setCreateDate(artworkCollection.getCreateDate());
 		artworkCollectionImpl.setModifiedDate(artworkCollection.getModifiedDate());
+		artworkCollectionImpl.setLastPublishDate(artworkCollection.getLastPublishDate());
 		artworkCollectionImpl.setTitle(artworkCollection.getTitle());
 		artworkCollectionImpl.setDescription(artworkCollection.getDescription());
 		artworkCollectionImpl.setContributors(artworkCollection.getContributors());

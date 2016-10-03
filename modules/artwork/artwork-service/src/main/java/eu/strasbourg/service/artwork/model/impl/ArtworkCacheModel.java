@@ -65,7 +65,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -83,6 +83,8 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
@@ -153,6 +155,13 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 		else {
 			artworkImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		if (lastPublishDate == Long.MIN_VALUE) {
+			artworkImpl.setLastPublishDate(null);
+		}
+		else {
+			artworkImpl.setLastPublishDate(new Date(lastPublishDate));
 		}
 
 		if (title == null) {
@@ -268,6 +277,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		technicalInformation = objectInput.readUTF();
@@ -314,6 +324,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -419,6 +430,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public String title;
 	public String description;
 	public String technicalInformation;

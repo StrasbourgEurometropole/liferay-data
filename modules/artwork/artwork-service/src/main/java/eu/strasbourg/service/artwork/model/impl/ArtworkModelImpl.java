@@ -89,6 +89,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "lastPublishDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
 			{ "technicalInformation", Types.VARCHAR },
@@ -116,6 +117,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("technicalInformation", Types.VARCHAR);
@@ -133,7 +135,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("imagesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,technicalInformation STRING null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,status BOOLEAN,imageId LONG,imagesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,title STRING null,description TEXT null,technicalInformation STRING null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,status BOOLEAN,imageId LONG,imagesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table artwork_Artwork";
 	public static final String ORDER_BY_JPQL = " ORDER BY artwork.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY artwork_Artwork.modifiedDate DESC";
@@ -175,6 +177,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setLastPublishDate(soapModel.getLastPublishDate());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setTechnicalInformation(soapModel.getTechnicalInformation());
@@ -276,6 +279,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("technicalInformation", getTechnicalInformation());
@@ -346,6 +350,12 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -592,6 +602,17 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		_columnBitmask = -1L;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@JSON
+	@Override
+	public Date getLastPublishDate() {
+		return _lastPublishDate;
+	}
+
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_lastPublishDate = lastPublishDate;
 	}
 
 	@JSON
@@ -2201,6 +2222,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		artworkImpl.setUserName(getUserName());
 		artworkImpl.setCreateDate(getCreateDate());
 		artworkImpl.setModifiedDate(getModifiedDate());
+		artworkImpl.setLastPublishDate(getLastPublishDate());
 		artworkImpl.setTitle(getTitle());
 		artworkImpl.setDescription(getDescription());
 		artworkImpl.setTechnicalInformation(getTechnicalInformation());
@@ -2339,6 +2361,15 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			artworkCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		Date lastPublishDate = getLastPublishDate();
+
+		if (lastPublishDate != null) {
+			artworkCacheModel.lastPublishDate = lastPublishDate.getTime();
+		}
+		else {
+			artworkCacheModel.lastPublishDate = Long.MIN_VALUE;
+		}
+
 		artworkCacheModel.title = getTitle();
 
 		String title = artworkCacheModel.title;
@@ -2453,7 +2484,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2471,6 +2502,8 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", lastPublishDate=");
+		sb.append(getLastPublishDate());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", description=");
@@ -2508,7 +2541,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(76);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.artwork.model.Artwork");
@@ -2545,6 +2578,10 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
 		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastPublishDate</column-name><column-value><![CDATA[");
+		sb.append(getLastPublishDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
@@ -2630,6 +2667,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private Date _lastPublishDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _description;
