@@ -22,10 +22,9 @@ import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -49,7 +48,7 @@ import java.util.Map;
  */
 @ProviderType
 public interface EditionGalleryModel extends BaseModel<EditionGallery>,
-	GroupedModel, LocalizedModel, ShardedModel, StagedAuditedModel {
+	LocalizedModel, ShardedModel, StagedGroupedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -213,6 +212,22 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate);
+
+	/**
+	 * Returns the last publish date of this edition gallery.
+	 *
+	 * @return the last publish date of this edition gallery
+	 */
+	@Override
+	public Date getLastPublishDate();
+
+	/**
+	 * Sets the last publish date of this edition gallery.
+	 *
+	 * @param lastPublishDate the last publish date of this edition gallery
+	 */
+	@Override
+	public void setLastPublishDate(Date lastPublishDate);
 
 	/**
 	 * Returns the image ID of this edition gallery.

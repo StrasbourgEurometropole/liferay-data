@@ -42,6 +42,7 @@ public class EditionSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setLastPublishDate(model.getLastPublishDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setSubtitle(model.getSubtitle());
 		soapModel.setDescription(model.getDescription());
@@ -174,6 +175,14 @@ public class EditionSoap implements Serializable {
 
 	public void setModifiedDate(Date modifiedDate) {
 		_modifiedDate = modifiedDate;
+	}
+
+	public Date getLastPublishDate() {
+		return _lastPublishDate;
+	}
+
+	public void setLastPublishDate(Date lastPublishDate) {
+		_lastPublishDate = lastPublishDate;
 	}
 
 	public String getTitle() {
@@ -340,6 +349,7 @@ public class EditionSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private Date _lastPublishDate;
 	private String _title;
 	private String _subtitle;
 	private String _description;

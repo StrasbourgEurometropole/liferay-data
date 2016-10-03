@@ -68,6 +68,7 @@ public class EditionGalleryWrapper implements EditionGallery,
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
@@ -125,6 +126,12 @@ public class EditionGalleryWrapper implements EditionGallery,
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -464,6 +471,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
+	* Returns the last publish date of this edition gallery.
+	*
+	* @return the last publish date of this edition gallery
+	*/
+	@Override
+	public Date getLastPublishDate() {
+		return _editionGallery.getLastPublishDate();
+	}
+
+	/**
 	* Returns the modified date of this edition gallery.
 	*
 	* @return the modified date of this edition gallery
@@ -718,6 +735,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public void setImageId(java.lang.Long imageId) {
 		_editionGallery.setImageId(imageId);
+	}
+
+	/**
+	* Sets the last publish date of this edition gallery.
+	*
+	* @param lastPublishDate the last publish date of this edition gallery
+	*/
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_editionGallery.setLastPublishDate(lastPublishDate);
 	}
 
 	/**

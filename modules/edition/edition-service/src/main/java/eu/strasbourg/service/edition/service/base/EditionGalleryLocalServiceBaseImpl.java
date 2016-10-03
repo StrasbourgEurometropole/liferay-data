@@ -323,6 +323,8 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 
 		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 
+		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+
 		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<EditionGallery>() {
 				@Override
 				public void performAction(EditionGallery editionGallery)

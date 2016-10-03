@@ -317,6 +317,8 @@ public abstract class EditionLocalServiceBaseImpl extends BaseLocalServiceImpl
 
 		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 
+		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+
 		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Edition>() {
 				@Override
 				public void performAction(Edition edition)

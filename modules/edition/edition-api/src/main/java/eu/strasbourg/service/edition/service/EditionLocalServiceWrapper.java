@@ -81,6 +81,9 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 		return _editionLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	/**
+	* Lance une recherche selon le searchContext
+	*/
 	@Override
 	public com.liferay.portal.kernel.search.Hits search(
 		com.liferay.portal.kernel.search.SearchContext searchContext)
@@ -321,12 +324,18 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 			orderByComparator);
 	}
 
+	/**
+	* Lance une recherche par mots-clés
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return _editionLocalService.findByKeyword(keyword, groupId, start, end);
 	}
 
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
@@ -438,6 +447,9 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 		return _editionLocalService.dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	* Compte de la recherche par mots-clés
+	*/
 	@Override
 	public long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return _editionLocalService.findByKeywordCount(keyword, groupId);
@@ -476,6 +488,9 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 		_editionLocalService.addEditionGalleryEditions(galleryId, editionIds);
 	}
 
+	/**
+	* Change le statut de l'édition
+	*/
 	@Override
 	public void changeStatus(
 		eu.strasbourg.service.edition.model.Edition edition,

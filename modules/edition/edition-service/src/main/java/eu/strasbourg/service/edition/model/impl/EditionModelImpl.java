@@ -89,6 +89,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "lastPublishDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "subtitle", Types.VARCHAR },
 			{ "description", Types.CLOB },
@@ -119,6 +120,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
@@ -139,7 +141,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("fileId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG,fileId STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG,fileId STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table edition_Edition";
 	public static final String ORDER_BY_JPQL = " ORDER BY edition.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_Edition.modifiedDate DESC";
@@ -182,6 +184,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setLastPublishDate(soapModel.getLastPublishDate());
 		model.setTitle(soapModel.getTitle());
 		model.setSubtitle(soapModel.getSubtitle());
 		model.setDescription(soapModel.getDescription());
@@ -286,6 +289,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
@@ -359,6 +363,12 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -623,6 +633,17 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		_columnBitmask = -1L;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@JSON
+	@Override
+	public Date getLastPublishDate() {
+		return _lastPublishDate;
+	}
+
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_lastPublishDate = lastPublishDate;
 	}
 
 	@JSON
@@ -1729,6 +1750,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setUserName(getUserName());
 		editionImpl.setCreateDate(getCreateDate());
 		editionImpl.setModifiedDate(getModifiedDate());
+		editionImpl.setLastPublishDate(getLastPublishDate());
 		editionImpl.setTitle(getTitle());
 		editionImpl.setSubtitle(getSubtitle());
 		editionImpl.setDescription(getDescription());
@@ -1872,6 +1894,15 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			editionCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		Date lastPublishDate = getLastPublishDate();
+
+		if (lastPublishDate != null) {
+			editionCacheModel.lastPublishDate = lastPublishDate.getTime();
+		}
+		else {
+			editionCacheModel.lastPublishDate = Long.MIN_VALUE;
+		}
+
 		editionCacheModel.title = getTitle();
 
 		String title = editionCacheModel.title;
@@ -1998,7 +2029,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2016,6 +2047,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", lastPublishDate=");
+		sb.append(getLastPublishDate());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", subtitle=");
@@ -2059,7 +2092,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(82);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.Edition");
@@ -2096,6 +2129,10 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
 		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastPublishDate</column-name><column-value><![CDATA[");
+		sb.append(getLastPublishDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
@@ -2193,6 +2230,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private Date _lastPublishDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _originalTitle;

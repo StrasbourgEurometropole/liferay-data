@@ -99,6 +99,9 @@ public interface EditionLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	/**
+	* Lance une recherche selon le searchContext
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Hits search(SearchContext searchContext) throws SearchException;
 
@@ -271,9 +274,15 @@ public interface EditionLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	/**
+	* Lance une recherche par mots-clés
+	*/
 	public List<Edition> findByKeyword(java.lang.String keyword, long groupId,
 		int start, int end);
 
+	/**
+	* Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
@@ -352,6 +361,9 @@ public interface EditionLocalService extends BaseLocalService,
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
 
+	/**
+	* Compte de la recherche par mots-clés
+	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	/**
@@ -371,6 +383,9 @@ public interface EditionLocalService extends BaseLocalService,
 
 	public void addEditionGalleryEditions(long galleryId, long[] editionIds);
 
+	/**
+	* Change le statut de l'édition
+	*/
 	public void changeStatus(Edition edition, boolean publicationStatus)
 		throws PortalException;
 

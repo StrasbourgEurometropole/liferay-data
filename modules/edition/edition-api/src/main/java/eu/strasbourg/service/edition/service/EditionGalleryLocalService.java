@@ -205,7 +205,7 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public EditionGallery updateEditionGallery(EditionGallery editionGallery);
 
 	/**
-	* Update an Edition Gallery
+	* Met à jour une galerie d'éditions
 	*
 	* @param editionGallery
 	The updated Edition Gallery

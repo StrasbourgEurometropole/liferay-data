@@ -67,6 +67,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
@@ -137,6 +138,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -1023,6 +1030,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Returns the last publish date of this edition.
+	*
+	* @return the last publish date of this edition
+	*/
+	@Override
+	public Date getLastPublishDate() {
+		return _edition.getLastPublishDate();
+	}
+
+	/**
 	* Returns the modified date of this edition.
 	*
 	* @return the modified date of this edition
@@ -1567,6 +1584,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public void setInStock(boolean inStock) {
 		_edition.setInStock(inStock);
+	}
+
+	/**
+	* Sets the last publish date of this edition.
+	*
+	* @param lastPublishDate the last publish date of this edition
+	*/
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_edition.setLastPublishDate(lastPublishDate);
 	}
 
 	/**

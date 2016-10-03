@@ -65,7 +65,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -83,6 +83,8 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", subtitle=");
@@ -159,6 +161,13 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 		else {
 			editionImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		if (lastPublishDate == Long.MIN_VALUE) {
+			editionImpl.setLastPublishDate(null);
+		}
+		else {
+			editionImpl.setLastPublishDate(new Date(lastPublishDate));
 		}
 
 		if (title == null) {
@@ -284,6 +293,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
 		description = objectInput.readUTF();
@@ -335,6 +345,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -446,6 +457,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public String title;
 	public String subtitle;
 	public String description;

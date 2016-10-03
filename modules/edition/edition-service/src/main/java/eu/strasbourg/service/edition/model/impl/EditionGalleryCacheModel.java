@@ -66,7 +66,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -84,6 +84,8 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", title=");
@@ -136,6 +138,13 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 			editionGalleryImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		if (lastPublishDate == Long.MIN_VALUE) {
+			editionGalleryImpl.setLastPublishDate(null);
+		}
+		else {
+			editionGalleryImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
 		editionGalleryImpl.setImageId(imageId);
 
 		if (title == null) {
@@ -180,6 +189,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
@@ -216,6 +226,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		objectOutput.writeLong(imageId);
 
@@ -246,6 +257,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public long imageId;
 	public String title;
 	public String description;

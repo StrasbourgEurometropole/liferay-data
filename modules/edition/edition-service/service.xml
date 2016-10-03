@@ -19,6 +19,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
 
 
 		<!-- Other fields -->
@@ -83,6 +84,7 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
 
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

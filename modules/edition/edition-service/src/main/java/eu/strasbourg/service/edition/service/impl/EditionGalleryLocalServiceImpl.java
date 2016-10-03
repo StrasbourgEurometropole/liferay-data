@@ -100,8 +100,7 @@ public class EditionGalleryLocalServiceImpl
 
 		editionGallery.setGroupId(sc.getScopeGroupId());
 		editionGallery.setUserId(sc.getUserId());
-		editionGallery = this.editionGalleryLocalService
-			.updateEditionGallery(editionGallery);
+		editionGallery = this.updateEditionGallery(editionGallery);
 		updateAssetEntry(editionGallery, sc);
 
 		return editionGallery;

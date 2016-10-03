@@ -3535,6 +3535,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		editionImpl.setUserName(edition.getUserName());
 		editionImpl.setCreateDate(edition.getCreateDate());
 		editionImpl.setModifiedDate(edition.getModifiedDate());
+		editionImpl.setLastPublishDate(edition.getLastPublishDate());
 		editionImpl.setTitle(edition.getTitle());
 		editionImpl.setSubtitle(edition.getSubtitle());
 		editionImpl.setDescription(edition.getDescription());

@@ -230,7 +230,7 @@ public class EditionGalleryLocalServiceWrapper
 	}
 
 	/**
-	* Update an Edition Gallery
+	* Met à jour une galerie d'éditions
 	*
 	* @param editionGallery
 	The updated Edition Gallery

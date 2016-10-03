@@ -22,10 +22,9 @@ import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,8 +47,8 @@ import java.util.Map;
  * @generated
  */
 @ProviderType
-public interface EditionModel extends BaseModel<Edition>, GroupedModel,
-	LocalizedModel, ShardedModel, StagedAuditedModel {
+public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
+	ShardedModel, StagedGroupedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -213,6 +212,22 @@ public interface EditionModel extends BaseModel<Edition>, GroupedModel,
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate);
+
+	/**
+	 * Returns the last publish date of this edition.
+	 *
+	 * @return the last publish date of this edition
+	 */
+	@Override
+	public Date getLastPublishDate();
+
+	/**
+	 * Sets the last publish date of this edition.
+	 *
+	 * @param lastPublishDate the last publish date of this edition
+	 */
+	@Override
+	public void setLastPublishDate(Date lastPublishDate);
 
 	/**
 	 * Returns the title of this edition.
