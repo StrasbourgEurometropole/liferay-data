@@ -5,8 +5,8 @@ import java.util.Locale;
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * Classe de service qui peut être utilisée dans les templates OSGI
- * L'implémentation appelle des fonctions statiques présentes dans les classes Helper classiques
+ * Classe de service qui peut Ãªtre utilisÃ©e dans les templates OSGI
+ * L'implÃ¨mentation appelle des fonctions statiques prÃ©sentes dans les classes Helper classiques
  * @author Benjamin Bini
  *
  */

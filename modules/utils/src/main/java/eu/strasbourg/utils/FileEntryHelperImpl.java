@@ -7,9 +7,9 @@ import org.osgi.service.component.annotations.Component;
 import eu.strasbourg.utils.api.FileEntryHelperService;
 
 /**
- * Implémentation du service FileEntryHelperService
- * N'est qu'une couche accessible par les templates FreeMarker qui délègue le travail
- * à une classe helper
+ * ImplÃ©mentation du service FileEntryHelperService
+ * N'est qu'une couche accessible par les templates FreeMarker qui dÃ©lÃ¨gue le travail
+ * Ã  une classe helper
  */
 @Component(
     immediate = true,
