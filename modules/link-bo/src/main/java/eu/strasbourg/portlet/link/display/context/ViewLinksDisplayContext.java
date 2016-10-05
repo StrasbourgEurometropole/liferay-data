@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -209,6 +210,15 @@ public class ViewLinksDisplayContext {
 			}
 		}
 		return vocabulary.getName();
+	}
+	
+	/**
+	 * @return True si le framework workflow est actif pour ce type d'entité
+	 */
+	public boolean isWorkflowEnabled() {
+		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+			Link.class.getName());
 	}
 
 	private final RenderRequest _request;

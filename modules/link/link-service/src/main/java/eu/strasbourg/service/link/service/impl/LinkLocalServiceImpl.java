@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.link.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -26,6 +29,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -33,7 +37,12 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
@@ -68,26 +77,90 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	 */
 
 	/**
-	 * Crée un lien vide
+	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
-	public Link addLink() throws PortalException {
+	public Link createLink(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
 		long pk = counterLocalService.increment();
 
 		Link link = this.linkLocalService.createLink(pk);
+
+		link.setGroupId(sc.getScopeGroupId());
+		link.setUserName(user.getFullName());
+		link.setUserId(sc.getUserId());
+
+		link.setStatus(WorkflowConstants.STATUS_DRAFT);
 
 		return link;
 	}
 
 	/**
-	 * Met à jour un lien
+	 * Met à jour un lien et l'enregistre en base de données
 	 */
 	public Link updateLink(Link link, ServiceContext sc)
 		throws PortalException {
-		link.setGroupId(sc.getScopeGroupId());
-		link.setUserId(sc.getUserId());
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		link.setStatusByUserId(sc.getUserId());
+		link.setStatusByUserName(user.getFullName());
+		link.setStatusDate(sc.getModifiedDate());
+
+		// Si on n'utilise pas le framework workflow, simple gestion
+		// brouillon/publié
+		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			sc.getCompanyId(), sc.getScopeGroupId(), Link.class.getName())) {
+			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+				link.setStatus(WorkflowConstants.STATUS_APPROVED);
+			} else {
+				link.setStatus(WorkflowConstants.STATUS_DRAFT);
+				// Si le statut est "DRAFT" et qu'il y a une version live, on
+				// supprime cette dernière
+				Link liveLink = link.getLiveVersion();
+				if (liveLink != null) {
+					this.removeLink(liveLink.getLinkId());
+				}
+			}
+			link = this.linkLocalService.updateLink(link);
+			this.updateAssetEntry(link, sc);
+			this.reindex(link, false);
+		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
+				 // l'enregistrement
+			link = this.linkLocalService.updateLink(link);
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(
+				link.getCompanyId(), link.getGroupId(), link.getUserId(),
+				Link.class.getName(), link.getPrimaryKey(), link, sc);
+		}
+
+		return link;
+	}
+
+	/**
+	 * Met à jour le statut du lien par le framework workflow
+	 */
+	public Link updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<String, Serializable> workflowContext)
+		throws PortalException {
+		Link link = this.getLink(entryId);
+		User user = UserLocalServiceUtil.getUser(userId);
+
+		link.setStatus(status);
+		link.setStatusByUserId(user.getUserId());
+		link.setStatusByUserName(user.getFullName());
+		link.setStatusDate(sc.getModifiedDate(new Date()));
+
 		link = this.linkLocalService.updateLink(link);
+
 		this.updateAssetEntry(link, sc);
 		this.reindex(link, false);
+
+		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
+		// supprime cette dernière
+		Link liveLink = link.getLiveVersion();
+		if (status == WorkflowConstants.STATUS_DRAFT && liveLink != null) {
+			this.removeLink(liveLink.getLinkId());
+		}
+
 		return link;
 	}
 
@@ -107,7 +180,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			sc.getAssetCategoryIds(), // Categories IDs
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
-			true, // Visible
+			link.getStatus() == WorkflowConstants.STATUS_APPROVED, // Visible
 			link.getCreateDate(), // Start date
 			null, // End date
 			null, // Date of expiration
@@ -155,6 +228,11 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			// Supprime l'AssetEntry
 			this.assetEntryLocalService.deleteEntry(entry);
 
+			// Supprime ce qui a rapport au workflow
+			WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				entry.getCompanyId(), entry.getGroupId(), Link.class.getName(),
+				entry.getEntryId());
+
 		}
 
 		// Supprime le lien
@@ -162,7 +240,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 
 		// Supprime l'index
 		reindex(link, true);
-		
+
 		// S'il existe une version live du lien, on la supprime
 		Link liveLink = link.getLiveVersion();
 		if (liveLink != null) {

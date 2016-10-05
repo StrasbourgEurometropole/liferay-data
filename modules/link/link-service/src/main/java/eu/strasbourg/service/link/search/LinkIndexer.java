@@ -76,7 +76,7 @@ public class LinkIndexer extends BaseIndexer<Link> {
 		document.addLocalizedText(Field.TITLE, link.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			link.getHoverTextMap());
-		document.addNumber(Field.STATUS, 1);
+		document.addNumber(Field.STATUS, link.getStatus());
 		return document;
 	}
 

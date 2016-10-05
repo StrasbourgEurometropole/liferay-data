@@ -68,6 +68,14 @@
 		</liferay-frontend:management-bar-filters>
 
 		<liferay-frontend:management-bar-action-buttons>
+			<c:if test="${not dc.workflowEnabled}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+					icon="check" label="publish" />
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+					icon="times" label="unpublish" />
+			</c:if>
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
@@ -83,8 +91,8 @@
 			<liferay-ui:search-container-results results="${dc.links}" />
 
 			<liferay-ui:search-container-row
-				className="eu.strasbourg.service.link.model.Link"
-				modelVar="link" keyProperty="linkId" rowIdProperty="linkId">
+				className="eu.strasbourg.service.link.model.Link" modelVar="link"
+				keyProperty="linkId" rowIdProperty="linkId">
 				<liferay-portlet:renderURL varImpl="editLinkURL">
 					<portlet:param name="cmd" value="editLink" />
 					<portlet:param name="linkId" value="${link.linkId}" />
@@ -93,8 +101,8 @@
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editLinkURL}" name="title" truncate="true"
-					orderable="true" value="${link.titleCurrentValue}" />
+					href="${editLinkURL}" name="title" truncate="true" orderable="true"
+					value="${link.titleCurrentValue}" />
 
 				<fmt:formatDate value="${link.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -102,13 +110,17 @@
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${link.status}" />
+				</liferay-ui:search-container-column-text>
+
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 						<liferay-ui:icon message="edit" url="${editLinkURL}" />
 
-						<liferay-portlet:actionURL name="deleteLink"
-							var="deleteLinkURL">
+						<liferay-portlet:actionURL name="deleteLink" var="deleteLinkURL">
 							<portlet:param name="cmd" value="deleteLink" />
 							<portlet:param name="tab" value="links" />
 							<portlet:param name="linkId" value="${link.linkId}" />
@@ -126,14 +138,23 @@
 </div>
 
 <liferay-frontend:add-menu>
-	<liferay-frontend:add-menu-item title='add-link'
-		url="${addLinkURL}" />
+	<liferay-frontend:add-menu-item title='add-link' url="${addLinkURL}" />
 </liferay-frontend:add-menu>
 
 
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
+	<portlet:param name="tab" value="links" />
+</liferay-portlet:actionURL>
+<liferay-portlet:actionURL name="selectionAction"
+	var="publishSelectionURL">
+	<portlet:param name="cmd" value="publish" />
+	<portlet:param name="tab" value="links" />
+</liferay-portlet:actionURL>
+<liferay-portlet:actionURL name="selectionAction"
+	var="unpublishSelectionURL">
+	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="links" />
 </liferay-portlet:actionURL>
 <aui:script>
@@ -146,6 +167,28 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${deleteSelectionURL}');
+		}
+	}
+	function <portlet:namespace />publishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${publishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />unpublishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${unpublishSelectionURL}');
 		}
 	}
 </aui:script>

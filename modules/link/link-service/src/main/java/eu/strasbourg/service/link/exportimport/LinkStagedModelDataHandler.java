@@ -25,13 +25,10 @@ public class LinkStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteStagedModel(Link stagedModel) throws PortalException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -70,13 +67,13 @@ public class LinkStagedModelDataHandler
 			Link existingLink = this._linkLocalService.fetchLinkByUuidAndGroupId(stagedModel.getUuid(), portletDataContext.getScopeGroupId());
 			
 			if (existingLink == null) {
-				importedLink = this._linkLocalService.addLink();
+				importedLink = this._linkLocalService.createLink(serviceContext);
 			} else {
 				importedLink = existingLink;
 			}
 			
 		} else {
-			importedLink = this._linkLocalService.addLink();
+			importedLink = this._linkLocalService.createLink(serviceContext);
 		}
 		importedLink.setTitle(stagedModel.getTitle());
 		importedLink.setURL(stagedModel.getURL());

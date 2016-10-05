@@ -8,6 +8,7 @@ import javax.portlet.RenderResponse;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -30,18 +31,24 @@ public class EditLinkDisplayContext {
 		}
 		return _link;
 	}
-	
 
 	public Locale[] getAvailableLocales() {
-		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getScopeGroupId());
+		Set<Locale> availableLocalesSet = LanguageUtil
+			.getAvailableLocales(_themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
 		return availableLocales;
+	}
+
+	public boolean isWorkflowEnabled() {
+		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+			Link.class.getName());
 	}
 
 	private Link _link;
 
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
-	
+
 }

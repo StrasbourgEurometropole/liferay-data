@@ -81,15 +81,6 @@ public class LinkLocalServiceWrapper implements LinkLocalService,
 	}
 
 	/**
-	* Crée un lien vide
-	*/
-	@Override
-	public eu.strasbourg.service.link.model.Link addLink()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _linkLocalService.addLink();
-	}
-
-	/**
 	* Adds the link to the database. Also notifies the appropriate model listeners.
 	*
 	* @param link the link
@@ -99,6 +90,16 @@ public class LinkLocalServiceWrapper implements LinkLocalService,
 	public eu.strasbourg.service.link.model.Link addLink(
 		eu.strasbourg.service.link.model.Link link) {
 		return _linkLocalService.addLink(link);
+	}
+
+	/**
+	* Crée un lien vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.link.model.Link createLink(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _linkLocalService.createLink(sc);
 	}
 
 	/**
@@ -205,7 +206,7 @@ public class LinkLocalServiceWrapper implements LinkLocalService,
 	}
 
 	/**
-	* Met à jour un lien
+	* Met à jour un lien et l'enregistre en base de données
 	*/
 	@Override
 	public eu.strasbourg.service.link.model.Link updateLink(
@@ -213,6 +214,19 @@ public class LinkLocalServiceWrapper implements LinkLocalService,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _linkLocalService.updateLink(link, sc);
+	}
+
+	/**
+	* Met à jour le statut du lien
+	*/
+	@Override
+	public eu.strasbourg.service.link.model.Link updateStatus(long userId,
+		long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _linkLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	/**

@@ -29,10 +29,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalService;
@@ -51,14 +49,11 @@ public class SaveLinkActionCommand implements MVCActionCommand {
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(
-				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getScopeGroupId());
 
 			long linkId = ParamUtil.getLong(request, "linkId");
 			Link link;
 			if (linkId == 0) {
-				link = _linkLocalService.addLink();
+				link = _linkLocalService.createLink(sc);
 			} else {
 				link = _linkLocalService.getLink(linkId);
 			}
