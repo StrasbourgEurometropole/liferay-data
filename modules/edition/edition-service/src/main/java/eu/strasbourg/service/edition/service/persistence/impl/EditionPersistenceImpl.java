@@ -3555,7 +3555,6 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		editionImpl.setPageNumber(edition.getPageNumber());
 		editionImpl.setPictureNumber(edition.getPictureNumber());
 		editionImpl.setPublicationDate(edition.getPublicationDate());
-		editionImpl.setStatus(edition.isStatus());
 		editionImpl.setImageId(edition.getImageId());
 		editionImpl.setFileId(edition.getFileId());
 

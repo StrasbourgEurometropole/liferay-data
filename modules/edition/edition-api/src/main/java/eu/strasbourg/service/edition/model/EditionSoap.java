@@ -62,7 +62,6 @@ public class EditionSoap implements Serializable {
 		soapModel.setPageNumber(model.getPageNumber());
 		soapModel.setPictureNumber(model.getPictureNumber());
 		soapModel.setPublicationDate(model.getPublicationDate());
-		soapModel.setStatus(model.getStatus());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFileId(model.getFileId());
 
@@ -349,18 +348,6 @@ public class EditionSoap implements Serializable {
 		_publicationDate = publicationDate;
 	}
 
-	public boolean getStatus() {
-		return _status;
-	}
-
-	public boolean isStatus() {
-		return _status;
-	}
-
-	public void setStatus(boolean status) {
-		_status = status;
-	}
-
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -405,7 +392,6 @@ public class EditionSoap implements Serializable {
 	private String _pageNumber;
 	private String _pictureNumber;
 	private Date _publicationDate;
-	private boolean _status;
 	private Long _imageId;
 	private String _fileId;
 }

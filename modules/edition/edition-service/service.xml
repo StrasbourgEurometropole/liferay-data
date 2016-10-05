@@ -43,7 +43,6 @@
         <column name="pageNumber" type="String" />
         <column name="pictureNumber" type="String" />
 		<column name="publicationDate" type="Date" />
-		<column name="status" type="boolean" />
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

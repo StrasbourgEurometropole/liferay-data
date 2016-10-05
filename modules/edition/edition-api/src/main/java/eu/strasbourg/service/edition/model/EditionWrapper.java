@@ -87,7 +87,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("pageNumber", getPageNumber());
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
 		attributes.put("fileId", getFileId());
 
@@ -265,12 +264,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 			setPublicationDate(publicationDate);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -302,16 +295,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public boolean getInStock() {
 		return _edition.getInStock();
-	}
-
-	/**
-	* Returns the status of this edition.
-	*
-	* @return the status of this edition
-	*/
-	@Override
-	public boolean getStatus() {
-		return _edition.getStatus();
 	}
 
 	/**
@@ -427,16 +410,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public boolean isScheduled() {
 		return _edition.isScheduled();
-	}
-
-	/**
-	* Returns <code>true</code> if this edition is status.
-	*
-	* @return <code>true</code> if this edition is status; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isStatus() {
-		return _edition.isStatus();
 	}
 
 	/**
@@ -1822,16 +1795,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_edition.setPublicationDate(publicationDate);
-	}
-
-	/**
-	* Sets whether this edition is status.
-	*
-	* @param status the status of this edition
-	*/
-	@Override
-	public void setStatus(boolean status) {
-		_edition.setStatus(status);
 	}
 
 	/**

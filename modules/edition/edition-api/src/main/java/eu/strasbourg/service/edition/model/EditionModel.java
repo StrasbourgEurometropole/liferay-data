@@ -1055,29 +1055,6 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	public void setPublicationDate(Date publicationDate);
 
 	/**
-	 * Returns the status of this edition.
-	 *
-	 * @return the status of this edition
-	 */
-	@Override
-	public boolean getStatus();
-
-	/**
-	 * Returns <code>true</code> if this edition is status.
-	 *
-	 * @return <code>true</code> if this edition is status; <code>false</code> otherwise
-	 */
-	public boolean isStatus();
-
-	/**
-	 * Sets whether this edition is status.
-	 *
-	 * @param status the status of this edition
-	 */
-	@Override
-	public void setStatus(boolean status);
-
-	/**
 	 * Returns the image ID of this edition.
 	 *
 	 * @return the image ID of this edition

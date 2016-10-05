@@ -110,7 +110,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "pageNumber", Types.VARCHAR },
 			{ "pictureNumber", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
-			{ "status", Types.BOOLEAN },
 			{ "imageId", Types.BIGINT },
 			{ "fileId", Types.VARCHAR }
 		};
@@ -145,12 +144,11 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("pageNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("pictureNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("fileId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,status BOOLEAN,imageId LONG,fileId STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,imageId LONG,fileId STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table edition_Edition";
 	public static final String ORDER_BY_JPQL = " ORDER BY edition.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_Edition.modifiedDate DESC";
@@ -213,7 +211,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setPageNumber(soapModel.getPageNumber());
 		model.setPictureNumber(soapModel.getPictureNumber());
 		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setStatus(soapModel.getStatus());
 		model.setImageId(soapModel.getImageId());
 		model.setFileId(soapModel.getFileId());
 
@@ -322,7 +319,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("pageNumber", getPageNumber());
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
 		attributes.put("fileId", getFileId());
 
@@ -501,12 +497,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
-		}
-
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -1504,23 +1494,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@JSON
 	@Override
-	public boolean getStatus() {
-		return _status;
-	}
-
-	@JSON
-	@Override
-	public boolean isStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(boolean status) {
-		_status = status;
-	}
-
-	@JSON
-	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -1956,7 +1929,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setPageNumber(getPageNumber());
 		editionImpl.setPictureNumber(getPictureNumber());
 		editionImpl.setPublicationDate(getPublicationDate());
-		editionImpl.setStatus(getStatus());
 		editionImpl.setImageId(getImageId());
 		editionImpl.setFileId(getFileId());
 
@@ -2223,8 +2195,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			editionCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
-		editionCacheModel.status = getStatus();
-
 		editionCacheModel.imageId = getImageId();
 
 		editionCacheModel.fileId = getFileId();
@@ -2240,7 +2210,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(63);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2298,8 +2268,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getPictureNumber());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
-		sb.append(", status=");
-		sb.append(getStatus());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", fileId=");
@@ -2311,7 +2279,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(97);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.Edition");
@@ -2430,10 +2398,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>status</column-name><column-value><![CDATA[");
-		sb.append(getStatus());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -2492,7 +2456,6 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private String _pageNumber;
 	private String _pictureNumber;
 	private Date _publicationDate;
-	private boolean _status;
 	private Long _imageId;
 	private String _fileId;
 	private String _fileIdCurrentLanguageId;
