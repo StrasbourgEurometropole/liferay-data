@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 
@@ -86,7 +87,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
+	 * Renvoie la liste des catÃ©gories sur lesquelles on souhaite filtrer les
 	 * entries
 	 * 
 	 * @throws PortalException
@@ -114,9 +115,9 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * On récupère les préférences de catégories et on les envoie à la JSP C'est
+	 * On rÃ©cupÃ¨re les prÃ©fÃ©rences de catÃ©gories et on les envoie Ã  la JSP C'est
 	 * une liste d'AssetVocabulary, qui correspond aux vocabulaires pour
-	 * lesquels on souhaite afficher une liste déroulante dans le moteur de
+	 * lesquels on souhaite afficher une liste dÃ©roulante dans le moteur de
 	 * recherche
 	 */
 	public List<AssetVocabulary> getVocabularies() throws PortalException {
@@ -138,7 +139,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne les mots-clés de recherche
+	 * Retourne les mots-clÃ©s de recherche
 	 */
 	public String getKeywords() {
 		if (Validator.isNull(_keywords)) {
@@ -159,7 +160,7 @@ public class SearchAssetDisplayContext {
 			searchContext.setStart(getSearchContainer().getStart());
 			searchContext.setEnd(getSearchContainer().getEnd());
 
-			// Construction de la requête
+			// Construction de la requÃ¨te
 			BooleanQuery query = new BooleanQueryImpl();
 
 			// ClassNames
@@ -180,16 +181,16 @@ public class SearchAssetDisplayContext {
 				this._themeDisplay.getSiteGroupIdOrLiveGroupId());
 
 			// Status
-			query.addRequiredTerm(Field.STATUS, 1);
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 
-			// Mots-clés
+			// Mots-clÃ©s
 			String keywords = ParamUtil.getString(this._request, "keywords");
 			if (Validator.isNotNull(keywords)) {
 				query.addTerms(new String[] { Field.TITLE, Field.DESCRIPTION },
 					keywords.toLowerCase(), true);
 			}
 
-			// Catégories
+			// CatÃ©gories
 			for (long categoryId : this.getFilterCategoriesIds()) {
 				BooleanQuery categoryQuery = new BooleanQueryImpl();
 				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
@@ -225,7 +226,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Renvoie des données nécessaires au search container
+	 * Renvoie des donnÃ©es nÃ©cessaires au search container
 	 */
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
