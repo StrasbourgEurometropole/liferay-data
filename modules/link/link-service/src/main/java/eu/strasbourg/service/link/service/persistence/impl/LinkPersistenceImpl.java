@@ -2341,6 +2341,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		linkImpl.setCreateDate(link.getCreateDate());
 		linkImpl.setModifiedDate(link.getModifiedDate());
 		linkImpl.setLastPublishDate(link.getLastPublishDate());
+		linkImpl.setStatus(link.getStatus());
+		linkImpl.setStatusByUserId(link.getStatusByUserId());
+		linkImpl.setStatusByUserName(link.getStatusByUserName());
+		linkImpl.setStatusDate(link.getStatusDate());
 		linkImpl.setTitle(link.getTitle());
 		linkImpl.setURL(link.getURL());
 		linkImpl.setHoverText(link.getHoverText());

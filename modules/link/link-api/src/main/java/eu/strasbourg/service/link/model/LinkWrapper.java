@@ -68,6 +68,10 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("URL", getURL());
 		attributes.put("hoverText", getHoverText());
@@ -131,6 +135,30 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 			setLastPublishDate(lastPublishDate);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -150,9 +178,39 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		}
 	}
 
+	/**
+	* Returns <code>true</code> if this link is approved.
+	*
+	* @return <code>true</code> if this link is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _link.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _link.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is denied.
+	*
+	* @return <code>true</code> if this link is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _link.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is a draft.
+	*
+	* @return <code>true</code> if this link is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _link.isDraft();
 	}
 
 	@Override
@@ -160,9 +218,59 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		return _link.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this link is expired.
+	*
+	* @return <code>true</code> if this link is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _link.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is inactive.
+	*
+	* @return <code>true</code> if this link is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _link.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is incomplete.
+	*
+	* @return <code>true</code> if this link is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _link.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _link.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is pending.
+	*
+	* @return <code>true</code> if this link is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _link.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this link is scheduled.
+	*
+	* @return <code>true</code> if this link is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _link.isScheduled();
 	}
 
 	/**
@@ -204,6 +312,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	@Override
 	public int compareTo(eu.strasbourg.service.link.model.Link link) {
 		return _link.compareTo(link);
+	}
+
+	/**
+	* Returns the status of this link.
+	*
+	* @return the status of this link
+	*/
+	@Override
+	public int getStatus() {
+		return _link.getStatus();
 	}
 
 	@Override
@@ -292,6 +410,26 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	@Override
 	public java.lang.String getHoverTextCurrentValue() {
 		return _link.getHoverTextCurrentValue();
+	}
+
+	/**
+	* Returns the status by user name of this link.
+	*
+	* @return the status by user name of this link
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _link.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this link.
+	*
+	* @return the status by user uuid of this link
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _link.getStatusByUserUuid();
 	}
 
 	/**
@@ -504,6 +642,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
+	* Returns the status date of this link.
+	*
+	* @return the status date of this link
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _link.getStatusDate();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -581,6 +729,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	@Override
 	public long getPrimaryKey() {
 		return _link.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this link.
+	*
+	* @return the status by user ID of this link
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _link.getStatusByUserId();
 	}
 
 	/**
@@ -773,6 +931,56 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_link.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the status of this link.
+	*
+	* @param status the status of this link
+	*/
+	@Override
+	public void setStatus(int status) {
+		_link.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this link.
+	*
+	* @param statusByUserId the status by user ID of this link
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_link.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this link.
+	*
+	* @param statusByUserName the status by user name of this link
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_link.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this link.
+	*
+	* @param statusByUserUuid the status by user uuid of this link
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_link.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this link.
+	*
+	* @param statusDate the status date of this link
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_link.setStatusDate(statusDate);
 	}
 
 	/**

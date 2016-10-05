@@ -20,8 +20,14 @@
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
+		
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
 
-		<!-- Other fields -->
+		<!-- Entity fields -->
 		<column name="title" type="String" localized="true" />
 		<column name="URL" type="String" localized="true" />
 		<column name="hoverText" type="String" localized="true" />

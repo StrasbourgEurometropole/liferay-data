@@ -46,6 +46,7 @@ import eu.strasbourg.service.link.model.Link;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Link. Methods of this
@@ -100,11 +101,6 @@ public interface LinkLocalService extends BaseLocalService,
 	public Hits search(SearchContext searchContext) throws SearchException;
 
 	/**
-	* Crée un lien vide
-	*/
-	public Link addLink() throws PortalException;
-
-	/**
 	* Adds the link to the database. Also notifies the appropriate model listeners.
 	*
 	* @param link the link
@@ -112,6 +108,11 @@ public interface LinkLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Link addLink(Link link);
+
+	/**
+	* Crée un lien vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Link createLink(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new link with the primary key. Does not add the link to the database.
@@ -190,9 +191,16 @@ public interface LinkLocalService extends BaseLocalService,
 	public Link updateLink(Link link);
 
 	/**
-	* Met à jour un lien
+	* Met à jour un lien et l'enregistre en base de données
 	*/
 	public Link updateLink(Link link, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du lien
+	*/
+	public Link updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**

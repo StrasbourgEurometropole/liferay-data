@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ import java.util.Map;
  */
 @ProviderType
 public interface LinkModel extends BaseModel<Link>, LocalizedModel, ShardedModel,
-	StagedGroupedModel {
+	StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -228,6 +229,87 @@ public interface LinkModel extends BaseModel<Link>, LocalizedModel, ShardedModel
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate);
+
+	/**
+	 * Returns the status of this link.
+	 *
+	 * @return the status of this link
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this link.
+	 *
+	 * @param status the status of this link
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this link.
+	 *
+	 * @return the status by user ID of this link
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this link.
+	 *
+	 * @param statusByUserId the status by user ID of this link
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this link.
+	 *
+	 * @return the status by user uuid of this link
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this link.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this link
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this link.
+	 *
+	 * @return the status by user name of this link
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this link.
+	 *
+	 * @param statusByUserName the status by user name of this link
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this link.
+	 *
+	 * @return the status date of this link
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this link.
+	 *
+	 * @param statusDate the status date of this link
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the title of this link.
@@ -527,6 +609,70 @@ public interface LinkModel extends BaseModel<Link>, LocalizedModel, ShardedModel
 	 */
 	public void setHoverTextMap(Map<Locale, String> hoverTextMap,
 		Locale defaultLocale);
+
+	/**
+	 * Returns <code>true</code> if this link is approved.
+	 *
+	 * @return <code>true</code> if this link is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this link is denied.
+	 *
+	 * @return <code>true</code> if this link is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this link is a draft.
+	 *
+	 * @return <code>true</code> if this link is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this link is expired.
+	 *
+	 * @return <code>true</code> if this link is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this link is inactive.
+	 *
+	 * @return <code>true</code> if this link is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this link is incomplete.
+	 *
+	 * @return <code>true</code> if this link is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this link is pending.
+	 *
+	 * @return <code>true</code> if this link is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this link is scheduled.
+	 *
+	 * @return <code>true</code> if this link is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();
