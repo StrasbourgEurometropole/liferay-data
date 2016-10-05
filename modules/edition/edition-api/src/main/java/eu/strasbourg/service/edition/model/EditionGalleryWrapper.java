@@ -69,6 +69,10 @@ public class EditionGalleryWrapper implements EditionGallery,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
@@ -134,6 +138,30 @@ public class EditionGalleryWrapper implements EditionGallery,
 			setLastPublishDate(lastPublishDate);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -175,9 +203,39 @@ public class EditionGalleryWrapper implements EditionGallery,
 		return _editionGallery.getStatus();
 	}
 
+	/**
+	* Returns <code>true</code> if this edition gallery is approved.
+	*
+	* @return <code>true</code> if this edition gallery is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _editionGallery.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _editionGallery.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is denied.
+	*
+	* @return <code>true</code> if this edition gallery is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _editionGallery.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is a draft.
+	*
+	* @return <code>true</code> if this edition gallery is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _editionGallery.isDraft();
 	}
 
 	@Override
@@ -185,9 +243,59 @@ public class EditionGalleryWrapper implements EditionGallery,
 		return _editionGallery.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this edition gallery is expired.
+	*
+	* @return <code>true</code> if this edition gallery is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _editionGallery.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is inactive.
+	*
+	* @return <code>true</code> if this edition gallery is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _editionGallery.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is incomplete.
+	*
+	* @return <code>true</code> if this edition gallery is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _editionGallery.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _editionGallery.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is pending.
+	*
+	* @return <code>true</code> if this edition gallery is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _editionGallery.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition gallery is scheduled.
+	*
+	* @return <code>true</code> if this edition gallery is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _editionGallery.isScheduled();
 	}
 
 	/**
@@ -232,6 +340,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 	public int compareTo(
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
 		return _editionGallery.compareTo(editionGallery);
+	}
+
+	/**
+	* Returns the status of this edition gallery.
+	*
+	* @return the status of this edition gallery
+	*/
+	@Override
+	public int getStatus() {
+		return _editionGallery.getStatus();
 	}
 
 	@Override
@@ -346,6 +464,26 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public java.lang.String getImageURL() {
 		return _editionGallery.getImageURL();
+	}
+
+	/**
+	* Returns the status by user name of this edition gallery.
+	*
+	* @return the status by user name of this edition gallery
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _editionGallery.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this edition gallery.
+	*
+	* @return the status by user uuid of this edition gallery
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _editionGallery.getStatusByUserUuid();
 	}
 
 	/**
@@ -501,6 +639,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
+	* Returns the status date of this edition gallery.
+	*
+	* @return the status date of this edition gallery
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _editionGallery.getStatusDate();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
 	*/
 	@Override
@@ -572,6 +720,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public long getPrimaryKey() {
 		return _editionGallery.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this edition gallery.
+	*
+	* @return the status by user ID of this edition gallery
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _editionGallery.getStatusByUserId();
 	}
 
 	/**
@@ -795,6 +953,56 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public void setStatus(boolean status) {
 		_editionGallery.setStatus(status);
+	}
+
+	/**
+	* Sets the status of this edition gallery.
+	*
+	* @param status the status of this edition gallery
+	*/
+	@Override
+	public void setStatus(int status) {
+		_editionGallery.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this edition gallery.
+	*
+	* @param statusByUserId the status by user ID of this edition gallery
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_editionGallery.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this edition gallery.
+	*
+	* @param statusByUserName the status by user name of this edition gallery
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_editionGallery.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this edition gallery.
+	*
+	* @param statusByUserUuid the status by user uuid of this edition gallery
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_editionGallery.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this edition gallery.
+	*
+	* @param statusDate the status date of this edition gallery
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_editionGallery.setStatusDate(statusDate);
 	}
 
 	/**

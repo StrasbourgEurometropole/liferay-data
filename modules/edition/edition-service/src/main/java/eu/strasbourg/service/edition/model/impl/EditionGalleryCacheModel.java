@@ -66,7 +66,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,6 +86,14 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		sb.append(modifiedDate);
 		sb.append(", lastPublishDate=");
 		sb.append(lastPublishDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", title=");
@@ -145,6 +153,23 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 			editionGalleryImpl.setLastPublishDate(new Date(lastPublishDate));
 		}
 
+		editionGalleryImpl.setStatus(status);
+		editionGalleryImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			editionGalleryImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			editionGalleryImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			editionGalleryImpl.setStatusDate(null);
+		}
+		else {
+			editionGalleryImpl.setStatusDate(new Date(statusDate));
+		}
+
 		editionGalleryImpl.setImageId(imageId);
 
 		if (title == null) {
@@ -191,6 +216,12 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		modifiedDate = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
 
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
+
 		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
@@ -228,6 +259,19 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		objectOutput.writeLong(modifiedDate);
 		objectOutput.writeLong(lastPublishDate);
 
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
+
 		objectOutput.writeLong(imageId);
 
 		if (title == null) {
@@ -258,6 +302,10 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	public long createDate;
 	public long modifiedDate;
 	public long lastPublishDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public long imageId;
 	public String title;
 	public String description;

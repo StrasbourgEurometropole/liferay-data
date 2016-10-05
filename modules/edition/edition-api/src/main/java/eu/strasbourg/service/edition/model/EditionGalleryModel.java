@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ import java.util.Map;
  */
 @ProviderType
 public interface EditionGalleryModel extends BaseModel<EditionGallery>,
-	LocalizedModel, ShardedModel, StagedGroupedModel {
+	LocalizedModel, ShardedModel, StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -228,6 +229,87 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate);
+
+	/**
+	 * Returns the status of this edition gallery.
+	 *
+	 * @return the status of this edition gallery
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this edition gallery.
+	 *
+	 * @param status the status of this edition gallery
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this edition gallery.
+	 *
+	 * @return the status by user ID of this edition gallery
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this edition gallery.
+	 *
+	 * @param statusByUserId the status by user ID of this edition gallery
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this edition gallery.
+	 *
+	 * @return the status by user uuid of this edition gallery
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this edition gallery.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this edition gallery
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this edition gallery.
+	 *
+	 * @return the status by user name of this edition gallery
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this edition gallery.
+	 *
+	 * @param statusByUserName the status by user name of this edition gallery
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this edition gallery.
+	 *
+	 * @return the status date of this edition gallery
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this edition gallery.
+	 *
+	 * @param statusDate the status date of this edition gallery
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the image ID of this edition gallery.
@@ -462,6 +544,7 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	 *
 	 * @return the status of this edition gallery
 	 */
+	@Override
 	public boolean getStatus();
 
 	/**
@@ -476,7 +559,72 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	 *
 	 * @param status the status of this edition gallery
 	 */
+	@Override
 	public void setStatus(boolean status);
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is approved.
+	 *
+	 * @return <code>true</code> if this edition gallery is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is denied.
+	 *
+	 * @return <code>true</code> if this edition gallery is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is a draft.
+	 *
+	 * @return <code>true</code> if this edition gallery is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is expired.
+	 *
+	 * @return <code>true</code> if this edition gallery is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is inactive.
+	 *
+	 * @return <code>true</code> if this edition gallery is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is incomplete.
+	 *
+	 * @return <code>true</code> if this edition gallery is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is pending.
+	 *
+	 * @return <code>true</code> if this edition gallery is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this edition gallery is scheduled.
+	 *
+	 * @return <code>true</code> if this edition gallery is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

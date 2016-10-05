@@ -68,6 +68,10 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
@@ -144,6 +148,30 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 		if (lastPublishDate != null) {
 			setLastPublishDate(lastPublishDate);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -287,6 +315,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Returns <code>true</code> if this edition is approved.
+	*
+	* @return <code>true</code> if this edition is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _edition.isApproved();
+	}
+
+	/**
 	* Returns <code>true</code> if this edition is available for exchange.
 	*
 	* @return <code>true</code> if this edition is available for exchange; <code>false</code> otherwise
@@ -301,9 +339,39 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.isCachedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this edition is denied.
+	*
+	* @return <code>true</code> if this edition is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _edition.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition is a draft.
+	*
+	* @return <code>true</code> if this edition is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _edition.isDraft();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _edition.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition is expired.
+	*
+	* @return <code>true</code> if this edition is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _edition.isExpired();
 	}
 
 	/**
@@ -316,9 +384,49 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.isInStock();
 	}
 
+	/**
+	* Returns <code>true</code> if this edition is inactive.
+	*
+	* @return <code>true</code> if this edition is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _edition.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition is incomplete.
+	*
+	* @return <code>true</code> if this edition is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _edition.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _edition.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition is pending.
+	*
+	* @return <code>true</code> if this edition is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _edition.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this edition is scheduled.
+	*
+	* @return <code>true</code> if this edition is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _edition.isScheduled();
 	}
 
 	/**
@@ -362,6 +470,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public int compareTo(eu.strasbourg.service.edition.model.Edition edition) {
 		return _edition.compareTo(edition);
+	}
+
+	/**
+	* Returns the status of this edition.
+	*
+	* @return the status of this edition
+	*/
+	@Override
+	public int getStatus() {
+		return _edition.getStatus();
 	}
 
 	@Override
@@ -773,6 +891,26 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Returns the status by user name of this edition.
+	*
+	* @return the status by user name of this edition
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _edition.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this edition.
+	*
+	* @return the status by user uuid of this edition
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _edition.getStatusByUserUuid();
+	}
+
+	/**
 	* Returns the subtitle of this edition.
 	*
 	* @return the subtitle of this edition
@@ -1060,6 +1198,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Returns the status date of this edition.
+	*
+	* @return the status date of this edition
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _edition.getStatusDate();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -1185,6 +1333,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public long getPrimaryKey() {
 		return _edition.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this edition.
+	*
+	* @return the status by user ID of this edition
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _edition.getStatusByUserId();
 	}
 
 	/**
@@ -1674,6 +1832,56 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public void setStatus(boolean status) {
 		_edition.setStatus(status);
+	}
+
+	/**
+	* Sets the status of this edition.
+	*
+	* @param status the status of this edition
+	*/
+	@Override
+	public void setStatus(int status) {
+		_edition.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this edition.
+	*
+	* @param statusByUserId the status by user ID of this edition
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_edition.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this edition.
+	*
+	* @param statusByUserName the status by user name of this edition
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_edition.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this edition.
+	*
+	* @param statusByUserUuid the status by user uuid of this edition
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_edition.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this edition.
+	*
+	* @param statusDate the status date of this edition
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_edition.setStatusDate(statusDate);
 	}
 
 	/**

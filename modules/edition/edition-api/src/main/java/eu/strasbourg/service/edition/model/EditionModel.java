@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ import java.util.Map;
  */
 @ProviderType
 public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
-	ShardedModel, StagedGroupedModel {
+	ShardedModel, StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -228,6 +229,87 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate);
+
+	/**
+	 * Returns the status of this edition.
+	 *
+	 * @return the status of this edition
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this edition.
+	 *
+	 * @param status the status of this edition
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this edition.
+	 *
+	 * @return the status by user ID of this edition
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this edition.
+	 *
+	 * @param statusByUserId the status by user ID of this edition
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this edition.
+	 *
+	 * @return the status by user uuid of this edition
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this edition.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this edition
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this edition.
+	 *
+	 * @return the status by user name of this edition
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this edition.
+	 *
+	 * @param statusByUserName the status by user name of this edition
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this edition.
+	 *
+	 * @return the status date of this edition
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this edition.
+	 *
+	 * @param statusDate the status date of this edition
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the title of this edition.
@@ -977,6 +1059,7 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	 *
 	 * @return the status of this edition
 	 */
+	@Override
 	public boolean getStatus();
 
 	/**
@@ -991,6 +1074,7 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	 *
 	 * @param status the status of this edition
 	 */
+	@Override
 	public void setStatus(boolean status);
 
 	/**
@@ -1105,6 +1189,70 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	 * @param defaultLocale the default locale
 	 */
 	public void setFileIdMap(Map<Locale, String> fileIdMap, Locale defaultLocale);
+
+	/**
+	 * Returns <code>true</code> if this edition is approved.
+	 *
+	 * @return <code>true</code> if this edition is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this edition is denied.
+	 *
+	 * @return <code>true</code> if this edition is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this edition is a draft.
+	 *
+	 * @return <code>true</code> if this edition is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this edition is expired.
+	 *
+	 * @return <code>true</code> if this edition is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this edition is inactive.
+	 *
+	 * @return <code>true</code> if this edition is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this edition is incomplete.
+	 *
+	 * @return <code>true</code> if this edition is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this edition is pending.
+	 *
+	 * @return <code>true</code> if this edition is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this edition is scheduled.
+	 *
+	 * @return <code>true</code> if this edition is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

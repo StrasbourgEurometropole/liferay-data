@@ -65,7 +65,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -85,6 +85,14 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		sb.append(modifiedDate);
 		sb.append(", lastPublishDate=");
 		sb.append(lastPublishDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", subtitle=");
@@ -168,6 +176,23 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 		else {
 			editionImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
+		editionImpl.setStatus(status);
+		editionImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			editionImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			editionImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			editionImpl.setStatusDate(null);
+		}
+		else {
+			editionImpl.setStatusDate(new Date(statusDate));
 		}
 
 		if (title == null) {
@@ -294,6 +319,12 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
 		description = objectInput.readUTF();
@@ -346,6 +377,19 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 		objectOutput.writeLong(lastPublishDate);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -458,6 +502,10 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public long createDate;
 	public long modifiedDate;
 	public long lastPublishDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String title;
 	public String subtitle;
 	public String description;

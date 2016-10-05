@@ -2961,6 +2961,10 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		editionGalleryImpl.setCreateDate(editionGallery.getCreateDate());
 		editionGalleryImpl.setModifiedDate(editionGallery.getModifiedDate());
 		editionGalleryImpl.setLastPublishDate(editionGallery.getLastPublishDate());
+		editionGalleryImpl.setStatus(editionGallery.getStatus());
+		editionGalleryImpl.setStatusByUserId(editionGallery.getStatusByUserId());
+		editionGalleryImpl.setStatusByUserName(editionGallery.getStatusByUserName());
+		editionGalleryImpl.setStatusDate(editionGallery.getStatusDate());
 		editionGalleryImpl.setImageId(editionGallery.getImageId());
 		editionGalleryImpl.setTitle(editionGallery.getTitle());
 		editionGalleryImpl.setDescription(editionGallery.getDescription());

@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.model.EditionGalleryModel;
@@ -89,6 +90,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "lastPublishDate", Types.TIMESTAMP },
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
@@ -107,6 +112,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
@@ -114,7 +123,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,imageId LONG,title STRING null,description TEXT null,publicationDate DATE null,status BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,publicationDate DATE null,status BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table edition_EditionGallery";
 	public static final String ORDER_BY_JPQL = " ORDER BY editionGallery.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_EditionGallery.title ASC";
@@ -157,6 +166,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setLastPublishDate(soapModel.getLastPublishDate());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
 		model.setImageId(soapModel.getImageId());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
@@ -249,6 +262,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
@@ -315,6 +332,30 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 		if (lastPublishDate != null) {
 			setLastPublishDate(lastPublishDate);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -509,6 +550,71 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
 		_lastPublishDate = lastPublishDate;
+	}
+
+	@JSON
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	@JSON
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@JSON
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
 	}
 
 	@JSON
@@ -768,6 +874,86 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 				EditionGallery.class.getName()));
 	}
 
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -890,6 +1076,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		editionGalleryImpl.setCreateDate(getCreateDate());
 		editionGalleryImpl.setModifiedDate(getModifiedDate());
 		editionGalleryImpl.setLastPublishDate(getLastPublishDate());
+		editionGalleryImpl.setStatus(getStatus());
+		editionGalleryImpl.setStatusByUserId(getStatusByUserId());
+		editionGalleryImpl.setStatusByUserName(getStatusByUserName());
+		editionGalleryImpl.setStatusDate(getStatusDate());
 		editionGalleryImpl.setImageId(getImageId());
 		editionGalleryImpl.setTitle(getTitle());
 		editionGalleryImpl.setDescription(getDescription());
@@ -1027,6 +1217,27 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			editionGalleryCacheModel.lastPublishDate = Long.MIN_VALUE;
 		}
 
+		editionGalleryCacheModel.status = getStatus();
+
+		editionGalleryCacheModel.statusByUserId = getStatusByUserId();
+
+		editionGalleryCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = editionGalleryCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			editionGalleryCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			editionGalleryCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			editionGalleryCacheModel.statusDate = Long.MIN_VALUE;
+		}
+
 		editionGalleryCacheModel.imageId = getImageId();
 
 		editionGalleryCacheModel.title = getTitle();
@@ -1061,7 +1272,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1081,6 +1292,14 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		sb.append(getModifiedDate());
 		sb.append(", lastPublishDate=");
 		sb.append(getLastPublishDate());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", statusByUserId=");
+		sb.append(getStatusByUserId());
+		sb.append(", statusByUserName=");
+		sb.append(getStatusByUserName());
+		sb.append(", statusDate=");
+		sb.append(getStatusDate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", title=");
@@ -1098,7 +1317,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.EditionGallery");
@@ -1139,6 +1358,22 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		sb.append(
 			"<column><column-name>lastPublishDate</column-name><column-value><![CDATA[");
 		sb.append(getLastPublishDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
+		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
@@ -1185,6 +1420,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private Long _imageId;
 	private String _title;
 	private String _titleCurrentLanguageId;
