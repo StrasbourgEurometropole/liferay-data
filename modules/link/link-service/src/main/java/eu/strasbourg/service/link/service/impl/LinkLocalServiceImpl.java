@@ -136,36 +136,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour le statut du lien par le framework workflow
-	 */
-	public Link updateStatus(long userId, long entryId, int status,
-		ServiceContext sc, Map<String, Serializable> workflowContext)
-		throws PortalException {
-		Link link = this.getLink(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
-		link.setStatus(status);
-		link.setStatusByUserId(user.getUserId());
-		link.setStatusByUserName(user.getFullName());
-		link.setStatusDate(sc.getModifiedDate(new Date()));
-
-		link = this.linkLocalService.updateLink(link);
-
-		this.updateAssetEntry(link, sc);
-		this.reindex(link, false);
-
-		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
-		// supprime cette dernière
-		Link liveLink = link.getLiveVersion();
-		if (status == WorkflowConstants.STATUS_DRAFT && liveLink != null) {
-			this.removeLink(liveLink.getLinkId());
-		}
-
-		return link;
-	}
-
-	/**
-	 * Met à jour l'AssetEntry
+	 * Met à jour l'AssetEntry (à n'utiliser que quand on vient du formulaire d'édition)
 	 */
 	private void updateAssetEntry(Link link, ServiceContext sc)
 		throws PortalException {
@@ -183,8 +154,8 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			link.getStatus() == WorkflowConstants.STATUS_APPROVED, // Visible
 			link.getCreateDate(), // Start date
 			null, // End date
-			null, // Date of expiration
 			link.getCreateDate(), // Publication date
+			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			link.getTitle(), // Title
 			link.getTitle(), // Description
@@ -195,6 +166,48 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			0, // Height
 			null); // Priority
 	}
+
+	/**
+	 * Met à jour le statut du lien par le framework workflow
+	 */
+	public Link updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<String, Serializable> workflowContext)
+		throws PortalException {
+		Link link = this.getLink(entryId);
+		User user = UserLocalServiceUtil.getUser(userId);
+
+		link.setStatus(status);
+		link.setStatusByUserId(user.getUserId());
+		link.setStatusByUserName(user.getFullName());
+		link.setStatusDate(new Date());
+
+		link = this.linkLocalService.updateLink(link);
+
+		AssetEntry entry = this.assetEntryLocalService
+			.getEntry(Link.class.getName(), link.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		this.assetEntryLocalService.updateAssetEntry(entry);
+		
+		this.reindex(link, false);
+
+		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
+		// supprime cette dernière
+		Link liveLink = link.getLiveVersion();
+		if (status == WorkflowConstants.STATUS_DRAFT && liveLink != null) {
+			this.removeLink(liveLink.getLinkId());
+		}
+
+		return link;
+	}
+
+	/**
+	 * Met à jour le statut du lien "manuellement" (pas via le workflow)
+	 */
+	public void updateStatus(Link link, int status)
+		throws PortalException {
+		this.updateStatus(link.getUserId(), link.getLinkId(), status, null, null);
+	}
+
 
 	/**
 	 * Supprime un lien

@@ -207,7 +207,7 @@ public class LinkLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour le statut du lien
+	* Met à jour le statut du lien par le framework workflow
 	*/
 	public static eu.strasbourg.service.link.model.Link updateStatus(
 		long userId, long entryId, int status,
@@ -385,6 +385,15 @@ public class LinkLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword, long groupId) {
 		return getService().findByKeywordCount(keyword, groupId);
+	}
+
+	/**
+	* Met à jour le statut du lien "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.link.model.Link link, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(link, status);
 	}
 
 	public static LinkLocalService getService() {

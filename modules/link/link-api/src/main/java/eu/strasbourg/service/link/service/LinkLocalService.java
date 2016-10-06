@@ -197,7 +197,7 @@ public interface LinkLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* Met à jour le statut du lien
+	* Met à jour le statut du lien par le framework workflow
 	*/
 	public Link updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
@@ -337,4 +337,9 @@ public interface LinkLocalService extends BaseLocalService,
 	* Recherche par mot clés (compte)
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
+
+	/**
+	* Met à jour le statut du lien "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Link link, int status) throws PortalException;
 }

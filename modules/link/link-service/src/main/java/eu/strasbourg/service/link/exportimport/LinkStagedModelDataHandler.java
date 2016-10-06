@@ -58,28 +58,29 @@ public class LinkStagedModelDataHandler
 	protected void doImportStagedModel(PortletDataContext portletDataContext,
 		Link stagedModel) throws Exception {
 		long userId = portletDataContext.getUserId(stagedModel.getUserUuid());
-		ServiceContext serviceContext = portletDataContext.createServiceContext(stagedModel);
-		serviceContext.setUuid(stagedModel.getUuid());
-		serviceContext.setScopeGroupId(portletDataContext.getScopeGroupId());
-		serviceContext.setUserId(userId);
+		ServiceContext sc = portletDataContext.createServiceContext(stagedModel);
+		sc.setUuid(stagedModel.getUuid());
+		sc.setScopeGroupId(portletDataContext.getScopeGroupId());
+		sc.setUserId(userId);
 		Link importedLink = null;
 		if (portletDataContext.isDataStrategyMirror()) {
 			Link existingLink = this._linkLocalService.fetchLinkByUuidAndGroupId(stagedModel.getUuid(), portletDataContext.getScopeGroupId());
 			
 			if (existingLink == null) {
-				importedLink = this._linkLocalService.createLink(serviceContext);
+				importedLink = this._linkLocalService.createLink(sc);
 			} else {
 				importedLink = existingLink;
 			}
 			
 		} else {
-			importedLink = this._linkLocalService.createLink(serviceContext);
+			importedLink = this._linkLocalService.createLink(sc);
 		}
 		importedLink.setTitle(stagedModel.getTitle());
 		importedLink.setURL(stagedModel.getURL());
 		importedLink.setHoverText(stagedModel.getHoverText());
 		importedLink.setUuid(stagedModel.getUuid());
-		this._linkLocalService.updateLink(importedLink, serviceContext);
+		importedLink.setStatus(stagedModel.getStatus());
+		this._linkLocalService.updateLink(importedLink, sc);
 		
 		portletDataContext.importClassedModel(stagedModel, importedLink);
 	}

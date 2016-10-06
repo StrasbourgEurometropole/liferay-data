@@ -9,8 +9,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -31,10 +29,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 		ActionResponse actionResponse) throws PortletException {
 		String tab = ParamUtil.getString(actionRequest, "tab");
 
-		ServiceContext sc;
 		try {
-			sc = ServiceContextFactory.getInstance(actionRequest);
-
 			long[] selectionIds = StringUtil
 				.split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
 
@@ -48,15 +43,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 				case "publish":
 					if (tab.equals("links")) {
 						Link link = _linkLocalService.getLink(entryId);
-						sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-						_linkLocalService.updateLink(link, sc);
+						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("links")) {
 						Link link = _linkLocalService.getLink(entryId);
-						sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-						_linkLocalService.updateLink(link, sc);
+						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				}
