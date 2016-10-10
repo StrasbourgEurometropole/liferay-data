@@ -65,7 +65,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -85,6 +85,14 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		sb.append(modifiedDate);
 		sb.append(", lastPublishDate=");
 		sb.append(lastPublishDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
@@ -109,8 +117,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		sb.append(linkName);
 		sb.append(", link=");
 		sb.append(link);
-		sb.append(", status=");
-		sb.append(status);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", imagesIds=");
@@ -162,6 +168,23 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 		else {
 			artworkImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
+		artworkImpl.setStatus(status);
+		artworkImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			artworkImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			artworkImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			artworkImpl.setStatusDate(null);
+		}
+		else {
+			artworkImpl.setStatusDate(new Date(statusDate));
 		}
 
 		if (title == null) {
@@ -248,7 +271,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 			artworkImpl.setLink(link);
 		}
 
-		artworkImpl.setStatus(status);
 		artworkImpl.setImageId(imageId);
 
 		if (imagesIds == null) {
@@ -278,6 +300,12 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		technicalInformation = objectInput.readUTF();
@@ -290,8 +318,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		loanPeriod = objectInput.readUTF();
 		linkName = objectInput.readUTF();
 		link = objectInput.readUTF();
-
-		status = objectInput.readBoolean();
 
 		imageId = objectInput.readLong();
 		imagesIds = objectInput.readUTF();
@@ -325,6 +351,19 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 		objectOutput.writeLong(lastPublishDate);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -410,8 +449,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 			objectOutput.writeUTF(link);
 		}
 
-		objectOutput.writeBoolean(status);
-
 		objectOutput.writeLong(imageId);
 
 		if (imagesIds == null) {
@@ -431,6 +468,10 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public long createDate;
 	public long modifiedDate;
 	public long lastPublishDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String title;
 	public String description;
 	public String technicalInformation;
@@ -443,7 +484,6 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public String loanPeriod;
 	public String linkName;
 	public String link;
-	public boolean status;
 	public long imageId;
 	public String imagesIds;
 }

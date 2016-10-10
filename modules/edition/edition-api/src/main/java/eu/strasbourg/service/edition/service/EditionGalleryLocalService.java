@@ -46,6 +46,7 @@ import eu.strasbourg.service.edition.model.EditionGallery;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for EditionGallery. Methods of this
@@ -103,14 +104,6 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public Hits search(SearchContext searchContext) throws SearchException;
 
 	/**
-	* Add an empty Edition Gallery
-	*
-	* @return The added Edition Gallery
-	* @throws PortalException
-	*/
-	public EditionGallery addEditionGallery() throws PortalException;
-
-	/**
 	* Adds the edition gallery to the database. Also notifies the appropriate model listeners.
 	*
 	* @param editionGallery the edition gallery
@@ -118,6 +111,12 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public EditionGallery addEditionGallery(EditionGallery editionGallery);
+
+	/**
+	* Crée un lien vide avec une PK, non ajouté à la base de donnée
+	*/
+	public EditionGallery createEditionGallery(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new edition gallery with the primary key. Does not add the edition gallery to the database.
@@ -205,17 +204,17 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public EditionGallery updateEditionGallery(EditionGallery editionGallery);
 
 	/**
-	* Met à jour une galerie d'éditions
-	*
-	* @param editionGallery
-	The updated Edition Gallery
-	* @param sc
-	Service Context
-	* @return The updated Edition
-	* @throws PortalException
+	* Met à jour un lien et l'enregistre en base de données
 	*/
-	public EditionGallery updateEditionGallery(EditionGallery editionGallery,
+	public EditionGallery updateEditionGallery(EditionGallery gallery,
 		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de la galerie par le framework workflow
+	*/
+	public EditionGallery updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getEditionEditionGalleriesCount(long editionId);
@@ -376,9 +375,6 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 
 	public void addEditionEditionGallery(long editionId, long galleryId);
 
-	public void changeStatus(EditionGallery editionGallery, boolean status)
-		throws PortalException;
-
 	public void clearEditionEditionGalleries(long editionId);
 
 	public void deleteEditionEditionGalleries(long editionId,
@@ -392,4 +388,10 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public void deleteEditionEditionGallery(long editionId, long galleryId);
 
 	public void setEditionEditionGalleries(long editionId, long[] galleryIds);
+
+	/**
+	* Met à jour le statut de la galerie "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(EditionGallery gallery, int status)
+		throws PortalException;
 }

@@ -66,7 +66,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,8 +102,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		sb.append(description);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
-		sb.append(", status=");
-		sb.append(status);
 		sb.append("}");
 
 		return sb.toString();
@@ -193,8 +191,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 			editionGalleryImpl.setPublicationDate(new Date(publicationDate));
 		}
 
-		editionGalleryImpl.setStatus(status);
-
 		editionGalleryImpl.resetOriginalValues();
 
 		return editionGalleryImpl;
@@ -226,8 +222,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
-
-		status = objectInput.readBoolean();
 	}
 
 	@Override
@@ -289,8 +283,6 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		}
 
 		objectOutput.writeLong(publicationDate);
-
-		objectOutput.writeBoolean(status);
 	}
 
 	public String uuid;
@@ -310,5 +302,4 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	public String title;
 	public String description;
 	public long publicationDate;
-	public boolean status;
 }

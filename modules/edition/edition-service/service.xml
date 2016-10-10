@@ -104,7 +104,6 @@
         <column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
         <column name="publicationDate" type="Date" />
-        <column name="status" type="boolean" />
 
 		<!-- Order -->
 		<order by="asc">

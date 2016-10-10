@@ -46,6 +46,7 @@ import eu.strasbourg.service.edition.model.Edition;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Edition. Methods of this
@@ -106,14 +107,6 @@ public interface EditionLocalService extends BaseLocalService,
 	public Hits search(SearchContext searchContext) throws SearchException;
 
 	/**
-	* Add an empty Edition
-	*
-	* @return The added Edition
-	* @throws PortalException
-	*/
-	public Edition addEdition() throws PortalException;
-
-	/**
 	* Adds the edition to the database. Also notifies the appropriate model listeners.
 	*
 	* @param edition the edition
@@ -121,6 +114,11 @@ public interface EditionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Edition addEdition(Edition edition);
+
+	/**
+	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Edition createEdition(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new edition with the primary key. Does not add the edition to the database.
@@ -205,16 +203,16 @@ public interface EditionLocalService extends BaseLocalService,
 	public Edition updateEdition(Edition edition);
 
 	/**
-	* Update an Edition
-	*
-	* @param edition
-	The updated Edition
-	* @param sc
-	Service Context
-	* @return The updated Edition
-	* @throws PortalException
+	* Met à jour une édition et l'enregistre en base de données
 	*/
 	public Edition updateEdition(Edition edition, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'édition par le framework workflow
+	*/
+	public Edition updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -383,12 +381,6 @@ public interface EditionLocalService extends BaseLocalService,
 
 	public void addEditionGalleryEditions(long galleryId, long[] editionIds);
 
-	/**
-	* Change le statut de l'édition
-	*/
-	public void changeStatus(Edition edition, boolean publicationStatus)
-		throws PortalException;
-
 	public void clearEditionGalleryEditions(long galleryId);
 
 	public void deleteEditionGalleryEdition(long galleryId, Edition edition);
@@ -401,4 +393,10 @@ public interface EditionLocalService extends BaseLocalService,
 	public void deleteEditionGalleryEditions(long galleryId, long[] editionIds);
 
 	public void setEditionGalleryEditions(long galleryId, long[] editionIds);
+
+	/**
+	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Edition edition, int status)
+		throws PortalException;
 }

@@ -66,7 +66,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,14 +86,20 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		sb.append(modifiedDate);
 		sb.append(", lastPublishDate=");
 		sb.append(lastPublishDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", contributors=");
 		sb.append(contributors);
-		sb.append(", status=");
-		sb.append(status);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -145,6 +151,23 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			artworkCollectionImpl.setLastPublishDate(new Date(lastPublishDate));
 		}
 
+		artworkCollectionImpl.setStatus(status);
+		artworkCollectionImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			artworkCollectionImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			artworkCollectionImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			artworkCollectionImpl.setStatusDate(null);
+		}
+		else {
+			artworkCollectionImpl.setStatusDate(new Date(statusDate));
+		}
+
 		if (title == null) {
 			artworkCollectionImpl.setTitle(StringPool.BLANK);
 		}
@@ -166,7 +189,6 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			artworkCollectionImpl.setContributors(contributors);
 		}
 
-		artworkCollectionImpl.setStatus(status);
 		artworkCollectionImpl.setImageId(imageId);
 
 		artworkCollectionImpl.resetOriginalValues();
@@ -189,11 +211,15 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		lastPublishDate = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		contributors = objectInput.readUTF();
-
-		status = objectInput.readBoolean();
 
 		imageId = objectInput.readLong();
 	}
@@ -227,6 +253,19 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		objectOutput.writeLong(modifiedDate);
 		objectOutput.writeLong(lastPublishDate);
 
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
+
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -248,8 +287,6 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			objectOutput.writeUTF(contributors);
 		}
 
-		objectOutput.writeBoolean(status);
-
 		objectOutput.writeLong(imageId);
 	}
 
@@ -262,9 +299,12 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 	public long createDate;
 	public long modifiedDate;
 	public long lastPublishDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String title;
 	public String description;
 	public String contributors;
-	public boolean status;
 	public long imageId;
 }

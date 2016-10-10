@@ -67,8 +67,8 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 	}
 
 	/**
-	 * Fonction appelée lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs à indexer
+	 * Fonction appelï¿½e lors de l'indexation de l'item
+	 * C'est ici qu'on choisi les champs ï¿½ indexer
 	 */
 	@Override
 	protected Document doGetDocument(Edition edition) throws Exception {
@@ -76,7 +76,7 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 		document.addLocalizedText(Field.TITLE, edition.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			edition.getDescriptionMap());
-		document.addNumber(Field.STATUS, edition.getStatus() ? 1 : 0);
+		document.addNumber(Field.STATUS, edition.getStatus());
 		return document;
 	}
 

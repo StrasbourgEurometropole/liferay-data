@@ -540,29 +540,6 @@ public interface EditionGalleryModel extends BaseModel<EditionGallery>,
 	public void setPublicationDate(Date publicationDate);
 
 	/**
-	 * Returns the status of this edition gallery.
-	 *
-	 * @return the status of this edition gallery
-	 */
-	@Override
-	public boolean getStatus();
-
-	/**
-	 * Returns <code>true</code> if this edition gallery is status.
-	 *
-	 * @return <code>true</code> if this edition gallery is status; <code>false</code> otherwise
-	 */
-	public boolean isStatus();
-
-	/**
-	 * Sets whether this edition gallery is status.
-	 *
-	 * @param status the status of this edition gallery
-	 */
-	@Override
-	public void setStatus(boolean status);
-
-	/**
 	 * Returns <code>true</code> if this edition gallery is approved.
 	 *
 	 * @return <code>true</code> if this edition gallery is approved; <code>false</code> otherwise

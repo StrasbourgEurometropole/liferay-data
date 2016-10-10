@@ -101,15 +101,15 @@
 		</aui:fieldset-group>
 
 		<aui:button-row>
-			<aui:input type="hidden" name="forceStatus" value="" />
-			<aui:button cssClass="btn-lg" type="submit" value="save" />
-			<c:if test="${not empty dc.artwork and dc.artwork.status}">
-				<aui:button cssClass="btn-lg" type="submit" name="unpublish"
-					value="unpublish" />
+			<aui:input type="hidden" name="workflowAction" value="" />
+			<c:if test="${dc.workflowEnabled}">
+				<aui:button cssClass="btn-lg" type="submit" value="save" />
 			</c:if>
-			<c:if test="${not empty dc.artwork and not dc.artwork.status}">
+			<c:if test="${not dc.workflowEnabled}">
 				<aui:button cssClass="btn-lg" type="submit" name="publish"
-					value="publish" />
+						value="publish" />
+				<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
+						value="save-as-draft" />
 			</c:if>
 			<c:if test="${not empty dc.artwork}">
 				<aui:button cssClass="btn-lg" href="${deleteArtworkURL}"

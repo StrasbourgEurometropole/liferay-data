@@ -60,7 +60,7 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 			ArtworkCollection artworkCollection;
 			if (collectionId == 0) {
 				artworkCollection = _artworkCollectionLocalService
-					.addArtworkCollection();
+					.createArtworkCollection(sc);
 			} else {
 				artworkCollection = _artworkCollectionLocalService
 					.getArtworkCollection(collectionId);
@@ -91,14 +91,6 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 				if (artworkId > 0) {
 					_artworkCollectionLocalService.addArtworkArtworkCollection(artworkId, artworkCollection);
 				}
-			}
-			
-			// Status
-			String forceStatus = ParamUtil.getString(request, "forceStatus");
-			if (forceStatus.equals("publish")) {
-				artworkCollection.setStatus(true);
-			} else if (forceStatus.equals("unpublish")) {
-				artworkCollection.setStatus(false);
 			}
 
 			_artworkCollectionLocalService.updateArtworkCollection(artworkCollection,

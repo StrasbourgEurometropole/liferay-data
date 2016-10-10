@@ -430,6 +430,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		return _edition.toCacheModel();
 	}
 
+	/**
+	* Renvoie la version live de l'édition, si elle existe
+	*/
+	@Override
+	public eu.strasbourg.service.edition.model.Edition getLiveVersion() {
+		return _edition.getLiveVersion();
+	}
+
 	@Override
 	public eu.strasbourg.service.edition.model.Edition toEscapedModel() {
 		return new EditionWrapper(_edition.toEscapedModel());
@@ -796,7 +804,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 	/**
 	* Renovie la taille du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileSize(java.util.Locale locale) {
@@ -805,7 +813,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 	/**
 	* Renovie le type du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileType(java.util.Locale locale) {

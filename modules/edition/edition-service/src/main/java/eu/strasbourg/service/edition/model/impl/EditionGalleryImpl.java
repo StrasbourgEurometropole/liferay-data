@@ -22,10 +22,13 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -100,5 +103,18 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 			ids += edition.getEditionId();
 		}
 		return ids;
+	}
+	/**
+	 * Renvoie la version live de la galerie d'édition, si elle existe
+	 */
+	public EditionGallery getLiveVersion() {
+		long groupId = this.getGroupId();
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null || !group.isStagingGroup()) {
+			return null;
+		}
+		long liveGroupId = group.getLiveGroupId();
+		EditionGallery liveGallery = EditionGalleryLocalServiceUtil.fetchEditionGalleryByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveGallery;
 	}
 }

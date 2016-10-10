@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.edition.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -28,6 +31,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -35,9 +39,15 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.base.EditionGalleryLocalServiceBaseImpl;
 
@@ -71,39 +81,64 @@ public class EditionGalleryLocalServiceImpl
 	 * access the edition gallery local service.
 	 */
 
+
 	/**
-	 * Add an empty Edition Gallery
-	 * 
-	 * @return The added Edition Gallery
-	 * @throws PortalException
+	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
-	public EditionGallery addEditionGallery() throws PortalException {
+	public EditionGallery createEditionGallery(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
 		long pk = counterLocalService.increment();
 
-		EditionGallery editionGallery = this.editionGalleryLocalService
-			.createEditionGallery(pk);
-		return editionGallery;
+		EditionGallery gallery = this.editionGalleryLocalService.createEditionGallery(pk);
+
+		gallery.setGroupId(sc.getScopeGroupId());
+		gallery.setUserName(user.getFullName());
+		gallery.setUserId(sc.getUserId());
+
+		gallery.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return gallery;
 	}
 
 	/**
-	 * Met à jour une galerie d'éditions
-	 * 
-	 * @param editionGallery
-	 *            The updated Edition Gallery
-	 * @param sc
-	 *            Service Context
-	 * @return The updated Edition
-	 * @throws PortalException
+	 * Met à jour un lien et l'enregistre en base de données
 	 */
-	public EditionGallery updateEditionGallery(EditionGallery editionGallery,
-		ServiceContext sc) throws PortalException {
+	public EditionGallery updateEditionGallery(EditionGallery gallery, ServiceContext sc)
+		throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
-		editionGallery.setGroupId(sc.getScopeGroupId());
-		editionGallery.setUserId(sc.getUserId());
-		editionGallery = this.updateEditionGallery(editionGallery);
-		updateAssetEntry(editionGallery, sc);
+		gallery.setStatusByUserId(sc.getUserId());
+		gallery.setStatusByUserName(user.getFullName());
+		gallery.setStatusDate(sc.getModifiedDate());
 
-		return editionGallery;
+		// Si on n'utilise pas le framework workflow, simple gestion
+		// brouillon/publié
+		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			sc.getCompanyId(), sc.getScopeGroupId(), EditionGallery.class.getName())) {
+			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+				gallery.setStatus(WorkflowConstants.STATUS_APPROVED);
+			} else {
+				gallery.setStatus(WorkflowConstants.STATUS_DRAFT);
+				// Si le statut est "DRAFT" et qu'il y a une version live, on
+				// supprime cette dernière
+				EditionGallery liveEditionGallery = gallery.getLiveVersion();
+				if (liveEditionGallery != null) {
+					this.removeGallery(liveEditionGallery.getGalleryId());
+				}
+			}
+			gallery = this.editionGalleryLocalService.updateEditionGallery(gallery);
+			this.updateAssetEntry(gallery, sc);
+			this.reindex(gallery, false);
+		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
+				 // l'enregistrement
+			gallery = this.editionGalleryLocalService.updateEditionGallery(gallery);
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(
+				gallery.getCompanyId(), gallery.getGroupId(), gallery.getUserId(),
+				EditionGallery.class.getName(), gallery.getPrimaryKey(), gallery, sc);
+		}
+
+		return gallery;
 	}
 
 	/**
@@ -123,7 +158,7 @@ public class EditionGalleryLocalServiceImpl
 			sc.getAssetCategoryIds(), // Categories IDs
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
-			editionGallery.getStatus(), // Visible
+			editionGallery.getStatus() == WorkflowConstants.STATUS_APPROVED, // Visible
 			editionGallery.getPublicationDate(), // Start date
 			null, // End date
 			editionGallery.getPublicationDate(), // Publication date
@@ -142,19 +177,47 @@ public class EditionGalleryLocalServiceImpl
 		this.reindex(editionGallery, false);
 	}
 
-	public void changeStatus(EditionGallery editionGallery, boolean status)
+	/**
+	 * Met à jour le statut de la galerie par le framework workflow
+	 */
+	public EditionGallery updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
-		editionGallery.setStatus(status);
-		this.editionGalleryLocalService.updateEditionGallery(editionGallery);
+		EditionGallery gallery = this.getEditionGallery(entryId);
+		User user = UserLocalServiceUtil.getUser(userId);
 
-		AssetEntry entry = this.assetEntryLocalService.getEntry(
-			EditionGallery.class.getName(), editionGallery.getPrimaryKey());
-		entry.setVisible(status);
+		gallery.setStatus(status);
+		gallery.setStatusByUserId(user.getUserId());
+		gallery.setStatusByUserName(user.getFullName());
+		gallery.setStatusDate(new Date());
+
+		gallery = this.editionGalleryLocalService.updateEditionGallery(gallery);
+
+		AssetEntry entry = this.assetEntryLocalService
+			.getEntry(EditionGallery.class.getName(), gallery.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
+		
+		this.reindex(gallery, false);
 
-		// Réindexe la galerie
-		this.reindex(editionGallery, false);
+		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
+		// supprime cette dernière
+		EditionGallery liveGallery = gallery.getLiveVersion();
+		if (status == WorkflowConstants.STATUS_DRAFT && liveGallery != null) {
+			this.removeGallery(liveGallery.getGalleryId());
+		}
+
+		return gallery;
 	}
+
+	/**
+	 * Met à jour le statut de la galerie "manuellement" (pas via le workflow)
+	 */
+	public void updateStatus(EditionGallery gallery, int status)
+		throws PortalException {
+		this.updateStatus(gallery.getUserId(), gallery.getGalleryId(), status, null, null);
+	}
+
 
 	/**
 	 * Delete an Edition Gallery
@@ -199,13 +262,24 @@ public class EditionGalleryLocalServiceImpl
 		}
 
 		// Supprime la galerie
-		EditionGallery editionGallery = editionGalleryPersistence
+		EditionGallery gallery = editionGalleryPersistence
 			.remove(galleryId);
 
 		// Supprime l'index
-		this.reindex(editionGallery, true);
+		this.reindex(gallery, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+			gallery.getCompanyId(), gallery.getGroupId(), Edition.class.getName(),
+			gallery.getGalleryId());
+
+		// S'il existe une version live de la galerie, on la supprime
+		EditionGallery liveGallery = gallery.getLiveVersion();
+		if (liveGallery != null) {
+			this.removeGallery(liveGallery.getGalleryId());
+		}
 		
-		return editionGallery;
+		return gallery;
 	}
 	
 	/**

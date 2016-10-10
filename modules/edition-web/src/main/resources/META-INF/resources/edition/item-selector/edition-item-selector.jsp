@@ -50,10 +50,9 @@
 				name="modified-date" truncate="true"
 				value="${formattedModifiedDate}" />
 
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				truncate="true" name="status">
-				<liferay-ui:message
-					key="${edition.status ? 'published' : 'unpublished' }" />
+			<liferay-ui:search-container-column-text name="status">
+				<aui:workflow-status markupView="lexicon" showIcon="false"
+					showLabel="false" status="${edition.status}" />
 				<div class="data" data-id="${edition.editionId}" data-title="${edition.getTitle(locale)}"></div>
 			</liferay-ui:search-container-column-text>
 			

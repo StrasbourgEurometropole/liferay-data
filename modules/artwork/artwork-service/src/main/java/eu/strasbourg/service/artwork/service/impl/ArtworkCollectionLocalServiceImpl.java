@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.artwork.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -27,6 +30,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -34,9 +38,15 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceBaseImpl;
 
@@ -72,32 +82,62 @@ public class ArtworkCollectionLocalServiceImpl
 	 */
 
 	/**
-	 * Create an empty artworkCollection
+	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public ArtworkCollection addArtworkCollection() throws PortalException {
+	public ArtworkCollection createArtworkCollection(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
 		long pk = counterLocalService.increment();
 
-		ArtworkCollection artworkCollection = this.artworkCollectionLocalService
-			.createArtworkCollection(pk);
+		ArtworkCollection collection = this.artworkCollectionLocalService.createArtworkCollection(pk);
 
-		return artworkCollection;
+		collection.setGroupId(sc.getScopeGroupId());
+		collection.setUserName(user.getFullName());
+		collection.setUserId(sc.getUserId());
+
+		collection.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return collection;
 	}
 
 	/**
-	 * Update an artowrk
-	 * 
-	 * @throws PortalException
+	 * Met à jour une édition et l'enregistre en base de données
 	 */
-	public ArtworkCollection updateArtworkCollection(
-		ArtworkCollection artworkCollection, ServiceContext sc)
+	public ArtworkCollection updateArtworkCollection(ArtworkCollection collection, ServiceContext sc)
 		throws PortalException {
-		artworkCollection.setGroupId(sc.getScopeGroupId());
-		artworkCollection.setUserId(sc.getUserId());
-		artworkCollection = this.artworkCollectionLocalService
-			.updateArtworkCollection(artworkCollection);
-		this.updateAssetEntry(artworkCollection, sc);
-		this.reindex(artworkCollection, false);
-		return artworkCollection;
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		collection.setStatusByUserId(sc.getUserId());
+		collection.setStatusByUserName(user.getFullName());
+		collection.setStatusDate(sc.getModifiedDate());
+
+		// Si on n'utilise pas le framework workflow, simple gestion
+		// brouillon/publié
+		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			sc.getCompanyId(), sc.getScopeGroupId(), ArtworkCollection.class.getName())) {
+			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+				collection.setStatus(WorkflowConstants.STATUS_APPROVED);
+			} else {
+				collection.setStatus(WorkflowConstants.STATUS_DRAFT);
+				// Si le statut est "DRAFT" et qu'il y a une version live, on
+				// supprime cette dernière
+				ArtworkCollection liveArtworkCollection = collection.getLiveVersion();
+				if (liveArtworkCollection != null) {
+					this.removeArtworkCollection(liveArtworkCollection.getCollectionId());
+				}
+			}
+			collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+			this.updateAssetEntry(collection, sc);
+			this.reindex(collection, false);
+		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
+				 // l'enregistrement
+			collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(
+				collection.getCompanyId(), collection.getGroupId(), collection.getUserId(),
+				ArtworkCollection.class.getName(), collection.getPrimaryKey(), collection, sc);
+		}
+
+		return collection;
 	}
 
 	/**
@@ -116,7 +156,7 @@ public class ArtworkCollectionLocalServiceImpl
 			sc.getAssetCategoryIds(), // Categories IDs
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
-			artworkCollection.getStatus(), // Visible
+			artworkCollection.isApproved(), // Visible
 			artworkCollection.getCreateDate(), // Start date
 			null, // End date
 			artworkCollection.getCreateDate(), // Date of publication
@@ -133,22 +173,45 @@ public class ArtworkCollectionLocalServiceImpl
 	}
 
 	/**
-	 * Change the publication status of the artworkCollection
+	/**
+	 * Met à jour le statut de l'oeuvre par le framework workflow
 	 */
-	public void changeStatus(ArtworkCollection artworkCollection,
-		boolean publicationStatus) throws PortalException {
-		// Change the status of the item
-		artworkCollection.setStatus(publicationStatus);
-		this.artworkCollectionLocalService
-			.updateArtworkCollection(artworkCollection);
+	public ArtworkCollection updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<String, Serializable> workflowContext)
+		throws PortalException {
+		ArtworkCollection collection = this.getArtworkCollection(entryId);
+		User user = UserLocalServiceUtil.getUser(userId);
 
-		// Change the status of the AssetEntry
-		AssetEntry entry = artworkCollection.getAssetEntry();
-		entry.setVisible(publicationStatus);
+		collection.setStatus(status);
+		collection.setStatusByUserId(user.getUserId());
+		collection.setStatusByUserName(user.getFullName());
+		collection.setStatusDate(new Date());
+
+		collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+
+		AssetEntry entry = this.assetEntryLocalService
+			.getEntry(ArtworkCollection.class.getName(), collection.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
+		
+		this.reindex(collection, false);
 
-		// Reindex it
-		this.reindex(artworkCollection, false);
+		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
+		// supprime cette dernière
+		ArtworkCollection liveArtworkCollection = collection.getLiveVersion();
+		if (status == WorkflowConstants.STATUS_DRAFT && liveArtworkCollection != null) {
+			this.removeArtworkCollection(liveArtworkCollection.getCollectionId());
+		}
+
+		return collection;
+	}
+
+	/**
+	 * Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
+	 */
+	public void updateStatus(ArtworkCollection collection, int status)
+		throws PortalException {
+		this.updateStatus(collection.getUserId(), collection.getCollectionId(), status, null, null);
 	}
 
 	/**
@@ -159,13 +222,13 @@ public class ArtworkCollectionLocalServiceImpl
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(ArtworkCollection.class.getName(), artworkCollectionId);
 
-		// Delete the link with categories
+		// Supprime le lien avec les catégories
 		for (long categoryId : entry.getCategoryIds()) {
 			this.assetEntryLocalService
 				.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
 		}
 
-		// Delete the link with tags
+		// Supprime le lien avec les tags
 		long[] tagsIds = this.assetEntryLocalService
 			.getAssetTagPrimaryKeys(entry.getEntryId());
 		for (long tagId : tagsIds) {
@@ -173,24 +236,36 @@ public class ArtworkCollectionLocalServiceImpl
 				entry.getEntryId());
 		}
 
-		// Delete the link with other entries
+		// Supprime le lien avec les autres entries
 		List<AssetLink> links = AssetLinkLocalServiceUtil
 			.getLinks(entry.getEntryId());
 		for (AssetLink link : links) {
 			AssetLinkLocalServiceUtil.deleteAssetLink(link);
 		}
 
-		// Delete the entry
+		// Supprime l'AssetEntry
 		this.assetEntryLocalService.deleteEntry(entry);
 
-		// Delete the artworkCollection
-		ArtworkCollection artworkCollection = this.artworkCollectionPersistence
+		// Supprime la collection
+		ArtworkCollection collection = this.artworkCollectionPersistence
 			.remove(artworkCollectionId);
 
-		// Delete the index
-		reindex(artworkCollection, true);
+		// Supprime l'index
+		reindex(collection, true);
+		
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+			collection.getCompanyId(), collection.getGroupId(),
+			Artwork.class.getName(), collection.getCollectionId());
 
-		return artworkCollection;
+		// S'il existe une version live de l'oeuvre, on la supprime
+		ArtworkCollection liveCollection = collection.getLiveVersion();
+		if (liveCollection != null) {
+			this.removeArtworkCollection(liveCollection.getCollectionId());
+		}
+
+
+		return collection;
 	}
 
 	/**

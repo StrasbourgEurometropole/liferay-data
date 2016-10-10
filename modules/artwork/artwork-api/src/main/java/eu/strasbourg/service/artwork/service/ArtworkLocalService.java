@@ -46,6 +46,7 @@ import eu.strasbourg.service.artwork.model.Artwork;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Artwork. Methods of this
@@ -106,11 +107,6 @@ public interface ArtworkLocalService extends BaseLocalService,
 	public Hits search(SearchContext searchContext) throws SearchException;
 
 	/**
-	* Create an empty artwork
-	*/
-	public Artwork addArtwork() throws PortalException;
-
-	/**
 	* Adds the artwork to the database. Also notifies the appropriate model listeners.
 	*
 	* @param artwork the artwork
@@ -118,6 +114,11 @@ public interface ArtworkLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Artwork addArtwork(Artwork artwork);
+
+	/**
+	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Artwork createArtwork(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new artwork with the primary key. Does not add the artwork to the database.
@@ -197,9 +198,16 @@ public interface ArtworkLocalService extends BaseLocalService,
 	public Artwork updateArtwork(Artwork artwork);
 
 	/**
-	* Update an artwork
+	* Met à jour une édition et l'enregistre en base de données
 	*/
 	public Artwork updateArtwork(Artwork artwork, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'oeuvre par le framework workflow
+	*/
+	public Artwork updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -364,12 +372,6 @@ public interface ArtworkLocalService extends BaseLocalService,
 	public void addArtworkCollectionArtworks(long collectionId,
 		long[] artworkIds);
 
-	/**
-	* Change the publication status of the artwork
-	*/
-	public void changeStatus(Artwork artwork, boolean publicationStatus)
-		throws PortalException;
-
 	public void clearArtworkCollectionArtworks(long collectionId);
 
 	public void deleteArtworkCollectionArtwork(long collectionId,
@@ -385,4 +387,10 @@ public interface ArtworkLocalService extends BaseLocalService,
 
 	public void setArtworkCollectionArtworks(long collectionId,
 		long[] artworkIds);
+
+	/**
+	* Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Artwork artwork, int status)
+		throws PortalException;
 }

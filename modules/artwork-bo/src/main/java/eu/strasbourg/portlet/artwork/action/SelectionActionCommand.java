@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
@@ -48,25 +49,22 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("artworks")) {
 						Artwork artwork = _artworkLocalService
 							.getArtwork(entryId);
-						_artworkLocalService.changeStatus(artwork, true);
+						_artworkLocalService.updateStatus(artwork, WorkflowConstants.STATUS_APPROVED);
 					} else if (tab.equals("collections")) {
 						ArtworkCollection collection = _artworkCollectionLocalService
 							.getArtworkCollection(entryId);
-						_artworkCollectionLocalService.changeStatus(collection,
-							true);
+						_artworkCollectionLocalService.updateStatus(collection, WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("artworks")) {
 						Artwork artwork = _artworkLocalService
 							.getArtwork(entryId);
-						artwork.setStatus(false);
-						_artworkLocalService.changeStatus(artwork, false);
+						_artworkLocalService.updateStatus(artwork, WorkflowConstants.STATUS_DRAFT);
 					} else if (tab.equals("collections")) {
 						ArtworkCollection collection = _artworkCollectionLocalService
 							.getArtworkCollection(entryId);
-						_artworkCollectionLocalService.changeStatus(collection,
-							false);
+						_artworkCollectionLocalService.updateStatus(collection, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}

@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.edition.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -27,6 +30,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -34,7 +38,12 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
@@ -69,45 +78,70 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	 */
 
 	/**
-	 * Add an empty Edition
-	 * 
-	 * @return The added Edition
-	 * @throws PortalException
+	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public Edition addEdition() throws PortalException {
+	public Edition createEdition(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
 		long pk = counterLocalService.increment();
 
 		Edition edition = this.editionLocalService.createEdition(pk);
+
+		edition.setGroupId(sc.getScopeGroupId());
+		edition.setUserName(user.getFullName());
+		edition.setUserId(sc.getUserId());
+
+		edition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
 		return edition;
 	}
 
 	/**
-	 * Update an Edition
-	 * 
-	 * @param edition
-	 *            The updated Edition
-	 * @param sc
-	 *            Service Context
-	 * @return The updated Edition
-	 * @throws PortalException
+	 * Met à jour une édition et l'enregistre en base de données
 	 */
 	public Edition updateEdition(Edition edition, ServiceContext sc)
 		throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
-		edition.setGroupId(sc.getScopeGroupId());
-		edition.setUserId(sc.getUserId());
-		edition = this.editionLocalService.updateEdition(edition);
-		updateAssetEntry(edition, sc);
+		edition.setStatusByUserId(sc.getUserId());
+		edition.setStatusByUserName(user.getFullName());
+		edition.setStatusDate(sc.getModifiedDate());
+
+		// Si on n'utilise pas le framework workflow, simple gestion
+		// brouillon/publié
+		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			sc.getCompanyId(), sc.getScopeGroupId(), Edition.class.getName())) {
+			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+				edition.setStatus(WorkflowConstants.STATUS_APPROVED);
+			} else {
+				edition.setStatus(WorkflowConstants.STATUS_DRAFT);
+				// Si le statut est "DRAFT" et qu'il y a une version live, on
+				// supprime cette dernière
+				Edition liveEdition = edition.getLiveVersion();
+				if (liveEdition != null) {
+					this.removeEdition(liveEdition.getEditionId());
+				}
+			}
+			edition = this.editionLocalService.updateEdition(edition);
+			this.updateAssetEntry(edition, sc);
+			this.reindex(edition, false);
+		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
+				 // l'enregistrement
+			edition = this.editionLocalService.updateEdition(edition);
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(
+				edition.getCompanyId(), edition.getGroupId(), edition.getUserId(),
+				Edition.class.getName(), edition.getPrimaryKey(), edition, sc);
+		}
 
 		return edition;
 	}
+
 
 	/**
 	 * Met à jour l'AssetEntry rattachée à l'édition
 	 */
 	private void updateAssetEntry(Edition edition, ServiceContext sc)
 		throws PortalException {
-
 		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
 			sc.getScopeGroupId(), // Group ID
 			edition.getCreateDate(), // Date of creation
@@ -119,7 +153,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			sc.getAssetCategoryIds(), // Categories IDs
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
-			edition.getStatus(), // Visible
+			edition.isApproved(), // Visible
 			edition.getPublicationDate(), // Start date
 			null, // End date
 			edition.getPublicationDate(), // Publication date
@@ -139,20 +173,44 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Change le statut de l'édition
+	 * Met à jour le statut de l'édition par le framework workflow
 	 */
-	public void changeStatus(Edition edition, boolean publicationStatus)
+	public Edition updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
-		edition.setStatus(publicationStatus);
-		this.editionLocalService.updateEdition(edition);
+		Edition edition = this.getEdition(entryId);
+		User user = UserLocalServiceUtil.getUser(userId);
+
+		edition.setStatus(status);
+		edition.setStatusByUserId(user.getUserId());
+		edition.setStatusByUserName(user.getFullName());
+		edition.setStatusDate(new Date());
+
+		edition = this.editionLocalService.updateEdition(edition);
 
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(Edition.class.getName(), edition.getPrimaryKey());
-		entry.setVisible(publicationStatus);
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
-
-		// Réindexe l'édition
+		
 		this.reindex(edition, false);
+
+		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
+		// supprime cette dernière
+		Edition liveEdition = edition.getLiveVersion();
+		if (status == WorkflowConstants.STATUS_DRAFT && liveEdition != null) {
+			this.removeEdition(liveEdition.getEditionId());
+		}
+
+		return edition;
+	}
+
+	/**
+	 * Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	 */
+	public void updateStatus(Edition edition, int status)
+		throws PortalException {
+		this.updateStatus(edition.getUserId(), edition.getEditionId(), status, null, null);
 	}
 
 	/**
@@ -192,6 +250,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Edition.class.getName(),
 				editionId);
+
 		}
 
 		// Delete the Edition
@@ -199,6 +258,17 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 
 		// Delete the index
 		this.reindex(edition, true);
+		
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+			edition.getCompanyId(), edition.getGroupId(), Edition.class.getName(),
+			edition.getEditionId());
+
+		// S'il existe une version live de l'édition, on la supprime
+		Edition liveEdition = edition.getLiveVersion();
+		if (liveEdition != null) {
+			this.removeEdition(liveEdition.getEditionId());
+		}
 
 		return edition;
 	}

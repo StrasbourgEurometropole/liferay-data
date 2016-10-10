@@ -51,7 +51,6 @@ public class EditionGallerySoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPublicationDate(model.getPublicationDate());
-		soapModel.setStatus(model.getStatus());
 
 		return soapModel;
 	}
@@ -240,18 +239,6 @@ public class EditionGallerySoap implements Serializable {
 		_publicationDate = publicationDate;
 	}
 
-	public boolean getStatus() {
-		return _status;
-	}
-
-	public boolean isStatus() {
-		return _status;
-	}
-
-	public void setStatus(boolean status) {
-		_status = status;
-	}
-
 	private String _uuid;
 	private long _galleryId;
 	private long _groupId;
@@ -269,5 +256,4 @@ public class EditionGallerySoap implements Serializable {
 	private String _title;
 	private String _description;
 	private Date _publicationDate;
-	private boolean _status;
 }

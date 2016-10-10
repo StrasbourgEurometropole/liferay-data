@@ -25,12 +25,15 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
+import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
@@ -135,7 +138,7 @@ public class EditionImpl extends EditionBaseImpl {
 	
 	/**
 	 * Renovie la taille du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	 */
 	public String getFileSize(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
@@ -147,7 +150,7 @@ public class EditionImpl extends EditionBaseImpl {
 	
 	/**
 	 * Renovie le type du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	 */
 	public String getFileType(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
@@ -156,5 +159,19 @@ public class EditionImpl extends EditionBaseImpl {
 			DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
 			return fileEntry.getExtension().toUpperCase();
 		}
+	}
+	
+	/**
+	 * Renvoie la version live de l'édition, si elle existe
+	 */
+	public Edition getLiveVersion() {
+		long groupId = this.getGroupId();
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null || !group.isStagingGroup()) {
+			return null;
+		}
+		long liveGroupId = group.getLiveGroupId();
+		Edition liveEdition = EditionLocalServiceUtil.fetchEditionByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveEdition;
 	}
 }

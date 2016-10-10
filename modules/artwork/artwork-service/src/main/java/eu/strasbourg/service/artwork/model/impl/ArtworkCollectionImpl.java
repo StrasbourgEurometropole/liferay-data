@@ -22,10 +22,13 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
+import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -97,5 +100,19 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 			ids += artwork.getArtworkId();
 		}
 		return ids;
+	}
+
+	/**
+	 * Renvoie la version live de la collection, si elle existe
+	 */
+	public ArtworkCollection getLiveVersion() {
+		long groupId = this.getGroupId();
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null || !group.isStagingGroup()) {
+			return null;
+		}
+		long liveGroupId = group.getLiveGroupId();
+		ArtworkCollection liveCollection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollectionByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveCollection;
 	}
 }

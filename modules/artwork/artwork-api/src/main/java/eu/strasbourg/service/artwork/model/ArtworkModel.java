@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ import java.util.Map;
  */
 @ProviderType
 public interface ArtworkModel extends BaseModel<Artwork>, LocalizedModel,
-	ShardedModel, StagedGroupedModel {
+	ShardedModel, StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -228,6 +229,87 @@ public interface ArtworkModel extends BaseModel<Artwork>, LocalizedModel,
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate);
+
+	/**
+	 * Returns the status of this artwork.
+	 *
+	 * @return the status of this artwork
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this artwork.
+	 *
+	 * @param status the status of this artwork
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this artwork.
+	 *
+	 * @return the status by user ID of this artwork
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this artwork.
+	 *
+	 * @param statusByUserId the status by user ID of this artwork
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this artwork.
+	 *
+	 * @return the status by user uuid of this artwork
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this artwork.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this artwork
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this artwork.
+	 *
+	 * @return the status by user name of this artwork
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this artwork.
+	 *
+	 * @param statusByUserName the status by user name of this artwork
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this artwork.
+	 *
+	 * @return the status date of this artwork
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this artwork.
+	 *
+	 * @param statusDate the status date of this artwork
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the title of this artwork.
@@ -1437,27 +1519,6 @@ public interface ArtworkModel extends BaseModel<Artwork>, LocalizedModel,
 	public void setLinkMap(Map<Locale, String> linkMap, Locale defaultLocale);
 
 	/**
-	 * Returns the status of this artwork.
-	 *
-	 * @return the status of this artwork
-	 */
-	public boolean getStatus();
-
-	/**
-	 * Returns <code>true</code> if this artwork is status.
-	 *
-	 * @return <code>true</code> if this artwork is status; <code>false</code> otherwise
-	 */
-	public boolean isStatus();
-
-	/**
-	 * Sets whether this artwork is status.
-	 *
-	 * @param status the status of this artwork
-	 */
-	public void setStatus(boolean status);
-
-	/**
 	 * Returns the image ID of this artwork.
 	 *
 	 * @return the image ID of this artwork
@@ -1485,6 +1546,70 @@ public interface ArtworkModel extends BaseModel<Artwork>, LocalizedModel,
 	 * @param imagesIds the images IDs of this artwork
 	 */
 	public void setImagesIds(String imagesIds);
+
+	/**
+	 * Returns <code>true</code> if this artwork is approved.
+	 *
+	 * @return <code>true</code> if this artwork is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this artwork is denied.
+	 *
+	 * @return <code>true</code> if this artwork is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this artwork is a draft.
+	 *
+	 * @return <code>true</code> if this artwork is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this artwork is expired.
+	 *
+	 * @return <code>true</code> if this artwork is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this artwork is inactive.
+	 *
+	 * @return <code>true</code> if this artwork is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this artwork is incomplete.
+	 *
+	 * @return <code>true</code> if this artwork is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this artwork is pending.
+	 *
+	 * @return <code>true</code> if this artwork is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this artwork is scheduled.
+	 *
+	 * @return <code>true</code> if this artwork is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

@@ -68,6 +68,10 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("technicalInformation", getTechnicalInformation());
@@ -80,7 +84,6 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		attributes.put("loanPeriod", getLoanPeriod());
 		attributes.put("linkName", getLinkName());
 		attributes.put("link", getLink());
-		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
 		attributes.put("imagesIds", getImagesIds());
 
@@ -141,6 +144,30 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 
 		if (lastPublishDate != null) {
 			setLastPublishDate(lastPublishDate);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -216,12 +243,6 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 			setLink(link);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -236,13 +257,13 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Returns the status of this artwork.
+	* Returns <code>true</code> if this artwork is approved.
 	*
-	* @return the status of this artwork
+	* @return <code>true</code> if this artwork is approved; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean getStatus() {
-		return _artwork.getStatus();
+	public boolean isApproved() {
+		return _artwork.isApproved();
 	}
 
 	@Override
@@ -250,9 +271,59 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.isCachedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this artwork is denied.
+	*
+	* @return <code>true</code> if this artwork is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _artwork.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork is a draft.
+	*
+	* @return <code>true</code> if this artwork is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _artwork.isDraft();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _artwork.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork is expired.
+	*
+	* @return <code>true</code> if this artwork is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _artwork.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork is inactive.
+	*
+	* @return <code>true</code> if this artwork is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _artwork.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork is incomplete.
+	*
+	* @return <code>true</code> if this artwork is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _artwork.isIncomplete();
 	}
 
 	@Override
@@ -261,17 +332,27 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Returns <code>true</code> if this artwork is status.
+	* Returns <code>true</code> if this artwork is pending.
 	*
-	* @return <code>true</code> if this artwork is status; <code>false</code> otherwise
+	* @return <code>true</code> if this artwork is pending; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean isStatus() {
-		return _artwork.isStatus();
+	public boolean isPending() {
+		return _artwork.isPending();
 	}
 
 	/**
-	* Retourne l'AssetEntry correspondant � cet item
+	* Returns <code>true</code> if this artwork is scheduled.
+	*
+	* @return <code>true</code> if this artwork is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _artwork.isScheduled();
+	}
+
+	/**
+	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
@@ -289,6 +370,14 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.toCacheModel();
 	}
 
+	/**
+	* Renvoie la version live de l'oeuvre, si elle existe
+	*/
+	@Override
+	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion() {
+		return _artwork.getLiveVersion();
+	}
+
 	@Override
 	public eu.strasbourg.service.artwork.model.Artwork toEscapedModel() {
 		return new ArtworkWrapper(_artwork.toEscapedModel());
@@ -302,6 +391,16 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	@Override
 	public int compareTo(eu.strasbourg.service.artwork.model.Artwork artwork) {
 		return _artwork.compareTo(artwork);
+	}
+
+	/**
+	* Returns the status of this artwork.
+	*
+	* @return the status of this artwork
+	*/
+	@Override
+	public int getStatus() {
+		return _artwork.getStatus();
 	}
 
 	@Override
@@ -680,7 +779,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*
 	* @throws PortalException
 	* @throws NumberFormatException
@@ -1040,6 +1139,26 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
+	* Returns the status by user name of this artwork.
+	*
+	* @return the status by user name of this artwork
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _artwork.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this artwork.
+	*
+	* @return the status by user uuid of this artwork
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _artwork.getStatusByUserUuid();
+	}
+
+	/**
 	* Returns the technical information of this artwork.
 	*
 	* @return the technical information of this artwork
@@ -1249,13 +1368,23 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.getModifiedDate();
 	}
 
+	/**
+	* Returns the status date of this artwork.
+	*
+	* @return the status date of this artwork
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _artwork.getStatusDate();
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections() {
 		return _artwork.getArtworkCollections();
 	}
 
 	/**
-	* Retourne la liste des AssetCategory correspondant � cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
@@ -1421,6 +1550,16 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	@Override
 	public long getPrimaryKey() {
 		return _artwork.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this artwork.
+	*
+	* @return the status by user ID of this artwork
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _artwork.getStatusByUserId();
 	}
 
 	/**
@@ -2207,13 +2346,53 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Sets whether this artwork is status.
+	* Sets the status of this artwork.
 	*
 	* @param status the status of this artwork
 	*/
 	@Override
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		_artwork.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this artwork.
+	*
+	* @param statusByUserId the status by user ID of this artwork
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_artwork.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this artwork.
+	*
+	* @param statusByUserName the status by user name of this artwork
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_artwork.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this artwork.
+	*
+	* @param statusByUserUuid the status by user uuid of this artwork
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_artwork.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this artwork.
+	*
+	* @param statusDate the status date of this artwork
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_artwork.setStatusDate(statusDate);
 	}
 
 	/**

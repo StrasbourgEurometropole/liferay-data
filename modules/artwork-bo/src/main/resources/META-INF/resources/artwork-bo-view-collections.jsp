@@ -69,12 +69,14 @@
 		</liferay-frontend:management-bar-filters>
 
 		<liferay-frontend:management-bar-action-buttons>
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-				icon="check" label="publish" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-				icon="times" label="unpublish" />
+			<c:if test="${dc.workflowEnabled}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+					icon="check" label="publish" />
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+					icon="times" label="unpublish" />
+			</c:if>
 			<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
@@ -113,10 +115,9 @@
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					truncate="true" orderable="true" name="status">
-					<liferay-ui:message
-						key="${collection.status ? 'published' : 'unpublished' }" />
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${collection.status}" />
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text>

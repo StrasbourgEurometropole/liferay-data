@@ -92,15 +92,6 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 	}
 
 	/**
-	* Create an empty artwork
-	*/
-	@Override
-	public eu.strasbourg.service.artwork.model.Artwork addArtwork()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _artworkLocalService.addArtwork();
-	}
-
-	/**
 	* Adds the artwork to the database. Also notifies the appropriate model listeners.
 	*
 	* @param artwork the artwork
@@ -110,6 +101,16 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 	public eu.strasbourg.service.artwork.model.Artwork addArtwork(
 		eu.strasbourg.service.artwork.model.Artwork artwork) {
 		return _artworkLocalService.addArtwork(artwork);
+	}
+
+	/**
+	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.artwork.model.Artwork createArtwork(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _artworkLocalService.createArtwork(sc);
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 	}
 
 	/**
-	* Update an artwork
+	* Met à jour une édition et l'enregistre en base de données
 	*/
 	@Override
 	public eu.strasbourg.service.artwork.model.Artwork updateArtwork(
@@ -229,6 +230,19 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _artworkLocalService.updateArtwork(artwork, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'oeuvre par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.artwork.model.Artwork updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _artworkLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	@Override
@@ -469,17 +483,6 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 			artworkIds);
 	}
 
-	/**
-	* Change the publication status of the artwork
-	*/
-	@Override
-	public void changeStatus(
-		eu.strasbourg.service.artwork.model.Artwork artwork,
-		boolean publicationStatus)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		_artworkLocalService.changeStatus(artwork, publicationStatus);
-	}
-
 	@Override
 	public void clearArtworkCollectionArtworks(long collectionId) {
 		_artworkLocalService.clearArtworkCollectionArtworks(collectionId);
@@ -517,6 +520,16 @@ public class ArtworkLocalServiceWrapper implements ArtworkLocalService,
 		long[] artworkIds) {
 		_artworkLocalService.setArtworkCollectionArtworks(collectionId,
 			artworkIds);
+	}
+
+	/**
+	* Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.artwork.model.Artwork artwork, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_artworkLocalService.updateStatus(artwork, status);
 	}
 
 	@Override

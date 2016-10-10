@@ -22,11 +22,14 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
+import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
@@ -58,7 +61,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
-	 * Retourne l'AssetEntry correspondant � cet item
+	 * Retourne l'AssetEntry correspondant à cet item
 	 */
 	public AssetEntry getAssetEntry() throws PortalException {
 		return AssetEntryLocalServiceUtil.getEntry(Artwork.class.getName(),
@@ -66,7 +69,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 	
 	/**
-	 * Retourne la liste des AssetCategory correspondant � cet item (via l'AssetEntry)
+	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	 */
 	public List<AssetCategory> getCategories() throws PortalException {
 		long[] categoryIds = this.getAssetEntry().getCategoryIds();
@@ -79,7 +82,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 	
 	/**
-	 * Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	 * 
 	 * @throws PortalException
 	 * @throws NumberFormatException
@@ -102,5 +105,19 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			ids += collection.getCollectionId();
 		}
 		return ids;
+	}
+
+	/**
+	 * Renvoie la version live de l'oeuvre, si elle existe
+	 */
+	public Artwork getLiveVersion() {
+		long groupId = this.getGroupId();
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null || !group.isStagingGroup()) {
+			return null;
+		}
+		long liveGroupId = group.getLiveGroupId();
+		Artwork liveEdition = ArtworkLocalServiceUtil.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveEdition;
 	}
 }

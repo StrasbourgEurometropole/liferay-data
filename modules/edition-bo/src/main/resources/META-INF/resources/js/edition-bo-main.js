@@ -13,12 +13,12 @@ jQuery(function() {
 	})
 	// Lors du clic sur le bouton 'publier', on set le champ 'forceStatus'
 	.on('click', '#' + namespace + 'publish', function() {
-		jQuery('input[name=' + namespace + 'forceStatus]')[0].value
-		= 'publish';
+		jQuery('input[name=' + namespace + 'workflowAction]')[0].value
+		= Liferay.Workflow.ACTION_PUBLISH;
 	})
 	// Lors du clic sur le bouton 'dépublier', on set le champ 'forceStatus'
-	.on('click', '#' + namespace + 'unpublish', function() {
-		jQuery('input[name=' + namespace + 'forceStatus]')[0].value
-		= 'unpublish';
+	.on('click', '#' + namespace + 'save-as-draft', function() {
+		jQuery('input[name=' + namespace + 'workflowAction]')[0].value
+		= Liferay.Workflow.ACTION_SAVE_DRAFT;
 	});
 });

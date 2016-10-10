@@ -97,8 +97,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			{ "imageId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
-			{ "publicationDate", Types.TIMESTAMP },
-			{ "status", Types.BOOLEAN }
+			{ "publicationDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -120,10 +119,9 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,publicationDate DATE null,status BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table edition_EditionGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table edition_EditionGallery";
 	public static final String ORDER_BY_JPQL = " ORDER BY editionGallery.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_EditionGallery.title ASC";
@@ -174,7 +172,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setStatus(soapModel.getStatus());
 
 		return model;
 	}
@@ -270,7 +267,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("status", getStatus());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -380,12 +376,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
-		}
-
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
 		}
 	}
 
@@ -851,23 +841,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		_publicationDate = publicationDate;
 	}
 
-	@JSON
-	@Override
-	public boolean getStatus() {
-		return _status;
-	}
-
-	@JSON
-	@Override
-	public boolean isStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(boolean status) {
-		_status = status;
-	}
-
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -1084,7 +1057,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		editionGalleryImpl.setTitle(getTitle());
 		editionGalleryImpl.setDescription(getDescription());
 		editionGalleryImpl.setPublicationDate(getPublicationDate());
-		editionGalleryImpl.setStatus(getStatus());
 
 		editionGalleryImpl.resetOriginalValues();
 
@@ -1265,14 +1237,12 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			editionGalleryCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
-		editionGalleryCacheModel.status = getStatus();
-
 		return editionGalleryCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1308,8 +1278,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 		sb.append(getDescription());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
-		sb.append(", status=");
-		sb.append(getStatus());
 		sb.append("}");
 
 		return sb.toString();
@@ -1317,7 +1285,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.EditionGallery");
@@ -1391,10 +1359,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>status</column-name><column-value><![CDATA[");
-		sb.append(getStatus());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1431,7 +1395,6 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private Date _publicationDate;
-	private boolean _status;
 	private long _columnBitmask;
 	private EditionGallery _escapedModel;
 }

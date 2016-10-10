@@ -92,14 +92,6 @@ public class ArtworkLocalServiceUtil {
 	}
 
 	/**
-	* Create an empty artwork
-	*/
-	public static eu.strasbourg.service.artwork.model.Artwork addArtwork()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addArtwork();
-	}
-
-	/**
 	* Adds the artwork to the database. Also notifies the appropriate model listeners.
 	*
 	* @param artwork the artwork
@@ -108,6 +100,15 @@ public class ArtworkLocalServiceUtil {
 	public static eu.strasbourg.service.artwork.model.Artwork addArtwork(
 		eu.strasbourg.service.artwork.model.Artwork artwork) {
 		return getService().addArtwork(artwork);
+	}
+
+	/**
+	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.artwork.model.Artwork createArtwork(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createArtwork(sc);
 	}
 
 	/**
@@ -210,13 +211,25 @@ public class ArtworkLocalServiceUtil {
 	}
 
 	/**
-	* Update an artwork
+	* Met à jour une édition et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.artwork.model.Artwork updateArtwork(
 		eu.strasbourg.service.artwork.model.Artwork artwork,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateArtwork(artwork, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'oeuvre par le framework workflow
+	*/
+	public static eu.strasbourg.service.artwork.model.Artwork updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	public static int getArtworkCollectionArtworksCount(long collectionId) {
@@ -435,16 +448,6 @@ public class ArtworkLocalServiceUtil {
 		getService().addArtworkCollectionArtworks(collectionId, artworkIds);
 	}
 
-	/**
-	* Change the publication status of the artwork
-	*/
-	public static void changeStatus(
-		eu.strasbourg.service.artwork.model.Artwork artwork,
-		boolean publicationStatus)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().changeStatus(artwork, publicationStatus);
-	}
-
 	public static void clearArtworkCollectionArtworks(long collectionId) {
 		getService().clearArtworkCollectionArtworks(collectionId);
 	}
@@ -472,6 +475,15 @@ public class ArtworkLocalServiceUtil {
 	public static void setArtworkCollectionArtworks(long collectionId,
 		long[] artworkIds) {
 		getService().setArtworkCollectionArtworks(collectionId, artworkIds);
+	}
+
+	/**
+	* Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.artwork.model.Artwork artwork, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(artwork, status);
 	}
 
 	public static ArtworkLocalService getService() {

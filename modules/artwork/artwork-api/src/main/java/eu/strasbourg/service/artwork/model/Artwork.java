@@ -55,19 +55,19 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 		};
 
 	/**
-	* Retourne l'AssetEntry correspondant � cet item
+	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* Retourne la liste des AssetCategory correspondant � cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*
 	* @throws PortalException
 	* @throws NumberFormatException
@@ -77,4 +77,9 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections();
 
 	public java.lang.String getArtworkCollectionsIds();
+
+	/**
+	* Renvoie la version live de l'oeuvre, si elle existe
+	*/
+	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion();
 }

@@ -89,17 +89,6 @@ public class EditionGalleryLocalServiceUtil {
 	}
 
 	/**
-	* Add an empty Edition Gallery
-	*
-	* @return The added Edition Gallery
-	* @throws PortalException
-	*/
-	public static eu.strasbourg.service.edition.model.EditionGallery addEditionGallery()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addEditionGallery();
-	}
-
-	/**
 	* Adds the edition gallery to the database. Also notifies the appropriate model listeners.
 	*
 	* @param editionGallery the edition gallery
@@ -108,6 +97,15 @@ public class EditionGalleryLocalServiceUtil {
 	public static eu.strasbourg.service.edition.model.EditionGallery addEditionGallery(
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
 		return getService().addEditionGallery(editionGallery);
+	}
+
+	/**
+	* Crée un lien vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.edition.model.EditionGallery createEditionGallery(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createEditionGallery(sc);
 	}
 
 	/**
@@ -215,20 +213,25 @@ public class EditionGalleryLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour une galerie d'éditions
-	*
-	* @param editionGallery
-	The updated Edition Gallery
-	* @param sc
-	Service Context
-	* @return The updated Edition
-	* @throws PortalException
+	* Met à jour un lien et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.edition.model.EditionGallery updateEditionGallery(
-		eu.strasbourg.service.edition.model.EditionGallery editionGallery,
+		eu.strasbourg.service.edition.model.EditionGallery gallery,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().updateEditionGallery(editionGallery, sc);
+		return getService().updateEditionGallery(gallery, sc);
+	}
+
+	/**
+	* Met à jour le statut de la galerie par le framework workflow
+	*/
+	public static eu.strasbourg.service.edition.model.EditionGallery updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	public static int getEditionEditionGalleriesCount(long editionId) {
@@ -443,13 +446,6 @@ public class EditionGalleryLocalServiceUtil {
 		getService().addEditionEditionGallery(editionId, galleryId);
 	}
 
-	public static void changeStatus(
-		eu.strasbourg.service.edition.model.EditionGallery editionGallery,
-		boolean status)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().changeStatus(editionGallery, status);
-	}
-
 	public static void clearEditionEditionGalleries(long editionId) {
 		getService().clearEditionEditionGalleries(editionId);
 	}
@@ -477,6 +473,15 @@ public class EditionGalleryLocalServiceUtil {
 	public static void setEditionEditionGalleries(long editionId,
 		long[] galleryIds) {
 		getService().setEditionEditionGalleries(editionId, galleryIds);
+	}
+
+	/**
+	* Met à jour le statut de la galerie "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.edition.model.EditionGallery gallery, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(gallery, status);
 	}
 
 	public static EditionGalleryLocalService getService() {

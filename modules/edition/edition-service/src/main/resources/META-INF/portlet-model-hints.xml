@@ -55,6 +55,5 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="publicationDate" type="Date" />
-		<field name="status" type="boolean" />
 	</model>
 </model-hints>

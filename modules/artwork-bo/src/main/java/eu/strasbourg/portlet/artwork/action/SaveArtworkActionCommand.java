@@ -60,7 +60,7 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 			long artworkId = ParamUtil.getLong(request, "artworkId");
 			Artwork artwork;
 			if (artworkId == 0) {
-				artwork = _artworkLocalService.addArtwork();
+				artwork = _artworkLocalService.createArtwork(sc);
 			} else {
 				artwork = _artworkLocalService.getArtwork(artworkId);
 			}
@@ -131,15 +131,6 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 				}
 			}
 			
-
-			// Status
-			String forceStatus = ParamUtil.getString(request, "forceStatus");
-			if (forceStatus.equals("publish")) {
-				artwork.setStatus(true);
-			} else if (forceStatus.equals("unpublish")) {
-				artwork.setStatus(false);
-			}
-
 			_artworkLocalService.updateArtwork(artwork, sc);
 		} catch (PortalException e) {
 			e.printStackTrace();

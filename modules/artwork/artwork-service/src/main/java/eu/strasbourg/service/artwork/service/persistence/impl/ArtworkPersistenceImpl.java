@@ -2366,6 +2366,10 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		artworkImpl.setCreateDate(artwork.getCreateDate());
 		artworkImpl.setModifiedDate(artwork.getModifiedDate());
 		artworkImpl.setLastPublishDate(artwork.getLastPublishDate());
+		artworkImpl.setStatus(artwork.getStatus());
+		artworkImpl.setStatusByUserId(artwork.getStatusByUserId());
+		artworkImpl.setStatusByUserName(artwork.getStatusByUserName());
+		artworkImpl.setStatusDate(artwork.getStatusDate());
 		artworkImpl.setTitle(artwork.getTitle());
 		artworkImpl.setDescription(artwork.getDescription());
 		artworkImpl.setTechnicalInformation(artwork.getTechnicalInformation());
@@ -2378,7 +2382,6 @@ public class ArtworkPersistenceImpl extends BasePersistenceImpl<Artwork>
 		artworkImpl.setLoanPeriod(artwork.getLoanPeriod());
 		artworkImpl.setLinkName(artwork.getLinkName());
 		artworkImpl.setLink(artwork.getLink());
-		artworkImpl.setStatus(artwork.isStatus());
 		artworkImpl.setImageId(artwork.getImageId());
 		artworkImpl.setImagesIds(artwork.getImagesIds());
 

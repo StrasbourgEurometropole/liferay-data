@@ -87,11 +87,11 @@ public class ArtworkCollectionStagedModelDataHandler
 	protected void doImportStagedModel(PortletDataContext portletDataContext,
 		ArtworkCollection stagedModel) throws Exception {
 		long userId = portletDataContext.getUserId(stagedModel.getUserUuid());
-		ServiceContext serviceContext = portletDataContext
+		ServiceContext sc = portletDataContext
 			.createServiceContext(stagedModel);
-		serviceContext.setUuid(stagedModel.getUuid());
-		serviceContext.setScopeGroupId(portletDataContext.getScopeGroupId());
-		serviceContext.setUserId(userId);
+		sc.setUuid(stagedModel.getUuid());
+		sc.setScopeGroupId(portletDataContext.getScopeGroupId());
+		sc.setUserId(userId);
 		ArtworkCollection importedArtworkCollection = null;
 		if (portletDataContext.isDataStrategyMirror()) {
 			ArtworkCollection existingArtworkCollection = this._artworkCollectionLocalService
@@ -100,14 +100,14 @@ public class ArtworkCollectionStagedModelDataHandler
 
 			if (existingArtworkCollection == null) {
 				importedArtworkCollection = this._artworkCollectionLocalService
-					.addArtworkCollection();
+					.createArtworkCollection(sc);
 			} else {
 				importedArtworkCollection = existingArtworkCollection;
 			}
 
 		} else {
 			importedArtworkCollection = this._artworkCollectionLocalService
-				.addArtworkCollection();
+				.createArtworkCollection(sc);
 		}
 
 		importedArtworkCollection.setUuid(stagedModel.getUuid());
@@ -129,7 +129,7 @@ public class ArtworkCollectionStagedModelDataHandler
 
 		// On update l'oeuvre
 		this._artworkCollectionLocalService
-			.updateArtworkCollection(importedArtworkCollection, serviceContext);
+			.updateArtworkCollection(importedArtworkCollection, sc);
 
 		// On lie la collection à ses oeuvres
 		for (Artwork oldArtwork : importedArtworkCollection.getArtworks()) {

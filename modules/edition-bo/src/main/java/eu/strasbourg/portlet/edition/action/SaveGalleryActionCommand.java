@@ -62,7 +62,7 @@ public class SaveGalleryActionCommand
 			long galleryId = ParamUtil.getLong(request, "galleryId");
 			EditionGallery editionGallery;
 			if (galleryId == 0) {
-				editionGallery = _editionGalleryLocalService.addEditionGallery();
+				editionGallery = _editionGalleryLocalService.createEditionGallery(sc);
 			} else {
 				editionGallery = _editionGalleryLocalService.getEditionGallery(galleryId);
 			}
@@ -92,14 +92,6 @@ public class SaveGalleryActionCommand
 				if (editionId > 0) {
 					_editionGalleryLocalService.addEditionEditionGallery(editionId, editionGallery);
 				}
-			}
-			
-			// Status
-			String forceStatus = ParamUtil.getString(request, "forceStatus");
-			if (forceStatus.equals("publish")) {
-				editionGallery.setStatus(true);
-			} else if (forceStatus.equals("unpublish")) {
-				editionGallery.setStatus(false);
 			}
 			
 			_editionGalleryLocalService.updateEditionGallery(editionGallery, sc);

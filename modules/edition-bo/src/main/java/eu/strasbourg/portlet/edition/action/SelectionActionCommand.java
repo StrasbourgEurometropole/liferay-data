@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
@@ -46,20 +47,19 @@ public class SelectionActionCommand implements MVCActionCommand {
 				case "publish":
 					if (tab.equals("editions")) {
 						Edition edition = _editionLocalService.getEdition(entryId);
-						_editionLocalService.changeStatus(edition, true);
+						_editionLocalService.updateStatus(edition, WorkflowConstants.STATUS_APPROVED);
 					} else if (tab.equals("galleries")) {
 						EditionGallery gallery = _galleryLocalService.getEditionGallery(entryId);
-						_galleryLocalService.changeStatus(gallery, true);
+						_galleryLocalService.updateStatus(gallery, WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("editions")) {
 						Edition edition = _editionLocalService.getEdition(entryId);
-						edition.setStatus(false);
-						_editionLocalService.changeStatus(edition, false);
+						_editionLocalService.updateStatus(edition, WorkflowConstants.STATUS_DRAFT);
 					} else if (tab.equals("galleries")) {
 						EditionGallery gallery = _galleryLocalService.getEditionGallery(entryId);
-						_galleryLocalService.changeStatus(gallery, false);
+						_galleryLocalService.updateStatus(gallery, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}

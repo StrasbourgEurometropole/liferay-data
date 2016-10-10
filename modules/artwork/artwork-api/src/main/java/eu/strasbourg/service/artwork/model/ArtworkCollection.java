@@ -78,4 +78,9 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks();
 
 	public java.lang.String getArtworksIds();
+
+	/**
+	* Renvoie la version live de la collection, si elle existe
+	*/
+	public eu.strasbourg.service.artwork.model.ArtworkCollection getLiveVersion();
 }

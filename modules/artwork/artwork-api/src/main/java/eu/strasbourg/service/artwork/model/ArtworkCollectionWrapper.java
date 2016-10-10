@@ -69,10 +69,13 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("lastPublishDate", getLastPublishDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("contributors", getContributors());
-		attributes.put("status", getStatus());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -134,6 +137,30 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 			setLastPublishDate(lastPublishDate);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -152,12 +179,6 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 			setContributors(contributors);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -166,13 +187,13 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Returns the status of this artwork collection.
+	* Returns <code>true</code> if this artwork collection is approved.
 	*
-	* @return the status of this artwork collection
+	* @return <code>true</code> if this artwork collection is approved; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean getStatus() {
-		return _artworkCollection.getStatus();
+	public boolean isApproved() {
+		return _artworkCollection.isApproved();
 	}
 
 	@Override
@@ -180,9 +201,59 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		return _artworkCollection.isCachedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this artwork collection is denied.
+	*
+	* @return <code>true</code> if this artwork collection is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _artworkCollection.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork collection is a draft.
+	*
+	* @return <code>true</code> if this artwork collection is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _artworkCollection.isDraft();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _artworkCollection.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork collection is expired.
+	*
+	* @return <code>true</code> if this artwork collection is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _artworkCollection.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork collection is inactive.
+	*
+	* @return <code>true</code> if this artwork collection is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _artworkCollection.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork collection is incomplete.
+	*
+	* @return <code>true</code> if this artwork collection is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _artworkCollection.isIncomplete();
 	}
 
 	@Override
@@ -191,13 +262,23 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Returns <code>true</code> if this artwork collection is status.
+	* Returns <code>true</code> if this artwork collection is pending.
 	*
-	* @return <code>true</code> if this artwork collection is status; <code>false</code> otherwise
+	* @return <code>true</code> if this artwork collection is pending; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean isStatus() {
-		return _artworkCollection.isStatus();
+	public boolean isPending() {
+		return _artworkCollection.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this artwork collection is scheduled.
+	*
+	* @return <code>true</code> if this artwork collection is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _artworkCollection.isScheduled();
 	}
 
 	/**
@@ -219,6 +300,14 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		return _artworkCollection.toCacheModel();
 	}
 
+	/**
+	* Renvoie la version live de la collection, si elle existe
+	*/
+	@Override
+	public eu.strasbourg.service.artwork.model.ArtworkCollection getLiveVersion() {
+		return _artworkCollection.getLiveVersion();
+	}
+
 	@Override
 	public eu.strasbourg.service.artwork.model.ArtworkCollection toEscapedModel() {
 		return new ArtworkCollectionWrapper(_artworkCollection.toEscapedModel());
@@ -233,6 +322,16 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	public int compareTo(
 		eu.strasbourg.service.artwork.model.ArtworkCollection artworkCollection) {
 		return _artworkCollection.compareTo(artworkCollection);
+	}
+
+	/**
+	* Returns the status of this artwork collection.
+	*
+	* @return the status of this artwork collection
+	*/
+	@Override
+	public int getStatus() {
+		return _artworkCollection.getStatus();
 	}
 
 	@Override
@@ -418,6 +517,26 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
+	* Returns the status by user name of this artwork collection.
+	*
+	* @return the status by user name of this artwork collection
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _artworkCollection.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this artwork collection.
+	*
+	* @return the status by user uuid of this artwork collection
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _artworkCollection.getStatusByUserUuid();
+	}
+
+	/**
 	* Returns the title of this artwork collection.
 	*
 	* @return the title of this artwork collection
@@ -559,6 +678,16 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 		return _artworkCollection.getModifiedDate();
 	}
 
+	/**
+	* Returns the status date of this artwork collection.
+	*
+	* @return the status date of this artwork collection
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _artworkCollection.getStatusDate();
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks() {
 		return _artworkCollection.getArtworks();
@@ -641,6 +770,16 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	@Override
 	public long getPrimaryKey() {
 		return _artworkCollection.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this artwork collection.
+	*
+	* @return the status by user ID of this artwork collection
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _artworkCollection.getStatusByUserId();
 	}
 
 	/**
@@ -911,13 +1050,53 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Sets whether this artwork collection is status.
+	* Sets the status of this artwork collection.
 	*
 	* @param status the status of this artwork collection
 	*/
 	@Override
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		_artworkCollection.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this artwork collection.
+	*
+	* @param statusByUserId the status by user ID of this artwork collection
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_artworkCollection.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this artwork collection.
+	*
+	* @param statusByUserName the status by user name of this artwork collection
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_artworkCollection.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this artwork collection.
+	*
+	* @param statusByUserUuid the status by user uuid of this artwork collection
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_artworkCollection.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this artwork collection.
+	*
+	* @param statusDate the status date of this artwork collection
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_artworkCollection.setStatusDate(statusDate);
 	}
 
 	/**

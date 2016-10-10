@@ -2969,7 +2969,6 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		editionGalleryImpl.setTitle(editionGallery.getTitle());
 		editionGalleryImpl.setDescription(editionGallery.getDescription());
 		editionGalleryImpl.setPublicationDate(editionGallery.getPublicationDate());
-		editionGalleryImpl.setStatus(editionGallery.isStatus());
 
 		return editionGalleryImpl;
 	}

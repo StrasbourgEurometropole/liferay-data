@@ -68,8 +68,8 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 	}
 
 	/**
-	 * Fonction appelée lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs à indexer
+	 * Fonction appelï¿½e lors de l'indexation de l'item
+	 * C'est ici qu'on choisi les champs ï¿½ indexer
 	 */
 	@Override
 	protected Document doGetDocument(EditionGallery editionGallery)
@@ -78,7 +78,7 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 		document.addLocalizedText(Field.TITLE, editionGallery.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			editionGallery.getDescriptionMap());
-		document.addNumber(Field.STATUS, editionGallery.getStatus() ? 1 : 0);
+		document.addNumber(Field.STATUS, editionGallery.getStatus());
 		return document;
 	}
 

@@ -92,13 +92,18 @@ public interface Edition extends EditionModel, PersistedModel {
 
 	/**
 	* Renovie la taille du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	*/
 	public java.lang.String getFileSize(java.util.Locale locale);
 
 	/**
 	* Renovie le type du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une cha�ne vide si c'est une URL externe)
+	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	*/
 	public java.lang.String getFileType(java.util.Locale locale);
+
+	/**
+	* Renvoie la version live de l'édition, si elle existe
+	*/
+	public eu.strasbourg.service.edition.model.Edition getLiveVersion();
 }

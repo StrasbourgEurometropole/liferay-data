@@ -77,7 +77,6 @@ public class EditionGalleryWrapper implements EditionGallery,
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -185,22 +184,6 @@ public class EditionGalleryWrapper implements EditionGallery,
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
 		}
-
-		Boolean status = (Boolean)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-	}
-
-	/**
-	* Returns the status of this edition gallery.
-	*
-	* @return the status of this edition gallery
-	*/
-	@Override
-	public boolean getStatus() {
-		return _editionGallery.getStatus();
 	}
 
 	/**
@@ -299,16 +282,6 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
-	* Returns <code>true</code> if this edition gallery is status.
-	*
-	* @return <code>true</code> if this edition gallery is status; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isStatus() {
-		return _editionGallery.isStatus();
-	}
-
-	/**
 	* Retourne l'AssetEntry rattach�e � cet item
 	*/
 	@Override
@@ -324,6 +297,14 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.edition.model.EditionGallery> toCacheModel() {
 		return _editionGallery.toCacheModel();
+	}
+
+	/**
+	* Renvoie la version live de la galerie d'édition, si elle existe
+	*/
+	@Override
+	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion() {
+		return _editionGallery.getLiveVersion();
 	}
 
 	@Override
@@ -943,16 +924,6 @@ public class EditionGalleryWrapper implements EditionGallery,
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_editionGallery.setPublicationDate(publicationDate);
-	}
-
-	/**
-	* Sets whether this edition gallery is status.
-	*
-	* @param status the status of this edition gallery
-	*/
-	@Override
-	public void setStatus(boolean status) {
-		_editionGallery.setStatus(status);
 	}
 
 	/**

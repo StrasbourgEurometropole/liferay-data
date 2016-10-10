@@ -43,10 +43,13 @@ public class ArtworkCollectionSoap implements Serializable {
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setLastPublishDate(model.getLastPublishDate());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setStatusByUserId(model.getStatusByUserId());
+		soapModel.setStatusByUserName(model.getStatusByUserName());
+		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setContributors(model.getContributors());
-		soapModel.setStatus(model.getStatus());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -175,6 +178,38 @@ public class ArtworkCollectionSoap implements Serializable {
 		_lastPublishDate = lastPublishDate;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	public String getStatusByUserName() {
+		return _statusByUserName;
+	}
+
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
 	public String getTitle() {
 		return _title;
 	}
@@ -199,18 +234,6 @@ public class ArtworkCollectionSoap implements Serializable {
 		_contributors = contributors;
 	}
 
-	public boolean getStatus() {
-		return _status;
-	}
-
-	public boolean isStatus() {
-		return _status;
-	}
-
-	public void setStatus(boolean status) {
-		_status = status;
-	}
-
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -228,9 +251,12 @@ public class ArtworkCollectionSoap implements Serializable {
 	private Date _createDate;
 	private Date _modifiedDate;
 	private Date _lastPublishDate;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private String _title;
 	private String _description;
 	private String _contributors;
-	private boolean _status;
 	private Long _imageId;
 }

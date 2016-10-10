@@ -65,11 +65,12 @@ public class EditionStagedModelDataHandler
 			ExportImportPathUtil.getModelPath(stagedModel), stagedModel);
 
 		// Ajout référence aux galeries
-		for (EditionGallery editionGallery : stagedModel
-			.getEditionGalleries()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, editionGallery,
-				PortletDataContext.REFERENCE_TYPE_PARENT);
+		for (EditionGallery gallery : stagedModel.getEditionGalleries()) {
+			if (gallery.isApproved()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, gallery,
+					PortletDataContext.REFERENCE_TYPE_PARENT);
+			}
 		}
 
 		// Ajout référence à l'image
@@ -105,11 +106,11 @@ public class EditionStagedModelDataHandler
 	protected void doImportStagedModel(PortletDataContext portletDataContext,
 		Edition stagedModel) throws Exception {
 		long userId = portletDataContext.getUserId(stagedModel.getUserUuid());
-		ServiceContext serviceContext = portletDataContext
+		ServiceContext sc = portletDataContext
 			.createServiceContext(stagedModel);
-		serviceContext.setUuid(stagedModel.getUuid());
-		serviceContext.setScopeGroupId(portletDataContext.getScopeGroupId());
-		serviceContext.setUserId(userId);
+		sc.setUuid(stagedModel.getUuid());
+		sc.setScopeGroupId(portletDataContext.getScopeGroupId());
+		sc.setUserId(userId);
 		Edition importedEdition = null;
 		if (portletDataContext.isDataStrategyMirror()) {
 			Edition existingEdition = this._editionLocalService
@@ -117,13 +118,13 @@ public class EditionStagedModelDataHandler
 					portletDataContext.getScopeGroupId());
 
 			if (existingEdition == null) {
-				importedEdition = this._editionLocalService.addEdition();
+				importedEdition = this._editionLocalService.createEdition(sc);
 			} else {
 				importedEdition = existingEdition;
 			}
 
 		} else {
-			importedEdition = this._editionLocalService.addEdition();
+			importedEdition = this._editionLocalService.createEdition(sc);
 		}
 
 		importedEdition.setUuid(stagedModel.getUuid());
@@ -161,8 +162,7 @@ public class EditionStagedModelDataHandler
 			.getLiveFileEntryIdMap(stagedModel.getFileIdMap(), newIdsMap));
 
 		// On update l'édition
-		this._editionLocalService.updateEdition(importedEdition,
-			serviceContext);
+		this._editionLocalService.updateEdition(importedEdition, sc);
 
 		// On lie l'édition à ses galeries
 		for (EditionGallery oldGallery : importedEdition

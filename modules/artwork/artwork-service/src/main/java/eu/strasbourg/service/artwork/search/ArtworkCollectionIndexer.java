@@ -67,8 +67,8 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 	}
 
 	/**
-	 * Fonction appelée lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs à indexer
+	 * Fonction appelï¿½e lors de l'indexation de l'item
+	 * C'est ici qu'on choisi les champs ï¿½ indexer
 	 */
 	@Override
 	protected Document doGetDocument(ArtworkCollection artworkCollection) throws Exception {
@@ -76,7 +76,7 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 		document.addLocalizedText(Field.TITLE, artworkCollection.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			artworkCollection.getDescriptionMap());
-		document.addNumber(Field.STATUS, artworkCollection.getStatus() ? 1 : 0);
+		document.addNumber(Field.STATUS, artworkCollection.getStatus());
 		return document;
 	}
 

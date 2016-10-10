@@ -241,11 +241,6 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			// Supprime l'AssetEntry
 			this.assetEntryLocalService.deleteEntry(entry);
 
-			// Supprime ce qui a rapport au workflow
-			WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
-				entry.getCompanyId(), entry.getGroupId(), Link.class.getName(),
-				entry.getEntryId());
-
 		}
 
 		// Supprime le lien
@@ -253,6 +248,11 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 
 		// Supprime l'index
 		reindex(link, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+			link.getCompanyId(), link.getGroupId(), Link.class.getName(),
+			link.getLinkId());
 
 		// S'il existe une version live du lien, on la supprime
 		Link liveLink = link.getLiveVersion();

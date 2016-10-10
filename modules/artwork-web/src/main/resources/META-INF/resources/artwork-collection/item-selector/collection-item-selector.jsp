@@ -44,10 +44,9 @@
 				name="modified-date" truncate="true"
 				value="${formattedModifiedDate}" />
 
-			<liferay-ui:search-container-column-text cssClass="content-column"
-				truncate="true" name="status">
-				<liferay-ui:message
-					key="${collection.status ? 'published' : 'unpublished' }" />
+			<liferay-ui:search-container-column-text name="status">
+				<aui:workflow-status markupView="lexicon" showIcon="false"
+					showLabel="false" status="${collection.status}" />
 				<div class="data" data-id="${collection.collectionId}" data-title="${collection.getTitle(locale)}"></div>
 			</liferay-ui:search-container-column-text>
 			

@@ -92,17 +92,6 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Add an empty Edition
-	*
-	* @return The added Edition
-	* @throws PortalException
-	*/
-	public static eu.strasbourg.service.edition.model.Edition addEdition()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addEdition();
-	}
-
-	/**
 	* Adds the edition to the database. Also notifies the appropriate model listeners.
 	*
 	* @param edition the edition
@@ -111,6 +100,15 @@ public class EditionLocalServiceUtil {
 	public static eu.strasbourg.service.edition.model.Edition addEdition(
 		eu.strasbourg.service.edition.model.Edition edition) {
 		return getService().addEdition(edition);
+	}
+
+	/**
+	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.edition.model.Edition createEdition(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createEdition(sc);
 	}
 
 	/**
@@ -218,20 +216,25 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Update an Edition
-	*
-	* @param edition
-	The updated Edition
-	* @param sc
-	Service Context
-	* @return The updated Edition
-	* @throws PortalException
+	* Met à jour une édition et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.edition.model.Edition updateEdition(
 		eu.strasbourg.service.edition.model.Edition edition,
 		com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateEdition(edition, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'édition par le framework workflow
+	*/
+	public static eu.strasbourg.service.edition.model.Edition updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	public static int getEditionGalleryEditionsCount(long galleryId) {
@@ -454,16 +457,6 @@ public class EditionLocalServiceUtil {
 		getService().addEditionGalleryEditions(galleryId, editionIds);
 	}
 
-	/**
-	* Change le statut de l'édition
-	*/
-	public static void changeStatus(
-		eu.strasbourg.service.edition.model.Edition edition,
-		boolean publicationStatus)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		getService().changeStatus(edition, publicationStatus);
-	}
-
 	public static void clearEditionGalleryEditions(long galleryId) {
 		getService().clearEditionGalleryEditions(galleryId);
 	}
@@ -491,6 +484,15 @@ public class EditionLocalServiceUtil {
 	public static void setEditionGalleryEditions(long galleryId,
 		long[] editionIds) {
 		getService().setEditionGalleryEditions(galleryId, editionIds);
+	}
+
+	/**
+	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.edition.model.Edition edition, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(edition, status);
 	}
 
 	public static EditionLocalService getService() {

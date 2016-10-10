@@ -11,6 +11,10 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
@@ -25,7 +29,6 @@
 		<field localized="true" name="loanPeriod" type="String" />
 		<field localized="true" name="linkName" type="String" />
 		<field localized="true" name="link" type="String" />
-		<field name="status" type="boolean" />
 		<field name="imageId" type="Long" />
 		<field name="imagesIds" type="String" />
 	</model>
@@ -39,12 +42,15 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field localized="true" name="contributors" type="String" />
-		<field name="status" type="boolean" />
 		<field name="imageId" type="Long" />
 	</model>
 </model-hints>

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -110,14 +111,14 @@ public class ViewCollectionsDisplayContext {
 		}
 		return this._collections;
 	}
-
+	
 	/**
-	 * Retourne la liste des IDs des cat�gories sur lesquels on doit filtrer les
-	 * �ditions Liste sous forme de string qui se pr�sente comme suit :
-	 * ",categoryId1,categoryId2,categoryId3," Si le param�tre
-	 * "vocabularyToRemove" est pr�sent, on enl�ve les cat�gories appartenant �
-	 * ce vocabulaire de la liste Si le param�tre "categoryToAdd" est pr�sent,
-	 * on ajoute ladite cat�gorie � la liste
+	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer les
+	 * éditions Liste sous forme de string qui se présente comme suit :
+	 * ",categoryId1,categoryId2,categoryId3," Si le paramètre
+	 * "vocabularyToRemove" est présent, on enlève les catégories appartenant à
+	 * ce vocabulaire de la liste Si le paramètre "categoryToAdd" est présent,
+	 * on ajoute ladite catégorie à la liste
 	 * 
 	 * @return
 	 * @throws PortalException
@@ -152,9 +153,9 @@ public class ViewCollectionsDisplayContext {
 	}
 
 	/**
-	 * Retourne le nom � afficher pour un filtre "Vocabulaire" - Si aucune
-	 * cat�gorie du vocabulaire n'a �t� s�lectionn�e, le nom du vocabulaire - Si
-	 * une cat�gorie du vocabulaire a �t� s�lectionn�e, le nom de la cat�gorie
+	 * Retourne le nom à afficher pour un filtre "Vocabulaire" - Si aucune
+	 * catégorie du vocabulaire n'a été sélectionnée, le nom du vocabulaire - Si
+	 * une catégorie du vocabulaire a été sélectionnée, le nom de la catégorie
 	 */
 	public String getVocabularyFilterLabel(AssetVocabulary vocabulary)
 		throws PortalException {
@@ -209,6 +210,16 @@ public class ViewCollectionsDisplayContext {
 		}
 		return this._vocabularies;			
 	}
+
+	/**
+	 * @return True si le framework workflow est actif pour ce type d'entité
+	 */
+	public boolean isWorkflowEnabled() {
+		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+			ArtworkCollection.class.getName());
+	}
+
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;

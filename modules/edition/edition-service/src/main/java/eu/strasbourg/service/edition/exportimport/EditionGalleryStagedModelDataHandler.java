@@ -67,9 +67,11 @@ public class EditionGalleryStagedModelDataHandler
 
 		// Ajout références aux éditions
 		for (Edition edition : stagedModel.getEditions()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, edition,
-				PortletDataContext.REFERENCE_TYPE_WEAK);
+			if (edition.isApproved()) {
+    			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+    				portletDataContext, stagedModel, edition,
+    				PortletDataContext.REFERENCE_TYPE_WEAK);
+    		}
 		}
 
 		// Ajout référence à l'image
@@ -87,11 +89,11 @@ public class EditionGalleryStagedModelDataHandler
 	protected void doImportStagedModel(PortletDataContext portletDataContext,
 		EditionGallery stagedModel) throws Exception {
 		long userId = portletDataContext.getUserId(stagedModel.getUserUuid());
-		ServiceContext serviceContext = portletDataContext
+		ServiceContext sc = portletDataContext
 			.createServiceContext(stagedModel);
-		serviceContext.setUuid(stagedModel.getUuid());
-		serviceContext.setScopeGroupId(portletDataContext.getScopeGroupId());
-		serviceContext.setUserId(userId);
+		sc.setUuid(stagedModel.getUuid());
+		sc.setScopeGroupId(portletDataContext.getScopeGroupId());
+		sc.setUserId(userId);
 		EditionGallery importedEditionGallery = null;
 		if (portletDataContext.isDataStrategyMirror()) {
 			EditionGallery existingEditionGallery = this._editionGalleryLocalService
@@ -100,14 +102,14 @@ public class EditionGalleryStagedModelDataHandler
 
 			if (existingEditionGallery == null) {
 				importedEditionGallery = this._editionGalleryLocalService
-					.addEditionGallery();
+					.createEditionGallery(sc);
 			} else {
 				importedEditionGallery = existingEditionGallery;
 			}
 
 		} else {
 			importedEditionGallery = this._editionGalleryLocalService
-				.addEditionGallery();
+				.createEditionGallery(sc);
 		}
 
 		importedEditionGallery.setUuid(stagedModel.getUuid());
@@ -132,7 +134,7 @@ public class EditionGalleryStagedModelDataHandler
 
 		// On update la galerie
 		this._editionGalleryLocalService
-			.updateEditionGallery(importedEditionGallery, serviceContext);
+			.updateEditionGallery(importedEditionGallery, sc);
 
 		// On lie la galerie à ses éditions
 		for (Edition oldEdition : importedEditionGallery.getEditions()) {

@@ -62,7 +62,7 @@ public class SaveEditionActionCommand
 			long editionId = ParamUtil.getLong(request, "editionId");
 			Edition edition;
 			if (editionId == 0) {
-				edition = _editionLocalService.addEdition();
+				edition = _editionLocalService.createEdition(sc);
 			} else {
 				edition = _editionLocalService.getEdition(editionId);
 			}
@@ -134,14 +134,6 @@ public class SaveEditionActionCommand
 				if (galleryId > 0) {
 					_editionLocalService.addEditionGalleryEdition(galleryId, edition);
 				}
-			}
-			
-			// Status
-			String forceStatus = ParamUtil.getString(request, "forceStatus");
-			if (forceStatus.equals("publish")) {
-				edition.setStatus(true);
-			} else if (forceStatus.equals("unpublish")) {
-				edition.setStatus(false);
 			}
 			
 			_editionLocalService.updateEdition(edition, sc);

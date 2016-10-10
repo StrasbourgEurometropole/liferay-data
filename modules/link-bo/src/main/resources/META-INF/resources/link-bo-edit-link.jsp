@@ -81,10 +81,10 @@
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
-			<c:if test="${not empty dc.link && dc.workflowEnabled}">
+			<c:if test="${dc.workflowEnabled}">
 				<aui:button cssClass="btn-lg" type="submit" value="save" />
 			</c:if>
-			<c:if test="${not empty dc.link && not dc.workflowEnabled}">
+			<c:if test="${not dc.workflowEnabled}">
 				<aui:button cssClass="btn-lg" type="submit" name="publish"
 						value="publish" />
 				<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"

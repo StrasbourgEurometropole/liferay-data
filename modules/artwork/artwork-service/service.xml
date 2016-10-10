@@ -21,6 +21,12 @@
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
 
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
 		<!-- Other fields -->
 		<column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
@@ -34,7 +40,6 @@
         <column name="loanPeriod" type="String" localized="true" />
         <column name="linkName" type="String" localized="true" />
         <column name="link" type="String" localized="true" />
-		<column name="status" type="boolean" />
 
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
@@ -72,13 +77,18 @@
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
+		
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
 
 		<!-- Other fields -->
         <column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
-        <column name="contributors" type="String" localized="true" />        
-        <column name="status" type="boolean" />
-        
+        <column name="contributors" type="String" localized="true" />    
+
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
         <column name="artworks" type="Collection" entity="Artwork" mapping-table="ArtworkToArtworkCollection" />
