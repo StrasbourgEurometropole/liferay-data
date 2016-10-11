@@ -1,0 +1,7 @@
+Bundle-SymbolicName: video-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.video.exception,\
+	eu.strasbourg.service.video.model,\
+	eu.strasbourg.service.video.service,\
+	eu.strasbourg.service.video.service.persistence

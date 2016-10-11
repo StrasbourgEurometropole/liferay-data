@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.video.service.impl.VideoLocalServiceImpl" id="eu.strasbourg.service.video.service.VideoLocalService" />
+	<bean class="eu.strasbourg.service.video.service.impl.VideoServiceImpl" id="eu.strasbourg.service.video.service.VideoService" />
+	<bean class="eu.strasbourg.service.video.service.persistence.impl.VideoPersistenceImpl" id="eu.strasbourg.service.video.service.persistence.VideoPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.video.service.impl.VideoGalleryLocalServiceImpl" id="eu.strasbourg.service.video.service.VideoGalleryLocalService" />
+	<bean class="eu.strasbourg.service.video.service.impl.VideoGalleryServiceImpl" id="eu.strasbourg.service.video.service.VideoGalleryService" />
+	<bean class="eu.strasbourg.service.video.service.persistence.impl.VideoGalleryPersistenceImpl" id="eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence" parent="basePersistence" />
+</beans>

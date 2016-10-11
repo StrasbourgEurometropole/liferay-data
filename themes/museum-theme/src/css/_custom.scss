@@ -469,7 +469,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 }
 
 /* line 82, ../sass/partials/_typography.scss */
-.portlet-serif-title, .web-content h2, .items-carousel .item-content h2, .exhibition .exhibition-tab-content h2, .editions-carousel h3, .editions-carousel .title-header .site-title, .title-header .editions-carousel .site-title, .useful-documents .useful-documents-title, .useful-links .useful-links-title, .contact-title {
+.portlet-serif-title, .web-content h2, .items-carousel .item-content h2, .exhibition .exhibition-tab-content h2, .editions-carousel h3, .editions-carousel .title-header .site-title, .title-header .editions-carousel .site-title, .useful-documents .useful-documents-title, .useful-links .useful-links-title, .video-viewer .video-viewer-title, .contact-title {
   font-family: 'Times', serif;
   font-size: 32px !important;
   font-style: italic;
@@ -2484,6 +2484,26 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #666666;
 }
 
+/* line 1, ../sass/partials/_video-viewer.scss */
+.video-viewer {
+  margin: 20px;
+}
+/* line 6, ../sass/partials/_video-viewer.scss */
+.video-viewer .video-viewer-player {
+  position: relative;
+  height: 0;
+  padding-top: 25px;
+  padding-bottom: 56.25%;
+}
+/* line 11, ../sass/partials/_video-viewer.scss */
+.video-viewer .video-viewer-player iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 @media (min-width: 602px) {
   /* line 1, ../sass/partials/_exhibitions.scss */
   .exhibition {
@@ -2665,7 +2685,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #666666;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-default .portlet-serif-title, .cs-default .web-content h2, .web-content .cs-default h2, .cs-default .items-carousel .item-content h2, .items-carousel .item-content .cs-default h2, .cs-default .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-default h2, .cs-default .editions-carousel h3, .editions-carousel .cs-default h3, .cs-default .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-default .site-title, .cs-default .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-default .site-title, .cs-default .useful-documents .useful-documents-title, .useful-documents .cs-default .useful-documents-title, .cs-default .useful-links .useful-links-title, .useful-links .cs-default .useful-links-title, .cs-default .contact-title {
+.cs-default .portlet-serif-title, .cs-default .web-content h2, .web-content .cs-default h2, .cs-default .items-carousel .item-content h2, .items-carousel .item-content .cs-default h2, .cs-default .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-default h2, .cs-default .editions-carousel h3, .editions-carousel .cs-default h3, .cs-default .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-default .site-title, .cs-default .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-default .site-title, .cs-default .useful-documents .useful-documents-title, .useful-documents .cs-default .useful-documents-title, .cs-default .useful-links .useful-links-title, .useful-links .cs-default .useful-links-title, .cs-default .video-viewer .video-viewer-title, .video-viewer .cs-default .video-viewer-title, .cs-default .contact-title {
   border-bottom: 1px solid #666666;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -2756,7 +2776,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #F3AC00;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-hre .portlet-serif-title, .cs-hre .web-content h2, .web-content .cs-hre h2, .cs-hre .items-carousel .item-content h2, .items-carousel .item-content .cs-hre h2, .cs-hre .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-hre h2, .cs-hre .editions-carousel h3, .editions-carousel .cs-hre h3, .cs-hre .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-hre .site-title, .cs-hre .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-hre .site-title, .cs-hre .useful-documents .useful-documents-title, .useful-documents .cs-hre .useful-documents-title, .cs-hre .useful-links .useful-links-title, .useful-links .cs-hre .useful-links-title, .cs-hre .contact-title {
+.cs-hre .portlet-serif-title, .cs-hre .web-content h2, .web-content .cs-hre h2, .cs-hre .items-carousel .item-content h2, .items-carousel .item-content .cs-hre h2, .cs-hre .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-hre h2, .cs-hre .editions-carousel h3, .editions-carousel .cs-hre h3, .cs-hre .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-hre .site-title, .cs-hre .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-hre .site-title, .cs-hre .useful-documents .useful-documents-title, .useful-documents .cs-hre .useful-documents-title, .cs-hre .useful-links .useful-links-title, .useful-links .cs-hre .useful-links-title, .cs-hre .video-viewer .video-viewer-title, .video-viewer .cs-hre .video-viewer-title, .cs-hre .contact-title {
   border-bottom: 1px solid #F3AC00;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -2847,7 +2867,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #ED6B2A;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-ced .portlet-serif-title, .cs-ced .web-content h2, .web-content .cs-ced h2, .cs-ced .items-carousel .item-content h2, .items-carousel .item-content .cs-ced h2, .cs-ced .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-ced h2, .cs-ced .editions-carousel h3, .editions-carousel .cs-ced h3, .cs-ced .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-ced .site-title, .cs-ced .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-ced .site-title, .cs-ced .useful-documents .useful-documents-title, .useful-documents .cs-ced .useful-documents-title, .cs-ced .useful-links .useful-links-title, .useful-links .cs-ced .useful-links-title, .cs-ced .contact-title {
+.cs-ced .portlet-serif-title, .cs-ced .web-content h2, .web-content .cs-ced h2, .cs-ced .items-carousel .item-content h2, .items-carousel .item-content .cs-ced h2, .cs-ced .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-ced h2, .cs-ced .editions-carousel h3, .editions-carousel .cs-ced h3, .cs-ced .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-ced .site-title, .cs-ced .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-ced .site-title, .cs-ced .useful-documents .useful-documents-title, .useful-documents .cs-ced .useful-documents-title, .cs-ced .useful-links .useful-links-title, .useful-links .cs-ced .useful-links-title, .cs-ced .video-viewer .video-viewer-title, .video-viewer .cs-ced .video-viewer-title, .cs-ced .contact-title {
   border-bottom: 1px solid #ED6B2A;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -2938,7 +2958,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #00A369;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mals .portlet-serif-title, .cs-mals .web-content h2, .web-content .cs-mals h2, .cs-mals .items-carousel .item-content h2, .items-carousel .item-content .cs-mals h2, .cs-mals .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mals h2, .cs-mals .editions-carousel h3, .editions-carousel .cs-mals h3, .cs-mals .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mals .site-title, .cs-mals .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mals .site-title, .cs-mals .useful-documents .useful-documents-title, .useful-documents .cs-mals .useful-documents-title, .cs-mals .useful-links .useful-links-title, .useful-links .cs-mals .useful-links-title, .cs-mals .contact-title {
+.cs-mals .portlet-serif-title, .cs-mals .web-content h2, .web-content .cs-mals h2, .cs-mals .items-carousel .item-content h2, .items-carousel .item-content .cs-mals h2, .cs-mals .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mals h2, .cs-mals .editions-carousel h3, .editions-carousel .cs-mals h3, .cs-mals .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mals .site-title, .cs-mals .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mals .site-title, .cs-mals .useful-documents .useful-documents-title, .useful-documents .cs-mals .useful-documents-title, .cs-mals .useful-links .useful-links-title, .useful-links .cs-mals .useful-links-title, .cs-mals .video-viewer .video-viewer-title, .video-viewer .cs-mals .video-viewer-title, .cs-mals .contact-title {
   border-bottom: 1px solid #00A369;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3029,7 +3049,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #41C497;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-marc .portlet-serif-title, .cs-marc .web-content h2, .web-content .cs-marc h2, .cs-marc .items-carousel .item-content h2, .items-carousel .item-content .cs-marc h2, .cs-marc .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-marc h2, .cs-marc .editions-carousel h3, .editions-carousel .cs-marc h3, .cs-marc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-marc .site-title, .cs-marc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-marc .site-title, .cs-marc .useful-documents .useful-documents-title, .useful-documents .cs-marc .useful-documents-title, .cs-marc .useful-links .useful-links-title, .useful-links .cs-marc .useful-links-title, .cs-marc .contact-title {
+.cs-marc .portlet-serif-title, .cs-marc .web-content h2, .web-content .cs-marc h2, .cs-marc .items-carousel .item-content h2, .items-carousel .item-content .cs-marc h2, .cs-marc .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-marc h2, .cs-marc .editions-carousel h3, .editions-carousel .cs-marc h3, .cs-marc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-marc .site-title, .cs-marc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-marc .site-title, .cs-marc .useful-documents .useful-documents-title, .useful-documents .cs-marc .useful-documents-title, .cs-marc .useful-links .useful-links-title, .useful-links .cs-marc .useful-links-title, .cs-marc .video-viewer .video-viewer-title, .video-viewer .cs-marc .video-viewer-title, .cs-marc .contact-title {
   border-bottom: 1px solid #41C497;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3120,7 +3140,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #17B7CB;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mard .portlet-serif-title, .cs-mard .web-content h2, .web-content .cs-mard h2, .cs-mard .items-carousel .item-content h2, .items-carousel .item-content .cs-mard h2, .cs-mard .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mard h2, .cs-mard .editions-carousel h3, .editions-carousel .cs-mard h3, .cs-mard .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mard .site-title, .cs-mard .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mard .site-title, .cs-mard .useful-documents .useful-documents-title, .useful-documents .cs-mard .useful-documents-title, .cs-mard .useful-links .useful-links-title, .useful-links .cs-mard .useful-links-title, .cs-mard .contact-title {
+.cs-mard .portlet-serif-title, .cs-mard .web-content h2, .web-content .cs-mard h2, .cs-mard .items-carousel .item-content h2, .items-carousel .item-content .cs-mard h2, .cs-mard .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mard h2, .cs-mard .editions-carousel h3, .editions-carousel .cs-mard h3, .cs-mard .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mard .site-title, .cs-mard .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mard .site-title, .cs-mard .useful-documents .useful-documents-title, .useful-documents .cs-mard .useful-documents-title, .cs-mard .useful-links .useful-links-title, .useful-links .cs-mard .useful-links-title, .cs-mard .video-viewer .video-viewer-title, .video-viewer .cs-mard .video-viewer-title, .cs-mard .contact-title {
   border-bottom: 1px solid #17B7CB;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3211,7 +3231,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #628BA7;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mamc .portlet-serif-title, .cs-mamc .web-content h2, .web-content .cs-mamc h2, .cs-mamc .items-carousel .item-content h2, .items-carousel .item-content .cs-mamc h2, .cs-mamc .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mamc h2, .cs-mamc .editions-carousel h3, .editions-carousel .cs-mamc h3, .cs-mamc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mamc .site-title, .cs-mamc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mamc .site-title, .cs-mamc .useful-documents .useful-documents-title, .useful-documents .cs-mamc .useful-documents-title, .cs-mamc .useful-links .useful-links-title, .useful-links .cs-mamc .useful-links-title, .cs-mamc .contact-title {
+.cs-mamc .portlet-serif-title, .cs-mamc .web-content h2, .web-content .cs-mamc h2, .cs-mamc .items-carousel .item-content h2, .items-carousel .item-content .cs-mamc h2, .cs-mamc .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mamc h2, .cs-mamc .editions-carousel h3, .editions-carousel .cs-mamc h3, .cs-mamc .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mamc .site-title, .cs-mamc .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mamc .site-title, .cs-mamc .useful-documents .useful-documents-title, .useful-documents .cs-mamc .useful-documents-title, .cs-mamc .useful-links .useful-links-title, .useful-links .cs-mamc .useful-links-title, .cs-mamc .video-viewer .video-viewer-title, .video-viewer .cs-mamc .video-viewer-title, .cs-mamc .contact-title {
   border-bottom: 1px solid #628BA7;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3302,7 +3322,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #3F2575;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mba .portlet-serif-title, .cs-mba .web-content h2, .web-content .cs-mba h2, .cs-mba .items-carousel .item-content h2, .items-carousel .item-content .cs-mba h2, .cs-mba .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mba h2, .cs-mba .editions-carousel h3, .editions-carousel .cs-mba h3, .cs-mba .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mba .site-title, .cs-mba .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mba .site-title, .cs-mba .useful-documents .useful-documents-title, .useful-documents .cs-mba .useful-documents-title, .cs-mba .useful-links .useful-links-title, .useful-links .cs-mba .useful-links-title, .cs-mba .contact-title {
+.cs-mba .portlet-serif-title, .cs-mba .web-content h2, .web-content .cs-mba h2, .cs-mba .items-carousel .item-content h2, .items-carousel .item-content .cs-mba h2, .cs-mba .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mba h2, .cs-mba .editions-carousel h3, .editions-carousel .cs-mba h3, .cs-mba .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mba .site-title, .cs-mba .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mba .site-title, .cs-mba .useful-documents .useful-documents-title, .useful-documents .cs-mba .useful-documents-title, .cs-mba .useful-links .useful-links-title, .useful-links .cs-mba .useful-links-title, .cs-mba .video-viewer .video-viewer-title, .video-viewer .cs-mba .video-viewer-title, .cs-mba .contact-title {
   border-bottom: 1px solid #3F2575;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3393,7 +3413,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #790C3A;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mh .portlet-serif-title, .cs-mh .web-content h2, .web-content .cs-mh h2, .cs-mh .items-carousel .item-content h2, .items-carousel .item-content .cs-mh h2, .cs-mh .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mh h2, .cs-mh .editions-carousel h3, .editions-carousel .cs-mh h3, .cs-mh .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mh .site-title, .cs-mh .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mh .site-title, .cs-mh .useful-documents .useful-documents-title, .useful-documents .cs-mh .useful-documents-title, .cs-mh .useful-links .useful-links-title, .useful-links .cs-mh .useful-links-title, .cs-mh .contact-title {
+.cs-mh .portlet-serif-title, .cs-mh .web-content h2, .web-content .cs-mh h2, .cs-mh .items-carousel .item-content h2, .items-carousel .item-content .cs-mh h2, .cs-mh .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mh h2, .cs-mh .editions-carousel h3, .editions-carousel .cs-mh h3, .cs-mh .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mh .site-title, .cs-mh .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mh .site-title, .cs-mh .useful-documents .useful-documents-title, .useful-documents .cs-mh .useful-documents-title, .cs-mh .useful-links .useful-links-title, .useful-links .cs-mh .useful-links-title, .cs-mh .video-viewer .video-viewer-title, .video-viewer .cs-mh .video-viewer-title, .cs-mh .contact-title {
   border-bottom: 1px solid #790C3A;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3484,7 +3504,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #A30000;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mond .portlet-serif-title, .cs-mond .web-content h2, .web-content .cs-mond h2, .cs-mond .items-carousel .item-content h2, .items-carousel .item-content .cs-mond h2, .cs-mond .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mond h2, .cs-mond .editions-carousel h3, .editions-carousel .cs-mond h3, .cs-mond .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mond .site-title, .cs-mond .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mond .site-title, .cs-mond .useful-documents .useful-documents-title, .useful-documents .cs-mond .useful-documents-title, .cs-mond .useful-links .useful-links-title, .useful-links .cs-mond .useful-links-title, .cs-mond .contact-title {
+.cs-mond .portlet-serif-title, .cs-mond .web-content h2, .web-content .cs-mond h2, .cs-mond .items-carousel .item-content h2, .items-carousel .item-content .cs-mond h2, .cs-mond .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mond h2, .cs-mond .editions-carousel h3, .editions-carousel .cs-mond h3, .cs-mond .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mond .site-title, .cs-mond .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mond .site-title, .cs-mond .useful-documents .useful-documents-title, .useful-documents .cs-mond .useful-documents-title, .cs-mond .useful-links .useful-links-title, .useful-links .cs-mond .useful-links-title, .cs-mond .video-viewer .video-viewer-title, .video-viewer .cs-mond .video-viewer-title, .cs-mond .contact-title {
   border-bottom: 1px solid #A30000;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3575,7 +3595,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #D42889;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mtu .portlet-serif-title, .cs-mtu .web-content h2, .web-content .cs-mtu h2, .cs-mtu .items-carousel .item-content h2, .items-carousel .item-content .cs-mtu h2, .cs-mtu .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mtu h2, .cs-mtu .editions-carousel h3, .editions-carousel .cs-mtu h3, .cs-mtu .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mtu .site-title, .cs-mtu .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mtu .site-title, .cs-mtu .useful-documents .useful-documents-title, .useful-documents .cs-mtu .useful-documents-title, .cs-mtu .useful-links .useful-links-title, .useful-links .cs-mtu .useful-links-title, .cs-mtu .contact-title {
+.cs-mtu .portlet-serif-title, .cs-mtu .web-content h2, .web-content .cs-mtu h2, .cs-mtu .items-carousel .item-content h2, .items-carousel .item-content .cs-mtu h2, .cs-mtu .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mtu h2, .cs-mtu .editions-carousel h3, .editions-carousel .cs-mtu h3, .cs-mtu .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mtu .site-title, .cs-mtu .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mtu .site-title, .cs-mtu .useful-documents .useful-documents-title, .useful-documents .cs-mtu .useful-documents-title, .cs-mtu .useful-links .useful-links-title, .useful-links .cs-mtu .useful-links-title, .cs-mtu .video-viewer .video-viewer-title, .video-viewer .cs-mtu .video-viewer-title, .cs-mtu .contact-title {
   border-bottom: 1px solid #D42889;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3666,7 +3686,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #9528D4;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-mz .portlet-serif-title, .cs-mz .web-content h2, .web-content .cs-mz h2, .cs-mz .items-carousel .item-content h2, .items-carousel .item-content .cs-mz h2, .cs-mz .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mz h2, .cs-mz .editions-carousel h3, .editions-carousel .cs-mz h3, .cs-mz .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mz .site-title, .cs-mz .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mz .site-title, .cs-mz .useful-documents .useful-documents-title, .useful-documents .cs-mz .useful-documents-title, .cs-mz .useful-links .useful-links-title, .useful-links .cs-mz .useful-links-title, .cs-mz .contact-title {
+.cs-mz .portlet-serif-title, .cs-mz .web-content h2, .web-content .cs-mz h2, .cs-mz .items-carousel .item-content h2, .items-carousel .item-content .cs-mz h2, .cs-mz .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-mz h2, .cs-mz .editions-carousel h3, .editions-carousel .cs-mz h3, .cs-mz .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-mz .site-title, .cs-mz .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-mz .site-title, .cs-mz .useful-documents .useful-documents-title, .useful-documents .cs-mz .useful-documents-title, .cs-mz .useful-links .useful-links-title, .useful-links .cs-mz .useful-links-title, .cs-mz .video-viewer .video-viewer-title, .video-viewer .cs-mz .video-viewer-title, .cs-mz .contact-title {
   border-bottom: 1px solid #9528D4;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3757,7 +3777,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #4C28D4;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-aub .portlet-serif-title, .cs-aub .web-content h2, .web-content .cs-aub h2, .cs-aub .items-carousel .item-content h2, .items-carousel .item-content .cs-aub h2, .cs-aub .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-aub h2, .cs-aub .editions-carousel h3, .editions-carousel .cs-aub h3, .cs-aub .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aub .site-title, .cs-aub .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aub .site-title, .cs-aub .useful-documents .useful-documents-title, .useful-documents .cs-aub .useful-documents-title, .cs-aub .useful-links .useful-links-title, .useful-links .cs-aub .useful-links-title, .cs-aub .contact-title {
+.cs-aub .portlet-serif-title, .cs-aub .web-content h2, .web-content .cs-aub h2, .cs-aub .items-carousel .item-content h2, .items-carousel .item-content .cs-aub h2, .cs-aub .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-aub h2, .cs-aub .editions-carousel h3, .editions-carousel .cs-aub h3, .cs-aub .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aub .site-title, .cs-aub .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aub .site-title, .cs-aub .useful-documents .useful-documents-title, .useful-documents .cs-aub .useful-documents-title, .cs-aub .useful-links .useful-links-title, .useful-links .cs-aub .useful-links-title, .cs-aub .video-viewer .video-viewer-title, .video-viewer .cs-aub .video-viewer-title, .cs-aub .contact-title {
   border-bottom: 1px solid #4C28D4;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */
@@ -3848,7 +3868,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   color: #C79D49;
 }
 /* line 66, ../sass/partials/_color-schemes.scss */
-.cs-aud .portlet-serif-title, .cs-aud .web-content h2, .web-content .cs-aud h2, .cs-aud .items-carousel .item-content h2, .items-carousel .item-content .cs-aud h2, .cs-aud .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-aud h2, .cs-aud .editions-carousel h3, .editions-carousel .cs-aud h3, .cs-aud .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aud .site-title, .cs-aud .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aud .site-title, .cs-aud .useful-documents .useful-documents-title, .useful-documents .cs-aud .useful-documents-title, .cs-aud .useful-links .useful-links-title, .useful-links .cs-aud .useful-links-title, .cs-aud .contact-title {
+.cs-aud .portlet-serif-title, .cs-aud .web-content h2, .web-content .cs-aud h2, .cs-aud .items-carousel .item-content h2, .items-carousel .item-content .cs-aud h2, .cs-aud .exhibition .exhibition-tab-content h2, .exhibition .exhibition-tab-content .cs-aud h2, .cs-aud .editions-carousel h3, .editions-carousel .cs-aud h3, .cs-aud .editions-carousel .title-header .site-title, .editions-carousel .title-header .cs-aud .site-title, .cs-aud .title-header .editions-carousel .site-title, .title-header .editions-carousel .cs-aud .site-title, .cs-aud .useful-documents .useful-documents-title, .useful-documents .cs-aud .useful-documents-title, .cs-aud .useful-links .useful-links-title, .useful-links .cs-aud .useful-links-title, .cs-aud .video-viewer .video-viewer-title, .video-viewer .cs-aud .video-viewer-title, .cs-aud .contact-title {
   border-bottom: 1px solid #C79D49;
 }
 /* line 71, ../sass/partials/_color-schemes.scss */

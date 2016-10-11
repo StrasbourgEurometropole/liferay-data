@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.video">
+	<author>BenjaminBini</author>
+	<namespace>video</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="Video" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="videoId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+		
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="copyright" type="String" localized="true" />
+        <column name="origin" type="String" localized="true" />
+        <column name="source" type="String" localized="true" />
+        
+        <!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="transcriptionFileId" type="Long" />
+        <column name="galleries" type="Collection" entity="VideoGallery" mapping-table="VideoToVideoGallery" />
+        
+        <!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finders-->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+	
+	
+	<entity local-service="true" name="VideoGallery" cache-enabled="true" remote-service="true" uuid="true">
+		<!-- PK fields -->
+		<column name="galleryId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+		
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        
+         <!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="videos" type="Collection" entity="Video" mapping-table="VideoToVideoGallery" />
+        
+        <!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finders-->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+        
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+</service-builder>
