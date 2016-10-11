@@ -63,6 +63,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	/**
 	 * Retourne l'AssetEntry correspondant à cet item
 	 */
+	@Override
 	public AssetEntry getAssetEntry() throws PortalException {
 		return AssetEntryLocalServiceUtil.getEntry(Artwork.class.getName(),
 			this.getArtworkId());
@@ -71,6 +72,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	/**
 	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	 */
+	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		long[] categoryIds = this.getAssetEntry().getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
@@ -87,14 +89,17 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 * @throws PortalException
 	 * @throws NumberFormatException
 	 */
+	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
-	
+
+	@Override
 	public List<ArtworkCollection> getArtworkCollections() {
 		return ArtworkCollectionLocalServiceUtil.getArtworkArtworkCollections(this.getArtworkId());
 	}
-	
+
+	@Override
 	public String getArtworkCollectionsIds() {
 		List<ArtworkCollection> collections = this.getArtworkCollections();
 		String ids = "";
@@ -117,7 +122,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		Artwork liveEdition = ArtworkLocalServiceUtil.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
-		return liveEdition;
+		Artwork liveArtwork= ArtworkLocalServiceUtil.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
+		return liveArtwork;
 	}
 }

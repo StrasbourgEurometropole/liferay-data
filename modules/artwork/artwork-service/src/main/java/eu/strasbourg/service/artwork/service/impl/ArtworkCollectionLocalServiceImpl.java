@@ -84,6 +84,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
+	@Override
 	public ArtworkCollection createArtworkCollection(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -103,6 +104,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Met à jour une édition et l'enregistre en base de données
 	 */
+	@Override
 	public ArtworkCollection updateArtworkCollection(ArtworkCollection collection, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
@@ -176,6 +178,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Met à jour le statut de l'oeuvre par le framework workflow
 	 */
+	@Override
 	public ArtworkCollection updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
@@ -209,6 +212,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
 	 */
+	@Override
 	public void updateStatus(ArtworkCollection collection, int status)
 		throws PortalException {
 		this.updateStatus(collection.getUserId(), collection.getCollectionId(), status, null, null);
@@ -217,6 +221,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Delete an artworkCollection
 	 */
+	@Override
 	public ArtworkCollection removeArtworkCollection(long artworkCollectionId)
 		throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
@@ -285,6 +290,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Return the vocabularies attached to the ArtworkCollection entity
 	 */
+	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -304,10 +310,12 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Retourne toutes les collections d'oeuvres d'un groupe
 	 */
+	@Override
 	public List<ArtworkCollection> getByGroupId(long groupId) {
 		return this.artworkCollectionPersistence.findByGroupId(groupId);
 	}
 
+	@Override
 	public List<ArtworkCollection> findByKeyword(String keyword, long groupId,
 		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -325,6 +333,7 @@ public class ArtworkCollectionLocalServiceImpl
 			start, end);
 	}
 
+	@Override
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
@@ -342,6 +351,7 @@ public class ArtworkCollectionLocalServiceImpl
 	/**
 	 * Search
 	 */
+	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<ArtworkCollection> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(ArtworkCollection.class);

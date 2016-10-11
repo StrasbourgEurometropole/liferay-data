@@ -79,6 +79,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
+	@Override
 	public Artwork createArtwork(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -98,6 +99,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Met à jour une édition et l'enregistre en base de données
 	 */
+	@Override
 	public Artwork updateArtwork(Artwork artwork, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
@@ -170,6 +172,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut de l'oeuvre par le framework workflow
 	 */
+	@Override
 	public Artwork updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
@@ -203,6 +206,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
 	 */
+	@Override
 	public void updateStatus(Artwork artwork, int status)
 		throws PortalException {
 		this.updateStatus(artwork.getUserId(), artwork.getArtworkId(), status, null, null);
@@ -211,6 +215,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Delete an artwork
 	 */
+	@Override
 	public Artwork removeArtwork(long artworkId) throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
 			.fetchEntry(Artwork.class.getName(), artworkId);
@@ -278,6 +283,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Return the vocabularies attached to the Artwork entity
 	 */
+	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -297,10 +303,12 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Retourne toutes les oeuvres d'un groupe
 	 */
+	@Override
 	public List<Artwork> getByGroupId(long groupId) {
 		return this.artworkPersistence.findByGroupId(groupId);
 	}
 
+	@Override
 	public List<Artwork> findByKeyword(String keyword, long groupId, int start,
 		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -318,6 +326,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			end);
 	}
 
+	@Override
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
@@ -335,6 +344,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Search
 	 */
+	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<Artwork> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Artwork.class);

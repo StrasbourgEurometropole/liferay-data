@@ -79,6 +79,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
+	@Override
 	public Link createLink(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -98,6 +99,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
+	@Override
 	public Link updateLink(Link link, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
@@ -170,6 +172,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut du lien par le framework workflow
 	 */
+	@Override
 	public Link updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
@@ -203,6 +206,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut du lien "manuellement" (pas via le workflow)
 	 */
+	@Override
 	public void updateStatus(Link link, int status)
 		throws PortalException {
 		this.updateStatus(link.getUserId(), link.getLinkId(), status, null, null);
@@ -212,6 +216,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Supprime un lien
 	 */
+	@Override
 	public Link removeLink(long linkId) throws PortalException {
 		AssetEntry entry = this.assetEntryLocalService
 			.fetchEntry(Link.class.getName(), linkId);
@@ -266,6 +271,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Retourne tous les liens d'un groupe
 	 */
+	@Override
 	public List<Link> getByGroupId(long groupId) {
 		return this.linkPersistence.findByGroupId(groupId);
 	}
@@ -287,6 +293,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Retourne les vocabulaires rattachés à l'entité Link
 	 */
+	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -305,6 +312,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Recherche par mot clés
 	 */
+	@Override
 	public List<Link> findByKeyword(String keyword, long groupId, int start,
 		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -324,6 +332,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Recherche par mot clés (compte)
 	 */
+	@Override
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
@@ -341,6 +350,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	/**
 	 * Recherche
 	 */
+	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<Link> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Link.class);

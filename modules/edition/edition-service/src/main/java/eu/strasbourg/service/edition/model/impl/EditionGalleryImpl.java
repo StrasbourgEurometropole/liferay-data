@@ -57,6 +57,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	/**
 	 * Retourne l'AssetEntry rattach�e � cet item
 	 */
+	@Override
 	public AssetEntry getAssetEntry() {
 		try {
 			return AssetEntryLocalServiceUtil.getEntry(EditionGallery.class.getName(), this.getGalleryId());
@@ -69,6 +70,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	/**
 	 * Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
 	 */
+	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		AssetEntry entry = this.getAssetEntry();
 		long[] categoryIds = entry.getCategoryIds();
@@ -85,14 +87,17 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	 * @throws PortalException
 	 * @throws NumberFormatException
 	 */
+	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 
+	@Override
 	public List<Edition> getEditions() {
 		return EditionLocalServiceUtil.getEditionGalleryEditions(this.getGalleryId());
 	}
-	
+
+	@Override
 	public String getEditionsIds() {
 		List<Edition> editions = this.getEditions();
 		String ids = "";
@@ -107,6 +112,7 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	/**
 	 * Renvoie la version live de la galerie d'édition, si elle existe
 	 */
+	@Override
 	public EditionGallery getLiveVersion() {
 		long groupId = this.getGroupId();
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);

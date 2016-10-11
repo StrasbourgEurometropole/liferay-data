@@ -55,16 +55,18 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 	
 	/**
-	 * Retourne l'AssetEntry correspondant � cet item
+	 * Retourne l'AssetEntry correspondant à cet item
 	 */
+	@Override
 	public AssetEntry getAssetEntry() throws PortalException {
 		return AssetEntryLocalServiceUtil.getEntry(ArtworkCollection.class.getName(),
 			this.getCollectionId());
 	}
 	
 	/**
-	 * Retourne la liste des AssetCategory correspondant � cet item (via l'AssetEntry)
+	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	 */
+	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		long[] categoryIds = this.getAssetEntry().getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
@@ -76,20 +78,22 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 	
 	/**
-	 * Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	 * 
 	 * @throws PortalException
 	 * @throws NumberFormatException
 	 */
+	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 	
-
+	@Override
 	public List<Artwork> getArtworks() {
 		return ArtworkLocalServiceUtil.getArtworkCollectionArtworks(this.getCollectionId());
 	}
-	
+
+	@Override
 	public String getArtworksIds() {
 		List<Artwork> artworks = this.getArtworks();
 		String ids = "";
@@ -105,6 +109,7 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	/**
 	 * Renvoie la version live de la collection, si elle existe
 	 */
+	@Override
 	public ArtworkCollection getLiveVersion() {
 		long groupId = this.getGroupId();
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);

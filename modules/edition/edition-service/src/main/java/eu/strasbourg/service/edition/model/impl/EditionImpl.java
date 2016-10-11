@@ -67,6 +67,7 @@ public class EditionImpl extends EditionBaseImpl {
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
+	@Override
 	public AssetEntry getAssetEntry() {
 		try {
 			return AssetEntryLocalServiceUtil.getEntry(Edition.class.getName(),
@@ -81,6 +82,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
 	 */
+	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		AssetEntry entry = this.getAssetEntry();
 		long[] categoryIds = entry.getCategoryIds();
@@ -98,6 +100,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * @throws PortalException
 	 * @throws NumberFormatException
 	 */
+	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
@@ -105,6 +108,7 @@ public class EditionImpl extends EditionBaseImpl {
 	/**
 	 * Renvoie la liste des galleries auxquelles cette édition appartient
 	 */
+	@Override
 	public List<EditionGallery> getEditionGalleries() {
 		return EditionGalleryLocalServiceUtil.getEditionEditionGalleries(this.getEditionId());
 	}
@@ -113,6 +117,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * Renvoie la liste des IDs des galleries auxquelles cette édition appartient
 	 * sous forme de String séparée par des virgules
 	 */
+	@Override
 	public String getEditionGalleriesIds() {
 		List<EditionGallery> galleries = this.getEditionGalleries();
 		String ids = "";
@@ -128,6 +133,7 @@ public class EditionImpl extends EditionBaseImpl {
 	/**
 	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
 	 */
+	@Override
 	public String getFileDownloadURL(Locale locale) {
 		String URL = this.getURL(locale);
 		if (Validator.isNull(URL)) {
@@ -140,6 +146,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * Renovie la taille du fichier sous forme de String 
 	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	 */
+	@Override
 	public String getFileSize(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
 			return "";
@@ -152,6 +159,7 @@ public class EditionImpl extends EditionBaseImpl {
 	 * Renovie le type du fichier sous forme de String 
 	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
 	 */
+	@Override
 	public String getFileType(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
 			return "";
@@ -164,6 +172,7 @@ public class EditionImpl extends EditionBaseImpl {
 	/**
 	 * Renvoie la version live de l'édition, si elle existe
 	 */
+	@Override
 	public Edition getLiveVersion() {
 		long groupId = this.getGroupId();
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);

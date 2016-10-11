@@ -85,6 +85,7 @@ public class EditionGalleryLocalServiceImpl
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
+	@Override
 	public EditionGallery createEditionGallery(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -104,6 +105,7 @@ public class EditionGalleryLocalServiceImpl
 	/**
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
+	@Override
 	public EditionGallery updateEditionGallery(EditionGallery gallery, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
@@ -180,6 +182,7 @@ public class EditionGalleryLocalServiceImpl
 	/**
 	 * Met à jour le statut de la galerie par le framework workflow
 	 */
+	@Override
 	public EditionGallery updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
@@ -213,6 +216,7 @@ public class EditionGalleryLocalServiceImpl
 	/**
 	 * Met à jour le statut de la galerie "manuellement" (pas via le workflow)
 	 */
+	@Override
 	public void updateStatus(EditionGallery gallery, int status)
 		throws PortalException {
 		this.updateStatus(gallery.getUserId(), gallery.getGalleryId(), status, null, null);
@@ -227,6 +231,7 @@ public class EditionGalleryLocalServiceImpl
 	 * @return The deleted EditionGallery
 	 * @throws PortalException
 	 */
+	@Override
 	public EditionGallery removeGallery(long galleryId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
 			.fetchEntry(EditionGallery.class.getName(), galleryId);
@@ -296,6 +301,7 @@ public class EditionGalleryLocalServiceImpl
 		}
 	}
 
+	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -315,10 +321,12 @@ public class EditionGalleryLocalServiceImpl
 	/**
 	 * Retourne toutes les galeries éditions d'un groupe
 	 */
+	@Override
 	public List<EditionGallery> getByGroupId(long groupId) {
 		return this.editionGalleryPersistence.findByGroupId(groupId);
 	}
 
+	@Override
 	public List<EditionGallery> findByKeyword(String keyword, long groupId,
 		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -336,6 +344,7 @@ public class EditionGalleryLocalServiceImpl
 			end);
 	}
 
+	@Override
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
@@ -350,6 +359,7 @@ public class EditionGalleryLocalServiceImpl
 		return editionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<EditionGallery> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(EditionGallery.class);

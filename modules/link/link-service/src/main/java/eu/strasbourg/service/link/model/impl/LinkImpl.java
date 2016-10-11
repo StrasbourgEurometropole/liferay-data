@@ -54,6 +54,7 @@ public class LinkImpl extends LinkBaseImpl {
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
+	@Override
 	public AssetEntry getAssetEntry() {
 		try {
 			return AssetEntryLocalServiceUtil.getEntry(Link.class.getName(),
@@ -68,6 +69,7 @@ public class LinkImpl extends LinkBaseImpl {
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
 	 */
+	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		AssetEntry entry = this.getAssetEntry();
 		long[] categoryIds = entry.getCategoryIds();
@@ -82,6 +84,7 @@ public class LinkImpl extends LinkBaseImpl {
 	/**
 	 * Renvoie la version live du lien, si elle existe
 	 */
+	@Override
 	public Link getLiveVersion() {
 		long groupId = this.getGroupId();
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);

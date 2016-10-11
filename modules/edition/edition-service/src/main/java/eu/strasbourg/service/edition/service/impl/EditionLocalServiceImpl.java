@@ -80,6 +80,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
+	@Override
 	public Edition createEdition(ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -99,6 +100,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Met à jour une édition et l'enregistre en base de données
 	 */
+	@Override
 	public Edition updateEdition(Edition edition, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
@@ -175,6 +177,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut de l'édition par le framework workflow
 	 */
+	@Override
 	public Edition updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
@@ -208,6 +211,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Met à jour le statut de l'édition "manuellement" (pas via le workflow)
 	 */
+	@Override
 	public void updateStatus(Edition edition, int status)
 		throws PortalException {
 		this.updateStatus(edition.getUserId(), edition.getEditionId(), status, null, null);
@@ -221,6 +225,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	 * @return The deleted Edition
 	 * @throws PortalException
 	 */
+	@Override
 	public Edition removeEdition(long editionId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
 			.fetchEntry(Edition.class.getName(), editionId);
@@ -290,6 +295,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité Edition
 	 */
+	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
@@ -309,6 +315,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
+	@Override
 	public List<Edition> getByGroupId(long groupId) {
 		return this.editionPersistence.findByGroupId(groupId);
 	}
@@ -316,6 +323,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
+	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		Indexer<Edition> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Edition.class);
@@ -325,6 +333,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
+	@Override
 	public List<Edition> findByKeyword(String keyword, long groupId, int start,
 		int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
@@ -345,6 +354,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	/**
 	 * Compte de la recherche par mots-clés
 	 */
+	@Override
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
