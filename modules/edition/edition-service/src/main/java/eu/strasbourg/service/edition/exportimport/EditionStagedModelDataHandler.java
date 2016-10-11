@@ -73,20 +73,20 @@ public class EditionStagedModelDataHandler
 			}
 		}
 
-		// Ajout référence à l'image
-		FileEntry image = DLAppLocalServiceUtil
-			.getFileEntry(stagedModel.getImageId());
-		if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-			.isStagingGroup()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, image,
-				PortletDataContext.REFERENCE_TYPE_WEAK);
-		}
+		try {
+			// Ajout référence à l'image
+			FileEntry image = DLAppLocalServiceUtil
+				.getFileEntry(stagedModel.getImageId());
+			if (GroupLocalServiceUtil.getGroup(image.getGroupId())
+				.isStagingGroup()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, image,
+					PortletDataContext.REFERENCE_TYPE_WEAK);
+			}
 
-		// Ajout référence au fichier
-		for (Map.Entry<Locale, String> locale_fileId : stagedModel
-			.getFileIdMap().entrySet()) {
-			try {
+			// Ajout référence au fichier
+			for (Map.Entry<Locale, String> locale_fileId : stagedModel
+				.getFileIdMap().entrySet()) {
 				long fileId = Long.parseLong(locale_fileId.getValue());
 				FileEntry file = DLAppLocalServiceUtil.getFileEntry(fileId);
 				if (GroupLocalServiceUtil.getGroup(file.getGroupId())
@@ -95,9 +95,9 @@ public class EditionStagedModelDataHandler
 						portletDataContext, stagedModel, file,
 						PortletDataContext.REFERENCE_TYPE_WEAK);
 				}
-			} catch (Exception ex) {
-
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 	}

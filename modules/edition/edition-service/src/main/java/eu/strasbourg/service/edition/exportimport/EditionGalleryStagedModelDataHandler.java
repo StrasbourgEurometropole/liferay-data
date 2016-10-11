@@ -68,20 +68,24 @@ public class EditionGalleryStagedModelDataHandler
 		// Ajout références aux éditions
 		for (Edition edition : stagedModel.getEditions()) {
 			if (edition.isApproved()) {
-    			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-    				portletDataContext, stagedModel, edition,
-    				PortletDataContext.REFERENCE_TYPE_WEAK);
-    		}
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, edition,
+					PortletDataContext.REFERENCE_TYPE_WEAK);
+			}
 		}
 
 		// Ajout référence à l'image
-		FileEntry image = DLAppLocalServiceUtil
-			.getFileEntry(stagedModel.getImageId());
-		if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-			.isStagingGroup()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, image,
-				PortletDataContext.REFERENCE_TYPE_WEAK);
+		try {
+			FileEntry image = DLAppLocalServiceUtil
+				.getFileEntry(stagedModel.getImageId());
+			if (GroupLocalServiceUtil.getGroup(image.getGroupId())
+				.isStagingGroup()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, image,
+					PortletDataContext.REFERENCE_TYPE_WEAK);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 

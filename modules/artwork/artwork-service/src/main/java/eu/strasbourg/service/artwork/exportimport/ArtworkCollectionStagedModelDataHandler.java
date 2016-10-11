@@ -73,13 +73,17 @@ public class ArtworkCollectionStagedModelDataHandler
 		}
 
 		// Ajout référence à l'image
-		FileEntry image = DLAppLocalServiceUtil
-			.getFileEntry(stagedModel.getImageId());
-		if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-			.isStagingGroup()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, image,
-				PortletDataContext.REFERENCE_TYPE_WEAK);
+		try {
+			FileEntry image = DLAppLocalServiceUtil
+				.getFileEntry(stagedModel.getImageId());
+			if (GroupLocalServiceUtil.getGroup(image.getGroupId())
+				.isStagingGroup()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, image,
+					PortletDataContext.REFERENCE_TYPE_WEAK);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 

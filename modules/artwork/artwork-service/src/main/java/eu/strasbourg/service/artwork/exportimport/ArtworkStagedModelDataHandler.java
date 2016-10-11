@@ -72,29 +72,33 @@ public class ArtworkStagedModelDataHandler
 				portletDataContext, stagedModel, artworkCollection,
 				PortletDataContext.REFERENCE_TYPE_PARENT);
 		}
-		// Ajout référence à l'image
-		FileEntry image = DLAppLocalServiceUtil
-			.getFileEntry(stagedModel.getImageId());
-		if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-			.isStagingGroup()) {
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, stagedModel, image,
-				PortletDataContext.REFERENCE_TYPE_WEAK);
-		}
+		try {
+			// Ajout référence à l'image
+			FileEntry image = DLAppLocalServiceUtil
+				.getFileEntry(stagedModel.getImageId());
+			if (GroupLocalServiceUtil.getGroup(image.getGroupId())
+				.isStagingGroup()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, stagedModel, image,
+					PortletDataContext.REFERENCE_TYPE_WEAK);
+			}
 
-		// Et aux images secondaires
-		for (String imageIdStr : stagedModel.getImagesIds().split(",")) {
-			if (Validator.isNotNull(imageIdStr)) {
-				Long imageId = Long.parseLong(imageIdStr);
-				FileEntry otherImage = DLAppLocalServiceUtil
-					.getFileEntry(imageId);
-				if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-					.isStagingGroup()) {
-					StagedModelDataHandlerUtil.exportReferenceStagedModel(
-						portletDataContext, stagedModel, otherImage,
-						PortletDataContext.REFERENCE_TYPE_WEAK);
+			// Et aux images secondaires
+			for (String imageIdStr : stagedModel.getImagesIds().split(",")) {
+				if (Validator.isNotNull(imageIdStr)) {
+					Long imageId = Long.parseLong(imageIdStr);
+					FileEntry otherImage = DLAppLocalServiceUtil
+						.getFileEntry(imageId);
+					if (GroupLocalServiceUtil.getGroup(image.getGroupId())
+						.isStagingGroup()) {
+						StagedModelDataHandlerUtil.exportReferenceStagedModel(
+							portletDataContext, stagedModel, otherImage,
+							PortletDataContext.REFERENCE_TYPE_WEAK);
+					}
 				}
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -158,8 +162,7 @@ public class ArtworkStagedModelDataHandler
 		importedArtwork.setImagesIds(otherImagesIds);
 
 		// On update l'oeuvre
-		this._artworkLocalService.updateArtwork(importedArtwork,
-			sc);
+		this._artworkLocalService.updateArtwork(importedArtwork, sc);
 
 		// On lie l'oeuvre à ses collections
 		for (ArtworkCollection oldCollection : importedArtwork
