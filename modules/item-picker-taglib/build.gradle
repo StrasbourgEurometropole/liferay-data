@@ -13,4 +13,6 @@ dependencies {
 	
 	compile project(":modules:edition-web")
 	compile project(":modules:artwork-web")
+	compile project(":modules:link-web")
+	compile project(":modules:video-web")
 }

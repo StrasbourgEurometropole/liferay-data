@@ -21,6 +21,8 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorC
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
+import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
+import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
 /**
  * @author Benjamin Bini
@@ -46,7 +48,7 @@ public class EntityPickerTag extends IncludeTag {
 	public void setMultiple(String multiple) {
 		_multiple = multiple;
 	}
-	
+
 	public void setType(String type) {
 		_type = type;
 	}
@@ -75,7 +77,7 @@ public class EntityPickerTag extends IncludeTag {
 		request.setAttribute("required", "true".equals(_required));
 		request.setAttribute("value", "0".equals(_value) ? "" : _value);
 		request.setAttribute("multiple", "true".equals(_multiple));
-		request.setAttribute("_type", _type);
+		request.setAttribute("type", _type);
 
 		// Entities
 		List<AssetEntry> entities = new ArrayList<AssetEntry>();
@@ -84,7 +86,8 @@ public class EntityPickerTag extends IncludeTag {
 			if (Validator.isNumber(entityId) && Long.parseLong(entityId) > 0) {
 				AssetEntry entry;
 				try {
-					entry = AssetEntryLocalServiceUtil.getEntry(_type, Long.parseLong(entityId));
+					entry = AssetEntryLocalServiceUtil.getEntry(_type,
+						Long.parseLong(entityId));
 					if (entry != null) {
 						entities.add(entry);
 					}
@@ -95,53 +98,82 @@ public class EntityPickerTag extends IncludeTag {
 		}
 		request.setAttribute("entities", entities);
 
-
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
 		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-		
+
 		PortletURL itemSelectorURL;
-		switch(_type) {
+		switch (_type) {
 		case "eu.strasbourg.service.edition.model.Edition":
 			EditionItemSelectorCriterion editionItemSelectorCriterion = new EditionItemSelectorCriterion();
-			editionItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-    		itemSelectorURL = ServletContextUtil.getItemSelector()
-    			.getItemSelectorURL(
-    				RequestBackedPortletURLFactoryUtil.create(request),
-    				"itemSelected" + _name, editionItemSelectorCriterion);
-    		itemSelectorURL.setParameter("multiple", _multiple);
-    		request.setAttribute("itemSelectorURL", itemSelectorURL);
+			editionItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, editionItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.edition.model.EditionGallery":
 			EditionGalleryItemSelectorCriterion editionGalleryItemSelectorCriterion = new EditionGalleryItemSelectorCriterion();
-			editionGalleryItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-    		itemSelectorURL = ServletContextUtil.getItemSelector()
-    			.getItemSelectorURL(
-    				RequestBackedPortletURLFactoryUtil.create(request),
-    				"itemSelected" + _name, editionGalleryItemSelectorCriterion);
-    		itemSelectorURL.setParameter("multiple", _multiple);
-    		request.setAttribute("itemSelectorURL", itemSelectorURL);
+			editionGalleryItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name,
+					editionGalleryItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
-    	case "eu.strasbourg.service.artwork.model.Artwork":
-    		ArtworkItemSelectorCriterion artworkItemSelectorCriterion = new ArtworkItemSelectorCriterion();
-    		artworkItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-    		itemSelectorURL = ServletContextUtil.getItemSelector()
-    			.getItemSelectorURL(
-    				RequestBackedPortletURLFactoryUtil.create(request),
-    				"itemSelected" + _name, artworkItemSelectorCriterion);
-    		itemSelectorURL.setParameter("multiple", _multiple);
-    		request.setAttribute("itemSelectorURL", itemSelectorURL);
-    		break;
-    	case "eu.strasbourg.service.artwork.model.ArtworkCollection":
-    		ArtworkCollectionItemSelectorCriterion artworkCollectionItemSelectorCriterion = new ArtworkCollectionItemSelectorCriterion();
-    		artworkCollectionItemSelectorCriterion.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-    		itemSelectorURL = ServletContextUtil.getItemSelector()
-    			.getItemSelectorURL(
-    				RequestBackedPortletURLFactoryUtil.create(request),
-    				"itemSelected" + _name, artworkCollectionItemSelectorCriterion);
-    		itemSelectorURL.setParameter("multiple", _multiple);
-    		request.setAttribute("itemSelectorURL", itemSelectorURL);
-    		break;
-    	}
+		case "eu.strasbourg.service.artwork.model.Artwork":
+			ArtworkItemSelectorCriterion artworkItemSelectorCriterion = new ArtworkItemSelectorCriterion();
+			artworkItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, artworkItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.artwork.model.ArtworkCollection":
+			ArtworkCollectionItemSelectorCriterion artworkCollectionItemSelectorCriterion = new ArtworkCollectionItemSelectorCriterion();
+			artworkCollectionItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name,
+					artworkCollectionItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.video.model.Video":
+			VideoItemSelectorCriterion videoItemSelectorCriterion = new VideoItemSelectorCriterion();
+			videoItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, videoItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.video.model.VideoGallery":
+			VideoGalleryItemSelectorCriterion videoGalleryItemSelectorCriterion = new VideoGalleryItemSelectorCriterion();
+			videoGalleryItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, videoGalleryItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		}
 		
 	}
 
