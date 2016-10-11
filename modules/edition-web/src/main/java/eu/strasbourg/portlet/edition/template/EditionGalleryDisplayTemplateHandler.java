@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateMa
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 
-import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 
@@ -22,17 +22,17 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     },
 	service = TemplateHandler.class
 )
-public class EditionPortletDisplayTemplateHandler
+public class EditionGalleryDisplayTemplateHandler
 	extends BasePortletDisplayTemplateHandler {
 
 	@Override
 	public String getClassName() {
-		return Edition.class.getName();
+		return EditionGallery.class.getName();
 	}
 
 	@Override
 	public String getName(Locale locale) {
-		return "Template Edition";
+		return "Template Galerie d'Editions";
 	}
 
 	@Override
@@ -52,10 +52,10 @@ public class EditionPortletDisplayTemplateHandler
 		fieldsTemplateVariableGroup.empty();
 		
 		fieldsTemplateVariableGroup.addCollectionVariable(
-			"Editions", List.class, PortletDisplayTemplateManager.ENTRIES, 
-			"Edition", Edition.class, "currentEdition", "getTitle(locale)");
+			"Galeries d'editions", List.class, PortletDisplayTemplateManager.ENTRIES, 
+			"Galerie d'edition", EditionGallery.class, "currentGallery", "getTitle(locale)");
 		
-		fieldsTemplateVariableGroup.addVariable("Edition", Edition.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Galerie d'edition", EditionGallery.class, "entry");
 		
 		return templateVariableGroups;
 	}
