@@ -1,11 +1,17 @@
 package eu.strasbourg.utils;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.Value;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -24,6 +30,7 @@ public class FileEntryHelper {
 
 	public static String getFileEntryURL(DLFileEntry fileEntry) {
 		String url = "";
+		FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
 		if (fileEntry != null) {
 			url = "/documents/" + fileEntry.getGroupId() + "/"
 				+ fileEntry.getFolderId() + "/0/" + fileEntry.getUuid();
@@ -99,6 +106,60 @@ public class FileEntryHelper {
 		} else {
 			return stagingFileEntryId;
 		}
+	}
+
+	/**
+	 * @param fileEntryId
+	 *            ID d'une image
+	 * @param locale
+	 *            Locale
+	 * @return Copyright de l'image dans la langue désirée
+	 */
+	public static String getImageCopyright(Long fileEntryId, Locale locale) {
+		return FileEntryHelper.getStructureFieldValue(fileEntryId, "copyright",
+			locale);
+	}
+
+	/**
+	 * @param fileEntryId
+	 *            ID du fichier
+	 * @param fieldName
+	 *            Nom du champ personnalisé
+	 * @param locale
+	 *            Locale
+	 * @return La valeur du champ personnalisé dans la langue désirée
+	 */
+	private static String getStructureFieldValue(Long fileEntryId,
+		String fieldName, Locale locale) {
+		String fieldValue = "";
+		DLFileEntry file = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntry(fileEntryId);
+		if (file != null) {
+			try {
+				Map<String, DDMFormValues> map = file.getDDMFormValuesMap(
+					file.getLatestFileVersion(true).getFileVersionId());
+				Collection<DDMFormValues> formValuesList = map.values();
+				for (DDMFormValues formValues : formValuesList) {
+					List<DDMFormFieldValue> formFieldValues = formValues
+						.getDDMFormFieldValues();
+					for (DDMFormFieldValue formFieldValue : formFieldValues) {
+						if (formFieldValue.getName().equals(fieldName)) {
+							Value value = formFieldValue.getValue();
+							fieldValue = value.getString(locale);
+							break;
+						}
+					}
+					if (Validator.isNotNull(fieldValue)) {
+						break;
+					}
+				}
+
+			} catch (PortalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return fieldValue;
 	}
 
 }
