@@ -1,0 +1,31 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "copyright"
+            },
+            "predefinedValue": {
+                "fr_FR": "Ville et Eurométropole de Strasbourg"
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "copyright",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }
+    ]
+}
