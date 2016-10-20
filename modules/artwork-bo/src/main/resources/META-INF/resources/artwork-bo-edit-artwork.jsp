@@ -40,12 +40,7 @@
 				
 				<aui:input name="description" />
 
-				<label><liferay-ui:message key="technical-information" /></label>
-				<liferay-ui:input-editor
-					contents="${dc.artwork.technicalInformationMap[locale]}"
-					editorName="tinymce" name="technicalInformationEditor"
-					placeholder="" showSource="<%=true %>" />
-				<aui:input type="hidden" name="technicalInformation" />
+				<aui:input name="technicalInformation" />
 
 				<aui:input name="noticeLink" />
 				<aui:input name="artistName" />

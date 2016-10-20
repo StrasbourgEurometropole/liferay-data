@@ -22,7 +22,7 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
-		<property name="technicalInformation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="technicalInformation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="noticeLink" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="artistName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="creationYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />

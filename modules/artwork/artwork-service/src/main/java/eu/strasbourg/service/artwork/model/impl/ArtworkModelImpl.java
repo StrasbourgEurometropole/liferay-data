@@ -97,7 +97,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
-			{ "technicalInformation", Types.VARCHAR },
+			{ "technicalInformation", Types.CLOB },
 			{ "noticeLink", Types.VARCHAR },
 			{ "artistName", Types.VARCHAR },
 			{ "creationYear", Types.VARCHAR },
@@ -128,7 +128,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("technicalInformation", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("technicalInformation", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("noticeLink", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("artistName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("creationYear", Types.VARCHAR);
@@ -142,7 +142,7 @@ public class ArtworkModelImpl extends BaseModelImpl<Artwork>
 		TABLE_COLUMNS_MAP.put("imagesIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,technicalInformation STRING null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,imageId LONG,imagesIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table artwork_Artwork (uuid_ VARCHAR(75) null,artworkId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,technicalInformation TEXT null,noticeLink STRING null,artistName STRING null,creationYear STRING null,origin STRING null,exhibitionName STRING null,exhibitionPlace STRING null,loanPeriod STRING null,linkName STRING null,link STRING null,imageId LONG,imagesIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table artwork_Artwork";
 	public static final String ORDER_BY_JPQL = " ORDER BY artwork.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY artwork_Artwork.modifiedDate DESC";

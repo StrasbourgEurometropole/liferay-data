@@ -78,10 +78,10 @@ public class SaveArtworkActionCommand implements MVCActionCommand {
 
 			String imagesIds = ParamUtil.getString(request, "imagesIds");
 			artwork.setImagesIds(imagesIds);
-			
-			String technicalInformation = ParamUtil.getString(request,
-				"technicalInformation");
-			artwork.setTechnicalInformation(technicalInformation);
+
+			Map<Locale, String> technicalInformation = LocalizationUtil
+				.getLocalizationMap(request, "technicalInformation");
+			artwork.setTechnicalInformationMap(technicalInformation);
 
 			Map<Locale, String> noticeLink = LocalizationUtil
 				.getLocalizationMap(request, "noticeLink");

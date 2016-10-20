@@ -19,7 +19,9 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field localized="true" name="technicalInformation" type="String" />
+		<field localized="true" name="technicalInformation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field localized="true" name="noticeLink" type="String" />
 		<field localized="true" name="artistName" type="String" />
 		<field localized="true" name="creationYear" type="String" />
