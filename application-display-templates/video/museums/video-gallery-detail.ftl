@@ -1,0 +1,1 @@
+Détail galerie de vidéos (ADT) - ${entry.getTitle(locale)}
