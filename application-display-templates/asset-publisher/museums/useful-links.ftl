@@ -1,6 +1,6 @@
 <div class="useful-links">
     <h3 class="useful-links-title">
-        Liens utiles
+        <@liferay_ui.message key="eu.useful-links" />
     </h3>
     <#if entries?has_content>
         <ul>
