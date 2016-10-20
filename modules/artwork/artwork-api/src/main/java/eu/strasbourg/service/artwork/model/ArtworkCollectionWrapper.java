@@ -282,7 +282,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Retourne l'AssetEntry correspondant � cet item
+	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
@@ -506,7 +506,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*
 	* @throws PortalException
 	* @throws NumberFormatException
@@ -694,7 +694,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Retourne la liste des AssetCategory correspondant � cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()

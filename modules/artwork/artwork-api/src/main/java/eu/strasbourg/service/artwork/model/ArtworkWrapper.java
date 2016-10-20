@@ -496,6 +496,9 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.getArtistNameCurrentValue();
 	}
 
+	/**
+	* Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	*/
 	@Override
 	public java.lang.String getArtworkCollectionsIds() {
 		return _artwork.getArtworkCollectionsIds();
@@ -1378,18 +1381,33 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		return _artwork.getStatusDate();
 	}
 
+	/**
+	* Renvoie la liste des collections d'oeuvres
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections() {
 		return _artwork.getArtworkCollections();
 	}
 
 	/**
-	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via
+	* l'AssetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _artwork.getCategories();
+	}
+
+	/**
+	* Renvoie la source de l'oeuvre
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _artwork.getSources();
 	}
 
 	/**

@@ -61,7 +61,8 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via
+	* l'AssetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException;
@@ -74,12 +75,26 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	*/
 	public java.lang.String getImageURL();
 
+	/**
+	* Renvoie la liste des collections d'oeuvres
+	*/
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections();
 
+	/**
+	* Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	*/
 	public java.lang.String getArtworkCollectionsIds();
 
 	/**
 	* Renvoie la version live de l'oeuvre, si elle existe
 	*/
 	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion();
+
+	/**
+	* Renvoie la source de l'oeuvre
+	*
+	* @throws PortalException
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources()
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

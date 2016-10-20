@@ -19,8 +19,10 @@ import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -68,21 +70,23 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 		return AssetEntryLocalServiceUtil.getEntry(Artwork.class.getName(),
 			this.getArtworkId());
 	}
-	
+
 	/**
-	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	 * Retourne la liste des AssetCategory correspondant à cet item (via
+	 * l'AssetEntry)
 	 */
 	@Override
 	public List<AssetCategory> getCategories() throws PortalException {
 		long[] categoryIds = this.getAssetEntry().getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		for (long categoryId : categoryIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil.getAssetCategory(categoryId);
+			AssetCategory category = AssetCategoryLocalServiceUtil
+				.getAssetCategory(categoryId);
 			categories.add(category);
 		}
 		return categories;
 	}
-	
+
 	/**
 	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	 * 
@@ -94,11 +98,18 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 
+	/**
+	 * Renvoie la liste des collections d'oeuvres
+	 */
 	@Override
 	public List<ArtworkCollection> getArtworkCollections() {
-		return ArtworkCollectionLocalServiceUtil.getArtworkArtworkCollections(this.getArtworkId());
+		return ArtworkCollectionLocalServiceUtil
+			.getArtworkArtworkCollections(this.getArtworkId());
 	}
 
+	/**
+	 * Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	 */
 	@Override
 	public String getArtworkCollectionsIds() {
 		List<ArtworkCollection> collections = this.getArtworkCollections();
@@ -122,7 +133,28 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		Artwork liveArtwork= ArtworkLocalServiceUtil.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
+		Artwork liveArtwork = ArtworkLocalServiceUtil
+			.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveArtwork;
+	}
+	
+	/*
+	 * Catégories
+	 */
+	
+	/**
+	 * Renvoie la source de l'oeuvre
+	 * @throws PortalException 
+	 */
+	public List<AssetCategory> getSources() throws PortalException {
+		List<AssetCategory> sources = new ArrayList<AssetCategory>();
+		List<AssetCategory> categories = this.getCategories();
+		for (AssetCategory category : categories) {
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
+			if (vocabulary.getName().toLowerCase().equals("source des oeuvres")) {
+				sources.add(category);
+			}
+		}
+		return sources;
 	}
 }
