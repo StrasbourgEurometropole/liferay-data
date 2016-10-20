@@ -3,6 +3,15 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <aui:form action="${searchActionURL}" method="post" name="fm">
+
+	<c:if test="${fn:length(dc.classNames) gt 1}">
+		<legend><liferay-ui:message key="show" /></legend>
+		<aui:input type="hidden" name="classNamesCount" value="${fn:length(dc.classNames)}" />
+		<c:forEach items="${dc.classNames}" var="className" varStatus="classNameStatus">
+			<aui:input type="checkbox" label="${className}" name="className_${classNameStatus.index}" value="${className}" checked="${fn:contains(dc.filterClassNamesString, className)}" />
+		</c:forEach>
+	</c:if>
+
 	<aui:input type="text" name="keywords" />
 
 	<aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />

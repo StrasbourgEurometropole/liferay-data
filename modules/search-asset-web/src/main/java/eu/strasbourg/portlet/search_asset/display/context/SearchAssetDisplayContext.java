@@ -56,6 +56,9 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne le searchContainer des entités
+	 */
 	public SearchContainer<AssetEntry> getSearchContainer()
 		throws PortalException {
 
@@ -70,6 +73,12 @@ public class SearchAssetDisplayContext {
 				i++;
 			}
 			iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
+			i = 0;
+			for (String className : getFilterClassNames()) {
+				iteratorURL.setParameter("className_" + i, className);
+				i++;
+			}
+			iteratorURL.setParameter("classNamesCount", String.valueOf(i));
 			iteratorURL.setParameter("keywords", this.getKeywords());
 
 			if (this._searchContainer == null) {
@@ -89,8 +98,6 @@ public class SearchAssetDisplayContext {
 	/**
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
 	 * entries
-	 * 
-	 * @throws PortalException
 	 */
 	private long[] getFilterCategoriesIds() {
 		if (_filterCategoriesIds == null) {
@@ -112,6 +119,40 @@ public class SearchAssetDisplayContext {
 
 	public String getFilterCategoriesIdsString() {
 		return StringUtil.merge(getFilterCategoriesIds());
+	}
+
+	/**
+	 * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
+	 * les entries
+	 */
+	private String[] getFilterClassNames() {
+		if (_filterClassNames == null) {
+			long classNamesCount = ParamUtil.getLong(this._request,
+				"classNamesCount");
+			List<String> classNames = new ArrayList<String>();
+			for (long i = 0; i < classNamesCount; i++) {
+				String className = ParamUtil.getString(this._request,
+					"className_" + i);
+				if (Validator.isNotNull(className) && !"false".equals(className)) {
+					classNames.add(className);
+				}
+			}
+			this._filterClassNames = classNames.toArray(new String[0]);
+		}
+		// Si la liste est vide, on renvoie la liste complète paramétrée via la
+		// configuration (on ne recherche pas sur rien !)
+		if (this._filterClassNames.length == 0) {
+			this._filterClassNames = this._configuration.assetClassNames().split(",");
+		}
+		return this._filterClassNames;
+	}
+
+	/**
+	 * Retourne la liste des types d'entités sur lesquels on souhaite rechercher
+	 * les entries, sous forme de String
+	 */
+	public String getFilterClassNamesString() {
+		return StringUtil.merge(getFilterClassNames());
 	}
 
 	/**
@@ -148,6 +189,9 @@ public class SearchAssetDisplayContext {
 		return _keywords;
 	}
 
+	/**
+	 * Retourne les résultats de la recherche
+	 */
 	public List<AssetEntry> getEntries() throws PortalException {
 		if (this._entries == null) {
 			HttpServletRequest servletRequest = PortalUtil
@@ -165,8 +209,7 @@ public class SearchAssetDisplayContext {
 
 			// ClassNames
 			BooleanQuery classNameQuery = new BooleanQueryImpl();
-			for (String className : this._configuration.assetClassNames()
-				.split(",")) {
+			for (String className : this.getFilterClassNames()) {
 				if (Validator.isNotNull(className)) {
 					// TermQuery termQuery = new TermQueryImpl(new
 					// QueryTermImpl(Field.EN, value))
@@ -181,7 +224,8 @@ public class SearchAssetDisplayContext {
 				this._themeDisplay.getSiteGroupIdOrLiveGroupId());
 
 			// Status
-			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm(Field.STATUS,
+				WorkflowConstants.STATUS_APPROVED);
 
 			// Mots-clés
 			String keywords = ParamUtil.getString(this._request, "keywords");
@@ -257,6 +301,10 @@ public class SearchAssetDisplayContext {
 			"status" };
 	}
 
+	/**
+	 * Retourne une map avec comme clés les classNames des entités retournées et
+	 * comme valeurs les ids des ADT
+	 */
 	public Map<String, String> getTemplatesMap()
 		throws NumberFormatException, PortalException {
 		if (this._templatesMap == null) {
@@ -265,7 +313,8 @@ public class SearchAssetDisplayContext {
 			int i = 0;
 			for (String templateKey : templatesKeys.split(",")) {
 				if (Validator.isNotNull(templateKey)) {
-					String className = this._configuration.assetClassNames().split(",")[i];
+					String className = this._configuration.assetClassNames()
+						.split(",")[i];
 					templatesMap.put(className, "ddmTemplate_" + templateKey);
 				}
 				i++;
@@ -275,16 +324,21 @@ public class SearchAssetDisplayContext {
 		return this._templatesMap;
 	}
 
+	public List<String> getClassNames() {
+		return Arrays.asList(_configuration.assetClassNames().split(","));
+	}
+
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
-	private SearchAssetConfiguration _configuration;	
+	private SearchAssetConfiguration _configuration;
 
 	private SearchContainer<AssetEntry> _searchContainer;
 	private List<AssetEntry> _entries;
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private long[] _filterCategoriesIds;
+	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
 
 }

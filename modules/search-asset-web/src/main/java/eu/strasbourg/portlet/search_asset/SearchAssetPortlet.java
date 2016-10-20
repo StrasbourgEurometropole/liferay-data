@@ -24,7 +24,7 @@ import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayCont
 	immediate = true,
 	configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration",
 	property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.css-class-wrapper=search-asset-portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/search-asset-view.jsp",
