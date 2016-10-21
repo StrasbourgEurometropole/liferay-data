@@ -1400,6 +1400,14 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
+	* Renvoie la liste des URL publiques des images additionnelles
+	*/
+	@Override
+	public java.util.List<java.lang.String> getImagesURLs() {
+		return _artwork.getImagesURLs();
+	}
+
+	/**
 	* Renvoie la source de l'oeuvre
 	*
 	* @throws PortalException

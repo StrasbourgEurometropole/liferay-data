@@ -26,6 +26,8 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
@@ -97,6 +99,22 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
+	
+	/**
+	 * Renvoie la liste des URL publiques des images additionnelles
+	 */
+	@Override
+	public List<String> getImagesURLs() {
+		List<String> URLs = new ArrayList<String>();
+		for (String imageIdStr : this.getImagesIds().split(",")) {
+			Long imageId = GetterUtil.getLong(imageIdStr);
+			if (Validator.isNotNull(imageId)) {
+				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
+				URLs.add(imageURL);
+			}
+		}
+		return URLs;
+	}
 
 	/**
 	 * Renvoie la liste des collections d'oeuvres
@@ -126,6 +144,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	/**
 	 * Renvoie la version live de l'oeuvre, si elle existe
 	 */
+	@Override
 	public Artwork getLiveVersion() {
 		long groupId = this.getGroupId();
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -146,6 +165,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 * Renvoie la source de l'oeuvre
 	 * @throws PortalException 
 	 */
+	@Override
 	public List<AssetCategory> getSources() throws PortalException {
 		List<AssetCategory> sources = new ArrayList<AssetCategory>();
 		List<AssetCategory> categories = this.getCategories();

@@ -13,6 +13,7 @@
 </head>
 
 <body class="${css_class}">
+	<script src="/o/museum-theme/js/vendors/jquery.magnific-popup.js"></script>
 
 	<@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -251,7 +252,6 @@
 
 <script src="/o/museum-theme/js/vendors/owl.carousel.min.js"></script>
 <script src="/o/museum-theme/js/vendors/jquery.dotdotdot.min.js"></script>
-
 <@liferay_util["include"] page=body_bottom_include />
 
 <@liferay_util["include"] page=bottom_include />

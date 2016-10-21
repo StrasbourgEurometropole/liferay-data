@@ -76,6 +76,11 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Renvoie la liste des URL publiques des images additionnelles
+	*/
+	public java.util.List<java.lang.String> getImagesURLs();
+
+	/**
 	* Renvoie la liste des collections d'oeuvres
 	*/
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections();
