@@ -1,35 +1,33 @@
 <!-- Détail oeuvre (ADT) - ${entry.getTitle(locale)} -->
 
-<div class="artwork-detail">
-  <div class="artwork-images">
-    <div class="artwork-images-main">
+<div class="entity-detail artwork-detail">
+  <div class="entity-images">
+    <div class="entity-images-main">
       <img src="${entry.getImageURL()}" class="lightbox">
-      <#assign FileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-      <#assign copyright = FileEntryHelper.getImageCopyright(entry.getImageId(), locale) /> 
-      <#if copyright?has_content>
-        <div class="artwork-images-main-copyright">
-            ${copyright}
+      <#if entry.getImageCopyright(locale)?has_content>
+        <div class="entity-images-main-copyright">
+            ${entry.getImageCopyright(locale)}
         </div>
       </#if>
     </div>
-    <div class="artwork-images-carousel">
-      <div class="artwork-images-carousel-buttons">
-        <div class="artwork-images-carousel-previous">
+    <div class="entity-images-carousel">
+      <div class="entity-images-carousel-buttons">
+        <div class="entity-images-carousel-previous">
           
         </div>
-        <div class="artwork-images-carousel-next">
+        <div class="entity-images-carousel-next">
           
         </div>
       </div>
       <div class="owl-carousel">
-        <div class="artwork-images-carousel-item">
-          <div class="artwork-images-carousel-item-image">
+        <div class="entity-images-carousel-item">
+          <div class="entity-images-carousel-item-image">
             <img src="${entry.getImageURL()}" class="lightbox">
           </div>
         </div>
         <#list entry.getImagesURLs() as imageURL>
-          <div class="artwork-images-carousel-item">
-            <div class="artwork-images-carousel-item-image">
+          <div class="entity-images-carousel-item">
+            <div class="entity-images-carousel-item-image">
               <img src="${imageURL}" class="lightbox">
             </div>
           </div>
@@ -37,8 +35,8 @@
       </div>
     </div>
   </div>
-  <div class="artwork-info">
-    <div class="artwork-title">
+  <div class="entity-info">
+    <div class="entity-title">
       <h1>${entry.getTitle(locale)}</h1>
     </div>
     <div class="artwork-artist">
@@ -64,10 +62,10 @@
         </#list>
       </div>
     </#if>
-    <#if entry.getArtworkCollections()?has_content>
+    <#if entry.getPublishedArtworkCollections()?has_content>
     <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
       <div class="artwork-collections">
-        <#list entry.getArtworkCollections() as collection>
+        <#list entry.getPublishedArtworkCollections() as collection>
           <div class="artwork-collection">
             <a href="${targetFriendlyURL}/-/entity/id/${collection.getCollectionId()}">${collection.getTitle(locale)}</a>
           </div>
@@ -79,7 +77,7 @@
         <a href="${entry.getNoticeLink(locale)}"><@liferay_ui["message"] key="eu.artwork.see-notice" /></a>
       </div>
     </#if>
-    <div class="artwork-description">
+    <div class="entity-description">
       ${entry.getDescription(locale)}
     </div>
   </div>
