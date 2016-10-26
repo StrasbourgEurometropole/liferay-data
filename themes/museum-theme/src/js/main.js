@@ -182,31 +182,41 @@
                     }
                 }
             });
-            // Carousel détail oeuvres
-            var artworkDetailCarousel = $('.artwork-images-carousel .owl-carousel').owlCarousel({
-                margin: 5,
-                items: 5,
+            // Carousel collections d'oeuvres
+            $('.artwork-collections-carousel .owl-carousel').owlCarousel({
+                items: 10,
+                margin: 10,
                 autoWidth: true,
-                responsiveBaseElement: '.artwork-images-carousel',
+                loop: true,
+                responsiveBaseElement: '.items-carousel.artwork-collections-carousel',
+                nav: true,
+                dots: true
+            });
+            // Carousel détail entité
+            var entityDetailCarousel = $('.entity-images-carousel .owl-carousel').owlCarousel({
+                items: 5,
+                margin: 5,
+                autoWidth: true,
+                responsiveBaseElement: '.entity-images-carousel'
             });
             $(window).resize(function() {
-                artworkCarouselResizer();
+                entityCarouselResizer();
             });
-            artworkCarouselResizer();
+            entityCarouselResizer();
 
-            function artworkCarouselResizer() {
+            function entityCarouselResizer() {
                 if (window.innerWidth > 918) {
-                    var newWidth = $('.artwork-detail').width() / 2 - 20;
-                    $('.artwork-images-carousel').width(newWidth);
+                    var newWidth = $('.entity-detail').width() / 2 - 20;
+                    $('.entity-images-carousel').width(newWidth);
                 } else {
-                    $('.artwork-images-carousel').width("auto");
+                    $('.entity-images-carousel').width("auto");
                 }
             }
-            $('.artwork-images-carousel-next').on('click', function() {
-                artworkDetailCarousel.trigger('next.owl.carousel');
+            $('.entity-images-carousel-next').on('click', function() {
+                entityDetailCarousel.trigger('next.owl.carousel');
             });
-            $('.artwork-images-carousel-previous').on('click', function() {
-                artworkDetailCarousel.trigger('prev.owl.carousel');
+            $('.entity-images-carousel-previous').on('click', function() {
+                entityDetailCarousel.trigger('prev.owl.carousel');
             });
         }
         // Dotdotdot
