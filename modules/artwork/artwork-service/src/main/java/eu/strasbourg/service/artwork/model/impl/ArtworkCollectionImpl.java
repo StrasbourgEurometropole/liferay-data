@@ -16,12 +16,13 @@ package eu.strasbourg.service.artwork.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
@@ -30,13 +31,19 @@ import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
- * The extended model implementation for the ArtworkCollection service. Represents a row in the &quot;artwork_ArtworkCollection&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the ArtworkCollection service.
+ * Represents a row in the &quot;artwork_ArtworkCollection&quot; database table,
+ * with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.artwork.model.ArtworkCollection} interface.
+ * Helper methods and all application logic should be put in this class.
+ * Whenever methods are added, rerun ServiceBuilder to copy their definitions
+ * into the {@link eu.strasbourg.service.artwork.model.ArtworkCollection}
+ * interface.
  * </p>
  *
  * @author BenjaminBini
@@ -49,50 +56,59 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a artwork collection model instance should use the {@link eu.strasbourg.service.artwork.model.ArtworkCollection} interface instead.
+	 * Never reference this class directly. All methods that expect a artwork
+	 * collection model instance should use the {@link
+	 * eu.strasbourg.service.artwork.model.ArtworkCollection} interface instead.
 	 */
 	public ArtworkCollectionImpl() {
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry correspondant à cet item
 	 */
 	@Override
-	public AssetEntry getAssetEntry() throws PortalException {
-		return AssetEntryLocalServiceUtil.getEntry(ArtworkCollection.class.getName(),
-			this.getCollectionId());
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(
+			ArtworkCollection.class.getName(), this.getCollectionId());
 	}
-	
+
 	/**
-	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	 * Retourne la liste des AssetCategory correspondant à cet item (via
+	 * l'AssetEntry)
 	 */
 	@Override
-	public List<AssetCategory> getCategories() throws PortalException {
-		long[] categoryIds = this.getAssetEntry().getCategoryIds();
-		List<AssetCategory> categories = new ArrayList<AssetCategory>();
-		for (long categoryId : categoryIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil.getAssetCategory(categoryId);
-			categories.add(category);
-		}
-		return categories;
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
-	
+
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	 * 
-	 * @throws PortalException
-	 * @throws NumberFormatException
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
-	
+
+	/**
+	 * Retourne le copyright de l'image principal
+	 */
 	@Override
-	public List<Artwork> getArtworks() {
-		return ArtworkLocalServiceUtil.getArtworkCollectionArtworks(this.getCollectionId());
+	public String getImageCopyright(Locale locale) {
+		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 	}
 
+	/**
+	 * Retourne la liste des oeuvres
+	 */
+	@Override
+	public List<Artwork> getArtworks() {
+		return ArtworkLocalServiceUtil
+			.getArtworkCollectionArtworks(this.getCollectionId());
+	}
+
+	/**
+	 * Retourne la liste des ids d'oeuvres sous forme de String
+	 */
 	@Override
 	public String getArtworksIds() {
 		List<Artwork> artworks = this.getArtworks();
@@ -107,7 +123,22 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	}
 
 	/**
-	 * Renvoie la version live de la collection, si elle existe
+	 * Retourne la liste des oeuvres publiées
+	 */
+	@Override
+	public List<Artwork> getPublishedArtworks() {
+		List<Artwork> artworks = this.getArtworks();
+		List<Artwork> result = new ArrayList<Artwork>();
+		for (Artwork artwork : artworks) {
+			if (artwork.isApproved()) {
+				result.add(artwork);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Retourne la version live de la collection, si elle existe
 	 */
 	@Override
 	public ArtworkCollection getLiveVersion() {
@@ -117,7 +148,31 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		ArtworkCollection liveCollection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollectionByUuidAndGroupId(this.getUuid(), liveGroupId);
+		ArtworkCollection liveCollection = ArtworkCollectionLocalServiceUtil
+			.fetchArtworkCollectionByUuidAndGroupId(this.getUuid(),
+				liveGroupId);
 		return liveCollection;
+	}
+
+	/*
+	 * Catégories
+	 */
+
+	/**
+	 * Retourne la source de la collection
+	 */
+	@Override
+	public List<AssetCategory> getSources() {
+		List<AssetCategory> sources = new ArrayList<AssetCategory>();
+		List<AssetCategory> categories = this.getCategories();
+		for (AssetCategory category : categories) {
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+				.fetchAssetVocabulary(category.getVocabularyId());
+			if (vocabulary != null && vocabulary.getName().toLowerCase()
+				.equals("source des oeuvres")) {
+				sources.add(category);
+			}
+		}
+		return sources;
 	}
 }

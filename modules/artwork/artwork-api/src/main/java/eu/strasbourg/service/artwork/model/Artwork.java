@@ -57,49 +57,56 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	/**
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
 	* Retourne la liste des AssetCategory correspondant à cet item (via
 	* l'AssetEntry)
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
 
 	/**
-	* Renvoie la liste des URL publiques des images additionnelles
+	* Retourne le copyright de l'image principal
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	public java.util.List<java.lang.String> getImagesURLs();
 
 	/**
-	* Renvoie la liste des collections d'oeuvres
+	* Retourne la liste des collections d'oeuvres
 	*/
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections();
 
 	/**
-	* Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	* Retourne la liste des ids de collections d'oeuvres sous forme de String
 	*/
 	public java.lang.String getArtworkCollectionsIds();
 
 	/**
-	* Renvoie la version live de l'oeuvre, si elle existe
+	* Retourne la liste des collections d'oeuvres publiées
+	*/
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getPublishedArtworkCollections();
+
+	/**
+	* Retourne la version live de l'oeuvre, si elle existe
 	*/
 	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion();
 
 	/**
-	* Renvoie la source de l'oeuvre
-	*
-	* @throws PortalException
+	* Retourne la source de l'oeuvre
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
+
+	/**
+	* Retourne la classe css correspondante à la source
+	*/
+	public java.lang.String getSourceCSSClass();
 }

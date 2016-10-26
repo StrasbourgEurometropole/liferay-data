@@ -58,29 +58,46 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 	/**
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
+	* Retourne la liste des AssetCategory correspondant à cet item (via
+	* l'AssetEntry)
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
 
+	/**
+	* Retourne le copyright de l'image principal
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la liste des oeuvres
+	*/
 	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks();
 
+	/**
+	* Retourne la liste des ids d'oeuvres sous forme de String
+	*/
 	public java.lang.String getArtworksIds();
 
 	/**
-	* Renvoie la version live de la collection, si elle existe
+	* Retourne la liste des oeuvres publiées
+	*/
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getPublishedArtworks();
+
+	/**
+	* Retourne la version live de la collection, si elle existe
 	*/
 	public eu.strasbourg.service.artwork.model.ArtworkCollection getLiveVersion();
+
+	/**
+	* Retourne la source de la collection
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
 }

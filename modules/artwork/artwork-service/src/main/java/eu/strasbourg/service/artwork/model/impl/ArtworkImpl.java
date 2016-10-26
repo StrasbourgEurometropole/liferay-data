@@ -16,11 +16,13 @@ package eu.strasbourg.service.artwork.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -34,6 +36,7 @@ import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
@@ -68,8 +71,8 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 * Retourne l'AssetEntry correspondant à cet item
 	 */
 	@Override
-	public AssetEntry getAssetEntry() throws PortalException {
-		return AssetEntryLocalServiceUtil.getEntry(Artwork.class.getName(),
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Artwork.class.getName(),
 			this.getArtworkId());
 	}
 
@@ -78,30 +81,30 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 * l'AssetEntry)
 	 */
 	@Override
-	public List<AssetCategory> getCategories() throws PortalException {
-		long[] categoryIds = this.getAssetEntry().getCategoryIds();
-		List<AssetCategory> categories = new ArrayList<AssetCategory>();
-		for (long categoryId : categoryIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.getAssetCategory(categoryId);
-			categories.add(category);
-		}
-		return categories;
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 * 
-	 * @throws PortalException
-	 * @throws NumberFormatException
 	 */
 	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
-	
+
 	/**
-	 * Renvoie la liste des URL publiques des images additionnelles
+	 * Retourne le copyright de l'image principal
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+	}
+
+	/**
+	 * Retourne la liste des URL publiques des images additionnelles
 	 */
 	@Override
 	public List<String> getImagesURLs() {
@@ -117,7 +120,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des collections d'oeuvres
+	 * Retourne la liste des collections d'oeuvres
 	 */
 	@Override
 	public List<ArtworkCollection> getArtworkCollections() {
@@ -126,7 +129,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	 * Retourne la liste des ids de collections d'oeuvres sous forme de String
 	 */
 	@Override
 	public String getArtworkCollectionsIds() {
@@ -142,7 +145,22 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
-	 * Renvoie la version live de l'oeuvre, si elle existe
+	 * Retourne la liste des collections d'oeuvres publiées
+	 */
+	@Override
+	public List<ArtworkCollection> getPublishedArtworkCollections() {
+		List<ArtworkCollection> collections = this.getArtworkCollections();
+		List<ArtworkCollection> result = new ArrayList<ArtworkCollection>();
+		for (ArtworkCollection collection : collections) {
+			if (collection.isApproved()) {
+				result.add(collection);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Retourne la version live de l'oeuvre, si elle existe
 	 */
 	@Override
 	public Artwork getLiveVersion() {
@@ -156,25 +174,45 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			.fetchArtworkByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveArtwork;
 	}
-	
+
 	/*
 	 * Catégories
 	 */
-	
+
 	/**
-	 * Renvoie la source de l'oeuvre
-	 * @throws PortalException 
+	 * Retourne la source de l'oeuvre
 	 */
 	@Override
-	public List<AssetCategory> getSources() throws PortalException {
+	public List<AssetCategory> getSources() {
 		List<AssetCategory> sources = new ArrayList<AssetCategory>();
 		List<AssetCategory> categories = this.getCategories();
 		for (AssetCategory category : categories) {
-			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
-			if (vocabulary.getName().toLowerCase().equals("source des oeuvres")) {
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+				.fetchAssetVocabulary(category.getVocabularyId());
+			if (vocabulary != null && vocabulary.getName().toLowerCase()
+				.equals("source des oeuvres")) {
 				sources.add(category);
 			}
 		}
 		return sources;
+	}
+
+	/**
+	 * Retourne la classe css correspondante à la source
+	 */
+	@Override
+	public String getSourceCSSClass() {
+		List<AssetCategory> sources = this.getSources();
+		String cssClass = "cs-default";
+		if (sources.size() > 0) {
+			try {
+				AssetCategoryProperty property = AssetCategoryPropertyLocalServiceUtil
+					.getCategoryProperty(sources.get(0).getCategoryId(), "css");
+				cssClass = property.getValue();
+			} catch (PortalException e) {
+				// Pas de propriété avec ce nom, rien de spécial à faire
+			}
+		}
+		return cssClass;
 	}
 }

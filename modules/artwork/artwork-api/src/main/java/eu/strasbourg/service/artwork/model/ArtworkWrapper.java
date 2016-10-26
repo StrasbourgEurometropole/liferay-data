@@ -355,8 +355,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
 		return _artwork.getAssetEntry();
 	}
 
@@ -371,7 +370,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie la version live de l'oeuvre, si elle existe
+	* Retourne la version live de l'oeuvre, si elle existe
 	*/
 	@Override
 	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion() {
@@ -497,7 +496,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie la liste des ids de collections d'oeuvres sous forme de String
+	* Retourne la liste des ids de collections d'oeuvres sous forme de String
 	*/
 	@Override
 	public java.lang.String getArtworkCollectionsIds() {
@@ -782,10 +781,15 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
+	* Retourne le copyright de l'image principal
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _artwork.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -1142,6 +1146,14 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
+	* Retourne la classe css correspondante à la source
+	*/
+	@Override
+	public java.lang.String getSourceCSSClass() {
+		return _artwork.getSourceCSSClass();
+	}
+
+	/**
 	* Returns the status by user name of this artwork.
 	*
 	* @return the status by user name of this artwork
@@ -1382,7 +1394,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie la liste des collections d'oeuvres
+	* Retourne la liste des collections d'oeuvres
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getArtworkCollections() {
@@ -1394,13 +1406,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	* l'AssetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _artwork.getCategories();
 	}
 
 	/**
-	* Renvoie la liste des URL publiques des images additionnelles
+	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	@Override
 	public java.util.List<java.lang.String> getImagesURLs() {
@@ -1408,13 +1419,18 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Renvoie la source de l'oeuvre
-	*
-	* @throws PortalException
+	* Retourne la liste des collections d'oeuvres publiées
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection> getPublishedArtworkCollections() {
+		return _artwork.getPublishedArtworkCollections();
+	}
+
+	/**
+	* Retourne la source de l'oeuvre
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources() {
 		return _artwork.getSources();
 	}
 
