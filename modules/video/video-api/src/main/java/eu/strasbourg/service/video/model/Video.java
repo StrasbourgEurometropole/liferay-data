@@ -57,15 +57,13 @@ public interface Video extends VideoModel, PersistedModel {
 	/**
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
 	* Retourne la liste des AssetCategory correspondant à cet item (via
 	* l'AssetEntry)
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
@@ -81,6 +79,11 @@ public interface Video extends VideoModel, PersistedModel {
 	* Retourne la liste des ids des galeries de la vidéo
 	*/
 	public java.lang.String getVideoGalleriesIds();
+
+	/**
+	* Renvoie la liste des galeries vidéos publiées de la
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideosGalleries();
 
 	/**
 	* Retourne la version live de la vidéo si elle existe, null sinon

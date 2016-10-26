@@ -305,8 +305,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	* Retourne l'AssetEntry correspondant à cet item
 	*/
 	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
 		return _video.getAssetEntry();
 	}
 
@@ -868,9 +867,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	* l'AssetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _video.getCategories();
+	}
+
+	/**
+	* Renvoie la liste des galeries vidéos publiées de la
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideosGalleries() {
+		return _video.getPublishedVideosGalleries();
 	}
 
 	/**

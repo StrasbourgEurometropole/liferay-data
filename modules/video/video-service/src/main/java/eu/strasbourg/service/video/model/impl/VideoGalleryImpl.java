@@ -19,7 +19,6 @@ import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -30,6 +29,7 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
@@ -43,6 +43,9 @@ import eu.strasbourg.utils.FileEntryHelper;
  */
 @ProviderType
 public class VideoGalleryImpl extends VideoGalleryBaseImpl {
+
+	private static final long serialVersionUID = -8944624993298994489L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -55,8 +58,8 @@ public class VideoGalleryImpl extends VideoGalleryBaseImpl {
 	 * Retourne l'AssetEntry correspondant à cet item
 	 */
 	@Override
-	public AssetEntry getAssetEntry() throws PortalException {
-		return AssetEntryLocalServiceUtil.getEntry(VideoGallery.class.getName(),
+	public AssetEntry getAssetEntry()  {
+		return AssetEntryLocalServiceUtil.fetchEntry(VideoGallery.class.getName(),
 			this.getGalleryId());
 	}
 	
@@ -64,14 +67,8 @@ public class VideoGalleryImpl extends VideoGalleryBaseImpl {
 	 * Retourne la liste des AssetCategory correspondant à cet item (via l'AssetEntry)
 	 */
 	@Override
-	public List<AssetCategory> getCategories() throws PortalException {
-		long[] categoryIds = this.getAssetEntry().getCategoryIds();
-		List<AssetCategory> categories = new ArrayList<AssetCategory>();
-		for (long categoryId : categoryIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil.getAssetCategory(categoryId);
-			categories.add(category);
-		}
-		return categories;
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 	
 	/**
@@ -107,6 +104,21 @@ public class VideoGalleryImpl extends VideoGalleryBaseImpl {
 			ids += video.getVideoId();
 		}
 		return ids;
+	}
+
+	/**
+	 * Renvoie la liste des éditions publiées de la galerie
+	 */
+	@Override
+	public List<Video> getPublishedVideos() {
+		List<Video> videos = this.getVideos();
+		List<Video> result = new ArrayList<Video>();
+		for (Video video : videos) {
+			if (video.isApproved()) {
+				result.add(video);
+			}
+		}
+		return result;
 	}
 
 	/**
