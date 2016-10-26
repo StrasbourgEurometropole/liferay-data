@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 
 /**
@@ -27,5 +30,21 @@ public class AssetVocabularyHelper {
 			}
 		}
 		return attachedVocabularies;
+	}
+	
+	/**
+	 * Retourne la liste des catégories rattachées à un AssetEntry
+	 */
+	public static List<AssetCategory> getAssetEntryCategories(AssetEntry entry) {
+		long[] categoryIds = entry.getCategoryIds();
+		List<AssetCategory> categories = new ArrayList<AssetCategory>();
+		for (long categoryId : categoryIds) {
+			AssetCategory category = AssetCategoryLocalServiceUtil
+				.fetchAssetCategory(categoryId);
+			if (category != null) {
+				categories.add(category);
+			}
+		}
+		return categories;
 	}
 }
