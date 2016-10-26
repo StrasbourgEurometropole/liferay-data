@@ -14,12 +14,10 @@
 
 package eu.strasbourg.service.link.model.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -28,6 +26,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the Link service. Represents a row in the &quot;link_Link&quot; database table, with each column mapped to a property of this class.
@@ -70,15 +69,8 @@ public class LinkImpl extends LinkBaseImpl {
 	 * l'assetEntry)
 	 */
 	@Override
-	public List<AssetCategory> getCategories() throws PortalException {
-		AssetEntry entry = this.getAssetEntry();
-		long[] categoryIds = entry.getCategoryIds();
-		List<AssetCategory> categories = new ArrayList<AssetCategory>();
-		for (long categoryId : categoryIds) {
-			categories.add(
-				AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
-		}
-		return categories;
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 	
 	/**
