@@ -650,8 +650,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des IDs des galleries auxquelles cette édition appartient
-	* sous forme de String séparée par des virgules
+	* Renvoie la liste des IDs des galleries auxquelles cette édition
+	* appartient sous forme de String
 	*/
 	@Override
 	public java.lang.String getEditionGalleriesIds() {
@@ -727,7 +727,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
+	* Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou
+	* une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileDownloadURL(java.util.Locale locale) {
@@ -803,8 +804,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renovie la taille du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	* Renovie la taille du fichier sous forme de String (si c'est une FileEntry
+	* - renvoie une chaîne vide si c'est une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileSize(java.util.Locale locale) {
@@ -812,8 +813,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renovie le type du fichier sous forme de String
-	* (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	* Renovie le type du fichier sous forme de String (si c'est une FileEntry -
+	* renvoie une chaîne vide si c'est une URL externe)
 	*/
 	@Override
 	public java.lang.String getFileType(java.util.Locale locale) {
@@ -832,9 +833,6 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 
 	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -1193,8 +1191,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	* l'assetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _edition.getCategories();
 	}
 
@@ -1204,6 +1201,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries() {
 		return _edition.getEditionGalleries();
+	}
+
+	/**
+	* Renvoie la liste des éditions publiées de la galerie
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getPublishedEditionGalleries() {
+		return _edition.getPublishedEditionGalleries();
 	}
 
 	/**

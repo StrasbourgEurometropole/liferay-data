@@ -55,27 +55,35 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 		};
 
 	/**
-	* Retourne l'AssetEntry rattach�e � cet item
+	* Retourne l'AssetEntry rattachée cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
 
+	/**
+	* Renvoie la liste des éditions de la galerie
+	*/
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions();
 
+	/**
+	* Renvoie la liste des ids des éditions de la galerie sous forme de String
+	*/
 	public java.lang.String getEditionsIds();
+
+	/**
+	* Renvoie la liste des éditions publiées de la galerie
+	*/
+	public java.util.List<eu.strasbourg.service.edition.model.Edition> getPublishedEditions();
 
 	/**
 	* Renvoie la version live de la galerie d'édition, si elle existe

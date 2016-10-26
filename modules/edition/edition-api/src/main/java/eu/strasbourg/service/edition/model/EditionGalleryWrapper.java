@@ -282,7 +282,7 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
-	* Retourne l'AssetEntry rattach�e � cet item
+	* Retourne l'AssetEntry rattachée cet item
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
@@ -431,16 +431,16 @@ public class EditionGalleryWrapper implements EditionGallery,
 		return _editionGallery.getDescriptionCurrentValue();
 	}
 
+	/**
+	* Renvoie la liste des ids des éditions de la galerie sous forme de String
+	*/
 	@Override
 	public java.lang.String getEditionsIds() {
 		return _editionGallery.getEditionsIds();
 	}
 
 	/**
-	* Renvoie l'URL de l'image � partir de l'id du DLFileEntry
-	*
-	* @throws PortalException
-	* @throws NumberFormatException
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -630,17 +630,28 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
-	* Renvoie la liste des AssetCategory rattach�es � cet item (via l'assetEntry)
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _editionGallery.getCategories();
 	}
 
+	/**
+	* Renvoie la liste des éditions de la galerie
+	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions() {
 		return _editionGallery.getEditions();
+	}
+
+	/**
+	* Renvoie la liste des éditions publiées de la galerie
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.edition.model.Edition> getPublishedEditions() {
+		return _editionGallery.getPublishedEditions();
 	}
 
 	/**

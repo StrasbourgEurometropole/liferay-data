@@ -20,11 +20,9 @@ import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -34,6 +32,7 @@ import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
@@ -69,13 +68,8 @@ public class EditionImpl extends EditionBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		try {
-			return AssetEntryLocalServiceUtil.getEntry(Edition.class.getName(),
-				this.getEditionId());
-		} catch (PortalException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return AssetEntryLocalServiceUtil.fetchEntry(Edition.class.getName(),
+			this.getEditionId());
 	}
 
 	/**
@@ -83,39 +77,31 @@ public class EditionImpl extends EditionBaseImpl {
 	 * l'assetEntry)
 	 */
 	@Override
-	public List<AssetCategory> getCategories() throws PortalException {
-		AssetEntry entry = this.getAssetEntry();
-		long[] categoryIds = entry.getCategoryIds();
-		List<AssetCategory> categories = new ArrayList<AssetCategory>();
-		for (long categoryId : categoryIds) {
-			categories.add(
-				AssetCategoryLocalServiceUtil.getAssetCategory(categoryId));
-		}
-		return categories;
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
 	}
 
 	/**
 	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	 * 
-	 * @throws PortalException
-	 * @throws NumberFormatException
 	 */
 	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
-	
+
 	/**
 	 * Renvoie la liste des galleries auxquelles cette édition appartient
 	 */
 	@Override
 	public List<EditionGallery> getEditionGalleries() {
-		return EditionGalleryLocalServiceUtil.getEditionEditionGalleries(this.getEditionId());
+		return EditionGalleryLocalServiceUtil
+			.getEditionEditionGalleries(this.getEditionId());
 	}
-	
+
 	/**
-	 * Renvoie la liste des IDs des galleries auxquelles cette édition appartient
-	 * sous forme de String séparée par des virgules
+	 * Renvoie la liste des IDs des galleries auxquelles cette édition
+	 * appartient sous forme de String
 	 */
 	@Override
 	public String getEditionGalleriesIds() {
@@ -129,46 +115,65 @@ public class EditionImpl extends EditionBaseImpl {
 		}
 		return ids;
 	}
-	
+
 	/**
-	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou une URL externe)
+	 * Renvoie la liste des galeries publiées
+	 */
+	@Override
+	public List<EditionGallery> getPublishedEditionGalleries() {
+		List<EditionGallery> galleries = this.getEditionGalleries();
+		List<EditionGallery> result = new ArrayList<EditionGallery>();
+		for (EditionGallery gallery : galleries) {
+			if (gallery.isApproved()) {
+				result.add(gallery);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou
+	 * une URL externe)
 	 */
 	@Override
 	public String getFileDownloadURL(Locale locale) {
 		String URL = this.getURL(locale);
 		if (Validator.isNull(URL)) {
-			URL = FileEntryHelper.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
+			URL = FileEntryHelper
+				.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
 		}
 		return URL;
 	}
-	
+
 	/**
-	 * Renovie la taille du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 * Renovie la taille du fichier sous forme de String (si c'est une FileEntry
+	 * - renvoie une chaîne vide si c'est une URL externe)
 	 */
 	@Override
 	public String getFileSize(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
 			return "";
 		} else {
-			return FileEntryHelper.getReadableFileEntrySize(Long.parseLong(this.getFileId(locale)), locale);
+			return FileEntryHelper.getReadableFileEntrySize(
+				Long.parseLong(this.getFileId(locale)), locale);
 		}
 	}
-	
+
 	/**
-	 * Renovie le type du fichier sous forme de String 
-	 * (si c'est une FileEntry - renvoie une chaîne vide si c'est une URL externe)
+	 * Renovie le type du fichier sous forme de String (si c'est une FileEntry -
+	 * renvoie une chaîne vide si c'est une URL externe)
 	 */
 	@Override
 	public String getFileType(Locale locale) {
 		if (Validator.isNotNull(this.getURL(locale))) {
 			return "";
 		} else {
-			DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
+			DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
+				.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
 			return fileEntry.getExtension().toUpperCase();
 		}
 	}
-	
+
 	/**
 	 * Renvoie la version live de l'édition, si elle existe
 	 */
@@ -180,7 +185,8 @@ public class EditionImpl extends EditionBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		Edition liveEdition = EditionLocalServiceUtil.fetchEditionByUuidAndGroupId(this.getUuid(), liveGroupId);
+		Edition liveEdition = EditionLocalServiceUtil
+			.fetchEditionByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEdition;
 	}
 }
