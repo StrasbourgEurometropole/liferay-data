@@ -91,6 +91,14 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+	}
+
+	/**
 	 * Renvoie la liste des galleries auxquelles cette édition appartient
 	 */
 	@Override
@@ -151,12 +159,8 @@ public class EditionImpl extends EditionBaseImpl {
 	 */
 	@Override
 	public String getFileSize(Locale locale) {
-		if (Validator.isNotNull(this.getURL(locale))) {
-			return "";
-		} else {
-			return FileEntryHelper.getReadableFileEntrySize(
-				Long.parseLong(this.getFileId(locale)), locale);
-		}
+		return FileEntryHelper.getReadableFileEntrySize(
+			Long.parseLong(this.getFileId(locale)), locale);
 	}
 
 	/**
@@ -165,12 +169,12 @@ public class EditionImpl extends EditionBaseImpl {
 	 */
 	@Override
 	public String getFileType(Locale locale) {
-		if (Validator.isNotNull(this.getURL(locale))) {
-			return "";
-		} else {
-			DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
-				.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
+		if (fileEntry != null) {
 			return fileEntry.getExtension().toUpperCase();
+		} else {
+			return "";
 		}
 	}
 
@@ -189,4 +193,27 @@ public class EditionImpl extends EditionBaseImpl {
 			.fetchEditionByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEdition;
 	}
+
+	//
+	// Catégories
+	//
+
+	/**
+	 * Retourne les sources de l'édition
+	 */
+	@Override
+	public List<AssetCategory> getSources() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "source des editions");
+	}
+
+	/**
+	 * Retourne les types de l'édition
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "type des editions");
+	}
+
 }

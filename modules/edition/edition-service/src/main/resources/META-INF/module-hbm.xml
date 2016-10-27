@@ -31,7 +31,8 @@
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="availableForExchange" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="inStock" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="diffusionDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="diffusionDateYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="diffusionDateMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pageNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="pictureNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />

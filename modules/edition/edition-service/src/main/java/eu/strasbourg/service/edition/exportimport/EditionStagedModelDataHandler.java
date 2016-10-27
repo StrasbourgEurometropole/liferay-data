@@ -142,7 +142,8 @@ public class EditionStagedModelDataHandler
 		importedEdition
 			.setAvailableForExchange(stagedModel.isAvailableForExchange());
 		importedEdition.setInStock(stagedModel.isInStock());
-		importedEdition.setDiffusionDate(stagedModel.getDiffusionDate());
+		importedEdition.setDiffusionDateMonth(stagedModel.getDiffusionDateMonth());
+		importedEdition.setDiffusionDateYear(stagedModel.getDiffusionDateYear());
 		importedEdition.setPageNumber(stagedModel.getPageNumber());
 		importedEdition.setPictureNumber(stagedModel.getPictureNumber());
 		importedEdition.setPublicationDate(stagedModel.getPublicationDate());

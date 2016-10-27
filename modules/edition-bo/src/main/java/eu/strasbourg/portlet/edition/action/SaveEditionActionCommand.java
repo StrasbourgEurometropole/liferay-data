@@ -112,8 +112,11 @@ public class SaveEditionActionCommand
 			boolean inStock = ParamUtil.getBoolean(request, "inStock");
 			edition.setInStock(inStock);
 
-			String diffusionDate = ParamUtil.getString(request, "price");
-			edition.setDiffusionDate(diffusionDate);
+			String diffusionDateYear = ParamUtil.getString(request, "diffusionDateYear");
+			edition.setDiffusionDateYear(diffusionDateYear);
+			
+			String diffusionDateMonth = ParamUtil.getString(request, "diffusionDateMonth");
+			edition.setDiffusionDateMonth(diffusionDateMonth);
 			
 			String pageNumber = ParamUtil.getString(request, "pageNumber");
 			edition.setPageNumber(pageNumber);

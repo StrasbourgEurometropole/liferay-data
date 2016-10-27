@@ -83,7 +83,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		attributes.put("price", getPrice());
 		attributes.put("availableForExchange", getAvailableForExchange());
 		attributes.put("inStock", getInStock());
-		attributes.put("diffusionDate", getDiffusionDate());
+		attributes.put("diffusionDateYear", getDiffusionDateYear());
+		attributes.put("diffusionDateMonth", getDiffusionDateMonth());
 		attributes.put("pageNumber", getPageNumber());
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
@@ -240,10 +241,16 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 			setInStock(inStock);
 		}
 
-		String diffusionDate = (String)attributes.get("diffusionDate");
+		String diffusionDateYear = (String)attributes.get("diffusionDateYear");
 
-		if (diffusionDate != null) {
-			setDiffusionDate(diffusionDate);
+		if (diffusionDateYear != null) {
+			setDiffusionDateYear(diffusionDateYear);
+		}
+
+		String diffusionDateMonth = (String)attributes.get("diffusionDateMonth");
+
+		if (diffusionDateMonth != null) {
+			setDiffusionDateMonth(diffusionDateMonth);
 		}
 
 		String pageNumber = (String)attributes.get("pageNumber");
@@ -630,13 +637,23 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the diffusion date of this edition.
+	* Returns the diffusion date month of this edition.
 	*
-	* @return the diffusion date of this edition
+	* @return the diffusion date month of this edition
 	*/
 	@Override
-	public java.lang.String getDiffusionDate() {
-		return _edition.getDiffusionDate();
+	public java.lang.String getDiffusionDateMonth() {
+		return _edition.getDiffusionDateMonth();
+	}
+
+	/**
+	* Returns the diffusion date year of this edition.
+	*
+	* @return the diffusion date year of this edition
+	*/
+	@Override
+	public java.lang.String getDiffusionDateYear() {
+		return _edition.getDiffusionDateYear();
 	}
 
 	/**
@@ -829,6 +846,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	@Override
 	public java.lang.String getISBN() {
 		return _edition.getISBN();
+	}
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _edition.getImageCopyright(locale);
 	}
 
 	/**
@@ -1204,11 +1229,27 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renvoie la liste des éditions publiées de la galerie
+	* Renvoie la liste des galeries publiées
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getPublishedEditionGalleries() {
 		return _edition.getPublishedEditionGalleries();
+	}
+
+	/**
+	* Retourne les sources de l'édition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources() {
+		return _edition.getSources();
+	}
+
+	/**
+	* Retourne les types de l'édition
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _edition.getTypes();
 	}
 
 	/**
@@ -1521,13 +1562,23 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the diffusion date of this edition.
+	* Sets the diffusion date month of this edition.
 	*
-	* @param diffusionDate the diffusion date of this edition
+	* @param diffusionDateMonth the diffusion date month of this edition
 	*/
 	@Override
-	public void setDiffusionDate(java.lang.String diffusionDate) {
-		_edition.setDiffusionDate(diffusionDate);
+	public void setDiffusionDateMonth(java.lang.String diffusionDateMonth) {
+		_edition.setDiffusionDateMonth(diffusionDateMonth);
+	}
+
+	/**
+	* Sets the diffusion date year of this edition.
+	*
+	* @param diffusionDateYear the diffusion date year of this edition
+	*/
+	@Override
+	public void setDiffusionDateYear(java.lang.String diffusionDateYear) {
+		_edition.setDiffusionDateYear(diffusionDateYear);
 	}
 
 	/**

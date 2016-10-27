@@ -68,8 +68,11 @@
 				<aui:input name="price" />
 				<aui:input name="availableForExchange" type="toggle-switch" value="${not empty dc.edition ? dc.edition.availableForExchange : false}" />
 				<aui:input name="inStock" type="toggle-switch" value="${not empty dc.edition ? dc.edition.inStock : false}" />
-				<aui:input name="diffusionDate"
-					helpMessage="diffusion-date-help-message" />
+				<label>Date de diffusion</label><br>
+				<aui:input type="number" label="month" name="diffusionDateMonth" inlineField="true" min="1" max="12" value="${dc.edition.diffusionDateMonth}" />
+				<aui:input type="number" label="year" name="diffusionDateYear" inlineField="true" min="1900" max="2100" value="${dc.edition.diffusionDateYear}">
+					<aui:validator name="required" errorMessage="this-field-is-required" />
+				</aui:input>
 				<aui:input name="pageNumber" />
 				<aui:input name="pictureNumber" />
 			</aui:fieldset>

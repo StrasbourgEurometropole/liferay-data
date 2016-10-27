@@ -3551,7 +3551,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		editionImpl.setPrice(edition.getPrice());
 		editionImpl.setAvailableForExchange(edition.isAvailableForExchange());
 		editionImpl.setInStock(edition.isInStock());
-		editionImpl.setDiffusionDate(edition.getDiffusionDate());
+		editionImpl.setDiffusionDateYear(edition.getDiffusionDateYear());
+		editionImpl.setDiffusionDateMonth(edition.getDiffusionDateMonth());
 		editionImpl.setPageNumber(edition.getPageNumber());
 		editionImpl.setPictureNumber(edition.getPictureNumber());
 		editionImpl.setPublicationDate(edition.getPublicationDate());

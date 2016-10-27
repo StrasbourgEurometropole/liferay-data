@@ -28,7 +28,8 @@
 		<field name="price" type="String" />
 		<field name="availableForExchange" type="boolean" />
 		<field name="inStock" type="boolean" />
-		<field name="diffusionDate" type="String" />
+		<field name="diffusionDateYear" type="String" />
+		<field name="diffusionDateMonth" type="String" />
 		<field name="pageNumber" type="String" />
 		<field name="pictureNumber" type="String" />
 		<field name="publicationDate" type="Date" />

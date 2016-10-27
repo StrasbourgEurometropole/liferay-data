@@ -39,7 +39,8 @@
         <column name="price" type="String" />
         <column name="availableForExchange" type="boolean" />
         <column name="inStock" type="boolean" />
-        <column name="diffusionDate" type="String" />
+        <column name="diffusionDateYear" type="String" />
+        <column name="diffusionDateMonth" type="String" />
         <column name="pageNumber" type="String" />
         <column name="pictureNumber" type="String" />
 		<column name="publicationDate" type="Date" />

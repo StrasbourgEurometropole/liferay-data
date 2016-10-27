@@ -106,7 +106,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			{ "price", Types.VARCHAR },
 			{ "availableForExchange", Types.BOOLEAN },
 			{ "inStock", Types.BOOLEAN },
-			{ "diffusionDate", Types.VARCHAR },
+			{ "diffusionDateYear", Types.VARCHAR },
+			{ "diffusionDateMonth", Types.VARCHAR },
 			{ "pageNumber", Types.VARCHAR },
 			{ "pictureNumber", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
@@ -140,7 +141,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("price", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("availableForExchange", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("inStock", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("diffusionDate", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("diffusionDateYear", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("diffusionDateMonth", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("pageNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("pictureNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
@@ -148,7 +150,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		TABLE_COLUMNS_MAP.put("fileId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDate VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,imageId LONG,fileId STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table edition_Edition (uuid_ VARCHAR(75) null,editionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,URL STRING null,author STRING null,editor STRING null,distribution VARCHAR(75) null,ISBN VARCHAR(75) null,price VARCHAR(75) null,availableForExchange BOOLEAN,inStock BOOLEAN,diffusionDateYear VARCHAR(75) null,diffusionDateMonth VARCHAR(75) null,pageNumber VARCHAR(75) null,pictureNumber VARCHAR(75) null,publicationDate DATE null,imageId LONG,fileId STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table edition_Edition";
 	public static final String ORDER_BY_JPQL = " ORDER BY edition.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY edition_Edition.modifiedDate DESC";
@@ -207,7 +209,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		model.setPrice(soapModel.getPrice());
 		model.setAvailableForExchange(soapModel.getAvailableForExchange());
 		model.setInStock(soapModel.getInStock());
-		model.setDiffusionDate(soapModel.getDiffusionDate());
+		model.setDiffusionDateYear(soapModel.getDiffusionDateYear());
+		model.setDiffusionDateMonth(soapModel.getDiffusionDateMonth());
 		model.setPageNumber(soapModel.getPageNumber());
 		model.setPictureNumber(soapModel.getPictureNumber());
 		model.setPublicationDate(soapModel.getPublicationDate());
@@ -315,7 +318,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		attributes.put("price", getPrice());
 		attributes.put("availableForExchange", getAvailableForExchange());
 		attributes.put("inStock", getInStock());
-		attributes.put("diffusionDate", getDiffusionDate());
+		attributes.put("diffusionDateYear", getDiffusionDateYear());
+		attributes.put("diffusionDateMonth", getDiffusionDateMonth());
 		attributes.put("pageNumber", getPageNumber());
 		attributes.put("pictureNumber", getPictureNumber());
 		attributes.put("publicationDate", getPublicationDate());
@@ -475,10 +479,16 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 			setInStock(inStock);
 		}
 
-		String diffusionDate = (String)attributes.get("diffusionDate");
+		String diffusionDateYear = (String)attributes.get("diffusionDateYear");
 
-		if (diffusionDate != null) {
-			setDiffusionDate(diffusionDate);
+		if (diffusionDateYear != null) {
+			setDiffusionDateYear(diffusionDateYear);
+		}
+
+		String diffusionDateMonth = (String)attributes.get("diffusionDateMonth");
+
+		if (diffusionDateMonth != null) {
+			setDiffusionDateMonth(diffusionDateMonth);
 		}
 
 		String pageNumber = (String)attributes.get("pageNumber");
@@ -1435,18 +1445,34 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@JSON
 	@Override
-	public String getDiffusionDate() {
-		if (_diffusionDate == null) {
+	public String getDiffusionDateYear() {
+		if (_diffusionDateYear == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _diffusionDate;
+			return _diffusionDateYear;
 		}
 	}
 
 	@Override
-	public void setDiffusionDate(String diffusionDate) {
-		_diffusionDate = diffusionDate;
+	public void setDiffusionDateYear(String diffusionDateYear) {
+		_diffusionDateYear = diffusionDateYear;
+	}
+
+	@JSON
+	@Override
+	public String getDiffusionDateMonth() {
+		if (_diffusionDateMonth == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _diffusionDateMonth;
+		}
+	}
+
+	@Override
+	public void setDiffusionDateMonth(String diffusionDateMonth) {
+		_diffusionDateMonth = diffusionDateMonth;
 	}
 
 	@JSON
@@ -1925,7 +1951,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		editionImpl.setPrice(getPrice());
 		editionImpl.setAvailableForExchange(getAvailableForExchange());
 		editionImpl.setInStock(getInStock());
-		editionImpl.setDiffusionDate(getDiffusionDate());
+		editionImpl.setDiffusionDateYear(getDiffusionDateYear());
+		editionImpl.setDiffusionDateMonth(getDiffusionDateMonth());
 		editionImpl.setPageNumber(getPageNumber());
 		editionImpl.setPictureNumber(getPictureNumber());
 		editionImpl.setPublicationDate(getPublicationDate());
@@ -2162,12 +2189,20 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 		editionCacheModel.inStock = getInStock();
 
-		editionCacheModel.diffusionDate = getDiffusionDate();
+		editionCacheModel.diffusionDateYear = getDiffusionDateYear();
 
-		String diffusionDate = editionCacheModel.diffusionDate;
+		String diffusionDateYear = editionCacheModel.diffusionDateYear;
 
-		if ((diffusionDate != null) && (diffusionDate.length() == 0)) {
-			editionCacheModel.diffusionDate = null;
+		if ((diffusionDateYear != null) && (diffusionDateYear.length() == 0)) {
+			editionCacheModel.diffusionDateYear = null;
+		}
+
+		editionCacheModel.diffusionDateMonth = getDiffusionDateMonth();
+
+		String diffusionDateMonth = editionCacheModel.diffusionDateMonth;
+
+		if ((diffusionDateMonth != null) && (diffusionDateMonth.length() == 0)) {
+			editionCacheModel.diffusionDateMonth = null;
 		}
 
 		editionCacheModel.pageNumber = getPageNumber();
@@ -2210,7 +2245,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2260,8 +2295,10 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getAvailableForExchange());
 		sb.append(", inStock=");
 		sb.append(getInStock());
-		sb.append(", diffusionDate=");
-		sb.append(getDiffusionDate());
+		sb.append(", diffusionDateYear=");
+		sb.append(getDiffusionDateYear());
+		sb.append(", diffusionDateMonth=");
+		sb.append(getDiffusionDateMonth());
 		sb.append(", pageNumber=");
 		sb.append(getPageNumber());
 		sb.append(", pictureNumber=");
@@ -2279,7 +2316,7 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(94);
+		StringBundler sb = new StringBundler(97);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.edition.model.Edition");
@@ -2382,8 +2419,12 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 		sb.append(getInStock());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>diffusionDate</column-name><column-value><![CDATA[");
-		sb.append(getDiffusionDate());
+			"<column><column-name>diffusionDateYear</column-name><column-value><![CDATA[");
+		sb.append(getDiffusionDateYear());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>diffusionDateMonth</column-name><column-value><![CDATA[");
+		sb.append(getDiffusionDateMonth());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>pageNumber</column-name><column-value><![CDATA[");
@@ -2452,7 +2493,8 @@ public class EditionModelImpl extends BaseModelImpl<Edition>
 	private String _price;
 	private boolean _availableForExchange;
 	private boolean _inStock;
-	private String _diffusionDate;
+	private String _diffusionDateYear;
+	private String _diffusionDateMonth;
 	private String _pageNumber;
 	private String _pictureNumber;
 	private Date _publicationDate;

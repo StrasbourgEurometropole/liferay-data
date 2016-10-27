@@ -71,6 +71,11 @@ public interface Edition extends EditionModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
 	* Renvoie la liste des galleries auxquelles cette édition appartient
 	*/
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries();
@@ -82,7 +87,7 @@ public interface Edition extends EditionModel, PersistedModel {
 	public java.lang.String getEditionGalleriesIds();
 
 	/**
-	* Renvoie la liste des éditions publiées de la galerie
+	* Renvoie la liste des galeries publiées
 	*/
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getPublishedEditionGalleries();
 
@@ -108,4 +113,14 @@ public interface Edition extends EditionModel, PersistedModel {
 	* Renvoie la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.edition.model.Edition getLiveVersion();
+
+	/**
+	* Retourne les sources de l'édition
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
+
+	/**
+	* Retourne les types de l'édition
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 }

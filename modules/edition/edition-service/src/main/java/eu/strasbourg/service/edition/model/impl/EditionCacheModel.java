@@ -65,7 +65,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(61);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -115,8 +115,10 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		sb.append(availableForExchange);
 		sb.append(", inStock=");
 		sb.append(inStock);
-		sb.append(", diffusionDate=");
-		sb.append(diffusionDate);
+		sb.append(", diffusionDateYear=");
+		sb.append(diffusionDateYear);
+		sb.append(", diffusionDateMonth=");
+		sb.append(diffusionDateMonth);
 		sb.append(", pageNumber=");
 		sb.append(pageNumber);
 		sb.append(", pictureNumber=");
@@ -259,11 +261,18 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		editionImpl.setAvailableForExchange(availableForExchange);
 		editionImpl.setInStock(inStock);
 
-		if (diffusionDate == null) {
-			editionImpl.setDiffusionDate(StringPool.BLANK);
+		if (diffusionDateYear == null) {
+			editionImpl.setDiffusionDateYear(StringPool.BLANK);
 		}
 		else {
-			editionImpl.setDiffusionDate(diffusionDate);
+			editionImpl.setDiffusionDateYear(diffusionDateYear);
+		}
+
+		if (diffusionDateMonth == null) {
+			editionImpl.setDiffusionDateMonth(StringPool.BLANK);
+		}
+		else {
+			editionImpl.setDiffusionDateMonth(diffusionDateMonth);
 		}
 
 		if (pageNumber == null) {
@@ -335,7 +344,8 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		availableForExchange = objectInput.readBoolean();
 
 		inStock = objectInput.readBoolean();
-		diffusionDate = objectInput.readUTF();
+		diffusionDateYear = objectInput.readUTF();
+		diffusionDateMonth = objectInput.readUTF();
 		pageNumber = objectInput.readUTF();
 		pictureNumber = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
@@ -453,11 +463,18 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 		objectOutput.writeBoolean(inStock);
 
-		if (diffusionDate == null) {
+		if (diffusionDateYear == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(diffusionDate);
+			objectOutput.writeUTF(diffusionDateYear);
+		}
+
+		if (diffusionDateMonth == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(diffusionDateMonth);
 		}
 
 		if (pageNumber == null) {
@@ -510,7 +527,8 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	public String price;
 	public boolean availableForExchange;
 	public boolean inStock;
-	public String diffusionDate;
+	public String diffusionDateYear;
+	public String diffusionDateMonth;
 	public String pageNumber;
 	public String pictureNumber;
 	public long publicationDate;

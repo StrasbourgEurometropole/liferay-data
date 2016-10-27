@@ -58,7 +58,8 @@ public class EditionSoap implements Serializable {
 		soapModel.setPrice(model.getPrice());
 		soapModel.setAvailableForExchange(model.getAvailableForExchange());
 		soapModel.setInStock(model.getInStock());
-		soapModel.setDiffusionDate(model.getDiffusionDate());
+		soapModel.setDiffusionDateYear(model.getDiffusionDateYear());
+		soapModel.setDiffusionDateMonth(model.getDiffusionDateMonth());
 		soapModel.setPageNumber(model.getPageNumber());
 		soapModel.setPictureNumber(model.getPictureNumber());
 		soapModel.setPublicationDate(model.getPublicationDate());
@@ -316,12 +317,20 @@ public class EditionSoap implements Serializable {
 		_inStock = inStock;
 	}
 
-	public String getDiffusionDate() {
-		return _diffusionDate;
+	public String getDiffusionDateYear() {
+		return _diffusionDateYear;
 	}
 
-	public void setDiffusionDate(String diffusionDate) {
-		_diffusionDate = diffusionDate;
+	public void setDiffusionDateYear(String diffusionDateYear) {
+		_diffusionDateYear = diffusionDateYear;
+	}
+
+	public String getDiffusionDateMonth() {
+		return _diffusionDateMonth;
+	}
+
+	public void setDiffusionDateMonth(String diffusionDateMonth) {
+		_diffusionDateMonth = diffusionDateMonth;
 	}
 
 	public String getPageNumber() {
@@ -388,7 +397,8 @@ public class EditionSoap implements Serializable {
 	private String _price;
 	private boolean _availableForExchange;
 	private boolean _inStock;
-	private String _diffusionDate;
+	private String _diffusionDateYear;
+	private String _diffusionDateMonth;
 	private String _pageNumber;
 	private String _pictureNumber;
 	private Date _publicationDate;

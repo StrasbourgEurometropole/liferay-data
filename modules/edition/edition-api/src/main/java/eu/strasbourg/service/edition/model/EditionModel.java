@@ -996,19 +996,34 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	public void setInStock(boolean inStock);
 
 	/**
-	 * Returns the diffusion date of this edition.
+	 * Returns the diffusion date year of this edition.
 	 *
-	 * @return the diffusion date of this edition
+	 * @return the diffusion date year of this edition
 	 */
 	@AutoEscape
-	public String getDiffusionDate();
+	public String getDiffusionDateYear();
 
 	/**
-	 * Sets the diffusion date of this edition.
+	 * Sets the diffusion date year of this edition.
 	 *
-	 * @param diffusionDate the diffusion date of this edition
+	 * @param diffusionDateYear the diffusion date year of this edition
 	 */
-	public void setDiffusionDate(String diffusionDate);
+	public void setDiffusionDateYear(String diffusionDateYear);
+
+	/**
+	 * Returns the diffusion date month of this edition.
+	 *
+	 * @return the diffusion date month of this edition
+	 */
+	@AutoEscape
+	public String getDiffusionDateMonth();
+
+	/**
+	 * Sets the diffusion date month of this edition.
+	 *
+	 * @param diffusionDateMonth the diffusion date month of this edition
+	 */
+	public void setDiffusionDateMonth(String diffusionDateMonth);
 
 	/**
 	 * Returns the page number of this edition.
