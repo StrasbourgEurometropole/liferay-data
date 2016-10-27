@@ -31,11 +31,12 @@ public class AssetVocabularyHelper {
 		}
 		return attachedVocabularies;
 	}
-	
+
 	/**
 	 * Retourne la liste des catégories rattachées à un AssetEntry
 	 */
-	public static List<AssetCategory> getAssetEntryCategories(AssetEntry entry) {
+	public static List<AssetCategory> getAssetEntryCategories(
+		AssetEntry entry) {
 		long[] categoryIds = entry.getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		for (long categoryId : categoryIds) {
@@ -46,5 +47,26 @@ public class AssetVocabularyHelper {
 			}
 		}
 		return categories;
+	}
+
+	/**
+	 * Retourne la liste des catégories d'un vocabulaire spécifique rattachées à
+	 * un AssetEntry
+	 * 
+	 */
+	static public List<AssetCategory> getAssetEntryCategoriesByVocabulary(
+		AssetEntry entry, String vocabularyName) {
+		List<AssetCategory> results = new ArrayList<AssetCategory>();
+		List<AssetCategory> categories = AssetVocabularyHelper
+			.getAssetEntryCategories(entry);
+		for (AssetCategory category : categories) {
+			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+				.fetchAssetVocabulary(category.getVocabularyId());
+			if (vocabulary != null && StringHelper.compareIgnoringAccentuation(
+				vocabulary.getName().toLowerCase(), vocabularyName)) {
+				results.add(category);
+			}
+		}
+		return results;
 	}
 }
