@@ -3146,7 +3146,7 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   position: absolute;
   bottom: 0;
   padding: 13px 20px 13px 20px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-or: rgba(0, 0, 0, 0.5);
   color: white;
   width: 100%;
   font-size: 13px;
@@ -3223,6 +3223,56 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   }
 }
 
+/* line 91, ../sass/partials/_entity-detail.scss */
+.entity-detail-children-title {
+  padding: 0 20px;
+}
+
+/* line 94, ../sass/partials/_entity-detail.scss */
+.entity-detail-children {
+  padding: 20px;
+  column-count: 1;
+  column-gap: 20px;
+}
+@media (min-width: 602px) {
+  /* line 94, ../sass/partials/_entity-detail.scss */
+  .entity-detail-children {
+    column-count: 2;
+  }
+}
+@media (min-width: 919px) {
+  /* line 94, ../sass/partials/_entity-detail.scss */
+  .entity-detail-children {
+    column-count: 3;
+  }
+}
+@media (min-width: 1280px) {
+  /* line 94, ../sass/partials/_entity-detail.scss */
+  .entity-detail-children {
+    column-count: 4;
+  }
+}
+/* line 107, ../sass/partials/_entity-detail.scss */
+.entity-detail-children .entity-detail-child {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  background: #e6e6e6;
+}
+/* line 111, ../sass/partials/_entity-detail.scss */
+.entity-detail-children .entity-detail-child .entity-detail-child-image {
+  text-align: center;
+}
+/* line 114, ../sass/partials/_entity-detail.scss */
+.entity-detail-children .entity-detail-child .entity-detail-child-info {
+  padding: 20px;
+  border-top: 10px solid #666666;
+}
+/* line 118, ../sass/partials/_entity-detail.scss */
+.entity-detail-children .entity-detail-child .entity-detail-child-title {
+  font-size: 20px;
+  text-transform: none;
+}
+
 /* line 2, ../sass/partials/_artwork-detail.scss */
 .artwork-detail .artwork-artist {
   margin-top: 5px;
@@ -3285,61 +3335,16 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   margin: 20px 0;
 }
 
-/* line 13, ../sass/partials/_artwork-collection-detail.scss */
-.artwork-collection-artworks-title {
-  padding: 0 20px;
-}
-
-/* line 16, ../sass/partials/_artwork-collection-detail.scss */
-.artwork-collection-artworks {
-  padding: 20px;
-  column-count: 1;
-  column-gap: 20px;
-}
-@media (min-width: 602px) {
-  /* line 16, ../sass/partials/_artwork-collection-detail.scss */
-  .artwork-collection-artworks {
-    column-count: 2;
-  }
-}
-@media (min-width: 919px) {
-  /* line 16, ../sass/partials/_artwork-collection-detail.scss */
-  .artwork-collection-artworks {
-    column-count: 3;
-  }
-}
-@media (min-width: 1280px) {
-  /* line 16, ../sass/partials/_artwork-collection-detail.scss */
-  .artwork-collection-artworks {
-    column-count: 4;
-  }
-}
-/* line 29, ../sass/partials/_artwork-collection-detail.scss */
-.artwork-collection-artworks .artwork-collection-artwork {
-  break-inside: avoid;
-  margin-bottom: 20px;
-  background: #e6e6e6;
-}
-/* line 34, ../sass/partials/_artwork-collection-detail.scss */
-.artwork-collection-artworks .artwork-collection-artwork-image {
-  text-align: center;
-}
-/* line 37, ../sass/partials/_artwork-collection-detail.scss */
+/* line 14, ../sass/partials/_artwork-collection-detail.scss */
 .artwork-collection-artworks .artwork-collection-artwork-info {
   border-top: 10px solid #666666;
-  padding: 20px;
 }
-/* line 41, ../sass/partials/_artwork-collection-detail.scss */
+/* line 17, ../sass/partials/_artwork-collection-detail.scss */
 .artwork-collection-artworks .artwork-collection-artwork-source {
   text-align: right;
   text-transform: uppercase;
   font-size: 13px;
   color: #666666;
-}
-/* line 48, ../sass/partials/_artwork-collection-detail.scss */
-.artwork-collection-artworks .artwork-collection-artwork-title h4 {
-  font-size: 20px;
-  text-transform: none;
 }
 
 /* line 2, ../sass/partials/_edition-detail.scss */
@@ -3545,19 +3550,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-default .contact-infos {
   background-color: #666666;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-default .entity-detail-child .entity-detail-child-info {
+  border-color: #666666;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-default .artwork-detail .artwork-notice a:hover {
   color: #666666;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-default.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #666666;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-default.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #666666;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-default .edition-detail .edition-meta {
   border-left: 3px solid #666666;
 }
@@ -3656,19 +3665,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-hre .contact-infos {
   background-color: #F3AC00;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-hre .entity-detail-child .entity-detail-child-info {
+  border-color: #F3AC00;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-hre .artwork-detail .artwork-notice a:hover {
   color: #F3AC00;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-hre.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #F3AC00;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-hre.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #F3AC00;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-hre .edition-detail .edition-meta {
   border-left: 3px solid #F3AC00;
 }
@@ -3767,19 +3780,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-ced .contact-infos {
   background-color: #ED6B2A;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-ced .entity-detail-child .entity-detail-child-info {
+  border-color: #ED6B2A;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-ced .artwork-detail .artwork-notice a:hover {
   color: #ED6B2A;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-ced.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #ED6B2A;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-ced.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #ED6B2A;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-ced .edition-detail .edition-meta {
   border-left: 3px solid #ED6B2A;
 }
@@ -3878,19 +3895,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mals .contact-infos {
   background-color: #00A369;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mals .entity-detail-child .entity-detail-child-info {
+  border-color: #00A369;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mals .artwork-detail .artwork-notice a:hover {
   color: #00A369;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mals.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #00A369;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mals.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #00A369;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mals .edition-detail .edition-meta {
   border-left: 3px solid #00A369;
 }
@@ -3989,19 +4010,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-marc .contact-infos {
   background-color: #41C497;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-marc .entity-detail-child .entity-detail-child-info {
+  border-color: #41C497;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-marc .artwork-detail .artwork-notice a:hover {
   color: #41C497;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-marc.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #41C497;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-marc.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #41C497;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-marc .edition-detail .edition-meta {
   border-left: 3px solid #41C497;
 }
@@ -4100,19 +4125,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mard .contact-infos {
   background-color: #17B7CB;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mard .entity-detail-child .entity-detail-child-info {
+  border-color: #17B7CB;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mard .artwork-detail .artwork-notice a:hover {
   color: #17B7CB;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mard.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #17B7CB;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mard.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #17B7CB;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mard .edition-detail .edition-meta {
   border-left: 3px solid #17B7CB;
 }
@@ -4211,19 +4240,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mamc .contact-infos {
   background-color: #628BA7;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mamc .entity-detail-child .entity-detail-child-info {
+  border-color: #628BA7;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mamc .artwork-detail .artwork-notice a:hover {
   color: #628BA7;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mamc.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #628BA7;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mamc.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #628BA7;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mamc .edition-detail .edition-meta {
   border-left: 3px solid #628BA7;
 }
@@ -4322,19 +4355,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mba .contact-infos {
   background-color: #3F2575;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mba .entity-detail-child .entity-detail-child-info {
+  border-color: #3F2575;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mba .artwork-detail .artwork-notice a:hover {
   color: #3F2575;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mba.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #3F2575;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mba.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #3F2575;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mba .edition-detail .edition-meta {
   border-left: 3px solid #3F2575;
 }
@@ -4433,19 +4470,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mh .contact-infos {
   background-color: #790C3A;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mh .entity-detail-child .entity-detail-child-info {
+  border-color: #790C3A;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mh .artwork-detail .artwork-notice a:hover {
   color: #790C3A;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mh.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #790C3A;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mh.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #790C3A;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mh .edition-detail .edition-meta {
   border-left: 3px solid #790C3A;
 }
@@ -4544,19 +4585,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mond .contact-infos {
   background-color: #A30000;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mond .entity-detail-child .entity-detail-child-info {
+  border-color: #A30000;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mond .artwork-detail .artwork-notice a:hover {
   color: #A30000;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mond.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #A30000;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mond.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #A30000;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mond .edition-detail .edition-meta {
   border-left: 3px solid #A30000;
 }
@@ -4655,19 +4700,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mtu .contact-infos {
   background-color: #D42889;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mtu .entity-detail-child .entity-detail-child-info {
+  border-color: #D42889;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mtu .artwork-detail .artwork-notice a:hover {
   color: #D42889;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mtu.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #D42889;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mtu.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #D42889;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mtu .edition-detail .edition-meta {
   border-left: 3px solid #D42889;
 }
@@ -4766,19 +4815,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mz .contact-infos {
   background-color: #9528D4;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-mz .entity-detail-child .entity-detail-child-info {
+  border-color: #9528D4;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-mz .artwork-detail .artwork-notice a:hover {
   color: #9528D4;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-mz.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #9528D4;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-mz.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #9528D4;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-mz .edition-detail .edition-meta {
   border-left: 3px solid #9528D4;
 }
@@ -4877,19 +4930,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-aub .contact-infos {
   background-color: #4C28D4;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-aub .entity-detail-child .entity-detail-child-info {
+  border-color: #4C28D4;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-aub .artwork-detail .artwork-notice a:hover {
   color: #4C28D4;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-aub.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #4C28D4;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-aub.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #4C28D4;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-aub .edition-detail .edition-meta {
   border-left: 3px solid #4C28D4;
 }
@@ -4988,19 +5045,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-aud .contact-infos {
   background-color: #C79D49;
 }
-/* line 99, ../sass/partials/_color-schemes.scss */
+/* line 100, ../sass/partials/_color-schemes.scss */
+.cs-aud .entity-detail-child .entity-detail-child-info {
+  border-color: #C79D49;
+}
+/* line 106, ../sass/partials/_color-schemes.scss */
 .cs-aud .artwork-detail .artwork-notice a:hover {
   color: #C79D49;
 }
-/* line 108, ../sass/partials/_color-schemes.scss */
+/* line 115, ../sass/partials/_color-schemes.scss */
 .cs-aud.artwork-collection-artwork .artwork-collection-artwork-info {
   border-color: #C79D49;
 }
-/* line 111, ../sass/partials/_color-schemes.scss */
+/* line 118, ../sass/partials/_color-schemes.scss */
 .cs-aud.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #C79D49;
 }
-/* line 117, ../sass/partials/_color-schemes.scss */
+/* line 124, ../sass/partials/_color-schemes.scss */
 .cs-aud .edition-detail .edition-meta {
   border-left: 3px solid #C79D49;
 }
