@@ -16,6 +16,7 @@ package eu.strasbourg.service.edition.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -85,6 +86,14 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 	@Override
 	public String getImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getImageId());
+	}
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 	}
 
 	/**

@@ -71,6 +71,11 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
 	* Renvoie la liste des éditions de la galerie
 	*/
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions();

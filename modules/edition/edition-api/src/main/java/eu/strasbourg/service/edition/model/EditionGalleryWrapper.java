@@ -440,6 +440,14 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _editionGallery.getImageCopyright(locale);
+	}
+
+	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
