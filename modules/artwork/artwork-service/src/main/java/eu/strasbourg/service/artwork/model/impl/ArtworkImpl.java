@@ -21,10 +21,8 @@ import java.util.Locale;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -96,7 +94,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
-	 * Retourne le copyright de l'image principal
+	 * Retourne le copyright de l'image principale
 	 */
 	@Override
 	public String getImageCopyright(Locale locale) {
@@ -180,21 +178,11 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 */
 
 	/**
-	 * Retourne la source de l'oeuvre
+	 * Retourne les sources de l'oeuvre
 	 */
 	@Override
 	public List<AssetCategory> getSources() {
-		List<AssetCategory> sources = new ArrayList<AssetCategory>();
-		List<AssetCategory> categories = this.getCategories();
-		for (AssetCategory category : categories) {
-			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
-				.fetchAssetVocabulary(category.getVocabularyId());
-			if (vocabulary != null && vocabulary.getName().toLowerCase()
-				.equals("source des oeuvres")) {
-				sources.add(category);
-			}
-		}
-		return sources;
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), "source des oeuvres");
 	}
 
 	/**
