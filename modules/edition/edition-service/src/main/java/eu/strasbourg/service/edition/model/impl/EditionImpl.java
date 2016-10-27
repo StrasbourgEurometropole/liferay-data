@@ -25,7 +25,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
@@ -145,12 +145,8 @@ public class EditionImpl extends EditionBaseImpl {
 	 */
 	@Override
 	public String getFileDownloadURL(Locale locale) {
-		String URL = this.getURL(locale);
-		if (Validator.isNull(URL)) {
-			URL = FileEntryHelper
-				.getFileEntryURL(Long.parseLong(this.getFileId(locale)));
-		}
-		return URL;
+		return FileEntryHelper
+			.getFileEntryURL(GetterUtil.getLong(this.getFileId(locale)));
 	}
 
 	/**
@@ -160,7 +156,7 @@ public class EditionImpl extends EditionBaseImpl {
 	@Override
 	public String getFileSize(Locale locale) {
 		return FileEntryHelper.getReadableFileEntrySize(
-			Long.parseLong(this.getFileId(locale)), locale);
+			GetterUtil.getLong(this.getFileId(locale)), locale);
 	}
 
 	/**
@@ -170,7 +166,7 @@ public class EditionImpl extends EditionBaseImpl {
 	@Override
 	public String getFileType(Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(Long.parseLong(this.getFileId(locale)));
+			.fetchDLFileEntry(GetterUtil.getLong(this.getFileId(locale)));
 		if (fileEntry != null) {
 			return fileEntry.getExtension().toUpperCase();
 		} else {
