@@ -63,7 +63,7 @@
       </div>
     </#if>
     <#if entry.getPublishedArtworkCollections()?has_content>
-    <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
+      <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
       <div class="artwork-collections">
         <#list entry.getPublishedArtworkCollections() as collection>
           <div class="artwork-collection">
