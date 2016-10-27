@@ -39,10 +39,13 @@
   <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.artwork.collection-artworks" /></h3>
   <div class="entity-detail-children artwork-collection-artworks">
     <#list entry.getPublishedArtworks() as artwork>
-      <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
+      <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+          <@liferay_portlet.param name="classPK" value="${artwork.getArtworkId()}" />
+          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+      </@liferay_portlet.renderURL>
       <div class="entity-detail-child artwork-collection-artwork ${artwork.getSourceCSSClass()}">
         <div class="entity-detail-child-image">
-          <a href="${targetFriendlyURL}/-/entity/id/${artwork.getArtworkId()}">
+          <a href="${detailURL}">
             <img src="${artwork.getImageURL()}">
           </a>
         </div>
@@ -53,7 +56,7 @@
             </div>
           </#if>
           <div class="entity-detail-child-title">
-            <a href="${targetFriendlyURL}/-/entity/id/${artwork.getArtworkId()}">
+            <a href="${detailURL}">
               <h4>${artwork.getTitle(locale)}</h4>
             </a>
           </div>

@@ -42,11 +42,14 @@
       </div>
     </#if>
     <#if entry.getPublishedEditionGalleries()?has_content>
-      <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
       <div class="edition-galleries">
         <#list entry.getPublishedEditionGalleries() as gallery>
+        <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+          <@liferay_portlet.param name="classPK" value="${gallery.getGalleryId()}" />
+          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+        </@liferay_portlet.renderURL>
           <div class="edition-gallery">
-            <a href="${targetFriendlyURL}/-/entity/id/${gallery.getGalleryId()}">${gallery.getTitle(locale)}</a>
+            <a href="${detailURL}">${gallery.getTitle(locale)}</a>
           </div>
         </#list>
       </div>

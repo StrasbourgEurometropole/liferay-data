@@ -28,16 +28,19 @@
   <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.edition.gallery-editions" /></h3>
   <div class="entity-detail-children">
     <#list entry.getPublishedEditions() as edition>
-      <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
+      <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+        <@liferay_portlet.param name="classPK" value="${edition.getEditionId()}" />
+        <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+      </@liferay_portlet.renderURL>
       <div class="entity-detail-child">
         <div class="entity-detail-child-image">
-          <a href="${targetFriendlyURL}/-/entity/id/${edition.getEditionId()}">
+          <a href="${detailURL}">
             <img src="${edition.getImageURL()}">
           </a>
         </div>
         <div class="entity-detail-child-info">
           <div class="entity-detail-child-title">
-            <a href="${targetFriendlyURL}/-/entity/id/${edition.getEditionId()}">
+            <a href="${detailURL}">
               <h4>${edition.getTitle(locale)}</h4>
             </a>
           </div>

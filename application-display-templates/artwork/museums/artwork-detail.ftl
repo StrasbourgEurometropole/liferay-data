@@ -63,11 +63,14 @@
       </div>
     </#if>
     <#if entry.getPublishedArtworkCollections()?has_content>
-      <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
       <div class="artwork-collections">
         <#list entry.getPublishedArtworkCollections() as collection>
+          <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+            <@liferay_portlet.param name="classPK" value="${collection.getCollectionId()}" />
+            <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+          </@liferay_portlet.renderURL>
           <div class="artwork-collection">
-            <a href="${targetFriendlyURL}/-/entity/id/${collection.getCollectionId()}">${collection.getTitle(locale)}</a>
+            <a href="${detailURL}">${collection.getTitle(locale)}</a>
           </div>
         </#list>
       </div>
