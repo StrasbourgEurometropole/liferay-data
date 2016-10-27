@@ -975,7 +975,8 @@ a:hover {
 }
 
 /* line 78, ../sass/partials/_typography.scss */
-strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-detail .artwork-notice a, .artwork-collection-detail .collection-sources, .artwork-collection-artworks .artwork-collection-artwork-source {
+strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-detail .artwork-notice a, .artwork-collection-detail .collection-sources, .artwork-collection-artworks .artwork-collection-artwork-source, .edition-detail .edition-subtitle, .edition-detail .edition-download a,
+.edition-detail .edition-url a {
   font-family: "proximanova-bold", sans-serif;
 }
 
@@ -3138,8 +3139,9 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 4, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-main {
   position: relative;
+  text-align: center;
 }
-/* line 7, ../sass/partials/_entity-detail.scss */
+/* line 8, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-main .entity-images-main-copyright {
   position: absolute;
   bottom: 0;
@@ -3149,18 +3151,18 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   width: 100%;
   font-size: 13px;
 }
-/* line 18, ../sass/partials/_entity-detail.scss */
+/* line 19, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel {
   margin-top: 5px;
 }
-/* line 21, ../sass/partials/_entity-detail.scss */
+/* line 22, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel .entity-images-carousel-buttons {
   float: left;
   position: relative;
   margin-right: 5px;
   z-index: 2;
 }
-/* line 27, ../sass/partials/_entity-detail.scss */
+/* line 28, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel .entity-images-carousel-buttons .entity-images-carousel-previous {
   width: 68px;
   height: 68px;
@@ -3168,28 +3170,28 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   background: #333333 url("/o/museum-theme/images/icons/short-arrow-left-white.png") no-repeat center center;
   cursor: pointer;
 }
-/* line 35, ../sass/partials/_entity-detail.scss */
+/* line 36, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel .entity-images-carousel-buttons .entity-images-carousel-next {
   width: 68px;
   height: 68px;
   background: #333333 url("/o/museum-theme/images/icons/short-arrow-right-white.png") no-repeat center center;
   cursor: pointer;
 }
-/* line 44, ../sass/partials/_entity-detail.scss */
+/* line 45, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel .owl-carousel .entity-images-carousel-item {
   height: 140px;
 }
-/* line 48, ../sass/partials/_entity-detail.scss */
+/* line 49, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-images-carousel .owl-carousel img {
   width: auto;
   height: 140px;
 }
-/* line 55, ../sass/partials/_entity-detail.scss */
+/* line 56, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-title h1 {
   margin-top: 35px;
   margin-bottom: 0;
 }
-/* line 60, ../sass/partials/_entity-detail.scss */
+/* line 61, ../sass/partials/_entity-detail.scss */
 .entity-detail .entity-description {
   font-size: 14px;
   margin-top: 25px;
@@ -3199,23 +3201,23 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
   .entity-detail {
     display: flex;
   }
-  /* line 68, ../sass/partials/_entity-detail.scss */
+  /* line 69, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-images,
   .entity-detail .entity-info {
     flex-basis: 50%;
     padding: 20px;
   }
-  /* line 74, ../sass/partials/_entity-detail.scss */
+  /* line 75, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-info {
     max-width: 400px;
   }
-  /* line 78, ../sass/partials/_entity-detail.scss */
+  /* line 79, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-images-carousel {
     width: 620px;
   }
 }
 @media (min-width: 1280px) {
-  /* line 84, ../sass/partials/_entity-detail.scss */
+  /* line 85, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-images-main {
     margin-left: 70px;
   }
@@ -3338,6 +3340,61 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .artwork-collection-artworks .artwork-collection-artwork-title h4 {
   font-size: 20px;
   text-transform: none;
+}
+
+/* line 2, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-subtitle {
+  margin-top: 5px;
+  font-size: 18px;
+}
+/* line 7, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-diffusion-date,
+.edition-detail .edition-sources,
+.edition-detail .edition-types {
+  margin: 10px 0;
+}
+/* line 14, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-download a,
+.edition-detail .edition-url a {
+  display: block;
+  width: 100%;
+  padding: 8px 35px 7px 13px;
+  margin: 25px 0px;
+  border-top: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 14px;
+  background: url("/o/museum-theme/images/icons/arrow-grey-right.png") no-repeat right 10px center;
+}
+/* line 27, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-download a:hover,
+.edition-detail .edition-url a:hover {
+  color: #666666;
+}
+@media (min-width: 919px) {
+  /* line 12, ../sass/partials/_edition-detail.scss */
+  .edition-detail .edition-download,
+  .edition-detail .edition-url {
+    width: 300px;
+  }
+}
+/* line 35, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-meta {
+  color: #888888;
+  border-left: 3px solid #666666;
+  padding: 10px 15px;
+  margin: 30px 0;
+}
+/* line 41, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-galleries {
+  margin: 25px 0;
+}
+/* line 43, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-galleries a {
+  color: #888888;
+}
+/* line 45, ../sass/partials/_edition-detail.scss */
+.edition-detail .edition-galleries a:hover {
+  text-decoration: underline;
 }
 
 /* line 1, ../sass/partials/_contact.scss */
@@ -3500,6 +3557,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-default.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #666666;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-default .edition-detail .edition-meta {
+  border-left: 3px solid #666666;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-hre .breadcrumb {
@@ -3606,6 +3667,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-hre.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #F3AC00;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-hre .edition-detail .edition-meta {
+  border-left: 3px solid #F3AC00;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -3714,6 +3779,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-ced.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #ED6B2A;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-ced .edition-detail .edition-meta {
+  border-left: 3px solid #ED6B2A;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mals .breadcrumb {
@@ -3820,6 +3889,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-mals.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #00A369;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mals .edition-detail .edition-meta {
+  border-left: 3px solid #00A369;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -3928,6 +4001,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-marc.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #41C497;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-marc .edition-detail .edition-meta {
+  border-left: 3px solid #41C497;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mard .breadcrumb {
@@ -4034,6 +4111,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-mard.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #17B7CB;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mard .edition-detail .edition-meta {
+  border-left: 3px solid #17B7CB;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -4142,6 +4223,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mamc.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #628BA7;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mamc .edition-detail .edition-meta {
+  border-left: 3px solid #628BA7;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mba .breadcrumb {
@@ -4248,6 +4333,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-mba.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #3F2575;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mba .edition-detail .edition-meta {
+  border-left: 3px solid #3F2575;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -4356,6 +4445,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mh.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #790C3A;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mh .edition-detail .edition-meta {
+  border-left: 3px solid #790C3A;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mond .breadcrumb {
@@ -4462,6 +4555,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-mond.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #A30000;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mond .edition-detail .edition-meta {
+  border-left: 3px solid #A30000;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -4570,6 +4667,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-mtu.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #D42889;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mtu .edition-detail .edition-meta {
+  border-left: 3px solid #D42889;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-mz .breadcrumb {
@@ -4676,6 +4777,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-mz.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #9528D4;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-mz .edition-detail .edition-meta {
+  border-left: 3px solid #9528D4;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
@@ -4784,6 +4889,10 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 .cs-aub.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #4C28D4;
 }
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-aub .edition-detail .edition-meta {
+  border-left: 3px solid #4C28D4;
+}
 
 /* line 4, ../sass/partials/_color-schemes.scss */
 .cs-aud .breadcrumb {
@@ -4890,4 +4999,8 @@ strong, .page-header-portlet .page-header-share span, .rubric-portlet .rubric-pa
 /* line 111, ../sass/partials/_color-schemes.scss */
 .cs-aud.artwork-collection-artwork .artwork-collection-artwork-source {
   color: #C79D49;
+}
+/* line 117, ../sass/partials/_color-schemes.scss */
+.cs-aud .edition-detail .edition-meta {
+  border-left: 3px solid #C79D49;
 }
