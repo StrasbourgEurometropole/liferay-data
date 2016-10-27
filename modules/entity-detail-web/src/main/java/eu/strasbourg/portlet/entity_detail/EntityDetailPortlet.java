@@ -62,7 +62,9 @@ public class EntityDetailPortlet extends MVCPortlet {
 			AssetEntry entry = null;
 			if (entryId > 0) {
 				entry = AssetEntryLocalServiceUtil.fetchEntry(className, entryId);
-				request.setAttribute("entry", entry);
+				if (entry.getVisible()) {
+					request.setAttribute("entry", entry);
+				}
 			}
 			
 
