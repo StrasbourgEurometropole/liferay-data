@@ -42,7 +42,11 @@ public class FileEntryHelper {
 		Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
 			.fetchDLFileEntry(fileEntryId);
-		return getReadableFileEntrySize(fileEntry, locale);
+		if (fileEntry != null) {
+			return getReadableFileEntrySize(fileEntry, locale);
+		} else {
+			return "";
+		}
 	}
 
 	public static String getReadableFileEntrySize(DLFileEntry fileEntry,
