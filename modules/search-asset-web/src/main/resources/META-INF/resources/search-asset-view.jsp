@@ -61,6 +61,7 @@
 				</div>
 		</liferay-ui:search-container-row>
 
-		<liferay-ui:search-iterator paginate="true" searchContainer="${dc.searchContainer}" />
+		<liferay-ui:search-iterator paginate="false" searchContainer="${dc.searchContainer}" />
+		<liferay-ui:search-paginator searchContainer="${dc.searchContainer}" />
 	</liferay-ui:search-container>
 </aui:form>
