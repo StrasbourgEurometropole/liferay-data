@@ -36,23 +36,23 @@
 </div>
 <!-- Oeuvres de la collection -->
 <#if entry.getPublishedArtworks()?has_content>
-  <h3 class="artwork-collection-artworks-title"><@liferay_ui["message"] key="eu.artwork.collection-artworks" /></h3>
-  <div class="artwork-collection-artworks">
+  <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.artwork.collection-artworks" /></h3>
+  <div class="entity-detail-children artwork-collection-artworks">
     <#list entry.getPublishedArtworks() as artwork>
       <#assign targetFriendlyURL = renderRequest.getAttribute("targetFriendlyURL")!"" />
-      <div class="artwork-collection-artwork ${artwork.getSourceCSSClass()}">
-        <div class="artwork-collection-artwork-image">
+      <div class="entity-detail-child artwork-collection-artwork ${artwork.getSourceCSSClass()}">
+        <div class="entity-detail-child-image">
           <a href="${targetFriendlyURL}/-/entity/id/${artwork.getArtworkId()}">
             <img src="${artwork.getImageURL()}">
           </a>
         </div>
-        <div class="artwork-collection-artwork-info">
+        <div class="entity-detail-child-info artwork-collection-artwork-info">
           <#if artwork.getSources()?has_content>
             <div class="artwork-collection-artwork-source">
                 ${artwork.getSources()[0].getTitle(locale)}
             </div>
           </#if>
-          <div class="artwork-collection-artwork-title">
+          <div class="entity-detail-child-title">
             <a href="${targetFriendlyURL}/-/entity/id/${artwork.getArtworkId()}">
               <h4>${artwork.getTitle(locale)}</h4>
             </a>
