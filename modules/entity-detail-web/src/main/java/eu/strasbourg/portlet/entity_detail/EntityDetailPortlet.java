@@ -15,15 +15,11 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
@@ -80,18 +76,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 			request.setAttribute("displayStyle", displayStyle);
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 			request.setAttribute("contextObjects", contextObjects);
-			 
-			// Page cible des liens
-			String targetUuid = GetterUtil.getString(
-				preferences.getValue("portletSetupLinkToLayoutUuid", StringPool.BLANK));
-			if (Validator.isNotNull(targetUuid)) {
-				Layout targetLayout = LayoutLocalServiceUtil
-					.fetchLayoutByUuidAndGroupId(targetUuid,
-						themeDisplay.getScopeGroupId(), false);
-				String targetFriendlyURL = PortalUtil
-					.getLayoutFriendlyURL(targetLayout, themeDisplay);
-				request.setAttribute("targetFriendlyURL", targetFriendlyURL);
-			}
+
 			super.render(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
