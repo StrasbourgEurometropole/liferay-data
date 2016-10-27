@@ -25,7 +25,11 @@ public class FileEntryHelper {
 	public static String getFileEntryURL(long fileEntryId) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
 			.fetchDLFileEntry(fileEntryId);
-		return getFileEntryURL(fileEntry);
+		if (fileEntry != null) {
+			return getFileEntryURL(fileEntry);
+		} else {
+			return "";
+		}
 	}
 
 	public static String getFileEntryURL(DLFileEntry fileEntry) {
