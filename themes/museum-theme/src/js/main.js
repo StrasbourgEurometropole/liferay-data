@@ -262,3 +262,33 @@
         });
     });
 })(jQuery);
+
+
+//Formulaires de recherche
+(function($) {
+    $(document).ready(function() {
+        $('.search-asset-portlet form legend').on('click', function() {
+            if (!$(this).hasClass('open')) {
+                $(this).addClass('open');
+                $(this).parent().addClass('open');
+                $('.vocabulary-selection-control, .asset-type-selection-control', $(this).parent()).slideToggle(150);
+            } else {
+                $(this).removeClass('open');
+                $(this).parent().removeClass('open');
+                $('.vocabulary-selection-control, .asset-type-selection-control', $(this).parent()).slideToggle(150);
+            }
+        });
+    });
+})(jQuery);
+
+// Validation formulaire de recherche
+(function($) {
+    $(document).ready(function() {
+        $('#keywords-deported-form').on('submit', function(e) {
+            e.preventDefault();
+            var keywords = $('#keywords-deported-form input[type=text]').val();
+            $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
+            $('.search-asset-form form').submit();
+        });
+    });
+})(jQuery);
