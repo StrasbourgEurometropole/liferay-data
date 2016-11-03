@@ -49,9 +49,9 @@
             <img src="${artwork.getImageURL()}">
           </a>
         </div>
-        <div class="entity-detail-child-info artwork-collection-artwork-info">
+        <div class="entity-detail-child-info">
           <#if artwork.getSources()?has_content>
-            <div class="artwork-collection-artwork-source">
+            <div class="entity-detail-child-source">
                 ${artwork.getSources()[0].getTitle(locale)}
             </div>
           </#if>
