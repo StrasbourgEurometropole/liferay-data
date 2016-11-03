@@ -16,11 +16,14 @@
 			value="${configurationRenderURL}" />
 	
 		<aui:fieldset>
-			<aui:select label="form-id" name="formId">
-				<c:forEach var="currentForm" items="${forms}" 	>
-					<aui:option value="${currentForm.id}" selected="${currentForm.id eq formId}">${currentForm.name}</aui:option>
-				</c:forEach>
-			</aui:select>
+			
+			<c:forEach var="locale" items="${availableLocales}">
+				<aui:select label="Formulaire ${locale.displayLanguage}" name="formId_${locale}" localized="true">
+					<c:forEach var="currentForm" items="${forms}" 	>
+						<aui:option value="${currentForm.id}" selected="${currentForm.id eq formIdMap[locale]}">${currentForm.name}</aui:option>
+					</c:forEach>
+				</aui:select>
+			</c:forEach>
 		</aui:fieldset>
 		
 		<aui:button-row>

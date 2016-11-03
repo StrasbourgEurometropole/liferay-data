@@ -13,12 +13,24 @@ import aQute.bnd.annotation.metatype.Meta;
 	name = "portlet.formassembly.configuration.name")
 public interface FormAssemblyConfiguration {
 
+	/**
+	 * URL du webservice de FormAssemnbly
+	 * Configuration globale à saisir dans le control panel de Liferay
+	 */
 	@Meta.AD(name="path", required = false)
 	public String path();
 	
+	/**
+	 * Token de l'API de FormAssembly
+	 * Configuration globale à saisir dans le control panel de Liferay
+	 */
 	@Meta.AD(name="token", required = false)
 	public String token();
 
+	/**
+	 * ID du formulaire à affiche
+	 * String localisable (un ID par langue)
+	 */
 	@Meta.AD(name="formId", required = false)
 	public String formId();
 	

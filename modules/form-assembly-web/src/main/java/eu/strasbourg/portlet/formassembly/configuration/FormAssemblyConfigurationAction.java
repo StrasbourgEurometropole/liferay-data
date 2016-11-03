@@ -2,6 +2,9 @@ package eu.strasbourg.portlet.formassembly.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -15,13 +18,14 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.formassembly.FormAssemblyForm;
@@ -47,8 +51,20 @@ public class FormAssemblyConfigurationAction
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
+			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		String formId = ParamUtil.getString(actionRequest, "formId");
+		PortletInstance portletInstance = PortletInstance
+			.fromPortletInstanceKey(StrasbourgPortletKeys.FORMASSEMBLY_WEB);
+		FormAssemblyConfiguration configuration = _configurationProvider
+			.getPortletInstanceConfiguration(FormAssemblyConfiguration.class,
+				themeDisplay.getLayout(), portletInstance);
+
+		Map<Locale, String> formIdMap = LocalizationUtil
+			.getLocalizationMap(actionRequest, "formId");
+		String formId = LocalizationUtil.updateLocalization(formIdMap,
+			configuration.formId(), "formId",
+			themeDisplay.getSiteDefaultLocale().toString());
 		setPreference(actionRequest, "formId", formId);
 
 		super.processAction(portletConfig, actionRequest, actionResponse);
@@ -61,16 +77,29 @@ public class FormAssemblyConfigurationAction
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			PortletInstance portletInstance = PortletInstance.fromPortletInstanceKey(StrasbourgPortletKeys.FORMASSEMBLY_WEB);
-			FormAssemblyConfiguration configuration = _configurationProvider.getPortletInstanceConfiguration(FormAssemblyConfiguration.class, themeDisplay.getLayout(), portletInstance);
-			
+			PortletInstance portletInstance = PortletInstance
+				.fromPortletInstanceKey(StrasbourgPortletKeys.FORMASSEMBLY_WEB);
+			FormAssemblyConfiguration configuration = _configurationProvider
+				.getPortletInstanceConfiguration(
+					FormAssemblyConfiguration.class, themeDisplay.getLayout(),
+					portletInstance);
 
-			// ID du formulaire sélectionné
-			request.setAttribute("formId",
-				ParamUtil.getString(request, "formId", configuration.formId()));
-			
+			// Liste des langues disponibles
+			Set<Locale> availableLocalesSet = LanguageUtil
+				.getAvailableLocales(themeDisplay.getScopeGroupId());
+			Locale[] availableLocales = availableLocalesSet
+				.toArray(new Locale[availableLocalesSet.size()]);
+			request.setAttribute("availableLocales", availableLocales);
+
+			// IDs des formulaires sélectionnés, par langue
+			String formIdXml = configuration.formId();
+			Map<Locale, String> formIdMap = LocalizationUtil
+				.getLocalizationMap(formIdXml);
+			request.setAttribute("formIdMap", formIdMap);
+
 			// Liste des formulaires
-			FormAssemblyUtil formAssemblyUtil = new FormAssemblyUtil(configuration.path(), configuration.token());
+			FormAssemblyUtil formAssemblyUtil = new FormAssemblyUtil(
+				configuration.path(), configuration.token());
 			JSONObject webServiceResponse = formAssemblyUtil.getFormsListJson();
 
 			List<FormAssemblyForm> forms = new ArrayList<FormAssemblyForm>();
@@ -78,7 +107,6 @@ public class FormAssemblyConfigurationAction
 			// Formulaires sans catégorie
 			JSONArray jsonForms = webServiceResponse.getJSONArray("Forms");
 			formAssemblyUtil.addFormsToListFromJsonArray(forms, jsonForms);
-			
 
 			// Formulaires avec catégorie
 			JSONArray jsonCategories = webServiceResponse
@@ -117,11 +145,12 @@ public class FormAssemblyConfigurationAction
 			e.printStackTrace();
 		}
 	}
-	
+
 	ConfigurationProvider _configurationProvider;
-	
+
 	@Reference
-	protected void setConfigurationProvider(ConfigurationProvider configurationProvider) {
-	    _configurationProvider = configurationProvider;
+	protected void setConfigurationProvider(
+		ConfigurationProvider configurationProvider) {
+		_configurationProvider = configurationProvider;
 	}
 }
