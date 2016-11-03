@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -105,10 +106,12 @@ public class SearchAssetDisplayContext {
 				"vocabulariesCount");
 			List<Long> categoriesIds = new ArrayList<Long>();
 			for (long i = 0; i < vocabulariesCount; i++) {
-				long categoryId = ParamUtil.getLong(this._request,
-					"vocabulary_" + i);
-				if (categoryId > 0) {
-					categoriesIds.add(categoryId);
+				long[] categoriesIdsForVoc = ParamUtil
+					.getLongValues(this._request, "vocabulary_" + i);
+				for (long categoryIdForVoc : categoriesIdsForVoc) {
+					if (categoryIdForVoc > 0) {
+						categoriesIds.add(categoryIdForVoc);
+					}
 				}
 			}
 			this._filterCategoriesIds = categoriesIds.stream().mapToLong(l -> l)
@@ -133,7 +136,8 @@ public class SearchAssetDisplayContext {
 			for (long i = 0; i < classNamesCount; i++) {
 				String className = ParamUtil.getString(this._request,
 					"className_" + i);
-				if (Validator.isNotNull(className) && !"false".equals(className)) {
+				if (Validator.isNotNull(className)
+					&& !"false".equals(className)) {
 					classNames.add(className);
 				}
 			}
@@ -142,7 +146,8 @@ public class SearchAssetDisplayContext {
 		// Si la liste est vide, on renvoie la liste complète paramétrée via la
 		// configuration (on ne recherche pas sur rien !)
 		if (this._filterClassNames.length == 0) {
-			this._filterClassNames = this._configuration.assetClassNames().split(",");
+			this._filterClassNames = this._configuration.assetClassNames()
+				.split(",");
 		}
 		return this._filterClassNames;
 	}
@@ -177,6 +182,19 @@ public class SearchAssetDisplayContext {
 			}
 		}
 		return this._vocabularies;
+	}
+
+	/**
+	 * Retourne la liste des types de contrôles pour les vocabulaires
+	 */
+	public String[] getVocabulariesControlTypes() {
+		String vocabulariesControlTypesString = this._configuration
+			.vocabulariesControlTypes();
+		if (vocabulariesControlTypesString != null) {
+			return vocabulariesControlTypesString.split(",");
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -242,14 +260,33 @@ public class SearchAssetDisplayContext {
 				query.add(categoryQuery, BooleanClauseOccur.MUST);
 			}
 
+			// Préfiltre catégories
+			// On fait un "ou" entre les catégories d'un même vocabulaire et un
+			// "et" entre les différents vocabulaires
+			for (String categoriesIdsGroupByVocabulary : this._configuration
+				.prefilterCategoriesIds().split(";")) {
+				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
+				for (String categoryId : categoriesIdsGroupByVocabulary
+					.split(",")) {
+					if (Validator.isNotNull(categoryId)) {
+						BooleanQuery categoryQuery = new BooleanQueryImpl();
+						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
+							String.valueOf(categoryId));
+						vocabularyQuery.add(categoryQuery,
+							BooleanClauseOccur.SHOULD);
+					}
+				}
+				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
+			}
+
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			List<AssetEntry> results = new ArrayList<AssetEntry>();
 			if (hits != null) {
-				for (float s : hits.getScores()) {
-					System.out.println(s);
-				}
-				System.out.println();
+				/*
+				 * for (float s : hits.getScores()) { System.out.println(s); }
+				 * System.out.println();
+				 */
 				for (Document document : hits.getDocs()) {
 					AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
 						GetterUtil
@@ -324,6 +361,9 @@ public class SearchAssetDisplayContext {
 		return this._templatesMap;
 	}
 
+	/**
+	 * Retourne la liste des class names sur lesquelles on recherche
+	 */
 	public List<String> getClassNames() {
 		return Arrays.asList(_configuration.assetClassNames().split(","));
 	}

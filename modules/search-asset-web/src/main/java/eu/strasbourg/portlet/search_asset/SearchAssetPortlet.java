@@ -56,11 +56,14 @@ public class SearchAssetPortlet extends MVCPortlet {
 			int i = 0;
 			for (String className : configuration.assetClassNames().split(",")) {
 				String layoutFriendlyURL = configuration.layoutsFriendlyURLs().split(",")[i];
-				Layout layout = LayoutLocalServiceUtil.getFriendlyURLLayout(themeDisplay.getScopeGroupId(), false, layoutFriendlyURL);
-				className_layoutId.put(className, layout.getPlid());
+				Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(themeDisplay.getScopeGroupId(), false, layoutFriendlyURL);
+				if (layout != null) {
+					className_layoutId.put(className, layout.getPlid());
+				}
 				i++;
 			}
 			renderRequest.setAttribute("classNameLayoutId", className_layoutId);
+			
 			
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {
