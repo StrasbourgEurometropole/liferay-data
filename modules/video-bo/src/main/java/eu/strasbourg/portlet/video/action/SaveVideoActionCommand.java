@@ -87,8 +87,8 @@ public class SaveVideoActionCommand
 				.getLocalizationMap(request, "origin");
 			video.setOriginMap(origin);
 
-			Long transcriptionfileId = ParamUtil.getLong(request, "transcriptionfileId");
-			video.setTranscriptionFileId(transcriptionfileId);
+			Long transcriptionFileId = ParamUtil.getLong(request, "transcriptionFileId");
+			video.setTranscriptionFileId(transcriptionFileId);
 			
 			// Galeries
 			List<VideoGallery> oldGalleries = video.getVideoGalleries();
