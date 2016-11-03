@@ -14,7 +14,7 @@
     <div class="entity-title">
       <h1>${entry.getTitle(locale)}</h1>
     </div>
-    <div class="gallery-edition-count">
+    <div class="entity-children-count">
       ${entry.getPublishedEditions()?size} <@liferay_ui["message"] key="eu.edition.editions" />
     </div>
     <div class="entity-description">
