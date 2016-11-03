@@ -72,7 +72,7 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 	public java.lang.String getImageURL();
 
 	/**
-	* Retourne le copyright de l'image principal
+	* Retourne le copyright de l'image principale
 	*/
 	public java.lang.String getImageCopyright(java.util.Locale locale);
 
@@ -97,7 +97,12 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 	public eu.strasbourg.service.artwork.model.ArtworkCollection getLiveVersion();
 
 	/**
-	* Retourne la source de la collection
+	* Retourne les sources de la collection
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
+
+	/**
+	* Retourne la classe css correspondante à la source
+	*/
+	public java.lang.String getSourceCSSClass();
 }

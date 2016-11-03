@@ -19,8 +19,11 @@ import java.util.List;
 import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
@@ -162,5 +165,24 @@ public class ArtworkCollectionImpl extends ArtworkCollectionBaseImpl {
 	@Override
 	public List<AssetCategory> getSources() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), "source des oeuvres");
+	}
+	
+	/**
+	 * Retourne la classe css correspondante à la source
+	 */
+	@Override
+	public String getSourceCSSClass() {
+		List<AssetCategory> sources = this.getSources();
+		String cssClass = "";
+		if (sources.size() > 0) {
+			try {
+				AssetCategoryProperty property = AssetCategoryPropertyLocalServiceUtil
+					.getCategoryProperty(sources.get(0).getCategoryId(), "css");
+				cssClass = property.getValue();
+			} catch (PortalException e) {
+				// Pas de propriété avec ce nom, rien de spécial à faire
+			}
+		}
+		return cssClass;
 	}
 }

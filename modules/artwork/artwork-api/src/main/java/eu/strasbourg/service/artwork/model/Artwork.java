@@ -71,7 +71,7 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
-	* Retourne le copyright de l'image principal
+	* Retourne le copyright de l'image principale
 	*/
 	public java.lang.String getImageCopyright(java.util.Locale locale);
 
@@ -101,7 +101,7 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion();
 
 	/**
-	* Retourne la source de l'oeuvre
+	* Retourne les sources de l'oeuvre
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
 

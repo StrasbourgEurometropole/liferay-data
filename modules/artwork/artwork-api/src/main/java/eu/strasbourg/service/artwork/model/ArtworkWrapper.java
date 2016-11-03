@@ -781,7 +781,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Retourne le copyright de l'image principal
+	* Retourne le copyright de l'image principale
 	*/
 	@Override
 	public java.lang.String getImageCopyright(java.util.Locale locale) {
@@ -1427,7 +1427,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
-	* Retourne la source de l'oeuvre
+	* Retourne les sources de l'oeuvre
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources() {

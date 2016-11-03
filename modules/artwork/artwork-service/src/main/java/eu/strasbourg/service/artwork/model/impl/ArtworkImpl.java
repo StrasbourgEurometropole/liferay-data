@@ -191,7 +191,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	@Override
 	public String getSourceCSSClass() {
 		List<AssetCategory> sources = this.getSources();
-		String cssClass = "cs-default";
+		String cssClass = "";
 		if (sources.size() > 0) {
 			try {
 				AssetCategoryProperty property = AssetCategoryPropertyLocalServiceUtil

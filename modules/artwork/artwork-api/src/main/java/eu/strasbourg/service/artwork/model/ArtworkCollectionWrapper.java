@@ -508,7 +508,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Retourne le copyright de l'image principal
+	* Retourne le copyright de l'image principale
 	*/
 	@Override
 	public java.lang.String getImageCopyright(java.util.Locale locale) {
@@ -521,6 +521,14 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	@Override
 	public java.lang.String getImageURL() {
 		return _artworkCollection.getImageURL();
+	}
+
+	/**
+	* Retourne la classe css correspondante à la source
+	*/
+	@Override
+	public java.lang.String getSourceCSSClass() {
+		return _artworkCollection.getSourceCSSClass();
 	}
 
 	/**
@@ -721,7 +729,7 @@ public class ArtworkCollectionWrapper implements ArtworkCollection,
 	}
 
 	/**
-	* Retourne la source de la collection
+	* Retourne les sources de la collection
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources() {
