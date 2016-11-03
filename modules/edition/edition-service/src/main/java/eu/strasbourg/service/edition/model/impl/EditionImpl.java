@@ -150,8 +150,7 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
-	 * Renovie la taille du fichier sous forme de String (si c'est une FileEntry
-	 * - renvoie une chaîne vide si c'est une URL externe)
+	 * Renovie la taille du fichier sous forme de String
 	 */
 	@Override
 	public String getFileSize(Locale locale) {
