@@ -425,6 +425,14 @@ public class VideoGalleryWrapper implements VideoGallery,
 	}
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _videoGallery.getImageCopyright(locale);
+	}
+
+	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*
 	* @throws PortalException

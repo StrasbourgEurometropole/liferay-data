@@ -770,6 +770,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne l'URL de téléchargement du fichier de transcription
+	*/
+	@Override
+	public java.lang.String getTranscriptionDownloadURL() {
+		return _video.getTranscriptionDownloadURL();
+	}
+
+	/**
 	* Returns the user name of this video.
 	*
 	* @return the user name of this video
@@ -875,8 +883,8 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	* Renvoie la liste des galeries vidéos publiées de la
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideosGalleries() {
-		return _video.getPublishedVideosGalleries();
+	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideoGalleries() {
+		return _video.getPublishedVideoGalleries();
 	}
 
 	/**

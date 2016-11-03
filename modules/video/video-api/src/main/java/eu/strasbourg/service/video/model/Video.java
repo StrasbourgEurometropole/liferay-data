@@ -83,7 +83,7 @@ public interface Video extends VideoModel, PersistedModel {
 	/**
 	* Renvoie la liste des galeries vidéos publiées de la
 	*/
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideosGalleries();
+	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideoGalleries();
 
 	/**
 	* Retourne la version live de la vidéo si elle existe, null sinon
@@ -96,4 +96,9 @@ public interface Video extends VideoModel, PersistedModel {
 	* champ source sinon
 	*/
 	public java.lang.String getPlayer(java.util.Locale locale);
+
+	/**
+	* Retourne l'URL de téléchargement du fichier de transcription
+	*/
+	public java.lang.String getTranscriptionDownloadURL();
 }

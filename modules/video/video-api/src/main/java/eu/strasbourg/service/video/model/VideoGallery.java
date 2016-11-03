@@ -73,6 +73,11 @@ public interface VideoGallery extends VideoGalleryModel, PersistedModel {
 	public java.lang.String getImageURL();
 
 	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
 	* Retourne la liste des vidéos de la galerie
 	*/
 	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos();

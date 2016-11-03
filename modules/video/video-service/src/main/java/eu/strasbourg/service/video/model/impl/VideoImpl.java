@@ -23,6 +23,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.video.model.Video;
@@ -116,7 +117,7 @@ public class VideoImpl extends VideoBaseImpl {
 	 * Renvoie la liste des galeries vidéos publiées de la
 	 */
 	@Override
-	public List<VideoGallery> getPublishedVideosGalleries() {
+	public List<VideoGallery> getPublishedVideoGalleries() {
 		List<VideoGallery> galleries = this.getVideoGalleries();
 		List<VideoGallery> result = new ArrayList<VideoGallery>();
 		for (VideoGallery gallery : galleries) {
@@ -174,5 +175,14 @@ public class VideoImpl extends VideoBaseImpl {
 		}
 
 		return player;
+	}
+	
+	/**
+	 * Retourne l'URL de téléchargement du fichier de transcription
+	 */
+	@Override
+	public String getTranscriptionDownloadURL() {
+		return FileEntryHelper
+			.getFileEntryURL(GetterUtil.getLong(this.getTranscriptionFileId()));
 	}
 }
