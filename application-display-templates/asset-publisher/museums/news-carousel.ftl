@@ -1,6 +1,14 @@
 <#if entries?has_content>
     <div class="items-carousel news-carousel">
-        <h3 class="items-carousel-title"><@liferay_ui["message"] key="eu.our" /> <span><@liferay_ui["message"] key="eu.news" /></span></h3>
+        <h3 class="items-carousel-title">
+            <@liferay_ui["message"] key="eu.our" /> 
+            <br><span><@liferay_ui["message"] key="eu.news" /></span>
+
+            <#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
+            <!-- Le lien vers la page de toutes les actualités est défini comme étant la page "/videos", modifier la ligne ci-dessous si besoin -->
+            <a href="https://facebook.com/"><@liferay_ui.message key="eu.join-us" /></a>
+            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/actualites"><@liferay_ui.message key="eu.news.all-news" /></a>    
+        </h3>
         <div class="owl-carousel ">
           <#list entries as curEntry>
             <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
@@ -30,6 +38,10 @@
                 </div>
             </div>
           </#list>
+        </div>
+        <div class="news-secondary-links">
+            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/actualites"><@liferay_ui.message key="eu.news.all-news" /></a>  
+            <a href="https://facebook.com/"><@liferay_ui.message key="eu.join-us" /></a>
         </div>
     </div>
 </#if>
