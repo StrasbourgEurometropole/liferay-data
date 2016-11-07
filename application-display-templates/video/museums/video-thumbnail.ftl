@@ -9,4 +9,18 @@
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
-Vidéo : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+<!-- Vidéo : ${entry.getTitle(locale)} -->
+<div class="entity-thumbnail video-tumbnail">
+  <div class="entity-thumbnail-image">
+    <a href="${detailURL}">
+      <img src="${entry.getImageURL()}" />
+    </a>
+  </div>
+  <div class="entity-thumbnail-info">
+    <div class="entity-thumbnail-title">
+      <a href="${detailURL}">
+        <h4>${entry.getTitle(locale)}</h4>
+      </a>
+    </div>
+  </div>
+</div>
