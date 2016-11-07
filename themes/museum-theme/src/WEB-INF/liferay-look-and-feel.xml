@@ -11,8 +11,8 @@
       <default-cs>true</default-cs>
       <css-class>cs-default</css-class>
     </color-scheme>
-    <color-scheme id="02" name="Histoire d'un réseau exceptionnel">
-      <css-class>cs-hre</css-class>
+    <color-scheme id="02" name="Bibliothèque des Musées">
+      <css-class>cs-bib</css-class>
     </color-scheme>
     <color-scheme id="03" name="Cabinet des Estampes et des Dessins">
       <css-class>cs-ced</css-class>
