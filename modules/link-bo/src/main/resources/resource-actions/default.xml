@@ -2,7 +2,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>eu_strasbourg_portlet_artwork_ArtworkBOPortlet</portlet-name>
+		<portlet-name>eu_strasbourg_portlet_link_LinkBOPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_TO_PAGE</action-key>
@@ -23,4 +23,59 @@
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.link.model</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_link_LinkBOPortlet</portlet-name>
+			<portlet-name>eu_strasbourg_portlet_link_LinkPortlet</portlet-name>
+		</portlet-ref>
+		<root>true</root>
+		<weight>1</weight>
+		<permissions>
+			<supports>
+				<action-key>PERMISSIONS</action-key>
+				<action-key>SUBSCRIBE</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>SUBSCRIBE</action-key>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported>
+				<action-key>PERMISSIONS</action-key>
+				<action-key>SUBSCRIBE</action-key>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.link.model.Link</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_link_LinkBOPortlet</portlet-name>
+			<portlet-name>eu_strasbourg_portlet_link_LinkPortlet</portlet-name>
+		</portlet-ref>
+		<weight>2</weight>
+		<permissions>
+			<supports>
+				<action-key>DELETE</action-key>
+				<action-key>PERMISSIONS</action-key>
+				<action-key>SUBSCRIBE</action-key>
+				<action-key>UPDATE</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>SUBSCRIBE</action-key>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported>
+				<action-key>SUBSCRIBE</action-key>
+				<action-key>UPDATE</action-key>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
 </resource-action-mapping>
