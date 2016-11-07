@@ -17,9 +17,9 @@
     </a>
   </div>
   <div class="entity-thumbnail-info">
-    <#if entry.getEditionGalleries()?has_content>
+    <#if entry.getPublishedEditionGalleries()?has_content>
       <div class="entity-thumbnail-parent-title">
-        <#list entry.getEditionGalleries() as gallery>
+        <#list entry.getPublishedEditionGalleries() as gallery>
           ${gallery.getTitle(locale)}&nbsp;
         </#list>
       </div>
