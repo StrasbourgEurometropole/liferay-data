@@ -6,11 +6,13 @@ Sinon affichage de la description
 -->
 <#list entries as currentPage>
   <div class="rubric-page">
-    <div class="rubric-page-image">
-      <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
-        <img src="${currentPage.expandoBridge.attributes["image"]}" />
-      </a>
-    </div>
+    <#if currentPage.expandoBridge.attributes["image"]?has_content>
+      <div class="rubric-page-image">
+        <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
+          <img src="${currentPage.expandoBridge.attributes["image"]}" />
+        </a>
+      </div>
+    </#if>
     <div class="rubric-page-name">
       <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
         ${currentPage.getName(locale)}
