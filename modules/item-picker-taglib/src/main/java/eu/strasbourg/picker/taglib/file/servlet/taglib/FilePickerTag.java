@@ -92,10 +92,11 @@ public class FilePickerTag extends IncludeTag {
 			availableLocales = availableLocalesSet
 				.toArray(new Locale[availableLocalesSet.size()]);
 		} else {
-			availableLocales = new Locale[] { new Locale("fr") };
+			availableLocales = new Locale[] { themeDisplay.getSiteDefaultLocale() };
 		}
 		request.setAttribute("availableLocales", availableLocales);
-
+		request.setAttribute("defaultLocale", themeDisplay.getSiteDefaultLocale());
+		
 		// Fichiers
 		// On a besoin de Map faisant correspondre :
 		// * pour chaque langue, la liste des fichiers
