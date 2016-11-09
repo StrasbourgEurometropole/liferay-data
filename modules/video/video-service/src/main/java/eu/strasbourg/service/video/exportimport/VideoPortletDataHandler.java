@@ -27,8 +27,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = { "javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_WEB },
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO },
 	service = PortletDataHandler.class)
 public class VideoPortletDataHandler extends BasePortletDataHandler {
 
@@ -65,8 +64,7 @@ public class VideoPortletDataHandler extends BasePortletDataHandler {
 
 		// Si la checkbox correspondant au type à exporté est décochée, on ne
 		// fait rien
-		if (portletDataContext.getBooleanParameter(NAMESPACE,
-			"Video entity")) {
+		if (portletDataContext.getBooleanParameter(NAMESPACE, "Video entity")) {
 			ExportActionableDynamicQuery entryActionableDynamicQuery = this._videoLocalService
 				.getExportActionableDynamicQuery(portletDataContext);
 			entryActionableDynamicQuery
@@ -112,8 +110,7 @@ public class VideoPortletDataHandler extends BasePortletDataHandler {
 	}
 
 	@Reference(unbind = "-")
-	protected void setVideoLocalService(
-		VideoLocalService videoLocalService) {
+	protected void setVideoLocalService(VideoLocalService videoLocalService) {
 		this._videoLocalService = videoLocalService;
 	}
 

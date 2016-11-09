@@ -27,8 +27,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = { "javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_WEB },
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO },
 	service = PortletDataHandler.class)
 public class EditionPortletDataHandler extends BasePortletDataHandler {
 

@@ -27,8 +27,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_WEB },
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO },
 	service = PortletDataHandler.class)
 public class ArtworkPortletDataHandler extends BasePortletDataHandler {
 
