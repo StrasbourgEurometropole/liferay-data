@@ -20,4 +20,6 @@ public class StrasbourgPortletKeys {
 	public static final String ENTITY_DETAIL_WEB = "eu_strasbourg_portlet_entity_detail_EntityDetailPortlet";
 	
 	public static final String FORMASSEMBLY_WEB = "eu_strasbourg_portlet_formassembly_FormAssemblyPortlet";
+	
+	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
 }
