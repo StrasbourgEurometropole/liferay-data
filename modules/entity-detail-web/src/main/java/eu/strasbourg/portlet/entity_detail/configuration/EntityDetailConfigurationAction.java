@@ -30,12 +30,14 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
 @Component(
 	configurationPid = "eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration",
 	configurationPolicy = ConfigurationPolicy.OPTIONAL,
 	immediate = true,
 	property = {
-		"javax.portlet.name=eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" },
+		"javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB },
 	service = ConfigurationAction.class)
 public class EntityDetailConfigurationAction
 	extends DefaultConfigurationAction {
