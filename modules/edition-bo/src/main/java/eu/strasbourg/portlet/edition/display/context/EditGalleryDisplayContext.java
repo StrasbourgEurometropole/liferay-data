@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditGalleryDisplayContext {
 	public EditGalleryDisplayContext(RenderRequest request, RenderResponse response) {
@@ -46,6 +47,13 @@ public class EditGalleryDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			EditionGallery.class.getName());
+	}
+	
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, actionId);
 	}
 	
 	private EditionGallery _editionGallery;

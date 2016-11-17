@@ -70,16 +70,20 @@
 
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${not dc.workflowEnabled}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-					icon="check" label="publish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-					icon="times" label="unpublish" />
+				<c:if test="${dc.hasPermission('UPDATE_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+						icon="check" label="publish" />
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+						icon="times" label="unpublish" />
+				</c:if>
 			</c:if>
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
+			<c:if test="${dc.hasPermission('DELETE_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
+					icon="trash" label="delete" />
+			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
 	</c:if>
 </liferay-frontend:management-bar>
@@ -102,9 +106,9 @@
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
-					<img src="${edition.imageURL}" style="max-height:120px;"/>
+					<img src="${edition.imageURL}" style="max-height: 120px;" />
 				</liferay-ui:search-container-column-text>
-				
+
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editEditionURL}" name="title" truncate="true"
 					orderable="true" value="${edition.titleCurrentValue}" />
@@ -120,11 +124,11 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
-			
+
 				<liferay-ui:search-container-column-text name="user">
 					${edition.statusByUserName}
 				</liferay-ui:search-container-column-text>
-				
+
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${edition.status}" />
@@ -132,7 +136,9 @@
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<liferay-ui:icon message="edit" url="${editEditionURL}" />
+						<c:if test="${dc.hasPermission('UPDATE_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="edit" url="${editEditionURL}" />
+						</c:if>
 
 						<liferay-portlet:actionURL name="deleteEdition"
 							var="deleteEditionURL">
@@ -140,7 +146,9 @@
 							<portlet:param name="tab" value="editions" />
 							<portlet:param name="editionId" value="${edition.editionId}" />
 						</liferay-portlet:actionURL>
-						<liferay-ui:icon message="delete" url="${deleteEditionURL}" />
+						<c:if test="${dc.hasPermission('DELETE_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="delete" url="${deleteEditionURL}" />
+						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -152,10 +160,13 @@
 	</aui:form>
 </div>
 
-<liferay-frontend:add-menu>
-	<liferay-frontend:add-menu-item title='add-edition'
-		url="${addEditionURL}" />
-</liferay-frontend:add-menu>
+<c:if
+	test="${dc.hasPermission('ADD_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<liferay-frontend:add-menu>
+		<liferay-frontend:add-menu-item title='add-edition'
+			url="${addEditionURL}" />
+	</liferay-frontend:add-menu>
+</c:if>
 
 
 <liferay-portlet:actionURL name="selectionAction"

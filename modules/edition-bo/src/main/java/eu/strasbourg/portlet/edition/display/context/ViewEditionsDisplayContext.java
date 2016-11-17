@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewEditionsDisplayContext {
 
@@ -225,6 +226,22 @@ public class ViewEditionsDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Edition.class.getName());
 	}
+	
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, actionId);
+	}
+	
+	
+	/**
+	 * Wrapper autour du permission checker pour les permissions de ressource
+	 *
+	public boolean hasPermission(String actionId, String entryId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), Edition.class.getName(), entryId, actionId);
+	}*/
+
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;
