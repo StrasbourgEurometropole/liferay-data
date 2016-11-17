@@ -3,7 +3,7 @@ jQuery(function() {
 	// Lors d'un clic sur le selecteur de langues global
 	jQuery('body').off('click').on('click', '.lfr-translation-manager-translation', function() {
 		// on déclenche un clic sur chaque drapeau de langue correspondant
-		var language = $(this).attr('locale') ? $(this).attr('locale') : 'fr_FR';
+		var language = $(this).attr('locale') ? $(this).attr('locale') :  Liferay.ThemeDisplay.getLanguageId();
 		var flags = jQuery('.palette-item[data-value=' + language + ']');
 		
 		// On s'occupe également des pickers
