@@ -120,6 +120,10 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
+					
+				<liferay-ui:search-container-column-text name="user">
+					${gallery.statusByUserName}
+				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
