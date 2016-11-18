@@ -33,18 +33,21 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewCollectionsDisplayContext {
 
-	public ViewCollectionsDisplayContext(RenderRequest request, RenderResponse response) {
+	public ViewCollectionsDisplayContext(RenderRequest request,
+		RenderResponse response) {
 
 		this._request = request;
 		this._response = response;
 		this._themeDisplay = (ThemeDisplay) _request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
-	
-	public SearchContainer<ArtworkCollection> getSearchContainer() throws PortalException {
+
+	public SearchContainer<ArtworkCollection> getSearchContainer()
+		throws PortalException {
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "collections");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -52,10 +55,10 @@ public class ViewCollectionsDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
-			this._searchContainer = new SearchContainer<ArtworkCollection>(this._request,
-				iteratorURL, null, "no-entries-were-found");
+			this._searchContainer = new SearchContainer<ArtworkCollection>(
+				this._request, iteratorURL, null, "no-entries-were-found");
 
 			this._searchContainer.setEmptyResultsMessageCssClass(
 				"taglib-empty-result-message-header-has-plus-btn");
@@ -66,7 +69,7 @@ public class ViewCollectionsDisplayContext {
 		}
 		return _searchContainer;
 	}
-	
+
 	public List<ArtworkCollection> getCollections() throws PortalException {
 		if (this._collections == null) {
 			HttpServletRequest servletRequest = PortalUtil
@@ -85,7 +88,8 @@ public class ViewCollectionsDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			searchContext
+				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -100,8 +104,9 @@ public class ViewCollectionsDisplayContext {
 			List<ArtworkCollection> results = new ArrayList<ArtworkCollection>();
 			Hits hits = ArtworkCollectionLocalServiceUtil.search(searchContext);
 			for (Document document : hits.getDocs()) {
-				ArtworkCollection collection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollection(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				ArtworkCollection collection = ArtworkCollectionLocalServiceUtil
+					.fetchArtworkCollection(
+						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (collection != null) {
 					results.add(collection);
 				}
@@ -111,7 +116,7 @@ public class ViewCollectionsDisplayContext {
 		}
 		return this._collections;
 	}
-	
+
 	/**
 	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer les
 	 * éditions Liste sous forme de string qui se présente comme suit :
@@ -169,7 +174,6 @@ public class ViewCollectionsDisplayContext {
 		return vocabulary.getName();
 	}
 
-	
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
@@ -182,7 +186,7 @@ public class ViewCollectionsDisplayContext {
 			return "modified_sortable";
 		}
 	}
-	
+
 	public String getKeywords() {
 		if (Validator.isNull(_keywords)) {
 			_keywords = ParamUtil.getString(_request, "keywords");
@@ -200,15 +204,15 @@ public class ViewCollectionsDisplayContext {
 	}
 
 	public String[] getOrderColumns() {
-		return new String[] { "title", "modified-date",
-			"status" };
+		return new String[] { "title", "modified-date", "status" };
 	}
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = ArtworkCollectionLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = ArtworkCollectionLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
 
 	/**
@@ -220,15 +224,24 @@ public class ViewCollectionsDisplayContext {
 			ArtworkCollection.class.getName());
 	}
 
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.ARTWORK_BO, StrasbourgPortletKeys.ARTWORK_BO,
+			actionId);
+	}
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
-	
+
 	private SearchContainer<ArtworkCollection> _searchContainer;
 	private List<ArtworkCollection> _collections;
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private String _filterCategoriesIds;
-	
+
 }

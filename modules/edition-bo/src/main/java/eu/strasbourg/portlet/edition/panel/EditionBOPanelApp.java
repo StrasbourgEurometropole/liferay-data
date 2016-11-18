@@ -17,10 +17,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     service = PanelApp.class
 )
 public class EditionBOPanelApp extends BasePanelApp {
-		
 	@Override
 	public String getPortletId() {
 		return StrasbourgPortletKeys.EDITION_BO;
 	}
-
 }

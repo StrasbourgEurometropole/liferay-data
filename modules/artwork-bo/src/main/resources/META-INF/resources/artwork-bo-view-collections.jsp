@@ -69,17 +69,21 @@
 		</liferay-frontend:management-bar-filters>
 
 		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${dc.workflowEnabled}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-					icon="check" label="publish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-					icon="times" label="unpublish" />
+			<c:if test="${dc.hasPermission('EDIT_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.workflowEnabled}">
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+						icon="check" label="publish" />
+					<liferay-frontend:management-bar-button
+						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+						icon="times" label="unpublish" />
+				</c:if>
 			</c:if>
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
+			<c:if test="${dc.hasPermission('DELETE_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
+					icon="trash" label="delete" />
+			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
 	</c:if>
 </liferay-frontend:management-bar>
@@ -126,15 +130,18 @@
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
-						<liferay-ui:icon message="edit" url="${editCollectionURL}" />
-
+						<c:if test="${dc.hasPermission('EDIT_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="edit" url="${editCollectionURL}" />
+						</c:if>
 						<liferay-portlet:actionURL name="deleteCollection"
 							var="deleteCollectionURL">
 							<portlet:param name="cmd" value="deleteCollection" />
 							<portlet:param name="tab" value="collections" />
 							<portlet:param name="collectionId" value="${collection.collectionId}" />
 						</liferay-portlet:actionURL>
-						<liferay-ui:icon message="delete" url="${deleteCollectionURL}" />
+						<c:if test="${dc.hasPermission('DELETE_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="delete" url="${deleteCollectionURL}" />
+						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -146,11 +153,12 @@
 	</aui:form>
 </div>
 
-<liferay-frontend:add-menu>
-	<liferay-frontend:add-menu-item title='add-collection'
-		url="${addCollectionURL}" />
-</liferay-frontend:add-menu>
-
+<c:if test="${dc.hasPermission('ADD_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+	<liferay-frontend:add-menu>
+		<liferay-frontend:add-menu-item title='add-collection'
+			url="${addCollectionURL}" />
+	</liferay-frontend:add-menu>
+</c:if>
 
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">

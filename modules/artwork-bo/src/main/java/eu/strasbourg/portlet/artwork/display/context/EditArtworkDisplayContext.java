@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditArtworkDisplayContext {
 	public EditArtworkDisplayContext(RenderRequest request,
@@ -31,15 +32,15 @@ public class EditArtworkDisplayContext {
 		}
 		return _artwork;
 	}
-	
 
 	public Locale[] getAvailableLocales() {
-		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getScopeGroupId());
+		Set<Locale> availableLocalesSet = LanguageUtil
+			.getAvailableLocales(_themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
 		return availableLocales;
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -49,9 +50,19 @@ public class EditArtworkDisplayContext {
 			Artwork.class.getName());
 	}
 
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.ARTWORK_BO, StrasbourgPortletKeys.ARTWORK_BO,
+			actionId);
+	}
+
 	private Artwork _artwork;
 
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
-	
+
 }

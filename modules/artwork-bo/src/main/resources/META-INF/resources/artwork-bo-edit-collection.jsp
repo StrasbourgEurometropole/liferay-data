@@ -82,17 +82,19 @@
 		</aui:fieldset-group>
 
 		<aui:button-row>
-			<aui:input type="hidden" name="workflowAction" value="" />
-			<c:if test="${dc.workflowEnabled}">
-				<aui:button cssClass="btn-lg" type="submit" value="save" />
+			<c:if test="${(dc.hasPermission('ADD_ARTWORK_COLLECTION') and empty dc.collection or dc.hasPermission('EDIT_ARTWORK_COLLECTION') and not empty dc.collection) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<aui:input type="hidden" name="workflowAction" value="" />
+				<c:if test="${dc.workflowEnabled}">
+					<aui:button cssClass="btn-lg" type="submit" value="save" />
+				</c:if>
+				<c:if test="${not dc.workflowEnabled}">
+					<aui:button cssClass="btn-lg" type="submit" name="publish"
+							value="publish" />
+					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
+							value="save-as-draft" />
+				</c:if>
 			</c:if>
-			<c:if test="${not dc.workflowEnabled}">
-				<aui:button cssClass="btn-lg" type="submit" name="publish"
-						value="publish" />
-				<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
-						value="save-as-draft" />
-			</c:if>
-			<c:if test="${not empty dc.collection}">
+			<c:if test="${not empty dc.collection and dc.hasPermission('DELETE_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" href="${deleteCollectionURL}"
 					type="cancel" value="delete" />
 			</c:if>

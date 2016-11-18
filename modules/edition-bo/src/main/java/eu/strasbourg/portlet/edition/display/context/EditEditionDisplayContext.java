@@ -34,12 +34,13 @@ public class EditEditionDisplayContext {
 	}
 
 	public Locale[] getAvailableLocales() {
-		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getScopeGroupId());
+		Set<Locale> availableLocalesSet = LanguageUtil
+			.getAvailableLocales(_themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
 		return availableLocales;
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -48,17 +49,20 @@ public class EditEditionDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Edition.class.getName());
 	}
-	
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO,
+			actionId);
 	}
 
 	private Edition _edition;
 
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
-	
+
 }

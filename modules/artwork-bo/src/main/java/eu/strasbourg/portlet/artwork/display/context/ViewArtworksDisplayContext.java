@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewArtworksDisplayContext {
 
@@ -47,7 +48,7 @@ public class ViewArtworksDisplayContext {
 
 	public SearchContainer<Artwork> getSearchContainer()
 		throws PortalException {
-		
+
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "artworks");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -55,7 +56,7 @@ public class ViewArtworksDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<Artwork>(this._request,
 				iteratorURL, null, "no-entries-were-found");
@@ -76,7 +77,7 @@ public class ViewArtworksDisplayContext {
 				.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
 				.getInstance(servletRequest);
-			
+
 			// On set les categories du search context
 			String[] categoryIdsStrings = this.getFilterCategoriesIds()
 				.split(",");
@@ -90,7 +91,8 @@ public class ViewArtworksDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			searchContext
+				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -147,15 +149,15 @@ public class ViewArtworksDisplayContext {
 	}
 
 	public String[] getOrderColumns() {
-		return new String[] { "title", "modified-date",
-			"status" };
+		return new String[] { "title", "modified-date", "status" };
 	}
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = ArtworkLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = ArtworkLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
 
 	/**
@@ -197,7 +199,7 @@ public class ViewArtworksDisplayContext {
 		}
 		return _filterCategoriesIds;
 	}
-	
+
 	/**
 	 * Retourne le nom à afficher pour un filtre "Vocabulaire" - Si aucune
 	 * catégorie du vocabulaire n'a été sélectionnée, le nom du vocabulaire - Si
@@ -214,7 +216,7 @@ public class ViewArtworksDisplayContext {
 		}
 		return vocabulary.getName();
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -222,6 +224,16 @@ public class ViewArtworksDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Artwork.class.getName());
+	}
+
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.ARTWORK_BO, StrasbourgPortletKeys.ARTWORK_BO,
+			actionId);
 	}
 
 	private final RenderRequest _request;

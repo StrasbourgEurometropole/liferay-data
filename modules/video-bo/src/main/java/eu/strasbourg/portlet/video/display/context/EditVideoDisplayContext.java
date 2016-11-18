@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditVideoDisplayContext {
 	public EditVideoDisplayContext(RenderRequest request,
@@ -33,12 +34,13 @@ public class EditVideoDisplayContext {
 	}
 
 	public Locale[] getAvailableLocales() {
-		Set<Locale> availableLocalesSet = LanguageUtil.getAvailableLocales(_themeDisplay.getScopeGroupId());
+		Set<Locale> availableLocalesSet = LanguageUtil
+			.getAvailableLocales(_themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
 		return availableLocales;
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -48,9 +50,19 @@ public class EditVideoDisplayContext {
 			Video.class.getName());
 	}
 
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO,
+			actionId);
+	}
+
 	private Video _video;
 
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
-	
+
 }

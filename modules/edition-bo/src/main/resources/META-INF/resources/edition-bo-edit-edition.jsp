@@ -121,7 +121,7 @@
 		</aui:fieldset-group>
 
 		<aui:button-row>
-			<c:if test="${dc.hasPermission('UPDATE_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_EDITION') and empty dc.edition or dc.hasPermission('EDIT_EDITION') and not empty dc.edition) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />

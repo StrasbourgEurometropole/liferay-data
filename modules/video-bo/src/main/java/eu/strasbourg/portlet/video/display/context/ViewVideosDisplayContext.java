@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewVideosDisplayContext {
 
@@ -45,9 +46,8 @@ public class ViewVideosDisplayContext {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	public SearchContainer<Video> getSearchContainer()
-		throws PortalException {
-		
+	public SearchContainer<Video> getSearchContainer() throws PortalException {
+
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "videos");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -55,7 +55,7 @@ public class ViewVideosDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<Video>(this._request,
 				iteratorURL, null, "no-entries-were-found");
@@ -76,7 +76,7 @@ public class ViewVideosDisplayContext {
 				.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
 				.getInstance(servletRequest);
-			
+
 			// On set les categories du search context
 			String[] categoryIdsStrings = this.getFilterCategoriesIds()
 				.split(",");
@@ -90,7 +90,8 @@ public class ViewVideosDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			searchContext
+				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -147,15 +148,15 @@ public class ViewVideosDisplayContext {
 	}
 
 	public String[] getOrderColumns() {
-		return new String[] { "title", "modified-date",
-			"status" };
+		return new String[] { "title", "modified-date", "status" };
 	}
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = VideoLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = VideoLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
 
 	/**
@@ -214,7 +215,7 @@ public class ViewVideosDisplayContext {
 		}
 		return vocabulary.getName();
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -222,6 +223,16 @@ public class ViewVideosDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Video.class.getName());
+	}
+
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO,
+			actionId);
 	}
 
 	private final RenderRequest _request;

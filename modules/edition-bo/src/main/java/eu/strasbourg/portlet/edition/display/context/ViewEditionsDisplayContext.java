@@ -48,7 +48,7 @@ public class ViewEditionsDisplayContext {
 
 	public SearchContainer<Edition> getSearchContainer()
 		throws PortalException {
-		
+
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "editions");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -56,7 +56,7 @@ public class ViewEditionsDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<Edition>(this._request,
 				iteratorURL, null, "no-entries-were-found");
@@ -77,7 +77,7 @@ public class ViewEditionsDisplayContext {
 				.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
 				.getInstance(servletRequest);
-			
+
 			// On set les categories du search context
 			String[] categoryIdsStrings = this.getFilterCategoriesIds()
 				.split(",");
@@ -91,7 +91,8 @@ public class ViewEditionsDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			searchContext
+				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -156,9 +157,10 @@ public class ViewEditionsDisplayContext {
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = EditionLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = EditionLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
 
 	/**
@@ -217,7 +219,7 @@ public class ViewEditionsDisplayContext {
 		}
 		return vocabulary.getName();
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -226,22 +228,25 @@ public class ViewEditionsDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Edition.class.getName());
 	}
-	
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO,
+			actionId);
 	}
-	
-	
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de ressource
 	 *
-	public boolean hasPermission(String actionId, String entryId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), Edition.class.getName(), entryId, actionId);
-	}*/
-
+	 * public boolean hasPermission(String actionId, String entryId) throws
+	 * PortalException { return
+	 * _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.
+	 * getScopeGroupId(), Edition.class.getName(), entryId, actionId); }
+	 */
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;

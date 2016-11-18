@@ -13,8 +13,8 @@
 				<action-key>ADD_EDITION_GALLERY</action-key>
 				<action-key>DELETE_EDITION</action-key>
 				<action-key>DELETE_EDITION_GALLERY</action-key>
-				<action-key>UPDATE_EDITION</action-key>
-				<action-key>UPDATE_EDITION_GALLERY</action-key>
+				<action-key>EDIT_EDITION</action-key>
+				<action-key>EDIT_EDITION_GALLERY</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -28,8 +28,8 @@
 				<action-key>ADD_EDITION_GALLERY</action-key>
 				<action-key>DELETE_EDITION</action-key>
 				<action-key>DELETE_EDITION_GALLERY</action-key>
-				<action-key>UPDATE_EDITION</action-key>
-				<action-key>UPDATE_EDITION_GALLERY</action-key>
+				<action-key>EDIT_EDITION</action-key>
+				<action-key>EDIT_EDITION_GALLERY</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
@@ -50,6 +50,7 @@
 			<guest-defaults>
 				<action-key>VIEW</action-key>
 			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
 		</permissions>
 	</model-resource>
 	<model-resource>
@@ -69,6 +70,7 @@
 			<guest-defaults>
 				<action-key>VIEW</action-key>
 			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
 		</permissions>
 	</model-resource>
 </resource-action-mapping>

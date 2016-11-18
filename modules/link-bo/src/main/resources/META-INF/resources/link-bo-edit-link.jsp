@@ -81,16 +81,18 @@
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
-			<c:if test="${dc.workflowEnabled}">
-				<aui:button cssClass="btn-lg" type="submit" value="save" />
+			<c:if test="${(dc.hasPermission('ADD_LINK') and empty dc.link or dc.hasPermission('EDIT_LINK') and not empty dc.link) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<c:if test="${dc.workflowEnabled}">
+					<aui:button cssClass="btn-lg" type="submit" value="save" />
+				</c:if>
+				<c:if test="${not dc.workflowEnabled}">
+					<aui:button cssClass="btn-lg" type="submit" name="publish"
+							value="publish" />
+					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
+							value="save-as-draft" />
+				</c:if>
 			</c:if>
-			<c:if test="${not dc.workflowEnabled}">
-				<aui:button cssClass="btn-lg" type="submit" name="publish"
-						value="publish" />
-				<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
-						value="save-as-draft" />
-			</c:if>
-			<c:if test="${not empty dc.link}">
+			<c:if test="${not empty dc.link && dc.hasPermission('DELETE_LINK') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" href="${deleteLinkURL}"
 					type="cancel" value="delete" />
 			</c:if>

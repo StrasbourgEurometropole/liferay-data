@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewLinksDisplayContext {
 
@@ -219,6 +220,13 @@ public class ViewLinksDisplayContext {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Link.class.getName());
+	}
+	
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.LINK_BO, StrasbourgPortletKeys.LINK_BO, actionId);
 	}
 
 	private final RenderRequest _request;

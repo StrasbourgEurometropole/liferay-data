@@ -37,15 +37,17 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewGalleriesDisplayContext {
 
-	public ViewGalleriesDisplayContext(RenderRequest request, RenderResponse response) {
+	public ViewGalleriesDisplayContext(RenderRequest request,
+		RenderResponse response) {
 
 		this._request = request;
 		this._response = response;
 		this._themeDisplay = (ThemeDisplay) _request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
-	
-	public SearchContainer<EditionGallery> getSearchContainer() throws PortalException {
+
+	public SearchContainer<EditionGallery> getSearchContainer()
+		throws PortalException {
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "editions");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -53,10 +55,10 @@ public class ViewGalleriesDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
-			this._searchContainer = new SearchContainer<EditionGallery>(this._request,
-				iteratorURL, null, "no-entries-were-found");
+			this._searchContainer = new SearchContainer<EditionGallery>(
+				this._request, iteratorURL, null, "no-entries-were-found");
 
 			this._searchContainer.setEmptyResultsMessageCssClass(
 				"taglib-empty-result-message-header-has-plus-btn");
@@ -67,7 +69,7 @@ public class ViewGalleriesDisplayContext {
 		}
 		return _searchContainer;
 	}
-	
+
 	public List<EditionGallery> getGalleries() throws PortalException {
 		if (this._galleries == null) {
 			HttpServletRequest servletRequest = PortalUtil
@@ -86,7 +88,8 @@ public class ViewGalleriesDisplayContext {
 
 			// Init attributes, in case we come from edit page
 			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			searchContext
+				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
 
 			// Sorting
 			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
@@ -101,8 +104,9 @@ public class ViewGalleriesDisplayContext {
 			List<EditionGallery> results = new ArrayList<EditionGallery>();
 			Hits hits = EditionGalleryLocalServiceUtil.search(searchContext);
 			for (Document document : hits.getDocs()) {
-				EditionGallery gallery = EditionGalleryLocalServiceUtil.fetchEditionGallery(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				EditionGallery gallery = EditionGalleryLocalServiceUtil
+					.fetchEditionGallery(
+						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (gallery != null) {
 					results.add(gallery);
 				}
@@ -170,7 +174,6 @@ public class ViewGalleriesDisplayContext {
 		return vocabulary.getName();
 	}
 
-	
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
@@ -185,7 +188,7 @@ public class ViewGalleriesDisplayContext {
 			return "modified_sortable";
 		}
 	}
-	
+
 	public String getKeywords() {
 		if (Validator.isNull(_keywords)) {
 			_keywords = ParamUtil.getString(_request, "keywords");
@@ -209,11 +212,12 @@ public class ViewGalleriesDisplayContext {
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = EditionGalleryLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = EditionGalleryLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -222,22 +226,25 @@ public class ViewGalleriesDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			EditionGallery.class.getName());
 	}
-	
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(),
+			StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO,
+			actionId);
 	}
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
-	
+
 	private SearchContainer<EditionGallery> _searchContainer;
 	private List<EditionGallery> _galleries;
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private String _filterCategoriesIds;
-	
+
 }
