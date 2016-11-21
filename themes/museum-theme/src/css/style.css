@@ -866,31 +866,35 @@ div[class^=col-] {
 .portlet-nested-portlets {
   margin-bottom: 40px;
 }
+/* line 25, ../sass/partials/_layout.scss */
+.portlet-nested-portlets .portlet-layout.row, .portlet-nested-portlets .header-top .portlet-layout.header-top-inner, .header-top .portlet-nested-portlets .portlet-layout.header-top-inner, .portlet-nested-portlets .portlet-layout.title-header, .portlet-nested-portlets .portlet-layout.breadcrumb, .portlet-nested-portlets .portlet-layout.web-content, .portlet-nested-portlets .items-carousel .portlet-layout.item-content, .items-carousel .portlet-nested-portlets .portlet-layout.item-content, .portlet-nested-portlets .exhibition .portlet-layout.exhibition-tab-content, .exhibition .portlet-nested-portlets .portlet-layout.exhibition-tab-content, .portlet-nested-portlets .featured-header .portlet-layout.featured-header-text, .featured-header .portlet-nested-portlets .portlet-layout.featured-header-text, .portlet-nested-portlets .featured-artwork .portlet-layout.featured-artwork-text, .featured-artwork .portlet-nested-portlets .portlet-layout.featured-artwork-text, .portlet-nested-portlets .portlet-layout.rubric-portlet {
+  margin: 0;
+}
 
 @media (min-width: 919px) {
-  /* line 28, ../sass/partials/_layout.scss */
+  /* line 31, ../sass/partials/_layout.scss */
   .portlet-column-first {
     padding-right: 20px !important;
   }
 
-  /* line 32, ../sass/partials/_layout.scss */
+  /* line 35, ../sass/partials/_layout.scss */
   .portlet-column-last {
     border-left: 1px solid #d8d8d8;
     padding-left: 20px !important;
   }
 
-  /* line 36, ../sass/partials/_layout.scss */
+  /* line 39, ../sass/partials/_layout.scss */
   .portlet-nested-portlets .portlet-column-first {
     padding-right: 0 !important;
   }
 
-  /* line 39, ../sass/partials/_layout.scss */
+  /* line 42, ../sass/partials/_layout.scss */
   .portlet-nested-portlets .portlet-column-last {
     border-left: none;
     padding-left: 0 !important;
   }
 
-  /* line 44, ../sass/partials/_layout.scss */
+  /* line 47, ../sass/partials/_layout.scss */
   .portlet-nested-portlets {
     padding: 0 40px;
   }
