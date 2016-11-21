@@ -13,7 +13,7 @@ import aQute.bnd.annotation.metatype.Meta;
 	name = "portlet.entity_detail.configuration.name")
 public interface InternalLinkViewerConfiguration {
 
-	@Meta.AD(name="className", deflt = "", required = false)
+	@Meta.AD(name="linksUuids", deflt = "", required = false)
 	public String linksUuids();
 	
 }
