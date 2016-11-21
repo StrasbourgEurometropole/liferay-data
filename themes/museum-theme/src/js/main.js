@@ -224,6 +224,9 @@
             $('.items-carousel .item-content').dotdotdot({
                 watch: window
             });
+            $('.featured-artwork-description').dotdotdot({
+                height: 40
+            });
         }
     });
     // Magnific popup (lightbox images)
