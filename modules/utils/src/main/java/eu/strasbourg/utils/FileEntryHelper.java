@@ -63,9 +63,7 @@ public class FileEntryHelper {
 	 * des IDs de fichiers, une map contenant les anciens et nouveaux ids de
 	 * fichiers, retourne cette même map après avoir remplacé les IDs des
 	 * fichiers par leurs potentiels IDs live
-	 */
-	/**
-	 * 
+	 *
 	 * @param locale_fileId
 	 *            Map avec comme clé les locales et comme valeurs les ids des
 	 *            fichiers en staging
