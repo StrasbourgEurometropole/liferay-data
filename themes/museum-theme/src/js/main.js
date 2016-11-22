@@ -7,6 +7,7 @@
     });
 })(jQuery);
 
+
 // Sticky (uniquement en desktop)
 (function($) {
     // Cas où il n'y a pas de menu musée
@@ -34,6 +35,7 @@
         });
     }
 })(jQuery);
+
 
 // Menu mobile
 (function($) {
@@ -115,6 +117,7 @@
     });
 })(jQuery);
 
+
 // Menu "accès par public" mobile
 (function($) {
     $('.accessibility-mobile-menu .has-submenu > a').on('click', function(e) {
@@ -122,6 +125,7 @@
         $('.accessibility-mobile-menu .access-by-public-submenu').toggleClass('open');
     });
 })(jQuery);
+
 
 // Carousel home
 (function($) {
@@ -147,6 +151,7 @@
         }
     });
 })(jQuery);
+
 
 // Items carousel
 (function($) {
@@ -199,19 +204,20 @@
                 autoWidth: true,
                 responsiveBaseElement: '.entity-images-carousel'
             });
-            $(window).resize(function() {
-                entityCarouselResizer();
-            });
-            entityCarouselResizer();
 
-            function entityCarouselResizer() {
+            var entityCarouselResizer = function() {
                 if (window.innerWidth > 918) {
                     var newWidth = $('.entity-detail').width() / 2 - 20;
                     $('.entity-images-carousel').width(newWidth);
                 } else {
                     $('.entity-images-carousel').width("auto");
                 }
-            }
+            };
+            $(window).resize(function() {
+                entityCarouselResizer();
+            });
+            entityCarouselResizer();
+
             $('.entity-images-carousel-next').on('click', function() {
                 entityDetailCarousel.trigger('next.owl.carousel');
             });
@@ -219,17 +225,26 @@
                 entityDetailCarousel.trigger('prev.owl.carousel');
             });
         }
-        // Dotdotdot
-        if ($().dotdotdot) {
-            $('.items-carousel .item-content').dotdotdot({
-                watch: window
-            });
-            $('.featured-artwork-description').dotdotdot({
-                height: 40
-            });
-        }
     });
-    // Magnific popup (lightbox images)
+    
+})(jQuery);
+
+
+// Dotdotdot
+(function($) {
+    if ($().dotdotdot) {
+        $('.items-carousel .item-content').dotdotdot({
+            watch: window
+        });
+        $('.featured-artwork-description').dotdotdot({
+            height: 40
+        });
+    }
+})(jQuery);
+
+
+// Magnific popup (lightbox images)
+(function($) {
     if ($().magnificPopup) {
         $('.lightbox').on('click', function(e) {
             $.magnificPopup.open({
@@ -249,6 +264,7 @@
         });
     }
 })(jQuery);
+
 
 // Onglets expositions
 (function($) {
@@ -284,6 +300,7 @@
     });
 })(jQuery);
 
+
 // Validation formulaire de recherche
 (function($) {
     $(document).ready(function() {
@@ -293,5 +310,18 @@
             $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
             $('.search-asset-form form').submit();
         });
+    });
+})(jQuery);
+
+
+// Contenu web home : redimensionnement
+(function($) {
+    $(document).ready(function() {
+        var museumHomeResizer = function () {
+            var newTop = ($('.cover').height() - $('.cover-text').height()) / 2;
+            $('.cover-text').css('top', newTop + 'px');
+        };
+        $(window).resize(museumHomeResizer);        
+        museumHomeResizer();
     });
 })(jQuery);

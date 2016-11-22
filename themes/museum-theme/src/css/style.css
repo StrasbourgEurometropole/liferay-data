@@ -995,7 +995,7 @@ a:hover {
 }
 
 /* line 78, ../sass/partials/_typography.scss */
-strong, .page-header-portlet .page-header-share span, .news-carousel .news-secondary-links a, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .entity-detail-children .entity-detail-child .entity-detail-child-source, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-collection-detail .collection-sources, .edition-detail .edition-subtitle, .search-asset-portlet .search-asset-form form legend, .entity-thumbnail .entity-thumbnail-source, .featured-header .featured-header-link, .featured-artwork .featured-artwork-text .featured-artwork-link, .featured-footer a, .arrow-block-link a, .artwork-detail .artwork-notice a, .edition-detail .edition-download a,
+strong, .page-header-portlet .page-header-share span, .news-carousel .news-secondary-links a, .museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2, .museum-home .welcome-text, .rubric-portlet .rubric-page-name, .rubric-portlet .rubric-page-links li a:hover, .rubric-portlet .rubric-page-read-more a, .entity-detail-children .entity-detail-child .entity-detail-child-source, .artwork-detail .artwork-artist, .artwork-detail .artwork-sources, .artwork-collection-detail .collection-sources, .edition-detail .edition-subtitle, .search-asset-portlet .search-asset-form form legend, .entity-thumbnail .entity-thumbnail-source, .featured-header .featured-header-link, .featured-artwork .featured-artwork-text .featured-artwork-link, .featured-footer a, .arrow-block-link a, .artwork-detail .artwork-notice a, .edition-detail .edition-download a,
 .edition-detail .edition-url a, .video-detail .video-transcription a,
 .video-detail .video-origin a {
   font-family: "proximanova-bold", sans-serif;
@@ -1058,7 +1058,7 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
 
 @media (min-width: 919px) {
   /* line 27, ../sass/partials/_utils.scss */
-  .hide-over-m, .header-top .contact i, .header-top .language-menu .active-language, .mobile-menu-toggle {
+  .hide-over-m, .header-top .contact i, .header-top .language-menu .active-language, .mobile-menu-toggle, .museum-home .welcome-text {
     display: none !important;
   }
 }
@@ -3073,6 +3073,83 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
   font-size: 14px;
 }
 
+/* line 1, ../sass/partials/_museum-home.scss */
+.signed-out .museum-home {
+  margin-top: -32px;
+}
+
+/* line 6, ../sass/partials/_museum-home.scss */
+.museum-home .cover {
+  position: relative;
+}
+/* line 10, ../sass/partials/_museum-home.scss */
+.museum-home .cover-text {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  padding: 0 40px;
+}
+/* line 16, ../sass/partials/_museum-home.scss */
+.museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2 {
+  display: none;
+  color: white;
+  text-transform: uppercase;
+}
+@media (min-width: 919px) {
+  /* line 16, ../sass/partials/_museum-home.scss */
+  .museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2 {
+    display: block;
+  }
+}
+/* line 28, ../sass/partials/_museum-home.scss */
+.museum-home .cover-text .cover-text-1 {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+/* line 33, ../sass/partials/_museum-home.scss */
+.museum-home .cover-text .cover-text-2 {
+  font-size: 60px;
+  line-height: 60px;
+}
+/* line 39, ../sass/partials/_museum-home.scss */
+.museum-home .play {
+  box-sizing: content-box;
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  margin-top: 15px;
+  background: transparent url(../images/icons/play.png) no-repeat center center;
+  background-size: 20px 22px;
+  border: 4px solid #fff;
+  cursor: pointer;
+}
+/* line 51, ../sass/partials/_museum-home.scss */
+.museum-home .welcome-text {
+  padding: 30px 60px;
+  text-transform: uppercase;
+  text-align: center;
+}
+/* line 61, ../sass/partials/_museum-home.scss */
+.museum-home .welcome-text-1 {
+  font-size: 14px;
+}
+@media (min-width: 602px) {
+  /* line 61, ../sass/partials/_museum-home.scss */
+  .museum-home .welcome-text-1 {
+    font-size: 21px;
+  }
+}
+/* line 69, ../sass/partials/_museum-home.scss */
+.museum-home .welcome-text-2 {
+  font-size: 24px;
+}
+@media (min-width: 602px) {
+  /* line 69, ../sass/partials/_museum-home.scss */
+  .museum-home .welcome-text-2 {
+    font-size: 35px;
+  }
+}
+
 /* line 1, ../sass/partials/_all-news.scss */
 .all-news {
   padding: 20px;
@@ -3085,21 +3162,23 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
   /* line 4, ../sass/partials/_all-news.scss */
   .all-news .news {
     margin-bottom: 40px;
+    width: 600px;
+    display: inline-block;
   }
 }
 @media (min-width: 602px) {
-  /* line 10, ../sass/partials/_all-news.scss */
+  /* line 12, ../sass/partials/_all-news.scss */
   .all-news .news-image {
     display: inline-block;
     width: 300px;
   }
 }
-/* line 17, ../sass/partials/_all-news.scss */
+/* line 19, ../sass/partials/_all-news.scss */
 .all-news .news-info {
   padding: 10px;
 }
 @media (min-width: 602px) {
-  /* line 17, ../sass/partials/_all-news.scss */
+  /* line 19, ../sass/partials/_all-news.scss */
   .all-news .news-info {
     display: inline-block;
     padding: 20px 0;
@@ -3107,14 +3186,14 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
     vertical-align: top;
   }
 }
-/* line 27, ../sass/partials/_all-news.scss */
+/* line 29, ../sass/partials/_all-news.scss */
 .all-news .news-date {
-  font-family: "Times", Serif;
+  font-family: 'Times', Serif;
   font-style: italic;
   font-size: 15px;
   color: #666666;
 }
-/* line 34, ../sass/partials/_all-news.scss */
+/* line 36, ../sass/partials/_all-news.scss */
 .all-news .news-title h4 {
   font-size: 16px;
   text-transform: none;
