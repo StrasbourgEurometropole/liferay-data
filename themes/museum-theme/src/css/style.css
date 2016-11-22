@@ -3073,6 +3073,54 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
   font-size: 14px;
 }
 
+/* line 1, ../sass/partials/_all-news.scss */
+.all-news {
+  padding: 20px;
+}
+/* line 4, ../sass/partials/_all-news.scss */
+.all-news .news {
+  margin-bottom: 20px;
+}
+@media (min-width: 602px) {
+  /* line 4, ../sass/partials/_all-news.scss */
+  .all-news .news {
+    margin-bottom: 40px;
+  }
+}
+@media (min-width: 602px) {
+  /* line 10, ../sass/partials/_all-news.scss */
+  .all-news .news-image {
+    display: inline-block;
+    width: 300px;
+  }
+}
+/* line 17, ../sass/partials/_all-news.scss */
+.all-news .news-info {
+  padding: 10px;
+}
+@media (min-width: 602px) {
+  /* line 17, ../sass/partials/_all-news.scss */
+  .all-news .news-info {
+    display: inline-block;
+    padding: 20px 0;
+    margin-left: 25px;
+    vertical-align: top;
+  }
+}
+/* line 27, ../sass/partials/_all-news.scss */
+.all-news .news-date {
+  font-family: "Times", Serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #666666;
+}
+/* line 34, ../sass/partials/_all-news.scss */
+.all-news .news-title h4 {
+  font-size: 16px;
+  text-transform: none;
+  margin-bottom: 20px;
+}
+
 /* line 3, ../sass/partials/_rubric.scss */
 .rubric-portlet .rubric-pages {
   columns: 275px;
@@ -3922,37 +3970,50 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
 
 /* line 113, ../sass/partials/_featured.scss */
 .featured-footer {
-  padding-top: 50px;
-  padding-left: 35px;
-  padding-right: 35px;
+  padding: 0 20px;
 }
 @media (min-width: 992px) {
   /* line 113, ../sass/partials/_featured.scss */
   .featured-footer {
-    padding-right: 0;
+    padding-top: 50px;
+    padding-left: 35px;
+    padding-right: 35px;
   }
 }
 /* line 121, ../sass/partials/_featured.scss */
 .featured-footer h2 {
-  font-size: 44px;
+  font-size: 25px;
   margin-bottom: 20px;
 }
-/* line 124, ../sass/partials/_featured.scss */
+@media (min-width: 602px) {
+  /* line 121, ../sass/partials/_featured.scss */
+  .featured-footer h2 {
+    font-size: 44px;
+  }
+}
+/* line 127, ../sass/partials/_featured.scss */
 .featured-footer h2 span {
   display: block;
   font-size: 54px;
   font-family: 'Times', serif;
   font-style: italic;
-  line-height: 44px;
+  line-height: 1em;
   color: #666666;
   text-transform: none;
+  font-size: 31px;
 }
-/* line 134, ../sass/partials/_featured.scss */
+@media (min-width: 602px) {
+  /* line 127, ../sass/partials/_featured.scss */
+  .featured-footer h2 span {
+    font-size: 44px;
+  }
+}
+/* line 141, ../sass/partials/_featured.scss */
 .featured-footer ul {
   border-top: 1px solid #d8d8d8;
   margin: 0;
 }
-/* line 138, ../sass/partials/_featured.scss */
+/* line 145, ../sass/partials/_featured.scss */
 .featured-footer li {
   padding: 0 15px;
 }
