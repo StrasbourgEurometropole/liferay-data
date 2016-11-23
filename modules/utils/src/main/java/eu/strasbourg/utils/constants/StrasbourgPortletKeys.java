@@ -1,6 +1,9 @@
 package eu.strasbourg.utils.constants;
 
 public class StrasbourgPortletKeys {
+	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
+	public static final String AGENDA_WEB = "eu_strasbourg_portlet_edition_AgendaPortlet";
+	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
 
@@ -22,4 +25,6 @@ public class StrasbourgPortletKeys {
 	public static final String FORMASSEMBLY_WEB = "eu_strasbourg_portlet_formassembly_FormAssemblyPortlet";
 	
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
+	
+	public static final String LEGACY_PLACE_VIEWER = "eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet";
 }

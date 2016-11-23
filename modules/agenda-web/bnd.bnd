@@ -1,0 +1,3 @@
+Bundle-SymbolicName: agenda.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.agenda.itemselector

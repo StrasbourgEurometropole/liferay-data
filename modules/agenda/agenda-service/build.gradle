@@ -1,0 +1,13 @@
+dependencies {
+	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
+	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
+	compile group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
+	compile project (':modules:utils')
+	compile project(":modules:agenda:agenda-api")
+}
+
+buildService {
+	apiDir = "../agenda-api/src/main/java"
+	osgiModule = true
+	propsUtil = "eu.strasbourg.service.agenda.service.util.PropsUtil"
+}

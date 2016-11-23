@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.EventServiceImpl" id="eu.strasbourg.service.agenda.service.EventService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.ManifestationLocalServiceImpl" id="eu.strasbourg.service.agenda.service.ManifestationLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl" id="eu.strasbourg.service.agenda.service.ManifestationService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.ManifestationPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence" parent="basePersistence" />
+</beans>

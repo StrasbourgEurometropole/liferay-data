@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
 
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
+import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
+import eu.strasbourg.portlet.agenda.itemselector.ManifestationItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
@@ -170,6 +172,28 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, videoGalleryItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.agenda.model.Event":
+			EventItemSelectorCriterion eventItemSelectorCriterion = new EventItemSelectorCriterion();
+			eventItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, eventItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.agenda.model.Manifestation":
+			ManifestationItemSelectorCriterion manifestationItemSelectorCriterion = new ManifestationItemSelectorCriterion();
+			manifestationItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, manifestationItemSelectorCriterion);
 			itemSelectorURL.setParameter("multiple", _multiple);
 			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;

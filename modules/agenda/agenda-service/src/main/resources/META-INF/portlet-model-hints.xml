@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.agenda.model.Event">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="subtitle" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="displayDate" type="Date" />
+		<field name="imageId" type="Long" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.Manifestation">
+		<field name="uuid" type="String" />
+		<field name="manifestationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="imageId" type="Long" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="displayDate" type="Date" />
+	</model>
+</model-hints>
