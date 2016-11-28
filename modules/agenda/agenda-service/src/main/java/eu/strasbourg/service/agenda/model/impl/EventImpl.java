@@ -26,8 +26,10 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -80,7 +82,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
 	public String getImageURL() {
@@ -96,7 +98,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des manifestations auxquelles cette édition appartient
+	 * Retourne la liste des manifestations auxquelles cette édition appartient
 	 */
 	@Override
 	public List<Manifestation> getManifestations() {
@@ -105,7 +107,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des IDs des manifestations auxquelles cette édition
+	 * Retourne la liste des IDs des manifestations auxquelles cette édition
 	 * appartient sous forme de String
 	 */
 	@Override
@@ -122,7 +124,7 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des galeries publiées
+	 * Retourne la liste des galeries publiées
 	 */
 	@Override
 	public List<Manifestation> getPublishedManifestations() {
@@ -135,9 +137,17 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return result;
 	}
+	
+	/**
+	 * Retourne la liste des périodes auxquelles l'événement à lieu
+	 */
+	@Override
+	public List<EventPeriod> getEventPeriods() {
+		return EventPeriodLocalServiceUtil.getByEventId(this.getEventId());
+	}
 
 	/**
-	 * Renvoie la version live de l'édition, si elle existe
+	 * Retourne la version live de l'édition, si elle existe
 	 */
 	@Override
 	public Event getLiveVersion() {

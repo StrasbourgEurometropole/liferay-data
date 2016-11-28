@@ -15,7 +15,9 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,29 +38,32 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"mvc.command.name=saveEvent" },
 	service = MVCActionCommand.class)
-public class SaveEventActionCommand
-	implements MVCActionCommand {
-	
+public class SaveEventActionCommand implements MVCActionCommand {
+
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
+			sc.setScopeGroupId(
+				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
+					.getCompanyGroupId());
 			long eventId = ParamUtil.getLong(request, "eventId");
 			Event event;
 			if (eventId == 0) {
@@ -66,14 +71,14 @@ public class SaveEventActionCommand
 			} else {
 				event = _eventLocalService.getEvent(eventId);
 			}
-			
+
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
 			event.setTitleMap(title);
-			
+
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			event.setImageId(imageId);
-			
+
 			Map<Locale, String> subtitle = LocalizationUtil
 				.getLocalizationMap(request, "subtitle");
 			event.setSubtitleMap(subtitle);
@@ -82,22 +87,65 @@ public class SaveEventActionCommand
 				.getLocalizationMap(request, "description");
 			event.setDescriptionMap(description);
 
-			String displayDateString = ParamUtil.getString(request, "displayDate");
-			Date displayDate = DateUtil.parseDate(displayDateString, request.getLocale());
+			String displayDateString = ParamUtil.getString(request,
+				"displayDate");
+			Date displayDate = DateUtil.parseDate(displayDateString,
+				request.getLocale());
 			event.setDisplayDate(displayDate);
-			
+
 			List<Manifestation> oldManifestations = event.getManifestations();
 			for (Manifestation manifestation : oldManifestations) {
-				_eventLocalService.deleteManifestationEvent(manifestation.getManifestationId(), event);
+				_eventLocalService.deleteManifestationEvent(
+					manifestation.getManifestationId(), event);
 			}
-			long[] manifestationsIds = ParamUtil.getLongValues(request, "manifestationsIds");
+			long[] manifestationsIds = ParamUtil.getLongValues(request,
+				"manifestationsIds");
 			for (long manifestationId : manifestationsIds) {
 				if (manifestationId > 0) {
-					_eventLocalService.addManifestationEvent(manifestationId, event);
+					_eventLocalService.addManifestationEvent(manifestationId,
+						event);
 				}
 			}
-			
+
 			_eventLocalService.updateEvent(event, sc);
+
+			/**
+			 * Périodes de l'événement
+			 */
+			// Suppressionn des anciennes périodes
+			List<EventPeriod> oldPeriods = event.getEventPeriods();
+			for (EventPeriod eventPeriod : oldPeriods) {
+				_eventPeriodLocalService.deleteEventPeriod(eventPeriod);
+			}
+			// Ajout des nouvelles
+			String periodsIndexesString = ParamUtil.getString(request,
+				"periodIndexes");
+			for (String periodIndex : periodsIndexesString.split(",")) {
+				DateFormat dateFormat = new SimpleDateFormat(
+					"dd/MM/yyyy");
+				if (Validator.isNotNull(periodIndex)
+					&& Validator.isNotNull(
+						ParamUtil.getString(request, "startDate" + periodIndex))
+					&& Validator.isNotNull(ParamUtil.getString(request,
+						"endDate" + periodIndex))) {
+
+					Date startDate = ParamUtil.getDate(request,
+						"startDate" + periodIndex, dateFormat);
+					Date endDate = ParamUtil.getDate(request,
+						"endDate" + periodIndex, dateFormat);
+					Map<Locale, String> timeDetail = LocalizationUtil.getLocalizationMap(request, "timeDetail" + periodIndex);
+					
+					EventPeriod eventPeriod = _eventPeriodLocalService
+						.createEventPeriod();
+					eventPeriod.setStartDate(startDate);
+					eventPeriod.setEndDate(endDate);
+					eventPeriod.setTimeDetailMap(timeDetail);
+					eventPeriod.setEventId(event.getEventId());
+					this._eventPeriodLocalService
+						.updateEventPeriod(eventPeriod);
+				}
+			}
+
 		} catch (PortalException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
@@ -110,10 +158,18 @@ public class SaveEventActionCommand
 	private EventLocalService _eventLocalService;
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(
-		EventLocalService eventLocalService) {
+	protected void setEventLocalService(EventLocalService eventLocalService) {
 
 		_eventLocalService = eventLocalService;
+	}
+
+	private EventPeriodLocalService _eventPeriodLocalService;
+
+	@Reference(unbind = "-")
+	protected void setEventPeriodLocalService(
+		EventPeriodLocalService eventPeriodLocalService) {
+
+		_eventPeriodLocalService = eventPeriodLocalService;
 	}
 
 }

@@ -62,6 +62,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
@@ -626,6 +627,44 @@ public abstract class EventLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the event period local service.
+	 *
+	 * @return the event period local service
+	 */
+	public eu.strasbourg.service.agenda.service.EventPeriodLocalService getEventPeriodLocalService() {
+		return eventPeriodLocalService;
+	}
+
+	/**
+	 * Sets the event period local service.
+	 *
+	 * @param eventPeriodLocalService the event period local service
+	 */
+	public void setEventPeriodLocalService(
+		eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService) {
+		this.eventPeriodLocalService = eventPeriodLocalService;
+	}
+
+	/**
+	 * Returns the event period persistence.
+	 *
+	 * @return the event period persistence
+	 */
+	public EventPeriodPersistence getEventPeriodPersistence() {
+		return eventPeriodPersistence;
+	}
+
+	/**
+	 * Sets the event period persistence.
+	 *
+	 * @param eventPeriodPersistence the event period persistence
+	 */
+	public void setEventPeriodPersistence(
+		EventPeriodPersistence eventPeriodPersistence) {
+		this.eventPeriodPersistence = eventPeriodPersistence;
+	}
+
+	/**
 	 * Returns the manifestation local service.
 	 *
 	 * @return the manifestation local service
@@ -945,6 +984,10 @@ public abstract class EventLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected EventLocalService eventLocalService;
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
+	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
+	@BeanReference(type = EventPeriodPersistence.class)
+	protected EventPeriodPersistence eventPeriodPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class)
 	protected eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService;
 	@BeanReference(type = ManifestationPersistence.class)

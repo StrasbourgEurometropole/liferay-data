@@ -3661,7 +3661,7 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 	 * Initializes the manifestation persistence.
 	 */
 	public void afterPropertiesSet() {
-		manifestationToEventTableMapper = TableMapperFactory.getTableMapper("event_EventToManifestation",
+		manifestationToEventTableMapper = TableMapperFactory.getTableMapper("agenda_EventToManifestation",
 				"companyId", "manifestationId", "eventId", this,
 				eventPersistence);
 	}
@@ -3672,7 +3672,7 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		TableMapperFactory.removeTableMapper("event_EventToManifestation");
+		TableMapperFactory.removeTableMapper("agenda_EventToManifestation");
 	}
 
 	@ServiceReference(type = CompanyProviderWrapper.class)

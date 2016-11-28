@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the Manifestation service. Represents a row in the &quot;event_Manifestation&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the Manifestation service. Represents a row in the &quot;agenda_Manifestation&quot; database table, with each column mapped to a property of this class.
  *
  * @author BenjaminBini
  * @see ManifestationModel

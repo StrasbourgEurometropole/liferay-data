@@ -33,6 +33,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationService;
+import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
@@ -112,6 +113,63 @@ public abstract class ManifestationServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEventPersistence(EventPersistence eventPersistence) {
 		this.eventPersistence = eventPersistence;
+	}
+
+	/**
+	 * Returns the event period local service.
+	 *
+	 * @return the event period local service
+	 */
+	public eu.strasbourg.service.agenda.service.EventPeriodLocalService getEventPeriodLocalService() {
+		return eventPeriodLocalService;
+	}
+
+	/**
+	 * Sets the event period local service.
+	 *
+	 * @param eventPeriodLocalService the event period local service
+	 */
+	public void setEventPeriodLocalService(
+		eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService) {
+		this.eventPeriodLocalService = eventPeriodLocalService;
+	}
+
+	/**
+	 * Returns the event period remote service.
+	 *
+	 * @return the event period remote service
+	 */
+	public eu.strasbourg.service.agenda.service.EventPeriodService getEventPeriodService() {
+		return eventPeriodService;
+	}
+
+	/**
+	 * Sets the event period remote service.
+	 *
+	 * @param eventPeriodService the event period remote service
+	 */
+	public void setEventPeriodService(
+		eu.strasbourg.service.agenda.service.EventPeriodService eventPeriodService) {
+		this.eventPeriodService = eventPeriodService;
+	}
+
+	/**
+	 * Returns the event period persistence.
+	 *
+	 * @return the event period persistence
+	 */
+	public EventPeriodPersistence getEventPeriodPersistence() {
+		return eventPeriodPersistence;
+	}
+
+	/**
+	 * Sets the event period persistence.
+	 *
+	 * @param eventPeriodPersistence the event period persistence
+	 */
+	public void setEventPeriodPersistence(
+		EventPeriodPersistence eventPeriodPersistence) {
+		this.eventPeriodPersistence = eventPeriodPersistence;
 	}
 
 	/**
@@ -527,6 +585,12 @@ public abstract class ManifestationServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.agenda.service.EventService eventService;
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
+	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodService.class)
+	protected eu.strasbourg.service.agenda.service.EventPeriodService eventPeriodService;
+	@BeanReference(type = EventPeriodPersistence.class)
+	protected EventPeriodPersistence eventPeriodPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class)
 	protected eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService;
 	@BeanReference(type = ManifestationService.class)

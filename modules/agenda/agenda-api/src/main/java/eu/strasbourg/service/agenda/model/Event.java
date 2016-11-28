@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the Event service. Represents a row in the &quot;event_Event&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the Event service. Represents a row in the &quot;agenda_Event&quot; database table, with each column mapped to a property of this class.
  *
  * @author BenjaminBini
  * @see EventModel
@@ -66,7 +66,7 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
 
@@ -76,23 +76,28 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getImageCopyright(java.util.Locale locale);
 
 	/**
-	* Renvoie la liste des manifestations auxquelles cette édition appartient
+	* Retourne la liste des manifestations auxquelles cette édition appartient
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getManifestations();
 
 	/**
-	* Renvoie la liste des IDs des manifestations auxquelles cette édition
+	* Retourne la liste des IDs des manifestations auxquelles cette édition
 	* appartient sous forme de String
 	*/
 	public java.lang.String getManifestationsIds();
 
 	/**
-	* Renvoie la liste des galeries publiées
+	* Retourne la liste des galeries publiées
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations();
 
 	/**
-	* Renvoie la version live de l'édition, si elle existe
+	* Retourne la liste des périodes auxquelles l'événement à lieu
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods();
+
+	/**
+	* Retourne la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
 }

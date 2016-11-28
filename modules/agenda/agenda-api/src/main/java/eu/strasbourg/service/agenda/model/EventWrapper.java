@@ -306,7 +306,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Renvoie la version live de l'édition, si elle existe
+	* Retourne la version live de l'édition, si elle existe
 	*/
 	@Override
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion() {
@@ -445,7 +445,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -453,7 +453,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Renvoie la liste des IDs des manifestations auxquelles cette édition
+	* Retourne la liste des IDs des manifestations auxquelles cette édition
 	* appartient sous forme de String
 	*/
 	@Override
@@ -721,7 +721,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Renvoie la liste des manifestations auxquelles cette édition appartient
+	* Retourne la liste des périodes auxquelles l'événement à lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods() {
+		return _event.getEventPeriods();
+	}
+
+	/**
+	* Retourne la liste des manifestations auxquelles cette édition appartient
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getManifestations() {
@@ -729,7 +737,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Renvoie la liste des galeries publiées
+	* Retourne la liste des galeries publiées
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations() {

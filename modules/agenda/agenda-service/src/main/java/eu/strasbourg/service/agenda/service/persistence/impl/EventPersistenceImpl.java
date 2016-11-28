@@ -4224,7 +4224,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	 * Initializes the event persistence.
 	 */
 	public void afterPropertiesSet() {
-		eventToManifestationTableMapper = TableMapperFactory.getTableMapper("event_EventToManifestation",
+		eventToManifestationTableMapper = TableMapperFactory.getTableMapper("agenda_EventToManifestation",
 				"companyId", "eventId", "manifestationId", this,
 				manifestationPersistence);
 	}
@@ -4235,7 +4235,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		TableMapperFactory.removeTableMapper("event_EventToManifestation");
+		TableMapperFactory.removeTableMapper("agenda_EventToManifestation");
 	}
 
 	@ServiceReference(type = CompanyProviderWrapper.class)

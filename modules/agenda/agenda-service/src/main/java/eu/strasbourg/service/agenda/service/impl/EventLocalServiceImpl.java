@@ -47,6 +47,8 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 
 /**
@@ -252,10 +254,15 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
-			// Delete the AssetEntry
+			// Supprime l'assetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Event.class.getName(),
 				eventId);
 
+			// Supprime les périodes
+			List<EventPeriod> periods = EventPeriodLocalServiceUtil.getByEventId(eventId);
+			for (EventPeriod period : periods) {
+				EventPeriodLocalServiceUtil.deleteEventPeriod(period);
+			}
 		}
 
 		// Delete the Event

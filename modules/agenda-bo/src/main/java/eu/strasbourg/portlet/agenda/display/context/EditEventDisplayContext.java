@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agenda.display.context;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -25,12 +27,24 @@ public class EditEventDisplayContext {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	public Event getEvent() throws PortalException {
+	public Event getEvent() {
 		long eventId = ParamUtil.getLong(_request, "eventId");
 		if (_event == null && eventId > 0) {
-			_event = EventLocalServiceUtil.getEvent(eventId);
+			_event = EventLocalServiceUtil.fetchEvent(eventId);
 		}
 		return _event;
+	}
+	
+	public String getDefaultPeriodIndexes() {
+		if (this.getEvent() != null) {
+    		List<EventPeriod> periods = this.getEvent().getEventPeriods();
+    		String indexes = "0";
+    		for (int i = 1; i <= periods.size(); i++) {
+    			indexes +=  "," + i;
+    		}
+    		return indexes;
+		}
+		return "";
 	}
 
 	public Locale[] getAvailableLocales() {

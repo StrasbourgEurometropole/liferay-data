@@ -26,28 +26,28 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
 /**
- * Provides the remote service interface for Event. Methods of this
+ * Provides the remote service interface for EventPeriod. Methods of this
  * service are expected to have security checks based on the propagated JAAS
  * credentials because this service can be accessed remotely.
  *
  * @author BenjaminBini
- * @see EventServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventServiceImpl
+ * @see EventPeriodServiceUtil
+ * @see eu.strasbourg.service.agenda.service.base.EventPeriodServiceBaseImpl
+ * @see eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
 @OSGiBeanProperties(property =  {
-	"json.web.service.context.name=agenda", "json.web.service.context.path=Event"}, service = EventService.class)
+	"json.web.service.context.name=agenda", "json.web.service.context.path=EventPeriod"}, service = EventPeriodService.class)
 @ProviderType
 @Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
 	PortalException.class, SystemException.class})
-public interface EventService extends BaseService {
+public interface EventPeriodService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link EventServiceUtil} to access the event remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link EventPeriodServiceUtil} to access the event period remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**

@@ -4,6 +4,9 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventServiceImpl" id="eu.strasbourg.service.agenda.service.EventService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventPeriodLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl" id="eu.strasbourg.service.agenda.service.EventPeriodService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPeriodPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.ManifestationLocalServiceImpl" id="eu.strasbourg.service.agenda.service.ManifestationLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl" id="eu.strasbourg.service.agenda.service.ManifestationService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.ManifestationPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence" parent="basePersistence" />

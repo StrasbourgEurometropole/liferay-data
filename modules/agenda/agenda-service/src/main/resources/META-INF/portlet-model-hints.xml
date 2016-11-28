@@ -23,6 +23,14 @@
 		<field name="displayDate" type="Date" />
 		<field name="imageId" type="Long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.EventPeriod">
+		<field name="uuid" type="String" />
+		<field name="eventPeriodId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field localized="true" name="timeDetail" type="String" />
+		<field name="eventId" type="long" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Manifestation">
 		<field name="uuid" type="String" />
 		<field name="manifestationId" type="long" />
