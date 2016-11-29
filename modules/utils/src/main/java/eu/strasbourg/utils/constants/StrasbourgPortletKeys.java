@@ -2,7 +2,7 @@ package eu.strasbourg.utils.constants;
 
 public class StrasbourgPortletKeys {
 	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
-	public static final String AGENDA_WEB = "eu_strasbourg_portlet_edition_AgendaPortlet";
+	public static final String AGENDA_WEB = "eu_strasbourg_portlet_agenda_AgendaPortlet";
 	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
