@@ -5,14 +5,11 @@
 <div class="search-asset-portlet-page">
 	<div class="search-asset-form">
 		<aui:form action="${searchActionURL}" method="post" name="fm" id="search-asset-form">
-			<liferay-util:include page="/forms/search-asset-museum-form.jsp" servletContext="<%=application %>" />
+			<liferay-util:include page="/forms/museum-form.jsp" servletContext="<%=application %>" />
 		</aui:form>
 	</div>
 	<div class="search-asset-search-container">
-		<form id="keywords-deported-form">
-			<aui:input type="text" name="deported-keywords" id="deported-keywords" value="${dc.keywords}" />
-			<input type="submit" id="submit-search-form" value="<liferay-ui:message key="search" />" />
-		</form>
+		<liferay-util:include page="/form-headers/museum-form-header.jsp" servletContext="<%=application %>" />
 		<aui:form method="post" name="fm">
 			<aui:input type="hidden" name="selectionIds" />
 			<liferay-ui:search-container id="entriesSearchContainer"

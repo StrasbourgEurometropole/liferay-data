@@ -1,8 +1,8 @@
 <%@ include file="/search-asset-init.jsp" %>
 
 <h1 class="search-asset-result-count">
-	Recherche
-	<span>${fn:length(dc.entries)} <liferay-ui:message key="results" /></span>
+	<liferay-ui:message key="research" />
+	<span>${dc.searchContainer.total } <liferay-ui:message key="results" /></span>
 </h1>
 <div class="search-asset-fields">
 	<!-- Type d'assets -->

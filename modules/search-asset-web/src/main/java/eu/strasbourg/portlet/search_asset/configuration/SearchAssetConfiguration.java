@@ -32,6 +32,12 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
+	
+	@Meta.AD(name = "globalScope", required = false)
+	public boolean globalScope();
+	
+	@Meta.AD(name = "dateField", required = false)
+	public boolean dateField();
 
 	@Meta.AD(name = "delta", required = false)
 	public long delta();

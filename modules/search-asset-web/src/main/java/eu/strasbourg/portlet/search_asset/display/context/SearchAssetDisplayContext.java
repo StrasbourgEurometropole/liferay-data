@@ -17,7 +17,6 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -42,58 +40,155 @@ import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration
 public class SearchAssetDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request,
-		RenderResponse response) {
+		RenderResponse response) throws PortalException {
 
 		this._request = request;
 		this._response = response;
 		this._themeDisplay = (ThemeDisplay) _request
 			.getAttribute(WebKeys.THEME_DISPLAY);
-		try {
-			this._configuration = this._themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					SearchAssetConfiguration.class);
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
+		this._configuration = this._themeDisplay.getPortletDisplay()
+			.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+		this.initSearchContainer();
+		this.initEntries();
+	}
+
+	private void initSearchContainer() {
+		PortletURL iteratorURL = this._response.createRenderURL();
+		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
+		iteratorURL.setParameter("orderByType", this.getOrderByType());
+		int i = 0;
+		for (long categoryId : getFilterCategoriesIds()) {
+			iteratorURL.setParameter("vocabulary_" + i,
+				String.valueOf(categoryId));
+			i++;
+		}
+		iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
+		i = 0;
+		for (String className : getFilterClassNames()) {
+			iteratorURL.setParameter("className_" + i, className);
+			i++;
+		}
+		iteratorURL.setParameter("classNamesCount", String.valueOf(i));
+		iteratorURL.setParameter("keywords", this.getKeywords());
+
+		if (this._searchContainer == null) {
+			this._searchContainer = new SearchContainer<AssetEntry>(
+				this._request, iteratorURL, null, "no-entries-were-found");
+
+			this._searchContainer.setOrderByColParam("orderByCol");
+			this._searchContainer.setOrderByTypeParam("orderByType");
+			this._searchContainer
+				.setDelta((int) (this._configuration.delta() > 0
+					? this._configuration.delta() : 12));
 		}
 	}
 
-	/**
-	 * Retourne le searchContainer des entités
-	 */
-	public SearchContainer<AssetEntry> getSearchContainer()
-		throws PortalException {
+	private void initEntries() throws PortalException {
+		HttpServletRequest servletRequest = PortalUtil
+			.getHttpServletRequest(_request);
 
-		if (this._searchContainer == null) {
-			PortletURL iteratorURL = this._response.createRenderURL();
-			iteratorURL.setParameter("orderByCol", this.getOrderByCol());
-			iteratorURL.setParameter("orderByType", this.getOrderByType());
-			int i = 0;
-			for (long categoryId : getFilterCategoriesIds()) {
-				iteratorURL.setParameter("vocabulary_" + i,
-					String.valueOf(categoryId));
-				i++;
-			}
-			iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
-			i = 0;
-			for (String className : getFilterClassNames()) {
-				iteratorURL.setParameter("className_" + i, className);
-				i++;
-			}
-			iteratorURL.setParameter("classNamesCount", String.valueOf(i));
-			iteratorURL.setParameter("keywords", this.getKeywords());
+		SearchContext searchContext = SearchContextFactory
+			.getInstance(servletRequest);
 
-			if (this._searchContainer == null) {
-				this._searchContainer = new SearchContainer<AssetEntry>(
-					this._request, iteratorURL, null, "no-entries-were-found");
+		// Pagination
+		searchContext.setStart(getSearchContainer().getStart());
+		searchContext.setEnd(getSearchContainer().getEnd());
 
-				this._searchContainer.setOrderByColParam("orderByCol");
-				this._searchContainer.setOrderByTypeParam("orderByType");
-				this._searchContainer
-					.setDelta((int) (this._configuration.delta() > 0
-						? this._configuration.delta() : 12));
+		// Construction de la requète
+		BooleanQuery query = new BooleanQueryImpl();
+
+		// ClassNames
+		BooleanQuery classNameQuery = new BooleanQueryImpl();
+		for (String className : this.getFilterClassNames()) {
+			if (Validator.isNotNull(className)) {
+				// TermQuery termQuery = new TermQueryImpl(new
+				// QueryTermImpl(Field.EN, value))
+				classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false,
+					BooleanClauseOccur.SHOULD);
 			}
 		}
-		return this._searchContainer;
+		query.add(classNameQuery, BooleanClauseOccur.MUST);
+
+		// Group
+		if (this._configuration.globalScope()) {
+			// Si la configuration demande que le groupe global soit inclu
+			// On crée une query faisant un "ou" entre le groupe courant et le
+			// groupe global
+			BooleanQuery groupQuery = new BooleanQueryImpl();
+			BooleanQuery scopeGroupQuery = new BooleanQueryImpl();
+			BooleanQuery globalGroupQuery = new BooleanQueryImpl();
+			scopeGroupQuery.addRequiredTerm(Field.GROUP_ID,
+				this._themeDisplay.getScopeGroupId());
+			globalGroupQuery.addRequiredTerm(Field.GROUP_ID,
+				this._themeDisplay.getCompanyGroupId());
+			groupQuery.add(scopeGroupQuery, BooleanClauseOccur.SHOULD);
+			groupQuery.add(globalGroupQuery, BooleanClauseOccur.SHOULD);
+			query.add(groupQuery, BooleanClauseOccur.MUST);
+		} else {
+			// Sinon on se contente d'ajouter le groupe courant à la requête
+			query.addRequiredTerm(Field.GROUP_ID,
+				this._themeDisplay.getScopeGroupId());
+		}
+
+		// Status
+		query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+
+		// Mots-clés
+		String keywords = ParamUtil.getString(this._request, "keywords");
+		if (Validator.isNotNull(keywords)) {
+			query.addTerms(new String[] { Field.TITLE, Field.DESCRIPTION },
+				keywords.toLowerCase(), true);
+		}
+
+		// Catégories
+		for (long categoryId : this.getFilterCategoriesIds()) {
+			BooleanQuery categoryQuery = new BooleanQueryImpl();
+			categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
+				String.valueOf(categoryId));
+			query.add(categoryQuery, BooleanClauseOccur.MUST);
+		}
+
+		// Préfiltre catégories
+		// On fait un "ou" entre les catégories d'un même vocabulaire et un
+		// "et" entre les différents vocabulaires
+		for (String categoriesIdsGroupByVocabulary : this._configuration
+			.prefilterCategoriesIds().split(";")) {
+			BooleanQuery vocabularyQuery = new BooleanQueryImpl();
+			for (String categoryId : categoriesIdsGroupByVocabulary
+				.split(",")) {
+				if (Validator.isNotNull(categoryId)) {
+					BooleanQuery categoryQuery = new BooleanQueryImpl();
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
+						String.valueOf(categoryId));
+					vocabularyQuery.add(categoryQuery,
+						BooleanClauseOccur.SHOULD);
+				}
+			}
+			query.add(vocabularyQuery, BooleanClauseOccur.MUST);
+		}
+
+		// Recherche
+		Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+		List<AssetEntry> results = new ArrayList<AssetEntry>();
+		if (hits != null) {
+			/*
+			 * for (float s : hits.getScores()) { System.out.println(s); }
+			 * System.out.println();
+			 */
+			for (Document document : hits.getDocs()) {
+				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
+					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				if (entry != null) {
+					results.add(entry);
+				}
+			}
+			long count = IndexSearcherHelperUtil.searchCount(searchContext,
+				query);
+			this.getSearchContainer().setTotal((int) count);
+		}
+
+		this._entries = results;
 	}
 
 	/**
@@ -208,101 +303,16 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
+	 * Retourne le searchContainer des entités
+	 */
+	public SearchContainer<AssetEntry> getSearchContainer() {
+		return this._searchContainer;
+	}
+
+	/**
 	 * Retourne les résultats de la recherche
 	 */
 	public List<AssetEntry> getEntries() throws PortalException {
-		if (this._entries == null) {
-			HttpServletRequest servletRequest = PortalUtil
-				.getHttpServletRequest(_request);
-
-			SearchContext searchContext = SearchContextFactory
-				.getInstance(servletRequest);
-
-			// Pagination
-			searchContext.setStart(getSearchContainer().getStart());
-			searchContext.setEnd(getSearchContainer().getEnd());
-
-			// Construction de la requète
-			BooleanQuery query = new BooleanQueryImpl();
-
-			// ClassNames
-			BooleanQuery classNameQuery = new BooleanQueryImpl();
-			for (String className : this.getFilterClassNames()) {
-				if (Validator.isNotNull(className)) {
-					// TermQuery termQuery = new TermQueryImpl(new
-					// QueryTermImpl(Field.EN, value))
-					classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className,
-						false, BooleanClauseOccur.SHOULD);
-				}
-			}
-			query.add(classNameQuery, BooleanClauseOccur.MUST);
-
-			// Group Id
-			query.addRequiredTerm(Field.GROUP_ID,
-				this._themeDisplay.getSiteGroupIdOrLiveGroupId());
-
-			// Status
-			query.addRequiredTerm(Field.STATUS,
-				WorkflowConstants.STATUS_APPROVED);
-
-			// Mots-clés
-			String keywords = ParamUtil.getString(this._request, "keywords");
-			if (Validator.isNotNull(keywords)) {
-				query.addTerms(new String[] { Field.TITLE, Field.DESCRIPTION },
-					keywords.toLowerCase(), true);
-			}
-
-			// Catégories
-			for (long categoryId : this.getFilterCategoriesIds()) {
-				BooleanQuery categoryQuery = new BooleanQueryImpl();
-				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-					String.valueOf(categoryId));
-				query.add(categoryQuery, BooleanClauseOccur.MUST);
-			}
-
-			// Préfiltre catégories
-			// On fait un "ou" entre les catégories d'un même vocabulaire et un
-			// "et" entre les différents vocabulaires
-			for (String categoriesIdsGroupByVocabulary : this._configuration
-				.prefilterCategoriesIds().split(";")) {
-				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
-				for (String categoryId : categoriesIdsGroupByVocabulary
-					.split(",")) {
-					if (Validator.isNotNull(categoryId)) {
-						BooleanQuery categoryQuery = new BooleanQueryImpl();
-						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-							String.valueOf(categoryId));
-						vocabularyQuery.add(categoryQuery,
-							BooleanClauseOccur.SHOULD);
-					}
-				}
-				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
-			}
-
-			// Recherche
-			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
-			List<AssetEntry> results = new ArrayList<AssetEntry>();
-			if (hits != null) {
-				/*
-				 * for (float s : hits.getScores()) { System.out.println(s); }
-				 * System.out.println();
-				 */
-				for (Document document : hits.getDocs()) {
-					AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
-						GetterUtil
-							.getString(document.get(Field.ENTRY_CLASS_NAME)),
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (entry != null) {
-						results.add(entry);
-					}
-				}
-				long count = IndexSearcherHelperUtil.searchCount(searchContext,
-					query);
-				this.getSearchContainer().setTotal((int) count);
-			}
-
-			this._entries = results;
-		}
 		return this._entries;
 	}
 

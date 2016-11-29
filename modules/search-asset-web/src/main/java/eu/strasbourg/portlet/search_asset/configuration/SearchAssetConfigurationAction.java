@@ -157,6 +157,16 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			setPreference(actionRequest, "vocabulariesControlTypes",
 				vocabulariesControlTypes);
 
+			// Scope global
+			boolean globalScope = ParamUtil.getBoolean(actionRequest,
+				"globalScope");
+			setPreference(actionRequest, "globalScope",
+				String.valueOf(globalScope));
+
+			// Champ date
+			boolean dateField = ParamUtil.getBoolean(actionRequest, "dateField");
+			setPreference(actionRequest, "dateField", String.valueOf(dateField));
+			
 			// Delta
 			long delta = ParamUtil.getLong(actionRequest, "delta");
 			setPreference(actionRequest, "delta", String.valueOf(delta));
@@ -171,8 +181,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 				Long categoryId = GetterUtil.getLong(categoryIdStr);
 				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
+					AssetCategory category = AssetCategoryLocalServiceUtil
+						.fetchAssetCategory(categoryId);
+					if (category != null && !vocabulariesIds
+						.contains(category.getVocabularyId())) {
 						vocabulariesIds.add(category.getVocabularyId());
 					}
 				}
@@ -185,9 +197,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
-						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
-						if (category != null && vocabularyId == category.getVocabularyId()) {
-							if (sortedPrefilterCategoriesIds.length() > 0 && !sortedPrefilterCategoriesIds.endsWith(";")) {
+						AssetCategory category = AssetCategoryLocalServiceUtil
+							.fetchAssetCategory(categoryId);
+						if (category != null
+							&& vocabularyId == category.getVocabularyId()) {
+							if (sortedPrefilterCategoriesIds.length() > 0
+								&& !sortedPrefilterCategoriesIds
+									.endsWith(";")) {
 								sortedPrefilterCategoriesIds += ",";
 							}
 							sortedPrefilterCategoriesIds += categoryId;
@@ -303,6 +319,16 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				.vocabulariesControlTypes().split(",");
 			request.setAttribute("vocabulariesControlTypes",
 				vocabulariesControlTypes);
+
+			// Scope global
+			boolean globalScope = ParamUtil.getBoolean(request, "globalScope",
+				configuration.globalScope());
+			request.setAttribute("globalScope", globalScope);
+			
+			// Champ date
+			boolean dateField = ParamUtil.getBoolean(request, "dateField",
+				configuration.dateField());
+			request.setAttribute("dateField", dateField);
 
 			// Delta
 			long delta = ParamUtil.getLong(request, "delta",
