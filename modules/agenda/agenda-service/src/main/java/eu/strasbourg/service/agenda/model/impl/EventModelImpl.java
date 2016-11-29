@@ -97,7 +97,32 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "title", Types.VARCHAR },
 			{ "subtitle", Types.VARCHAR },
 			{ "description", Types.CLOB },
+			{ "externalImageURL", Types.VARCHAR },
+			{ "externalImageCopyright", Types.VARCHAR },
+			{ "placeSIGId", Types.VARCHAR },
+			{ "placeName", Types.VARCHAR },
+			{ "placeStreetNumber", Types.VARCHAR },
+			{ "placeStreetName", Types.VARCHAR },
+			{ "placeZipCode", Types.VARCHAR },
+			{ "placeCity", Types.VARCHAR },
+			{ "placeCountry", Types.VARCHAR },
+			{ "access_", Types.CLOB },
+			{ "accessForDisabled", Types.CLOB },
+			{ "accessForBlind", Types.BOOLEAN },
+			{ "accessForDeaf", Types.BOOLEAN },
+			{ "accessForWheelchair", Types.BOOLEAN },
+			{ "accessForElder", Types.BOOLEAN },
+			{ "accessForDeficient", Types.BOOLEAN },
+			{ "promoter", Types.VARCHAR },
+			{ "phone", Types.VARCHAR },
+			{ "email", Types.VARCHAR },
+			{ "websiteURL", Types.VARCHAR },
+			{ "websiteName", Types.VARCHAR },
+			{ "free", Types.BOOLEAN },
+			{ "price", Types.CLOB },
+			{ "source", Types.VARCHAR },
 			{ "displayDate", Types.TIMESTAMP },
+			{ "scheduleComments", Types.CLOB },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -119,11 +144,36 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeStreetNumber", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeStreetName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeZipCode", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeCity", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placeCountry", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("access_", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("accessForDisabled", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("accessForBlind", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("accessForDeaf", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("accessForWheelchair", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("accessForElder", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("accessForDeficient", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("promoter", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("websiteURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("websiteName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("free", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("scheduleComments", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,displayDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free BOOLEAN,price TEXT null,source VARCHAR(75) null,displayDate DATE null,scheduleComments TEXT null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -174,7 +224,32 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setTitle(soapModel.getTitle());
 		model.setSubtitle(soapModel.getSubtitle());
 		model.setDescription(soapModel.getDescription());
+		model.setExternalImageURL(soapModel.getExternalImageURL());
+		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
+		model.setPlaceSIGId(soapModel.getPlaceSIGId());
+		model.setPlaceName(soapModel.getPlaceName());
+		model.setPlaceStreetNumber(soapModel.getPlaceStreetNumber());
+		model.setPlaceStreetName(soapModel.getPlaceStreetName());
+		model.setPlaceZipCode(soapModel.getPlaceZipCode());
+		model.setPlaceCity(soapModel.getPlaceCity());
+		model.setPlaceCountry(soapModel.getPlaceCountry());
+		model.setAccess(soapModel.getAccess());
+		model.setAccessForDisabled(soapModel.getAccessForDisabled());
+		model.setAccessForBlind(soapModel.getAccessForBlind());
+		model.setAccessForDeaf(soapModel.getAccessForDeaf());
+		model.setAccessForWheelchair(soapModel.getAccessForWheelchair());
+		model.setAccessForElder(soapModel.getAccessForElder());
+		model.setAccessForDeficient(soapModel.getAccessForDeficient());
+		model.setPromoter(soapModel.getPromoter());
+		model.setPhone(soapModel.getPhone());
+		model.setEmail(soapModel.getEmail());
+		model.setWebsiteURL(soapModel.getWebsiteURL());
+		model.setWebsiteName(soapModel.getWebsiteName());
+		model.setFree(soapModel.getFree());
+		model.setPrice(soapModel.getPrice());
+		model.setSource(soapModel.getSource());
 		model.setDisplayDate(soapModel.getDisplayDate());
+		model.setScheduleComments(soapModel.getScheduleComments());
 		model.setImageId(soapModel.getImageId());
 
 		return model;
@@ -269,7 +344,32 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("placeSIGId", getPlaceSIGId());
+		attributes.put("placeName", getPlaceName());
+		attributes.put("placeStreetNumber", getPlaceStreetNumber());
+		attributes.put("placeStreetName", getPlaceStreetName());
+		attributes.put("placeZipCode", getPlaceZipCode());
+		attributes.put("placeCity", getPlaceCity());
+		attributes.put("placeCountry", getPlaceCountry());
+		attributes.put("access", getAccess());
+		attributes.put("accessForDisabled", getAccessForDisabled());
+		attributes.put("accessForBlind", getAccessForBlind());
+		attributes.put("accessForDeaf", getAccessForDeaf());
+		attributes.put("accessForWheelchair", getAccessForWheelchair());
+		attributes.put("accessForElder", getAccessForElder());
+		attributes.put("accessForDeficient", getAccessForDeficient());
+		attributes.put("promoter", getPromoter());
+		attributes.put("phone", getPhone());
+		attributes.put("email", getEmail());
+		attributes.put("websiteURL", getWebsiteURL());
+		attributes.put("websiteName", getWebsiteName());
+		attributes.put("free", getFree());
+		attributes.put("price", getPrice());
+		attributes.put("source", getSource());
 		attributes.put("displayDate", getDisplayDate());
+		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -376,10 +476,163 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			setDescription(description);
 		}
 
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		String placeSIGId = (String)attributes.get("placeSIGId");
+
+		if (placeSIGId != null) {
+			setPlaceSIGId(placeSIGId);
+		}
+
+		String placeName = (String)attributes.get("placeName");
+
+		if (placeName != null) {
+			setPlaceName(placeName);
+		}
+
+		String placeStreetNumber = (String)attributes.get("placeStreetNumber");
+
+		if (placeStreetNumber != null) {
+			setPlaceStreetNumber(placeStreetNumber);
+		}
+
+		String placeStreetName = (String)attributes.get("placeStreetName");
+
+		if (placeStreetName != null) {
+			setPlaceStreetName(placeStreetName);
+		}
+
+		String placeZipCode = (String)attributes.get("placeZipCode");
+
+		if (placeZipCode != null) {
+			setPlaceZipCode(placeZipCode);
+		}
+
+		String placeCity = (String)attributes.get("placeCity");
+
+		if (placeCity != null) {
+			setPlaceCity(placeCity);
+		}
+
+		String placeCountry = (String)attributes.get("placeCountry");
+
+		if (placeCountry != null) {
+			setPlaceCountry(placeCountry);
+		}
+
+		String access = (String)attributes.get("access");
+
+		if (access != null) {
+			setAccess(access);
+		}
+
+		String accessForDisabled = (String)attributes.get("accessForDisabled");
+
+		if (accessForDisabled != null) {
+			setAccessForDisabled(accessForDisabled);
+		}
+
+		Boolean accessForBlind = (Boolean)attributes.get("accessForBlind");
+
+		if (accessForBlind != null) {
+			setAccessForBlind(accessForBlind);
+		}
+
+		Boolean accessForDeaf = (Boolean)attributes.get("accessForDeaf");
+
+		if (accessForDeaf != null) {
+			setAccessForDeaf(accessForDeaf);
+		}
+
+		Boolean accessForWheelchair = (Boolean)attributes.get(
+				"accessForWheelchair");
+
+		if (accessForWheelchair != null) {
+			setAccessForWheelchair(accessForWheelchair);
+		}
+
+		Boolean accessForElder = (Boolean)attributes.get("accessForElder");
+
+		if (accessForElder != null) {
+			setAccessForElder(accessForElder);
+		}
+
+		Boolean accessForDeficient = (Boolean)attributes.get(
+				"accessForDeficient");
+
+		if (accessForDeficient != null) {
+			setAccessForDeficient(accessForDeficient);
+		}
+
+		String promoter = (String)attributes.get("promoter");
+
+		if (promoter != null) {
+			setPromoter(promoter);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String email = (String)attributes.get("email");
+
+		if (email != null) {
+			setEmail(email);
+		}
+
+		String websiteURL = (String)attributes.get("websiteURL");
+
+		if (websiteURL != null) {
+			setWebsiteURL(websiteURL);
+		}
+
+		String websiteName = (String)attributes.get("websiteName");
+
+		if (websiteName != null) {
+			setWebsiteName(websiteName);
+		}
+
+		Boolean free = (Boolean)attributes.get("free");
+
+		if (free != null) {
+			setFree(free);
+		}
+
+		String price = (String)attributes.get("price");
+
+		if (price != null) {
+			setPrice(price);
+		}
+
+		String source = (String)attributes.get("source");
+
+		if (source != null) {
+			setSource(source);
+		}
+
 		Date displayDate = (Date)attributes.get("displayDate");
 
 		if (displayDate != null) {
 			setDisplayDate(displayDate);
+		}
+
+		String scheduleComments = (String)attributes.get("scheduleComments");
+
+		if (scheduleComments != null) {
+			setScheduleComments(scheduleComments);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -934,6 +1187,796 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public String getExternalImageURL() {
+		if (_externalImageURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _externalImageURL;
+		}
+	}
+
+	@Override
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	@JSON
+	@Override
+	public String getExternalImageCopyright() {
+		if (_externalImageCopyright == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _externalImageCopyright;
+		}
+	}
+
+	@Override
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceSIGId() {
+		if (_placeSIGId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeSIGId;
+		}
+	}
+
+	@Override
+	public void setPlaceSIGId(String placeSIGId) {
+		_placeSIGId = placeSIGId;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceName() {
+		if (_placeName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeName;
+		}
+	}
+
+	@Override
+	public void setPlaceName(String placeName) {
+		_placeName = placeName;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceStreetNumber() {
+		if (_placeStreetNumber == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeStreetNumber;
+		}
+	}
+
+	@Override
+	public void setPlaceStreetNumber(String placeStreetNumber) {
+		_placeStreetNumber = placeStreetNumber;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceStreetName() {
+		if (_placeStreetName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeStreetName;
+		}
+	}
+
+	@Override
+	public void setPlaceStreetName(String placeStreetName) {
+		_placeStreetName = placeStreetName;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceZipCode() {
+		if (_placeZipCode == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeZipCode;
+		}
+	}
+
+	@Override
+	public void setPlaceZipCode(String placeZipCode) {
+		_placeZipCode = placeZipCode;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceCity() {
+		if (_placeCity == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeCity;
+		}
+	}
+
+	@Override
+	public void setPlaceCity(String placeCity) {
+		_placeCity = placeCity;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceCountry() {
+		if (_placeCountry == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placeCountry;
+		}
+	}
+
+	@Override
+	public void setPlaceCountry(String placeCountry) {
+		_placeCountry = placeCountry;
+	}
+
+	@JSON
+	@Override
+	public String getAccess() {
+		if (_access == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _access;
+		}
+	}
+
+	@Override
+	public String getAccess(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAccess(languageId);
+	}
+
+	@Override
+	public String getAccess(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAccess(languageId, useDefault);
+	}
+
+	@Override
+	public String getAccess(String languageId) {
+		return LocalizationUtil.getLocalization(getAccess(), languageId);
+	}
+
+	@Override
+	public String getAccess(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getAccess(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getAccessCurrentLanguageId() {
+		return _accessCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getAccessCurrentValue() {
+		Locale locale = getLocale(_accessCurrentLanguageId);
+
+		return getAccess(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getAccessMap() {
+		return LocalizationUtil.getLocalizationMap(getAccess());
+	}
+
+	@Override
+	public void setAccess(String access) {
+		_access = access;
+	}
+
+	@Override
+	public void setAccess(String access, Locale locale) {
+		setAccess(access, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAccess(String access, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(access)) {
+			setAccess(LocalizationUtil.updateLocalization(getAccess(),
+					"Access", access, languageId, defaultLanguageId));
+		}
+		else {
+			setAccess(LocalizationUtil.removeLocalization(getAccess(),
+					"Access", languageId));
+		}
+	}
+
+	@Override
+	public void setAccessCurrentLanguageId(String languageId) {
+		_accessCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setAccessMap(Map<Locale, String> accessMap) {
+		setAccessMap(accessMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAccessMap(Map<Locale, String> accessMap, Locale defaultLocale) {
+		if (accessMap == null) {
+			return;
+		}
+
+		setAccess(LocalizationUtil.updateLocalization(accessMap, getAccess(),
+				"Access", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getAccessForDisabled() {
+		if (_accessForDisabled == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _accessForDisabled;
+		}
+	}
+
+	@Override
+	public String getAccessForDisabled(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAccessForDisabled(languageId);
+	}
+
+	@Override
+	public String getAccessForDisabled(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAccessForDisabled(languageId, useDefault);
+	}
+
+	@Override
+	public String getAccessForDisabled(String languageId) {
+		return LocalizationUtil.getLocalization(getAccessForDisabled(),
+			languageId);
+	}
+
+	@Override
+	public String getAccessForDisabled(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getAccessForDisabled(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getAccessForDisabledCurrentLanguageId() {
+		return _accessForDisabledCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getAccessForDisabledCurrentValue() {
+		Locale locale = getLocale(_accessForDisabledCurrentLanguageId);
+
+		return getAccessForDisabled(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getAccessForDisabledMap() {
+		return LocalizationUtil.getLocalizationMap(getAccessForDisabled());
+	}
+
+	@Override
+	public void setAccessForDisabled(String accessForDisabled) {
+		_accessForDisabled = accessForDisabled;
+	}
+
+	@Override
+	public void setAccessForDisabled(String accessForDisabled, Locale locale) {
+		setAccessForDisabled(accessForDisabled, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAccessForDisabled(String accessForDisabled, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(accessForDisabled)) {
+			setAccessForDisabled(LocalizationUtil.updateLocalization(
+					getAccessForDisabled(), "AccessForDisabled",
+					accessForDisabled, languageId, defaultLanguageId));
+		}
+		else {
+			setAccessForDisabled(LocalizationUtil.removeLocalization(
+					getAccessForDisabled(), "AccessForDisabled", languageId));
+		}
+	}
+
+	@Override
+	public void setAccessForDisabledCurrentLanguageId(String languageId) {
+		_accessForDisabledCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setAccessForDisabledMap(
+		Map<Locale, String> accessForDisabledMap) {
+		setAccessForDisabledMap(accessForDisabledMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAccessForDisabledMap(
+		Map<Locale, String> accessForDisabledMap, Locale defaultLocale) {
+		if (accessForDisabledMap == null) {
+			return;
+		}
+
+		setAccessForDisabled(LocalizationUtil.updateLocalization(
+				accessForDisabledMap, getAccessForDisabled(),
+				"AccessForDisabled", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public Boolean getAccessForBlind() {
+		return _accessForBlind;
+	}
+
+	@Override
+	public void setAccessForBlind(Boolean accessForBlind) {
+		_accessForBlind = accessForBlind;
+	}
+
+	@JSON
+	@Override
+	public Boolean getAccessForDeaf() {
+		return _accessForDeaf;
+	}
+
+	@Override
+	public void setAccessForDeaf(Boolean accessForDeaf) {
+		_accessForDeaf = accessForDeaf;
+	}
+
+	@JSON
+	@Override
+	public Boolean getAccessForWheelchair() {
+		return _accessForWheelchair;
+	}
+
+	@Override
+	public void setAccessForWheelchair(Boolean accessForWheelchair) {
+		_accessForWheelchair = accessForWheelchair;
+	}
+
+	@JSON
+	@Override
+	public Boolean getAccessForElder() {
+		return _accessForElder;
+	}
+
+	@Override
+	public void setAccessForElder(Boolean accessForElder) {
+		_accessForElder = accessForElder;
+	}
+
+	@JSON
+	@Override
+	public Boolean getAccessForDeficient() {
+		return _accessForDeficient;
+	}
+
+	@Override
+	public void setAccessForDeficient(Boolean accessForDeficient) {
+		_accessForDeficient = accessForDeficient;
+	}
+
+	@JSON
+	@Override
+	public String getPromoter() {
+		if (_promoter == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _promoter;
+		}
+	}
+
+	@Override
+	public void setPromoter(String promoter) {
+		_promoter = promoter;
+	}
+
+	@JSON
+	@Override
+	public String getPhone() {
+		if (_phone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _phone;
+		}
+	}
+
+	@Override
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	@JSON
+	@Override
+	public String getEmail() {
+		if (_email == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _email;
+		}
+	}
+
+	@Override
+	public void setEmail(String email) {
+		_email = email;
+	}
+
+	@JSON
+	@Override
+	public String getWebsiteURL() {
+		if (_websiteURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _websiteURL;
+		}
+	}
+
+	@Override
+	public String getWebsiteURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteURL(languageId);
+	}
+
+	@Override
+	public String getWebsiteURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getWebsiteURL(String languageId) {
+		return LocalizationUtil.getLocalization(getWebsiteURL(), languageId);
+	}
+
+	@Override
+	public String getWebsiteURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getWebsiteURL(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getWebsiteURLCurrentLanguageId() {
+		return _websiteURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getWebsiteURLCurrentValue() {
+		Locale locale = getLocale(_websiteURLCurrentLanguageId);
+
+		return getWebsiteURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getWebsiteURLMap() {
+		return LocalizationUtil.getLocalizationMap(getWebsiteURL());
+	}
+
+	@Override
+	public void setWebsiteURL(String websiteURL) {
+		_websiteURL = websiteURL;
+	}
+
+	@Override
+	public void setWebsiteURL(String websiteURL, Locale locale) {
+		setWebsiteURL(websiteURL, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteURL(String websiteURL, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(websiteURL)) {
+			setWebsiteURL(LocalizationUtil.updateLocalization(getWebsiteURL(),
+					"WebsiteURL", websiteURL, languageId, defaultLanguageId));
+		}
+		else {
+			setWebsiteURL(LocalizationUtil.removeLocalization(getWebsiteURL(),
+					"WebsiteURL", languageId));
+		}
+	}
+
+	@Override
+	public void setWebsiteURLCurrentLanguageId(String languageId) {
+		_websiteURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap) {
+		setWebsiteURLMap(websiteURLMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap,
+		Locale defaultLocale) {
+		if (websiteURLMap == null) {
+			return;
+		}
+
+		setWebsiteURL(LocalizationUtil.updateLocalization(websiteURLMap,
+				getWebsiteURL(), "WebsiteURL",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getWebsiteName() {
+		if (_websiteName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _websiteName;
+		}
+	}
+
+	@Override
+	public String getWebsiteName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteName(languageId);
+	}
+
+	@Override
+	public String getWebsiteName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteName(languageId, useDefault);
+	}
+
+	@Override
+	public String getWebsiteName(String languageId) {
+		return LocalizationUtil.getLocalization(getWebsiteName(), languageId);
+	}
+
+	@Override
+	public String getWebsiteName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getWebsiteName(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getWebsiteNameCurrentLanguageId() {
+		return _websiteNameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getWebsiteNameCurrentValue() {
+		Locale locale = getLocale(_websiteNameCurrentLanguageId);
+
+		return getWebsiteName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getWebsiteNameMap() {
+		return LocalizationUtil.getLocalizationMap(getWebsiteName());
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName) {
+		_websiteName = websiteName;
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName, Locale locale) {
+		setWebsiteName(websiteName, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(websiteName)) {
+			setWebsiteName(LocalizationUtil.updateLocalization(
+					getWebsiteName(), "WebsiteName", websiteName, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setWebsiteName(LocalizationUtil.removeLocalization(
+					getWebsiteName(), "WebsiteName", languageId));
+		}
+	}
+
+	@Override
+	public void setWebsiteNameCurrentLanguageId(String languageId) {
+		_websiteNameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap) {
+		setWebsiteNameMap(websiteNameMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap,
+		Locale defaultLocale) {
+		if (websiteNameMap == null) {
+			return;
+		}
+
+		setWebsiteName(LocalizationUtil.updateLocalization(websiteNameMap,
+				getWebsiteName(), "WebsiteName",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public boolean getFree() {
+		return _free;
+	}
+
+	@JSON
+	@Override
+	public boolean isFree() {
+		return _free;
+	}
+
+	@Override
+	public void setFree(boolean free) {
+		_free = free;
+	}
+
+	@JSON
+	@Override
+	public String getPrice() {
+		if (_price == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _price;
+		}
+	}
+
+	@Override
+	public String getPrice(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPrice(languageId);
+	}
+
+	@Override
+	public String getPrice(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPrice(languageId, useDefault);
+	}
+
+	@Override
+	public String getPrice(String languageId) {
+		return LocalizationUtil.getLocalization(getPrice(), languageId);
+	}
+
+	@Override
+	public String getPrice(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getPrice(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getPriceCurrentLanguageId() {
+		return _priceCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getPriceCurrentValue() {
+		Locale locale = getLocale(_priceCurrentLanguageId);
+
+		return getPrice(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getPriceMap() {
+		return LocalizationUtil.getLocalizationMap(getPrice());
+	}
+
+	@Override
+	public void setPrice(String price) {
+		_price = price;
+	}
+
+	@Override
+	public void setPrice(String price, Locale locale) {
+		setPrice(price, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPrice(String price, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(price)) {
+			setPrice(LocalizationUtil.updateLocalization(getPrice(), "Price",
+					price, languageId, defaultLanguageId));
+		}
+		else {
+			setPrice(LocalizationUtil.removeLocalization(getPrice(), "Price",
+					languageId));
+		}
+	}
+
+	@Override
+	public void setPriceCurrentLanguageId(String languageId) {
+		_priceCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setPriceMap(Map<Locale, String> priceMap) {
+		setPriceMap(priceMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPriceMap(Map<Locale, String> priceMap, Locale defaultLocale) {
+		if (priceMap == null) {
+			return;
+		}
+
+		setPrice(LocalizationUtil.updateLocalization(priceMap, getPrice(),
+				"Price", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getSource() {
+		if (_source == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _source;
+		}
+	}
+
+	@Override
+	public void setSource(String source) {
+		_source = source;
+	}
+
+	@JSON
+	@Override
 	public Date getDisplayDate() {
 		return _displayDate;
 	}
@@ -941,6 +1984,111 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	@Override
 	public void setDisplayDate(Date displayDate) {
 		_displayDate = displayDate;
+	}
+
+	@JSON
+	@Override
+	public String getScheduleComments() {
+		if (_scheduleComments == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _scheduleComments;
+		}
+	}
+
+	@Override
+	public String getScheduleComments(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleComments(languageId);
+	}
+
+	@Override
+	public String getScheduleComments(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleComments(languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleComments(String languageId) {
+		return LocalizationUtil.getLocalization(getScheduleComments(),
+			languageId);
+	}
+
+	@Override
+	public String getScheduleComments(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getScheduleComments(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleCommentsCurrentLanguageId() {
+		return _scheduleCommentsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getScheduleCommentsCurrentValue() {
+		Locale locale = getLocale(_scheduleCommentsCurrentLanguageId);
+
+		return getScheduleComments(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getScheduleCommentsMap() {
+		return LocalizationUtil.getLocalizationMap(getScheduleComments());
+	}
+
+	@Override
+	public void setScheduleComments(String scheduleComments) {
+		_scheduleComments = scheduleComments;
+	}
+
+	@Override
+	public void setScheduleComments(String scheduleComments, Locale locale) {
+		setScheduleComments(scheduleComments, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleComments(String scheduleComments, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(scheduleComments)) {
+			setScheduleComments(LocalizationUtil.updateLocalization(
+					getScheduleComments(), "ScheduleComments",
+					scheduleComments, languageId, defaultLanguageId));
+		}
+		else {
+			setScheduleComments(LocalizationUtil.removeLocalization(
+					getScheduleComments(), "ScheduleComments", languageId));
+		}
+	}
+
+	@Override
+	public void setScheduleCommentsCurrentLanguageId(String languageId) {
+		_scheduleCommentsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setScheduleCommentsMap(Map<Locale, String> scheduleCommentsMap) {
+		setScheduleCommentsMap(scheduleCommentsMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleCommentsMap(
+		Map<Locale, String> scheduleCommentsMap, Locale defaultLocale) {
+		if (scheduleCommentsMap == null) {
+			return;
+		}
+
+		setScheduleComments(LocalizationUtil.updateLocalization(
+				scheduleCommentsMap, getScheduleComments(), "ScheduleComments",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1094,6 +2242,72 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			}
 		}
 
+		Map<Locale, String> accessMap = getAccessMap();
+
+		for (Map.Entry<Locale, String> entry : accessMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> accessForDisabledMap = getAccessForDisabledMap();
+
+		for (Map.Entry<Locale, String> entry : accessForDisabledMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> websiteURLMap = getWebsiteURLMap();
+
+		for (Map.Entry<Locale, String> entry : websiteURLMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> websiteNameMap = getWebsiteNameMap();
+
+		for (Map.Entry<Locale, String> entry : websiteNameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> priceMap = getPriceMap();
+
+		for (Map.Entry<Locale, String> entry : priceMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> scheduleCommentsMap = getScheduleCommentsMap();
+
+		for (Map.Entry<Locale, String> entry : scheduleCommentsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -1157,6 +2371,66 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			setDescription(getDescription(defaultLocale), defaultLocale,
 				defaultLocale);
 		}
+
+		String access = getAccess(defaultLocale);
+
+		if (Validator.isNull(access)) {
+			setAccess(getAccess(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setAccess(getAccess(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String accessForDisabled = getAccessForDisabled(defaultLocale);
+
+		if (Validator.isNull(accessForDisabled)) {
+			setAccessForDisabled(getAccessForDisabled(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setAccessForDisabled(getAccessForDisabled(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
+
+		String websiteURL = getWebsiteURL(defaultLocale);
+
+		if (Validator.isNull(websiteURL)) {
+			setWebsiteURL(getWebsiteURL(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setWebsiteURL(getWebsiteURL(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String websiteName = getWebsiteName(defaultLocale);
+
+		if (Validator.isNull(websiteName)) {
+			setWebsiteName(getWebsiteName(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setWebsiteName(getWebsiteName(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String price = getPrice(defaultLocale);
+
+		if (Validator.isNull(price)) {
+			setPrice(getPrice(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setPrice(getPrice(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String scheduleComments = getScheduleComments(defaultLocale);
+
+		if (Validator.isNull(scheduleComments)) {
+			setScheduleComments(getScheduleComments(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setScheduleComments(getScheduleComments(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1189,7 +2463,32 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setTitle(getTitle());
 		eventImpl.setSubtitle(getSubtitle());
 		eventImpl.setDescription(getDescription());
+		eventImpl.setExternalImageURL(getExternalImageURL());
+		eventImpl.setExternalImageCopyright(getExternalImageCopyright());
+		eventImpl.setPlaceSIGId(getPlaceSIGId());
+		eventImpl.setPlaceName(getPlaceName());
+		eventImpl.setPlaceStreetNumber(getPlaceStreetNumber());
+		eventImpl.setPlaceStreetName(getPlaceStreetName());
+		eventImpl.setPlaceZipCode(getPlaceZipCode());
+		eventImpl.setPlaceCity(getPlaceCity());
+		eventImpl.setPlaceCountry(getPlaceCountry());
+		eventImpl.setAccess(getAccess());
+		eventImpl.setAccessForDisabled(getAccessForDisabled());
+		eventImpl.setAccessForBlind(getAccessForBlind());
+		eventImpl.setAccessForDeaf(getAccessForDeaf());
+		eventImpl.setAccessForWheelchair(getAccessForWheelchair());
+		eventImpl.setAccessForElder(getAccessForElder());
+		eventImpl.setAccessForDeficient(getAccessForDeficient());
+		eventImpl.setPromoter(getPromoter());
+		eventImpl.setPhone(getPhone());
+		eventImpl.setEmail(getEmail());
+		eventImpl.setWebsiteURL(getWebsiteURL());
+		eventImpl.setWebsiteName(getWebsiteName());
+		eventImpl.setFree(getFree());
+		eventImpl.setPrice(getPrice());
+		eventImpl.setSource(getSource());
 		eventImpl.setDisplayDate(getDisplayDate());
+		eventImpl.setScheduleComments(getScheduleComments());
 		eventImpl.setImageId(getImageId());
 
 		eventImpl.resetOriginalValues();
@@ -1370,6 +2669,163 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.description = null;
 		}
 
+		eventCacheModel.externalImageURL = getExternalImageURL();
+
+		String externalImageURL = eventCacheModel.externalImageURL;
+
+		if ((externalImageURL != null) && (externalImageURL.length() == 0)) {
+			eventCacheModel.externalImageURL = null;
+		}
+
+		eventCacheModel.externalImageCopyright = getExternalImageCopyright();
+
+		String externalImageCopyright = eventCacheModel.externalImageCopyright;
+
+		if ((externalImageCopyright != null) &&
+				(externalImageCopyright.length() == 0)) {
+			eventCacheModel.externalImageCopyright = null;
+		}
+
+		eventCacheModel.placeSIGId = getPlaceSIGId();
+
+		String placeSIGId = eventCacheModel.placeSIGId;
+
+		if ((placeSIGId != null) && (placeSIGId.length() == 0)) {
+			eventCacheModel.placeSIGId = null;
+		}
+
+		eventCacheModel.placeName = getPlaceName();
+
+		String placeName = eventCacheModel.placeName;
+
+		if ((placeName != null) && (placeName.length() == 0)) {
+			eventCacheModel.placeName = null;
+		}
+
+		eventCacheModel.placeStreetNumber = getPlaceStreetNumber();
+
+		String placeStreetNumber = eventCacheModel.placeStreetNumber;
+
+		if ((placeStreetNumber != null) && (placeStreetNumber.length() == 0)) {
+			eventCacheModel.placeStreetNumber = null;
+		}
+
+		eventCacheModel.placeStreetName = getPlaceStreetName();
+
+		String placeStreetName = eventCacheModel.placeStreetName;
+
+		if ((placeStreetName != null) && (placeStreetName.length() == 0)) {
+			eventCacheModel.placeStreetName = null;
+		}
+
+		eventCacheModel.placeZipCode = getPlaceZipCode();
+
+		String placeZipCode = eventCacheModel.placeZipCode;
+
+		if ((placeZipCode != null) && (placeZipCode.length() == 0)) {
+			eventCacheModel.placeZipCode = null;
+		}
+
+		eventCacheModel.placeCity = getPlaceCity();
+
+		String placeCity = eventCacheModel.placeCity;
+
+		if ((placeCity != null) && (placeCity.length() == 0)) {
+			eventCacheModel.placeCity = null;
+		}
+
+		eventCacheModel.placeCountry = getPlaceCountry();
+
+		String placeCountry = eventCacheModel.placeCountry;
+
+		if ((placeCountry != null) && (placeCountry.length() == 0)) {
+			eventCacheModel.placeCountry = null;
+		}
+
+		eventCacheModel.access = getAccess();
+
+		String access = eventCacheModel.access;
+
+		if ((access != null) && (access.length() == 0)) {
+			eventCacheModel.access = null;
+		}
+
+		eventCacheModel.accessForDisabled = getAccessForDisabled();
+
+		String accessForDisabled = eventCacheModel.accessForDisabled;
+
+		if ((accessForDisabled != null) && (accessForDisabled.length() == 0)) {
+			eventCacheModel.accessForDisabled = null;
+		}
+
+		eventCacheModel.accessForBlind = getAccessForBlind();
+
+		eventCacheModel.accessForDeaf = getAccessForDeaf();
+
+		eventCacheModel.accessForWheelchair = getAccessForWheelchair();
+
+		eventCacheModel.accessForElder = getAccessForElder();
+
+		eventCacheModel.accessForDeficient = getAccessForDeficient();
+
+		eventCacheModel.promoter = getPromoter();
+
+		String promoter = eventCacheModel.promoter;
+
+		if ((promoter != null) && (promoter.length() == 0)) {
+			eventCacheModel.promoter = null;
+		}
+
+		eventCacheModel.phone = getPhone();
+
+		String phone = eventCacheModel.phone;
+
+		if ((phone != null) && (phone.length() == 0)) {
+			eventCacheModel.phone = null;
+		}
+
+		eventCacheModel.email = getEmail();
+
+		String email = eventCacheModel.email;
+
+		if ((email != null) && (email.length() == 0)) {
+			eventCacheModel.email = null;
+		}
+
+		eventCacheModel.websiteURL = getWebsiteURL();
+
+		String websiteURL = eventCacheModel.websiteURL;
+
+		if ((websiteURL != null) && (websiteURL.length() == 0)) {
+			eventCacheModel.websiteURL = null;
+		}
+
+		eventCacheModel.websiteName = getWebsiteName();
+
+		String websiteName = eventCacheModel.websiteName;
+
+		if ((websiteName != null) && (websiteName.length() == 0)) {
+			eventCacheModel.websiteName = null;
+		}
+
+		eventCacheModel.free = getFree();
+
+		eventCacheModel.price = getPrice();
+
+		String price = eventCacheModel.price;
+
+		if ((price != null) && (price.length() == 0)) {
+			eventCacheModel.price = null;
+		}
+
+		eventCacheModel.source = getSource();
+
+		String source = eventCacheModel.source;
+
+		if ((source != null) && (source.length() == 0)) {
+			eventCacheModel.source = null;
+		}
+
 		Date displayDate = getDisplayDate();
 
 		if (displayDate != null) {
@@ -1379,6 +2835,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.displayDate = Long.MIN_VALUE;
 		}
 
+		eventCacheModel.scheduleComments = getScheduleComments();
+
+		String scheduleComments = eventCacheModel.scheduleComments;
+
+		if ((scheduleComments != null) && (scheduleComments.length() == 0)) {
+			eventCacheModel.scheduleComments = null;
+		}
+
 		eventCacheModel.imageId = getImageId();
 
 		return eventCacheModel;
@@ -1386,7 +2850,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(87);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1420,8 +2884,58 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getSubtitle());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", externalImageURL=");
+		sb.append(getExternalImageURL());
+		sb.append(", externalImageCopyright=");
+		sb.append(getExternalImageCopyright());
+		sb.append(", placeSIGId=");
+		sb.append(getPlaceSIGId());
+		sb.append(", placeName=");
+		sb.append(getPlaceName());
+		sb.append(", placeStreetNumber=");
+		sb.append(getPlaceStreetNumber());
+		sb.append(", placeStreetName=");
+		sb.append(getPlaceStreetName());
+		sb.append(", placeZipCode=");
+		sb.append(getPlaceZipCode());
+		sb.append(", placeCity=");
+		sb.append(getPlaceCity());
+		sb.append(", placeCountry=");
+		sb.append(getPlaceCountry());
+		sb.append(", access=");
+		sb.append(getAccess());
+		sb.append(", accessForDisabled=");
+		sb.append(getAccessForDisabled());
+		sb.append(", accessForBlind=");
+		sb.append(getAccessForBlind());
+		sb.append(", accessForDeaf=");
+		sb.append(getAccessForDeaf());
+		sb.append(", accessForWheelchair=");
+		sb.append(getAccessForWheelchair());
+		sb.append(", accessForElder=");
+		sb.append(getAccessForElder());
+		sb.append(", accessForDeficient=");
+		sb.append(getAccessForDeficient());
+		sb.append(", promoter=");
+		sb.append(getPromoter());
+		sb.append(", phone=");
+		sb.append(getPhone());
+		sb.append(", email=");
+		sb.append(getEmail());
+		sb.append(", websiteURL=");
+		sb.append(getWebsiteURL());
+		sb.append(", websiteName=");
+		sb.append(getWebsiteName());
+		sb.append(", free=");
+		sb.append(getFree());
+		sb.append(", price=");
+		sb.append(getPrice());
+		sb.append(", source=");
+		sb.append(getSource());
 		sb.append(", displayDate=");
 		sb.append(getDisplayDate());
+		sb.append(", scheduleComments=");
+		sb.append(getScheduleComments());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append("}");
@@ -1431,7 +2945,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(133);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -1502,8 +3016,108 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>externalImageURL</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeSIGId</column-name><column-value><![CDATA[");
+		sb.append(getPlaceSIGId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeName</column-name><column-value><![CDATA[");
+		sb.append(getPlaceName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeStreetNumber</column-name><column-value><![CDATA[");
+		sb.append(getPlaceStreetNumber());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeStreetName</column-name><column-value><![CDATA[");
+		sb.append(getPlaceStreetName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeZipCode</column-name><column-value><![CDATA[");
+		sb.append(getPlaceZipCode());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeCity</column-name><column-value><![CDATA[");
+		sb.append(getPlaceCity());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placeCountry</column-name><column-value><![CDATA[");
+		sb.append(getPlaceCountry());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>access</column-name><column-value><![CDATA[");
+		sb.append(getAccess());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForDisabled</column-name><column-value><![CDATA[");
+		sb.append(getAccessForDisabled());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForBlind</column-name><column-value><![CDATA[");
+		sb.append(getAccessForBlind());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForDeaf</column-name><column-value><![CDATA[");
+		sb.append(getAccessForDeaf());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForWheelchair</column-name><column-value><![CDATA[");
+		sb.append(getAccessForWheelchair());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForElder</column-name><column-value><![CDATA[");
+		sb.append(getAccessForElder());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>accessForDeficient</column-name><column-value><![CDATA[");
+		sb.append(getAccessForDeficient());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>promoter</column-name><column-value><![CDATA[");
+		sb.append(getPromoter());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>phone</column-name><column-value><![CDATA[");
+		sb.append(getPhone());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>email</column-name><column-value><![CDATA[");
+		sb.append(getEmail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>websiteURL</column-name><column-value><![CDATA[");
+		sb.append(getWebsiteURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>websiteName</column-name><column-value><![CDATA[");
+		sb.append(getWebsiteName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>free</column-name><column-value><![CDATA[");
+		sb.append(getFree());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>price</column-name><column-value><![CDATA[");
+		sb.append(getPrice());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>source</column-name><column-value><![CDATA[");
+		sb.append(getSource());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>displayDate</column-name><column-value><![CDATA[");
 		sb.append(getDisplayDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>scheduleComments</column-name><column-value><![CDATA[");
+		sb.append(getScheduleComments());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
@@ -1545,7 +3159,38 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _subtitleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private String _placeSIGId;
+	private String _placeName;
+	private String _placeStreetNumber;
+	private String _placeStreetName;
+	private String _placeZipCode;
+	private String _placeCity;
+	private String _placeCountry;
+	private String _access;
+	private String _accessCurrentLanguageId;
+	private String _accessForDisabled;
+	private String _accessForDisabledCurrentLanguageId;
+	private Boolean _accessForBlind;
+	private Boolean _accessForDeaf;
+	private Boolean _accessForWheelchair;
+	private Boolean _accessForElder;
+	private Boolean _accessForDeficient;
+	private String _promoter;
+	private String _phone;
+	private String _email;
+	private String _websiteURL;
+	private String _websiteURLCurrentLanguageId;
+	private String _websiteName;
+	private String _websiteNameCurrentLanguageId;
+	private boolean _free;
+	private String _price;
+	private String _priceCurrentLanguageId;
+	private String _source;
 	private Date _displayDate;
+	private String _scheduleComments;
+	private String _scheduleCommentsCurrentLanguageId;
 	private Long _imageId;
 	private long _columnBitmask;
 	private Event _escapedModel;

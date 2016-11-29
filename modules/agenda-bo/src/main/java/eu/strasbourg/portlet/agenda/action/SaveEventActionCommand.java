@@ -87,6 +87,89 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "description");
 			event.setDescriptionMap(description);
 
+			String externalImageURL = ParamUtil.getString(request,
+				"externalImageURL");
+			event.setExternalImageURL(externalImageURL);
+
+			String externalImageCopyright = ParamUtil.getString(request,
+				"externalImageCopyright");
+			event.setExternalImageCopyright(externalImageCopyright);
+
+			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
+			event.setPlaceSIGId(placeSIGId);
+
+			String placeName = ParamUtil.getString(request, "placeName");
+			event.setPlaceName(placeName);
+
+			String placeStreetNumber = ParamUtil.getString(request,
+				"placeStreetNumber");
+			event.setPlaceStreetNumber(placeStreetNumber);
+
+			String placeStreetName = ParamUtil.getString(request,
+				"placeStreetName");
+			event.setPlaceStreetName(placeStreetName);
+
+			String placeZipCode = ParamUtil.getString(request, "placeZipCode");
+			event.setPlaceZipCode(placeZipCode);
+
+			String placeCity = ParamUtil.getString(request, "placeCity");
+			event.setPlaceCity(placeCity);
+
+			String placeCountry = ParamUtil.getString(request, "placeCountry");
+			event.setPlaceCountry(placeCountry);
+
+			Map<Locale, String> access = LocalizationUtil
+				.getLocalizationMap(request, "access");
+			event.setAccessMap(access);
+
+			Map<Locale, String> accessForDisabled = LocalizationUtil
+				.getLocalizationMap(request, "accessForDisabled");
+			event.setAccessForDisabledMap(accessForDisabled);
+
+			Boolean accessForBlind = ParamUtil.getBoolean(request,
+				"accessForBlind");
+			event.setAccessForBlind(accessForBlind);
+
+			Boolean accessForWheelchair = ParamUtil.getBoolean(request,
+				"accessForWheelchair");
+			event.setAccessForWheelchair(accessForWheelchair);
+
+			Boolean accessForDeaf = ParamUtil.getBoolean(request,
+				"accessForDeaf");
+			event.setAccessForDeaf(accessForDeaf);
+
+			Boolean accessForElder = ParamUtil.getBoolean(request,
+				"accessForElder");
+			event.setAccessForElder(accessForElder);
+
+			Boolean accessForDeficient = ParamUtil.getBoolean(request,
+				"accessForDeficient");
+			event.setAccessForDeficient(accessForDeficient);
+
+			String promoter = ParamUtil.getString(request, "promoter");
+			event.setPromoter(promoter);
+
+			String phone = ParamUtil.getString(request, "phone");
+			event.setPhone(phone);
+
+			String email = ParamUtil.getString(request, "email");
+			event.setEmail(email);
+
+			Map<Locale, String> websiteName = LocalizationUtil
+				.getLocalizationMap(request, "websiteName");
+			event.setWebsiteNameMap(websiteName);
+
+			Map<Locale, String> websiteURL = LocalizationUtil
+				.getLocalizationMap(request, "websiteURL");
+			event.setWebsiteURLMap(websiteURL);
+
+			String source = ParamUtil.getString(request, "source");
+			event.setSource(source);
+
+			Map<Locale, String> scheduleComments = LocalizationUtil
+				.getLocalizationMap(request, "scheduleComments");
+			event.setScheduleCommentsMap(scheduleComments);
+
 			String displayDateString = ParamUtil.getString(request,
 				"displayDate");
 			Date displayDate = DateUtil.parseDate(displayDateString,
@@ -112,7 +195,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			/**
 			 * Périodes de l'événement
 			 */
-			// Suppressionn des anciennes périodes
+			// Suppression des anciennes périodes
 			List<EventPeriod> oldPeriods = event.getEventPeriods();
 			for (EventPeriod eventPeriod : oldPeriods) {
 				_eventPeriodLocalService.deleteEventPeriod(eventPeriod);
@@ -121,8 +204,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			String periodsIndexesString = ParamUtil.getString(request,
 				"periodIndexes");
 			for (String periodIndex : periodsIndexesString.split(",")) {
-				DateFormat dateFormat = new SimpleDateFormat(
-					"dd/MM/yyyy");
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				if (Validator.isNotNull(periodIndex)
 					&& Validator.isNotNull(
 						ParamUtil.getString(request, "startDate" + periodIndex))
@@ -133,8 +215,10 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						"startDate" + periodIndex, dateFormat);
 					Date endDate = ParamUtil.getDate(request,
 						"endDate" + periodIndex, dateFormat);
-					Map<Locale, String> timeDetail = LocalizationUtil.getLocalizationMap(request, "timeDetail" + periodIndex);
-					
+					Map<Locale, String> timeDetail = LocalizationUtil
+						.getLocalizationMap(request,
+							"timeDetail" + periodIndex);
+
 					EventPeriod eventPeriod = _eventPeriodLocalService
 						.createEventPeriod();
 					eventPeriod.setStartDate(startDate);

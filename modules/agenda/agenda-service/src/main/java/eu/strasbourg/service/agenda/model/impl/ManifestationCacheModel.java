@@ -66,7 +66,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,10 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", startDate=");
+		sb.append(startDate);
+		sb.append(", endDate=");
+		sb.append(endDate);
 		sb.append(", displayDate=");
 		sb.append(displayDate);
 		sb.append("}");
@@ -184,6 +188,20 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			manifestationImpl.setDescription(description);
 		}
 
+		if (startDate == Long.MIN_VALUE) {
+			manifestationImpl.setStartDate(null);
+		}
+		else {
+			manifestationImpl.setStartDate(new Date(startDate));
+		}
+
+		if (endDate == Long.MIN_VALUE) {
+			manifestationImpl.setEndDate(null);
+		}
+		else {
+			manifestationImpl.setEndDate(new Date(endDate));
+		}
+
 		if (displayDate == Long.MIN_VALUE) {
 			manifestationImpl.setDisplayDate(null);
 		}
@@ -221,6 +239,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		startDate = objectInput.readLong();
+		endDate = objectInput.readLong();
 		displayDate = objectInput.readLong();
 	}
 
@@ -282,6 +302,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			objectOutput.writeUTF(description);
 		}
 
+		objectOutput.writeLong(startDate);
+		objectOutput.writeLong(endDate);
 		objectOutput.writeLong(displayDate);
 	}
 
@@ -301,5 +323,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	public long imageId;
 	public String title;
 	public String description;
+	public long startDate;
+	public long endDate;
 	public long displayDate;
 }

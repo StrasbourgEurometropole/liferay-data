@@ -76,6 +76,8 @@ public class ManifestationWrapper implements Manifestation,
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 		attributes.put("displayDate", getDisplayDate());
 
 		return attributes;
@@ -177,6 +179,18 @@ public class ManifestationWrapper implements Manifestation,
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 
 		Date displayDate = (Date)attributes.get("displayDate");
@@ -608,6 +622,16 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Returns the end date of this manifestation.
+	*
+	* @return the end date of this manifestation
+	*/
+	@Override
+	public Date getEndDate() {
+		return _manifestation.getEndDate();
+	}
+
+	/**
 	* Returns the last publish date of this manifestation.
 	*
 	* @return the last publish date of this manifestation
@@ -625,6 +649,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public Date getModifiedDate() {
 		return _manifestation.getModifiedDate();
+	}
+
+	/**
+	* Returns the start date of this manifestation.
+	*
+	* @return the start date of this manifestation
+	*/
+	@Override
+	public Date getStartDate() {
+		return _manifestation.getStartDate();
 	}
 
 	/**
@@ -859,6 +893,16 @@ public class ManifestationWrapper implements Manifestation,
 		_manifestation.setDisplayDate(displayDate);
 	}
 
+	/**
+	* Sets the end date of this manifestation.
+	*
+	* @param endDate the end date of this manifestation
+	*/
+	@Override
+	public void setEndDate(Date endDate) {
+		_manifestation.setEndDate(endDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_manifestation.setExpandoBridgeAttributes(expandoBridge);
@@ -943,6 +987,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_manifestation.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the start date of this manifestation.
+	*
+	* @param startDate the start date of this manifestation
+	*/
+	@Override
+	public void setStartDate(Date startDate) {
+		_manifestation.setStartDate(startDate);
 	}
 
 	/**

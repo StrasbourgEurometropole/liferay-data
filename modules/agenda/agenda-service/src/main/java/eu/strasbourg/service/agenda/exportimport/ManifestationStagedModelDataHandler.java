@@ -120,6 +120,8 @@ public class ManifestationStagedModelDataHandler
 		importedManifestation.setTitle(stagedModel.getTitle());
 		importedManifestation.setImageId(stagedModel.getImageId());
 		importedManifestation.setDescription(stagedModel.getDescription());
+		importedManifestation.setStartDate(stagedModel.getStartDate());
+		importedManifestation.setEndDate(stagedModel.getEndDate());
 		importedManifestation.setDisplayDate(stagedModel.getDisplayDate());
 		importedManifestation.setStatus(stagedModel.getStatus());
 

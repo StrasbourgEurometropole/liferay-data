@@ -42,6 +42,10 @@
 
 				<aui:input name="description" />
 				
+				<aui:input name="startDate" />
+				
+				<aui:input name="endDate" />
+				
 				<strasbourg-picker:entity label="events" name="eventsIds"
 					value="${dc.manifestation.eventsIds}"
 					type="eu.strasbourg.service.agenda.model.Event"

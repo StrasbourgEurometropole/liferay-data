@@ -50,6 +50,8 @@ public class ManifestationSoap implements Serializable {
 		soapModel.setImageId(model.getImageId());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setStartDate(model.getStartDate());
+		soapModel.setEndDate(model.getEndDate());
 		soapModel.setDisplayDate(model.getDisplayDate());
 
 		return soapModel;
@@ -231,6 +233,22 @@ public class ManifestationSoap implements Serializable {
 		_description = description;
 	}
 
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return _endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		_endDate = endDate;
+	}
+
 	public Date getDisplayDate() {
 		return _displayDate;
 	}
@@ -255,5 +273,7 @@ public class ManifestationSoap implements Serializable {
 	private Long _imageId;
 	private String _title;
 	private String _description;
+	private Date _startDate;
+	private Date _endDate;
 	private Date _displayDate;
 }

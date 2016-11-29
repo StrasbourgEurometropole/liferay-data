@@ -75,7 +75,32 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("title", getTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("placeSIGId", getPlaceSIGId());
+		attributes.put("placeName", getPlaceName());
+		attributes.put("placeStreetNumber", getPlaceStreetNumber());
+		attributes.put("placeStreetName", getPlaceStreetName());
+		attributes.put("placeZipCode", getPlaceZipCode());
+		attributes.put("placeCity", getPlaceCity());
+		attributes.put("placeCountry", getPlaceCountry());
+		attributes.put("access", getAccess());
+		attributes.put("accessForDisabled", getAccessForDisabled());
+		attributes.put("accessForBlind", getAccessForBlind());
+		attributes.put("accessForDeaf", getAccessForDeaf());
+		attributes.put("accessForWheelchair", getAccessForWheelchair());
+		attributes.put("accessForElder", getAccessForElder());
+		attributes.put("accessForDeficient", getAccessForDeficient());
+		attributes.put("promoter", getPromoter());
+		attributes.put("phone", getPhone());
+		attributes.put("email", getEmail());
+		attributes.put("websiteURL", getWebsiteURL());
+		attributes.put("websiteName", getWebsiteName());
+		attributes.put("free", getFree());
+		attributes.put("price", getPrice());
+		attributes.put("source", getSource());
 		attributes.put("displayDate", getDisplayDate());
+		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -179,10 +204,163 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setDescription(description);
 		}
 
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		String placeSIGId = (String)attributes.get("placeSIGId");
+
+		if (placeSIGId != null) {
+			setPlaceSIGId(placeSIGId);
+		}
+
+		String placeName = (String)attributes.get("placeName");
+
+		if (placeName != null) {
+			setPlaceName(placeName);
+		}
+
+		String placeStreetNumber = (String)attributes.get("placeStreetNumber");
+
+		if (placeStreetNumber != null) {
+			setPlaceStreetNumber(placeStreetNumber);
+		}
+
+		String placeStreetName = (String)attributes.get("placeStreetName");
+
+		if (placeStreetName != null) {
+			setPlaceStreetName(placeStreetName);
+		}
+
+		String placeZipCode = (String)attributes.get("placeZipCode");
+
+		if (placeZipCode != null) {
+			setPlaceZipCode(placeZipCode);
+		}
+
+		String placeCity = (String)attributes.get("placeCity");
+
+		if (placeCity != null) {
+			setPlaceCity(placeCity);
+		}
+
+		String placeCountry = (String)attributes.get("placeCountry");
+
+		if (placeCountry != null) {
+			setPlaceCountry(placeCountry);
+		}
+
+		String access = (String)attributes.get("access");
+
+		if (access != null) {
+			setAccess(access);
+		}
+
+		String accessForDisabled = (String)attributes.get("accessForDisabled");
+
+		if (accessForDisabled != null) {
+			setAccessForDisabled(accessForDisabled);
+		}
+
+		Boolean accessForBlind = (Boolean)attributes.get("accessForBlind");
+
+		if (accessForBlind != null) {
+			setAccessForBlind(accessForBlind);
+		}
+
+		Boolean accessForDeaf = (Boolean)attributes.get("accessForDeaf");
+
+		if (accessForDeaf != null) {
+			setAccessForDeaf(accessForDeaf);
+		}
+
+		Boolean accessForWheelchair = (Boolean)attributes.get(
+				"accessForWheelchair");
+
+		if (accessForWheelchair != null) {
+			setAccessForWheelchair(accessForWheelchair);
+		}
+
+		Boolean accessForElder = (Boolean)attributes.get("accessForElder");
+
+		if (accessForElder != null) {
+			setAccessForElder(accessForElder);
+		}
+
+		Boolean accessForDeficient = (Boolean)attributes.get(
+				"accessForDeficient");
+
+		if (accessForDeficient != null) {
+			setAccessForDeficient(accessForDeficient);
+		}
+
+		String promoter = (String)attributes.get("promoter");
+
+		if (promoter != null) {
+			setPromoter(promoter);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String email = (String)attributes.get("email");
+
+		if (email != null) {
+			setEmail(email);
+		}
+
+		String websiteURL = (String)attributes.get("websiteURL");
+
+		if (websiteURL != null) {
+			setWebsiteURL(websiteURL);
+		}
+
+		String websiteName = (String)attributes.get("websiteName");
+
+		if (websiteName != null) {
+			setWebsiteName(websiteName);
+		}
+
+		Boolean free = (Boolean)attributes.get("free");
+
+		if (free != null) {
+			setFree(free);
+		}
+
+		String price = (String)attributes.get("price");
+
+		if (price != null) {
+			setPrice(price);
+		}
+
+		String source = (String)attributes.get("source");
+
+		if (source != null) {
+			setSource(source);
+		}
+
 		Date displayDate = (Date)attributes.get("displayDate");
 
 		if (displayDate != null) {
 			setDisplayDate(displayDate);
+		}
+
+		String scheduleComments = (String)attributes.get("scheduleComments");
+
+		if (scheduleComments != null) {
+			setScheduleComments(scheduleComments);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -190,6 +368,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		if (imageId != null) {
 			setImageId(imageId);
 		}
+	}
+
+	/**
+	* Returns the free of this event.
+	*
+	* @return the free of this event
+	*/
+	@Override
+	public boolean getFree() {
+		return _event.getFree();
 	}
 
 	/**
@@ -240,6 +428,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public boolean isExpired() {
 		return _event.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this event is free.
+	*
+	* @return <code>true</code> if this event is free; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isFree() {
+		return _event.isFree();
 	}
 
 	/**
@@ -349,6 +547,56 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the access for blind of this event.
+	*
+	* @return the access for blind of this event
+	*/
+	@Override
+	public java.lang.Boolean getAccessForBlind() {
+		return _event.getAccessForBlind();
+	}
+
+	/**
+	* Returns the access for deaf of this event.
+	*
+	* @return the access for deaf of this event
+	*/
+	@Override
+	public java.lang.Boolean getAccessForDeaf() {
+		return _event.getAccessForDeaf();
+	}
+
+	/**
+	* Returns the access for deficient of this event.
+	*
+	* @return the access for deficient of this event
+	*/
+	@Override
+	public java.lang.Boolean getAccessForDeficient() {
+		return _event.getAccessForDeficient();
+	}
+
+	/**
+	* Returns the access for elder of this event.
+	*
+	* @return the access for elder of this event
+	*/
+	@Override
+	public java.lang.Boolean getAccessForElder() {
+		return _event.getAccessForElder();
+	}
+
+	/**
+	* Returns the access for wheelchair of this event.
+	*
+	* @return the access for wheelchair of this event
+	*/
+	@Override
+	public java.lang.Boolean getAccessForWheelchair() {
+		return _event.getAccessForWheelchair();
+	}
+
+	/**
 	* Returns the image ID of this event.
 	*
 	* @return the image ID of this event
@@ -361,6 +609,142 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.Object clone() {
 		return new EventWrapper((Event)_event.clone());
+	}
+
+	/**
+	* Returns the access of this event.
+	*
+	* @return the access of this event
+	*/
+	@Override
+	public java.lang.String getAccess() {
+		return _event.getAccess();
+	}
+
+	/**
+	* Returns the localized access of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized access of this event
+	*/
+	@Override
+	public java.lang.String getAccess(java.lang.String languageId) {
+		return _event.getAccess(languageId);
+	}
+
+	/**
+	* Returns the localized access of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized access of this event
+	*/
+	@Override
+	public java.lang.String getAccess(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getAccess(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized access of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized access of this event
+	*/
+	@Override
+	public java.lang.String getAccess(java.util.Locale locale) {
+		return _event.getAccess(locale);
+	}
+
+	/**
+	* Returns the localized access of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized access of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getAccess(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getAccess(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getAccessCurrentLanguageId() {
+		return _event.getAccessCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getAccessCurrentValue() {
+		return _event.getAccessCurrentValue();
+	}
+
+	/**
+	* Returns the access for disabled of this event.
+	*
+	* @return the access for disabled of this event
+	*/
+	@Override
+	public java.lang.String getAccessForDisabled() {
+		return _event.getAccessForDisabled();
+	}
+
+	/**
+	* Returns the localized access for disabled of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized access for disabled of this event
+	*/
+	@Override
+	public java.lang.String getAccessForDisabled(java.lang.String languageId) {
+		return _event.getAccessForDisabled(languageId);
+	}
+
+	/**
+	* Returns the localized access for disabled of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized access for disabled of this event
+	*/
+	@Override
+	public java.lang.String getAccessForDisabled(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getAccessForDisabled(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized access for disabled of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized access for disabled of this event
+	*/
+	@Override
+	public java.lang.String getAccessForDisabled(java.util.Locale locale) {
+		return _event.getAccessForDisabled(locale);
+	}
+
+	/**
+	* Returns the localized access for disabled of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized access for disabled of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getAccessForDisabled(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getAccessForDisabled(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getAccessForDisabledCurrentLanguageId() {
+		return _event.getAccessForDisabledCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getAccessForDisabledCurrentValue() {
+		return _event.getAccessForDisabledCurrentValue();
 	}
 
 	@Override
@@ -437,6 +821,36 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the email of this event.
+	*
+	* @return the email of this event
+	*/
+	@Override
+	public java.lang.String getEmail() {
+		return _event.getEmail();
+	}
+
+	/**
+	* Returns the external image copyright of this event.
+	*
+	* @return the external image copyright of this event
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _event.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image u r l of this event.
+	*
+	* @return the external image u r l of this event
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _event.getExternalImageURL();
+	}
+
+	/**
 	* Retourne le copyright de l'image principale
 	*/
 	@Override
@@ -459,6 +873,241 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getManifestationsIds() {
 		return _event.getManifestationsIds();
+	}
+
+	/**
+	* Returns the phone of this event.
+	*
+	* @return the phone of this event
+	*/
+	@Override
+	public java.lang.String getPhone() {
+		return _event.getPhone();
+	}
+
+	/**
+	* Returns the place city of this event.
+	*
+	* @return the place city of this event
+	*/
+	@Override
+	public java.lang.String getPlaceCity() {
+		return _event.getPlaceCity();
+	}
+
+	/**
+	* Returns the place country of this event.
+	*
+	* @return the place country of this event
+	*/
+	@Override
+	public java.lang.String getPlaceCountry() {
+		return _event.getPlaceCountry();
+	}
+
+	/**
+	* Returns the place name of this event.
+	*
+	* @return the place name of this event
+	*/
+	@Override
+	public java.lang.String getPlaceName() {
+		return _event.getPlaceName();
+	}
+
+	/**
+	* Returns the place s i g ID of this event.
+	*
+	* @return the place s i g ID of this event
+	*/
+	@Override
+	public java.lang.String getPlaceSIGId() {
+		return _event.getPlaceSIGId();
+	}
+
+	/**
+	* Returns the place street name of this event.
+	*
+	* @return the place street name of this event
+	*/
+	@Override
+	public java.lang.String getPlaceStreetName() {
+		return _event.getPlaceStreetName();
+	}
+
+	/**
+	* Returns the place street number of this event.
+	*
+	* @return the place street number of this event
+	*/
+	@Override
+	public java.lang.String getPlaceStreetNumber() {
+		return _event.getPlaceStreetNumber();
+	}
+
+	/**
+	* Returns the place zip code of this event.
+	*
+	* @return the place zip code of this event
+	*/
+	@Override
+	public java.lang.String getPlaceZipCode() {
+		return _event.getPlaceZipCode();
+	}
+
+	/**
+	* Returns the price of this event.
+	*
+	* @return the price of this event
+	*/
+	@Override
+	public java.lang.String getPrice() {
+		return _event.getPrice();
+	}
+
+	/**
+	* Returns the localized price of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized price of this event
+	*/
+	@Override
+	public java.lang.String getPrice(java.lang.String languageId) {
+		return _event.getPrice(languageId);
+	}
+
+	/**
+	* Returns the localized price of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized price of this event
+	*/
+	@Override
+	public java.lang.String getPrice(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getPrice(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized price of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized price of this event
+	*/
+	@Override
+	public java.lang.String getPrice(java.util.Locale locale) {
+		return _event.getPrice(locale);
+	}
+
+	/**
+	* Returns the localized price of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized price of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getPrice(java.util.Locale locale, boolean useDefault) {
+		return _event.getPrice(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getPriceCurrentLanguageId() {
+		return _event.getPriceCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getPriceCurrentValue() {
+		return _event.getPriceCurrentValue();
+	}
+
+	/**
+	* Returns the promoter of this event.
+	*
+	* @return the promoter of this event
+	*/
+	@Override
+	public java.lang.String getPromoter() {
+		return _event.getPromoter();
+	}
+
+	/**
+	* Returns the schedule comments of this event.
+	*
+	* @return the schedule comments of this event
+	*/
+	@Override
+	public java.lang.String getScheduleComments() {
+		return _event.getScheduleComments();
+	}
+
+	/**
+	* Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized schedule comments of this event
+	*/
+	@Override
+	public java.lang.String getScheduleComments(java.lang.String languageId) {
+		return _event.getScheduleComments(languageId);
+	}
+
+	/**
+	* Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule comments of this event
+	*/
+	@Override
+	public java.lang.String getScheduleComments(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getScheduleComments(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized schedule comments of this event
+	*/
+	@Override
+	public java.lang.String getScheduleComments(java.util.Locale locale) {
+		return _event.getScheduleComments(locale);
+	}
+
+	/**
+	* Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule comments of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getScheduleComments(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getScheduleComments(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getScheduleCommentsCurrentLanguageId() {
+		return _event.getScheduleCommentsCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getScheduleCommentsCurrentValue() {
+		return _event.getScheduleCommentsCurrentValue();
+	}
+
+	/**
+	* Returns the source of this event.
+	*
+	* @return the source of this event
+	*/
+	@Override
+	public java.lang.String getSource() {
+		return _event.getSource();
 	}
 
 	/**
@@ -646,6 +1295,142 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getUuid();
 	}
 
+	/**
+	* Returns the website name of this event.
+	*
+	* @return the website name of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteName() {
+		return _event.getWebsiteName();
+	}
+
+	/**
+	* Returns the localized website name of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized website name of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.lang.String languageId) {
+		return _event.getWebsiteName(languageId);
+	}
+
+	/**
+	* Returns the localized website name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website name of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getWebsiteName(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized website name of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized website name of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.util.Locale locale) {
+		return _event.getWebsiteName(locale);
+	}
+
+	/**
+	* Returns the localized website name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website name of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getWebsiteName(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getWebsiteNameCurrentLanguageId() {
+		return _event.getWebsiteNameCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getWebsiteNameCurrentValue() {
+		return _event.getWebsiteNameCurrentValue();
+	}
+
+	/**
+	* Returns the website u r l of this event.
+	*
+	* @return the website u r l of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteURL() {
+		return _event.getWebsiteURL();
+	}
+
+	/**
+	* Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized website u r l of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteURL(java.lang.String languageId) {
+		return _event.getWebsiteURL(languageId);
+	}
+
+	/**
+	* Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website u r l of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteURL(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getWebsiteURL(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized website u r l of this event
+	*/
+	@Override
+	public java.lang.String getWebsiteURL(java.util.Locale locale) {
+		return _event.getWebsiteURL(locale);
+	}
+
+	/**
+	* Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website u r l of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getWebsiteURL(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getWebsiteURL(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getWebsiteURLCurrentLanguageId() {
+		return _event.getWebsiteURLCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getWebsiteURLCurrentValue() {
+		return _event.getWebsiteURLCurrentValue();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _event.toString();
@@ -745,6 +1530,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns a map of the locales and localized access for disableds of this event.
+	*
+	* @return the locales and localized access for disableds of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getAccessForDisabledMap() {
+		return _event.getAccessForDisabledMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized accesses of this event.
+	*
+	* @return the locales and localized accesses of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getAccessMap() {
+		return _event.getAccessMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized descriptions of this event.
 	*
 	* @return the locales and localized descriptions of this event
@@ -752,6 +1557,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getDescriptionMap() {
 		return _event.getDescriptionMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized prices of this event.
+	*
+	* @return the locales and localized prices of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getPriceMap() {
+		return _event.getPriceMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized schedule commentses of this event.
+	*
+	* @return the locales and localized schedule commentses of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getScheduleCommentsMap() {
+		return _event.getScheduleCommentsMap();
 	}
 
 	/**
@@ -772,6 +1597,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getTitleMap() {
 		return _event.getTitleMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized website names of this event.
+	*
+	* @return the locales and localized website names of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getWebsiteNameMap() {
+		return _event.getWebsiteNameMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized website u r ls of this event.
+	*
+	* @return the locales and localized website u r ls of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getWebsiteURLMap() {
+		return _event.getWebsiteURLMap();
 	}
 
 	/**
@@ -850,6 +1695,183 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 		_event.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	/**
+	* Sets the access of this event.
+	*
+	* @param access the access of this event
+	*/
+	@Override
+	public void setAccess(java.lang.String access) {
+		_event.setAccess(access);
+	}
+
+	/**
+	* Sets the localized access of this event in the language.
+	*
+	* @param access the localized access of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setAccess(java.lang.String access, java.util.Locale locale) {
+		_event.setAccess(access, locale);
+	}
+
+	/**
+	* Sets the localized access of this event in the language, and sets the default locale.
+	*
+	* @param access the localized access of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAccess(java.lang.String access, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_event.setAccess(access, locale, defaultLocale);
+	}
+
+	@Override
+	public void setAccessCurrentLanguageId(java.lang.String languageId) {
+		_event.setAccessCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the access for blind of this event.
+	*
+	* @param accessForBlind the access for blind of this event
+	*/
+	@Override
+	public void setAccessForBlind(java.lang.Boolean accessForBlind) {
+		_event.setAccessForBlind(accessForBlind);
+	}
+
+	/**
+	* Sets the access for deaf of this event.
+	*
+	* @param accessForDeaf the access for deaf of this event
+	*/
+	@Override
+	public void setAccessForDeaf(java.lang.Boolean accessForDeaf) {
+		_event.setAccessForDeaf(accessForDeaf);
+	}
+
+	/**
+	* Sets the access for deficient of this event.
+	*
+	* @param accessForDeficient the access for deficient of this event
+	*/
+	@Override
+	public void setAccessForDeficient(java.lang.Boolean accessForDeficient) {
+		_event.setAccessForDeficient(accessForDeficient);
+	}
+
+	/**
+	* Sets the access for disabled of this event.
+	*
+	* @param accessForDisabled the access for disabled of this event
+	*/
+	@Override
+	public void setAccessForDisabled(java.lang.String accessForDisabled) {
+		_event.setAccessForDisabled(accessForDisabled);
+	}
+
+	/**
+	* Sets the localized access for disabled of this event in the language.
+	*
+	* @param accessForDisabled the localized access for disabled of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setAccessForDisabled(java.lang.String accessForDisabled,
+		java.util.Locale locale) {
+		_event.setAccessForDisabled(accessForDisabled, locale);
+	}
+
+	/**
+	* Sets the localized access for disabled of this event in the language, and sets the default locale.
+	*
+	* @param accessForDisabled the localized access for disabled of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAccessForDisabled(java.lang.String accessForDisabled,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setAccessForDisabled(accessForDisabled, locale, defaultLocale);
+	}
+
+	@Override
+	public void setAccessForDisabledCurrentLanguageId(
+		java.lang.String languageId) {
+		_event.setAccessForDisabledCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized access for disableds of this event from the map of locales and localized access for disableds.
+	*
+	* @param accessForDisabledMap the locales and localized access for disableds of this event
+	*/
+	@Override
+	public void setAccessForDisabledMap(
+		Map<java.util.Locale, java.lang.String> accessForDisabledMap) {
+		_event.setAccessForDisabledMap(accessForDisabledMap);
+	}
+
+	/**
+	* Sets the localized access for disableds of this event from the map of locales and localized access for disableds, and sets the default locale.
+	*
+	* @param accessForDisabledMap the locales and localized access for disableds of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAccessForDisabledMap(
+		Map<java.util.Locale, java.lang.String> accessForDisabledMap,
+		java.util.Locale defaultLocale) {
+		_event.setAccessForDisabledMap(accessForDisabledMap, defaultLocale);
+	}
+
+	/**
+	* Sets the access for elder of this event.
+	*
+	* @param accessForElder the access for elder of this event
+	*/
+	@Override
+	public void setAccessForElder(java.lang.Boolean accessForElder) {
+		_event.setAccessForElder(accessForElder);
+	}
+
+	/**
+	* Sets the access for wheelchair of this event.
+	*
+	* @param accessForWheelchair the access for wheelchair of this event
+	*/
+	@Override
+	public void setAccessForWheelchair(java.lang.Boolean accessForWheelchair) {
+		_event.setAccessForWheelchair(accessForWheelchair);
+	}
+
+	/**
+	* Sets the localized accesses of this event from the map of locales and localized accesses.
+	*
+	* @param accessMap the locales and localized accesses of this event
+	*/
+	@Override
+	public void setAccessMap(Map<java.util.Locale, java.lang.String> accessMap) {
+		_event.setAccessMap(accessMap);
+	}
+
+	/**
+	* Sets the localized accesses of this event from the map of locales and localized accesses, and sets the default locale.
+	*
+	* @param accessMap the locales and localized accesses of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAccessMap(
+		Map<java.util.Locale, java.lang.String> accessMap,
+		java.util.Locale defaultLocale) {
+		_event.setAccessMap(accessMap, defaultLocale);
 	}
 
 	@Override
@@ -952,6 +1974,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the email of this event.
+	*
+	* @param email the email of this event
+	*/
+	@Override
+	public void setEmail(java.lang.String email) {
+		_event.setEmail(email);
+	}
+
+	/**
 	* Sets the event ID of this event.
 	*
 	* @param eventId the event ID of this event
@@ -975,6 +2007,37 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_event.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the external image copyright of this event.
+	*
+	* @param externalImageCopyright the external image copyright of this event
+	*/
+	@Override
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
+		_event.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	* Sets the external image u r l of this event.
+	*
+	* @param externalImageURL the external image u r l of this event
+	*/
+	@Override
+	public void setExternalImageURL(java.lang.String externalImageURL) {
+		_event.setExternalImageURL(externalImageURL);
+	}
+
+	/**
+	* Sets whether this event is free.
+	*
+	* @param free the free of this event
+	*/
+	@Override
+	public void setFree(boolean free) {
+		_event.setFree(free);
 	}
 
 	/**
@@ -1023,6 +2086,147 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the phone of this event.
+	*
+	* @param phone the phone of this event
+	*/
+	@Override
+	public void setPhone(java.lang.String phone) {
+		_event.setPhone(phone);
+	}
+
+	/**
+	* Sets the place city of this event.
+	*
+	* @param placeCity the place city of this event
+	*/
+	@Override
+	public void setPlaceCity(java.lang.String placeCity) {
+		_event.setPlaceCity(placeCity);
+	}
+
+	/**
+	* Sets the place country of this event.
+	*
+	* @param placeCountry the place country of this event
+	*/
+	@Override
+	public void setPlaceCountry(java.lang.String placeCountry) {
+		_event.setPlaceCountry(placeCountry);
+	}
+
+	/**
+	* Sets the place name of this event.
+	*
+	* @param placeName the place name of this event
+	*/
+	@Override
+	public void setPlaceName(java.lang.String placeName) {
+		_event.setPlaceName(placeName);
+	}
+
+	/**
+	* Sets the place s i g ID of this event.
+	*
+	* @param placeSIGId the place s i g ID of this event
+	*/
+	@Override
+	public void setPlaceSIGId(java.lang.String placeSIGId) {
+		_event.setPlaceSIGId(placeSIGId);
+	}
+
+	/**
+	* Sets the place street name of this event.
+	*
+	* @param placeStreetName the place street name of this event
+	*/
+	@Override
+	public void setPlaceStreetName(java.lang.String placeStreetName) {
+		_event.setPlaceStreetName(placeStreetName);
+	}
+
+	/**
+	* Sets the place street number of this event.
+	*
+	* @param placeStreetNumber the place street number of this event
+	*/
+	@Override
+	public void setPlaceStreetNumber(java.lang.String placeStreetNumber) {
+		_event.setPlaceStreetNumber(placeStreetNumber);
+	}
+
+	/**
+	* Sets the place zip code of this event.
+	*
+	* @param placeZipCode the place zip code of this event
+	*/
+	@Override
+	public void setPlaceZipCode(java.lang.String placeZipCode) {
+		_event.setPlaceZipCode(placeZipCode);
+	}
+
+	/**
+	* Sets the price of this event.
+	*
+	* @param price the price of this event
+	*/
+	@Override
+	public void setPrice(java.lang.String price) {
+		_event.setPrice(price);
+	}
+
+	/**
+	* Sets the localized price of this event in the language.
+	*
+	* @param price the localized price of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setPrice(java.lang.String price, java.util.Locale locale) {
+		_event.setPrice(price, locale);
+	}
+
+	/**
+	* Sets the localized price of this event in the language, and sets the default locale.
+	*
+	* @param price the localized price of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPrice(java.lang.String price, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_event.setPrice(price, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPriceCurrentLanguageId(java.lang.String languageId) {
+		_event.setPriceCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized prices of this event from the map of locales and localized prices.
+	*
+	* @param priceMap the locales and localized prices of this event
+	*/
+	@Override
+	public void setPriceMap(Map<java.util.Locale, java.lang.String> priceMap) {
+		_event.setPriceMap(priceMap);
+	}
+
+	/**
+	* Sets the localized prices of this event from the map of locales and localized prices, and sets the default locale.
+	*
+	* @param priceMap the locales and localized prices of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPriceMap(Map<java.util.Locale, java.lang.String> priceMap,
+		java.util.Locale defaultLocale) {
+		_event.setPriceMap(priceMap, defaultLocale);
+	}
+
+	/**
 	* Sets the primary key of this event.
 	*
 	* @param primaryKey the primary key of this event
@@ -1035,6 +2239,91 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_event.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the promoter of this event.
+	*
+	* @param promoter the promoter of this event
+	*/
+	@Override
+	public void setPromoter(java.lang.String promoter) {
+		_event.setPromoter(promoter);
+	}
+
+	/**
+	* Sets the schedule comments of this event.
+	*
+	* @param scheduleComments the schedule comments of this event
+	*/
+	@Override
+	public void setScheduleComments(java.lang.String scheduleComments) {
+		_event.setScheduleComments(scheduleComments);
+	}
+
+	/**
+	* Sets the localized schedule comments of this event in the language.
+	*
+	* @param scheduleComments the localized schedule comments of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setScheduleComments(java.lang.String scheduleComments,
+		java.util.Locale locale) {
+		_event.setScheduleComments(scheduleComments, locale);
+	}
+
+	/**
+	* Sets the localized schedule comments of this event in the language, and sets the default locale.
+	*
+	* @param scheduleComments the localized schedule comments of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleComments(java.lang.String scheduleComments,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setScheduleComments(scheduleComments, locale, defaultLocale);
+	}
+
+	@Override
+	public void setScheduleCommentsCurrentLanguageId(
+		java.lang.String languageId) {
+		_event.setScheduleCommentsCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses.
+	*
+	* @param scheduleCommentsMap the locales and localized schedule commentses of this event
+	*/
+	@Override
+	public void setScheduleCommentsMap(
+		Map<java.util.Locale, java.lang.String> scheduleCommentsMap) {
+		_event.setScheduleCommentsMap(scheduleCommentsMap);
+	}
+
+	/**
+	* Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses, and sets the default locale.
+	*
+	* @param scheduleCommentsMap the locales and localized schedule commentses of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleCommentsMap(
+		Map<java.util.Locale, java.lang.String> scheduleCommentsMap,
+		java.util.Locale defaultLocale) {
+		_event.setScheduleCommentsMap(scheduleCommentsMap, defaultLocale);
+	}
+
+	/**
+	* Sets the source of this event.
+	*
+	* @param source the source of this event
+	*/
+	@Override
+	public void setSource(java.lang.String source) {
+		_event.setSource(source);
 	}
 
 	/**
@@ -1249,6 +2538,134 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_event.setUuid(uuid);
+	}
+
+	/**
+	* Sets the website name of this event.
+	*
+	* @param websiteName the website name of this event
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName) {
+		_event.setWebsiteName(websiteName);
+	}
+
+	/**
+	* Sets the localized website name of this event in the language.
+	*
+	* @param websiteName the localized website name of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName,
+		java.util.Locale locale) {
+		_event.setWebsiteName(websiteName, locale);
+	}
+
+	/**
+	* Sets the localized website name of this event in the language, and sets the default locale.
+	*
+	* @param websiteName the localized website name of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setWebsiteName(websiteName, locale, defaultLocale);
+	}
+
+	@Override
+	public void setWebsiteNameCurrentLanguageId(java.lang.String languageId) {
+		_event.setWebsiteNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized website names of this event from the map of locales and localized website names.
+	*
+	* @param websiteNameMap the locales and localized website names of this event
+	*/
+	@Override
+	public void setWebsiteNameMap(
+		Map<java.util.Locale, java.lang.String> websiteNameMap) {
+		_event.setWebsiteNameMap(websiteNameMap);
+	}
+
+	/**
+	* Sets the localized website names of this event from the map of locales and localized website names, and sets the default locale.
+	*
+	* @param websiteNameMap the locales and localized website names of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteNameMap(
+		Map<java.util.Locale, java.lang.String> websiteNameMap,
+		java.util.Locale defaultLocale) {
+		_event.setWebsiteNameMap(websiteNameMap, defaultLocale);
+	}
+
+	/**
+	* Sets the website u r l of this event.
+	*
+	* @param websiteURL the website u r l of this event
+	*/
+	@Override
+	public void setWebsiteURL(java.lang.String websiteURL) {
+		_event.setWebsiteURL(websiteURL);
+	}
+
+	/**
+	* Sets the localized website u r l of this event in the language.
+	*
+	* @param websiteURL the localized website u r l of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setWebsiteURL(java.lang.String websiteURL,
+		java.util.Locale locale) {
+		_event.setWebsiteURL(websiteURL, locale);
+	}
+
+	/**
+	* Sets the localized website u r l of this event in the language, and sets the default locale.
+	*
+	* @param websiteURL the localized website u r l of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteURL(java.lang.String websiteURL,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setWebsiteURL(websiteURL, locale, defaultLocale);
+	}
+
+	@Override
+	public void setWebsiteURLCurrentLanguageId(java.lang.String languageId) {
+		_event.setWebsiteURLCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized website u r ls of this event from the map of locales and localized website u r ls.
+	*
+	* @param websiteURLMap the locales and localized website u r ls of this event
+	*/
+	@Override
+	public void setWebsiteURLMap(
+		Map<java.util.Locale, java.lang.String> websiteURLMap) {
+		_event.setWebsiteURLMap(websiteURLMap);
+	}
+
+	/**
+	* Sets the localized website u r ls of this event from the map of locales and localized website u r ls, and sets the default locale.
+	*
+	* @param websiteURLMap the locales and localized website u r ls of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteURLMap(
+		Map<java.util.Locale, java.lang.String> websiteURLMap,
+		java.util.Locale defaultLocale) {
+		_event.setWebsiteURLMap(websiteURLMap, defaultLocale);
 	}
 
 	@Override

@@ -50,7 +50,32 @@ public class EventSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setSubtitle(model.getSubtitle());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setExternalImageURL(model.getExternalImageURL());
+		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
+		soapModel.setPlaceSIGId(model.getPlaceSIGId());
+		soapModel.setPlaceName(model.getPlaceName());
+		soapModel.setPlaceStreetNumber(model.getPlaceStreetNumber());
+		soapModel.setPlaceStreetName(model.getPlaceStreetName());
+		soapModel.setPlaceZipCode(model.getPlaceZipCode());
+		soapModel.setPlaceCity(model.getPlaceCity());
+		soapModel.setPlaceCountry(model.getPlaceCountry());
+		soapModel.setAccess(model.getAccess());
+		soapModel.setAccessForDisabled(model.getAccessForDisabled());
+		soapModel.setAccessForBlind(model.getAccessForBlind());
+		soapModel.setAccessForDeaf(model.getAccessForDeaf());
+		soapModel.setAccessForWheelchair(model.getAccessForWheelchair());
+		soapModel.setAccessForElder(model.getAccessForElder());
+		soapModel.setAccessForDeficient(model.getAccessForDeficient());
+		soapModel.setPromoter(model.getPromoter());
+		soapModel.setPhone(model.getPhone());
+		soapModel.setEmail(model.getEmail());
+		soapModel.setWebsiteURL(model.getWebsiteURL());
+		soapModel.setWebsiteName(model.getWebsiteName());
+		soapModel.setFree(model.getFree());
+		soapModel.setPrice(model.getPrice());
+		soapModel.setSource(model.getSource());
 		soapModel.setDisplayDate(model.getDisplayDate());
+		soapModel.setScheduleComments(model.getScheduleComments());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -232,12 +257,216 @@ public class EventSoap implements Serializable {
 		_description = description;
 	}
 
+	public String getExternalImageURL() {
+		return _externalImageURL;
+	}
+
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	public String getExternalImageCopyright() {
+		return _externalImageCopyright;
+	}
+
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	public String getPlaceSIGId() {
+		return _placeSIGId;
+	}
+
+	public void setPlaceSIGId(String placeSIGId) {
+		_placeSIGId = placeSIGId;
+	}
+
+	public String getPlaceName() {
+		return _placeName;
+	}
+
+	public void setPlaceName(String placeName) {
+		_placeName = placeName;
+	}
+
+	public String getPlaceStreetNumber() {
+		return _placeStreetNumber;
+	}
+
+	public void setPlaceStreetNumber(String placeStreetNumber) {
+		_placeStreetNumber = placeStreetNumber;
+	}
+
+	public String getPlaceStreetName() {
+		return _placeStreetName;
+	}
+
+	public void setPlaceStreetName(String placeStreetName) {
+		_placeStreetName = placeStreetName;
+	}
+
+	public String getPlaceZipCode() {
+		return _placeZipCode;
+	}
+
+	public void setPlaceZipCode(String placeZipCode) {
+		_placeZipCode = placeZipCode;
+	}
+
+	public String getPlaceCity() {
+		return _placeCity;
+	}
+
+	public void setPlaceCity(String placeCity) {
+		_placeCity = placeCity;
+	}
+
+	public String getPlaceCountry() {
+		return _placeCountry;
+	}
+
+	public void setPlaceCountry(String placeCountry) {
+		_placeCountry = placeCountry;
+	}
+
+	public String getAccess() {
+		return _access;
+	}
+
+	public void setAccess(String access) {
+		_access = access;
+	}
+
+	public String getAccessForDisabled() {
+		return _accessForDisabled;
+	}
+
+	public void setAccessForDisabled(String accessForDisabled) {
+		_accessForDisabled = accessForDisabled;
+	}
+
+	public Boolean getAccessForBlind() {
+		return _accessForBlind;
+	}
+
+	public void setAccessForBlind(Boolean accessForBlind) {
+		_accessForBlind = accessForBlind;
+	}
+
+	public Boolean getAccessForDeaf() {
+		return _accessForDeaf;
+	}
+
+	public void setAccessForDeaf(Boolean accessForDeaf) {
+		_accessForDeaf = accessForDeaf;
+	}
+
+	public Boolean getAccessForWheelchair() {
+		return _accessForWheelchair;
+	}
+
+	public void setAccessForWheelchair(Boolean accessForWheelchair) {
+		_accessForWheelchair = accessForWheelchair;
+	}
+
+	public Boolean getAccessForElder() {
+		return _accessForElder;
+	}
+
+	public void setAccessForElder(Boolean accessForElder) {
+		_accessForElder = accessForElder;
+	}
+
+	public Boolean getAccessForDeficient() {
+		return _accessForDeficient;
+	}
+
+	public void setAccessForDeficient(Boolean accessForDeficient) {
+		_accessForDeficient = accessForDeficient;
+	}
+
+	public String getPromoter() {
+		return _promoter;
+	}
+
+	public void setPromoter(String promoter) {
+		_promoter = promoter;
+	}
+
+	public String getPhone() {
+		return _phone;
+	}
+
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	public String getEmail() {
+		return _email;
+	}
+
+	public void setEmail(String email) {
+		_email = email;
+	}
+
+	public String getWebsiteURL() {
+		return _websiteURL;
+	}
+
+	public void setWebsiteURL(String websiteURL) {
+		_websiteURL = websiteURL;
+	}
+
+	public String getWebsiteName() {
+		return _websiteName;
+	}
+
+	public void setWebsiteName(String websiteName) {
+		_websiteName = websiteName;
+	}
+
+	public boolean getFree() {
+		return _free;
+	}
+
+	public boolean isFree() {
+		return _free;
+	}
+
+	public void setFree(boolean free) {
+		_free = free;
+	}
+
+	public String getPrice() {
+		return _price;
+	}
+
+	public void setPrice(String price) {
+		_price = price;
+	}
+
+	public String getSource() {
+		return _source;
+	}
+
+	public void setSource(String source) {
+		_source = source;
+	}
+
 	public Date getDisplayDate() {
 		return _displayDate;
 	}
 
 	public void setDisplayDate(Date displayDate) {
 		_displayDate = displayDate;
+	}
+
+	public String getScheduleComments() {
+		return _scheduleComments;
+	}
+
+	public void setScheduleComments(String scheduleComments) {
+		_scheduleComments = scheduleComments;
 	}
 
 	public Long getImageId() {
@@ -264,6 +493,31 @@ public class EventSoap implements Serializable {
 	private String _title;
 	private String _subtitle;
 	private String _description;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private String _placeSIGId;
+	private String _placeName;
+	private String _placeStreetNumber;
+	private String _placeStreetName;
+	private String _placeZipCode;
+	private String _placeCity;
+	private String _placeCountry;
+	private String _access;
+	private String _accessForDisabled;
+	private Boolean _accessForBlind;
+	private Boolean _accessForDeaf;
+	private Boolean _accessForWheelchair;
+	private Boolean _accessForElder;
+	private Boolean _accessForDeficient;
+	private String _promoter;
+	private String _phone;
+	private String _email;
+	private String _websiteURL;
+	private String _websiteName;
+	private boolean _free;
+	private String _price;
+	private String _source;
 	private Date _displayDate;
+	private String _scheduleComments;
 	private Long _imageId;
 }

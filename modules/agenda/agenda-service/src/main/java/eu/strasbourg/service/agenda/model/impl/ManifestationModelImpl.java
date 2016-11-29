@@ -97,6 +97,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			{ "imageId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
+			{ "startDate", Types.TIMESTAMP },
+			{ "endDate", Types.TIMESTAMP },
 			{ "displayDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -118,10 +120,12 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,displayDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,startDate DATE null,endDate DATE null,displayDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Manifestation";
 	public static final String ORDER_BY_JPQL = " ORDER BY manifestation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Manifestation.title ASC";
@@ -171,6 +175,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		model.setImageId(soapModel.getImageId());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
+		model.setStartDate(soapModel.getStartDate());
+		model.setEndDate(soapModel.getEndDate());
 		model.setDisplayDate(soapModel.getDisplayDate());
 
 		return model;
@@ -265,6 +271,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 		attributes.put("displayDate", getDisplayDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -369,6 +377,18 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date startDate = (Date)attributes.get("startDate");
+
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 
 		Date displayDate = (Date)attributes.get("displayDate");
@@ -831,6 +851,28 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@JSON
 	@Override
+	public Date getStartDate() {
+		return _startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	@JSON
+	@Override
+	public Date getEndDate() {
+		return _endDate;
+	}
+
+	@Override
+	public void setEndDate(Date endDate) {
+		_endDate = endDate;
+	}
+
+	@JSON
+	@Override
 	public Date getDisplayDate() {
 		return _displayDate;
 	}
@@ -1055,6 +1097,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		manifestationImpl.setImageId(getImageId());
 		manifestationImpl.setTitle(getTitle());
 		manifestationImpl.setDescription(getDescription());
+		manifestationImpl.setStartDate(getStartDate());
+		manifestationImpl.setEndDate(getEndDate());
 		manifestationImpl.setDisplayDate(getDisplayDate());
 
 		manifestationImpl.resetOriginalValues();
@@ -1227,6 +1271,24 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			manifestationCacheModel.description = null;
 		}
 
+		Date startDate = getStartDate();
+
+		if (startDate != null) {
+			manifestationCacheModel.startDate = startDate.getTime();
+		}
+		else {
+			manifestationCacheModel.startDate = Long.MIN_VALUE;
+		}
+
+		Date endDate = getEndDate();
+
+		if (endDate != null) {
+			manifestationCacheModel.endDate = endDate.getTime();
+		}
+		else {
+			manifestationCacheModel.endDate = Long.MIN_VALUE;
+		}
+
 		Date displayDate = getDisplayDate();
 
 		if (displayDate != null) {
@@ -1241,7 +1303,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1275,6 +1337,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", startDate=");
+		sb.append(getStartDate());
+		sb.append(", endDate=");
+		sb.append(getEndDate());
 		sb.append(", displayDate=");
 		sb.append(getDisplayDate());
 		sb.append("}");
@@ -1284,7 +1350,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Manifestation");
@@ -1355,6 +1421,14 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>startDate</column-name><column-value><![CDATA[");
+		sb.append(getStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>endDate</column-name><column-value><![CDATA[");
+		sb.append(getEndDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>displayDate</column-name><column-value><![CDATA[");
 		sb.append(getDisplayDate());
 		sb.append("]]></column-value></column>");
@@ -1393,6 +1467,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private String _originalTitle;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
+	private Date _startDate;
+	private Date _endDate;
 	private Date _displayDate;
 	private long _columnBitmask;
 	private Manifestation _escapedModel;

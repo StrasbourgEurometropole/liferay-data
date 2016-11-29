@@ -526,6 +526,34 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the start date of this manifestation.
+	 *
+	 * @return the start date of this manifestation
+	 */
+	public Date getStartDate();
+
+	/**
+	 * Sets the start date of this manifestation.
+	 *
+	 * @param startDate the start date of this manifestation
+	 */
+	public void setStartDate(Date startDate);
+
+	/**
+	 * Returns the end date of this manifestation.
+	 *
+	 * @return the end date of this manifestation
+	 */
+	public Date getEndDate();
+
+	/**
+	 * Sets the end date of this manifestation.
+	 *
+	 * @param endDate the end date of this manifestation
+	 */
+	public void setEndDate(Date endDate);
+
+	/**
 	 * Returns the display date of this manifestation.
 	 *
 	 * @return the display date of this manifestation

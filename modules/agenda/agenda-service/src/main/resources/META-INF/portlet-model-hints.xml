@@ -20,7 +20,44 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="externalImageURL" type="String" />
+		<field name="externalImageCopyright" type="String" />
+		<field name="placeSIGId" type="String" />
+		<field name="placeName" type="String" />
+		<field name="placeStreetNumber" type="String" />
+		<field name="placeStreetName" type="String" />
+		<field name="placeZipCode" type="String" />
+		<field name="placeCity" type="String">
+			<hint name="default-value">Strasbourg</hint>
+		</field>
+		<field name="placeCountry" type="String">
+			<hint name="default-value">France</hint>
+		</field>
+		<field localized="true" name="access" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="accessForDisabled" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="accessForBlind" type="Boolean" />
+		<field name="accessForDeaf" type="Boolean" />
+		<field name="accessForWheelchair" type="Boolean" />
+		<field name="accessForElder" type="Boolean" />
+		<field name="accessForDeficient" type="Boolean" />
+		<field name="promoter" type="String" />
+		<field name="phone" type="String" />
+		<field name="email" type="String" />
+		<field localized="true" name="websiteURL" type="String" />
+		<field localized="true" name="websiteName" type="String" />
+		<field name="free" type="boolean" />
+		<field localized="true" name="price" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="source" type="String" />
 		<field name="displayDate" type="Date" />
+		<field localized="true" name="scheduleComments" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="imageId" type="Long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventPeriod">
@@ -49,6 +86,12 @@
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
+		</field>
+		<field name="startDate" type="Date">
+			<hint name="show-time" />
+		</field>
+		<field name="endDate" type="Date">
+			<hint name="show-time" />
 		</field>
 		<field name="displayDate" type="Date" />
 	</model>

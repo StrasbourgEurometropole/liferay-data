@@ -612,6 +612,794 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the external image u r l of this event.
+	 *
+	 * @return the external image u r l of this event
+	 */
+	@AutoEscape
+	public String getExternalImageURL();
+
+	/**
+	 * Sets the external image u r l of this event.
+	 *
+	 * @param externalImageURL the external image u r l of this event
+	 */
+	public void setExternalImageURL(String externalImageURL);
+
+	/**
+	 * Returns the external image copyright of this event.
+	 *
+	 * @return the external image copyright of this event
+	 */
+	@AutoEscape
+	public String getExternalImageCopyright();
+
+	/**
+	 * Sets the external image copyright of this event.
+	 *
+	 * @param externalImageCopyright the external image copyright of this event
+	 */
+	public void setExternalImageCopyright(String externalImageCopyright);
+
+	/**
+	 * Returns the place s i g ID of this event.
+	 *
+	 * @return the place s i g ID of this event
+	 */
+	@AutoEscape
+	public String getPlaceSIGId();
+
+	/**
+	 * Sets the place s i g ID of this event.
+	 *
+	 * @param placeSIGId the place s i g ID of this event
+	 */
+	public void setPlaceSIGId(String placeSIGId);
+
+	/**
+	 * Returns the place name of this event.
+	 *
+	 * @return the place name of this event
+	 */
+	@AutoEscape
+	public String getPlaceName();
+
+	/**
+	 * Sets the place name of this event.
+	 *
+	 * @param placeName the place name of this event
+	 */
+	public void setPlaceName(String placeName);
+
+	/**
+	 * Returns the place street number of this event.
+	 *
+	 * @return the place street number of this event
+	 */
+	@AutoEscape
+	public String getPlaceStreetNumber();
+
+	/**
+	 * Sets the place street number of this event.
+	 *
+	 * @param placeStreetNumber the place street number of this event
+	 */
+	public void setPlaceStreetNumber(String placeStreetNumber);
+
+	/**
+	 * Returns the place street name of this event.
+	 *
+	 * @return the place street name of this event
+	 */
+	@AutoEscape
+	public String getPlaceStreetName();
+
+	/**
+	 * Sets the place street name of this event.
+	 *
+	 * @param placeStreetName the place street name of this event
+	 */
+	public void setPlaceStreetName(String placeStreetName);
+
+	/**
+	 * Returns the place zip code of this event.
+	 *
+	 * @return the place zip code of this event
+	 */
+	@AutoEscape
+	public String getPlaceZipCode();
+
+	/**
+	 * Sets the place zip code of this event.
+	 *
+	 * @param placeZipCode the place zip code of this event
+	 */
+	public void setPlaceZipCode(String placeZipCode);
+
+	/**
+	 * Returns the place city of this event.
+	 *
+	 * @return the place city of this event
+	 */
+	@AutoEscape
+	public String getPlaceCity();
+
+	/**
+	 * Sets the place city of this event.
+	 *
+	 * @param placeCity the place city of this event
+	 */
+	public void setPlaceCity(String placeCity);
+
+	/**
+	 * Returns the place country of this event.
+	 *
+	 * @return the place country of this event
+	 */
+	@AutoEscape
+	public String getPlaceCountry();
+
+	/**
+	 * Sets the place country of this event.
+	 *
+	 * @param placeCountry the place country of this event
+	 */
+	public void setPlaceCountry(String placeCountry);
+
+	/**
+	 * Returns the access of this event.
+	 *
+	 * @return the access of this event
+	 */
+	public String getAccess();
+
+	/**
+	 * Returns the localized access of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized access of this event
+	 */
+	@AutoEscape
+	public String getAccess(Locale locale);
+
+	/**
+	 * Returns the localized access of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized access of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getAccess(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized access of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized access of this event
+	 */
+	@AutoEscape
+	public String getAccess(String languageId);
+
+	/**
+	 * Returns the localized access of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized access of this event
+	 */
+	@AutoEscape
+	public String getAccess(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getAccessCurrentLanguageId();
+
+	@AutoEscape
+	public String getAccessCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized accesses of this event.
+	 *
+	 * @return the locales and localized accesses of this event
+	 */
+	public Map<Locale, String> getAccessMap();
+
+	/**
+	 * Sets the access of this event.
+	 *
+	 * @param access the access of this event
+	 */
+	public void setAccess(String access);
+
+	/**
+	 * Sets the localized access of this event in the language.
+	 *
+	 * @param access the localized access of this event
+	 * @param locale the locale of the language
+	 */
+	public void setAccess(String access, Locale locale);
+
+	/**
+	 * Sets the localized access of this event in the language, and sets the default locale.
+	 *
+	 * @param access the localized access of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setAccess(String access, Locale locale, Locale defaultLocale);
+
+	public void setAccessCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized accesses of this event from the map of locales and localized accesses.
+	 *
+	 * @param accessMap the locales and localized accesses of this event
+	 */
+	public void setAccessMap(Map<Locale, String> accessMap);
+
+	/**
+	 * Sets the localized accesses of this event from the map of locales and localized accesses, and sets the default locale.
+	 *
+	 * @param accessMap the locales and localized accesses of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setAccessMap(Map<Locale, String> accessMap, Locale defaultLocale);
+
+	/**
+	 * Returns the access for disabled of this event.
+	 *
+	 * @return the access for disabled of this event
+	 */
+	public String getAccessForDisabled();
+
+	/**
+	 * Returns the localized access for disabled of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized access for disabled of this event
+	 */
+	@AutoEscape
+	public String getAccessForDisabled(Locale locale);
+
+	/**
+	 * Returns the localized access for disabled of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized access for disabled of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getAccessForDisabled(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized access for disabled of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized access for disabled of this event
+	 */
+	@AutoEscape
+	public String getAccessForDisabled(String languageId);
+
+	/**
+	 * Returns the localized access for disabled of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized access for disabled of this event
+	 */
+	@AutoEscape
+	public String getAccessForDisabled(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getAccessForDisabledCurrentLanguageId();
+
+	@AutoEscape
+	public String getAccessForDisabledCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized access for disableds of this event.
+	 *
+	 * @return the locales and localized access for disableds of this event
+	 */
+	public Map<Locale, String> getAccessForDisabledMap();
+
+	/**
+	 * Sets the access for disabled of this event.
+	 *
+	 * @param accessForDisabled the access for disabled of this event
+	 */
+	public void setAccessForDisabled(String accessForDisabled);
+
+	/**
+	 * Sets the localized access for disabled of this event in the language.
+	 *
+	 * @param accessForDisabled the localized access for disabled of this event
+	 * @param locale the locale of the language
+	 */
+	public void setAccessForDisabled(String accessForDisabled, Locale locale);
+
+	/**
+	 * Sets the localized access for disabled of this event in the language, and sets the default locale.
+	 *
+	 * @param accessForDisabled the localized access for disabled of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setAccessForDisabled(String accessForDisabled, Locale locale,
+		Locale defaultLocale);
+
+	public void setAccessForDisabledCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized access for disableds of this event from the map of locales and localized access for disableds.
+	 *
+	 * @param accessForDisabledMap the locales and localized access for disableds of this event
+	 */
+	public void setAccessForDisabledMap(
+		Map<Locale, String> accessForDisabledMap);
+
+	/**
+	 * Sets the localized access for disableds of this event from the map of locales and localized access for disableds, and sets the default locale.
+	 *
+	 * @param accessForDisabledMap the locales and localized access for disableds of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setAccessForDisabledMap(
+		Map<Locale, String> accessForDisabledMap, Locale defaultLocale);
+
+	/**
+	 * Returns the access for blind of this event.
+	 *
+	 * @return the access for blind of this event
+	 */
+	public Boolean getAccessForBlind();
+
+	/**
+	 * Sets the access for blind of this event.
+	 *
+	 * @param accessForBlind the access for blind of this event
+	 */
+	public void setAccessForBlind(Boolean accessForBlind);
+
+	/**
+	 * Returns the access for deaf of this event.
+	 *
+	 * @return the access for deaf of this event
+	 */
+	public Boolean getAccessForDeaf();
+
+	/**
+	 * Sets the access for deaf of this event.
+	 *
+	 * @param accessForDeaf the access for deaf of this event
+	 */
+	public void setAccessForDeaf(Boolean accessForDeaf);
+
+	/**
+	 * Returns the access for wheelchair of this event.
+	 *
+	 * @return the access for wheelchair of this event
+	 */
+	public Boolean getAccessForWheelchair();
+
+	/**
+	 * Sets the access for wheelchair of this event.
+	 *
+	 * @param accessForWheelchair the access for wheelchair of this event
+	 */
+	public void setAccessForWheelchair(Boolean accessForWheelchair);
+
+	/**
+	 * Returns the access for elder of this event.
+	 *
+	 * @return the access for elder of this event
+	 */
+	public Boolean getAccessForElder();
+
+	/**
+	 * Sets the access for elder of this event.
+	 *
+	 * @param accessForElder the access for elder of this event
+	 */
+	public void setAccessForElder(Boolean accessForElder);
+
+	/**
+	 * Returns the access for deficient of this event.
+	 *
+	 * @return the access for deficient of this event
+	 */
+	public Boolean getAccessForDeficient();
+
+	/**
+	 * Sets the access for deficient of this event.
+	 *
+	 * @param accessForDeficient the access for deficient of this event
+	 */
+	public void setAccessForDeficient(Boolean accessForDeficient);
+
+	/**
+	 * Returns the promoter of this event.
+	 *
+	 * @return the promoter of this event
+	 */
+	@AutoEscape
+	public String getPromoter();
+
+	/**
+	 * Sets the promoter of this event.
+	 *
+	 * @param promoter the promoter of this event
+	 */
+	public void setPromoter(String promoter);
+
+	/**
+	 * Returns the phone of this event.
+	 *
+	 * @return the phone of this event
+	 */
+	@AutoEscape
+	public String getPhone();
+
+	/**
+	 * Sets the phone of this event.
+	 *
+	 * @param phone the phone of this event
+	 */
+	public void setPhone(String phone);
+
+	/**
+	 * Returns the email of this event.
+	 *
+	 * @return the email of this event
+	 */
+	@AutoEscape
+	public String getEmail();
+
+	/**
+	 * Sets the email of this event.
+	 *
+	 * @param email the email of this event
+	 */
+	public void setEmail(String email);
+
+	/**
+	 * Returns the website u r l of this event.
+	 *
+	 * @return the website u r l of this event
+	 */
+	public String getWebsiteURL();
+
+	/**
+	 * Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized website u r l of this event
+	 */
+	@AutoEscape
+	public String getWebsiteURL(Locale locale);
+
+	/**
+	 * Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized website u r l of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getWebsiteURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized website u r l of this event
+	 */
+	@AutoEscape
+	public String getWebsiteURL(String languageId);
+
+	/**
+	 * Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized website u r l of this event
+	 */
+	@AutoEscape
+	public String getWebsiteURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getWebsiteURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getWebsiteURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized website u r ls of this event.
+	 *
+	 * @return the locales and localized website u r ls of this event
+	 */
+	public Map<Locale, String> getWebsiteURLMap();
+
+	/**
+	 * Sets the website u r l of this event.
+	 *
+	 * @param websiteURL the website u r l of this event
+	 */
+	public void setWebsiteURL(String websiteURL);
+
+	/**
+	 * Sets the localized website u r l of this event in the language.
+	 *
+	 * @param websiteURL the localized website u r l of this event
+	 * @param locale the locale of the language
+	 */
+	public void setWebsiteURL(String websiteURL, Locale locale);
+
+	/**
+	 * Sets the localized website u r l of this event in the language, and sets the default locale.
+	 *
+	 * @param websiteURL the localized website u r l of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setWebsiteURL(String websiteURL, Locale locale,
+		Locale defaultLocale);
+
+	public void setWebsiteURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized website u r ls of this event from the map of locales and localized website u r ls.
+	 *
+	 * @param websiteURLMap the locales and localized website u r ls of this event
+	 */
+	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap);
+
+	/**
+	 * Sets the localized website u r ls of this event from the map of locales and localized website u r ls, and sets the default locale.
+	 *
+	 * @param websiteURLMap the locales and localized website u r ls of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap,
+		Locale defaultLocale);
+
+	/**
+	 * Returns the website name of this event.
+	 *
+	 * @return the website name of this event
+	 */
+	public String getWebsiteName();
+
+	/**
+	 * Returns the localized website name of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized website name of this event
+	 */
+	@AutoEscape
+	public String getWebsiteName(Locale locale);
+
+	/**
+	 * Returns the localized website name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized website name of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getWebsiteName(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized website name of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized website name of this event
+	 */
+	@AutoEscape
+	public String getWebsiteName(String languageId);
+
+	/**
+	 * Returns the localized website name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized website name of this event
+	 */
+	@AutoEscape
+	public String getWebsiteName(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getWebsiteNameCurrentLanguageId();
+
+	@AutoEscape
+	public String getWebsiteNameCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized website names of this event.
+	 *
+	 * @return the locales and localized website names of this event
+	 */
+	public Map<Locale, String> getWebsiteNameMap();
+
+	/**
+	 * Sets the website name of this event.
+	 *
+	 * @param websiteName the website name of this event
+	 */
+	public void setWebsiteName(String websiteName);
+
+	/**
+	 * Sets the localized website name of this event in the language.
+	 *
+	 * @param websiteName the localized website name of this event
+	 * @param locale the locale of the language
+	 */
+	public void setWebsiteName(String websiteName, Locale locale);
+
+	/**
+	 * Sets the localized website name of this event in the language, and sets the default locale.
+	 *
+	 * @param websiteName the localized website name of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setWebsiteName(String websiteName, Locale locale,
+		Locale defaultLocale);
+
+	public void setWebsiteNameCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized website names of this event from the map of locales and localized website names.
+	 *
+	 * @param websiteNameMap the locales and localized website names of this event
+	 */
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap);
+
+	/**
+	 * Sets the localized website names of this event from the map of locales and localized website names, and sets the default locale.
+	 *
+	 * @param websiteNameMap the locales and localized website names of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap,
+		Locale defaultLocale);
+
+	/**
+	 * Returns the free of this event.
+	 *
+	 * @return the free of this event
+	 */
+	public boolean getFree();
+
+	/**
+	 * Returns <code>true</code> if this event is free.
+	 *
+	 * @return <code>true</code> if this event is free; <code>false</code> otherwise
+	 */
+	public boolean isFree();
+
+	/**
+	 * Sets whether this event is free.
+	 *
+	 * @param free the free of this event
+	 */
+	public void setFree(boolean free);
+
+	/**
+	 * Returns the price of this event.
+	 *
+	 * @return the price of this event
+	 */
+	public String getPrice();
+
+	/**
+	 * Returns the localized price of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized price of this event
+	 */
+	@AutoEscape
+	public String getPrice(Locale locale);
+
+	/**
+	 * Returns the localized price of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized price of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getPrice(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized price of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized price of this event
+	 */
+	@AutoEscape
+	public String getPrice(String languageId);
+
+	/**
+	 * Returns the localized price of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized price of this event
+	 */
+	@AutoEscape
+	public String getPrice(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getPriceCurrentLanguageId();
+
+	@AutoEscape
+	public String getPriceCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized prices of this event.
+	 *
+	 * @return the locales and localized prices of this event
+	 */
+	public Map<Locale, String> getPriceMap();
+
+	/**
+	 * Sets the price of this event.
+	 *
+	 * @param price the price of this event
+	 */
+	public void setPrice(String price);
+
+	/**
+	 * Sets the localized price of this event in the language.
+	 *
+	 * @param price the localized price of this event
+	 * @param locale the locale of the language
+	 */
+	public void setPrice(String price, Locale locale);
+
+	/**
+	 * Sets the localized price of this event in the language, and sets the default locale.
+	 *
+	 * @param price the localized price of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setPrice(String price, Locale locale, Locale defaultLocale);
+
+	public void setPriceCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized prices of this event from the map of locales and localized prices.
+	 *
+	 * @param priceMap the locales and localized prices of this event
+	 */
+	public void setPriceMap(Map<Locale, String> priceMap);
+
+	/**
+	 * Sets the localized prices of this event from the map of locales and localized prices, and sets the default locale.
+	 *
+	 * @param priceMap the locales and localized prices of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setPriceMap(Map<Locale, String> priceMap, Locale defaultLocale);
+
+	/**
+	 * Returns the source of this event.
+	 *
+	 * @return the source of this event
+	 */
+	@AutoEscape
+	public String getSource();
+
+	/**
+	 * Sets the source of this event.
+	 *
+	 * @param source the source of this event
+	 */
+	public void setSource(String source);
+
+	/**
 	 * Returns the display date of this event.
 	 *
 	 * @return the display date of this event
@@ -624,6 +1412,107 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 * @param displayDate the display date of this event
 	 */
 	public void setDisplayDate(Date displayDate);
+
+	/**
+	 * Returns the schedule comments of this event.
+	 *
+	 * @return the schedule comments of this event
+	 */
+	public String getScheduleComments();
+
+	/**
+	 * Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized schedule comments of this event
+	 */
+	@AutoEscape
+	public String getScheduleComments(Locale locale);
+
+	/**
+	 * Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule comments of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getScheduleComments(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized schedule comments of this event
+	 */
+	@AutoEscape
+	public String getScheduleComments(String languageId);
+
+	/**
+	 * Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule comments of this event
+	 */
+	@AutoEscape
+	public String getScheduleComments(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getScheduleCommentsCurrentLanguageId();
+
+	@AutoEscape
+	public String getScheduleCommentsCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized schedule commentses of this event.
+	 *
+	 * @return the locales and localized schedule commentses of this event
+	 */
+	public Map<Locale, String> getScheduleCommentsMap();
+
+	/**
+	 * Sets the schedule comments of this event.
+	 *
+	 * @param scheduleComments the schedule comments of this event
+	 */
+	public void setScheduleComments(String scheduleComments);
+
+	/**
+	 * Sets the localized schedule comments of this event in the language.
+	 *
+	 * @param scheduleComments the localized schedule comments of this event
+	 * @param locale the locale of the language
+	 */
+	public void setScheduleComments(String scheduleComments, Locale locale);
+
+	/**
+	 * Sets the localized schedule comments of this event in the language, and sets the default locale.
+	 *
+	 * @param scheduleComments the localized schedule comments of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleComments(String scheduleComments, Locale locale,
+		Locale defaultLocale);
+
+	public void setScheduleCommentsCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses.
+	 *
+	 * @param scheduleCommentsMap the locales and localized schedule commentses of this event
+	 */
+	public void setScheduleCommentsMap(Map<Locale, String> scheduleCommentsMap);
+
+	/**
+	 * Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses, and sets the default locale.
+	 *
+	 * @param scheduleCommentsMap the locales and localized schedule commentses of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleCommentsMap(
+		Map<Locale, String> scheduleCommentsMap, Locale defaultLocale);
 
 	/**
 	 * Returns the image ID of this event.

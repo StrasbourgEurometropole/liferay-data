@@ -2961,6 +2961,8 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		manifestationImpl.setImageId(manifestation.getImageId());
 		manifestationImpl.setTitle(manifestation.getTitle());
 		manifestationImpl.setDescription(manifestation.getDescription());
+		manifestationImpl.setStartDate(manifestation.getStartDate());
+		manifestationImpl.setEndDate(manifestation.getEndDate());
 		manifestationImpl.setDisplayDate(manifestation.getDisplayDate());
 
 		return manifestationImpl;

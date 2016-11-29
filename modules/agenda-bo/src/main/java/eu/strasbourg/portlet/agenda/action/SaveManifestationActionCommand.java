@@ -77,6 +77,14 @@ public class SaveManifestationActionCommand
 			Map<Locale, String> description = LocalizationUtil
 				.getLocalizationMap(request, "description");
 			eventManifestation.setDescriptionMap(description);
+			
+			String startDateString = ParamUtil.getString(request, "startDate");
+			Date startDate = DateUtil.parseDate(startDateString, request.getLocale());
+			eventManifestation.setStartDate(startDate);
+			
+			String endDateString = ParamUtil.getString(request, "endDate");
+			Date endDate = DateUtil.parseDate(endDateString, request.getLocale());
+			eventManifestation.setEndDate(endDate);
 
 			String displayDateString = ParamUtil.getString(request, "displayDate");
 			Date displayDate = DateUtil.parseDate(displayDateString, request.getLocale());

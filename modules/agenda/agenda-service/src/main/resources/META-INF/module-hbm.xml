@@ -24,7 +24,32 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="subtitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeStreetName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placeCountry" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="access_" name="access" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="accessForDisabled" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="accessForBlind" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForDeaf" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForWheelchair" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForElder" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForDeficient" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="promoter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="websiteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="websiteName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="free" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayDate" type="org.hibernate.type.TimestampType" />
+		<property name="scheduleComments" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventPeriodImpl" table="agenda_EventPeriod">
@@ -56,6 +81,8 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="displayDate" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

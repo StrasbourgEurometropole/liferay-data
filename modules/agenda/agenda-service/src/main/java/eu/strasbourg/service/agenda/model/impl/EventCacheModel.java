@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(87);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,8 +99,58 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(subtitle);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", externalImageURL=");
+		sb.append(externalImageURL);
+		sb.append(", externalImageCopyright=");
+		sb.append(externalImageCopyright);
+		sb.append(", placeSIGId=");
+		sb.append(placeSIGId);
+		sb.append(", placeName=");
+		sb.append(placeName);
+		sb.append(", placeStreetNumber=");
+		sb.append(placeStreetNumber);
+		sb.append(", placeStreetName=");
+		sb.append(placeStreetName);
+		sb.append(", placeZipCode=");
+		sb.append(placeZipCode);
+		sb.append(", placeCity=");
+		sb.append(placeCity);
+		sb.append(", placeCountry=");
+		sb.append(placeCountry);
+		sb.append(", access=");
+		sb.append(access);
+		sb.append(", accessForDisabled=");
+		sb.append(accessForDisabled);
+		sb.append(", accessForBlind=");
+		sb.append(accessForBlind);
+		sb.append(", accessForDeaf=");
+		sb.append(accessForDeaf);
+		sb.append(", accessForWheelchair=");
+		sb.append(accessForWheelchair);
+		sb.append(", accessForElder=");
+		sb.append(accessForElder);
+		sb.append(", accessForDeficient=");
+		sb.append(accessForDeficient);
+		sb.append(", promoter=");
+		sb.append(promoter);
+		sb.append(", phone=");
+		sb.append(phone);
+		sb.append(", email=");
+		sb.append(email);
+		sb.append(", websiteURL=");
+		sb.append(websiteURL);
+		sb.append(", websiteName=");
+		sb.append(websiteName);
+		sb.append(", free=");
+		sb.append(free);
+		sb.append(", price=");
+		sb.append(price);
+		sb.append(", source=");
+		sb.append(source);
 		sb.append(", displayDate=");
 		sb.append(displayDate);
+		sb.append(", scheduleComments=");
+		sb.append(scheduleComments);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -190,11 +240,152 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setDescription(description);
 		}
 
+		if (externalImageURL == null) {
+			eventImpl.setExternalImageURL(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setExternalImageURL(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			eventImpl.setExternalImageCopyright(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setExternalImageCopyright(externalImageCopyright);
+		}
+
+		if (placeSIGId == null) {
+			eventImpl.setPlaceSIGId(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceSIGId(placeSIGId);
+		}
+
+		if (placeName == null) {
+			eventImpl.setPlaceName(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceName(placeName);
+		}
+
+		if (placeStreetNumber == null) {
+			eventImpl.setPlaceStreetNumber(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceStreetNumber(placeStreetNumber);
+		}
+
+		if (placeStreetName == null) {
+			eventImpl.setPlaceStreetName(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceStreetName(placeStreetName);
+		}
+
+		if (placeZipCode == null) {
+			eventImpl.setPlaceZipCode(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceZipCode(placeZipCode);
+		}
+
+		if (placeCity == null) {
+			eventImpl.setPlaceCity(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceCity(placeCity);
+		}
+
+		if (placeCountry == null) {
+			eventImpl.setPlaceCountry(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPlaceCountry(placeCountry);
+		}
+
+		if (access == null) {
+			eventImpl.setAccess(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setAccess(access);
+		}
+
+		if (accessForDisabled == null) {
+			eventImpl.setAccessForDisabled(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setAccessForDisabled(accessForDisabled);
+		}
+
+		eventImpl.setAccessForBlind(accessForBlind);
+		eventImpl.setAccessForDeaf(accessForDeaf);
+		eventImpl.setAccessForWheelchair(accessForWheelchair);
+		eventImpl.setAccessForElder(accessForElder);
+		eventImpl.setAccessForDeficient(accessForDeficient);
+
+		if (promoter == null) {
+			eventImpl.setPromoter(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPromoter(promoter);
+		}
+
+		if (phone == null) {
+			eventImpl.setPhone(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPhone(phone);
+		}
+
+		if (email == null) {
+			eventImpl.setEmail(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setEmail(email);
+		}
+
+		if (websiteURL == null) {
+			eventImpl.setWebsiteURL(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setWebsiteURL(websiteURL);
+		}
+
+		if (websiteName == null) {
+			eventImpl.setWebsiteName(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setWebsiteName(websiteName);
+		}
+
+		eventImpl.setFree(free);
+
+		if (price == null) {
+			eventImpl.setPrice(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setPrice(price);
+		}
+
+		if (source == null) {
+			eventImpl.setSource(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setSource(source);
+		}
+
 		if (displayDate == Long.MIN_VALUE) {
 			eventImpl.setDisplayDate(null);
 		}
 		else {
 			eventImpl.setDisplayDate(new Date(displayDate));
+		}
+
+		if (scheduleComments == null) {
+			eventImpl.setScheduleComments(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setScheduleComments(scheduleComments);
 		}
 
 		eventImpl.setImageId(imageId);
@@ -228,7 +419,38 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
 		description = objectInput.readUTF();
+		externalImageURL = objectInput.readUTF();
+		externalImageCopyright = objectInput.readUTF();
+		placeSIGId = objectInput.readUTF();
+		placeName = objectInput.readUTF();
+		placeStreetNumber = objectInput.readUTF();
+		placeStreetName = objectInput.readUTF();
+		placeZipCode = objectInput.readUTF();
+		placeCity = objectInput.readUTF();
+		placeCountry = objectInput.readUTF();
+		access = objectInput.readUTF();
+		accessForDisabled = objectInput.readUTF();
+
+		accessForBlind = objectInput.readBoolean();
+
+		accessForDeaf = objectInput.readBoolean();
+
+		accessForWheelchair = objectInput.readBoolean();
+
+		accessForElder = objectInput.readBoolean();
+
+		accessForDeficient = objectInput.readBoolean();
+		promoter = objectInput.readUTF();
+		phone = objectInput.readUTF();
+		email = objectInput.readUTF();
+		websiteURL = objectInput.readUTF();
+		websiteName = objectInput.readUTF();
+
+		free = objectInput.readBoolean();
+		price = objectInput.readUTF();
+		source = objectInput.readUTF();
 		displayDate = objectInput.readLong();
+		scheduleComments = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 	}
@@ -296,7 +518,152 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(description);
 		}
 
+		if (externalImageURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageCopyright);
+		}
+
+		if (placeSIGId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeSIGId);
+		}
+
+		if (placeName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeName);
+		}
+
+		if (placeStreetNumber == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeStreetNumber);
+		}
+
+		if (placeStreetName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeStreetName);
+		}
+
+		if (placeZipCode == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeZipCode);
+		}
+
+		if (placeCity == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeCity);
+		}
+
+		if (placeCountry == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placeCountry);
+		}
+
+		if (access == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(access);
+		}
+
+		if (accessForDisabled == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(accessForDisabled);
+		}
+
+		objectOutput.writeBoolean(accessForBlind);
+
+		objectOutput.writeBoolean(accessForDeaf);
+
+		objectOutput.writeBoolean(accessForWheelchair);
+
+		objectOutput.writeBoolean(accessForElder);
+
+		objectOutput.writeBoolean(accessForDeficient);
+
+		if (promoter == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(promoter);
+		}
+
+		if (phone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(phone);
+		}
+
+		if (email == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(email);
+		}
+
+		if (websiteURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(websiteURL);
+		}
+
+		if (websiteName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(websiteName);
+		}
+
+		objectOutput.writeBoolean(free);
+
+		if (price == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(price);
+		}
+
+		if (source == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(source);
+		}
+
 		objectOutput.writeLong(displayDate);
+
+		if (scheduleComments == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(scheduleComments);
+		}
 
 		objectOutput.writeLong(imageId);
 	}
@@ -317,6 +684,31 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String title;
 	public String subtitle;
 	public String description;
+	public String externalImageURL;
+	public String externalImageCopyright;
+	public String placeSIGId;
+	public String placeName;
+	public String placeStreetNumber;
+	public String placeStreetName;
+	public String placeZipCode;
+	public String placeCity;
+	public String placeCountry;
+	public String access;
+	public String accessForDisabled;
+	public boolean accessForBlind;
+	public boolean accessForDeaf;
+	public boolean accessForWheelchair;
+	public boolean accessForElder;
+	public boolean accessForDeficient;
+	public String promoter;
+	public String phone;
+	public String email;
+	public String websiteURL;
+	public String websiteName;
+	public boolean free;
+	public String price;
+	public String source;
 	public long displayDate;
+	public String scheduleComments;
 	public long imageId;
 }

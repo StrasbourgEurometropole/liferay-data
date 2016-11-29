@@ -23,7 +23,7 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = Portlet.class
 )
-public class EventPortlet extends MVCPortlet {
+public class AgendaPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest renderRequest,

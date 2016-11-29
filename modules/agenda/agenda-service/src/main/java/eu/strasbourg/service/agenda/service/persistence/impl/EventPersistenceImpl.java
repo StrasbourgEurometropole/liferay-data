@@ -3522,7 +3522,32 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setTitle(event.getTitle());
 		eventImpl.setSubtitle(event.getSubtitle());
 		eventImpl.setDescription(event.getDescription());
+		eventImpl.setExternalImageURL(event.getExternalImageURL());
+		eventImpl.setExternalImageCopyright(event.getExternalImageCopyright());
+		eventImpl.setPlaceSIGId(event.getPlaceSIGId());
+		eventImpl.setPlaceName(event.getPlaceName());
+		eventImpl.setPlaceStreetNumber(event.getPlaceStreetNumber());
+		eventImpl.setPlaceStreetName(event.getPlaceStreetName());
+		eventImpl.setPlaceZipCode(event.getPlaceZipCode());
+		eventImpl.setPlaceCity(event.getPlaceCity());
+		eventImpl.setPlaceCountry(event.getPlaceCountry());
+		eventImpl.setAccess(event.getAccess());
+		eventImpl.setAccessForDisabled(event.getAccessForDisabled());
+		eventImpl.setAccessForBlind(event.getAccessForBlind());
+		eventImpl.setAccessForDeaf(event.getAccessForDeaf());
+		eventImpl.setAccessForWheelchair(event.getAccessForWheelchair());
+		eventImpl.setAccessForElder(event.getAccessForElder());
+		eventImpl.setAccessForDeficient(event.getAccessForDeficient());
+		eventImpl.setPromoter(event.getPromoter());
+		eventImpl.setPhone(event.getPhone());
+		eventImpl.setEmail(event.getEmail());
+		eventImpl.setWebsiteURL(event.getWebsiteURL());
+		eventImpl.setWebsiteName(event.getWebsiteName());
+		eventImpl.setFree(event.isFree());
+		eventImpl.setPrice(event.getPrice());
+		eventImpl.setSource(event.getSource());
 		eventImpl.setDisplayDate(event.getDisplayDate());
+		eventImpl.setScheduleComments(event.getScheduleComments());
 		eventImpl.setImageId(event.getImageId());
 
 		return eventImpl;
@@ -4257,6 +4282,6 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Event exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(EventPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "access"
 			});
 }
