@@ -239,15 +239,6 @@ public class ViewEditionsDisplayContext {
 			actionId);
 	}
 
-	/**
-	 * Wrapper autour du permission checker pour les permissions de ressource
-	 *
-	 * public boolean hasPermission(String actionId, String entryId) throws
-	 * PortalException { return
-	 * _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.
-	 * getScopeGroupId(), Edition.class.getName(), entryId, actionId); }
-	 */
-
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	private final ThemeDisplay _themeDisplay;
