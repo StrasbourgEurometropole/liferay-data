@@ -11,6 +11,15 @@
 			</c:if>
 		</label>
 	</p>
+	<div id="images-thumbnails-${name}">
+		<c:forEach items="${files}" var="file">
+			<div class="image-thumbnail figure figure-rounded">
+				<a href="#" class="remove-image" data-entry-id="${file.id}"></a>
+				<img src="${file.url}" class="img-responsive" />
+				<div class="figcaption-bottom">${file.title}</div>
+			</div>
+		</c:forEach>
+	</div>
 	<p>
 		<aui:button name="choose-image-${name}" id="choose-image-${name}" value="${multiple ? 'add' : 'choose'}" />
 	</p>
@@ -21,15 +30,6 @@
 					errorMessage="this-field-is-required" />
 			</c:if>
 		</aui:input>
-	</div>
-	<div id="images-thumbnails-${name}">
-		<c:forEach items="${files}" var="file">
-			<div class="image-thumbnail figure figure-rounded">
-				<a href="#" class="remove-image" data-entry-id="${file.id}"></a>
-				<img src="${file.url}" class="img-responsive" />
-				<div class="figcaption-bottom">${file.title}</div>
-			</div>
-		</c:forEach>
 	</div>
 </div>
 <aui:script use="liferay-item-selector-dialog">

@@ -11,6 +11,13 @@
 			</c:if>
 		</label>
 	</p>
+	<ul id="entities-thumbnails-${name}">
+		<c:forEach items="${entities}" var="entity">
+			<li>
+				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} - <a href="#" class="remove-entity" data-entry-id="${entity.classPK}">Supprimer</a>
+			</li>
+		</c:forEach>
+	</ul>
 	<p>
 		<aui:button name="choose-entity-${name}" id="choose-entity-${name}" value="${multiple ? 'add' : 'choose'}" />
 	</p>
@@ -22,13 +29,6 @@
 			</c:if>
 		</aui:input>
 	</div>
-	<ul id="entities-thumbnails-${name}">
-		<c:forEach items="${entities}" var="entity">
-			<li>
-				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} - <a href="#" class="remove-entity" data-entry-id="${entity.classPK}">Supprimer</a>
-			</li>
-		</c:forEach>
-	</ul>
 </div>
 <aui:script use="liferay-item-selector-dialog">
 $('#<portlet:namespace />choose-entity-${name}').on('click',

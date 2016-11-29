@@ -16,6 +16,14 @@
 				</c:if>
 			</label>
 		</p>
+		<%--Boucle qui liste les fichiers pour la langue courante --%>
+		<ul id="files-thumbnails-${name}-${currentLocale}">
+			<c:forEach items="${locale_files[currentLocale]}" var="file">
+				<li>
+					<a href="${file.url}" target="_blank">${file.title}</a> - <a href="#" class="remove-file" data-entry-id="${file.id}">Supprimer</a>
+				</li>
+			</c:forEach>
+		</ul>
 		<p>
 			<aui:button name="choose-file-${name}-${currentLocale}" id="choose-file-${name}-${currentLocale}" value="${multiple ? 'add' : 'choose'}" />
 		</p>
@@ -38,14 +46,6 @@
 				</aui:input>
 			</c:if>
 		</div>
-		<%--Boucle qui liste les fichiers pour la langue courante --%>
-		<ul id="files-thumbnails-${name}-${currentLocale}">
-			<c:forEach items="${locale_files[currentLocale]}" var="file">
-				<li>
-					<a href="${file.url}" target="_blank">${file.title}</a> - <a href="#" class="remove-file" data-entry-id="${file.id}">Supprimer</a>
-				</li>
-			</c:forEach>
-		</ul>
 	</div>
 	<aui:script use="liferay-item-selector-dialog">
 	// JS gérant l'ouverture du popup de selection du fichier

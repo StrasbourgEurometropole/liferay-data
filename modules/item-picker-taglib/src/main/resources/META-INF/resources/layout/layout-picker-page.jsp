@@ -17,6 +17,14 @@
 				</c:if>
 			</label>
 		</p>
+		<%--Boucle qui liste les layouts pour la langue courante --%>
+		<ul id="layouts-thumbnails-${name}-${currentLocale}">
+			<c:forEach items="${locale_layouts[currentLocale]}" var="layout">
+				<li>
+					${layoutHelper.getLayoutPath(layout, locale)} - <a href="#" class="remove-layout" data-entry-id="${layout.uuid}">Supprimer</a>
+				</li>
+			</c:forEach>
+		</ul>
 		<p>
 			<aui:button name="choose-layout-${name}-${currentLocale}" id="choose-layout-${name}-${currentLocale}" value="${multiple ? 'add' : 'choose'}" />
 		</p>
@@ -39,14 +47,6 @@
 				</aui:input>
 			</c:if>
 		</div>
-		<%--Boucle qui liste les layouts pour la langue courante --%>
-		<ul id="layouts-thumbnails-${name}-${currentLocale}">
-			<c:forEach items="${locale_layouts[currentLocale]}" var="layout">
-				<li>
-					${layoutHelper.getLayoutPath(layout, locale)} - <a href="#" class="remove-layout" data-entry-id="${layout.uuid}">Supprimer</a>
-				</li>
-			</c:forEach>
-		</ul>
 	</div>
 	<aui:script use="liferay-item-selector-dialog">
 	// JS gérant l'ouverture du popup de selection du fichier
