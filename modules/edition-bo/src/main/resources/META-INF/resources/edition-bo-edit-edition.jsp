@@ -41,15 +41,9 @@
 				
 				<aui:input name="description" />
 
-				<aui:input name="author">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
+				<aui:input name="author" />
 
-				<aui:input name="editor">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
+				<aui:input name="editor" label="eu.co-editor" />
 
 
 			</aui:fieldset>
