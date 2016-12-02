@@ -128,6 +128,8 @@ public class EventStagedModelDataHandler
 		importedEvent.setPlaceCity(stagedModel.getPlaceCity());
 		importedEvent.setPlaceCountry(stagedModel.getPlaceCountry());
 		importedEvent.setScheduleComments(stagedModel.getScheduleComments());
+		importedEvent.setFirstStartDate(stagedModel.getFirstStartDate());
+		importedEvent.setLastEndDate(stagedModel.getLastEndDate());
 		importedEvent.setAccess(stagedModel.getAccess());
 		importedEvent.setAccessForDisabled(stagedModel.getAccessForDisabled());
 		importedEvent.setAccessForBlind(stagedModel.getAccessForBlind());
@@ -135,6 +137,8 @@ public class EventStagedModelDataHandler
 		importedEvent.setAccessForDeficient(stagedModel.getAccessForDeficient());
 		importedEvent.setAccessForElder(stagedModel.getAccessForElder());
 		importedEvent.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
+		importedEvent.setFree(stagedModel.isFree());
+		importedEvent.setPrice(stagedModel.getPrice());
 		importedEvent.setPromoter(stagedModel.getPromoter());
 		importedEvent.setPhone(stagedModel.getPhone());
 		importedEvent.setEmail(stagedModel.getEmail());

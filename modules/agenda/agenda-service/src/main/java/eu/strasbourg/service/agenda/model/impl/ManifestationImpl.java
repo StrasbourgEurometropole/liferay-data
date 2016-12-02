@@ -27,21 +27,21 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
- * The extended model implementation for the Manifestation service. Represents
- * a row in the &quot;event_Manifestation&quot; database table, with each
- * column mapped to a property of this class.
+ * The extended model implementation for the Manifestation service. Represents a
+ * row in the &quot;event_Manifestation&quot; database table, with each column
+ * mapped to a property of this class.
  *
  * <p>
  * Helper methods and all application logic should be put in this class.
  * Whenever methods are added, rerun ServiceBuilder to copy their definitions
- * into the {@link eu.strasbourg.service.agenda.model.Manifestation}
- * interface.
+ * into the {@link eu.strasbourg.service.agenda.model.Manifestation} interface.
  * </p>
  *
  * @author BenjaminBini
@@ -66,8 +66,8 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil
-			.fetchEntry(Manifestation.class.getName(), this.getManifestationId());
+		return AssetEntryLocalServiceUtil.fetchEntry(
+			Manifestation.class.getName(), this.getManifestationId());
 	}
 
 	/**
@@ -76,7 +76,8 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
 	}
 
 	/**
@@ -134,6 +135,16 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Retourne la période principale de la manifestation sous forme de String
+	 * dans la locale passée en paramètre
+	 */
+	@Override
+	public String getManifestationScheduleDisplay(Locale locale) {
+		return DateHelper.displayPeriod(this.getStartDate(),
+			this.getEndDate(), locale);
 	}
 
 	/**

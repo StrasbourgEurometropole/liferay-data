@@ -123,6 +123,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "source", Types.VARCHAR },
 			{ "displayDate", Types.TIMESTAMP },
 			{ "scheduleComments", Types.CLOB },
+			{ "firstStartDate", Types.TIMESTAMP },
+			{ "lastEndDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -170,10 +172,12 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("scheduleComments", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free BOOLEAN,price TEXT null,source VARCHAR(75) null,displayDate DATE null,scheduleComments TEXT null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free BOOLEAN,price TEXT null,source VARCHAR(75) null,displayDate DATE null,scheduleComments TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -250,6 +254,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setSource(soapModel.getSource());
 		model.setDisplayDate(soapModel.getDisplayDate());
 		model.setScheduleComments(soapModel.getScheduleComments());
+		model.setFirstStartDate(soapModel.getFirstStartDate());
+		model.setLastEndDate(soapModel.getLastEndDate());
 		model.setImageId(soapModel.getImageId());
 
 		return model;
@@ -370,6 +376,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("source", getSource());
 		attributes.put("displayDate", getDisplayDate());
 		attributes.put("scheduleComments", getScheduleComments());
+		attributes.put("firstStartDate", getFirstStartDate());
+		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -633,6 +641,18 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if (scheduleComments != null) {
 			setScheduleComments(scheduleComments);
+		}
+
+		Date firstStartDate = (Date)attributes.get("firstStartDate");
+
+		if (firstStartDate != null) {
+			setFirstStartDate(firstStartDate);
+		}
+
+		Date lastEndDate = (Date)attributes.get("lastEndDate");
+
+		if (lastEndDate != null) {
+			setLastEndDate(lastEndDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -2093,6 +2113,28 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public Date getFirstStartDate() {
+		return _firstStartDate;
+	}
+
+	@Override
+	public void setFirstStartDate(Date firstStartDate) {
+		_firstStartDate = firstStartDate;
+	}
+
+	@JSON
+	@Override
+	public Date getLastEndDate() {
+		return _lastEndDate;
+	}
+
+	@Override
+	public void setLastEndDate(Date lastEndDate) {
+		_lastEndDate = lastEndDate;
+	}
+
+	@JSON
+	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -2489,6 +2531,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setSource(getSource());
 		eventImpl.setDisplayDate(getDisplayDate());
 		eventImpl.setScheduleComments(getScheduleComments());
+		eventImpl.setFirstStartDate(getFirstStartDate());
+		eventImpl.setLastEndDate(getLastEndDate());
 		eventImpl.setImageId(getImageId());
 
 		eventImpl.resetOriginalValues();
@@ -2843,6 +2887,24 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.scheduleComments = null;
 		}
 
+		Date firstStartDate = getFirstStartDate();
+
+		if (firstStartDate != null) {
+			eventCacheModel.firstStartDate = firstStartDate.getTime();
+		}
+		else {
+			eventCacheModel.firstStartDate = Long.MIN_VALUE;
+		}
+
+		Date lastEndDate = getLastEndDate();
+
+		if (lastEndDate != null) {
+			eventCacheModel.lastEndDate = lastEndDate.getTime();
+		}
+		else {
+			eventCacheModel.lastEndDate = Long.MIN_VALUE;
+		}
+
 		eventCacheModel.imageId = getImageId();
 
 		return eventCacheModel;
@@ -2850,7 +2912,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(87);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2936,6 +2998,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getDisplayDate());
 		sb.append(", scheduleComments=");
 		sb.append(getScheduleComments());
+		sb.append(", firstStartDate=");
+		sb.append(getFirstStartDate());
+		sb.append(", lastEndDate=");
+		sb.append(getLastEndDate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append("}");
@@ -2945,7 +3011,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(133);
+		StringBundler sb = new StringBundler(139);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -3120,6 +3186,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getScheduleComments());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>firstStartDate</column-name><column-value><![CDATA[");
+		sb.append(getFirstStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastEndDate</column-name><column-value><![CDATA[");
+		sb.append(getLastEndDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -3191,6 +3265,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Date _displayDate;
 	private String _scheduleComments;
 	private String _scheduleCommentsCurrentLanguageId;
+	private Date _firstStartDate;
+	private Date _lastEndDate;
 	private Long _imageId;
 	private long _columnBitmask;
 	private Event _escapedModel;

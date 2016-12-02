@@ -91,6 +91,13 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents();
 
 	/**
+	* Retourne la période principale de la manifestation sous forme de String
+	* dans la locale passée en paramètre
+	*/
+	public java.lang.String getManifestationScheduleDisplay(
+		java.util.Locale locale);
+
+	/**
 	* Renvoie la version live de la galerie d'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion();

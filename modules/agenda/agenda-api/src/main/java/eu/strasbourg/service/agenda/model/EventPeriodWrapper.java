@@ -168,6 +168,11 @@ public class EventPeriodWrapper implements EventPeriod,
 		return _eventPeriod.getDefaultLanguageId();
 	}
 
+	@Override
+	public java.lang.String getDisplay(java.util.Locale locale) {
+		return _eventPeriod.getDisplay(locale);
+	}
+
 	/**
 	* Returns the time detail of this event period.
 	*

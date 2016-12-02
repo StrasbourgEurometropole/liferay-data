@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(87);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -151,6 +151,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(displayDate);
 		sb.append(", scheduleComments=");
 		sb.append(scheduleComments);
+		sb.append(", firstStartDate=");
+		sb.append(firstStartDate);
+		sb.append(", lastEndDate=");
+		sb.append(lastEndDate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -388,6 +392,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setScheduleComments(scheduleComments);
 		}
 
+		if (firstStartDate == Long.MIN_VALUE) {
+			eventImpl.setFirstStartDate(null);
+		}
+		else {
+			eventImpl.setFirstStartDate(new Date(firstStartDate));
+		}
+
+		if (lastEndDate == Long.MIN_VALUE) {
+			eventImpl.setLastEndDate(null);
+		}
+		else {
+			eventImpl.setLastEndDate(new Date(lastEndDate));
+		}
+
 		eventImpl.setImageId(imageId);
 
 		eventImpl.resetOriginalValues();
@@ -451,6 +469,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		source = objectInput.readUTF();
 		displayDate = objectInput.readLong();
 		scheduleComments = objectInput.readUTF();
+		firstStartDate = objectInput.readLong();
+		lastEndDate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 	}
@@ -665,6 +685,9 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(scheduleComments);
 		}
 
+		objectOutput.writeLong(firstStartDate);
+		objectOutput.writeLong(lastEndDate);
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -710,5 +733,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String source;
 	public long displayDate;
 	public String scheduleComments;
+	public long firstStartDate;
+	public long lastEndDate;
 	public long imageId;
 }

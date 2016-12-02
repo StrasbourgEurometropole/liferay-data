@@ -23,6 +23,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -32,12 +33,13 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 /**
- * The extended model implementation for the Event service. Represents a row
- * in the &quot;event&quot; database table, with each column mapped to a
- * property of this class.
+ * The extended model implementation for the Event service. Represents a row in
+ * the &quot;event&quot; database table, with each column mapped to a property
+ * of this class.
  *
  * <p>
  * Helper methods and all application logic should be put in this class.
@@ -86,7 +88,11 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getImageURL() {
-		return FileEntryHelper.getFileEntryURL(this.getImageId());
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
 	}
 
 	/**
@@ -94,7 +100,11 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getImageCopyright(Locale locale) {
-		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
 	}
 
 	/**
@@ -137,13 +147,41 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return result;
 	}
-	
+
 	/**
-	 * Retourne la liste des périodes auxquelles l'événement à lieu
+	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées
+	 * par date de début croissante)
 	 */
 	@Override
 	public List<EventPeriod> getEventPeriods() {
-		return EventPeriodLocalServiceUtil.getByEventId(this.getEventId());
+		List<EventPeriod> periods = EventPeriodLocalServiceUtil
+			.getByEventId(this.getEventId());
+		List<EventPeriod> sortedPeriods = new ArrayList<EventPeriod>(periods);
+		sortedPeriods
+			.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+		return sortedPeriods;
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de
+	 * début à la dernière date de fin) sous forme de String dans la locale
+	 * passée en paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplay(Locale locale) {
+		return DateHelper.displayPeriod(this.getFirstStartDate(),
+			this.getLastEndDate(), locale);
+	}
+
+	/**
+	 * Retourne true si l'événement est accessible pour au moins un type de
+	 * handicap
+	 */
+	@Override
+	public boolean hasAnyAccessForDisabled() {
+		return this.getAccessForBlind() || this.getAccessForDeaf()
+			|| this.getAccessForWheelchair() || this.getAccessForDeficient()
+			|| this.getAccessForElder();
 	}
 
 	/**
@@ -161,6 +199,5 @@ public class EventImpl extends EventBaseImpl {
 			.fetchEventByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEvent;
 	}
-
 
 }

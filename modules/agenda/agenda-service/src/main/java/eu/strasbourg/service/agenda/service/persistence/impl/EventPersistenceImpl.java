@@ -3548,6 +3548,8 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setSource(event.getSource());
 		eventImpl.setDisplayDate(event.getDisplayDate());
 		eventImpl.setScheduleComments(event.getScheduleComments());
+		eventImpl.setFirstStartDate(event.getFirstStartDate());
+		eventImpl.setLastEndDate(event.getLastEndDate());
 		eventImpl.setImageId(event.getImageId());
 
 		return eventImpl;

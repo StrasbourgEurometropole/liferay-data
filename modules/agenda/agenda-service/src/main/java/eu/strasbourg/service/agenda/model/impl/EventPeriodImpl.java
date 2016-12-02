@@ -14,7 +14,10 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import java.util.Locale;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.utils.DateHelper;
 
 /**
  * The extended model implementation for the EventPeriod service. Represents a row in the &quot;event_EventPeriod&quot; database table, with each column mapped to a property of this class.
@@ -27,11 +30,21 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class EventPeriodImpl extends EventPeriodBaseImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6986209394295845493L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event period model instance should use the {@link eu.strasbourg.service.agenda.model.EventPeriod} interface instead.
 	 */
 	public EventPeriodImpl() {
+	}
+	
+	@Override
+	public String getDisplay(Locale locale) {
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
 	}
 }

@@ -50,6 +50,8 @@
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayDate" type="org.hibernate.type.TimestampType" />
 		<property name="scheduleComments" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.EventPeriodImpl" table="agenda_EventPeriod">

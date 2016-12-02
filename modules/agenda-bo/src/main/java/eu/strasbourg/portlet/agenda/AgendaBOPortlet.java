@@ -82,17 +82,4 @@ public class AgendaBOPortlet extends MVCPortlet {
 		
 		super.render(renderRequest, renderResponse);
 	}
-
-	@Override
-	protected String getPath(PortletRequest portletRequest,
-		PortletResponse portletResponse) {
-
-		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest
-			.getAttribute(WebKeys.THEME_DISPLAY);
-		if (themeDisplay.getScopeGroupId() != themeDisplay.getCompanyGroupId()) {
-			return "/no-global.jsp";
-		}
-		return super.getPath(portletRequest, portletResponse);
-	}
-
 }

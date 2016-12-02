@@ -53,4 +53,6 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 				return EventPeriod.class;
 			}
 		};
+
+	public java.lang.String getDisplay(java.util.Locale locale);
 }

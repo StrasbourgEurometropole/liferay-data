@@ -58,6 +58,8 @@
 		<field localized="true" name="scheduleComments" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="firstStartDate" type="Date" />
+		<field name="lastEndDate" type="Date" />
 		<field name="imageId" type="Long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.EventPeriod">

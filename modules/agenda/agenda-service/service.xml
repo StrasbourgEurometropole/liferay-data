@@ -69,6 +69,8 @@
 		
 		<!-- Dates -->
 		<column name="scheduleComments" type="String" localized="true" />
+		<column name="firstStartDate" type="Date" />
+		<column name="lastEndDate" type="Date" />
         
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

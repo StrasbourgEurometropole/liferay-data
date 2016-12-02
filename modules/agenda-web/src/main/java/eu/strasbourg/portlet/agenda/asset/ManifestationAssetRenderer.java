@@ -71,7 +71,7 @@ public class ManifestationAssetRenderer extends BaseJSPAssetRenderer<Manifestati
 		if (template.equals(TEMPLATE_ABSTRACT) ||
 			template.equals(TEMPLATE_FULL_CONTENT)) {
 
-			return "/event-manifestation/asset/" + template + ".jsp";
+			return "/manifestation/asset/" + template + ".jsp";
 		}
 		else {
 			return null;

@@ -1,5 +1,8 @@
 package eu.strasbourg.service.agenda.search;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -24,13 +27,16 @@ import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class EventIndexer extends BaseIndexer<Event> {
 
 	/**
-	 * On ajoute un traitement pour utiliser le filtre sur "assetCategoryIds" comme un "et"
+	 * On ajoute un traitement pour utiliser le filtre sur "assetCategoryIds"
+	 * comme un "et"
 	 */
 	@Override
 	public void postProcessContextBooleanFilter(
@@ -77,6 +83,16 @@ public class EventIndexer extends BaseIndexer<Event> {
 		document.addLocalizedText(Field.DESCRIPTION,
 			event.getDescriptionMap());
 		document.addNumber(Field.STATUS, event.getStatus());
+		
+		List<Date> dates = new ArrayList<Date>();
+		for (EventPeriod period : event.getEventPeriods()) {
+			Date startDate = period.getStartDate();
+			Date endDate = period.getEndDate();
+			dates.addAll(DateHelper.getDaysBetweenDates(startDate, endDate));
+		}
+		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
+		document.addDateSortable("startDate", event.getFirstStartDate());
+		document.addDateSortable("endDate", event.getLastEndDate());
 		return document;
 	}
 

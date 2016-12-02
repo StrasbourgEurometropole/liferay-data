@@ -96,11 +96,6 @@
 				<aui:input name="websiteName" />
 				<aui:input name="websiteURL" />
 			</aui:fieldset>
-			
-			<aui:fieldset collapsed="true" collapsible="true" label="management">
-				<aui:input name="source" disabled="true" />
-				<aui:input name="displayDate" />
-			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="schedule">
@@ -153,6 +148,16 @@
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
+			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">
+				<aui:input name="isFree" type="checkbox" checked="${dc.event.free}" label="free-event" />
+				<aui:input name="price" />
+			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true" label="management">
+				<aui:input name="source" disabled="true" />
+				<aui:input name="displayDate" />
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"

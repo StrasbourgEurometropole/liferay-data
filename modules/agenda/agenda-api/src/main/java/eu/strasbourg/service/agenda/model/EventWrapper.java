@@ -101,6 +101,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("source", getSource());
 		attributes.put("displayDate", getDisplayDate());
 		attributes.put("scheduleComments", getScheduleComments());
+		attributes.put("firstStartDate", getFirstStartDate());
+		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -363,6 +365,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setScheduleComments(scheduleComments);
 		}
 
+		Date firstStartDate = (Date)attributes.get("firstStartDate");
+
+		if (firstStartDate != null) {
+			setFirstStartDate(firstStartDate);
+		}
+
+		Date lastEndDate = (Date)attributes.get("lastEndDate");
+
+		if (lastEndDate != null) {
+			setLastEndDate(lastEndDate);
+		}
+
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -378,6 +392,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public boolean getFree() {
 		return _event.getFree();
+	}
+
+	/**
+	* Retourne true si l'événement est accessible pour au moins un type de
+	* handicap
+	*/
+	@Override
+	public boolean hasAnyAccessForDisabled() {
+		return _event.hasAnyAccessForDisabled();
 	}
 
 	/**
@@ -828,6 +851,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getEmail() {
 		return _event.getEmail();
+	}
+
+	/**
+	* Retourne la période principale de l'événement (de la première date de
+	* début à la dernière date de fin) sous forme de String dans la locale
+	* passée en paramètre
+	*/
+	@Override
+	public java.lang.String getEventScheduleDisplay(java.util.Locale locale) {
+		return _event.getEventScheduleDisplay(locale);
 	}
 
 	/**
@@ -1467,6 +1500,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the first start date of this event.
+	*
+	* @return the first start date of this event
+	*/
+	@Override
+	public Date getFirstStartDate() {
+		return _event.getFirstStartDate();
+	}
+
+	/**
+	* Returns the last end date of this event.
+	*
+	* @return the last end date of this event
+	*/
+	@Override
+	public Date getLastEndDate() {
+		return _event.getLastEndDate();
+	}
+
+	/**
 	* Returns the last publish date of this event.
 	*
 	* @return the last publish date of this event
@@ -2031,6 +2084,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the first start date of this event.
+	*
+	* @param firstStartDate the first start date of this event
+	*/
+	@Override
+	public void setFirstStartDate(Date firstStartDate) {
+		_event.setFirstStartDate(firstStartDate);
+	}
+
+	/**
 	* Sets whether this event is free.
 	*
 	* @param free the free of this event
@@ -2058,6 +2121,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setImageId(java.lang.Long imageId) {
 		_event.setImageId(imageId);
+	}
+
+	/**
+	* Sets the last end date of this event.
+	*
+	* @param lastEndDate the last end date of this event
+	*/
+	@Override
+	public void setLastEndDate(Date lastEndDate) {
+		_event.setLastEndDate(lastEndDate);
 	}
 
 	/**

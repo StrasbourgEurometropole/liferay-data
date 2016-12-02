@@ -1,5 +1,7 @@
 package eu.strasbourg.service.agenda.search;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -25,6 +27,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class ManifestationIndexer extends BaseIndexer<Manifestation> {
@@ -79,6 +82,13 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 		document.addLocalizedText(Field.DESCRIPTION,
 			manifestation.getDescriptionMap());
 		document.addNumber(Field.STATUS, manifestation.getStatus());
+		
+		Date startDate = manifestation.getStartDate();
+		Date endDate = manifestation.getEndDate();
+		List<Date> dates = DateHelper.getDaysBetweenDates(startDate, endDate);
+		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
+		document.addDateSortable("startDate", manifestation.getStartDate());
+		document.addDateSortable("endDate", manifestation.getEndDate());
 		return document;
 	}
 

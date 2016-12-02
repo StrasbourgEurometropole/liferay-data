@@ -470,6 +470,16 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Retourne la période principale de la manifestation sous forme de String
+	* dans la locale passée en paramètre
+	*/
+	@Override
+	public java.lang.String getManifestationScheduleDisplay(
+		java.util.Locale locale) {
+		return _manifestation.getManifestationScheduleDisplay(locale);
+	}
+
+	/**
 	* Returns the status by user name of this manifestation.
 	*
 	* @return the status by user name of this manifestation

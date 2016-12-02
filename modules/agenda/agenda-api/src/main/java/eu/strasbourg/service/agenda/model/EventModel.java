@@ -1515,6 +1515,34 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 		Map<Locale, String> scheduleCommentsMap, Locale defaultLocale);
 
 	/**
+	 * Returns the first start date of this event.
+	 *
+	 * @return the first start date of this event
+	 */
+	public Date getFirstStartDate();
+
+	/**
+	 * Sets the first start date of this event.
+	 *
+	 * @param firstStartDate the first start date of this event
+	 */
+	public void setFirstStartDate(Date firstStartDate);
+
+	/**
+	 * Returns the last end date of this event.
+	 *
+	 * @return the last end date of this event
+	 */
+	public Date getLastEndDate();
+
+	/**
+	 * Sets the last end date of this event.
+	 *
+	 * @param lastEndDate the last end date of this event
+	 */
+	public void setLastEndDate(Date lastEndDate);
+
+	/**
 	 * Returns the image ID of this event.
 	 *
 	 * @return the image ID of this event

@@ -85,7 +85,7 @@
 		} else {
 			var dataDivs = $('.info .data');
 			var dataToSend = [];
-			for (let i = 0; i < dataDivs.length; i++) {
+			for (var i = 0; i < dataDivs.length; i++) {
 				dataToSend.push({
 					entityId: $(dataDivs[i]).data('id'),
 					title: $(dataDivs[i]).data('title')

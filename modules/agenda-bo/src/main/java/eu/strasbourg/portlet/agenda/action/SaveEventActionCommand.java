@@ -18,6 +18,7 @@ package eu.strasbourg.portlet.agenda.action;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -169,7 +170,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			Map<Locale, String> scheduleComments = LocalizationUtil
 				.getLocalizationMap(request, "scheduleComments");
 			event.setScheduleCommentsMap(scheduleComments);
-
+			
+			Boolean free = ParamUtil.getBoolean(request, "isFree");
+			event.setFree(free);
+			
+			Map<Locale, String> price = LocalizationUtil
+				.getLocalizationMap(request, "price");
+			event.setPriceMap(price);
+			
 			String displayDateString = ParamUtil.getString(request,
 				"displayDate");
 			Date displayDate = DateUtil.parseDate(displayDateString,
@@ -190,7 +198,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				}
 			}
 
-			_eventLocalService.updateEvent(event, sc);
 
 			/**
 			 * Périodes de l'événement
@@ -229,6 +236,17 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						.updateEventPeriod(eventPeriod);
 				}
 			}
+			// On classe les périodes par date de début, ce qui va nous permettre 
+			// de setter les champs "firstStartDate" et "lastEndDate" sur l'événement
+			List<EventPeriod> periods = new ArrayList<EventPeriod>(event.getEventPeriods());
+			periods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+			
+			Date firstStartDate = periods.get(0).getStartDate();
+			Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
+			event.setFirstStartDate(firstStartDate);
+			event.setLastEndDate(lastEndDate);
+			
+			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {
 			e.printStackTrace();
