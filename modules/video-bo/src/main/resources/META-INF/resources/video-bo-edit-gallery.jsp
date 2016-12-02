@@ -83,7 +83,7 @@
 		</aui:fieldset-group>
 		
 		<aui:button-row>
-			<c:if test="${(dc.hasPermission('ADD_VIDEO_GALLERY') and empty dc.gallery or dc.hasPermission('EDIT_VIDEO_GALLERY') and not empty dc.gallery) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_VIDEO_GALLERY') and empty dc.videoGallery or dc.hasPermission('EDIT_VIDEO_GALLERY') and not empty dc.videoGallery) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
