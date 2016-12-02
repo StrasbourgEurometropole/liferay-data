@@ -290,11 +290,11 @@
             if (!$(this).hasClass('open')) {
                 $(this).addClass('open');
                 $(this).parent().addClass('open');
-                $('.vocabulary-selection-control, .asset-type-selection-control', $(this).parent()).slideToggle(150);
+                $('.vocabulary-selection-control, .asset-type-selection-control, .date-selection-control, .order-selection-control', $(this).parent()).slideToggle(150);
             } else {
                 $(this).removeClass('open');
                 $(this).parent().removeClass('open');
-                $('.vocabulary-selection-control, .asset-type-selection-control', $(this).parent()).slideToggle(150);
+                $('.vocabulary-selection-control, .asset-type-selection-control, .date-selection-control, .order-selection-control', $(this).parent()).slideToggle(150);
             }
         });
     });
