@@ -44,10 +44,10 @@
     <#if entry.getPublishedEditionGalleries()?has_content>
       <div class="edition-galleries">
         <#list entry.getPublishedEditionGalleries() as gallery>
-        <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-          <@liferay_portlet.param name="classPK" value="${gallery.getGalleryId()}" />
-          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-        </@liferay_portlet.renderURL>
+          <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+            <@liferay_portlet.param name="classPK" value="${gallery.getGalleryId()}" />
+            <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+          </@liferay_portlet.renderURL>
           <div class="edition-gallery">
             <a href="${detailURL}">${gallery.getTitle(locale)}</a>
           </div>
