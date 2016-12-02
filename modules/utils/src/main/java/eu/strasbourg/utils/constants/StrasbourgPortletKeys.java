@@ -27,4 +27,6 @@ public class StrasbourgPortletKeys {
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
 	
 	public static final String LEGACY_PLACE_VIEWER = "eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet";
+	
+	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
 }
