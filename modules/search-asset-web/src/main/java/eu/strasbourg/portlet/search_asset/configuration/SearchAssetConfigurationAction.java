@@ -297,7 +297,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			List<AssetVocabulary> vocabularies = new ArrayList<AssetVocabulary>();
 			for (AssetVocabulary vocabulary : allVocabularies) {
 				if (vocabulary.getGroupId() == themeDisplay
-					.getSiteGroupIdOrLiveGroupId()) {
+					.getScopeGroupId() || vocabulary.getGroupId() == themeDisplay.getCompanyGroupId()) {
 					vocabularies.add(vocabulary);
 				}
 			}

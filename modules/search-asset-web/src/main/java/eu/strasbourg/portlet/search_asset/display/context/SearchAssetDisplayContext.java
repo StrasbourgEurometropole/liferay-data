@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.search_asset.display.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,11 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -69,14 +74,21 @@ public class SearchAssetDisplayContext {
 			i++;
 		}
 		iteratorURL.setParameter("classNamesCount", String.valueOf(i));
-		iteratorURL.setParameter("keywords", this.getKeywords());
+		iteratorURL.setParameter("keywords",
+			String.valueOf(this.getKeywords()));
+		iteratorURL.setParameter("fromDay", String.valueOf(this.getFromDay()));
+		iteratorURL.setParameter("fromMonth",
+			String.valueOf(this.getFromMonth()));
+		iteratorURL.setParameter("fromYear",
+			String.valueOf(this.getFromYear()));
+		iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
+		iteratorURL.setParameter("toMonth", String.valueOf(this.getToMonth()));
+		iteratorURL.setParameter("toYear", String.valueOf(this.getToYear()));
 
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<AssetEntry>(
 				this._request, iteratorURL, null, "no-entries-were-found");
 
-			this._searchContainer.setOrderByColParam("orderByCol");
-			this._searchContainer.setOrderByTypeParam("orderByType");
 			this._searchContainer
 				.setDelta((int) (this._configuration.delta() > 0
 					? this._configuration.delta() : 12));
@@ -167,14 +179,33 @@ public class SearchAssetDisplayContext {
 			query.add(vocabularyQuery, BooleanClauseOccur.MUST);
 		}
 
+		// Dates
+		if (this._configuration.dateField()) {
+			BooleanQuery datesQuery = new BooleanQueryImpl();
+			String fromDate = String.valueOf(this.getFromYear())
+				+ String.valueOf(this.getFromMonth())
+				+ String.valueOf(this.getFromDay()) + "000000";
+			String toDate = String.valueOf(this.getToYear())
+				+ String.valueOf(this.getToMonth())
+				+ String.valueOf(this.getToDay()) + "000000";
+			datesQuery.addRangeTerm("dates", fromDate, toDate);
+			query.add(datesQuery, BooleanClauseOccur.MUST);
+		}
+
+		// Ordre
+		Sort sort = SortFactoryUtil.create(
+			this.getOrderByColSearchField(),
+			"desc".equals(this.getOrderByType()));
+		searchContext.setSorts(sort);
+
 		// Recherche
 		Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (hits != null) {
 			/*
-			 * for (float s : hits.getScores()) { System.out.println(s); }
-			 * System.out.println();
-			 */
+			for (float s : hits.getScores()) { System.out.println(s); }
+			System.out.println();
+			*/
 			for (Document document : hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
@@ -322,30 +353,39 @@ public class SearchAssetDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
-			return "localized_title_fr_FR_sortable";
+			return "localized_title_" + this._themeDisplay.getLocale() + "_sortable";
 		case "modified-date":
 			return "modified_sortable";
-		case "publication-date":
-			return "publishDate_sortable";
-		case "status":
-			return "status_sortable";
+		case "dates":
+			return "dates_Number_sortable";
+		case "score":
+			return "_score";
 		default:
-			return "publishDate_sortable";
+			return "modified_sortable";
 		}
 	}
 
+	/**
+	 * Retourne le champ sur lequel on classe les résultats.
+	 * Par défaut on classe par date de modification.
+	 * Si le champ date est affiché, on classe par défaut par date
+	 */
 	public String getOrderByCol() {
-		return ParamUtil.getString(this._request, "orderByCol",
-			"modified-date");
+        if (this.isDateField()) {
+    		return ParamUtil.getString(this._request, "orderByCol",
+    			"dates"); 
+        } else {
+    		return ParamUtil.getString(this._request, "orderByCol",
+    			"modified-date");
+        }
 	}
 
 	public String getOrderByType() {
-		return ParamUtil.getString(this._request, "orderByType", "desc");
-	}
-
-	public String[] getOrderColumns() {
-		return new String[] { "title", "modified-date", "publication-date",
-			"status" };
+		if (this.isDateField()) {
+	    	return ParamUtil.getString(this._request, "orderByType", "asc");
+		} else {
+			return ParamUtil.getString(this._request, "orderByType", "desc");
+		}
 	}
 
 	/**
@@ -376,6 +416,60 @@ public class SearchAssetDisplayContext {
 	 */
 	public List<String> getClassNames() {
 		return Arrays.asList(_configuration.assetClassNames().split(","));
+	}
+
+	/**
+	 * Retourne true si les champs dates doivent être affichés
+	 */
+	public boolean isDateField() {
+		return this._configuration.dateField();
+	}
+
+	public int getFromDay() {
+		int fromParam = ParamUtil.getInteger(this._request, "fromDay");
+		return fromParam > 0 ? fromParam
+			: getTodayCalendar().get(Calendar.DAY_OF_MONTH);
+	}
+
+	public int getFromMonth() {
+		int fromParam = ParamUtil.getInteger(this._request, "fromMonth");
+		return fromParam > 0 ? fromParam
+			: getTodayCalendar().get(Calendar.MONTH);
+	}
+
+	public int getFromYear() {
+		int fromParam = ParamUtil.getInteger(this._request, "fromYear");
+		return fromParam > 0 ? fromParam
+			: getTodayCalendar().get(Calendar.YEAR);
+	}
+
+	public int getToDay() {
+		int toParam = ParamUtil.getInteger(this._request, "toDay");
+		return toParam > 0 ? toParam
+			: getOneMonthLaterCalendar().get(Calendar.DAY_OF_MONTH);
+	}
+
+	public int getToMonth() {
+		int toParam = ParamUtil.getInteger(this._request, "toMonth");
+		return toParam > 0 ? toParam
+			: getOneMonthLaterCalendar().get(Calendar.MONTH);
+	}
+
+	public int getToYear() {
+		int toParam = ParamUtil.getInteger(this._request, "toYear");
+		return toParam > 0 ? toParam
+			: getOneMonthLaterCalendar().get(Calendar.YEAR);
+	}
+
+	private Calendar getTodayCalendar() {
+		return CalendarFactoryUtil.getCalendar(new Date().getTime());
+	}
+
+	private Calendar getOneMonthLaterCalendar() {
+		Calendar calendar = CalendarFactoryUtil
+			.getCalendar(new Date().getTime());
+		calendar.add(Calendar.MONTH, 1);
+		return calendar;
 	}
 
 	private final RenderRequest _request;

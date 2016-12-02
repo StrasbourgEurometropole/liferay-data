@@ -38,7 +38,7 @@
 
 							<aui:select name="templateKey_${assetStatus.index}"
 								inlineField="true">
-								<aui:option value="0">Sélectionnez un template</aui:option>
+								<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
 								<c:forEach var="template"
 									items="${templatesList[assetStatus.index]}">
 									<aui:option value="${template.templateKey}"
@@ -48,7 +48,7 @@
 
 
 							<aui:input type="text"
-								placeholder="Friendly URL de la page détail"
+								placeholder="detail-friendly-url"
 								name="layoutFriendlyURL_${assetStatus.index}" inlineField="true"
 								value="${classNameIsChecked ? layoutsFriendlyURLs[i] : ''}" />
 
@@ -81,8 +81,12 @@
 						value="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}" />
 
 					<div class="vocabulary-configuration">
+						<c:set var="vocabularyLabel" value="${vocabulary.name}" />
+						<c:if test="${vocabulary.groupId eq themeDisplay.companyGroupId}">
+							<c:set var="vocabularyLabel" value="${vocabularyLabel.concat(' (global)')}" />
+						</c:if>
 						<aui:input type="checkbox" name="vocabularyId_${vocStatus.index}"
-							label="${vocabulary.name}" value="${vocabulary.vocabularyId}"
+							label="${vocabularyLabel}" value="${vocabulary.vocabularyId}"
 							checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}"
 							inlineField="true" />
 
