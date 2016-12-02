@@ -98,8 +98,7 @@ public interface Edition extends EditionModel, PersistedModel {
 	public java.lang.String getFileDownloadURL(java.util.Locale locale);
 
 	/**
-	* Renovie la taille du fichier sous forme de String (si c'est une FileEntry
-	* - renvoie une chaîne vide si c'est une URL externe)
+	* Renovie la taille du fichier sous forme de String
 	*/
 	public java.lang.String getFileSize(java.util.Locale locale);
 

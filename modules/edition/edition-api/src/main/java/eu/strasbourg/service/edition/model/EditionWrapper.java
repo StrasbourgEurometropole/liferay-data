@@ -821,8 +821,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renovie la taille du fichier sous forme de String (si c'est une FileEntry
-	* - renvoie une chaîne vide si c'est une URL externe)
+	* Renovie la taille du fichier sous forme de String
 	*/
 	@Override
 	public java.lang.String getFileSize(java.util.Locale locale) {
