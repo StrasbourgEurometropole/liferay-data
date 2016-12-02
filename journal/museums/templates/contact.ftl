@@ -9,6 +9,6 @@
         <@liferay_ui["message"] key="phone" /> : <a href="tel:${phone.getData()}">${phone.getData()}</a>
     </div>
     <div class="contact-mail">
-        <@liferay_ui["message"] key="email" /> : <a href="mail:${email.getData()}">${email.getData()}</a>
+        <@liferay_ui["message"] key="email" /> : <a href="mailto:${email.getData()}">${email.getData()}</a>
     </div>
 </div>
