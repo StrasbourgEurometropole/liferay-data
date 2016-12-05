@@ -46,41 +46,7 @@
 		<nav class="mobile-main-menu">
 
 			<@menu items=nav_items isSubMenu=false ulClass="main-menu open" depth=0 maxDepth=0 />
-			<!--ul class="main-menu open" role="nav">
-
-
-				<li class="menu-item has-submenu">
-					<a href="#" class="menu-item-name">Musées et Co.</a>
-					<a href="#" class="submenu-toggle"></a>
-					<ul class="submenu" role="nav">
-							<li class="submenu-item has-submenu">
-								<a href="#" class="menu-item-name" >Histoire d'un réseau exceptionnel</a>
-								<a href="#" class="submenu-toggle"></a>
-								<ul class="submenu" role="nav">
-									<li class="submenu-item"><a href="#" class="menu-item-name">Test</a></li>
-								</ul>
-							</li>
-							<li class="submenu-item">
-								<a href="#" class="menu-item-name" >Cabinet des estampes et des dessins</a>
-							</li>
-					</ul>
-				</li>
-				<li class="menu-item">
-					<a href="#" class="menu-item-name">Agenda et expositions</a>
-				</li>
-				<li class="menu-item">
-					<a href="#" class="menu-item-name">Découvrir les activités</a>
-				</li>
-				<li class="menu-item has-submenu">
-					<a href="#" class="menu-item-name">Explorer les collections</a>
-					<a href="#" class="submenu-toggle"></a>
-					<ul class="submenu" role="nav">
-						<li class="submenu-item">
-							<a href="#" class="menu-item-name">Test 2</a>
-						</li>
-					</ul>
-				</li>
-			</ul-->
+			
 		</div>
 	</div>
 	<div id="page">
@@ -149,16 +115,8 @@
 		</nav>
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
 		<#if colorSchemeId != "01">
-			<div class="breadcrumb">
-				<#list nav_items as rootItem>
-					<#if rootItem.isSelected()>
-					 	<#list rootItem.getChildren() as museumItem>
-					 		<#if museumItem.isSelected() || museumItem.isChildSelected()>
-								${rootItem.getName()} - <strong>${museumItem.getName()}</strong>
-							</#if>
-						</#list>
-					</#if>
-				</#list>
+			<div class="breadcrumb-wrapper">
+				<@liferay.breadcrumbs />
 			</div>
 			<nav class="museum-header">
 				<ul class="museum-menu" role="nav">

@@ -24,11 +24,11 @@
     } else { // Avec menu musée
         $(document).on('scroll', function() {
             if ($(this).scrollTop() > 180) {
-                $('.breadcrumb').addClass('sticky');
+                $('.breadcrumb-wrapper').addClass('sticky');
                 $('.museum-header').addClass('sticky');
                 $('body').css('margin-top', '86px');
             } else {
-                $('.breadcrumb').removeClass('sticky');
+                $('.breadcrumb-wrapper').removeClass('sticky');
                 $('.museum-header').removeClass('sticky');
                 $('body').css('margin-top', '0');
             }
@@ -250,7 +250,8 @@
             $.magnificPopup.open({
                 type: 'image',
                 items: {
-                    src: $(this).attr('src')
+                    src: $(this).attr('src'),
+                    title: $(this).data('title')
                 },
                 zoom: {
                     enabled: true
