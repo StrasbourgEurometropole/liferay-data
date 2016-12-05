@@ -5,4 +5,7 @@
 </liferay-portlet:renderURL>
 <c:set var="detailURL" value="${(fn:split(detailURL, '?'))[0]}" />
 
-Artwork collection (jsp abstract) : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+Vignette collection d'oeuvre : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+
+Veuillez selectionner un modele dans la configuration du portlet
+

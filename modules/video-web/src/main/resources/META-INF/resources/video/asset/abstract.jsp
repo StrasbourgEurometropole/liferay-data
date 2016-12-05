@@ -5,4 +5,6 @@
 </liferay-portlet:renderURL>
 <c:set var="detailURL" value="${(fn:split(detailURL, '?'))[0]}" />
 
-Video (jsp abstract) : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+Vignette video : <a href="${detailURL}">${entry.getTitle(locale)}</a>
+
+Veuillez selectionner un modele dans la configuration du portlet
