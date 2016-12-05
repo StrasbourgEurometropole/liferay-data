@@ -10,7 +10,7 @@
             </@liferay_portlet.renderURL>
             <div class="artwork-collection"> 
                 <div class="artwork-collection-image">
-                    <a href="${viewURL}">
+                    <a href="${viewURL}" data-text="<@liferay_ui.message key="learn-more" />">
                         <img src="${collection.getImageURL()}" >
                     </a>
                 </div>
