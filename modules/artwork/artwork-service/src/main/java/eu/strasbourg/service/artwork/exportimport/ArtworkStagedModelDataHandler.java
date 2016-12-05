@@ -154,7 +154,7 @@ public class ArtworkStagedModelDataHandler
 			.getNewPrimaryKeysMap(DLFileEntry.class);
 		importedArtwork.setImageId(FileEntryHelper
 			.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
-		String otherImagesIds = importedArtwork.getImagesIds();
+		String otherImagesIds = stagedModel.getImagesIds();
 		for (Map.Entry<Long, Long> oldId_newId : newIdsMap.entrySet()) {
 			otherImagesIds.replace(String.valueOf(oldId_newId.getKey()),
 				String.valueOf(oldId_newId.getValue()));
