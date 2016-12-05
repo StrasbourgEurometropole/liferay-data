@@ -121,9 +121,15 @@ public class EntityDetailConfigurationAction
 
 				// Type d'entité sélectionné (et son label, pour le label du
 				// sélecteur d'entité)
-				request.setAttribute("className", configuration.className());
-				String classNameLabel = ResourceActionsUtil.getModelResource(
-					themeDisplay.getLocale(), configuration.className());
+				String className = Validator
+					.isNotNull(configuration.className())
+						? configuration.className() : classNames.get(0);
+				String classNameLabel = Validator
+					.isNotNull(configuration.className())
+						? ResourceActionsUtil.getModelResource(
+							themeDisplay.getLocale(), configuration.className())
+						: classNamesLabels.get(0);
+				request.setAttribute("className", className);
 				request.setAttribute("classNameLabel", classNameLabel);
 
 				// Item selectionné
@@ -169,13 +175,13 @@ public class EntityDetailConfigurationAction
 		response.setRenderParameter("jspPage",
 			"/entity-detail-configuration-selectors.jsp");
 	}
-	
+
 	/**
-	 * Retourne le chemin vers la JSP à afficher,
-	 * si aucun paramètre jspPage n'a été setté, la JSP de configuration normale
-	 * définie dans les paramètres initiaux du portlet, sinon la JSP configurée via
-	 * jspPage. Ceci est utilisé pour renvoyer la JSP des sélecteurs lors du changement
-	 * de la liste déroulante des types d'entité
+	 * Retourne le chemin vers la JSP à afficher, si aucun paramètre jspPage n'a
+	 * été setté, la JSP de configuration normale définie dans les paramètres
+	 * initiaux du portlet, sinon la JSP configurée via jspPage. Ceci est
+	 * utilisé pour renvoyer la JSP des sélecteurs lors du changement de la
+	 * liste déroulante des types d'entité
 	 */
 	@Override
 	public String getJspPath(HttpServletRequest request) {
