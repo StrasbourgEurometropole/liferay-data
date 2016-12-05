@@ -3,10 +3,10 @@
 <div class="entity-detail artwork-detail">
   <div class="entity-images">
     <div class="entity-images-main">
-      <img src="${entry.getImageURL()}" class="lightbox">
-      <#if entry.getImageCopyright(locale)?has_content>
+      <img src="${entry.getImageURL()}" class="lightbox" data-title="${entry.getImageLegendAndCopyright(locale)}">
+      <#if entry.getImageLegendAndCopyright(locale)?has_content>
         <div class="entity-images-main-copyright">
-            ${entry.getImageCopyright(locale)}
+            ${entry.getImageLegendAndCopyright(locale)}
         </div>
       </#if>
     </div>
@@ -25,10 +25,10 @@
             <img src="${entry.getImageURL()}" class="lightbox">
           </div>
         </div>
-        <#list entry.getImagesURLs() as imageURL>
+        <#list entry.imagesURLs as imageURL>
           <div class="entity-images-carousel-item">
             <div class="entity-images-carousel-item-image">
-              <img src="${imageURL}" class="lightbox">
+              <img src="${imageURL}" class="lightbox" data-title="${entry.getImagesLegendsAndCopyrights(locale)[imageURL?index]}" />
             </div>
           </div>
         </#list>
