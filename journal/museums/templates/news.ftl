@@ -1,4 +1,5 @@
 <div class="web-content">
+    <div class="back-button"><a href="javascript:history.back()"><@liferay_ui.message key="back" /></a></div>
     <h1 class="web-content-title">
         ${title.getData()}
     </h1>
