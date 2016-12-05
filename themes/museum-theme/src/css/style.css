@@ -2509,27 +2509,28 @@ strong, .page-header-portlet .page-header-share span, .news-carousel .news-secon
   /* line 164, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image-credit {
     text-align: right;
-    padding-right: 50px;
-    color: #2d2d2d;
-    margin-top: -40px;
+    color: white;
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
   }
 }
 @media (min-width: 919px) {
-  /* line 174, ../sass/partials/_page-header.scss */
+  /* line 175, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image {
     width: 48%;
     text-align: right;
   }
-  /* line 177, ../sass/partials/_page-header.scss */
+  /* line 178, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image img {
     width: 80%;
     position: static;
   }
-  /* line 181, ../sass/partials/_page-header.scss */
+  /* line 182, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image:before {
     display: none;
   }
-  /* line 185, ../sass/partials/_page-header.scss */
+  /* line 186, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-share {
     margin-left: 30px;
   }
