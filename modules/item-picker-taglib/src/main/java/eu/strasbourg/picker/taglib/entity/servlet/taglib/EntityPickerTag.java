@@ -23,6 +23,7 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorC
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
+import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
@@ -188,8 +189,9 @@ public class EntityPickerTag extends IncludeTag {
 			break;
 		case "eu.strasbourg.service.agenda.model.Manifestation":
 			ManifestationItemSelectorCriterion manifestationItemSelectorCriterion = new ManifestationItemSelectorCriterion();
-			manifestationItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				desiredItemSelectorReturnTypes);
+			manifestationItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
 			itemSelectorURL = ServletContextUtil.getItemSelector()
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
@@ -197,8 +199,20 @@ public class EntityPickerTag extends IncludeTag {
 			itemSelectorURL.setParameter("multiple", _multiple);
 			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
+		case "eu.strasbourg.service.link.model.Link":
+			LinkItemSelectorCriterion linkItemSelectorCriterion = new LinkItemSelectorCriterion();
+			linkItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, linkItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
 		}
-		
+
 	}
 
 	private static final String _PAGE = "/entity/entity-picker-page.jsp";
