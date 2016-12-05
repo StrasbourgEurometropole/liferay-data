@@ -285,6 +285,7 @@
 
 //Formulaires de recherche
 (function($) {
+    // Accordéons
     $(document).ready(function() {
         $('.search-asset-portlet form legend').on('click', function() {
             if (!$(this).hasClass('open')) {
@@ -297,6 +298,22 @@
                 $('.vocabulary-selection-control, .asset-type-selection-control, .date-selection-control, .order-selection-control', $(this).parent()).slideToggle(150);
             }
         });
+    });
+    // Cases à cocher et boutons radio
+    function setCheckedClass(checkbox) {
+        if ($(checkbox).is(':checked')) {
+            var name = $(checkbox).attr('name');
+            $('.radio [name=' + name + ']').parent('label').removeClass('checked');
+            $(checkbox).parent('label').addClass('checked');
+        } else {
+            $(checkbox).parent('label').removeClass('checked');
+        }
+    }
+    $('.search-asset-portlet input[type=checkbox], .search-asset-portlet input[type=radio]').on('change', function() {
+        setCheckedClass(this);
+    });
+    $('.search-asset-portlet input[type=checkbox], .search-asset-portlet input[type=radio]').each(function() {
+        setCheckedClass(this);
     });
 })(jQuery);
 
@@ -325,3 +342,5 @@
         museumHomeResizer();
     });
 })(jQuery);
+
+
