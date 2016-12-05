@@ -16,7 +16,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String">
-			<hint name="max-length">800</hint>
+			<hint name="max-length">400</hint>
 		</field>
 		<field localized="true" name="URL" type="String">
 			<hint name="max-length">255</hint>

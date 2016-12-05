@@ -1559,7 +1559,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne la liste des périodes auxquelles l'événement à lieu
+	* Retourne la liste des périodes auxquelles l'événement à lieu (classées
+	* par date de début croissante)
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods() {

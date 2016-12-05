@@ -15,13 +15,21 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field localized="true" name="title" type="String" />
-		<field localized="true" name="subtitle" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="subtitle" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="externalImageURL" type="String" />
-		<field name="externalImageCopyright" type="String" />
+		<field name="externalImageURL" type="String">
+			<hint name="max-length">255</hint>
+		</field>
+		<field name="externalImageCopyright" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="placeSIGId" type="String" />
 		<field name="placeName" type="String" />
 		<field name="placeStreetNumber" type="String" />
@@ -47,7 +55,9 @@
 		<field name="promoter" type="String" />
 		<field name="phone" type="String" />
 		<field name="email" type="String" />
-		<field localized="true" name="websiteURL" type="String" />
+		<field localized="true" name="websiteURL" type="String">
+			<hint name="max-length">255</hint>
+		</field>
 		<field localized="true" name="websiteName" type="String" />
 		<field name="free" type="boolean" />
 		<field localized="true" name="price" type="String">
@@ -85,7 +95,9 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="imageId" type="Long" />
-		<field localized="true" name="title" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

@@ -63,8 +63,7 @@ public interface Link extends LinkModel, PersistedModel {
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException;
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
 	* Renvoie la version live du lien, si elle existe

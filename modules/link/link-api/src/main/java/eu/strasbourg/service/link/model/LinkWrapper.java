@@ -656,8 +656,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	* l'assetEntry)
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _link.getCategories();
 	}
 

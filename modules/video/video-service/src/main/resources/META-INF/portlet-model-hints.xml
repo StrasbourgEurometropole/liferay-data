@@ -15,15 +15,17 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field localized="true" name="title" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field localized="true" name="copyright" type="String" />
 		<field localized="true" name="origin" type="String" />
-		<field localized="true" name="source" type="String" >
-            <hint name="max-length">4000</hint>
-        </field>
+		<field localized="true" name="source" type="String">
+			<hint name="max-length">4000</hint>
+		</field>
 		<field name="imageId" type="Long" />
 		<field name="transcriptionFileId" type="Long" />
 	</model>
@@ -41,7 +43,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field localized="true" name="title" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

@@ -92,7 +92,8 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations();
 
 	/**
-	* Retourne la liste des périodes auxquelles l'événement à lieu
+	* Retourne la liste des périodes auxquelles l'événement à lieu (classées
+	* par date de début croissante)
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods();
 
