@@ -76,9 +76,25 @@ public interface Artwork extends ArtworkModel, PersistedModel {
 	public java.lang.String getImageCopyright(java.util.Locale locale);
 
 	/**
+	* Retourne la légende de l'image principale
+	*/
+	public java.lang.String getImageLegend(java.util.Locale locale);
+
+	/**
+	* Retourne la légende de l'image principale suivie de son copyright
+	*/
+	public java.lang.String getImageLegendAndCopyright(java.util.Locale locale);
+
+	/**
 	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	public java.util.List<java.lang.String> getImagesURLs();
+
+	/**
+	* Retourne la liste des URL publiques des images additionnelles
+	*/
+	public java.util.List<java.lang.String> getImagesLegendsAndCopyrights(
+		java.util.Locale locale);
 
 	/**
 	* Retourne la liste des collections d'oeuvres

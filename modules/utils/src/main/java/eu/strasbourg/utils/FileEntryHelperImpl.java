@@ -34,5 +34,10 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	public String getImageCopyright(long fileEntryId, Locale locale) {
 		return FileEntryHelper.getImageCopyright(fileEntryId, locale);
 	}
+	
+	@Override
+	public String getImageLegend(long fileEntryId, Locale locale) {
+		return FileEntryHelper.getImageLegend(fileEntryId, locale);
+	}
 
 }

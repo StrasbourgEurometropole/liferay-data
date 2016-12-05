@@ -102,6 +102,24 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	}
 
 	/**
+	 * Retourne la légende de l'image principale
+	 */
+	@Override
+	public String getImageLegend(Locale locale) {
+		return FileEntryHelper.getImageLegend(this.getImageId(), locale);
+	}
+
+	/**
+	 * Retourne la légende de l'image principale suivie de son copyright
+	 */
+	@Override
+	public String getImageLegendAndCopyright(Locale locale) {
+		String legend = this.getImageLegend(locale);
+		String copyright = this.getImageCopyright(locale);
+		return (Validator.isNotNull(legend)) ? legend + " / " + copyright : copyright;
+	}
+
+	/**
 	 * Retourne la liste des URL publiques des images additionnelles
 	 */
 	@Override
@@ -115,6 +133,23 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 			}
 		}
 		return URLs;
+	}
+	
+	/**
+	 * Retourne la liste des URL publiques des images additionnelles
+	 */
+	@Override
+	public List<String> getImagesLegendsAndCopyrights(Locale locale) {
+		List<String> strings = new ArrayList<String>();
+		for (String imageIdStr : this.getImagesIds().split(",")) {
+			Long imageId = GetterUtil.getLong(imageIdStr);
+			if (Validator.isNotNull(imageId)) {
+				String legend = FileEntryHelper.getImageLegend(imageId, locale);
+				String copyright = FileEntryHelper.getImageCopyright(imageId, locale);
+				strings.add((Validator.isNotNull(legend)) ? legend + " / " + copyright : copyright);
+			}
+		}
+		return strings;
 	}
 
 	/**

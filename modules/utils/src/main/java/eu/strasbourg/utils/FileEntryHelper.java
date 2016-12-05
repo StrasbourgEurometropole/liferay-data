@@ -125,6 +125,18 @@ public class FileEntryHelper {
 		return FileEntryHelper.getStructureFieldValue(fileEntryId, "copyright",
 			locale);
 	}
+	
+	/**
+	 * @param fileEntryId
+	 *            ID d'une image
+	 * @param locale
+	 *            Locale
+	 * @return Légende de l'image dans la langue désirée
+	 */
+	public static String getImageLegend(Long fileEntryId, Locale locale) {
+		return FileEntryHelper.getStructureFieldValue(fileEntryId, "legend",
+			locale);
+	}
 
 	/**
 	 * @param fileEntryId

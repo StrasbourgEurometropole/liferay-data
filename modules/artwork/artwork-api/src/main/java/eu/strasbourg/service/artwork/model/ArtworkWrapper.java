@@ -789,6 +789,22 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	/**
+	* Retourne la légende de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageLegend(java.util.Locale locale) {
+		return _artwork.getImageLegend(locale);
+	}
+
+	/**
+	* Retourne la légende de l'image principale suivie de son copyright
+	*/
+	@Override
+	public java.lang.String getImageLegendAndCopyright(java.util.Locale locale) {
+		return _artwork.getImageLegendAndCopyright(locale);
+	}
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
@@ -1408,6 +1424,15 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _artwork.getCategories();
+	}
+
+	/**
+	* Retourne la liste des URL publiques des images additionnelles
+	*/
+	@Override
+	public java.util.List<java.lang.String> getImagesLegendsAndCopyrights(
+		java.util.Locale locale) {
+		return _artwork.getImagesLegendsAndCopyrights(locale);
 	}
 
 	/**
