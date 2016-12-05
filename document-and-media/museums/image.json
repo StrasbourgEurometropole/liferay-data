@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "copyright"
+                "fr_FR": "Copyright"
             },
             "predefinedValue": {
                 "fr_FR": "Ville et Eurométropole de Strasbourg"
@@ -21,6 +21,19 @@
             "indexType": "keyword",
             "localizable": true,
             "name": "copyright",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }, {
+            "label": {
+                "fr_FR": "Légende"
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "legend",
             "readOnly": false,
             "repeatable": false,
             "required": false,
