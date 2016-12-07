@@ -1,3 +1,5 @@
 <%@include file="/video/video-init.jsp" %>
 
-Video (jsp full) : ${entry.getTitle(locale)}
+Detail video : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

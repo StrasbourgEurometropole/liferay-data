@@ -1,3 +1,5 @@
 <%@include file="/manifestation/manifestation-init.jsp" %>
 
-Manifestation (jsp full) : ${entry.getTitle(locale)}
+Detail manifestation : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

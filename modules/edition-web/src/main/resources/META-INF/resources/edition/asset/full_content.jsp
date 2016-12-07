@@ -1,3 +1,5 @@
 <%@include file="/edition/edition-init.jsp" %>
 
-Edition (jsp full) : ${entry.getTitle(locale)}
+Detail edition : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

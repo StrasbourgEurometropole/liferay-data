@@ -1,3 +1,5 @@
 <%@include file="/video-gallery/gallery-init.jsp" %>
 
-Video gallery (jsp full) : ${entry.getTitle(locale)}
+Detail galerie videos : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

@@ -1,3 +1,5 @@
 <%@include file="/edition-gallery/gallery-init.jsp" %>
 
-Edition gallery (jsp full) : ${entry.getTitle(locale)}
+Detail gallerie d'editions : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

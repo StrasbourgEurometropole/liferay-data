@@ -1,3 +1,5 @@
 <%@include file="/event/event-init.jsp" %>
 
-Event (jsp full) : ${entry.getTitle(locale)}
+Detail evenement : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet

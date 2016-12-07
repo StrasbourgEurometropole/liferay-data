@@ -1,3 +1,5 @@
 <%@include file="/artwork-collection/collection-init.jsp" %>
 
-Artwork collection (jsp full) : ${entry.getTitle(locale)}
+Detail collection d'oeuvre : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet
