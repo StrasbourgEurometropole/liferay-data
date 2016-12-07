@@ -54,15 +54,33 @@
 
 				<aui:input name="subtitle" />
 
-				<aui:input name="description" />			
+				<aui:input name="description" >
+					<aui:validator name="required"
+						errorMessage="this-field-is-required" />
+				</aui:input>			
 				
-				<strasbourg-picker:image label="image" name="imageId"
-					required="false" value="${dc.event.imageId}" />
+				<label><input type="radio" value="internalImage" name="imageType" 
+					<c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
+				<label><input type="radio" value="externalImage" name="imageType"
+					<c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL }">checked</c:if>> Image externe</label><br><br>
+					
+				<div class="internalImage" <c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL}">style="display: none;"</c:if>>
+					<strasbourg-picker:image label="image" name="imageId"
+						required="true" value="${dc.event.imageId}" />
+				</div>
 				
-				<aui:input name="externalImageURL" />
+				<div class="externalImage" <c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">style="display: none;"</c:if>>
+					<aui:input name="externalImageURL" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+					
+					<aui:input name="externalImageCopyright" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+				</div>
 				
-				<aui:input name="externalImageCopyright" />
-
 				<strasbourg-picker:entity label="manifestations"
 					name="manifestationsIds" value="${dc.event.manifestationsIds}"
 					type="eu.strasbourg.service.agenda.model.Manifestation"
@@ -70,19 +88,40 @@
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="place">
-				<aui:input name="placeSIGId" />
-				<aui:input name="placeName" />
-				<aui:input name="placeStreetNumber" />
-				<aui:input name="placeStreetName" />
-				<aui:input name="placeZipCode" />
-				<aui:input name="placeCity" />
-				<aui:input name="placeCountry" />
+			
+				<label><input type="radio" value="sig" name="placeType" 
+					<c:if test="${not empty dc.event.placeSIGId or empty dc.event.placeName }">checked</c:if>> Lieu SIG</label><br>
+				<label><input type="radio" value="manual" name="placeType"
+					<c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName }">checked</c:if>> Saisie manuelle</label><br><br>
+					
+				<div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
+					<aui:input name="placeSIGId" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+				</div>
+				
+				<div class="manual" <c:if test="${not empty dc.event.placeSIGId or empty dc.event.placeName }">style="display: none;"</c:if>>
+					<aui:input name="placeName" helpMessage="place-name-help">
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+					<aui:input name="placeStreetNumber" />
+					<aui:input name="placeStreetName" />
+					<aui:input name="placeZipCode" />
+					<aui:input name="placeCity" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+					<aui:input name="placeCountry" />
+				</div>
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="access-and-services">
-				<aui:input name="access" />
+				<aui:input name="access" helpMessage="access-help"/>
 				<aui:input name="accessForDisabled" />
-				<aui:input name="accessForBlind" type="checkbox" checked="${dc.event.accessForBlind}" />
+				<label><liferay-ui:message key="disabled-access-help" /></label>
+				<aui:input name="accessForBlind" type="checkbox" checked="${dc.event.accessForBlind}" /> 
 				<aui:input name="accessForWheelchair" type="checkbox" checked="${dc.event.accessForWheelchair}" />
 				<aui:input name="accessForDeaf" type="checkbox" checked="${dc.event.accessForDeaf}" />
 				<aui:input name="accessForElder" type="checkbox" checked="${dc.event.accessForElder}" />
@@ -93,12 +132,12 @@
 				<aui:input name="promoter" />
 				<aui:input name="phone" />
 				<aui:input name="email" />
-				<aui:input name="websiteName" />
-				<aui:input name="websiteURL" />
+				<aui:input name="websiteName" helpMessage="website-name-help"/>
+				<aui:input name="websiteURL"  helpMessage="website-url-help"/>
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="schedule">
+				label="eu.dates-and-times">
 				
 				<aui:input name="scheduleComments" />				
 				

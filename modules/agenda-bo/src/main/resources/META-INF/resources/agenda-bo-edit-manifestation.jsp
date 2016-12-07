@@ -40,7 +40,10 @@
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.manifestation.imageId}" />
 
-				<aui:input name="description" />
+				<aui:input name="description" >
+					<aui:validator name="required"
+						errorMessage="this-field-is-required" />
+				</aui:input>
 				
 				<aui:input name="startDate" />
 				

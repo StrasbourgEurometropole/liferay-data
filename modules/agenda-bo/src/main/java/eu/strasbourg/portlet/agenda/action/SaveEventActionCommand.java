@@ -77,9 +77,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "title");
 			event.setTitleMap(title);
 
-			Long imageId = ParamUtil.getLong(request, "imageId");
-			event.setImageId(imageId);
-
 			Map<Locale, String> subtitle = LocalizationUtil
 				.getLocalizationMap(request, "subtitle");
 			event.setSubtitleMap(subtitle);
@@ -88,36 +85,53 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "description");
 			event.setDescriptionMap(description);
 
-			String externalImageURL = ParamUtil.getString(request,
-				"externalImageURL");
-			event.setExternalImageURL(externalImageURL);
-
-			String externalImageCopyright = ParamUtil.getString(request,
-				"externalImageCopyright");
-			event.setExternalImageCopyright(externalImageCopyright);
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			if (imageId > 0) {
+				event.setImageId(imageId);
+				event.setExternalImageURL("");
+				event.setExternalImageCopyright("");
+			} else {
+				event.setImageId(null);
+				String externalImageURL = ParamUtil.getString(request,
+    				"externalImageURL");
+    			event.setExternalImageURL(externalImageURL);
+    
+    			String externalImageCopyright = ParamUtil.getString(request,
+    				"externalImageCopyright");
+    			event.setExternalImageCopyright(externalImageCopyright);
+			}
 
 			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
-			event.setPlaceSIGId(placeSIGId);
+			if (Validator.isNotNull(placeSIGId)) {
+				event.setPlaceSIGId(placeSIGId);
+				event.setPlaceName("");
+				event.setPlaceStreetNumber("");
+				event.setPlaceStreetName("");
+				event.setPlaceZipCode("");
+				event.setPlaceCountry("");
+			} else {
+				event.setPlaceSIGId("");
+				
+				String placeName = ParamUtil.getString(request, "placeName");
+				event.setPlaceName(placeName);
 
-			String placeName = ParamUtil.getString(request, "placeName");
-			event.setPlaceName(placeName);
+				String placeStreetNumber = ParamUtil.getString(request,
+					"placeStreetNumber");
+				event.setPlaceStreetNumber(placeStreetNumber);
 
-			String placeStreetNumber = ParamUtil.getString(request,
-				"placeStreetNumber");
-			event.setPlaceStreetNumber(placeStreetNumber);
+				String placeStreetName = ParamUtil.getString(request,
+					"placeStreetName");
+				event.setPlaceStreetName(placeStreetName);
 
-			String placeStreetName = ParamUtil.getString(request,
-				"placeStreetName");
-			event.setPlaceStreetName(placeStreetName);
+				String placeZipCode = ParamUtil.getString(request, "placeZipCode");
+				event.setPlaceZipCode(placeZipCode);
 
-			String placeZipCode = ParamUtil.getString(request, "placeZipCode");
-			event.setPlaceZipCode(placeZipCode);
+				String placeCity = ParamUtil.getString(request, "placeCity");
+				event.setPlaceCity(placeCity);
 
-			String placeCity = ParamUtil.getString(request, "placeCity");
-			event.setPlaceCity(placeCity);
-
-			String placeCountry = ParamUtil.getString(request, "placeCountry");
-			event.setPlaceCountry(placeCountry);
+				String placeCountry = ParamUtil.getString(request, "placeCountry");
+				event.setPlaceCountry(placeCountry);
+			}
 
 			Map<Locale, String> access = LocalizationUtil
 				.getLocalizationMap(request, "access");
