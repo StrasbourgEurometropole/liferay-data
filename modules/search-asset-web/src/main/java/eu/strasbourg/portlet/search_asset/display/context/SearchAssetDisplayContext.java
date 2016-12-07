@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -148,8 +149,18 @@ public class SearchAssetDisplayContext {
 		// Mots-clés
 		String keywords = ParamUtil.getString(this._request, "keywords");
 		if (Validator.isNotNull(keywords)) {
-			query.addTerms(new String[] { Field.TITLE, Field.DESCRIPTION },
-				keywords.toLowerCase(), true);
+			BooleanQuery keywordQuery = new BooleanQueryImpl();
+
+			MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
+			titleQuery.setFuzziness(new Float(5));
+			keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+			MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION,
+				keywords);
+			titleQuery.setFuzziness(new Float(5));
+			keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
+
+			query.add(keywordQuery, BooleanClauseOccur.MUST);
 		}
 
 		// Catégories
@@ -193,8 +204,7 @@ public class SearchAssetDisplayContext {
 		}
 
 		// Ordre
-		Sort sort = SortFactoryUtil.create(
-			this.getOrderByColSearchField(),
+		Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
 			"desc".equals(this.getOrderByType()));
 		searchContext.setSorts(sort);
 
@@ -203,9 +213,9 @@ public class SearchAssetDisplayContext {
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (hits != null) {
 			/*
-			for (float s : hits.getScores()) { System.out.println(s); }
-			System.out.println();
-			*/
+			 * for (float s : hits.getScores()) { System.out.println(s); }
+			 * System.out.println();
+			 */
 			for (Document document : hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
@@ -353,7 +363,8 @@ public class SearchAssetDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
-			return "localized_title_" + this._themeDisplay.getLocale() + "_sortable";
+			return "localized_title_" + this._themeDisplay.getLocale()
+				+ "_sortable";
 		case "modified-date":
 			return "modified_sortable";
 		case "dates":
@@ -366,23 +377,22 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne le champ sur lequel on classe les résultats.
-	 * Par défaut on classe par date de modification.
-	 * Si le champ date est affiché, on classe par défaut par date
+	 * Retourne le champ sur lequel on classe les résultats. Par défaut on
+	 * classe par date de modification. Si le champ date est affiché, on classe
+	 * par défaut par date
 	 */
 	public String getOrderByCol() {
-        if (this.isDateField()) {
-    		return ParamUtil.getString(this._request, "orderByCol",
-    			"dates"); 
-        } else {
-    		return ParamUtil.getString(this._request, "orderByCol",
-    			"modified-date");
-        }
+		if (this.isDateField()) {
+			return ParamUtil.getString(this._request, "orderByCol", "dates");
+		} else {
+			return ParamUtil.getString(this._request, "orderByCol",
+				"modified-date");
+		}
 	}
 
 	public String getOrderByType() {
 		if (this.isDateField()) {
-	    	return ParamUtil.getString(this._request, "orderByType", "asc");
+			return ParamUtil.getString(this._request, "orderByType", "asc");
 		} else {
 			return ParamUtil.getString(this._request, "orderByType", "desc");
 		}
