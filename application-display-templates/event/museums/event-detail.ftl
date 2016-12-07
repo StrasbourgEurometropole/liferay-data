@@ -13,11 +13,18 @@
       ${entry.getEventScheduleDisplay(locale)}
     </div>
     <div class="event-address">
-      ${entry.placeName} <br> ${entry.placeStreetNumber} ${entry.placeStreetName} - ${entry.placeZipCode} ${entry.placeCity}
+      ${entry.placeName} 
+      <br> 
+      <#if entry.placeStreetName?has_content>
+        ${entry.placeStreetNumber} ${entry.placeStreetName} - ${entry.placeZipCode} 
+      </#if>
+      ${entry.placeCity}
     </div>
-    <div class="event-phone">
-      <@liferay_ui.message key="phone" /> : <a href="tel:${entry.phone}">${entry.phone}</a>
-    </div>
+    <#if entry.phone?has_content>
+      <div class="event-phone">
+        <@liferay_ui.message key="phone" /> : <a href="tel:${entry.phone}">${entry.phone}</a>
+      </div>
+    </#if>
   </div>
   <div class="event-info">
     <div class="event-60">
