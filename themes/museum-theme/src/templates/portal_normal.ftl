@@ -116,7 +116,13 @@
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
 		<#if colorSchemeId != "01">
 			<div class="breadcrumb-wrapper">
-				<@liferay.breadcrumbs />
+				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+				<@liferay_portlet["runtime"]
+				defaultPreferences="${freeMarkerPortletPreferences}"
+				portletProviderAction=portletProviderAction.VIEW
+				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+				settingsScope="group" />
+				${freeMarkerPortletPreferences.reset()}
 			</div>
 			<nav class="museum-header">
 				<ul class="museum-menu" role="nav">
