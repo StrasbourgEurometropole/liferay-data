@@ -1,3 +1,5 @@
 <%@include file="/link/link-init.jsp" %>
 
-Link (jsp full) : ${entry.getTitle(locale)}
+Detail lien : ${entry.getTitle(locale)}
+
+Veuillez selectionner un modele dans la configuration du portlet}
