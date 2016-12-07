@@ -30,7 +30,7 @@
 								    className="${entry.className}"
 								    contextObjects="<%=contextObjects%>"
 								    displayStyle="${dc.templatesMap[entry.className]}"
-								    displayStyleGroupId="${themeDisplay.siteGroupIdOrLiveGroupId}"
+								    displayStyleGroupId="${themeDisplay.scopeGroupId}"
 								    entries="<%=entries%>"
 								>
 									<liferay-ui:asset-display
