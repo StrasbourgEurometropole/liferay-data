@@ -27,7 +27,9 @@
 		<field localized="true" name="URL" type="String">
 			<hint name="max-length">255</hint>
 		</field>
-		<field localized="true" name="author" type="String" />
+		<field localized="true" name="author" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field localized="true" name="editor" type="String" />
 		<field name="distribution" type="String" />
 		<field name="ISBN" type="String" />
