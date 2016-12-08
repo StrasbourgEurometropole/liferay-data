@@ -3669,30 +3669,31 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   .entity-detail .entity-info {
     -ms-flex-preferred-size: 50%;
         flex-basis: 50%;
+    max-width: 50%;
     padding: 20px;
   }
-  /* line 79, ../sass/partials/_entity-detail.scss */
+  /* line 80, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-info {
     max-width: 400px;
   }
-  /* line 83, ../sass/partials/_entity-detail.scss */
+  /* line 84, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-images-carousel {
     width: 620px;
   }
 }
 @media (min-width: 1280px) {
-  /* line 89, ../sass/partials/_entity-detail.scss */
+  /* line 90, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-images-main {
     margin-left: 70px;
   }
 }
 
-/* line 95, ../sass/partials/_entity-detail.scss */
+/* line 96, ../sass/partials/_entity-detail.scss */
 .entity-detail-children-title {
   padding: 0 20px;
 }
 
-/* line 98, ../sass/partials/_entity-detail.scss */
+/* line 99, ../sass/partials/_entity-detail.scss */
 .entity-detail-children {
   padding: 20px;
   -webkit-column-count: 1;
@@ -3703,7 +3704,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
           column-gap: 20px;
 }
 @media (min-width: 602px) {
-  /* line 98, ../sass/partials/_entity-detail.scss */
+  /* line 99, ../sass/partials/_entity-detail.scss */
   .entity-detail-children {
     -webkit-column-count: 2;
        -moz-column-count: 2;
@@ -3711,7 +3712,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 98, ../sass/partials/_entity-detail.scss */
+  /* line 99, ../sass/partials/_entity-detail.scss */
   .entity-detail-children {
     -webkit-column-count: 3;
        -moz-column-count: 3;
@@ -3719,14 +3720,14 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 1280px) {
-  /* line 98, ../sass/partials/_entity-detail.scss */
+  /* line 99, ../sass/partials/_entity-detail.scss */
   .entity-detail-children {
     -webkit-column-count: 4;
        -moz-column-count: 4;
             column-count: 4;
   }
 }
-/* line 111, ../sass/partials/_entity-detail.scss */
+/* line 112, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child {
   -webkit-column-break-inside: avoid;
      page-break-inside: avoid;
@@ -3734,21 +3735,21 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   margin-bottom: 20px;
   background: #e6e6e6;
 }
-/* line 115, ../sass/partials/_entity-detail.scss */
+/* line 116, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-image {
   text-align: center;
 }
-/* line 118, ../sass/partials/_entity-detail.scss */
+/* line 119, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-info {
   padding: 20px;
   border-top: 10px solid #666666;
 }
-/* line 122, ../sass/partials/_entity-detail.scss */
+/* line 123, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-title h4 {
   font-size: 20px;
   text-transform: none;
 }
-/* line 126, ../sass/partials/_entity-detail.scss */
+/* line 127, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-source {
   text-align: right;
   text-transform: uppercase;
@@ -3756,7 +3757,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   color: #666666;
 }
 
-/* line 136, ../sass/partials/_entity-detail.scss */
+/* line 137, ../sass/partials/_entity-detail.scss */
 .firefox .entity-detail .entity-detail-child {
   display: inline-block;
 }
