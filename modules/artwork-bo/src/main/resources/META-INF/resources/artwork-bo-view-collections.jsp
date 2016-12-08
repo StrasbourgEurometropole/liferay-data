@@ -155,7 +155,7 @@
 
 <c:if test="${dc.hasPermission('ADD_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-collection'
+		<liferay-frontend:add-menu-item title="Ajouter une collection"
 			url="${addCollectionURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

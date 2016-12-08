@@ -151,7 +151,7 @@
 
 <liferay-frontend:add-menu>
 	<c:if test="${dc.hasPermission('ADD_LINK') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title='add-link' url="${addLinkURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un lien" url="${addLinkURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
 

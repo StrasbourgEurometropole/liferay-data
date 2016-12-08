@@ -154,7 +154,7 @@
 
 <c:if test="${dc.hasPermission('ADD_ARTWORK') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-artwork'
+		<liferay-frontend:add-menu-item title="Ajouter une oeuvre"
 			url="${addArtworkURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

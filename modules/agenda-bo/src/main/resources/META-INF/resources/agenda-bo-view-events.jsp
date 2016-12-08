@@ -163,7 +163,7 @@
 <c:if
 	test="${dc.hasPermission('ADD_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-event'
+		<liferay-frontend:add-menu-item title="Ajouter un &eacute;v&eacute;nement"
 			url="${addEventURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

@@ -156,7 +156,7 @@
 
 <c:if test="${dc.hasPermission('ADD_VIDEO') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-video'
+		<liferay-frontend:add-menu-item title="Ajouter une vid&eacute;o"
 			url="${addVideoURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

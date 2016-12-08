@@ -162,7 +162,7 @@
 
 <c:if test="${dc.hasPermission('ADD_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-manifestation'
+		<liferay-frontend:add-menu-item title="Ajouter une manifestation"
 			url="${addManifestationURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

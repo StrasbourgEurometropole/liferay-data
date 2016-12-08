@@ -163,7 +163,7 @@
 <c:if
 	test="${dc.hasPermission('ADD_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title='add-edition'
+		<liferay-frontend:add-menu-item title="Ajouter une &eacute;dition"
 			url="${addEditionURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
