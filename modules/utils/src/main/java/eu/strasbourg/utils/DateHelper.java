@@ -35,23 +35,30 @@ public class DateHelper {
 		return dates;
 	}
 
+	
 	/**
 	 * Affichage simple d'une période avec une date de début et une date de fin
 	 */
 	public static String displayPeriod(Date start, Date end, Locale locale) {
 		String result = "";
+		
+		// Cas où une ou les deux dates sont null
+		if (start == null || end == null) {
+			return "";
+		}
+		
 		Calendar startCal = CalendarFactoryUtil.getCalendar(start.getTime());
 		Calendar endCal = CalendarFactoryUtil.getCalendar(end.getTime());
 		// Si la période dure 1 jour
 		if (start.equals(end)) {
 			if (locale.equals(Locale.FRANCE)) { // le dd MMMM yyyy
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 				result = "Le " + df.format(start);
 			} else if (locale.equals(Locale.GERMANY)) {
-				DateFormat df = new SimpleDateFormat("dd. MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
 				result = df.format(start);
 			} else if (locale.equals(Locale.US)) { // dd MMMM yyyy
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
 				result = df.format(start);
 			}
 		} else { // S'il dure plus longtemps
@@ -59,46 +66,46 @@ public class DateHelper {
 				result = "Du ";
 				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
 					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd");
+					DateFormat df = new SimpleDateFormat("dd", Locale.FRANCE);
 					result += df.format(start);
 				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd MMMM");
+					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.FRANCE);
 					result += df.format(start);
 				} else {
-					DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+					DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 					result += df.format(start);
 				}
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 				result += " au " + df.format(end);
 			} else if (locale.equals(Locale.GERMANY)) {
 				result = "Vom ";
 				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
 					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd.");
+					DateFormat df = new SimpleDateFormat("dd.", Locale.GERMANY);
 					result += df.format(start);
 				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd. MMMM");
+					DateFormat df = new SimpleDateFormat("dd. MMMM", Locale.GERMANY);
 					result += df.format(start);
 				} else {
-					DateFormat df = new SimpleDateFormat("dd. MMMM yyyy");
+					DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
 					result += df.format(start);
 				}
-				DateFormat df = new SimpleDateFormat("dd. MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
 				result += " bis zum " + df.format(end);
 			} else if (locale.equals(Locale.US)) {
 				result = "From ";
 				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
 					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd");
+					DateFormat df = new SimpleDateFormat("dd", Locale.US);
 					result += df.format(start);
 				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
-					DateFormat df = new SimpleDateFormat("dd MMMM");
+					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.US);
 					result += df.format(start);;
 				} else {
-					DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+					DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
 					result += df.format(start);
 				}
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
 				result += " to " + df.format(end);
 			}
 		}
