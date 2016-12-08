@@ -211,13 +211,13 @@
 
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
-					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper"
-						value="placeholder">
-						<aui:validator name="custom"
-							errorMessage="requested-vocabularies-error">
+					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								for (var fieldContent of document.querySelectorAll('.categories-selectors > .field-content')) {
+								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								for (var i = 0; i < fields.length; i++) {
+									fieldContent = fields[i];
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;

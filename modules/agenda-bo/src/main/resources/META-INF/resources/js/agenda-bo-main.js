@@ -194,7 +194,9 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 // Validation des périodes
 function validatePeriods(event) {
 	var allValidated = true;
-	for (var dateRange of document.querySelectorAll('#date-fields .date-range')) {
+	var dateRanges = document.querySelectorAll('#date-fields .date-range')
+	for (var i = 0; i < dateRanges.length; i++) {
+		var dateRange = dateRanges[i];
 		var validated = true;
 		var id = $(dateRange).attr('id');
 		// On ne lance la validation que si une période a déjà été sélectionnée
@@ -203,7 +205,9 @@ function validatePeriods(event) {
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
 			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
 			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-			for (var otherDateRange of document.querySelectorAll('#date-fields .date-range')) {
+			var otherDateRanges = document.querySelectorAll('#date-fields .date-range');
+			for (var j = 0; j < otherDateRanges.length; j++) {
+				var otherDateRange = document.querySelectorAll('#date-fields .date-range')[j];
 				var otherId = $(otherDateRange).attr('id');
 				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0  
 						&& $(otherDateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
