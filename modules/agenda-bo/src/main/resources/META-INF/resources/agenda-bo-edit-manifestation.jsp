@@ -40,11 +40,22 @@
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.manifestation.imageId}" />
 
-				<aui:input name="description" >
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
-				
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+								var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
+								if (!validate) {
+									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+								}
+								return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
+								
 				<aui:input name="startDate" />
 				
 				<aui:input name="endDate" />
