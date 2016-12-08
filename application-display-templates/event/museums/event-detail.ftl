@@ -190,10 +190,10 @@
         </ul>
         ${entry.getScheduleComments(locale)}
       </div>
-      <#if entry.free || entry.getPrice(locale)?has_content>
+      <#if entry.free == 1 || entry.getPrice(locale)?has_content>
         <div class="event-info-section">
           <h4><@liferay_ui.message key="eu.event-prices" /></h4>
-          <#if entry.free>
+          <#if entry.free == 1>
             <div class="free-event"><@liferay_ui.message key="eu.free-event" /></div>
           </#if>
           ${entry.getPrice(locale)}
