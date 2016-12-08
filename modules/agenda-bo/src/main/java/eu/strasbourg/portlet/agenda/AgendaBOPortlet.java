@@ -28,7 +28,7 @@ import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayCon
 @Component(
 	immediate = true,
 	property = { "com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.header-portlet-css=http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css",
+		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/agenda-bo-view.jsp",

@@ -6,10 +6,10 @@
 		define._amd = define.amd;
 		define.amd = false;
 	</script>
-	<script src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+	<script src="/o/agendabo/js/vendors/moment.min.js"
 		type="text/javascript"></script>
 	<script
-		src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"
+		src="/o/agendabo/js/vendors/daterangepicker.js"
 		type="text/javascript"></script>
 	<script>
 		define.amd = define._amd;
