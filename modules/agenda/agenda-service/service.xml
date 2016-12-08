@@ -60,7 +60,7 @@
 		<column name="websiteName" type="String" localized="true" />
 		
 		<!-- Tarif -->
-		<column name="free" type="boolean" />
+		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		
 		<!-- Infos de gestion -->

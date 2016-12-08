@@ -1269,21 +1269,14 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 *
 	 * @return the free of this event
 	 */
-	public boolean getFree();
+	public Integer getFree();
 
 	/**
-	 * Returns <code>true</code> if this event is free.
-	 *
-	 * @return <code>true</code> if this event is free; <code>false</code> otherwise
-	 */
-	public boolean isFree();
-
-	/**
-	 * Sets whether this event is free.
+	 * Sets the free of this event.
 	 *
 	 * @param free the free of this event
 	 */
-	public void setFree(boolean free);
+	public void setFree(Integer free);
 
 	/**
 	 * Returns the price of this event.

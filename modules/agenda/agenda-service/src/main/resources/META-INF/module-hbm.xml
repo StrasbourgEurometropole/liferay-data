@@ -45,7 +45,7 @@
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="websiteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="websiteName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="free" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="free" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayDate" type="org.hibernate.type.TimestampType" />

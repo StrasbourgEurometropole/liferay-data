@@ -3543,7 +3543,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setEmail(event.getEmail());
 		eventImpl.setWebsiteURL(event.getWebsiteURL());
 		eventImpl.setWebsiteName(event.getWebsiteName());
-		eventImpl.setFree(event.isFree());
+		eventImpl.setFree(event.getFree());
 		eventImpl.setPrice(event.getPrice());
 		eventImpl.setSource(event.getSource());
 		eventImpl.setDisplayDate(event.getDisplayDate());

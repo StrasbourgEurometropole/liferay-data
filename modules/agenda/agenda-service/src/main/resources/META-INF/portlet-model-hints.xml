@@ -59,7 +59,7 @@
 			<hint name="max-length">255</hint>
 		</field>
 		<field localized="true" name="websiteName" type="String" />
-		<field name="free" type="boolean" />
+		<field name="free" type="Integer" />
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

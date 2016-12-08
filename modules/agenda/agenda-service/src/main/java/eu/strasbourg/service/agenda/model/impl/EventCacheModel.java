@@ -464,7 +464,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		websiteURL = objectInput.readUTF();
 		websiteName = objectInput.readUTF();
 
-		free = objectInput.readBoolean();
+		free = objectInput.readInt();
 		price = objectInput.readUTF();
 		source = objectInput.readUTF();
 		displayDate = objectInput.readLong();
@@ -660,7 +660,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(websiteName);
 		}
 
-		objectOutput.writeBoolean(free);
+		objectOutput.writeInt(free);
 
 		if (price == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -728,7 +728,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String email;
 	public String websiteURL;
 	public String websiteName;
-	public boolean free;
+	public int free;
 	public String price;
 	public String source;
 	public long displayDate;

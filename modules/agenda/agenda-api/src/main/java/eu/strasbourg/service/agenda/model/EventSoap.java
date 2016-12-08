@@ -427,15 +427,11 @@ public class EventSoap implements Serializable {
 		_websiteName = websiteName;
 	}
 
-	public boolean getFree() {
+	public Integer getFree() {
 		return _free;
 	}
 
-	public boolean isFree() {
-		return _free;
-	}
-
-	public void setFree(boolean free) {
+	public void setFree(Integer free) {
 		_free = free;
 	}
 
@@ -532,7 +528,7 @@ public class EventSoap implements Serializable {
 	private String _email;
 	private String _websiteURL;
 	private String _websiteName;
-	private boolean _free;
+	private Integer _free;
 	private String _price;
 	private String _source;
 	private Date _displayDate;

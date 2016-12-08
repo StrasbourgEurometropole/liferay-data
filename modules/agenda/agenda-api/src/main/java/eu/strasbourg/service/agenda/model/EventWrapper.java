@@ -335,7 +335,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setWebsiteName(websiteName);
 		}
 
-		Boolean free = (Boolean)attributes.get("free");
+		Integer free = (Integer)attributes.get("free");
 
 		if (free != null) {
 			setFree(free);
@@ -382,16 +382,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		if (imageId != null) {
 			setImageId(imageId);
 		}
-	}
-
-	/**
-	* Returns the free of this event.
-	*
-	* @return the free of this event
-	*/
-	@Override
-	public boolean getFree() {
-		return _event.getFree();
 	}
 
 	/**
@@ -451,16 +441,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public boolean isExpired() {
 		return _event.isExpired();
-	}
-
-	/**
-	* Returns <code>true</code> if this event is free.
-	*
-	* @return <code>true</code> if this event is free; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isFree() {
-		return _event.isFree();
 	}
 
 	/**
@@ -617,6 +597,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.Boolean getAccessForWheelchair() {
 		return _event.getAccessForWheelchair();
+	}
+
+	/**
+	* Returns the free of this event.
+	*
+	* @return the free of this event
+	*/
+	@Override
+	public java.lang.Integer getFree() {
+		return _event.getFree();
 	}
 
 	/**
@@ -2095,12 +2085,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Sets whether this event is free.
+	* Sets the free of this event.
 	*
 	* @param free the free of this event
 	*/
 	@Override
-	public void setFree(boolean free) {
+	public void setFree(java.lang.Integer free) {
 		_event.setFree(free);
 	}
 

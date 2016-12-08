@@ -190,7 +190,11 @@
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">
-				<aui:input name="isFree" type="checkbox" checked="${dc.event.free}" label="free-event" />
+				<label><liferay-ui:message key="free-event" /></label>
+				<aui:input name="free" value="0" type="radio" checked="${dc.event.free eq 0}" label="no" />
+				<aui:input name="free" value="1" type="radio" checked="${dc.event.free eq 1}" label="yes" />
+				<aui:input name="free" value="2" type="radio" checked="${dc.event.free eq 2 or empty dc.event.free}" label="unknown" />
+				
 				<aui:input name="price" />
 			</aui:fieldset>
 			

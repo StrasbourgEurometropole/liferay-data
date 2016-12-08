@@ -137,7 +137,7 @@ public class EventStagedModelDataHandler
 		importedEvent.setAccessForDeficient(stagedModel.getAccessForDeficient());
 		importedEvent.setAccessForElder(stagedModel.getAccessForElder());
 		importedEvent.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
-		importedEvent.setFree(stagedModel.isFree());
+		importedEvent.setFree(stagedModel.getFree());
 		importedEvent.setPrice(stagedModel.getPrice());
 		importedEvent.setPromoter(stagedModel.getPromoter());
 		importedEvent.setPhone(stagedModel.getPhone());
