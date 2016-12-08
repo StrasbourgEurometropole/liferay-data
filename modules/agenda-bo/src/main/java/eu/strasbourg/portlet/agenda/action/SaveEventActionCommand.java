@@ -93,12 +93,12 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			} else {
 				event.setImageId(null);
 				String externalImageURL = ParamUtil.getString(request,
-    				"externalImageURL");
-    			event.setExternalImageURL(externalImageURL);
-    
-    			String externalImageCopyright = ParamUtil.getString(request,
-    				"externalImageCopyright");
-    			event.setExternalImageCopyright(externalImageCopyright);
+					"externalImageURL");
+				event.setExternalImageURL(externalImageURL);
+
+				String externalImageCopyright = ParamUtil.getString(request,
+					"externalImageCopyright");
+				event.setExternalImageCopyright(externalImageCopyright);
 			}
 
 			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
@@ -111,7 +111,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				event.setPlaceCountry("");
 			} else {
 				event.setPlaceSIGId("");
-				
+
 				String placeName = ParamUtil.getString(request, "placeName");
 				event.setPlaceName(placeName);
 
@@ -123,13 +123,15 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					"placeStreetName");
 				event.setPlaceStreetName(placeStreetName);
 
-				String placeZipCode = ParamUtil.getString(request, "placeZipCode");
+				String placeZipCode = ParamUtil.getString(request,
+					"placeZipCode");
 				event.setPlaceZipCode(placeZipCode);
 
 				String placeCity = ParamUtil.getString(request, "placeCity");
 				event.setPlaceCity(placeCity);
 
-				String placeCountry = ParamUtil.getString(request, "placeCountry");
+				String placeCountry = ParamUtil.getString(request,
+					"placeCountry");
 				event.setPlaceCountry(placeCountry);
 			}
 
