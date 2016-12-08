@@ -233,7 +233,7 @@ public class ViewEventsDisplayContext {
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getCompanyGroupId(),
+			this._themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO,
 			actionId);
 	}
