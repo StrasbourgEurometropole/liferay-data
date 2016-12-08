@@ -214,7 +214,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				}
 			}
 
-
 			/**
 			 * Périodes de l'événement
 			 */
@@ -252,16 +251,22 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						.updateEventPeriod(eventPeriod);
 				}
 			}
-			// On classe les périodes par date de début, ce qui va nous permettre 
-			// de setter les champs "firstStartDate" et "lastEndDate" sur l'événement
-			List<EventPeriod> periods = new ArrayList<EventPeriod>(event.getEventPeriods());
-			periods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
-			
-			Date firstStartDate = periods.get(0).getStartDate();
-			Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
-			event.setFirstStartDate(firstStartDate);
-			event.setLastEndDate(lastEndDate);
-			
+			// On classe les périodes par date de début, ce qui va nous
+			// permettre
+			// de setter les champs "firstStartDate" et "lastEndDate" sur
+			// l'événement
+			if (event.getEventPeriods().size() > 0) {
+				List<EventPeriod> periods = new ArrayList<EventPeriod>(
+					event.getEventPeriods());
+				periods.sort(
+					(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+
+				Date firstStartDate = periods.get(0).getStartDate();
+				Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
+				event.setFirstStartDate(firstStartDate);
+				event.setLastEndDate(lastEndDate);
+			}
+
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {
