@@ -186,14 +186,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			Map<Locale, String> scheduleComments = LocalizationUtil
 				.getLocalizationMap(request, "scheduleComments");
 			event.setScheduleCommentsMap(scheduleComments);
-			
-			Boolean free = ParamUtil.getBoolean(request, "isFree");
+
+			Integer free = ParamUtil.getInteger(request, "free");
 			event.setFree(free);
-			
+
 			Map<Locale, String> price = LocalizationUtil
 				.getLocalizationMap(request, "price");
 			event.setPriceMap(price);
-			
+
 			String displayDateString = ParamUtil.getString(request,
 				"displayDate");
 			Date displayDate = DateUtil.parseDate(displayDateString,
