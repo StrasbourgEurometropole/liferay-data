@@ -3333,31 +3333,32 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     padding: 20px 0;
     margin-left: 25px;
     vertical-align: top;
+    max-width: calc(100% - 350px);
   }
 }
-/* line 29, ../sass/partials/_all-news.scss */
+/* line 30, ../sass/partials/_all-news.scss */
 .all-news .news-date {
   font-family: 'Times', Serif;
   font-style: italic;
   font-size: 15px;
   color: #666666;
 }
-/* line 36, ../sass/partials/_all-news.scss */
+/* line 37, ../sass/partials/_all-news.scss */
 .all-news .news-title h4 {
   font-size: 16px;
   text-transform: none;
   margin-bottom: 20px;
 }
 
-/* line 45, ../sass/partials/_all-news.scss */
+/* line 46, ../sass/partials/_all-news.scss */
 .portlet-asset-publisher .header-back-to, .portlet-asset-publisher .header-back-to ~ * {
   display: none;
 }
-/* line 49, ../sass/partials/_all-news.scss */
+/* line 50, ../sass/partials/_all-news.scss */
 .portlet-asset-publisher .back-button a {
   font-size: 20px;
 }
-/* line 51, ../sass/partials/_all-news.scss */
+/* line 52, ../sass/partials/_all-news.scss */
 .portlet-asset-publisher .back-button a:before {
   display: inline-block;
   padding-right: 5px;

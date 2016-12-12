@@ -239,6 +239,9 @@
         $('.featured-artwork-description').dotdotdot({
             height: 40
         });
+        $('.news .news-content').dotdotdot({
+            height: 100
+        });
     }
 })(jQuery);
 
