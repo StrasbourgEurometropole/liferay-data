@@ -1,5 +1,5 @@
 Bundle-SymbolicName: link-api
-Bundle-Version: 1.0.0
+Bundle-Version: 1.2.0
 Export-Package:\
 	eu.strasbourg.service.link.exception,\
 	eu.strasbourg.service.link.model,\
