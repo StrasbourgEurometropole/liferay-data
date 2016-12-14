@@ -71,16 +71,16 @@
 				</div>
 				
 				<label><input type="radio" value="internalImage" name="imageType" 
-					<c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
+					<c:if test="${(not empty dc.event.imageId and dc.event.imageId gt 0) or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
-					<c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL }">checked</c:if>> Image externe</label><br><br>
+					<c:if test="${(empty dc.event.imageId or dc.event.imageId eq 0) and not empty dc.event.externalImageURL }">checked</c:if>> Image externe</label><br><br>
 					
-				<div class="internalImage" <c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL}">style="display: none;"</c:if>>
+				<div class="internalImage" <c:if test="${(empty dc.event.imageId or dc.event.imageId eq 0) and not empty dc.event.externalImageURL }">style="display: none;"</c:if>>
 					<strasbourg-picker:image label="image" name="imageId"
 						required="true" value="${dc.event.imageId}" global="true" />
 				</div>
 				
-				<div class="externalImage" <c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">style="display: none;"</c:if>>
+				<div class="externalImage" <c:if test="${(not empty dc.event.imageId and dc.event.imageId gt 0) or empty dc.event.externalImageURL }">style="display: none;"</c:if>>
 					<aui:input name="externalImageURL" >
 						<aui:validator name="required"
 							errorMessage="this-field-is-required" />
