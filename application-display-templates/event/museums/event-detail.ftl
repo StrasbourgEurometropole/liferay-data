@@ -60,7 +60,7 @@
           ${entry.getAccess(locale)}
         </div>
       </#if>
-      <#if entry.hasAnyAccessForDisabled() && entry.getAccessForDisabled(locale)?has_content >
+      <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
         <div class="event-info-section event-access-for-disabled">
           <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
           <#if entry.hasAnyAccessForDisabled() >
@@ -204,7 +204,7 @@
           <h4><@liferay_ui.message key="eu.event-website" /></h4>
           <ul>
             <li>
-              <a href="${entry.getWebsiteURL(locale)}">${entry.getWebsiteName(locale)}</a>  
+              <a href="${entry.getWebsiteURL(locale)}" title="<@liferay_ui.message key="eu.new-window" />" target="_blank">${entry.getWebsiteName(locale)}</a>  
             </li>
           </ul>
         </div>
