@@ -1227,13 +1227,14 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   .header-top .language-menu ul {
     display: block;
     position: static;
+    border-top: 0;
   }
-  /* line 107, ../sass/partials/_header-top.scss */
+  /* line 108, ../sass/partials/_header-top.scss */
   .header-top .language-menu ul li {
     float: left;
     width: auto;
   }
-  /* line 110, ../sass/partials/_header-top.scss */
+  /* line 111, ../sass/partials/_header-top.scss */
   .header-top .language-menu ul li a {
     display: table-cell;
     vertical-align: middle;
@@ -1241,12 +1242,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     height: 39px;
   }
 }
-/* line 119, ../sass/partials/_header-top.scss */
+/* line 120, ../sass/partials/_header-top.scss */
 .header-top .language-menu .active-language {
   padding-bottom: 12px;
 }
 @media (min-width: 602px) {
-  /* line 119, ../sass/partials/_header-top.scss */
+  /* line 120, ../sass/partials/_header-top.scss */
   .header-top .language-menu .active-language {
     padding-bottom: 10px;
   }
@@ -1278,7 +1279,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   cursor: pointer;
 }
 /* line 24, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu span {
+.title-header .secondary-menu .access-by-public-menu span.access-by-public-menu-title {
   padding: 14px 27px 12px 17px;
   display: table-cell;
   position: relative;
@@ -1286,7 +1287,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   z-index: 2;
 }
 /* line 31, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu ul {
+.title-header .secondary-menu .access-by-public-menu ul.access-by-public-menu-list {
   opacity: 0;
   display: none;
   position: absolute;
@@ -1298,17 +1299,17 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background: white;
 }
 /* line 41, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu ul li {
+.title-header .secondary-menu .access-by-public-menu ul.access-by-public-menu-list li {
   border-bottom: 1px solid #c5c5c5;
   position: relative;
   width: 100%;
 }
 /* line 45, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu ul li:hover {
+.title-header .secondary-menu .access-by-public-menu ul.access-by-public-menu-list li:hover {
   background: rgba(0, 0, 0, 0.04);
 }
 /* line 48, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu ul li a {
+.title-header .secondary-menu .access-by-public-menu ul.access-by-public-menu-list li a {
   display: block;
   font-family: proximanova-bold;
   text-transform: uppercase;
@@ -1316,7 +1317,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   width: 100%;
 }
 /* line 54, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu ul li a:hover {
+.title-header .secondary-menu .access-by-public-menu ul.access-by-public-menu-list li a:hover {
   border-bottom: 0;
 }
 /* line 60, ../sass/partials/_header.scss */
@@ -1324,7 +1325,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   box-shadow: 0px -5px 30px -12px #656565;
 }
 /* line 62, ../sass/partials/_header.scss */
-.title-header .secondary-menu .access-by-public-menu:hover ul {
+.title-header .secondary-menu .access-by-public-menu:hover ul.access-by-public-menu-list {
   opacity: 1;
   display: block;
 }

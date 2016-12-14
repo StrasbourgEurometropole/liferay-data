@@ -95,12 +95,11 @@
 			</div>
 			<ul class="secondary-menu" role="nav">
 				<li class="access-by-public-menu">
-					<span>Accès par public</span>
-					<ul role="nav">
-						<li class="public-menu-item menu-item"><a href="#">Agenda</a></li>
-						<li class="public-menu-item menu-item"><a href="#">Expositions</a></li>
-						<li class="public-menu-item menu-item"><a href="#">Expositions</a></li>
-					</ul>
+					<@liferay_portlet["runtime"]
+						defaultPreferences="${freeMarkerPortletPreferences}"
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_site_navigation_site_map_web_portlet_SiteNavigationSiteMapPortlet"
+						settingsScope="group" />
 				</li>
 				<li class="main-search">
 					<form method="get" id="main-search-form" action="#">
