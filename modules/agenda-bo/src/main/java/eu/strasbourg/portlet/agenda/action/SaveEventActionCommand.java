@@ -91,7 +91,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				event.setExternalImageURL("");
 				event.setExternalImageCopyright("");
 			} else {
-				event.setImageId(null);
+				event.setImageId((long) 0);
 				String externalImageURL = ParamUtil.getString(request,
 					"externalImageURL");
 				event.setExternalImageURL(externalImageURL);
