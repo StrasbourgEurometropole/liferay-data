@@ -39,6 +39,11 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<name>global</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>file</name>
@@ -71,6 +76,11 @@
 		</attribute>
 		<attribute>
 			<name>localized</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>global</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

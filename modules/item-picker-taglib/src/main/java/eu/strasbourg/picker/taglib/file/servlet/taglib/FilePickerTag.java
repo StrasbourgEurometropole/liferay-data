@@ -56,6 +56,10 @@ public class FilePickerTag extends IncludeTag {
 		_localized = localized;
 	}
 
+	public void setGlobal(String global) {
+		_global = global;
+	}
+
 	@Override
 	public void setPageContext(PageContext pageContext) {
 		super.setPageContext(pageContext);
@@ -81,6 +85,7 @@ public class FilePickerTag extends IncludeTag {
 		request.setAttribute("value", "0".equals(_value) ? "" : _value);
 		request.setAttribute("multiple", "true".equals(_multiple));
 		request.setAttribute("localized", "true".equals(_localized));
+		request.setAttribute("global", "true".equals(_global));
 
 		// Available locales
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
@@ -92,11 +97,13 @@ public class FilePickerTag extends IncludeTag {
 			availableLocales = availableLocalesSet
 				.toArray(new Locale[availableLocalesSet.size()]);
 		} else {
-			availableLocales = new Locale[] { themeDisplay.getSiteDefaultLocale() };
+			availableLocales = new Locale[] {
+				themeDisplay.getSiteDefaultLocale() };
 		}
 		request.setAttribute("availableLocales", availableLocales);
-		request.setAttribute("defaultLocale", themeDisplay.getSiteDefaultLocale());
-		
+		request.setAttribute("defaultLocale",
+			themeDisplay.getSiteDefaultLocale());
+
 		// Fichiers
 		// On a besoin de Map faisant correspondre :
 		// * pour chaque langue, la liste des fichiers
@@ -160,8 +167,17 @@ public class FilePickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name + locale.getLanguage(),
 					fileItemSelectorCriterion);
-			request.setAttribute("itemSelectorURL" + locale.getLanguage(),
-				itemSelectorURL);
+			
+			// Si l'attribut "global" est "true", on se met sur le groupe global
+			// en modifiant l'URL
+			String itemSelectorURLString = itemSelectorURL.toString();
+			if ("true".equals(this._global)) {
+				itemSelectorURLString = itemSelectorURLString
+					.replaceAll("(?<=group).*(?=~)", "/global/");
+			}
+
+			request.setAttribute("itemSelectorURL",
+				itemSelectorURLString + locale.getLanguage());
 		}
 	}
 
@@ -173,5 +189,6 @@ public class FilePickerTag extends IncludeTag {
 	private String _value;
 	private String _multiple;
 	private String _localized;
+	private String _global;
 
 }

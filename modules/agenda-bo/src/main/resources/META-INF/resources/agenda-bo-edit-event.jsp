@@ -77,7 +77,7 @@
 					
 				<div class="internalImage" <c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL}">style="display: none;"</c:if>>
 					<strasbourg-picker:image label="image" name="imageId"
-						required="true" value="${dc.event.imageId}" />
+						required="true" value="${dc.event.imageId}" global="true" />
 				</div>
 				
 				<div class="externalImage" <c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">style="display: none;"</c:if>>

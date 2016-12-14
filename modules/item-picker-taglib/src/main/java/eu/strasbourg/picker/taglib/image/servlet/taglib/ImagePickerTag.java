@@ -43,6 +43,10 @@ public class ImagePickerTag extends IncludeTag {
 		_multiple = multiple;
 	}
 
+	public void setGlobal(String global) {
+		_global = global;
+	}
+
 	@Override
 	public void setPageContext(PageContext pageContext) {
 		super.setPageContext(pageContext);
@@ -67,6 +71,7 @@ public class ImagePickerTag extends IncludeTag {
 		request.setAttribute("required", "true".equals(_required));
 		request.setAttribute("value", "0".equals(_value) ? "" : _value);
 		request.setAttribute("multiple", "true".equals(_multiple));
+		request.setAttribute("global", "true".equals(_global));
 
 		// Files
 		List<FileObject> files = new ArrayList<FileObject>();
@@ -89,12 +94,19 @@ public class ImagePickerTag extends IncludeTag {
 		ImageItemSelectorCriterion imageItemSelectorCriterion = new ImageItemSelectorCriterion();
 		imageItemSelectorCriterion
 			.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-
 		PortletURL itemSelectorURL = ServletContextUtil.getItemSelector()
 			.getItemSelectorURL(
 				RequestBackedPortletURLFactoryUtil.create(request),
 				"itemSelected" + _name, imageItemSelectorCriterion);
-		request.setAttribute("itemSelectorURL", itemSelectorURL);
+		
+		// Si l'attribut "global" est "true", on se met sur le groupe global en
+		// modifiant l'URL
+		String itemSelectorURLString = itemSelectorURL.toString();
+		if ("true".equals(this._global)) {	
+			itemSelectorURLString = itemSelectorURLString.replaceAll("(?<=group).*(?=~)", "/global/");
+		}
+
+		request.setAttribute("itemSelectorURL", itemSelectorURLString);
 	}
 
 	private static final String _PAGE = "/image/image-picker-page.jsp";
@@ -104,5 +116,6 @@ public class ImagePickerTag extends IncludeTag {
 	private String _required;
 	private String _value;
 	private String _multiple;
+	private String _global;
 
 }
