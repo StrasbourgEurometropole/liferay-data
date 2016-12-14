@@ -242,10 +242,7 @@
 				</div>
 
 				<aui:input name="tags" type="assetTags" />
-
-				<liferay-ui:input-asset-links
-					className="<%= Event.class.getName() %>"
-					classPK="${dc.event.eventId}" />
+	
 			</aui:fieldset>
 		</aui:fieldset-group>
 

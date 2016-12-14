@@ -90,9 +90,6 @@
 
 				<aui:input name="tags" type="assetTags" />
 
-				<liferay-ui:input-asset-links
-					className="<%= Artwork.class.getName() %>"
-					classPK="${dc.artwork.artworkId}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

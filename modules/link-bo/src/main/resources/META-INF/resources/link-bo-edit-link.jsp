@@ -74,9 +74,6 @@
 
 				<aui:input name="tags" type="assetTags" />
 
-				<liferay-ui:input-asset-links
-					className="<%= Link.class.getName() %>"
-					classPK="${dc.link.linkId}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

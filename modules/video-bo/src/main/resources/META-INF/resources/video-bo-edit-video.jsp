@@ -82,9 +82,6 @@
 				
 				<aui:input name="tags" type="assetTags" />
 
-				<liferay-ui:input-asset-links
-					className="<%= Video.class.getName() %>"
-					classPK="${dc.video.videoId}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

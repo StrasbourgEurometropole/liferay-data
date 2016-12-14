@@ -77,9 +77,6 @@
 
 				<aui:input name="tags" type="assetTags" />
 
-				<liferay-ui:input-asset-links
-					className="<%= VideoGallery.class.getName() %>"
-					classPK="${dc.videoGallery.galleryId}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

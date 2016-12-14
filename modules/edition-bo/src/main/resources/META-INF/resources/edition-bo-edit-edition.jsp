@@ -104,9 +104,6 @@
 				
 				<aui:input name="tags" type="assetTags" />
 
-				<liferay-ui:input-asset-links
-					className="<%= Edition.class.getName() %>"
-					classPK="${dc.edition.editionId}" />
 			</aui:fieldset>
 
 
