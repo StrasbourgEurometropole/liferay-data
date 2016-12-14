@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.model.Layout;
  * @author Benjamin Bini
  *
  */
-public class LayoutHelper {
+public class LayoutHelper {	
 	/**
 	 * Retourne l'ensemble du path d'un layout
 	 */
@@ -29,5 +29,21 @@ public class LayoutHelper {
 		} catch (PortalException e) {
 			return "";
 		}
+	}
+	
+	/**
+	 * Retourne true si la page a des enfants visibles. False sinon.
+	 */
+	public static boolean hasVisibleChildren(Layout layout) {
+		boolean hasVisibleChildren = false;
+		
+		for (Layout subLayout : layout.getChildren()) {
+			if (!subLayout.isHidden()) {
+				hasVisibleChildren = true;
+				break;
+			}
+		}
+		
+		return hasVisibleChildren;
 	}
 }
