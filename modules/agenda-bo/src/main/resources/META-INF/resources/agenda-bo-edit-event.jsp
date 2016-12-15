@@ -148,9 +148,7 @@
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="eu.dates-and-times">
-				
-				<aui:input name="scheduleComments" />				
+				label="eu.dates-and-times">				
 				
 				<div class="event-periods-title">
 					<p class="text-muted"><liferay-ui:message key="event-period-creation" /></p>
@@ -198,6 +196,9 @@
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
+				
+				<aui:input name="scheduleComments" />
+				
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">
