@@ -34,6 +34,21 @@
 	padding: 20px;
 }
 
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+}
+
+.lfr-form-row:nth-child(2) {
+	display: none;
+}
+
 .event-period-conflict {
     margin-top: 40px;
     display: inline-block;
@@ -42,9 +57,11 @@
     color: white;
     border-radius: 4px;
 }
+
 .portlet-body > .daterangepicker {
     display: none;
 }
+
 .daterangepicker {
 	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
 	display: -ms-flexbox;  /* TWEENER - IE 10 */
