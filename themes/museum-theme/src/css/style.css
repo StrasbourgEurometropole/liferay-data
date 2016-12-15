@@ -4620,6 +4620,68 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   padding: 0 15px;
 }
 
+/* line 1, ../sass/partials/_how-to-come.scss */
+.how-to-come {
+  color: #333333;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+}
+/* line 5, ../sass/partials/_how-to-come.scss */
+.how-to-come .how-to-come-title {
+  padding: 40px 0 5px 0;
+  font-family: "proximanova-bold", sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+/* line 10, ../sass/partials/_how-to-come.scss */
+.how-to-come .how-to-come-title span {
+  display: block;
+  font-family: "proximanova-regular", sans-serif;
+  font-style: italic;
+  font-family: 'Times', serif;
+  font-size: 46px;
+  line-height: 53px;
+  text-transform: none;
+}
+/* line 20, ../sass/partials/_how-to-come.scss */
+.how-to-come .how-to-come-learn-more a {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 0 3px;
+  font-family: "proximanova-bold", sans-serif;
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid #666666;
+}
+@media (min-width: 919px) {
+  /* line 1, ../sass/partials/_how-to-come.scss */
+  .how-to-come {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  /* line 31, ../sass/partials/_how-to-come.scss */
+  .how-to-come .how-to-come-info {
+    width: 400px;
+    padding: 20px;
+  }
+  /* line 35, ../sass/partials/_how-to-come.scss */
+  .how-to-come .how-to-come-image {
+    font-size: 0;
+  }
+  /* line 37, ../sass/partials/_how-to-come.scss */
+  .how-to-come .how-to-come-image:before {
+    height: 100%;
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+  }
+  /* line 43, ../sass/partials/_how-to-come.scss */
+  .how-to-come .how-to-come-image img {
+    vertical-align: middle;
+  }
+}
+
 /* line 1, ../sass/partials/_lightbox.scss */
 .lightbox {
   cursor: zoom-in;
