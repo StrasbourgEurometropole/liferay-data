@@ -26,6 +26,10 @@
 	margin-top: 30px;
 }
 
+.event-periods-title .control-label {
+	font-size: 16px;
+}
+
 .add-dates-section {
 	padding: 10px 20px;
 }

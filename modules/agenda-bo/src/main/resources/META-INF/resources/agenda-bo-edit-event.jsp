@@ -151,7 +151,7 @@
 				label="eu.dates-and-times">				
 				
 				<div class="event-periods-title">
-					<p class="text-muted"><liferay-ui:message key="event-period-creation" /></p>
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
 				</div>
 				
 				<div class="add-dates-section">
@@ -160,7 +160,7 @@
 				
 				<div class="change-times-section">
 					<div class="event-periods-title">
-						<p class="text-muted"><liferay-ui:message key="update-current-language-times" /></p>
+						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
 					</div>
 					<div class="time-detail-generator-wrapper">
 						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" />
@@ -169,7 +169,7 @@
 				</div>
 				
 				<div class="event-periods-title">
-					<p class="text-muted"><liferay-ui:message key="event-periods" /></p>
+					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
 				</div>
 				<div id="date-fields">
 					<div class="lfr-form-row lfr-form-row-inline">
