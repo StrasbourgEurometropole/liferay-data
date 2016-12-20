@@ -113,7 +113,7 @@
 			<@menu items=nav_items isSubMenu=false ulClass="main-menu" depth=0 maxDepth=1 />
 		</nav>
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
-		<#if colorSchemeId != "01">
+		<#if layout.friendlyURL != "/accueil">
 			<div class="breadcrumb-wrapper">
 				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 				<@liferay_portlet["runtime"]
@@ -123,6 +123,8 @@
 				settingsScope="group" />
 				${freeMarkerPortletPreferences.reset()}
 			</div>
+		</#if>
+		<#if colorSchemeId != "01">
 			<nav class="museum-header">
 				<ul class="museum-menu" role="nav">
 					<#list nav_items as rootItem>

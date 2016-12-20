@@ -14,9 +14,13 @@
     if ($('.museum-header').length === 0) {
         $(document).on('scroll', function() {
             if ($(this).scrollTop() > 132) {
+                $('.breadcrumb-wrapper').addClass('sticky');
+                $('.breadcrumb-wrapper').addClass('network');
                 $('.menu-header').addClass('sticky');
                 $('body').css('margin-top', '49px');
             } else {
+                $('.breadcrumb-wrapper').removeClass('sticky');
+                $('.breadcrumb-wrapper').removeClass('network');
                 $('.menu-header').removeClass('sticky');
                 $('body').css('margin-top', '0');
             }
