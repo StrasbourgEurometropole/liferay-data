@@ -26,6 +26,7 @@ import eu.strasbourg.portlet.edition.display.context.ViewGalleriesDisplayContext
 	immediate = true,
 	property = { "com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/edition-bo-main.js",
+		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/edition-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",

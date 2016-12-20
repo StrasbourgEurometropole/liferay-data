@@ -4653,7 +4653,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   font-size: 13px;
   border-bottom: 1px solid #666666;
 }
-@media (min-width: 919px) {
+@media (min-width: 602px) {
   /* line 1, ../sass/partials/_how-to-come.scss */
   .how-to-come {
     display: -webkit-box;

@@ -72,3 +72,7 @@
 	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
 	display: flex;  
 }
+
+.add-row.btn, .delete-row.btn {
+	margin-right: 10px;
+}
