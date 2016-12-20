@@ -10,7 +10,7 @@
   </div>
   <div class="event-info">
     <div class="event-60">
-      <div class="image-with-copyright">
+      <div class="image-with-copyright-on-hover">
         <img src="${entry.getImageURL()}" class="lightbox">
         <#if entry.getImageCopyright(locale)?has_content>
           <div class="image-copyright">
