@@ -95,12 +95,11 @@
 			</div>
 			<ul class="secondary-menu" role="nav">
 				<li class="access-by-public-menu">
-					<span>Accès par public</span>
-					<ul role="nav">
-						<li class="public-menu-item menu-item"><a href="#">Agenda</a></li>
-						<li class="public-menu-item menu-item"><a href="#">Expositions</a></li>
-						<li class="public-menu-item menu-item"><a href="#">Expositions</a></li>
-					</ul>
+					<@liferay_portlet["runtime"]
+						defaultPreferences="${freeMarkerPortletPreferences}"
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_site_navigation_site_map_web_portlet_SiteNavigationSiteMapPortlet"
+						settingsScope="group" />
 				</li>
 				<li class="main-search">
 					<form method="get" id="main-search-form" action="#">
@@ -114,7 +113,7 @@
 			<@menu items=nav_items isSubMenu=false ulClass="main-menu" depth=0 maxDepth=1 />
 		</nav>
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
-		<#if colorSchemeId != "01">
+		<#if layout.friendlyURL != "/accueil">
 			<div class="breadcrumb-wrapper">
 				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 				<@liferay_portlet["runtime"]
@@ -124,6 +123,8 @@
 				settingsScope="group" />
 				${freeMarkerPortletPreferences.reset()}
 			</div>
+		</#if>
+		<#if colorSchemeId != "01">
 			<nav class="museum-header">
 				<ul class="museum-menu" role="nav">
 					<#list nav_items as rootItem>

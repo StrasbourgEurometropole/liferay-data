@@ -27,7 +27,9 @@
 		<field localized="true" name="noticeLink" type="String" />
 		<field localized="true" name="artistName" type="String" />
 		<field localized="true" name="creationYear" type="String" />
-		<field localized="true" name="origin" type="String" />
+		<field localized="true" name="origin" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 		<field localized="true" name="exhibitionName" type="String" />
 		<field localized="true" name="exhibitionPlace" type="String" />
 		<field localized="true" name="loanPeriod" type="String" />

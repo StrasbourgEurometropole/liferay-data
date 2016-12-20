@@ -30,15 +30,20 @@ jQuery(function() {
 	
 	$('[name=placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
-		$('.sig, .manual').hide();	
+		var classOfDivToHide = 'sigmanual'.replace(classOfDivToShow, '');
+		$('.sig, .manual').hide();
 		$('.' + classOfDivToShow).show();
+		$('.' + classOfDivToHide + ' input').val('');
 		setConditionalValidators();
 	});
 	
 	$('[name=imageType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
+		var classOfDivToHide = 'internalImageexternalImage'.replace(classOfDivToShow, '');
 		$('.internalImage, .externalImage').hide();	
 		$('.' + classOfDivToShow).show();
+		$('.' + classOfDivToHide + ' input').val('');
+		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
 	

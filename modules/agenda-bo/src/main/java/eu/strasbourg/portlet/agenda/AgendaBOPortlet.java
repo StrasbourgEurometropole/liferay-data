@@ -2,12 +2,8 @@ package eu.strasbourg.portlet.agenda;
 
 import java.io.IOException;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -30,6 +26,7 @@ import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayCon
 	property = { "com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",
+		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/agenda-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",

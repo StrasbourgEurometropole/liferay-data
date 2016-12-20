@@ -26,12 +26,31 @@
 	margin-top: 30px;
 }
 
+.event-periods-title .control-label {
+	font-size: 16px;
+}
+
 .add-dates-section {
 	padding: 10px 20px;
 }
 
 .row-fields {
 	padding: 20px;
+}
+
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+}
+
+.lfr-form-row:nth-child(2) {
+	display: none;
 }
 
 .event-period-conflict {
@@ -42,9 +61,18 @@
     color: white;
     border-radius: 4px;
 }
+
+.portlet-body > .daterangepicker {
+    display: none;
+}
+
 .daterangepicker {
 	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
 	display: -ms-flexbox;  /* TWEENER - IE 10 */
 	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
 	display: flex;  
+}
+
+.add-row.btn, .delete-row.btn {
+	margin-right: 10px;
 }

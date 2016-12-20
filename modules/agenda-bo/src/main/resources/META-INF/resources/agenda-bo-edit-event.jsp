@@ -71,16 +71,16 @@
 				</div>
 				
 				<label><input type="radio" value="internalImage" name="imageType" 
-					<c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
+					<c:if test="${(not empty dc.event.imageId and dc.event.imageId gt 0) or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
-					<c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL }">checked</c:if>> Image externe</label><br><br>
+					<c:if test="${(empty dc.event.imageId or dc.event.imageId eq 0) and not empty dc.event.externalImageURL }">checked</c:if>> Image externe</label><br><br>
 					
-				<div class="internalImage" <c:if test="${empty dc.event.imageId and not empty dc.event.externalImageURL}">style="display: none;"</c:if>>
+				<div class="internalImage" <c:if test="${(empty dc.event.imageId or dc.event.imageId eq 0) and not empty dc.event.externalImageURL }">style="display: none;"</c:if>>
 					<strasbourg-picker:image label="image" name="imageId"
-						required="true" value="${dc.event.imageId}" />
+						required="true" value="${dc.event.imageId}" global="true" />
 				</div>
 				
-				<div class="externalImage" <c:if test="${not empty dc.event.imageId or empty dc.event.externalImageURL }">style="display: none;"</c:if>>
+				<div class="externalImage" <c:if test="${(not empty dc.event.imageId and dc.event.imageId gt 0) or empty dc.event.externalImageURL }">style="display: none;"</c:if>>
 					<aui:input name="externalImageURL" >
 						<aui:validator name="required"
 							errorMessage="this-field-is-required" />
@@ -148,12 +148,10 @@
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="eu.dates-and-times">
-				
-				<aui:input name="scheduleComments" />				
+				label="eu.dates-and-times">				
 				
 				<div class="event-periods-title">
-					<p class="text-muted"><liferay-ui:message key="event-period-creation" /></p>
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
 				</div>
 				
 				<div class="add-dates-section">
@@ -162,7 +160,7 @@
 				
 				<div class="change-times-section">
 					<div class="event-periods-title">
-						<p class="text-muted"><liferay-ui:message key="update-current-language-times" /></p>
+						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
 					</div>
 					<div class="time-detail-generator-wrapper">
 						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" />
@@ -171,7 +169,7 @@
 				</div>
 				
 				<div class="event-periods-title">
-					<p class="text-muted"><liferay-ui:message key="event-periods" /></p>
+					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
 				</div>
 				<div id="date-fields">
 					<div class="lfr-form-row lfr-form-row-inline">
@@ -198,6 +196,9 @@
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
+				
+				<aui:input name="scheduleComments" />
+				
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">
@@ -242,10 +243,7 @@
 				</div>
 
 				<aui:input name="tags" type="assetTags" />
-
-				<liferay-ui:input-asset-links
-					className="<%= Event.class.getName() %>"
-					classPK="${dc.event.eventId}" />
+	
 			</aui:fieldset>
 		</aui:fieldset-group>
 

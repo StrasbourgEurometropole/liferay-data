@@ -12,7 +12,10 @@
 
 <%@ page import="com.liferay.portal.kernel.util.Constants"%>
 <%@ page import="com.liferay.portal.kernel.model.Layout"%>
+<%@ page import="eu.strasbourg.utils.LayoutHelper"%>
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<jsp:useBean id="layoutHelper" class="eu.strasbourg.utils.LayoutHelper"/>

@@ -24,6 +24,7 @@ import eu.strasbourg.portlet.link.display.context.ViewLinksDisplayContext;
 	property = {
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/link-bo-main.js",
+		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/link-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
