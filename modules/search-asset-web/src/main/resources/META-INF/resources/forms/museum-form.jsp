@@ -113,3 +113,5 @@
 
 	<aui:input type="hidden" name="keywords" id="keywords" />
 </div>
+	
+<aui:button type="submit" value="search" />
