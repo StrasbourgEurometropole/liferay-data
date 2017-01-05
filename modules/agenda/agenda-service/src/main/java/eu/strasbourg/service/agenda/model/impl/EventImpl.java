@@ -15,8 +15,10 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -35,6 +37,7 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.models.LegacyPlace;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -199,5 +202,24 @@ public class EventImpl extends EventBaseImpl {
 			.fetchEventByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEvent;
 	}
-
+	
+	/**
+	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
+	 */
+	@Override
+	public LegacyPlace getLegacyPlace(Locale locale) {
+		if (locale_legacyPlace == null) {
+			locale_legacyPlace = new HashMap<Locale, LegacyPlace>();
+		}
+		if (locale_legacyPlace.get(locale) == null) {
+			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(this.getPlaceSIGId(), locale);
+			if (legacyPlace != null) {
+				locale_legacyPlace.put(locale, legacyPlace);
+			}
+		}
+		return locale_legacyPlace.get(locale);
+	}
+	
+	private Map<Locale, LegacyPlace> locale_legacyPlace;
+	
 }

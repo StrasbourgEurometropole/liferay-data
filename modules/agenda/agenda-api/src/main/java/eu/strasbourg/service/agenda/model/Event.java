@@ -114,4 +114,10 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
+
+	/**
+	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement
+	*/
+	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
+		java.util.Locale locale);
 }
