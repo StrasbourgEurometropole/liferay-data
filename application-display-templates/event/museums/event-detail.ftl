@@ -12,13 +12,22 @@
     <div class="event-dates">
       ${entry.getEventScheduleDisplay(locale)}
     </div>
+    
     <div class="event-address">
-      ${entry.placeName} 
-      <br> 
-      <#if entry.placeStreetName?has_content>
-        ${entry.placeStreetNumber} ${entry.placeStreetName} - ${entry.placeZipCode} 
+      <#if entry.getLegacyPlace(locale)?has_content>
+        <#assign place = entry.getLegacyPlace(locale) />
+        ${place.alias} 
+        <br>
+          ${place.street} - ${place.zipCode} 
+        ${place.city}
+      <#else>
+        ${entry.placeName} 
+        <br> 
+        <#if entry.placeStreetName?has_content>
+          ${entry.placeStreetNumber} ${entry.placeStreetName} - ${entry.placeZipCode} 
+        </#if>
+        ${entry.placeCity}
       </#if>
-      ${entry.placeCity}
     </div>
     <#if entry.phone?has_content>
       <div class="event-phone">
@@ -54,46 +63,91 @@
           </#list>
         </div>
       </#if>
-      <#if entry.getAccess(locale)?has_content >
-        <div class="event-info-section event-access">
-          <h4><@liferay_ui.message key="eu.access-and-services" /></h4>
-          ${entry.getAccess(locale)}
-        </div>
-      </#if>
-      <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
-        <div class="event-info-section event-access-for-disabled">
-          <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
-          <#if entry.hasAnyAccessForDisabled() >
-            <div class="access-for-disabled-icons">
-                <#if entry.accessForWheelchair>
-                    <img src="/o/agendaweb/images/access-for-wheelchair.png" 
-                    title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
-                    alt="<@liferay_ui.message key="access-for-wheelchair" />">
-                </#if>
-                <#if entry.accessForBlind>
-                    <img src="/o/agendaweb/images/access-for-blind.png" 
-                    title="<@liferay_ui.message key="eu.access-for-blind" />"
-                    alt="<@liferay_ui.message key="eu.access-for-blind" />">
-                </#if>
-                <#if entry.accessForDeaf>
-                    <img src="/o/agendaweb/images/access-for-deaf.png" 
-                    title="<@liferay_ui.message key="eu.access-for-deaf" />"
-                    alt="<@liferay_ui.message key="access-for-deaf" />">
-                </#if>
-                <#if entry.accessForElder>
-                    <img src="/o/agendaweb/images/access-for-elder.png" 
-                    title="<@liferay_ui.message key="eu.access-for-elder" />"
-                    alt="<@liferay_ui.message key="access-for-elder" />">
-                </#if>
-                <#if entry.accessForDeficient>
-                    <img src="/o/agendaweb/images/access-for-deficient.png" 
-                    title="<@liferay_ui.message key="eu.access-for-deficient" />"
-                    alt="<@liferay_ui.message key="access-for-deficient" />">
-                </#if>
-            </div>
-          </#if>
-          ${entry.getAccessForDisabled(locale)}
-        </div>
+      <#if entry.getLegacyPlace(locale)?has_content>
+        <#assign place = entry.getLegacyPlace(locale) />
+        <#if place.getAccess()?has_content >
+          <div class="event-info-section event-access">
+            <h4><@liferay_ui.message key="eu.access-and-services" /></h4>
+            ${place.getAccess()}
+          </div>
+        </#if>
+        <#if place.hasAnyAccessForDisabled() || place.getAccessForDisabled()?has_content >
+          <div class="event-info-section event-access-for-disabled">
+            <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
+            <#if place.hasAnyAccessForDisabled() >
+              <div class="access-for-disabled-icons">
+                  <#if place.accessForWheelchair>
+                      <img src="/o/agendaweb/images/access-for-wheelchair.png" 
+                      title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
+                      alt="<@liferay_ui.message key="access-for-wheelchair" />">
+                  </#if>
+                  <#if place.accessForBlind>
+                      <img src="/o/agendaweb/images/access-for-blind.png" 
+                      title="<@liferay_ui.message key="eu.access-for-blind" />"
+                      alt="<@liferay_ui.message key="eu.access-for-blind" />">
+                  </#if>
+                  <#if place.accessForDeaf>
+                      <img src="/o/agendaweb/images/access-for-deaf.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deaf" />"
+                      alt="<@liferay_ui.message key="access-for-deaf" />">
+                  </#if>
+                  <#if place.accessForElder>
+                      <img src="/o/agendaweb/images/access-for-elder.png" 
+                      title="<@liferay_ui.message key="eu.access-for-elder" />"
+                      alt="<@liferay_ui.message key="access-for-elder" />">
+                  </#if>
+                  <#if place.accessForDeficient>
+                      <img src="/o/agendaweb/images/access-for-deficient.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deficient" />"
+                      alt="<@liferay_ui.message key="access-for-deficient" />">
+                  </#if>
+              </div>
+            </#if>
+            ${place.getAccessForDisabled()}
+          </div>
+        </#if>
+      <#else>
+        <#if entry.getAccess(locale)?has_content >
+          <div class="event-info-section event-access">
+            <h4><@liferay_ui.message key="eu.access-and-services" /></h4>
+            ${entry.getAccess(locale)}
+          </div>
+        </#if>
+        <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+          <div class="event-info-section event-access-for-disabled">
+            <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
+            <#if entry.hasAnyAccessForDisabled() >
+              <div class="access-for-disabled-icons">
+                  <#if entry.accessForWheelchair>
+                      <img src="/o/agendaweb/images/access-for-wheelchair.png" 
+                      title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
+                      alt="<@liferay_ui.message key="access-for-wheelchair" />">
+                  </#if>
+                  <#if entry.accessForBlind>
+                      <img src="/o/agendaweb/images/access-for-blind.png" 
+                      title="<@liferay_ui.message key="eu.access-for-blind" />"
+                      alt="<@liferay_ui.message key="eu.access-for-blind" />">
+                  </#if>
+                  <#if entry.accessForDeaf>
+                      <img src="/o/agendaweb/images/access-for-deaf.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deaf" />"
+                      alt="<@liferay_ui.message key="access-for-deaf" />">
+                  </#if>
+                  <#if entry.accessForElder>
+                      <img src="/o/agendaweb/images/access-for-elder.png" 
+                      title="<@liferay_ui.message key="eu.access-for-elder" />"
+                      alt="<@liferay_ui.message key="access-for-elder" />">
+                  </#if>
+                  <#if entry.accessForDeficient>
+                      <img src="/o/agendaweb/images/access-for-deficient.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deficient" />"
+                      alt="<@liferay_ui.message key="access-for-deficient" />">
+                  </#if>
+              </div>
+            </#if>
+            ${entry.getAccessForDisabled(locale)}
+          </div>
+        </#if>
       </#if>
       <#if entry.email?has_content>
         <div class="event-info-section">
@@ -150,12 +204,12 @@
               </label>
               <textarea name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" class="message">${renderRequest.getAttribute("message")!""}</textarea>  
             </div>
-            <div class="g-recaptcha" data-sitekey="6LeSmQ0UAAAAAOHN7mTm3-YNqHgDGTC8tdjiMnJL"></div>
+            <div class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
             <div>
               <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
                 
               <input type="checkbox" class="notification-email"
-                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" /> *
+                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
               </label>
             </div>
             <p>
@@ -204,7 +258,7 @@
           <h4><@liferay_ui.message key="eu.event-website" /></h4>
           <ul>
             <li>
-              <a href="${entry.getWebsiteURL(locale)}" title="<@liferay_ui.message key="eu.new-window" />" target="_blank">${entry.getWebsiteName(locale)}</a>  
+              <a href="${entry.getWebsiteURL(locale)}" title="${entry.getWebsiteName(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getWebsiteName(locale)}</a>  
             </li>
           </ul>
         </div>
