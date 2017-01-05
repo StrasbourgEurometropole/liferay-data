@@ -5,7 +5,7 @@
       <@liferay_portlet.param name="classPK" value="${artwork.getArtworkId()}" />
       <@liferay_portlet.param name="returnURL" value="${currentURL}" />
     </@liferay_portlet.renderURL>
-    <div class="featured-artwork ${entry.getSourceCSSClass()}">
+    <div class="featured-artwork ${artwork.sourceCSSClass}">
       <div class="featured-artwork-image">
         <a href="${detailURL}">
           <img src="${artwork.getImageURL()}" />
