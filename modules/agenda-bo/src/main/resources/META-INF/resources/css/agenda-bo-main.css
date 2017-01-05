@@ -1,6 +1,12 @@
 .categories-selectors .field-content {
 	margin-bottom: 20px;
+	border-bottom: 1px solid #b1b1b1;
+	padding-bottom: 20px;
 }
+.categories-selectors .field-content label {
+	font-size: 17px;
+}
+
 
 .period-label {
 	margin-bottom: 10px;
@@ -47,6 +53,7 @@
 
 .lfr-form-row:hover {
     border: 1px solid #B2FF3A;
+    padding-top: 1px;
 }
 
 .lfr-form-row:nth-child(2) {
@@ -70,7 +77,11 @@
 	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
 	display: -ms-flexbox;  /* TWEENER - IE 10 */
 	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-	display: flex;  
+	display: flex;
+	width: 700px;  
+}
+.daterangepicker .calendar {
+	height: 300px;
 }
 
 .add-row.btn, .delete-row.btn {

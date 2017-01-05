@@ -85,6 +85,7 @@ public class EventItemSelectorView
 
 		boolean multiple = GetterUtil
 			.getBoolean(servletRequest.getParameter("multiple"), false);
+		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(
 			servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),

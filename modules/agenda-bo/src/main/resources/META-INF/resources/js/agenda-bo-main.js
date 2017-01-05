@@ -34,6 +34,8 @@ jQuery(function() {
 		$('.sig, .manual').hide();
 		$('.' + classOfDivToShow).show();
 		$('.' + classOfDivToHide + ' input').val('');
+		$('.' + classOfDivToHide + ' input[type=checkbox]').attr('checked', false);
+		$('.' + classOfDivToHide + ' option').attr('selected', false);
 		setConditionalValidators();
 	});
 	
@@ -84,7 +86,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_"; // Namespace du portlet
 	var dateRangePickerLocaleSettings =  { // Configuration française du dateRangePicker
 		format: 'DD/MM/YYYY',
-		applyLabel: 'Appliquer',
+		applyLabel: 'Ajouter',
 		cancelLabel: 'Fermer',
 		 daysOfWeek: [
             "Di",

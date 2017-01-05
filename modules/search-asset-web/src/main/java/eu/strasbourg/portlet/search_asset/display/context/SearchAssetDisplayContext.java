@@ -312,8 +312,11 @@ public class SearchAssetDisplayContext {
 					.stream(vocabularyIdsString.split(","))
 					.mapToLong(Long::parseLong).toArray();
 				for (long vocabularyId : vocabularyIds) {
-					this._vocabularies.add(AssetVocabularyLocalServiceUtil
-						.getAssetVocabulary(vocabularyId));
+					AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+						.fetchAssetVocabulary(vocabularyId);
+					if (vocabulary != null) {
+						this._vocabularies.add(vocabulary);
+					}
 				}
 			}
 		}

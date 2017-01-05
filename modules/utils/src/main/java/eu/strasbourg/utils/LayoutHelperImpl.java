@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Layout;
 
 import eu.strasbourg.utils.api.LayoutHelperService;

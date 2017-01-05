@@ -85,7 +85,8 @@ public class ArtworkItemSelectorView
 
 		boolean multiple = GetterUtil
 			.getBoolean(servletRequest.getParameter("multiple"), false);
-
+		portletURL.setParameter("multiple", String.valueOf(multiple));
+		
 		int delta = GetterUtil.getInteger(
 			servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
 			SearchContainer.DEFAULT_DELTA);

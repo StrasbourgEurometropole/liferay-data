@@ -89,7 +89,7 @@
 			</div>
 		</nav>
 		<div class="title-header">
-			<h1 class="site-title"><a href="/web/museums">Musées de la ville de Strasbourg</a></h1>
+			<h1 class="site-title"><a href="/web${layout.group.friendlyURL}">Musées de la ville de Strasbourg</a></h1>
 			<div class="mobile-menu-toggle">
 				<span></span>
 			</div>
@@ -98,8 +98,8 @@
 					<@liferay_portlet["runtime"]
 						defaultPreferences="${freeMarkerPortletPreferences}"
 						portletProviderAction=portletProviderAction.VIEW
-						portletName="com_liferay_site_navigation_site_map_web_portlet_SiteNavigationSiteMapPortlet"
-						settingsScope="group" />
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="public" />
 				</li>
 				<li class="main-search">
 					<form method="get" id="main-search-form" action="#">

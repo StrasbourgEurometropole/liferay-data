@@ -106,10 +106,27 @@
 					<c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName }">checked</c:if>> Saisie manuelle</label><br><br>
 					
 				<div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
+					<aui:select name="placeSIGId" required="true">
+						<aui:option value=""></aui:option>
+						<aui:option value="942_CUL_93" selected="${event.placeSIGId eq '942_CUL_93'}">Mus&eacute;e d'Art Moderne et Contemporain</aui:option>
+						<aui:option value="943_CUL_94" selected="${event.placeSIGId eq '943_CUL_94'}">L'Aubette 1928</aui:option>
+						<aui:option value="944_CUL_95" selected="${event.placeSIGId eq '944_CUL_95'}">Mus&eacute;e Historique</aui:option>
+						<aui:option value="945_CUL_96" selected="${event.placeSIGId eq '945_CUL_96'}">Mus&eacute;e Alsacien</aui:option>
+						<aui:option value="946_CUL_97" selected="${event.placeSIGId eq '946_CUL_97'}">Cabinet des Estampes et des Dessins</aui:option>
+						<aui:option value="947_CUL_98" selected="${event.placeSIGId eq '947_CUL_98'}">Mus&eacute;e de l'&OElig;uvre Notre-Dame</aui:option>
+						<aui:option value="948_CUL_99" selected="${event.placeSIGId eq '948_CUL_99'}">Mus&eacute;e Arch&eacute;ologique</aui:option>
+						<aui:option value="949_CUL_100" selected="${event.placeSIGId eq '949_CUL_100'}">Mus&eacute;e des Arts d&eacute;coratifs</aui:option>
+						<aui:option value="950_CUL_101" selected="${event.placeSIGId eq '950_CUL_101'}">Mus&eacute;e des Beaux-arts</aui:option>
+						<aui:option value="951_CUL_102" selected="${event.placeSIGId eq '951_CUL_102'}">Mus&eacute;e Tomi Ungerer - Centre international de l'illustration</aui:option>
+						<aui:option value="952_CUL_103" selected="${event.placeSIGId eq '952_CUL_103'}">Mus&eacute;e zoologique</aui:option>
+						<aui:option value="1704_CUL_167" selected="${event.placeSIGId eq '1704_CUL_167'}">Ch&acirc;teau Mus&eacute;e Vodou</aui:option>
+					</aui:select>
+					<%--
 					<aui:input name="placeSIGId" >
 						<aui:validator name="required"
 							errorMessage="this-field-is-required" />
 					</aui:input>
+					 --%>
 				</div>
 				
 				<div class="manual" <c:if test="${not empty dc.event.placeSIGId or empty dc.event.placeName }">style="display: none;"</c:if>>
@@ -125,18 +142,17 @@
 							errorMessage="this-field-is-required" />
 					</aui:input>
 					<aui:input name="placeCountry" />
+					
+					
+					<aui:input name="access" helpMessage="access-help"/>
+					<aui:input name="accessForDisabled" />
+					<label><liferay-ui:message key="disabled-access-help" /></label>
+					<aui:input name="accessForBlind" type="checkbox" checked="${dc.event.accessForBlind}" /> 
+					<aui:input name="accessForWheelchair" type="checkbox" checked="${dc.event.accessForWheelchair}" />
+					<aui:input name="accessForDeaf" type="checkbox" checked="${dc.event.accessForDeaf}" />
+					<aui:input name="accessForElder" type="checkbox" checked="${dc.event.accessForElder}" />
+					<aui:input name="accessForDeficient" type="checkbox" checked="${dc.event.accessForDeficient}" />
 				</div>
-			</aui:fieldset>
-			
-			<aui:fieldset collapsed="true" collapsible="true" label="access-and-services">
-				<aui:input name="access" helpMessage="access-help"/>
-				<aui:input name="accessForDisabled" />
-				<label><liferay-ui:message key="disabled-access-help" /></label>
-				<aui:input name="accessForBlind" type="checkbox" checked="${dc.event.accessForBlind}" /> 
-				<aui:input name="accessForWheelchair" type="checkbox" checked="${dc.event.accessForWheelchair}" />
-				<aui:input name="accessForDeaf" type="checkbox" checked="${dc.event.accessForDeaf}" />
-				<aui:input name="accessForElder" type="checkbox" checked="${dc.event.accessForElder}" />
-				<aui:input name="accessForDeficient" type="checkbox" checked="${dc.event.accessForDeficient}" />
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="contact">
