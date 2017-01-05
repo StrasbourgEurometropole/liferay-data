@@ -2,10 +2,10 @@
 
 <div class="entity-detail artwork-collection-detail">
   <div class="entity-images">
-    <div class="entity-images-main">
+    <div class="entity-images-main image-with-copyright-on-hover">
       <img src="${entry.getImageURL()}" class="lightbox">
       <#if entry.getImageCopyright(locale)?has_content>
-        <div class="entity-images-main-copyright">
+        <div class="entity-images-main-copyright image-copyright">
             ${entry.getImageCopyright(locale)}
         </div>
       </#if>

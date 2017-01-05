@@ -1,10 +1,10 @@
 <!-- Détail galerie d'éditions (ADT) - ${entry.getTitle(locale)} -->
 <div class="entity-detail edition-gallery-detail">
   <div class="entity-images">
-    <div class="entity-images-main">
+    <div class="entity-images-main image-with-copyright-on-hover">
       <img src="${entry.getImageURL()}" alt="" class="lightbox">
       <#if entry.getImageCopyright(locale)?has_content>
-        <div class="entity-images-main-copyright">
+        <div class="entity-images-main-copyright image-copyright">
             ${entry.getImageCopyright(locale)}
         </div>
       </#if>
