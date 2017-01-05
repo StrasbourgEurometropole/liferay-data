@@ -13,11 +13,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 public class RecaptchaHelper {
 
 	public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-	public static final String secret = "6LeSmQ0UAAAAAIHcZUPSHO_PRWbXHCG_Ar50weXr";
+	public static final String secret = StrasbourgPropsUtil.getRecaptchaSecretKey();
 	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static boolean verify(String gRecaptchaResponse) {
-		if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
+		if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {	
 			return false;
 		}
 

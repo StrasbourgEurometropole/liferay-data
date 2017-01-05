@@ -28,6 +28,7 @@ import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfigurati
 	immediate = true,
 	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.requires-namespaced-parameters=false",
 		"com.liferay.portlet.css-class-wrapper=entity-detail-portlet",
 		"com.liferay.portlet.footer-portlet-javascript=/js/entity-detail-main.js",
 		"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
