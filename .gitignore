@@ -8,7 +8,6 @@ gradle.properties
 **/.settings
 modules/*/bin
 modules/*/build
-legacy-place-viewer
 bundles
 
 .class
