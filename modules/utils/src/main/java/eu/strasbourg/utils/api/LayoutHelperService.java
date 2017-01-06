@@ -2,7 +2,6 @@ package eu.strasbourg.utils.api;
 
 import java.util.Locale;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Layout;
 
 import aQute.bnd.annotation.ProviderType;
