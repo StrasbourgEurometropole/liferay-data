@@ -50,6 +50,9 @@
     <color-scheme id="14" name="Auditorium">
       <css-class>cs-aud</css-class>
     </color-scheme>
+    <color-scheme id="15" name="Revue numérique">
+      <css-class>cs-num</css-class>
+    </color-scheme>
     <portlet-decorator id="barebone" name="Barebone">
       <default-portlet-decorator>true</default-portlet-decorator>
       <portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
