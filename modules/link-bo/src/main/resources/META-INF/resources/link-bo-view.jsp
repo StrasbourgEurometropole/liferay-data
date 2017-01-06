@@ -13,7 +13,6 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
 </liferay-portlet:renderURL>
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
