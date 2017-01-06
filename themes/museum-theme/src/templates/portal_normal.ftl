@@ -53,7 +53,7 @@
 		<nav class="header-top">
 			<div class="header-top-inner">
 				<div class="strasbourg-eu-logo">
-					<a href="http://strasbourg.eu" class="strasbourg-eu-link">
+					<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank">
 						<img src="/o/museum-theme/images/logos/strasbourg-logo.png" alt="">
 					</a>
 				</div>
