@@ -57,35 +57,11 @@
 						<img src="/o/museum-theme/images/logos/strasbourg-logo.png" alt="">
 					</a>
 				</div>
-				<ul class="accessibility-menu" role="nav">
-					<li class="access-item accessibility">
-						<a href="#accessibility">
-							Accessibilité
-						</a>
-					</li>
-					<li class="access-item contact">
-						<a href="#contact">
-							<i class="mail-icon"></i>
-							<span>Contact</span>
-						</a>
-					</li>
-					<li class="access-item language">
-						<div class="language-menu">
-							<a href="#dropdown" class="active-language">FR</a>
-							<ul role="nav" >
-								<li class="active"><a href="#">FR</a></li>
-								<li><a href="#">CN</a></li>
-								<li><a href="#">DE</a></li>
-								<li><a href="#">EN</a></li>
-								<li><a href="#">ES</a></li>
-								<li><a href="#">IT</a></li>
-								<li><a href="#">JP</a></li>
-								<li><a href="#">NL</a></li>
-								<li><a href="#">RU</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+				<@liferay_portlet["runtime"]
+					defaultPreferences="${freeMarkerPortletPreferences}"
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+					instanceId="accessibility-contact-language" />
 			</div>
 		</nav>
 		<div class="title-header">
