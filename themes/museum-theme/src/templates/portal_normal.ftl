@@ -61,7 +61,8 @@
 					defaultPreferences="${freeMarkerPortletPreferences}"
 					portletProviderAction=portletProviderAction.VIEW
 					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-					instanceId="accessibility-contact-language" />
+					instanceId="langue"
+					settingsScope="group" />
 			</div>
 		</nav>
 		<div class="title-header">
@@ -75,7 +76,8 @@
 						defaultPreferences="${freeMarkerPortletPreferences}"
 						portletProviderAction=portletProviderAction.VIEW
 						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-						instanceId="public" />
+						instanceId="public"
+						settingsScope="group" />
 				</li>
 				<li class="main-search">
 					<form method="get" id="main-search-form" action="#">
