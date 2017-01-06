@@ -40,14 +40,23 @@
             <div class="review-info entity-thumbnail-info">
               <div class="review-category entity-thumbnail-parent-title">
                 <#assign vocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService") />
-
+                <#assign propertyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetCategoryPropertyLocalService") />
                 <#list curEntry.categories as category>
                   <#assign vocabulary = vocabularyLocalService.getVocabulary(category.vocabularyId) />
+                  <#assign href = '' />
+                  <#attempt>
+                   <#assign href = propertyLocalService.getCategoryProperty(category.categoryId, 'href').value?replace('.', '/') />
+                  <#recover>
+                  </#attempt>
                   <@liferay_portlet.renderURL var="categoryURL">
                     <@liferay_portlet.param name="categoryId" value="${category.categoryId}" />
                   </@liferay_portlet.renderURL>
                   <#if vocabulary.name?contains('revue')>
-                    <a href="${categoryURL}">${category.getTitle(locale)}</a>
+                    <#if href?has_content>
+                      <a href="${href}">${category.getTitle(locale)}</a>
+                    <#else>
+                      ${category.getTitle(locale)}
+                    </#if>
                   </#if>
                 </#list>
               </div>
