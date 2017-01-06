@@ -7,10 +7,10 @@ Sinon affichage de la description
 <#list entries as currentPage>
   <#if !currentPage.hidden>
     <div class="rubric-page">
-      <#if currentPage.expandoBridge.attributes["image"]?has_content>
+      <#if currentPage.expandoBridge.getAttribute('image')?has_content>
         <div class="rubric-page-image">
-          <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">
-            <img src="${currentPage.expandoBridge.attributes["image"]}" />
+          <a href="${themeDisplay.pathFriendlyURLPublic}${currentPage.group.friendlyURL}${currentPage.friendlyURL}">       
+            <img src="${currentPage.expandoBridge.getAttribute('image')}" />
           </a>
         </div>
       </#if>
