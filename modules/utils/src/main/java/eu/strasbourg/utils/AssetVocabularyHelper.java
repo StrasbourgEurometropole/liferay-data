@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 
 /**
@@ -68,5 +69,18 @@ public class AssetVocabularyHelper {
 			}
 		}
 		return results;
+	}
+
+	/**
+	 * Retourne la valeur d'une propriété d'une catégorie
+	 * Retourne une chaîne vide si la propriété n'existe pas
+	 */
+	static public String getCategoryProperty(long categoryId, String key) {
+		try {
+			return AssetCategoryPropertyLocalServiceUtil
+				.getCategoryProperty(categoryId, key).getValue();
+		} catch (Exception e) {
+			return "";
+		}
 	}
 }
