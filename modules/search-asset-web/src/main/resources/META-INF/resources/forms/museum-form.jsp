@@ -111,7 +111,7 @@
 		<aui:input name="orderByType" type="hidden" value="desc" />
 	</c:if>
 
-	<aui:input type="hidden" name="keywords" id="keywords" />
+	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
 </div>
 	
 <aui:button type="submit" value="search" />
