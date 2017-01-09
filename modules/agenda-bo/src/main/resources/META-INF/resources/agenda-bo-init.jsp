@@ -19,3 +19,32 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-portlet:resourceURL var="placeAutocompleteURL">
+</liferay-portlet:resourceURL>
+<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
+</liferay-portlet:actionURL>
+<liferay-util:html-top>
+	<script>
+		var getPeriodRowJSPURL = '${periodRowURL}';
+		var placeAutocompleteURL = '${placeAutocompleteURL}';
+	</script>
+</liferay-util:html-top>
+<liferay-util:html-bottom>
+	<script>
+		define._amd = define.amd;
+		define.amd = false;
+	</script>
+	<script src="/o/agendabo/js/vendors/moment.min.js"
+		type="text/javascript"></script>
+	<script
+		src="/o/agendabo/js/vendors/daterangepicker.js"
+		type="text/javascript"></script>
+	<script>
+		define.amd = define._amd;
+	</script>
+	<script
+		src="/o/agendabo/js/agenda-bo-main.js"
+		type="text/javascript"></script>
+</liferay-util:html-bottom>

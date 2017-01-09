@@ -54,25 +54,27 @@ jQuery(function() {
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			if (jQuery('.manual').is(':visible')) {
-				rules[namespace + 'placeSIGId'].required = false;
-				rules[namespace + 'placeName'].required = true;
-				rules[namespace + 'placeCity'].required = true;
-			} else {
-				rules[namespace + 'placeSIGId'].required = true;
-				rules[namespace + 'placeName'].required = false;
-				rules[namespace + 'placeCity'].required = false;
-			}
-			
-			if (jQuery('.internalImage').is(':visible')) {
-				rules[namespace + 'imageId'].required = true;
-				rules[namespace + 'externalImageURL'].required = false;
-				rules[namespace + 'externalImageCopyright'].required = false;
-			} else {
-				rules[namespace + 'imageId'].required = false;
-				rules[namespace + 'externalImageURL'].required = true;
-				rules[namespace + 'externalImageCopyright'].required = true;
+			if (!!window.editEvent) {
+				var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+				if (jQuery('.manual').is(':visible')) {
+					rules[namespace + 'selectedPlace'].required = false;
+					rules[namespace + 'placeName'].required = true;
+					rules[namespace + 'placeCity'].required = true;
+				} else {
+					rules[namespace + 'selectedPlace'].required = true;
+					rules[namespace + 'placeName'].required = false;
+					rules[namespace + 'placeCity'].required = false;
+				}
+				
+				if (jQuery('.internalImage').is(':visible')) {
+					rules[namespace + 'imageId'].required = true;
+					rules[namespace + 'externalImageURL'].required = false;
+					rules[namespace + 'externalImageCopyright'].required = false;
+				} else {
+					rules[namespace + 'imageId'].required = false;
+					rules[namespace + 'externalImageURL'].required = true;
+					rules[namespace + 'externalImageCopyright'].required = true;
+				}
 			}
 		});
 		
@@ -139,13 +141,15 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
-		// Création de l'autofield
-		autoFields = new Liferay.AutoFields({
-			contentBox : '#date-fields',
-			fieldIndexes : namespace + 'periodIndexes',
-			namespace : namespace,
-			url: getPeriodRowJSPURL
-		}).render();
+		if (!!document.getElementById('date-fields')) {
+			// Création de l'autofield
+			autoFields = new Liferay.AutoFields({
+				contentBox : '#date-fields',
+				fieldIndexes : namespace + 'periodIndexes',
+				namespace : namespace,
+				url: getPeriodRowJSPURL
+			}).render();
+		}
 	});
 
 	// Evenement appelé après un "clone" : on doit reactiver le datepicker et rattacher l'event

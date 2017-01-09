@@ -1,24 +1,6 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Event"%>
 
-<liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
-	<script src="/o/agendabo/js/vendors/moment.min.js"
-		type="text/javascript"></script>
-	<script
-		src="/o/agendabo/js/vendors/daterangepicker.js"
-		type="text/javascript"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
-	<script
-		src="/o/agendabo/js/agenda-bo-main.js"
-		type="text/javascript"></script>
-</liferay-util:html-bottom>
-
 <liferay-portlet:renderURL varImpl="eventsURL">
 	<portlet:param name="tab" value="events" />
 </liferay-portlet:renderURL>
@@ -105,28 +87,19 @@
 				<label><input type="radio" value="manual" name="placeType"
 					<c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName }">checked</c:if>> Saisie manuelle</label><br><br>
 					
-				<div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
-					<aui:select name="placeSIGId" required="true">
-						<aui:option value=""></aui:option>
-						<aui:option value="942_CUL_93" selected="${event.placeSIGId eq '942_CUL_93'}">Mus&eacute;e d'Art Moderne et Contemporain</aui:option>
-						<aui:option value="943_CUL_94" selected="${event.placeSIGId eq '943_CUL_94'}">L'Aubette 1928</aui:option>
-						<aui:option value="944_CUL_95" selected="${event.placeSIGId eq '944_CUL_95'}">Mus&eacute;e Historique</aui:option>
-						<aui:option value="945_CUL_96" selected="${event.placeSIGId eq '945_CUL_96'}">Mus&eacute;e Alsacien</aui:option>
-						<aui:option value="946_CUL_97" selected="${event.placeSIGId eq '946_CUL_97'}">Cabinet des Estampes et des Dessins</aui:option>
-						<aui:option value="947_CUL_98" selected="${event.placeSIGId eq '947_CUL_98'}">Mus&eacute;e de l'&OElig;uvre Notre-Dame</aui:option>
-						<aui:option value="948_CUL_99" selected="${event.placeSIGId eq '948_CUL_99'}">Mus&eacute;e Arch&eacute;ologique</aui:option>
-						<aui:option value="949_CUL_100" selected="${event.placeSIGId eq '949_CUL_100'}">Mus&eacute;e des Arts d&eacute;coratifs</aui:option>
-						<aui:option value="950_CUL_101" selected="${event.placeSIGId eq '950_CUL_101'}">Mus&eacute;e des Beaux-arts</aui:option>
-						<aui:option value="951_CUL_102" selected="${event.placeSIGId eq '951_CUL_102'}">Mus&eacute;e Tomi Ungerer - Centre international de l'illustration</aui:option>
-						<aui:option value="952_CUL_103" selected="${event.placeSIGId eq '952_CUL_103'}">Mus&eacute;e zoologique</aui:option>
-						<aui:option value="1704_CUL_167" selected="${event.placeSIGId eq '1704_CUL_167'}">Ch&acirc;teau Mus&eacute;e Vodou</aui:option>
-					</aui:select>
-					<%--
-					<aui:input name="placeSIGId" >
-						<aui:validator name="required"
-							errorMessage="this-field-is-required" />
-					</aui:input>
-					 --%>
+				 <div class="sig" <c:if test="${empty dc.event.placeSIGId and not empty dc.event.placeName}">style="display: none;"</c:if>>
+					<div class="place-autocomplete">
+						<div class="place-autocomplete-input-wrapper">
+							<aui:input label="Choisir un lieu" type="text" name="place" value="" />
+						</div>
+						<span id="place-autocomplete-hidden-value">
+							<aui:input type="hidden" name="placeSIGId" value="${dc.event.placeSIGId}" />
+						</span>
+						<aui:input label="Lieu choisi" type="text" value="${dc.event.getLegacyPlace(locale).alias}" name="selectedPlace" disabled="true" cssClass="selected-place" >
+							<aui:validator name="required"
+								errorMessage="this-field-is-required" />
+						</aui:input>
+					</div>
 				</div>
 				
 				<div class="manual" <c:if test="${not empty dc.event.placeSIGId or empty dc.event.placeName }">style="display: none;"</c:if>>
@@ -286,12 +259,9 @@
 		</aui:button-row>
 
 	</aui:form>
-	<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-		<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
-	</liferay-portlet:actionURL>
 	<liferay-util:html-top>
 		<script>
-			var getPeriodRowJSPURL = '${periodRowURL}';
+			var editEvent = true;
 		</script>
 	</liferay-util:html-top>
 	
