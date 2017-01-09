@@ -98,6 +98,7 @@
         $('.mobile-main-menu .open').removeClass('open');
         $(this).next().addClass('open');
         $('.mobile-main-menu-nav').show();
+        $('#mobile-menu, #mobile-menu .mobile-main-menu').scrollTop(0);
     });
 
     $('.mobile-main-menu-nav .to-start').on('click', function(e) {
