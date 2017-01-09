@@ -864,7 +864,7 @@ div[class^=col-] {
 /* line 18, ../sass/partials/_layout.scss */
 #wrapper {
   margin-top: 0 !important;
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 
 /* line 23, ../sass/partials/_layout.scss */
@@ -2499,62 +2499,64 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   /* line 89, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image h1 {
     color: white;
+    text-shadow: 0 0 10px #333333;
   }
-  /* line 92, ../sass/partials/_page-header.scss */
+  /* line 93, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-share {
     color: white;
     margin-top: -120px;
     padding-bottom: 120px;
+    text-shadow: 0 0 10px #333333;
   }
-  /* line 97, ../sass/partials/_page-header.scss */
+  /* line 99, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .facebook, .page-header-portlet .with-image .twitter {
     opacity: 1;
   }
-  /* line 100, ../sass/partials/_page-header.scss */
+  /* line 102, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .facebook {
     background-image: url("../images/icons/facebook-white.png");
   }
-  /* line 103, ../sass/partials/_page-header.scss */
+  /* line 105, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .twitter {
     background-image: url("../images/icons/twitter-white.png");
   }
 }
 @media (min-width: 1280px) {
-  /* line 108, ../sass/partials/_page-header.scss */
+  /* line 110, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-title {
     top: 130px;
   }
 }
 @media (min-width: 919px) {
-  /* line 116, ../sass/partials/_page-header.scss */
+  /* line 118, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image {
     width: 67%;
     position: relative;
   }
-  /* line 119, ../sass/partials/_page-header.scss */
+  /* line 121, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image:before {
     content: "";
     display: block;
     padding-top: 70%;
   }
-  /* line 124, ../sass/partials/_page-header.scss */
+  /* line 126, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image img {
     position: absolute;
     top: 0;
     padding: 40px;
   }
-  /* line 130, ../sass/partials/_page-header.scss */
+  /* line 132, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     position: absolute;
     top: 80px;
     right: 0;
     width: 48%;
   }
-  /* line 135, ../sass/partials/_page-header.scss */
+  /* line 137, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-title {
     position: static;
   }
-  /* line 138, ../sass/partials/_page-header.scss */
+  /* line 140, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share {
     position: static;
     color: #2d2d2d;
@@ -2562,27 +2564,27 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     padding-bottom: 0;
     text-align: left;
   }
-  /* line 144, ../sass/partials/_page-header.scss */
+  /* line 146, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook, .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     opacity: 0.6;
   }
-  /* line 147, ../sass/partials/_page-header.scss */
+  /* line 149, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook {
     background-image: url("../images/icons/facebook-dark.png");
   }
-  /* line 150, ../sass/partials/_page-header.scss */
+  /* line 152, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     background-image: url("../images/icons/twitter-dark.png");
   }
 }
 @media (min-width: 919px) and (min-width: 1280px) {
-  /* line 130, ../sass/partials/_page-header.scss */
+  /* line 132, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     top: 100px;
   }
 }
 @media (min-width: 919px) {
-  /* line 157, ../sass/partials/_page-header.scss */
+  /* line 159, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share h1 {
     color: #000000;
     padding: 40px 30px;
@@ -2590,7 +2592,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     background: white;
     text-align: left;
   }
-  /* line 165, ../sass/partials/_page-header.scss */
+  /* line 167, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image-credit {
     text-align: right;
     color: white;
@@ -2600,21 +2602,21 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 176, ../sass/partials/_page-header.scss */
+  /* line 178, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image {
     width: 48%;
     text-align: right;
   }
-  /* line 179, ../sass/partials/_page-header.scss */
+  /* line 181, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image img {
     width: 80%;
     position: static;
   }
-  /* line 183, ../sass/partials/_page-header.scss */
+  /* line 185, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image:before {
     display: none;
   }
-  /* line 187, ../sass/partials/_page-header.scss */
+  /* line 189, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-share {
     margin-left: 30px;
   }
