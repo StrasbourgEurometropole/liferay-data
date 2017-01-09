@@ -12,15 +12,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.BaseIndexer;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Summary;
-import com.liferay.portal.kernel.search.filter.BooleanFilter;
-import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.link.model.Link;
@@ -28,26 +24,6 @@ import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 
 @Component(immediate = true, service = Indexer.class)
 public class LinkIndexer extends BaseIndexer<Link> {
-
-	/**
-	 * On ajoute un traitement pour utiliser le filtre sur "assetCategoryIds" comme un "et"
-	 */
-	@Override
-	public void postProcessContextBooleanFilter(
-		BooleanFilter contextBooleanFilter, SearchContext searchContext)
-		throws Exception {
-
-		long[] categoryIds = searchContext.getAssetCategoryIds();
-		for (long categoryId : categoryIds) {
-			TermsFilter categoryIdTermsFilter = new TermsFilter(
-				Field.ASSET_CATEGORY_IDS);
-			categoryIdTermsFilter.addValue(String.valueOf(categoryId));
-			contextBooleanFilter.add(categoryIdTermsFilter,
-				BooleanClauseOccur.MUST);
-		}
-		super.postProcessContextBooleanFilter(contextBooleanFilter,
-			searchContext);
-	}
 
 	public static final String CLASS_NAME = Link.class.getName();
 

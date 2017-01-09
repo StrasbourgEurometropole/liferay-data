@@ -1,8 +1,6 @@
 package eu.strasbourg.portlet.link.display.context;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.portlet.PortletURL;
@@ -21,8 +19,6 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -33,6 +29,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewLinksDisplayContext {
@@ -46,9 +43,8 @@ public class ViewLinksDisplayContext {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	public SearchContainer<Link> getSearchContainer()
-		throws PortalException {
-		
+	public SearchContainer<Link> getSearchContainer() throws PortalException {
+
 		PortletURL iteratorURL = this._response.createRenderURL();
 		iteratorURL.setParameter("tab", "links");
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
@@ -56,7 +52,7 @@ public class ViewLinksDisplayContext {
 		iteratorURL.setParameter("filterCategoriesIds",
 			this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
-		
+
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<Link>(this._request,
 				iteratorURL, null, "no-entries-were-found");
@@ -77,42 +73,34 @@ public class ViewLinksDisplayContext {
 				.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
 				.getInstance(servletRequest);
-			
-			// On set les categories du search context
-			String[] categoryIdsStrings = this.getFilterCategoriesIds()
-				.split(",");
-			if (categoryIdsStrings.length > 0) {
-				long[] categoryIds = new long[categoryIdsStrings.length - 1];
-				for (int i = 0; i < categoryIds.length; i++) {
-					categoryIds[i] = Long.valueOf(categoryIdsStrings[i + 1]);
-				}
-				searchContext.setAssetCategoryIds(categoryIds);
-			}
 
-			// Init attributes, in case we come from edit page
-			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext.setGroupIds(new long[] {_themeDisplay.getScopeGroupId()});
+			// Recherche des hits
+			String keywords = ParamUtil.getString(servletRequest, "keywords");
+			Hits hits = SearchHelper.getBOSearchHits(searchContext,
+				this.getSearchContainer().getStart(),
+				this.getSearchContainer().getEnd(), Link.class.getName(),
+				this._themeDisplay.getScopeGroupId(),
+				this.getFilterCategoriesIds(), keywords,
+				this.getOrderByColSearchField(),
+				"desc".equals(this.getOrderByType()));
 
-			// Ordre
-			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
-				this.getOrderByType().equals("desc"));
-			searchContext.setSorts(sort);
+			// Total
+			int count = (int) SearchHelper.getBOSearchCount(searchContext,
+				Link.class.getName(), this._themeDisplay.getScopeGroupId(),
+				this.getFilterCategoriesIds(), keywords);
+			this.getSearchContainer().setTotal(count);
 
-			// Paging
-			searchContext.setStart(this.getSearchContainer().getStart());
-			searchContext.setEnd(this.getSearchContainer().getEnd());
-
-			// Résultats
+			// Création de la liste d'objet
 			List<Link> results = new ArrayList<Link>();
-			Hits hits = LinkLocalServiceUtil.search(searchContext);
-			for (Document document : hits.getDocs()) {
-				Link link = LinkLocalServiceUtil.fetchLink(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (link != null) {
-					results.add(link);
+			if (hits != null) {
+				for (Document document : hits.getDocs()) {
+					Link link = LinkLocalServiceUtil.fetchLink(
+						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					if (link != null) {
+						results.add(link);
+					}
 				}
 			}
-			this.getSearchContainer().setTotal(hits.getLength());
 			this._links = results;
 		}
 		return this._links;
@@ -151,9 +139,10 @@ public class ViewLinksDisplayContext {
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = LinkLocalServiceUtil.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
+			this._vocabularies = LinkLocalServiceUtil
+				.getAttachedVocabularies(this._themeDisplay.getScopeGroupId());
 		}
-		return this._vocabularies;			
+		return this._vocabularies;
 	}
 
 	/**
@@ -212,7 +201,7 @@ public class ViewLinksDisplayContext {
 		}
 		return vocabulary.getName();
 	}
-	
+
 	/**
 	 * @return True si le framework workflow est actif pour ce type d'entité
 	 */
@@ -221,12 +210,14 @@ public class ViewLinksDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			Link.class.getName());
 	}
-	
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.LINK_BO, StrasbourgPortletKeys.LINK_BO, actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(
+			this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.LINK_BO,
+			StrasbourgPortletKeys.LINK_BO, actionId);
 	}
 
 	private final RenderRequest _request;
