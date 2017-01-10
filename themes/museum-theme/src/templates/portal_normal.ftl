@@ -195,6 +195,7 @@
 <@liferay_util["include"] page=body_bottom_include />
 
 <@liferay_util["include"] page=bottom_include />
+<script src="/o/museum-theme/js/vendors/mq.genie.js"></script>
 
 <!-- inject:js -->
 <!-- endinject -->

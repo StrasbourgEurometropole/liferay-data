@@ -8,33 +8,38 @@
 })(jQuery);
 
 
-// Sticky (uniquement en desktop)
+// Sticky (uniquement en mode non connecté)
 (function($) {
-    // Cas où il n'y a pas de menu musée
-    if ($('.museum-header').length === 0) {
+    if (!$('body').hasClass('signed-in')) {
+        var scrollBreakpoint = $('.header-top').outerHeight() + $('.title-header').outerHeight();
+        var museumScrollBreakpoint = $('.header-top').outerHeight() + $('.title-header').outerHeight() + $('.menu-header').outerHeight();
+        var heightForMarginTop;
         $(document).on('scroll', function() {
-            if ($(this).scrollTop() > 132) {
-                $('.breadcrumb-wrapper').addClass('sticky');
-                $('.breadcrumb-wrapper').addClass('network');
-                $('.menu-header').addClass('sticky');
-                $('body').css('margin-top', '49px');
-            } else {
-                $('.breadcrumb-wrapper').removeClass('sticky');
-                $('.breadcrumb-wrapper').removeClass('network');
-                $('.menu-header').removeClass('sticky');
-                $('body').css('margin-top', '0');
-            }
-        });
-    } else { // Avec menu musée
-        $(document).on('scroll', function() {
-            if ($(this).scrollTop() > 180) {
-                $('.breadcrumb-wrapper').addClass('sticky');
-                $('.museum-header').addClass('sticky');
-                $('body').css('margin-top', '86px');
-            } else {
-                $('.breadcrumb-wrapper').removeClass('sticky');
-                $('.museum-header').removeClass('sticky');
-                $('body').css('margin-top', '0');
+            // Cas où il n'y a pas de menu musée
+            if ($('.museum-header').length === 0) {
+                if ($(this).scrollTop() > scrollBreakpoint) {
+                    $('.breadcrumb-wrapper').addClass('sticky');
+                    $('.breadcrumb-wrapper').addClass('network');
+                    $('.menu-header').addClass('sticky');
+                    heightForMarginTop = $('.menu-header').outerHeight() + $('.breadcrumb-wrapper').outerHeight();
+                    $('body').css('margin-top', heightForMarginTop);
+                } else {
+                    $('.breadcrumb-wrapper').removeClass('sticky');
+                    $('.breadcrumb-wrapper').removeClass('network');
+                    $('.menu-header').removeClass('sticky');
+                    $('body').css('margin-top', '0');
+                }
+            } else { // Avec menu musée
+                if ($(this).scrollTop() > museumScrollBreakpoint) {
+                    $('.breadcrumb-wrapper').addClass('sticky');
+                    $('.museum-header').addClass('sticky');
+                    heightForMarginTop = $('.museum-header').outerHeight() + $('.breadcrumb-wrapper').outerHeight();
+                    $('body').css('margin-top', heightForMarginTop);
+                } else {
+                    $('.breadcrumb-wrapper').removeClass('sticky');
+                    $('.museum-header').removeClass('sticky');
+                    $('body').css('margin-top', '0');
+                }
             }
         });
     }
