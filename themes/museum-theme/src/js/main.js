@@ -141,23 +141,38 @@
 (function($) {
     $(document).ready(function() {
         if ($().owlCarousel) {
+            // Init carousel
             var carousel = $('.home-carousel .owl-carousel').owlCarousel({
                 items: 1,
                 nav: true,
                 loop: true,
                 dotsContainer: '#carousel-custom-dots'
             });
+            // En cliquant sur les vignettes on passe d'un musée à l'autre
             $('.home-carousel .owl-dot').click(function() {
                 carousel.trigger('to.owl.carousel', [$(this).index(), 300]);
             });
+            // Au survol d'une vignette on affiche le nom du musée
             $('.home-carousel .owl-dot').hover(function() {
                 var dot = $(this);
                 $('.home-carousel .museum-name').text(dot.data('title'));
             });
+            // Si on quitte le survol on réaffiche la phrase originale "Découvrez nos 13 musées"
             $('.home-carousel #carousel-custom-dots').mouseleave(function() {
-                var museumName = $('.home-carousel .museum-name');
-                museumName.text(museumName.data('original'));
+                var museumNameContainer = $('.home-carousel .museum-name');
+                museumNameContainer.text(museumNameContainer.data('original'));
             });
+            var displayMuseumNameOnMobile = function () {
+                if (window.innerWidth < 919) {
+                    var museumName = $('.home-carousel .owl-dot.active').data('title');
+                    if (!!museumName) {
+                        $('.home-carousel .museum-name').text(museumName);
+                    }
+                }
+            };
+            displayMuseumNameOnMobile();
+            $(window).on('resize', displayMuseumNameOnMobile);
+
         }
     });
 })(jQuery);
