@@ -1522,7 +1522,9 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 @media (min-width: 1280px) {
   /* line 61, ../sass/partials/_menu.scss */
   .menu-header.sticky {
-    left: calc(50% - 640px);
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }
 
@@ -1589,10 +1591,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     top: 49px;
   }
 }
-@media (min-width: 1297px) {
+@media (min-width: 1280px) {
   /* line 43, ../sass/partials/_breadcrumb.scss */
   .breadcrumb-wrapper.sticky {
-    left: calc(50% - 640px);
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }
 
@@ -1641,32 +1645,34 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 @media (min-width: 1280px) {
   /* line 36, ../sass/partials/_museum-menu.scss */
   .museum-header.sticky {
-    left: calc(50% - 640px);
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }
-/* line 44, ../sass/partials/_museum-menu.scss */
+/* line 46, ../sass/partials/_museum-menu.scss */
 .museum-header .museum-submenu {
   display: none;
   position: absolute;
   width: 220px;
 }
-/* line 48, ../sass/partials/_museum-menu.scss */
+/* line 50, ../sass/partials/_museum-menu.scss */
 .museum-header .museum-submenu li.menu-item {
   z-index: 5;
   border: 1px solid #515151;
 }
-/* line 51, ../sass/partials/_museum-menu.scss */
+/* line 53, ../sass/partials/_museum-menu.scss */
 .museum-header .museum-submenu li.menu-item a {
   width: 220px;
   padding-top: 12px;
   padding-bottom: 10px;
   height: auto;
 }
-/* line 57, ../sass/partials/_museum-menu.scss */
+/* line 59, ../sass/partials/_museum-menu.scss */
 .museum-header .museum-submenu li.menu-item + li {
   border-top: 0;
 }
-/* line 62, ../sass/partials/_museum-menu.scss */
+/* line 64, ../sass/partials/_museum-menu.scss */
 .museum-header li:hover .museum-submenu {
   display: block;
 }
@@ -2453,8 +2459,9 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 .page-header-portlet .page-header-share span {
   text-transform: uppercase;
   font-size: 12px;
+  text-shadow: none;
 }
-/* line 49, ../sass/partials/_page-header.scss */
+/* line 50, ../sass/partials/_page-header.scss */
 .page-header-portlet .page-header-share .facebook, .page-header-portlet .page-header-share .twitter {
   display: inline-block;
   width: 33px;
@@ -2463,23 +2470,23 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   margin-top: 5px;
   opacity: 0.6;
 }
-/* line 57, ../sass/partials/_page-header.scss */
+/* line 58, ../sass/partials/_page-header.scss */
 .page-header-portlet .page-header-share .facebook {
   margin-right: 5px;
   background-image: url("../images/icons/facebook-dark.png");
 }
-/* line 61, ../sass/partials/_page-header.scss */
+/* line 62, ../sass/partials/_page-header.scss */
 .page-header-portlet .page-header-share .twitter {
   background-image: url("../images/icons/twitter-dark.png");
 }
-/* line 66, ../sass/partials/_page-header.scss */
+/* line 67, ../sass/partials/_page-header.scss */
 .page-header-portlet .with-image .page-header-image img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-/* line 71, ../sass/partials/_page-header.scss */
+/* line 72, ../sass/partials/_page-header.scss */
 .page-header-portlet .with-image .page-header-image-credit {
   font-size: 13px;
   line-height: 30px;
@@ -2488,78 +2495,78 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   color: white;
 }
 @media (min-width: 919px) {
-  /* line 79, ../sass/partials/_page-header.scss */
+  /* line 80, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-image-credit {
     text-align: right;
     padding-right: 20px;
   }
-  /* line 83, ../sass/partials/_page-header.scss */
+  /* line 84, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-title {
     position: absolute;
     top: 115px;
     width: 100%;
   }
-  /* line 88, ../sass/partials/_page-header.scss */
+  /* line 89, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image h1 {
     color: white;
     text-shadow: 0 0 10px #333333;
   }
-  /* line 92, ../sass/partials/_page-header.scss */
+  /* line 93, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-share {
     color: white;
     margin-top: -120px;
     padding-bottom: 120px;
     text-shadow: 0 0 10px #333333;
   }
-  /* line 98, ../sass/partials/_page-header.scss */
+  /* line 99, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .facebook, .page-header-portlet .with-image .twitter {
     opacity: 1;
   }
-  /* line 101, ../sass/partials/_page-header.scss */
+  /* line 102, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .facebook {
     background-image: url("../images/icons/facebook-white.png");
   }
-  /* line 104, ../sass/partials/_page-header.scss */
+  /* line 105, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .twitter {
     background-image: url("../images/icons/twitter-white.png");
   }
 }
 @media (min-width: 1280px) {
-  /* line 109, ../sass/partials/_page-header.scss */
+  /* line 110, ../sass/partials/_page-header.scss */
   .page-header-portlet .with-image .page-header-title {
     top: 130px;
   }
 }
 @media (min-width: 919px) {
-  /* line 117, ../sass/partials/_page-header.scss */
+  /* line 118, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image {
     width: 67%;
     position: relative;
   }
-  /* line 120, ../sass/partials/_page-header.scss */
+  /* line 121, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image:before {
     content: "";
     display: block;
     padding-top: 70%;
   }
-  /* line 125, ../sass/partials/_page-header.scss */
+  /* line 126, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image img {
     position: absolute;
     top: 0;
     padding: 40px;
   }
-  /* line 131, ../sass/partials/_page-header.scss */
+  /* line 132, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     position: absolute;
     top: 80px;
     right: 0;
     width: 48%;
   }
-  /* line 136, ../sass/partials/_page-header.scss */
+  /* line 137, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-title {
     position: static;
   }
-  /* line 139, ../sass/partials/_page-header.scss */
+  /* line 140, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share {
     position: static;
     color: #2d2d2d;
@@ -2567,35 +2574,36 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     padding-bottom: 0;
     text-align: left;
   }
-  /* line 145, ../sass/partials/_page-header.scss */
+  /* line 146, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook, .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     opacity: 0.6;
   }
-  /* line 148, ../sass/partials/_page-header.scss */
+  /* line 149, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook {
     background-image: url("../images/icons/facebook-dark.png");
   }
-  /* line 151, ../sass/partials/_page-header.scss */
+  /* line 152, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     background-image: url("../images/icons/twitter-dark.png");
   }
 }
 @media (min-width: 919px) and (min-width: 1280px) {
-  /* line 131, ../sass/partials/_page-header.scss */
+  /* line 132, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     top: 100px;
   }
 }
 @media (min-width: 919px) {
-  /* line 158, ../sass/partials/_page-header.scss */
+  /* line 159, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share h1 {
     color: #000000;
     padding: 40px 30px;
     margin: 0;
     background: white;
     text-align: left;
+    text-shadow: none;
   }
-  /* line 166, ../sass/partials/_page-header.scss */
+  /* line 168, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image-credit {
     text-align: right;
     color: white;
@@ -2605,21 +2613,21 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 177, ../sass/partials/_page-header.scss */
+  /* line 179, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image {
     width: 48%;
     text-align: right;
   }
-  /* line 180, ../sass/partials/_page-header.scss */
+  /* line 182, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image img {
     width: 80%;
     position: static;
   }
-  /* line 184, ../sass/partials/_page-header.scss */
+  /* line 186, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image:before {
     display: none;
   }
-  /* line 188, ../sass/partials/_page-header.scss */
+  /* line 190, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-share {
     margin-left: 30px;
   }
