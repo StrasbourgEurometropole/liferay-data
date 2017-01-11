@@ -45,7 +45,7 @@
 		</div>
 		<nav class="mobile-main-menu">
 
-			<@menu items=nav_items isSubMenu=false ulClass="main-menu open" depth=0 maxDepth=0 />
+			<@menu items=nav_items isSubMenu=false linkOnlyIfNoSubMenu=false ulClass="main-menu open" depth=0 maxDepth=0 />
 			
 		</div>
 	</div>
@@ -88,7 +88,7 @@
 			</ul>
 		</div>
 		<nav class="menu-header">
-			<@menu items=nav_items isSubMenu=false ulClass="main-menu" depth=0 maxDepth=1 />
+			<@menu items=nav_items isSubMenu=false linkOnlyIfNoSubMenu=true ulClass="main-menu" depth=0 maxDepth=1  />
 		</nav>
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
 		<#if layout.friendlyURL != "/accueil">
