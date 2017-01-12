@@ -3324,19 +3324,20 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   /* line 12, ../sass/partials/_museum-home.scss */
   .museum-home .cover-text .cover-text-1, .museum-home .cover-text .cover-text-2 {
     display: block;
+    text-shadow: 0 0 10px #333333;
   }
 }
-/* line 24, ../sass/partials/_museum-home.scss */
+/* line 25, ../sass/partials/_museum-home.scss */
 .museum-home .cover-text .cover-text-1 {
   font-size: 21px;
   margin-bottom: 10px;
 }
-/* line 29, ../sass/partials/_museum-home.scss */
+/* line 30, ../sass/partials/_museum-home.scss */
 .museum-home .cover-text .cover-text-2 {
   font-size: 60px;
   line-height: 60px;
 }
-/* line 35, ../sass/partials/_museum-home.scss */
+/* line 36, ../sass/partials/_museum-home.scss */
 .museum-home .play {
   box-sizing: content-box;
   width: 70px;
@@ -3348,34 +3349,34 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border: 4px solid #fff;
   cursor: pointer;
 }
-/* line 47, ../sass/partials/_museum-home.scss */
+/* line 48, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text {
   padding: 30px 10px;
   text-transform: uppercase;
   text-align: center;
 }
 @media (min-width: 602px) {
-  /* line 47, ../sass/partials/_museum-home.scss */
+  /* line 48, ../sass/partials/_museum-home.scss */
   .museum-home .welcome-text {
     padding: 30px 60px;
   }
 }
-/* line 62, ../sass/partials/_museum-home.scss */
+/* line 63, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text-1 {
   font-size: 14px;
 }
 @media (min-width: 602px) {
-  /* line 62, ../sass/partials/_museum-home.scss */
+  /* line 63, ../sass/partials/_museum-home.scss */
   .museum-home .welcome-text-1 {
     font-size: 21px;
   }
 }
-/* line 70, ../sass/partials/_museum-home.scss */
+/* line 71, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text-2 {
   font-size: 24px;
 }
 @media (min-width: 602px) {
-  /* line 70, ../sass/partials/_museum-home.scss */
+  /* line 71, ../sass/partials/_museum-home.scss */
   .museum-home .welcome-text-2 {
     font-size: 35px;
   }
@@ -3811,23 +3812,25 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
      page-break-inside: avoid;
           break-inside: avoid;
   margin-bottom: 20px;
+  width: 100%;
+  display: inline-block;
   background: #e6e6e6;
 }
-/* line 107, ../sass/partials/_entity-detail.scss */
+/* line 109, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-image {
   text-align: center;
 }
-/* line 110, ../sass/partials/_entity-detail.scss */
+/* line 112, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-info {
   padding: 20px;
   border-top: 10px solid #a56a79;
 }
-/* line 114, ../sass/partials/_entity-detail.scss */
+/* line 116, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-title h4 {
   font-size: 20px;
   text-transform: none;
 }
-/* line 118, ../sass/partials/_entity-detail.scss */
+/* line 120, ../sass/partials/_entity-detail.scss */
 .entity-detail-children .entity-detail-child .entity-detail-child-source {
   text-align: right;
   text-transform: uppercase;
@@ -3835,7 +3838,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   color: #a56a79;
 }
 
-/* line 128, ../sass/partials/_entity-detail.scss */
+/* line 130, ../sass/partials/_entity-detail.scss */
 .firefox .entity-detail .entity-detail-child {
   display: inline-block;
 }
@@ -4925,6 +4928,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   color: white;
   width: 100%;
   font-size: 13px;
+  text-align: left;
 }
 
 /* line 4, ../sass/partials/_color-schemes.scss */
