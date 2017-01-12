@@ -80,6 +80,11 @@
             : ${entry.getISBN()}
         </div>
       </#if>
+      <#if entry.getPrice()?has_content>
+        <div class="edition-price">
+          ${entry.getPrice()} €
+        </div>
+      </#if>
       <div class="edition-availability">
         <#if entry.isInStock()>
           <@liferay_ui["message"] key="eu.edition.in-stock" />
