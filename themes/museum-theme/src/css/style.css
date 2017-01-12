@@ -3131,6 +3131,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   height: 20px;
   margin-top: 5px;
 }
+@media (min-width: 602px) {
+  /* line 34, ../sass/partials/_news-carousel.scss */
+  .news-carousel .items-carousel-title img {
+    display: none;
+  }
+}
 
 /* line 5, ../sass/partials/_editions-carousel.scss */
 .editions-carousel .owl-item {
