@@ -77,7 +77,7 @@
             $page.on('touchstart click', function(e) {
                 if (!$body.hasClass('animating')) {
                     e.preventDefault();
-                    $('#nav-toggle').trigger('click');
+                    $('.mobile-menu-toggle').trigger('click');
                 }
             });
         }
