@@ -27,6 +27,7 @@
                 </div>
                 <div class="item-info">
                     <div class="item-date">
+                        <#setting date_format="d MMMM yyyy">
                         <date><@liferay_ui["message"] key="eu.published-on" /> ${publishDate?date}</date>
                     </div>
                     <div class="item-title">
