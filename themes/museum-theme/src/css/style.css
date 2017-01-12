@@ -2556,17 +2556,21 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     padding: 40px;
   }
   /* line 132, ../sass/partials/_page-header.scss */
+  .page-header-portlet .alt-theme .page-header-description {
+    margin-top: 0;
+  }
+  /* line 135, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     position: absolute;
     top: 80px;
     right: 0;
     width: 48%;
   }
-  /* line 137, ../sass/partials/_page-header.scss */
+  /* line 140, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-title {
     position: static;
   }
-  /* line 140, ../sass/partials/_page-header.scss */
+  /* line 143, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share {
     position: static;
     color: #2d2d2d;
@@ -2574,27 +2578,27 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     padding-bottom: 0;
     text-align: left;
   }
-  /* line 146, ../sass/partials/_page-header.scss */
+  /* line 149, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook, .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     opacity: 0.6;
   }
-  /* line 149, ../sass/partials/_page-header.scss */
+  /* line 152, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .facebook {
     background-image: url("../images/icons/facebook-dark.png");
   }
-  /* line 152, ../sass/partials/_page-header.scss */
+  /* line 155, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share .page-header-share .twitter {
     background-image: url("../images/icons/twitter-dark.png");
   }
 }
 @media (min-width: 919px) and (min-width: 1280px) {
-  /* line 132, ../sass/partials/_page-header.scss */
+  /* line 135, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share {
     top: 100px;
   }
 }
 @media (min-width: 919px) {
-  /* line 159, ../sass/partials/_page-header.scss */
+  /* line 162, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-title-and-share h1 {
     color: #000000;
     padding: 40px 30px;
@@ -2603,7 +2607,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     text-align: left;
     text-shadow: none;
   }
-  /* line 168, ../sass/partials/_page-header.scss */
+  /* line 171, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme .page-header-image-credit {
     text-align: right;
     color: white;
@@ -2613,21 +2617,21 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 179, ../sass/partials/_page-header.scss */
+  /* line 182, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image {
     width: 48%;
     text-align: right;
   }
-  /* line 182, ../sass/partials/_page-header.scss */
+  /* line 185, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image img {
     width: 80%;
     position: static;
   }
-  /* line 186, ../sass/partials/_page-header.scss */
+  /* line 189, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image:before {
     display: none;
   }
-  /* line 190, ../sass/partials/_page-header.scss */
+  /* line 193, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-share {
     margin-left: 30px;
   }
@@ -4506,15 +4510,16 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 .entity-thumbnail .entity-thumbnail-title h4 {
   font-size: 20px;
   text-transform: none;
+  margin-bottom: 20px;
 }
-/* line 44, ../sass/partials/_entity-thumbnail.scss */
+/* line 45, ../sass/partials/_entity-thumbnail.scss */
 .entity-thumbnail .entity-thumbnail-source {
   text-align: right;
   text-transform: uppercase;
   font-size: 13px;
   color: #a56a79;
 }
-/* line 51, ../sass/partials/_entity-thumbnail.scss */
+/* line 52, ../sass/partials/_entity-thumbnail.scss */
 .entity-thumbnail .entity-thumbnail-parent-title {
   font-family: 'Times', serif;
   font-style: italic;
