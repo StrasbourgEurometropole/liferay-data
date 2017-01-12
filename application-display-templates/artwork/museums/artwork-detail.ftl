@@ -32,6 +32,7 @@
             </div>
           </div>
         </#list>
+        <div class="entity-images-carousel-item" style="height: 0;">&nbsp;</div>
       </div>
     </div>
   </div>
