@@ -1,8 +1,8 @@
 <#if entries?has_content>
     <div class="items-carousel news-carousel">
         <h3 class="items-carousel-title">
-            <@liferay_ui["message"] key="eu.our" /> 
-            <br><span><@liferay_ui["message"] key="eu.news" /></span>
+            <span><@liferay_ui["message"] key="eu.our" /></span>
+            <br><@liferay_ui["message"] key="eu.news" />
 
             <#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
             <!-- Le lien vers la page de toutes les actualités est défini comme étant la page "/actualites", modifier la ligne ci-dessous si besoin -->
