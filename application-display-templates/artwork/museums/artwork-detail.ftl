@@ -10,31 +10,33 @@
         </div>
       </#if>
     </div>
-    <div class="entity-images-carousel">
-      <div class="entity-images-carousel-buttons">
-        <div class="entity-images-carousel-previous">
-          
-        </div>
-        <div class="entity-images-carousel-next">
-          
-        </div>
-      </div>
-      <div class="owl-carousel">
-        <div class="entity-images-carousel-item">
-          <div class="entity-images-carousel-item-image">
-            <img src="${entry.getImageURL()}" class="lightbox">
+    <#if entry.imagesURLs?has_content>
+      <div class="entity-images-carousel">
+        <div class="entity-images-carousel-buttons">
+          <div class="entity-images-carousel-previous">
+            
+          </div>
+          <div class="entity-images-carousel-next">
+            
           </div>
         </div>
-        <#list entry.imagesURLs as imageURL>
+        <div class="owl-carousel">
           <div class="entity-images-carousel-item">
             <div class="entity-images-carousel-item-image">
-              <img src="${imageURL}" class="lightbox" data-title="${entry.getImagesLegendsAndCopyrights(locale)[imageURL?index]}" />
+              <img src="${entry.getImageURL()}" class="lightbox">
             </div>
           </div>
-        </#list>
-        <div class="entity-images-carousel-item" style="height: 0;">&nbsp;</div>
+          <#list entry.imagesURLs as imageURL>
+            <div class="entity-images-carousel-item">
+              <div class="entity-images-carousel-item-image">
+                <img src="${imageURL}" class="lightbox" data-title="${entry.getImagesLegendsAndCopyrights(locale)[imageURL?index]}" />
+              </div>
+            </div>
+          </#list>
+          <div class="entity-images-carousel-item" style="height: 0;">&nbsp;</div>
+        </div>
       </div>
-    </div>
+    </#if>
   </div>
   <div class="entity-info">
     <div class="entity-title">
