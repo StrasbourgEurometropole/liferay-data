@@ -3130,11 +3130,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   width: 20px;
   height: 20px;
   margin-top: 5px;
+  display: none;
 }
 @media (min-width: 602px) {
   /* line 34, ../sass/partials/_news-carousel.scss */
   .news-carousel .items-carousel-title img {
-    display: none;
+    display: inline-block;
   }
 }
 
