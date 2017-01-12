@@ -198,11 +198,6 @@
 				
 				<aui:input name="price" />
 			</aui:fieldset>
-			
-			<aui:fieldset collapsed="true" collapsible="true" label="management">
-				<aui:input name="source" disabled="true" />
-				<aui:input name="displayDate" />
-			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
@@ -233,6 +228,11 @@
 
 				<aui:input name="tags" type="assetTags" />
 	
+			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true" label="management">
+				<aui:input name="source" disabled="true" />
+				<aui:input name="displayDate" />
 			</aui:fieldset>
 		</aui:fieldset-group>
 
@@ -266,3 +266,21 @@
 	</liferay-util:html-top>
 	
 </div>
+
+<liferay-util:html-bottom>
+	<script>
+		define._amd = define.amd;
+		define.amd = false;
+	</script>
+	<script src="/o/agendabo/js/vendors/moment.min.js"
+		type="text/javascript"></script>
+	<script
+		src="/o/agendabo/js/vendors/daterangepicker.js"
+		type="text/javascript"></script>
+	<script>
+		define.amd = define._amd;
+	</script>
+	<script
+		src="/o/agendabo/js/agenda-bo-edit-event.js"
+		type="text/javascript"></script>
+</liferay-util:html-bottom>
