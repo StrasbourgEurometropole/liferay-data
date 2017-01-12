@@ -277,6 +277,9 @@
 	<script
 		src="/o/agendabo/js/vendors/daterangepicker.js"
 		type="text/javascript"></script>
+	<script
+		src="/o/agendabo/js/vendors/jquery.autocomplete.js"
+		type="text/javascript"></script>
 	<script>
 		define.amd = define._amd;
 	</script>
