@@ -3336,26 +3336,32 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 }
 /* line 47, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text {
-  padding: 30px 60px;
+  padding: 30px 10px;
   text-transform: uppercase;
   text-align: center;
 }
-/* line 57, ../sass/partials/_museum-home.scss */
+@media (min-width: 602px) {
+  /* line 47, ../sass/partials/_museum-home.scss */
+  .museum-home .welcome-text {
+    padding: 30px 60px;
+  }
+}
+/* line 62, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text-1 {
   font-size: 14px;
 }
 @media (min-width: 602px) {
-  /* line 57, ../sass/partials/_museum-home.scss */
+  /* line 62, ../sass/partials/_museum-home.scss */
   .museum-home .welcome-text-1 {
     font-size: 21px;
   }
 }
-/* line 65, ../sass/partials/_museum-home.scss */
+/* line 70, ../sass/partials/_museum-home.scss */
 .museum-home .welcome-text-2 {
   font-size: 24px;
 }
 @media (min-width: 602px) {
-  /* line 65, ../sass/partials/_museum-home.scss */
+  /* line 70, ../sass/partials/_museum-home.scss */
   .museum-home .welcome-text-2 {
     font-size: 35px;
   }
