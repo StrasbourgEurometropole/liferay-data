@@ -13,7 +13,7 @@
         </#list>
     </div>
     <div class="carousel-controls">
-        <div class="museum-name" data-original="Découvrez nos 13 musées"><@liferay_ui["message"] key="eu.discover-13-museums" /></div>
+        <div class="museum-name" data-original="<@liferay_ui["message"] key="eu.discover-13-museums" />"><@liferay_ui["message"] key="eu.discover-13-museums" /></div>
         <ul id="carousel-custom-dots" class="owl-dots" role="nav">
             <#list title.getSiblings() as cur_title>
                 <li class="owl-dot" data-title="${cur_title.getData()}">
