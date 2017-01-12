@@ -5,7 +5,8 @@
             <br><span><@liferay_ui["message"] key="eu.news" /></span>
 
             <#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
-            <!-- Le lien vers la page de toutes les actualités est défini comme étant la page "/videos", modifier la ligne ci-dessous si besoin -->
+            <!-- Le lien vers la page de toutes les actualités est défini comme étant la page "/actualites", modifier la ligne ci-dessous si besoin -->
+            <img src="/o/museum-theme/images/icons/facebook-icon.png">
             <a href="https://facebook.com/"><@liferay_ui.message key="eu.join-us" /></a>
             <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/actualites"><@liferay_ui.message key="eu.news.all-news" /></a>    
         </h3>
