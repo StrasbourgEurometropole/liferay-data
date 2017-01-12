@@ -3756,7 +3756,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
   /* line 70, ../sass/partials/_entity-detail.scss */
   .entity-detail .entity-info {
-    max-width: 400px;
+    max-width: 800px;
     margin-left: 0;
   }
   /* line 75, ../sass/partials/_entity-detail.scss */
