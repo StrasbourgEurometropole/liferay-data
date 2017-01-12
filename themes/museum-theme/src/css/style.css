@@ -1531,7 +1531,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 /* line 1, ../sass/partials/_breadcrumb.scss */
 .breadcrumb-wrapper {
   background: #a56a79;
-  padding: 15px 20px 13px 20px;
+  padding: 12px 20px 8px 20px;
   color: white;
 }
 /* line 5, ../sass/partials/_breadcrumb.scss */
@@ -2442,7 +2442,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   .page-header-portlet .page-header-description {
     font-size: 28px;
     line-height: 38px;
-    margin: 40px auto 70px auto;
+    margin: 40px auto 40px auto;
     max-width: 80%;
   }
 }
