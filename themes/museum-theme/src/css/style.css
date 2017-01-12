@@ -2442,7 +2442,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   .page-header-portlet .page-header-description {
     font-size: 28px;
     line-height: 38px;
-    margin: 40px auto 40px auto;
+    margin: 40px auto;
     max-width: 80%;
   }
 }
@@ -3123,6 +3123,13 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   .news-carousel .news-secondary-links a {
     display: none;
   }
+}
+/* line 34, ../sass/partials/_news-carousel.scss */
+.news-carousel .items-carousel-title img {
+  float: right;
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
 }
 
 /* line 5, ../sass/partials/_editions-carousel.scss */
