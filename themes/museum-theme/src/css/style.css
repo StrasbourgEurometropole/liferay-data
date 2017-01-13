@@ -1618,7 +1618,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   display: table-cell;
   height: 52px;
   vertical-align: middle;
-  font-size: 12.8px;
+  font-size: 13px;
 }
 /* line 20, ../sass/partials/_museum-menu.scss */
 .museum-header li.menu-item:hover {
