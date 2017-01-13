@@ -18,15 +18,20 @@
         <#assign place = entry.getLegacyPlace(locale) />
         ${place.alias} 
         <br>
-          ${place.street} - ${place.zipCode} 
-        ${place.city}
+        <#if place.street?has_content>
+          ${place.street} - 
+        </#if>
+        ${place.zipCode} ${place.city}
       <#else>
         ${entry.placeName} 
         <br> 
-        <#if entry.placeStreetName?has_content>
-          ${entry.placeStreetNumber} ${entry.placeStreetName} - ${entry.placeZipCode} 
+        <#if entry.placeStreetNumber?has_content>
+          ${entry.placeStreetNumber}
         </#if>
-        ${entry.placeCity}
+        <#if entry.placeStreetName?has_content>
+          ${entry.placeStreetName} -
+        </#if>
+        ${entry.placeZipCode} ${entry.placeCity}
       </#if>
     </div>
     <#if entry.phone?has_content>
