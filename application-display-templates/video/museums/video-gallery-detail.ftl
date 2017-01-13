@@ -15,7 +15,12 @@
       <h1>${entry.getTitle(locale)}</h1>
     </div>
     <div class="entity-children-count">
-      ${entry.getPublishedVideos()?size} <@liferay_ui["message"] key="eu.video.videos" />
+      ${entry.getPublishedVideos()?size} 
+      <#if (entry.getPublishedVideos()?size > 1)>
+        <@liferay_ui["message"] key="eu.video.videos" />
+      <#else>
+        <@liferay_ui["message"] key="eu.video.video" />
+      </#if>
     </div>
     <div class="entity-description">
       ${entry.getDescription(locale)}
@@ -25,7 +30,13 @@
 
 <!-- Vidéos de la galerie -->
 <#if entry.getPublishedVideos()?has_content>
-  <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.video.gallery-videos" /></h3>
+  <h3 class="entity-detail-children-title">
+    <#if (entry.getPublishedVideos()?size > 1)>
+      <@liferay_ui["message"] key="eu.video.gallery-videos" />
+    <#else>
+      <@liferay_ui["message"] key="eu.video.gallery-video" />
+    </#if>
+  </h3>
   <div class="entity-detail-children">
     <#list entry.getPublishedVideos() as video>
       <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">

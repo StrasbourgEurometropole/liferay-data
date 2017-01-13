@@ -25,7 +25,13 @@
 
 <!-- Editions de la galerie -->
 <#if entry.getPublishedEditions()?has_content>
-  <h3 class="entity-detail-children-title"><@liferay_ui["message"] key="eu.edition.gallery-editions" /></h3>
+  <h3 class="entity-detail-children-title">
+    <#if (entry.getPublishedEditions()?size > 1)>
+      <@liferay_ui["message"] key="eu.edition.gallery-editions" />
+    <#else>
+      <@liferay_ui["message"] key="eu.edition.gallery-edition" />
+    </#if>
+  </h3>
   <div class="entity-detail-children">
     <#list entry.getPublishedEditions() as edition>
       <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
