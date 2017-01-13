@@ -4320,7 +4320,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 /* line 115, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-form form label {
   font-size: 16px;
-  font-family: "proximanova-bold", sans-serif;
+  font-weight: normal;
 }
 /* line 120, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-form form .form-group {
@@ -4334,20 +4334,15 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   margin-bottom: 10px;
 }
 /* line 132, ../sass/partials/_search-asset.scss */
-.search-asset-portlet .search-asset-form form .date-selection label {
-  font-weight: normal;
-  font-family: "proximanova-regular", sans-serif;
-}
-/* line 136, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-form form .date-selection .input-checkbox-wrapper {
   display: none;
 }
-/* line 141, ../sass/partials/_search-asset.scss */
+/* line 137, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-form form button.btn-primary {
   display: none;
 }
 @media (min-width: 602px) {
-  /* line 141, ../sass/partials/_search-asset.scss */
+  /* line 137, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-form form button.btn-primary {
     display: block;
     float: right;
@@ -4363,25 +4358,25 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     text-transform: uppercase;
   }
 }
-/* line 162, ../sass/partials/_search-asset.scss */
+/* line 158, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-portlet-page .search-asset-form {
   margin: 0 20px;
 }
 @media (min-width: 602px) {
-  /* line 161, ../sass/partials/_search-asset.scss */
+  /* line 157, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-portlet-page {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
-  /* line 167, ../sass/partials/_search-asset.scss */
+  /* line 163, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-portlet-page .search-asset-form {
     -ms-flex-negative: 0;
         flex-shrink: 0;
     -ms-flex-preferred-size: 320px;
         flex-basis: 320px;
   }
-  /* line 171, ../sass/partials/_search-asset.scss */
+  /* line 167, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-portlet-page .search-asset-search-container {
     -webkit-box-flex: 1;
         -ms-flex-positive: 1;
@@ -4390,12 +4385,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 177, ../sass/partials/_search-asset.scss */
+  /* line 173, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-portlet-page .search-asset-form {
     margin-right: 60px;
   }
 }
-/* line 183, ../sass/partials/_search-asset.scss */
+/* line 179, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .search-asset-results {
   padding: 0 20px;
   -webkit-column-count: 1;
@@ -4406,7 +4401,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
           column-gap: 20px;
 }
 @media (min-width: 602px) {
-  /* line 183, ../sass/partials/_search-asset.scss */
+  /* line 179, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-results {
     -webkit-column-count: 1;
        -moz-column-count: 1;
@@ -4414,7 +4409,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 919px) {
-  /* line 183, ../sass/partials/_search-asset.scss */
+  /* line 179, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-results {
     -webkit-column-count: 2;
        -moz-column-count: 2;
@@ -4422,14 +4417,14 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 1280px) {
-  /* line 183, ../sass/partials/_search-asset.scss */
+  /* line 179, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .search-asset-results {
     -webkit-column-count: 3;
        -moz-column-count: 3;
             column-count: 3;
   }
 }
-/* line 201, ../sass/partials/_search-asset.scss */
+/* line 197, ../sass/partials/_search-asset.scss */
 .search-asset-portlet #keywords-deported-form {
   margin-top: 20px;
   padding: 20px;
@@ -4437,22 +4432,22 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   position: relative;
 }
 @media (min-width: 602px) {
-  /* line 201, ../sass/partials/_search-asset.scss */
+  /* line 197, ../sass/partials/_search-asset.scss */
   .search-asset-portlet #keywords-deported-form {
     margin-top: 0;
   }
 }
-/* line 209, ../sass/partials/_search-asset.scss */
+/* line 205, ../sass/partials/_search-asset.scss */
 .search-asset-portlet #keywords-deported-form label {
   display: none;
 }
-/* line 212, ../sass/partials/_search-asset.scss */
+/* line 208, ../sass/partials/_search-asset.scss */
 .search-asset-portlet #keywords-deported-form input[type="text"] {
   border-radius: 0;
   margin-bottom: 10px;
   height: 46px;
 }
-/* line 217, ../sass/partials/_search-asset.scss */
+/* line 213, ../sass/partials/_search-asset.scss */
 .search-asset-portlet #keywords-deported-form input[type="submit"] {
   width: 150px;
   position: absolute;
@@ -4466,15 +4461,15 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   font-family: proximanova-bold;
   text-transform: uppercase;
 }
-/* line 232, ../sass/partials/_search-asset.scss */
+/* line 228, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .lfr-pagination-delta-selector {
   display: none !important;
 }
-/* line 235, ../sass/partials/_search-asset.scss */
+/* line 231, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .lfr-pagination-buttons {
   margin-top: 6px;
 }
-/* line 237, ../sass/partials/_search-asset.scss */
+/* line 233, ../sass/partials/_search-asset.scss */
 .search-asset-portlet .lfr-pagination-buttons li a {
   border: none;
   background: none;
