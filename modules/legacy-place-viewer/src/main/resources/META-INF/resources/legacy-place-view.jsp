@@ -3,13 +3,25 @@
 <c:if test="${not empty place}">
 	<div class="place-detail">
 		<div class="place-header">
-			<h1>${place.alias}</h1>
+			<h1 class="place-title">${place.alias}</h1>
 			<div class="place-address">${place.street} - ${place.zipCode}
 				${place.city}</div>
 			<c:if test="${not empty place.phone}">
 				<div class="place-phone">
 					<liferay-ui:message key="phone" />
 					: ${place.phone}
+				</div>
+			</c:if>
+			<c:if test="${not empty place.email or not empty place.facebookURL}">
+				<div class="place-links">
+					<c:if test="${not empty place.email}">
+						<a href="#contact-form-section"><liferay-ui:message key="contact-the-museum" /></a>
+					</c:if>
+					<c:if test="${not empty place.facebookURL}">
+						<a href="${place.facebookURL}"
+							title="${place.facebookName} (<liferay-ui:message key="eu.new-window" />)"
+							target="_blank"> ${place.facebookName} </a>	
+					</c:if>
 				</div>
 			</c:if>
 		</div>
@@ -96,7 +108,7 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty place.email}">
-					<div class="place-info-section">
+					<div class="place-info-section" id="contact-form-section">
 						<liferay-portlet:actionURL var="contactURL" name="contact">
 							<liferay-portlet:param name="to" value="${place.email}" />
 							<liferay-portlet:param name="subject"
