@@ -2639,21 +2639,27 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 
 /* line 1, ../sass/partials/_key-numbers.scss */
 .key-numbers {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
-/* line 6, ../sass/partials/_key-numbers.scss */
+@media (min-width: 602px) {
+  /* line 1, ../sass/partials/_key-numbers.scss */
+  .key-numbers {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+/* line 10, ../sass/partials/_key-numbers.scss */
 .key-numbers .key-number {
   text-align: center;
   padding: 10px 40px;
 }
-/* line 11, ../sass/partials/_key-numbers.scss */
+/* line 15, ../sass/partials/_key-numbers.scss */
 .key-numbers .key-number-number {
   font-family: 'Times';
   font-style: italic;
@@ -2661,19 +2667,19 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   line-height: 53px;
 }
 @media (min-width: 602px) {
-  /* line 11, ../sass/partials/_key-numbers.scss */
+  /* line 15, ../sass/partials/_key-numbers.scss */
   .key-numbers .key-number-number {
     font-size: 60px;
     line-height: 66px;
   }
 }
-/* line 22, ../sass/partials/_key-numbers.scss */
+/* line 26, ../sass/partials/_key-numbers.scss */
 .key-numbers .key-number-text {
   font-size: 11px;
   text-transform: uppercase;
 }
 @media (min-width: 602px) {
-  /* line 22, ../sass/partials/_key-numbers.scss */
+  /* line 26, ../sass/partials/_key-numbers.scss */
   .key-numbers .key-number-text {
     font-size: 14px;
   }
@@ -4857,6 +4863,10 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   font-size: 13px;
   border-bottom: 1px solid #666666;
 }
+/* line 29, ../sass/partials/_how-to-come.scss */
+.how-to-come .how-to-come-image {
+  display: none;
+}
 @media (min-width: 602px) {
   /* line 1, ../sass/partials/_how-to-come.scss */
   .how-to-come {
@@ -4864,23 +4874,24 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     display: -ms-flexbox;
     display: flex;
   }
-  /* line 31, ../sass/partials/_how-to-come.scss */
+  /* line 34, ../sass/partials/_how-to-come.scss */
   .how-to-come .how-to-come-info {
     width: 400px;
     padding: 20px;
   }
-  /* line 35, ../sass/partials/_how-to-come.scss */
+  /* line 38, ../sass/partials/_how-to-come.scss */
   .how-to-come .how-to-come-image {
+    display: block;
     font-size: 0;
   }
-  /* line 37, ../sass/partials/_how-to-come.scss */
+  /* line 41, ../sass/partials/_how-to-come.scss */
   .how-to-come .how-to-come-image:before {
     height: 100%;
     display: inline-block;
     content: "";
     vertical-align: middle;
   }
-  /* line 43, ../sass/partials/_how-to-come.scss */
+  /* line 47, ../sass/partials/_how-to-come.scss */
   .how-to-come .how-to-come-image img {
     vertical-align: middle;
   }
