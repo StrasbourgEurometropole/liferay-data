@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -88,7 +89,7 @@ public class ManifestationAssetRenderer extends BaseJSPAssetRenderer<Manifestati
 		return super.include(request, response, template);
 	}
 
-	public Manifestation getGallery() {
+	public Manifestation getManifestation() {
 		return this._entry;
 	}
 
