@@ -2,7 +2,6 @@ package eu.strasbourg.utils.models;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -36,6 +35,8 @@ public class LegacyPlace {
 	private String moreInformation; // infosComplementaires
 
 	private String access; // modeAcces
+	
+	private String price; // tarifs
 
 	private String accessForDisabled; // descriptionAccesHandicap
 	private boolean accessForBlind; // accesHandicap > map > Physical disability
@@ -109,6 +110,8 @@ public class LegacyPlace {
 				accessForDisabledMap.getBoolean("Elderly person"));
 			legacyPlace.setAccessForDeficient(
 				accessForDisabledMap.getBoolean("Intellectual disability"));
+			
+			legacyPlace.setPrice(json.getString("tarifs"));
 
 			legacyPlace.setWebsiteName(json.getString("nomSiteInternet"));
 			legacyPlace.setWebsite(json.getString("urlSiteInternet"));
@@ -120,7 +123,7 @@ public class LegacyPlace {
 				.getJSONObject("horaires");
 			DateTimeFormatter dtfFrom = DateTimeFormatter.ofPattern("yyyyMMdd");
 			DateTimeFormatter dtfTo = DateTimeFormatter
-				.ofLocalizedDate(FormatStyle.LONG);
+				.ofPattern("dd MMMM yyyy", locale);
 			Map<String, String> nextDaysSchedule = new HashMap<String, String>();
 			if (nextDaysScheduleMapWrapper != null) {
 				JSONObject nextDaysScheduleMap = nextDaysScheduleMapWrapper
@@ -397,5 +400,13 @@ public class LegacyPlace {
 
 	public void setExceptionalClosings(Map<String, String> exceptionalClosings) {
 		this.exceptionalClosings = exceptionalClosings;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 }
