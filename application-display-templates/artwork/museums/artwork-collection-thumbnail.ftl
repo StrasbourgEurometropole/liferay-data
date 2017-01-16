@@ -9,7 +9,7 @@
   <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
-<!-- Oeuvre : ${entry.getTitle(locale)} -->
+<!-- Collection d'oeuvres : ${entry.getTitle(locale)} -->
 <div class="entity-thumbnail artwork-collection-thumbnail ${entry.getSourceCSSClass()}">
   <div class="entity-thumbnail-image">
     <a href="${detailURL}">
