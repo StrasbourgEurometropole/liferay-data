@@ -1,6 +1,7 @@
 <#macro menu items isSubMenu linkOnlyIfNoSubMenu ulClass depth maxDepth>
   <ul class="${ulClass}" role="nav">
     <#list items as item>
+      <!-- ${item.layoutId} ${themeDisplay.layout.layoutId}-->
       <#assign item_css_class = "" />
       <#if isSubMenu>
         <#assign item_css_class = "submenu-item" />
@@ -8,7 +9,7 @@
       <#if item.hasChildren()>
         <#assign item_css_class = item_css_class + " has-submenu" />
       </#if>
-      <li class="menu-item ${item_css_class}">
+      <li class="menu-item ${item_css_class} <#if item.layoutId == themeDisplay.layout.layoutId>active</#if>">
         <#if !linkOnlyIfNoSubMenu || !item.hasChildren()>
           <a href="${item.getURL()}" class="menu-item-name">
             ${item.getName()}

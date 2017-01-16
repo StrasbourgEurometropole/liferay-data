@@ -125,6 +125,19 @@
             $('.mobile-main-menu-nav').hide();
         }
     });
+
+    // Au chargement on se place dans le bon sous-menu
+    var activeItem = $('.mobile-main-menu .menu-item.active');
+    if (activeItem.length == 1) {
+        // On supprime la classe open de tout autre sous-menu
+        $('.mobile-main-menu ul').removeClass('open');
+        // On l'ajoute sur le bon
+        activeItem.parent().addClass('open');
+        // Et on affiche la navigation, si on n'est pas sur la page d'accueil
+        if (!activeItem.parent().hasClass('main-menu')) {
+            $('.mobile-main-menu-nav').show();    
+        }
+    }
 })(jQuery);
 
 
