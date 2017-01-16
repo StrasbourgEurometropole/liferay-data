@@ -876,30 +876,37 @@ div[class^=col-] {
   margin: 0;
 }
 
-@media (min-width: 919px) {
+@media (min-width: 700px) {
   /* line 31, ../sass/partials/_layout.scss */
+  .portlet-nested-portlets .col-md-4 {
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media (min-width: 919px) {
+  /* line 38, ../sass/partials/_layout.scss */
   .portlet-column-first {
     padding-right: 20px !important;
   }
 
-  /* line 35, ../sass/partials/_layout.scss */
+  /* line 42, ../sass/partials/_layout.scss */
   .portlet-column-last {
     border-left: 1px solid #d8d8d8;
     padding-left: 20px !important;
   }
 
-  /* line 39, ../sass/partials/_layout.scss */
+  /* line 46, ../sass/partials/_layout.scss */
   .portlet-nested-portlets .portlet-column-first {
     padding-right: 0 !important;
   }
 
-  /* line 42, ../sass/partials/_layout.scss */
+  /* line 49, ../sass/partials/_layout.scss */
   .portlet-nested-portlets .portlet-column-last {
     border-left: none;
     padding-left: 0 !important;
   }
 
-  /* line 47, ../sass/partials/_layout.scss */
+  /* line 54, ../sass/partials/_layout.scss */
   .portlet-nested-portlets {
     padding: 0 20px;
   }
