@@ -37,36 +37,20 @@
 						</div>
 					</c:if>
 				 --%>
-				<c:if test="${not empty place.servicesAndActivities}">
-					<div class="place-info-section">
-						<h4>
-							<liferay-ui:message key="eu.services-and-activities" />
-						</h4>
-						${place.servicesAndActivities}
-					</div>
-				</c:if>
-				<c:if test="${not empty place.features}">
-					<div class="place-info-section">
-						<h4>
-							<liferay-ui:message key="eu.features" />
-						</h4>
-						${place.features}
-					</div>
-				</c:if>
-				<c:if test="${not empty place.moreInformation}">
-					<div class="place-info-section">
-						<h4>
-							<liferay-ui:message key="eu.more-information" />
-						</h4>
-						${place.moreInformation}
-					</div>
-				</c:if>
 				<c:if test="${not empty place.access}">
 					<div class="place-info-section">
 						<h4>
 							<liferay-ui:message key="access" />
 						</h4>
 						${place.access}
+					</div>
+				</c:if>
+				<c:if test="${not empty place.servicesAndActivities}">
+					<div class="place-info-section">
+						<h4>
+							<liferay-ui:message key="eu.services-and-activities" />
+						</h4>
+						${place.servicesAndActivities}
 					</div>
 				</c:if>
 				<c:if
@@ -105,6 +89,22 @@
 							</div>
 						</c:if>
 						${place.accessForDisabled}
+					</div>
+				</c:if>
+				<c:if test="${not empty place.features}">
+					<div class="place-info-section">
+						<h4>
+							<liferay-ui:message key="eu.features" />
+						</h4>
+						${place.features}
+					</div>
+				</c:if>
+				<c:if test="${not empty place.moreInformation}">
+					<div class="place-info-section">
+						<h4>
+							<liferay-ui:message key="eu.more-information" />
+						</h4>
+						${place.moreInformation}
 					</div>
 				</c:if>
 				<c:if test="${not empty place.email}">
@@ -218,24 +218,14 @@
 						</c:if>
 					</div>
 				</c:if>
-				<c:if
-					test="${not empty place.website or not empty place.facebookURL}">
-					<div class="place-info-section place-website">
+				<c:if test="${not empty place.price}">
+					<div class="place-info-section">
 						<h4>
-							<liferay-ui:message key="eu.website" />
+							<liferay-ui:message key="eu.prices" />
 						</h4>
-						<ul>
-							<c:if test="${not empty place.website}">
-								<li><a href="${place.website}"
-									title="${place.websiteName} (<liferay-ui:message key="eu.new-window" />)"
-									target="_blank"> ${place.websiteName} </a></li>
-							</c:if>
-							<c:if test="${not empty place.facebookURL}">
-								<li><a href="${place.facebookURL}"
-									title="${place.facebookName} (<liferay-ui:message key="eu.new-window" />)"
-									target="_blank"> ${place.facebookName} </a></li>
-							</c:if>
-						</ul>
+						<p>
+							${place.price}
+						</p>
 					</div>
 				</c:if>
 			</div>
