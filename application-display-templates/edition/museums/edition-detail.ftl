@@ -74,24 +74,17 @@
           ${entry.getPictureNumber()} <@liferay_ui["message"] key="eu.edition.pictures" />
         </div>
       </#if>
+      <#if entry.getPrice()?has_content>
+        <div class="edition-price">
+          ${entry.getPrice()} €
+        </div>
+      </#if>
       <#if entry.getISBN()?has_content>
         <div class="edition-isbn">
             <@liferay_ui["message"] key="eu.edition.isbn" />
             : ${entry.getISBN()}
         </div>
       </#if>
-      <#if entry.getPrice()?has_content>
-        <div class="edition-price">
-          ${entry.getPrice()} €
-        </div>
-      </#if>
-      <div class="edition-availability">
-        <#if entry.isInStock()>
-          <@liferay_ui["message"] key="eu.edition.in-stock" />
-        <#else>
-          <@liferay_ui["message"] key="eu.edition.out-of-stock" />
-        </#if>
-      </div>
       <div class="edition-exchange-availability">
         <#if entry.isAvailableForExchange()>
           <@liferay_ui["message"] key="eu.edition.available-for-exchange" />
@@ -99,6 +92,13 @@
       </div>
       <div class="edition-diffusion">
         ${entry.getDistribution()}
+      </div>
+      <div class="edition-availability">
+        <#if entry.isInStock()>
+          <@liferay_ui["message"] key="eu.edition.in-stock" />
+        <#else>
+          <@liferay_ui["message"] key="eu.edition.out-of-stock" />
+        </#if>
       </div>
     </div>
     <#if entry.getFileDownloadURL(locale)?has_content>
@@ -108,7 +108,6 @@
         </a>
       </div>
     </#if>
-
     <#if entry.getURL(locale)?has_content>
       <div class="edition-url">
         <a href="${entry.getURL(locale)}" title="<@liferay_ui["message"] key="eu.new-window" />" target="_blank">
