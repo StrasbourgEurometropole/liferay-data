@@ -22,19 +22,13 @@
 	<@liferay.control_menu />
 
 	<div id="mobile-menu">
-		<ul class="accessibility-mobile-menu" role="nav">
-			<li class="menu-item">
-				<a href="#">Accessibilité</a>
-			</li>
-			<li class="menu-item has-submenu">
-				<a href="#">Accès par public</a>
-				<ul class="submenu access-by-public-submenu" role="nav">
-					<li class="submenu-item"><a href="#">Agenda</a></li>
-					<li class="submenu-item"><a href="#">Expositions</a></li>
-					<li class="submenu-item"><a href="#">Expositions</a></li>
-				</ul>
-			</li>
-		</ul>
+		<@liferay_portlet["runtime"]
+			defaultPreferences="${freeMarkerPortletPreferences}"
+			portletProviderAction=portletProviderAction.VIEW
+			portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+			instanceId="public-mobile"
+			settingsScope="group" />
+
 		<form method="get" id="mobile-search-form" action="#">
 			<input type="search" placeholder="Rechercher" value="" name="s" id="s">
 			<input class="search" type="submit" id="search" value="GO">
