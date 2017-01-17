@@ -3016,12 +3016,8 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 @media (min-width: 602px) {
   /* line 29, ../sass/partials/_items-carousel.scss */
   .items-carousel .owl-item {
-    padding: 30px;
+    padding: 20px 20px 15px 20px;
   }
-}
-/* line 39, ../sass/partials/_items-carousel.scss */
-.items-carousel .item-image {
-  margin-bottom: 30px;
 }
 @media (min-width: 602px) {
   /* line 39, ../sass/partials/_items-carousel.scss */
@@ -3031,7 +3027,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   }
 }
 @media (min-width: 602px) {
-  /* line 46, ../sass/partials/_items-carousel.scss */
+  /* line 45, ../sass/partials/_items-carousel.scss */
   .items-carousel .item-info {
     display: inline-block;
     width: 40%;
@@ -3040,36 +3036,36 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     margin-left: 25px;
   }
 }
-/* line 55, ../sass/partials/_items-carousel.scss */
+/* line 54, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-date {
   font-family: "Times", Serif;
   font-style: italic;
   font-size: 15px;
   color: #666666;
 }
-/* line 61, ../sass/partials/_items-carousel.scss */
+/* line 60, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-title {
   margin-bottom: 25px;
 }
-/* line 64, ../sass/partials/_items-carousel.scss */
+/* line 63, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-title h4 {
   font-size: 16px;
   text-transform: none;
   margin: 0;
   line-height: 20px;
 }
-/* line 70, ../sass/partials/_items-carousel.scss */
+/* line 69, ../sass/partials/_items-carousel.scss */
 .items-carousel .item-content {
   line-height: 20px;
   margin: 10px 0;
   padding: 0;
-  height: 80px;
+  max-height: 80px;
 }
-/* line 77, ../sass/partials/_items-carousel.scss */
+/* line 76, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dots {
   text-align: center;
 }
-/* line 80, ../sass/partials/_items-carousel.scss */
+/* line 79, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dot {
   margin: 5px 3px;
   display: inline-block;
@@ -3079,11 +3075,11 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   height: 7px;
   border-radius: 50%;
 }
-/* line 88, ../sass/partials/_items-carousel.scss */
+/* line 87, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-dot.active {
   background-color: #333;
 }
-/* line 92, ../sass/partials/_items-carousel.scss */
+/* line 91, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-prev, .items-carousel .owl-next {
   width: 36px;
   height: 36px;
@@ -3095,12 +3091,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   bottom: -7px;
   display: inline-block;
 }
-/* line 103, ../sass/partials/_items-carousel.scss */
+/* line 102, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-prev {
   background-image: url(../images/icons/arrow-left-black.png);
   left: calc(50% - 100px);
 }
-/* line 107, ../sass/partials/_items-carousel.scss */
+/* line 106, ../sass/partials/_items-carousel.scss */
 .items-carousel .owl-next {
   background-image: url(../images/icons/arrow-right-black.png);
   left: calc(50% + 64px);
