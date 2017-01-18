@@ -2634,30 +2634,26 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
     bottom: 40px;
   }
 }
-/* line 186, ../sass/partials/_page-header.scss */
-.page-header-portlet .alt-theme-2 span {
-  text-shadow: none !important;
-}
 @media (min-width: 919px) {
-  /* line 190, ../sass/partials/_page-header.scss */
+  /* line 187, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-title-and-share {
     width: 48%;
   }
-  /* line 193, ../sass/partials/_page-header.scss */
+  /* line 190, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image {
     width: 48%;
     text-align: right;
   }
-  /* line 196, ../sass/partials/_page-header.scss */
+  /* line 193, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image img {
     width: 80%;
     position: static;
   }
-  /* line 200, ../sass/partials/_page-header.scss */
+  /* line 197, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-image:before {
     display: none;
   }
-  /* line 204, ../sass/partials/_page-header.scss */
+  /* line 201, ../sass/partials/_page-header.scss */
   .page-header-portlet .alt-theme-2 .page-header-share {
     margin-left: 30px;
   }

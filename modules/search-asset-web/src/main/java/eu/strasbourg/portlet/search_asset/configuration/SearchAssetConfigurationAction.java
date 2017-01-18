@@ -14,6 +14,7 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -102,8 +103,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 					layoutsFriendlyURLs += layoutFriendlyURL;
 					j++;
 				}
-
 			}
+
 			setPreference(actionRequest, "assetClassNamesIds",
 				assetClassNamesIdsString);
 			setPreference(actionRequest, "templatesKeys", templatesKeysString);
@@ -124,6 +125,16 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				}
 			}
 			setPreference(actionRequest, "assetClassNames", assetClassNames);
+
+			// Recherche des JournalArticle
+			boolean searchJournalArticle = ParamUtil.getBoolean(actionRequest,
+				"searchJournalArticle");
+			String journalArticleTemplateKey = ParamUtil
+				.getString(actionRequest, "journalArticleTemplateKey");
+			setPreference(actionRequest, "searchJournalArticle",
+				String.valueOf(searchJournalArticle));
+			setPreference(actionRequest, "journalArticleTemplateKey",
+				journalArticleTemplateKey);
 
 			// VocabulariesIds
 			String vocabulariesIdsString = "";
@@ -164,9 +175,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				String.valueOf(globalScope));
 
 			// Champ date
-			boolean dateField = ParamUtil.getBoolean(actionRequest, "dateField");
-			setPreference(actionRequest, "dateField", String.valueOf(dateField));
-			
+			boolean dateField = ParamUtil.getBoolean(actionRequest,
+				"dateField");
+			setPreference(actionRequest, "dateField",
+				String.valueOf(dateField));
+
 			// Delta
 			long delta = ParamUtil.getLong(actionRequest, "delta");
 			setPreference(actionRequest, "delta", String.valueOf(delta));
@@ -264,16 +277,33 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("assetClassNamesIds",
 				assetClassNamesIdsString);
 
+			// Recherche de JournalArticle
+			boolean searchJournalArticle = ParamUtil.getBoolean(request,
+				"searchJournalArticle", configuration.searchJournalArticle());
+			request.setAttribute("searchJournalArticle", searchJournalArticle);
+
 			// Liste des templates
 			List<List<DDMTemplate>> templatesList = new ArrayList<List<DDMTemplate>>();
 			for (int i = 0; i < availableAssetRendererFactories.size(); i++) {
+				// Pour les contenus web, on utilise les display templates
+				// utilisés pour les AssetEntry
+				long classNameId = availableAssetRendererFactories.get(i)
+					.getClassNameId();
 				List<DDMTemplate> templates = DDMTemplateLocalServiceUtil
-					.getTemplates(themeDisplay.getScopeGroupId(),
-						availableAssetRendererFactories.get(i)
-							.getClassNameId());
+					.getTemplates(themeDisplay.getScopeGroupId(), classNameId);
 				templatesList.add(templates);
 			}
 			request.setAttribute("templatesList", templatesList);
+
+			// Liste des templates pour les JournalArticle (techniquement
+			// AssetEntry)
+			long assetEntryClassNameId = ClassNameLocalServiceUtil
+				.getClassNameId(AssetEntry.class);
+			List<DDMTemplate> assetEntryTemplates = DDMTemplateLocalServiceUtil
+				.getTemplates(themeDisplay.getScopeGroupId(),
+					assetEntryClassNameId);
+			request.setAttribute("assetEntryTemplatesList",
+				assetEntryTemplates);
 
 			// Templates sélectionnés
 			long[] templatesKeys = ParamUtil.getLongValues(request,
@@ -286,6 +316,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			}
 			request.setAttribute("templatesKeys", templatesKeysString);
 
+			// Template sélectionné pour JournalArticle
+			long journalArticleTemplateKey = ParamUtil.getLong(request,
+				"journalArticleTemplateKey",
+				Long.valueOf(configuration.journalArticleTemplateKey()));
+			request.setAttribute("journalArticleTemplateKey",
+				journalArticleTemplateKey);
+			
 			// Layouts
 			String[] layoutsFriendlyURLs = configuration.layoutsFriendlyURLs()
 				.split(",");
@@ -296,8 +333,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				.getAssetVocabularies(-1, -1);
 			List<AssetVocabulary> vocabularies = new ArrayList<AssetVocabulary>();
 			for (AssetVocabulary vocabulary : allVocabularies) {
-				if (vocabulary.getGroupId() == themeDisplay
-					.getScopeGroupId() || vocabulary.getGroupId() == themeDisplay.getCompanyGroupId()) {
+				if (vocabulary.getGroupId() == themeDisplay.getScopeGroupId()
+					|| vocabulary.getGroupId() == themeDisplay
+						.getCompanyGroupId()) {
 					vocabularies.add(vocabulary);
 				}
 			}
@@ -324,7 +362,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			boolean globalScope = ParamUtil.getBoolean(request, "globalScope",
 				configuration.globalScope());
 			request.setAttribute("globalScope", globalScope);
-			
+
 			// Champ date
 			boolean dateField = ParamUtil.getBoolean(request, "dateField",
 				configuration.dateField());

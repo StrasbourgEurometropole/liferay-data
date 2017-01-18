@@ -50,10 +50,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 			// Boolean pour dire qu'on vient du portlet de recherche et non d'un asset publisher
 			renderRequest.setAttribute("fromSearchPortlet", true);
-			Map<String, Long> className_layoutId = new HashMap<String, Long>();
 			
 			// On envoie a la jsp la map className / layout qui fait correspondre à chaque type d'asset une page de détail
 			int i = 0;
+			Map<String, Long> className_layoutId = new HashMap<String, Long>();
 			for (String className : configuration.assetClassNames().split(",")) {
 				String layoutFriendlyURL = configuration.layoutsFriendlyURLs().split(",")[i];
 				Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(themeDisplay.getScopeGroupId(), false, layoutFriendlyURL);
@@ -62,6 +62,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 				}
 				i++;
 			}
+			
 			renderRequest.setAttribute("classNameLayoutId", className_layoutId);
 			
 			

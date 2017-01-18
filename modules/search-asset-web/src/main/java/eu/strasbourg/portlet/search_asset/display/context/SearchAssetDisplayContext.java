@@ -116,10 +116,20 @@ public class SearchAssetDisplayContext {
 		BooleanQuery classNameQuery = new BooleanQueryImpl();
 		for (String className : this.getFilterClassNames()) {
 			if (Validator.isNotNull(className)) {
-				// TermQuery termQuery = new TermQueryImpl(new
-				// QueryTermImpl(Field.EN, value))
-				classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false,
+				// Cas général
+				if (!className.contains("JournalArticle")) {
+					classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false,
 					BooleanClauseOccur.SHOULD);
+				}
+				// Cas où on a un journalArticle (on vérifie que c'est la dernière version)
+				else {
+					BooleanQuery journalArticleQuery = new BooleanQueryImpl();
+					journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME,
+						"com.liferay.journal.model.JournalArticle", false,
+						BooleanClauseOccur.MUST);
+					journalArticleQuery.addRequiredTerm("head", true);
+					classNameQuery.add(journalArticleQuery, BooleanClauseOccur.SHOULD);
+				}
 			}
 		}
 		query.add(classNameQuery, BooleanClauseOccur.MUST);
@@ -155,10 +165,11 @@ public class SearchAssetDisplayContext {
 			MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
 			titleQuery.setFuzziness(new Float(10));
 			keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
-			
-			WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+
+			WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
+				Field.TITLE, "*" + keywords + "*");
 			keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
-				
+
 			MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION,
 				keywords);
 			descriptionQuery.setFuzziness(new Float(10));
@@ -288,8 +299,9 @@ public class SearchAssetDisplayContext {
 		// Si la liste est vide, on renvoie la liste complète paramétrée via la
 		// configuration (on ne recherche pas sur rien !)
 		if (this._filterClassNames.length == 0) {
-			this._filterClassNames = this._configuration.assetClassNames()
-				.split(",");
+			String[] classNamesArray = new String[this.getClassNames().size()];
+			classNamesArray = this.getClassNames().toArray(classNamesArray);
+			this._filterClassNames = classNamesArray;
 		}
 		return this._filterClassNames;
 	}
@@ -425,6 +437,10 @@ public class SearchAssetDisplayContext {
 				}
 				i++;
 			}
+			if (this._configuration.searchJournalArticle()) {
+				templatesMap.put("com.liferay.journal.model.JournalArticle",
+					"ddmTemplate_" + this._configuration.journalArticleTemplateKey());
+			}
 			this._templatesMap = templatesMap;
 		}
 		return this._templatesMap;
@@ -434,7 +450,13 @@ public class SearchAssetDisplayContext {
 	 * Retourne la liste des class names sur lesquelles on recherche
 	 */
 	public List<String> getClassNames() {
-		return Arrays.asList(_configuration.assetClassNames().split(","));
+		List<String> classNames = Arrays.asList(this._configuration.assetClassNames().split(","));
+		if (this._configuration.searchJournalArticle()) {
+			List<String> mutableClassNames = new ArrayList<String>(classNames);
+			mutableClassNames.add("com.liferay.journal.model.JournalArticle");
+			return mutableClassNames;
+		}
+		return classNames;
 	}
 
 	/**

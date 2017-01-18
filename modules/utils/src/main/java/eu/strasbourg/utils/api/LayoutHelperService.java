@@ -3,6 +3,7 @@ package eu.strasbourg.utils.api;
 import java.util.Locale;
 
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -16,4 +17,6 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface LayoutHelperService {
 	public String getLayoutPath(Layout layout, Locale locale);
+	
+	public String getJournalArticleLayoutURL(long groupId, String articleId, ThemeDisplay themeDisplay);
 }
