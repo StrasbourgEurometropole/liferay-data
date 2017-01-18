@@ -19,6 +19,8 @@ public class FileObject {
 			this._url = FileEntryHelper.getFileEntryURL(file);
 			this._title = file.getTitle();
 			this._fileName = file.getFileName();
+		} else {
+			this._id = (long) 0;
 		}
 	}
 
