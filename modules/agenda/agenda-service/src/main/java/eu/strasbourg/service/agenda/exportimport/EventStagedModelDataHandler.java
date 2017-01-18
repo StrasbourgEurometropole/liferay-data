@@ -33,12 +33,15 @@ public class EventStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
+		Event event = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (event != null) {
+			deleteStagedModel(event);
+		}
 	}
 
 	@Override
 	public void deleteStagedModel(Event stagedModel) throws PortalException {
-		// TODO Auto-generated method stub
+		_eventLocalService.removeEvent(stagedModel.getEventId());
 	}
 
 	@Override

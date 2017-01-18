@@ -29,8 +29,10 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.search.generic.MatchQuery;
+import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -150,14 +152,16 @@ public class SearchAssetDisplayContext {
 		String keywords = ParamUtil.getString(this._request, "keywords");
 		if (Validator.isNotNull(keywords)) {
 			BooleanQuery keywordQuery = new BooleanQueryImpl();
-
 			MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
-			titleQuery.setFuzziness(new Float(5));
+			titleQuery.setFuzziness(new Float(10));
 			keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
-
+			
+			WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+			keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+				
 			MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION,
 				keywords);
-			titleQuery.setFuzziness(new Float(5));
+			descriptionQuery.setFuzziness(new Float(10));
 			keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 			query.add(keywordQuery, BooleanClauseOccur.MUST);

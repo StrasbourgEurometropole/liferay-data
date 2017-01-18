@@ -22,19 +22,13 @@
 	<@liferay.control_menu />
 
 	<div id="mobile-menu">
-		<ul class="accessibility-mobile-menu" role="nav">
-			<li class="menu-item">
-				<a href="#">Accessibilité</a>
-			</li>
-			<li class="menu-item has-submenu">
-				<a href="#">Accès par public</a>
-				<ul class="submenu access-by-public-submenu" role="nav">
-					<li class="submenu-item"><a href="#">Agenda</a></li>
-					<li class="submenu-item"><a href="#">Expositions</a></li>
-					<li class="submenu-item"><a href="#">Expositions</a></li>
-				</ul>
-			</li>
-		</ul>
+		<@liferay_portlet["runtime"]
+			defaultPreferences="${freeMarkerPortletPreferences}"
+			portletProviderAction=portletProviderAction.VIEW
+			portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+			instanceId="public-mobile"
+			settingsScope="group" />
+
 		<form method="get" id="mobile-search-form" action="#">
 			<input type="search" placeholder="Rechercher" value="" name="s" id="s">
 			<input class="search" type="submit" id="search" value="GO">
@@ -45,7 +39,7 @@
 		</div>
 		<nav class="mobile-main-menu">
 
-			<@menu items=nav_items isSubMenu=false ulClass="main-menu open" depth=0 maxDepth=0 />
+			<@menu items=nav_items isSubMenu=false linkOnlyIfNoSubMenu=false ulClass="main-menu open" depth=0 maxDepth=0 />
 			
 		</div>
 	</div>
@@ -53,39 +47,16 @@
 		<nav class="header-top">
 			<div class="header-top-inner">
 				<div class="strasbourg-eu-logo">
-					<a href="http://strasbourg.eu" class="strasbourg-eu-link">
+					<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank">
 						<img src="/o/museum-theme/images/logos/strasbourg-logo.png" alt="">
 					</a>
 				</div>
-				<ul class="accessibility-menu" role="nav">
-					<li class="access-item accessibility">
-						<a href="#accessibility">
-							Accessibilité
-						</a>
-					</li>
-					<li class="access-item contact">
-						<a href="#contact">
-							<i class="mail-icon"></i>
-							<span>Contact</span>
-						</a>
-					</li>
-					<li class="access-item language">
-						<div class="language-menu">
-							<a href="#dropdown" class="active-language">FR</a>
-							<ul role="nav" >
-								<li class="active"><a href="#">FR</a></li>
-								<li><a href="#">CN</a></li>
-								<li><a href="#">DE</a></li>
-								<li><a href="#">EN</a></li>
-								<li><a href="#">ES</a></li>
-								<li><a href="#">IT</a></li>
-								<li><a href="#">JP</a></li>
-								<li><a href="#">NL</a></li>
-								<li><a href="#">RU</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+				<@liferay_portlet["runtime"]
+					defaultPreferences="${freeMarkerPortletPreferences}"
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+					instanceId="langue"
+					settingsScope="group" />
 			</div>
 		</nav>
 		<div class="title-header">
@@ -99,7 +70,8 @@
 						defaultPreferences="${freeMarkerPortletPreferences}"
 						portletProviderAction=portletProviderAction.VIEW
 						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-						instanceId="public" />
+						instanceId="public"
+						settingsScope="group" />
 				</li>
 				<li class="main-search">
 					<form method="get" id="main-search-form" action="#">
@@ -110,7 +82,7 @@
 			</ul>
 		</div>
 		<nav class="menu-header">
-			<@menu items=nav_items isSubMenu=false ulClass="main-menu" depth=0 maxDepth=1 />
+			<@menu items=nav_items isSubMenu=false linkOnlyIfNoSubMenu=true ulClass="main-menu" depth=0 maxDepth=1  />
 		</nav>
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
 		<#if layout.friendlyURL != "/accueil">

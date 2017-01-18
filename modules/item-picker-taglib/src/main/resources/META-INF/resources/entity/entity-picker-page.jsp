@@ -46,7 +46,9 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 						} else if (!!item) {
 							items.push(item);
 						}
-						for (var selectedItem of items) {
+						
+						for (var i = 0; i < items.length; i++) {
+							var selectedItem = items[i];
 							var htmlToAppend = '<li>'
 								+ selectedItem.title + ' - <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '">Supprimer</a>';
 								+ '</li>';

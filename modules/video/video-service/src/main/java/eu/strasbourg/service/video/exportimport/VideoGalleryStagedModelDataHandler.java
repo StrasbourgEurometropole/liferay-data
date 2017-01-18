@@ -33,13 +33,15 @@ public class VideoGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
+		VideoGallery VideoGallery = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (VideoGallery != null) {
+			deleteStagedModel(VideoGallery);
+		}
 	}
 
 	@Override
-	public void deleteStagedModel(VideoGallery stagedModel)
-		throws PortalException {
-		// TODO Auto-generated method stub
+	public void deleteStagedModel(VideoGallery stagedModel) throws PortalException {
+		_videoGalleryLocalService.removeGallery(stagedModel.getGalleryId());
 	}
 
 	@Override

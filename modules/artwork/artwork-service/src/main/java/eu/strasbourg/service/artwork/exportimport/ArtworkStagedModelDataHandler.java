@@ -34,13 +34,15 @@ public class ArtworkStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
-
+		Artwork artwork = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (artwork != null) {
+			deleteStagedModel(artwork);
+		}
 	}
 
 	@Override
 	public void deleteStagedModel(Artwork stagedModel) throws PortalException {
-		// TODO Auto-generated method stub
+		this._artworkLocalService.removeArtwork(stagedModel.getArtworkId());
 	}
 
 	@Override

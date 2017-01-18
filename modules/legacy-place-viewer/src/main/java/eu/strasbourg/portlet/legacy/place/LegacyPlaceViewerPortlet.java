@@ -33,6 +33,7 @@ import eu.strasbourg.utils.models.LegacyPlace;
 		"com.liferay.portlet.requires-namespaced-parameters=false",
 		"com.liferay.portlet.css-class-wrapper=legacy-place-viewer-portlet",
 		"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
+		"com.liferay.portlet.footer-portlet-javascript=/js/jquery.autocomplete.js",
 		"com.liferay.portlet.footer-portlet-javascript=/js/legacy-place-main.js",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/legacy-place-view.jsp",

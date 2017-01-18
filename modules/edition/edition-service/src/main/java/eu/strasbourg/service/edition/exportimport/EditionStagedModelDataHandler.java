@@ -34,12 +34,15 @@ public class EditionStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
+		Edition edition = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (edition != null) {
+			deleteStagedModel(edition);
+		}
 	}
 
 	@Override
 	public void deleteStagedModel(Edition stagedModel) throws PortalException {
-		// TODO Auto-generated method stub
+		_editionLocalService.removeEdition(stagedModel.getEditionId());
 	}
 
 	@Override

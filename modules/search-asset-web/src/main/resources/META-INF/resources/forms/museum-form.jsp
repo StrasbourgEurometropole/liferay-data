@@ -2,8 +2,18 @@
 
 <h1 class="search-asset-result-count">
 	<liferay-ui:message key="research" />
-	<span>${dc.searchContainer.total } <liferay-ui:message
-			key="results" /></span>
+	<span>${dc.searchContainer.total }
+		<c:choose>
+			<c:when test="${dc.searchContainer.total le 1}">
+				<liferay-ui:message
+					key="result" />
+			</c:when> 
+			<c:otherwise>
+				<liferay-ui:message
+					key="results" />	
+			</c:otherwise>
+		</c:choose>
+	</span>
 </h1>
 <div class="search-asset-fields">
 	<!-- Type d'assets -->
@@ -111,7 +121,7 @@
 		<aui:input name="orderByType" type="hidden" value="desc" />
 	</c:if>
 
-	<aui:input type="hidden" name="keywords" id="keywords" />
+	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
 </div>
 	
 <aui:button type="submit" value="search" />

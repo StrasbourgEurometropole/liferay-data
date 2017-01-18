@@ -1,8 +1,6 @@
 package eu.strasbourg.portlet.artwork.display.context;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.portlet.PortletURL;
@@ -21,8 +19,6 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -31,8 +27,10 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewCollectionsDisplayContext {
@@ -76,42 +74,34 @@ public class ViewCollectionsDisplayContext {
 				.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
 				.getInstance(servletRequest);
-			String[] categoryIdsStrings = this.getFilterCategoriesIds()
-				.split(",");
-			if (categoryIdsStrings.length > 0) {
-				long[] categoryIds = new long[categoryIdsStrings.length - 1];
-				for (int i = 0; i < categoryIds.length; i++) {
-					categoryIds[i] = Long.valueOf(categoryIdsStrings[i + 1]);
-				}
-				searchContext.setAssetCategoryIds(categoryIds);
-			}
 
-			// Init attributes, in case we come from edit page
-			searchContext.setAttributes(new HashMap<String, Serializable>());
-			searchContext
-				.setGroupIds(new long[] { _themeDisplay.getScopeGroupId() });
+			// Recherche des hits
+			String keywords = ParamUtil.getString(servletRequest, "keywords");
+			Hits hits = SearchHelper.getBOSearchHits(searchContext,
+				this.getSearchContainer().getStart(),
+				this.getSearchContainer().getEnd(), ArtworkCollection.class.getName(),
+				this._themeDisplay.getScopeGroupId(),
+				this.getFilterCategoriesIds(), keywords,
+				this.getOrderByColSearchField(),
+				"desc".equals(this.getOrderByType()));
 
-			// Sorting
-			Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
-				this.getOrderByType().equals("desc"));
-			searchContext.setSorts(sort);
-
-			// Paging
-			searchContext.setStart(this.getSearchContainer().getStart());
-			searchContext.setEnd(this.getSearchContainer().getEnd());
-
-			// Results
+			// Total
+			int count = (int) SearchHelper.getBOSearchCount(searchContext,
+				Artwork.class.getName(), this._themeDisplay.getScopeGroupId(),
+				this.getFilterCategoriesIds(), keywords);
+			this.getSearchContainer().setTotal(count);
+			
+			// Création de la liste d'objet
 			List<ArtworkCollection> results = new ArrayList<ArtworkCollection>();
-			Hits hits = ArtworkCollectionLocalServiceUtil.search(searchContext);
-			for (Document document : hits.getDocs()) {
-				ArtworkCollection collection = ArtworkCollectionLocalServiceUtil
-					.fetchArtworkCollection(
+			if (hits != null) {
+				for (Document document : hits.getDocs()) {
+					ArtworkCollection collection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollection(
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (collection != null) {
-					results.add(collection);
+					if (collection != null) {
+						results.add(collection);
+					}
 				}
 			}
-			this.getSearchContainer().setTotal(hits.getLength());
 			this._collections = results;
 		}
 		return this._collections;

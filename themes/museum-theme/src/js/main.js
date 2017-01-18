@@ -8,33 +8,38 @@
 })(jQuery);
 
 
-// Sticky (uniquement en desktop)
+// Sticky (uniquement en mode non connecté)
 (function($) {
-    // Cas où il n'y a pas de menu musée
-    if ($('.museum-header').length === 0) {
+    if (!$('body').hasClass('signed-in')) {
+        var scrollBreakpoint = $('.header-top').outerHeight() + $('.title-header').outerHeight();
+        var museumScrollBreakpoint = $('.header-top').outerHeight() + $('.title-header').outerHeight() + $('.menu-header').outerHeight();
+        var heightForMarginTop;
         $(document).on('scroll', function() {
-            if ($(this).scrollTop() > 132) {
-                $('.breadcrumb-wrapper').addClass('sticky');
-                $('.breadcrumb-wrapper').addClass('network');
-                $('.menu-header').addClass('sticky');
-                $('body').css('margin-top', '49px');
-            } else {
-                $('.breadcrumb-wrapper').removeClass('sticky');
-                $('.breadcrumb-wrapper').removeClass('network');
-                $('.menu-header').removeClass('sticky');
-                $('body').css('margin-top', '0');
-            }
-        });
-    } else { // Avec menu musée
-        $(document).on('scroll', function() {
-            if ($(this).scrollTop() > 180) {
-                $('.breadcrumb-wrapper').addClass('sticky');
-                $('.museum-header').addClass('sticky');
-                $('body').css('margin-top', '86px');
-            } else {
-                $('.breadcrumb-wrapper').removeClass('sticky');
-                $('.museum-header').removeClass('sticky');
-                $('body').css('margin-top', '0');
+            // Cas où il n'y a pas de menu musée
+            if ($('.museum-header').length === 0) {
+                if ($(this).scrollTop() > scrollBreakpoint) {
+                    $('.breadcrumb-wrapper').addClass('sticky');
+                    $('.breadcrumb-wrapper').addClass('network');
+                    $('.menu-header').addClass('sticky');
+                    heightForMarginTop = $('.menu-header').outerHeight() + $('.breadcrumb-wrapper').outerHeight();
+                    $('body').css('margin-top', heightForMarginTop);
+                } else {
+                    $('.breadcrumb-wrapper').removeClass('sticky');
+                    $('.breadcrumb-wrapper').removeClass('network');
+                    $('.menu-header').removeClass('sticky');
+                    $('body').css('margin-top', '0');
+                }
+            } else { // Avec menu musée
+                if ($(this).scrollTop() > museumScrollBreakpoint) {
+                    $('.breadcrumb-wrapper').addClass('sticky');
+                    $('.museum-header').addClass('sticky');
+                    heightForMarginTop = $('.museum-header').outerHeight() + $('.breadcrumb-wrapper').outerHeight();
+                    $('body').css('margin-top', heightForMarginTop);
+                } else {
+                    $('.breadcrumb-wrapper').removeClass('sticky');
+                    $('.museum-header').removeClass('sticky');
+                    $('body').css('margin-top', '0');
+                }
             }
         });
     }
@@ -72,7 +77,7 @@
             $page.on('touchstart click', function(e) {
                 if (!$body.hasClass('animating')) {
                     e.preventDefault();
-                    $('#nav-toggle').trigger('click');
+                    $('.mobile-menu-toggle').trigger('click');
                 }
             });
         }
@@ -98,6 +103,7 @@
         $('.mobile-main-menu .open').removeClass('open');
         $(this).next().addClass('open');
         $('.mobile-main-menu-nav').show();
+        $('#mobile-menu, #mobile-menu .mobile-main-menu').scrollTop(0);
     });
 
     $('.mobile-main-menu-nav .to-start').on('click', function(e) {
@@ -119,6 +125,19 @@
             $('.mobile-main-menu-nav').hide();
         }
     });
+
+    // Au chargement on se place dans le bon sous-menu
+    var activeItem = $('.mobile-main-menu .menu-item.active');
+    if (activeItem.length == 1) {
+        // On supprime la classe open de tout autre sous-menu
+        $('.mobile-main-menu ul').removeClass('open');
+        // On l'ajoute sur le bon
+        activeItem.parent().addClass('open');
+        // Et on affiche la navigation, si on n'est pas sur la page d'accueil
+        if (!activeItem.parent().hasClass('main-menu')) {
+            $('.mobile-main-menu-nav').show();    
+        }
+    }
 })(jQuery);
 
 
@@ -135,23 +154,38 @@
 (function($) {
     $(document).ready(function() {
         if ($().owlCarousel) {
+            // Init carousel
             var carousel = $('.home-carousel .owl-carousel').owlCarousel({
                 items: 1,
                 nav: true,
                 loop: true,
                 dotsContainer: '#carousel-custom-dots'
             });
+            // En cliquant sur les vignettes on passe d'un musée à l'autre
             $('.home-carousel .owl-dot').click(function() {
                 carousel.trigger('to.owl.carousel', [$(this).index(), 300]);
             });
+            // Au survol d'une vignette on affiche le nom du musée
             $('.home-carousel .owl-dot').hover(function() {
                 var dot = $(this);
                 $('.home-carousel .museum-name').text(dot.data('title'));
             });
+            // Si on quitte le survol on réaffiche la phrase originale "Découvrez nos 13 musées"
             $('.home-carousel #carousel-custom-dots').mouseleave(function() {
-                var museumName = $('.home-carousel .museum-name');
-                museumName.text(museumName.data('original'));
+                var museumNameContainer = $('.home-carousel .museum-name');
+                museumNameContainer.text(museumNameContainer.data('original'));
             });
+            var displayMuseumNameOnMobile = function () {
+                if (window.innerWidth < 919) {
+                    var museumName = $('.home-carousel .owl-dot.active').data('title');
+                    if (!!museumName) {
+                        $('.home-carousel .museum-name').text(museumName);
+                    }
+                }
+            };
+            displayMuseumNameOnMobile();
+            $(window).on('resize', displayMuseumNameOnMobile);
+
         }
     });
 })(jQuery);
