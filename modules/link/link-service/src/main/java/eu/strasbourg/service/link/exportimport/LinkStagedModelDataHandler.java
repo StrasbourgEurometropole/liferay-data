@@ -25,10 +25,15 @@ public class LinkStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
+		Link link = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (link != null) {
+			deleteStagedModel(link);
+		}
 	}
 
 	@Override
 	public void deleteStagedModel(Link stagedModel) throws PortalException {
+		_linkLocalService.removeLink(stagedModel.getLinkId());
 	}
 
 	@Override

@@ -34,13 +34,15 @@ public class ManifestationStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		// TODO Auto-generated method stub
+		Manifestation VideoManifestation = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		if (VideoManifestation != null) {
+			deleteStagedModel(VideoManifestation);
+		}
 	}
 
 	@Override
-	public void deleteStagedModel(Manifestation stagedModel)
-		throws PortalException {
-		// TODO Auto-generated method stub
+	public void deleteStagedModel(Manifestation stagedModel) throws PortalException {
+		_manifestationLocalService.removeManifestation(stagedModel.getManifestationId());
 	}
 
 	@Override
