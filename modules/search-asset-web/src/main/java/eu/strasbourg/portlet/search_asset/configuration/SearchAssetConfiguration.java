@@ -33,6 +33,12 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
 	
+	@Meta.AD(name = "searchJournalArticle", required = false)
+	public boolean searchJournalArticle();
+	
+	@Meta.AD(name = "journalArticleTemplateKey", required = false)
+	public String journalArticleTemplateKey();
+	
 	@Meta.AD(name = "globalScope", required = false)
 	public boolean globalScope();
 	

@@ -27,7 +27,9 @@
 							%>
 							<div>
 								<liferay-ddm:template-renderer
-								    className="${entry.className}"
+								    className="${fn:contains(entry.className, 'JournalArticle')
+								    	? 'com.liferay.asset.kernel.model.AssetEntry' 
+								    	: entry.className}"
 								    contextObjects="<%=contextObjects%>"
 								    displayStyle="${dc.templatesMap[entry.className]}"
 								    displayStyleGroupId="${themeDisplay.scopeGroupId}"

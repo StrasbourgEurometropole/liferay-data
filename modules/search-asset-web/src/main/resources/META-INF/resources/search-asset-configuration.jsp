@@ -57,6 +57,27 @@
 							</c:if>
 						</div>
 					</c:forEach>
+					<div class="asset-type-configuration">
+						<aui:input type="checkbox" 
+							name="searchJournalArticle" 
+							value="${searchJournalArticle}" 
+							label="web-content" 
+							inlineField="true" />
+						<aui:select name="journalArticleTemplateKey"
+							inlineField="true">
+							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
+							<c:forEach var="template"
+								items="${assetEntryTemplatesList}">
+								<aui:option value="${template.templateKey}"
+									selected="${journalArticleTemplateKey eq template.templateKey}">
+									${template.getName(locale)}
+								</aui:option>
+							</c:forEach>
+						</aui:select>
+					</div>
+				</div>
+				<div>
+					
 				</div>
 			</aui:fieldset>
 			

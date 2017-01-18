@@ -4500,12 +4500,12 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 }
 /* line 7, ../sass/partials/_entity-thumbnail.scss */
 .entity-thumbnail .entity-thumbnail-image {
+  border-bottom: 10px solid #a56a79;
   text-align: center;
 }
-/* line 10, ../sass/partials/_entity-thumbnail.scss */
+/* line 11, ../sass/partials/_entity-thumbnail.scss */
 .entity-thumbnail .entity-thumbnail-info {
   padding: 20px;
-  border-top: 10px solid #a56a79;
   position: relative;
 }
 /* line 14, ../sass/partials/_entity-thumbnail.scss */
@@ -4555,6 +4555,33 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   font-weight: 800;
   margin-bottom: -5px;
   margin-top: 10px;
+}
+
+/* line 2, ../sass/partials/_global-search-portlet.scss */
+.global-search-portlet .search-asset-results {
+  -webkit-column-count: 1;
+     -moz-column-count: 1;
+          column-count: 1;
+}
+/* line 5, ../sass/partials/_global-search-portlet.scss */
+.global-search-portlet .entity-thumbnail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/* line 8, ../sass/partials/_global-search-portlet.scss */
+.global-search-portlet .entity-thumbnail-image {
+  width: 155px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+/* line 12, ../sass/partials/_global-search-portlet.scss */
+.global-search-portlet .entity-thumbnail-info {
+  vertical-align: top;
+}
+/* line 14, ../sass/partials/_global-search-portlet.scss */
+.global-search-portlet .entity-thumbnail-info:before, .global-search-portlet .entity-thumbnail-info:after {
+  display: none;
 }
 
 /* line 4, ../sass/partials/_numeric-review.scss */
@@ -5116,7 +5143,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #a56a79;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-default .entity-detail-child .entity-detail-child-info, .cs-default .entity-detail-child .entity-thumbnail-info, .cs-default .entity-thumbnail .entity-detail-child-info, .cs-default .entity-thumbnail .entity-thumbnail-info {
+.cs-default .entity-detail-child .entity-detail-child-image, .cs-default .entity-detail-child .entity-thumbnail-image, .cs-default .entity-thumbnail .entity-detail-child-image, .cs-default .entity-thumbnail .entity-thumbnail-image {
   border-color: #a56a79;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -5128,7 +5155,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #a56a79;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-default.entity-detail-child .entity-detail-child-info, .cs-default.entity-detail-child .entity-thumbnail-info, .cs-default.entity-thumbnail .entity-detail-child-info, .cs-default.entity-thumbnail .entity-thumbnail-info {
+.cs-default.entity-detail-child .entity-detail-child-info, .cs-default.entity-detail-child .entity-thumbnail-image, .cs-default.entity-thumbnail .entity-detail-child-info, .cs-default.entity-thumbnail .entity-thumbnail-image {
   border-color: #a56a79 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -5327,7 +5354,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #ED6B2A;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-bib .entity-detail-child .entity-detail-child-info, .cs-bib .entity-detail-child .entity-thumbnail-info, .cs-bib .entity-thumbnail .entity-detail-child-info, .cs-bib .entity-thumbnail .entity-thumbnail-info {
+.cs-bib .entity-detail-child .entity-detail-child-image, .cs-bib .entity-detail-child .entity-thumbnail-image, .cs-bib .entity-thumbnail .entity-detail-child-image, .cs-bib .entity-thumbnail .entity-thumbnail-image {
   border-color: #ED6B2A;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -5339,7 +5366,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #ED6B2A;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-bib.entity-detail-child .entity-detail-child-info, .cs-bib.entity-detail-child .entity-thumbnail-info, .cs-bib.entity-thumbnail .entity-detail-child-info, .cs-bib.entity-thumbnail .entity-thumbnail-info {
+.cs-bib.entity-detail-child .entity-detail-child-info, .cs-bib.entity-detail-child .entity-thumbnail-image, .cs-bib.entity-thumbnail .entity-detail-child-info, .cs-bib.entity-thumbnail .entity-thumbnail-image {
   border-color: #ED6B2A !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -5538,7 +5565,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #41C797;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-ced .entity-detail-child .entity-detail-child-info, .cs-ced .entity-detail-child .entity-thumbnail-info, .cs-ced .entity-thumbnail .entity-detail-child-info, .cs-ced .entity-thumbnail .entity-thumbnail-info {
+.cs-ced .entity-detail-child .entity-detail-child-image, .cs-ced .entity-detail-child .entity-thumbnail-image, .cs-ced .entity-thumbnail .entity-detail-child-image, .cs-ced .entity-thumbnail .entity-thumbnail-image {
   border-color: #41C797;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -5550,7 +5577,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #41C797;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-ced.entity-detail-child .entity-detail-child-info, .cs-ced.entity-detail-child .entity-thumbnail-info, .cs-ced.entity-thumbnail .entity-detail-child-info, .cs-ced.entity-thumbnail .entity-thumbnail-info {
+.cs-ced.entity-detail-child .entity-detail-child-info, .cs-ced.entity-detail-child .entity-thumbnail-image, .cs-ced.entity-thumbnail .entity-detail-child-info, .cs-ced.entity-thumbnail .entity-thumbnail-image {
   border-color: #41C797 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -5749,7 +5776,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #A30000;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mals .entity-detail-child .entity-detail-child-info, .cs-mals .entity-detail-child .entity-thumbnail-info, .cs-mals .entity-thumbnail .entity-detail-child-info, .cs-mals .entity-thumbnail .entity-thumbnail-info {
+.cs-mals .entity-detail-child .entity-detail-child-image, .cs-mals .entity-detail-child .entity-thumbnail-image, .cs-mals .entity-thumbnail .entity-detail-child-image, .cs-mals .entity-thumbnail .entity-thumbnail-image {
   border-color: #A30000;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -5761,7 +5788,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #A30000;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mals.entity-detail-child .entity-detail-child-info, .cs-mals.entity-detail-child .entity-thumbnail-info, .cs-mals.entity-thumbnail .entity-detail-child-info, .cs-mals.entity-thumbnail .entity-thumbnail-info {
+.cs-mals.entity-detail-child .entity-detail-child-info, .cs-mals.entity-detail-child .entity-thumbnail-image, .cs-mals.entity-thumbnail .entity-detail-child-info, .cs-mals.entity-thumbnail .entity-thumbnail-image {
   border-color: #A30000 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -5960,7 +5987,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #4C28D4;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-marc .entity-detail-child .entity-detail-child-info, .cs-marc .entity-detail-child .entity-thumbnail-info, .cs-marc .entity-thumbnail .entity-detail-child-info, .cs-marc .entity-thumbnail .entity-thumbnail-info {
+.cs-marc .entity-detail-child .entity-detail-child-image, .cs-marc .entity-detail-child .entity-thumbnail-image, .cs-marc .entity-thumbnail .entity-detail-child-image, .cs-marc .entity-thumbnail .entity-thumbnail-image {
   border-color: #4C28D4;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -5972,7 +5999,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #4C28D4;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-marc.entity-detail-child .entity-detail-child-info, .cs-marc.entity-detail-child .entity-thumbnail-info, .cs-marc.entity-thumbnail .entity-detail-child-info, .cs-marc.entity-thumbnail .entity-thumbnail-info {
+.cs-marc.entity-detail-child .entity-detail-child-info, .cs-marc.entity-detail-child .entity-thumbnail-image, .cs-marc.entity-thumbnail .entity-detail-child-info, .cs-marc.entity-thumbnail .entity-thumbnail-image {
   border-color: #4C28D4 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -6171,7 +6198,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #C79D49;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mard .entity-detail-child .entity-detail-child-info, .cs-mard .entity-detail-child .entity-thumbnail-info, .cs-mard .entity-thumbnail .entity-detail-child-info, .cs-mard .entity-thumbnail .entity-thumbnail-info {
+.cs-mard .entity-detail-child .entity-detail-child-image, .cs-mard .entity-detail-child .entity-thumbnail-image, .cs-mard .entity-thumbnail .entity-detail-child-image, .cs-mard .entity-thumbnail .entity-thumbnail-image {
   border-color: #C79D49;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -6183,7 +6210,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #C79D49;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mard.entity-detail-child .entity-detail-child-info, .cs-mard.entity-detail-child .entity-thumbnail-info, .cs-mard.entity-thumbnail .entity-detail-child-info, .cs-mard.entity-thumbnail .entity-thumbnail-info {
+.cs-mard.entity-detail-child .entity-detail-child-info, .cs-mard.entity-detail-child .entity-thumbnail-image, .cs-mard.entity-thumbnail .entity-detail-child-info, .cs-mard.entity-thumbnail .entity-thumbnail-image {
   border-color: #C79D49 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -6382,7 +6409,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #3F2575;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mamc .entity-detail-child .entity-detail-child-info, .cs-mamc .entity-detail-child .entity-thumbnail-info, .cs-mamc .entity-thumbnail .entity-detail-child-info, .cs-mamc .entity-thumbnail .entity-thumbnail-info {
+.cs-mamc .entity-detail-child .entity-detail-child-image, .cs-mamc .entity-detail-child .entity-thumbnail-image, .cs-mamc .entity-thumbnail .entity-detail-child-image, .cs-mamc .entity-thumbnail .entity-thumbnail-image {
   border-color: #3F2575;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -6394,7 +6421,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #3F2575;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mamc.entity-detail-child .entity-detail-child-info, .cs-mamc.entity-detail-child .entity-thumbnail-info, .cs-mamc.entity-thumbnail .entity-detail-child-info, .cs-mamc.entity-thumbnail .entity-thumbnail-info {
+.cs-mamc.entity-detail-child .entity-detail-child-info, .cs-mamc.entity-detail-child .entity-thumbnail-image, .cs-mamc.entity-thumbnail .entity-detail-child-info, .cs-mamc.entity-thumbnail .entity-thumbnail-image {
   border-color: #3F2575 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -6593,7 +6620,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #790C3A;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mba .entity-detail-child .entity-detail-child-info, .cs-mba .entity-detail-child .entity-thumbnail-info, .cs-mba .entity-thumbnail .entity-detail-child-info, .cs-mba .entity-thumbnail .entity-thumbnail-info {
+.cs-mba .entity-detail-child .entity-detail-child-image, .cs-mba .entity-detail-child .entity-thumbnail-image, .cs-mba .entity-thumbnail .entity-detail-child-image, .cs-mba .entity-thumbnail .entity-thumbnail-image {
   border-color: #790C3A;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -6605,7 +6632,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #790C3A;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mba.entity-detail-child .entity-detail-child-info, .cs-mba.entity-detail-child .entity-thumbnail-info, .cs-mba.entity-thumbnail .entity-detail-child-info, .cs-mba.entity-thumbnail .entity-thumbnail-info {
+.cs-mba.entity-detail-child .entity-detail-child-info, .cs-mba.entity-detail-child .entity-thumbnail-image, .cs-mba.entity-thumbnail .entity-detail-child-info, .cs-mba.entity-thumbnail .entity-thumbnail-image {
   border-color: #790C3A !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -6804,7 +6831,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #17B7CB;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mh .entity-detail-child .entity-detail-child-info, .cs-mh .entity-detail-child .entity-thumbnail-info, .cs-mh .entity-thumbnail .entity-detail-child-info, .cs-mh .entity-thumbnail .entity-thumbnail-info {
+.cs-mh .entity-detail-child .entity-detail-child-image, .cs-mh .entity-detail-child .entity-thumbnail-image, .cs-mh .entity-thumbnail .entity-detail-child-image, .cs-mh .entity-thumbnail .entity-thumbnail-image {
   border-color: #17B7CB;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -6816,7 +6843,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #17B7CB;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mh.entity-detail-child .entity-detail-child-info, .cs-mh.entity-detail-child .entity-thumbnail-info, .cs-mh.entity-thumbnail .entity-detail-child-info, .cs-mh.entity-thumbnail .entity-thumbnail-info {
+.cs-mh.entity-detail-child .entity-detail-child-info, .cs-mh.entity-detail-child .entity-thumbnail-image, .cs-mh.entity-thumbnail .entity-detail-child-info, .cs-mh.entity-thumbnail .entity-thumbnail-image {
   border-color: #17B7CB !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -7015,7 +7042,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #628BA7;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mond .entity-detail-child .entity-detail-child-info, .cs-mond .entity-detail-child .entity-thumbnail-info, .cs-mond .entity-thumbnail .entity-detail-child-info, .cs-mond .entity-thumbnail .entity-thumbnail-info {
+.cs-mond .entity-detail-child .entity-detail-child-image, .cs-mond .entity-detail-child .entity-thumbnail-image, .cs-mond .entity-thumbnail .entity-detail-child-image, .cs-mond .entity-thumbnail .entity-thumbnail-image {
   border-color: #628BA7;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -7027,7 +7054,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #628BA7;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mond.entity-detail-child .entity-detail-child-info, .cs-mond.entity-detail-child .entity-thumbnail-info, .cs-mond.entity-thumbnail .entity-detail-child-info, .cs-mond.entity-thumbnail .entity-thumbnail-info {
+.cs-mond.entity-detail-child .entity-detail-child-info, .cs-mond.entity-detail-child .entity-thumbnail-image, .cs-mond.entity-thumbnail .entity-detail-child-info, .cs-mond.entity-thumbnail .entity-thumbnail-image {
   border-color: #628BA7 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -7226,7 +7253,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #D42889;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mtu .entity-detail-child .entity-detail-child-info, .cs-mtu .entity-detail-child .entity-thumbnail-info, .cs-mtu .entity-thumbnail .entity-detail-child-info, .cs-mtu .entity-thumbnail .entity-thumbnail-info {
+.cs-mtu .entity-detail-child .entity-detail-child-image, .cs-mtu .entity-detail-child .entity-thumbnail-image, .cs-mtu .entity-thumbnail .entity-detail-child-image, .cs-mtu .entity-thumbnail .entity-thumbnail-image {
   border-color: #D42889;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -7238,7 +7265,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #D42889;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mtu.entity-detail-child .entity-detail-child-info, .cs-mtu.entity-detail-child .entity-thumbnail-info, .cs-mtu.entity-thumbnail .entity-detail-child-info, .cs-mtu.entity-thumbnail .entity-thumbnail-info {
+.cs-mtu.entity-detail-child .entity-detail-child-info, .cs-mtu.entity-detail-child .entity-thumbnail-image, .cs-mtu.entity-thumbnail .entity-detail-child-info, .cs-mtu.entity-thumbnail .entity-thumbnail-image {
   border-color: #D42889 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -7437,7 +7464,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #00A369;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-mz .entity-detail-child .entity-detail-child-info, .cs-mz .entity-detail-child .entity-thumbnail-info, .cs-mz .entity-thumbnail .entity-detail-child-info, .cs-mz .entity-thumbnail .entity-thumbnail-info {
+.cs-mz .entity-detail-child .entity-detail-child-image, .cs-mz .entity-detail-child .entity-thumbnail-image, .cs-mz .entity-thumbnail .entity-detail-child-image, .cs-mz .entity-thumbnail .entity-thumbnail-image {
   border-color: #00A369;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -7449,7 +7476,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #00A369;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-mz.entity-detail-child .entity-detail-child-info, .cs-mz.entity-detail-child .entity-thumbnail-info, .cs-mz.entity-thumbnail .entity-detail-child-info, .cs-mz.entity-thumbnail .entity-thumbnail-info {
+.cs-mz.entity-detail-child .entity-detail-child-info, .cs-mz.entity-detail-child .entity-thumbnail-image, .cs-mz.entity-thumbnail .entity-detail-child-info, .cs-mz.entity-thumbnail .entity-thumbnail-image {
   border-color: #00A369 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -7648,7 +7675,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #F3AC00;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-aub .entity-detail-child .entity-detail-child-info, .cs-aub .entity-detail-child .entity-thumbnail-info, .cs-aub .entity-thumbnail .entity-detail-child-info, .cs-aub .entity-thumbnail .entity-thumbnail-info {
+.cs-aub .entity-detail-child .entity-detail-child-image, .cs-aub .entity-detail-child .entity-thumbnail-image, .cs-aub .entity-thumbnail .entity-detail-child-image, .cs-aub .entity-thumbnail .entity-thumbnail-image {
   border-color: #F3AC00;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -7660,7 +7687,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #F3AC00;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-aub.entity-detail-child .entity-detail-child-info, .cs-aub.entity-detail-child .entity-thumbnail-info, .cs-aub.entity-thumbnail .entity-detail-child-info, .cs-aub.entity-thumbnail .entity-thumbnail-info {
+.cs-aub.entity-detail-child .entity-detail-child-info, .cs-aub.entity-detail-child .entity-thumbnail-image, .cs-aub.entity-thumbnail .entity-detail-child-info, .cs-aub.entity-thumbnail .entity-thumbnail-image {
   border-color: #F3AC00 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -7859,7 +7886,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #9528D4;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-aud .entity-detail-child .entity-detail-child-info, .cs-aud .entity-detail-child .entity-thumbnail-info, .cs-aud .entity-thumbnail .entity-detail-child-info, .cs-aud .entity-thumbnail .entity-thumbnail-info {
+.cs-aud .entity-detail-child .entity-detail-child-image, .cs-aud .entity-detail-child .entity-thumbnail-image, .cs-aud .entity-thumbnail .entity-detail-child-image, .cs-aud .entity-thumbnail .entity-thumbnail-image {
   border-color: #9528D4;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -7871,7 +7898,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #9528D4;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-aud.entity-detail-child .entity-detail-child-info, .cs-aud.entity-detail-child .entity-thumbnail-info, .cs-aud.entity-thumbnail .entity-detail-child-info, .cs-aud.entity-thumbnail .entity-thumbnail-info {
+.cs-aud.entity-detail-child .entity-detail-child-info, .cs-aud.entity-detail-child .entity-thumbnail-image, .cs-aud.entity-thumbnail .entity-detail-child-info, .cs-aud.entity-thumbnail .entity-thumbnail-image {
   border-color: #9528D4 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
@@ -8070,7 +8097,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   background-color: #a56a79;
 }
 /* line 101, ../sass/partials/_color-schemes.scss */
-.cs-num .entity-detail-child .entity-detail-child-info, .cs-num .entity-detail-child .entity-thumbnail-info, .cs-num .entity-thumbnail .entity-detail-child-info, .cs-num .entity-thumbnail .entity-thumbnail-info {
+.cs-num .entity-detail-child .entity-detail-child-image, .cs-num .entity-detail-child .entity-thumbnail-image, .cs-num .entity-thumbnail .entity-detail-child-image, .cs-num .entity-thumbnail .entity-thumbnail-image {
   border-color: #a56a79;
 }
 /* line 108, ../sass/partials/_color-schemes.scss */
@@ -8082,7 +8109,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-top-color: #a56a79;
 }
 /* line 121, ../sass/partials/_color-schemes.scss */
-.cs-num.entity-detail-child .entity-detail-child-info, .cs-num.entity-detail-child .entity-thumbnail-info, .cs-num.entity-thumbnail .entity-detail-child-info, .cs-num.entity-thumbnail .entity-thumbnail-info {
+.cs-num.entity-detail-child .entity-detail-child-info, .cs-num.entity-detail-child .entity-thumbnail-image, .cs-num.entity-thumbnail .entity-detail-child-info, .cs-num.entity-thumbnail .entity-thumbnail-image {
   border-color: #a56a79 !important;
 }
 /* line 124, ../sass/partials/_color-schemes.scss */
