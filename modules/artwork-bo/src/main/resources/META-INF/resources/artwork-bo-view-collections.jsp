@@ -70,7 +70,7 @@
 
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${dc.hasPermission('EDIT_ARTWORK_COLLECTION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<c:if test="${dc.workflowEnabled}">
+				<c:if test="${not dc.workflowEnabled}">
 					<liferay-frontend:management-bar-button
 						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
 						icon="check" label="publish" />
