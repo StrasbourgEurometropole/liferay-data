@@ -34,7 +34,8 @@ public class ArtworkCollectionStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		ArtworkCollection artworkCollection = this.fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		ArtworkCollection artworkCollection = this
+			.fetchStagedModelByUuidAndGroupId(uuid, groupId);
 		if (artworkCollection != null) {
 			deleteStagedModel(artworkCollection);
 		}
@@ -43,7 +44,8 @@ public class ArtworkCollectionStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(ArtworkCollection stagedModel)
 		throws PortalException {
-		this._artworkCollectionLocalService.removeArtworkCollection(stagedModel.getCollectionId());
+		this._artworkCollectionLocalService
+			.removeArtworkCollection(stagedModel.getCollectionId());
 	}
 
 	@Override
@@ -148,8 +150,11 @@ public class ArtworkCollectionStagedModelDataHandler
 			.getNewPrimaryKeysMap(Artwork.class);
 		for (Map.Entry<Long, Long> artworkIdMapEntry : artworksIdsMap
 			.entrySet()) {
-			_artworkCollectionLocalService.addArtworkArtworkCollection(
-				artworkIdMapEntry.getValue(), importedArtworkCollection);
+			if (stagedModel.getArtworksIds()
+				.contains(String.valueOf(artworkIdMapEntry.getKey()))) {
+				_artworkCollectionLocalService.addArtworkArtworkCollection(
+					artworkIdMapEntry.getValue(), importedArtworkCollection);
+			}
 		}
 
 	}

@@ -33,14 +33,16 @@ public class VideoGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		VideoGallery VideoGallery = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		VideoGallery VideoGallery = fetchStagedModelByUuidAndGroupId(uuid,
+			groupId);
 		if (VideoGallery != null) {
 			deleteStagedModel(VideoGallery);
 		}
 	}
 
 	@Override
-	public void deleteStagedModel(VideoGallery stagedModel) throws PortalException {
+	public void deleteStagedModel(VideoGallery stagedModel)
+		throws PortalException {
 		_videoGalleryLocalService.removeGallery(stagedModel.getGalleryId());
 	}
 
@@ -93,7 +95,7 @@ public class VideoGalleryStagedModelDataHandler
 	@Override
 	protected void doImportStagedModel(PortletDataContext portletDataContext,
 		VideoGallery stagedModel) throws Exception {
-		
+
 		/**
 		 * Création d'une galerie ou récupération de l'existante
 		 */
@@ -130,7 +132,7 @@ public class VideoGalleryStagedModelDataHandler
 		/**
 		 * Gestion des champs représentant des relations avec d'autres entités
 		 */
-		
+
 		// Import de l'asset, tags, catégories, et des éléments liés
 		// potentiellement non publiés
 		portletDataContext.importClassedModel(stagedModel,
@@ -156,8 +158,11 @@ public class VideoGalleryStagedModelDataHandler
 		Map<Long, Long> videosIdsMap = (Map<Long, Long>) portletDataContext
 			.getNewPrimaryKeysMap(Video.class);
 		for (Map.Entry<Long, Long> videoIdMapEntry : videosIdsMap.entrySet()) {
-			_videoGalleryLocalService.addVideoVideoGallery(
-				videoIdMapEntry.getValue(), importedVideoGallery);
+			if (stagedModel.getVideosIds()
+				.contains(String.valueOf(videoIdMapEntry.getKey()))) {
+				_videoGalleryLocalService.addVideoVideoGallery(
+					videoIdMapEntry.getValue(), importedVideoGallery);
+			}
 		}
 
 	}

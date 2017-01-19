@@ -34,15 +34,18 @@ public class ManifestationStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		Manifestation VideoManifestation = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		Manifestation VideoManifestation = fetchStagedModelByUuidAndGroupId(
+			uuid, groupId);
 		if (VideoManifestation != null) {
 			deleteStagedModel(VideoManifestation);
 		}
 	}
 
 	@Override
-	public void deleteStagedModel(Manifestation stagedModel) throws PortalException {
-		_manifestationLocalService.removeManifestation(stagedModel.getManifestationId());
+	public void deleteStagedModel(Manifestation stagedModel)
+		throws PortalException {
+		_manifestationLocalService
+			.removeManifestation(stagedModel.getManifestationId());
 	}
 
 	@Override
@@ -151,10 +154,12 @@ public class ManifestationStagedModelDataHandler
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> eventsIdsMap = (Map<Long, Long>) portletDataContext
 			.getNewPrimaryKeysMap(Event.class);
-		for (Map.Entry<Long, Long> eventIdMapEntry : eventsIdsMap
-			.entrySet()) {
-			_manifestationLocalService.addEventManifestation(
-				eventIdMapEntry.getValue(), importedManifestation);
+		for (Map.Entry<Long, Long> eventIdMapEntry : eventsIdsMap.entrySet()) {
+			if (stagedModel.getEventsIds()
+				.contains(String.valueOf(eventIdMapEntry.getKey()))) {
+				_manifestationLocalService.addEventManifestation(
+					eventIdMapEntry.getValue(), importedManifestation);
+			}
 		}
 
 	}

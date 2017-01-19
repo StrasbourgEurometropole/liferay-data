@@ -137,7 +137,7 @@ public class VideoStagedModelDataHandler
 		importedVideo.setCopyright(stagedModel.getCopyright());
 		importedVideo.setOrigin(stagedModel.getOrigin());
 		importedVideo.setSource(stagedModel.getSource());
-		
+
 		importedVideo.setStatus(stagedModel.getStatus());
 
 		/**
@@ -154,8 +154,8 @@ public class VideoStagedModelDataHandler
 			.getNewPrimaryKeysMap(DLFileEntry.class);
 		importedVideo.setImageId(FileEntryHelper
 			.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
-		importedVideo.setTranscriptionFileId(FileEntryHelper
-			.getLiveFileEntryId(stagedModel.getTranscriptionFileId(), newIdsMap));
+		importedVideo.setTranscriptionFileId(FileEntryHelper.getLiveFileEntryId(
+			stagedModel.getTranscriptionFileId(), newIdsMap));
 
 		// On update la vidéo
 		this._videoLocalService.updateVideo(importedVideo, sc);
@@ -170,8 +170,11 @@ public class VideoStagedModelDataHandler
 			.getNewPrimaryKeysMap(VideoGallery.class);
 		for (Map.Entry<Long, Long> galleryIdMapEntry : galleriesIdsMap
 			.entrySet()) {
-			_videoLocalService.addVideoGalleryVideo(
-				galleryIdMapEntry.getValue(), importedVideo);
+			if (stagedModel.getVideoGalleriesIds()
+				.contains(String.valueOf(galleryIdMapEntry.getKey()))) {
+				_videoLocalService.addVideoGalleryVideo(
+					galleryIdMapEntry.getValue(), importedVideo);
+			}
 		}
 
 	}

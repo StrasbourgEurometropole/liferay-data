@@ -34,7 +34,8 @@ public class EditionGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		EditionGallery editionGallery = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		EditionGallery editionGallery = fetchStagedModelByUuidAndGroupId(uuid,
+			groupId);
 		if (editionGallery != null) {
 			deleteStagedModel(editionGallery);
 		}
@@ -43,7 +44,8 @@ public class EditionGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(EditionGallery stagedModel)
 		throws PortalException {
-		this._editionGalleryLocalService.removeGallery(stagedModel.getGalleryId());
+		this._editionGalleryLocalService
+			.removeGallery(stagedModel.getGalleryId());
 	}
 
 	@Override
@@ -153,8 +155,11 @@ public class EditionGalleryStagedModelDataHandler
 			.getNewPrimaryKeysMap(Edition.class);
 		for (Map.Entry<Long, Long> editionIdMapEntry : editionsIdsMap
 			.entrySet()) {
-			_editionGalleryLocalService.addEditionEditionGallery(
-				editionIdMapEntry.getValue(), importedEditionGallery);
+			if (stagedModel.getEditionsIds()
+				.contains(String.valueOf(editionIdMapEntry.getKey()))) {
+				_editionGalleryLocalService.addEditionEditionGallery(
+					editionIdMapEntry.getValue(), importedEditionGallery);
+			}
 		}
 
 	}

@@ -145,8 +145,10 @@ public class EditionStagedModelDataHandler
 		importedEdition
 			.setAvailableForExchange(stagedModel.isAvailableForExchange());
 		importedEdition.setInStock(stagedModel.isInStock());
-		importedEdition.setDiffusionDateMonth(stagedModel.getDiffusionDateMonth());
-		importedEdition.setDiffusionDateYear(stagedModel.getDiffusionDateYear());
+		importedEdition
+			.setDiffusionDateMonth(stagedModel.getDiffusionDateMonth());
+		importedEdition
+			.setDiffusionDateYear(stagedModel.getDiffusionDateYear());
 		importedEdition.setPageNumber(stagedModel.getPageNumber());
 		importedEdition.setPictureNumber(stagedModel.getPictureNumber());
 		importedEdition.setPublicationDate(stagedModel.getPublicationDate());
@@ -179,8 +181,11 @@ public class EditionStagedModelDataHandler
 			.getNewPrimaryKeysMap(EditionGallery.class);
 		for (Map.Entry<Long, Long> galleryIdMapEntry : galleriesIdsMap
 			.entrySet()) {
-			_editionLocalService.addEditionGalleryEdition(
-				galleryIdMapEntry.getValue(), importedEdition);
+			if (stagedModel.getEditionGalleriesIds()
+				.contains(String.valueOf(galleryIdMapEntry.getKey()))) {
+				_editionLocalService.addEditionGalleryEdition(
+					galleryIdMapEntry.getValue(), importedEdition);
+			}
 		}
 
 	}

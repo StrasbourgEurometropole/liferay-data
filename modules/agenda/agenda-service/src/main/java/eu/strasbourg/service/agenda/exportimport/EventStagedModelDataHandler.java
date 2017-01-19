@@ -122,7 +122,8 @@ public class EventStagedModelDataHandler
 		importedEvent.setImageId(stagedModel.getImageId());
 		importedEvent.setDescription(stagedModel.getDescription());
 		importedEvent.setExternalImageURL(stagedModel.getExternalImageURL());
-		importedEvent.setExternalImageCopyright(stagedModel.getExternalImageCopyright());
+		importedEvent
+			.setExternalImageCopyright(stagedModel.getExternalImageCopyright());
 		importedEvent.setPlaceSIGId(stagedModel.getPlaceSIGId());
 		importedEvent.setPlaceName(stagedModel.getPlaceName());
 		importedEvent.setPlaceStreetNumber(stagedModel.getPlaceStreetNumber());
@@ -137,9 +138,11 @@ public class EventStagedModelDataHandler
 		importedEvent.setAccessForDisabled(stagedModel.getAccessForDisabled());
 		importedEvent.setAccessForBlind(stagedModel.getAccessForBlind());
 		importedEvent.setAccessForDeaf(stagedModel.getAccessForDeaf());
-		importedEvent.setAccessForDeficient(stagedModel.getAccessForDeficient());
+		importedEvent
+			.setAccessForDeficient(stagedModel.getAccessForDeficient());
 		importedEvent.setAccessForElder(stagedModel.getAccessForElder());
-		importedEvent.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
+		importedEvent
+			.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
 		importedEvent.setFree(stagedModel.getFree());
 		importedEvent.setPrice(stagedModel.getPrice());
 		importedEvent.setPromoter(stagedModel.getPromoter());
@@ -176,15 +179,17 @@ public class EventStagedModelDataHandler
 			.getNewPrimaryKeysMap(Manifestation.class);
 		for (Map.Entry<Long, Long> manifestationIdMapEntry : manifestationsIdsMap
 			.entrySet()) {
-			_eventLocalService.addManifestationEvent(
-				manifestationIdMapEntry.getValue(), importedEvent);
+			if (stagedModel.getManifestationsIds()
+				.contains(String.valueOf(manifestationIdMapEntry.getKey()))) {
+				_eventLocalService.addManifestationEvent(
+					manifestationIdMapEntry.getValue(), importedEvent);
+			}
 		}
 
 	}
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(
-		EventLocalService eventLocalService) {
+	protected void setEventLocalService(EventLocalService eventLocalService) {
 		this._eventLocalService = eventLocalService;
 	}
 

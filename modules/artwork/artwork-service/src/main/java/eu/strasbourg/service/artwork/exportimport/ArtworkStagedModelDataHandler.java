@@ -177,8 +177,11 @@ public class ArtworkStagedModelDataHandler
 			.getNewPrimaryKeysMap(ArtworkCollection.class);
 		for (Map.Entry<Long, Long> collectionIdMapEntry : collectionsIdsMap
 			.entrySet()) {
-			_artworkLocalService.addArtworkCollectionArtwork(
-				collectionIdMapEntry.getValue(), importedArtwork);
+			if (stagedModel.getArtworkCollectionsIds()
+				.contains(String.valueOf(collectionIdMapEntry.getKey()))) {
+				_artworkLocalService.addArtworkCollectionArtwork(
+					collectionIdMapEntry.getValue(), importedArtwork);
+			}
 		}
 
 	}
