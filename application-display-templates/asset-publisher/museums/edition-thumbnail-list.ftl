@@ -1,3 +1,4 @@
+<!-- Liste de vignettes éditions -->
 <#setting locale = locale />
 <div class="search-asset-portlet">
   <div class="search-asset-results">

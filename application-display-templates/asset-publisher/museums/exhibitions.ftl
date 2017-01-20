@@ -1,3 +1,4 @@
+<!-- Onglet exposition -->
 <#setting locale = locale />
 <div class="exhibition">
   <div class="exhibition-tabs">

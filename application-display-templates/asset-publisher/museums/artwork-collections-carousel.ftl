@@ -1,3 +1,4 @@
+<!-- Carousel collection d'oeuvre -->
 <#setting locale = locale />
 <#if entries?has_content>
     <div class="artwork-collections-carousel">

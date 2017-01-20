@@ -1,3 +1,4 @@
+<!-- Carousel d'actualités -->
 <#setting locale = locale />
 <#setting date_format = "d MMMM yyyy">
 <#if entries?has_content>

@@ -1,3 +1,4 @@
+<!-- Vignette collection d'oeuvre -->
 <#setting locale = locale />
 <#assign fromSearch = renderRequest.getAttribute("fromSearchPortlet")!false >
 <#assign plId = 0 />

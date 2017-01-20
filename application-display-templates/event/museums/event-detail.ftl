@@ -1,5 +1,5 @@
+<!-- Détail événement -->
 <#setting locale = locale />
-<!-- Détail événement (ADT) - ${entry.getTitle(locale)} -->
 <div class="event-detail">
   <div class="event-header">
     <h1 class="event-title">

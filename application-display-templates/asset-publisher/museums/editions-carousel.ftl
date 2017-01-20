@@ -1,3 +1,4 @@
+<!-- Carousel éditions -->
 <#setting locale = locale />
 <#if entries?has_content>
     <div class="items-carousel editions-carousel">

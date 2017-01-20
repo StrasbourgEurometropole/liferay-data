@@ -1,3 +1,4 @@
+<!-- Revues numériques -->
 <#setting locale = locale />
 <#if entries?has_content>
   <div class="numeric-reviews">

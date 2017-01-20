@@ -1,6 +1,5 @@
+<!-- Détail oeuvre -->
 <#setting locale = locale />
-<!-- Détail oeuvre (ADT) - ${entry.getTitle(locale)} -->
-
 <div class="entity-detail artwork-detail">
   <div class="entity-images">
     <div class="entity-images-main image-with-copyright-on-hover">

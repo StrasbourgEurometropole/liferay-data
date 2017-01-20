@@ -1,3 +1,4 @@
+<!-- Oeuvres à la une -->
 <#setting locale = locale />
 <#if entries?has_content>
   <#list entries as curEntry>

@@ -1,3 +1,4 @@
+<!-- Afficheur de vidéo -->
 <#setting locale = locale />
 <div class="video-viewer">
     <h3 class="video-viewer-title">

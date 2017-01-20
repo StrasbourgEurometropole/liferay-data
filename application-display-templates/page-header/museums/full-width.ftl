@@ -1,3 +1,4 @@
+<!-- Entête de page - Full width -->
 <#setting locale = locale />
 <div class="page-header with-image">
     <div class="page-header-image">

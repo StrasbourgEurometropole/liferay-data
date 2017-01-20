@@ -1,3 +1,4 @@
+<!-- Entête de page - 75% -->
 <#setting locale = locale />
 <div class="page-header with-image alt-theme">
     <div class="page-header-image">

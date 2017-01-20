@@ -1,3 +1,4 @@
+<!-- Entête de page - sans image -->
 <#setting locale = locale />
 <div class="page-header">
     <div class="page-header-info">

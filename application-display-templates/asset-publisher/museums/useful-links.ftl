@@ -1,3 +1,4 @@
+<!-- Liens utiles -->
 <#setting locale = locale />
 <div class="useful-links">
     <h3 class="useful-links-title">

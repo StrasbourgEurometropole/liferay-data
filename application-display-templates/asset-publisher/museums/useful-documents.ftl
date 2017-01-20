@@ -1,3 +1,4 @@
+<!-- Documents utiles -->
 <#setting locale = locale />
 <div class="useful-documents">
     <h3 class="useful-documents-title">

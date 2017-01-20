@@ -1,5 +1,5 @@
+<!-- Détail édition -->
 <#setting locale = locale />
-<!-- Détail édition (ADT) - ${entry.getTitle(locale)} -->
 <div class="entity-detail edition-detail">
   <div class="entity-images">
     <div class="entity-images-main image-with-copyright-on-hover">

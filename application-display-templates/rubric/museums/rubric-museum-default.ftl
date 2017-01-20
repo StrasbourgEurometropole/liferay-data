@@ -1,3 +1,4 @@
+<!-- Rubrique -->
 <#setting locale = locale />
 <!--
 Application Display Template par défaut utilisé pour le site des musées.

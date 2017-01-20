@@ -1,3 +1,4 @@
+<!-- Liste de vignettes oeuvres et contenus webs -->
 <#setting locale = locale />
 <div class="search-asset-portlet">
   <div class="search-asset-results">

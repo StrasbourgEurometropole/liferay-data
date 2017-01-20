@@ -1,3 +1,4 @@
+<!-- Liste de vignettes collection d'oeuvres -->
 <#setting locale = locale />
 <div class="search-asset-portlet">
   <div class="search-asset-results">
@@ -8,7 +9,7 @@
         <@liferay_portlet.param name="returnURL" value="${currentURL}" />
       </@liferay_portlet.renderURL>
 
-      <!-- Oeuvre : ${entry.getTitle(locale)} -->
+      <!-- Collection d'oeuvre : ${entry.getTitle(locale)} -->
       <div class="entity-thumbnail artwork-collection-thumbnail ${entry.getSourceCSSClass()}">
         <div class="entity-thumbnail-image">
           <a href="${detailURL}">

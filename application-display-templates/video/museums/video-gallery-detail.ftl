@@ -1,5 +1,5 @@
+<!-- Détail galerie de vidéos -->
 <#setting locale = locale />
-<!-- Détail galerie de vidéos (ADT) - ${entry.getTitle(locale)} -->
 <div class="entity-detail edition-gallery-detail">
   <div class="entity-images">
     <div class="entity-images-main image-with-copyright-on-hover">
