@@ -2,8 +2,10 @@ package eu.strasbourg.utils.models;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -54,6 +56,8 @@ public class LegacyPlace {
 	private String facebookURL; // urlFacebook
 
 	private Map<String, String> nextDaysSchedule; // horaires > map
+	private List<String> nextDays;
+	private List<String> nextSchedules;
 	private String exceptionalSchedule; // horaireExceptionnel
 	private Map<String, String> exceptionalOpenings; // ouvertureExceptionnelle > map
 	private Map<String, String> exceptionalClosings; // fermetureExceptionnelle > map
@@ -125,6 +129,8 @@ public class LegacyPlace {
 			DateTimeFormatter dtfTo = DateTimeFormatter
 				.ofPattern("dd MMMM yyyy", locale);
 			Map<String, String> nextDaysSchedule = new HashMap<String, String>();
+			List<String> nextDays = new ArrayList<String>();
+			List<String> nextSchedules = new ArrayList<String>();
 			if (nextDaysScheduleMapWrapper != null) {
 				JSONObject nextDaysScheduleMap = nextDaysScheduleMapWrapper
 					.getJSONObject("map");
@@ -133,14 +139,19 @@ public class LegacyPlace {
 					for (int i = 0; i < 7; i++) {
 						String schedule = nextDaysScheduleMap
 							.getString(dtfFrom.format(date));
+						nextDays.add(dtfTo.format(date));
 						if (Validator.isNull(schedule) || schedule.contains("Closed*")) {
 							nextDaysSchedule.put(dtfTo.format(date), LanguageUtil.get(locale, "eu.closed"));
+							nextSchedules.add(LanguageUtil.get(locale, "eu.closed"));
 						} else {
-							nextDaysSchedule.put(dtfTo.format(date), schedule);	
+							nextDaysSchedule.put(dtfTo.format(date), schedule);
+							nextSchedules.add(schedule);
 						}
 						date = date.plusDays(1);
 					}
 					legacyPlace.setNextDaysSchedule(nextDaysSchedule);
+					legacyPlace.setNextDays(nextDays);
+					legacyPlace.setNextSchedules(nextSchedules);
 				}
 			}
 			
@@ -408,5 +419,21 @@ public class LegacyPlace {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public List<String> getNextDays() {
+		return nextDays;
+	}
+
+	public void setNextDays(List<String> nextDays) {
+		this.nextDays = nextDays;
+	}
+
+	public List<String> getNextSchedules() {
+		return nextSchedules;
+	}
+
+	public void setNextSchedules(List<String> nextSchedules) {
+		this.nextSchedules = nextSchedules;
 	}
 }
