@@ -186,6 +186,14 @@
             displayMuseumNameOnMobile();
             $(window).on('resize', displayMuseumNameOnMobile);
 
+            // On clique sur la vignette d'un des musées au hasard
+            var randomizeMuseums = function() {
+                if ($('.home-carousel .owl-dot').length > 0) {
+                    var indexToClick = Math.floor(Math.random() * $('.home-carousel .owl-dot').length);
+                    $($('.home-carousel .owl-dot')[indexToClick]).trigger('click');
+                }
+            };
+            randomizeMuseums();
         }
     });
 })(jQuery);
