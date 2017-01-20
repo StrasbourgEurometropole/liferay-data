@@ -395,5 +395,3 @@
         museumHomeResizer();
     });
 })(jQuery);
-
-
