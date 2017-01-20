@@ -168,12 +168,14 @@ public class SearchAssetDisplayContext {
 		}
 
 		// Catégories
+		BooleanQuery categoriesQuery = new BooleanQueryImpl();
 		for (long categoryId : this.getFilterCategoriesIds()) {
 			BooleanQuery categoryQuery = new BooleanQueryImpl();
 			categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
 				String.valueOf(categoryId));
-			query.add(categoryQuery, BooleanClauseOccur.MUST);
+			query.add(categoryQuery, BooleanClauseOccur.SHOULD);
 		}
+		query.add(categoriesQuery, BooleanClauseOccur.MUST);
 
 		// Préfiltre catégories
 		// On fait un "ou" entre les catégories d'un même vocabulaire et un
