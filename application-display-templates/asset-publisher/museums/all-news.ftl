@@ -1,3 +1,5 @@
+<#setting locale = locale />
+<#setting date_format="d MMMM yyyy">
 <#if entries?has_content>
     <div class="all-news">
         <h1 class="all-news-title">

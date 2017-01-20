@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="page-header with-image alt-theme">
     <div class="page-header-image">
         <img src="${layout.expandoBridge.getAttribute('image')}" />

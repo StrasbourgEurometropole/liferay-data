@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="search-asset-portlet">
   <div class="search-asset-results">
     <#list entries as curEntry>

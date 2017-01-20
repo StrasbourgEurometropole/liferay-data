@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <#assign fromSearch = renderRequest.getAttribute("fromSearchPortlet")!false >
 <#assign plId = 0 />
 <#if fromSearch>

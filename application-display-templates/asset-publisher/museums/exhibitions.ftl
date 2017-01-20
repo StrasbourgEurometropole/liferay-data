@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="exhibition">
   <div class="exhibition-tabs">
     <#if entries?has_content>

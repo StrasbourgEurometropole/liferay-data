@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <!--
 Application Display Template par défaut utilisé pour le site des musées.
 Affichage de l'ensemble des sous-pages, avec l'image si elle existe

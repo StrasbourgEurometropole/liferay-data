@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="video-viewer">
     <h3 class="video-viewer-title">
         <@liferay_ui.message key="eu.videos" />

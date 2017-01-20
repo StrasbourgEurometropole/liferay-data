@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="useful-links">
     <h3 class="useful-links-title">
         <@liferay_ui.message key="eu.useful-links" />

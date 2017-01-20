@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <!-- Détail édition (ADT) - ${entry.getTitle(locale)} -->
 <div class="entity-detail edition-detail">
   <div class="entity-images">

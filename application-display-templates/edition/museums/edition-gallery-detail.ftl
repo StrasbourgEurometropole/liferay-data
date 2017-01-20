@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <!-- Détail galerie d'éditions (ADT) - ${entry.getTitle(locale)} -->
 <div class="entity-detail edition-gallery-detail">
   <div class="entity-images">
@@ -15,7 +16,12 @@
       <h1>${entry.getTitle(locale)}</h1>
     </div>
     <div class="entity-children-count">
-      ${entry.getPublishedEditions()?size} <@liferay_ui["message"] key="eu.edition.editions" />
+      ${entry.getPublishedEditions()?size} 
+      <#if (entry.getPublishedEditions()?size > 1)>
+        <@liferay_ui["message"] key="eu.edition.editions" />
+      <#else>
+        <@liferay_ui["message"] key="eu.edition.edition" />
+      </#if>
     </div>
     <div class="entity-description">
       ${entry.getDescription(locale)}

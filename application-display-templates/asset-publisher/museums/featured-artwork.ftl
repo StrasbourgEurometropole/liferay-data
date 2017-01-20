@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <#if entries?has_content>
   <#list entries as curEntry>
     <#assign artwork = curEntry.getAssetRenderer().getArtwork() />

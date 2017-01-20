@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="page-header">
     <div class="page-header-info">
         <div class="page-header-title-and-share">

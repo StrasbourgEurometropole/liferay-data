@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <!-- Détail vidéo ADT (${entry.getTitle(locale)}) -->
 <div class="video-detail">
   <div class="video-detail-player">

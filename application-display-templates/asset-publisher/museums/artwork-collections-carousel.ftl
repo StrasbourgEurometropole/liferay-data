@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <#if entries?has_content>
     <div class="artwork-collections-carousel">
         <h3 class="artwork-carousel-title">

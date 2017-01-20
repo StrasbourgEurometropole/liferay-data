@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <#if entries?has_content>
   <div class="numeric-reviews">
     <#assign categoryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetCategoryLocalService") />

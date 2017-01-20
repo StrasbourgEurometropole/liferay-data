@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <div class="useful-documents">
     <h3 class="useful-documents-title">
         <@liferay_ui.message key="eu.useful-documents" />

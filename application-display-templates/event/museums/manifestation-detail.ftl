@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <!-- Détail manifestation (ADT) - ${entry.getTitle(locale)} -->
 <div class="event-detail manifestation-detail">
   <div class="event-header">

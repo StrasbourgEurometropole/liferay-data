@@ -1,14 +1,13 @@
+<#setting locale = locale />
+<#setting date_format = "d MMMM yyyy">
 <#if entries?has_content>
     <div class="items-carousel news-carousel">
         <h3 class="items-carousel-title">
             <span><@liferay_ui["message"] key="eu.our" /></span>
             <br><@liferay_ui["message"] key="eu.news" />
-
-            <#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
-            <!-- Le lien vers la page de toutes les actualités est défini comme étant la page "/actualites", modifier la ligne ci-dessous si besoin -->
-            <img src="/o/museum-theme/images/icons/facebook-icon.png">
-            <a href="https://facebook.com/"><@liferay_ui.message key="eu.join-us" /></a>
-            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/actualites"><@liferay_ui.message key="eu.news.all-news" /></a>    
+        
+            <@liferay_portlet.renderURL var="viewURL"></@liferay_portlet.renderURL>
+            <a href="${viewURL}"><@liferay_ui.message key="eu.news.all-news" /></a>    
         </h3>
         <div class="owl-carousel ">
           <#list entries as curEntry>
@@ -28,7 +27,6 @@
                 </div>
                 <div class="item-info">
                     <div class="item-date">
-                        <#setting date_format="d MMMM yyyy">
                         <date><@liferay_ui["message"] key="eu.published-on" /> ${publishDate?date}</date>
                     </div>
                     <div class="item-title">
@@ -42,7 +40,7 @@
           </#list>
         </div>
         <div class="news-secondary-links">
-            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/actualites"><@liferay_ui.message key="eu.news.all-news" /></a>  
+            <a href="${viewURL}"><@liferay_ui.message key="eu.news.all-news" /></a>  
             <a href="https://facebook.com/"><@liferay_ui.message key="eu.join-us" /></a>
         </div>
     </div>
