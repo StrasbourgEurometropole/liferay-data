@@ -376,13 +376,30 @@
         });
         $('#keywords-deported-form').on('submit', function(e) {
             e.preventDefault();
-            //var keywords = $('#keywords-deported-form input[type=text]').val();
-            //$('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
+            var keywords = $('#keywords-deported-form input[type=text]').val();
+            $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
             $('.search-asset-form form').submit();
         });
     });
 })(jQuery);
 
+// Moteur de recherche principal du thème
+(function($) {
+    $('#main-search-form, #mobile-search-form').on('submit', function(e) {
+        e.preventDefault();
+        var keywords = $('input[type=search]', this).val();
+        if (keywords.length > 0) {
+            window.location = window.homeURL
+                + '/recherche?' 
+                + 'p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet'
+                + '&p_p_lifecycle=1'
+                + '&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_orderByCol=score'
+                + '&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_orderByType=desc'
+                + '&_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords='
+                + keywords;
+        }
+    })
+})(jQuery);
 
 // Contenu web home : redimensionnement
 (function($) {
@@ -395,5 +412,3 @@
         museumHomeResizer();
     });
 })(jQuery);
-
-
