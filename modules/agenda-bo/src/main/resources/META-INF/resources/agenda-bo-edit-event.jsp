@@ -267,6 +267,12 @@
 	
 </div>
 
+<liferay-util:html-top>
+	<script>
+		var getPeriodRowJSPURL = '${periodRowURL}';
+		var placeAutocompleteURL = '${placeAutocompleteURL}';
+	</script>
+</liferay-util:html-top>
 <liferay-util:html-bottom>
 	<script>
 		define._amd = define.amd;
