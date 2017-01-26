@@ -4,7 +4,8 @@
 
 <div class="search-asset-portlet-page">
 	<div class="search-asset-form">
-		<aui:form action="${searchActionURL}" method="post" name="fm" id="search-asset-form">
+		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
+		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
 			<liferay-util:include page="/forms/museum-form.jsp" servletContext="<%=application %>" />
 		</aui:form>
 	</div>
@@ -26,8 +27,17 @@
 								List<Object> entries = new ArrayList<Object>();
 							%>
 							<div>
+								<c:set var="className" value="${entry.className}" />
+								<c:choose>
+									<c:when test="${fn:contains(className, 'JournalArticle')}">
+										<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
+									</c:when>
+									<c:when test="${fn:contains(className, 'DLFileEntry')}">
+										<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
+									</c:when>
+								</c:choose>
 								<liferay-ddm:template-renderer
-								    className="${entry.className}"
+								    className="${className}"
 								    contextObjects="<%=contextObjects%>"
 								    displayStyle="${dc.templatesMap[entry.className]}"
 								    displayStyleGroupId="${themeDisplay.scopeGroupId}"

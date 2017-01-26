@@ -184,6 +184,9 @@
 	</header>
 
 
+<script>
+	window.homeURL = '/web${layout.group.friendlyURL}';
+</script>
 <script src="/o/museum-theme/js/vendors/owl.carousel.min.js"></script>
 <script src="/o/museum-theme/js/vendors/jquery.dotdotdot.min.js"></script>
 <@liferay_util["include"] page=body_bottom_include />
