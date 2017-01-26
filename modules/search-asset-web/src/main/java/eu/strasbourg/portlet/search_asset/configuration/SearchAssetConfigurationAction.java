@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -136,6 +137,16 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			setPreference(actionRequest, "journalArticleTemplateKey",
 				journalArticleTemplateKey);
 
+			// Recherche de documents
+			boolean searchDocument = ParamUtil.getBoolean(actionRequest,
+				"searchDocument");
+			String documentTemplateKey = ParamUtil.getString(actionRequest,
+				"documentTemplateKey");
+			setPreference(actionRequest, "searchDocument",
+				String.valueOf(searchDocument));
+			setPreference(actionRequest, "documentTemplateKey",
+				documentTemplateKey);
+
 			// VocabulariesIds
 			String vocabulariesIdsString = "";
 			String vocabulariesControlTypes = "";
@@ -179,6 +190,12 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"dateField");
 			setPreference(actionRequest, "dateField",
 				String.valueOf(dateField));
+
+			// Ne pas afficher de résultat avant une recherche utilisateur
+			boolean hideResultsBeforeSearch = ParamUtil
+				.getBoolean(actionRequest, "hideResultsBeforeSearch");
+			setPreference(actionRequest, "hideResultsBeforeSearch",
+				String.valueOf(hideResultsBeforeSearch));
 
 			// Delta
 			long delta = ParamUtil.getLong(actionRequest, "delta");
@@ -226,6 +243,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			}
 			setPreference(actionRequest, "prefilterCategoriesIds",
 				sortedPrefilterCategoriesIds);
+
+			// Préfiltre tags
+			String prefilterTagsIds = ParamUtil.getString(actionRequest,
+				"prefilterTagsIds");
+			setPreference(actionRequest, "prefilterTagsIds", prefilterTagsIds);
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -282,6 +304,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"searchJournalArticle", configuration.searchJournalArticle());
 			request.setAttribute("searchJournalArticle", searchJournalArticle);
 
+			// Recherche de documents
+			boolean searchDocument = ParamUtil.getBoolean(request,
+				"searchDocument", configuration.searchDocument());
+			request.setAttribute("searchDocument", searchDocument);
+
 			// Liste des templates
 			List<List<DDMTemplate>> templatesList = new ArrayList<List<DDMTemplate>>();
 			for (int i = 0; i < availableAssetRendererFactories.size(); i++) {
@@ -305,6 +332,14 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("assetEntryTemplatesList",
 				assetEntryTemplates);
 
+			// Liste des templates pour les documents
+			long documentClassNameId = ClassNameLocalServiceUtil
+				.getClassNameId(FileEntry.class);
+			List<DDMTemplate> documentTemplates = DDMTemplateLocalServiceUtil
+				.getTemplates(themeDisplay.getScopeGroupId(),
+					documentClassNameId);
+			request.setAttribute("documentTemplatesList", documentTemplates);
+
 			// Templates sélectionnés
 			long[] templatesKeys = ParamUtil.getLongValues(request,
 				"templatesKeys");
@@ -319,10 +354,16 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Template sélectionné pour JournalArticle
 			long journalArticleTemplateKey = ParamUtil.getLong(request,
 				"journalArticleTemplateKey",
-				Long.valueOf(configuration.journalArticleTemplateKey()));
+				GetterUtil.getLong(configuration.journalArticleTemplateKey()));
 			request.setAttribute("journalArticleTemplateKey",
 				journalArticleTemplateKey);
-			
+
+			// Template sélectionné pour les documents
+			long documentTemplateKey = ParamUtil.getLong(request,
+				"documentTemplateKey",
+				GetterUtil.getLong(configuration.documentTemplateKey()));
+			request.setAttribute("documentTemplateKey", documentTemplateKey);
+
 			// Layouts
 			String[] layoutsFriendlyURLs = configuration.layoutsFriendlyURLs()
 				.split(",");
@@ -368,6 +409,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				configuration.dateField());
 			request.setAttribute("dateField", dateField);
 
+			// Ne pas afficher de résultat avant une recherche utilisateur
+			boolean hideResultsBeforeSearch = ParamUtil.getBoolean(request,
+				"hideResultsBeforeSearch",
+				configuration.hideResultsBeforeSearch());
+			request.setAttribute("hideResultsBeforeSearch",
+				hideResultsBeforeSearch);
+
 			// Delta
 			long delta = ParamUtil.getLong(request, "delta",
 				configuration.delta());
@@ -378,6 +426,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				.prefilterCategoriesIds().replace(";", ",");
 			request.setAttribute("prefilterCategoriesIds",
 				prefilterCategoriesIds);
+
+			// Préfiltre tags
+			String prefilterTagsIds = configuration.prefilterTagsIds();
+			request.setAttribute("prefilterTagsIds", prefilterTagsIds);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

@@ -17,23 +17,16 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
-import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.search.Sort;
-import com.liferay.portal.kernel.search.SortFactoryUtil;
-import com.liferay.portal.kernel.search.WildcardQuery;
-import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
-import com.liferay.portal.kernel.search.generic.MatchQuery;
-import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -41,9 +34,9 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
+import eu.strasbourg.utils.SearchHelper;
 
 public class SearchAssetDisplayContext {
 
@@ -57,7 +50,12 @@ public class SearchAssetDisplayContext {
 		this._configuration = this._themeDisplay.getPortletDisplay()
 			.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 		this.initSearchContainer();
-		this.initEntries();
+		if (!this._configuration.hideResultsBeforeSearch() || this.isUserSearch()) {
+			this.initEntries();
+		} else {
+			this._entries = new ArrayList<AssetEntry>();
+		}
+		
 	}
 
 	private void initSearchContainer() {
@@ -65,28 +63,31 @@ public class SearchAssetDisplayContext {
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
 		iteratorURL.setParameter("orderByType", this.getOrderByType());
 		int i = 0;
-		for (long categoryId : getFilterCategoriesIds()) {
+		for (Long[] categoriesIds : this.getFilterCategoriesIds()) {
 			iteratorURL.setParameter("vocabulary_" + i,
-				String.valueOf(categoryId));
+				ArrayUtil.toStringArray(categoriesIds));
 			i++;
 		}
+
 		iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
-		i = 0;
-		for (String className : getFilterClassNames()) {
-			iteratorURL.setParameter("className_" + i, className);
-			i++;
-		}
-		iteratorURL.setParameter("classNamesCount", String.valueOf(i));
+
+		iteratorURL.setParameter("className_", this.getFilterClassNames());
+
 		iteratorURL.setParameter("keywords",
 			String.valueOf(this.getKeywords()));
-		iteratorURL.setParameter("fromDay", String.valueOf(this.getFromDay()));
-		iteratorURL.setParameter("fromMonth",
-			String.valueOf(this.getFromMonth()));
-		iteratorURL.setParameter("fromYear",
-			String.valueOf(this.getFromYear()));
-		iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
-		iteratorURL.setParameter("toMonth", String.valueOf(this.getToMonth()));
-		iteratorURL.setParameter("toYear", String.valueOf(this.getToYear()));
+		if (this._configuration.dateField()) {
+			iteratorURL.setParameter("fromDay",
+				String.valueOf(this.getFromDay()));
+			iteratorURL.setParameter("fromMonth",
+				String.valueOf(this.getFromMonth()));
+			iteratorURL.setParameter("fromYear",
+				String.valueOf(this.getFromYear()));
+			iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
+			iteratorURL.setParameter("toMonth",
+				String.valueOf(this.getToMonth()));
+			iteratorURL.setParameter("toYear",
+				String.valueOf(this.getToYear()));
+		}
 
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<AssetEntry>(
@@ -105,128 +106,45 @@ public class SearchAssetDisplayContext {
 		SearchContext searchContext = SearchContextFactory
 			.getInstance(servletRequest);
 
-		// Pagination
-		searchContext.setStart(getSearchContainer().getStart());
-		searchContext.setEnd(getSearchContainer().getEnd());
-
-		// Construction de la requète
-		BooleanQuery query = new BooleanQueryImpl();
-
-		// ClassNames
-		BooleanQuery classNameQuery = new BooleanQueryImpl();
-		for (String className : this.getFilterClassNames()) {
-			if (Validator.isNotNull(className)) {
-				// Cas général
-				if (!className.contains("JournalArticle")) {
-					classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false,
-					BooleanClauseOccur.SHOULD);
-				}
-				// Cas où on a un journalArticle (on vérifie que c'est la dernière version)
-				else {
-					BooleanQuery journalArticleQuery = new BooleanQueryImpl();
-					journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME,
-						"com.liferay.journal.model.JournalArticle", false,
-						BooleanClauseOccur.MUST);
-					journalArticleQuery.addRequiredTerm("head", true);
-					classNameQuery.add(journalArticleQuery, BooleanClauseOccur.SHOULD);
-				}
-			}
-		}
-		query.add(classNameQuery, BooleanClauseOccur.MUST);
-
-		// Group
-		if (this._configuration.globalScope()) {
-			// Si la configuration demande que le groupe global soit inclu
-			// On crée une query faisant un "ou" entre le groupe courant et le
-			// groupe global
-			BooleanQuery groupQuery = new BooleanQueryImpl();
-			BooleanQuery scopeGroupQuery = new BooleanQueryImpl();
-			BooleanQuery globalGroupQuery = new BooleanQueryImpl();
-			scopeGroupQuery.addRequiredTerm(Field.GROUP_ID,
-				this._themeDisplay.getScopeGroupId());
-			globalGroupQuery.addRequiredTerm(Field.GROUP_ID,
-				this._themeDisplay.getCompanyGroupId());
-			groupQuery.add(scopeGroupQuery, BooleanClauseOccur.SHOULD);
-			groupQuery.add(globalGroupQuery, BooleanClauseOccur.SHOULD);
-			query.add(groupQuery, BooleanClauseOccur.MUST);
-		} else {
-			// Sinon on se contente d'ajouter le groupe courant à la requête
-			query.addRequiredTerm(Field.GROUP_ID,
-				this._themeDisplay.getScopeGroupId());
-		}
-
-		// Status
-		query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-
-		// Mots-clés
 		String keywords = ParamUtil.getString(this._request, "keywords");
-		if (Validator.isNotNull(keywords)) {
-			BooleanQuery keywordQuery = new BooleanQueryImpl();
-			MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
-			titleQuery.setFuzziness(new Float(10));
-			keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+		String[] classNames = this.getFilterClassNames();
+		boolean globalScope = this._configuration.globalScope();
+		long groupId = this._themeDisplay.getScopeGroupId();
+		long globalGroupId = this._themeDisplay.getCompanyGroupId();
+		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
 
-			WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
-				Field.TITLE, "*" + keywords + "*");
-			keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
-
-			MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION,
-				keywords);
-			descriptionQuery.setFuzziness(new Float(10));
-			keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
-
-			query.add(keywordQuery, BooleanClauseOccur.MUST);
+		String prefilterCategoriesIdsString = this._configuration
+			.prefilterCategoriesIds();
+		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
+		for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString
+			.split(";")) {
+			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
+				.toLongArray(StringUtil
+					.split(prefilterCategoriesIdsGroupByVocabulary, ";", 0));
+			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 		}
 
-		// Catégories
-		BooleanQuery categoriesQuery = new BooleanQueryImpl();
-		for (long categoryId : this.getFilterCategoriesIds()) {
-			BooleanQuery categoryQuery = new BooleanQueryImpl();
-			categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-				String.valueOf(categoryId));
-			query.add(categoryQuery, BooleanClauseOccur.SHOULD);
-		}
-		query.add(categoriesQuery, BooleanClauseOccur.MUST);
+		String prefilterTagsIdsString = this._configuration.prefilterTagsIds();
+		Long[] prefilterTagsIds = ArrayUtil
+			.toLongArray(StringUtil.split(prefilterTagsIdsString, 0));
 
-		// Préfiltre catégories
-		// On fait un "ou" entre les catégories d'un même vocabulaire et un
-		// "et" entre les différents vocabulaires
-		for (String categoriesIdsGroupByVocabulary : this._configuration
-			.prefilterCategoriesIds().split(";")) {
-			BooleanQuery vocabularyQuery = new BooleanQueryImpl();
-			for (String categoryId : categoriesIdsGroupByVocabulary
-				.split(",")) {
-				if (Validator.isNotNull(categoryId)) {
-					BooleanQuery categoryQuery = new BooleanQueryImpl();
-					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-						String.valueOf(categoryId));
-					vocabularyQuery.add(categoryQuery,
-						BooleanClauseOccur.SHOULD);
-				}
-			}
-			query.add(vocabularyQuery, BooleanClauseOccur.MUST);
-		}
+		boolean dateField = this._configuration.dateField();
+		String fromDate = String.valueOf(this.getFromYear())
+			+ String.valueOf(this.getFromMonth())
+			+ String.valueOf(this.getFromDay()) + "000000";
+		String toDate = String.valueOf(this.getToYear())
+			+ String.valueOf(this.getToMonth())
+			+ String.valueOf(this.getToDay()) + "000000";
 
-		// Dates
-		if (this._configuration.dateField()) {
-			BooleanQuery datesQuery = new BooleanQueryImpl();
-			String fromDate = String.valueOf(this.getFromYear())
-				+ String.valueOf(this.getFromMonth())
-				+ String.valueOf(this.getFromDay()) + "000000";
-			String toDate = String.valueOf(this.getToYear())
-				+ String.valueOf(this.getToMonth())
-				+ String.valueOf(this.getToDay()) + "000000";
-			datesQuery.addRangeTerm("dates", fromDate, toDate);
-			query.add(datesQuery, BooleanClauseOccur.MUST);
-		}
-
-		// Ordre
-		Sort sort = SortFactoryUtil.create(this.getOrderByColSearchField(),
-			"desc".equals(this.getOrderByType()));
-		searchContext.setSorts(sort);
+		String sortField = this.getOrderByColSearchField();
+		boolean isSortDesc = "desc".equals(this.getOrderByType());
 
 		// Recherche
-		Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames,
+			groupId, globalGroupId, globalScope, keywords, dateField, fromDate,
+			toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsIds,
+			this._themeDisplay.getLocale(), getSearchContainer().getStart(),
+			getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (hits != null) {
 			/*
@@ -241,8 +159,11 @@ public class SearchAssetDisplayContext {
 					results.add(entry);
 				}
 			}
-			long count = IndexSearcherHelperUtil.searchCount(searchContext,
-				query);
+			long count = SearchHelper.getGlobalSearchCount(searchContext,
+				classNames, groupId, globalGroupId, globalScope, keywords,
+				dateField, fromDate, toDate, categoriesIds,
+				prefilterCategoriesIds, prefilterTagsIds,
+				this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
 
@@ -253,28 +174,42 @@ public class SearchAssetDisplayContext {
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
 	 * entries
 	 */
-	private long[] getFilterCategoriesIds() {
+	private List<Long[]> getFilterCategoriesIds() {
 		if (_filterCategoriesIds == null) {
+			List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
 			long vocabulariesCount = ParamUtil.getLong(this._request,
 				"vocabulariesCount");
-			List<Long> categoriesIds = new ArrayList<Long>();
 			for (long i = 0; i < vocabulariesCount; i++) {
-				long[] categoriesIdsForVoc = ParamUtil
-					.getLongValues(this._request, "vocabulary_" + i);
+				List<Long> categoriesIds = new ArrayList<Long>();
+				Long[] categoriesIdsForVoc;
+				categoriesIdsForVoc = ArrayUtil.toLongArray(
+					ParamUtil.getLongValues(this._request, "vocabulary_" + i));
 				for (long categoryIdForVoc : categoriesIdsForVoc) {
 					if (categoryIdForVoc > 0) {
 						categoriesIds.add(categoryIdForVoc);
 					}
 				}
+				if (categoriesIds.size() > 0) {
+					filterCategoriesIds.add(ArrayUtil.toLongArray(
+						categoriesIds.stream().mapToLong(l -> l).toArray()));
+				}
 			}
-			this._filterCategoriesIds = categoriesIds.stream().mapToLong(l -> l)
-				.toArray();
+			this._filterCategoriesIds = filterCategoriesIds;
 		}
 		return this._filterCategoriesIds;
 	}
 
 	public String getFilterCategoriesIdsString() {
-		return StringUtil.merge(getFilterCategoriesIds());
+		String filterCategoriesIdsString = "";
+		for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
+			for (long filterCategoryId : filterCategoriesForVoc) {
+				if (filterCategoriesIdsString.length() > 0) {
+					filterCategoriesIdsString += ",";
+				}
+				filterCategoriesIdsString += filterCategoryId;
+			}
+		}
+		return filterCategoriesIdsString;
 	}
 
 	/**
@@ -283,25 +218,13 @@ public class SearchAssetDisplayContext {
 	 */
 	private String[] getFilterClassNames() {
 		if (_filterClassNames == null) {
-			long classNamesCount = ParamUtil.getLong(this._request,
-				"classNamesCount");
-			List<String> classNames = new ArrayList<String>();
-			for (long i = 0; i < classNamesCount; i++) {
-				String className = ParamUtil.getString(this._request,
-					"className_" + i);
-				if (Validator.isNotNull(className)
-					&& !"false".equals(className)) {
-					classNames.add(className);
-				}
-			}
-			this._filterClassNames = classNames.toArray(new String[0]);
+			this._filterClassNames = ParamUtil.getStringValues(this._request,
+				"className");
 		}
 		// Si la liste est vide, on renvoie la liste complète paramétrée via la
 		// configuration (on ne recherche pas sur rien !)
 		if (this._filterClassNames.length == 0) {
-			String[] classNamesArray = new String[this.getClassNames().size()];
-			classNamesArray = this.getClassNames().toArray(classNamesArray);
-			this._filterClassNames = classNamesArray;
+			this._filterClassNames = ArrayUtil.toStringArray(this.getClassNames());
 		}
 		return this._filterClassNames;
 	}
@@ -439,7 +362,12 @@ public class SearchAssetDisplayContext {
 			}
 			if (this._configuration.searchJournalArticle()) {
 				templatesMap.put("com.liferay.journal.model.JournalArticle",
-					"ddmTemplate_" + this._configuration.journalArticleTemplateKey());
+					"ddmTemplate_"
+						+ this._configuration.journalArticleTemplateKey());
+			}
+			if (this._configuration.searchDocument()) {
+				templatesMap.put(DLFileEntry.class.getName(),
+					"ddmTemplate_" + this._configuration.documentTemplateKey());
 			}
 			this._templatesMap = templatesMap;
 		}
@@ -450,13 +378,23 @@ public class SearchAssetDisplayContext {
 	 * Retourne la liste des class names sur lesquelles on recherche
 	 */
 	public List<String> getClassNames() {
-		List<String> classNames = Arrays.asList(this._configuration.assetClassNames().split(","));
-		if (this._configuration.searchJournalArticle()) {
-			List<String> mutableClassNames = new ArrayList<String>(classNames);
-			mutableClassNames.add("com.liferay.journal.model.JournalArticle");
-			return mutableClassNames;
+		if (this._classNames == null) {
+			List<String> classNames = new ArrayList<String>();
+			for (String className : this._configuration.assetClassNames()
+				.split(",")) {
+				if (Validator.isNotNull(className)) {
+					classNames.add(className);
+				}
+			}
+			if (this._configuration.searchJournalArticle()) {
+				classNames.add("com.liferay.journal.model.JournalArticle");
+			}
+			if (this._configuration.searchDocument()) {
+				classNames.add(DLFileEntry.class.getName());
+			}
+			this._classNames = classNames;
 		}
-		return classNames;
+		return this._classNames;
 	}
 
 	/**
@@ -501,6 +439,14 @@ public class SearchAssetDisplayContext {
 		return toParam > 0 ? toParam
 			: getOneMonthLaterCalendar().get(Calendar.YEAR);
 	}
+	
+	public boolean getHideResultsBeforeSearch() {
+		return this._configuration.hideResultsBeforeSearch();
+	}
+	
+	public boolean isUserSearch() {
+		return GetterUtil.getBoolean(this._request.getAttribute("userSearch"));
+	}
 
 	private Calendar getTodayCalendar() {
 		return CalendarFactoryUtil.getCalendar(new Date().getTime());
@@ -522,8 +468,9 @@ public class SearchAssetDisplayContext {
 	private List<AssetEntry> _entries;
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
-	private long[] _filterCategoriesIds;
+	private List<Long[]> _filterCategoriesIds;
 	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
+	private List<String> _classNames;
 
 }

@@ -3,6 +3,8 @@ package eu.strasbourg.utils;
 import java.util.List;
 import java.util.Locale;
 
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalContentSearchLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Layout;
@@ -16,7 +18,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
  * @author Benjamin Bini
  *
  */
-public class LayoutHelper {	
+public class LayoutHelper {
 	/**
 	 * Retourne l'ensemble du path d'un layout
 	 */
@@ -35,31 +37,52 @@ public class LayoutHelper {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Retourne true si la page a des enfants visibles. False sinon.
 	 */
 	public static boolean hasVisibleChildren(Layout layout) {
 		boolean hasVisibleChildren = false;
-		
+
 		for (Layout subLayout : layout.getChildren()) {
 			if (!subLayout.isHidden()) {
 				hasVisibleChildren = true;
 				break;
 			}
 		}
-		
+
 		return hasVisibleChildren;
 	}
-	
-	public static String getJournalArticleLayoutURL(long groupId, String articleId, ThemeDisplay themeDisplay) {
-		List<Long> layoutIds = JournalContentSearchLocalServiceUtil.getLayoutIds(groupId, false, articleId);
-		if (layoutIds.size() > 0) {
-			try {
-				Layout layout = LayoutLocalServiceUtil.getLayout(groupId, false, layoutIds.get(0));
-				return PortalUtil.getLayoutFriendlyURL(layout, themeDisplay, themeDisplay.getLocale());
-			} catch (PortalException e) {
-				e.printStackTrace();
+
+	/**
+	 * Retourne l'URL d'une page où un contenu web donné est affiché. Par défaut
+	 * il s'agit de la page d'affichage. Sinon d'une page où un afficheur de
+	 * contenu web est configuré pour afficher le contenu.
+	 */
+	public static String getJournalArticleLayoutURL(long groupId,
+		String articleId, ThemeDisplay themeDisplay) {
+		// On tente d'abord de récupérer la page d'affichage du contenu web
+		// depuis le champ prévu à cet effet sur le contenu web
+		JournalArticle article = JournalArticleLocalServiceUtil
+			.fetchArticle(groupId, articleId);
+		if (article != null && article.getLayout() != null) {
+			return "/web" + themeDisplay.getScopeGroup().getFriendlyURL()
+				+ "/-/" + article.getUrlTitle();
+		}
+		// S'il n'y en a pas, on essaye de trouver une page où le contenu est
+		// affiché
+		else {
+			List<Long> layoutIds = JournalContentSearchLocalServiceUtil
+				.getLayoutIds(groupId, false, articleId);
+			if (layoutIds.size() > 0) {
+				Layout articleLayout = LayoutLocalServiceUtil
+					.fetchLayout(groupId, false, layoutIds.get(0));
+				try {
+					return PortalUtil.getLayoutFriendlyURL(articleLayout,
+						themeDisplay, themeDisplay.getLocale());
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return "";

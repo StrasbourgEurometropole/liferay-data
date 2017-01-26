@@ -32,6 +32,9 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
+
+	@Meta.AD(name = "prefilterTagsIds", required = false)
+	public String prefilterTagsIds();
 	
 	@Meta.AD(name = "searchJournalArticle", required = false)
 	public boolean searchJournalArticle();
@@ -39,13 +42,21 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "journalArticleTemplateKey", required = false)
 	public String journalArticleTemplateKey();
 	
+	@Meta.AD(name = "searchDocument", required = false)
+	public boolean searchDocument();
+	
+	@Meta.AD(name = "documentTemplateKey", required = false)
+	public String documentTemplateKey();
+	
 	@Meta.AD(name = "globalScope", required = false)
 	public boolean globalScope();
 	
 	@Meta.AD(name = "dateField", required = false)
 	public boolean dateField();
 
+	@Meta.AD(name = "hideResultsBeforeSearch", required = false)
+	public boolean hideResultsBeforeSearch();
+	
 	@Meta.AD(name = "delta", required = false)
 	public long delta();
-
 }

@@ -2,18 +2,20 @@
 
 <h1 class="search-asset-result-count">
 	<liferay-ui:message key="research" />
-	<span>${dc.searchContainer.total }
-		<c:choose>
-			<c:when test="${dc.searchContainer.total le 1}">
-				<liferay-ui:message
-					key="result" />
-			</c:when> 
-			<c:otherwise>
-				<liferay-ui:message
-					key="results" />	
-			</c:otherwise>
-		</c:choose>
-	</span>
+	<c:if test="${not dc.hideResultsBeforeSearch or dc.userSearch}">
+		<span>${dc.searchContainer.total }
+			<c:choose>
+				<c:when test="${dc.searchContainer.total le 1}">
+					<liferay-ui:message
+						key="result" />
+				</c:when> 
+				<c:otherwise>
+					<liferay-ui:message
+						key="results" />	
+				</c:otherwise>
+			</c:choose>
+		</span>
+	</c:if>
 </h1>
 <div class="search-asset-fields">
 	<!-- Type d'assets -->
@@ -23,12 +25,12 @@
 				<liferay-ui:message key="show" />
 			</legend>
 			<div class="asset-type-selection-control open">
-				<aui:input type="hidden" name="classNamesCount"
-					value="${fn:length(dc.classNames)}" />
 				<c:forEach items="${dc.classNames}" var="className"
 					varStatus="classNameStatus">
 					<aui:input type="checkbox" label="${className}"
-						name="className_${classNameStatus.index}" value="${className}"
+						name="className"
+						id="className_${classNameStatus.index}"
+						value="${className}"
 						checked="${fn:contains(dc.filterClassNamesString, className)}" />
 				</c:forEach>
 			</div>

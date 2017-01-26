@@ -4521,7 +4521,20 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border-bottom: 10px solid #a56a79;
   text-align: center;
 }
-/* line 9, ../sass/partials/_entity-thumbnail.scss */
+/* line 8, ../sass/partials/_entity-thumbnail.scss */
+.entity-thumbnail .entity-thumbnail-image.no-image {
+  background-image: url("/o/museum-theme/images/icons/file-placeholder.png");
+  background-size: 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* line 14, ../sass/partials/_entity-thumbnail.scss */
+.entity-thumbnail .entity-thumbnail-image a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* line 20, ../sass/partials/_entity-thumbnail.scss */
 .entity-thumbnail .entity-thumbnail-info {
   padding: 20px;
   position: relative;
