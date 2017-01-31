@@ -99,13 +99,13 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- Portée -->
+			<!-- PortÃ©e -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
 			</aui:fieldset>
 			
-			<!-- Préfiltre -->
+			<!-- PrÃ©filtre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
@@ -119,8 +119,8 @@
 					<liferay-ui:message key="prefilter-tag-explanations" />
 					<label><liferay-ui:message key="tags" /></label>
 					<liferay-ui:asset-tags-selector
-						hiddenInput="prefilterTagsIds"
-						curTags="${prefilterTagsIds}" />
+						hiddenInput="prefilterTagsNames"
+						curTags="${prefilterTagsNames}" />
 				</p>
 			</aui:fieldset>
 
@@ -170,10 +170,10 @@
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="display">
-				<!-- Ne pas afficher de résultats avant que l'utilisateur n'ait fait de recherche -->
+				<!-- Ne pas afficher de rÃ©sultats avant que l'utilisateur n'ait fait de recherche -->
 				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
 				
-				<!-- Nombre de résultats par page -->
+				<!-- Nombre de rÃ©sultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
 			</aui:fieldset>
 
