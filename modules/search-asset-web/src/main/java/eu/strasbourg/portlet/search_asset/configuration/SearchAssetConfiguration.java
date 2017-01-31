@@ -33,8 +33,8 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "prefilterCategoriesIds", required = false)
 	public String prefilterCategoriesIds();
 
-	@Meta.AD(name = "prefilterTagsIds", required = false)
-	public String prefilterTagsIds();
+	@Meta.AD(name = "prefilterTagsNames", required = false)
+	public String prefilterTagsNames();
 	
 	@Meta.AD(name = "searchJournalArticle", required = false)
 	public boolean searchJournalArticle();

@@ -245,9 +245,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				sortedPrefilterCategoriesIds);
 
 			// Préfiltre tags
-			String prefilterTagsIds = ParamUtil.getString(actionRequest,
-				"prefilterTagsIds");
-			setPreference(actionRequest, "prefilterTagsIds", prefilterTagsIds);
+			String prefilterTagsNames = ParamUtil.getString(actionRequest,
+				"prefilterTagsNames");
+			setPreference(actionRequest, "prefilterTagsNames", prefilterTagsNames);
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -428,8 +428,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				prefilterCategoriesIds);
 
 			// Préfiltre tags
-			String prefilterTagsIds = configuration.prefilterTagsIds();
-			request.setAttribute("prefilterTagsIds", prefilterTagsIds);
+			String prefilterTagsNames = configuration.prefilterTagsNames();
+			request.setAttribute("prefilterTagsNames", prefilterTagsNames);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

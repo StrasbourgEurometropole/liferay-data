@@ -1,9 +1,13 @@
 package eu.strasbourg.utils;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Field;
@@ -154,8 +158,8 @@ public class SearchHelper {
 	 *            configuration du préfiltre par l'administrateur) - un OU est
 	 *            effectué entre chaque id de chaque tableau, et UN entre chaque
 	 *            liste
-	 * @param prefilterTagsIds
-	 *            Liste d'ids de tags
+	 * @param prefilterTagsNames
+	 *            Liste de tags
 	 * @param locale
 	 *            Locale
 	 * @param start
@@ -172,7 +176,7 @@ public class SearchHelper {
 		String[] classNames, long groupId, long globalGroupId,
 		boolean globalScope, String keywords, boolean dateField,
 		String fromDate, String toDate, List<Long[]> categoriesIds,
-		List<Long[]> prefilterCategoriesIds, Long[] prefilterTagsIds,
+		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
 		Locale locale, int start, int end, String sortField,
 		boolean isSortDesc) {
 		try {
@@ -183,8 +187,8 @@ public class SearchHelper {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
 				globalGroupId, globalScope, keywords, dateField, fromDate,
-				toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsIds,
-				locale);
+				toDate, categoriesIds, prefilterCategoriesIds,
+				prefilterTagsNames, locale);
 
 			// Ordre
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
@@ -195,7 +199,7 @@ public class SearchHelper {
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			long endTime = System.currentTimeMillis();
 			float duration = (endTime - startTime);
-			System.out.println("Recherche : " + duration + "ms");
+			_log.debug("Recherche : " + duration + "ms");
 			return hits;
 		} catch (SearchException e) {
 			e.printStackTrace();
@@ -211,14 +215,14 @@ public class SearchHelper {
 		String[] classNames, long groupId, long globalGroupId,
 		boolean globalScope, String keywords, boolean dateField,
 		String fromDate, String toDate, List<Long[]> categoriesIds,
-		List<Long[]> prefilterCategoriesIds, Long[] prefilterTagsIds,
+		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
 		Locale locale) {
 		try {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
 				globalGroupId, globalScope, keywords, dateField, fromDate,
-				toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsIds,
-				locale);
+				toDate, categoriesIds, prefilterCategoriesIds,
+				prefilterTagsNames, locale);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
 			e.printStackTrace();
@@ -234,7 +238,7 @@ public class SearchHelper {
 		long globalGroupId, boolean globalScope, String keywords,
 		boolean dateField, String fromDate, String toDate,
 		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-		Long[] prefilterTagsIds, Locale locale) {
+		String[] prefilterTagsNames, Locale locale) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -286,14 +290,21 @@ public class SearchHelper {
 				WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
 
+			BooleanQuery publicationDateQuery = new BooleanQueryImpl();
+			publicationDateQuery.addRangeTerm(Field.PUBLISH_DATE + "_sortable",
+				0, Timestamp.valueOf(LocalDateTime.now()).toInstant()
+					.toEpochMilli());
+			query.add(publicationDateQuery, BooleanClauseOccur.MUST);
+
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
 
 				// Fuzzy sur titre
-				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_'+ locale,
-					keywords);
+				MatchQuery titleQuery = new MatchQuery(
+					Field.TITLE + '_' + locale, keywords);
 				titleQuery.setFuzziness(new Float(10));
+				titleQuery.setAnalyzer("strasbourg_analyzer");
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
 				// Wildcard sur titre
@@ -307,19 +318,21 @@ public class SearchHelper {
 				MatchQuery descriptionQuery = new MatchQuery(
 					Field.DESCRIPTION + "_" + locale, keywords);
 				descriptionQuery.setFuzziness(new Float(10));
+				descriptionQuery.setAnalyzer("strasbourg_analyzer");
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				// Pour les fichiers on recherche dans le champ "title" sans la
 				// locale car il est indexé uniquement comme cela
 				BooleanQuery fileQuery = new BooleanQueryImpl();
-				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE, keywords);
+				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE,
+					keywords);
 				fileTitleQuery.setFuzziness(new Float(10));
 				fileQuery.add(fileTitleQuery, BooleanClauseOccur.MUST);
 				fileQuery.addTerm(Field.ENTRY_CLASS_NAME,
 					DLFileEntry.class.getName(), false,
 					BooleanClauseOccur.MUST);
 				keywordQuery.add(fileQuery, BooleanClauseOccur.SHOULD);
-				
+
 				// Fuzzy sur content (tous les champs indexables des structures
 				// de
 				// CW et de D&M sont dans ce champ)
@@ -397,13 +410,13 @@ public class SearchHelper {
 			}
 
 			// Préfiltre tags
-			if (Validator.isNotNull(prefilterTagsIds)
-				&& prefilterTagsIds.length > 0) {
+			if (Validator.isNotNull(prefilterTagsNames)
+				&& prefilterTagsNames.length > 0) {
 				BooleanQuery tagsQuery = new BooleanQueryImpl();
-				for (long tagId : prefilterTagsIds) {
+				for (String tagName : prefilterTagsNames) {
 					BooleanQuery tagQuery = new BooleanQueryImpl();
 					tagQuery.addRequiredTerm(Field.ASSET_TAG_NAMES,
-						String.valueOf(tagId));
+						String.valueOf(tagName));
 					tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
 				}
 				query.add(tagsQuery, BooleanClauseOccur.MUST);
@@ -415,11 +428,24 @@ public class SearchHelper {
 				datesQuery.addRangeTerm("dates", fromDate, toDate);
 				query.add(datesQuery, BooleanClauseOccur.MUST);
 			}
+
+			// Mise en avant (à rendre configurable)
+			/*
+			 * MatchQuery featuredQuery = new MatchQuery(Field.ASSET_TAG_NAMES,
+			 * "featured"); featuredQuery.setBoost((float) 1.5);
+			 * query.add(featuredQuery, BooleanClauseOccur.SHOULD);
+			 * 
+			 * MatchQuery featuredQuery2 = new MatchQuery(Field.ASSET_TAG_NAMES,
+			 * "favoris"); featuredQuery2.setBoost(2); query.add(featuredQuery2,
+			 * BooleanClauseOccur.SHOULD);
+			 */
+
 			return query;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
 
+	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
 }

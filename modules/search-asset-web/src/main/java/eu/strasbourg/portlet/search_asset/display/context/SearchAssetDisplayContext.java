@@ -1,9 +1,8 @@
 package eu.strasbourg.portlet.search_asset.display.context;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,8 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -27,7 +28,6 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -50,12 +50,13 @@ public class SearchAssetDisplayContext {
 		this._configuration = this._themeDisplay.getPortletDisplay()
 			.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 		this.initSearchContainer();
-		if (!this._configuration.hideResultsBeforeSearch() || this.isUserSearch()) {
+		if (!this._configuration.hideResultsBeforeSearch()
+			|| this.isUserSearch()) {
 			this.initEntries();
 		} else {
 			this._entries = new ArrayList<AssetEntry>();
 		}
-		
+
 	}
 
 	private void initSearchContainer() {
@@ -124,17 +125,18 @@ public class SearchAssetDisplayContext {
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 		}
 
-		String prefilterTagsIdsString = this._configuration.prefilterTagsIds();
-		Long[] prefilterTagsIds = ArrayUtil
-			.toLongArray(StringUtil.split(prefilterTagsIdsString, 0));
+		String prefilterTagsNamesString = this._configuration
+			.prefilterTagsNames();
+		String[] prefilterTagsNames = StringUtil
+			.split(prefilterTagsNamesString);
 
 		boolean dateField = this._configuration.dateField();
-		String fromDate = String.valueOf(this.getFromYear())
-			+ String.valueOf(this.getFromMonth())
-			+ String.valueOf(this.getFromDay()) + "000000";
-		String toDate = String.valueOf(this.getToYear())
-			+ String.valueOf(this.getToMonth())
-			+ String.valueOf(this.getToDay()) + "000000";
+		String fromDate = String.format("%04d", this.getFromYear())
+			+ String.format("%02d", this.getFromMonth())
+			+ String.format("%02d", this.getFromDay()) + "000000";
+		String toDate = String.format("%04d", this.getToYear())
+			+ String.format("%02d", this.getToMonth())
+			+ String.format("%02d", this.getToDay()) + "000000";
 
 		String sortField = this.getOrderByColSearchField();
 		boolean isSortDesc = "desc".equals(this.getOrderByType());
@@ -142,15 +144,21 @@ public class SearchAssetDisplayContext {
 		// Recherche
 		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames,
 			groupId, globalGroupId, globalScope, keywords, dateField, fromDate,
-			toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsIds,
+			toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsNames,
 			this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 			getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (hits != null) {
-			/*
-			 * for (float s : hits.getScores()) { System.out.println(s); }
-			 * System.out.println();
-			 */
+			int i = 0;
+			for (float s : hits.getScores()) {
+				_log.info(
+					GetterUtil.getString(hits.getDocs()[i].get(Field.TITLE))
+						+ " : " + s);
+				i++;
+				if (i > 10) break;
+			}
+			System.out.println();
+
 			for (Document document : hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
@@ -162,7 +170,7 @@ public class SearchAssetDisplayContext {
 			long count = SearchHelper.getGlobalSearchCount(searchContext,
 				classNames, groupId, globalGroupId, globalScope, keywords,
 				dateField, fromDate, toDate, categoriesIds,
-				prefilterCategoriesIds, prefilterTagsIds,
+				prefilterCategoriesIds, prefilterTagsNames,
 				this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
@@ -224,7 +232,8 @@ public class SearchAssetDisplayContext {
 		// Si la liste est vide, on renvoie la liste complète paramétrée via la
 		// configuration (on ne recherche pas sur rien !)
 		if (this._filterClassNames.length == 0) {
-			this._filterClassNames = ArrayUtil.toStringArray(this.getClassNames());
+			this._filterClassNames = ArrayUtil
+				.toStringArray(this.getClassNames());
 		}
 		return this._filterClassNames;
 	}
@@ -406,58 +415,46 @@ public class SearchAssetDisplayContext {
 
 	public int getFromDay() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromDay");
-		return fromParam > 0 ? fromParam
-			: getTodayCalendar().get(Calendar.DAY_OF_MONTH);
+		return fromParam > 0 ? fromParam : LocalDate.now().getDayOfMonth();
+
 	}
 
 	public int getFromMonth() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromMonth");
-		return fromParam > 0 ? fromParam
-			: getTodayCalendar().get(Calendar.MONTH);
+		return fromParam > 0 ? fromParam : LocalDate.now().getMonthValue();
 	}
 
 	public int getFromYear() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromYear");
-		return fromParam > 0 ? fromParam
-			: getTodayCalendar().get(Calendar.YEAR);
+		return fromParam > 0 ? fromParam : LocalDate.now().getYear();
 	}
 
 	public int getToDay() {
 		int toParam = ParamUtil.getInteger(this._request, "toDay");
 		return toParam > 0 ? toParam
-			: getOneMonthLaterCalendar().get(Calendar.DAY_OF_MONTH);
+			: LocalDate.now().plusMonths(1).getDayOfMonth();
 	}
 
 	public int getToMonth() {
 		int toParam = ParamUtil.getInteger(this._request, "toMonth");
 		return toParam > 0 ? toParam
-			: getOneMonthLaterCalendar().get(Calendar.MONTH);
+			: LocalDate.now().plusMonths(1).getMonthValue();
 	}
 
 	public int getToYear() {
 		int toParam = ParamUtil.getInteger(this._request, "toYear");
-		return toParam > 0 ? toParam
-			: getOneMonthLaterCalendar().get(Calendar.YEAR);
+		return toParam > 0 ? toParam : LocalDate.now().plusMonths(1).getYear();
 	}
-	
+
 	public boolean getHideResultsBeforeSearch() {
 		return this._configuration.hideResultsBeforeSearch();
 	}
-	
+
 	public boolean isUserSearch() {
 		return GetterUtil.getBoolean(this._request.getAttribute("userSearch"));
 	}
 
-	private Calendar getTodayCalendar() {
-		return CalendarFactoryUtil.getCalendar(new Date().getTime());
-	}
-
-	private Calendar getOneMonthLaterCalendar() {
-		Calendar calendar = CalendarFactoryUtil
-			.getCalendar(new Date().getTime());
-		calendar.add(Calendar.MONTH, 1);
-		return calendar;
-	}
+	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;
