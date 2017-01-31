@@ -15,7 +15,7 @@
  */
 package eu.strasbourg.portlet.edition.action;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -124,8 +124,10 @@ public class SaveEditionActionCommand
 			String pictureNumber = ParamUtil.getString(request, "pictureNumber");
 			edition.setPictureNumber(pictureNumber);
 
-			String publicationDateString = ParamUtil.getString(request, "publicationDate");
-			Date publicationDate = DateUtil.parseDate(publicationDateString, request.getLocale());
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request, "publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(publicationDateString + " " + publicationDateTimeString, new SimpleDateFormat("dd/MM/yyyy hh:mm"));			
 			edition.setPublicationDate(publicationDate);
 			
 			List<EditionGallery> oldGalleries = edition.getEditionGalleries();
@@ -141,8 +143,6 @@ public class SaveEditionActionCommand
 			
 			_editionLocalService.updateEdition(edition, sc);
 		} catch (PortalException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
