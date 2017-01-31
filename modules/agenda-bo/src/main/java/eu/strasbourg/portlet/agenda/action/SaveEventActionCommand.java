@@ -16,7 +16,6 @@
 package eu.strasbourg.portlet.agenda.action;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +35,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -196,8 +195,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 
 			String displayDateString = ParamUtil.getString(request,
 				"displayDate");
-			Date displayDate = DateUtil.parseDate(displayDateString,
-				request.getLocale());
+			String displayDateTimeString = ParamUtil.getString(request, "displayDateTime");
+			Date displayDate = GetterUtil.getDate(displayDateString + " " + displayDateTimeString, new SimpleDateFormat("dd/MM/yyyy hh:mm"));			
 			event.setDisplayDate(displayDate);
 
 			List<Manifestation> oldManifestations = event.getManifestations();
@@ -270,8 +269,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
