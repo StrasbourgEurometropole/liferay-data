@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+
 import eu.strasbourg.utils.api.FileEntryHelperService;
 
 /**
@@ -38,6 +40,11 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	@Override
 	public String getImageLegend(long fileEntryId, Locale locale) {
 		return FileEntryHelper.getImageLegend(fileEntryId, locale);
+	}
+	
+	@Override
+	public String getFileThumbnail(long fileEntryId, ThemeDisplay themeDisplay) {
+		return FileEntryHelper.getFileThumbnail(fileEntryId, themeDisplay);
 	}
 
 }

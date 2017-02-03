@@ -85,12 +85,14 @@ public class ArtworkCollectionLocalServiceImpl
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public ArtworkCollection createArtworkCollection(ServiceContext sc) throws PortalException {
+	public ArtworkCollection createArtworkCollection(ServiceContext sc)
+		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		long pk = counterLocalService.increment();
 
-		ArtworkCollection collection = this.artworkCollectionLocalService.createArtworkCollection(pk);
+		ArtworkCollection collection = this.artworkCollectionLocalService
+			.createArtworkCollection(pk);
 
 		collection.setGroupId(sc.getScopeGroupId());
 		collection.setUserName(user.getFullName());
@@ -105,7 +107,8 @@ public class ArtworkCollectionLocalServiceImpl
 	 * Met à jour une édition et l'enregistre en base de données
 	 */
 	@Override
-	public ArtworkCollection updateArtworkCollection(ArtworkCollection collection, ServiceContext sc)
+	public ArtworkCollection updateArtworkCollection(
+		ArtworkCollection collection, ServiceContext sc)
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
@@ -116,27 +119,33 @@ public class ArtworkCollectionLocalServiceImpl
 		// Si on n'utilise pas le framework workflow, simple gestion
 		// brouillon/publié
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-			sc.getCompanyId(), sc.getScopeGroupId(), ArtworkCollection.class.getName())) {
+			sc.getCompanyId(), sc.getScopeGroupId(),
+			ArtworkCollection.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 				collection.setStatus(WorkflowConstants.STATUS_APPROVED);
 			} else {
 				collection.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
 				// supprime cette dernière
-				ArtworkCollection liveArtworkCollection = collection.getLiveVersion();
+				ArtworkCollection liveArtworkCollection = collection
+					.getLiveVersion();
 				if (liveArtworkCollection != null) {
-					this.removeArtworkCollection(liveArtworkCollection.getCollectionId());
+					this.removeArtworkCollection(
+						liveArtworkCollection.getCollectionId());
 				}
 			}
-			collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+			collection = this.artworkCollectionLocalService
+				.updateArtworkCollection(collection);
 			this.updateAssetEntry(collection, sc);
 			this.reindex(collection, false);
 		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
 				 // l'enregistrement
-			collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+			collection = this.artworkCollectionLocalService
+				.updateArtworkCollection(collection);
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-				collection.getCompanyId(), collection.getGroupId(), collection.getUserId(),
-				ArtworkCollection.class.getName(), collection.getPrimaryKey(), collection, sc);
+				collection.getCompanyId(), collection.getGroupId(),
+				collection.getUserId(), ArtworkCollection.class.getName(),
+				collection.getPrimaryKey(), collection, sc);
 		}
 
 		return collection;
@@ -175,35 +184,38 @@ public class ArtworkCollectionLocalServiceImpl
 	}
 
 	/**
-	/**
-	 * Met à jour le statut de l'oeuvre par le framework workflow
+	 * /** Met à jour le statut de l'oeuvre par le framework workflow
 	 */
 	@Override
 	public ArtworkCollection updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
 		ArtworkCollection collection = this.getArtworkCollection(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
 		collection.setStatus(status);
-		collection.setStatusByUserId(user.getUserId());
-		collection.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			collection.setStatusByUserId(user.getUserId());
+			collection.setStatusByUserName(user.getFullName());
+		}
 		collection.setStatusDate(new Date());
 
-		collection = this.artworkCollectionLocalService.updateArtworkCollection(collection);
+		collection = this.artworkCollectionLocalService
+			.updateArtworkCollection(collection);
 
-		AssetEntry entry = this.assetEntryLocalService
-			.getEntry(ArtworkCollection.class.getName(), collection.getPrimaryKey());
+		AssetEntry entry = this.assetEntryLocalService.getEntry(
+			ArtworkCollection.class.getName(), collection.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(collection, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
 		// supprime cette dernière
 		ArtworkCollection liveArtworkCollection = collection.getLiveVersion();
-		if (status == WorkflowConstants.STATUS_DRAFT && liveArtworkCollection != null) {
-			this.removeArtworkCollection(liveArtworkCollection.getCollectionId());
+		if (status == WorkflowConstants.STATUS_DRAFT
+			&& liveArtworkCollection != null) {
+			this.removeArtworkCollection(
+				liveArtworkCollection.getCollectionId());
 		}
 
 		return collection;
@@ -215,7 +227,8 @@ public class ArtworkCollectionLocalServiceImpl
 	@Override
 	public void updateStatus(ArtworkCollection collection, int status)
 		throws PortalException {
-		this.updateStatus(collection.getUserId(), collection.getCollectionId(), status, null, null);
+		this.updateStatus(collection.getUserId(), collection.getCollectionId(),
+			status, null, null);
 	}
 
 	/**
@@ -257,7 +270,7 @@ public class ArtworkCollectionLocalServiceImpl
 
 		// Supprime l'index
 		reindex(collection, true);
-		
+
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 			collection.getCompanyId(), collection.getGroupId(),
@@ -268,7 +281,6 @@ public class ArtworkCollectionLocalServiceImpl
 		if (liveCollection != null) {
 			this.removeArtworkCollection(liveCollection.getCollectionId());
 		}
-
 
 		return collection;
 	}

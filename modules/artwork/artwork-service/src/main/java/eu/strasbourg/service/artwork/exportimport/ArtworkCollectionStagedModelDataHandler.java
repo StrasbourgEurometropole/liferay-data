@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -34,7 +36,8 @@ public class ArtworkCollectionStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		ArtworkCollection artworkCollection = this.fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		ArtworkCollection artworkCollection = this
+			.fetchStagedModelByUuidAndGroupId(uuid, groupId);
 		if (artworkCollection != null) {
 			deleteStagedModel(artworkCollection);
 		}
@@ -43,7 +46,8 @@ public class ArtworkCollectionStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(ArtworkCollection stagedModel)
 		throws PortalException {
-		this._artworkCollectionLocalService.removeArtworkCollection(stagedModel.getCollectionId());
+		this._artworkCollectionLocalService
+			.removeArtworkCollection(stagedModel.getCollectionId());
 	}
 
 	@Override
@@ -85,8 +89,8 @@ public class ArtworkCollectionStagedModelDataHandler
 					portletDataContext, stagedModel, image,
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			_log.error(e);
 		}
 	}
 
@@ -148,8 +152,11 @@ public class ArtworkCollectionStagedModelDataHandler
 			.getNewPrimaryKeysMap(Artwork.class);
 		for (Map.Entry<Long, Long> artworkIdMapEntry : artworksIdsMap
 			.entrySet()) {
-			_artworkCollectionLocalService.addArtworkArtworkCollection(
-				artworkIdMapEntry.getValue(), importedArtworkCollection);
+			if (stagedModel.getArtworksIds()
+				.contains(String.valueOf(artworkIdMapEntry.getKey()))) {
+				_artworkCollectionLocalService.addArtworkArtworkCollection(
+					artworkIdMapEntry.getValue(), importedArtworkCollection);
+			}
 		}
 
 	}
@@ -162,4 +169,5 @@ public class ArtworkCollectionStagedModelDataHandler
 
 	private ArtworkCollectionLocalService _artworkCollectionLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

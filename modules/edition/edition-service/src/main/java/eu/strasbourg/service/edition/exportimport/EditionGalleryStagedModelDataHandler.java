@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -34,7 +36,8 @@ public class EditionGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		EditionGallery editionGallery = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		EditionGallery editionGallery = fetchStagedModelByUuidAndGroupId(uuid,
+			groupId);
 		if (editionGallery != null) {
 			deleteStagedModel(editionGallery);
 		}
@@ -43,7 +46,8 @@ public class EditionGalleryStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(EditionGallery stagedModel)
 		throws PortalException {
-		this._editionGalleryLocalService.removeGallery(stagedModel.getGalleryId());
+		this._editionGalleryLocalService
+			.removeGallery(stagedModel.getGalleryId());
 	}
 
 	@Override
@@ -87,8 +91,8 @@ public class EditionGalleryStagedModelDataHandler
 					portletDataContext, stagedModel, image,
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			_log.error(e);
 		}
 	}
 
@@ -153,8 +157,11 @@ public class EditionGalleryStagedModelDataHandler
 			.getNewPrimaryKeysMap(Edition.class);
 		for (Map.Entry<Long, Long> editionIdMapEntry : editionsIdsMap
 			.entrySet()) {
-			_editionGalleryLocalService.addEditionEditionGallery(
-				editionIdMapEntry.getValue(), importedEditionGallery);
+			if (stagedModel.getEditionsIds()
+				.contains(String.valueOf(editionIdMapEntry.getKey()))) {
+				_editionGalleryLocalService.addEditionEditionGallery(
+					editionIdMapEntry.getValue(), importedEditionGallery);
+			}
 		}
 
 	}
@@ -167,4 +174,5 @@ public class EditionGalleryStagedModelDataHandler
 
 	private EditionGalleryLocalService _editionGalleryLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

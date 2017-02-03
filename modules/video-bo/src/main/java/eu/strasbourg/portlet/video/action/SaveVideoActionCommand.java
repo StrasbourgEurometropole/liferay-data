@@ -15,6 +15,8 @@
  */
 package eu.strasbourg.portlet.video.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,10 +29,13 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -90,6 +95,12 @@ public class SaveVideoActionCommand
 			Long transcriptionFileId = ParamUtil.getLong(request, "transcriptionFileId");
 			video.setTranscriptionFileId(transcriptionFileId);
 			
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request, "publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(publicationDateString + " " + publicationDateTimeString, new SimpleDateFormat("dd/MM/yyyy hh:mm"));			
+			video.setPublicationDate(publicationDate);
+			
 			// Galeries
 			List<VideoGallery> oldGalleries = video.getVideoGalleries();
 			for (VideoGallery gallery : oldGalleries) {
@@ -104,7 +115,7 @@ public class SaveVideoActionCommand
 			
 			_videoLocalService.updateVideo(video, sc);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 		return true;
@@ -119,4 +130,5 @@ public class SaveVideoActionCommand
 		_videoLocalService = videoLocalService;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

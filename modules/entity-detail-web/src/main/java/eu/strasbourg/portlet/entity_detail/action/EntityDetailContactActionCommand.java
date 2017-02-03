@@ -22,6 +22,8 @@ import javax.portlet.PortletException;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -92,7 +94,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
     				footerText = GetterUtil.getString(ed.getAttribute("text_footer_mail_contact"));
     				footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
 				} catch (Exception ex) {
-					System.out.println("Missing expando field");
+					_log.error("Missing expando field");
 				}
 
 				body = "<p>" + headerText + "</p>" + body + "<p>" + footerText + "</p>";
@@ -119,4 +121,5 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		return false;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -8,12 +8,18 @@ import java.util.Map;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.Value;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 
 /**
  * Classe Helper pour tout ce qui concerne les fichiers
@@ -173,11 +179,22 @@ public class FileEntryHelper {
 				}
 
 			} catch (PortalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e);
 			}
 		}
 		return fieldValue;
 	}
 
+	public static String getFileThumbnail(Long fileEntryId, ThemeDisplay themeDisplay) {
+		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
+		try {
+			return DLUtil.getThumbnailSrc(fileEntry, themeDisplay);
+		} catch (Exception e) {
+			_log.error(e);
+			return "";
+		}
+		
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());
 }

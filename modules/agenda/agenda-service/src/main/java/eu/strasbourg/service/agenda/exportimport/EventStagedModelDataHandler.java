@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -86,7 +88,7 @@ public class EventStagedModelDataHandler
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex);
 		}
 
 	}
@@ -122,7 +124,8 @@ public class EventStagedModelDataHandler
 		importedEvent.setImageId(stagedModel.getImageId());
 		importedEvent.setDescription(stagedModel.getDescription());
 		importedEvent.setExternalImageURL(stagedModel.getExternalImageURL());
-		importedEvent.setExternalImageCopyright(stagedModel.getExternalImageCopyright());
+		importedEvent
+			.setExternalImageCopyright(stagedModel.getExternalImageCopyright());
 		importedEvent.setPlaceSIGId(stagedModel.getPlaceSIGId());
 		importedEvent.setPlaceName(stagedModel.getPlaceName());
 		importedEvent.setPlaceStreetNumber(stagedModel.getPlaceStreetNumber());
@@ -137,9 +140,11 @@ public class EventStagedModelDataHandler
 		importedEvent.setAccessForDisabled(stagedModel.getAccessForDisabled());
 		importedEvent.setAccessForBlind(stagedModel.getAccessForBlind());
 		importedEvent.setAccessForDeaf(stagedModel.getAccessForDeaf());
-		importedEvent.setAccessForDeficient(stagedModel.getAccessForDeficient());
+		importedEvent
+			.setAccessForDeficient(stagedModel.getAccessForDeficient());
 		importedEvent.setAccessForElder(stagedModel.getAccessForElder());
-		importedEvent.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
+		importedEvent
+			.setAccessForWheelchair(stagedModel.getAccessForWheelchair());
 		importedEvent.setFree(stagedModel.getFree());
 		importedEvent.setPrice(stagedModel.getPrice());
 		importedEvent.setPromoter(stagedModel.getPromoter());
@@ -148,7 +153,7 @@ public class EventStagedModelDataHandler
 		importedEvent.setWebsiteName(stagedModel.getWebsiteName());
 		importedEvent.setWebsiteURL(stagedModel.getWebsiteURL());
 		importedEvent.setSource(stagedModel.getSource());
-		importedEvent.setDisplayDate(stagedModel.getDisplayDate());
+		importedEvent.setPublicationDate(stagedModel.getPublicationDate());
 		importedEvent.setStatus(stagedModel.getStatus());
 
 		// Import de l'asset, tags, catégories, et des élémeents liés
@@ -176,18 +181,21 @@ public class EventStagedModelDataHandler
 			.getNewPrimaryKeysMap(Manifestation.class);
 		for (Map.Entry<Long, Long> manifestationIdMapEntry : manifestationsIdsMap
 			.entrySet()) {
-			_eventLocalService.addManifestationEvent(
-				manifestationIdMapEntry.getValue(), importedEvent);
+			if (stagedModel.getManifestationsIds()
+				.contains(String.valueOf(manifestationIdMapEntry.getKey()))) {
+				_eventLocalService.addManifestationEvent(
+					manifestationIdMapEntry.getValue(), importedEvent);
+			}
 		}
 
 	}
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(
-		EventLocalService eventLocalService) {
+	protected void setEventLocalService(EventLocalService eventLocalService) {
 		this._eventLocalService = eventLocalService;
 	}
 
 	private EventLocalService _eventLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

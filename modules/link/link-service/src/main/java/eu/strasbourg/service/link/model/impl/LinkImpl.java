@@ -20,6 +20,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
@@ -59,7 +61,7 @@ public class LinkImpl extends LinkBaseImpl {
 			return AssetEntryLocalServiceUtil.getEntry(Link.class.getName(),
 				this.getLinkId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
@@ -87,4 +89,6 @@ public class LinkImpl extends LinkBaseImpl {
 		Link liveLink = LinkLocalServiceUtil.fetchLinkByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveLink;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

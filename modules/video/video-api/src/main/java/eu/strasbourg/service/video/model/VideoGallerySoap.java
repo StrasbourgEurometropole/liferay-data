@@ -49,6 +49,7 @@ public class VideoGallerySoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -222,6 +223,14 @@ public class VideoGallerySoap implements Serializable {
 		_description = description;
 	}
 
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
+	}
+
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -245,5 +254,6 @@ public class VideoGallerySoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private Date _publicationDate;
 	private Long _imageId;
 }

@@ -232,7 +232,7 @@
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="management">
 				<aui:input name="source" disabled="true" />
-				<aui:input name="displayDate" />
+				<aui:input name="publicationDate" />
 			</aui:fieldset>
 		</aui:fieldset-group>
 
@@ -267,6 +267,12 @@
 	
 </div>
 
+<liferay-util:html-top>
+	<script>
+		var getPeriodRowJSPURL = '${periodRowURL}';
+		var placeAutocompleteURL = '${placeAutocompleteURL}';
+	</script>
+</liferay-util:html-top>
 <liferay-util:html-bottom>
 	<script>
 		define._amd = define.amd;

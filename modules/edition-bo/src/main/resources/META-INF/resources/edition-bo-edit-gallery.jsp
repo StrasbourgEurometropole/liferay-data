@@ -29,7 +29,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="galleryId" type="hidden" />
 
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="false" collapsible="true"
 				label="general">
 
 				<aui:input name="title">
@@ -49,7 +49,7 @@
 
 			</aui:fieldset>
 
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 				
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
@@ -79,8 +79,7 @@
 
 			</aui:fieldset>
 
-
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="publication">
 				<aui:input name="publicationDate" />
 			</aui:fieldset>

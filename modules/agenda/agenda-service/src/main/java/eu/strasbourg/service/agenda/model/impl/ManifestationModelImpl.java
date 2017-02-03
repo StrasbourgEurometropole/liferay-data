@@ -99,7 +99,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			{ "description", Types.CLOB },
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
-			{ "displayDate", Types.TIMESTAMP }
+			{ "publicationDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -122,10 +122,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,startDate DATE null,endDate DATE null,displayDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,startDate DATE null,endDate DATE null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Manifestation";
 	public static final String ORDER_BY_JPQL = " ORDER BY manifestation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Manifestation.title ASC";
@@ -143,8 +143,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long TITLE_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -177,7 +179,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		model.setDescription(soapModel.getDescription());
 		model.setStartDate(soapModel.getStartDate());
 		model.setEndDate(soapModel.getEndDate());
-		model.setDisplayDate(soapModel.getDisplayDate());
+		model.setPublicationDate(soapModel.getPublicationDate());
 
 		return model;
 	}
@@ -273,7 +275,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		attributes.put("description", getDescription());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("displayDate", getDisplayDate());
+		attributes.put("publicationDate", getPublicationDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -391,10 +393,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			setEndDate(endDate);
 		}
 
-		Date displayDate = (Date)attributes.get("displayDate");
+		Date publicationDate = (Date)attributes.get("publicationDate");
 
-		if (displayDate != null) {
-			setDisplayDate(displayDate);
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 	}
 
@@ -569,7 +571,19 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -873,13 +887,23 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@JSON
 	@Override
-	public Date getDisplayDate() {
-		return _displayDate;
+	public Date getPublicationDate() {
+		return _publicationDate;
 	}
 
 	@Override
-	public void setDisplayDate(Date displayDate) {
-		_displayDate = displayDate;
+	public void setPublicationDate(Date publicationDate) {
+		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationDate == null) {
+			_originalPublicationDate = _publicationDate;
+		}
+
+		_publicationDate = publicationDate;
+	}
+
+	public Date getOriginalPublicationDate() {
+		return _originalPublicationDate;
 	}
 
 	@Override
@@ -1099,7 +1123,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		manifestationImpl.setDescription(getDescription());
 		manifestationImpl.setStartDate(getStartDate());
 		manifestationImpl.setEndDate(getEndDate());
-		manifestationImpl.setDisplayDate(getDisplayDate());
+		manifestationImpl.setPublicationDate(getPublicationDate());
 
 		manifestationImpl.resetOriginalValues();
 
@@ -1172,7 +1196,13 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 		manifestationModelImpl._setModifiedDate = false;
 
+		manifestationModelImpl._originalStatus = manifestationModelImpl._status;
+
+		manifestationModelImpl._setOriginalStatus = false;
+
 		manifestationModelImpl._originalTitle = manifestationModelImpl._title;
+
+		manifestationModelImpl._originalPublicationDate = manifestationModelImpl._publicationDate;
 
 		manifestationModelImpl._columnBitmask = 0;
 	}
@@ -1289,13 +1319,13 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			manifestationCacheModel.endDate = Long.MIN_VALUE;
 		}
 
-		Date displayDate = getDisplayDate();
+		Date publicationDate = getPublicationDate();
 
-		if (displayDate != null) {
-			manifestationCacheModel.displayDate = displayDate.getTime();
+		if (publicationDate != null) {
+			manifestationCacheModel.publicationDate = publicationDate.getTime();
 		}
 		else {
-			manifestationCacheModel.displayDate = Long.MIN_VALUE;
+			manifestationCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
 		return manifestationCacheModel;
@@ -1341,8 +1371,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getStartDate());
 		sb.append(", endDate=");
 		sb.append(getEndDate());
-		sb.append(", displayDate=");
-		sb.append(getDisplayDate());
+		sb.append(", publicationDate=");
+		sb.append(getPublicationDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -1429,8 +1459,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getEndDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>displayDate</column-name><column-value><![CDATA[");
-		sb.append(getDisplayDate());
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1458,6 +1488,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1469,7 +1501,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private String _descriptionCurrentLanguageId;
 	private Date _startDate;
 	private Date _endDate;
-	private Date _displayDate;
+	private Date _publicationDate;
+	private Date _originalPublicationDate;
 	private long _columnBitmask;
 	private Manifestation _escapedModel;
 }

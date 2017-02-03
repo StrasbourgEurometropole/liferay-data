@@ -52,6 +52,7 @@ public class VideoSoap implements Serializable {
 		soapModel.setCopyright(model.getCopyright());
 		soapModel.setOrigin(model.getOrigin());
 		soapModel.setSource(model.getSource());
+		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setTranscriptionFileId(model.getTranscriptionFileId());
 
@@ -250,6 +251,14 @@ public class VideoSoap implements Serializable {
 		_source = source;
 	}
 
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
+	}
+
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -284,6 +293,7 @@ public class VideoSoap implements Serializable {
 	private String _copyright;
 	private String _origin;
 	private String _source;
+	private Date _publicationDate;
 	private Long _imageId;
 	private Long _transcriptionFileId;
 }

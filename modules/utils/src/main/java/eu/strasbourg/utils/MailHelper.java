@@ -5,6 +5,8 @@ import javax.mail.internet.InternetAddress;
 
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 public class MailHelper {
 	public static boolean sendMailWithPlainText(String from, String to,
@@ -23,7 +25,7 @@ public class MailHelper {
 			MailServiceUtil.sendEmail(mailMessage);
 			return true;
 		} catch (AddressException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return false;
 		}
 	}
@@ -45,8 +47,10 @@ public class MailHelper {
 			MailServiceUtil.sendEmail(mailMessage);
 			return true;
 		} catch (AddressException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return false;
 		}
 	}
+	
+	private static final Log _log = LogFactoryUtil.getLog(MailHelper.class.getName());
 }

@@ -77,6 +77,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		attributes.put("copyright", getCopyright());
 		attributes.put("origin", getOrigin());
 		attributes.put("source", getSource());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
 		attributes.put("transcriptionFileId", getTranscriptionFileId());
 
@@ -191,6 +192,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 
 		if (source != null) {
 			setSource(source);
+		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -861,6 +868,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Returns the publication date of this video.
+	*
+	* @return the publication date of this video
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _video.getPublicationDate();
+	}
+
+	/**
 	* Returns the status date of this video.
 	*
 	* @return the status date of this video
@@ -1311,6 +1328,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_video.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publication date of this video.
+	*
+	* @param publicationDate the publication date of this video
+	*/
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_video.setPublicationDate(publicationDate);
 	}
 
 	/**

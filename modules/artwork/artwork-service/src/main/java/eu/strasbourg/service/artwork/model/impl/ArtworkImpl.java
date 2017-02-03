@@ -217,7 +217,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getSources() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), "source des oeuvres");
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), "musees");
 	}
 
 	/**

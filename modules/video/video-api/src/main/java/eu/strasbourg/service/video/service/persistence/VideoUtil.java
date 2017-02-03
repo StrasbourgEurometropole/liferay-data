@@ -26,6 +26,7 @@ import eu.strasbourg.service.video.model.Video;
 
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -647,6 +648,196 @@ public class VideoUtil {
 	*/
 	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
+	}
+
+	/**
+	* Returns all the videos where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the matching videos
+	*/
+	public static List<Video> findByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+		return getPersistence()
+				   .findByPublicationDateAndStatus(publicationDate, status);
+	}
+
+	/**
+	* Returns a range of all the videos where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @return the range of matching videos
+	*/
+	public static List<Video> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end) {
+		return getPersistence()
+				   .findByPublicationDateAndStatus(publicationDate, status,
+			start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the videos where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching videos
+	*/
+	public static List<Video> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .findByPublicationDateAndStatus(publicationDate, status,
+			start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the videos where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching videos
+	*/
+	public static List<Video> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		OrderByComparator<Video> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByPublicationDateAndStatus(publicationDate, status,
+			start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first video in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video
+	* @throws NoSuchVideoException if a matching video could not be found
+	*/
+	public static Video findByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		OrderByComparator<Video> orderByComparator)
+		throws eu.strasbourg.service.video.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByPublicationDateAndStatus_First(publicationDate,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the first video in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video, or <code>null</code> if a matching video could not be found
+	*/
+	public static Video fetchByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .fetchByPublicationDateAndStatus_First(publicationDate,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the last video in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video
+	* @throws NoSuchVideoException if a matching video could not be found
+	*/
+	public static Video findByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		OrderByComparator<Video> orderByComparator)
+		throws eu.strasbourg.service.video.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByPublicationDateAndStatus_Last(publicationDate,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the last video in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video, or <code>null</code> if a matching video could not be found
+	*/
+	public static Video fetchByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .fetchByPublicationDateAndStatus_Last(publicationDate,
+			status, orderByComparator);
+	}
+
+	/**
+	* Returns the videos before and after the current video in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param videoId the primary key of the current video
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video
+	* @throws NoSuchVideoException if a video with the primary key could not be found
+	*/
+	public static Video[] findByPublicationDateAndStatus_PrevAndNext(
+		long videoId, Date publicationDate, int status,
+		OrderByComparator<Video> orderByComparator)
+		throws eu.strasbourg.service.video.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByPublicationDateAndStatus_PrevAndNext(videoId,
+			publicationDate, status, orderByComparator);
+	}
+
+	/**
+	* Removes all the videos where publicationDate &lt; &#63; and status = &#63; from the database.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	*/
+	public static void removeByPublicationDateAndStatus(Date publicationDate,
+		int status) {
+		getPersistence()
+			.removeByPublicationDateAndStatus(publicationDate, status);
+	}
+
+	/**
+	* Returns the number of videos where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the number of matching videos
+	*/
+	public static int countByPublicationDateAndStatus(Date publicationDate,
+		int status) {
+		return getPersistence()
+				   .countByPublicationDateAndStatus(publicationDate, status);
 	}
 
 	/**

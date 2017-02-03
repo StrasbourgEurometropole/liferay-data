@@ -147,8 +147,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(price);
 		sb.append(", source=");
 		sb.append(source);
-		sb.append(", displayDate=");
-		sb.append(displayDate);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append(", scheduleComments=");
 		sb.append(scheduleComments);
 		sb.append(", firstStartDate=");
@@ -378,11 +378,11 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setSource(source);
 		}
 
-		if (displayDate == Long.MIN_VALUE) {
-			eventImpl.setDisplayDate(null);
+		if (publicationDate == Long.MIN_VALUE) {
+			eventImpl.setPublicationDate(null);
 		}
 		else {
-			eventImpl.setDisplayDate(new Date(displayDate));
+			eventImpl.setPublicationDate(new Date(publicationDate));
 		}
 
 		if (scheduleComments == null) {
@@ -467,7 +467,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		free = objectInput.readInt();
 		price = objectInput.readUTF();
 		source = objectInput.readUTF();
-		displayDate = objectInput.readLong();
+		publicationDate = objectInput.readLong();
 		scheduleComments = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
@@ -676,7 +676,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(source);
 		}
 
-		objectOutput.writeLong(displayDate);
+		objectOutput.writeLong(publicationDate);
 
 		if (scheduleComments == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -731,7 +731,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public int free;
 	public String price;
 	public String source;
-	public long displayDate;
+	public long publicationDate;
 	public String scheduleComments;
 	public long firstStartDate;
 	public long lastEndDate;

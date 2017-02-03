@@ -25,12 +25,6 @@
 <liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
 </liferay-portlet:actionURL>
-<liferay-util:html-top>
-	<script>
-		var getPeriodRowJSPURL = '${periodRowURL}';
-		var placeAutocompleteURL = '${placeAutocompleteURL}';
-	</script>
-</liferay-util:html-top>
 <liferay-util:html-bottom>
 	<script
 		src="/o/agendabo/js/agenda-bo-main.js"

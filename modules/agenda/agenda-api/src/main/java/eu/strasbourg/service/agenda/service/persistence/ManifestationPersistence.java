@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
+import java.util.Date;
+
 /**
  * The persistence interface for the manifestation service.
  *
@@ -634,6 +636,155 @@ public interface ManifestationPersistence extends BasePersistence<Manifestation>
 	* @return the number of matching manifestations
 	*/
 	public int countByGroupId(long groupId);
+
+	/**
+	* Returns all the manifestations where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the matching manifestations
+	*/
+	public java.util.List<Manifestation> findByPublicationDateAndStatus(
+		Date publicationDate, int status);
+
+	/**
+	* Returns a range of all the manifestations where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @return the range of matching manifestations
+	*/
+	public java.util.List<Manifestation> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end);
+
+	/**
+	* Returns an ordered range of all the manifestations where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching manifestations
+	*/
+	public java.util.List<Manifestation> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the manifestations where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching manifestations
+	*/
+	public java.util.List<Manifestation> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first manifestation in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public Manifestation findByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException;
+
+	/**
+	* Returns the first manifestation in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public Manifestation fetchByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator);
+
+	/**
+	* Returns the last manifestation in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public Manifestation findByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException;
+
+	/**
+	* Returns the last manifestation in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public Manifestation fetchByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator);
+
+	/**
+	* Returns the manifestations before and after the current manifestation in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param manifestationId the primary key of the current manifestation
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next manifestation
+	* @throws NoSuchManifestationException if a manifestation with the primary key could not be found
+	*/
+	public Manifestation[] findByPublicationDateAndStatus_PrevAndNext(
+		long manifestationId, Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException;
+
+	/**
+	* Removes all the manifestations where publicationDate &lt; &#63; and status = &#63; from the database.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	*/
+	public void removeByPublicationDateAndStatus(Date publicationDate,
+		int status);
+
+	/**
+	* Returns the number of manifestations where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the number of matching manifestations
+	*/
+	public int countByPublicationDateAndStatus(Date publicationDate, int status);
 
 	/**
 	* Caches the manifestation in the entity cache if it is enabled.

@@ -130,8 +130,9 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 				 // l'enregistrement
 			artwork = this.artworkLocalService.updateArtwork(artwork);
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-				artwork.getCompanyId(), artwork.getGroupId(), artwork.getUserId(),
-				Artwork.class.getName(), artwork.getPrimaryKey(), artwork, sc);
+				artwork.getCompanyId(), artwork.getGroupId(),
+				artwork.getUserId(), Artwork.class.getName(),
+				artwork.getPrimaryKey(), artwork, sc);
 		}
 
 		return artwork;
@@ -177,11 +178,13 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
 		Artwork artwork = this.getArtwork(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
 
 		artwork.setStatus(status);
-		artwork.setStatusByUserId(user.getUserId());
-		artwork.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			artwork.setStatusByUserId(user.getUserId());
+			artwork.setStatusByUserName(user.getFullName());
+		}
 		artwork.setStatusDate(new Date());
 
 		artwork = this.artworkLocalService.updateArtwork(artwork);
@@ -190,7 +193,7 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			.getEntry(Artwork.class.getName(), artwork.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(artwork, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
@@ -209,7 +212,8 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	@Override
 	public void updateStatus(Artwork artwork, int status)
 		throws PortalException {
-		this.updateStatus(artwork.getUserId(), artwork.getArtworkId(), status, null, null);
+		this.updateStatus(artwork.getUserId(), artwork.getArtworkId(), status,
+			null, null);
 	}
 
 	/**
@@ -255,8 +259,8 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
-			artwork.getCompanyId(), artwork.getGroupId(), Artwork.class.getName(),
-			artwork.getArtworkId());
+			artwork.getCompanyId(), artwork.getGroupId(),
+			Artwork.class.getName(), artwork.getArtworkId());
 
 		// S'il existe une version live de l'oeuvre, on la supprime
 		Artwork liveArtwork = artwork.getLiveVersion();
@@ -270,7 +274,8 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 	/**
 	 * Reindex the artwork in the search engine
 	 */
-	private void reindex(Artwork artwork, boolean delete) throws SearchException {
+	private void reindex(Artwork artwork, boolean delete)
+		throws SearchException {
 		Indexer<Artwork> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Artwork.class);
 		if (delete) {

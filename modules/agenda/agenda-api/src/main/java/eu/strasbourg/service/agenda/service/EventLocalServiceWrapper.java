@@ -485,6 +485,16 @@ public class EventLocalServiceWrapper implements EventLocalService,
 		_eventLocalService.addManifestationEvents(manifestationId, eventIds);
 	}
 
+	/**
+	* Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	@Override
+	public void checkEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_eventLocalService.checkEvents();
+	}
+
 	@Override
 	public void clearManifestationEvents(long manifestationId) {
 		_eventLocalService.clearManifestationEvents(manifestationId);

@@ -75,6 +75,7 @@ public class VideoGalleryWrapper implements VideoGallery,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -170,6 +171,12 @@ public class VideoGalleryWrapper implements VideoGallery,
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -614,6 +621,16 @@ public class VideoGalleryWrapper implements VideoGallery,
 	}
 
 	/**
+	* Returns the publication date of this video gallery.
+	*
+	* @return the publication date of this video gallery
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _videoGallery.getPublicationDate();
+	}
+
+	/**
 	* Returns the status date of this video gallery.
 	*
 	* @return the status date of this video gallery
@@ -918,6 +935,16 @@ public class VideoGalleryWrapper implements VideoGallery,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_videoGallery.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publication date of this video gallery.
+	*
+	* @param publicationDate the publication date of this video gallery
+	*/
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_videoGallery.setPublicationDate(publicationDate);
 	}
 
 	/**

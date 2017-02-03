@@ -445,6 +445,15 @@ public class ManifestationLocalServiceUtil {
 		getService().addEventManifestations(eventId, manifestationIds);
 	}
 
+	/**
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public static void checkManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().checkManifestations();
+	}
+
 	public static void clearEventManifestations(long eventId) {
 		getService().clearEventManifestations(eventId);
 	}

@@ -26,6 +26,7 @@
 		<field localized="true" name="source" type="String">
 			<hint name="max-length">4000</hint>
 		</field>
+		<field name="publicationDate" type="Date" />
 		<field name="imageId" type="Long" />
 		<field name="transcriptionFileId" type="Long" />
 	</model>
@@ -49,6 +50,7 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="publicationDate" type="Date" />
 		<field name="imageId" type="Long" />
 	</model>
 </model-hints>

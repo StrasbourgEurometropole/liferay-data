@@ -53,6 +53,14 @@
 						${place.servicesAndActivities}
 					</div>
 				</c:if>
+				<c:if test="${not empty place.features}">
+					<div class="place-info-section">
+						<h4>
+							<liferay-ui:message key="eu.features" />
+						</h4>
+						${place.features}
+					</div>
+				</c:if>
 				<c:if
 					test="${not empty place.accessForDisabled or place.hasAnyAccessForDisabled()}">
 					<div class="place-info-section">
@@ -89,14 +97,6 @@
 							</div>
 						</c:if>
 						${place.accessForDisabled}
-					</div>
-				</c:if>
-				<c:if test="${not empty place.features}">
-					<div class="place-info-section">
-						<h4>
-							<liferay-ui:message key="eu.features" />
-						</h4>
-						${place.features}
 					</div>
 				</c:if>
 				<c:if test="${not empty place.moreInformation}">
@@ -188,10 +188,10 @@
 						</h4>
 						<div class="place-schedule">
 							<ul>
-								<c:forEach var="scheduleEntry" items="${place.nextDaysSchedule}">
+								<c:forEach var="day" items="${place.nextDays}" varStatus="dayStatus">
 									<li class="schedule">
-										<div class="schedule-day">${scheduleEntry.key}</div>
-										<div class="schedule-time">${scheduleEntry.value}</div>
+										<div class="schedule-day">${day}</div>
+										<div class="schedule-time">${place.nextSchedules[dayStatus.index]}</div>
 									</li>
 								</c:forEach>
 							</ul>

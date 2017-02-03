@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -95,8 +97,8 @@ public class VideoStagedModelDataHandler
 					portletDataContext, stagedModel, transcription,
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			_log.error(e);
 		}
 
 	}
@@ -137,7 +139,7 @@ public class VideoStagedModelDataHandler
 		importedVideo.setCopyright(stagedModel.getCopyright());
 		importedVideo.setOrigin(stagedModel.getOrigin());
 		importedVideo.setSource(stagedModel.getSource());
-		
+		importedVideo.setPublicationDate(stagedModel.getPublicationDate());
 		importedVideo.setStatus(stagedModel.getStatus());
 
 		/**
@@ -154,8 +156,8 @@ public class VideoStagedModelDataHandler
 			.getNewPrimaryKeysMap(DLFileEntry.class);
 		importedVideo.setImageId(FileEntryHelper
 			.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
-		importedVideo.setTranscriptionFileId(FileEntryHelper
-			.getLiveFileEntryId(stagedModel.getTranscriptionFileId(), newIdsMap));
+		importedVideo.setTranscriptionFileId(FileEntryHelper.getLiveFileEntryId(
+			stagedModel.getTranscriptionFileId(), newIdsMap));
 
 		// On update la vidéo
 		this._videoLocalService.updateVideo(importedVideo, sc);
@@ -170,8 +172,11 @@ public class VideoStagedModelDataHandler
 			.getNewPrimaryKeysMap(VideoGallery.class);
 		for (Map.Entry<Long, Long> galleryIdMapEntry : galleriesIdsMap
 			.entrySet()) {
-			_videoLocalService.addVideoGalleryVideo(
-				galleryIdMapEntry.getValue(), importedVideo);
+			if (stagedModel.getVideoGalleriesIds()
+				.contains(String.valueOf(galleryIdMapEntry.getKey()))) {
+				_videoLocalService.addVideoGalleryVideo(
+					galleryIdMapEntry.getValue(), importedVideo);
+			}
 		}
 
 	}
@@ -183,4 +188,5 @@ public class VideoStagedModelDataHandler
 
 	private VideoLocalService _videoLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

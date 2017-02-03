@@ -121,7 +121,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "free", Types.INTEGER },
 			{ "price", Types.CLOB },
 			{ "source", Types.VARCHAR },
-			{ "displayDate", Types.TIMESTAMP },
+			{ "publicationDate", Types.TIMESTAMP },
 			{ "scheduleComments", Types.CLOB },
 			{ "firstStartDate", Types.TIMESTAMP },
 			{ "lastEndDate", Types.TIMESTAMP },
@@ -170,14 +170,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("free", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("displayDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("scheduleComments", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,displayDate DATE null,scheduleComments TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,publicationDate DATE null,scheduleComments TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -195,9 +195,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long TITLE_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 16L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -252,7 +254,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setFree(soapModel.getFree());
 		model.setPrice(soapModel.getPrice());
 		model.setSource(soapModel.getSource());
-		model.setDisplayDate(soapModel.getDisplayDate());
+		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setScheduleComments(soapModel.getScheduleComments());
 		model.setFirstStartDate(soapModel.getFirstStartDate());
 		model.setLastEndDate(soapModel.getLastEndDate());
@@ -374,7 +376,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("source", getSource());
-		attributes.put("displayDate", getDisplayDate());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
@@ -631,10 +633,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			setSource(source);
 		}
 
-		Date displayDate = (Date)attributes.get("displayDate");
+		Date publicationDate = (Date)attributes.get("publicationDate");
 
-		if (displayDate != null) {
-			setDisplayDate(displayDate);
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		String scheduleComments = (String)attributes.get("scheduleComments");
@@ -835,7 +837,19 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -1991,13 +2005,23 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
-	public Date getDisplayDate() {
-		return _displayDate;
+	public Date getPublicationDate() {
+		return _publicationDate;
 	}
 
 	@Override
-	public void setDisplayDate(Date displayDate) {
-		_displayDate = displayDate;
+	public void setPublicationDate(Date publicationDate) {
+		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationDate == null) {
+			_originalPublicationDate = _publicationDate;
+		}
+
+		_publicationDate = publicationDate;
+	}
+
+	public Date getOriginalPublicationDate() {
+		return _originalPublicationDate;
 	}
 
 	@JSON
@@ -2523,7 +2547,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setFree(getFree());
 		eventImpl.setPrice(getPrice());
 		eventImpl.setSource(getSource());
-		eventImpl.setDisplayDate(getDisplayDate());
+		eventImpl.setPublicationDate(getPublicationDate());
 		eventImpl.setScheduleComments(getScheduleComments());
 		eventImpl.setFirstStartDate(getFirstStartDate());
 		eventImpl.setLastEndDate(getLastEndDate());
@@ -2602,7 +2626,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		eventModelImpl._setModifiedDate = false;
 
+		eventModelImpl._originalStatus = eventModelImpl._status;
+
+		eventModelImpl._setOriginalStatus = false;
+
 		eventModelImpl._originalTitle = eventModelImpl._title;
+
+		eventModelImpl._originalPublicationDate = eventModelImpl._publicationDate;
 
 		eventModelImpl._columnBitmask = 0;
 	}
@@ -2864,13 +2894,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.source = null;
 		}
 
-		Date displayDate = getDisplayDate();
+		Date publicationDate = getPublicationDate();
 
-		if (displayDate != null) {
-			eventCacheModel.displayDate = displayDate.getTime();
+		if (publicationDate != null) {
+			eventCacheModel.publicationDate = publicationDate.getTime();
 		}
 		else {
-			eventCacheModel.displayDate = Long.MIN_VALUE;
+			eventCacheModel.publicationDate = Long.MIN_VALUE;
 		}
 
 		eventCacheModel.scheduleComments = getScheduleComments();
@@ -2988,8 +3018,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getPrice());
 		sb.append(", source=");
 		sb.append(getSource());
-		sb.append(", displayDate=");
-		sb.append(getDisplayDate());
+		sb.append(", publicationDate=");
+		sb.append(getPublicationDate());
 		sb.append(", scheduleComments=");
 		sb.append(getScheduleComments());
 		sb.append(", firstStartDate=");
@@ -3172,8 +3202,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>displayDate</column-name><column-value><![CDATA[");
-		sb.append(getDisplayDate());
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>scheduleComments</column-name><column-value><![CDATA[");
@@ -3217,6 +3247,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -3256,7 +3288,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _price;
 	private String _priceCurrentLanguageId;
 	private String _source;
-	private Date _displayDate;
+	private Date _publicationDate;
+	private Date _originalPublicationDate;
 	private String _scheduleComments;
 	private String _scheduleCommentsCurrentLanguageId;
 	private Date _firstStartDate;

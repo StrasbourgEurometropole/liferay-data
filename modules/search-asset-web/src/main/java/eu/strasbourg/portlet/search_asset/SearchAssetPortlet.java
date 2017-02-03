@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -11,6 +13,8 @@ import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
@@ -26,8 +30,10 @@ import eu.strasbourg.portlet.search_asset.display.context.SearchAssetDisplayCont
 	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/search-asset-view.jsp",
+		"javax.portlet.init-param.check-auth-token=false",
 		"javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },
@@ -50,10 +56,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 			// Boolean pour dire qu'on vient du portlet de recherche et non d'un asset publisher
 			renderRequest.setAttribute("fromSearchPortlet", true);
-			Map<String, Long> className_layoutId = new HashMap<String, Long>();
 			
 			// On envoie a la jsp la map className / layout qui fait correspondre à chaque type d'asset une page de détail
 			int i = 0;
+			Map<String, Long> className_layoutId = new HashMap<String, Long>();
 			for (String className : configuration.assetClassNames().split(",")) {
 				String layoutFriendlyURL = configuration.layoutsFriendlyURLs().split(",")[i];
 				Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(themeDisplay.getScopeGroupId(), false, layoutFriendlyURL);
@@ -62,14 +68,27 @@ public class SearchAssetPortlet extends MVCPortlet {
 				}
 				i++;
 			}
+			
 			renderRequest.setAttribute("classNameLayoutId", className_layoutId);
 			
 			
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
+	/**
+	 * L'utilisateur a fait une recherche, on en profite pour set un attribut
+	 */
+	@Override
+	public void processAction(ActionRequest actionRequest,
+		ActionResponse actionResponse) throws IOException, PortletException {
+		
+		actionRequest.setAttribute("userSearch", true);
+		
+		super.processAction(actionRequest, actionResponse);
+	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

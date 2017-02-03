@@ -16,7 +16,6 @@
 package eu.strasbourg.portlet.agenda.action;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,11 +31,13 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -194,11 +195,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "price");
 			event.setPriceMap(price);
 
-			String displayDateString = ParamUtil.getString(request,
-				"displayDate");
-			Date displayDate = DateUtil.parseDate(displayDateString,
-				request.getLocale());
-			event.setDisplayDate(displayDate);
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request,
+				"publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(
+				publicationDateString + " " + publicationDateTimeString,
+				new SimpleDateFormat("dd/MM/yyyy hh:mm"));
+			event.setPublicationDate(publicationDate);
 
 			List<Manifestation> oldManifestations = event.getManifestations();
 			for (Manifestation manifestation : oldManifestations) {
@@ -270,9 +274,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 		return true;
@@ -295,4 +297,5 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		_eventPeriodLocalService = eventPeriodLocalService;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

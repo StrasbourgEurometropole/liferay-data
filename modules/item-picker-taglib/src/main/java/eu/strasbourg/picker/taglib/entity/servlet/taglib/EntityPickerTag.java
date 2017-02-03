@@ -12,6 +12,8 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
@@ -95,7 +97,7 @@ public class EntityPickerTag extends IncludeTag {
 						entities.add(entry);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					_log.error(e);
 				}
 			}
 		}
@@ -224,4 +226,5 @@ public class EntityPickerTag extends IncludeTag {
 	private String _multiple;
 	private String _type;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

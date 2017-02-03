@@ -66,6 +66,10 @@
 			<finder-column name="groupId" />
 			<finder-column name="title" />
 		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
 		
 
 		<!-- References -->
@@ -115,9 +119,12 @@
 		<finder name="title" return-type="Collection">
 			<finder-column name="title" />
 		</finder>
-		
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
 		</finder>
 
 		<!-- References -->

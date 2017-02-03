@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
@@ -79,7 +78,8 @@ public class ViewCollectionsDisplayContext {
 			String keywords = ParamUtil.getString(servletRequest, "keywords");
 			Hits hits = SearchHelper.getBOSearchHits(searchContext,
 				this.getSearchContainer().getStart(),
-				this.getSearchContainer().getEnd(), ArtworkCollection.class.getName(),
+				this.getSearchContainer().getEnd(),
+				ArtworkCollection.class.getName(),
 				this._themeDisplay.getScopeGroupId(),
 				this.getFilterCategoriesIds(), keywords,
 				this.getOrderByColSearchField(),
@@ -87,16 +87,18 @@ public class ViewCollectionsDisplayContext {
 
 			// Total
 			int count = (int) SearchHelper.getBOSearchCount(searchContext,
-				Artwork.class.getName(), this._themeDisplay.getScopeGroupId(),
+				ArtworkCollection.class.getName(),
+				this._themeDisplay.getScopeGroupId(),
 				this.getFilterCategoriesIds(), keywords);
 			this.getSearchContainer().setTotal(count);
-			
+
 			// Création de la liste d'objet
 			List<ArtworkCollection> results = new ArrayList<ArtworkCollection>();
 			if (hits != null) {
 				for (Document document : hits.getDocs()) {
-					ArtworkCollection collection = ArtworkCollectionLocalServiceUtil.fetchArtworkCollection(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					ArtworkCollection collection = ArtworkCollectionLocalServiceUtil
+						.fetchArtworkCollection(GetterUtil
+							.getLong(document.get(Field.ENTRY_CLASS_PK)));
 					if (collection != null) {
 						results.add(collection);
 					}

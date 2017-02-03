@@ -184,12 +184,7 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 		java.lang.String uuid, long groupId) throws PortalException;
 
 	/**
-	* Delete an Edition Gallery
-	*
-	* @param galleryId
-	The ID of the edition gallery to delete
-	* @return The deleted EditionGallery
-	* @throws PortalException
+	* Supprime une galerie
 	*/
 	public EditionGallery removeGallery(long galleryId)
 		throws PortalException;
@@ -276,11 +271,14 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public List<EditionGallery> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
 
+	/**
+	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
-	* Retourne toutes les galeries éditions d'un groupe
+	* Retourne toutes les galeries editions d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<EditionGallery> getByGroupId(long groupId);
@@ -374,6 +372,12 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 		EditionGallery editionGallery);
 
 	public void addEditionEditionGallery(long editionId, long galleryId);
+
+	/**
+	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public void checkGalleries() throws PortalException;
 
 	public void clearEditionEditionGalleries(long editionId);
 

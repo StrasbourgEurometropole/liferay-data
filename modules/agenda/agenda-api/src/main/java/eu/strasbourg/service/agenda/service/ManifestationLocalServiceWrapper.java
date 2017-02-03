@@ -489,6 +489,16 @@ public class ManifestationLocalServiceWrapper
 			manifestationIds);
 	}
 
+	/**
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	@Override
+	public void checkManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_manifestationLocalService.checkManifestations();
+	}
+
 	@Override
 	public void clearEventManifestations(long eventId) {
 		_manifestationLocalService.clearEventManifestations(eventId);

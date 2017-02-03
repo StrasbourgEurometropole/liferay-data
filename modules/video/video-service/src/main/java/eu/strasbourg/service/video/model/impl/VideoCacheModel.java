@@ -65,7 +65,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,8 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		sb.append(origin);
 		sb.append(", source=");
 		sb.append(source);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", transcriptionFileId=");
@@ -208,6 +210,13 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			videoImpl.setSource(source);
 		}
 
+		if (publicationDate == Long.MIN_VALUE) {
+			videoImpl.setPublicationDate(null);
+		}
+		else {
+			videoImpl.setPublicationDate(new Date(publicationDate));
+		}
+
 		videoImpl.setImageId(imageId);
 		videoImpl.setTranscriptionFileId(transcriptionFileId);
 
@@ -242,6 +251,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		copyright = objectInput.readUTF();
 		origin = objectInput.readUTF();
 		source = objectInput.readUTF();
+		publicationDate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 
@@ -325,6 +335,8 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			objectOutput.writeUTF(source);
 		}
 
+		objectOutput.writeLong(publicationDate);
+
 		objectOutput.writeLong(imageId);
 
 		objectOutput.writeLong(transcriptionFileId);
@@ -348,6 +360,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	public String copyright;
 	public String origin;
 	public String source;
+	public long publicationDate;
 	public long imageId;
 	public long transcriptionFileId;
 }

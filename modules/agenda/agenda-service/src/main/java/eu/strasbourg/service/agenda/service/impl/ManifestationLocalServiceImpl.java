@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -81,17 +83,18 @@ public class ManifestationLocalServiceImpl
 	 * access the event manifestation local service.
 	 */
 
-
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public Manifestation createManifestation(ServiceContext sc) throws PortalException {
+	public Manifestation createManifestation(ServiceContext sc)
+		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		long pk = counterLocalService.increment();
 
-		Manifestation manifestation = this.manifestationLocalService.createManifestation(pk);
+		Manifestation manifestation = this.manifestationLocalService
+			.createManifestation(pk);
 
 		manifestation.setGroupId(sc.getScopeGroupId());
 		manifestation.setUserName(user.getFullName());
@@ -106,8 +109,8 @@ public class ManifestationLocalServiceImpl
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
 	@Override
-	public Manifestation updateManifestation(Manifestation manifestation, ServiceContext sc)
-		throws PortalException {
+	public Manifestation updateManifestation(Manifestation manifestation,
+		ServiceContext sc) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		manifestation.setStatusByUserId(sc.getUserId());
@@ -117,27 +120,37 @@ public class ManifestationLocalServiceImpl
 		// Si on n'utilise pas le framework workflow, simple gestion
 		// brouillon/publié
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-			sc.getCompanyId(), sc.getScopeGroupId(), Manifestation.class.getName())) {
+			sc.getCompanyId(), sc.getScopeGroupId(),
+			Manifestation.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				manifestation.setStatus(WorkflowConstants.STATUS_APPROVED);
+				if (manifestation.getPublicationDate().after(new Date())) {
+					manifestation.setStatus(WorkflowConstants.STATUS_SCHEDULED);
+				} else {
+					manifestation.setStatus(WorkflowConstants.STATUS_APPROVED);
+				}
 			} else {
 				manifestation.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
 				// supprime cette dernière
-				Manifestation liveManifestation = manifestation.getLiveVersion();
+				Manifestation liveManifestation = manifestation
+					.getLiveVersion();
 				if (liveManifestation != null) {
-					this.removeManifestation(liveManifestation.getManifestationId());
+					this.removeManifestation(
+						liveManifestation.getManifestationId());
 				}
 			}
-			manifestation = this.manifestationLocalService.updateManifestation(manifestation);
+			manifestation = this.manifestationLocalService
+				.updateManifestation(manifestation);
 			this.updateAssetEntry(manifestation, sc);
 			this.reindex(manifestation, false);
 		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
 				 // l'enregistrement
-			manifestation = this.manifestationLocalService.updateManifestation(manifestation);
+			manifestation = this.manifestationLocalService
+				.updateManifestation(manifestation);
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-				manifestation.getCompanyId(), manifestation.getGroupId(), manifestation.getUserId(),
-				Manifestation.class.getName(), manifestation.getPrimaryKey(), manifestation, sc);
+				manifestation.getCompanyId(), manifestation.getGroupId(),
+				manifestation.getUserId(), Manifestation.class.getName(),
+				manifestation.getPrimaryKey(), manifestation, sc);
 		}
 
 		return manifestation;
@@ -161,9 +174,9 @@ public class ManifestationLocalServiceImpl
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
 			manifestation.getStatus() == WorkflowConstants.STATUS_APPROVED, // Visible
-			manifestation.getDisplayDate(), // Start date
+			manifestation.getPublicationDate(), // Start date
 			null, // End date
-			manifestation.getDisplayDate(), // Publication date
+			manifestation.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			manifestation.getTitle(), // Title
@@ -186,27 +199,37 @@ public class ManifestationLocalServiceImpl
 	public Manifestation updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
+		Date now = new Date();
 		Manifestation manifestation = this.getManifestation(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
 		manifestation.setStatus(status);
-		manifestation.setStatusByUserId(user.getUserId());
-		manifestation.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			manifestation.setStatusByUserId(user.getUserId());
+			manifestation.setStatusByUserName(user.getFullName());
+		}
 		manifestation.setStatusDate(new Date());
+		if (manifestation.isApproved()) {
+			manifestation.setPublicationDate(now);
+		}
 
-		manifestation = this.manifestationLocalService.updateManifestation(manifestation);
+		manifestation = this.manifestationLocalService
+			.updateManifestation(manifestation);
 
-		AssetEntry entry = this.assetEntryLocalService
-			.getEntry(Manifestation.class.getName(), manifestation.getPrimaryKey());
+		AssetEntry entry = this.assetEntryLocalService.getEntry(
+			Manifestation.class.getName(), manifestation.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(manifestation, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
 		// supprime cette dernière
 		Manifestation liveManifestation = manifestation.getLiveVersion();
-		if (status == WorkflowConstants.STATUS_DRAFT && liveManifestation != null) {
+		if (status == WorkflowConstants.STATUS_DRAFT
+			&& liveManifestation != null) {
 			this.removeManifestation(liveManifestation.getManifestationId());
 		}
 
@@ -219,9 +242,28 @@ public class ManifestationLocalServiceImpl
 	@Override
 	public void updateStatus(Manifestation manifestation, int status)
 		throws PortalException {
-		this.updateStatus(manifestation.getUserId(), manifestation.getManifestationId(), status, null, null);
+		this.updateStatus(manifestation.getUserId(),
+			manifestation.getManifestationId(), status, null, null);
 	}
 
+	/**
+	 * Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	 * ont une date de publication dans le futur
+	 */
+	@Override
+	public void checkManifestations() throws PortalException {
+		List<Manifestation> manifestations = this.manifestationPersistence
+			.findByPublicationDateAndStatus(new Date(),
+				WorkflowConstants.STATUS_SCHEDULED);
+		int n = 0;
+		for (Manifestation manifestation : manifestations) {
+			this.updateStatus(manifestation, WorkflowConstants.STATUS_APPROVED);
+			n++;
+		}
+		if (n > 0) {
+			_log.info("Published " + n + " manifestations");
+		}
+	}
 
 	/**
 	 * Delete an Event Manifestation
@@ -232,7 +274,8 @@ public class ManifestationLocalServiceImpl
 	 * @throws PortalException
 	 */
 	@Override
-	public Manifestation removeManifestation(long manifestationId) throws PortalException {
+	public Manifestation removeManifestation(long manifestationId)
+		throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
 			.fetchEntry(Manifestation.class.getName(), manifestationId);
 
@@ -263,7 +306,7 @@ public class ManifestationLocalServiceImpl
 			// Supprime l'AssetEntry
 			AssetEntryLocalServiceUtil
 				.deleteEntry(Manifestation.class.getName(), manifestationId);
-			
+
 		}
 
 		// Supprime la galerie
@@ -275,18 +318,18 @@ public class ManifestationLocalServiceImpl
 
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
-			manifestation.getCompanyId(), manifestation.getGroupId(), Event.class.getName(),
-			manifestation.getManifestationId());
+			manifestation.getCompanyId(), manifestation.getGroupId(),
+			Event.class.getName(), manifestation.getManifestationId());
 
 		// S'il existe une version live de la galerie, on la supprime
 		Manifestation liveManifestation = manifestation.getLiveVersion();
 		if (liveManifestation != null) {
 			this.removeManifestation(liveManifestation.getManifestationId());
 		}
-		
+
 		return manifestation;
 	}
-	
+
 	/**
 	 * Reindex la galerie d'éditions dans le moteur de recherche
 	 */
@@ -340,8 +383,7 @@ public class ManifestationLocalServiceImpl
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
-		return eventPersistence.findWithDynamicQuery(dynamicQuery, start,
-			end);
+		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
 	@Override
@@ -365,4 +407,6 @@ public class ManifestationLocalServiceImpl
 			.nullSafeGetIndexer(Manifestation.class);
 		return indexer.search(searchContext);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog("strasbourg");
 }

@@ -19,6 +19,8 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PortletInstance;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
@@ -141,8 +143,7 @@ public class FormAssemblyConfigurationAction
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
@@ -153,4 +154,6 @@ public class FormAssemblyConfigurationAction
 		ConfigurationProvider configurationProvider) {
 		_configurationProvider = configurationProvider;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 public class FormAssemblyUtil {
 	private String formAssemblyToken;
@@ -70,7 +72,7 @@ public class FormAssemblyUtil {
 			html = sb.toString();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 		return html;
 	}
@@ -162,4 +164,5 @@ public class FormAssemblyUtil {
 		return originalRequest;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

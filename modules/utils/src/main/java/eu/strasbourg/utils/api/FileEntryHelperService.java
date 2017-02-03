@@ -2,6 +2,8 @@ package eu.strasbourg.utils.api;
 
 import java.util.Locale;
 
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+
 import aQute.bnd.annotation.ProviderType;
 
 /**
@@ -19,4 +21,6 @@ public interface FileEntryHelperService {
 	public String getImageCopyright(long fileEntryId, Locale locale);
 	
 	public String getImageLegend(long fileEntryId, Locale locale);
+	
+	public String getFileThumbnail(long fileEntryId, ThemeDisplay themeDisplay);
 }

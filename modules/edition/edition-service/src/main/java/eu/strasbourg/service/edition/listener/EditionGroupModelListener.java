@@ -7,6 +7,8 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
@@ -34,7 +36,7 @@ public class EditionGroupModelListener extends BaseModelListener<Group> {
 			try {
 				EditionLocalServiceUtil.removeEdition(edition.getEditionId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e);
 			}
 		}
 		
@@ -44,10 +46,10 @@ public class EditionGroupModelListener extends BaseModelListener<Group> {
 			try {
 				EditionGalleryLocalServiceUtil.removeGallery(gallery.getGalleryId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e);
 			}
 		}
-		
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -99,8 +101,8 @@ public class ArtworkStagedModelDataHandler
 					}
 				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			_log.error(e);
 		}
 	}
 
@@ -177,8 +179,11 @@ public class ArtworkStagedModelDataHandler
 			.getNewPrimaryKeysMap(ArtworkCollection.class);
 		for (Map.Entry<Long, Long> collectionIdMapEntry : collectionsIdsMap
 			.entrySet()) {
-			_artworkLocalService.addArtworkCollectionArtwork(
-				collectionIdMapEntry.getValue(), importedArtwork);
+			if (stagedModel.getArtworkCollectionsIds()
+				.contains(String.valueOf(collectionIdMapEntry.getKey()))) {
+				_artworkLocalService.addArtworkCollectionArtwork(
+					collectionIdMapEntry.getValue(), importedArtwork);
+			}
 		}
 
 	}
@@ -191,4 +196,5 @@ public class ArtworkStagedModelDataHandler
 
 	private ArtworkLocalService _artworkLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

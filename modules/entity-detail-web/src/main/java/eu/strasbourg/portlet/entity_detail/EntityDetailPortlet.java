@@ -15,6 +15,8 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -82,8 +84,9 @@ public class EntityDetailPortlet extends MVCPortlet {
 
 			super.render(request, response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

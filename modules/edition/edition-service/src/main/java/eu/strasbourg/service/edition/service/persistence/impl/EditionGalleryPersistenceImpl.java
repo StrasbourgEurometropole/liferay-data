@@ -52,6 +52,8 @@ import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
 
+import java.sql.Timestamp;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -2543,6 +2545,589 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "editionGallery.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS =
+		new FinderPath(EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
+			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByPublicationDateAndStatus",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS =
+		new FinderPath(EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
+			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByPublicationDateAndStatus",
+			new String[] { Date.class.getName(), Integer.class.getName() });
+
+	/**
+	 * Returns all the edition galleries where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @return the matching edition galleries
+	 */
+	@Override
+	public List<EditionGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+		return findByPublicationDateAndStatus(publicationDate, status,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the edition galleries where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param start the lower bound of the range of edition galleries
+	 * @param end the upper bound of the range of edition galleries (not inclusive)
+	 * @return the range of matching edition galleries
+	 */
+	@Override
+	public List<EditionGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end) {
+		return findByPublicationDateAndStatus(publicationDate, status, start,
+			end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the edition galleries where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param start the lower bound of the range of edition galleries
+	 * @param end the upper bound of the range of edition galleries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching edition galleries
+	 */
+	@Override
+	public List<EditionGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		OrderByComparator<EditionGallery> orderByComparator) {
+		return findByPublicationDateAndStatus(publicationDate, status, start,
+			end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the edition galleries where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param start the lower bound of the range of edition galleries
+	 * @param end the upper bound of the range of edition galleries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching edition galleries
+	 */
+	@Override
+	public List<EditionGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		OrderByComparator<EditionGallery> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS;
+		finderArgs = new Object[] {
+				publicationDate, status,
+				
+				start, end, orderByComparator
+			};
+
+		List<EditionGallery> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<EditionGallery>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (EditionGallery editionGallery : list) {
+					if ((publicationDate.getTime() <= editionGallery.getPublicationDate()
+																		.getTime()) ||
+							(status != editionGallery.getStatus())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_EDITIONGALLERY_WHERE);
+
+			boolean bindPublicationDate = false;
+
+			if (publicationDate == null) {
+				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+			}
+			else {
+				bindPublicationDate = true;
+
+				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(EditionGalleryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationDate) {
+					qPos.add(new Timestamp(publicationDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<EditionGallery>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<EditionGallery>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first edition gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching edition gallery
+	 * @throws NoSuchEditionGalleryException if a matching edition gallery could not be found
+	 */
+	@Override
+	public EditionGallery findByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		OrderByComparator<EditionGallery> orderByComparator)
+		throws NoSuchEditionGalleryException {
+		EditionGallery editionGallery = fetchByPublicationDateAndStatus_First(publicationDate,
+				status, orderByComparator);
+
+		if (editionGallery != null) {
+			return editionGallery;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publicationDate=");
+		msg.append(publicationDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEditionGalleryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first edition gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching edition gallery, or <code>null</code> if a matching edition gallery could not be found
+	 */
+	@Override
+	public EditionGallery fetchByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		OrderByComparator<EditionGallery> orderByComparator) {
+		List<EditionGallery> list = findByPublicationDateAndStatus(publicationDate,
+				status, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last edition gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching edition gallery
+	 * @throws NoSuchEditionGalleryException if a matching edition gallery could not be found
+	 */
+	@Override
+	public EditionGallery findByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		OrderByComparator<EditionGallery> orderByComparator)
+		throws NoSuchEditionGalleryException {
+		EditionGallery editionGallery = fetchByPublicationDateAndStatus_Last(publicationDate,
+				status, orderByComparator);
+
+		if (editionGallery != null) {
+			return editionGallery;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publicationDate=");
+		msg.append(publicationDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEditionGalleryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last edition gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching edition gallery, or <code>null</code> if a matching edition gallery could not be found
+	 */
+	@Override
+	public EditionGallery fetchByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		OrderByComparator<EditionGallery> orderByComparator) {
+		int count = countByPublicationDateAndStatus(publicationDate, status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<EditionGallery> list = findByPublicationDateAndStatus(publicationDate,
+				status, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the edition galleries before and after the current edition gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param galleryId the primary key of the current edition gallery
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next edition gallery
+	 * @throws NoSuchEditionGalleryException if a edition gallery with the primary key could not be found
+	 */
+	@Override
+	public EditionGallery[] findByPublicationDateAndStatus_PrevAndNext(
+		long galleryId, Date publicationDate, int status,
+		OrderByComparator<EditionGallery> orderByComparator)
+		throws NoSuchEditionGalleryException {
+		EditionGallery editionGallery = findByPrimaryKey(galleryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			EditionGallery[] array = new EditionGalleryImpl[3];
+
+			array[0] = getByPublicationDateAndStatus_PrevAndNext(session,
+					editionGallery, publicationDate, status, orderByComparator,
+					true);
+
+			array[1] = editionGallery;
+
+			array[2] = getByPublicationDateAndStatus_PrevAndNext(session,
+					editionGallery, publicationDate, status, orderByComparator,
+					false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected EditionGallery getByPublicationDateAndStatus_PrevAndNext(
+		Session session, EditionGallery editionGallery, Date publicationDate,
+		int status, OrderByComparator<EditionGallery> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_EDITIONGALLERY_WHERE);
+
+		boolean bindPublicationDate = false;
+
+		if (publicationDate == null) {
+			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+		}
+		else {
+			bindPublicationDate = true;
+
+			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(EditionGalleryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPublicationDate) {
+			qPos.add(new Timestamp(publicationDate.getTime()));
+		}
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(editionGallery);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<EditionGallery> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the edition galleries where publicationDate &lt; &#63; and status = &#63; from the database.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 */
+	@Override
+	public void removeByPublicationDateAndStatus(Date publicationDate,
+		int status) {
+		for (EditionGallery editionGallery : findByPublicationDateAndStatus(
+				publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				null)) {
+			remove(editionGallery);
+		}
+	}
+
+	/**
+	 * Returns the number of edition galleries where publicationDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param publicationDate the publication date
+	 * @param status the status
+	 * @return the number of matching edition galleries
+	 */
+	@Override
+	public int countByPublicationDateAndStatus(Date publicationDate, int status) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS;
+
+		Object[] finderArgs = new Object[] { publicationDate, status };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_EDITIONGALLERY_WHERE);
+
+			boolean bindPublicationDate = false;
+
+			if (publicationDate == null) {
+				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+			}
+			else {
+				bindPublicationDate = true;
+
+				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationDate) {
+					qPos.add(new Timestamp(publicationDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
+		"editionGallery.publicationDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
+		"editionGallery.publicationDate < ? AND ";
+	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
+		"editionGallery.status = ?";
 
 	public EditionGalleryPersistenceImpl() {
 		setModelClass(EditionGallery.class);

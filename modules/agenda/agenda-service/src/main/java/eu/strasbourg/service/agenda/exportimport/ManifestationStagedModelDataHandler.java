@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -34,15 +36,18 @@ public class ManifestationStagedModelDataHandler
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
 		String extraData) throws PortalException {
-		Manifestation VideoManifestation = fetchStagedModelByUuidAndGroupId(uuid, groupId);
+		Manifestation VideoManifestation = fetchStagedModelByUuidAndGroupId(
+			uuid, groupId);
 		if (VideoManifestation != null) {
 			deleteStagedModel(VideoManifestation);
 		}
 	}
 
 	@Override
-	public void deleteStagedModel(Manifestation stagedModel) throws PortalException {
-		_manifestationLocalService.removeManifestation(stagedModel.getManifestationId());
+	public void deleteStagedModel(Manifestation stagedModel)
+		throws PortalException {
+		_manifestationLocalService
+			.removeManifestation(stagedModel.getManifestationId());
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class ManifestationStagedModelDataHandler
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex);
 		}
 	}
 
@@ -124,7 +129,7 @@ public class ManifestationStagedModelDataHandler
 		importedManifestation.setDescription(stagedModel.getDescription());
 		importedManifestation.setStartDate(stagedModel.getStartDate());
 		importedManifestation.setEndDate(stagedModel.getEndDate());
-		importedManifestation.setDisplayDate(stagedModel.getDisplayDate());
+		importedManifestation.setPublicationDate(stagedModel.getPublicationDate());
 		importedManifestation.setStatus(stagedModel.getStatus());
 
 		// Import de l'asset, tags, catégories, et des éléments liés
@@ -151,10 +156,12 @@ public class ManifestationStagedModelDataHandler
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> eventsIdsMap = (Map<Long, Long>) portletDataContext
 			.getNewPrimaryKeysMap(Event.class);
-		for (Map.Entry<Long, Long> eventIdMapEntry : eventsIdsMap
-			.entrySet()) {
-			_manifestationLocalService.addEventManifestation(
-				eventIdMapEntry.getValue(), importedManifestation);
+		for (Map.Entry<Long, Long> eventIdMapEntry : eventsIdsMap.entrySet()) {
+			if (stagedModel.getEventsIds()
+				.contains(String.valueOf(eventIdMapEntry.getKey()))) {
+				_manifestationLocalService.addEventManifestation(
+					eventIdMapEntry.getValue(), importedManifestation);
+			}
 		}
 
 	}
@@ -167,4 +174,5 @@ public class ManifestationStagedModelDataHandler
 
 	private ManifestationLocalService _manifestationLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

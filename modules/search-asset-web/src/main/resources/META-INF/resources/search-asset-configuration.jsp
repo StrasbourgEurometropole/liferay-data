@@ -57,13 +57,71 @@
 							</c:if>
 						</div>
 					</c:forEach>
+					<div class="asset-type-configuration">
+						<aui:input type="checkbox" 
+							name="searchJournalArticle" 
+							value="${searchJournalArticle}" 
+							label="web-content" 
+							inlineField="true" />
+						<aui:select name="journalArticleTemplateKey"
+							inlineField="true">
+							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
+							<c:forEach var="template"
+								items="${assetEntryTemplatesList}">
+								<aui:option value="${template.templateKey}"
+									selected="${journalArticleTemplateKey eq template.templateKey}">
+									${template.getName(locale)}
+								</aui:option>
+							</c:forEach>
+						</aui:select>
+					</div>
+					<div class="asset-type-configuration">
+						<aui:input type="checkbox" 
+							name="searchDocument" 
+							value="${searchDocument}" 
+							label="file" 
+							inlineField="true" />
+						<aui:select name="documentTemplateKey"
+							inlineField="true">
+							<aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
+							<c:forEach var="template"
+								items="${documentTemplatesList}">
+								<aui:option value="${template.templateKey}"
+									selected="${documentTemplateKey eq template.templateKey}">
+									${template.getName(locale)}
+								</aui:option>
+							</c:forEach>
+						</aui:select>
+					</div>
+				</div>
+				<div>
+					
 				</div>
 			</aui:fieldset>
 			
-			<!-- Portée -->
+			<!-- PortÃ©e -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+			</aui:fieldset>
+			
+			<!-- PrÃ©filtre -->
+			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
+				<liferay-ui:message key="prefilter-explanations" />
+				<label><liferay-ui:message key="categories" /></label>
+				<p>
+					<liferay-ui:asset-categories-selector
+						hiddenInput="prefilterCategoriesIds"
+						curCategoryIds="${prefilterCategoriesIds}" />
+				</p>
+				<br>
+				<p>
+					<liferay-ui:message key="prefilter-tag-explanations" />
+					<label><liferay-ui:message key="tags" /></label>
+					<liferay-ui:asset-tags-selector
+						hiddenInput="prefilterTagsNames"
+						curTags="${prefilterTagsNames}" />
+				</p>
 			</aui:fieldset>
 
 			<!-- Vocabulaires -->
@@ -108,17 +166,15 @@
 				<liferay-ui:message key="date-explanations" />
 				<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
 			</aui:fieldset>
+			
+			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="delta">
+				label="display">
+				<!-- Ne pas afficher de rÃ©sultats avant que l'utilisateur n'ait fait de recherche -->
+				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
+				
+				<!-- Nombre de rÃ©sultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
-			</aui:fieldset>
-
-			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
-				<liferay-ui:message key="prefilter-explanations" />
-				<label><liferay-ui:message key="categories" /></label>
-				<liferay-ui:asset-categories-selector
-					hiddenInput="prefilterCategoriesIds"
-					curCategoryIds="${prefilterCategoriesIds}" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

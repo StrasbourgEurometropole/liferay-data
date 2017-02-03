@@ -512,6 +512,20 @@ public interface VideoGalleryModel extends BaseModel<VideoGallery>,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the publication date of this video gallery.
+	 *
+	 * @return the publication date of this video gallery
+	 */
+	public Date getPublicationDate();
+
+	/**
+	 * Sets the publication date of this video gallery.
+	 *
+	 * @param publicationDate the publication date of this video gallery
+	 */
+	public void setPublicationDate(Date publicationDate);
+
+	/**
 	 * Returns the image ID of this video gallery.
 	 *
 	 * @return the image ID of this video gallery
