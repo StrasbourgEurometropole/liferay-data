@@ -17,16 +17,15 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "integer",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
             "name": "number",
             "readOnly": false,
-            "repeatable": true,
+            "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-integer",
+            "type": "text",
             "nestedFields": [
                 {
                     "label": {
