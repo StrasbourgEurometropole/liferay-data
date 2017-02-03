@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -73,8 +75,8 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link
-	 * eu.strasbourg.service.video.service.VideoLocalServiceUtil} to access
-	 * the video local service.
+	 * eu.strasbourg.service.video.service.VideoLocalServiceUtil} to access the
+	 * video local service.
 	 */
 
 	/**
@@ -114,7 +116,11 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			sc.getCompanyId(), sc.getScopeGroupId(), Video.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				video.setStatus(WorkflowConstants.STATUS_APPROVED);
+				if (video.getPublicationDate().after(new Date())) {
+					video.setStatus(WorkflowConstants.STATUS_SCHEDULED);
+				} else {
+					video.setStatus(WorkflowConstants.STATUS_APPROVED);
+				}
 			} else {
 				video.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
@@ -138,7 +144,6 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		return video;
 	}
 
-
 	/**
 	 * Met à jour l'AssetEntry rattachée à la vidéo
 	 */
@@ -158,7 +163,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			video.isApproved(), // Visible
 			video.getCreateDate(), // Start date
 			null, // End date
-			video.getCreateDate(), // Publication date
+			video.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			video.getTitle(), // Title
@@ -181,21 +186,29 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	public Video updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
+		Date now = new Date();
+
 		Video video = this.getVideo(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
 		video.setStatus(status);
-		video.setStatusByUserId(user.getUserId());
-		video.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			video.setStatusByUserId(user.getUserId());
+			video.setStatusByUserName(user.getFullName());
+		}
 		video.setStatusDate(new Date());
-
+		if (status == WorkflowConstants.STATUS_APPROVED) {
+			video.setPublicationDate(now);
+		}
 		video = this.videoLocalService.updateVideo(video);
 
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(Video.class.getName(), video.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(video, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
@@ -212,9 +225,28 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	 * Met à jour le statut de la vidéo "manuellement" (pas via le workflow)
 	 */
 	@Override
-	public void updateStatus(Video video, int status)
-		throws PortalException {
-		this.updateStatus(video.getUserId(), video.getVideoId(), status, null, null);
+	public void updateStatus(Video video, int status) throws PortalException {
+		this.updateStatus(video.getUserId(), video.getVideoId(), status, null,
+			null);
+	}
+
+	/**
+	 * Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
+	 * date de publication dans le futur
+	 */
+	@Override
+	public void checkVideos() throws PortalException {
+		List<Video> videos = this.videoPersistence
+			.findByPublicationDateAndStatus(new Date(),
+				WorkflowConstants.STATUS_SCHEDULED);
+		int n = 0;
+		for (Video video : videos) {
+			this.updateStatus(video, WorkflowConstants.STATUS_APPROVED);
+			n++;
+		}
+		if (n > 0) {
+			_log.info("Published " + n + " videos");
+		}
 	}
 
 	/**
@@ -258,7 +290,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 
 		// Delete the index
 		this.reindex(video, true);
-		
+
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 			video.getCompanyId(), video.getGroupId(), Video.class.getName(),
@@ -276,8 +308,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	/**
 	 * Reindex la vidéo dans le moteur de recherche
 	 */
-	private void reindex(Video video, boolean delete)
-		throws SearchException {
+	private void reindex(Video video, boolean delete) throws SearchException {
 		Indexer<Video> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Video.class);
 		if (delete) {
@@ -332,8 +363,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
-		return videoPersistence.findWithDynamicQuery(dynamicQuery, start,
-			end);
+		return videoPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
@@ -363,4 +393,6 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			.nullSafeGetIndexer(Video.class);
 		return indexer.search(searchContext);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog("strasbourg");
 }

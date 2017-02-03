@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -121,7 +123,14 @@ public class VideoGalleryLocalServiceImpl
 			sc.getCompanyId(), sc.getScopeGroupId(),
 			VideoGallery.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				gallery.setStatus(WorkflowConstants.STATUS_APPROVED);
+				// Si l'action est la publication, on met le statut "publié" si
+				// la date de publication est dans le passé et on met
+				// "scheduled" si la date est dans le futur
+				if (gallery.getPublicationDate().after(new Date())) {
+					gallery.setStatus(WorkflowConstants.STATUS_SCHEDULED);
+				} else {
+					gallery.setStatus(WorkflowConstants.STATUS_APPROVED);
+				}
 			} else {
 				gallery.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
@@ -166,7 +175,7 @@ public class VideoGalleryLocalServiceImpl
 			videoGallery.getStatus() == WorkflowConstants.STATUS_APPROVED, // Visible
 			videoGallery.getCreateDate(), // Start date
 			null, // End date
-			videoGallery.getCreateDate(), // Publication date
+			videoGallery.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			videoGallery.getTitle(), // Title
@@ -189,19 +198,27 @@ public class VideoGalleryLocalServiceImpl
 	public VideoGallery updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
+		Date now = new Date();
+
 		VideoGallery gallery = this.getVideoGallery(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
 		gallery.setStatus(status);
-		gallery.setStatusByUserId(user.getUserId());
-		gallery.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			gallery.setStatusByUserId(user.getUserId());
+			gallery.setStatusByUserName(user.getFullName());
+		}
 		gallery.setStatusDate(new Date());
-
+		if (status == WorkflowConstants.STATUS_APPROVED) {
+			gallery.setPublicationDate(now);
+		}
 		gallery = this.videoGalleryLocalService.updateVideoGallery(gallery);
 
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(VideoGallery.class.getName(), gallery.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
 		this.assetEntryLocalService.updateAssetEntry(entry);
 
 		this.reindex(gallery, false);
@@ -224,6 +241,25 @@ public class VideoGalleryLocalServiceImpl
 		throws PortalException {
 		this.updateStatus(gallery.getUserId(), gallery.getGalleryId(), status,
 			null, null);
+	}
+
+	/**
+	 * Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
+	 * date de publication dans le futur
+	 */
+	@Override
+	public void checkGalleries() throws PortalException {
+		List<VideoGallery> galleries = this.videoGalleryPersistence
+			.findByPublicationDateAndStatus(new Date(),
+				WorkflowConstants.STATUS_SCHEDULED);
+		int n = 0;
+		for (VideoGallery gallery : galleries) {
+			this.updateStatus(gallery, WorkflowConstants.STATUS_APPROVED);
+			n++;
+		}
+		if (n > 0) {
+			_log.info("Published " + n + " galleries");
+		}
 	}
 
 	/**
@@ -377,4 +413,6 @@ public class VideoGalleryLocalServiceImpl
 			.nullSafeGetIndexer(VideoGallery.class);
 		return indexer.search(searchContext);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog("strasbourg");
 }

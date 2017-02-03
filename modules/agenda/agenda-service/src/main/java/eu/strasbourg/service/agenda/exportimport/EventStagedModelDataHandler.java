@@ -151,7 +151,7 @@ public class EventStagedModelDataHandler
 		importedEvent.setWebsiteName(stagedModel.getWebsiteName());
 		importedEvent.setWebsiteURL(stagedModel.getWebsiteURL());
 		importedEvent.setSource(stagedModel.getSource());
-		importedEvent.setDisplayDate(stagedModel.getDisplayDate());
+		importedEvent.setPublicationDate(stagedModel.getPublicationDate());
 		importedEvent.setStatus(stagedModel.getStatus());
 
 		// Import de l'asset, tags, catégories, et des élémeents liés

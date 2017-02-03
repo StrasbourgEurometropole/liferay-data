@@ -127,6 +127,7 @@ public class VideoGalleryStagedModelDataHandler
 		importedVideoGallery.setUuid(stagedModel.getUuid());
 		importedVideoGallery.setTitle(stagedModel.getTitle());
 		importedVideoGallery.setDescription(stagedModel.getDescription());
+		importedVideoGallery.setPublicationDate(stagedModel.getPublicationDate());
 		importedVideoGallery.setStatus(stagedModel.getStatus());
 
 		/**

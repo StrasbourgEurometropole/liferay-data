@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -75,8 +77,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link
-	 * eu.strasbourg.service.agenda.service.EventLocalServiceUtil} to access
-	 * the event local service.
+	 * eu.strasbourg.service.agenda.service.EventLocalServiceUtil} to access the
+	 * event local service.
 	 */
 
 	/**
@@ -116,7 +118,11 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			sc.getCompanyId(), sc.getScopeGroupId(), Event.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				event.setStatus(WorkflowConstants.STATUS_APPROVED);
+				if (event.getPublicationDate().after(new Date())) {
+					event.setStatus(WorkflowConstants.STATUS_SCHEDULED);
+				} else {
+					event.setStatus(WorkflowConstants.STATUS_APPROVED);
+				}
 			} else {
 				event.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
@@ -140,7 +146,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		return event;
 	}
 
-
 	/**
 	 * Met à jour l'AssetEntry rattachée à l'édition
 	 */
@@ -158,9 +163,9 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			sc.getAssetTagNames(), // Tags IDs
 			true, // Listable
 			event.isApproved(), // Visible
-			event.getDisplayDate(), // Start date
+			event.getPublicationDate(), // Start date
 			null, // End date
-			event.getDisplayDate(), // Publication date
+			event.getPublicationDate(), // Publication date
 			null, // Date of expiration
 			ContentTypes.TEXT_HTML, // Content type
 			event.getTitle(), // Title
@@ -183,21 +188,30 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	public Event updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
+		Date now = new Date();
 		Event event = this.getEvent(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
 
 		event.setStatus(status);
-		event.setStatusByUserId(user.getUserId());
-		event.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			event.setStatusByUserId(user.getUserId());
+			event.setStatusByUserName(user.getFullName());
+		}
 		event.setStatusDate(new Date());
+		if (event.isApproved()) {
+			event.setPublicationDate(now);
+		}
 
 		event = this.eventLocalService.updateEvent(event);
 
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(Event.class.getName(), event.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(event, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
@@ -214,9 +228,28 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 * Met à jour le statut de l'édition "manuellement" (pas via le workflow)
 	 */
 	@Override
-	public void updateStatus(Event event, int status)
-		throws PortalException {
-		this.updateStatus(event.getUserId(), event.getEventId(), status, null, null);
+	public void updateStatus(Event event, int status) throws PortalException {
+		this.updateStatus(event.getUserId(), event.getEventId(), status, null,
+			null);
+	}
+
+	/**
+	 * Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
+	 * date de publication dans le futur
+	 */
+	@Override
+	public void checkEvents() throws PortalException {
+		List<Event> events = this.eventPersistence
+			.findByPublicationDateAndStatus(new Date(),
+				WorkflowConstants.STATUS_SCHEDULED);
+		int n = 0;
+		for (Event event : events) {
+			this.updateStatus(event, WorkflowConstants.STATUS_APPROVED);
+			n++;
+		}
+		if (n > 0) {
+			_log.info("Published " + n + " events");	
+		}
 	}
 
 	/**
@@ -259,7 +292,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				eventId);
 
 			// Supprime les périodes
-			List<EventPeriod> periods = EventPeriodLocalServiceUtil.getByEventId(eventId);
+			List<EventPeriod> periods = EventPeriodLocalServiceUtil
+				.getByEventId(eventId);
 			for (EventPeriod period : periods) {
 				EventPeriodLocalServiceUtil.deleteEventPeriod(period);
 			}
@@ -270,7 +304,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 		// Delete the index
 		this.reindex(event, true);
-		
+
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 			event.getCompanyId(), event.getGroupId(), Event.class.getName(),
@@ -288,8 +322,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	/**
 	 * Reindex l'édition dans le moteur de recherche
 	 */
-	private void reindex(Event event, boolean delete)
-		throws SearchException {
+	private void reindex(Event event, boolean delete) throws SearchException {
 		Indexer<Event> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Event.class);
 		if (delete) {
@@ -354,8 +387,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
-		return eventPersistence.findWithDynamicQuery(dynamicQuery, start,
-			end);
+		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
@@ -376,4 +408,5 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+	private final Log _log = LogFactoryUtil.getLog("strasbourg");
 }

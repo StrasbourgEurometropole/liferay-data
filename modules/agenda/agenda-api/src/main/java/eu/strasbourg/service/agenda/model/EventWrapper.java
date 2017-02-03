@@ -99,7 +99,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("source", getSource());
-		attributes.put("displayDate", getDisplayDate());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
@@ -353,10 +353,10 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setSource(source);
 		}
 
-		Date displayDate = (Date)attributes.get("displayDate");
+		Date publicationDate = (Date)attributes.get("publicationDate");
 
-		if (displayDate != null) {
-			setDisplayDate(displayDate);
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		String scheduleComments = (String)attributes.get("scheduleComments");
@@ -525,7 +525,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement
+	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
 	*/
 	@Override
 	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
@@ -1489,16 +1489,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Returns the display date of this event.
-	*
-	* @return the display date of this event
-	*/
-	@Override
-	public Date getDisplayDate() {
-		return _event.getDisplayDate();
-	}
-
-	/**
 	* Returns the first start date of this event.
 	*
 	* @return the first start date of this event
@@ -1536,6 +1526,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getModifiedDate() {
 		return _event.getModifiedDate();
+	}
+
+	/**
+	* Returns the publication date of this event.
+	*
+	* @return the publication date of this event
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _event.getPublicationDate();
 	}
 
 	/**
@@ -2017,16 +2017,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Sets the display date of this event.
-	*
-	* @param displayDate the display date of this event
-	*/
-	@Override
-	public void setDisplayDate(Date displayDate) {
-		_event.setDisplayDate(displayDate);
-	}
-
-	/**
 	* Sets the email of this event.
 	*
 	* @param email the email of this event
@@ -2322,6 +2312,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPromoter(java.lang.String promoter) {
 		_event.setPromoter(promoter);
+	}
+
+	/**
+	* Sets the publication date of this event.
+	*
+	* @param publicationDate the publication date of this event
+	*/
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_event.setPublicationDate(publicationDate);
 	}
 
 	/**

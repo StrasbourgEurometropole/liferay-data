@@ -188,12 +188,7 @@ public class EditionGalleryLocalServiceUtil {
 	}
 
 	/**
-	* Delete an Edition Gallery
-	*
-	* @param galleryId
-	The ID of the edition gallery to delete
-	* @return The deleted EditionGallery
-	* @throws PortalException
+	* Supprime une galerie
 	*/
 	public static eu.strasbourg.service.edition.model.EditionGallery removeGallery(
 		long galleryId)
@@ -311,13 +306,16 @@ public class EditionGalleryLocalServiceUtil {
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
 
+	/**
+	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
+	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
 		return getService().getAttachedVocabularies(groupId);
 	}
 
 	/**
-	* Retourne toutes les galeries éditions d'un groupe
+	* Retourne toutes les galeries editions d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.edition.model.EditionGallery> getByGroupId(
 		long groupId) {
@@ -444,6 +442,15 @@ public class EditionGalleryLocalServiceUtil {
 
 	public static void addEditionEditionGallery(long editionId, long galleryId) {
 		getService().addEditionEditionGallery(editionId, galleryId);
+	}
+
+	/**
+	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public static void checkGalleries()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().checkGalleries();
 	}
 
 	public static void clearEditionEditionGalleries(long editionId) {

@@ -99,6 +99,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			{ "copyright", Types.VARCHAR },
 			{ "origin", Types.VARCHAR },
 			{ "source", Types.VARCHAR },
+			{ "publicationDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
 			{ "transcriptionFileId", Types.BIGINT }
 		};
@@ -123,11 +124,12 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		TABLE_COLUMNS_MAP.put("copyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("origin", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("transcriptionFileId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table video_Video (uuid_ VARCHAR(75) null,videoId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,copyright STRING null,origin STRING null,source STRING null,imageId LONG,transcriptionFileId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table video_Video (uuid_ VARCHAR(75) null,videoId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,copyright STRING null,origin STRING null,source STRING null,publicationDate DATE null,imageId LONG,transcriptionFileId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table video_Video";
 	public static final String ORDER_BY_JPQL = " ORDER BY video.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY video_Video.modifiedDate DESC";
@@ -145,8 +147,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -179,6 +183,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		model.setCopyright(soapModel.getCopyright());
 		model.setOrigin(soapModel.getOrigin());
 		model.setSource(soapModel.getSource());
+		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setImageId(soapModel.getImageId());
 		model.setTranscriptionFileId(soapModel.getTranscriptionFileId());
 
@@ -275,6 +280,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		attributes.put("copyright", getCopyright());
 		attributes.put("origin", getOrigin());
 		attributes.put("source", getSource());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
 		attributes.put("transcriptionFileId", getTranscriptionFileId());
 
@@ -392,6 +398,12 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 		if (source != null) {
 			setSource(source);
+		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -580,7 +592,19 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -1141,6 +1165,27 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@JSON
 	@Override
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationDate == null) {
+			_originalPublicationDate = _publicationDate;
+		}
+
+		_publicationDate = publicationDate;
+	}
+
+	public Date getOriginalPublicationDate() {
+		return _originalPublicationDate;
+	}
+
+	@JSON
+	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -1439,6 +1484,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		videoImpl.setCopyright(getCopyright());
 		videoImpl.setOrigin(getOrigin());
 		videoImpl.setSource(getSource());
+		videoImpl.setPublicationDate(getPublicationDate());
 		videoImpl.setImageId(getImageId());
 		videoImpl.setTranscriptionFileId(getTranscriptionFileId());
 
@@ -1514,6 +1560,12 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		videoModelImpl._setOriginalCompanyId = false;
 
 		videoModelImpl._setModifiedDate = false;
+
+		videoModelImpl._originalStatus = videoModelImpl._status;
+
+		videoModelImpl._setOriginalStatus = false;
+
+		videoModelImpl._originalPublicationDate = videoModelImpl._publicationDate;
 
 		videoModelImpl._columnBitmask = 0;
 	}
@@ -1634,6 +1686,15 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			videoCacheModel.source = null;
 		}
 
+		Date publicationDate = getPublicationDate();
+
+		if (publicationDate != null) {
+			videoCacheModel.publicationDate = publicationDate.getTime();
+		}
+		else {
+			videoCacheModel.publicationDate = Long.MIN_VALUE;
+		}
+
 		videoCacheModel.imageId = getImageId();
 
 		videoCacheModel.transcriptionFileId = getTranscriptionFileId();
@@ -1643,7 +1704,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1681,6 +1742,8 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		sb.append(getOrigin());
 		sb.append(", source=");
 		sb.append(getSource());
+		sb.append(", publicationDate=");
+		sb.append(getPublicationDate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", transcriptionFileId=");
@@ -1692,7 +1755,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(64);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.video.model.Video");
@@ -1771,6 +1834,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -1804,6 +1871,8 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1817,6 +1886,8 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private String _originCurrentLanguageId;
 	private String _source;
 	private String _sourceCurrentLanguageId;
+	private Date _publicationDate;
+	private Date _originalPublicationDate;
 	private Long _imageId;
 	private Long _transcriptionFileId;
 	private long _columnBitmask;

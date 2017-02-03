@@ -479,6 +479,16 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		_videoLocalService.addVideoGalleryVideos(galleryId, videoIds);
 	}
 
+	/**
+	* Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	@Override
+	public void checkVideos()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_videoLocalService.checkVideos();
+	}
+
 	@Override
 	public void clearVideoGalleryVideos(long galleryId) {
 		_videoLocalService.clearVideoGalleryVideos(galleryId);

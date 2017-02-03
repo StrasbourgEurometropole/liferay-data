@@ -78,7 +78,7 @@ public class ManifestationWrapper implements Manifestation,
 		attributes.put("description", getDescription());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("displayDate", getDisplayDate());
+		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
 	}
@@ -193,10 +193,10 @@ public class ManifestationWrapper implements Manifestation,
 			setEndDate(endDate);
 		}
 
-		Date displayDate = (Date)attributes.get("displayDate");
+		Date publicationDate = (Date)attributes.get("publicationDate");
 
-		if (displayDate != null) {
-			setDisplayDate(displayDate);
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 	}
 
@@ -622,16 +622,6 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Returns the display date of this manifestation.
-	*
-	* @return the display date of this manifestation
-	*/
-	@Override
-	public Date getDisplayDate() {
-		return _manifestation.getDisplayDate();
-	}
-
-	/**
 	* Returns the end date of this manifestation.
 	*
 	* @return the end date of this manifestation
@@ -659,6 +649,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public Date getModifiedDate() {
 		return _manifestation.getModifiedDate();
+	}
+
+	/**
+	* Returns the publication date of this manifestation.
+	*
+	* @return the publication date of this manifestation
+	*/
+	@Override
+	public Date getPublicationDate() {
+		return _manifestation.getPublicationDate();
 	}
 
 	/**
@@ -894,16 +894,6 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Sets the display date of this manifestation.
-	*
-	* @param displayDate the display date of this manifestation
-	*/
-	@Override
-	public void setDisplayDate(Date displayDate) {
-		_manifestation.setDisplayDate(displayDate);
-	}
-
-	/**
 	* Sets the end date of this manifestation.
 	*
 	* @param endDate the end date of this manifestation
@@ -997,6 +987,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_manifestation.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publication date of this manifestation.
+	*
+	* @param publicationDate the publication date of this manifestation
+	*/
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_manifestation.setPublicationDate(publicationDate);
 	}
 
 	/**

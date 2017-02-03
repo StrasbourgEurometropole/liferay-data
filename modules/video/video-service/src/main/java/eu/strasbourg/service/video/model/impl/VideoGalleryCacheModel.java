@@ -66,7 +66,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,6 +98,8 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -180,6 +182,13 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 			videoGalleryImpl.setDescription(description);
 		}
 
+		if (publicationDate == Long.MIN_VALUE) {
+			videoGalleryImpl.setPublicationDate(null);
+		}
+		else {
+			videoGalleryImpl.setPublicationDate(new Date(publicationDate));
+		}
+
 		videoGalleryImpl.setImageId(imageId);
 
 		videoGalleryImpl.resetOriginalValues();
@@ -210,6 +219,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		publicationDate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 	}
@@ -270,6 +280,8 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 			objectOutput.writeUTF(description);
 		}
 
+		objectOutput.writeLong(publicationDate);
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -288,5 +300,6 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 	public long statusDate;
 	public String title;
 	public String description;
+	public long publicationDate;
 	public long imageId;
 }

@@ -554,18 +554,18 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 	public void setEndDate(Date endDate);
 
 	/**
-	 * Returns the display date of this manifestation.
+	 * Returns the publication date of this manifestation.
 	 *
-	 * @return the display date of this manifestation
+	 * @return the publication date of this manifestation
 	 */
-	public Date getDisplayDate();
+	public Date getPublicationDate();
 
 	/**
-	 * Sets the display date of this manifestation.
+	 * Sets the publication date of this manifestation.
 	 *
-	 * @param displayDate the display date of this manifestation
+	 * @param publicationDate the publication date of this manifestation
 	 */
-	public void setDisplayDate(Date displayDate);
+	public void setPublicationDate(Date publicationDate);
 
 	/**
 	 * Returns <code>true</code> if this manifestation is approved.

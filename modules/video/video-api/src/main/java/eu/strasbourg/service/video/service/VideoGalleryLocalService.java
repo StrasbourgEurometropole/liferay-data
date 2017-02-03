@@ -385,6 +385,12 @@ public interface VideoGalleryLocalService extends BaseLocalService,
 
 	public void addVideoVideoGallery(long videoId, long galleryId);
 
+	/**
+	* Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public void checkGalleries() throws PortalException;
+
 	public void clearVideoVideoGalleries(long videoId);
 
 	public void deleteVideoVideoGalleries(long videoId,

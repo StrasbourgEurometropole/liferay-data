@@ -97,6 +97,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
+			{ "publicationDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -117,10 +118,11 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table video_VideoGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table video_VideoGallery (uuid_ VARCHAR(75) null,galleryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,publicationDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table video_VideoGallery";
 	public static final String ORDER_BY_JPQL = " ORDER BY videoGallery.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY video_VideoGallery.modifiedDate DESC";
@@ -138,8 +140,10 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -169,6 +173,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
+		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setImageId(soapModel.getImageId());
 
 		return model;
@@ -261,6 +266,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -359,6 +365,12 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -541,7 +553,19 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -802,6 +826,27 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 
 	@JSON
 	@Override
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationDate == null) {
+			_originalPublicationDate = _publicationDate;
+		}
+
+		_publicationDate = publicationDate;
+	}
+
+	public Date getOriginalPublicationDate() {
+		return _originalPublicationDate;
+	}
+
+	@JSON
+	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -1025,6 +1070,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		videoGalleryImpl.setStatusDate(getStatusDate());
 		videoGalleryImpl.setTitle(getTitle());
 		videoGalleryImpl.setDescription(getDescription());
+		videoGalleryImpl.setPublicationDate(getPublicationDate());
 		videoGalleryImpl.setImageId(getImageId());
 
 		videoGalleryImpl.resetOriginalValues();
@@ -1100,6 +1146,12 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		videoGalleryModelImpl._setOriginalCompanyId = false;
 
 		videoGalleryModelImpl._setModifiedDate = false;
+
+		videoGalleryModelImpl._originalStatus = videoGalleryModelImpl._status;
+
+		videoGalleryModelImpl._setOriginalStatus = false;
+
+		videoGalleryModelImpl._originalPublicationDate = videoGalleryModelImpl._publicationDate;
 
 		videoGalleryModelImpl._columnBitmask = 0;
 	}
@@ -1196,6 +1248,15 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 			videoGalleryCacheModel.description = null;
 		}
 
+		Date publicationDate = getPublicationDate();
+
+		if (publicationDate != null) {
+			videoGalleryCacheModel.publicationDate = publicationDate.getTime();
+		}
+		else {
+			videoGalleryCacheModel.publicationDate = Long.MIN_VALUE;
+		}
+
 		videoGalleryCacheModel.imageId = getImageId();
 
 		return videoGalleryCacheModel;
@@ -1203,7 +1264,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1235,6 +1296,8 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", publicationDate=");
+		sb.append(getPublicationDate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append("}");
@@ -1244,7 +1307,7 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.video.model.VideoGallery");
@@ -1311,6 +1374,10 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -1340,6 +1407,8 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1347,6 +1416,8 @@ public class VideoGalleryModelImpl extends BaseModelImpl<VideoGallery>
 	private String _titleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
+	private Date _publicationDate;
+	private Date _originalPublicationDate;
 	private Long _imageId;
 	private long _columnBitmask;
 	private VideoGallery _escapedModel;

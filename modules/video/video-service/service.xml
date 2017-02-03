@@ -33,6 +33,7 @@
         <column name="copyright" type="String" localized="true" />
         <column name="origin" type="String" localized="true" />
         <column name="source" type="String" localized="true" />
+        <column name="publicationDate" type="Date" />
         
         <!-- Links with other entities -->
         <column name="imageId" type="Long" />
@@ -47,6 +48,10 @@
 		<!-- Finders-->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
 		</finder>
 
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -79,6 +84,7 @@
 		<!-- Other fields -->
 		<column name="title" type="String" localized="true" />
         <column name="description" type="String" localized="true" />
+        <column name="publicationDate" type="Date" />
         
          <!-- Links with other entities -->
         <column name="imageId" type="Long" />
@@ -92,6 +98,10 @@
 		<!-- Finders-->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
 		</finder>
         
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

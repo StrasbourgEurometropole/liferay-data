@@ -15,6 +15,8 @@
  */
 package eu.strasbourg.portlet.video.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -31,6 +33,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -75,6 +78,12 @@ public class SaveGalleryActionCommand
 				.getLocalizationMap(request, "description");
 			videoGallery.setDescriptionMap(description);
 
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request, "publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(publicationDateString + " " + publicationDateTimeString, new SimpleDateFormat("dd/MM/yyyy hh:mm"));			
+			videoGallery.setPublicationDate(publicationDate);
+			
 			// Videos
 			List<Video> oldVideos = videoGallery.getVideos();
 			for (Video video : oldVideos) {

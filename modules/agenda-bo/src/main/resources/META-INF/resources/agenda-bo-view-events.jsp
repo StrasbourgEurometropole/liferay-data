@@ -113,7 +113,7 @@
 					href="${editEventURL}" name="title" truncate="true"
 					orderable="true" value="${event.titleCurrentValue}" />
 
-				<fmt:formatDate value="${event.displayDate}"
+				<fmt:formatDate value="${event.publicationDate}"
 					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="publication-date" truncate="true" orderable="true"

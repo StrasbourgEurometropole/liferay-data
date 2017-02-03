@@ -138,7 +138,8 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour l'AssetEntry (à n'utiliser que quand on vient du formulaire d'édition)
+	 * Met à jour l'AssetEntry (à n'utiliser que quand on vient du formulaire
+	 * d'édition)
 	 */
 	private void updateAssetEntry(Link link, ServiceContext sc)
 		throws PortalException {
@@ -176,12 +177,14 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	public Link updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
-		Link link = this.getLink(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
 
+		Link link = this.getLink(entryId);
 		link.setStatus(status);
-		link.setStatusByUserId(user.getUserId());
-		link.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			link.setStatusByUserId(user.getUserId());
+			link.setStatusByUserName(user.getFullName());
+		}
 		link.setStatusDate(new Date());
 
 		link = this.linkLocalService.updateLink(link);
@@ -190,7 +193,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			.getEntry(Link.class.getName(), link.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(link, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
@@ -207,11 +210,10 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 	 * Met à jour le statut du lien "manuellement" (pas via le workflow)
 	 */
 	@Override
-	public void updateStatus(Link link, int status)
-		throws PortalException {
-		this.updateStatus(link.getUserId(), link.getLinkId(), status, null, null);
+	public void updateStatus(Link link, int status) throws PortalException {
+		this.updateStatus(link.getUserId(), link.getLinkId(), status, null,
+			null);
 	}
-
 
 	/**
 	 * Supprime un lien

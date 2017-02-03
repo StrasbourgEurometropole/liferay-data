@@ -380,6 +380,12 @@ public interface EventLocalService extends BaseLocalService,
 
 	public void addManifestationEvents(long manifestationId, long[] eventIds);
 
+	/**
+	* Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public void checkEvents() throws PortalException;
+
 	public void clearManifestationEvents(long manifestationId);
 
 	public void deleteManifestationEvent(long manifestationId, Event event);

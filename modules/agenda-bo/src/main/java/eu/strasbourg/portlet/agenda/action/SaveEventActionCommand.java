@@ -193,11 +193,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "price");
 			event.setPriceMap(price);
 
-			String displayDateString = ParamUtil.getString(request,
-				"displayDate");
-			String displayDateTimeString = ParamUtil.getString(request, "displayDateTime");
-			Date displayDate = GetterUtil.getDate(displayDateString + " " + displayDateTimeString, new SimpleDateFormat("dd/MM/yyyy hh:mm"));			
-			event.setDisplayDate(displayDate);
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request,
+				"publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(
+				publicationDateString + " " + publicationDateTimeString,
+				new SimpleDateFormat("dd/MM/yyyy hh:mm"));
+			event.setPublicationDate(publicationDate);
 
 			List<Manifestation> oldManifestations = event.getManifestations();
 			for (Manifestation manifestation : oldManifestations) {

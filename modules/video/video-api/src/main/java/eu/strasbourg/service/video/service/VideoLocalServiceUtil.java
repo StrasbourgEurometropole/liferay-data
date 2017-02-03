@@ -449,6 +449,15 @@ public class VideoLocalServiceUtil {
 		getService().addVideoGalleryVideos(galleryId, videoIds);
 	}
 
+	/**
+	* Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public static void checkVideos()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().checkVideos();
+	}
+
 	public static void clearVideoGalleryVideos(long galleryId) {
 		getService().clearVideoGalleryVideos(galleryId);
 	}

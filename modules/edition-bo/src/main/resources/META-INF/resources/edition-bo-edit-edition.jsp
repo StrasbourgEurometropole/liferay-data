@@ -26,7 +26,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="editionId" type="hidden" />
 
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="general">
 
 				<aui:input name="title">
@@ -47,7 +47,7 @@
 
 
 			</aui:fieldset>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="file">
 				<aui:input name="URL" />
 				
@@ -55,7 +55,7 @@
 				<strasbourg-picker:file label="file" name="fileId"
 					required="false" value="${dc.edition.fileId}" localized="true" multiple="false" />
 			</aui:fieldset>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="metadata">
 				<aui:input name="distribution" />
 				<aui:input name="ISBN" />
@@ -71,7 +71,7 @@
 				<aui:input name="pictureNumber" />
 			</aui:fieldset>
 
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 				
 				<strasbourg-picker:entity label="galleries" name="galleriesIds"
@@ -107,7 +107,7 @@
 			</aui:fieldset>
 
 
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
+			<aui:fieldset collapsed="true" collapsible="true"
 				label="publication">
 				<aui:input name="publicationDate" />
 			</aui:fieldset>

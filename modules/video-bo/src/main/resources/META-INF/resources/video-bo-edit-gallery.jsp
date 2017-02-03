@@ -78,6 +78,11 @@
 				<aui:input name="tags" type="assetTags" />
 
 			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="publication">
+				<aui:input name="publicationDate" />
+			</aui:fieldset>
 
 		</aui:fieldset-group>
 		

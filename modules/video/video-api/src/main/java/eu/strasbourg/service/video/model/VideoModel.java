@@ -811,6 +811,20 @@ public interface VideoModel extends BaseModel<Video>, LocalizedModel,
 	public void setSourceMap(Map<Locale, String> sourceMap, Locale defaultLocale);
 
 	/**
+	 * Returns the publication date of this video.
+	 *
+	 * @return the publication date of this video
+	 */
+	public Date getPublicationDate();
+
+	/**
+	 * Sets the publication date of this video.
+	 *
+	 * @param publicationDate the publication date of this video
+	 */
+	public void setPublicationDate(Date publicationDate);
+
+	/**
 	 * Returns the image ID of this video.
 	 *
 	 * @return the image ID of this video

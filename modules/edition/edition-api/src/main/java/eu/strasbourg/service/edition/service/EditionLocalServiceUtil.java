@@ -103,7 +103,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	* Crée une edition vide avec une PK, non ajouté à la base de donnée
 	*/
 	public static eu.strasbourg.service.edition.model.Edition createEdition(
 		com.liferay.portal.kernel.service.ServiceContext sc)
@@ -191,12 +191,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Delete an Edition
-	*
-	* @param editionId
-	The ID of the edition to delete
-	* @return The deleted Edition
-	* @throws PortalException
+	* Supprime une edition
 	*/
 	public static eu.strasbourg.service.edition.model.Edition removeEdition(
 		long editionId)
@@ -216,7 +211,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour une édition et l'enregistre en base de données
+	* Met à jour une edition et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.edition.model.Edition updateEdition(
 		eu.strasbourg.service.edition.model.Edition edition,
@@ -226,7 +221,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour le statut de l'édition par le framework workflow
+	* Met à jour le statut de l'edition par le framework workflow
 	*/
 	public static eu.strasbourg.service.edition.model.Edition updateStatus(
 		long userId, long entryId, int status,
@@ -318,7 +313,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
 		long groupId) {
@@ -326,7 +321,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Retourne toutes les éditions d'un groupe
+	* Retourne toutes les editions d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.edition.model.Edition> getByGroupId(
 		long groupId) {
@@ -457,6 +452,15 @@ public class EditionLocalServiceUtil {
 		getService().addEditionGalleryEditions(galleryId, editionIds);
 	}
 
+	/**
+	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public static void checkEditions()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().checkEditions();
+	}
+
 	public static void clearEditionGalleryEditions(long galleryId) {
 		getService().clearEditionGalleryEditions(galleryId);
 	}
@@ -487,7 +491,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	* Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	*/
 	public static void updateStatus(
 		eu.strasbourg.service.edition.model.Edition edition, int status)

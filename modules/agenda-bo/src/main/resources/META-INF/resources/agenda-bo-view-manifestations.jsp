@@ -113,7 +113,7 @@
 					href="${editManifestationURL}" name="title" truncate="true"
 					orderable="true" value="${manifestation.titleCurrentValue}" />
 
-				<fmt:formatDate value="${manifestation.displayDate}"
+				<fmt:formatDate value="${manifestation.publicationDate}"
 					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="publication-date" truncate="true" orderable="true"

@@ -74,7 +74,7 @@ public class EventSoap implements Serializable {
 		soapModel.setFree(model.getFree());
 		soapModel.setPrice(model.getPrice());
 		soapModel.setSource(model.getSource());
-		soapModel.setDisplayDate(model.getDisplayDate());
+		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setScheduleComments(model.getScheduleComments());
 		soapModel.setFirstStartDate(model.getFirstStartDate());
 		soapModel.setLastEndDate(model.getLastEndDate());
@@ -451,12 +451,12 @@ public class EventSoap implements Serializable {
 		_source = source;
 	}
 
-	public Date getDisplayDate() {
-		return _displayDate;
+	public Date getPublicationDate() {
+		return _publicationDate;
 	}
 
-	public void setDisplayDate(Date displayDate) {
-		_displayDate = displayDate;
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
 	}
 
 	public String getScheduleComments() {
@@ -531,7 +531,7 @@ public class EventSoap implements Serializable {
 	private Integer _free;
 	private String _price;
 	private String _source;
-	private Date _displayDate;
+	private Date _publicationDate;
 	private String _scheduleComments;
 	private Date _firstStartDate;
 	private Date _lastEndDate;

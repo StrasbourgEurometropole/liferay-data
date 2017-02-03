@@ -15,21 +15,20 @@
 package eu.strasbourg.service.edition.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -48,6 +47,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.base.EditionLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The implementation of the edition local service.
@@ -78,7 +78,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	 */
 
 	/**
-	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
+	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
 	public Edition createEdition(ServiceContext sc) throws PortalException {
@@ -98,7 +98,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour une édition et l'enregistre en base de données
+	 * Met à jour une edition et l'enregistre en base de données
 	 */
 	@Override
 	public Edition updateEdition(Edition edition, ServiceContext sc)
@@ -114,7 +114,14 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 			sc.getCompanyId(), sc.getScopeGroupId(), Edition.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				edition.setStatus(WorkflowConstants.STATUS_APPROVED);
+				// Lors de la publication, si une date de publication ultérieure
+				// à la date actuelle est choisie, le statut à affecter est
+				// "STATUS_SCHEDULED"
+				if (edition.getPublicationDate().after(new Date())) {
+					edition.setStatus(WorkflowConstants.STATUS_SCHEDULED);
+				} else {
+					edition.setStatus(WorkflowConstants.STATUS_APPROVED);
+				}
 			} else {
 				edition.setStatus(WorkflowConstants.STATUS_DRAFT);
 				// Si le statut est "DRAFT" et qu'il y a une version live, on
@@ -131,16 +138,16 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 				 // l'enregistrement
 			edition = this.editionLocalService.updateEdition(edition);
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-				edition.getCompanyId(), edition.getGroupId(), edition.getUserId(),
-				Edition.class.getName(), edition.getPrimaryKey(), edition, sc);
+				edition.getCompanyId(), edition.getGroupId(),
+				edition.getUserId(), Edition.class.getName(),
+				edition.getPrimaryKey(), edition, sc);
 		}
 
 		return edition;
 	}
 
-
 	/**
-	 * Met à jour l'AssetEntry rattachée à l'édition
+	 * Met à jour l'AssetEntry rattachée à l'edition
 	 */
 	private void updateAssetEntry(Edition edition, ServiceContext sc)
 		throws PortalException {
@@ -170,32 +177,41 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			0, // Height
 			null); // Priority
 
-		// Réindexe l'édition
+		// Réindexe l'edition
 		this.reindex(edition, false);
 	}
 
 	/**
-	 * Met à jour le statut de l'édition par le framework workflow
+	 * Met à jour le statut de l'edition par le framework workflow
 	 */
 	@Override
 	public Edition updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<String, Serializable> workflowContext)
 		throws PortalException {
+		Date now = new Date();
+		// Statut de l'entité
 		Edition edition = this.getEdition(entryId);
-		User user = UserLocalServiceUtil.getUser(userId);
-
 		edition.setStatus(status);
-		edition.setStatusByUserId(user.getUserId());
-		edition.setStatusByUserName(user.getFullName());
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			edition.setStatusByUserId(user.getUserId());
+			edition.setStatusByUserName(user.getFullName());
+		}
 		edition.setStatusDate(new Date());
-
+		if (edition.isApproved()) {
+			edition.setPublicationDate(now);
+		}
 		edition = this.editionLocalService.updateEdition(edition);
 
+		// Statut de l'entry
 		AssetEntry entry = this.assetEntryLocalService
 			.getEntry(Edition.class.getName(), edition.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
 		this.assetEntryLocalService.updateAssetEntry(entry);
-		
+
 		this.reindex(edition, false);
 
 		// Si le nouveau statut est "DRAFT" et qu'il y a une version live, on
@@ -209,21 +225,36 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	 * Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	 */
 	@Override
 	public void updateStatus(Edition edition, int status)
 		throws PortalException {
-		this.updateStatus(edition.getUserId(), edition.getEditionId(), status, null, null);
+		this.updateStatus(edition.getUserId(), edition.getEditionId(), status,
+			null, null);
 	}
 
 	/**
-	 * Delete an Edition
-	 * 
-	 * @param editionId
-	 *            The ID of the edition to delete
-	 * @return The deleted Edition
-	 * @throws PortalException
+	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
+	 * une date de publication dans le futur
+	 */
+	@Override
+	public void checkEditions() throws PortalException {
+		List<Edition> editions = this.editionPersistence
+			.findByPublicationDateAndStatus(new Date(),
+				WorkflowConstants.STATUS_SCHEDULED);
+		int n = 0;
+		for (Edition edition : editions) {
+			this.updateStatus(edition, WorkflowConstants.STATUS_APPROVED);
+			n++;
+		}
+		if (n > 0) {
+			_log.info("Published " + n + " editions");
+		}
+	}
+
+	/**
+	 * Supprime une edition
 	 */
 	@Override
 	public Edition removeEdition(long editionId) throws PortalException {
@@ -263,13 +294,13 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 
 		// Delete the index
 		this.reindex(edition, true);
-		
+
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
-			edition.getCompanyId(), edition.getGroupId(), Edition.class.getName(),
-			edition.getEditionId());
+			edition.getCompanyId(), edition.getGroupId(),
+			Edition.class.getName(), edition.getEditionId());
 
-		// S'il existe une version live de l'édition, on la supprime
+		// S'il existe une version live de l'edition, on la supprime
 		Edition liveEdition = edition.getLiveVersion();
 		if (liveEdition != null) {
 			this.removeEdition(liveEdition.getEditionId());
@@ -279,7 +310,7 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Reindex l'édition dans le moteur de recherche
+	 * Reindex l'edition dans le moteur de recherche
 	 */
 	private void reindex(Edition edition, boolean delete)
 		throws SearchException {
@@ -293,27 +324,18 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	 * Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	 */
 	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
-		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
-		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
 		long classNameId = ClassNameLocalServiceUtil
 			.getClassNameId(Edition.class);
-		for (AssetVocabulary vocabulary : vocabularies) {
-			if (vocabulary.getGroupId() == groupId
-				&& LongStream.of(vocabulary.getSelectedClassNameIds())
-					.anyMatch(c -> c == classNameId)) {
-				attachedVocabularies.add(vocabulary);
-			}
-		}
-		return attachedVocabularies;
+		return AssetVocabularyHelper.getVocabulariesForAssetType(groupId,
+			classNameId);
 	}
 
 	/**
-	 * Retourne toutes les éditions d'un groupe
+	 * Retourne toutes les editions d'un groupe
 	 */
 	@Override
 	public List<Edition> getByGroupId(long groupId) {
@@ -369,4 +391,5 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 		return editionPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
+	private final Log _log = LogFactoryUtil.getLog("strasbourg");
 }

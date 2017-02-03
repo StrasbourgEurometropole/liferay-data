@@ -15,7 +15,7 @@
  */
 package eu.strasbourg.portlet.edition.action;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -45,32 +45,34 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
 		"mvc.command.name=saveGallery" },
 	service = MVCActionCommand.class)
-public class SaveGalleryActionCommand
-	implements MVCActionCommand {
-	
+public class SaveGalleryActionCommand implements MVCActionCommand {
+
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getScopeGroupId());
+			sc.setScopeGroupId(
+				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
+					.getScopeGroupId());
 			long galleryId = ParamUtil.getLong(request, "galleryId");
 			EditionGallery editionGallery;
 			if (galleryId == 0) {
-				editionGallery = _editionGalleryLocalService.createEditionGallery(sc);
+				editionGallery = _editionGalleryLocalService
+					.createEditionGallery(sc);
 			} else {
-				editionGallery = _editionGalleryLocalService.getEditionGallery(galleryId);
+				editionGallery = _editionGalleryLocalService
+					.getEditionGallery(galleryId);
 			}
-			
+
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
 			editionGallery.setTitleMap(title);
-			
+
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			editionGallery.setImageId(imageId);
 
@@ -78,26 +80,33 @@ public class SaveGalleryActionCommand
 				.getLocalizationMap(request, "description");
 			editionGallery.setDescriptionMap(description);
 
-			String publicationDateString = ParamUtil.getString(request, "publicationDate");
-			Date publicationDate = DateUtil.parseDate(publicationDateString, request.getLocale());
+			String publicationDateString = ParamUtil.getString(request,
+				"publicationDate");
+			String publicationDateTimeString = ParamUtil.getString(request,
+				"publicationDateTime");
+			Date publicationDate = GetterUtil.getDate(
+				publicationDateString + " " + publicationDateTimeString,
+				new SimpleDateFormat("dd/MM/yyyy hh:mm"));
 			editionGallery.setPublicationDate(publicationDate);
 
 			// Editions
 			List<Edition> oldEditions = editionGallery.getEditions();
 			for (Edition edition : oldEditions) {
-				_editionGalleryLocalService.deleteEditionEditionGallery(edition.getEditionId(), editionGallery);
+				_editionGalleryLocalService.deleteEditionEditionGallery(
+					edition.getEditionId(), editionGallery);
 			}
-			long[] editionsIds = ParamUtil.getLongValues(request, "editionsIds");
+			long[] editionsIds = ParamUtil.getLongValues(request,
+				"editionsIds");
 			for (long editionId : editionsIds) {
 				if (editionId > 0) {
-					_editionGalleryLocalService.addEditionEditionGallery(editionId, editionGallery);
+					_editionGalleryLocalService
+						.addEditionEditionGallery(editionId, editionGallery);
 				}
 			}
-			
-			_editionGalleryLocalService.updateEditionGallery(editionGallery, sc);
+
+			_editionGalleryLocalService.updateEditionGallery(editionGallery,
+				sc);
 		} catch (PortalException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 

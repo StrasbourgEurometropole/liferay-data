@@ -52,7 +52,7 @@ public class ManifestationSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
-		soapModel.setDisplayDate(model.getDisplayDate());
+		soapModel.setPublicationDate(model.getPublicationDate());
 
 		return soapModel;
 	}
@@ -249,12 +249,12 @@ public class ManifestationSoap implements Serializable {
 		_endDate = endDate;
 	}
 
-	public Date getDisplayDate() {
-		return _displayDate;
+	public Date getPublicationDate() {
+		return _publicationDate;
 	}
 
-	public void setDisplayDate(Date displayDate) {
-		_displayDate = displayDate;
+	public void setPublicationDate(Date publicationDate) {
+		_publicationDate = publicationDate;
 	}
 
 	private String _uuid;
@@ -275,5 +275,5 @@ public class ManifestationSoap implements Serializable {
 	private String _description;
 	private Date _startDate;
 	private Date _endDate;
-	private Date _displayDate;
+	private Date _publicationDate;
 }

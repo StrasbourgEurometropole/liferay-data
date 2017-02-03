@@ -139,8 +139,10 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long TITLE_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -550,7 +552,19 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
 	}
 
 	@JSON
@@ -838,7 +852,17 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
+		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationDate == null) {
+			_originalPublicationDate = _publicationDate;
+		}
+
 		_publicationDate = publicationDate;
+	}
+
+	public Date getOriginalPublicationDate() {
+		return _originalPublicationDate;
 	}
 
 	@Override
@@ -1129,7 +1153,13 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 
 		editionGalleryModelImpl._setModifiedDate = false;
 
+		editionGalleryModelImpl._originalStatus = editionGalleryModelImpl._status;
+
+		editionGalleryModelImpl._setOriginalStatus = false;
+
 		editionGalleryModelImpl._originalTitle = editionGalleryModelImpl._title;
+
+		editionGalleryModelImpl._originalPublicationDate = editionGalleryModelImpl._publicationDate;
 
 		editionGalleryModelImpl._columnBitmask = 0;
 	}
@@ -1385,6 +1415,8 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1395,6 +1427,7 @@ public class EditionGalleryModelImpl extends BaseModelImpl<EditionGallery>
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private Date _publicationDate;
+	private Date _originalPublicationDate;
 	private long _columnBitmask;
 	private EditionGallery _escapedModel;
 }

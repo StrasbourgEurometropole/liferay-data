@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import eu.strasbourg.service.video.exception.NoSuchVideoGalleryException;
 import eu.strasbourg.service.video.model.VideoGallery;
 
+import java.util.Date;
+
 /**
  * The persistence interface for the video gallery service.
  *
@@ -502,6 +504,155 @@ public interface VideoGalleryPersistence extends BasePersistence<VideoGallery> {
 	* @return the number of matching video galleries
 	*/
 	public int countByGroupId(long groupId);
+
+	/**
+	* Returns all the video galleries where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the matching video galleries
+	*/
+	public java.util.List<VideoGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status);
+
+	/**
+	* Returns a range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of video galleries
+	* @param end the upper bound of the range of video galleries (not inclusive)
+	* @return the range of matching video galleries
+	*/
+	public java.util.List<VideoGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end);
+
+	/**
+	* Returns an ordered range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of video galleries
+	* @param end the upper bound of the range of video galleries (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching video galleries
+	*/
+	public java.util.List<VideoGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the video galleries where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoGalleryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param start the lower bound of the range of video galleries
+	* @param end the upper bound of the range of video galleries (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching video galleries
+	*/
+	public java.util.List<VideoGallery> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first video gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video gallery
+	* @throws NoSuchVideoGalleryException if a matching video gallery could not be found
+	*/
+	public VideoGallery findByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator)
+		throws NoSuchVideoGalleryException;
+
+	/**
+	* Returns the first video gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video gallery, or <code>null</code> if a matching video gallery could not be found
+	*/
+	public VideoGallery fetchByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator);
+
+	/**
+	* Returns the last video gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video gallery
+	* @throws NoSuchVideoGalleryException if a matching video gallery could not be found
+	*/
+	public VideoGallery findByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator)
+		throws NoSuchVideoGalleryException;
+
+	/**
+	* Returns the last video gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video gallery, or <code>null</code> if a matching video gallery could not be found
+	*/
+	public VideoGallery fetchByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator);
+
+	/**
+	* Returns the video galleries before and after the current video gallery in the ordered set where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param galleryId the primary key of the current video gallery
+	* @param publicationDate the publication date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video gallery
+	* @throws NoSuchVideoGalleryException if a video gallery with the primary key could not be found
+	*/
+	public VideoGallery[] findByPublicationDateAndStatus_PrevAndNext(
+		long galleryId, Date publicationDate, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoGallery> orderByComparator)
+		throws NoSuchVideoGalleryException;
+
+	/**
+	* Removes all the video galleries where publicationDate &lt; &#63; and status = &#63; from the database.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	*/
+	public void removeByPublicationDateAndStatus(Date publicationDate,
+		int status);
+
+	/**
+	* Returns the number of video galleries where publicationDate &lt; &#63; and status = &#63;.
+	*
+	* @param publicationDate the publication date
+	* @param status the status
+	* @return the number of matching video galleries
+	*/
+	public int countByPublicationDateAndStatus(Date publicationDate, int status);
 
 	/**
 	* Caches the video gallery in the entity cache if it is enabled.

@@ -104,7 +104,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	* Crée une edition vide avec une PK, non ajouté à la base de donnée
 	*/
 	@Override
 	public eu.strasbourg.service.edition.model.Edition createEdition(
@@ -200,12 +200,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Delete an Edition
-	*
-	* @param editionId
-	The ID of the edition to delete
-	* @return The deleted Edition
-	* @throws PortalException
+	* Supprime une edition
 	*/
 	@Override
 	public eu.strasbourg.service.edition.model.Edition removeEdition(
@@ -227,7 +222,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Met à jour une édition et l'enregistre en base de données
+	* Met à jour une edition et l'enregistre en base de données
 	*/
 	@Override
 	public eu.strasbourg.service.edition.model.Edition updateEdition(
@@ -238,7 +233,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Met à jour le statut de l'édition par le framework workflow
+	* Met à jour le statut de l'edition par le framework workflow
 	*/
 	@Override
 	public eu.strasbourg.service.edition.model.Edition updateStatus(
@@ -338,7 +333,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
@@ -347,7 +342,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Retourne toutes les éditions d'un groupe
+	* Retourne toutes les editions d'un groupe
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getByGroupId(
@@ -492,6 +487,16 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 		_editionLocalService.addEditionGalleryEditions(galleryId, editionIds);
 	}
 
+	/**
+	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	@Override
+	public void checkEditions()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_editionLocalService.checkEditions();
+	}
+
 	@Override
 	public void clearEditionGalleryEditions(long galleryId) {
 		_editionLocalService.clearEditionGalleryEditions(galleryId);
@@ -525,7 +530,7 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	* Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	*/
 	@Override
 	public void updateStatus(

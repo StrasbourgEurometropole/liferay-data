@@ -104,8 +104,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
-		sb.append(", displayDate=");
-		sb.append(displayDate);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -202,11 +202,11 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			manifestationImpl.setEndDate(new Date(endDate));
 		}
 
-		if (displayDate == Long.MIN_VALUE) {
-			manifestationImpl.setDisplayDate(null);
+		if (publicationDate == Long.MIN_VALUE) {
+			manifestationImpl.setPublicationDate(null);
 		}
 		else {
-			manifestationImpl.setDisplayDate(new Date(displayDate));
+			manifestationImpl.setPublicationDate(new Date(publicationDate));
 		}
 
 		manifestationImpl.resetOriginalValues();
@@ -241,7 +241,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		description = objectInput.readUTF();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
-		displayDate = objectInput.readLong();
+		publicationDate = objectInput.readLong();
 	}
 
 	@Override
@@ -304,7 +304,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
-		objectOutput.writeLong(displayDate);
+		objectOutput.writeLong(publicationDate);
 	}
 
 	public String uuid;
@@ -325,5 +325,5 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	public String description;
 	public long startDate;
 	public long endDate;
-	public long displayDate;
+	public long publicationDate;
 }

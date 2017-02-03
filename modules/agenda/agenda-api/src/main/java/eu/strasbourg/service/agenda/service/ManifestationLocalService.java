@@ -374,6 +374,12 @@ public interface ManifestationLocalService extends BaseLocalService,
 
 	public void addEventManifestations(long eventId, long[] manifestationIds);
 
+	/**
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public void checkManifestations() throws PortalException;
+
 	public void clearEventManifestations(long eventId);
 
 	public void deleteEventManifestation(long eventId,

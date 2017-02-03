@@ -116,7 +116,7 @@ public interface EditionLocalService extends BaseLocalService,
 	public Edition addEdition(Edition edition);
 
 	/**
-	* Crée une édition vide avec une PK, non ajouté à la base de donnée
+	* Crée une edition vide avec une PK, non ajouté à la base de donnée
 	*/
 	public Edition createEdition(ServiceContext sc) throws PortalException;
 
@@ -184,12 +184,7 @@ public interface EditionLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
-	* Delete an Edition
-	*
-	* @param editionId
-	The ID of the edition to delete
-	* @return The deleted Edition
-	* @throws PortalException
+	* Supprime une edition
 	*/
 	public Edition removeEdition(long editionId) throws PortalException;
 
@@ -203,13 +198,13 @@ public interface EditionLocalService extends BaseLocalService,
 	public Edition updateEdition(Edition edition);
 
 	/**
-	* Met à jour une édition et l'enregistre en base de données
+	* Met à jour une edition et l'enregistre en base de données
 	*/
 	public Edition updateEdition(Edition edition, ServiceContext sc)
 		throws PortalException;
 
 	/**
-	* Met à jour le statut de l'édition par le framework workflow
+	* Met à jour le statut de l'edition par le framework workflow
 	*/
 	public Edition updateStatus(long userId, long entryId, int status,
 		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
@@ -279,13 +274,13 @@ public interface EditionLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
-	* Renvoie la liste des vocabulaires rattachés à l'entité Edition
+	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
 
 	/**
-	* Retourne toutes les éditions d'un groupe
+	* Retourne toutes les editions d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Edition> getByGroupId(long groupId);
@@ -381,6 +376,12 @@ public interface EditionLocalService extends BaseLocalService,
 
 	public void addEditionGalleryEditions(long galleryId, long[] editionIds);
 
+	/**
+	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont une
+	* date de publication dans le futur
+	*/
+	public void checkEditions() throws PortalException;
+
 	public void clearEditionGalleryEditions(long galleryId);
 
 	public void deleteEditionGalleryEdition(long galleryId, Edition edition);
@@ -395,7 +396,7 @@ public interface EditionLocalService extends BaseLocalService,
 	public void setEditionGalleryEditions(long galleryId, long[] editionIds);
 
 	/**
-	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)
+	* Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	*/
 	public void updateStatus(Edition edition, int status)
 		throws PortalException;

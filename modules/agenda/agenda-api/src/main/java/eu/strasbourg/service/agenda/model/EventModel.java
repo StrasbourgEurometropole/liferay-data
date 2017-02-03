@@ -1393,18 +1393,18 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setSource(String source);
 
 	/**
-	 * Returns the display date of this event.
+	 * Returns the publication date of this event.
 	 *
-	 * @return the display date of this event
+	 * @return the publication date of this event
 	 */
-	public Date getDisplayDate();
+	public Date getPublicationDate();
 
 	/**
-	 * Sets the display date of this event.
+	 * Sets the publication date of this event.
 	 *
-	 * @param displayDate the display date of this event
+	 * @param publicationDate the publication date of this event
 	 */
-	public void setDisplayDate(Date displayDate);
+	public void setPublicationDate(Date publicationDate);
 
 	/**
 	 * Returns the schedule comments of this event.

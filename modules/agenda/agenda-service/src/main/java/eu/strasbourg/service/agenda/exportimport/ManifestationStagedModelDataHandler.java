@@ -127,7 +127,7 @@ public class ManifestationStagedModelDataHandler
 		importedManifestation.setDescription(stagedModel.getDescription());
 		importedManifestation.setStartDate(stagedModel.getStartDate());
 		importedManifestation.setEndDate(stagedModel.getEndDate());
-		importedManifestation.setDisplayDate(stagedModel.getDisplayDate());
+		importedManifestation.setPublicationDate(stagedModel.getPublicationDate());
 		importedManifestation.setStatus(stagedModel.getStatus());
 
 		// Import de l'asset, tags, catégories, et des éléments liés
