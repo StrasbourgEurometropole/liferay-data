@@ -17,7 +17,7 @@
             <div class="page-header-share">
                 <span><@liferay_ui.message key="eu.share-page" /></span>
                 <div class="page-header-share-buttons">
-                    <div class="facebook"></div>
+                    <a href="https://www.facebook.com/sharer.php?u=${currentURL}" target="_blank"><div class="facebook"></div></a>
                     <div class="twitter"></div>
                 </div>
             </div>
