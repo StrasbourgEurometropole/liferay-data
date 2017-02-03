@@ -21,6 +21,8 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
@@ -433,8 +435,9 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

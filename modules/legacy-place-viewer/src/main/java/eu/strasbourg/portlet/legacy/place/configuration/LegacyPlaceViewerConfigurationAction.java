@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
@@ -67,29 +69,10 @@ public class LegacyPlaceViewerConfigurationAction
 			
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
-	/**
-	private List<LegacyPlace> getMuseums() {
-		List<LegacyPlace> result = new ArrayList<LegacyPlace>();
-		try {
-			JSONObject json = JSONHelper.readJsonFromURL(
-				"http://preprod.strasbourg.eu/Cus-all-hook/api/jsonws/?cusplaceasset/getJsonByCategory/category/Cat_16_10");
-			JSONArray array = json.getJSONArray("list");
-			for (int i = 0; i < array.length(); i++) { 
-				JSONObject placeJSON = array.getJSONObject(i);
-				LegacyPlace place = LegacyPlace.fromJSONObject(placeJSON);
-				result.add(place);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-		}
-		return result;
-	}
-	**/
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

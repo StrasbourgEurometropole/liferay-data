@@ -11,6 +11,8 @@ import java.util.Map;
 
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -74,7 +76,7 @@ public class LegacyPlace {
 			LegacyPlace legacyPlace = LegacyPlace.fromJSONObject(json, locale);
 			return legacyPlace;
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
@@ -436,4 +438,6 @@ public class LegacyPlace {
 	public void setNextSchedules(List<String> nextSchedules) {
 		this.nextSchedules = nextSchedules;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(LegacyPlace.class.getName());
 }

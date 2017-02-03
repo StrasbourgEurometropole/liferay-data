@@ -7,6 +7,8 @@ import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalContentSearchLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -81,10 +83,12 @@ public class LayoutHelper {
 					return PortalUtil.getLayoutFriendlyURL(articleLayout,
 						themeDisplay, themeDisplay.getLocale());
 				} catch (PortalException e) {
-					e.printStackTrace();
+					_log.error(e);
 				}
 			}
 		}
 		return "";
 	}
+	
+	private static final Log _log = LogFactoryUtil.getLog(LayoutHelper.class.getName());
 }

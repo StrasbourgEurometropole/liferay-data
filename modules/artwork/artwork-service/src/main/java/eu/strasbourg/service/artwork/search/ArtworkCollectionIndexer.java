@@ -11,6 +11,8 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -107,7 +109,7 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 
 						indexableActionableDynamicQuery.addDocuments(document);
 					} catch (PortalException pe) {
-						System.out.println("Unable to index artworkCollection entry "
+						_log.error("Unable to index artworkCollection entry "
 							+ entry.getCollectionId());
 					}
 				}
@@ -118,4 +120,5 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 		indexableActionableDynamicQuery.performActions();
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

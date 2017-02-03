@@ -14,6 +14,8 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -90,7 +92,7 @@ public class ManifestationStagedModelDataHandler
 					PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex);
 		}
 	}
 
@@ -172,4 +174,5 @@ public class ManifestationStagedModelDataHandler
 
 	private ManifestationLocalService _manifestationLocalService;
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

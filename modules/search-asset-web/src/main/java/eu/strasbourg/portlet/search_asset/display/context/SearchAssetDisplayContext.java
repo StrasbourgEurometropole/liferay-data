@@ -157,7 +157,6 @@ public class SearchAssetDisplayContext {
 				i++;
 				if (i > 10) break;
 			}
-			System.out.println();
 
 			for (Document document : hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(

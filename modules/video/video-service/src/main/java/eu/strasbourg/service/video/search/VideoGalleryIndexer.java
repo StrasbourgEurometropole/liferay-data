@@ -11,6 +11,8 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -110,7 +112,7 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 
 						indexableActionableDynamicQuery.addDocuments(document);
 					} catch (PortalException pe) {
-						System.out.println("Unable to index video entry "
+						_log.error("Unable to index video entry "
 							+ entry.getGalleryId());
 					}
 				}
@@ -121,4 +123,5 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 		indexableActionableDynamicQuery.performActions();
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

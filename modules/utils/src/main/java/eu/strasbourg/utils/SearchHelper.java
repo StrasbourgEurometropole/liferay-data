@@ -52,10 +52,10 @@ public class SearchHelper {
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			long endTime = System.currentTimeMillis();
 			float duration = (endTime - startTime);
-			System.out.println("Recherche : " + duration + "ms");
+			_log.info("Recherche : " + duration + "ms");
 			return hits;
 		} catch (SearchException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
@@ -71,7 +71,7 @@ public class SearchHelper {
 				categoriesIds, keywords);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return 0;
 		}
 	}
@@ -123,7 +123,7 @@ public class SearchHelper {
 			}
 			return query;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
@@ -202,7 +202,7 @@ public class SearchHelper {
 			_log.debug("Recherche : " + duration + "ms");
 			return hits;
 		} catch (SearchException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return null;
 		}
 	}
@@ -225,7 +225,7 @@ public class SearchHelper {
 				prefilterTagsNames, locale);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
-			e.printStackTrace();
+			_log.error(e);
 			return 0;
 		}
 	}
@@ -447,5 +447,5 @@ public class SearchHelper {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
+	private static final Log _log = LogFactoryUtil.getLog(SearchHelper.class.getName());
 }

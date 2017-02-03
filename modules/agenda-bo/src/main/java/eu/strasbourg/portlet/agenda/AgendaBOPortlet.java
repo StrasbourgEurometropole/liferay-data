@@ -13,6 +13,8 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -102,8 +104,9 @@ public class AgendaBOPortlet extends MVCPortlet {
 			json = JSONHelper.readJsonFromURL(url);
 			response.getWriter().write(json.toString());
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

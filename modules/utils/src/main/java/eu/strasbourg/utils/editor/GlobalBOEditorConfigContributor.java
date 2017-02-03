@@ -34,8 +34,6 @@ public class GlobalBOEditorConfigContributor
 			.getJSONArray("toolbar_liferay");
 		jsonObject.put("toolbar_phone", toolbarConfiguration);
 		jsonObject.put("toolbar_simple", toolbarConfiguration);
-		System.out.println(jsonObject);
-
 	}
 
 }

@@ -8,6 +8,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -68,8 +70,8 @@ public class SelectionActionCommand implements MVCActionCommand {
 					}
 					break;
 				}
-			} catch (PortalException ex) {
-				ex.printStackTrace();
+			} catch (PortalException e) {
+				_log.error(e);
 			}
 		}
 		return false;
@@ -92,4 +94,5 @@ public class SelectionActionCommand implements MVCActionCommand {
 		_artworkCollectionLocalService = artworkCollectionLocalService;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

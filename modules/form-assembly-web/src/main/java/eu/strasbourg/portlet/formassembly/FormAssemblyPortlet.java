@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -70,7 +72,9 @@ public class FormAssemblyPortlet extends MVCPortlet {
 			super.render(request, response);
 
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			_log.error(ex);
 		}
 	}
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

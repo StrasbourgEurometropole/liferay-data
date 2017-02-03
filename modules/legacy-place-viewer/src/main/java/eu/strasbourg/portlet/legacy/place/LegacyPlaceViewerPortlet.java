@@ -13,6 +13,8 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -62,10 +64,8 @@ public class LegacyPlaceViewerPortlet extends MVCPortlet {
 			// Clé recaptcha
 			renderRequest.setAttribute("recaptchaSecret", StrasbourgPropsUtil.getRecaptchaPublicKey());
 
-		} catch (
-
-		ConfigurationException e) {
-			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			_log.error(e);
 		}
 
 		super.render(renderRequest, renderResponse);
@@ -84,9 +84,9 @@ public class LegacyPlaceViewerPortlet extends MVCPortlet {
 			json = JSONHelper.readJsonFromURL(url);
 			response.getWriter().write(json.toString());
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
-
 	}
-
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

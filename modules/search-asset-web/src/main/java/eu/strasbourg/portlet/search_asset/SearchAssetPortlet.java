@@ -13,6 +13,8 @@ import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
@@ -72,8 +74,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
@@ -89,4 +90,5 @@ public class SearchAssetPortlet extends MVCPortlet {
 		super.processAction(actionRequest, actionResponse);
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

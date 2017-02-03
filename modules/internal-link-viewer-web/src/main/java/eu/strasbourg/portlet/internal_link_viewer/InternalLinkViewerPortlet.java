@@ -12,6 +12,8 @@ import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -65,10 +67,11 @@ public class InternalLinkViewerPortlet extends MVCPortlet {
 			}
 			renderRequest.setAttribute("selectedLayouts", layouts);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 		super.render(renderRequest, renderResponse);
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

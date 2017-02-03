@@ -15,6 +15,8 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
@@ -148,7 +150,7 @@ public class EntityDetailConfigurationAction
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 	}
 
@@ -192,4 +194,6 @@ public class EntityDetailConfigurationAction
 			return jsp;
 		}
 	}
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
