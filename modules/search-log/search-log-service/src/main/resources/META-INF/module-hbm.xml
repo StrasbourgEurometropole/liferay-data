@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="eu.strasbourg.service.search.log.model.SearchLog" />
+	<class name="eu.strasbourg.service.search.log.model.impl.SearchLogImpl" table="search_SearchLog">
+		<id name="searchLogId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="keywords" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="searchTime" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="resultCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result1ClassId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result1ClassPK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result1Title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="result2ClassId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result2ClassPK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result2Title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="result3ClassId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result3ClassPK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="result3Title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="userTargetClassId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userTargetClassPK" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userTargetTitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="layoutId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="layoutFriendlyURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="language" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+	</class>
+</hibernate-mapping>

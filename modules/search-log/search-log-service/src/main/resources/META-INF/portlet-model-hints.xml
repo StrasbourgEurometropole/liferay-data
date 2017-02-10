@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.search.log.model.SearchLog">
+		<field name="searchLogId" type="long" />
+		<field name="keywords" type="String" />
+		<field name="searchTime" type="long" />
+		<field name="resultCount" type="long" />
+		<field name="result1ClassId" type="long" />
+		<field name="result1ClassPK" type="long" />
+		<field name="result1Title" type="String">
+			<hint name="max-length">800</hint>
+		</field>
+		<field name="result2ClassId" type="long" />
+		<field name="result2ClassPK" type="long" />
+		<field name="result2Title" type="String">
+			<hint name="max-length">800</hint>
+		</field>
+		<field name="result3ClassId" type="long" />
+		<field name="result3ClassPK" type="long" />
+		<field name="result3Title" type="String">
+			<hint name="max-length">800</hint>
+		</field>
+		<field name="userTargetClassId" type="long" />
+		<field name="userTargetClassPK" type="long" />
+		<field name="userTargetTitle" type="String">
+			<hint name="max-length">800</hint>
+		</field>
+		<field name="groupId" type="long" />
+		<field name="layoutId" type="Long" />
+		<field name="layoutFriendlyURL" type="String" />
+		<field name="language" type="String" />
+		<field name="date" type="Date" />
+	</model>
+</model-hints>
