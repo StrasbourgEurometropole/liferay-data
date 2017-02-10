@@ -192,6 +192,12 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"dateField");
 			setPreference(actionRequest, "dateField",
 				String.valueOf(dateField));
+			
+			// Tri par date
+			boolean displayDateSorting = ParamUtil.getBoolean(actionRequest,
+				"displayDateSorting");
+			setPreference(actionRequest, "displayDateSorting",
+				String.valueOf(displayDateSorting));
 
 			// Ne pas afficher de résultat avant une recherche utilisateur
 			boolean hideResultsBeforeSearch = ParamUtil
@@ -249,7 +255,23 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Préfiltre tags
 			String prefilterTagsNames = ParamUtil.getString(actionRequest,
 				"prefilterTagsNames");
-			setPreference(actionRequest, "prefilterTagsNames", prefilterTagsNames);
+			setPreference(actionRequest, "prefilterTagsNames",
+				prefilterTagsNames);
+
+			// Boost tags
+			String boostTagsNames = ParamUtil.getString(actionRequest,
+				"boostTagsNames");
+			setPreference(actionRequest, "boostTagsNames", boostTagsNames);
+			
+			// Tri par défaut
+			String defaultSortField = ParamUtil.getString(actionRequest, "defaultSortField");
+			setPreference(actionRequest, "defaultSortField", defaultSortField);
+			String defaultSortType = ParamUtil.getString(actionRequest, "defaultSortType");
+			setPreference(actionRequest, "defaultSortType", defaultSortType);
+			
+			// Filtre par date par défaut
+			Long defaultDateRange = ParamUtil.getLong(actionRequest,  "defaultDateRange");
+			setPreference(actionRequest, "defaultDateRange", String.valueOf(defaultDateRange));
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -411,6 +433,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				configuration.dateField());
 			request.setAttribute("dateField", dateField);
 
+			// Tri par date
+			boolean displayDateSorting = ParamUtil.getBoolean(request, "displayDateSorting",
+				configuration.displayDateSorting());
+			request.setAttribute("displayDateSorting", displayDateSorting);
+
 			// Ne pas afficher de résultat avant une recherche utilisateur
 			boolean hideResultsBeforeSearch = ParamUtil.getBoolean(request,
 				"hideResultsBeforeSearch",
@@ -432,6 +459,20 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Préfiltre tags
 			String prefilterTagsNames = configuration.prefilterTagsNames();
 			request.setAttribute("prefilterTagsNames", prefilterTagsNames);
+
+			// Boost tags
+			String boostTagsNames = configuration.boostTagsNames();
+			request.setAttribute("boostTagsNames", boostTagsNames);
+			
+			// Tri par défaut
+			String defaultSortField = configuration.defaultSortField();
+			request.setAttribute("defaultSortField", defaultSortField);
+			String defaultSortType = configuration.defaultSortType();
+			request.setAttribute("defaultSortType", defaultSortType);
+			
+			// Filtre par date par défault
+			long defaultDateRange = configuration.defaultDateRange();
+			request.setAttribute("defaultDateRange", defaultDateRange);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

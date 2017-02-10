@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -36,6 +38,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
+import eu.strasbourg.service.search.log.model.SearchLog;
+import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 
 public class SearchAssetDisplayContext {
@@ -51,28 +55,36 @@ public class SearchAssetDisplayContext {
 			.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 		this.initSearchContainer();
 		if (!this._configuration.hideResultsBeforeSearch()
-			|| this.isUserSearch()) {
+			|| this.isUserSearch()
+			|| ParamUtil.getBoolean(this._request, "paginate")) {
 			this.initEntries();
 		} else {
 			this._entries = new ArrayList<AssetEntry>();
 		}
-
+		// Gestion du log
+		if (this.isUserSearch()) {
+			this.logSearch();
+		}
+		long logSearchId = ParamUtil.getLong(request, "searchLogId");
+		if (logSearchId > 0) {
+			request.setAttribute("logSearchId", logSearchId);
+		}
 	}
 
 	private void initSearchContainer() {
 		PortletURL iteratorURL = this._response.createRenderURL();
-		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
-		iteratorURL.setParameter("orderByType", this.getOrderByType());
+		iteratorURL.setParameter("orderByCol", this.getSortField());
+		iteratorURL.setParameter("orderByType", this.getSortType());
 		int i = 0;
 		for (Long[] categoriesIds : this.getFilterCategoriesIds()) {
 			iteratorURL.setParameter("vocabulary_" + i,
 				ArrayUtil.toStringArray(categoriesIds));
 			i++;
 		}
-
+		iteratorURL.setParameter("paginate", String.valueOf(true));
 		iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
 
-		iteratorURL.setParameter("className_", this.getFilterClassNames());
+		iteratorURL.setParameter("className", this.getFilterClassNames());
 
 		iteratorURL.setParameter("keywords",
 			String.valueOf(this.getKeywords()));
@@ -100,6 +112,9 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Effectue concrètement la recherche
+	 */
 	private void initEntries() throws PortalException {
 		HttpServletRequest servletRequest = PortalUtil
 			.getHttpServletRequest(_request);
@@ -107,13 +122,23 @@ public class SearchAssetDisplayContext {
 		SearchContext searchContext = SearchContextFactory
 			.getInstance(servletRequest);
 
+		// Mots clés
 		String keywords = ParamUtil.getString(this._request, "keywords");
+
+		// ClassNames de la configuration
 		String[] classNames = this.getFilterClassNames();
+
+		// Inclusion ou non du scope global
 		boolean globalScope = this._configuration.globalScope();
-		long groupId = this._themeDisplay.getScopeGroupId();
 		long globalGroupId = this._themeDisplay.getCompanyGroupId();
+
+		// Group ID courant
+		long groupId = this._themeDisplay.getScopeGroupId();
+
+		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
 
+		// Préfiltre catégories
 		String prefilterCategoriesIdsString = this._configuration
 			.prefilterCategoriesIds();
 		List<Long[]> prefilterCategoriesIds = new ArrayList<Long[]>();
@@ -125,40 +150,47 @@ public class SearchAssetDisplayContext {
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 		}
 
+		// Préfiltre tags
 		String prefilterTagsNamesString = this._configuration
 			.prefilterTagsNames();
 		String[] prefilterTagsNames = StringUtil
 			.split(prefilterTagsNamesString);
 
-		boolean dateField = this._configuration.dateField();
-		String fromDate = String.format("%04d", this.getFromYear())
-			+ String.format("%02d", this.getFromMonth())
-			+ String.format("%02d", this.getFromDay()) + "000000";
-		String toDate = String.format("%04d", this.getToYear())
-			+ String.format("%02d", this.getToMonth())
-			+ String.format("%02d", this.getToDay()) + "000000";
+		// Boost tags
+		String boostTagsNamesString = this._configuration.boostTagsNames();
+		String[] boostTagsNames = StringUtil.split(boostTagsNamesString);
 
-		String sortField = this.getOrderByColSearchField();
-		boolean isSortDesc = "desc".equals(this.getOrderByType());
+		// Champ date
+		boolean dateField = this._configuration.dateField();
+		String dateFieldName = this._configuration.defaultSortField();
+		LocalDate fromDate = LocalDate.of(this.getFromYear(),
+			this.getFromMonth(), this.getFromDay());
+		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonth(),
+			this.getToDay());
+
+		// Ordre
+		String sortField = this.getSortField();
+		boolean isSortDesc = "desc".equals(this.getSortType());
 
 		// Recherche
-		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames,
-			groupId, globalGroupId, globalScope, keywords, dateField, fromDate,
-			toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsNames,
+		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames,
+			groupId, globalGroupId, globalScope, keywords, dateField,
+			dateFieldName, fromDate, toDate, categoriesIds,
+			prefilterCategoriesIds, prefilterTagsNames, boostTagsNames,
 			this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 			getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
-		if (hits != null) {
+		if (this._hits != null) {
 			int i = 0;
-			for (float s : hits.getScores()) {
-				_log.info(
-					GetterUtil.getString(hits.getDocs()[i].get(Field.TITLE))
-						+ " : " + s);
+			for (float s : this._hits.getScores()) {
+				_log.info(GetterUtil.getString(
+					this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
 				i++;
-				if (i > 10) break;
+				if (i > 10)
+					break;
 			}
 
-			for (Document document : hits.getDocs()) {
+			for (Document document : this._hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
@@ -168,8 +200,8 @@ public class SearchAssetDisplayContext {
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext,
 				classNames, groupId, globalGroupId, globalScope, keywords,
-				dateField, fromDate, toDate, categoriesIds,
-				prefilterCategoriesIds, prefilterTagsNames,
+				dateField, dateFieldName, fromDate, toDate, categoriesIds,
+				prefilterCategoriesIds, prefilterTagsNames, boostTagsNames,
 				this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
@@ -310,43 +342,41 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Renvoie des données nécessaires au search container
+	 * Retourne le champ sur lequel on classe les résultats
 	 */
-	public String getOrderByColSearchField() {
-		switch (this.getOrderByCol()) {
-		case "title":
-			return "localized_title_" + this._themeDisplay.getLocale()
-				+ "_sortable";
-		case "modified-date":
-			return "modified_sortable";
-		case "dates":
-			return "dates_Number_sortable";
-		case "score":
-			return "_score";
-		default:
-			return "modified_sortable";
+	public String getSortField() {
+		String sortFieldFromParam = ParamUtil.getString(this._request,
+			"sortFieldAndType");
+		if (Validator.isNull(sortFieldFromParam)) {
+			if (Validator.isNull(this.getKeywords())) {
+				return Validator
+					.isNotNull(this._configuration.defaultSortField())
+						? this._configuration.defaultSortField()
+						: "modified_sortable";
+			} else {
+				return "score";
+			}
+		} else {
+			return sortFieldFromParam.split(",")[0];
 		}
 	}
 
 	/**
-	 * Retourne le champ sur lequel on classe les résultats. Par défaut on
-	 * classe par date de modification. Si le champ date est affiché, on classe
-	 * par défaut par date
+	 * Retourne le type de classement des résultats (croissant ou décroissant)
 	 */
-	public String getOrderByCol() {
-		if (this.isDateField()) {
-			return ParamUtil.getString(this._request, "orderByCol", "dates");
+	public String getSortType() {
+		if (this.getSortField() == "score") {
+			return "desc";
 		} else {
-			return ParamUtil.getString(this._request, "orderByCol",
-				"modified-date");
-		}
-	}
-
-	public String getOrderByType() {
-		if (this.isDateField()) {
-			return ParamUtil.getString(this._request, "orderByType", "asc");
-		} else {
-			return ParamUtil.getString(this._request, "orderByType", "desc");
+			String sortTypeFromParam = ParamUtil.getString(this._request,
+				"sortFieldAndType");
+			if (Validator.isNull(sortTypeFromParam)) {
+				return Validator
+					.isNotNull(this._configuration.defaultSortType())
+						? this._configuration.defaultSortType() : "desc";
+			} else {
+				return sortTypeFromParam.split(",")[1];
+			}
 		}
 	}
 
@@ -414,35 +444,81 @@ public class SearchAssetDisplayContext {
 
 	public int getFromDay() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromDay");
-		return fromParam > 0 ? fromParam : LocalDate.now().getDayOfMonth();
+		if (fromParam > 0) {
+			return fromParam;
+		} else {
+			if (this._configuration.defaultDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+			} else {
+				return LocalDate.now().getDayOfMonth();
+			}
+		}
 
 	}
 
 	public int getFromMonth() {
-		int fromParam = ParamUtil.getInteger(this._request, "fromMonth");
-		return fromParam > 0 ? fromParam : LocalDate.now().getMonthValue();
+		String fromMonthString = ParamUtil.getString(this._request, "fromMonth");
+		if (Validator.isNull(fromMonthString)) {
+			if (this._configuration.defaultDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+			} else {
+				return LocalDate.now().getMonthValue();
+			}
+		} else {
+			return ParamUtil.getInteger(this._request, "fromMonth") + 1;
+		}
 	}
 
 	public int getFromYear() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromYear");
-		return fromParam > 0 ? fromParam : LocalDate.now().getYear();
+		if (fromParam > 0) {
+			return fromParam;
+		} else {
+			if (this._configuration.defaultDateRange() < 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+			} else {
+				return LocalDate.now().getYear();
+			}
+		}
 	}
 
 	public int getToDay() {
 		int toParam = ParamUtil.getInteger(this._request, "toDay");
-		return toParam > 0 ? toParam
-			: LocalDate.now().plusMonths(1).getDayOfMonth();
+		if (toParam > 0) {
+			return toParam;
+		} else {
+			if (this._configuration.defaultDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+			} else {
+				return LocalDate.now().getDayOfMonth();
+			}
+		}
 	}
 
 	public int getToMonth() {
-		int toParam = ParamUtil.getInteger(this._request, "toMonth");
-		return toParam > 0 ? toParam
-			: LocalDate.now().plusMonths(1).getMonthValue();
+		String toMonthString = ParamUtil.getString(this._request, "toMonth");
+		if (Validator.isNull(toMonthString)) {
+			if (this._configuration.defaultDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+			} else {
+				return LocalDate.now().getMonthValue();
+			}
+		} else {
+			return ParamUtil.getInteger(this._request, "toMonth") + 1;
+		}
 	}
 
 	public int getToYear() {
 		int toParam = ParamUtil.getInteger(this._request, "toYear");
-		return toParam > 0 ? toParam : LocalDate.now().plusMonths(1).getYear();
+		if (toParam > 0) {
+			return toParam;
+		} else {
+			if (this._configuration.defaultDateRange() > 0) {
+				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+			} else {
+				return LocalDate.now().getYear();
+			}
+		}
 	}
 
 	public boolean getHideResultsBeforeSearch() {
@@ -451,6 +527,27 @@ public class SearchAssetDisplayContext {
 
 	public boolean isUserSearch() {
 		return GetterUtil.getBoolean(this._request.getAttribute("userSearch"));
+	}
+
+	private void logSearch() throws PortalException {
+		ServiceContext sc = ServiceContextFactory.getInstance(this._request);
+		AssetEntry result1 = this.getEntries().size() > 0
+			? this.getEntries().get(0) : null;
+		AssetEntry result2 = this.getEntries().size() > 1
+			? this.getEntries().get(1) : null;
+		AssetEntry result3 = this.getEntries().size() > 2
+			? this.getEntries().get(2) : null;
+		long searchTime = (long) (this._hits.getSearchTime() * 1000);
+		SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc,
+			this.getKeywords(), this.getSearchContainer().getTotal(), result1,
+			result2, result3, null, searchTime);
+		this.getSearchContainer().getIteratorURL().setParameter("searchLogId",
+			String.valueOf(searchLog.getSearchLogId()));
+		this._request.setAttribute("searchLogId", searchLog.getSearchLogId());
+	}
+
+	public SearchAssetConfiguration getConfiguration() {
+		return this._configuration;
 	}
 
 	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
@@ -468,5 +565,6 @@ public class SearchAssetDisplayContext {
 	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
 	private List<String> _classNames;
+	private Hits _hits;
 
 }
