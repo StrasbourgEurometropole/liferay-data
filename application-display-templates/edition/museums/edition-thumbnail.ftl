@@ -11,10 +11,18 @@
   <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
+<@liferay_portlet.actionURL var="detailURLFilter">
+  <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
+  <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
+  <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
+  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+</@liferay_portlet.actionURL>
+
 <!-- Edition : ${entry.getTitle(locale)} -->
 <div class="entity-thumbnail edition-tumbnail">
   <div class="entity-thumbnail-image">
-    <a href="${detailURL}">
+    <a href="${detailURLFilter}">
       <img src="${entry.getImageURL()}" />
     </a>
   </div>
@@ -27,7 +35,7 @@
       </div>
     </#if>
     <div class="entity-thumbnail-title">
-      <a href="${detailURL}">
+      <a href="${detailURLFilter}">
         <h4>${entry.getTitle(locale)}</h4>
       </a>
     </div>
