@@ -43,7 +43,7 @@
 	<c:forEach items="${dc.vocabularies}" var="vocabulary"
 		varStatus="vocStatus">
 		<div class="vocabulary-selection">
-			<legend>${vocabulary.getTitle(locale)}</legend>
+			<legend>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</legend>
 			<div class="vocabulary-selection-control open">
 				<!-- Dropdown -->
 				<c:if
