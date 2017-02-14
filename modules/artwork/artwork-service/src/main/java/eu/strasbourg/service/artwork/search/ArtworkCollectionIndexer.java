@@ -1,5 +1,6 @@
 package eu.strasbourg.service.artwork.search;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -7,6 +8,7 @@ import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -23,6 +25,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
@@ -40,17 +43,31 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 	}
 
 	@Override
-	protected void doDelete(ArtworkCollection artworkCollection) throws Exception {
-		deleteDocument(artworkCollection.getCompanyId(), artworkCollection.getCollectionId());
+	protected void doDelete(ArtworkCollection artworkCollection)
+		throws Exception {
+		deleteDocument(artworkCollection.getCompanyId(),
+			artworkCollection.getCollectionId());
 	}
 
 	/**
-	 * Fonction appel�e lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs � indexer
+	 * Fonction appel�e lors de l'indexation de l'item C'est ici qu'on choisi
+	 * les champs à indexer
 	 */
 	@Override
-	protected Document doGetDocument(ArtworkCollection artworkCollection) throws Exception {
+	protected Document doGetDocument(ArtworkCollection artworkCollection)
+		throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, artworkCollection);
+
+		// On indexe toute la hiérarchie de catégories (parents et enfants des
+		// catégories de l'entité)
+		long[] assetCategoryIds = AssetVocabularyHelper
+			.getFullHierarchyCategoriesIds(artworkCollection.getCategories());
+		List<AssetCategory> assetCategories = AssetVocabularyHelper
+			.getFullHierarchyCategories(artworkCollection.getCategories());
+		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
+		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
+
 		document.addLocalizedText(Field.TITLE, artworkCollection.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			artworkCollection.getDescriptionMap());
@@ -68,7 +85,8 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		ArtworkCollection entry = ArtworkCollectionLocalServiceUtil.getArtworkCollection(classPK);
+		ArtworkCollection entry = ArtworkCollectionLocalServiceUtil
+			.getArtworkCollection(classPK);
 		doReindex(entry);
 	}
 
@@ -79,7 +97,8 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 	}
 
 	@Override
-	protected void doReindex(ArtworkCollection artworkCollection) throws Exception {
+	protected void doReindex(ArtworkCollection artworkCollection)
+		throws Exception {
 		Document document = getDocument(artworkCollection);
 
 		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),

@@ -10,9 +10,11 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.ListUtil;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -85,6 +87,24 @@ public class AssetVocabularyHelper {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+	
+	public static List<AssetCategory> getFullHierarchyCategories(List<AssetCategory> categories) throws PortalException {
+		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
+		for (AssetCategory category : categories) {
+			List<AssetCategory> ancestors = category.getAncestors();
+			List<AssetCategory> child = AssetCategoryLocalServiceUtil.getChildCategories(category.getCategoryId());
+			allCategories.add(category);
+			allCategories.addAll(ancestors);
+			allCategories.addAll(child);
+		}
+		return allCategories;
+	}
+	
+	public static long[] getFullHierarchyCategoriesIds(List<AssetCategory> categories) throws PortalException {
+		List<AssetCategory> allCategories = getFullHierarchyCategories(categories);
+		return ListUtil.toLongArray(
+			allCategories, AssetCategory.CATEGORY_ID_ACCESSOR);
 	}
 
 	/**

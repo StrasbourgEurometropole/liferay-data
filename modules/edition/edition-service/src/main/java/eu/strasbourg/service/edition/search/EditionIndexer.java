@@ -1,5 +1,6 @@
 package eu.strasbourg.service.edition.search;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -7,6 +8,7 @@ import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -23,6 +25,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class EditionIndexer extends BaseIndexer<Edition> {
@@ -51,6 +54,17 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 	@Override
 	protected Document doGetDocument(Edition edition) throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, edition);
+
+		// On indexe toute la hiérarchie de catégories (parents et enfants des
+		// catégories de l'entité)
+		long[] assetCategoryIds = AssetVocabularyHelper
+			.getFullHierarchyCategoriesIds(edition.getCategories());
+		List<AssetCategory> assetCategories = AssetVocabularyHelper
+			.getFullHierarchyCategories(edition.getCategories());
+		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
+		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
+		
 		document.addLocalizedText(Field.TITLE, edition.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 			edition.getDescriptionMap());
