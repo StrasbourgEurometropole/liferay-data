@@ -73,13 +73,6 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	 * eu.strasbourg.service.agenda.service.EventServiceUtil} to access the
 	 * event remote service.
 	 */
-
-	@Override
-	@AccessControlled(guestAccessEnabled = true)
-	public String helloWorld() {
-		return "Hello World";
-	}
-
 	@Override
 	public JSONArray getCategories() throws PortalException {
 		long companyId = PortalUtil.getDefaultCompanyId();

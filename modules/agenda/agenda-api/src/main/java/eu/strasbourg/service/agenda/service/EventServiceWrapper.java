@@ -119,11 +119,6 @@ public class EventServiceWrapper implements EventService,
 	}
 
 	@Override
-	public java.lang.String helloWorld() {
-		return _eventService.helloWorld();
-	}
-
-	@Override
 	public EventService getWrappedService() {
 		return _eventService;
 	}

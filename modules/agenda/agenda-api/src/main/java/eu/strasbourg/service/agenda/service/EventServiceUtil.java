@@ -114,10 +114,6 @@ public class EventServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static java.lang.String helloWorld() {
-		return getService().helloWorld();
-	}
-
 	public static EventService getService() {
 		return _serviceTracker.getService();
 	}

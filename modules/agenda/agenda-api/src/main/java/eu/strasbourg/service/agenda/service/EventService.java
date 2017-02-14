@@ -98,7 +98,4 @@ public interface EventService extends BaseService {
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
-
-	@AccessControlled(guestAccessEnabled = true)
-	public java.lang.String helloWorld();
 }

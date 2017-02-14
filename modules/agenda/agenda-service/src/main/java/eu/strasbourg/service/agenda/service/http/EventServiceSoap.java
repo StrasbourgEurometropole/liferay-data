@@ -65,19 +65,6 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class EventServiceSoap {
-	public static java.lang.String helloWorld() throws RemoteException {
-		try {
-			java.lang.String returnValue = EventServiceUtil.helloWorld();
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static java.lang.String getCategories() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getCategories();
