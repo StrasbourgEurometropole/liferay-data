@@ -98,7 +98,32 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 		java.util.Locale locale);
 
 	/**
-	* Renvoie la version live de la galerie d'édition, si elle existe
+	* Renvoie la version live de la manifestation, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion();
+
+	/**
+	* Retourne les types de la manifestation
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne les themes de la manifestation
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+
+	/**
+	* Retourne les publics de la manifestation
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne les territoires de la manifestation
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
+
+	/**
+	* Renvoie la version JSON de la manifestation
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

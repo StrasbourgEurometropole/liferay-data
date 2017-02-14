@@ -23,6 +23,9 @@ import java.util.Map;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -37,6 +40,7 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.models.LegacyPlace;
 
 /**
@@ -202,9 +206,10 @@ public class EventImpl extends EventBaseImpl {
 			.fetchEventByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEvent;
 	}
-	
+
 	/**
-	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
+	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	 * existe
 	 */
 	@Override
 	public LegacyPlace getLegacyPlace(Locale locale) {
@@ -212,14 +217,216 @@ public class EventImpl extends EventBaseImpl {
 			locale_legacyPlace = new HashMap<Locale, LegacyPlace>();
 		}
 		if (locale_legacyPlace.get(locale) == null) {
-			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(this.getPlaceSIGId(), locale);
+			LegacyPlace legacyPlace = LegacyPlace
+				.fromSIGId(this.getPlaceSIGId(), locale);
 			if (legacyPlace != null) {
 				locale_legacyPlace.put(locale, legacyPlace);
 			}
 		}
 		return locale_legacyPlace.get(locale);
 	}
-	
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "type agenda");
+	}
+
+	/**
+	 * Retourne les themes de l'événement
+	 */
+
+	@Override
+	public List<AssetCategory> getThemes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "theme agenda");
+	}
+
+	/**
+	 * Retourne les publics de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getPublics() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "public agenda");
+	}
+
+	/**
+	 * Retourne les territoires de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getTerritories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "territoire");
+	}
+
+	/**
+	 * Retourne les territoires de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getServices() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "service gestionnaire");
+	}
+
+	/**
+	 * Retourne la version JSON de l'événenement
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+
+		jsonEvent.put("id", this.getEventId());
+
+		jsonEvent.put("title",
+			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+
+		if (Validator.isNotNull(this.getSubtitle())) {
+			jsonEvent.put("subtitle",
+				JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+		}
+
+		jsonEvent.put("description",
+			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
+		jsonEvent.put("imageURL", this.getImageURL());
+
+		jsonEvent.put("imageCopyright",
+			this.getImageCopyright(Locale.getDefault()));
+
+		if (Validator.isNotNull(this.getPlaceSIGId())) {
+			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
+		} else {
+			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+			jsonPlace.put("name", this.getPlaceName());
+			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
+			jsonPlace.put("streetName", this.getPlaceStreetName());
+			jsonPlace.put("zipCode", this.getPlaceZipCode());
+			jsonPlace.put("access",
+				JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+			jsonPlace.put("accessForDisabled",
+				JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("accessForBlind", this.getAccessForBlind());
+			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
+			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
+			jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+			jsonPlace.put("accessForElder", this.getAccessForElder());
+			jsonEvent.put("place", jsonPlace);
+		}
+
+		if (Validator.isNotNull(this.getPromoter())) {
+			jsonEvent.put("promoter", this.getPromoter());
+		}
+
+		if (Validator.isNotNull(this.getPhone())) {
+			jsonEvent.put("phone", this.getPhone());
+		}
+
+		if (Validator.isNotNull(this.getEmail())) {
+			jsonEvent.put("mail", this.getEmail());
+		}
+
+		if (Validator.isNotNull(this.getWebsiteURL())) {
+			jsonEvent.put("websiteURL",
+				JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+		}
+
+		if (Validator.isNotNull(this.getWebsiteName())) {
+			jsonEvent.put("websiteName",
+				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+		}
+
+		Boolean freeEntry = this.getFree() == 1;
+		if (this.getFree() == 2) {
+			freeEntry = null;
+		}
+		jsonEvent.put("freeEntry", freeEntry);
+
+		if (Validator.isNotNull(this.getPrice())) {
+			jsonEvent.put("price",
+				JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+		}
+
+		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		for (EventPeriod period : this.getEventPeriods()) {
+			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+			periodJSON.put("startDate", period.getStartDate());
+			periodJSON.put("endDate", period.getEndDate());
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				periodJSON.put("timeDetail",
+					JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			}
+			periodsJSON.put(periodJSON);
+		}
+
+		jsonEvent.put("periods", periodsJSON);
+
+		if (Validator.isNotNull(this.getScheduleComments())) {
+			jsonEvent.put("scheduleComments",
+				JSONHelper.getJSONFromI18nMap(this.getScheduleCommentsMap()));
+		}
+
+		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
+		for (Manifestation manifestation : this.getPublishedManifestations()) {
+			jsonManifestations.put(manifestation.getManifestationId());
+		}
+		if (jsonManifestations.length() > 0) {
+			jsonEvent.put("manifestations", jsonManifestations);
+		}
+
+		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getCategories()) {
+			jsonCategories.put(category.getCategoryId());
+		}
+		if (jsonCategories.length() > 0) {
+			jsonEvent.put("categories", jsonCategories);
+		}
+
+		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getThemes()) {
+			jsonThemes.put(category.getCategoryId());
+		}
+		if (jsonThemes.length() > 0) {
+			jsonEvent.put("themes", jsonThemes);
+		}
+
+		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getTypes()) {
+			jsonTypes.put(category.getCategoryId());
+		}
+		if (jsonTypes.length() > 0) {
+			jsonEvent.put("types", jsonTypes);
+		}
+
+		JSONArray jsonTerritories = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getTerritories()) {
+			jsonTerritories.put(category.getCategoryId());
+		}
+		if (jsonTerritories.length() > 0) {
+			jsonEvent.put("territories", jsonTerritories);
+		}
+
+		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getPublics()) {
+			jsonPublics.put(category.getCategoryId());
+		}
+		if (jsonPublics.length() > 0) {
+			jsonEvent.put("publics", jsonPublics);
+		}
+
+		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getServices()) {
+			jsonServices.put(category.getCategoryId());
+		}
+		if (jsonServices.length() > 0) {
+			jsonEvent.put("services", jsonServices);
+		}
+
+		return jsonEvent;
+	}
+
 	private Map<Locale, LegacyPlace> locale_legacyPlace;
-	
+
 }

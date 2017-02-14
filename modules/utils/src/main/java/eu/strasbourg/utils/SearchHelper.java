@@ -178,11 +178,11 @@ public class SearchHelper {
 	 */
 	public static Hits getGlobalSearchHits(SearchContext searchContext,
 		String[] classNames, long groupId, long globalGroupId,
-		boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-		LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds,
-		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
-		String[] boostTagsNames, Locale locale, int start, int end,
-		String sortField, boolean isSortDesc) {
+		boolean globalScope, String keywords, boolean dateField,
+		String dateFieldName, LocalDate fromDate, LocalDate toDate,
+		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+		String[] prefilterTagsNames, String[] boostTagsNames, Locale locale,
+		int start, int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -190,8 +190,8 @@ public class SearchHelper {
 
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
-				globalGroupId, globalScope, keywords, dateField, dateFieldName, fromDate,
-				toDate, categoriesIds, prefilterCategoriesIds,
+				globalGroupId, globalScope, keywords, dateField, dateFieldName,
+				fromDate, toDate, categoriesIds, prefilterCategoriesIds,
 				prefilterTagsNames, boostTagsNames, locale);
 
 			// Ordre
@@ -216,15 +216,15 @@ public class SearchHelper {
 	 */
 	public static long getGlobalSearchCount(SearchContext searchContext,
 		String[] classNames, long groupId, long globalGroupId,
-		boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-		LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds,
-		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
-		String[] boostTagsNames, Locale locale) {
+		boolean globalScope, String keywords, boolean dateField,
+		String dateFieldName, LocalDate fromDate, LocalDate toDate,
+		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+		String[] prefilterTagsNames, String[] boostTagsNames, Locale locale) {
 		try {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
-				globalGroupId, globalScope, keywords, dateField, dateFieldName, fromDate,
-				toDate, categoriesIds, prefilterCategoriesIds,
+				globalGroupId, globalScope, keywords, dateField, dateFieldName,
+				fromDate, toDate, categoriesIds, prefilterCategoriesIds,
 				prefilterTagsNames, boostTagsNames, locale);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
@@ -239,9 +239,10 @@ public class SearchHelper {
 	 */
 	private static Query getGlobalSearchQuery(String[] classNames, long groupId,
 		long globalGroupId, boolean globalScope, String keywords,
-		boolean dateField, String dateFieldName, LocalDate fromDate, LocalDate toDate,
-		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-		String[] prefilterTagsNames, String[] boostTagsNames, Locale locale) {
+		boolean dateField, String dateFieldName, LocalDate fromDate,
+		LocalDate toDate, List<Long[]> categoriesIds,
+		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
+		String[] boostTagsNames, Locale locale) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -430,23 +431,31 @@ public class SearchHelper {
 				if (dateFieldName.equals("dates_Number_sortable")) {
 					BooleanQuery datesQuery = new BooleanQueryImpl();
 
-					String fromDateString = String.format("%04d", fromDate.getYear())
+					String fromDateString = String.format("%04d",
+						fromDate.getYear())
 						+ String.format("%02d", fromDate.getMonth().getValue())
-						+ String.format("%02d", fromDate.getDayOfMonth()) + "000000";
-					String toDateString = String.format("%04d", toDate.getYear())
+						+ String.format("%02d", fromDate.getDayOfMonth())
+						+ "000000";
+					String toDateString = String.format("%04d",
+						toDate.getYear())
 						+ String.format("%02d", toDate.getMonth().getValue())
-						+ String.format("%02d", toDate.getDayOfMonth()) + "000000";
+						+ String.format("%02d", toDate.getDayOfMonth())
+						+ "000000";
 
-					datesQuery.addRangeTerm("dates", fromDateString, toDateString);
+					datesQuery.addRangeTerm("dates", fromDateString,
+						toDateString);
 					query.add(datesQuery, BooleanClauseOccur.MUST);
 				} else {
 					BooleanQuery datesQuery = new BooleanQueryImpl();
-					long fromDateEpoch = fromDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
-					long toDateEpoch = toDate.plusDays(1).atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
-					datesQuery.addRangeTerm(dateFieldName, fromDateEpoch, toDateEpoch);
+					long fromDateEpoch = fromDate.atStartOfDay()
+						.toEpochSecond(ZoneOffset.UTC) * 1000;
+					long toDateEpoch = toDate.plusDays(1).atStartOfDay()
+						.toEpochSecond(ZoneOffset.UTC) * 1000;
+					datesQuery.addRangeTerm(dateFieldName, fromDateEpoch,
+						toDateEpoch);
 					query.add(datesQuery, BooleanClauseOccur.MUST);
 				}
-				
+
 			}
 
 			// Mise en avant
@@ -458,7 +467,69 @@ public class SearchHelper {
 					query.add(featuredQuery, BooleanClauseOccur.SHOULD);
 				}
 			}
-			
+
+			return query;
+		} catch (ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
+	 */
+	public static Hits getEventWebServiceSearchHits(String className,
+		LocalDate date, long categoryId, Locale locale) {
+		try {
+			SearchContext searchContext = new SearchContext();
+			searchContext.setCompanyId(20116);
+			// Query
+			Query query = SearchHelper.getEventWebServiceQuery(className, date,
+				categoryId, locale);
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	private static Query getEventWebServiceQuery(String className,
+		LocalDate date, long categoryId, Locale locale) {
+
+		try {
+			BooleanQuery query = new BooleanQueryImpl();
+
+			query.addRequiredTerm(Field.ENTRY_CLASS_NAME, className, false);
+			query.addRequiredTerm(Field.STATUS,
+				WorkflowConstants.STATUS_APPROVED);
+
+			// Dates
+			if (date != null) {
+				BooleanQuery datesQuery = new BooleanQueryImpl();
+				String dateString = String.format("%04d", date.getYear())
+					+ String.format("%02d", date.getMonth().getValue())
+					+ String.format("%02d", date.getDayOfMonth()) + "000000";
+				datesQuery.addTerm("dates", dateString);
+				query.add(datesQuery, BooleanClauseOccur.MUST);
+			}
+
+			// Catégorie
+			if (categoryId > 0) {
+				query.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
+					String.valueOf(categoryId));
+			}
+
+			// Locale
+			if (locale != null) {
+				WildcardQuery anyKeywordQuery = new WildcardQueryImpl(
+					"title_" + locale, "*");
+				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
+			}
+
 			return query;
 		} catch (ParseException e) {
 			_log.error(e);

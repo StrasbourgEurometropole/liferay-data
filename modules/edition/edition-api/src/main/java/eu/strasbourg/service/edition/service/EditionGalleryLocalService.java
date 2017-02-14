@@ -374,8 +374,8 @@ public interface EditionGalleryLocalService extends BaseLocalService,
 	public void addEditionEditionGallery(long editionId, long galleryId);
 
 	/**
-	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont
+	* une date de publication dans le futur
 	*/
 	public void checkGalleries() throws PortalException;
 

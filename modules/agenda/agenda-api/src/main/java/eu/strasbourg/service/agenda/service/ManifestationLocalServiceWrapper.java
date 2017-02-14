@@ -490,8 +490,8 @@ public class ManifestationLocalServiceWrapper
 	}
 
 	/**
-	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	* ont une date de publication dans le futur
 	*/
 	@Override
 	public void checkManifestations()

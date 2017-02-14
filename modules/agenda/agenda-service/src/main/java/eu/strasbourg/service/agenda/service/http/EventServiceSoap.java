@@ -16,9 +16,16 @@ package eu.strasbourg.service.agenda.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.agenda.service.EventServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.agenda.service.EventServiceUtil} service utility. The
+ * {@link EventServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,184 @@ import aQute.bnd.annotation.ProviderType;
  * @author BenjaminBini
  * @see EventServiceHttp
  * @see eu.strasbourg.service.agenda.model.EventSoap
- * @see eu.strasbourg.service.agenda.service.EventServiceUtil
+ * @see EventServiceUtil
  * @generated
  */
 @ProviderType
 public class EventServiceSoap {
+	public static java.lang.String helloWorld() throws RemoteException {
+		try {
+			java.lang.String returnValue = EventServiceUtil.helloWorld();
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getCategories() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getCategories();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPublics() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getPublics();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getThemes() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getThemes();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getTypes() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getTypes();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getServices() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getServices();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getCategory(long id)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getCategory(id);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEvent(long id) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEvent(id);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEvents() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEvents();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEventsByDate(java.lang.String date)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByDate(date);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEventsByCategory(long categoryId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByCategory(categoryId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEventsByPlace(java.lang.String placeSIGId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByPlace(placeSIGId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getEventsByLanguage(
+		java.lang.String language) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByLanguage(language);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(EventServiceSoap.class);
 }

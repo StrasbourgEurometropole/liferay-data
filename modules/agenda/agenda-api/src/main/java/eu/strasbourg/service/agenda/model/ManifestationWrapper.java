@@ -308,13 +308,21 @@ public class ManifestationWrapper implements Manifestation,
 		return _manifestation.getExpandoBridge();
 	}
 
+	/**
+	* Renvoie la version JSON de la manifestation
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _manifestation.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.Manifestation> toCacheModel() {
 		return _manifestation.toCacheModel();
 	}
 
 	/**
-	* Renvoie la version live de la galerie d'édition, si elle existe
+	* Renvoie la version live de la manifestation, si elle existe
 	*/
 	@Override
 	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion() {
@@ -699,11 +707,43 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Retourne les publics de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _manifestation.getPublics();
+	}
+
+	/**
 	* Renvoie la liste des éditions publiées de la galerie
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents() {
 		return _manifestation.getPublishedEvents();
+	}
+
+	/**
+	* Retourne les territoires de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices() {
+		return _manifestation.getServices();
+	}
+
+	/**
+	* Retourne les themes de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _manifestation.getThemes();
+	}
+
+	/**
+	* Retourne les types de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _manifestation.getTypes();
 	}
 
 	/**

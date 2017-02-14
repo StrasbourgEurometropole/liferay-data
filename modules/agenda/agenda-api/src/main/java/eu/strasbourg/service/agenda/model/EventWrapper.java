@@ -501,6 +501,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'événenement
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _event.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.Event> toCacheModel() {
 		return _event.toCacheModel();
@@ -525,7 +533,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
+	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	* existe
 	*/
 	@Override
 	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
@@ -1575,11 +1584,51 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne les publics de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _event.getPublics();
+	}
+
+	/**
 	* Retourne la liste des galeries publiées
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations() {
 		return _event.getPublishedManifestations();
+	}
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices() {
+		return _event.getServices();
+	}
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories() {
+		return _event.getTerritories();
+	}
+
+	/**
+	* Retourne les themes de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _event.getThemes();
+	}
+
+	/**
+	* Retourne les types de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _event.getTypes();
 	}
 
 	/**

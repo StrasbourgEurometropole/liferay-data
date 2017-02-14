@@ -453,8 +453,8 @@ public class EditionLocalServiceUtil {
 	}
 
 	/**
-	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
+	* une date de publication dans le futur
 	*/
 	public static void checkEditions()
 		throws com.liferay.portal.kernel.exception.PortalException {

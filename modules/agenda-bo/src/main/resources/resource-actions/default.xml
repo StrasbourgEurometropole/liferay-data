@@ -55,7 +55,7 @@
 	<model-resource>
 		<model-name>eu.strasbourg.service.agenda.model.Manifestation</model-name>
 		<portlet-ref>
-			<portlet-name>eu_strasbourg_portlet_agenda_EventBOPortlet</portlet-name>
+			<portlet-name>eu_strasbourg_portlet_agenda_AgendaBOPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>

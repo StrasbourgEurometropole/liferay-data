@@ -238,8 +238,7 @@ public class ArtworkCollectionLocalServiceWrapper
 	}
 
 	/**
-	* /**
-	* Met à jour le statut de l'oeuvre par le framework workflow
+	* /** Met à jour le statut de l'oeuvre par le framework workflow
 	*/
 	@Override
 	public eu.strasbourg.service.artwork.model.ArtworkCollection updateStatus(

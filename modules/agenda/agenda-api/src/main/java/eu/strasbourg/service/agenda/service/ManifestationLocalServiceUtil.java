@@ -446,8 +446,8 @@ public class ManifestationLocalServiceUtil {
 	}
 
 	/**
-	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	* ont une date de publication dans le futur
 	*/
 	public static void checkManifestations()
 		throws com.liferay.portal.kernel.exception.PortalException {

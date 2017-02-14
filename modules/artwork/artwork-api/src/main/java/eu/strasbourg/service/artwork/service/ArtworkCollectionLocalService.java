@@ -212,8 +212,7 @@ public interface ArtworkCollectionLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* /**
-	* Met à jour le statut de l'oeuvre par le framework workflow
+	* /** Met à jour le statut de l'oeuvre par le framework workflow
 	*/
 	public ArtworkCollection updateStatus(long userId, long entryId,
 		int status, ServiceContext sc,
