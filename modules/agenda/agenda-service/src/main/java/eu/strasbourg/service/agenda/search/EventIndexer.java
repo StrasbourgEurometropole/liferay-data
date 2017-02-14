@@ -75,9 +75,8 @@ public class EventIndexer extends BaseIndexer<Event> {
 
 		List<Date> dates = new ArrayList<Date>();
 		for (EventPeriod period : event.getEventPeriods()) {
-			Date startDate = period.getStartDate();
 			Date endDate = period.getEndDate();
-			dates.addAll(DateHelper.getDaysBetweenDates(startDate, endDate));
+			dates.addAll(DateHelper.getDaysBetweenDates(new Date(), endDate));
 		}
 		document.addDateSortable("dates",
 			dates.toArray(new Date[dates.size()]));

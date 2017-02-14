@@ -25,6 +25,10 @@ public class DateHelper {
 		List<Date> dates = new ArrayList<Date>();
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startDate);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 
 		while (calendar.getTime().before(endDate)
 			|| calendar.getTime().equals(endDate)) {

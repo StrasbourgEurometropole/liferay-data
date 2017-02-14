@@ -74,9 +74,8 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 			manifestation.getDescriptionMap());
 		document.addNumber(Field.STATUS, manifestation.getStatus());
 		
-		Date startDate = manifestation.getStartDate();
 		Date endDate = manifestation.getEndDate();
-		List<Date> dates = DateHelper.getDaysBetweenDates(startDate, endDate);
+		List<Date> dates = DateHelper.getDaysBetweenDates(new Date(), endDate);
 		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
 		document.addDateSortable("startDate", manifestation.getStartDate());
 		document.addDateSortable("endDate", manifestation.getEndDate());
