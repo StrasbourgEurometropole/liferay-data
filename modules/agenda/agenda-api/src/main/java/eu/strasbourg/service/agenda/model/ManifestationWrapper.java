@@ -76,6 +76,8 @@ public class ManifestationWrapper implements Manifestation,
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("publicationDate", getPublicationDate());
@@ -179,6 +181,19 @@ public class ManifestationWrapper implements Manifestation,
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
 		}
 
 		Date startDate = (Date)attributes.get("startDate");
@@ -459,6 +474,26 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public java.lang.String getEventsIds() {
 		return _manifestation.getEventsIds();
+	}
+
+	/**
+	* Returns the external image copyright of this manifestation.
+	*
+	* @return the external image copyright of this manifestation
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _manifestation.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image u r l of this manifestation.
+	*
+	* @return the external image u r l of this manifestation
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _manifestation.getExternalImageURL();
 	}
 
 	/**
@@ -957,6 +992,27 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_manifestation.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the external image copyright of this manifestation.
+	*
+	* @param externalImageCopyright the external image copyright of this manifestation
+	*/
+	@Override
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
+		_manifestation.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	* Sets the external image u r l of this manifestation.
+	*
+	* @param externalImageURL the external image u r l of this manifestation
+	*/
+	@Override
+	public void setExternalImageURL(java.lang.String externalImageURL) {
+		_manifestation.setExternalImageURL(externalImageURL);
 	}
 
 	/**

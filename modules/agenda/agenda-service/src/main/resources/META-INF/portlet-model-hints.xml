@@ -101,6 +101,8 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="externalImageURL" type="String" />
+		<field name="externalImageCopyright" type="String" />
 		<field name="startDate" type="Date">
 			<hint name="show-time" />
 		</field>

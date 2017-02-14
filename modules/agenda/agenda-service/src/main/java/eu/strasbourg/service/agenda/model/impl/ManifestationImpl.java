@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -85,12 +86,15 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	 * 
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
 	public String getImageURL() {
-		return FileEntryHelper.getFileEntryURL(this.getImageId());
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
 	}
 
 	/**
@@ -98,7 +102,11 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	 */
 	@Override
 	public String getImageCopyright(Locale locale) {
-		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
 	}
 
 	/**

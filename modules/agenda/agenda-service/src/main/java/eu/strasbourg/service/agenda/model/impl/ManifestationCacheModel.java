@@ -66,7 +66,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,6 +100,10 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", externalImageURL=");
+		sb.append(externalImageURL);
+		sb.append(", externalImageCopyright=");
+		sb.append(externalImageCopyright);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
@@ -188,6 +192,20 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			manifestationImpl.setDescription(description);
 		}
 
+		if (externalImageURL == null) {
+			manifestationImpl.setExternalImageURL(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setExternalImageURL(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			manifestationImpl.setExternalImageCopyright(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setExternalImageCopyright(externalImageCopyright);
+		}
+
 		if (startDate == Long.MIN_VALUE) {
 			manifestationImpl.setStartDate(null);
 		}
@@ -239,6 +257,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		externalImageURL = objectInput.readUTF();
+		externalImageCopyright = objectInput.readUTF();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 		publicationDate = objectInput.readLong();
@@ -302,6 +322,20 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			objectOutput.writeUTF(description);
 		}
 
+		if (externalImageURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageCopyright);
+		}
+
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 		objectOutput.writeLong(publicationDate);
@@ -323,6 +357,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	public long imageId;
 	public String title;
 	public String description;
+	public String externalImageURL;
+	public String externalImageCopyright;
 	public long startDate;
 	public long endDate;
 	public long publicationDate;

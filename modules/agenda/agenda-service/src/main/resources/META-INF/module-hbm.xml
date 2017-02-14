@@ -83,6 +83,8 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />

@@ -526,6 +526,36 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the external image u r l of this manifestation.
+	 *
+	 * @return the external image u r l of this manifestation
+	 */
+	@AutoEscape
+	public String getExternalImageURL();
+
+	/**
+	 * Sets the external image u r l of this manifestation.
+	 *
+	 * @param externalImageURL the external image u r l of this manifestation
+	 */
+	public void setExternalImageURL(String externalImageURL);
+
+	/**
+	 * Returns the external image copyright of this manifestation.
+	 *
+	 * @return the external image copyright of this manifestation
+	 */
+	@AutoEscape
+	public String getExternalImageCopyright();
+
+	/**
+	 * Sets the external image copyright of this manifestation.
+	 *
+	 * @param externalImageCopyright the external image copyright of this manifestation
+	 */
+	public void setExternalImageCopyright(String externalImageCopyright);
+
+	/**
 	 * Returns the start date of this manifestation.
 	 *
 	 * @return the start date of this manifestation
