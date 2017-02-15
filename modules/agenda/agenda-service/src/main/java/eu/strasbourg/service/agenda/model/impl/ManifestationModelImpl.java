@@ -101,6 +101,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			{ "externalImageCopyright", Types.VARCHAR },
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
+			{ "source", Types.VARCHAR },
+			{ "idSource", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -126,10 +128,12 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,publicationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Manifestation";
 	public static final String ORDER_BY_JPQL = " ORDER BY manifestation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Manifestation.title ASC";
@@ -185,6 +189,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
 		model.setStartDate(soapModel.getStartDate());
 		model.setEndDate(soapModel.getEndDate());
+		model.setSource(soapModel.getSource());
+		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
 
 		return model;
@@ -283,6 +289,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -412,6 +420,18 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String source = (String)attributes.get("source");
+
+		if (source != null) {
+			setSource(source);
+		}
+
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -940,6 +960,38 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@JSON
 	@Override
+	public String getSource() {
+		if (_source == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _source;
+		}
+	}
+
+	@Override
+	public void setSource(String source) {
+		_source = source;
+	}
+
+	@JSON
+	@Override
+	public String getIdSource() {
+		if (_idSource == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _idSource;
+		}
+	}
+
+	@Override
+	public void setIdSource(String idSource) {
+		_idSource = idSource;
+	}
+
+	@JSON
+	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -1178,6 +1230,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		manifestationImpl.setExternalImageCopyright(getExternalImageCopyright());
 		manifestationImpl.setStartDate(getStartDate());
 		manifestationImpl.setEndDate(getEndDate());
+		manifestationImpl.setSource(getSource());
+		manifestationImpl.setIdSource(getIdSource());
 		manifestationImpl.setPublicationDate(getPublicationDate());
 
 		manifestationImpl.resetOriginalValues();
@@ -1391,6 +1445,22 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			manifestationCacheModel.endDate = Long.MIN_VALUE;
 		}
 
+		manifestationCacheModel.source = getSource();
+
+		String source = manifestationCacheModel.source;
+
+		if ((source != null) && (source.length() == 0)) {
+			manifestationCacheModel.source = null;
+		}
+
+		manifestationCacheModel.idSource = getIdSource();
+
+		String idSource = manifestationCacheModel.idSource;
+
+		if ((idSource != null) && (idSource.length() == 0)) {
+			manifestationCacheModel.idSource = null;
+		}
+
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1405,7 +1475,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1447,6 +1517,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getStartDate());
 		sb.append(", endDate=");
 		sb.append(getEndDate());
+		sb.append(", source=");
+		sb.append(getSource());
+		sb.append(", idSource=");
+		sb.append(getIdSource());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append("}");
@@ -1456,7 +1530,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Manifestation");
@@ -1543,6 +1617,14 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		sb.append(getEndDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>source</column-name><column-value><![CDATA[");
+		sb.append(getSource());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>idSource</column-name><column-value><![CDATA[");
+		sb.append(getIdSource());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
@@ -1587,6 +1669,8 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private String _externalImageCopyright;
 	private Date _startDate;
 	private Date _endDate;
+	private String _source;
+	private String _idSource;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
 	private long _columnBitmask;

@@ -64,6 +64,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="source" type="String" />
+		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field localized="true" name="scheduleComments" type="String">
 			<hint-collection name="EDITOR" />
@@ -109,6 +110,8 @@
 		<field name="endDate" type="Date">
 			<hint name="show-time" />
 		</field>
+		<field name="source" type="String" />
+		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
 	</model>
 </model-hints>

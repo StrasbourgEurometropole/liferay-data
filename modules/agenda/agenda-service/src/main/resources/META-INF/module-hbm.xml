@@ -48,6 +48,7 @@
 		<property name="free" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="scheduleComments" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
@@ -87,6 +88,8 @@
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

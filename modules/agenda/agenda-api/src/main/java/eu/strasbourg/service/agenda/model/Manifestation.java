@@ -66,7 +66,7 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();
 

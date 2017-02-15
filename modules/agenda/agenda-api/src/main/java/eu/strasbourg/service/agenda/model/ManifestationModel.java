@@ -584,6 +584,36 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the source of this manifestation.
+	 *
+	 * @return the source of this manifestation
+	 */
+	@AutoEscape
+	public String getSource();
+
+	/**
+	 * Sets the source of this manifestation.
+	 *
+	 * @param source the source of this manifestation
+	 */
+	public void setSource(String source);
+
+	/**
+	 * Returns the id source of this manifestation.
+	 *
+	 * @return the id source of this manifestation
+	 */
+	@AutoEscape
+	public String getIdSource();
+
+	/**
+	 * Sets the id source of this manifestation.
+	 *
+	 * @param idSource the id source of this manifestation
+	 */
+	public void setIdSource(String idSource);
+
+	/**
 	 * Returns the publication date of this manifestation.
 	 *
 	 * @return the publication date of this manifestation

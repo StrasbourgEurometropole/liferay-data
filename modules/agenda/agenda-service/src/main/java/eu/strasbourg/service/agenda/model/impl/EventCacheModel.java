@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(93);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -147,6 +147,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(price);
 		sb.append(", source=");
 		sb.append(source);
+		sb.append(", idSource=");
+		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", scheduleComments=");
@@ -378,6 +380,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setSource(source);
 		}
 
+		if (idSource == null) {
+			eventImpl.setIdSource(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setIdSource(idSource);
+		}
+
 		if (publicationDate == Long.MIN_VALUE) {
 			eventImpl.setPublicationDate(null);
 		}
@@ -467,6 +476,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		free = objectInput.readInt();
 		price = objectInput.readUTF();
 		source = objectInput.readUTF();
+		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		scheduleComments = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
@@ -676,6 +686,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(source);
 		}
 
+		if (idSource == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(idSource);
+		}
+
 		objectOutput.writeLong(publicationDate);
 
 		if (scheduleComments == null) {
@@ -731,6 +748,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public int free;
 	public String price;
 	public String source;
+	public String idSource;
 	public long publicationDate;
 	public String scheduleComments;
 	public long firstStartDate;

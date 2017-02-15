@@ -4121,6 +4121,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setFree(event.getFree());
 		eventImpl.setPrice(event.getPrice());
 		eventImpl.setSource(event.getSource());
+		eventImpl.setIdSource(event.getIdSource());
 		eventImpl.setPublicationDate(event.getPublicationDate());
 		eventImpl.setScheduleComments(event.getScheduleComments());
 		eventImpl.setFirstStartDate(event.getFirstStartDate());

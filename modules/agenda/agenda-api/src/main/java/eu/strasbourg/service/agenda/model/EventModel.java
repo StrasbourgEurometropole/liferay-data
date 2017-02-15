@@ -1393,6 +1393,21 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setSource(String source);
 
 	/**
+	 * Returns the id source of this event.
+	 *
+	 * @return the id source of this event
+	 */
+	@AutoEscape
+	public String getIdSource();
+
+	/**
+	 * Sets the id source of this event.
+	 *
+	 * @param idSource the id source of this event
+	 */
+	public void setIdSource(String idSource);
+
+	/**
 	 * Returns the publication date of this event.
 	 *
 	 * @return the publication date of this event

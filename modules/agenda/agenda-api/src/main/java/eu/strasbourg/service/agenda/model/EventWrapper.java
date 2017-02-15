@@ -99,6 +99,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("firstStartDate", getFirstStartDate());
@@ -351,6 +352,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (source != null) {
 			setSource(source);
+		}
+
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -889,6 +896,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getExternalImageURL() {
 		return _event.getExternalImageURL();
+	}
+
+	/**
+	* Returns the id source of this event.
+	*
+	* @return the id source of this event
+	*/
+	@Override
+	public java.lang.String getIdSource() {
+		return _event.getIdSource();
 	}
 
 	/**
@@ -2150,6 +2167,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setGroupId(long groupId) {
 		_event.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the id source of this event.
+	*
+	* @param idSource the id source of this event
+	*/
+	@Override
+	public void setIdSource(java.lang.String idSource) {
+		_event.setIdSource(idSource);
 	}
 
 	/**

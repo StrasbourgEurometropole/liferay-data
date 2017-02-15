@@ -232,6 +232,7 @@
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="management">
 				<aui:input name="source" disabled="true" />
+				<aui:input name="idSource" disabled="true" />
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 		</aui:fieldset-group>

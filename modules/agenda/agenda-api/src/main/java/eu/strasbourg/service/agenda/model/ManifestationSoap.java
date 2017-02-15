@@ -54,6 +54,8 @@ public class ManifestationSoap implements Serializable {
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
+		soapModel.setSource(model.getSource());
+		soapModel.setIdSource(model.getIdSource());
 		soapModel.setPublicationDate(model.getPublicationDate());
 
 		return soapModel;
@@ -267,6 +269,22 @@ public class ManifestationSoap implements Serializable {
 		_endDate = endDate;
 	}
 
+	public String getSource() {
+		return _source;
+	}
+
+	public void setSource(String source) {
+		_source = source;
+	}
+
+	public String getIdSource() {
+		return _idSource;
+	}
+
+	public void setIdSource(String idSource) {
+		_idSource = idSource;
+	}
+
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -295,5 +313,7 @@ public class ManifestationSoap implements Serializable {
 	private String _externalImageCopyright;
 	private Date _startDate;
 	private Date _endDate;
+	private String _source;
+	private String _idSource;
 	private Date _publicationDate;
 }

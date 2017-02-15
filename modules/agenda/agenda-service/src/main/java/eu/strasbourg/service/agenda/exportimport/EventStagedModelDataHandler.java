@@ -153,6 +153,7 @@ public class EventStagedModelDataHandler
 		importedEvent.setWebsiteName(stagedModel.getWebsiteName());
 		importedEvent.setWebsiteURL(stagedModel.getWebsiteURL());
 		importedEvent.setSource(stagedModel.getSource());
+		importedEvent.setIdSource(stagedModel.getIdSource());
 		importedEvent.setPublicationDate(stagedModel.getPublicationDate());
 		importedEvent.setStatus(stagedModel.getStatus());
 

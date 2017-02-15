@@ -80,6 +80,8 @@ public class ManifestationWrapper implements Manifestation,
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
@@ -206,6 +208,18 @@ public class ManifestationWrapper implements Manifestation,
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String source = (String)attributes.get("source");
+
+		if (source != null) {
+			setSource(source);
+		}
+
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -497,6 +511,16 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Returns the id source of this manifestation.
+	*
+	* @return the id source of this manifestation
+	*/
+	@Override
+	public java.lang.String getIdSource() {
+		return _manifestation.getIdSource();
+	}
+
+	/**
 	* Retourne le copyright de l'image principale
 	*/
 	@Override
@@ -505,7 +529,7 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -520,6 +544,16 @@ public class ManifestationWrapper implements Manifestation,
 	public java.lang.String getManifestationScheduleDisplay(
 		java.util.Locale locale) {
 		return _manifestation.getManifestationScheduleDisplay(locale);
+	}
+
+	/**
+	* Returns the source of this manifestation.
+	*
+	* @return the source of this manifestation
+	*/
+	@Override
+	public java.lang.String getSource() {
+		return _manifestation.getSource();
 	}
 
 	/**
@@ -1026,6 +1060,16 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Sets the id source of this manifestation.
+	*
+	* @param idSource the id source of this manifestation
+	*/
+	@Override
+	public void setIdSource(java.lang.String idSource) {
+		_manifestation.setIdSource(idSource);
+	}
+
+	/**
 	* Sets the image ID of this manifestation.
 	*
 	* @param imageId the image ID of this manifestation
@@ -1093,6 +1137,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_manifestation.setPublicationDate(publicationDate);
+	}
+
+	/**
+	* Sets the source of this manifestation.
+	*
+	* @param source the source of this manifestation
+	*/
+	@Override
+	public void setSource(java.lang.String source) {
+		_manifestation.setSource(source);
 	}
 
 	/**

@@ -107,7 +107,7 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 			Date endDate = DateUtil.parseDate(endDateString,
 				request.getLocale());
 			eventManifestation.setEndDate(endDate);
-
+			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");
 			String publicationDateTimeString = ParamUtil.getString(request,
