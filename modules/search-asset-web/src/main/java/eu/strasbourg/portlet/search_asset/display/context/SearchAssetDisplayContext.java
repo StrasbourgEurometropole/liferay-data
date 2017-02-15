@@ -6,12 +6,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -318,6 +321,47 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
+	 * Renvoie la liste des catégories d'un vocabulaire à afficher en front. Si
+	 * un(des) préfiltre(s) est sélectionné pour ce vocabulaire, on renvoie
+	 * ce(s) préfiltre(s). Sinon on ne renvoie que les catégories racines, la
+	 * JSP se chargeant d'afficher l'arbre des enfants
+	 */
+	public List<AssetCategory> getDropdownRootCategories(
+		AssetVocabulary vocabulary) {
+		// Toutes les catégories du vocabulaire
+		List<AssetCategory> allCategories = vocabulary.getCategories();
+
+		// String contenant les IDs des catégories des préfiltres, séparés par
+		// des "," et des ";"
+		String prefilterCategoriesIdsString = this._configuration
+			.prefilterCategoriesIds();
+		// Si ce préfiltre a du contenu
+		if (prefilterCategoriesIdsString.length() > 0) {
+			// On récupère un array de long
+			long[] prefilterCategoriesIds = Arrays
+				.stream(prefilterCategoriesIdsString.split("(,)|(;)"))
+				.mapToLong(Long::valueOf).toArray();
+
+			// Et on fait l'interersection avec la liste de toutes les
+			// catégories du vocabulaire
+			List<AssetCategory> prefilteredCategoriesForVocabulary = allCategories
+				.stream()
+				.filter(c -> LongStream.of(prefilterCategoriesIds)
+					.anyMatch(x -> x == c.getCategoryId()))
+				.collect(Collectors.toList());
+
+			// Si cette intersection a du contenu on la renvoie
+			if (prefilteredCategoriesForVocabulary.size() > 0) {
+				return prefilteredCategoriesForVocabulary;
+			}
+		}
+
+		// Sinon on renvoie les catégories racines du vocabulaire
+		return allCategories.stream().filter(c -> c.isRootCategory())
+			.collect(Collectors.toList());
+	}
+
+	/**
 	 * Retourne les mots-clés de recherche
 	 */
 	public String getKeywords() {
@@ -448,7 +492,9 @@ public class SearchAssetDisplayContext {
 			return fromParam;
 		} else {
 			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange())
+					.getDayOfMonth();
 			} else {
 				return LocalDate.now().getDayOfMonth();
 			}
@@ -457,10 +503,13 @@ public class SearchAssetDisplayContext {
 	}
 
 	public int getFromMonth() {
-		String fromMonthString = ParamUtil.getString(this._request, "fromMonth");
+		String fromMonthString = ParamUtil.getString(this._request,
+			"fromMonth");
 		if (Validator.isNull(fromMonthString)) {
 			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange())
+					.getMonthValue();
 			} else {
 				return LocalDate.now().getMonthValue();
 			}
@@ -475,7 +524,8 @@ public class SearchAssetDisplayContext {
 			return fromParam;
 		} else {
 			if (this._configuration.defaultDateRange() < 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange()).getYear();
 			} else {
 				return LocalDate.now().getYear();
 			}
@@ -488,7 +538,9 @@ public class SearchAssetDisplayContext {
 			return toParam;
 		} else {
 			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getDayOfMonth();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange())
+					.getDayOfMonth();
 			} else {
 				return LocalDate.now().getDayOfMonth();
 			}
@@ -499,7 +551,9 @@ public class SearchAssetDisplayContext {
 		String toMonthString = ParamUtil.getString(this._request, "toMonth");
 		if (Validator.isNull(toMonthString)) {
 			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange())
+					.getMonthValue();
 			} else {
 				return LocalDate.now().getMonthValue();
 			}
@@ -514,7 +568,8 @@ public class SearchAssetDisplayContext {
 			return toParam;
 		} else {
 			if (this._configuration.defaultDateRange() > 0) {
-				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getYear();
+				return LocalDate.now()
+					.plusDays(this._configuration.defaultDateRange()).getYear();
 			} else {
 				return LocalDate.now().getYear();
 			}

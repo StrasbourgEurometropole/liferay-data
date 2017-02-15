@@ -89,6 +89,10 @@ public class AssetVocabularyHelper {
 		}
 	}
 	
+	public static List<AssetCategory> getChild(long categoryId) {
+		return AssetCategoryLocalServiceUtil.getChildCategories(categoryId);
+	}
+	
 	public static List<AssetCategory> getFullHierarchyCategories(List<AssetCategory> categories) throws PortalException {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {

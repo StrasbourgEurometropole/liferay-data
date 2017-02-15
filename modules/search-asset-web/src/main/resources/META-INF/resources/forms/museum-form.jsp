@@ -50,10 +50,11 @@
 					test="${dc.vocabulariesControlTypes[vocStatus.index] eq 'list'}">
 					<aui:select name="vocabulary_${vocStatus.index}" label=""
 						showEmptyOption="true">
-						<c:forEach items="${vocabulary.categories}" var="category">
-							<aui:option value="${category.categoryId}"
-								label="${category.getTitle(locale)}"
-								selected="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}" />
+						<c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
+							<c:set var="category" value="${category}" scope="request"/>
+							<c:set var="dc" value="${dc}" scope="request"/>
+							<c:set var="level" value="0" scope="request" />
+							<jsp:include page="/forms/category-option.jsp"/>
 						</c:forEach>
 					</aui:select>
 				</c:if>
