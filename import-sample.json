@@ -1,0 +1,108 @@
+{
+  "provider": "coze", // Nom du prestataire
+  "manifestations": [{ // Liste des manifestations
+    "externalId": "79623", // ID dans le système du prestataire, obligatoire
+    "title": { // Titre, obligatoire multilingue
+      "fr_FR": "titreManifestation",
+      "en_US": "manifestationTitle"
+    },
+    "description": { // Description, obligatoire multilingue
+      "fr_FR": "<p>Description</p>",
+      "en_US": "<p>Description</p>"
+    },
+    "imageURL": "http://urldelimage", // URL de l'image, obligatoire
+    "imageCopyright": "Copyright", // Copyright de l'image, obligatoire
+    "startDate": "2016-11-10", // Dates de début et de fin, obligatoires
+    "endDate": "2016-11-30",
+    "types": [ // Ids des catégories types, thème, publics, services
+      "111"
+    ],
+    "themes": [
+      "222"
+    ],
+    "publics": [
+      "333"
+    ],
+    "services": [
+      "444"
+    ]
+  }],
+  "events": [{
+    "externalId": "3646",// ID dans le système du prestataire, obligatoire
+    "title": { // Titre, obligatoire multilingue
+      "fr_FR": "titre",
+      "en_US": "title"
+    },
+    "subtitle": {
+      "fr_FR": "test"
+    },
+    "description": { // Description, obligatoire multilingue
+      "fr_FR": "description",
+      "en_US": "description"
+    },
+    "imageURL": "http://urldelimage", // URL de l'image, obligatoire
+    "imageCopyright": "test", // Copyright de l'image
+    "placeSIGId": "5_LOI_1", // ID SIG du lieu
+    "place": { // Ou lieu "manuel"
+      "name": "Lieu", // Obligatoire si lieu manuel
+      "streetNumber": "5",
+      "streetName": "rue",
+      "zipCode": "67000",
+      "city": "Strasbourg", // Obligatoire si lieu manuel
+      "country": "France",
+      "access": {
+        "fr_FR": "<p>accès</p>"
+      },
+      "accessForDisabled": {
+        "fr_FR": "<p>accès handicapés</p>"
+      },
+      "accessForBlind": true,
+      "accessForDeaf": true,
+      "accessForDeficient": true,
+      "accessForWheelchair": true,
+      "accessForElder": true
+    },
+    "freeEntry": 2, // Gratuité de l'entrée, obligatoire, 0 = non, 1 = oui, 2 = non communiqué
+    "price": {
+      "fr_FR": "<p>prix</p>",
+      "en_US": "<p>price</p>"
+    },
+    "promoter": "organisateur", // Organisateur de l'événement
+    "phone": "01 01 01 01 01",
+    "mail": "mail@mail.mail",
+    "websiteURL": {
+      "fr_FR": "siteurl"
+    },
+    "websiteName": {
+      "fr_FR": "site"
+    },
+    "periods": [{ // Périodes de l'événement, au moins une (et les périodes ne doivent pas avoir de dates qui se chevauchent)
+      "timeDetail": { // Horaires, obligatoire multilingue
+        "fr_FR": "7h-14h",
+        "en_US": "7am-2pm"
+      },
+      "startDate": "2015-01-01", // Dates de début et de fin, obligatoire (et date de début antérieure à date de fin)
+      "endDate": "2018-01-01"
+    }],
+    "manifestations": [ // ID des manifestations auxquels l'événement appartient, correspond au champ "externalId" des manifestations
+      "id_1",
+      "id_2",
+      "id_3"
+    ],
+    "types": [ // Ids des catégories types, thème, publics, territoires et services
+      "111"
+    ],
+    "themes": [
+      "222"
+    ],
+    "publics": [
+      "333"
+    ],
+    "territories": [
+      "444"
+    ],
+    "services": [
+      "555"
+    ],
+  }]
+}
