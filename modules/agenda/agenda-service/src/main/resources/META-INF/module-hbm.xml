@@ -4,6 +4,8 @@
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="eu.strasbourg.service.agenda.model.Event" />
 	<import class="eu.strasbourg.service.agenda.model.EventPeriod" />
+	<import class="eu.strasbourg.service.agenda.model.ImportReport" />
+	<import class="eu.strasbourg.service.agenda.model.ImportReportLine" />
 	<import class="eu.strasbourg.service.agenda.model.Manifestation" />
 	<class name="eu.strasbourg.service.agenda.model.impl.EventImpl" table="agenda_Event">
 		<id name="eventId" type="long">
@@ -50,7 +52,6 @@
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
-		<property name="scheduleComments" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="firstStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="lastEndDate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
@@ -64,6 +65,37 @@
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="timeDetail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="eventId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.agenda.model.impl.ImportReportImpl" table="agenda_ImportReport">
+		<id name="reportId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="provider" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="filename" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="globalErrorCause" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="newEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="errorEventsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="newManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="errorManifestationsCount" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl" table="agenda_ImportReportLine">
+		<id name="lineId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property column="log_" name="log" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="entityName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="entityExternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="entityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="reportId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.ManifestationImpl" table="agenda_Manifestation">
 		<id name="manifestationId" type="long">

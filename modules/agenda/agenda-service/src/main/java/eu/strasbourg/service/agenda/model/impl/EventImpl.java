@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
@@ -280,7 +282,8 @@ public class EventImpl extends EventBaseImpl {
 		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
 
 		jsonEvent.put("id", this.getEventId());
-
+		jsonEvent.put("externalId", this.getIdSource());
+		
 		jsonEvent.put("title",
 			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 
@@ -338,11 +341,7 @@ public class EventImpl extends EventBaseImpl {
 				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
 		}
 
-		Boolean freeEntry = this.getFree() == 1;
-		if (this.getFree() == 2) {
-			freeEntry = null;
-		}
-		jsonEvent.put("freeEntry", freeEntry);
+		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
 			jsonEvent.put("price",
@@ -352,8 +351,11 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
 		for (EventPeriod period : this.getEventPeriods()) {
 			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
-			periodJSON.put("startDate", period.getStartDate());
-			periodJSON.put("endDate", period.getEndDate());
+			
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+			
 			if (Validator.isNotNull(period.getTimeDetail())) {
 				periodJSON.put("timeDetail",
 					JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
@@ -362,11 +364,6 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		jsonEvent.put("periods", periodsJSON);
-
-		if (Validator.isNotNull(this.getScheduleComments())) {
-			jsonEvent.put("scheduleComments",
-				JSONHelper.getJSONFromI18nMap(this.getScheduleCommentsMap()));
-		}
 
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
 		for (Manifestation manifestation : this.getPublishedManifestations()) {

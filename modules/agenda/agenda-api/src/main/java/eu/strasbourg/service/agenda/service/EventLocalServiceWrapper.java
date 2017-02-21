@@ -32,6 +32,14 @@ public class EventLocalServiceWrapper implements EventLocalService,
 		_eventLocalService = eventLocalService;
 	}
 
+	/**
+	* Lance l'import des événements
+	*/
+	@Override
+	public boolean doImport() {
+		return _eventLocalService.doImport();
+	}
+
 	@Override
 	public boolean hasManifestationEvent(long manifestationId, long eventId) {
 		return _eventLocalService.hasManifestationEvent(manifestationId, eventId);
@@ -164,6 +172,12 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	public eu.strasbourg.service.agenda.model.Event fetchEventByUuidAndGroupId(
 		java.lang.String uuid, long groupId) {
 		return _eventLocalService.fetchEventByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.Event findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return _eventLocalService.findBySourceAndIdSource(source, idSource);
 	}
 
 	/**

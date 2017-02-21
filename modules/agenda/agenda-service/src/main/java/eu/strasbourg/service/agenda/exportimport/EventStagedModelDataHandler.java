@@ -133,7 +133,6 @@ public class EventStagedModelDataHandler
 		importedEvent.setPlaceZipCode(stagedModel.getPlaceZipCode());
 		importedEvent.setPlaceCity(stagedModel.getPlaceCity());
 		importedEvent.setPlaceCountry(stagedModel.getPlaceCountry());
-		importedEvent.setScheduleComments(stagedModel.getScheduleComments());
 		importedEvent.setFirstStartDate(stagedModel.getFirstStartDate());
 		importedEvent.setLastEndDate(stagedModel.getLastEndDate());
 		importedEvent.setAccess(stagedModel.getAccess());

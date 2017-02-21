@@ -3,6 +3,11 @@ package eu.strasbourg.utils;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 public class StrasbourgPropsUtil {
+	
+	public static String getEnvironment() {
+		return PropsUtil.get("eu.strasbourg.environment");
+	}
+	
 	public static String getRecaptchaSecretKey() {
 		return PropsUtil.get("eu.strasbourg.recaptcha.secret");
 	}
@@ -17,5 +22,17 @@ public class StrasbourgPropsUtil {
 	
 	public static String getLegacyPlaceApiAutocompleteUrl() {
 		return PropsUtil.get("eu.strasbourg.legacy.place.api.autocomplete.url");
+	}
+	
+	public static String getAgendaImportMails() {
+		return PropsUtil.get("eu.strasbourg.agenda.mail");
+	}
+
+	public static String getAgendaImportMailsForProvider(String provider) {
+		return PropsUtil.get("eu.strasbourg.agenda.mail." + provider);
+	}
+
+	public static String getAgendaImportDirectory() {
+		return PropsUtil.get("eu.strasbourg.agenda.file");
 	}
 }

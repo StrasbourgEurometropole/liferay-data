@@ -928,6 +928,58 @@ public interface EventPersistence extends BasePersistence<Event> {
 	public int countByPublicationDateAndStatus(Date publicationDate, int status);
 
 	/**
+	* Returns the event where source = &#63; and idSource = &#63; or throws a {@link NoSuchEventException} if it could not be found.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the matching event
+	* @throws NoSuchEventException if a matching event could not be found
+	*/
+	public Event findBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource) throws NoSuchEventException;
+
+	/**
+	* Returns the event where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public Event fetchBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource);
+
+	/**
+	* Returns the event where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public Event fetchBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource, boolean retrieveFromCache);
+
+	/**
+	* Removes the event where source = &#63; and idSource = &#63; from the database.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the event that was removed
+	*/
+	public Event removeBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource) throws NoSuchEventException;
+
+	/**
+	* Returns the number of events where source = &#63; and idSource = &#63;.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the number of matching events
+	*/
+	public int countBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource);
+
+	/**
 	* Caches the event in the entity cache if it is enabled.
 	*
 	* @param event the event

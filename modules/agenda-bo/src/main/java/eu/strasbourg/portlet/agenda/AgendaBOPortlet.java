@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.permission.PermissionCheckerUtil;
 
 import eu.strasbourg.portlet.agenda.display.context.EditEventDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditManifestationDisplayContext;
@@ -83,6 +84,13 @@ public class AgendaBOPortlet extends MVCPortlet {
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		}
+
+		// Le dossier d'import des événements
+		renderRequest.setAttribute("importPath",
+			StrasbourgPropsUtil.getAgendaImportDirectory());
+		
+		// Admin ou pas
+		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
 	}

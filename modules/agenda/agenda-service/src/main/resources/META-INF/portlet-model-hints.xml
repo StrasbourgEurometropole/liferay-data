@@ -66,9 +66,6 @@
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
 		<field name="publicationDate" type="Date" />
-		<field localized="true" name="scheduleComments" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
 		<field name="imageId" type="Long" />
@@ -80,6 +77,33 @@
 		<field name="endDate" type="Date" />
 		<field localized="true" name="timeDetail" type="String" />
 		<field name="eventId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.ImportReport">
+		<field name="uuid" type="String" />
+		<field name="reportId" type="long" />
+		<field name="provider" type="String" />
+		<field name="filename" type="String" />
+		<field name="status" type="long" />
+		<field name="globalErrorCause" type="String" />
+		<field name="newEventsCount" type="long" />
+		<field name="modifiedEventsCount" type="long" />
+		<field name="errorEventsCount" type="long" />
+		<field name="newManifestationsCount" type="long" />
+		<field name="modifiedManifestationsCount" type="long" />
+		<field name="errorManifestationsCount" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.ImportReportLine">
+		<field name="uuid" type="String" />
+		<field name="lineId" type="long" />
+		<field name="type" type="String" />
+		<field name="status" type="long" />
+		<field name="log" type="String" />
+		<field name="entityName" type="String" />
+		<field name="entityExternalId" type="String" />
+		<field name="entityId" type="long" />
+		<field name="reportId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.Manifestation">
 		<field name="uuid" type="String" />

@@ -1010,6 +1010,72 @@ public class ManifestationUtil {
 	}
 
 	/**
+	* Returns the manifestation where source = &#63; and idSource = &#63; or throws a {@link NoSuchManifestationException} if it could not be found.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public static Manifestation findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence().findBySourceAndIdSource(source, idSource);
+	}
+
+	/**
+	* Returns the manifestation where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return getPersistence().fetchBySourceAndIdSource(source, idSource);
+	}
+
+	/**
+	* Returns the manifestation where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchBySourceAndIdSource(source, idSource, retrieveFromCache);
+	}
+
+	/**
+	* Removes the manifestation where source = &#63; and idSource = &#63; from the database.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the manifestation that was removed
+	*/
+	public static Manifestation removeBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence().removeBySourceAndIdSource(source, idSource);
+	}
+
+	/**
+	* Returns the number of manifestations where source = &#63; and idSource = &#63;.
+	*
+	* @param source the source
+	* @param idSource the id source
+	* @return the number of matching manifestations
+	*/
+	public static int countBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource) {
+		return getPersistence().countBySourceAndIdSource(source, idSource);
+	}
+
+	/**
 	* Caches the manifestation in the entity cache if it is enabled.
 	*
 	* @param manifestation the manifestation

@@ -38,6 +38,23 @@ public class AssetVocabularyHelper {
 		return attachedVocabularies;
 	}
 
+	public static List<AssetVocabulary> getRequiredVocabulariesForAssetType(
+		long groupId, long classNameId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+			.getAssetVocabularies(-1, -1);
+		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
+		if (classNameId > 0) {
+			for (AssetVocabulary vocabulary : vocabularies) {
+				if (vocabulary.getGroupId() == groupId
+					&& LongStream.of(vocabulary.getRequiredClassNameIds())
+						.anyMatch(c -> c == classNameId)) {
+					attachedVocabularies.add(vocabulary);
+				}
+			}
+		}
+		return attachedVocabularies;
+	}
+
 	/**
 	 * Retourne la liste des catégories rattachées à un AssetEntry
 	 */

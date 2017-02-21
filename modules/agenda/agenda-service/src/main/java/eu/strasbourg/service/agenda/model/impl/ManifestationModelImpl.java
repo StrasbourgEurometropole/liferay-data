@@ -151,10 +151,12 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 8L;
+	public static final long SOURCE_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long TITLE_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -971,7 +973,17 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public void setSource(String source) {
+		_columnBitmask |= SOURCE_COLUMN_BITMASK;
+
+		if (_originalSource == null) {
+			_originalSource = _source;
+		}
+
 		_source = source;
+	}
+
+	public String getOriginalSource() {
+		return GetterUtil.getString(_originalSource);
 	}
 
 	@JSON
@@ -987,7 +999,17 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public void setIdSource(String idSource) {
+		_columnBitmask |= IDSOURCE_COLUMN_BITMASK;
+
+		if (_originalIdSource == null) {
+			_originalIdSource = _idSource;
+		}
+
 		_idSource = idSource;
+	}
+
+	public String getOriginalIdSource() {
+		return GetterUtil.getString(_originalIdSource);
 	}
 
 	@JSON
@@ -1310,6 +1332,10 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 		manifestationModelImpl._setOriginalStatus = false;
 
 		manifestationModelImpl._originalTitle = manifestationModelImpl._title;
+
+		manifestationModelImpl._originalSource = manifestationModelImpl._source;
+
+		manifestationModelImpl._originalIdSource = manifestationModelImpl._idSource;
 
 		manifestationModelImpl._originalPublicationDate = manifestationModelImpl._publicationDate;
 
@@ -1670,7 +1696,9 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private Date _startDate;
 	private Date _endDate;
 	private String _source;
+	private String _originalSource;
 	private String _idSource;
+	private String _originalIdSource;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
 	private long _columnBitmask;

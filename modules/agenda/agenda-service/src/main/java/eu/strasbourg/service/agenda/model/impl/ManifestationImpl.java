@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
@@ -220,6 +222,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		JSONObject jsonManifestation = JSONFactoryUtil.createJSONObject();
 		
 		jsonManifestation.put("id", this.getManifestationId());
+		jsonManifestation.put("externalId", this.getIdSource());
 		
 		jsonManifestation.put("title",
 			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
@@ -231,10 +234,10 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		
 		jsonManifestation.put("imageCopyright",
 			this.getImageCopyright(Locale.getDefault()));
-		
-		jsonManifestation.put("startDate", this.getStartDate());
-		
-		jsonManifestation.put("endDate", this.getEndDate());
+
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		jsonManifestation.put("startDate", dateFormat.format(this.getStartDate()));
+		jsonManifestation.put("endDate", dateFormat.format(this.getEndDate()));
 		
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : this.getPublishedEvents()) {

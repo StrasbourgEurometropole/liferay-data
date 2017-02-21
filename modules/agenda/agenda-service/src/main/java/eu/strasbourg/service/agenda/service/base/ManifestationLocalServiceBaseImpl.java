@@ -64,6 +64,8 @@ import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalService;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
+import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
+import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
@@ -677,6 +679,82 @@ public abstract class ManifestationLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the import report local service.
+	 *
+	 * @return the import report local service
+	 */
+	public eu.strasbourg.service.agenda.service.ImportReportLocalService getImportReportLocalService() {
+		return importReportLocalService;
+	}
+
+	/**
+	 * Sets the import report local service.
+	 *
+	 * @param importReportLocalService the import report local service
+	 */
+	public void setImportReportLocalService(
+		eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService) {
+		this.importReportLocalService = importReportLocalService;
+	}
+
+	/**
+	 * Returns the import report persistence.
+	 *
+	 * @return the import report persistence
+	 */
+	public ImportReportPersistence getImportReportPersistence() {
+		return importReportPersistence;
+	}
+
+	/**
+	 * Sets the import report persistence.
+	 *
+	 * @param importReportPersistence the import report persistence
+	 */
+	public void setImportReportPersistence(
+		ImportReportPersistence importReportPersistence) {
+		this.importReportPersistence = importReportPersistence;
+	}
+
+	/**
+	 * Returns the import report line local service.
+	 *
+	 * @return the import report line local service
+	 */
+	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService getImportReportLineLocalService() {
+		return importReportLineLocalService;
+	}
+
+	/**
+	 * Sets the import report line local service.
+	 *
+	 * @param importReportLineLocalService the import report line local service
+	 */
+	public void setImportReportLineLocalService(
+		eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService) {
+		this.importReportLineLocalService = importReportLineLocalService;
+	}
+
+	/**
+	 * Returns the import report line persistence.
+	 *
+	 * @return the import report line persistence
+	 */
+	public ImportReportLinePersistence getImportReportLinePersistence() {
+		return importReportLinePersistence;
+	}
+
+	/**
+	 * Sets the import report line persistence.
+	 *
+	 * @param importReportLinePersistence the import report line persistence
+	 */
+	public void setImportReportLinePersistence(
+		ImportReportLinePersistence importReportLinePersistence) {
+		this.importReportLinePersistence = importReportLinePersistence;
+	}
+
+	/**
 	 * Returns the manifestation local service.
 	 *
 	 * @return the manifestation local service
@@ -1000,6 +1078,14 @@ public abstract class ManifestationLocalServiceBaseImpl
 	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
 	@BeanReference(type = EventPeriodPersistence.class)
 	protected EventPeriodPersistence eventPeriodPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class)
+	protected eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService;
+	@BeanReference(type = ImportReportPersistence.class)
+	protected ImportReportPersistence importReportPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class)
+	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService;
+	@BeanReference(type = ImportReportLinePersistence.class)
+	protected ImportReportLinePersistence importReportLinePersistence;
 	@BeanReference(type = ManifestationLocalService.class)
 	protected ManifestationLocalService manifestationLocalService;
 	@BeanReference(type = ManifestationPersistence.class)

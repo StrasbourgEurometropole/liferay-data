@@ -186,8 +186,6 @@
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
 				
-				<aui:input name="scheduleComments" />
-				
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">

@@ -160,6 +160,9 @@ public interface ManifestationLocalService extends BaseLocalService,
 	public Manifestation fetchManifestationByUuidAndGroupId(
 		java.lang.String uuid, long groupId);
 
+	public Manifestation findBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource);
+
 	/**
 	* Returns the manifestation with the primary key.
 	*

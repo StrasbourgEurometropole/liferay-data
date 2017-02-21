@@ -60,6 +60,13 @@ public interface EventPeriodLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EventPeriodLocalServiceUtil} to access the event period local service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Vérifie qu'une liste de période ne contient pas de périodes qui se
+	* chevauchent
+	*/
+	public boolean checkForOverlappingPeriods(List<EventPeriod> periods);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

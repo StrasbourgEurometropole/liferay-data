@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.base.ManifestationLocalServiceBaseImpl;
@@ -406,6 +407,15 @@ public class ManifestationLocalServiceImpl
 		Indexer<Manifestation> indexer = IndexerRegistryUtil
 			.nullSafeGetIndexer(Manifestation.class);
 		return indexer.search(searchContext);
+	}
+	
+	@Override
+	public Manifestation findBySourceAndIdSource(String source, String idSource) {
+		try {
+			return manifestationPersistence.findBySourceAndIdSource(source, idSource);
+		} catch (NoSuchManifestationException e) {
+			return null;
+		}
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");

@@ -160,6 +160,11 @@ public class ManifestationLocalServiceUtil {
 		return getService().fetchManifestationByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static eu.strasbourg.service.agenda.model.Manifestation findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return getService().findBySourceAndIdSource(source, idSource);
+	}
+
 	/**
 	* Returns the manifestation with the primary key.
 	*

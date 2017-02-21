@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(93);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -151,8 +151,6 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
-		sb.append(", scheduleComments=");
-		sb.append(scheduleComments);
 		sb.append(", firstStartDate=");
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
@@ -394,13 +392,6 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setPublicationDate(new Date(publicationDate));
 		}
 
-		if (scheduleComments == null) {
-			eventImpl.setScheduleComments(StringPool.BLANK);
-		}
-		else {
-			eventImpl.setScheduleComments(scheduleComments);
-		}
-
 		if (firstStartDate == Long.MIN_VALUE) {
 			eventImpl.setFirstStartDate(null);
 		}
@@ -478,7 +469,6 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
-		scheduleComments = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
 
@@ -694,14 +684,6 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		objectOutput.writeLong(publicationDate);
-
-		if (scheduleComments == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(scheduleComments);
-		}
-
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
 
@@ -750,7 +732,6 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String source;
 	public String idSource;
 	public long publicationDate;
-	public String scheduleComments;
 	public long firstStartDate;
 	public long lastEndDate;
 	public long imageId;

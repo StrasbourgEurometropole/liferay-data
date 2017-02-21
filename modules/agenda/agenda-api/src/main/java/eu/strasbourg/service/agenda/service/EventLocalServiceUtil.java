@@ -41,6 +41,14 @@ public class EventLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Lance l'import des événements
+	*/
+	public static boolean doImport() {
+		return getService().doImport();
+	}
+
 	public static boolean hasManifestationEvent(long manifestationId,
 		long eventId) {
 		return getService().hasManifestationEvent(manifestationId, eventId);
@@ -161,6 +169,11 @@ public class EventLocalServiceUtil {
 	public static eu.strasbourg.service.agenda.model.Event fetchEventByUuidAndGroupId(
 		java.lang.String uuid, long groupId) {
 		return getService().fetchEventByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static eu.strasbourg.service.agenda.model.Event findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return getService().findBySourceAndIdSource(source, idSource);
 	}
 
 	/**

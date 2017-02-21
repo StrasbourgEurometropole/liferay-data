@@ -170,6 +170,13 @@ public class ManifestationLocalServiceWrapper
 			groupId);
 	}
 
+	@Override
+	public eu.strasbourg.service.agenda.model.Manifestation findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return _manifestationLocalService.findBySourceAndIdSource(source,
+			idSource);
+	}
+
 	/**
 	* Returns the manifestation with the primary key.
 	*
