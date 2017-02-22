@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -3121,6 +3122,301 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		"manifestation.publicationDate < ? AND ";
 	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
 		"manifestation.status = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE = new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED,
+			ManifestationImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchBySourceAndIdSource",
+			new String[] { String.class.getName(), String.class.getName() },
+			ManifestationModelImpl.SOURCE_COLUMN_BITMASK |
+			ManifestationModelImpl.IDSOURCE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE = new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySourceAndIdSource",
+			new String[] { String.class.getName(), String.class.getName() });
+
+	/**
+	 * Returns the manifestation where source = &#63; and idSource = &#63; or throws a {@link NoSuchManifestationException} if it could not be found.
+	 *
+	 * @param source the source
+	 * @param idSource the id source
+	 * @return the matching manifestation
+	 * @throws NoSuchManifestationException if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation findBySourceAndIdSource(String source, String idSource)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = fetchBySourceAndIdSource(source, idSource);
+
+		if (manifestation == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("source=");
+			msg.append(source);
+
+			msg.append(", idSource=");
+			msg.append(idSource);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchManifestationException(msg.toString());
+		}
+
+		return manifestation;
+	}
+
+	/**
+	 * Returns the manifestation where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param source the source
+	 * @param idSource the id source
+	 * @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchBySourceAndIdSource(String source, String idSource) {
+		return fetchBySourceAndIdSource(source, idSource, true);
+	}
+
+	/**
+	 * Returns the manifestation where source = &#63; and idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param source the source
+	 * @param idSource the id source
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchBySourceAndIdSource(String source,
+		String idSource, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { source, idSource };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+					finderArgs, this);
+		}
+
+		if (result instanceof Manifestation) {
+			Manifestation manifestation = (Manifestation)result;
+
+			if (!Objects.equals(source, manifestation.getSource()) ||
+					!Objects.equals(idSource, manifestation.getIdSource())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_SELECT_MANIFESTATION_WHERE);
+
+			boolean bindSource = false;
+
+			if (source == null) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_1);
+			}
+			else if (source.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_3);
+			}
+			else {
+				bindSource = true;
+
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_2);
+			}
+
+			boolean bindIdSource = false;
+
+			if (idSource == null) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_1);
+			}
+			else if (idSource.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_3);
+			}
+			else {
+				bindIdSource = true;
+
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSource) {
+					qPos.add(source);
+				}
+
+				if (bindIdSource) {
+					qPos.add(idSource);
+				}
+
+				List<Manifestation> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"ManifestationPersistenceImpl.fetchBySourceAndIdSource(String, String, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					Manifestation manifestation = list.get(0);
+
+					result = manifestation;
+
+					cacheResult(manifestation);
+
+					if ((manifestation.getSource() == null) ||
+							!manifestation.getSource().equals(source) ||
+							(manifestation.getIdSource() == null) ||
+							!manifestation.getIdSource().equals(idSource)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+							finderArgs, manifestation);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Manifestation)result;
+		}
+	}
+
+	/**
+	 * Removes the manifestation where source = &#63; and idSource = &#63; from the database.
+	 *
+	 * @param source the source
+	 * @param idSource the id source
+	 * @return the manifestation that was removed
+	 */
+	@Override
+	public Manifestation removeBySourceAndIdSource(String source,
+		String idSource) throws NoSuchManifestationException {
+		Manifestation manifestation = findBySourceAndIdSource(source, idSource);
+
+		return remove(manifestation);
+	}
+
+	/**
+	 * Returns the number of manifestations where source = &#63; and idSource = &#63;.
+	 *
+	 * @param source the source
+	 * @param idSource the id source
+	 * @return the number of matching manifestations
+	 */
+	@Override
+	public int countBySourceAndIdSource(String source, String idSource) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE;
+
+		Object[] finderArgs = new Object[] { source, idSource };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_MANIFESTATION_WHERE);
+
+			boolean bindSource = false;
+
+			if (source == null) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_1);
+			}
+			else if (source.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_3);
+			}
+			else {
+				bindSource = true;
+
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_2);
+			}
+
+			boolean bindIdSource = false;
+
+			if (idSource == null) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_1);
+			}
+			else if (idSource.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_3);
+			}
+			else {
+				bindIdSource = true;
+
+				query.append(_FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSource) {
+					qPos.add(source);
+				}
+
+				if (bindIdSource) {
+					qPos.add(idSource);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_1 = "manifestation.source IS NULL AND ";
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_2 = "manifestation.source = ? AND ";
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_SOURCE_3 = "(manifestation.source IS NULL OR manifestation.source = '') AND ";
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_1 = "manifestation.idSource IS NULL";
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_2 = "manifestation.idSource = ?";
+	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_3 = "(manifestation.idSource IS NULL OR manifestation.idSource = '')";
 
 	public ManifestationPersistenceImpl() {
 		setModelClass(Manifestation.class);
@@ -3139,6 +3435,10 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { manifestation.getUuid(), manifestation.getGroupId() },
+			manifestation);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+			new Object[] { manifestation.getSource(), manifestation.getIdSource() },
 			manifestation);
 
 		manifestation.resetOriginalValues();
@@ -3222,6 +3522,16 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 				Long.valueOf(1));
 			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 				manifestationModelImpl);
+
+			args = new Object[] {
+					manifestationModelImpl.getSource(),
+					manifestationModelImpl.getIdSource()
+				};
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
+				manifestationModelImpl);
 		}
 		else {
 			if ((manifestationModelImpl.getColumnBitmask() &
@@ -3235,6 +3545,19 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 					Long.valueOf(1));
 				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 					manifestationModelImpl);
+			}
+
+			if ((manifestationModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						manifestationModelImpl.getSource(),
+						manifestationModelImpl.getIdSource()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
+					args, Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+					args, manifestationModelImpl);
 			}
 		}
 	}
@@ -3258,6 +3581,27 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		args = new Object[] {
+				manifestationModelImpl.getSource(),
+				manifestationModelImpl.getIdSource()
+			};
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args);
+
+		if ((manifestationModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					manifestationModelImpl.getOriginalSource(),
+					manifestationModelImpl.getOriginalIdSource()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+				args);
 		}
 	}
 
@@ -3546,8 +3890,12 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		manifestationImpl.setImageId(manifestation.getImageId());
 		manifestationImpl.setTitle(manifestation.getTitle());
 		manifestationImpl.setDescription(manifestation.getDescription());
+		manifestationImpl.setExternalImageURL(manifestation.getExternalImageURL());
+		manifestationImpl.setExternalImageCopyright(manifestation.getExternalImageCopyright());
 		manifestationImpl.setStartDate(manifestation.getStartDate());
 		manifestationImpl.setEndDate(manifestation.getEndDate());
+		manifestationImpl.setSource(manifestation.getSource());
+		manifestationImpl.setIdSource(manifestation.getIdSource());
 		manifestationImpl.setPublicationDate(manifestation.getPublicationDate());
 
 		return manifestationImpl;

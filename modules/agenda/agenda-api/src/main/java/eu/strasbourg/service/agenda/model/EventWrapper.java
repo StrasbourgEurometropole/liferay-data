@@ -99,8 +99,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
@@ -353,16 +353,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			setSource(source);
 		}
 
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
+		}
+
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
-		}
-
-		String scheduleComments = (String)attributes.get("scheduleComments");
-
-		if (scheduleComments != null) {
-			setScheduleComments(scheduleComments);
 		}
 
 		Date firstStartDate = (Date)attributes.get("firstStartDate");
@@ -501,6 +501,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'événenement
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _event.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.Event> toCacheModel() {
 		return _event.toCacheModel();
@@ -525,7 +533,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
+	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	* existe
 	*/
 	@Override
 	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
@@ -883,6 +892,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the id source of this event.
+	*
+	* @return the id source of this event
+	*/
+	@Override
+	public java.lang.String getIdSource() {
+		return _event.getIdSource();
+	}
+
+	/**
 	* Retourne le copyright de l'image principale
 	*/
 	@Override
@@ -1062,74 +1081,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getPromoter() {
 		return _event.getPromoter();
-	}
-
-	/**
-	* Returns the schedule comments of this event.
-	*
-	* @return the schedule comments of this event
-	*/
-	@Override
-	public java.lang.String getScheduleComments() {
-		return _event.getScheduleComments();
-	}
-
-	/**
-	* Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized schedule comments of this event
-	*/
-	@Override
-	public java.lang.String getScheduleComments(java.lang.String languageId) {
-		return _event.getScheduleComments(languageId);
-	}
-
-	/**
-	* Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized schedule comments of this event
-	*/
-	@Override
-	public java.lang.String getScheduleComments(java.lang.String languageId,
-		boolean useDefault) {
-		return _event.getScheduleComments(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized schedule comments of this event
-	*/
-	@Override
-	public java.lang.String getScheduleComments(java.util.Locale locale) {
-		return _event.getScheduleComments(locale);
-	}
-
-	/**
-	* Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized schedule comments of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getScheduleComments(java.util.Locale locale,
-		boolean useDefault) {
-		return _event.getScheduleComments(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getScheduleCommentsCurrentLanguageId() {
-		return _event.getScheduleCommentsCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getScheduleCommentsCurrentValue() {
-		return _event.getScheduleCommentsCurrentValue();
 	}
 
 	/**
@@ -1575,11 +1526,51 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne les publics de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _event.getPublics();
+	}
+
+	/**
 	* Retourne la liste des galeries publiées
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation> getPublishedManifestations() {
 		return _event.getPublishedManifestations();
+	}
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices() {
+		return _event.getServices();
+	}
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories() {
+		return _event.getTerritories();
+	}
+
+	/**
+	* Retourne les themes de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _event.getThemes();
+	}
+
+	/**
+	* Retourne les types de l'événement
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _event.getTypes();
 	}
 
 	/**
@@ -1620,16 +1611,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getPriceMap() {
 		return _event.getPriceMap();
-	}
-
-	/**
-	* Returns a map of the locales and localized schedule commentses of this event.
-	*
-	* @return the locales and localized schedule commentses of this event
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getScheduleCommentsMap() {
-		return _event.getScheduleCommentsMap();
 	}
 
 	/**
@@ -2104,6 +2085,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the id source of this event.
+	*
+	* @param idSource the id source of this event
+	*/
+	@Override
+	public void setIdSource(java.lang.String idSource) {
+		_event.setIdSource(idSource);
+	}
+
+	/**
 	* Sets the image ID of this event.
 	*
 	* @param imageId the image ID of this event
@@ -2322,71 +2313,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_event.setPublicationDate(publicationDate);
-	}
-
-	/**
-	* Sets the schedule comments of this event.
-	*
-	* @param scheduleComments the schedule comments of this event
-	*/
-	@Override
-	public void setScheduleComments(java.lang.String scheduleComments) {
-		_event.setScheduleComments(scheduleComments);
-	}
-
-	/**
-	* Sets the localized schedule comments of this event in the language.
-	*
-	* @param scheduleComments the localized schedule comments of this event
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setScheduleComments(java.lang.String scheduleComments,
-		java.util.Locale locale) {
-		_event.setScheduleComments(scheduleComments, locale);
-	}
-
-	/**
-	* Sets the localized schedule comments of this event in the language, and sets the default locale.
-	*
-	* @param scheduleComments the localized schedule comments of this event
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setScheduleComments(java.lang.String scheduleComments,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
-		_event.setScheduleComments(scheduleComments, locale, defaultLocale);
-	}
-
-	@Override
-	public void setScheduleCommentsCurrentLanguageId(
-		java.lang.String languageId) {
-		_event.setScheduleCommentsCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses.
-	*
-	* @param scheduleCommentsMap the locales and localized schedule commentses of this event
-	*/
-	@Override
-	public void setScheduleCommentsMap(
-		Map<java.util.Locale, java.lang.String> scheduleCommentsMap) {
-		_event.setScheduleCommentsMap(scheduleCommentsMap);
-	}
-
-	/**
-	* Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses, and sets the default locale.
-	*
-	* @param scheduleCommentsMap the locales and localized schedule commentses of this event
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setScheduleCommentsMap(
-		Map<java.util.Locale, java.lang.String> scheduleCommentsMap,
-		java.util.Locale defaultLocale) {
-		_event.setScheduleCommentsMap(scheduleCommentsMap, defaultLocale);
 	}
 
 	/**

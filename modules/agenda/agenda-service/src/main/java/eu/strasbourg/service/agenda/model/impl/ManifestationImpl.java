@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -21,8 +22,13 @@ import java.util.Locale;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -32,6 +38,7 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 
 /**
  * The extended model implementation for the Manifestation service. Represents a
@@ -81,12 +88,15 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
-	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	 * 
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
 	public String getImageURL() {
-		return FileEntryHelper.getFileEntryURL(this.getImageId());
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
 	}
 
 	/**
@@ -94,7 +104,11 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	 */
 	@Override
 	public String getImageCopyright(Locale locale) {
-		return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
 	}
 
 	/**
@@ -143,12 +157,12 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	 */
 	@Override
 	public String getManifestationScheduleDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getStartDate(),
-			this.getEndDate(), locale);
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(),
+			locale);
 	}
 
 	/**
-	 * Renvoie la version live de la galerie d'édition, si elle existe
+	 * Renvoie la version live de la manifestation, si elle existe
 	 */
 	@Override
 	public Manifestation getLiveVersion() {
@@ -161,5 +175,117 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		Manifestation liveManifestation = ManifestationLocalServiceUtil
 			.fetchManifestationByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveManifestation;
+	}
+
+	/**
+	 * Retourne les types de la manifestation
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "type agenda");
+	}
+
+	/**
+	 * Retourne les themes de la manifestation
+	 */
+
+	@Override
+	public List<AssetCategory> getThemes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "theme agenda");
+	}
+
+	/**
+	 * Retourne les publics de la manifestation
+	 */
+	@Override
+	public List<AssetCategory> getPublics() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "public agenda");
+	}
+
+	/**
+	 * Retourne les territoires de la manifestation
+	 */
+	@Override
+	public List<AssetCategory> getServices() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "service gestionnaire");
+	}
+
+	/**
+	 * Renvoie la version JSON de la manifestation
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject jsonManifestation = JSONFactoryUtil.createJSONObject();
+		
+		jsonManifestation.put("id", this.getManifestationId());
+		jsonManifestation.put("externalId", this.getIdSource());
+		
+		jsonManifestation.put("title",
+			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		
+		jsonManifestation.put("description",
+			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
+		
+		jsonManifestation.put("imageURL", this.getImageURL());
+		
+		jsonManifestation.put("imageCopyright",
+			this.getImageCopyright(Locale.getDefault()));
+
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+		jsonManifestation.put("startDate", dateFormat.format(this.getStartDate()));
+		jsonManifestation.put("endDate", dateFormat.format(this.getEndDate()));
+		
+		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
+		for (Event event : this.getPublishedEvents()) {
+			jsonEvents.put(event.getEventId());
+		}
+		if (jsonEvents.length() > 0) {
+			jsonManifestation.put("events", jsonEvents);
+		}
+		
+		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getCategories()) {
+			jsonCategories.put(category.getCategoryId());
+		}
+		if (jsonCategories.length() > 0) {
+			jsonManifestation.put("categories", jsonCategories);
+		}
+
+		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getThemes()) {
+			jsonThemes.put(category.getCategoryId());
+		}
+		if (jsonThemes.length() > 0) {
+			jsonManifestation.put("themes", jsonThemes);
+		}
+
+		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getTypes()) {
+			jsonTypes.put(category.getCategoryId());
+		}
+		if (jsonTypes.length() > 0) {
+			jsonManifestation.put("types", jsonTypes);
+		}
+		
+		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getPublics()) {
+			jsonPublics.put(category.getCategoryId());
+		}
+		if (jsonPublics.length() > 0) {
+			jsonManifestation.put("publics", jsonPublics);
+		}
+
+		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getServices()) {
+			jsonServices.put(category.getCategoryId());
+		}
+		if (jsonServices.length() > 0) {
+			jsonManifestation.put("services", jsonServices);
+		}
+		return jsonManifestation;
 	}
 }

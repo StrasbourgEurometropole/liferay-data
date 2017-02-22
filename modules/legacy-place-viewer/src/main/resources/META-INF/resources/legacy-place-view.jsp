@@ -115,7 +115,7 @@
 								value="Formulaire de contact - Lieux - ${place.alias}" />
 						</liferay-portlet:actionURL>
 						<h4>
-							<liferay-ui:message key="contact" />
+							<liferay-ui:message key="contact-form" />
 						</h4>
 						<liferay-ui:success key="mail-success" message="eu.mail-success" />
 						<liferay-ui:error key="all-fields-required"

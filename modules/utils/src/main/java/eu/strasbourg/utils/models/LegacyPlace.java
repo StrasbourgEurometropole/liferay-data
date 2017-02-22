@@ -129,7 +129,7 @@ public class LegacyPlace {
 				.getJSONObject("horaires");
 			DateTimeFormatter dtfFrom = DateTimeFormatter.ofPattern("yyyyMMdd");
 			DateTimeFormatter dtfTo = DateTimeFormatter
-				.ofPattern("dd MMMM yyyy", locale);
+				.ofPattern("EEEE dd MMMM", locale);
 			Map<String, String> nextDaysSchedule = new HashMap<String, String>();
 			List<String> nextDays = new ArrayList<String>();
 			List<String> nextSchedules = new ArrayList<String>();

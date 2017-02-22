@@ -11,6 +11,10 @@
 	<portlet:param name="tab" value="events" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="importURL">
+	<portlet:param name="tab" value="import" />
+</liferay-portlet:renderURL>
+
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name="cmd" value="search" />
 	<portlet:param name="tab" value="${param.tab}" />
@@ -26,6 +30,9 @@
 
 		<aui:nav-item href="${manifestationsURL}" label="manifestations"
 			selected="${tab eq 'manifestations'}" />
+			
+		<aui:nav-item href="${importURL}" label="import"
+			selected="${tab eq 'import'}" />
 	</aui:nav>
 
 	<aui:nav-bar-search>
@@ -42,6 +49,10 @@
     </c:when>
     <c:when test="${tab eq 'manifestations'}">
 		<liferay-util:include page="/agenda-bo-view-manifestations.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'import'}">
+		<liferay-util:include page="/agenda-bo-view-import.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

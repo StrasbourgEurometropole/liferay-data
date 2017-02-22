@@ -526,6 +526,36 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the external image u r l of this manifestation.
+	 *
+	 * @return the external image u r l of this manifestation
+	 */
+	@AutoEscape
+	public String getExternalImageURL();
+
+	/**
+	 * Sets the external image u r l of this manifestation.
+	 *
+	 * @param externalImageURL the external image u r l of this manifestation
+	 */
+	public void setExternalImageURL(String externalImageURL);
+
+	/**
+	 * Returns the external image copyright of this manifestation.
+	 *
+	 * @return the external image copyright of this manifestation
+	 */
+	@AutoEscape
+	public String getExternalImageCopyright();
+
+	/**
+	 * Sets the external image copyright of this manifestation.
+	 *
+	 * @param externalImageCopyright the external image copyright of this manifestation
+	 */
+	public void setExternalImageCopyright(String externalImageCopyright);
+
+	/**
 	 * Returns the start date of this manifestation.
 	 *
 	 * @return the start date of this manifestation
@@ -552,6 +582,36 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 	 * @param endDate the end date of this manifestation
 	 */
 	public void setEndDate(Date endDate);
+
+	/**
+	 * Returns the source of this manifestation.
+	 *
+	 * @return the source of this manifestation
+	 */
+	@AutoEscape
+	public String getSource();
+
+	/**
+	 * Sets the source of this manifestation.
+	 *
+	 * @param source the source of this manifestation
+	 */
+	public void setSource(String source);
+
+	/**
+	 * Returns the id source of this manifestation.
+	 *
+	 * @return the id source of this manifestation
+	 */
+	@AutoEscape
+	public String getIdSource();
+
+	/**
+	 * Sets the id source of this manifestation.
+	 *
+	 * @param idSource the id source of this manifestation
+	 */
+	public void setIdSource(String idSource);
 
 	/**
 	 * Returns the publication date of this manifestation.

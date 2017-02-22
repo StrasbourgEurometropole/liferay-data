@@ -147,10 +147,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(price);
 		sb.append(", source=");
 		sb.append(source);
+		sb.append(", idSource=");
+		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
-		sb.append(", scheduleComments=");
-		sb.append(scheduleComments);
 		sb.append(", firstStartDate=");
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
@@ -378,18 +378,18 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setSource(source);
 		}
 
+		if (idSource == null) {
+			eventImpl.setIdSource(StringPool.BLANK);
+		}
+		else {
+			eventImpl.setIdSource(idSource);
+		}
+
 		if (publicationDate == Long.MIN_VALUE) {
 			eventImpl.setPublicationDate(null);
 		}
 		else {
 			eventImpl.setPublicationDate(new Date(publicationDate));
-		}
-
-		if (scheduleComments == null) {
-			eventImpl.setScheduleComments(StringPool.BLANK);
-		}
-		else {
-			eventImpl.setScheduleComments(scheduleComments);
 		}
 
 		if (firstStartDate == Long.MIN_VALUE) {
@@ -467,8 +467,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		free = objectInput.readInt();
 		price = objectInput.readUTF();
 		source = objectInput.readUTF();
+		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
-		scheduleComments = objectInput.readUTF();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
 
@@ -676,15 +676,14 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(source);
 		}
 
-		objectOutput.writeLong(publicationDate);
-
-		if (scheduleComments == null) {
+		if (idSource == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(scheduleComments);
+			objectOutput.writeUTF(idSource);
 		}
 
+		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
 
@@ -731,8 +730,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public int free;
 	public String price;
 	public String source;
+	public String idSource;
 	public long publicationDate;
-	public String scheduleComments;
 	public long firstStartDate;
 	public long lastEndDate;
 	public long imageId;

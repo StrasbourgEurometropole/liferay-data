@@ -488,8 +488,8 @@ public class EditionLocalServiceWrapper implements EditionLocalService,
 	}
 
 	/**
-	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
+	* une date de publication dans le futur
 	*/
 	@Override
 	public void checkEditions()

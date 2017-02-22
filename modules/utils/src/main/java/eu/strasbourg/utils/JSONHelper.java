@@ -7,10 +7,20 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 public class JSONHelper {
 	private static String readAll(Reader rd) throws IOException {
@@ -36,4 +46,88 @@ public class JSONHelper {
 		}
 	}
 
+	public static JSONObject getJSONFromI18nMap(Map<Locale, String> map) {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		for (Map.Entry<Locale, String> entry : map.entrySet()) {
+			json.put(entry.getKey().toString(), entry.getValue());
+		}
+		return json;
+	}
+
+	public static JSONArray getEntityVocabularyJSON(String className,
+		String vocabularyName, long groupId) {
+		long classNameId = ClassNameLocalServiceUtil.getClassName(className)
+			.getClassNameId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyHelper
+			.getVocabulariesForAssetType(groupId, classNameId);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (StringHelper.compareIgnoringAccentuation(
+				vocabulary.getName().toLowerCase(), vocabularyName)) {
+				return AssetVocabularyHelper.toJSON(vocabulary);
+			}
+		}
+		return JSONFactoryUtil.createJSONArray();
+	}
+
+	public static List<Locale> getLocalesUsedInJSON(JSONObject json) {
+		Iterator<String> keyIterator = json.keys();
+		ArrayList<Locale> locales = new ArrayList<Locale>();
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			JSONObject subJson = json.getJSONObject(key);
+			JSONArray subJsonArray = json.getJSONArray(key);
+			if (subJson != null) {
+				locales.addAll(JSONHelper.getLocalesUsedInJSON(subJson));
+			}
+			if (subJsonArray != null) {
+				for (int i = 0; i < subJsonArray.length(); i++) {
+					JSONObject subJsonArrayObject = subJsonArray
+						.getJSONObject(i);
+					if (subJsonArrayObject != null) {
+						locales.addAll(JSONHelper
+							.getLocalesUsedInJSON(subJsonArrayObject));
+					}
+				}
+			}
+			if (subJson == null && subJsonArray == null) {
+				Locale locale = LocaleUtil.fromLanguageId(key, true, false);
+				if (locale != null) {
+					locales.add(locale);
+				}
+			}
+		}
+		return locales;
+	}
+
+	public static boolean validateI18nField(JSONObject json,
+		List<Locale> locales) {
+		boolean valid = true;
+		if (json == null) {
+			return false;
+		}
+		for (Locale locale : locales) {
+			if (Validator.isNull(json.getString(locale.toString()))) {
+				valid = false;
+				break;
+			}
+		}
+		return valid;
+	}
+
+	public static List<Long> getCategoriesIdsFromFields(JSONObject json,
+		String... fields) {
+		List<Long> categoriesIds = new ArrayList<Long>();
+		for (String field : fields) {
+			JSONArray categoryArray = json.getJSONArray(field);
+			if (categoryArray != null) {
+				for (int i = 0; i < categoryArray.length(); i++) {
+					Long categoryId = categoryArray.getLong(i);
+					if (categoryId > 0) {
+						categoriesIds.add(categoryId);
+					}
+				}
+			}
+		}
+		return categoriesIds;
+	}
 }

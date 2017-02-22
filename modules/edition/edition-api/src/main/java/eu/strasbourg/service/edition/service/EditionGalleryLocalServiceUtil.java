@@ -445,8 +445,8 @@ public class EditionGalleryLocalServiceUtil {
 	}
 
 	/**
-	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de toutes les galeries au statut "SCHEDULED" qui ont
+	* une date de publication dans le futur
 	*/
 	public static void checkGalleries()
 		throws com.liferay.portal.kernel.exception.PortalException {

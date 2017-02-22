@@ -121,8 +121,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "free", Types.INTEGER },
 			{ "price", Types.CLOB },
 			{ "source", Types.VARCHAR },
+			{ "idSource", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
-			{ "scheduleComments", Types.CLOB },
 			{ "firstStartDate", Types.TIMESTAMP },
 			{ "lastEndDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT }
@@ -170,14 +170,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("free", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("scheduleComments", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,publicationDate DATE null,scheduleComments TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -195,11 +195,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 64L;
+	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 8L;
+	public static final long SOURCE_COLUMN_BITMASK = 16L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long TITLE_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -254,8 +256,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setFree(soapModel.getFree());
 		model.setPrice(soapModel.getPrice());
 		model.setSource(soapModel.getSource());
+		model.setIdSource(soapModel.getIdSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setScheduleComments(soapModel.getScheduleComments());
 		model.setFirstStartDate(soapModel.getFirstStartDate());
 		model.setLastEndDate(soapModel.getLastEndDate());
 		model.setImageId(soapModel.getImageId());
@@ -376,8 +378,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
-		attributes.put("scheduleComments", getScheduleComments());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
 		attributes.put("imageId", getImageId());
@@ -633,16 +635,16 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			setSource(source);
 		}
 
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
+		}
+
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
 			setPublicationDate(publicationDate);
-		}
-
-		String scheduleComments = (String)attributes.get("scheduleComments");
-
-		if (scheduleComments != null) {
-			setScheduleComments(scheduleComments);
 		}
 
 		Date firstStartDate = (Date)attributes.get("firstStartDate");
@@ -2000,7 +2002,43 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setSource(String source) {
+		_columnBitmask |= SOURCE_COLUMN_BITMASK;
+
+		if (_originalSource == null) {
+			_originalSource = _source;
+		}
+
 		_source = source;
+	}
+
+	public String getOriginalSource() {
+		return GetterUtil.getString(_originalSource);
+	}
+
+	@JSON
+	@Override
+	public String getIdSource() {
+		if (_idSource == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _idSource;
+		}
+	}
+
+	@Override
+	public void setIdSource(String idSource) {
+		_columnBitmask |= IDSOURCE_COLUMN_BITMASK;
+
+		if (_originalIdSource == null) {
+			_originalIdSource = _idSource;
+		}
+
+		_idSource = idSource;
+	}
+
+	public String getOriginalIdSource() {
+		return GetterUtil.getString(_originalIdSource);
 	}
 
 	@JSON
@@ -2022,111 +2060,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	public Date getOriginalPublicationDate() {
 		return _originalPublicationDate;
-	}
-
-	@JSON
-	@Override
-	public String getScheduleComments() {
-		if (_scheduleComments == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _scheduleComments;
-		}
-	}
-
-	@Override
-	public String getScheduleComments(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getScheduleComments(languageId);
-	}
-
-	@Override
-	public String getScheduleComments(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getScheduleComments(languageId, useDefault);
-	}
-
-	@Override
-	public String getScheduleComments(String languageId) {
-		return LocalizationUtil.getLocalization(getScheduleComments(),
-			languageId);
-	}
-
-	@Override
-	public String getScheduleComments(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getScheduleComments(),
-			languageId, useDefault);
-	}
-
-	@Override
-	public String getScheduleCommentsCurrentLanguageId() {
-		return _scheduleCommentsCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getScheduleCommentsCurrentValue() {
-		Locale locale = getLocale(_scheduleCommentsCurrentLanguageId);
-
-		return getScheduleComments(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getScheduleCommentsMap() {
-		return LocalizationUtil.getLocalizationMap(getScheduleComments());
-	}
-
-	@Override
-	public void setScheduleComments(String scheduleComments) {
-		_scheduleComments = scheduleComments;
-	}
-
-	@Override
-	public void setScheduleComments(String scheduleComments, Locale locale) {
-		setScheduleComments(scheduleComments, locale,
-			LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setScheduleComments(String scheduleComments, Locale locale,
-		Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(scheduleComments)) {
-			setScheduleComments(LocalizationUtil.updateLocalization(
-					getScheduleComments(), "ScheduleComments",
-					scheduleComments, languageId, defaultLanguageId));
-		}
-		else {
-			setScheduleComments(LocalizationUtil.removeLocalization(
-					getScheduleComments(), "ScheduleComments", languageId));
-		}
-	}
-
-	@Override
-	public void setScheduleCommentsCurrentLanguageId(String languageId) {
-		_scheduleCommentsCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setScheduleCommentsMap(Map<Locale, String> scheduleCommentsMap) {
-		setScheduleCommentsMap(scheduleCommentsMap, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setScheduleCommentsMap(
-		Map<Locale, String> scheduleCommentsMap, Locale defaultLocale) {
-		if (scheduleCommentsMap == null) {
-			return;
-		}
-
-		setScheduleComments(LocalizationUtil.updateLocalization(
-				scheduleCommentsMap, getScheduleComments(), "ScheduleComments",
-				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -2357,17 +2290,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			}
 		}
 
-		Map<Locale, String> scheduleCommentsMap = getScheduleCommentsMap();
-
-		for (Map.Entry<Locale, String> entry : scheduleCommentsMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -2480,17 +2402,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		else {
 			setPrice(getPrice(defaultLocale), defaultLocale, defaultLocale);
 		}
-
-		String scheduleComments = getScheduleComments(defaultLocale);
-
-		if (Validator.isNull(scheduleComments)) {
-			setScheduleComments(getScheduleComments(modelDefaultLanguageId),
-				defaultLocale);
-		}
-		else {
-			setScheduleComments(getScheduleComments(defaultLocale),
-				defaultLocale, defaultLocale);
-		}
 	}
 
 	@Override
@@ -2547,8 +2458,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setFree(getFree());
 		eventImpl.setPrice(getPrice());
 		eventImpl.setSource(getSource());
+		eventImpl.setIdSource(getIdSource());
 		eventImpl.setPublicationDate(getPublicationDate());
-		eventImpl.setScheduleComments(getScheduleComments());
 		eventImpl.setFirstStartDate(getFirstStartDate());
 		eventImpl.setLastEndDate(getLastEndDate());
 		eventImpl.setImageId(getImageId());
@@ -2631,6 +2542,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventModelImpl._setOriginalStatus = false;
 
 		eventModelImpl._originalTitle = eventModelImpl._title;
+
+		eventModelImpl._originalSource = eventModelImpl._source;
+
+		eventModelImpl._originalIdSource = eventModelImpl._idSource;
 
 		eventModelImpl._originalPublicationDate = eventModelImpl._publicationDate;
 
@@ -2894,6 +2809,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.source = null;
 		}
 
+		eventCacheModel.idSource = getIdSource();
+
+		String idSource = eventCacheModel.idSource;
+
+		if ((idSource != null) && (idSource.length() == 0)) {
+			eventCacheModel.idSource = null;
+		}
+
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -2901,14 +2824,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		}
 		else {
 			eventCacheModel.publicationDate = Long.MIN_VALUE;
-		}
-
-		eventCacheModel.scheduleComments = getScheduleComments();
-
-		String scheduleComments = eventCacheModel.scheduleComments;
-
-		if ((scheduleComments != null) && (scheduleComments.length() == 0)) {
-			eventCacheModel.scheduleComments = null;
 		}
 
 		Date firstStartDate = getFirstStartDate();
@@ -3018,10 +2933,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getPrice());
 		sb.append(", source=");
 		sb.append(getSource());
+		sb.append(", idSource=");
+		sb.append(getIdSource());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
-		sb.append(", scheduleComments=");
-		sb.append(getScheduleComments());
 		sb.append(", firstStartDate=");
 		sb.append(getFirstStartDate());
 		sb.append(", lastEndDate=");
@@ -3202,12 +3117,12 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
-		sb.append(getPublicationDate());
+			"<column><column-name>idSource</column-name><column-value><![CDATA[");
+		sb.append(getIdSource());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>scheduleComments</column-name><column-value><![CDATA[");
-		sb.append(getScheduleComments());
+			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
+		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>firstStartDate</column-name><column-value><![CDATA[");
@@ -3288,10 +3203,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _price;
 	private String _priceCurrentLanguageId;
 	private String _source;
+	private String _originalSource;
+	private String _idSource;
+	private String _originalIdSource;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
-	private String _scheduleComments;
-	private String _scheduleCommentsCurrentLanguageId;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
 	private Long _imageId;

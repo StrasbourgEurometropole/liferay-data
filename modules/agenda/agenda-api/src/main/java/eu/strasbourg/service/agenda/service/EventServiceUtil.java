@@ -41,6 +41,69 @@ public class EventServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONArray getCategories()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getCategories();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEvents();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEventsByCategory(
+		long categoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByCategory(categoryId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEventsByDate(
+		java.lang.String date)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByDate(date);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEventsByLanguage(
+		java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByLanguage(language);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEventsByPlace(
+		java.lang.String placeSIGId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByPlace(placeSIGId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPublics()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPublics();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getServices()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getServices();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getThemes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getThemes();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTypes();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getCategory(long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getCategory(id);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEvent(id);
+	}
 
 	/**
 	* Returns the OSGi service identifier.

@@ -66,7 +66,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(39);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -100,10 +100,18 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", externalImageURL=");
+		sb.append(externalImageURL);
+		sb.append(", externalImageCopyright=");
+		sb.append(externalImageCopyright);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", source=");
+		sb.append(source);
+		sb.append(", idSource=");
+		sb.append(idSource);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append("}");
@@ -188,6 +196,20 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			manifestationImpl.setDescription(description);
 		}
 
+		if (externalImageURL == null) {
+			manifestationImpl.setExternalImageURL(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setExternalImageURL(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			manifestationImpl.setExternalImageCopyright(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setExternalImageCopyright(externalImageCopyright);
+		}
+
 		if (startDate == Long.MIN_VALUE) {
 			manifestationImpl.setStartDate(null);
 		}
@@ -200,6 +222,20 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		}
 		else {
 			manifestationImpl.setEndDate(new Date(endDate));
+		}
+
+		if (source == null) {
+			manifestationImpl.setSource(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setSource(source);
+		}
+
+		if (idSource == null) {
+			manifestationImpl.setIdSource(StringPool.BLANK);
+		}
+		else {
+			manifestationImpl.setIdSource(idSource);
 		}
 
 		if (publicationDate == Long.MIN_VALUE) {
@@ -239,8 +275,12 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		imageId = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		externalImageURL = objectInput.readUTF();
+		externalImageCopyright = objectInput.readUTF();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		source = objectInput.readUTF();
+		idSource = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 	}
 
@@ -302,8 +342,37 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			objectOutput.writeUTF(description);
 		}
 
+		if (externalImageURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageURL);
+		}
+
+		if (externalImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageCopyright);
+		}
+
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
+
+		if (source == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(source);
+		}
+
+		if (idSource == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(idSource);
+		}
+
 		objectOutput.writeLong(publicationDate);
 	}
 
@@ -323,7 +392,11 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	public long imageId;
 	public String title;
 	public String description;
+	public String externalImageURL;
+	public String externalImageCopyright;
 	public long startDate;
 	public long endDate;
+	public String source;
+	public String idSource;
 	public long publicationDate;
 }

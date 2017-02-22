@@ -170,6 +170,13 @@ public class ManifestationLocalServiceWrapper
 			groupId);
 	}
 
+	@Override
+	public eu.strasbourg.service.agenda.model.Manifestation findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return _manifestationLocalService.findBySourceAndIdSource(source,
+			idSource);
+	}
+
 	/**
 	* Returns the manifestation with the primary key.
 	*
@@ -490,8 +497,8 @@ public class ManifestationLocalServiceWrapper
 	}
 
 	/**
-	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	* ont une date de publication dans le futur
 	*/
 	@Override
 	public void checkManifestations()

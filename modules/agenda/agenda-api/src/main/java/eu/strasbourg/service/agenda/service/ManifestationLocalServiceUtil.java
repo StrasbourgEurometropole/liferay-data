@@ -160,6 +160,11 @@ public class ManifestationLocalServiceUtil {
 		return getService().fetchManifestationByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static eu.strasbourg.service.agenda.model.Manifestation findBySourceAndIdSource(
+		java.lang.String source, java.lang.String idSource) {
+		return getService().findBySourceAndIdSource(source, idSource);
+	}
+
 	/**
 	* Returns the manifestation with the primary key.
 	*
@@ -446,8 +451,8 @@ public class ManifestationLocalServiceUtil {
 	}
 
 	/**
-	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	* ont une date de publication dans le futur
 	*/
 	public static void checkManifestations()
 		throws com.liferay.portal.kernel.exception.PortalException {

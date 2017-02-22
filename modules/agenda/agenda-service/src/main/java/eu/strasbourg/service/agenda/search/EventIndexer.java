@@ -10,6 +10,7 @@ import javax.portlet.PortletResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -27,6 +28,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
@@ -50,24 +52,34 @@ public class EventIndexer extends BaseIndexer<Event> {
 	}
 
 	/**
-	 * Fonction appelée lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs à indexer
+	 * Fonction appelée lors de l'indexation de l'item C'est ici qu'on choisi
+	 * les champs à indexer
 	 */
 	@Override
 	protected Document doGetDocument(Event event) throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, event);
+
+		// On indexe toute la hiérarchie de catégories (parents et enfants des
+		// catégories de l'entité)
+		long[] assetCategoryIds = AssetVocabularyHelper
+			.getFullHierarchyCategoriesIds(event.getCategories());
+		List<AssetCategory> assetCategories = AssetVocabularyHelper
+			.getFullHierarchyCategories(event.getCategories());
+		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
+		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
+
 		document.addLocalizedText(Field.TITLE, event.getTitleMap());
-		document.addLocalizedText(Field.DESCRIPTION,
-			event.getDescriptionMap());
+		document.addLocalizedText(Field.DESCRIPTION, event.getDescriptionMap());
 		document.addNumber(Field.STATUS, event.getStatus());
-		
+
 		List<Date> dates = new ArrayList<Date>();
 		for (EventPeriod period : event.getEventPeriods()) {
-			Date startDate = period.getStartDate();
 			Date endDate = period.getEndDate();
-			dates.addAll(DateHelper.getDaysBetweenDates(startDate, endDate));
+			dates.addAll(DateHelper.getDaysBetweenDates(new Date(), endDate));
 		}
-		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
+		document.addDateSortable("dates",
+			dates.toArray(new Date[dates.size()]));
 		document.addDateSortable("startDate", event.getFirstStartDate());
 		document.addDateSortable("endDate", event.getLastEndDate());
 		return document;

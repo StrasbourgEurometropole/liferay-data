@@ -10,4 +10,5 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api", version: "2.0.0"
 	compile project (':modules:utils')
 	compile project (':modules:edition:edition-api')
+	compile project (':modules:search-log:search-log-api')
 }

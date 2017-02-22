@@ -181,13 +181,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "websiteURL");
 			event.setWebsiteURLMap(websiteURL);
 
-			String source = ParamUtil.getString(request, "source");
-			event.setSource(source);
-
-			Map<Locale, String> scheduleComments = LocalizationUtil
-				.getLocalizationMap(request, "scheduleComments");
-			event.setScheduleCommentsMap(scheduleComments);
-
 			Integer free = ParamUtil.getInteger(request, "free");
 			event.setFree(free);
 

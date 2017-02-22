@@ -70,6 +70,12 @@ public interface EventLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EventLocalServiceUtil} to access the event local service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Lance l'import des événements
+	*/
+	public boolean doImport();
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasManifestationEvent(long manifestationId, long eventId);
 
@@ -159,6 +165,9 @@ public interface EventLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Event fetchEventByUuidAndGroupId(java.lang.String uuid, long groupId);
+
+	public Event findBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource);
 
 	/**
 	* Returns the event with the primary key.

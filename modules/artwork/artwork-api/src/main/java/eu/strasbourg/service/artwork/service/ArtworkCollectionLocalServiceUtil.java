@@ -221,8 +221,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	}
 
 	/**
-	* /**
-	* Met à jour le statut de l'oeuvre par le framework workflow
+	* /** Met à jour le statut de l'oeuvre par le framework workflow
 	*/
 	public static eu.strasbourg.service.artwork.model.ArtworkCollection updateStatus(
 		long userId, long entryId, int status,

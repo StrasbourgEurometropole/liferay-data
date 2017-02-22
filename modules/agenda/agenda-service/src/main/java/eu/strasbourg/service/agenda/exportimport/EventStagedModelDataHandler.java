@@ -133,7 +133,6 @@ public class EventStagedModelDataHandler
 		importedEvent.setPlaceZipCode(stagedModel.getPlaceZipCode());
 		importedEvent.setPlaceCity(stagedModel.getPlaceCity());
 		importedEvent.setPlaceCountry(stagedModel.getPlaceCountry());
-		importedEvent.setScheduleComments(stagedModel.getScheduleComments());
 		importedEvent.setFirstStartDate(stagedModel.getFirstStartDate());
 		importedEvent.setLastEndDate(stagedModel.getLastEndDate());
 		importedEvent.setAccess(stagedModel.getAccess());
@@ -153,6 +152,7 @@ public class EventStagedModelDataHandler
 		importedEvent.setWebsiteName(stagedModel.getWebsiteName());
 		importedEvent.setWebsiteURL(stagedModel.getWebsiteURL());
 		importedEvent.setSource(stagedModel.getSource());
+		importedEvent.setIdSource(stagedModel.getIdSource());
 		importedEvent.setPublicationDate(stagedModel.getPublicationDate());
 		importedEvent.setStatus(stagedModel.getStatus());
 

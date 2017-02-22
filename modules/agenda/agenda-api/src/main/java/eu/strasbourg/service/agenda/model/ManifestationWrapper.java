@@ -76,8 +76,12 @@ public class ManifestationWrapper implements Manifestation,
 		attributes.put("imageId", getImageId());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("source", getSource());
+		attributes.put("idSource", getIdSource());
 		attributes.put("publicationDate", getPublicationDate());
 
 		return attributes;
@@ -181,6 +185,19 @@ public class ManifestationWrapper implements Manifestation,
 			setDescription(description);
 		}
 
+		String externalImageURL = (String)attributes.get("externalImageURL");
+
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
 		Date startDate = (Date)attributes.get("startDate");
 
 		if (startDate != null) {
@@ -191,6 +208,18 @@ public class ManifestationWrapper implements Manifestation,
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String source = (String)attributes.get("source");
+
+		if (source != null) {
+			setSource(source);
+		}
+
+		String idSource = (String)attributes.get("idSource");
+
+		if (idSource != null) {
+			setIdSource(idSource);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -308,13 +337,21 @@ public class ManifestationWrapper implements Manifestation,
 		return _manifestation.getExpandoBridge();
 	}
 
+	/**
+	* Renvoie la version JSON de la manifestation
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _manifestation.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.Manifestation> toCacheModel() {
 		return _manifestation.toCacheModel();
 	}
 
 	/**
-	* Renvoie la version live de la galerie d'édition, si elle existe
+	* Renvoie la version live de la manifestation, si elle existe
 	*/
 	@Override
 	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion() {
@@ -454,6 +491,36 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Returns the external image copyright of this manifestation.
+	*
+	* @return the external image copyright of this manifestation
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _manifestation.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image u r l of this manifestation.
+	*
+	* @return the external image u r l of this manifestation
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _manifestation.getExternalImageURL();
+	}
+
+	/**
+	* Returns the id source of this manifestation.
+	*
+	* @return the id source of this manifestation
+	*/
+	@Override
+	public java.lang.String getIdSource() {
+		return _manifestation.getIdSource();
+	}
+
+	/**
 	* Retourne le copyright de l'image principale
 	*/
 	@Override
@@ -462,7 +529,7 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
@@ -477,6 +544,16 @@ public class ManifestationWrapper implements Manifestation,
 	public java.lang.String getManifestationScheduleDisplay(
 		java.util.Locale locale) {
 		return _manifestation.getManifestationScheduleDisplay(locale);
+	}
+
+	/**
+	* Returns the source of this manifestation.
+	*
+	* @return the source of this manifestation
+	*/
+	@Override
+	public java.lang.String getSource() {
+		return _manifestation.getSource();
 	}
 
 	/**
@@ -699,11 +776,43 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Retourne les publics de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _manifestation.getPublics();
+	}
+
+	/**
 	* Renvoie la liste des éditions publiées de la galerie
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents() {
 		return _manifestation.getPublishedEvents();
+	}
+
+	/**
+	* Retourne les territoires de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices() {
+		return _manifestation.getServices();
+	}
+
+	/**
+	* Retourne les themes de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _manifestation.getThemes();
+	}
+
+	/**
+	* Retourne les types de la manifestation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _manifestation.getTypes();
 	}
 
 	/**
@@ -920,6 +1029,27 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Sets the external image copyright of this manifestation.
+	*
+	* @param externalImageCopyright the external image copyright of this manifestation
+	*/
+	@Override
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
+		_manifestation.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	* Sets the external image u r l of this manifestation.
+	*
+	* @param externalImageURL the external image u r l of this manifestation
+	*/
+	@Override
+	public void setExternalImageURL(java.lang.String externalImageURL) {
+		_manifestation.setExternalImageURL(externalImageURL);
+	}
+
+	/**
 	* Sets the group ID of this manifestation.
 	*
 	* @param groupId the group ID of this manifestation
@@ -927,6 +1057,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setGroupId(long groupId) {
 		_manifestation.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the id source of this manifestation.
+	*
+	* @param idSource the id source of this manifestation
+	*/
+	@Override
+	public void setIdSource(java.lang.String idSource) {
+		_manifestation.setIdSource(idSource);
 	}
 
 	/**
@@ -997,6 +1137,16 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public void setPublicationDate(Date publicationDate) {
 		_manifestation.setPublicationDate(publicationDate);
+	}
+
+	/**
+	* Sets the source of this manifestation.
+	*
+	* @param source the source of this manifestation
+	*/
+	@Override
+	public void setSource(java.lang.String source) {
+		_manifestation.setSource(source);
 	}
 
 	/**

@@ -37,8 +37,27 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 
-				<strasbourg-picker:image label="image" name="imageId"
-					required="true" value="${dc.manifestation.imageId}" />
+				<label><input type="radio" value="internalImage" name="imageType" 
+					<c:if test="${(not empty dc.manifestation.imageId and dc.manifestation.imageId gt 0) or empty dc.manifestation.externalImageURL }">checked</c:if>> Image interne</label><br>
+				<label><input type="radio" value="externalImage" name="imageType"
+					<c:if test="${(empty dc.manifestation.imageId or dc.manifestation.imageId eq 0) and not empty dc.manifestation.externalImageURL }">checked</c:if>> Image externe</label><br><br>
+					
+				<div class="internalImage" <c:if test="${(empty dc.manifestation.imageId or dc.manifestation.imageId eq 0) and not empty dc.manifestation.externalImageURL }">style="display: none;"</c:if>>
+					<strasbourg-picker:image label="image" name="imageId"
+						required="true" value="${dc.manifestation.imageId}" global="true" />
+				</div>
+				
+				<div class="externalImage" <c:if test="${(not empty dc.manifestation.imageId and dc.manifestation.imageId gt 0) or empty dc.manifestation.externalImageURL }">style="display: none;"</c:if>>
+					<aui:input name="externalImageURL" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+					
+					<aui:input name="externalImageCopyright" >
+						<aui:validator name="required"
+							errorMessage="this-field-is-required" />
+					</aui:input>
+				</div>
 
 				<aui:input name="description" label="required-description" />
 				<!-- Hack pour ajouter une validation sur la description -->
@@ -100,6 +119,9 @@
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="publication">
+				
+				<aui:input name="source" disabled="true" />
+				<aui:input name="idSource" disabled="true" />
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 
@@ -126,3 +148,13 @@
 		</aui:button-row>
 	</aui:form>
 </div>
+<liferay-util:html-top>
+	<script>
+		var editManif = true;
+	</script>
+</liferay-util:html-top>
+<liferay-util:html-bottom>
+	<script
+		src="/o/agendabo/js/agenda-bo-edit-manif.js"
+		type="text/javascript"></script>
+</liferay-util:html-bottom>

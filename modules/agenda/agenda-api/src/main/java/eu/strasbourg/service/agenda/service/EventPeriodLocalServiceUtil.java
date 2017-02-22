@@ -41,6 +41,16 @@ public class EventPeriodLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Vérifie qu'une liste de période ne contient pas de périodes qui se
+	* chevauchent
+	*/
+	public static boolean checkForOverlappingPeriods(
+		java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> periods) {
+		return getService().checkForOverlappingPeriods(periods);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}

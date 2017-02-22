@@ -1393,6 +1393,21 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setSource(String source);
 
 	/**
+	 * Returns the id source of this event.
+	 *
+	 * @return the id source of this event
+	 */
+	@AutoEscape
+	public String getIdSource();
+
+	/**
+	 * Sets the id source of this event.
+	 *
+	 * @param idSource the id source of this event
+	 */
+	public void setIdSource(String idSource);
+
+	/**
 	 * Returns the publication date of this event.
 	 *
 	 * @return the publication date of this event
@@ -1405,107 +1420,6 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 * @param publicationDate the publication date of this event
 	 */
 	public void setPublicationDate(Date publicationDate);
-
-	/**
-	 * Returns the schedule comments of this event.
-	 *
-	 * @return the schedule comments of this event
-	 */
-	public String getScheduleComments();
-
-	/**
-	 * Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the locale of the language
-	 * @return the localized schedule comments of this event
-	 */
-	@AutoEscape
-	public String getScheduleComments(Locale locale);
-
-	/**
-	 * Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the local of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized schedule comments of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	 */
-	@AutoEscape
-	public String getScheduleComments(Locale locale, boolean useDefault);
-
-	/**
-	 * Returns the localized schedule comments of this event in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @return the localized schedule comments of this event
-	 */
-	@AutoEscape
-	public String getScheduleComments(String languageId);
-
-	/**
-	 * Returns the localized schedule comments of this event in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized schedule comments of this event
-	 */
-	@AutoEscape
-	public String getScheduleComments(String languageId, boolean useDefault);
-
-	@AutoEscape
-	public String getScheduleCommentsCurrentLanguageId();
-
-	@AutoEscape
-	public String getScheduleCommentsCurrentValue();
-
-	/**
-	 * Returns a map of the locales and localized schedule commentses of this event.
-	 *
-	 * @return the locales and localized schedule commentses of this event
-	 */
-	public Map<Locale, String> getScheduleCommentsMap();
-
-	/**
-	 * Sets the schedule comments of this event.
-	 *
-	 * @param scheduleComments the schedule comments of this event
-	 */
-	public void setScheduleComments(String scheduleComments);
-
-	/**
-	 * Sets the localized schedule comments of this event in the language.
-	 *
-	 * @param scheduleComments the localized schedule comments of this event
-	 * @param locale the locale of the language
-	 */
-	public void setScheduleComments(String scheduleComments, Locale locale);
-
-	/**
-	 * Sets the localized schedule comments of this event in the language, and sets the default locale.
-	 *
-	 * @param scheduleComments the localized schedule comments of this event
-	 * @param locale the locale of the language
-	 * @param defaultLocale the default locale
-	 */
-	public void setScheduleComments(String scheduleComments, Locale locale,
-		Locale defaultLocale);
-
-	public void setScheduleCommentsCurrentLanguageId(String languageId);
-
-	/**
-	 * Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses.
-	 *
-	 * @param scheduleCommentsMap the locales and localized schedule commentses of this event
-	 */
-	public void setScheduleCommentsMap(Map<Locale, String> scheduleCommentsMap);
-
-	/**
-	 * Sets the localized schedule commentses of this event from the map of locales and localized schedule commentses, and sets the default locale.
-	 *
-	 * @param scheduleCommentsMap the locales and localized schedule commentses of this event
-	 * @param defaultLocale the default locale
-	 */
-	public void setScheduleCommentsMap(
-		Map<Locale, String> scheduleCommentsMap, Locale defaultLocale);
 
 	/**
 	 * Returns the first start date of this event.

@@ -23,6 +23,12 @@ public interface SearchAssetConfiguration {
 
 	@Meta.AD(name = "layoutsFriendlyURLs", required = false)
 	public String layoutsFriendlyURLs();
+	
+	@Meta.AD(name = "searchJournalArticle", required = false)
+	public boolean searchJournalArticle();
+	
+	@Meta.AD(name = "journalArticleTemplateKey", required = false)
+	public String journalArticleTemplateKey();
 
 	@Meta.AD(name = "vocabulariesIds", required = false)
 	public String vocabulariesIds();
@@ -36,11 +42,17 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "prefilterTagsNames", required = false)
 	public String prefilterTagsNames();
 	
-	@Meta.AD(name = "searchJournalArticle", required = false)
-	public boolean searchJournalArticle();
+	@Meta.AD(name = "boostTagsNames", required = false)
+	public String boostTagsNames();
 	
-	@Meta.AD(name = "journalArticleTemplateKey", required = false)
-	public String journalArticleTemplateKey();
+	@Meta.AD(name = "defaultSortField", required = false, deflt = "modified_sortable")
+	public String defaultSortField();
+
+	@Meta.AD(name = "defaultSortType", required = false, deflt = "desc")
+	public String defaultSortType();
+	
+	@Meta.AD(name = "defaultDateRange", required = false, deflt = "31")
+	public long defaultDateRange();
 	
 	@Meta.AD(name = "searchDocument", required = false)
 	public boolean searchDocument();
@@ -53,6 +65,9 @@ public interface SearchAssetConfiguration {
 	
 	@Meta.AD(name = "dateField", required = false)
 	public boolean dateField();
+	
+	@Meta.AD(name = "displayDateSorting", required = false, deflt = "false")
+	public boolean displayDateSorting();
 
 	@Meta.AD(name = "hideResultsBeforeSearch", required = false)
 	public boolean hideResultsBeforeSearch();

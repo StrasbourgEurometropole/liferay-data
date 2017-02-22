@@ -14,8 +14,15 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.List;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.base.ManifestationServiceBaseImpl;
 
 /**
@@ -39,4 +46,29 @@ public class ManifestationServiceImpl extends ManifestationServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.ManifestationServiceUtil} to access the manifestation remote service.
 	 */
+
+	@Override
+	public JSONObject getManifestation(long id) throws PortalException {
+		Manifestation manifestation = this.manifestationLocalService.fetchManifestation(id);
+		if (!manifestation.isApproved()) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+		return manifestation.toJSON();
+	}
+
+	@Override
+	public JSONArray getManifestations() throws PortalException {
+		List<Manifestation> manifestations = this.manifestationLocalService.getManifestations(-1, -1);
+		return this.getApprovedJSONManifestations(manifestations);
+	}
+
+	private JSONArray getApprovedJSONManifestations(List<Manifestation> manifestations) {
+		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
+		for (Manifestation manifestation : manifestations) {
+			if (manifestation.isApproved()) {
+				jsonManifestations.put(manifestation.toJSON());
+			}
+		}
+		return jsonManifestations;
+	}
 }

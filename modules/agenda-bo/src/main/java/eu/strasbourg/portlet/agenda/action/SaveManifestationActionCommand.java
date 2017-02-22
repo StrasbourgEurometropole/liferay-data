@@ -79,7 +79,20 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 			eventManifestation.setTitleMap(title);
 
 			Long imageId = ParamUtil.getLong(request, "imageId");
-			eventManifestation.setImageId(imageId);
+			if (imageId > 0) {
+				eventManifestation.setImageId(imageId);
+				eventManifestation.setExternalImageURL("");
+				eventManifestation.setExternalImageCopyright("");
+			} else {
+				eventManifestation.setImageId((long) 0);
+				String externalImageURL = ParamUtil.getString(request,
+					"externalImageURL");
+				eventManifestation.setExternalImageURL(externalImageURL);
+
+				String externalImageCopyright = ParamUtil.getString(request,
+					"externalImageCopyright");
+				eventManifestation.setExternalImageCopyright(externalImageCopyright);
+			}
 
 			Map<Locale, String> description = LocalizationUtil
 				.getLocalizationMap(request, "description");
@@ -94,7 +107,7 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 			Date endDate = DateUtil.parseDate(endDateString,
 				request.getLocale());
 			eventManifestation.setEndDate(endDate);
-
+			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");
 			String publicationDateTimeString = ParamUtil.getString(request,

@@ -1,0 +1,7 @@
+Bundle-SymbolicName: search-log-api
+Bundle-Version: 1.6.0
+Export-Package:\
+	eu.strasbourg.service.search.log.exception,\
+	eu.strasbourg.service.search.log.model,\
+	eu.strasbourg.service.search.log.service,\
+	eu.strasbourg.service.search.log.service.persistence

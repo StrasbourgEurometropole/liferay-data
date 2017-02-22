@@ -160,6 +160,9 @@ public interface ManifestationLocalService extends BaseLocalService,
 	public Manifestation fetchManifestationByUuidAndGroupId(
 		java.lang.String uuid, long groupId);
 
+	public Manifestation findBySourceAndIdSource(java.lang.String source,
+		java.lang.String idSource);
+
 	/**
 	* Returns the manifestation with the primary key.
 	*
@@ -375,8 +378,8 @@ public interface ManifestationLocalService extends BaseLocalService,
 	public void addEventManifestations(long eventId, long[] manifestationIds);
 
 	/**
-	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
+	* ont une date de publication dans le futur
 	*/
 	public void checkManifestations() throws PortalException;
 

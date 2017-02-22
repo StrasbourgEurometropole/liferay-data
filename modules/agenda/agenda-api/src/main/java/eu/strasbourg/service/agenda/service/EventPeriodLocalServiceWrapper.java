@@ -33,6 +33,16 @@ public class EventPeriodLocalServiceWrapper implements EventPeriodLocalService,
 		_eventPeriodLocalService = eventPeriodLocalService;
 	}
 
+	/**
+	* Vérifie qu'une liste de période ne contient pas de périodes qui se
+	* chevauchent
+	*/
+	@Override
+	public boolean checkForOverlappingPeriods(
+		java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> periods) {
+		return _eventPeriodLocalService.checkForOverlappingPeriods(periods);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _eventPeriodLocalService.getActionableDynamicQuery();

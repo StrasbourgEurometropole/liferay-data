@@ -116,8 +116,39 @@ public interface Event extends EventModel, PersistedModel {
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
 
 	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il existe
+	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	* existe
 	*/
 	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
 		java.util.Locale locale);
+
+	/**
+	* Retourne les types de l'événement
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne les themes de l'événement
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+
+	/**
+	* Retourne les publics de l'événement
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories();
+
+	/**
+	* Retourne les territoires de l'événement
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
+
+	/**
+	* Retourne la version JSON de l'événenement
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

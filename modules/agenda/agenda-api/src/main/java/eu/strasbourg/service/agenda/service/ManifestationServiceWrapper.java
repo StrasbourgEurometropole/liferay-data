@@ -33,6 +33,18 @@ public class ManifestationServiceWrapper implements ManifestationService,
 		_manifestationService = manifestationService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _manifestationService.getManifestations();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getManifestation(long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _manifestationService.getManifestation(id);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

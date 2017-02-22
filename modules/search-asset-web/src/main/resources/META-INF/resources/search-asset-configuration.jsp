@@ -99,13 +99,13 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- PortÃ©e -->
+			<!-- Portée -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
 			</aui:fieldset>
 			
-			<!-- PrÃ©filtre -->
+			<!-- Préfiltre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
@@ -124,7 +124,7 @@
 				</p>
 			</aui:fieldset>
 
-			<!-- Vocabulaires -->
+			<!-- Critères de recherche -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="search-criterias">
 				<liferay-ui:message key="vocabularies-explanations" />
@@ -163,17 +163,68 @@
 						<c:set var="i" value="${i + 1}" />
 					</c:if>
 				</c:forEach>
-				<liferay-ui:message key="date-explanations" />
-				<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+				
+				<!-- Filtre par date -->
+				<div>
+					<liferay-ui:message key="date-explanations" />
+					<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+				</div>
+				
+				<!-- Tri par date -->
+				<div>
+					<liferay-ui:message key="date-sorting-explanations" />
+					<aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
+				</div>
+			</aui:fieldset>
+			
+			<!-- Boosts -->
+			<aui:fieldset collapsed="true" collapsible="true" label="boosts">
+				<liferay-ui:message key="boost-explanations" />
+				<p>
+					<label><liferay-ui:message key="tags" /></label>
+					<liferay-ui:asset-tags-selector
+						hiddenInput="boostTagsNames"
+						curTags="${boostTagsNames}" />
+				</p>
+			</aui:fieldset>
+			
+			<!-- Affichage par défaut -->
+			<aui:fieldset collapsed="true" collapsible="true" label="default-display">
+				<liferay-ui:message key="default-display-explanations" />
+				<!-- Ne pas afficher de résultats avant que l'utilisateur n'ait fait de recherche -->
+				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
+				
+				<!-- Tri par défaut -->
+				<aui:select name="defaultSortField">
+					<aui:option value="modified_sortable" selected="${defaultSortField eq 'modified_sortable'}">
+						<liferay-ui:message key="modification-date" />
+					</aui:option>
+					<aui:option value="publishDate_sortable" selected="${defaultSortField eq 'publishDate_sortable'}">
+						<liferay-ui:message key="publication-date" />
+					</aui:option>
+					<aui:option value="dates_Number_sortable" selected="${defaultSortField eq 'dates_Number_sortable'}">
+						<liferay-ui:message key="entity-date" />
+					</aui:option>
+				</aui:select>
+				
+				<!-- Type de tri par défaut -->
+				<aui:select name="defaultSortType">
+					<aui:option value="asc" selected="${defaultSortType eq 'asc'}">
+						<liferay-ui:message key="asc" />
+					</aui:option>
+					<aui:option value="desc" selected="${defaultSortType eq 'desc'}">
+						<liferay-ui:message key="desc" />
+					</aui:option>
+				</aui:select>
+				
+				<!-- Filtre par date par défaut --> 
+				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 			</aui:fieldset>
 			
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="display">
-				<!-- Ne pas afficher de rÃ©sultats avant que l'utilisateur n'ait fait de recherche -->
-				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
-				
-				<!-- Nombre de rÃ©sultats par page -->
+				<!-- Nombre de résultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
 			</aui:fieldset>
 
@@ -220,5 +271,9 @@ p {
 }
 p.date {
 	margin-top: 20px;
+}
+
+.date-range {
+	width: 100px;
 }
 </style>

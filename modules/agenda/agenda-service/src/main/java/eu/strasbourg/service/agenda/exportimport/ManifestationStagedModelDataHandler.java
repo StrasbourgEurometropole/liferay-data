@@ -126,9 +126,14 @@ public class ManifestationStagedModelDataHandler
 		importedManifestation.setUuid(stagedModel.getUuid());
 		importedManifestation.setTitle(stagedModel.getTitle());
 		importedManifestation.setImageId(stagedModel.getImageId());
+		importedManifestation.setExternalImageURL(stagedModel.getExternalImageURL());
+		importedManifestation
+			.setExternalImageCopyright(stagedModel.getExternalImageCopyright());
 		importedManifestation.setDescription(stagedModel.getDescription());
 		importedManifestation.setStartDate(stagedModel.getStartDate());
 		importedManifestation.setEndDate(stagedModel.getEndDate());
+		importedManifestation.setSource(stagedModel.getSource());
+		importedManifestation.setIdSource(stagedModel.getIdSource());
 		importedManifestation.setPublicationDate(stagedModel.getPublicationDate());
 		importedManifestation.setStatus(stagedModel.getStatus());
 

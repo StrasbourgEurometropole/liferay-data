@@ -2,7 +2,7 @@
 
 <h1 class="search-asset-result-count">
 	<liferay-ui:message key="research" />
-	<c:if test="${not dc.hideResultsBeforeSearch or dc.userSearch}">
+	<c:if test="${not dc.hideResultsBeforeSearch or dc.userSearch or param.paginate}">
 		<span>${dc.searchContainer.total }
 			<c:choose>
 				<c:when test="${dc.searchContainer.total le 1}">
@@ -43,17 +43,18 @@
 	<c:forEach items="${dc.vocabularies}" var="vocabulary"
 		varStatus="vocStatus">
 		<div class="vocabulary-selection">
-			<legend>${vocabulary.getTitle(locale)}</legend>
+			<legend>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</legend>
 			<div class="vocabulary-selection-control open">
 				<!-- Dropdown -->
 				<c:if
 					test="${dc.vocabulariesControlTypes[vocStatus.index] eq 'list'}">
 					<aui:select name="vocabulary_${vocStatus.index}" label=""
 						showEmptyOption="true">
-						<c:forEach items="${vocabulary.categories}" var="category">
-							<aui:option value="${category.categoryId}"
-								label="${category.getTitle(locale)}"
-								selected="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}" />
+						<c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
+							<c:set var="category" value="${category}" scope="request"/>
+							<c:set var="dc" value="${dc}" scope="request"/>
+							<c:set var="level" value="0" scope="request" />
+							<jsp:include page="/forms/category-option.jsp"/>
 						</c:forEach>
 					</aui:select>
 				</c:if>
@@ -85,6 +86,7 @@
 		</div>
 	</c:forEach>
 
+	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
 		<div class="date-selection">
 			<legend>
@@ -93,34 +95,35 @@
 			<div class="date-selection-control open">
 				<label><liferay-ui:message key="search-asset-from" /></label>
 				<liferay-ui:input-date name="fromDate" nullable="true"
-					cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonth}"
+					cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonth - 1}"
 					yearParam="fromYear" yearValue="${dc.fromYear}" />
 				<label><liferay-ui:message key="search-asset-to" /></label>
 				<liferay-ui:input-date name="toDate" nullable="true"
-					cssClass="date-selector" dayParam="toDay" dayValue="${dc.toDay}" monthParam="toMonth" monthValue="${dc.toMonth}"
+					cssClass="date-selector" dayParam="toDay" dayValue="${dc.toDay}" monthParam="toMonth" monthValue="${dc.toMonth - 1}"
 					yearParam="toYear" yearValue="${dc.toYear}" />
 			</div>
 		</div>
+	</c:if>
+	
+	<!-- Tri -->
+	<c:if test="${dc.configuration.displayDateSorting()}">
 		<div class="order-selection">
 			<legend>
 				<liferay-ui:message key="search-asset-sort" />
 			</legend>
 			<div class="order-selection-control open">
-				<aui:input name="orderByCol" type="hidden" value="dates" />
-				<aui:select name="orderByType" label="">
-					<aui:option value="asc"
-						label="dates-asc"
-						selected="${dc.orderByType eq 'asc' and dc.orderByCol eq 'dates' }" />
-					<aui:option value="desc"
-						label="dates-desc"
-						selected="${dc.orderByType eq 'desc' and dc.orderByCol eq 'dates'}" />
+				<aui:select name="sortFieldAndType" label="" showEmptyOption="true">
+					<c:if test="${not empty dc.keywords or not empty dc.configuration.boostTagsNames()}">
+						<aui:option value="score,desc" label="score-desc" />
+					</c:if>
+					<aui:option value="${dc.configuration.defaultSortField()},asc"
+						label="dates-asc" />
+					<aui:option value="${dc.configuration.defaultSortField()},desc"
+						label="dates-desc" />
 				</aui:select>
+				<aui:input type="hidden" name="sortingChanged" value="false" />
 			</div>
 		</div>
-	</c:if>
-	<c:if test="${not dc.dateField}">
-		<aui:input name="orderByCol" type="hidden" value="score" />
-		<aui:input name="orderByType" type="hidden" value="desc" />
 	</c:if>
 
 	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />

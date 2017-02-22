@@ -48,10 +48,12 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.exception.NoSuchEventException;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
+import eu.strasbourg.service.agenda.utils.AgendaImporter;
 
 /**
  * The implementation of the event local service.
@@ -248,7 +250,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			n++;
 		}
 		if (n > 0) {
-			_log.info("Published " + n + " events");	
+			_log.info("Published " + n + " events");
 		}
 	}
 
@@ -408,5 +410,24 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
-	private final Log _log = LogFactoryUtil.getLog("strasbourg");
+	/**
+	 * Lance l'import des événements
+	 */
+	@Override
+	public boolean doImport() {
+		AgendaImporter agendaImporter = new AgendaImporter();
+		agendaImporter.doImport();
+		return true;
+	}
+
+	@Override
+	public Event findBySourceAndIdSource(String source, String idSource) {
+		try {
+			return eventPersistence.findBySourceAndIdSource(source, idSource);
+		} catch (NoSuchEventException e) {
+			return null;
+		}
+	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }
