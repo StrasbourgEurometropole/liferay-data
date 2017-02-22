@@ -56,15 +56,15 @@ public class LinkPortletDataHandler extends BasePortletDataHandler {
 		String portletId, PortletPreferences portletPreferences)
 		throws Exception {
 		Element rootElement = addExportDataRootElement(portletDataContext);
-		
+		rootElement.addAttribute(
+			"group-id", String.valueOf(portletDataContext.getScopeGroupId()));
+
 		// Si la checkbox correspondant au type à exporté est décochée, on ne fait rien
 		if (!portletDataContext.getBooleanParameter(NAMESPACE, "Link entity")) {
 			return getExportDataRootElementString(rootElement);
 		}
 		
-		rootElement.addAttribute(
-			"group-id", String.valueOf(portletDataContext.getScopeGroupId()));
-
+		
 		ExportActionableDynamicQuery entryActionableDynamicQuery =
 			this._linkLocalService.getExportActionableDynamicQuery(portletDataContext);
 		entryActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId()); // ?

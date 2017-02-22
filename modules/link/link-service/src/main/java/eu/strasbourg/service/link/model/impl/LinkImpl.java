@@ -19,9 +19,6 @@ import java.util.List;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 
@@ -31,10 +28,14 @@ import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
- * The extended model implementation for the Link service. Represents a row in the &quot;link_Link&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the Link service. Represents a row in
+ * the &quot;link_Link&quot; database table, with each column mapped to a
+ * property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.link.model.Link} interface.
+ * Helper methods and all application logic should be put in this class.
+ * Whenever methods are added, rerun ServiceBuilder to copy their definitions
+ * into the {@link eu.strasbourg.service.link.model.Link} interface.
  * </p>
  *
  * @author BenjaminBini
@@ -47,23 +48,20 @@ public class LinkImpl extends LinkBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a link model instance should use the {@link eu.strasbourg.service.link.model.Link} interface instead.
+	 * Never reference this class directly. All methods that expect a link model
+	 * instance should use the {@link eu.strasbourg.service.link.model.Link}
+	 * interface instead.
 	 */
 	public LinkImpl() {
 	}
-	
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		try {
-			return AssetEntryLocalServiceUtil.getEntry(Link.class.getName(),
-				this.getLinkId());
-		} catch (PortalException e) {
-			_log.error(e);
-			return null;
-		}
+		return AssetEntryLocalServiceUtil.fetchEntry(Link.class.getName(),
+			this.getLinkId());
 	}
 
 	/**
@@ -72,9 +70,10 @@ public class LinkImpl extends LinkBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
 	}
-	
+
 	/**
 	 * Renvoie la version live du lien, si elle existe
 	 */
@@ -86,9 +85,9 @@ public class LinkImpl extends LinkBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		Link liveLink = LinkLocalServiceUtil.fetchLinkByUuidAndGroupId(this.getUuid(), liveGroupId);
+		Link liveLink = LinkLocalServiceUtil
+			.fetchLinkByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveLink;
 	}
 
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
