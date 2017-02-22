@@ -248,7 +248,6 @@
             <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
           </#list>
         </ul>
-        ${entry.getScheduleComments(locale)}
       </div>
       <#if entry.free == 1 || entry.getPrice(locale)?has_content>
         <div class="event-info-section">
