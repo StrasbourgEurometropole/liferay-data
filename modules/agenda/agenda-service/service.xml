@@ -214,7 +214,7 @@
 		<column name="endDate" type="Date" />
 		
 		<!-- Links with other entities -->
-		<column name="lines" type="Collection" entity="ImportReportLine"  />
+		<column name="lines" type="Collection" entity="ImportReportLine" />
 			
 	</entity>
 	<entity local-service="true" name="ImportReportLine" cache-enabled="true" remote-service="false" uuid="true" >
