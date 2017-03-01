@@ -43,6 +43,10 @@
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="modified-date" truncate="true"
 				value="${formattedModifiedDate}" />
+				
+			<liferay-ui:search-container-column-text name="">
+				<div class="data" data-id="${link.linkId}" data-title="${link.getTitle(locale)}"></div>
+			</liferay-ui:search-container-column-text>
 			
 		</liferay-ui:search-container-row>
 
