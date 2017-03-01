@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.place">
+	<author>Angelique Zunino Champougny</author>
+	<namespace>place</namespace>
+
+	<entity local-service="true" cache-enabled="true" name="Place"
+		remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="placeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Informations générales non modifiables -->
+		<column name="SIGid" type="String" />
+		<column name="name" type="String" />
+		<column name="addressComplement" type="String" />
+		<column name="addressStreet" type="String" />
+		<column name="addressDistribution" type="String" />
+		<column name="addressZipCode" type="String" />
+		<column name="addressCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
+		<column name="RGF93X" type="String" />
+		<column name="RGF93Y" type="String" />
+		
+		<!-- Informations générales modifiables -->
+		<column name="alias" type="String" localized="true" />
+		<column name="presentation" type="String" localized="true" />
+		<column name="serviceAndActivities" type="String" localized="true" />
+		<column name="characteristics" type="String" localized="true" />
+		<column name="subjectToPublicHoliday" type="boolean" />
+		<column name="exceptionalSchedule" type="String" localized="true" />
+		<column name="displayEvents" type="boolean" />
+		<column name="additionalInformation" type="String" localized="true" />
+
+		<!-- Contact -->
+		<column name="phone" type="String" />
+		<column name="mail" type="String" />
+		<column name="siteURL" type="String" localized="true" />
+		<column name="siteLabel" type="String" localized="true" />
+		<column name="facebookURL" type="String" localized="true" />
+		<column name="facebookLabel" type="String" localized="true" />
+
+		<!-- Accès -->
+		<column name="accesMap" type="String" localized="true" />
+		<column name="access" type="String" localized="true" />
+		<column name="accessForDisabled" type="String" localized="true" />
+		<column name="accessForBlind" type="Boolean" />
+		<column name="accessForDeaf" type="Boolean" />
+		<column name="accessForWheelchair" type="Boolean" />
+		<column name="accessForElder" type="Boolean" />
+		<column name="accessForDeficient" type="Boolean" />
+
+		<!-- Temps réel -->
+		<column name="RTEnabled" type="boolean" />
+		<column name="RTExternalId" type="String" />
+		<column name="RTGreenThreshold" type="long" />
+		<column name="RTOrangeThreshold" type="long" />
+		<column name="RTRedThreshold" type="long" />
+		<column name="RTMaxThreshold" type="long" />
+		
+		
+		<!-- Links with other entities -->
+		<column name="imageId" type="long" />
+		<column name="imageIds" type="String" />
+		<column name="videosIds" type="String" />
+		<column name="priceId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PriceId" return-type="Collection">
+			<finder-column name="priceId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" name="Price"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="priceId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="title" type="String" localized="true" />
+		<column name="price" type="String" localized="true" />
+		
+	</entity>
+
+	<entity local-service="true" name="SubPlace"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="subPlaceId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" localized="true" />
+		<column name="description" type="String" localized="true" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="ScheduleException"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="exceptionId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="date" type="Date" />
+		<column name="startHout" type="String" />
+		<column name="endHour" type="String" />
+		<column name="comment" type="String" />
+		<column name="closed" type="boolean" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+		<column name="subPlaceId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="Period"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="periodId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" />
+		<column name="defaultPeriod" type="Boolean" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="linkLabel" type="String" />
+		<column name="linkURL" type="String" />
+		<column name="alwaysOpen" type="Boolean" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+		<column name="subPlaceId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="Slot"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="slotId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="dayOfWeek" type="long" />
+		<column name="startHout" type="String" />
+		<column name="endHour" type="String" />
+		
+		<!-- Links with other entities -->
+		<column name="periodId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PeriodId" return-type="Collection">
+			<finder-column name="periodId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="PublicHoliday"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="publicHolidayId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" localized="true" />
+		<column name="date" type="Date" />
+		<column name="recurrent" type="boolean" />
+		
+		<!-- Finder methods -->
+		<finder name="Recurrent" return-type="Collection">
+			<finder-column name="recurrent" />
+		</finder>
+		
+	</entity>
+</service-builder>

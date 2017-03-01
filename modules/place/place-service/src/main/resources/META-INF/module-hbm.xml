@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="eu.strasbourg.service.place.model.Period" />
+	<import class="eu.strasbourg.service.place.model.Place" />
+	<import class="eu.strasbourg.service.place.model.Price" />
+	<import class="eu.strasbourg.service.place.model.PublicHoliday" />
+	<import class="eu.strasbourg.service.place.model.ScheduleException" />
+	<import class="eu.strasbourg.service.place.model.Slot" />
+	<import class="eu.strasbourg.service.place.model.SubPlace" />
+	<class name="eu.strasbourg.service.place.model.impl.PeriodImpl" table="place_Period">
+		<id name="periodId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="defaultPeriod" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="linkLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="linkURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="alwaysOpen" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="subPlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.PlaceImpl" table="place_Place">
+		<id name="placeId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="lastPublishDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="SIGid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="addressComplement" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="addressStreet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="addressDistribution" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="addressZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="addressCountry" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorX" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorY" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="RGF93X" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="RGF93Y" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="alias_" name="alias" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="presentation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="serviceAndActivities" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="characteristics" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="subjectToPublicHoliday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="exceptionalSchedule" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="displayEvents" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="additionalInformation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="siteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="siteLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="facebookURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="facebookLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="accesMap" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="access_" name="access" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="accessForDisabled" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="accessForBlind" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForDeaf" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForWheelchair" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForElder" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="accessForDeficient" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="RTEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="RTExternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="RTGreenThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTOrangeThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTRedThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTMaxThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="priceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.PriceImpl" table="place_Price">
+		<id name="priceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.PublicHolidayImpl" table="place_PublicHoliday">
+		<id name="publicHolidayId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property name="recurrent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl" table="place_ScheduleException">
+		<id name="exceptionId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property name="startHout" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="endHour" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="closed" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="subPlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.SlotImpl" table="place_Slot">
+		<id name="slotId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="dayOfWeek" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="startHout" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="endHour" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="periodId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.place.model.impl.SubPlaceImpl" table="place_SubPlace">
+		<id name="subPlaceId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+</hibernate-mapping>
