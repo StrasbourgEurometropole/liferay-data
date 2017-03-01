@@ -367,22 +367,6 @@
     });
 })(jQuery);
 
-
-// Validation formulaire de recherche
-(function($) {
-    $(document).ready(function() {
-        $("#keywords-deported-form input[type=text]").on("keyup paste", function() {
-            $(".search-asset-form input[type=hidden][name$=keywords]").val($(this).val());
-        });
-        $('#keywords-deported-form').on('submit', function(e) {
-            e.preventDefault();
-            var keywords = $('#keywords-deported-form input[type=text]').val();
-            $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
-            $('.search-asset-form form').submit();
-        });
-    });
-})(jQuery);
-
 // Moteur de recherche principal du thème
 (function($) {
     $('#main-search-form, #mobile-search-form').on('submit', function(e) {
