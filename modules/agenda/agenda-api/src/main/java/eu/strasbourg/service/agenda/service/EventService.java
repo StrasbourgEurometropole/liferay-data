@@ -81,6 +81,9 @@ public interface EventService extends BaseService {
 	public JSONArray getServices() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTerritories() throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getThemes() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

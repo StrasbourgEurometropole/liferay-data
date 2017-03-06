@@ -85,6 +85,11 @@ public class EventServiceUtil {
 		return getService().getServices();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getTerritories()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTerritories();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getThemes()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getThemes();

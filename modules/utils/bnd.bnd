@@ -3,5 +3,6 @@ Bundle-SymbolicName: eu.strasbourg.utils
 Bundle-Version: 1.7.0
 Export-Package: \
 	eu.strasbourg.utils,\
-	eu.strasbourg.utils.models
+	eu.strasbourg.utils.models,\
+	eu.strasbourg.utils.display.context
 -dsannotations: *

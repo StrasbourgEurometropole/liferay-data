@@ -79,7 +79,8 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
 			{ "timeDetail", Types.VARCHAR },
-			{ "eventId", Types.BIGINT }
+			{ "eventId", Types.BIGINT },
+			{ "userEventId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -90,9 +91,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("timeDetail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userEventId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,timeDetail STRING null,eventId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,timeDetail STRING null,eventId LONG,userEventId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_EventPeriod";
 	public static final String ORDER_BY_JPQL = " ORDER BY eventPeriod.eventPeriodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_EventPeriod.eventPeriodId ASC";
@@ -131,6 +133,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		model.setEndDate(soapModel.getEndDate());
 		model.setTimeDetail(soapModel.getTimeDetail());
 		model.setEventId(soapModel.getEventId());
+		model.setUserEventId(soapModel.getUserEventId());
 
 		return model;
 	}
@@ -201,6 +204,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		attributes.put("endDate", getEndDate());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
+		attributes.put("userEventId", getUserEventId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -244,6 +248,12 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 		if (eventId != null) {
 			setEventId(eventId);
+		}
+
+		Long userEventId = (Long)attributes.get("userEventId");
+
+		if (userEventId != null) {
+			setUserEventId(userEventId);
 		}
 	}
 
@@ -429,6 +439,17 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		return _originalEventId;
 	}
 
+	@JSON
+	@Override
+	public long getUserEventId() {
+		return _userEventId;
+	}
+
+	@Override
+	public void setUserEventId(long userEventId) {
+		_userEventId = userEventId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -528,6 +549,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		eventPeriodImpl.setEndDate(getEndDate());
 		eventPeriodImpl.setTimeDetail(getTimeDetail());
 		eventPeriodImpl.setEventId(getEventId());
+		eventPeriodImpl.setUserEventId(getUserEventId());
 
 		eventPeriodImpl.resetOriginalValues();
 
@@ -641,12 +663,14 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 		eventPeriodCacheModel.eventId = getEventId();
 
+		eventPeriodCacheModel.userEventId = getUserEventId();
+
 		return eventPeriodCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -660,6 +684,8 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		sb.append(getTimeDetail());
 		sb.append(", eventId=");
 		sb.append(getEventId());
+		sb.append(", userEventId=");
+		sb.append(getUserEventId());
 		sb.append("}");
 
 		return sb.toString();
@@ -667,7 +693,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.EventPeriod");
@@ -697,6 +723,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 			"<column><column-name>eventId</column-name><column-value><![CDATA[");
 		sb.append(getEventId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userEventId</column-name><column-value><![CDATA[");
+		sb.append(getUserEventId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -717,6 +747,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 	private long _eventId;
 	private long _originalEventId;
 	private boolean _setOriginalEventId;
+	private long _userEventId;
 	private long _columnBitmask;
 	private EventPeriod _escapedModel;
 }

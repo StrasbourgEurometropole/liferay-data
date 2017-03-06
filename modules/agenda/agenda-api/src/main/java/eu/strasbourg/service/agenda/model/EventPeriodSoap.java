@@ -40,6 +40,7 @@ public class EventPeriodSoap implements Serializable {
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setTimeDetail(model.getTimeDetail());
 		soapModel.setEventId(model.getEventId());
+		soapModel.setUserEventId(model.getUserEventId());
 
 		return soapModel;
 	}
@@ -140,10 +141,19 @@ public class EventPeriodSoap implements Serializable {
 		_eventId = eventId;
 	}
 
+	public long getUserEventId() {
+		return _userEventId;
+	}
+
+	public void setUserEventId(long userEventId) {
+		_userEventId = userEventId;
+	}
+
 	private String _uuid;
 	private long _eventPeriodId;
 	private Date _startDate;
 	private Date _endDate;
 	private String _timeDetail;
 	private long _eventId;
+	private long _userEventId;
 }

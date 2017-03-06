@@ -29,6 +29,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodService;
+import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
@@ -56,6 +57,43 @@ public abstract class EventPeriodServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.EventPeriodServiceUtil} to access the event period remote service.
 	 */
+
+	/**
+	 * Returns the campaign local service.
+	 *
+	 * @return the campaign local service
+	 */
+	public eu.strasbourg.service.agenda.service.CampaignLocalService getCampaignLocalService() {
+		return campaignLocalService;
+	}
+
+	/**
+	 * Sets the campaign local service.
+	 *
+	 * @param campaignLocalService the campaign local service
+	 */
+	public void setCampaignLocalService(
+		eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService) {
+		this.campaignLocalService = campaignLocalService;
+	}
+
+	/**
+	 * Returns the campaign persistence.
+	 *
+	 * @return the campaign persistence
+	 */
+	public CampaignPersistence getCampaignPersistence() {
+		return campaignPersistence;
+	}
+
+	/**
+	 * Sets the campaign persistence.
+	 *
+	 * @param campaignPersistence the campaign persistence
+	 */
+	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+		this.campaignPersistence = campaignPersistence;
+	}
 
 	/**
 	 * Returns the event local service.
@@ -501,6 +539,10 @@ public abstract class EventPeriodServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
+	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventLocalService.class)
 	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventService.class)

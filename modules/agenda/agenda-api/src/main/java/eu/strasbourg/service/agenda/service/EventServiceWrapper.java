@@ -85,6 +85,12 @@ public class EventServiceWrapper implements EventService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTerritories()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _eventService.getTerritories();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getThemes()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _eventService.getThemes();

@@ -14,6 +14,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 
 /**
@@ -92,7 +94,7 @@ public class AssetVocabularyHelper {
 		}
 		return results;
 	}
-
+	
 	/**
 	 * Retourne la valeur d'une propriété d'une catégorie Retourne une chaîne
 	 * vide si la propriété n'existe pas
@@ -149,7 +151,14 @@ public class AssetVocabularyHelper {
 			jsonCategory.put("id", category.getCategoryId());
 			jsonCategory.put("name",
 				JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
+			try {
+				jsonCategory.put("level", category.getAncestors().size());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
 		}
 		return jsonCategory;
 	}
+	
+	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

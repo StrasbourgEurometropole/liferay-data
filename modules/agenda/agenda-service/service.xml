@@ -187,6 +187,7 @@
                 
 		<!-- Links with other entities -->
         <column name="eventId" type="long" />
+        <column name="userEventId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="EventId" return-type="Collection">
@@ -241,4 +242,50 @@
 			<finder-column name="reportId" />
 		</finder>
 	</entity>
+	
+	<entity local-service="true" remote-service="false" name="Campaign" cache-enabled="true" uuid="true">
+		<!-- PK fields -->
+		<column name="campaignId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields --> 
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Champs généraux -->
+        <column name="title" type="String" localized="true" />
+        <column name="managersIds" type="String" localized="true" />
+        <column name="exportEnabled" type="Boolean" />
+        
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+	
 </service-builder>

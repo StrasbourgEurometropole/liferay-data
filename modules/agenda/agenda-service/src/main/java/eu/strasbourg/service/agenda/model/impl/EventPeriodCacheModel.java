@@ -66,7 +66,7 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -80,6 +80,8 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		sb.append(timeDetail);
 		sb.append(", eventId=");
 		sb.append(eventId);
+		sb.append(", userEventId=");
+		sb.append(userEventId);
 		sb.append("}");
 
 		return sb.toString();
@@ -120,6 +122,7 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		}
 
 		eventPeriodImpl.setEventId(eventId);
+		eventPeriodImpl.setUserEventId(userEventId);
 
 		eventPeriodImpl.resetOriginalValues();
 
@@ -136,6 +139,8 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		timeDetail = objectInput.readUTF();
 
 		eventId = objectInput.readLong();
+
+		userEventId = objectInput.readLong();
 	}
 
 	@Override
@@ -160,6 +165,8 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		}
 
 		objectOutput.writeLong(eventId);
+
+		objectOutput.writeLong(userEventId);
 	}
 
 	public String uuid;
@@ -168,4 +175,5 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 	public long endDate;
 	public String timeDetail;
 	public long eventId;
+	public long userEventId;
 }

@@ -57,8 +57,6 @@ public class ReindexEventsMessageListener
 		if (manifestationIndexer != null) {
 			manifestationIndexer.reindex(companyIdStringArray);
 		}
-		IndexerRegistryUtil.getIndexer(Manifestation.class)
-				.reindex(companyIdStringArray);
 		this._log.info("Finish reindexing events and manifestations");
 	}
 

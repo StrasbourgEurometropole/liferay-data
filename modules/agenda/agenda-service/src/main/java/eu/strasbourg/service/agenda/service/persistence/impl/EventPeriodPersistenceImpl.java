@@ -1416,6 +1416,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		eventPeriodImpl.setEndDate(eventPeriod.getEndDate());
 		eventPeriodImpl.setTimeDetail(eventPeriod.getTimeDetail());
 		eventPeriodImpl.setEventId(eventPeriod.getEventId());
+		eventPeriodImpl.setUserEventId(eventPeriod.getUserEventId());
 
 		return eventPeriodImpl;
 	}

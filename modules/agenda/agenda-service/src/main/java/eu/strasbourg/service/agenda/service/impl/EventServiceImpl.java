@@ -130,6 +130,15 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	}
 
 	@Override
+	public JSONArray getTerritories() throws PortalException {
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
+			.getGroup().getGroupId();
+		return JSONHelper.getEntityVocabularyJSON(Event.class.getName(),
+			"territoire", companyGroupId);
+	}
+
+	@Override
 	public JSONObject getCategory(long id) throws PortalException {
 		AssetCategory category = AssetCategoryLocalServiceUtil
 			.fetchAssetCategory(id);

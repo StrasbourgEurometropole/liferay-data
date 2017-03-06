@@ -1,6 +1,24 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.agenda.model.Campaign">
+		<field name="uuid" type="String" />
+		<field name="campaignId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="managersIds" type="String" />
+		<field name="exportEnabled" type="Boolean" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Event">
 		<field name="uuid" type="String" />
 		<field name="eventId" type="long" />
@@ -77,6 +95,7 @@
 		<field name="endDate" type="Date" />
 		<field localized="true" name="timeDetail" type="String" />
 		<field name="eventId" type="long" />
+		<field name="userEventId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.ImportReport">
 		<field name="uuid" type="String" />

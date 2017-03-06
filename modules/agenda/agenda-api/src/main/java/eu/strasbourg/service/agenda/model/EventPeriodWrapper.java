@@ -64,6 +64,7 @@ public class EventPeriodWrapper implements EventPeriod,
 		attributes.put("endDate", getEndDate());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
+		attributes.put("userEventId", getUserEventId());
 
 		return attributes;
 	}
@@ -104,6 +105,12 @@ public class EventPeriodWrapper implements EventPeriod,
 
 		if (eventId != null) {
 			setEventId(eventId);
+		}
+
+		Long userEventId = (Long)attributes.get("userEventId");
+
+		if (userEventId != null) {
+			setUserEventId(userEventId);
 		}
 	}
 
@@ -326,6 +333,16 @@ public class EventPeriodWrapper implements EventPeriod,
 		return _eventPeriod.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user event ID of this event period.
+	*
+	* @return the user event ID of this event period
+	*/
+	@Override
+	public long getUserEventId() {
+		return _eventPeriod.getUserEventId();
+	}
+
 	@Override
 	public void persist() {
 		_eventPeriod.persist();
@@ -487,6 +504,16 @@ public class EventPeriodWrapper implements EventPeriod,
 		Map<java.util.Locale, java.lang.String> timeDetailMap,
 		java.util.Locale defaultLocale) {
 		_eventPeriod.setTimeDetailMap(timeDetailMap, defaultLocale);
+	}
+
+	/**
+	* Sets the user event ID of this event period.
+	*
+	* @param userEventId the user event ID of this event period
+	*/
+	@Override
+	public void setUserEventId(long userEventId) {
+		_eventPeriod.setUserEventId(userEventId);
 	}
 
 	/**

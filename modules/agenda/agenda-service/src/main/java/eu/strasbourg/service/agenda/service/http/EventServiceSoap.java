@@ -130,6 +130,19 @@ public class EventServiceSoap {
 		}
 	}
 
+	public static java.lang.String getTerritories() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getTerritories();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getCategory(long id)
 		throws RemoteException {
 		try {

@@ -21,10 +21,11 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.security.permission.PermissionCheckerUtil;
 
+import eu.strasbourg.portlet.agenda.display.context.EditCampaignDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditEventDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditManifestationDisplayContext;
+import eu.strasbourg.portlet.agenda.display.context.ViewCampaignsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewEventsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayContext;
 import eu.strasbourg.utils.JSONHelper;
@@ -75,9 +76,16 @@ public class AgendaBOPortlet extends MVCPortlet {
 			EditManifestationDisplayContext dc = new EditManifestationDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editCampaign")) {
+			EditCampaignDisplayContext dc = new EditCampaignDisplayContext(
+				renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("manifestations")) {
 			ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(
 				renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("campaigns")) {
+			ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewEventsDisplayContext dc = new ViewEventsDisplayContext(

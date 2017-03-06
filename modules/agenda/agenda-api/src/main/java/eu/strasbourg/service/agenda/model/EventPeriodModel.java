@@ -238,6 +238,20 @@ public interface EventPeriodModel extends BaseModel<EventPeriod>, LocalizedModel
 	 */
 	public void setEventId(long eventId);
 
+	/**
+	 * Returns the user event ID of this event period.
+	 *
+	 * @return the user event ID of this event period
+	 */
+	public long getUserEventId();
+
+	/**
+	 * Sets the user event ID of this event period.
+	 *
+	 * @param userEventId the user event ID of this event period
+	 */
+	public void setUserEventId(long userEventId);
+
 	@Override
 	public boolean isNew();
 
