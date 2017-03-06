@@ -17,7 +17,6 @@ package eu.strasbourg.portlet.agenda.action;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -244,24 +243,10 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					eventPeriod.setEndDate(endDate);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(event.getEventId());
+					eventPeriod.setUserEventId(0);
 					this._eventPeriodLocalService
 						.updateEventPeriod(eventPeriod);
 				}
-			}
-			// On classe les périodes par date de début, ce qui va nous
-			// permettre
-			// de setter les champs "firstStartDate" et "lastEndDate" sur
-			// l'événement
-			if (event.getEventPeriods().size() > 0) {
-				List<EventPeriod> periods = new ArrayList<EventPeriod>(
-					event.getEventPeriods());
-				periods.sort(
-					(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
-
-				Date firstStartDate = periods.get(0).getStartDate();
-				Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
-				event.setFirstStartDate(firstStartDate);
-				event.setLastEndDate(lastEndDate);
 			}
 
 			_eventLocalService.updateEvent(event, sc);
