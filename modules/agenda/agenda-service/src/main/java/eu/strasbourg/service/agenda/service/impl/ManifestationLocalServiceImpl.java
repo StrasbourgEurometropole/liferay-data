@@ -100,6 +100,7 @@ public class ManifestationLocalServiceImpl
 		manifestation.setGroupId(sc.getScopeGroupId());
 		manifestation.setUserName(user.getFullName());
 		manifestation.setUserId(sc.getUserId());
+		manifestation.setIdSource(String.valueOf(manifestation.getManifestationId()));
 
 		manifestation.setStatus(WorkflowConstants.STATUS_DRAFT);
 
@@ -383,6 +384,7 @@ public class ManifestationLocalServiceImpl
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -398,6 +400,7 @@ public class ManifestationLocalServiceImpl
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
@@ -413,6 +416,15 @@ public class ManifestationLocalServiceImpl
 	public Manifestation findBySourceAndIdSource(String source, String idSource) {
 		try {
 			return manifestationPersistence.findBySourceAndIdSource(source, idSource);
+		} catch (NoSuchManifestationException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Manifestation findByIdSource(String idSource) {
+		try {
+			return manifestationPersistence.findByIdSource(idSource);
 		} catch (NoSuchManifestationException e) {
 			return null;
 		}

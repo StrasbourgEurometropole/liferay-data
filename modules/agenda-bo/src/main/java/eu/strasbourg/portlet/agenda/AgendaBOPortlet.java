@@ -1,20 +1,16 @@
 package eu.strasbourg.portlet.agenda;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -28,7 +24,8 @@ import eu.strasbourg.portlet.agenda.display.context.EditManifestationDisplayCont
 import eu.strasbourg.portlet.agenda.display.context.ViewCampaignsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewEventsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayContext;
-import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.service.agenda.model.ImportReport;
+import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(
@@ -85,7 +82,8 @@ public class AgendaBOPortlet extends MVCPortlet {
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("campaigns")) {
-			ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
+			ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(
+				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewEventsDisplayContext dc = new ViewEventsDisplayContext(
@@ -96,33 +94,18 @@ public class AgendaBOPortlet extends MVCPortlet {
 		// Le dossier d'import des événements
 		renderRequest.setAttribute("importPath",
 			StrasbourgPropsUtil.getAgendaImportDirectory());
-		
+
+		// La liste des rapports d'import des événements
+		List<ImportReport> reports = ImportReportLocalServiceUtil
+			.getImportReports(-1, -1).stream()
+			.sorted((r1, r2) -> r2.getStartDate().compareTo(r1.getStartDate()))
+			.collect(Collectors.toList());
+		renderRequest.setAttribute("reports", reports);
+
 		// Admin ou pas
-		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
+		renderRequest.setAttribute("isAdmin",
+			themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
 	}
-
-	/**
-	 * Gestion de l'autocomplétion des anciens lieux, en attendant d'avoir les
-	 * lieux intégrés
-	 */
-	@Override
-	public void serveResource(ResourceRequest request,
-		ResourceResponse response) throws PortletException, IOException {
-		response.setContentType("text/javascript");
-
-		JSONObject json;
-		String name = ParamUtil.getString(request, "name");
-		try {
-			String url = StrasbourgPropsUtil.getLegacyPlaceApiAutocompleteUrl();
-			url = url.replace("[NAME]", name);
-			json = JSONHelper.readJsonFromURL(url);
-			response.getWriter().write(json.toString());
-		} catch (JSONException e) {
-			_log.error(e);
-		}
-	}
-
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

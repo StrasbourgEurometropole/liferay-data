@@ -404,6 +404,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -422,7 +423,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
+		
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 

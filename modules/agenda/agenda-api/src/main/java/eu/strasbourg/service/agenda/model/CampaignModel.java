@@ -415,58 +415,8 @@ public interface CampaignModel extends BaseModel<Campaign>, LocalizedModel,
 	 *
 	 * @return the managers IDs of this campaign
 	 */
+	@AutoEscape
 	public String getManagersIds();
-
-	/**
-	 * Returns the localized managers IDs of this campaign in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the locale of the language
-	 * @return the localized managers IDs of this campaign
-	 */
-	@AutoEscape
-	public String getManagersIds(Locale locale);
-
-	/**
-	 * Returns the localized managers IDs of this campaign in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the local of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized managers IDs of this campaign. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	 */
-	@AutoEscape
-	public String getManagersIds(Locale locale, boolean useDefault);
-
-	/**
-	 * Returns the localized managers IDs of this campaign in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @return the localized managers IDs of this campaign
-	 */
-	@AutoEscape
-	public String getManagersIds(String languageId);
-
-	/**
-	 * Returns the localized managers IDs of this campaign in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized managers IDs of this campaign
-	 */
-	@AutoEscape
-	public String getManagersIds(String languageId, boolean useDefault);
-
-	@AutoEscape
-	public String getManagersIdsCurrentLanguageId();
-
-	@AutoEscape
-	public String getManagersIdsCurrentValue();
-
-	/**
-	 * Returns a map of the locales and localized managers IDses of this campaign.
-	 *
-	 * @return the locales and localized managers IDses of this campaign
-	 */
-	public Map<Locale, String> getManagersIdsMap();
 
 	/**
 	 * Sets the managers IDs of this campaign.
@@ -474,42 +424,6 @@ public interface CampaignModel extends BaseModel<Campaign>, LocalizedModel,
 	 * @param managersIds the managers IDs of this campaign
 	 */
 	public void setManagersIds(String managersIds);
-
-	/**
-	 * Sets the localized managers IDs of this campaign in the language.
-	 *
-	 * @param managersIds the localized managers IDs of this campaign
-	 * @param locale the locale of the language
-	 */
-	public void setManagersIds(String managersIds, Locale locale);
-
-	/**
-	 * Sets the localized managers IDs of this campaign in the language, and sets the default locale.
-	 *
-	 * @param managersIds the localized managers IDs of this campaign
-	 * @param locale the locale of the language
-	 * @param defaultLocale the default locale
-	 */
-	public void setManagersIds(String managersIds, Locale locale,
-		Locale defaultLocale);
-
-	public void setManagersIdsCurrentLanguageId(String languageId);
-
-	/**
-	 * Sets the localized managers IDses of this campaign from the map of locales and localized managers IDses.
-	 *
-	 * @param managersIdsMap the locales and localized managers IDses of this campaign
-	 */
-	public void setManagersIdsMap(Map<Locale, String> managersIdsMap);
-
-	/**
-	 * Sets the localized managers IDses of this campaign from the map of locales and localized managers IDses, and sets the default locale.
-	 *
-	 * @param managersIdsMap the locales and localized managers IDses of this campaign
-	 * @param defaultLocale the default locale
-	 */
-	public void setManagersIdsMap(Map<Locale, String> managersIdsMap,
-		Locale defaultLocale);
 
 	/**
 	 * Returns the export enabled of this campaign.

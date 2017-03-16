@@ -153,6 +153,12 @@
 							test="${dc.hasPermission('DELETE_CAMPAIGN') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteCampaignURL}" />
 						</c:if>
+						
+						<liferay-portlet:resourceURL id="export"
+							var="exportURL">
+							<portlet:param name="campaignId" value="${campaign.campaignId}" />
+						</liferay-portlet:resourceURL>
+						<liferay-ui:icon message="export" url="${exportURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

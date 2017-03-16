@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+* Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -74,6 +74,14 @@ public class EventPeriodLocalServiceImpl
 	public List<EventPeriod> getByEventId(long eventId) {
 		return this.eventPeriodPersistence.findByEventId(eventId);
 	}
+	
+	/**
+	 * Retourne les périodes d'un événement de campagne
+	 */
+	@Override
+	public List<EventPeriod> getByCampaignEventId(long campaignEventId) {
+		return this.eventPeriodPersistence.findByCampaignEventId(campaignEventId);
+	}
 
 	/**
 	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
@@ -86,12 +94,12 @@ public class EventPeriodLocalServiceImpl
 		Date lastEnd = null;
 		for (int i = 0; i < sortedPeriods.size(); i++) {
 			if (i == 0) {
-				lastEnd = periods.get(i).getEndDate();
-			} else if (periods.get(i).getStartDate().before(lastEnd)) {
+				lastEnd = sortedPeriods.get(i).getEndDate();
+			} else if (sortedPeriods.get(i).getStartDate().before(lastEnd)) {
 				return true;
 			}
 			if (lastEnd.after(periods.get(i).getEndDate())) {
-				lastEnd = periods.get(i).getEndDate();
+				lastEnd = sortedPeriods.get(i).getEndDate();
 			}
 		}
 		return false;

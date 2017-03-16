@@ -248,6 +248,15 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		return _campaign.isIncomplete();
 	}
 
+	/**
+	* Retourne true si l'utilisateur passé en paramètre est manager de la
+	* campagne
+	*/
+	@Override
+	public boolean isManagedByUser(long userId) {
+		return _campaign.isManagedByUser(userId);
+	}
+
 	@Override
 	public boolean isNew() {
 		return _campaign.isNew();
@@ -284,6 +293,14 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _campaign.getExpandoBridge();
+	}
+
+	/**
+	* Génère l'export JSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject generateExport() {
+		return _campaign.generateExport();
 	}
 
 	@Override
@@ -354,64 +371,6 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public java.lang.String getManagersIds() {
 		return _campaign.getManagersIds();
-	}
-
-	/**
-	* Returns the localized managers IDs of this campaign in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized managers IDs of this campaign
-	*/
-	@Override
-	public java.lang.String getManagersIds(java.lang.String languageId) {
-		return _campaign.getManagersIds(languageId);
-	}
-
-	/**
-	* Returns the localized managers IDs of this campaign in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized managers IDs of this campaign
-	*/
-	@Override
-	public java.lang.String getManagersIds(java.lang.String languageId,
-		boolean useDefault) {
-		return _campaign.getManagersIds(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized managers IDs of this campaign in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized managers IDs of this campaign
-	*/
-	@Override
-	public java.lang.String getManagersIds(java.util.Locale locale) {
-		return _campaign.getManagersIds(locale);
-	}
-
-	/**
-	* Returns the localized managers IDs of this campaign in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized managers IDs of this campaign. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getManagersIds(java.util.Locale locale,
-		boolean useDefault) {
-		return _campaign.getManagersIds(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getManagersIdsCurrentLanguageId() {
-		return _campaign.getManagersIdsCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getManagersIdsCurrentValue() {
-		return _campaign.getManagersIdsCurrentValue();
 	}
 
 	/**
@@ -596,21 +555,24 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	/**
+	* Retourne la liste des événements de la campagne
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> getEvents() {
+		return _campaign.getEvents();
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.User> getManagers() {
+		return _campaign.getManagers();
+	}
+
+	/**
 	* Retourne les themes de la campagne
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
 		return _campaign.getThemes();
-	}
-
-	/**
-	* Returns a map of the locales and localized managers IDses of this campaign.
-	*
-	* @return the locales and localized managers IDses of this campaign
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getManagersIdsMap() {
-		return _campaign.getManagersIdsMap();
 	}
 
 	/**
@@ -681,6 +643,15 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public long getUserId() {
 		return _campaign.getUserId();
+	}
+
+	/**
+	* Génère l'export et place le fichier dans le dossier d'import des
+	* événements
+	*/
+	@Override
+	public void export() {
+		_campaign.export();
 	}
 
 	@Override
@@ -790,60 +761,6 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public void setManagersIds(java.lang.String managersIds) {
 		_campaign.setManagersIds(managersIds);
-	}
-
-	/**
-	* Sets the localized managers IDs of this campaign in the language.
-	*
-	* @param managersIds the localized managers IDs of this campaign
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setManagersIds(java.lang.String managersIds,
-		java.util.Locale locale) {
-		_campaign.setManagersIds(managersIds, locale);
-	}
-
-	/**
-	* Sets the localized managers IDs of this campaign in the language, and sets the default locale.
-	*
-	* @param managersIds the localized managers IDs of this campaign
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setManagersIds(java.lang.String managersIds,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
-		_campaign.setManagersIds(managersIds, locale, defaultLocale);
-	}
-
-	@Override
-	public void setManagersIdsCurrentLanguageId(java.lang.String languageId) {
-		_campaign.setManagersIdsCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized managers IDses of this campaign from the map of locales and localized managers IDses.
-	*
-	* @param managersIdsMap the locales and localized managers IDses of this campaign
-	*/
-	@Override
-	public void setManagersIdsMap(
-		Map<java.util.Locale, java.lang.String> managersIdsMap) {
-		_campaign.setManagersIdsMap(managersIdsMap);
-	}
-
-	/**
-	* Sets the localized managers IDses of this campaign from the map of locales and localized managers IDses, and sets the default locale.
-	*
-	* @param managersIdsMap the locales and localized managers IDses of this campaign
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setManagersIdsMap(
-		Map<java.util.Locale, java.lang.String> managersIdsMap,
-		java.util.Locale defaultLocale) {
-		_campaign.setManagersIdsMap(managersIdsMap, defaultLocale);
 	}
 
 	/**

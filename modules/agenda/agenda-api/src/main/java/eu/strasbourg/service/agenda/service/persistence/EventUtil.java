@@ -1240,6 +1240,61 @@ public class EventUtil {
 	}
 
 	/**
+	* Returns the event where idSource = &#63; or throws a {@link NoSuchEventException} if it could not be found.
+	*
+	* @param idSource the id source
+	* @return the matching event
+	* @throws NoSuchEventException if a matching event could not be found
+	*/
+	public static Event findByIdSource(java.lang.String idSource)
+		throws eu.strasbourg.service.agenda.exception.NoSuchEventException {
+		return getPersistence().findByIdSource(idSource);
+	}
+
+	/**
+	* Returns the event where idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param idSource the id source
+	* @return the matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public static Event fetchByIdSource(java.lang.String idSource) {
+		return getPersistence().fetchByIdSource(idSource);
+	}
+
+	/**
+	* Returns the event where idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param idSource the id source
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public static Event fetchByIdSource(java.lang.String idSource,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByIdSource(idSource, retrieveFromCache);
+	}
+
+	/**
+	* Removes the event where idSource = &#63; from the database.
+	*
+	* @param idSource the id source
+	* @return the event that was removed
+	*/
+	public static Event removeByIdSource(java.lang.String idSource)
+		throws eu.strasbourg.service.agenda.exception.NoSuchEventException {
+		return getPersistence().removeByIdSource(idSource);
+	}
+
+	/**
+	* Returns the number of events where idSource = &#63;.
+	*
+	* @param idSource the id source
+	* @return the number of matching events
+	*/
+	public static int countByIdSource(java.lang.String idSource) {
+		return getPersistence().countByIdSource(idSource);
+	}
+
+	/**
 	* Caches the event in the entity cache if it is enabled.
 	*
 	* @param event the event

@@ -9,27 +9,22 @@ import javax.portlet.RenderResponse;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
-public class EditCampaignDisplayContext {
+public class EditCampaignDisplayContext extends BaseDisplayContext {
 
 	private Campaign _campaign;
 
-	private final RenderRequest _request;
-	private final ThemeDisplay _themeDisplay;
 
 	public EditCampaignDisplayContext(RenderRequest request,
 		RenderResponse response) {
-		this._request = request;
-		this._themeDisplay = (ThemeDisplay) request
-			.getAttribute(WebKeys.THEME_DISPLAY);
+		super(request, response);
 	}
 
 	public Campaign getCampaign() throws PortalException {

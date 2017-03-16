@@ -64,7 +64,7 @@ public class EventPeriodWrapper implements EventPeriod,
 		attributes.put("endDate", getEndDate());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
-		attributes.put("userEventId", getUserEventId());
+		attributes.put("campaignEventId", getCampaignEventId());
 
 		return attributes;
 	}
@@ -107,10 +107,10 @@ public class EventPeriodWrapper implements EventPeriod,
 			setEventId(eventId);
 		}
 
-		Long userEventId = (Long)attributes.get("userEventId");
+		Long campaignEventId = (Long)attributes.get("campaignEventId");
 
-		if (userEventId != null) {
-			setUserEventId(userEventId);
+		if (campaignEventId != null) {
+			setCampaignEventId(campaignEventId);
 		}
 	}
 
@@ -304,6 +304,16 @@ public class EventPeriodWrapper implements EventPeriod,
 	}
 
 	/**
+	* Returns the campaign event ID of this event period.
+	*
+	* @return the campaign event ID of this event period
+	*/
+	@Override
+	public long getCampaignEventId() {
+		return _eventPeriod.getCampaignEventId();
+	}
+
+	/**
 	* Returns the event ID of this event period.
 	*
 	* @return the event ID of this event period
@@ -333,16 +343,6 @@ public class EventPeriodWrapper implements EventPeriod,
 		return _eventPeriod.getPrimaryKey();
 	}
 
-	/**
-	* Returns the user event ID of this event period.
-	*
-	* @return the user event ID of this event period
-	*/
-	@Override
-	public long getUserEventId() {
-		return _eventPeriod.getUserEventId();
-	}
-
 	@Override
 	public void persist() {
 		_eventPeriod.persist();
@@ -364,6 +364,16 @@ public class EventPeriodWrapper implements EventPeriod,
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_eventPeriod.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the campaign event ID of this event period.
+	*
+	* @param campaignEventId the campaign event ID of this event period
+	*/
+	@Override
+	public void setCampaignEventId(long campaignEventId) {
+		_eventPeriod.setCampaignEventId(campaignEventId);
 	}
 
 	/**
@@ -504,16 +514,6 @@ public class EventPeriodWrapper implements EventPeriod,
 		Map<java.util.Locale, java.lang.String> timeDetailMap,
 		java.util.Locale defaultLocale) {
 		_eventPeriod.setTimeDetailMap(timeDetailMap, defaultLocale);
-	}
-
-	/**
-	* Sets the user event ID of this event period.
-	*
-	* @param userEventId the user event ID of this event period
-	*/
-	@Override
-	public void setUserEventId(long userEventId) {
-		_eventPeriod.setUserEventId(userEventId);
 	}
 
 	/**

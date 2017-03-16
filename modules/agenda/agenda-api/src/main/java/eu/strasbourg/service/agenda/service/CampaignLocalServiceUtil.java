@@ -393,6 +393,13 @@ public class CampaignLocalServiceUtil {
 	}
 
 	/**
+	* Exporte toutes les campagne exportables dans le dossier d'import des événements
+	*/
+	public static void exportCampaigns() {
+		getService().exportCampaigns();
+	}
+
+	/**
 	* Met à jour le statut de l'campaign "manuellement" (pas via le workflow)
 	*/
 	public static void updateStatus(

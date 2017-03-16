@@ -69,4 +69,28 @@ public interface Campaign extends CampaignModel, PersistedModel {
 	* Retourne les themes de la campagne
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+
+	/**
+	* Retourne true si l'utilisateur passé en paramètre est manager de la
+	* campagne
+	*/
+	public boolean isManagedByUser(long userId);
+
+	public java.util.List<com.liferay.portal.kernel.model.User> getManagers();
+
+	/**
+	* Retourne la liste des événements de la campagne
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> getEvents();
+
+	/**
+	* Génère l'export et place le fichier dans le dossier d'import des
+	* événements
+	*/
+	public void export();
+
+	/**
+	* Génère l'export JSON
+	*/
+	public com.liferay.portal.kernel.json.JSONObject generateExport();
 }

@@ -91,7 +91,7 @@ public class JSONHelper {
 			}
 			if (subJson == null && subJsonArray == null) {
 				Locale locale = LocaleUtil.fromLanguageId(key, true, false);
-				if (locale != null) {
+				if (locale != null && Validator.isNotNull(json.getString(key))) {
 					locales.add(locale);
 				}
 			}

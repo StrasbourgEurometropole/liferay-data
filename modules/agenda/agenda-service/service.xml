@@ -101,6 +101,9 @@
 			<finder-column name="source" />
 			<finder-column name="idSource" />
 		</finder>
+		<finder name="IdSource" return-type="Event">
+			<finder-column name="idSource" />
+		</finder>
 		
 
 		<!-- References -->
@@ -167,6 +170,9 @@
 			<finder-column name="source" />
 			<finder-column name="idSource" />
 		</finder>
+		<finder name="IdSource" return-type="Manifestation">
+			<finder-column name="idSource" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -187,11 +193,14 @@
                 
 		<!-- Links with other entities -->
         <column name="eventId" type="long" />
-        <column name="userEventId" type="long" />
+        <column name="campaignEventId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="EventId" return-type="Collection">
 			<finder-column name="eventId" />
+		</finder>
+		<finder name="CampaignEventId" return-type="Collection">
+			<finder-column name="campaignEventId" />
 		</finder>
 	
 	</entity>
@@ -243,6 +252,68 @@
 		</finder>
 	</entity>
 	
+	<entity local-service="true" remote-service="false" name="CampaignEvent" cache-enabled="true" uuid="true">
+		<!-- PK fields -->
+		<column name="campaignEventId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<column name="status" type="int" />
+		
+		<column name="firstName" type="String" />
+		<column name="lastName" type="String" />
+		<column name="phone" type="String" />
+		<column name="email" type="String" />
+		<column name="serviceId" type="Long" />
+		<column name="service" type="String" />
+		<column name="onSiteFirstName" type="String" />
+		<column name="onSiteLastName" type="String" />
+		<column name="onSitePhone" type="String"/>
+		<column name="title" type="String" localized="true" />
+		<column name="subtitle" type="String" localized="true" />
+		<column name="description" type="String" localized="true" />
+		<column name="imageId" type="Long" />
+		<column name="webImageId" type="Long" />
+		<column name="imageOwner" type="String" />
+		<column name="manifestationsIds" type="String" />
+		<column name="placeSIGId" type="String" />
+		<column name="placeName" type="String" />
+		<column name="placeStreetNumber" type="String" />
+		<column name="placeStreetName" type="String" />
+		<column name="placeZipCode" type="String" />
+		<column name="placeCityId" type="Long" />
+		<column name="placeCountry" type="String" />
+		<column name="promoter" type="String" />
+		<column name="publicPhone" type="String" />
+		<column name="publicEmail" type="String" />
+		<column name="websiteURL" type="String" localized="true" />
+		<column name="free" type="Integer" />
+		<column name="price" type="String" localized="true" />
+		<column name="campaignId" type="Long" />
+		<column name="themeId" type="Long" />
+		<column name="typeId" type="Long" />
+		<column name="publicsIds" type="String" />
+		
+		<!-- Finder methods -->
+		<finder name="CampaignId" return-type="Collection">
+			<finder-column name="campaignId" />
+		</finder>
+		
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+	
 	<entity local-service="true" remote-service="false" name="Campaign" cache-enabled="true" uuid="true">
 		<!-- PK fields -->
 		<column name="campaignId" primary="true" type="long" />
@@ -266,7 +337,7 @@
 
 		<!-- Champs généraux -->
         <column name="title" type="String" localized="true" />
-        <column name="managersIds" type="String" localized="true" />
+        <column name="managersIds" type="String" />
         <column name="exportEnabled" type="Boolean" />
         
 		<!-- Order -->
@@ -286,6 +357,29 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+	
+	<entity local-service="true" name="CampaignEventStatus" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="statusId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="status" type="Integer" />
+		<column name="comment" type="String" />
+		<column name="deletionDenied" type="Boolean" />
+		<column name="date" type="Date" />
+                        
+		<!-- Links with other entities -->
+        <column name="campaignEventId" type="long" />
+        <column name="previousStatusId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        
+		<!-- Finder methods -->
+		<finder name="CampaignEventId" return-type="Collection">
+			<finder-column name="campaignEventId" />
+		</finder> 
 	</entity>
 	
 </service-builder>

@@ -340,6 +340,11 @@ public interface CampaignLocalService extends BaseLocalService,
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	/**
+	* Exporte toutes les campagne exportables dans le dossier d'import des événements
+	*/
+	public void exportCampaigns();
+
+	/**
 	* Met à jour le statut de l'campaign "manuellement" (pas via le workflow)
 	*/
 	public void updateStatus(Campaign campaign, int status)

@@ -52,6 +52,65 @@
 					</aui:input>
 				</div>
 				
+				<strasbourg-picker:entity label="manifestations"
+					name="manifestationsIds" value="${dc.event.manifestationsIds}"
+					type="eu.strasbourg.service.agenda.model.Manifestation"
+					multiple="true" />
+			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="eu.dates-and-times">				
+				
+				<div class="event-periods-title">
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
+				</div>
+				
+				<div class="add-dates-section">
+					<span class="date-range" id="periodGenerator"><liferay-ui:message key="select-period-dates" /></span>
+				</div>
+				
+				<div class="change-times-section">
+					<div class="event-periods-title">
+						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
+					</div>
+					<div class="time-detail-generator-wrapper">
+						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+					</div>
+					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
+				</div>
+				
+				<div class="event-periods-title">
+					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
+				</div>
+				<div id="date-fields">
+					<div class="lfr-form-row lfr-form-row-inline">
+						<div class="row-fields">
+							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+								<liferay-util:param name="index" value="0" />
+							</liferay-util:include>
+						</div>
+					</div>
+						
+					<c:forEach items="${dc.event.eventPeriods}" var="period" varStatus="status">
+						<div class="lfr-form-row lfr-form-row-inline">
+							<div class="row-fields">
+								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
+								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
+								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="startDate" value="${formattedStartDate}" />
+									<liferay-util:param name="endDate" value="${formattedEndDate}" />
+									<liferay-util:param name="timeDetail" value="${period.timeDetail}" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:forEach>
+					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
+				</div>
+				
+			</aui:fieldset>
+			
+			<aui:fieldset collapsed="true" collapsible="true" label="image">
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.event.imageId and dc.event.imageId gt 0) or empty dc.event.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
@@ -73,11 +132,6 @@
 							errorMessage="this-field-is-required" />
 					</aui:input>
 				</div>
-				
-				<strasbourg-picker:entity label="manifestations"
-					name="manifestationsIds" value="${dc.event.manifestationsIds}"
-					type="eu.strasbourg.service.agenda.model.Manifestation"
-					multiple="true" />
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="place">
@@ -130,71 +184,23 @@
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="contact">
 				<aui:input name="promoter" />
-				<aui:input name="phone" />
-				<aui:input name="email" />
+				<aui:input name="phone" helpMessage="phone-help" />
+				<aui:input name="email">
+					<aui:validator name="email" errorMessage="email-error" />
+				</aui:input>
 				<aui:input name="websiteName" helpMessage="website-name-help"/>
-				<aui:input name="websiteURL"  helpMessage="website-url-help"/>
+				<aui:input name="websiteURL"  helpMessage="website-url-help">
+					<aui:validator name="url" errorMessage="website-url-error" />
+				</aui:input>
 			</aui:fieldset>
 
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="eu.dates-and-times">				
-				
-				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
-				</div>
-				
-				<div class="add-dates-section">
-					<span class="date-range" id="periodGenerator"><liferay-ui:message key="select-period-dates" /></span>
-				</div>
-				
-				<div class="change-times-section">
-					<div class="event-periods-title">
-						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
-					</div>
-					<div class="time-detail-generator-wrapper">
-						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" />
-					</div>
-					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
-				</div>
-				
-				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
-				</div>
-				<div id="date-fields">
-					<div class="lfr-form-row lfr-form-row-inline">
-						<div class="row-fields">
-							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="0" />
-							</liferay-util:include>
-						</div>
-					</div>
-						
-					<c:forEach items="${dc.event.eventPeriods}" var="period" varStatus="status">
-						<div class="lfr-form-row lfr-form-row-inline">
-							<div class="row-fields">
-								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
-								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
-								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
-									<liferay-util:param name="startDate" value="${formattedStartDate}" />
-									<liferay-util:param name="endDate" value="${formattedEndDate}" />
-									<liferay-util:param name="timeDetail" value="${period.timeDetail}" />
-								</liferay-util:include>
-							</div>
-						</div>
-					</c:forEach>
-					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
-				</div>
-				
-			</aui:fieldset>
-			
-			<aui:fieldset collapsed="true" collapsible="true" label="event-prices">
+			<aui:fieldset collapsed="true" collapsible="true" label="event-price">
 				<label><liferay-ui:message key="free-event" /></label>
 				<aui:input name="free" value="0" type="radio" checked="${dc.event.free eq 0}" label="no" />
 				<aui:input name="free" value="1" type="radio" checked="${dc.event.free eq 1}" label="yes" />
-				<aui:input name="free" value="2" type="radio" checked="${dc.event.free eq 2 or empty dc.event.free}" label="unknown" />
+				<aui:input name="free" value="2" type="radio" checked="${dc.event.free eq 2 or empty dc.event.free}" label="not-communicated" />
 				
-				<aui:input name="price" />
+				<aui:input label="event-price" name="price" />
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"

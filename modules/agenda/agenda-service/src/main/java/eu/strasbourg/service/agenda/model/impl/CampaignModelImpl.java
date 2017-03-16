@@ -116,7 +116,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		TABLE_COLUMNS_MAP.put("exportEnabled", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,managersIds STRING null,exportEnabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Campaign";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaign.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Campaign.modifiedDate DESC";
@@ -635,95 +635,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	}
 
 	@Override
-	public String getManagersIds(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getManagersIds(languageId);
-	}
-
-	@Override
-	public String getManagersIds(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getManagersIds(languageId, useDefault);
-	}
-
-	@Override
-	public String getManagersIds(String languageId) {
-		return LocalizationUtil.getLocalization(getManagersIds(), languageId);
-	}
-
-	@Override
-	public String getManagersIds(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getManagersIds(), languageId,
-			useDefault);
-	}
-
-	@Override
-	public String getManagersIdsCurrentLanguageId() {
-		return _managersIdsCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getManagersIdsCurrentValue() {
-		Locale locale = getLocale(_managersIdsCurrentLanguageId);
-
-		return getManagersIds(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getManagersIdsMap() {
-		return LocalizationUtil.getLocalizationMap(getManagersIds());
-	}
-
-	@Override
 	public void setManagersIds(String managersIds) {
 		_managersIds = managersIds;
-	}
-
-	@Override
-	public void setManagersIds(String managersIds, Locale locale) {
-		setManagersIds(managersIds, locale, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setManagersIds(String managersIds, Locale locale,
-		Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(managersIds)) {
-			setManagersIds(LocalizationUtil.updateLocalization(
-					getManagersIds(), "ManagersIds", managersIds, languageId,
-					defaultLanguageId));
-		}
-		else {
-			setManagersIds(LocalizationUtil.removeLocalization(
-					getManagersIds(), "ManagersIds", languageId));
-		}
-	}
-
-	@Override
-	public void setManagersIdsCurrentLanguageId(String languageId) {
-		_managersIdsCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setManagersIdsMap(Map<Locale, String> managersIdsMap) {
-		setManagersIdsMap(managersIdsMap, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setManagersIdsMap(Map<Locale, String> managersIdsMap,
-		Locale defaultLocale) {
-		if (managersIdsMap == null) {
-			return;
-		}
-
-		setManagersIds(LocalizationUtil.updateLocalization(managersIdsMap,
-				getManagersIds(), "ManagersIds",
-				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -854,17 +767,6 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			}
 		}
 
-		Map<Locale, String> managersIdsMap = getManagersIdsMap();
-
-		for (Map.Entry<Locale, String> entry : managersIdsMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -908,16 +810,6 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		}
 		else {
 			setTitle(getTitle(defaultLocale), defaultLocale, defaultLocale);
-		}
-
-		String managersIds = getManagersIds(defaultLocale);
-
-		if (Validator.isNull(managersIds)) {
-			setManagersIds(getManagersIds(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setManagersIds(getManagersIds(defaultLocale), defaultLocale,
-				defaultLocale);
 		}
 	}
 
@@ -1273,7 +1165,6 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	private String _titleCurrentLanguageId;
 	private String _originalTitle;
 	private String _managersIds;
-	private String _managersIdsCurrentLanguageId;
 	private Boolean _exportEnabled;
 	private long _columnBitmask;
 	private Campaign _escapedModel;

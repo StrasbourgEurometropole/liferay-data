@@ -80,7 +80,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 			{ "endDate", Types.TIMESTAMP },
 			{ "timeDetail", Types.VARCHAR },
 			{ "eventId", Types.BIGINT },
-			{ "userEventId", Types.BIGINT }
+			{ "campaignEventId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -91,10 +91,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("timeDetail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("userEventId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("campaignEventId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,timeDetail STRING null,eventId LONG,userEventId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,timeDetail STRING null,eventId LONG,campaignEventId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_EventPeriod";
 	public static final String ORDER_BY_JPQL = " ORDER BY eventPeriod.eventPeriodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_EventPeriod.eventPeriodId ASC";
@@ -110,9 +110,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.agenda.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.EventPeriod"),
 			true);
-	public static final long EVENTID_COLUMN_BITMASK = 1L;
-	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long EVENTPERIODID_COLUMN_BITMASK = 4L;
+	public static final long CAMPAIGNEVENTID_COLUMN_BITMASK = 1L;
+	public static final long EVENTID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long EVENTPERIODID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -133,7 +134,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		model.setEndDate(soapModel.getEndDate());
 		model.setTimeDetail(soapModel.getTimeDetail());
 		model.setEventId(soapModel.getEventId());
-		model.setUserEventId(soapModel.getUserEventId());
+		model.setCampaignEventId(soapModel.getCampaignEventId());
 
 		return model;
 	}
@@ -204,7 +205,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		attributes.put("endDate", getEndDate());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
-		attributes.put("userEventId", getUserEventId());
+		attributes.put("campaignEventId", getCampaignEventId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -250,10 +251,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 			setEventId(eventId);
 		}
 
-		Long userEventId = (Long)attributes.get("userEventId");
+		Long campaignEventId = (Long)attributes.get("campaignEventId");
 
-		if (userEventId != null) {
-			setUserEventId(userEventId);
+		if (campaignEventId != null) {
+			setCampaignEventId(campaignEventId);
 		}
 	}
 
@@ -441,13 +442,25 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 	@JSON
 	@Override
-	public long getUserEventId() {
-		return _userEventId;
+	public long getCampaignEventId() {
+		return _campaignEventId;
 	}
 
 	@Override
-	public void setUserEventId(long userEventId) {
-		_userEventId = userEventId;
+	public void setCampaignEventId(long campaignEventId) {
+		_columnBitmask |= CAMPAIGNEVENTID_COLUMN_BITMASK;
+
+		if (!_setOriginalCampaignEventId) {
+			_setOriginalCampaignEventId = true;
+
+			_originalCampaignEventId = _campaignEventId;
+		}
+
+		_campaignEventId = campaignEventId;
+	}
+
+	public long getOriginalCampaignEventId() {
+		return _originalCampaignEventId;
 	}
 
 	public long getColumnBitmask() {
@@ -549,7 +562,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		eventPeriodImpl.setEndDate(getEndDate());
 		eventPeriodImpl.setTimeDetail(getTimeDetail());
 		eventPeriodImpl.setEventId(getEventId());
-		eventPeriodImpl.setUserEventId(getUserEventId());
+		eventPeriodImpl.setCampaignEventId(getCampaignEventId());
 
 		eventPeriodImpl.resetOriginalValues();
 
@@ -618,6 +631,10 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 		eventPeriodModelImpl._setOriginalEventId = false;
 
+		eventPeriodModelImpl._originalCampaignEventId = eventPeriodModelImpl._campaignEventId;
+
+		eventPeriodModelImpl._setOriginalCampaignEventId = false;
+
 		eventPeriodModelImpl._columnBitmask = 0;
 	}
 
@@ -663,7 +680,7 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 
 		eventPeriodCacheModel.eventId = getEventId();
 
-		eventPeriodCacheModel.userEventId = getUserEventId();
+		eventPeriodCacheModel.campaignEventId = getCampaignEventId();
 
 		return eventPeriodCacheModel;
 	}
@@ -684,8 +701,8 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		sb.append(getTimeDetail());
 		sb.append(", eventId=");
 		sb.append(getEventId());
-		sb.append(", userEventId=");
-		sb.append(getUserEventId());
+		sb.append(", campaignEventId=");
+		sb.append(getCampaignEventId());
 		sb.append("}");
 
 		return sb.toString();
@@ -724,8 +741,8 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 		sb.append(getEventId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>userEventId</column-name><column-value><![CDATA[");
-		sb.append(getUserEventId());
+			"<column><column-name>campaignEventId</column-name><column-value><![CDATA[");
+		sb.append(getCampaignEventId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -747,7 +764,9 @@ public class EventPeriodModelImpl extends BaseModelImpl<EventPeriod>
 	private long _eventId;
 	private long _originalEventId;
 	private boolean _setOriginalEventId;
-	private long _userEventId;
+	private long _campaignEventId;
+	private long _originalCampaignEventId;
+	private boolean _setOriginalCampaignEventId;
 	private long _columnBitmask;
 	private EventPeriod _escapedModel;
 }

@@ -20,18 +20,13 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.utils.SearchHelper;
 
-public abstract class ViewListBaseDisplayContext<T> {
-	protected RenderRequest _request = null;
-	protected RenderResponse _response = null;
-	protected ThemeDisplay _themeDisplay = null;
+public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	protected String _filterCategoriesIds;
 	protected String _keywords;
 	protected SearchContainer<T> _searchContainer;
@@ -40,11 +35,8 @@ public abstract class ViewListBaseDisplayContext<T> {
 	private final Class<T> tClass;
 
 	public ViewListBaseDisplayContext(Class<T> tClass, RenderRequest request, RenderResponse response) {
+		super(request, response);
 		this.tClass = tClass;
-		this._request = request;
-		this._response = response;
-		this._themeDisplay = (ThemeDisplay) _request
-			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	/**
@@ -52,15 +44,15 @@ public abstract class ViewListBaseDisplayContext<T> {
 	 */
 	public SearchContainer<T> getSearchContainer() throws PortalException {
 
-		PortletURL iteratorURL = this._response.createRenderURL();
-		iteratorURL.setParameter("tab", "events");
-		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
-		iteratorURL.setParameter("orderByType", this.getOrderByType());
-		iteratorURL.setParameter("filterCategoriesIds",
-			this.getFilterCategoriesIds());
-		iteratorURL.setParameter("keywords", this.getKeywords());
-
 		if (this._searchContainer == null) {
+			PortletURL iteratorURL = this._response.createRenderURL();
+			iteratorURL.setParameter("tab", "events");
+			iteratorURL.setParameter("orderByCol", this.getOrderByCol());
+			iteratorURL.setParameter("orderByType", this.getOrderByType());
+			iteratorURL.setParameter("filterCategoriesIds",
+				this.getFilterCategoriesIds());
+			iteratorURL.setParameter("keywords", this.getKeywords());
+
 			this._searchContainer = new SearchContainer<T>(this._request,
 				iteratorURL, null, "no-entries-were-found");
 

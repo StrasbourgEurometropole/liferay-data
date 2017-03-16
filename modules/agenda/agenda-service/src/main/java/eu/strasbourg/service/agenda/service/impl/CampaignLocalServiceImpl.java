@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -44,6 +45,8 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Campaign;
+import eu.strasbourg.service.agenda.model.CampaignEvent;
+import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.CampaignLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
@@ -234,6 +237,12 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 
 		// Delete the Campaign
 		Campaign campaign = campaignPersistence.remove(campaignId);
+		
+		// On supprime les événements liés à la campagne
+		List<CampaignEvent> events = campaign.getEvents();
+		for (CampaignEvent event : events) {
+			CampaignEventLocalServiceUtil.removeCampaignEvent(event.getCampaignEventId());
+		}
 
 		// Delete the index
 		this.reindex(campaign, true);
@@ -288,17 +297,21 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	 * Lance une recherche par mots-clés
 	 */
 	@Override
-	public List<Campaign> findByKeyword(String keyword, long groupId, int start, int end) {
+	public List<Campaign> findByKeyword(String keyword, long groupId,
+		int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
-		return campaignPersistence.findWithDynamicQuery(dynamicQuery, start, end);
+		return campaignEventPersistence.findWithDynamicQuery(dynamicQuery,
+			start, end);
 	}
 
 	/**
@@ -308,13 +321,25 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 	public long findByKeywordCount(String keyword, long groupId) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
-			dynamicQuery.add(RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
-			dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
-		return campaignPersistence.countWithDynamicQuery(dynamicQuery);
+		return campaignEventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-
+	
+	/**
+	 * Exporte toutes les campagne exportables dans le dossier d'import des événements
+	 */
+	@Override
+	public void exportCampaigns() {
+		List<Campaign> campaigns = this.getCampaigns(-1, -1).stream().filter(c -> c.getExportEnabled()).collect(Collectors.toList());
+		for (Campaign campaign : campaigns) {
+			campaign.export();
+		}
+	}
 }

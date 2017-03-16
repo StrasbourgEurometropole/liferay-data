@@ -243,7 +243,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					eventPeriod.setEndDate(endDate);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(event.getEventId());
-					eventPeriod.setUserEventId(0);
+					eventPeriod.setCampaignEventId(0);
 					this._eventPeriodLocalService
 						.updateEventPeriod(eventPeriod);
 				}

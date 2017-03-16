@@ -419,6 +419,14 @@ public class CampaignLocalServiceWrapper implements CampaignLocalService,
 	}
 
 	/**
+	* Exporte toutes les campagne exportables dans le dossier d'import des événements
+	*/
+	@Override
+	public void exportCampaigns() {
+		_campaignLocalService.exportCampaigns();
+	}
+
+	/**
 	* Met à jour le statut de l'campaign "manuellement" (pas via le workflow)
 	*/
 	@Override
