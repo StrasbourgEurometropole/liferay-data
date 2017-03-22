@@ -149,7 +149,7 @@ public class SearchAssetDisplayContext {
 			.split(";")) {
 			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
 				.toLongArray(StringUtil
-					.split(prefilterCategoriesIdsGroupByVocabulary, ";", 0));
+					.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 		}
 
