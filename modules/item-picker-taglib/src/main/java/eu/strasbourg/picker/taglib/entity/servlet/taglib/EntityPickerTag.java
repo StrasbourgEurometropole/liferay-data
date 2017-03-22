@@ -26,6 +26,7 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
+import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
@@ -210,6 +211,18 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, linkItemSelectorCriterion);
+			itemSelectorURL.setParameter("multiple", _multiple);
+			request.setAttribute("itemSelectorURL", itemSelectorURL);
+			break;
+		case "eu.strasbourg.service.place.model.Place":
+			PlaceItemSelectorCriterion placeItemSelectorCriterion = new PlaceItemSelectorCriterion();
+			placeItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, placeItemSelectorCriterion);
 			itemSelectorURL.setParameter("multiple", _multiple);
 			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;

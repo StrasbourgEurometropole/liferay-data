@@ -1,0 +1,66 @@
+<%@ include file="/place-bo-init.jsp"%>
+
+<div class="period-label" onCLick="$('.period-content' + ${param.index}).toggle();"><label><liferay-ui:message key="period" /> ${param.index}</label></div>
+<div class="period-content${param.index}" >
+	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}"  >
+			<aui:validator name="required"
+				errorMessage="this-field-is-required" />
+	</aui:input>
+				
+	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}"  >
+		<aui:validator name="required"
+			errorMessage="site-label-is-required" />
+	</aui:input>
+				
+	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}"  >
+	 	<aui:validator name="url"/>
+								<aui:validator name="required"
+									errorMessage="site-url-is-required" />
+	</aui:input>
+				
+	<aui:input name="defaultPeriod${param.index}" label="default-period" type="toggle-switch" 
+	value="${not empty param ? param.defaultPeriod : false}" onClick="affichageDates(this, ${param.index})" />
+	
+	<div class="dates${param.index}" <c:if test="${not empty param and param.defaultPeriod }">style="display: none;"</c:if>>
+		<aui:input type="date" name="startDatePeriod${param.index}" label="start-date" value="${param.startDate}" />
+		
+		<aui:input type="date" name="endDatePeriod${param.index}" label="end-date" value="${param.endDate}" />
+	</div>
+				
+	<aui:input name="alwaysOpen${param.index}" label="always-open" type="toggle-switch" 
+	value="${not empty param ? param.alwaysOpen : false}" onClick="affichageOuverture(this, ${param.index})" />
+	
+	<div class="ouvertures${param.index}" <c:if test="${not empty param and param.alwaysOpen }">style="display: none;"</c:if>>
+		<c:forEach var="jour" begin="0" end="6">
+			<div class="slot-label"><label><liferay-ui:message key="jour-semaine${jour}" /></label>
+			<br />
+			<c:set var="nbSlot" value="0"/>
+			<c:set var="jourSlot" value="${fn:split(param.slotJours, ',')}" />
+			<c:set var="startHourSlot" value="${fn:split(param.slotStartHours, ',')}" />
+			<c:set var="endHourSlot" value="${fn:split(param.slotEndHours, ',')}" />
+			<c:forEach var="slot" begin="0" end="${param.nbSlot}">
+				<c:if test="${jourSlot[slot] == jour}">
+					<liferay-util:include page="/includes/slot-row.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="indexPeriod" value="${param.index}" />
+						<liferay-util:param name="jour" value="${jour}" />
+						<liferay-util:param name="indexSlot" value="${nbSlot}" />
+						<liferay-util:param name="startHour" value="${startHourSlot[slot]}" />
+						<liferay-util:param name="endHour" value="${endHourSlot[slot]}" />
+					</liferay-util:include>
+					<c:set var="nbSlot" value="${nbSlot + 1}"/>
+				</c:if>  
+			</c:forEach>
+			<c:forEach var="index" begin="${nbSlot}" end="2">
+				<liferay-util:include page="/includes/slot-row.jsp" servletContext="<%=application %>">
+					<liferay-util:param name="indexPeriod" value="${param.index}" />
+					<liferay-util:param name="jour" value="${jour}" />
+					<liferay-util:param name="indexSlot" value="${index}" />
+				</liferay-util:include>
+			</c:forEach>
+			<c:if test="${jour == 0}">
+				<a onclick="copyHoraire(${param.index}); return false;" style="cursor=pointer;" ><span class="btn-icon icon icon-copy"></span>  <liferay-ui:message key="copie-horaire" /></a>
+			</c:if> 
+			</div>
+		</c:forEach>
+	</div>
+</div>

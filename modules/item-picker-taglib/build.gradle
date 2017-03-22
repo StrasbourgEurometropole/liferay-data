@@ -24,5 +24,6 @@ dependencies {
 	compile project(":modules:link-web")
 	compile project(":modules:video-web")
 	compile project(":modules:agenda-web")
+	compile project(":modules:place-web")
 	compile project(":modules:utils")
 }
