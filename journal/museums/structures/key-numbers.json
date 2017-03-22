@@ -22,7 +22,7 @@
             "localizable": true,
             "name": "number",
             "readOnly": false,
-            "repeatable": false,
+            "repeatable": true,
             "required": false,
             "showLabel": true,
             "type": "text",
