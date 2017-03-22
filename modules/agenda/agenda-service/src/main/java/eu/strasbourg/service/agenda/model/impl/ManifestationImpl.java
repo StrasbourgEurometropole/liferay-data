@@ -185,15 +185,44 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "type agenda");
 	}
+	
+	/**
+	 * Retourne le label des types de l'événement
+	 */
+	@Override
+	public String getTypeLabel(Locale locale) {
+		String types = "";
+		for (AssetCategory type : this.getTypes()) {
+			if (types.length() > 0) {
+				types += " - ";
+			}
+			types += type.getTitle(locale);
+		}
+		return types;
+	}
 
 	/**
 	 * Retourne les themes de la manifestation
 	 */
-
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "theme agenda");
+	}
+	
+	/**
+	 * Retourne le label des themes de l'événement
+	 */
+	@Override
+	public String getThemeLabel(Locale locale) {
+		String themes = "";
+		for (AssetCategory theme : this.getThemes()) {
+			if (themes.length() > 0) {
+				themes += " - ";
+			}
+			themes += theme.getTitle(locale);
+		}
+		return themes;
 	}
 
 	/**
@@ -203,6 +232,21 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	public List<AssetCategory> getPublics() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "public agenda");
+	}
+	
+	/**
+	 * Retourne le label des publics de l'événement
+	 */
+	@Override
+	public String getPublicLabel(Locale locale) {
+		String publics = "";
+		for (AssetCategory publicManif : this.getPublics()) {
+			if (publics.length() > 0) {
+				publics += " - ";
+			}
+			publics += publicManif.getTitle(locale);
+		}
+		return publics;
 	}
 
 	/**

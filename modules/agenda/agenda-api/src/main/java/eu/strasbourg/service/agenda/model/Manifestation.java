@@ -108,14 +108,29 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
+	* Retourne le label des types de l'événement
+	*/
+	public java.lang.String getTypeLabel(java.util.Locale locale);
+
+	/**
 	* Retourne les themes de la manifestation
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
 
 	/**
+	* Retourne le label des themes de l'événement
+	*/
+	public java.lang.String getThemeLabel(java.util.Locale locale);
+
+	/**
 	* Retourne les publics de la manifestation
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne le label des publics de l'événement
+	*/
+	public java.lang.String getPublicLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les territoires de la manifestation

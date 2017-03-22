@@ -227,6 +227,49 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return locale_legacyPlace.get(locale);
 	}
+	
+	/**
+	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	 */
+	@Override
+	public String getCity(Locale locale) {
+		if (Validator.isNotNull(this.getPlaceCity())) {
+			return this.getPlaceCity();
+		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
+			return this.getLegacyPlace(locale).getCity();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	 */
+	@Override
+	public String getPlaceAlias(Locale locale) {
+		if (Validator.isNotNull(this.getPlaceName())) {
+			return this.getPlaceName();
+		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
+			return this.getLegacyPlace(locale).getAlias();
+		} else {
+			return "";
+		}
+	}
+	
+	/**
+	 * Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	 */
+	@Override
+	public String getPlaceAddressHTML(Locale locale) {
+		if (Validator.isNotNull(this.getPlaceName())) {
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName() + "<br>" + this.getPlaceZipCode() + " " + this.getCity(locale);
+		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
+			LegacyPlace place = this.getLegacyPlace(locale);
+			return place.getStreet() + "<br>" + place.getZipCode() + " " + place.getCity();
+		} else {
+			return "";
+		}
+	}
 
 	/**
 	 * Retourne les types de l'événement
@@ -236,15 +279,44 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "type agenda");
 	}
+	
+	/**
+	 * Retourne le label des types de l'événement
+	 */
+	@Override
+	public String getTypeLabel(Locale locale) {
+		String types = "";
+		for (AssetCategory type : this.getTypes()) {
+			if (types.length() > 0) {
+				types += " - ";
+			}
+			types += type.getTitle(locale);
+		}
+		return types;
+	}
 
 	/**
 	 * Retourne les themes de l'événement
 	 */
-
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "theme agenda");
+	}
+	
+	/**
+	 * Retourne le label des thèmes de l'événement
+	 */
+	@Override
+	public String getThemeLabel(Locale locale) {
+		String themes = "";
+		for (AssetCategory theme : this.getThemes()) {
+			if (themes.length() > 0) {
+				themes += " - ";
+			}
+			themes += theme.getTitle(locale);
+		}
+		return themes;
 	}
 
 	/**
@@ -254,6 +326,21 @@ public class EventImpl extends EventBaseImpl {
 	public List<AssetCategory> getPublics() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "public agenda");
+	}
+	
+	/**
+	 * Retourne le label des publics de l'événement
+	 */
+	@Override
+	public String getPublicLabel(Locale locale) {
+		String publics = "";
+		for (AssetCategory eventPublic : this.getPublics()) {
+			if (publics.length() > 0) {
+				publics += " - ";
+			}
+			publics += eventPublic.getTitle(locale);
+		}
+		return publics;
 	}
 
 	/**

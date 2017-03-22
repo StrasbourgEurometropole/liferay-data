@@ -778,6 +778,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getAccessForDisabledCurrentValue();
 	}
 
+	/**
+	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	@Override
+	public java.lang.String getCity(java.util.Locale locale) {
+		return _event.getCity(locale);
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _event.getDefaultLanguageId();
@@ -937,6 +945,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	@Override
+	public java.lang.String getPlaceAddressHTML(java.util.Locale locale) {
+		return _event.getPlaceAddressHTML(locale);
+	}
+
+	/**
+	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	@Override
+	public java.lang.String getPlaceAlias(java.util.Locale locale) {
+		return _event.getPlaceAlias(locale);
+	}
+
+	/**
 	* Returns the place city of this event.
 	*
 	* @return the place city of this event
@@ -1084,6 +1108,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le label des publics de l'événement
+	*/
+	@Override
+	public java.lang.String getPublicLabel(java.util.Locale locale) {
+		return _event.getPublicLabel(locale);
+	}
+
+	/**
 	* Returns the source of this event.
 	*
 	* @return the source of this event
@@ -1182,6 +1214,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne le label des thèmes de l'événement
+	*/
+	@Override
+	public java.lang.String getThemeLabel(java.util.Locale locale) {
+		return _event.getThemeLabel(locale);
+	}
+
+	/**
 	* Returns the title of this event.
 	*
 	* @return the title of this event
@@ -1246,6 +1286,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getTitleCurrentValue() {
 		return _event.getTitleCurrentValue();
+	}
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	@Override
+	public java.lang.String getTypeLabel(java.util.Locale locale) {
+		return _event.getTypeLabel(locale);
 	}
 
 	/**
