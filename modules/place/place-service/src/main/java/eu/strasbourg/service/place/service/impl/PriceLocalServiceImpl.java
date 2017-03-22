@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import java.util.List;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.service.base.PriceLocalServiceBaseImpl;
 
@@ -25,7 +28,7 @@ import eu.strasbourg.service.place.service.base.PriceLocalServiceBaseImpl;
  * The implementation of the price local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.place.service.PriceLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.place.service.PlacePriceLocalService} interface.
  *
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
@@ -50,5 +53,24 @@ public class PriceLocalServiceImpl extends PriceLocalServiceBaseImpl {
 	public Price createPrice(ServiceContext sc) throws PortalException {
 		long pk = counterLocalService.increment();
 		return this.priceLocalService.createPrice(pk);
+	}
+
+	/**
+	 * Supprime un tarif
+	 */
+	@Override
+	public Price removePrice(long priceId) throws PortalException {
+
+		// Supprime le tarif
+		Price price = pricePersistence.remove(priceId);
+
+		// Supprime LE LIEN des lieux
+		List<Place> places = price.getPlaces();
+		for (Place place : places) {
+			place.setPriceId(0);
+			this.placeLocalService.updatePlace(place);
+		}
+		
+		return price;
 	}
 }

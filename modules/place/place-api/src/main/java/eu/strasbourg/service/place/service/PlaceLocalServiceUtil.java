@@ -166,6 +166,11 @@ public class PlaceLocalServiceUtil {
 		return getService().getPlace(placeId);
 	}
 
+	public static eu.strasbourg.service.place.model.Place getPlaceBySIGId(
+		java.lang.String idSIG) {
+		return getService().getPlaceBySIGId(idSIG);
+	}
+
 	/**
 	* Returns the place matching the UUID and group.
 	*
@@ -312,6 +317,14 @@ public class PlaceLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.place.model.Place> getByGroupId(
 		long groupId) {
 		return getService().getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne les lieux rattachés à un tarif
+	*/
+	public static java.util.List<eu.strasbourg.service.place.model.Place> getByPriceId(
+		long priceId) {
+		return getService().getByPriceId(priceId);
 	}
 
 	/**

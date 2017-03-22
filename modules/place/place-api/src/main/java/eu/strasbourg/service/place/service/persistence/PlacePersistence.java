@@ -627,6 +627,50 @@ public interface PlacePersistence extends BasePersistence<Place> {
 	public int countByPriceId(long priceId);
 
 	/**
+	* Returns the place where SIGid = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	*
+	* @param SIGid the s i gid
+	* @return the matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
+	*/
+	public Place findBySIGId(java.lang.String SIGid)
+		throws NoSuchPlaceException;
+
+	/**
+	* Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param SIGid the s i gid
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchBySIGId(java.lang.String SIGid);
+
+	/**
+	* Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param SIGid the s i gid
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchBySIGId(java.lang.String SIGid, boolean retrieveFromCache);
+
+	/**
+	* Removes the place where SIGid = &#63; from the database.
+	*
+	* @param SIGid the s i gid
+	* @return the place that was removed
+	*/
+	public Place removeBySIGId(java.lang.String SIGid)
+		throws NoSuchPlaceException;
+
+	/**
+	* Returns the number of places where SIGid = &#63;.
+	*
+	* @param SIGid the s i gid
+	* @return the number of matching places
+	*/
+	public int countBySIGId(java.lang.String SIGid);
+
+	/**
 	* Caches the place in the entity cache if it is enabled.
 	*
 	* @param place the place

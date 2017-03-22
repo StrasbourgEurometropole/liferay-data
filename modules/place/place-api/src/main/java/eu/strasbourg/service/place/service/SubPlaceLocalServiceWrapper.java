@@ -241,6 +241,15 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 	}
 
 	/**
+	* Lance une recherche par mots-clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace> findByKeyword(
+		java.lang.String keyword, int start, int end) {
+		return _subPlaceLocalService.findByKeyword(keyword, start, end);
+	}
+
+	/**
 	* Retourne les SubPlace rattachés à un lieu
 	*/
 	@Override
@@ -290,6 +299,14 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _subPlaceLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Compte de la recherche par mots-clés
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword) {
+		return _subPlaceLocalService.findByKeywordCount(keyword);
 	}
 
 	@Override

@@ -71,8 +71,8 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		sb.append(slotId);
 		sb.append(", dayOfWeek=");
 		sb.append(dayOfWeek);
-		sb.append(", startHout=");
-		sb.append(startHout);
+		sb.append(", startHour=");
+		sb.append(startHour);
 		sb.append(", endHour=");
 		sb.append(endHour);
 		sb.append(", periodId=");
@@ -96,11 +96,11 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		slotImpl.setSlotId(slotId);
 		slotImpl.setDayOfWeek(dayOfWeek);
 
-		if (startHout == null) {
-			slotImpl.setStartHout(StringPool.BLANK);
+		if (startHour == null) {
+			slotImpl.setStartHour(StringPool.BLANK);
 		}
 		else {
-			slotImpl.setStartHout(startHout);
+			slotImpl.setStartHour(startHour);
 		}
 
 		if (endHour == null) {
@@ -124,7 +124,7 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		slotId = objectInput.readLong();
 
 		dayOfWeek = objectInput.readLong();
-		startHout = objectInput.readUTF();
+		startHour = objectInput.readUTF();
 		endHour = objectInput.readUTF();
 
 		periodId = objectInput.readLong();
@@ -144,11 +144,11 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 
 		objectOutput.writeLong(dayOfWeek);
 
-		if (startHout == null) {
+		if (startHour == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(startHout);
+			objectOutput.writeUTF(startHour);
 		}
 
 		if (endHour == null) {
@@ -164,7 +164,7 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 	public String uuid;
 	public long slotId;
 	public long dayOfWeek;
-	public String startHout;
+	public String startHour;
 	public String endHour;
 	public long periodId;
 }

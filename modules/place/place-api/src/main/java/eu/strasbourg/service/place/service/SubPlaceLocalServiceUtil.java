@@ -230,6 +230,14 @@ public class SubPlaceLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par mots-clés
+	*/
+	public static java.util.List<eu.strasbourg.service.place.model.SubPlace> findByKeyword(
+		java.lang.String keyword, int start, int end) {
+		return getService().findByKeyword(keyword, start, end);
+	}
+
+	/**
 	* Retourne les SubPlace rattachés à un lieu
 	*/
 	public static java.util.List<eu.strasbourg.service.place.model.SubPlace> getByPlaceId(
@@ -275,6 +283,13 @@ public class SubPlaceLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Compte de la recherche par mots-clés
+	*/
+	public static long findByKeywordCount(java.lang.String keyword) {
+		return getService().findByKeywordCount(keyword);
 	}
 
 	public static SubPlaceLocalService getService() {

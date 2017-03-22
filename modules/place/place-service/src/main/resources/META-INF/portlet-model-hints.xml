@@ -134,14 +134,18 @@
 		<field localized="true" name="name" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="date" type="Date" />
+		<field name="date" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
 		<field name="recurrent" type="boolean" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.ScheduleException">
 		<field name="uuid" type="String" />
 		<field name="exceptionId" type="long" />
-		<field name="date" type="Date" />
-		<field name="startHout" type="String" />
+		<field name="date" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
+		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
 		<field name="comment" type="String">
 			<hint-collection name="EDITOR" />
@@ -154,7 +158,7 @@
 		<field name="uuid" type="String" />
 		<field name="slotId" type="long" />
 		<field name="dayOfWeek" type="long" />
-		<field name="startHout" type="String" />
+		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
 		<field name="periodId" type="long" />
 	</model>

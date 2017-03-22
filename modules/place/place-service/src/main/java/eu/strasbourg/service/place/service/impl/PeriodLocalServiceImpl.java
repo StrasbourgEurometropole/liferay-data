@@ -63,7 +63,6 @@ public class PeriodLocalServiceImpl extends PeriodLocalServiceBaseImpl {
 	@Override
 	public Period removePeriod(long periodId) throws PortalException {
 
-		// Supprime la période
 		Period period = periodPersistence.remove(periodId);
 
 		// Supprime les slots liés à la période

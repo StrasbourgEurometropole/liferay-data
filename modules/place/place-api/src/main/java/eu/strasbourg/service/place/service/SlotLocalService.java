@@ -199,10 +199,10 @@ public interface SlotLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
-	* Retourne les Slots rattachés à une période
+	* Retourne les slots rattachées à une période
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Slot> getByPeriodId(long periodId);
+	public List<Slot> getByPeriodId(long slotId);
 
 	/**
 	* Returns a range of all the slots.

@@ -35,7 +35,7 @@ public class SlotSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setSlotId(model.getSlotId());
 		soapModel.setDayOfWeek(model.getDayOfWeek());
-		soapModel.setStartHout(model.getStartHout());
+		soapModel.setStartHour(model.getStartHour());
 		soapModel.setEndHour(model.getEndHour());
 		soapModel.setPeriodId(model.getPeriodId());
 
@@ -114,12 +114,12 @@ public class SlotSoap implements Serializable {
 		_dayOfWeek = dayOfWeek;
 	}
 
-	public String getStartHout() {
-		return _startHout;
+	public String getStartHour() {
+		return _startHour;
 	}
 
-	public void setStartHout(String startHout) {
-		_startHout = startHout;
+	public void setStartHour(String startHour) {
+		_startHour = startHour;
 	}
 
 	public String getEndHour() {
@@ -141,7 +141,7 @@ public class SlotSoap implements Serializable {
 	private String _uuid;
 	private long _slotId;
 	private long _dayOfWeek;
-	private String _startHout;
+	private String _startHour;
 	private String _endHour;
 	private long _periodId;
 }

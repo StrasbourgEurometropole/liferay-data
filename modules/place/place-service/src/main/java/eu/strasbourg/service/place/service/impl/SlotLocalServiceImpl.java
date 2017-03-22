@@ -61,10 +61,10 @@ public class SlotLocalServiceImpl extends SlotLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Retourne les Slots rattachés à une période
+	 * Retourne les slots rattachées à une période
 	 */
 	@Override
-	public List<Slot> getByPeriodId(long periodId) {
-		return this.slotPersistence.findByPeriodId(periodId);
+	public List<Slot> getByPeriodId(long slotId) {
+		return this.slotPersistence.findByPeriodId(slotId);
 	}
 }

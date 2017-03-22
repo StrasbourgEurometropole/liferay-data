@@ -169,6 +169,12 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 		return _placeLocalService.getPlace(placeId);
 	}
 
+	@Override
+	public eu.strasbourg.service.place.model.Place getPlaceBySIGId(
+		java.lang.String idSIG) {
+		return _placeLocalService.getPlaceBySIGId(idSIG);
+	}
+
 	/**
 	* Returns the place matching the UUID and group.
 	*
@@ -327,6 +333,15 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	public java.util.List<eu.strasbourg.service.place.model.Place> getByGroupId(
 		long groupId) {
 		return _placeLocalService.getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne les lieux rattachés à un tarif
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> getByPriceId(
+		long priceId) {
+		return _placeLocalService.getByPriceId(priceId);
 	}
 
 	/**

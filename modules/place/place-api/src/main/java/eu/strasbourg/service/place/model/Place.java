@@ -86,9 +86,21 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions();
 
 	/**
-	* Retourne les SubPlaces du lieux
+	* Renvoie la liste des IDs des ScheduleExceptions auxquelles ce lieu
+	* appartient sous forme de String
+	*/
+	public java.lang.String getScheduleExceptionsIds();
+
+	/**
+	* Retourne les sous lieux du lieux
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getSubPlaces();
+
+	/**
+	* Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
+	* sous forme de String
+	*/
+	public java.lang.String getSubPlacesIds();
 
 	/**
 	* Retourne les Periods du lieux
@@ -96,12 +108,17 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
 
 	/**
-	* Retourne le territoire du lieu
+	* Retourne les territoire du lieu
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories();
 
 	/**
 	* Retourne les types du lieu
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne la ville
+	*/
+	public java.lang.String getCity(java.util.Locale locale);
 }

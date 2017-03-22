@@ -91,6 +91,9 @@
 		<finder name="PriceId" return-type="Collection">
 			<finder-column name="priceId" />
 		</finder>
+		<finder name="SIGId" return-type="Place">
+			<finder-column name="SIGid" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -139,7 +142,7 @@
 
 		<!-- Informations générales -->
 		<column name="date" type="Date" />
-		<column name="startHout" type="String" />
+		<column name="startHour" type="String" />
 		<column name="endHour" type="String" />
 		<column name="comment" type="String" />
 		<column name="closed" type="boolean" />
@@ -195,7 +198,7 @@
 
 		<!-- Informations générales -->
 		<column name="dayOfWeek" type="long" />
-		<column name="startHout" type="String" />
+		<column name="startHour" type="String" />
 		<column name="endHour" type="String" />
 		
 		<!-- Links with other entities -->

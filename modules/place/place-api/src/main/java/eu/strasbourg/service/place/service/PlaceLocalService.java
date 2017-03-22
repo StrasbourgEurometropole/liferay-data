@@ -164,6 +164,9 @@ public interface PlaceLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Place getPlace(long placeId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Place getPlaceBySIGId(java.lang.String idSIG);
+
 	/**
 	* Returns the place matching the UUID and group.
 	*
@@ -274,6 +277,12 @@ public interface PlaceLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Place> getByGroupId(long groupId);
+
+	/**
+	* Retourne les lieux rattachés à un tarif
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Place> getByPriceId(long priceId);
 
 	/**
 	* Returns a range of all the places.

@@ -141,6 +141,15 @@ public class PriceLocalServiceUtil {
 	}
 
 	/**
+	* Supprime un tarif
+	*/
+	public static eu.strasbourg.service.place.model.Price removePrice(
+		long priceId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removePrice(priceId);
+	}
+
+	/**
 	* Updates the price in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param price the price

@@ -104,19 +104,19 @@ public interface SlotModel extends BaseModel<Slot> {
 	public void setDayOfWeek(long dayOfWeek);
 
 	/**
-	 * Returns the start hout of this slot.
+	 * Returns the start hour of this slot.
 	 *
-	 * @return the start hout of this slot
+	 * @return the start hour of this slot
 	 */
 	@AutoEscape
-	public String getStartHout();
+	public String getStartHour();
 
 	/**
-	 * Sets the start hout of this slot.
+	 * Sets the start hour of this slot.
 	 *
-	 * @param startHout the start hout of this slot
+	 * @param startHour the start hour of this slot
 	 */
-	public void setStartHout(String startHout);
+	public void setStartHour(String startHour);
 
 	/**
 	 * Returns the end hour of this slot.

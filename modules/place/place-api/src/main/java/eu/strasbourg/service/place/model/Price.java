@@ -53,4 +53,15 @@ public interface Price extends PriceModel, PersistedModel {
 				return Price.class;
 			}
 		};
+
+	/**
+	* Retourne les lieux du tarif
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
+
+	/**
+	* Renvoie la liste des IDs des lieux auxquelles ce tarif
+	* appartient sous forme de String
+	*/
+	public java.lang.String getPlacesIds();
 }

@@ -214,11 +214,12 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.place.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Place"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long PRICEID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long PLACEID_COLUMN_BITMASK = 16L;
+	public static final long SIGID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long PRICEID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long PLACEID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -1003,7 +1004,17 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setSIGid(String SIGid) {
+		_columnBitmask |= SIGID_COLUMN_BITMASK;
+
+		if (_originalSIGid == null) {
+			_originalSIGid = _SIGid;
+		}
+
 		_SIGid = SIGid;
+	}
+
+	public String getOriginalSIGid() {
+		return GetterUtil.getString(_originalSIGid);
 	}
 
 	@JSON
@@ -3339,6 +3350,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeModelImpl._setModifiedDate = false;
 
+		placeModelImpl._originalSIGid = placeModelImpl._SIGid;
+
 		placeModelImpl._originalPriceId = placeModelImpl._priceId;
 
 		placeModelImpl._setOriginalPriceId = false;
@@ -4072,6 +4085,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _SIGid;
+	private String _originalSIGid;
 	private String _name;
 	private String _addressComplement;
 	private String _addressStreet;

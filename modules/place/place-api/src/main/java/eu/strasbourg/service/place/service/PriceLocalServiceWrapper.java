@@ -141,6 +141,15 @@ public class PriceLocalServiceWrapper implements PriceLocalService,
 	}
 
 	/**
+	* Supprime un tarif
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Price removePrice(long priceId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _priceLocalService.removePrice(priceId);
+	}
+
+	/**
 	* Updates the price in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param price the price

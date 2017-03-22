@@ -99,11 +99,11 @@ public class PlaceItemSelectorView
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<Place> places = PlaceLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
+			themeDisplay.getCompanyGroupId(), (delta * cur) - delta,
 			((delta * cur) + delta));
 
 		long placesCount = PlaceLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getScopeGroupId());
+			keywords, themeDisplay.getCompanyGroupId());
 
 		servletRequest.setAttribute("total", placesCount);
 		servletRequest.setAttribute("places", places);

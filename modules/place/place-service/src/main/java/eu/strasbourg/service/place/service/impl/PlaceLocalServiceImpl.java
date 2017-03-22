@@ -92,6 +92,15 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setGroupId(sc.getScopeGroupId());
 		place.setUserName(user.getFullName());
 		place.setUserId(sc.getUserId());
+		
+		place.setAccessForBlind(false);
+		place.setAccessForDeaf(false);
+		place.setAccessForDeficient(false);
+		place.setAccessForElder(false);
+		place.setAccessForWheelchair(false);
+		place.setDisplayEvents(false);
+		place.setRTEnabled(false);
+		place.setSubjectToPublicHoliday(false);
 
 		place.setStatus(WorkflowConstants.STATUS_DRAFT);
 
@@ -122,7 +131,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			}
 			place = this.placeLocalService.updatePlace(place);
 			this.updateAssetEntry(place, sc);
-			this.reindex(place, false);
 		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
 					// l'enregistrement
 			place = this.placeLocalService.updatePlace(place);
@@ -256,10 +264,11 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			this.scheduleExceptionLocalService.deleteScheduleException(exception.getExceptionId());
 		}
 
-		// Supprime les sous-lieux
+		// Supprime LE LIEN des sous-lieux
 		List<SubPlace> subPlaces = place.getSubPlaces();
 		for (SubPlace subPlace : subPlaces) {
-			 this.subPlaceLocalService.removeSubPlace(subPlace.getSubPlaceId());
+			subPlace.setPlaceId(0);
+			this.subPlaceLocalService.updateSubPlace(subPlace);
 		}
 		
 		// Supprime les périodes
@@ -323,7 +332,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("alias", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
@@ -341,7 +350,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("alias", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
@@ -357,6 +366,20 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	@Override
 	public List<Place> getByGroupId(long groupId) {
 		return this.placePersistence.findByGroupId(groupId);
+	}
+
+
+	/**
+	 * Retourne les lieux rattachés à un tarif
+	 */
+	@Override
+	public List<Place> getByPriceId(long priceId) {
+		return this.placePersistence.findByPriceId(priceId);
+	}
+
+	@Override
+	public Place getPlaceBySIGId(String idSIG) {
+		return this.placePersistence.fetchBySIGId(idSIG);
 	}
 
 }

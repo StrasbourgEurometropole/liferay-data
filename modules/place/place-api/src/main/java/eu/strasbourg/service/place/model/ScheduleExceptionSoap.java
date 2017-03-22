@@ -36,7 +36,7 @@ public class ScheduleExceptionSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setExceptionId(model.getExceptionId());
 		soapModel.setDate(model.getDate());
-		soapModel.setStartHout(model.getStartHout());
+		soapModel.setStartHour(model.getStartHour());
 		soapModel.setEndHour(model.getEndHour());
 		soapModel.setComment(model.getComment());
 		soapModel.setClosed(model.getClosed());
@@ -121,12 +121,12 @@ public class ScheduleExceptionSoap implements Serializable {
 		_date = date;
 	}
 
-	public String getStartHout() {
-		return _startHout;
+	public String getStartHour() {
+		return _startHour;
 	}
 
-	public void setStartHout(String startHout) {
-		_startHout = startHout;
+	public void setStartHour(String startHour) {
+		_startHour = startHour;
 	}
 
 	public String getEndHour() {
@@ -176,7 +176,7 @@ public class ScheduleExceptionSoap implements Serializable {
 	private String _uuid;
 	private long _exceptionId;
 	private Date _date;
-	private String _startHout;
+	private String _startHour;
 	private String _endHour;
 	private String _comment;
 	private boolean _closed;

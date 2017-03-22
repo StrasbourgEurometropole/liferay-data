@@ -20,6 +20,7 @@ import java.util.Locale;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
@@ -115,28 +116,63 @@ public class PlaceImpl extends PlaceBaseImpl {
 		return ScheduleExceptionLocalServiceUtil
 				.getByPlaceId(this.getPlaceId());
 	}
-	
+
 	/**
-	 *  Retourne les SubPlaces du lieux
+	 * Renvoie la liste des IDs des ScheduleExceptions auxquelles ce lieu
+	 * appartient sous forme de String
 	 */
 	@Override
-	public List<SubPlace> getSubPlaces(){
+	public String getScheduleExceptionsIds() {
+		List<ScheduleException> scheduleExceptions = this
+				.getScheduleExceptions();
+		String ids = "";
+		for (ScheduleException scheduleException : scheduleExceptions) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += scheduleException.getExceptionId();
+		}
+		return ids;
+	}
+
+	/**
+	 * Retourne les sous lieux du lieux
+	 */
+	@Override
+	public List<SubPlace> getSubPlaces() {
 		return SubPlaceLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
-	
+
 	/**
-	 *  Retourne les Periods du lieux
+	 * Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
+	 * sous forme de String
 	 */
 	@Override
-	public List<Period> getPeriods(){
+	public String getSubPlacesIds() {
+		List<SubPlace> subPlaces = this.getSubPlaces();
+		String ids = "";
+		for (SubPlace subPlace : subPlaces) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += subPlace.getSubPlaceId();
+		}
+		return ids;
+	}
+
+	/**
+	 * Retourne les Periods du lieux
+	 */
+	@Override
+	public List<Period> getPeriods() {
 		return PeriodLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
 
 	/**
-	 * Retourne le territoire du lieu
+	 * Retourne les territoire du lieu
 	 */
 	@Override
-	public List<AssetCategory> getSources() {
+	public List<AssetCategory> getTerritories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 				this.getAssetEntry(), "territoire");
 	}
@@ -148,5 +184,32 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 				this.getAssetEntry(), "type des lieux");
+	}
+
+	/**
+	 * Retourne la ville
+	 */
+	@Override
+	public String getCity(Locale locale) {
+		List<AssetCategory> territories = this.getTerritories();
+		if (territories.size() > 0) {
+			AssetCategory territory = territories.get(0);
+			try {
+				switch (territory.getAncestors().size()) {
+				case 0:
+					return "";
+				case 1:
+					return territory.getTitle(locale);
+				case 2:
+					return territory.getParentCategory().getTitle(locale);
+				default:
+					return "";
+				}
+			} catch (PortalException e) {
+				return "";
+			}
+		}
+		return "";
+
 	}
 }

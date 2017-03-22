@@ -152,6 +152,15 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	}
 
 	/**
+	* Renvoie la liste des IDs des lieux auxquelles ce tarif
+	* appartient sous forme de String
+	*/
+	@Override
+	public java.lang.String getPlacesIds() {
+		return _price.getPlacesIds();
+	}
+
+	/**
 	* Returns the price of this price.
 	*
 	* @return the price of this price
@@ -308,6 +317,14 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	@Override
 	public java.lang.String[] getAvailableLanguageIds() {
 		return _price.getAvailableLanguageIds();
+	}
+
+	/**
+	* Retourne les lieux du tarif
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
+		return _price.getPlaces();
 	}
 
 	/**

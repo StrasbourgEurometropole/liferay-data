@@ -63,7 +63,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			{ "uuid_", Types.VARCHAR },
 			{ "slotId", Types.BIGINT },
 			{ "dayOfWeek", Types.BIGINT },
-			{ "startHout", Types.VARCHAR },
+			{ "startHour", Types.VARCHAR },
 			{ "endHour", Types.VARCHAR },
 			{ "periodId", Types.BIGINT }
 		};
@@ -73,12 +73,12 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("slotId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("dayOfWeek", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("startHout", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("startHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("periodId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHout VARCHAR(75) null,endHour VARCHAR(75) null,periodId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHour VARCHAR(75) null,endHour VARCHAR(75) null,periodId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Slot";
 	public static final String ORDER_BY_JPQL = " ORDER BY slot.slotId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Slot.slotId ASC";
@@ -140,7 +140,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		attributes.put("uuid", getUuid());
 		attributes.put("slotId", getSlotId());
 		attributes.put("dayOfWeek", getDayOfWeek());
-		attributes.put("startHout", getStartHout());
+		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
 		attributes.put("periodId", getPeriodId());
 
@@ -170,10 +170,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			setDayOfWeek(dayOfWeek);
 		}
 
-		String startHout = (String)attributes.get("startHout");
+		String startHour = (String)attributes.get("startHour");
 
-		if (startHout != null) {
-			setStartHout(startHout);
+		if (startHour != null) {
+			setStartHour(startHour);
 		}
 
 		String endHour = (String)attributes.get("endHour");
@@ -233,18 +233,18 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	@Override
-	public String getStartHout() {
-		if (_startHout == null) {
+	public String getStartHour() {
+		if (_startHour == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _startHout;
+			return _startHour;
 		}
 	}
 
 	@Override
-	public void setStartHout(String startHout) {
-		_startHout = startHout;
+	public void setStartHour(String startHour) {
+		_startHour = startHour;
 	}
 
 	@Override
@@ -318,7 +318,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		slotImpl.setUuid(getUuid());
 		slotImpl.setSlotId(getSlotId());
 		slotImpl.setDayOfWeek(getDayOfWeek());
-		slotImpl.setStartHout(getStartHout());
+		slotImpl.setStartHour(getStartHour());
 		slotImpl.setEndHour(getEndHour());
 		slotImpl.setPeriodId(getPeriodId());
 
@@ -408,12 +408,12 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 		slotCacheModel.dayOfWeek = getDayOfWeek();
 
-		slotCacheModel.startHout = getStartHout();
+		slotCacheModel.startHour = getStartHour();
 
-		String startHout = slotCacheModel.startHout;
+		String startHour = slotCacheModel.startHour;
 
-		if ((startHout != null) && (startHout.length() == 0)) {
-			slotCacheModel.startHout = null;
+		if ((startHour != null) && (startHour.length() == 0)) {
+			slotCacheModel.startHour = null;
 		}
 
 		slotCacheModel.endHour = getEndHour();
@@ -439,8 +439,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		sb.append(getSlotId());
 		sb.append(", dayOfWeek=");
 		sb.append(getDayOfWeek());
-		sb.append(", startHout=");
-		sb.append(getStartHout());
+		sb.append(", startHour=");
+		sb.append(getStartHour());
 		sb.append(", endHour=");
 		sb.append(getEndHour());
 		sb.append(", periodId=");
@@ -471,8 +471,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		sb.append(getDayOfWeek());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>startHout</column-name><column-value><![CDATA[");
-		sb.append(getStartHout());
+			"<column><column-name>startHour</column-name><column-value><![CDATA[");
+		sb.append(getStartHour());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>endHour</column-name><column-value><![CDATA[");
@@ -496,7 +496,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	private String _originalUuid;
 	private long _slotId;
 	private long _dayOfWeek;
-	private String _startHout;
+	private String _startHour;
 	private String _endHour;
 	private long _periodId;
 	private long _originalPeriodId;

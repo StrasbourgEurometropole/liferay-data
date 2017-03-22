@@ -59,7 +59,7 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 		attributes.put("uuid", getUuid());
 		attributes.put("slotId", getSlotId());
 		attributes.put("dayOfWeek", getDayOfWeek());
-		attributes.put("startHout", getStartHout());
+		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
 		attributes.put("periodId", getPeriodId());
 
@@ -86,10 +86,10 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 			setDayOfWeek(dayOfWeek);
 		}
 
-		String startHout = (String)attributes.get("startHout");
+		String startHour = (String)attributes.get("startHour");
 
-		if (startHout != null) {
-			setStartHout(startHout);
+		if (startHour != null) {
+			setStartHour(startHour);
 		}
 
 		String endHour = (String)attributes.get("endHour");
@@ -171,13 +171,13 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	}
 
 	/**
-	* Returns the start hout of this slot.
+	* Returns the start hour of this slot.
 	*
-	* @return the start hout of this slot
+	* @return the start hour of this slot
 	*/
 	@Override
-	public java.lang.String getStartHout() {
-		return _slot.getStartHout();
+	public java.lang.String getStartHour() {
+		return _slot.getStartHour();
 	}
 
 	/**
@@ -327,13 +327,13 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	}
 
 	/**
-	* Sets the start hout of this slot.
+	* Sets the start hour of this slot.
 	*
-	* @param startHout the start hout of this slot
+	* @param startHour the start hour of this slot
 	*/
 	@Override
-	public void setStartHout(java.lang.String startHout) {
-		_slot.setStartHout(startHout);
+	public void setStartHour(java.lang.String startHour) {
+		_slot.setStartHour(startHour);
 	}
 
 	/**

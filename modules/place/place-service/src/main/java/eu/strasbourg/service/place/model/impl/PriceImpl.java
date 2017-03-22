@@ -14,7 +14,11 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import java.util.List;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
 /**
  * The extended model implementation for the Price service. Represents a row in the &quot;place_Price&quot; database table, with each column mapped to a property of this class.
@@ -33,5 +37,30 @@ public class PriceImpl extends PriceBaseImpl {
 	 * Never reference this class directly. All methods that expect a price model instance should use the {@link eu.strasbourg.service.place.model.Price} interface instead.
 	 */
 	public PriceImpl() {
+	}
+	
+	/**
+	 *  Retourne les lieux du tarif
+	 */
+	@Override
+	public List<Place> getPlaces(){
+		return PlaceLocalServiceUtil.getByPriceId(this.getPriceId());
+	}
+
+	/**
+	 * Renvoie la liste des IDs des lieux auxquelles ce tarif
+	 * appartient sous forme de String
+	 */
+	@Override
+	public String getPlacesIds() {
+		List<Place> places = this.getPlaces();
+		String ids = "";
+		for (Place place : places) {
+			if (ids.length() > 0) {
+				ids += ",";
+			}
+			ids += place.getPlaceId();
+		}
+		return ids;
 	}
 }

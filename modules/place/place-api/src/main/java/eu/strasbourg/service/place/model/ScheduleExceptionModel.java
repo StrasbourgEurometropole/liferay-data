@@ -106,19 +106,19 @@ public interface ScheduleExceptionModel extends BaseModel<ScheduleException> {
 	public void setDate(Date date);
 
 	/**
-	 * Returns the start hout of this schedule exception.
+	 * Returns the start hour of this schedule exception.
 	 *
-	 * @return the start hout of this schedule exception
+	 * @return the start hour of this schedule exception
 	 */
 	@AutoEscape
-	public String getStartHout();
+	public String getStartHour();
 
 	/**
-	 * Sets the start hout of this schedule exception.
+	 * Sets the start hour of this schedule exception.
 	 *
-	 * @param startHout the start hout of this schedule exception
+	 * @param startHour the start hour of this schedule exception
 	 */
-	public void setStartHout(String startHout);
+	public void setStartHour(String startHour);
 
 	/**
 	 * Returns the end hour of this schedule exception.

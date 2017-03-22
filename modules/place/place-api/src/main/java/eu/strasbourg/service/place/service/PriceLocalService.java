@@ -136,6 +136,11 @@ public interface PriceLocalService extends BaseLocalService,
 	public Price getPrice(long priceId) throws PortalException;
 
 	/**
+	* Supprime un tarif
+	*/
+	public Price removePrice(long priceId) throws PortalException;
+
+	/**
 	* Updates the price in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param price the price

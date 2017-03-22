@@ -19,7 +19,6 @@
 <portlet:defineObjects />
 
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
-
 	<liferay-ui:search-container
 		emptyResultsMessage="there-are-no-places"
 		iteratorURL="${portletURL}"
@@ -42,7 +41,7 @@
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="modified-date" truncate="true"
-				value="${formattedModifiedfDate}" />
+				value="${formattedModifiedDate}" />
 
 			<liferay-ui:search-container-column-text name="status">
 				<aui:workflow-status markupView="lexicon" showIcon="false"
@@ -52,7 +51,7 @@
 			
 		</liferay-ui:search-container-row>
 
-		<liferay-ui:search-paginator searchContainer="${searchContainer}"   />
+		<liferay-ui:search-iterator />
 	</liferay-ui:search-container>
 </div>
 

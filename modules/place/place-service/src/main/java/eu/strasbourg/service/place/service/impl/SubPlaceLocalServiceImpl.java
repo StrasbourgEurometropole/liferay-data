@@ -16,6 +16,8 @@ package eu.strasbourg.service.place.service.impl;
 
 import java.util.List;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -85,6 +87,37 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 
 		return subPlace;
 	}
+
+	/**
+	 * Lance une recherche par mots-clés
+	 */
+	@Override
+	public List<SubPlace> findByKeyword(String keyword, int start,
+			int end) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (keyword.length() > 0) {
+			dynamicQuery.add(
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+
+		return subPlacePersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * Compte de la recherche par mots-clés
+	 */
+	@Override
+	public long findByKeywordCount(String keyword) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+		if (keyword.length() > 0) {
+			dynamicQuery.add(
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+		}
+
+		return subPlacePersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
 
 	/**
 	 * Retourne les SubPlace rattachés à un lieu

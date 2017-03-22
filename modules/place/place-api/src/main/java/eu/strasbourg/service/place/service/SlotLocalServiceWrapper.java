@@ -226,12 +226,12 @@ public class SlotLocalServiceWrapper implements SlotLocalService,
 	}
 
 	/**
-	* Retourne les Slots rattachés à une période
+	* Retourne les slots rattachées à une période
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getByPeriodId(
-		long periodId) {
-		return _slotLocalService.getByPeriodId(periodId);
+		long slotId) {
+		return _slotLocalService.getByPeriodId(slotId);
 	}
 
 	/**

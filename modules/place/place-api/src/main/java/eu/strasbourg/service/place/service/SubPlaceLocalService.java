@@ -204,6 +204,12 @@ public interface SubPlaceLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Lance une recherche par mots-clés
+	*/
+	public List<SubPlace> findByKeyword(java.lang.String keyword, int start,
+		int end);
+
+	/**
 	* Retourne les SubPlace rattachés à un lieu
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -240,4 +246,9 @@ public interface SubPlaceLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Compte de la recherche par mots-clés
+	*/
+	public long findByKeywordCount(java.lang.String keyword);
 }

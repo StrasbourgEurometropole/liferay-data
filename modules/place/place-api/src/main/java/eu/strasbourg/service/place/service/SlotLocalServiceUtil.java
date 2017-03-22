@@ -217,11 +217,11 @@ public class SlotLocalServiceUtil {
 	}
 
 	/**
-	* Retourne les Slots rattachés à une période
+	* Retourne les slots rattachées à une période
 	*/
 	public static java.util.List<eu.strasbourg.service.place.model.Slot> getByPeriodId(
-		long periodId) {
-		return getService().getByPeriodId(periodId);
+		long slotId) {
+		return getService().getByPeriodId(slotId);
 	}
 
 	/**

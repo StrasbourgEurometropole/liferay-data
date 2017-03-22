@@ -1194,6 +1194,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCharacteristicsCurrentValue();
 	}
 
+	/**
+	* Retourne la ville
+	*/
+	@Override
+	public java.lang.String getCity(java.util.Locale locale) {
+		return _place.getCity(locale);
+	}
+
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
@@ -1588,6 +1596,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Renvoie la liste des IDs des ScheduleExceptions auxquelles ce lieu
+	* appartient sous forme de String
+	*/
+	@Override
+	public java.lang.String getScheduleExceptionsIds() {
+		return _place.getScheduleExceptionsIds();
+	}
+
+	/**
 	* Returns the service and activities of this place.
 	*
 	* @return the service and activities of this place
@@ -1812,6 +1829,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
+	* sous forme de String
+	*/
+	@Override
+	public java.lang.String getSubPlacesIds() {
+		return _place.getSubPlacesIds();
+	}
+
+	/**
 	* Returns the user name of this place.
 	*
 	* @return the user name of this place
@@ -1932,19 +1958,19 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne le territoire du lieu
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources() {
-		return _place.getSources();
-	}
-
-	/**
-	* Retourne les SubPlaces du lieux
+	* Retourne les sous lieux du lieux
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getSubPlaces() {
 		return _place.getSubPlaces();
+	}
+
+	/**
+	* Retourne les territoire du lieu
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories() {
+		return _place.getTerritories();
 	}
 
 	/**

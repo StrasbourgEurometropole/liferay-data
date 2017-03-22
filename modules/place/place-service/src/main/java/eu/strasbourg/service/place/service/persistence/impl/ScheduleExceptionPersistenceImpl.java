@@ -1952,7 +1952,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		scheduleExceptionImpl.setUuid(scheduleException.getUuid());
 		scheduleExceptionImpl.setExceptionId(scheduleException.getExceptionId());
 		scheduleExceptionImpl.setDate(scheduleException.getDate());
-		scheduleExceptionImpl.setStartHout(scheduleException.getStartHout());
+		scheduleExceptionImpl.setStartHour(scheduleException.getStartHour());
 		scheduleExceptionImpl.setEndHour(scheduleException.getEndHour());
 		scheduleExceptionImpl.setComment(scheduleException.getComment());
 		scheduleExceptionImpl.setClosed(scheduleException.isClosed());

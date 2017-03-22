@@ -1393,7 +1393,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		slotImpl.setUuid(slot.getUuid());
 		slotImpl.setSlotId(slot.getSlotId());
 		slotImpl.setDayOfWeek(slot.getDayOfWeek());
-		slotImpl.setStartHout(slot.getStartHout());
+		slotImpl.setStartHour(slot.getStartHour());
 		slotImpl.setEndHour(slot.getEndHour());
 		slotImpl.setPeriodId(slot.getPeriodId());
 

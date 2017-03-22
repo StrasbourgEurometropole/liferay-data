@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -2454,6 +2455,244 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	}
 
 	private static final String _FINDER_COLUMN_PRICEID_PRICEID_2 = "place.priceId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_SIGID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySIGId",
+			new String[] { String.class.getName() },
+			PlaceModelImpl.SIGID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SIGID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIGId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the place where SIGid = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	 *
+	 * @param SIGid the s i gid
+	 * @return the matching place
+	 * @throws NoSuchPlaceException if a matching place could not be found
+	 */
+	@Override
+	public Place findBySIGId(String SIGid) throws NoSuchPlaceException {
+		Place place = fetchBySIGId(SIGid);
+
+		if (place == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("SIGid=");
+			msg.append(SIGid);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchPlaceException(msg.toString());
+		}
+
+		return place;
+	}
+
+	/**
+	 * Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param SIGid the s i gid
+	 * @return the matching place, or <code>null</code> if a matching place could not be found
+	 */
+	@Override
+	public Place fetchBySIGId(String SIGid) {
+		return fetchBySIGId(SIGid, true);
+	}
+
+	/**
+	 * Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param SIGid the s i gid
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching place, or <code>null</code> if a matching place could not be found
+	 */
+	@Override
+	public Place fetchBySIGId(String SIGid, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { SIGid };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_SIGID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Place) {
+			Place place = (Place)result;
+
+			if (!Objects.equals(SIGid, place.getSIGid())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_PLACE_WHERE);
+
+			boolean bindSIGid = false;
+
+			if (SIGid == null) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_1);
+			}
+			else if (SIGid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_3);
+			}
+			else {
+				bindSIGid = true;
+
+				query.append(_FINDER_COLUMN_SIGID_SIGID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSIGid) {
+					qPos.add(SIGid);
+				}
+
+				List<Place> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"PlacePersistenceImpl.fetchBySIGId(String, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					Place place = list.get(0);
+
+					result = place;
+
+					cacheResult(place);
+
+					if ((place.getSIGid() == null) ||
+							!place.getSIGid().equals(SIGid)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+							finderArgs, place);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Place)result;
+		}
+	}
+
+	/**
+	 * Removes the place where SIGid = &#63; from the database.
+	 *
+	 * @param SIGid the s i gid
+	 * @return the place that was removed
+	 */
+	@Override
+	public Place removeBySIGId(String SIGid) throws NoSuchPlaceException {
+		Place place = findBySIGId(SIGid);
+
+		return remove(place);
+	}
+
+	/**
+	 * Returns the number of places where SIGid = &#63;.
+	 *
+	 * @param SIGid the s i gid
+	 * @return the number of matching places
+	 */
+	@Override
+	public int countBySIGId(String SIGid) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SIGID;
+
+		Object[] finderArgs = new Object[] { SIGid };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PLACE_WHERE);
+
+			boolean bindSIGid = false;
+
+			if (SIGid == null) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_1);
+			}
+			else if (SIGid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_3);
+			}
+			else {
+				bindSIGid = true;
+
+				query.append(_FINDER_COLUMN_SIGID_SIGID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindSIGid) {
+					qPos.add(SIGid);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SIGID_SIGID_1 = "place.SIGid IS NULL";
+	private static final String _FINDER_COLUMN_SIGID_SIGID_2 = "place.SIGid = ?";
+	private static final String _FINDER_COLUMN_SIGID_SIGID_3 = "(place.SIGid IS NULL OR place.SIGid = '')";
 
 	public PlacePersistenceImpl() {
 		setModelClass(Place.class);
@@ -2471,6 +2710,9 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { place.getUuid(), place.getGroupId() }, place);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+			new Object[] { place.getSIGid() }, place);
 
 		place.resetOriginalValues();
 	}
@@ -2551,6 +2793,13 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 				Long.valueOf(1));
 			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 				placeModelImpl);
+
+			args = new Object[] { placeModelImpl.getSIGid() };
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args,
+				placeModelImpl);
 		}
 		else {
 			if ((placeModelImpl.getColumnBitmask() &
@@ -2562,6 +2811,16 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
 					Long.valueOf(1));
 				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+					placeModelImpl);
+			}
+
+			if ((placeModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_SIGID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { placeModelImpl.getSIGid() };
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args,
 					placeModelImpl);
 			}
 		}
@@ -2584,6 +2843,19 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		args = new Object[] { placeModelImpl.getSIGid() };
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
+
+		if ((placeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_SIGID.getColumnBitmask()) != 0) {
+			args = new Object[] { placeModelImpl.getOriginalSIGid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
 		}
 	}
 

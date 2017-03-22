@@ -61,7 +61,7 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		attributes.put("uuid", getUuid());
 		attributes.put("exceptionId", getExceptionId());
 		attributes.put("date", getDate());
-		attributes.put("startHout", getStartHout());
+		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
 		attributes.put("comment", getComment());
 		attributes.put("closed", getClosed());
@@ -91,10 +91,10 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 			setDate(date);
 		}
 
-		String startHout = (String)attributes.get("startHout");
+		String startHour = (String)attributes.get("startHour");
 
-		if (startHout != null) {
-			setStartHout(startHout);
+		if (startHour != null) {
+			setStartHour(startHour);
 		}
 
 		String endHour = (String)attributes.get("endHour");
@@ -225,13 +225,13 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
-	* Returns the start hout of this schedule exception.
+	* Returns the start hour of this schedule exception.
 	*
-	* @return the start hout of this schedule exception
+	* @return the start hour of this schedule exception
 	*/
 	@Override
-	public java.lang.String getStartHout() {
-		return _scheduleException.getStartHout();
+	public java.lang.String getStartHour() {
+		return _scheduleException.getStartHour();
 	}
 
 	/**
@@ -411,13 +411,13 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
-	* Sets the start hout of this schedule exception.
+	* Sets the start hour of this schedule exception.
 	*
-	* @param startHout the start hout of this schedule exception
+	* @param startHour the start hour of this schedule exception
 	*/
 	@Override
-	public void setStartHout(java.lang.String startHout) {
-		_scheduleException.setStartHout(startHout);
+	public void setStartHour(java.lang.String startHour) {
+		_scheduleException.setStartHour(startHour);
 	}
 
 	/**
