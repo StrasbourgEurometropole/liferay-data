@@ -27,7 +27,7 @@
 		<p>
 			<aui:button name="choose-file-${name}-${currentLocale}" id="choose-file-${name}-${currentLocale}" value="${multiple ? 'add' : 'choose'}" />
 		</p>
-		<%-- Champ hidden contenant les données qui seront utilisées ensuite par le contrôleur --%>
+		<%-- Champ hidden contenant les donnÃ©es qui seront utilisÃ©es ensuite par le contrÃ´leur --%>
 		<div class="has-error">
 			<c:if test="${localized}">
 				<aui:input name="${name}_${currentLocale}" type="hidden" value="${locale_filesIds[currentLocale]}">
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	<aui:script use="liferay-item-selector-dialog">
-	// JS gérant l'ouverture du popup de selection du fichier
+	// JS gÃ©rant l'ouverture du popup de selection du fichier
 	$('#<portlet:namespace />choose-file-${name}-${currentLocale}').on('click',
 		function(event) {
 			var multipleSelection = ${multiple};
@@ -58,7 +58,7 @@
 				{
 					eventName: 'itemSelected${name}${currentLocale.language}',
 					on: {
-						// Evénement déclenché lors de la sélection d'un fichier
+						// EvÃ©nement dÃ©clenchÃ© lors de la sÃ©lection d'un fichier
 						selectedItemChange: function(event) {
 							var selectedItem = event.newVal;
 							if (!!selectedItem && !!selectedItem.value) {
@@ -113,8 +113,8 @@
 	</aui:script>
 </c:forEach>
 <%-- 
-	Si le champ est localisé, on masque les champs par défaut et on affiche ceux qui ont la classe "active"
-	La gestion du toggle de la classe "active" est géré par le JS du module utilisateur
+	Si le champ est localisÃ©, on masque les champs par dÃ©faut et on affiche ceux qui ont la classe "active"
+	La gestion du toggle de la classe "active" est gÃ©rÃ© par le JS du module utilisateur
 --%>
 <c:if test="${localized}">
 	<style>

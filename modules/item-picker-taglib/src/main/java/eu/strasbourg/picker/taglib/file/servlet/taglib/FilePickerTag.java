@@ -176,8 +176,8 @@ public class FilePickerTag extends IncludeTag {
 					.replaceAll("(?<=group).*(?=~)", "/global/");
 			}
 
-			request.setAttribute("itemSelectorURL",
-				itemSelectorURLString + locale.getLanguage());
+			request.setAttribute("itemSelectorURL" + locale.getLanguage(),
+				itemSelectorURLString);
 		}
 	}
 
