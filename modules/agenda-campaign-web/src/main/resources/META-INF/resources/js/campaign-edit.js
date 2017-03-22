@@ -277,7 +277,7 @@ function validatePeriods(event) {
 		var timeDetails = params.filter(function(p) {
 			return p.name.indexOf('_timeDetail') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
 		});
-		var timeDetailOk = timeDetails.length == numberOfPeriods;
+		var timeDetailOk = timeDetails.length >= numberOfPeriods;
 		
 		if (!titleOk || !descriptionOk || !timeDetailOk) {
 			hasLanguageError = true;
