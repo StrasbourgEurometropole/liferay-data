@@ -20,7 +20,7 @@
 			
 			<!-- Informations de contact privées-->
 			<aui:fieldset collapsed="false" collapsible="true" label="private-contact-information">
-				<!-- Nom, prÃ©nom, mail, téléphone -->
+				<!-- Nom, prénom, mail, téléphone -->
 				<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
 				<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}" />
 				<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
@@ -153,7 +153,7 @@
 			
 			<!-- Informations de contact public -->
 			<aui:fieldset collapsed="true" collapsible="true" label="public-contact-information">
-				<!-- Organisateur, tÃ©lÃ©phone, mail, adresse du site internet -->
+				<!-- Organisateur, téléphone, mail, adresse du site internet -->
 				<aui:input name="promoter" />
 				<aui:input name="publicPhone" helpMessage="public-phone-help" />
 				<aui:input name="publicEmail" helpMessage="public-email-help">
@@ -220,7 +220,7 @@
 			
 			<!-- Tarifs -->
 			<aui:fieldset collapsed="true" collapsible="true" label="event-price">
-				<!-- GratuitÃ© -->
+				<!-- Gratuité -->
 				<div>
 					<label><liferay-ui:message key="free-event" /></label>
 					<aui:input name="free" value="0" type="radio" checked="${dc.campaignEvent.free eq 0}" label="no" />
@@ -255,6 +255,7 @@
 					</c:forEach>
 				</aui:select>
 					
+				<!-- TODO : thèmes de la campagne uniquement -->
 				<aui:select name="themeId" required="true" label="theme">
 					<aui:option value="" label="" />
 					<c:forEach var="type" items="${dc.themes}">
