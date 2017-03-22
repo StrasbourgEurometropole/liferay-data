@@ -1,0 +1,490 @@
+/**** HEADER *****/
+
+
+html > .lfr-dockbar-pinned {
+    padding-top: 1em;
+}
+
+
+.header .nav-lang {
+	width: 100%;
+	background-color: #268033;
+	max-height: 40px;
+
+}
+
+.header .nav-lang ul {
+	margin: 0;
+	padding: 0;
+	float: right;
+	list-style: none;
+	font-size: 1.3em;
+	font-family: "Lato","Century Gothic",sans-serif;
+}
+
+.header .nav-lang ul li {
+	display: inline-block;
+	float: left;
+	line-height: 40px;
+	text-align: center;
+	height: 40px;
+}
+
+.header .nav-lang ul li a {
+	color: #FFF;
+	font-size: 1em;
+	text-decoration: none;
+	display: block;
+	padding: 0 20px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	transition-property: color, background-color;
+	transition-duration: 0.5s;
+	letter-spacing: 0.2px;
+}
+
+.header .nav-lang ul li.active a {
+	background: #55bd5d;
+	height: 40px;
+	color: #fff!important;
+}
+
+.header .nav-lang ul li:hover a {
+	color: #268033 !important;
+	background: #fff;
+	height: 40px;
+}
+
+.wrapper .header .nav-lang .logo-strasbourg {
+  display: block;
+  float: left;
+  height: 100%;
+}
+
+.wrapper .header .nav-lang .logo-strasbourg img {
+  padding: 8px;
+}
+
+
+.home .wrapper > .header-back   {
+    display: block;
+    z-index: 0;
+    
+}
+
+.home .wrapper > .header-back > .header {
+    max-width: 100%;
+    background: url("../images/2016/header.png") top center /contain no-repeat;
+    display: block;
+    background-size: auto 180px;
+    background-position: center 40px;
+}
+
+.header .logo {
+	margin: 0;
+	padding: 0;
+
+}
+
+.header .logo a { 
+   height: 180px;
+}
+
+.home .header .logo a  {
+	display: block;
+	text-indent: -99999em;
+	width: 100%;
+	overflow: hidden;
+}
+
+/*--- Nav primary ---*/
+.nav-primary {
+ 	background: none repeat scroll 0 0;
+ 	background: #fff;
+ 	padding: 0;
+ 	border-top: 1px solid #e6e6e6;
+ 	border-bottom: 1px solid #e6e6e6;
+ 	margin: auto;
+ 	width: 100%;
+ 	font-weight: bold;
+ 	z-index: 9999;
+ 	max-width: 1000px;
+ 	height: 6em;
+}
+
+.nav-primary .center {
+    position: static;
+}
+
+.nav-primary ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-transform: uppercase;
+	width: 100%;
+	z-index: 9999;
+	position: initial;
+}
+
+.nav-primary ul.child-menu {
+	border-top: 1px solid;
+}
+
+.nav-primary ul li {
+	border-right: 1px solid #e6e6e6;
+	width: calc(100% / 7);
+	box-sizing: border-box;
+	position: relative;
+	vertical-align: middle;
+	height: inherit;
+	transition-property: color, background-color;
+	transition-duration: 0.5s;
+	float: left;
+}
+
+.nav-primary ul li:first-child {
+	border-left: 1px solid #FFF;
+}
+
+.nav-primary ul li a {
+	height: 100%;
+	text-align: center;
+	font-size: 13px;
+	font-family: 'Quicksand', 'Lato', sans-serif;
+	text-transform: uppercase;
+	color: #268033;
+	text-decoration: none;
+	padding: 0 16px;
+	height: 60px;
+	line-height: 1.2em;
+	display: table-cell;
+	vertical-align:middle;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	width: 50%;
+}
+
+
+
+.nav-primary ul.menu li.expanded > a:hover {
+    color: #FFF !important;
+}
+
+.nav-primary ul li.active a {
+    color: #FFF !important;
+    background: #268033;
+}
+
+.nav-primary ul li a:hover {
+    color: #FFF;
+    background: #55bd5d;
+}
+
+.nav-primary ul li .submenu {
+	width: 200px;	
+	position: absolute;
+	height: 0;
+	opacity: 0;	
+	overflow: hidden;	
+	z-index: 999;	
+	margin:0;	
+	margin-left: -1px;
+	-webkit-transition: all 0.3s ease;	
+	-moz-transition: all 0.3s ease;	
+	-o-transition: all 0.3s ease;	
+	-ms-transition: all 0.3s ease;	
+	transition: all 0.3s ease;
+}
+
+.nav-primary ul li:hover .submenu {
+    height: auto;
+    opacity: 1;
+    background: #268033;
+    color: #fff;
+}
+
+.nav-primary ul li .submenu ul li {
+	width:200px;
+	float: none;
+	border: 1px solid #e6e6e6;
+	border-top:none;	
+
+    -webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	 transition: all 0.3s ease;
+}
+
+
+
+.nav-primary ul li .submenu ul li a {	
+	margin:5px;
+	width: 200px;
+	padding-top:5px;
+	padding-bottom:5px;
+	text-align: left;
+	height: inherit;
+	text-transform:none;
+	color: #268033 !important;
+	background: white;
+}
+
+
+.nav-primary ul li .submenu ul li a:hover {
+    color: white !important;
+    background: #55bd5d;
+}
+
+/* Fil d'ariane */
+.breadcrumbs-bar {
+	color: #717171;
+	background: #fff;
+	display:block;
+	width: 100%;
+	max-width: 1000px;
+	margin: auto !important;
+	border-bottom: 1px solid #268033;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.breadcrumbs {
+	margin: auto;
+	line-height: 2em;
+	padding-left: 10px;
+	padding-top: 2px;
+	height:25px;
+	margin-top: 8px;
+}
+
+.breadcrumbs li {
+	display: inline;
+	vertical-align:middle;
+}
+
+.breadcrumbs li:last-child {
+	font-weight: bold;
+}
+
+.breadcrumbs li:after {
+	content: " > ";
+}
+
+.breadcrumbs li:last-child:after {
+	content: "";
+}
+
+.breadcrumbs li:first-child:before {
+	vertical-align:middle ;
+}
+
+.breadcrumbs li:first-child{
+	padding-left:15px;
+}
+.breadcrumbs.lfr-component li a {
+	text-decoration: none;
+	vertical-align:middle;
+}
+
+
+@media all and (max-width: 640px) {
+	/* Style adjustments for viewports that meet the condition */
+	
+	
+    .header {
+    	float: none;
+    }
+    
+    .home .wrapper > .header-back > .header {
+      background: url("../images/2016/header-mobile.png") top center no-repeat;
+	    background-size: auto 80px;
+	    background-position: center 40px;
+    }
+
+	.header .logo {
+		min-heigt:50px;
+	}
+
+    
+    .home .header .logo a, .logo a {
+    	height: 110px;
+    }
+ 
+	.header .logo a {
+		background: none;
+	}
+
+	.header .nav-lang ul {
+		font-size:0.9em;
+	}
+
+	.header .nav-lang ul li a {
+		padding:0 15px !important;
+	}
+
+	.header .nav-lang li:first-child{
+		display:none;
+	}
+
+
+	.nav-primary {
+		position:relative;
+        background:transparent;
+        border: none;
+        margin-top:0px;
+		height:50px;
+
+	}
+
+	.nav-primary ul {
+			height: 0;
+			overflow: hidden;
+			left: 0;
+			right: 0;
+			background: #741216;
+			float: left;
+			font-weight:normal;
+			z-index: 500;
+	}
+
+	.nav-primary ul li {
+			padding: 0;
+			text-align: left;
+			text-indent: 8px;
+			border: none;
+			border-top: 1px solid #e6e6e6;
+			border-bottom: 1px solid #e6e6e6;
+			float: none;
+			width: 100%;
+			height:40px;
+			background:#268033!important;
+			display: table;
+
+	}
+
+	.nav-primary ul li.expanded {
+        border-bottom: none;
+	}
+
+	.nav-primary ul li a {
+			text-align: left;
+			text-transform:none;
+			color:#fff !important;
+			height:40px;
+			width:inherit;
+	}
+
+	.nav-primary ul li:hover  {
+	    background: #fff !important;
+	    color: #268033 !important;
+	    width: 100% !important;
+	}
+
+
+  .nav-primary ul li a:hover {
+	    background:transparent;
+	    color: #268033 !important;
+	}
+
+	.nav-primary ul li.active a {
+		background:transparent;
+		font-weight:bold;
+		font-size:1.5em;
+		line-height:2.7em !important;
+	}
+
+    .nav-primary ul.menu li.expanded > a:hover {
+       color: #268033 !important;
+       
+    }
+
+    .nav-primary ul li.expanded >a {
+    	 background: transparent url(../images/bg/puce-menu-expanded.png) 88%  center no-repeat;
+    	 padding-right: 20px;
+         display: block;
+         line-height: 3.5em;
+    }
+
+	.nav-primary ul li:first-child {
+			border-left: none;
+	}
+	.nav-primary ul li:hover .submenu {
+			height: 0;
+			opacity: 1;
+	}
+	.nav-primary ul li .submenu {
+			position: static;
+			min-width: 100%;
+			opacity: 1;
+			border-top: 1px solid #e6e6e6;
+	}
+	.nav-primary ul.child-menu {
+			border-top: none;
+	}
+	.nav-primary ul li .submenu ul {
+			width: 96%;
+			position: relative;
+			top: auto;
+			background: none repeat scroll 0 0 #268033;
+	}
+	.nav-primary ul li .submenu ul li {
+			float: none;
+			width: 100%;
+			padding-left: 6%;
+			background: #268033 !important;
+			
+	}
+
+    .nav-primary .submenu ul li:last-child {
+         
+          border-bottom: none;
+    }
+    .nav-primary .submenu ul li:first-child {
+          border-top:none;
+    }
+
+	.nav-primary ul li .submenu ul li a {
+			margin: 0;
+			border: none;
+			padding-bottom: 0;
+			line-height: 2.8em;
+			background-position-y: -5px;
+			color: #fff !important;
+			background: transparent url(../images/bg/submenu-white-arrow.png) 0px 0px no-repeat;
+	}
+	.nav-primary ul li .submenu ul li a:hover {
+			background:transparent;
+			color: #fff !important;
+			border:none;
+			background: transparent url(../images/bg/submenu-white-arrow.png) 0px 0px no-repeat;
+	}
+    
+    .nav-primary ul li .submenu ul li:hover {
+			padding-left: 16px;
+			padding-right: 4px;
+			background-color: #741216;
+	}
+
+
+   .btn-menu {
+	      display: block !important;
+	      background-color: #268033 !important;
+
+   }
+	
+	/* Fil d'ariane */
+	
+	.breadcrumbs {
+			width: auto;
+			margin-top: -80px;
+	}
+
+
+}

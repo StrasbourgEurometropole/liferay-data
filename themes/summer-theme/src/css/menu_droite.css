@@ -1,0 +1,558 @@
+
+
+.portlet-link-viewer .link-list,
+.agenda-list {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+.portlet-link-viewer ul.link-list > li, .portlet-link-viewer ul.column-list > li, .portlet-link-viewer ul.large-column-list > li,
+.agenda-list .event-content {
+    
+    list-style: none;
+    display: block;
+    font-weight: bold;
+    background: transparent url("../images/2016/dark_green_arrow.png") no-repeat scroll left 3px;
+    padding-left: 15px;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+    text-decoration: none;
+    color: #1A171B;
+    transition: all 0.3s ease 0s;
+}
+
+.portlet-link-viewer .link-list li a,
+.agenda-list .event-content a.btn-tps-forts,
+#main-content .portlet-cus-document-asset .desc a,
+#main-content .column-list-container a {
+   
+    color: #1A171B;
+    display: block;
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    border-bottom: none;
+    height: auto;
+    font-size:1.5em;
+    
+    line-height: 1.2em;
+    vertical-align: middle;
+    text-decoration: none;
+    font-weight: normal;
+         
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    
+}
+
+#main-content .column-list-container>ul{
+    margin-left:0em;
+}
+
+
+.portlet-link-viewer .link-list li a:hover,
+.agenda-list .event-content a.btn-tps-forts:hover,
+ #main-content .column-list-container a:hover {
+    padding-left: 5px;
+}
+
+
+#main-content .portlet-link-viewer div.title-useful-link,
+#main-content .portlet-link-viewer div.title-read-further,
+#main-content .portlet .title-procedures-and-services,
+#main-content .portlet .title-most-requested {
+    background: #e6f4ec;
+    margin-bottom: 1em;
+    color: #268033;
+    font-size: 1.85em;
+    height: 25px;
+    margin-top: 0em;
+    padding-bottom: 15px;
+    padding-left: 0em;
+    vertical-align: middle;
+    line-height: 2em;
+    text-align: center;
+    font-weight: normal;
+}
+
+
+.portlet-agenda .main-title {
+    background: #e6f4ec;
+    margin-bottom: 1em;
+    color: #268033;
+    font-size: 1.85em;
+    height: 30px;
+    margin-top: 0em;
+    padding-bottom: 15px;
+    padding-left: 0em;
+    vertical-align: middle;
+    line-height: 2.5em;
+    text-align: center;
+}
+
+
+#main-content .portlet-link-viewer {
+    padding: 12px 10px 10px;
+}
+
+
+
+#main-content .portlet-cus-document-asset .portlet-body, #main-content .portlet-link-viewer .portlet-body, #main-content .portlet-agenda .portlet-body {
+    border: 1px solid #e6f4ec;
+    padding-bottom: 15px;
+}
+
+
+#main-content .portlet-cus-document-asset .doc-title {
+    background: #e6f4ec;
+    margin-bottom: 1em;
+    color: #268033;
+    font-size: 1.85em;
+    height: 30px;
+    margin-top: 0em;
+    padding-bottom: 15px;
+    padding-left: 0em;
+    vertical-align: middle;
+    line-height: 2.5em;
+    text-align: center;
+}
+
+
+
+#main-content .portlet-cus-document-asset, .portlet-agenda {
+    margin: auto 10px;
+    padding-bottom: 10px;
+}
+
+
+#main-content .portlet-cus-document-asset .clearer {
+    display: none;
+}
+
+
+.portlet-cus-document-asset .bloc-util-docs .doc {
+    display: block;
+    font-weight: bold;
+    background: transparent url("../images/2016/dark_green_arrow.png") no-repeat scroll left 3px;
+    padding-left: 15px;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+    text-decoration: none;
+    color: #1A171B;
+    transition: all 0.3s ease 0s;
+}
+
+
+.portlet-cus-document-asset .picto {
+    display: none;
+}
+
+
+#main-content span.title-with-picto-span {
+    box-sizing: content-box;
+    border: 1px solid #e6f4ee;
+    display: block;
+    background: #e6f4ee;
+    line-height: 2em;
+    text-align: center;
+    color: #268033;
+    height: 25px;
+    font-size: 1.85em;
+    padding-bottom: 15px;
+    font-weight: normal;
+}
+
+
+#main-content .portlet-asset-header {
+    padding: 12px 10px 10px;
+    background-color: #fff;
+}
+
+
+.asset-header-div
+, .asset-header-div .column-image {
+    width: auto;
+}
+
+
+#main-content span.last-images {
+    background-position: 10px -226px;
+    margin-bottom: -5px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-div img {
+    margin: auto;
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-magazine-div img {
+    margin: 5px auto;
+    vertical-align: middle;
+    width: 107px;
+    height: 60px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-magazine-div {
+    padding: 5px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-magazine-div ul {
+    display: none;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .portlet-body {
+    height: auto;
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+    border: 1px solid #e6f4ee;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div {
+    height: auto;
+    padding: 10px 5px 5px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div .column-image {
+    background: none repeat scroll 0 0 #2B2006;
+    border: medium none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div .link a
+,.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .link-all a
+,.portlet-boundary_CusImageFOPortlet_WAR_Cusallhook_ .link-all a {
+    display: inline-block;
+    margin: 1em 0;
+    background: #e6f4ee;
+    color: #268033;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.3em;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 2em;
+    margin-bottom: 0em;
+    padding: 0px 5px;
+}
+
+
+
+.portlet-boundary_CusImageFOPortlet_WAR_Cusallhook_ .link-all {
+    float: right;
+    display: none;
+}
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div .link a:hover,
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .column-bottom a:hover,
+.link-all a:hover {
+    background: #268033;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div .link a {
+    display: none;
+}
+
+
+.portlet-asset-header .asset-header-image-div .column-image img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.portlet-asset-header .clearer {
+    height: 0;
+}
+
+
+#main-content span.last-videos {
+    background-position: 15px -168px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .column-image {
+    display: block;
+    margin: auto;
+    background: none repeat scroll 0 0 #2B2006;
+    margin-bottom: -5px;
+    padding: 0;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div {
+    padding: 5px;
+}
+
+
+.asset-header-video-div .column-image a {
+    text-align: center;
+    display: block;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .column-title a, .portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-div .column-title a,
+.portlet-cus-document-asset a.btn-more,
+.portlet-link-viewer a.btn-more,
+.portlet-agenda .link-all a {
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: none;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .column-title a {
+    display: none;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .column-title a:hover,
+.portlet-cus-document-asset .btn-more:hover,
+.portlet-link-viewer a.btn-more:hover,
+.portlet-agenda .link-all a:hover {
+    color: #fff;
+    background: #268033;
+    text-decoration: none;
+}
+
+
+.results-grid .column-bottom {
+    border-top: none;
+    padding: 0;
+    color: #2B2006;
+    float: none;
+}
+
+
+.results-grid .column-footer .publication-date {
+    color: #2B2006;
+    font-size: 0px;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .image-link,
+.portlet-asset-header .image-link {
+    display: inline-block !important;
+    margin: 1em 0;
+    background: #e6f4ee;
+    color: #268033;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.3em;
+    vertical-align: middle;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 0.5em;
+    padding: 0px 5px;
+    text-transform: none;
+    float: none;
+}
+
+
+.portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-video-div .column-image img {
+    margin: 0px 0px 5px 0px;
+}
+
+
+#main-content .portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-page span.last-images, #main-content .portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-magazine-page span.last-magazines, #main-content .portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ span.last-videos {
+    color: #268033;
+}
+
+
+.portlet-agenda .link-all {
+    display: block;
+}
+
+
+.portlet-asset-header .results-grid .column-title {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+
+.portlet-cus-document-asset .btn-more,
+.portlet-link-viewer .btn-more,
+.portlet-agenda .link-all a {
+    background: #e6f4ec;
+    color: #268033;
+    display: inline-block;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-bottom: -10px;
+    font-size: 1.3em;
+    line-height: 140%;
+}
+
+
+.image-link-div {
+    display: none;
+}
+
+
+div.titre-portlet-europtimist {
+    color: #FFF;
+    display: block;
+    font-weight: bold;
+    padding-left: 64px;
+    border-bottom: 1px solid #f8cc67;
+    font-size: 1.25em;
+    height: 3.3em;
+    line-height: 3.3em;
+    text-transform: uppercase;
+    background: #d09b1f url(../images/sprite.png) top left no-repeat;
+}
+
+
+.link-arrow a img {
+    display: none;
+}
+
+
+
+.portlet-link-viewer {
+    padding: 12px 10px 10px;
+}
+
+.portlet-agenda .agenda-body.agenda-carousel .event-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel {
+    height: auto;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: white;
+    width: 100%;
+    max-width: 260px;
+    margin: auto;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-content {
+    width:  100%;
+    padding-bottom: 0;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-date a {
+    text-decoration: none;
+    color: #808080;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-content a.btn-tps-forts {
+    background-image: none;
+    padding: 0;
+    text-decoration: none;
+    color: #2d2d2d;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-content .event-meta {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.95);
+    width: 100%;
+    height: 75px;
+    padding: 10px 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-content .event-meta {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.95);
+    width: 100%;
+    height: 75px;
+    padding: 10px 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-content .event-meta h4 {
+	font-size: 14px;
+    margin: 0;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .event-category {
+    display: none;
+}
+
+
+.portlet-agenda .agenda-body.agenda-carousel .owl-dots {
+    padding-bottom: 10px;
+}
+
+
+.agenda-carousel .owl-item:before {
+    display: block;
+    content: "";
+    padding-top: 100%;
+}
+
+
+.agenda-carousel .owl-item .event-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.agenda-carousel .owl-dots .owl-dot span,
+.agenda-carousel .owl-dots .owl-dot:hover span {
+    background: #808080;
+}
+
+
+.agenda-carousel .owl-dots .owl-dot.active span {
+    background: #55bd5d;
+}
+
+
+
+@media all and (max-width: 640px) {
+}
