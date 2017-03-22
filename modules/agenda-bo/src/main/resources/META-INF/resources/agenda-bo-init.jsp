@@ -20,7 +20,7 @@
 
 <portlet:defineObjects />
 
-<liferay-portlet:resourceURL var="placeAutocompleteURL">
+<liferay-portlet:resourceURL var="placeAutocompleteURL" id="autocomplete">
 </liferay-portlet:resourceURL>
 <liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />

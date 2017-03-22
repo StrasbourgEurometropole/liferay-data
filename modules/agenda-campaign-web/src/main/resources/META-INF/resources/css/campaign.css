@@ -1,0 +1,114 @@
+.period-label {
+	margin-bottom: 10px;
+}
+
+.date-range {
+	cursor: pointer; 
+	padding: 5px 10px; 
+	border: 1px solid #ccc; 
+	width: 100%
+}
+
+.time-detail-wrapper {
+   margin-top: 10px;
+   margin-bottom: -40px;
+}
+
+.time-detail-generator-wrapper {
+	margin-top: 10px;
+}
+
+.event-periods-title {
+	margin-top: 30px;
+}
+
+.event-periods-title .control-label {
+	font-size: 16px;
+}
+
+.add-dates-section {
+	padding: 10px 20px;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.lfr-form-row:nth-child(2) {
+	display: none;
+}
+
+.event-period-conflict, .language-error {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #F44336;
+    color: white;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
+.portlet-body > .daterangepicker {
+    display: none;
+}
+
+.daterangepicker {
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+	display: -ms-flexbox;  /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+	display: flex;
+	width: 700px;
+	margin-top: 70px;
+    margin-left: 10px;  
+}
+
+.daterangepicker .calendar {
+	height: 300px;
+}
+
+.add-row.btn, .delete-row.btn {
+	margin-right: 10px;
+}
+
+.btn {
+    margin: 0 15px 15px 0;
+}
+
+.event-price {
+	height: auto;
+	border: none;
+}
+
+img {
+	max-width: 500px;
+}
+
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}

@@ -21,7 +21,7 @@
 	<c:if test="${empty dc.keywords}">
 
 		<liferay-frontend:management-bar-filters>
-			<c:forEach var="vocabulary" items="${dc.vocabularies}">
+			<c:forEach var="vocabulary" items="${dc.globalVocabularies}">
 
 				<liferay-portlet:renderURL varImpl="removeVocabularyFilterURL">
 					<portlet:param name="tab" value="events" />

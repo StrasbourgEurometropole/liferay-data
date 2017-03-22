@@ -839,6 +839,51 @@ public interface ManifestationPersistence extends BasePersistence<Manifestation>
 		java.lang.String idSource);
 
 	/**
+	* Returns the manifestation where idSource = &#63; or throws a {@link NoSuchManifestationException} if it could not be found.
+	*
+	* @param idSource the id source
+	* @return the matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public Manifestation findByIdSource(java.lang.String idSource)
+		throws NoSuchManifestationException;
+
+	/**
+	* Returns the manifestation where idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param idSource the id source
+	* @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public Manifestation fetchByIdSource(java.lang.String idSource);
+
+	/**
+	* Returns the manifestation where idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param idSource the id source
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public Manifestation fetchByIdSource(java.lang.String idSource,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the manifestation where idSource = &#63; from the database.
+	*
+	* @param idSource the id source
+	* @return the manifestation that was removed
+	*/
+	public Manifestation removeByIdSource(java.lang.String idSource)
+		throws NoSuchManifestationException;
+
+	/**
+	* Returns the number of manifestations where idSource = &#63;.
+	*
+	* @param idSource the id source
+	* @return the number of matching manifestations
+	*/
+	public int countByIdSource(java.lang.String idSource);
+
+	/**
 	* Caches the manifestation in the entity cache if it is enabled.
 	*
 	* @param manifestation the manifestation

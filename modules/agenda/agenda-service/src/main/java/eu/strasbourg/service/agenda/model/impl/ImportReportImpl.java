@@ -51,7 +51,8 @@ import freemarker.template.Template;
  */
 @ProviderType
 public class ImportReportImpl extends ImportReportBaseImpl {
-
+	private static final long serialVersionUID = -910651822078087920L;
+	
 	private List<ImportReportLine> _lines;
 
 	/*
@@ -70,6 +71,8 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 	public void globalError(String cause) {
 		this.setStatus(ImportReportStatus.FAILURE);
 		this.setGlobalErrorCause(cause);
+		_log.error(cause);
+		this.sendMail();
 	}
 
 	@Override
@@ -182,7 +185,7 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 			StringWriter bodyWriter = new StringWriter();
 			subjectTemplate.process(context, subjectWriter);
 			bodyTemplate.process(context, bodyWriter);
-			MailHelper.sendMailWithPlainText("no-reply@strasbourg.eu",
+			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
 				mailAddresses + "," + providerSpecificMailAddresses, subjectWriter.toString(),
 				bodyWriter.toString());
 		} catch (Exception e) {

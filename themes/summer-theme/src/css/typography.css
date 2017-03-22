@@ -1,0 +1,231 @@
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+ @import url(https://fonts.googleapis.com/css?family=Quicksand:400,700);
+
+h1 {
+    font-family: 'Quicksand', 'Lato', sans-serif;
+    line-height: normal;
+    letter-spacing: 0px;
+    color: #268033;
+    text-align: center;
+    font-size: 4.8em;
+    vertical-align: text-top;
+    background: transparent;
+}
+
+
+
+h2 {
+	font-family: 'Quicksand', 'Lato', sans-serif;
+    font-size: 32px;
+    color: #268033;
+    padding-bottom: 6px;
+    line-height: 120%;
+    margin-bottom: 0;
+    margin-top: 0em;
+}
+
+
+
+h3 {
+	font-family: 'Quicksand', 'Lato', sans-serif;
+    font-size: 1.5em;
+    color: #268033;
+    padding-bottom: 0.3em;
+    margin-top: 1em;
+    line-height: 120%;
+    margin-bottom: 4px;
+    margin-top: 31px;
+}
+
+
+h4 {
+	font-family: 'Quicksand', 'Lato', sans-serif;
+    font-size: 1.1em;
+    color: #268033;
+    padding-bottom: 0.3em;
+    margin-top: 1em;
+    line-height: 120%;
+}
+
+p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 20px;
+}
+
+em, strong {
+    margin: 0px;
+    padding: 0px;
+    border: 0px none;
+    outline: 0px none;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent none repeat scroll 0% 0%;
+}
+
+
+.bloc h2 {
+    font-size: 1.3em !important;
+}
+
+.bloc h3 {
+    background: #FFF none repeat scroll 0% 0%;
+    font-weight: normal;
+    font-size: 1.2em;
+    margin-top: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color:black;
+}
+
+.bloc {
+    margin-bottom: 2em;
+    border: 1px solid #E6F4EE;
+    font-size:1.3em;
+}
+
+.bloc.bleu .title-bloc h2{
+    color: #D3456D;
+    background-color: #FAE8EC ;
+    font-size: 1.5em ;
+    height:30px;
+    margin-top:0em;
+    padding-top:10px;
+    padding-left:0em;
+    vertical-align:middle;
+}
+
+.bloc .title-bloc {
+    line-height: 2.5em;
+    text-align: center !important;
+    color: #268033;
+    letter-spacing: 0.3px;
+    vertical-align:middle !important;
+}
+
+.bloc p {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight:normal;
+    font-size:1em;
+}
+
+.rose h2 {
+    color: #D6345D;
+}
+
+.rose a.lien-background {
+    background: #FAE8EC none repeat scroll 0% 0%;
+    color: #D6345D;
+}
+
+.rose a.lien-background:hover {
+    background:#D6345D;
+    color: #fff;
+}
+
+a.lien-background {
+    display: inline-block;
+    margin: 0.3em 0px;
+    background: #E6F4EE none repeat scroll 0% 0%;
+    color: #268033;
+    padding: 3px 10px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+a.lien-background:hover{
+    color: #fff;
+    background:#268033;
+}
+
+.bloc.bleu label {
+    display: block;
+    clear: both;
+    padding-left:1em;
+}
+
+.bloc em {
+    font-style: normal;
+    color: #E23457;
+}
+
+label{
+    margin: 0px;
+    padding: 0px;
+    border: 0px none;
+    outline: 0px none;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent none repeat scroll 0% 0%;
+}
+
+.bloc.bleu .selectbox select {
+    -moz-appearance: none;
+    width: 96%;
+    padding: 2% 2% 2% 30px;
+    color: #565656;
+    border: 0px none;
+    background-color: #FAE8EC;
+    background-image: url("../images/fleche-selectbox.png");
+    background-repeat: no-repeat;
+    background-position: 10px 9px;
+    margin-left:0.5em;
+}
+
+.bloc.bleu input {
+    display: block;
+    clear: both;
+    width: 92%;
+    padding: 2%;
+    background: #FAE8EC;
+    color: #565656;
+    border: 0px none;
+    margin-left:0.5em;
+    
+}
+
+.bloc.bleu input[type="submit"] {
+    display: block;
+    width: 96%;
+    margin: 1em 0px;
+    background-color: #D6345D;
+    margin-left:0.5em;
+    height:30px;
+    color:#fff !important;
+    border-radius:0px;
+    font-weight:normal;
+    text-shadow: none;
+    transition: all 0.3s ease 0s;
+}
+
+.bloc.bleu input[type="submit"]:hover {
+    background-color: #60b68f;  
+}
+
+#content a.lien-fleche {
+    display: block;
+    font-weight: bold;
+    background: transparent url("../images/fleche-grise.png") no-repeat scroll left 4px / 7px 10px;
+    padding-left: 15px;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+    text-decoration: none;
+    color: #1A171B;
+    transition: all 0.3s ease 0s;
+}
+
+#content .rose a.lien-fleche {
+    background: transparent url("../images/fleche-rose.png") no-repeat scroll left 3px;
+}

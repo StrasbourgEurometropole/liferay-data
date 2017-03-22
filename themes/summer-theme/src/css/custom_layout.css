@@ -1,0 +1,92 @@
+/*
+ * Main layout design
+ */
+
+/* Layout */
+.portlet-column {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.aui-w7-10, .aui-w70 {
+    width: 70%;
+    float: left;
+}
+
+.portlet-column-only {
+    width: 100%;
+}
+
+#wrapper div.aui-w70#column-1 {
+    padding-right: 27px;
+}
+
+.aui-w3-10, .aui-w30 {
+    width: 30%;
+}
+
+.layouttpl-left {
+    padding-right: 12px;
+}
+
+.layouttpl-right {
+    padding-left: 15px;
+}
+
+.portlet-column-content {
+    padding: 0;
+}
+
+#main-content{
+    max-width: 1000px;
+    margin: 0px auto;
+    background-color: #FFF;
+    opacity: 0.95;
+    padding: 15px 25px;
+}
+
+
+@media all and (max-width: 640px) {
+    .wrapper .center {
+        width: 100%;
+    }
+    .wrapper .content .center {
+        padding: 0 10px;
+    }
+    .wrapper .aui-w70,
+    .wrapper .aui-w30 {
+        display: block;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        margin-left: 0;
+        padding: 0 !important;
+        float: none;
+    }
+    .portlet-column {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    .portlet-layout, .portlet-layout > tbody,
+    .portlet-layout > tbody > tr,
+    .portlet-layout > tbody > tr > td {
+        
+    }
+
+
+    h1 {
+        font-size:4em;
+    }
+
+    #main-content{
+        padding: 0;
+        margin: 0;
+    }
+
+    .row {
+        margin: 0;
+    }
+}

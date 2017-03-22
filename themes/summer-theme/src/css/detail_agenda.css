@@ -1,0 +1,414 @@
+.ui-widget-header {
+    border: 1px solid #aaa;
+    background: #268033 !important;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	background: #268033 !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+	background: #268033 !important;
+}
+
+.portlet-cus-event-asset-fo #contactForm {
+    display: none;
+}
+
+.portlet-cus-event-asset-fo .portlet-icon-back
+{
+    display: none !important;
+}
+
+#main-content .portlet-cus-event-asset-fo .details
+{
+    margin-bottom: 20px;
+    padding: 0;
+    width: 100%;
+    background-color: transparent;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description {
+    width: 625px;
+    float: left;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-subtitle
+{
+    font-size: 17px;
+    font-weight: bold;
+    display: block;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    color: #1A171B;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-themes
+{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0px;
+    color: #268033;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description h2
+{
+    
+    font-weight: normal;
+    line-height: 32px;
+    text-transform: none;
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info
+{
+    font-size: 15px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 25px;
+    padding-left: 20px;
+    //color: #268033;
+    color:  white;
+   //background: #e6f4ee;
+    background: #268033;
+    line-height:normal;
+}
+
+
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .date,
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .place
+{
+    font-size: 18px;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info address p
+{
+    margin: 0;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .f-left
+{
+    display: inline-block;
+    width: 270px;
+    vertical-align: top;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .f-left img {
+    max-width: 100%;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .f-right
+{
+    display: inline-block;
+    width: 270px;
+    margin-left: 20px;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info .copyright
+{
+    font-size: 10px;
+    display: block;
+    padding-top: 5px;
+    color: white;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .event-info a
+{
+    font-size: 16px;
+    display: block;
+    height: 29px;
+    margin-top: 20px;
+    padding-top: 3px;
+    padding-left: 40px;
+    color: #fff;
+    background: transparent url(../images/sprite.png) -5px -106px no-repeat;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .ck-editor-content
+{
+    font-size: 12px;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .entry-content 
+, #main-content .portlet-cus-event-asset-fo .event-info-block 
+, #main-content .portlet-cus-event-asset-fo h3.event-programmation {
+    font-size: 20px;
+    margin-top: 0px;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .entry-content h4
+{
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: #268033;
+    font-weight: bold;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .entry-content div.col-50
+{
+    display: inline-block;
+
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 305px;
+    float: left;
+
+    vertical-align: top;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-description .entry-content div.col-50+div.col-50 {
+    float: right;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-info-block {
+    background: white;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-info-block:first-child {
+    margin-bottom: 0;
+}
+
+.event-info-block .ck-editor-content,
+.event-info-block p {
+    font-size: 14px !important;
+    line-height: 23px !important;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-date-block {
+    float: right;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 305px;
+}
+
+#main-content .portlet-cus-event-asset-fo .event-date-block .btn-more {
+  display: block;
+  margin: 10px auto;
+  width: 31px;
+  height: 31px;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: #268033;
+  position: relative;
+  box-sizing: border-box;
+  float: none;
+  padding: 0;
+}
+#main-content .portlet-cus-event-asset-fo .event-date-block .btn-more:before {
+  content: "";
+  width: 19px;
+  height: 3px;
+  background-color: #268033;
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 4px;
+}
+#main-content .portlet-cus-event-asset-fo .event-date-block .btn-more:after {
+  content: "";
+  width: 3px;
+  height: 19px;
+  display: block;
+  background-color: #268033;
+  top: 4px;
+  left: 12px;
+  position: relative;
+}
+#main-content .portlet-cus-event-asset-fo .event-date-block .btn-less {
+  display: block;
+  margin: 10px auto;
+  width: 31px;
+  height: 31px;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 2px solid #268033;
+  position: relative;
+  box-sizing: border-box;
+  float: none;
+  padding: 0;
+}
+#main-content .portlet-cus-event-asset-fo .event-date-block .btn-less:before {
+  content: "";
+  width: 19px;
+  height: 3px;
+  background-color: #268033;
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 4px;
+}
+
+
+#main-content .portlet-cus-event-asset-fo h3.event-programmation
+{
+    clear: left;
+    margin: 0;
+    padding: 20px 0px;
+    padding-top: 0;
+}
+
+#main-content .portlet-cus-event-asset-fo .addinto_sharebox
+{
+    font-size: 14px;
+
+    float: left;
+
+    padding: 10px;
+
+    background: white;
+}
+
+#main-content .portlet-cus-event-asset-fo .addinto_sharebox a {
+    display: inline-block;
+}
+
+/* Listes */
+.details ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.ck-editor-content ul li
+, .portlet-cus-event-asset-fo .entry-content ul li {
+    
+    padding-left: 10px;
+
+    list-style: none outside none;
+
+    background: url('../images/2016/square_green.png') no-repeat scroll 2px 11px rgba(0, 0, 0, 0);
+    line-height: 23px;
+    font-size: 14px;
+}
+
+
+/* Bouton retour */
+.portlet-cus-event-asset-fo .back-button-event {
+    float: left;
+}
+
+.button-gray {
+    margin-left: 0px;
+}
+
+.button-gray.button-gray-top {
+    background-image: none;
+    color: #003958;
+    display: block;
+    font-size: 0.85em;
+    font-weight: bold;
+    line-height: 1.3em;
+    margin-top: 7px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+    float: right;
+}
+
+.button-gray .left {
+    display: none;
+}
+
+.button-gray .middle {
+    
+}
+.button-gray .middle a {
+    color: #268033;
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 2.5em;
+    margin: 0;
+    background: #e6f4ee;
+    text-decoration: none;
+    height: 30px;
+    vertical-align: middle;
+    margin-bottom: 0em;
+    padding: 0px 5px;
+}
+
+.button-gray .middle a:hover {
+    text-decoration: none;
+    background: #268033;
+    color: white;
+}
+
+.button-gray .right {
+    display: none;
+}
+
+/* Bouton retour bas de page */
+.button-gray.button-gray-bottom {
+    display: none;
+}
+
+/* Vignette */
+.portlet-cus-event-asset-fo .list-evt .entry-category {
+    display: none !important;
+}
+
+@media screen and (max-width: 640px)
+{
+
+    #main-content .portlet-cus-event-asset-fo .event-description
+    {
+        padding-right: 0;
+        width: 100%;
+    }
+
+    #main-content .portlet-cus-event-asset-fo .event-description .event-info .f-left
+    {
+        width: auto;
+        margin-bottom: 20px;
+    }
+
+    
+    #main-content .portlet-cus-event-asset-fo .event-description .event-info .f-right
+    {
+        width: auto;
+    }
+
+    #main-content .portlet-cus-event-asset-fo .event-description h2
+    {
+    }
+
+
+    #main-content .portlet-cus-event-asset-fo .event-description .entry-content div.col-50
+    {
+        width: 100%;
+        padding: 0;
+
+        border: none !important;
+    }
+
+    #main-content .portlet-cus-event-asset-fo .event-description .entry-content div.col-50 + div.col-50
+    {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    #main-content .portlet-cus-event-asset-fo .event-date-block {
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #main-content .portlet-cus-event-asset-fo .addinto_sharebox
+    {
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+}

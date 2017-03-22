@@ -547,6 +547,14 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
+	* Retourne le label des publics de l'événement
+	*/
+	@Override
+	public java.lang.String getPublicLabel(java.util.Locale locale) {
+		return _manifestation.getPublicLabel(locale);
+	}
+
+	/**
 	* Returns the source of this manifestation.
 	*
 	* @return the source of this manifestation
@@ -574,6 +582,14 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _manifestation.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne le label des themes de l'événement
+	*/
+	@Override
+	public java.lang.String getThemeLabel(java.util.Locale locale) {
+		return _manifestation.getThemeLabel(locale);
 	}
 
 	/**
@@ -641,6 +657,14 @@ public class ManifestationWrapper implements Manifestation,
 	@Override
 	public java.lang.String getTitleCurrentValue() {
 		return _manifestation.getTitleCurrentValue();
+	}
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	@Override
+	public java.lang.String getTypeLabel(java.util.Locale locale) {
+		return _manifestation.getTypeLabel(locale);
 	}
 
 	/**

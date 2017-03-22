@@ -64,6 +64,7 @@ public class EventPeriodWrapper implements EventPeriod,
 		attributes.put("endDate", getEndDate());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
+		attributes.put("campaignEventId", getCampaignEventId());
 
 		return attributes;
 	}
@@ -104,6 +105,12 @@ public class EventPeriodWrapper implements EventPeriod,
 
 		if (eventId != null) {
 			setEventId(eventId);
+		}
+
+		Long campaignEventId = (Long)attributes.get("campaignEventId");
+
+		if (campaignEventId != null) {
+			setCampaignEventId(campaignEventId);
 		}
 	}
 
@@ -297,6 +304,16 @@ public class EventPeriodWrapper implements EventPeriod,
 	}
 
 	/**
+	* Returns the campaign event ID of this event period.
+	*
+	* @return the campaign event ID of this event period
+	*/
+	@Override
+	public long getCampaignEventId() {
+		return _eventPeriod.getCampaignEventId();
+	}
+
+	/**
 	* Returns the event ID of this event period.
 	*
 	* @return the event ID of this event period
@@ -347,6 +364,16 @@ public class EventPeriodWrapper implements EventPeriod,
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_eventPeriod.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the campaign event ID of this event period.
+	*
+	* @param campaignEventId the campaign event ID of this event period
+	*/
+	@Override
+	public void setCampaignEventId(long campaignEventId) {
+		_eventPeriod.setCampaignEventId(campaignEventId);
 	}
 
 	/**

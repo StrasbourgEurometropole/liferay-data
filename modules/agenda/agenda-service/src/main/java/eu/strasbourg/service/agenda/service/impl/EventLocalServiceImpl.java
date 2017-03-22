@@ -114,6 +114,22 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusByUserId(sc.getUserId());
 		event.setStatusByUserName(user.getFullName());
 		event.setStatusDate(sc.getModifiedDate());
+		
+		// On classe les périodes par date de début, ce qui va nous
+		// permettre
+		// de setter les champs "firstStartDate" et "lastEndDate" sur
+		// l'événement
+		if (event.getEventPeriods().size() > 0) {
+			List<EventPeriod> periods = new ArrayList<EventPeriod>(
+				event.getEventPeriods());
+			periods.sort(
+				(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+
+			Date firstStartDate = periods.get(0).getStartDate();
+			Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
+			event.setFirstStartDate(firstStartDate);
+			event.setLastEndDate(lastEndDate);
+		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion
 		// brouillon/publié
@@ -388,6 +404,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -406,7 +423,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
+		
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 

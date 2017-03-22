@@ -15,10 +15,12 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.ManifestationLocalService;
+import eu.strasbourg.service.agenda.service.CampaignLocalService;
 import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.ManifestationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -44,24 +46,42 @@ public class SelectionActionCommand implements MVCActionCommand {
 						_eventLocalService.removeEvent(entryId);
 					} else if (tab.equals("manifestations")) {
 						_manifestationLocalService.removeManifestation(entryId);
+					} else if (tab.equals("campaigns")) {
+						_campaignLocalService.removeCampaign(entryId);
 					}
 					break;
 				case "publish":
 					if (tab.equals("events")) {
 						Event event = _eventLocalService.getEvent(entryId);
-						_eventLocalService.updateStatus(event, WorkflowConstants.STATUS_APPROVED);
+						_eventLocalService.updateStatus(event,
+							WorkflowConstants.STATUS_APPROVED);
 					} else if (tab.equals("manifestations")) {
-						Manifestation manifestation = _manifestationLocalService.getManifestation(entryId);
-						_manifestationLocalService.updateStatus(manifestation, WorkflowConstants.STATUS_APPROVED);
+						Manifestation manifestation = _manifestationLocalService
+							.getManifestation(entryId);
+						_manifestationLocalService.updateStatus(manifestation,
+							WorkflowConstants.STATUS_APPROVED);
+					} else if (tab.equals("campaigns")) {
+						Campaign campaign = _campaignLocalService
+							.getCampaign(entryId);
+						_campaignLocalService.updateStatus(campaign,
+							WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("events")) {
 						Event event = _eventLocalService.getEvent(entryId);
-						_eventLocalService.updateStatus(event, WorkflowConstants.STATUS_DRAFT);
+						_eventLocalService.updateStatus(event,
+							WorkflowConstants.STATUS_DRAFT);
 					} else if (tab.equals("manifestations")) {
-						Manifestation manifestation = _manifestationLocalService.getManifestation(entryId);
-						_manifestationLocalService.updateStatus(manifestation, WorkflowConstants.STATUS_DRAFT);
+						Manifestation manifestation = _manifestationLocalService
+							.getManifestation(entryId);
+						_manifestationLocalService.updateStatus(manifestation,
+							WorkflowConstants.STATUS_DRAFT);
+					} else if (tab.equals("campaigns")) {
+						Campaign campaign = _campaignLocalService
+							.getCampaign(entryId);
+						_campaignLocalService.updateStatus(campaign,
+							WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}
@@ -72,13 +92,12 @@ public class SelectionActionCommand implements MVCActionCommand {
 		return false;
 	}
 
-
 	private EventLocalService _eventLocalService;
 	private ManifestationLocalService _manifestationLocalService;
+	private CampaignLocalService _campaignLocalService;
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(
-		EventLocalService eventLocalService) {
+	protected void setEventLocalService(EventLocalService eventLocalService) {
 
 		_eventLocalService = eventLocalService;
 	}
@@ -88,6 +107,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 		ManifestationLocalService manifestationLocalService) {
 
 		_manifestationLocalService = manifestationLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setCampaignLocalService(
+		CampaignLocalService campaignLocalService) {
+
+		_campaignLocalService = campaignLocalService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

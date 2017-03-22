@@ -123,9 +123,29 @@ public interface Event extends EventModel, PersistedModel {
 		java.util.Locale locale);
 
 	/**
+	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	public java.lang.String getCity(java.util.Locale locale);
+
+	/**
+	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	public java.lang.String getPlaceAlias(java.util.Locale locale);
+
+	/**
+	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	*/
+	public java.lang.String getPlaceAddressHTML(java.util.Locale locale);
+
+	/**
 	* Retourne les types de l'événement
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	public java.lang.String getTypeLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les themes de l'événement
@@ -133,9 +153,19 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
 
 	/**
+	* Retourne le label des thèmes de l'événement
+	*/
+	public java.lang.String getThemeLabel(java.util.Locale locale);
+
+	/**
 	* Retourne les publics de l'événement
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne le label des publics de l'événement
+	*/
+	public java.lang.String getPublicLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les territoires de l'événement

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -22,17 +23,17 @@ import eu.strasbourg.service.agenda.model.Manifestation;
 
 @Component(immediate = true, service = CheckEventMessageListener.class)
 public class ReindexEventsMessageListener
-	extends BaseSchedulerEntryMessageListener {
+		extends BaseSchedulerEntryMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
 		schedulerEntryImpl.setTrigger(
-			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 2, TimeUnit.HOUR));
+				TriggerFactoryUtil.createTrigger(getEventListenerClass(),
+						getEventListenerClass(), 2, TimeUnit.HOUR));
 
 		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-			DestinationNames.SCHEDULER_DISPATCH);
+				DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -46,8 +47,16 @@ public class ReindexEventsMessageListener
 		String companyIdString = String.valueOf(companyId);
 		String[] companyIdStringArray = new String[] { companyIdString };
 		this._log.info("Start reindexing events and manifestations");
-		IndexerRegistryUtil.getIndexer(Event.class).reindex(companyIdStringArray);
-		IndexerRegistryUtil.getIndexer(Manifestation.class).reindex(companyIdStringArray);
+		Indexer<Event> eventIndexer = IndexerRegistryUtil
+				.getIndexer(Event.class);
+		if (eventIndexer != null) {
+			eventIndexer.reindex(companyIdStringArray);
+		}
+		Indexer<Manifestation> manifestationIndexer = IndexerRegistryUtil
+				.getIndexer(Manifestation.class);
+		if (manifestationIndexer != null) {
+			manifestationIndexer.reindex(companyIdStringArray);
+		}
 		this._log.info("Finish reindexing events and manifestations");
 	}
 

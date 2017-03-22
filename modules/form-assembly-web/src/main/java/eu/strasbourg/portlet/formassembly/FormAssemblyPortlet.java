@@ -27,7 +27,7 @@ import eu.strasbourg.portlet.formassembly.configuration.FormAssemblyConfiguratio
 	configurationPid = "eu.strasbourg.portlet.formassembly.configuration.FormAssemblyConfiguration",
 	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.css-class-wrapper=formassembly-portlet",
+		"com.liferay.portlet.css-class-wrapper=formassembly-portlet form-assembly-portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/formassembly-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",

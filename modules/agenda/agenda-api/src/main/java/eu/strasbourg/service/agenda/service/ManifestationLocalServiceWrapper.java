@@ -171,6 +171,12 @@ public class ManifestationLocalServiceWrapper
 	}
 
 	@Override
+	public eu.strasbourg.service.agenda.model.Manifestation findByIdSource(
+		java.lang.String idSource) {
+		return _manifestationLocalService.findByIdSource(idSource);
+	}
+
+	@Override
 	public eu.strasbourg.service.agenda.model.Manifestation findBySourceAndIdSource(
 		java.lang.String source, java.lang.String idSource) {
 		return _manifestationLocalService.findBySourceAndIdSource(source,

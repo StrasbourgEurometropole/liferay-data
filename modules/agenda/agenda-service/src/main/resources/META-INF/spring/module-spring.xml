@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignEventPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignEventFinderImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventStatusLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventStatusServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventStatusService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignEventStatusPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventServiceImpl" id="eu.strasbourg.service.agenda.service.EventService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPersistence" parent="basePersistence" />

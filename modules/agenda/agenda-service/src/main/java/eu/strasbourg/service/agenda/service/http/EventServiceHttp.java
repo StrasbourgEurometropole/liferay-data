@@ -210,12 +210,43 @@ public class EventServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getTerritories(
+		HttpPrincipal httpPrincipal)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
+					"getTerritories", _getTerritoriesParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getCategory(
 		HttpPrincipal httpPrincipal, long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getCategory", _getCategoryParameterTypes5);
+					"getCategory", _getCategoryParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, id);
 
@@ -246,7 +277,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEvent", _getEventParameterTypes6);
+					"getEvent", _getEventParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, id);
 
@@ -277,7 +308,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEvents", _getEventsParameterTypes7);
+					"getEvents", _getEventsParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -308,7 +339,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEventsByDate", _getEventsByDateParameterTypes8);
+					"getEventsByDate", _getEventsByDateParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, date);
 
@@ -339,7 +370,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEventsByCategory", _getEventsByCategoryParameterTypes9);
+					"getEventsByCategory", _getEventsByCategoryParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					categoryId);
@@ -371,7 +402,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEventsByPlace", _getEventsByPlaceParameterTypes10);
+					"getEventsByPlace", _getEventsByPlaceParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					placeSIGId);
@@ -403,7 +434,7 @@ public class EventServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EventServiceUtil.class,
-					"getEventsByLanguage", _getEventsByLanguageParameterTypes11);
+					"getEventsByLanguage", _getEventsByLanguageParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, language);
 
@@ -435,23 +466,26 @@ public class EventServiceHttp {
 	private static final Class<?>[] _getThemesParameterTypes2 = new Class[] {  };
 	private static final Class<?>[] _getTypesParameterTypes3 = new Class[] {  };
 	private static final Class<?>[] _getServicesParameterTypes4 = new Class[] {  };
-	private static final Class<?>[] _getCategoryParameterTypes5 = new Class[] {
+	private static final Class<?>[] _getTerritoriesParameterTypes5 = new Class[] {
+			
+		};
+	private static final Class<?>[] _getCategoryParameterTypes6 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getEventParameterTypes6 = new Class[] {
+	private static final Class<?>[] _getEventParameterTypes7 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getEventsParameterTypes7 = new Class[] {  };
-	private static final Class<?>[] _getEventsByDateParameterTypes8 = new Class[] {
+	private static final Class<?>[] _getEventsParameterTypes8 = new Class[] {  };
+	private static final Class<?>[] _getEventsByDateParameterTypes9 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getEventsByCategoryParameterTypes9 = new Class[] {
+	private static final Class<?>[] _getEventsByCategoryParameterTypes10 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getEventsByPlaceParameterTypes10 = new Class[] {
+	private static final Class<?>[] _getEventsByPlaceParameterTypes11 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getEventsByLanguageParameterTypes11 = new Class[] {
+	private static final Class<?>[] _getEventsByLanguageParameterTypes12 = new Class[] {
 			java.lang.String.class
 		};
 }

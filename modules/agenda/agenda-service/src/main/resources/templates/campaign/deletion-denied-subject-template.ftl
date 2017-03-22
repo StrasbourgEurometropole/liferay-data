@@ -1,0 +1,1 @@
+${campaignTitle} - La suppression de votre événement a été refusée.

@@ -131,7 +131,7 @@ public class FileEntryHelper {
 		return FileEntryHelper.getStructureFieldValue(fileEntryId, "copyright",
 			locale);
 	}
-	
+
 	/**
 	 * @param fileEntryId
 	 *            ID d'une image
@@ -185,7 +185,8 @@ public class FileEntryHelper {
 		return fieldValue;
 	}
 
-	public static String getFileThumbnail(Long fileEntryId, ThemeDisplay themeDisplay) {
+	public static String getFileThumbnail(Long fileEntryId,
+		ThemeDisplay themeDisplay) {
 		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
 		try {
 			return DLUtil.getThumbnailSrc(fileEntry, themeDisplay);
@@ -193,8 +194,27 @@ public class FileEntryHelper {
 			_log.error(e);
 			return "";
 		}
-		
+
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());
+	/**
+	 * Retourne le fileEntry via l'URL relative de l'image
+	 */
+	public static DLFileEntry getFileEntryByRelativeURL(String url) {
+		try {
+			String urlInterstingPart = url.split("/documents/")[1];
+			String groupIdString = urlInterstingPart.split("/")[0];
+			String[] urlParts = urlInterstingPart.split("/");
+			String uuid = urlParts[urlParts.length - 1].substring(0, 36);
+			DLFileEntry file = DLFileEntryLocalServiceUtil
+				.fetchDLFileEntryByUuidAndGroupId(uuid,
+					Long.parseLong(groupIdString));
+			return file;
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil
+		.getLog(FileEntryHelper.class.getName());
 }

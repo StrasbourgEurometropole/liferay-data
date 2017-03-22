@@ -1,0 +1,412 @@
+
+div.portlet-cus-video-fo {
+	/*background: none repeat scroll 0 0 #003958;*/
+}
+
+.formHeader .formTitle {
+	background: #268033;
+	float: none;
+	border: 1px solid #E6F4EE;
+	border-bottom: none;
+	width:100%;
+}
+
+
+#main-content .formTitle h1 {
+	color: white;
+	font-size: 2.5em;
+	line-height: 120%;
+	text-transform: uppercase;
+	margin-bottom: 0!important;
+	font-weight: bold;
+	text-align: left;
+	padding-left:25px;
+}
+
+.view-all-videos a, .view-all-images a, .view-all-magazines a {
+	color: #D69F1F;
+}
+
+.assetLinks {
+	display: none;
+}
+
+.searchForm {
+	background: none repeat scroll 0 0 #66261C;
+	height: 230px;
+}
+
+.searchForm .filters .filterBy select, .searchForm .filters .orderBy select, .searchForm .filters .filter-by-under-theme select,
+#typeThemeDiv select, #themeDiv select {
+	width: 220px;
+}
+
+
+.keywords , .filterBy , .filter-by-under-theme, #typeThemeDiv {
+    float: left;
+    font-size: 1.17em;
+    line-height: 1.64em;
+    margin-right: 25px;
+    padding-right: 25px;
+}
+
+#typeThemeDiv {
+    border-right: 1px solid #D69F1F;
+    margin-left: -301px;
+    margin-right: 20px;
+    margin-top: 45px;
+    padding: 15px 40px 20px 25px;
+}
+
+.orderBy {
+	float: left;
+    font-size: 1.17em;
+    line-height: 1.64em;
+    margin-right: 25px;
+    padding-right: 25px;
+}
+
+.portlet-cus-event-asset-fo .date input {
+	background: url("../images/bg/icon-calendar.jpg") no-repeat scroll right top #FFFFFF;
+    display: inline;
+    padding-left: 7px;
+    padding-right: 30px;
+    width: 80px;
+}
+
+#uniform-_CusEventAssetFOPortlet_WAR_Cusallhook_territoire {
+	width: 220px;
+}
+
+
+
+
+/**** Recherche video ****/
+.portlet-cus-video-fo .searchForm .filters .filterBy {
+	border-right: 1px solid #4D758A;
+    margin-right: 25px;
+    padding-bottom: 25px;
+    padding-top: 10px;
+}
+
+.portlet-cus-video-fo .orderBy {
+	margin-top: 10px;
+}
+
+.portlet-cus-video-fo .searchForm {
+	height: 170px;
+}
+
+.portlet-cus-video-fo .searchForm .keywords {
+	border-right: 1px solid #D69F1F;
+	margin: 0 0 -3px;
+	padding-bottom: 15px;
+	padding-right: 38px;
+}
+
+/**** Recherche Visuel ****/
+.portlet-cus-image-fo .searchForm {
+	height: 95px;
+}
+
+.portlet-cus-image-fo .searchForm .filters {
+	margin-top: 0;
+}
+
+.portlet-cus-image-fo .searchForm .keywords input[type="text"] {
+	width: 213px;
+}
+
+.portlet-cus-image-fo .searchForm .keywords {
+	border-right: 1px solid #4D758A;
+	padding-right: 30px;
+}
+
+.portlet-cus-image-fo .filterBy {
+	border-right: 1px solid #D69F1F;
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 15px;
+}
+
+/**** SELECT *****/
+
+.portlet-cus-event-asset-fo div.selector {
+	padding-bottom: 30px;
+	
+}
+
+
+.portlet-cus-event-asset-fo div.selector,
+.portlet-cus-video-fo div.selector,
+.portlet-cus-image-fo div.selector {
+    position: relative;
+	line-height: 2.14em;
+	height: 2.14em;
+	color: #003958;
+	cursor: pointer;
+	width:100%!important;
+	overflow: hidden;
+
+}
+
+.portlet-cus-image-fo div.selector {
+	margin-top: 11px;
+}
+
+.portlet-cus-event-asset-fo div.selector span, 
+.portlet-cus-video-fo div.selector span,
+.portlet-cus-image-fo div.selector span {
+   
+    text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-indent: 4px;
+	cursor: pointer;
+	display: block;
+	padding-right: 30px;
+	box-sizing: border-box;
+	color: black;
+	border: 0px none;
+	padding-left: 15%;
+	background-color: white;
+	background-image: url("../images/fleche-selectbox.png");
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+
+}
+
+.portlet-cus-event-asset-fo div.selector.fixedWidth,
+.portlet-cus-video-fo div.selector.fixedWidth,
+.portlet-cus-image-fo div.selector.fixedWidth {
+    width: 190px; 
+}
+
+.portlet-cus-event-asset-fo div.selector.fixedWidth span, 
+.portlet-cus-video-fo div.selector.fixedWidth span,
+.portlet-cus-image-fo div.selector.fixedWidth span {
+    width: 155px; 
+}
+
+.portlet-cus-event-asset-fo div.selector select,
+.portlet-cus-video-fo div.selector select,
+.portlet-cus-image-fo div.selector select {
+	
+	cursor: pointer;
+	opacity: 0;
+	position: absolute;
+	width: 215px;
+	font-size: 1em;
+	line-height: 2.14em;
+	height: 2.14em;
+    
+}
+
+
+
+/*Titre Evenements, Vidéos, Visuels */
+
+#main-content .portlet-cus-video-fo h2.last-videos,
+#main-content .portlet-cus-image-fo h2.header-a-la-une {
+	background-image: none;
+	color: #D69F1F;
+    font-family: Arial;
+    font-size: 2.08em;
+    font-weight: 300;
+    margin: 0;
+    text-transform: uppercase;
+    padding-left: 0;
+}
+
+.portlet-cus-event-asset-fo .lfr-search-container, .portlet-cus-event-asset-fo .results-grid {
+	background-color: transparent;
+}
+  
+/* Eléments */
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .event-themes {
+	color: #D69F1F;
+    font-size: 1.25em;
+    font-weight: bold;
+    line-height: 1.54em;
+    text-transform: none;
+}
+
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .title {
+	font-family: Arial;
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.54em;
+    margin: 4px 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .title a, .portlet-agenda .portlet-borderless-container .column-content .title a {
+	color: #003958;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+    font-size: 1em;
+}
+
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .title a:hover, .portlet-agenda .portlet-borderless-container .column-content .title a:hover {
+	color: #D69F1F;
+	text-decoration: none;
+}
+
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .dates, .portlet-agenda .portlet-borderless-container .column-content .dates {
+	font-size: 1.16em;
+    line-height: 1.28em;
+}
+
+.image-link {
+	background-color: #8E2E20;
+    float: right;
+    margin-bottom: -37px;
+    margin-right: -12px;
+}
+
+/* Affichage du nombre de résultats */
+.results-number {
+    color: #268033 !important;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+    font-size: 14px;
+}
+
+
+
+/* Evénements du jour */
+.portlet-cus-event-asset-fo .portlet-borderless-container .column-content .title {
+	margin-top: -18px;
+}
+
+.portlet-cus-event-asset-fo .portlet-borderless-container table.centered-cell, .portlet-agenda .portlet-borderless-container table.centered-cell {
+	float: none;
+	height: 150px;
+    margin-bottom: 15px;
+    margin-left: 60px;
+    padding-right: 15px;
+    padding-top: 15px;
+    width: 150px;
+}
+
+.portlet-cus-event-asset-fo .taglib-search-iterator {
+	width: 600px;
+	height: 732px;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+
+.portlet-cus-event-asset-fo .taglib-search-iterator td.valign-middle {
+	background: none repeat scroll 0 0 #FFFFFF;
+	box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.portlet-cus-event-asset-fo .taglib-search-iterator td {
+	border-collapse: separate;
+	margin-right: 20px;
+}
+
+
+
+/* Les dernières vidéos */
+.lfr-search-container .results-grid .column-footer {
+	background: #FFFFFF;
+	padding-bottom: 39px;
+}
+/**/
+.lfr-search-container .column-theme {
+    background-color: #FFFFFF;
+    color: #D69F1F;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.lfr-search-container .results-grid .column-bottom {
+    display: block;
+}
+
+.result-grid .column-title {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.results-grid .column-title a {
+	color: #D69F1F;
+	font-size: 11px;
+    height: 35px;
+    display: none;
+}
+
+.results-grid .column-title a:hover {
+	color: #D69F1F;
+}
+
+.results-grid .column-footer .publication-date {
+	color: #003857;
+    font-size: 1em;
+    margin-top: 13px;
+}
+
+.portlet-cus-video-fo .taglib-search-iterator td.valign-middle {
+
+}
+
+.results-grid .column-footer .image-link {
+	margin-right: -9px;
+}
+.results-grid .column-footer .image-link:hover {
+  background: #268033;
+  color: white;
+}
+
+
+.portlet-cus-video-fo .button-gray .middle {
+	margin-top: 2px;
+}
+
+.portlet-cus-video-fo .results-number-link .button-gray .middle {
+	margin-left: -500px;
+}
+
+/* Détails vidéo */
+#main-content .portlet-cus-video-fo h2.gallery-title {
+	font-weight: bold;
+	text-align: left;
+}
+
+.portlet-cus-video-fo .results-grid .column-footer .publication-date, #main-content .gray {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+/* Lien vers Galerie */
+#main-content .portlet-cus-video-fo .links-list .left  {
+	display: none;
+}
+
+#main-content .portlet-cus-video-fo .links-list .middle {
+	background: url("../images/sprite.png") no-repeat scroll 0 -926px transparent;
+	margin-left: 5px;
+	padding-bottom: 10px;
+}
+
+#main-content .portlet-cus-video-fo .links-list .middle a {
+	background-color: transparent;
+    color: #003958;
+    display: block;
+    font-size: 0.85em;
+    font-weight: bold;
+    line-height: 1.3em;
+    margin-top: 7px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+    padding-left: 30px;
+}
+
+#main-content .portlet-cus-video-fo .links-list .right  {
+	display: none;
+}

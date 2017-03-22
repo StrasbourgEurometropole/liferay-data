@@ -149,7 +149,7 @@ public class SearchAssetDisplayContext {
 			.split(";")) {
 			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
 				.toLongArray(StringUtil
-					.split(prefilterCategoriesIdsGroupByVocabulary, ";", 0));
+					.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 		}
 
@@ -603,6 +603,11 @@ public class SearchAssetDisplayContext {
 
 	public SearchAssetConfiguration getConfiguration() {
 		return this._configuration;
+	}
+
+	public String getSearchForm() {
+		return Validator.isNotNull(this._configuration.searchForm())
+			? this._configuration.searchForm() : "museum";
 	}
 
 	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");

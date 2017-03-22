@@ -1,0 +1,8 @@
+Bundle-SymbolicName: place-api
+Bundle-Version: 1.8.0
+Export-Package:\
+	eu.strasbourg.service.place.exception,\
+	eu.strasbourg.service.place.model,\
+	eu.strasbourg.service.place.service,\
+	eu.strasbourg.service.place.service.persistence
+-includeresource: META-INF/service.xml=../place-service/service.xml

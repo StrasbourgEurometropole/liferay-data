@@ -3964,6 +3964,245 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_1 = "event.idSource IS NULL";
 	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_2 = "event.idSource = ?";
 	private static final String _FINDER_COLUMN_SOURCEANDIDSOURCE_IDSOURCE_3 = "(event.idSource IS NULL OR event.idSource = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_IDSOURCE = new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByIdSource",
+			new String[] { String.class.getName() },
+			EventModelImpl.IDSOURCE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_IDSOURCE = new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByIdSource",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the event where idSource = &#63; or throws a {@link NoSuchEventException} if it could not be found.
+	 *
+	 * @param idSource the id source
+	 * @return the matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByIdSource(String idSource) throws NoSuchEventException {
+		Event event = fetchByIdSource(idSource);
+
+		if (event == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("idSource=");
+			msg.append(idSource);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchEventException(msg.toString());
+		}
+
+		return event;
+	}
+
+	/**
+	 * Returns the event where idSource = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param idSource the id source
+	 * @return the matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByIdSource(String idSource) {
+		return fetchByIdSource(idSource, true);
+	}
+
+	/**
+	 * Returns the event where idSource = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param idSource the id source
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByIdSource(String idSource, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { idSource };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_IDSOURCE,
+					finderArgs, this);
+		}
+
+		if (result instanceof Event) {
+			Event event = (Event)result;
+
+			if (!Objects.equals(idSource, event.getIdSource())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_EVENT_WHERE);
+
+			boolean bindIdSource = false;
+
+			if (idSource == null) {
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_1);
+			}
+			else if (idSource.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_3);
+			}
+			else {
+				bindIdSource = true;
+
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindIdSource) {
+					qPos.add(idSource);
+				}
+
+				List<Event> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"EventPersistenceImpl.fetchByIdSource(String, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					Event event = list.get(0);
+
+					result = event;
+
+					cacheResult(event);
+
+					if ((event.getIdSource() == null) ||
+							!event.getIdSource().equals(idSource)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE,
+							finderArgs, event);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Event)result;
+		}
+	}
+
+	/**
+	 * Removes the event where idSource = &#63; from the database.
+	 *
+	 * @param idSource the id source
+	 * @return the event that was removed
+	 */
+	@Override
+	public Event removeByIdSource(String idSource) throws NoSuchEventException {
+		Event event = findByIdSource(idSource);
+
+		return remove(event);
+	}
+
+	/**
+	 * Returns the number of events where idSource = &#63;.
+	 *
+	 * @param idSource the id source
+	 * @return the number of matching events
+	 */
+	@Override
+	public int countByIdSource(String idSource) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_IDSOURCE;
+
+		Object[] finderArgs = new Object[] { idSource };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_EVENT_WHERE);
+
+			boolean bindIdSource = false;
+
+			if (idSource == null) {
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_1);
+			}
+			else if (idSource.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_3);
+			}
+			else {
+				bindIdSource = true;
+
+				query.append(_FINDER_COLUMN_IDSOURCE_IDSOURCE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindIdSource) {
+					qPos.add(idSource);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_1 = "event.idSource IS NULL";
+	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_2 = "event.idSource = ?";
+	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_3 = "(event.idSource IS NULL OR event.idSource = '')";
 
 	public EventPersistenceImpl() {
 		setModelClass(Event.class);
@@ -3984,6 +4223,9 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
 			new Object[] { event.getSource(), event.getIdSource() }, event);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE,
+			new Object[] { event.getIdSource() }, event);
 
 		event.resetOriginalValues();
 	}
@@ -4073,6 +4315,13 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 				Long.valueOf(1));
 			finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
 				eventModelImpl);
+
+			args = new Object[] { eventModelImpl.getIdSource() };
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
+				eventModelImpl);
 		}
 		else {
 			if ((eventModelImpl.getColumnBitmask() &
@@ -4097,6 +4346,16 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 					args, Long.valueOf(1));
 				finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
 					args, eventModelImpl);
+			}
+
+			if ((eventModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { eventModelImpl.getIdSource() };
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
+					eventModelImpl);
 			}
 		}
 	}
@@ -4138,6 +4397,19 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 				args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
 				args);
+		}
+
+		args = new Object[] { eventModelImpl.getIdSource() };
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
+
+		if ((eventModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
+			args = new Object[] { eventModelImpl.getOriginalIdSource() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
 		}
 	}
 

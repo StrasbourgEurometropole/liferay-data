@@ -29,6 +29,10 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodService;
+import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
+import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
@@ -56,6 +60,156 @@ public abstract class EventPeriodServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.EventPeriodServiceUtil} to access the event period remote service.
 	 */
+
+	/**
+	 * Returns the campaign local service.
+	 *
+	 * @return the campaign local service
+	 */
+	public eu.strasbourg.service.agenda.service.CampaignLocalService getCampaignLocalService() {
+		return campaignLocalService;
+	}
+
+	/**
+	 * Sets the campaign local service.
+	 *
+	 * @param campaignLocalService the campaign local service
+	 */
+	public void setCampaignLocalService(
+		eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService) {
+		this.campaignLocalService = campaignLocalService;
+	}
+
+	/**
+	 * Returns the campaign persistence.
+	 *
+	 * @return the campaign persistence
+	 */
+	public CampaignPersistence getCampaignPersistence() {
+		return campaignPersistence;
+	}
+
+	/**
+	 * Sets the campaign persistence.
+	 *
+	 * @param campaignPersistence the campaign persistence
+	 */
+	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+		this.campaignPersistence = campaignPersistence;
+	}
+
+	/**
+	 * Returns the campaign event local service.
+	 *
+	 * @return the campaign event local service
+	 */
+	public eu.strasbourg.service.agenda.service.CampaignEventLocalService getCampaignEventLocalService() {
+		return campaignEventLocalService;
+	}
+
+	/**
+	 * Sets the campaign event local service.
+	 *
+	 * @param campaignEventLocalService the campaign event local service
+	 */
+	public void setCampaignEventLocalService(
+		eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService) {
+		this.campaignEventLocalService = campaignEventLocalService;
+	}
+
+	/**
+	 * Returns the campaign event persistence.
+	 *
+	 * @return the campaign event persistence
+	 */
+	public CampaignEventPersistence getCampaignEventPersistence() {
+		return campaignEventPersistence;
+	}
+
+	/**
+	 * Sets the campaign event persistence.
+	 *
+	 * @param campaignEventPersistence the campaign event persistence
+	 */
+	public void setCampaignEventPersistence(
+		CampaignEventPersistence campaignEventPersistence) {
+		this.campaignEventPersistence = campaignEventPersistence;
+	}
+
+	/**
+	 * Returns the campaign event finder.
+	 *
+	 * @return the campaign event finder
+	 */
+	public CampaignEventFinder getCampaignEventFinder() {
+		return campaignEventFinder;
+	}
+
+	/**
+	 * Sets the campaign event finder.
+	 *
+	 * @param campaignEventFinder the campaign event finder
+	 */
+	public void setCampaignEventFinder(CampaignEventFinder campaignEventFinder) {
+		this.campaignEventFinder = campaignEventFinder;
+	}
+
+	/**
+	 * Returns the campaign event status local service.
+	 *
+	 * @return the campaign event status local service
+	 */
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService getCampaignEventStatusLocalService() {
+		return campaignEventStatusLocalService;
+	}
+
+	/**
+	 * Sets the campaign event status local service.
+	 *
+	 * @param campaignEventStatusLocalService the campaign event status local service
+	 */
+	public void setCampaignEventStatusLocalService(
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService) {
+		this.campaignEventStatusLocalService = campaignEventStatusLocalService;
+	}
+
+	/**
+	 * Returns the campaign event status remote service.
+	 *
+	 * @return the campaign event status remote service
+	 */
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusService getCampaignEventStatusService() {
+		return campaignEventStatusService;
+	}
+
+	/**
+	 * Sets the campaign event status remote service.
+	 *
+	 * @param campaignEventStatusService the campaign event status remote service
+	 */
+	public void setCampaignEventStatusService(
+		eu.strasbourg.service.agenda.service.CampaignEventStatusService campaignEventStatusService) {
+		this.campaignEventStatusService = campaignEventStatusService;
+	}
+
+	/**
+	 * Returns the campaign event status persistence.
+	 *
+	 * @return the campaign event status persistence
+	 */
+	public CampaignEventStatusPersistence getCampaignEventStatusPersistence() {
+		return campaignEventStatusPersistence;
+	}
+
+	/**
+	 * Sets the campaign event status persistence.
+	 *
+	 * @param campaignEventStatusPersistence the campaign event status persistence
+	 */
+	public void setCampaignEventStatusPersistence(
+		CampaignEventStatusPersistence campaignEventStatusPersistence) {
+		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
+	}
 
 	/**
 	 * Returns the event local service.
@@ -501,6 +655,22 @@ public abstract class EventPeriodServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
+	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
+	@BeanReference(type = CampaignPersistence.class)
+	protected CampaignPersistence campaignPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class)
+	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService;
+	@BeanReference(type = CampaignEventPersistence.class)
+	protected CampaignEventPersistence campaignEventPersistence;
+	@BeanReference(type = CampaignEventFinder.class)
+	protected CampaignEventFinder campaignEventFinder;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class)
+	protected eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusService.class)
+	protected eu.strasbourg.service.agenda.service.CampaignEventStatusService campaignEventStatusService;
+	@BeanReference(type = CampaignEventStatusPersistence.class)
+	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventLocalService.class)
 	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventService.class)

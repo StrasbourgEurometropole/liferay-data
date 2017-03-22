@@ -1129,6 +1129,518 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	}
 
 	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 = "eventPeriod.eventId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
+		new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
+		new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
+			new String[] { Long.class.getName() },
+			EventPeriodModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCampaignEventId", new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the event periods where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @return the matching event periods
+	 */
+	@Override
+	public List<EventPeriod> findByCampaignEventId(long campaignEventId) {
+		return findByCampaignEventId(campaignEventId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the event periods where campaignEventId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param start the lower bound of the range of event periods
+	 * @param end the upper bound of the range of event periods (not inclusive)
+	 * @return the range of matching event periods
+	 */
+	@Override
+	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
+		int start, int end) {
+		return findByCampaignEventId(campaignEventId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the event periods where campaignEventId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param start the lower bound of the range of event periods
+	 * @param end the upper bound of the range of event periods (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching event periods
+	 */
+	@Override
+	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
+		int start, int end, OrderByComparator<EventPeriod> orderByComparator) {
+		return findByCampaignEventId(campaignEventId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the event periods where campaignEventId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param start the lower bound of the range of event periods
+	 * @param end the upper bound of the range of event periods (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching event periods
+	 */
+	@Override
+	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
+		int start, int end, OrderByComparator<EventPeriod> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
+			finderArgs = new Object[] { campaignEventId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
+			finderArgs = new Object[] {
+					campaignEventId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<EventPeriod> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<EventPeriod>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (EventPeriod eventPeriod : list) {
+					if ((campaignEventId != eventPeriod.getCampaignEventId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_EVENTPERIOD_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(EventPeriodModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignEventId);
+
+				if (!pagination) {
+					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event period in the ordered set where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event period
+	 * @throws NoSuchEventPeriodException if a matching event period could not be found
+	 */
+	@Override
+	public EventPeriod findByCampaignEventId_First(long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator)
+		throws NoSuchEventPeriodException {
+		EventPeriod eventPeriod = fetchByCampaignEventId_First(campaignEventId,
+				orderByComparator);
+
+		if (eventPeriod != null) {
+			return eventPeriod;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("campaignEventId=");
+		msg.append(campaignEventId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventPeriodException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event period in the ordered set where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event period, or <code>null</code> if a matching event period could not be found
+	 */
+	@Override
+	public EventPeriod fetchByCampaignEventId_First(long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator) {
+		List<EventPeriod> list = findByCampaignEventId(campaignEventId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event period in the ordered set where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event period
+	 * @throws NoSuchEventPeriodException if a matching event period could not be found
+	 */
+	@Override
+	public EventPeriod findByCampaignEventId_Last(long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator)
+		throws NoSuchEventPeriodException {
+		EventPeriod eventPeriod = fetchByCampaignEventId_Last(campaignEventId,
+				orderByComparator);
+
+		if (eventPeriod != null) {
+			return eventPeriod;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("campaignEventId=");
+		msg.append(campaignEventId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventPeriodException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event period in the ordered set where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event period, or <code>null</code> if a matching event period could not be found
+	 */
+	@Override
+	public EventPeriod fetchByCampaignEventId_Last(long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator) {
+		int count = countByCampaignEventId(campaignEventId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<EventPeriod> list = findByCampaignEventId(campaignEventId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the event periods before and after the current event period in the ordered set where campaignEventId = &#63;.
+	 *
+	 * @param eventPeriodId the primary key of the current event period
+	 * @param campaignEventId the campaign event ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event period
+	 * @throws NoSuchEventPeriodException if a event period with the primary key could not be found
+	 */
+	@Override
+	public EventPeriod[] findByCampaignEventId_PrevAndNext(long eventPeriodId,
+		long campaignEventId, OrderByComparator<EventPeriod> orderByComparator)
+		throws NoSuchEventPeriodException {
+		EventPeriod eventPeriod = findByPrimaryKey(eventPeriodId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			EventPeriod[] array = new EventPeriodImpl[3];
+
+			array[0] = getByCampaignEventId_PrevAndNext(session, eventPeriod,
+					campaignEventId, orderByComparator, true);
+
+			array[1] = eventPeriod;
+
+			array[2] = getByCampaignEventId_PrevAndNext(session, eventPeriod,
+					campaignEventId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected EventPeriod getByCampaignEventId_PrevAndNext(Session session,
+		EventPeriod eventPeriod, long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_EVENTPERIOD_WHERE);
+
+		query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(EventPeriodModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(campaignEventId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(eventPeriod);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<EventPeriod> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the event periods where campaignEventId = &#63; from the database.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 */
+	@Override
+	public void removeByCampaignEventId(long campaignEventId) {
+		for (EventPeriod eventPeriod : findByCampaignEventId(campaignEventId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(eventPeriod);
+		}
+	}
+
+	/**
+	 * Returns the number of event periods where campaignEventId = &#63;.
+	 *
+	 * @param campaignEventId the campaign event ID
+	 * @return the number of matching event periods
+	 */
+	@Override
+	public int countByCampaignEventId(long campaignEventId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID;
+
+		Object[] finderArgs = new Object[] { campaignEventId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_EVENTPERIOD_WHERE);
+
+			query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(campaignEventId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2 =
+		"eventPeriod.campaignEventId = ?";
 
 	public EventPeriodPersistenceImpl() {
 		setModelClass(EventPeriod.class);
@@ -1389,6 +1901,25 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
 					args);
 			}
+
+			if ((eventPeriodModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						eventPeriodModelImpl.getOriginalCampaignEventId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
+					args);
+
+				args = new Object[] { eventPeriodModelImpl.getCampaignEventId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
+					args);
+			}
 		}
 
 		entityCache.putResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
@@ -1416,6 +1947,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		eventPeriodImpl.setEndDate(eventPeriod.getEndDate());
 		eventPeriodImpl.setTimeDetail(eventPeriod.getTimeDetail());
 		eventPeriodImpl.setEventId(eventPeriod.getEventId());
+		eventPeriodImpl.setCampaignEventId(eventPeriod.getCampaignEventId());
 
 		return eventPeriodImpl;
 	}

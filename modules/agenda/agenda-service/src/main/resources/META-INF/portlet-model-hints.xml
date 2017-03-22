@@ -1,6 +1,91 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.agenda.model.Campaign">
+		<field name="uuid" type="String" />
+		<field name="campaignId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="title" type="String" />
+		<field name="managersIds" type="String" />
+		<field name="exportEnabled" type="Boolean" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.CampaignEvent">
+		<field name="uuid" type="String" />
+		<field name="campaignEventId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="phone" type="String" />
+		<field name="email" type="String" />
+		<field name="serviceId" type="Long" />
+		<field name="service" type="String" />
+		<field name="onSiteFirstName" type="String" />
+		<field name="onSiteLastName" type="String" />
+		<field name="onSitePhone" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="subtitle" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="imageId" type="Long" />
+		<field name="webImageId" type="Long" />
+		<field name="imageOwner" type="String" />
+		<field name="manifestationsIds" type="String" />
+		<field name="placeSIGId" type="String" />
+		<field name="placeName" type="String" />
+		<field name="placeStreetNumber" type="String" />
+		<field name="placeStreetName" type="String" />
+		<field name="placeZipCode" type="String" />
+		<field name="placeCityId" type="Long" />
+		<field name="placeCountry" type="String" />
+		<field name="promoter" type="String" />
+		<field name="publicPhone" type="String" />
+		<field name="publicEmail" type="String" />
+		<field localized="true" name="websiteURL" type="String" />
+		<field name="free" type="Integer" />
+		<field localized="true" name="price" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="campaignId" type="Long" />
+		<field name="themeId" type="Long" />
+		<field name="typeId" type="Long" />
+		<field name="publicsIds" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">
+		<field name="uuid" type="String" />
+		<field name="statusId" type="long" />
+		<field name="status" type="Integer" />
+		<field name="comment" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="deletionDenied" type="Boolean" />
+		<field name="date" type="Date" />
+		<field name="campaignEventId" type="long" />
+		<field name="previousStatusId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Event">
 		<field name="uuid" type="String" />
 		<field name="eventId" type="long" />
@@ -77,6 +162,7 @@
 		<field name="endDate" type="Date" />
 		<field localized="true" name="timeDetail" type="String" />
 		<field name="eventId" type="long" />
+		<field name="campaignEventId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.ImportReport">
 		<field name="uuid" type="String" />
@@ -129,10 +215,10 @@
 		<field name="externalImageURL" type="String" />
 		<field name="externalImageCopyright" type="String" />
 		<field name="startDate" type="Date">
-			<hint name="show-time" />
+			<hint name="show-time">false</hint>
 		</field>
 		<field name="endDate" type="Date">
-			<hint name="show-time" />
+			<hint name="show-time">false</hint>
 		</field>
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />

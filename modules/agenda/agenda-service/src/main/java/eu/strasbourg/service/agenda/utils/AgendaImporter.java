@@ -30,16 +30,19 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.Manifestation;
+import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
@@ -50,7 +53,7 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class AgendaImporter {
-	
+
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 	private DateFormat dateFormat;
@@ -181,10 +184,21 @@ public class AgendaImporter {
 			// On vérifie que le provider est autorisé
 			String allowedProviders = PropsUtil
 				.get("eu.strasbourg.agenda.providers");
-			if (!ArrayUtil.contains(allowedProviders.split(","), provider,
-				true)) {
+			String campaignNames = "";
+			for (Campaign campaign : CampaignLocalServiceUtil.getCampaigns(-1,
+				-1)) {
+				if (campaignNames.length() > 0) {
+					campaignNames += ",";
+				}
+				campaignNames += FriendlyURLNormalizerUtil
+					.normalize(campaign.getTitleCurrentValue());
+			}
+			if (!ArrayUtil.contains(allowedProviders.split(","), provider, true)
+				&& !ArrayUtil.contains(campaignNames.split(","), provider,
+					true)) {
 				report.globalError(
 					"Le provider '" + provider + "' n'est pas autorisé");
+				ImportReportLocalServiceUtil.updateImportReport(report);
 				continue;
 			}
 
@@ -278,8 +292,7 @@ public class AgendaImporter {
 		String id = jsonManifestation.getString("externalId");
 		if (Validator.isNull(id)) {
 			reportLine.error("Une manifestation n'a pas d'id");
-			ImportReportLineLocalServiceUtil
-				.updateImportReportLine(reportLine);
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
 			return reportLine;
 		}
 		_log.info("externalId: " + id);
@@ -435,8 +448,8 @@ public class AgendaImporter {
 
 			// Et enfin on enregistre la manifestation
 			try {
-				ManifestationLocalServiceUtil
-					.updateManifestation(manifestation, sc);
+				ManifestationLocalServiceUtil.updateManifestation(manifestation,
+					sc);
 			} catch (PortalException e) {
 				reportLine.error(
 					"erreur lors de l'enregistrement de la manifestation");
@@ -464,8 +477,7 @@ public class AgendaImporter {
 		String id = jsonEvent.getString("externalId");
 		if (Validator.isNull(id)) {
 			reportLine.error("un event n'a pas d'id");
-			ImportReportLineLocalServiceUtil
-				.updateImportReportLine(reportLine);
+			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
 			return reportLine;
 		}
 		_log.info("externalId: " + id);
@@ -585,7 +597,7 @@ public class AgendaImporter {
 			for (int j = 0; j < jsonManifestations.length(); j++) {
 				String manifestationId = jsonManifestations.getString(j);
 				Manifestation manifestation = ManifestationLocalServiceUtil
-					.findBySourceAndIdSource(provider, manifestationId);
+					.findByIdSource(manifestationId);
 				if (manifestation == null) {
 					reportLine.error("une des manifestation n'existe pas");
 				}
@@ -771,9 +783,14 @@ public class AgendaImporter {
 			}
 			if (jsonManifestations != null) {
 				for (int j = 0; j < jsonManifestations.length(); j++) {
-					long manifestationId = jsonManifestations.getLong(j);
-					EventLocalServiceUtil
-						.addManifestationEvent(manifestationId, event);
+					String manifestationExternalId = jsonManifestations
+						.getString(j);
+					Manifestation manifestation = ManifestationLocalServiceUtil
+						.findByIdSource(manifestationExternalId);
+					if (Validator.isNotNull(manifestation)) {
+						EventLocalServiceUtil.addManifestationEvent(
+							manifestation.getManifestationId(), event);
+					}
 				}
 			}
 

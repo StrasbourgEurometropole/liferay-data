@@ -1,0 +1,54 @@
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.period-label {
+	margin: -10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	cursor: pointer;
+	color: #869CAD;
+	background-color: #F5F8FA;
+}
+
+.period-label label {
+	cursor: pointer;
+}
+
+.period {
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+
+.slot-label {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin-top:10px;
+    padding: 10px;
+}
+
+.slot-content {
+    width: 30%;
+    display: inline-block;
+    margin: 15px;
+	padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.schedule-label {
+	margin-bottom: 10px;
+}

@@ -3,6 +3,7 @@ package eu.strasbourg.utils.constants;
 public class StrasbourgPortletKeys {
 	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
 	public static final String AGENDA_WEB = "eu_strasbourg_portlet_agenda_AgendaPortlet";
+	public static final String CAMPAIGN_WEB = "eu_strasbourg_portlet_agenda_portlet_AgendaCampaignPortlet";
 	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
@@ -15,6 +16,9 @@ public class StrasbourgPortletKeys {
 	
 	public static final String VIDEO_BO = "eu_strasbourg_portlet_video_VideoBOPortlet";
 	public static final String VIDEO_WEB = "eu_strasbourg_portlet_video_VideoPortlet";
+	
+	public static final String PLACE_BO = "eu_strasbourg_portlet_place_PlaceBOPortlet";
+	public static final String PLACE_WEB = "eu_strasbourg_portlet_place_PlacePortlet";
 
 	public static final String RUBRIC_WEB = "eu_strasbourg_portlet_rubric_RubricPortlet";
 	

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.place.service.impl.PeriodLocalServiceImpl" id="eu.strasbourg.service.place.service.PeriodLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.PeriodPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.PeriodPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl" id="eu.strasbourg.service.place.service.PlaceLocalService" />
+	<bean class="eu.strasbourg.service.place.service.impl.PlaceServiceImpl" id="eu.strasbourg.service.place.service.PlaceService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.PlacePersistenceImpl" id="eu.strasbourg.service.place.service.persistence.PlacePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.PriceLocalServiceImpl" id="eu.strasbourg.service.place.service.PriceLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.PricePersistenceImpl" id="eu.strasbourg.service.place.service.persistence.PricePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.PublicHolidayLocalServiceImpl" id="eu.strasbourg.service.place.service.PublicHolidayLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.PublicHolidayPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.PublicHolidayPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.ScheduleExceptionLocalServiceImpl" id="eu.strasbourg.service.place.service.ScheduleExceptionLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.ScheduleExceptionPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.SlotLocalServiceImpl" id="eu.strasbourg.service.place.service.SlotLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.SlotPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.SlotPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.SubPlaceLocalServiceImpl" id="eu.strasbourg.service.place.service.SubPlaceLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.SubPlacePersistenceImpl" id="eu.strasbourg.service.place.service.persistence.SubPlacePersistence" parent="basePersistence" />
+</beans>

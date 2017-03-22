@@ -207,6 +207,12 @@ public interface EventPeriodLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne les périodes d'un événement de campagne
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<EventPeriod> getByCampaignEventId(long campaignEventId);
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

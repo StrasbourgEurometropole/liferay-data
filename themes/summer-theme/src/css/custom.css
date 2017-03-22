@@ -1,0 +1,128 @@
+@import url(commons.css);
+
+@import url(home.css);
+
+@import url(custom_layout.css);
+
+@import url(header.css);
+
+@import url(footer.css);
+
+@import url(buttons.css);
+
+@import url(typography.css);
+
+@import url(menu_droite.css);
+
+@import url(recherche.css);
+
+@import url(temps_forts.css);
+
+@import url(detail_agenda.css);
+
+@import url(detail_article.css);
+
+@import url(jquery-ui-1.10.3.custom.min.css);
+
+@import url(lightbox.css);
+
+@import url(lightbox-custom.css);
+
+@import url(forms.css);
+
+
+@import url(owl.carousel.css);
+@import url(owl.theme.default.css);
+
+
+.portlet-cus-image-fo div.search-container:before {
+clear: both;
+display: table;
+content: " ";
+}
+
+
+.breadcrumb {
+    padding: 5px 10px;
+    background-color: white;
+    margin: 0;
+}
+
+.portlet-breadcrumb .portlet-title-text {
+    display: none;
+}
+
+.portlet-breadcrumb .portlet {
+    margin-bottom: 0;
+}
+
+.portlet-breadcrumb {
+    margin-top: 5px;
+}
+
+.portlet-journal-content .portlet-title-text {
+  display: none;
+}
+
+.rubric-portlet .portlet-title-text {
+  display: none;
+}
+
+.portlet-asset-publisher .portlet-title-text {
+  display: none;
+}
+
+.search-asset-portlet .portlet-title-text {
+  display: none;
+}
+
+.entity-detail-portlet .portlet-title-text {
+  display: none;
+}
+
+.formassembly-portlet .portlet-title-text {
+  display: none;
+}
+
+.rubric-portlet ul {
+  font-size: 1.5em;
+  line-height: 2em;
+}
+
+.portlet-asset-publisher .h2 {
+  display: none;
+}
+
+.date-selection .input-checkbox-wrapper {
+  display: none;
+}
+
+.date-selection label {
+  display: inline-block !important;
+  width: 15px !important;
+  float: none !important;
+}
+
+.date-selection .date-selector {
+  display: inline-block;
+  min-width: 222px;
+  margin-left: 10px;
+}
+
+.portlet-cus-event-asset-fo .col-filter {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.col-filter > * {
+  width: 250px;
+  display: inline-block;
+  margin-right: 41px;
+}
+
+.portlet-cus-event-asset-fo input.btn-submit {
+  margin-top: 10px !important;
+  margin-right: 4px !important;
+}

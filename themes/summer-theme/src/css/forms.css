@@ -1,0 +1,50 @@
+/* FormAssembly */
+#main-content .form-assembly-portlet h3.wFormTitle {
+	font-size: 33px;
+	font-weight: bold;
+	line-height: 1.1em;
+	margin: 0;
+	padding: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-transform: none;
+	color: #268033 !important;
+  font-family: 'Quicksand', 'Lato', sans-serif;
+
+}
+.form-assembly-portlet legend {
+	color: #cb2d2e;
+}
+.form-assembly-portlet a {
+	color: #2d2d2d !important;
+}
+input[type="file"] {
+	padding: 2px !important;
+	background: none;
+}
+
+.wForm {
+    padding: 0;
+}
+
+/* Couleur titres sections */
+.form-assembly-portlet fieldset legend {
+	 color: #cb2d2e; 
+}
+
+/* Calendrier */
+#main-content .yui-calcontainer .title {
+	font-size: 15px;
+	font-weight: normal;
+	text-transform: none;
+	color: inherit;
+	padding-top: 15px;
+}
+
+.wForm fieldset legend {
+	color: #268033 !important;
+}
+
+.formassembly-portlet input[type=submit] {
+	width: initial;
+}

@@ -240,6 +240,15 @@ public class EventPeriodLocalServiceWrapper implements EventPeriodLocalService,
 	}
 
 	/**
+	* Retourne les périodes d'un événement de campagne
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getByCampaignEventId(
+		long campaignEventId) {
+		return _eventPeriodLocalService.getByCampaignEventId(campaignEventId);
+	}
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	@Override

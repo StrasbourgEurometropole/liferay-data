@@ -230,6 +230,14 @@ public class EventPeriodLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les périodes d'un événement de campagne
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getByCampaignEventId(
+		long campaignEventId) {
+		return getService().getByCampaignEventId(campaignEventId);
+	}
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	public static java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getByEventId(

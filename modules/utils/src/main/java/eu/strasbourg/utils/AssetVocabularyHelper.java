@@ -14,13 +14,21 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
  *
  */
 public class AssetVocabularyHelper {
+	/**
+	 * Retourne la liste des vocabulaires rattachés à un type d'entité
+	 */
 	public static List<AssetVocabulary> getVocabulariesForAssetType(
 		long groupId, long classNameId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
@@ -38,6 +46,9 @@ public class AssetVocabularyHelper {
 		return attachedVocabularies;
 	}
 
+	/**
+	 * Retourne la liste des vocabulaires obligatoires pour un type d'entité
+	 */
 	public static List<AssetVocabulary> getRequiredVocabulariesForAssetType(
 		long groupId, long classNameId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
@@ -53,6 +64,62 @@ public class AssetVocabularyHelper {
 			}
 		}
 		return attachedVocabularies;
+	}
+
+	/**
+	 * Retourne le vocabulary rattaché à la classe donnée et qui possède le nom
+	 * donné
+	 */
+	public static AssetVocabulary getEntityVocabulary(String className,
+		String vocabularyName, long groupId) {
+		long classNameId = ClassNameLocalServiceUtil.getClassName(className)
+			.getClassNameId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyHelper
+			.getVocabulariesForAssetType(groupId, classNameId);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (StringHelper.compareIgnoringAccentuation(
+				vocabulary.getName().toLowerCase(), vocabularyName)) {
+				return vocabulary;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe donné
+	 */
+	public static AssetVocabulary getVocabulary(String vocabularyName,
+		long groupId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+			.getAssetVocabularies(-1, -1);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (StringHelper.compareIgnoringAccentuation(
+				vocabulary.getName().toLowerCase(), vocabularyName)
+				&& vocabulary.getGroupId() == groupId) {
+				return vocabulary;
+			}
+		}
+		return null;
+	}
+	
+
+	/**
+	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe donné
+	 * @throws PortalException 
+	 */
+	public static AssetVocabulary getGlobalVocabulary(String vocabularyName) throws PortalException {
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+			.getAssetVocabularies(-1, -1);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (StringHelper.compareIgnoringAccentuation(
+				vocabulary.getName().toLowerCase(), vocabularyName)
+				&& vocabulary.getGroupId() == companyGroupId) {
+				return vocabulary;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -105,27 +172,42 @@ public class AssetVocabularyHelper {
 			return "";
 		}
 	}
-	
+
+	/**
+	 * Retourne la liste des catéogories enfants à une catégorie donnée
+	 */
 	public static List<AssetCategory> getChild(long categoryId) {
 		return AssetCategoryLocalServiceUtil.getChildCategories(categoryId);
 	}
-	
-	public static List<AssetCategory> getFullHierarchyCategories(List<AssetCategory> categories) throws PortalException {
+
+	/**
+	 * Retourne l'ensemble des catégories parentes, les catégorie passée en
+	 * paramètre et leurs enfants
+	 */
+	public static List<AssetCategory> getFullHierarchyCategories(
+		List<AssetCategory> categories) throws PortalException {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
 			List<AssetCategory> ancestors = category.getAncestors();
-			List<AssetCategory> child = AssetCategoryLocalServiceUtil.getChildCategories(category.getCategoryId());
+			List<AssetCategory> child = AssetCategoryLocalServiceUtil
+				.getChildCategories(category.getCategoryId());
 			allCategories.add(category);
 			allCategories.addAll(ancestors);
 			allCategories.addAll(child);
 		}
 		return allCategories;
 	}
-	
-	public static long[] getFullHierarchyCategoriesIds(List<AssetCategory> categories) throws PortalException {
-		List<AssetCategory> allCategories = getFullHierarchyCategories(categories);
-		return ListUtil.toLongArray(
-			allCategories, AssetCategory.CATEGORY_ID_ACCESSOR);
+
+	/**
+	 * Renvoie l'ensemble des catégories parentes, les catégorie passée en
+	 * paramètre et leurs enfants sous forme d'array d'ids
+	 */
+	public static long[] getFullHierarchyCategoriesIds(
+		List<AssetCategory> categories) throws PortalException {
+		List<AssetCategory> allCategories = getFullHierarchyCategories(
+			categories);
+		return ListUtil.toLongArray(allCategories,
+			AssetCategory.CATEGORY_ID_ACCESSOR);
 	}
 
 	/**
@@ -149,7 +231,14 @@ public class AssetVocabularyHelper {
 			jsonCategory.put("id", category.getCategoryId());
 			jsonCategory.put("name",
 				JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
+			try {
+				jsonCategory.put("level", category.getAncestors().size());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
 		}
 		return jsonCategory;
 	}
+
+	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

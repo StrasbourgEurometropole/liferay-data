@@ -423,6 +423,175 @@ public class EventPeriodUtil {
 	}
 
 	/**
+	* Returns all the event periods where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @return the matching event periods
+	*/
+	public static List<EventPeriod> findByCampaignEventId(long campaignEventId) {
+		return getPersistence().findByCampaignEventId(campaignEventId);
+	}
+
+	/**
+	* Returns a range of all the event periods where campaignEventId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param campaignEventId the campaign event ID
+	* @param start the lower bound of the range of event periods
+	* @param end the upper bound of the range of event periods (not inclusive)
+	* @return the range of matching event periods
+	*/
+	public static List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end) {
+		return getPersistence()
+				   .findByCampaignEventId(campaignEventId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the event periods where campaignEventId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param campaignEventId the campaign event ID
+	* @param start the lower bound of the range of event periods
+	* @param end the upper bound of the range of event periods (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching event periods
+	*/
+	public static List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end,
+		OrderByComparator<EventPeriod> orderByComparator) {
+		return getPersistence()
+				   .findByCampaignEventId(campaignEventId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the event periods where campaignEventId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param campaignEventId the campaign event ID
+	* @param start the lower bound of the range of event periods
+	* @param end the upper bound of the range of event periods (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching event periods
+	*/
+	public static List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end,
+		OrderByComparator<EventPeriod> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCampaignEventId(campaignEventId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first event period in the ordered set where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event period
+	* @throws NoSuchEventPeriodException if a matching event period could not be found
+	*/
+	public static EventPeriod findByCampaignEventId_First(
+		long campaignEventId, OrderByComparator<EventPeriod> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchEventPeriodException {
+		return getPersistence()
+				   .findByCampaignEventId_First(campaignEventId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first event period in the ordered set where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event period, or <code>null</code> if a matching event period could not be found
+	*/
+	public static EventPeriod fetchByCampaignEventId_First(
+		long campaignEventId, OrderByComparator<EventPeriod> orderByComparator) {
+		return getPersistence()
+				   .fetchByCampaignEventId_First(campaignEventId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last event period in the ordered set where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event period
+	* @throws NoSuchEventPeriodException if a matching event period could not be found
+	*/
+	public static EventPeriod findByCampaignEventId_Last(long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchEventPeriodException {
+		return getPersistence()
+				   .findByCampaignEventId_Last(campaignEventId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last event period in the ordered set where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event period, or <code>null</code> if a matching event period could not be found
+	*/
+	public static EventPeriod fetchByCampaignEventId_Last(
+		long campaignEventId, OrderByComparator<EventPeriod> orderByComparator) {
+		return getPersistence()
+				   .fetchByCampaignEventId_Last(campaignEventId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the event periods before and after the current event period in the ordered set where campaignEventId = &#63;.
+	*
+	* @param eventPeriodId the primary key of the current event period
+	* @param campaignEventId the campaign event ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next event period
+	* @throws NoSuchEventPeriodException if a event period with the primary key could not be found
+	*/
+	public static EventPeriod[] findByCampaignEventId_PrevAndNext(
+		long eventPeriodId, long campaignEventId,
+		OrderByComparator<EventPeriod> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchEventPeriodException {
+		return getPersistence()
+				   .findByCampaignEventId_PrevAndNext(eventPeriodId,
+			campaignEventId, orderByComparator);
+	}
+
+	/**
+	* Removes all the event periods where campaignEventId = &#63; from the database.
+	*
+	* @param campaignEventId the campaign event ID
+	*/
+	public static void removeByCampaignEventId(long campaignEventId) {
+		getPersistence().removeByCampaignEventId(campaignEventId);
+	}
+
+	/**
+	* Returns the number of event periods where campaignEventId = &#63;.
+	*
+	* @param campaignEventId the campaign event ID
+	* @return the number of matching event periods
+	*/
+	public static int countByCampaignEventId(long campaignEventId) {
+		return getPersistence().countByCampaignEventId(campaignEventId);
+	}
+
+	/**
 	* Caches the event period in the entity cache if it is enabled.
 	*
 	* @param eventPeriod the event period

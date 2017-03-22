@@ -1,0 +1,75 @@
+.agenda-list .event-category,
+.agenda-list a {
+    display: none !important;
+}
+
+.agenda-list .event-meta,
+#main-content .portlet-cus-document-asset .desc {
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+
+}
+
+.agenda-list .event-meta:hover,
+#main-content .portlet-cus-document-asset .desc:hover {
+	
+	background-position: 97% center;
+}
+
+
+#main-content .portlet-cus-document-asset .desc a {
+	color: #1A171B;
+	display: block;
+	background: none;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-top: 0;
+	border-bottom: none;
+	height: auto;
+	font-size:1.5em;
+	padding-left: 5px;
+}
+
+
+#main-content .portlet-cus-document-asset .desc a:hover {
+    padding-left: 5px;
+}
+
+.agenda-list .event-meta a.btn-tps-forts{
+	color: #1A171B;
+	display: block !important;
+	background: none;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-top: 0;
+	border-bottom: none;
+	height: auto;
+	font-size:1.5em;
+}
+
+.agenda-list .event-meta a.btn-tps-forts:hover {
+	background: none;
+}
+
+.agenda-list .event-meta a.btn-tps-forts h4 {
+	margin: 0;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+.agenda-list .event-date a {
+	display: inline !important;
+    line-height:1.8em;
+	font-size: 13px;
+	color: #1A171B;
+	text-decoration: none;
+}
