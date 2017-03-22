@@ -192,7 +192,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"dateField");
 			setPreference(actionRequest, "dateField",
 				String.valueOf(dateField));
-			
+
 			// Tri par date
 			boolean displayDateSorting = ParamUtil.getBoolean(actionRequest,
 				"displayDateSorting");
@@ -208,6 +208,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Delta
 			long delta = ParamUtil.getLong(actionRequest, "delta");
 			setPreference(actionRequest, "delta", String.valueOf(delta));
+
+			// Formulaire à afficher
+			String searchForm = ParamUtil.getString(actionRequest, "searchForm",
+				"museum");
+			setPreference(actionRequest, "searchForm", searchForm);
 
 			// Préfiltre catégories
 			String prefilterCategoriesIds = ParamUtil.getString(actionRequest,
@@ -262,16 +267,20 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			String boostTagsNames = ParamUtil.getString(actionRequest,
 				"boostTagsNames");
 			setPreference(actionRequest, "boostTagsNames", boostTagsNames);
-			
+
 			// Tri par défaut
-			String defaultSortField = ParamUtil.getString(actionRequest, "defaultSortField");
+			String defaultSortField = ParamUtil.getString(actionRequest,
+				"defaultSortField");
 			setPreference(actionRequest, "defaultSortField", defaultSortField);
-			String defaultSortType = ParamUtil.getString(actionRequest, "defaultSortType");
+			String defaultSortType = ParamUtil.getString(actionRequest,
+				"defaultSortType");
 			setPreference(actionRequest, "defaultSortType", defaultSortType);
-			
+
 			// Filtre par date par défaut
-			Long defaultDateRange = ParamUtil.getLong(actionRequest,  "defaultDateRange");
-			setPreference(actionRequest, "defaultDateRange", String.valueOf(defaultDateRange));
+			Long defaultDateRange = ParamUtil.getLong(actionRequest,
+				"defaultDateRange");
+			setPreference(actionRequest, "defaultDateRange",
+				String.valueOf(defaultDateRange));
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -434,8 +443,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("dateField", dateField);
 
 			// Tri par date
-			boolean displayDateSorting = ParamUtil.getBoolean(request, "displayDateSorting",
-				configuration.displayDateSorting());
+			boolean displayDateSorting = ParamUtil.getBoolean(request,
+				"displayDateSorting", configuration.displayDateSorting());
 			request.setAttribute("displayDateSorting", displayDateSorting);
 
 			// Ne pas afficher de résultat avant une recherche utilisateur
@@ -449,6 +458,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			long delta = ParamUtil.getLong(request, "delta",
 				configuration.delta());
 			request.setAttribute("delta", delta);
+			
+			// Formulaire à afficher
+			String searchForm = ParamUtil.getString(request, "searchForm", configuration.searchForm());
+			request.setAttribute("searchForm", searchForm);
 
 			// Préfiltres catégories
 			String prefilterCategoriesIds = configuration
@@ -463,13 +476,13 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Boost tags
 			String boostTagsNames = configuration.boostTagsNames();
 			request.setAttribute("boostTagsNames", boostTagsNames);
-			
+
 			// Tri par défaut
 			String defaultSortField = configuration.defaultSortField();
 			request.setAttribute("defaultSortField", defaultSortField);
 			String defaultSortType = configuration.defaultSortType();
 			request.setAttribute("defaultSortType", defaultSortType);
-			
+
 			// Filtre par date par défault
 			long defaultDateRange = configuration.defaultDateRange();
 			request.setAttribute("defaultDateRange", defaultDateRange);

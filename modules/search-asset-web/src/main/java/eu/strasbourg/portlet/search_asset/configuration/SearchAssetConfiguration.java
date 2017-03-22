@@ -74,4 +74,7 @@ public interface SearchAssetConfiguration {
 	
 	@Meta.AD(name = "delta", required = false)
 	public long delta();
+	
+	@Meta.AD(name = "searchForm", required = false)
+	public String searchForm();
 }

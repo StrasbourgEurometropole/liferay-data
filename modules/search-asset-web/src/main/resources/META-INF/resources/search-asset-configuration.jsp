@@ -124,7 +124,7 @@
 				</p>
 			</aui:fieldset>
 
-			<!-- Critères de recherche -->
+			<!-- CritÃ¨res de recherche -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="search-criterias">
 				<liferay-ui:message key="vocabularies-explanations" />
@@ -226,6 +226,16 @@
 				label="display">
 				<!-- Nombre de résultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
+				
+				<!-- Formulaire de recherche -->
+				<aui:select name="searchForm">
+					<aui:option value="museum" selected="${searchForm eq 'museum'}">
+						<liferay-ui:message key="museum" />
+					</aui:option>
+					<aui:option value="summer" selected="${searchForm eq 'summer'}">
+						<liferay-ui:message key="summer" />
+					</aui:option>
+				</aui:select>
 			</aui:fieldset>
 
 		</aui:fieldset-group>

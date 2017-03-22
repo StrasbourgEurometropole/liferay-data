@@ -605,6 +605,11 @@ public class SearchAssetDisplayContext {
 		return this._configuration;
 	}
 
+	public String getSearchForm() {
+		return Validator.isNotNull(this._configuration.searchForm())
+			? this._configuration.searchForm() : "museum";
+	}
+
 	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
 
 	private final RenderRequest _request;
