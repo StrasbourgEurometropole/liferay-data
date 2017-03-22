@@ -183,7 +183,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-				this.getAssetEntry(), "type des lieux");
+				this.getAssetEntry(), "type de lieu");
 	}
 
 	/**
