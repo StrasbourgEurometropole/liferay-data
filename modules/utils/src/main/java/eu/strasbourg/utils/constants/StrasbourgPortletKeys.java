@@ -16,8 +16,8 @@ public class StrasbourgPortletKeys {
 	public static final String VIDEO_BO = "eu_strasbourg_portlet_video_VideoBOPortlet";
 	public static final String VIDEO_WEB = "eu_strasbourg_portlet_video_VideoPortlet";
 	
-	public static final String PLACE_BO = "eu_strasbourg_portlet_agenda_PlaceBOPortlet";
-	public static final String PLACE_WEB = "eu_strasbourg_portlet_agenda_PlacePortlet";
+	public static final String PLACE_BO = "eu_strasbourg_portlet_place_PlaceBOPortlet";
+	public static final String PLACE_WEB = "eu_strasbourg_portlet_place_PlacePortlet";
 
 	public static final String RUBRIC_WEB = "eu_strasbourg_portlet_rubric_RubricPortlet";
 	

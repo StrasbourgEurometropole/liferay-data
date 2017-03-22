@@ -35,4 +35,8 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaImportDirectory() {
 		return PropsUtil.get("eu.strasbourg.agenda.file");
 	}
+	
+	public static String getPlaceImportMails() {
+		return PropsUtil.get("eu.strasbourg.place.mail");
+	}
 }
