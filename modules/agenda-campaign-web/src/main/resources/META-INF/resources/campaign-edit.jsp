@@ -20,7 +20,7 @@
 			
 			<!-- Informations de contact privées-->
 			<aui:fieldset collapsed="false" collapsible="true" label="private-contact-information">
-				<!-- Nom, prénom, mail, téléphone -->
+				<!-- Nom, prÃ©nom, mail, téléphone -->
 				<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
 				<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}" />
 				<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
@@ -69,7 +69,7 @@
 					placeholder="<liferay-ui:message key="manifestations" />" multiple>
 					<c:forEach var="manifestation" items="${dc.manifestations}">
 						<option value="${manifestation.idSource}" 
-							<c:if test="${fn:contains(dc.campaignEvent.manifestationsIds, manifestation.idSource)}">
+							<c:if test="${not empty dc.campaignEvent and fn:contains(dc.campaignEvent.manifestationsIds, manifestation.idSource)}">
 								selected
 							</c:if>
 						>
@@ -118,7 +118,7 @@
 						<aui:validator name="required"
 							errorMessage="this-field-is-required">
 							function() {
-								return jQuery('.place-autocomplete').is(':visible');
+								return jQuery('.place-autocomplete').css('display') !== 'none';
 							}	
 						</aui:validator>
 					</aui:input>
@@ -131,7 +131,7 @@
 						<aui:validator name="required"
 							errorMessage="this-field-is-required">
 							function() {
-								return jQuery('.place-manual').is(':visible');
+								return jQuery('.place-manual').css('display') !== 'none';
 							}	
 						</aui:validator>
 					</aui:input>
@@ -153,7 +153,7 @@
 			
 			<!-- Informations de contact public -->
 			<aui:fieldset collapsed="true" collapsible="true" label="public-contact-information">
-				<!-- Organisateur, téléphone, mail, adresse du site internet -->
+				<!-- Organisateur, tÃ©lÃ©phone, mail, adresse du site internet -->
 				<aui:input name="promoter" />
 				<aui:input name="publicPhone" helpMessage="public-phone-help" />
 				<aui:input name="publicEmail" helpMessage="public-email-help">
@@ -220,7 +220,7 @@
 			
 			<!-- Tarifs -->
 			<aui:fieldset collapsed="true" collapsible="true" label="event-price">
-				<!-- Gratuité -->
+				<!-- GratuitÃ© -->
 				<div>
 					<label><liferay-ui:message key="free-event" /></label>
 					<aui:input name="free" value="0" type="radio" checked="${dc.campaignEvent.free eq 0}" label="no" />
@@ -245,7 +245,7 @@
 					</c:forEach>
 				</aui:select>
 				
-				<!-- Type / thème / publics -->
+				<!-- Type / thême / publics -->
 				<aui:select name="typeId" required="true" label="type">
 					<aui:option value="" label="" />
 					<c:forEach var="type" items="${dc.types}">
