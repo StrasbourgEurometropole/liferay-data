@@ -29,20 +29,13 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
 				label="general">
 
-				<aui:input name="title">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
+				<aui:input name="title" required="true" />
+				
+				<aui:input name="URL" helpMessage="urlHelp" required="true">
+					<aui:validator name="url" errorMessage="url-error" />
 				</aui:input>
 				
-				<aui:input name="URL">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
-				
-				<aui:input name="hoverText">
-					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
-				</aui:input>
+				<aui:input name="hoverText" required="true" />
 				
 			</aui:fieldset>
 
