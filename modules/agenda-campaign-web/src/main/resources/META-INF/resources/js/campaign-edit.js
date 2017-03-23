@@ -272,7 +272,7 @@ function validatePeriods(event) {
 		var descriptions = params.filter(function(p) {
 			return p.name.indexOf('_description_') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
 		});
-		var descriptionOk = titles.length == 1;
+		var descriptionOk = descriptions.length == 1;
 
 		var timeDetails = params.filter(function(p) {
 			return p.name.indexOf('_timeDetail') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
