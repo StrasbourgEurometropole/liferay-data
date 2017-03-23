@@ -135,7 +135,7 @@
 				</c:if>
 				<c:if test="${not dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" name="publish"
-							value="publish" />
+							value="eu.publish" />
 					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
 							value="save-as-draft" />
 				</c:if>

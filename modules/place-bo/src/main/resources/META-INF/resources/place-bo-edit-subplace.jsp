@@ -30,7 +30,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="subPlaceId" type="hidden" />
 
-			<!-- Informations générale -->
+			<!-- Informations gÃ©nÃ©rale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
@@ -66,7 +66,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- Périodes & horaires -->
+				<!-- PÃ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 				
@@ -176,7 +176,7 @@
 		<aui:button-row>
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" type="submit" name="publish"
-					value="publish" />
+					value="eu.publish" />
 				<aui:button cssClass="btn-lg btn-default" type="submit"
 					name="save-as-draft" value="save-as-draft" />
 			</c:if>
