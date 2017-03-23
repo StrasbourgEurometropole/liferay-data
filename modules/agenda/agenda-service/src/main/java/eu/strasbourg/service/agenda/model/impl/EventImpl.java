@@ -247,8 +247,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getPlaceAlias(Locale locale) {
-		if (Validator.isNotNull(this.getPlaceName())) {
-			return this.getPlaceName();
+		if (Validator.isNotNull(this.getPlaceName(locale))) {
+			return this.getPlaceName(locale);
 		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
 			return this.getLegacyPlace(locale).getAlias();
 		} else {
@@ -390,7 +390,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", this.getPlaceName());
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			jsonPlace.put("streetName", this.getPlaceStreetName());
 			jsonPlace.put("zipCode", this.getPlaceZipCode());

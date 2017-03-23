@@ -168,7 +168,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,free INTEGER,price TEXT null,campaignId LONG,themeId LONG,typeId LONG,publicsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,free INTEGER,price TEXT null,campaignId LONG,themeId LONG,typeId LONG,publicsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_CampaignEvent";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaignEvent.campaignEventId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_CampaignEvent.campaignEventId ASC";
@@ -1210,8 +1210,94 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	}
 
 	@Override
+	public String getPlaceName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPlaceName(languageId);
+	}
+
+	@Override
+	public String getPlaceName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPlaceName(languageId, useDefault);
+	}
+
+	@Override
+	public String getPlaceName(String languageId) {
+		return LocalizationUtil.getLocalization(getPlaceName(), languageId);
+	}
+
+	@Override
+	public String getPlaceName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getPlaceName(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getPlaceNameCurrentLanguageId() {
+		return _placeNameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceNameCurrentValue() {
+		Locale locale = getLocale(_placeNameCurrentLanguageId);
+
+		return getPlaceName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getPlaceNameMap() {
+		return LocalizationUtil.getLocalizationMap(getPlaceName());
+	}
+
+	@Override
 	public void setPlaceName(String placeName) {
 		_placeName = placeName;
+	}
+
+	@Override
+	public void setPlaceName(String placeName, Locale locale) {
+		setPlaceName(placeName, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPlaceName(String placeName, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(placeName)) {
+			setPlaceName(LocalizationUtil.updateLocalization(getPlaceName(),
+					"PlaceName", placeName, languageId, defaultLanguageId));
+		}
+		else {
+			setPlaceName(LocalizationUtil.removeLocalization(getPlaceName(),
+					"PlaceName", languageId));
+		}
+	}
+
+	@Override
+	public void setPlaceNameCurrentLanguageId(String languageId) {
+		_placeNameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap) {
+		setPlaceNameMap(placeNameMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap,
+		Locale defaultLocale) {
+		if (placeNameMap == null) {
+			return;
+		}
+
+		setPlaceName(LocalizationUtil.updateLocalization(placeNameMap,
+				getPlaceName(), "PlaceName",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1655,6 +1741,17 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			}
 		}
 
+		Map<Locale, String> placeNameMap = getPlaceNameMap();
+
+		for (Map.Entry<Locale, String> entry : placeNameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> websiteURLMap = getWebsiteURLMap();
 
 		for (Map.Entry<Locale, String> entry : websiteURLMap.entrySet()) {
@@ -1738,6 +1835,16 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		}
 		else {
 			setDescription(getDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String placeName = getPlaceName(defaultLocale);
+
+		if (Validator.isNull(placeName)) {
+			setPlaceName(getPlaceName(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setPlaceName(getPlaceName(defaultLocale), defaultLocale,
 				defaultLocale);
 		}
 
@@ -2497,6 +2604,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	private String _manifestationsIds;
 	private String _placeSIGId;
 	private String _placeName;
+	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;
 	private String _placeStreetName;
 	private String _placeZipCode;

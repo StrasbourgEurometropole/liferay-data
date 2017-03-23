@@ -269,6 +269,7 @@ function validatePeriods(event) {
 			return p.name.indexOf('_title_') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
 		});
 		var titleOk = titles.length == 1;
+		
 		var descriptions = params.filter(function(p) {
 			return p.name.indexOf('_description_') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
 		});
@@ -279,14 +280,24 @@ function validatePeriods(event) {
 		});
 		var timeDetailOk = timeDetails.length >= numberOfPeriods;
 		
-		if (!titleOk || !descriptionOk || !timeDetailOk) {
+		var placeNameOk = true;
+		if (jQuery('.place-manual').css('display') != 'none') {
+			var placeNames = params.filter(function(p) {
+				return p.name.indexOf('_placeName_') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
+			});
+			placeNameOk = placeNames.length == 1;
+		}
+		
+		
+		if (!titleOk || !descriptionOk || !timeDetailOk || !placeNameOk) {
 			hasLanguageError = true;
 		}
 		languageValidation.push({
 			language: languages[i],
 			titleOk: titleOk,
 			descriptionOk: descriptionOk,
-			timeDetailOk: timeDetailOk
+			timeDetailOk: timeDetailOk,
+			placeNameOk: placeNameOk
 		});
 	}
 	$('.language-error').hide();
@@ -298,6 +309,9 @@ function validatePeriods(event) {
 			}
 			if (!languageValidation[i].descriptionOk) {
 				txt += "<li>Dans la langue '" + languageValidation[i].language + "' veuillez remplir la description</li>";
+			}
+			if (!languageValidation[i].placeNameOk) {
+				txt += "<li>Dans la langue '" + languageValidation[i].language + "' veuillez remplir le nom du lieu</li>";
 			}
 			if (!languageValidation[i].timeDetailOk) {
 				txt += "<li>Dans la langue '" + languageValidation[i].language + "' veuillez remplir tous les horaires</li>";

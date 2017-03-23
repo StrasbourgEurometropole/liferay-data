@@ -514,7 +514,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		} else {
 			// Lieu manuel
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", this.getPlaceName());
+			jsonPlace.put("name",
+				JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			if (Validator.isNotNull(this.getPlaceStreetNumber())) {
 				jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			}

@@ -157,7 +157,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"", imageBytes, sc);
 				campaignEvent.setImageId(fileEntry.getFileEntryId());
 			}
-			
+
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(webImage);
@@ -166,11 +166,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
 					sc.getUserId(), folder.getRepositoryId(),
 					folder.getFolderId(), webImage.getName(),
-					MimeTypesUtil.getContentType(webImage), webImage.getName(), "",
-					"", imageBytes, sc);
+					MimeTypesUtil.getContentType(webImage), webImage.getName(),
+					"", "", imageBytes, sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
 			}
-
 
 			String imageOwner = ParamUtil.getString(request, "imageOwner");
 			campaignEvent.setImageOwner(imageOwner);
@@ -193,8 +192,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			} else {
 				campaignEvent.setPlaceSIGId("");
 
-				String placeName = ParamUtil.getString(request, "placeName");
-				campaignEvent.setPlaceName(placeName);
+				Map<Locale, String> placeName = LocalizationUtil
+					.getLocalizationMap(request, "placeName");
+				campaignEvent.setPlaceNameMap(placeName);
 
 				String placeStreetNumber = ParamUtil.getString(request,
 					"placeStreetNumber");
@@ -215,7 +215,6 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"placeCountry");
 				campaignEvent.setPlaceCountry(placeCountry);
 			}
-
 
 			/**
 			 * Informations de contact public
@@ -265,9 +264,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					eventPeriod.setEndDate(endDate);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(0);
-					eventPeriod.setCampaignEventId(campaignEvent.getCampaignEventId());
-					this.eventPeriodLocalService
-						.updateEventPeriod(eventPeriod);
+					eventPeriod
+						.setCampaignEventId(campaignEvent.getCampaignEventId());
+					this.eventPeriodLocalService.updateEventPeriod(eventPeriod);
 				}
 			}
 
@@ -279,7 +278,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setFree(free);
 
 			// Tarifs
-			Map<Locale, String> price = LocalizationUtil.getLocalizationMap(request, "price");
+			Map<Locale, String> price = LocalizationUtil
+				.getLocalizationMap(request, "price");
 			campaignEvent.setPriceMap(price);
 
 			/**

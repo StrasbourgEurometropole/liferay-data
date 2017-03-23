@@ -755,8 +755,58 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	 *
 	 * @return the place name of this campaign event
 	 */
-	@AutoEscape
 	public String getPlaceName();
+
+	/**
+	 * Returns the localized place name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized place name of this campaign event
+	 */
+	@AutoEscape
+	public String getPlaceName(Locale locale);
+
+	/**
+	 * Returns the localized place name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized place name of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getPlaceName(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized place name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized place name of this campaign event
+	 */
+	@AutoEscape
+	public String getPlaceName(String languageId);
+
+	/**
+	 * Returns the localized place name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized place name of this campaign event
+	 */
+	@AutoEscape
+	public String getPlaceName(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getPlaceNameCurrentLanguageId();
+
+	@AutoEscape
+	public String getPlaceNameCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized place names of this campaign event.
+	 *
+	 * @return the locales and localized place names of this campaign event
+	 */
+	public Map<Locale, String> getPlaceNameMap();
 
 	/**
 	 * Sets the place name of this campaign event.
@@ -764,6 +814,42 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	 * @param placeName the place name of this campaign event
 	 */
 	public void setPlaceName(String placeName);
+
+	/**
+	 * Sets the localized place name of this campaign event in the language.
+	 *
+	 * @param placeName the localized place name of this campaign event
+	 * @param locale the locale of the language
+	 */
+	public void setPlaceName(String placeName, Locale locale);
+
+	/**
+	 * Sets the localized place name of this campaign event in the language, and sets the default locale.
+	 *
+	 * @param placeName the localized place name of this campaign event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setPlaceName(String placeName, Locale locale,
+		Locale defaultLocale);
+
+	public void setPlaceNameCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized place names of this campaign event from the map of locales and localized place names.
+	 *
+	 * @param placeNameMap the locales and localized place names of this campaign event
+	 */
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap);
+
+	/**
+	 * Sets the localized place names of this campaign event from the map of locales and localized place names, and sets the default locale.
+	 *
+	 * @param placeNameMap the locales and localized place names of this campaign event
+	 * @param defaultLocale the default locale
+	 */
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the place street number of this campaign event.

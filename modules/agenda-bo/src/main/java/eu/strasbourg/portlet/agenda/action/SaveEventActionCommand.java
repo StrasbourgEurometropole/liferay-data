@@ -112,8 +112,9 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			} else {
 				event.setPlaceSIGId("");
 
-				String placeName = ParamUtil.getString(request, "placeName");
-				event.setPlaceName(placeName);
+				Map<Locale, String> placeName = LocalizationUtil
+					.getLocalizationMap(request, "placeName");
+				event.setPlaceNameMap(placeName);
 
 				String placeStreetNumber = ParamUtil.getString(request,
 					"placeStreetNumber");

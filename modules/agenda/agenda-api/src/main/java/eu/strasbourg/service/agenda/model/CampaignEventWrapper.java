@@ -770,6 +770,64 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Returns the localized place name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized place name of this campaign event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.lang.String languageId) {
+		return _campaignEvent.getPlaceName(languageId);
+	}
+
+	/**
+	* Returns the localized place name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized place name of this campaign event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.lang.String languageId,
+		boolean useDefault) {
+		return _campaignEvent.getPlaceName(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized place name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized place name of this campaign event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.util.Locale locale) {
+		return _campaignEvent.getPlaceName(locale);
+	}
+
+	/**
+	* Returns the localized place name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized place name of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.util.Locale locale,
+		boolean useDefault) {
+		return _campaignEvent.getPlaceName(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getPlaceNameCurrentLanguageId() {
+		return _campaignEvent.getPlaceNameCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getPlaceNameCurrentValue() {
+		return _campaignEvent.getPlaceNameCurrentValue();
+	}
+
+	/**
 	* Returns the place s i g ID of this campaign event.
 	*
 	* @return the place s i g ID of this campaign event
@@ -1248,6 +1306,16 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Returns a map of the locales and localized place names of this campaign event.
+	*
+	* @return the locales and localized place names of this campaign event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getPlaceNameMap() {
+		return _campaignEvent.getPlaceNameMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized prices of this campaign event.
 	*
 	* @return the locales and localized prices of this campaign event
@@ -1671,6 +1739,59 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public void setPlaceName(java.lang.String placeName) {
 		_campaignEvent.setPlaceName(placeName);
+	}
+
+	/**
+	* Sets the localized place name of this campaign event in the language.
+	*
+	* @param placeName the localized place name of this campaign event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setPlaceName(java.lang.String placeName, java.util.Locale locale) {
+		_campaignEvent.setPlaceName(placeName, locale);
+	}
+
+	/**
+	* Sets the localized place name of this campaign event in the language, and sets the default locale.
+	*
+	* @param placeName the localized place name of this campaign event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPlaceName(java.lang.String placeName,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_campaignEvent.setPlaceName(placeName, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPlaceNameCurrentLanguageId(java.lang.String languageId) {
+		_campaignEvent.setPlaceNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized place names of this campaign event from the map of locales and localized place names.
+	*
+	* @param placeNameMap the locales and localized place names of this campaign event
+	*/
+	@Override
+	public void setPlaceNameMap(
+		Map<java.util.Locale, java.lang.String> placeNameMap) {
+		_campaignEvent.setPlaceNameMap(placeNameMap);
+	}
+
+	/**
+	* Sets the localized place names of this campaign event from the map of locales and localized place names, and sets the default locale.
+	*
+	* @param placeNameMap the locales and localized place names of this campaign event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPlaceNameMap(
+		Map<java.util.Locale, java.lang.String> placeNameMap,
+		java.util.Locale defaultLocale) {
+		_campaignEvent.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
