@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -225,7 +226,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			String publicEmail = ParamUtil.getString(request, "publicEmail");
 			Map<Locale, String> websiteURL = LocalizationUtil
 				.getLocalizationMap(request, "websiteURL");
-			Map<Locale, String> websiteName = LocalizationUtil.getLocalizationMap(request, "websiteName");
+			Map<Locale, String> websiteName = LocalizationUtil
+				.getLocalizationMap(request, "websiteName");
 
 			campaignEvent.setPromoter(promoter);
 			campaignEvent.setPublicPhone(publicPhone);
@@ -327,6 +329,13 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					// ajouter un
 					response.setRenderParameter("statusId",
 						String.valueOf(status.getStatusId()));
+				}
+
+				// On envoie un mail si le statut est une demande de validation,
+				// une validation ou une demande de suppression
+				int[] statuses = {WorkflowConstants.STATUS_PENDING, WorkflowConstants.STATUS_APPROVED, WorkflowConstants.STATUS_IN_TRASH};
+				if (ArrayUtil.contains(statuses, newStatus)) {
+					campaignEvent.sendStatusMail();
 				}
 			}
 

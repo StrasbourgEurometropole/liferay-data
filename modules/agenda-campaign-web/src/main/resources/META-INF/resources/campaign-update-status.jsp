@@ -22,7 +22,9 @@
 
 		<aui:button-row>
 			<aui:button cssClass="btn-lg" type="submit" name="submit" value="submit" />
-			<aui:button cssClass="btn-lg" href="${eventsCampaignURL}" type="cancel" value="${empty param.statusId ? 'cancel' : 'no-comment'}" />
+			<c:if test="${empty param.statusId}">
+				<aui:button cssClass="btn-lg" href="${eventsCampaignURL}" type="cancel" value="cancel" />
+			</c:if>
 		</aui:button-row>
 	</aui:form>
 </div>

@@ -13,7 +13,6 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -94,14 +93,11 @@ public class UpdateCampaignEventStatusActionCommand
 				status.setComment(comment);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
-			}
+			} 
 			if (status != null) {
-				if (status.getDeletionDenied() == true
-					&& Validator.isNotNull(status.getComment())) {
+				if (status.getDeletionDenied() == true) {
 					event.sendDeletionDeniedMail();
-				} else if (!status.getDeletionDenied()
-					&& (status.getStatus() != WorkflowConstants.STATUS_DENIED
-						|| Validator.isNotNull(status.getComment()))) {
+				} else if (statusId == 0 || status.getStatus() == WorkflowConstants.STATUS_DENIED) {
 					event.sendStatusMail();
 				}
 			}
