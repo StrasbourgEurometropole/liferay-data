@@ -145,7 +145,7 @@
 					<aui:input name="placeStreetNumber" />
 					<aui:input name="placeStreetName" />
 					<aui:input name="placeZipCode" />
-					<aui:select name="placeCityId" label="city">
+					<aui:select name="placeCityId" label="eu.campaign.city">
 						<c:forEach var="city" items="${dc.cities}">
 							<aui:option value="${city.categoryId}"
 								label="${city.getTitle(locale)}"
