@@ -70,6 +70,7 @@ public class CampaignEventSoap implements Serializable {
 		soapModel.setPublicPhone(model.getPublicPhone());
 		soapModel.setPublicEmail(model.getPublicEmail());
 		soapModel.setWebsiteURL(model.getWebsiteURL());
+		soapModel.setWebsiteName(model.getWebsiteName());
 		soapModel.setFree(model.getFree());
 		soapModel.setPrice(model.getPrice());
 		soapModel.setCampaignId(model.getCampaignId());
@@ -424,6 +425,14 @@ public class CampaignEventSoap implements Serializable {
 		_websiteURL = websiteURL;
 	}
 
+	public String getWebsiteName() {
+		return _websiteName;
+	}
+
+	public void setWebsiteName(String websiteName) {
+		_websiteName = websiteName;
+	}
+
 	public Integer getFree() {
 		return _free;
 	}
@@ -509,6 +518,7 @@ public class CampaignEventSoap implements Serializable {
 	private String _publicPhone;
 	private String _publicEmail;
 	private String _websiteURL;
+	private String _websiteName;
 	private Integer _free;
 	private String _price;
 	private Long _campaignId;

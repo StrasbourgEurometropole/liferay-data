@@ -2413,6 +2413,7 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 		campaignEventImpl.setPublicPhone(campaignEvent.getPublicPhone());
 		campaignEventImpl.setPublicEmail(campaignEvent.getPublicEmail());
 		campaignEventImpl.setWebsiteURL(campaignEvent.getWebsiteURL());
+		campaignEventImpl.setWebsiteName(campaignEvent.getWebsiteName());
 		campaignEventImpl.setFree(campaignEvent.getFree());
 		campaignEventImpl.setPrice(campaignEvent.getPrice());
 		campaignEventImpl.setCampaignId(campaignEvent.getCampaignId());

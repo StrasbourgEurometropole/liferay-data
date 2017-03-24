@@ -296,6 +296,7 @@
 		<column name="publicPhone" type="String" />
 		<column name="publicEmail" type="String" />
 		<column name="websiteURL" type="String" localized="true" />
+		<column name="websiteName" type="String" localized="true" />
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		<column name="campaignId" type="Long" />

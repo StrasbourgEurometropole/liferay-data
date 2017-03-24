@@ -97,6 +97,7 @@ public class CampaignEventWrapper implements CampaignEvent,
 		attributes.put("publicPhone", getPublicPhone());
 		attributes.put("publicEmail", getPublicEmail());
 		attributes.put("websiteURL", getWebsiteURL());
+		attributes.put("websiteName", getWebsiteName());
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("campaignId", getCampaignId());
@@ -329,6 +330,12 @@ public class CampaignEventWrapper implements CampaignEvent,
 
 		if (websiteURL != null) {
 			setWebsiteURL(websiteURL);
+		}
+
+		String websiteName = (String)attributes.get("websiteName");
+
+		if (websiteName != null) {
+			setWebsiteName(websiteName);
 		}
 
 		Integer free = (Integer)attributes.get("free");
@@ -1166,6 +1173,74 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Returns the website name of this campaign event.
+	*
+	* @return the website name of this campaign event
+	*/
+	@Override
+	public java.lang.String getWebsiteName() {
+		return _campaignEvent.getWebsiteName();
+	}
+
+	/**
+	* Returns the localized website name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized website name of this campaign event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.lang.String languageId) {
+		return _campaignEvent.getWebsiteName(languageId);
+	}
+
+	/**
+	* Returns the localized website name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website name of this campaign event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.lang.String languageId,
+		boolean useDefault) {
+		return _campaignEvent.getWebsiteName(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized website name of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized website name of this campaign event
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.util.Locale locale) {
+		return _campaignEvent.getWebsiteName(locale);
+	}
+
+	/**
+	* Returns the localized website name of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized website name of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getWebsiteName(java.util.Locale locale,
+		boolean useDefault) {
+		return _campaignEvent.getWebsiteName(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getWebsiteNameCurrentLanguageId() {
+		return _campaignEvent.getWebsiteNameCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getWebsiteNameCurrentValue() {
+		return _campaignEvent.getWebsiteNameCurrentValue();
+	}
+
+	/**
 	* Returns the website u r l of this campaign event.
 	*
 	* @return the website u r l of this campaign event
@@ -1343,6 +1418,16 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getTitleMap() {
 		return _campaignEvent.getTitleMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized website names of this campaign event.
+	*
+	* @return the locales and localized website names of this campaign event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getWebsiteNameMap() {
+		return _campaignEvent.getWebsiteNameMap();
 	}
 
 	/**
@@ -2172,6 +2257,70 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public void setWebImageId(java.lang.Long webImageId) {
 		_campaignEvent.setWebImageId(webImageId);
+	}
+
+	/**
+	* Sets the website name of this campaign event.
+	*
+	* @param websiteName the website name of this campaign event
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName) {
+		_campaignEvent.setWebsiteName(websiteName);
+	}
+
+	/**
+	* Sets the localized website name of this campaign event in the language.
+	*
+	* @param websiteName the localized website name of this campaign event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName,
+		java.util.Locale locale) {
+		_campaignEvent.setWebsiteName(websiteName, locale);
+	}
+
+	/**
+	* Sets the localized website name of this campaign event in the language, and sets the default locale.
+	*
+	* @param websiteName the localized website name of this campaign event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteName(java.lang.String websiteName,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_campaignEvent.setWebsiteName(websiteName, locale, defaultLocale);
+	}
+
+	@Override
+	public void setWebsiteNameCurrentLanguageId(java.lang.String languageId) {
+		_campaignEvent.setWebsiteNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized website names of this campaign event from the map of locales and localized website names.
+	*
+	* @param websiteNameMap the locales and localized website names of this campaign event
+	*/
+	@Override
+	public void setWebsiteNameMap(
+		Map<java.util.Locale, java.lang.String> websiteNameMap) {
+		_campaignEvent.setWebsiteNameMap(websiteNameMap);
+	}
+
+	/**
+	* Sets the localized website names of this campaign event from the map of locales and localized website names, and sets the default locale.
+	*
+	* @param websiteNameMap the locales and localized website names of this campaign event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setWebsiteNameMap(
+		Map<java.util.Locale, java.lang.String> websiteNameMap,
+		java.util.Locale defaultLocale) {
+		_campaignEvent.setWebsiteNameMap(websiteNameMap, defaultLocale);
 	}
 
 	/**

@@ -225,11 +225,13 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			String publicEmail = ParamUtil.getString(request, "publicEmail");
 			Map<Locale, String> websiteURL = LocalizationUtil
 				.getLocalizationMap(request, "websiteURL");
+			Map<Locale, String> websiteName = LocalizationUtil.getLocalizationMap(request, "websiteName");
 
 			campaignEvent.setPromoter(promoter);
 			campaignEvent.setPublicPhone(publicPhone);
 			campaignEvent.setPublicEmail(publicEmail);
 			campaignEvent.setWebsiteURLMap(websiteURL);
+			campaignEvent.setWebsiteNameMap(websiteName);
 
 			/**
 			 * Dates et horaires

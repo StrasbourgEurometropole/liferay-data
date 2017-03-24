@@ -544,6 +544,10 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			jsonEvent.put("websiteURL",
 				JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
 		}
+		if (Validator.isNotNull(this.getWebsiteName())) {
+			jsonEvent.put("websiteName",
+				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+		}
 
 		// Tarifs
 		jsonEvent.put("freeEntry", this.getFree());

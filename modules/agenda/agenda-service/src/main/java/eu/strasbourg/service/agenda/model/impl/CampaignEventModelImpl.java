@@ -113,6 +113,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			{ "publicPhone", Types.VARCHAR },
 			{ "publicEmail", Types.VARCHAR },
 			{ "websiteURL", Types.VARCHAR },
+			{ "websiteName", Types.VARCHAR },
 			{ "free", Types.INTEGER },
 			{ "price", Types.CLOB },
 			{ "campaignId", Types.BIGINT },
@@ -160,6 +161,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		TABLE_COLUMNS_MAP.put("publicPhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicEmail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("websiteURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("websiteName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("free", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("campaignId", Types.BIGINT);
@@ -168,7 +170,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,free INTEGER,price TEXT null,campaignId LONG,themeId LONG,typeId LONG,publicsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themeId LONG,typeId LONG,publicsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_CampaignEvent";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaignEvent.campaignEventId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_CampaignEvent.campaignEventId ASC";
@@ -266,6 +268,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		attributes.put("publicPhone", getPublicPhone());
 		attributes.put("publicEmail", getPublicEmail());
 		attributes.put("websiteURL", getWebsiteURL());
+		attributes.put("websiteName", getWebsiteName());
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("campaignId", getCampaignId());
@@ -501,6 +504,12 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 
 		if (websiteURL != null) {
 			setWebsiteURL(websiteURL);
+		}
+
+		String websiteName = (String)attributes.get("websiteName");
+
+		if (websiteName != null) {
+			setWebsiteName(websiteName);
 		}
 
 		Integer free = (Integer)attributes.get("free");
@@ -1517,6 +1526,108 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	}
 
 	@Override
+	public String getWebsiteName() {
+		if (_websiteName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _websiteName;
+		}
+	}
+
+	@Override
+	public String getWebsiteName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteName(languageId);
+	}
+
+	@Override
+	public String getWebsiteName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getWebsiteName(languageId, useDefault);
+	}
+
+	@Override
+	public String getWebsiteName(String languageId) {
+		return LocalizationUtil.getLocalization(getWebsiteName(), languageId);
+	}
+
+	@Override
+	public String getWebsiteName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getWebsiteName(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getWebsiteNameCurrentLanguageId() {
+		return _websiteNameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getWebsiteNameCurrentValue() {
+		Locale locale = getLocale(_websiteNameCurrentLanguageId);
+
+		return getWebsiteName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getWebsiteNameMap() {
+		return LocalizationUtil.getLocalizationMap(getWebsiteName());
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName) {
+		_websiteName = websiteName;
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName, Locale locale) {
+		setWebsiteName(websiteName, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteName(String websiteName, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(websiteName)) {
+			setWebsiteName(LocalizationUtil.updateLocalization(
+					getWebsiteName(), "WebsiteName", websiteName, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setWebsiteName(LocalizationUtil.removeLocalization(
+					getWebsiteName(), "WebsiteName", languageId));
+		}
+	}
+
+	@Override
+	public void setWebsiteNameCurrentLanguageId(String languageId) {
+		_websiteNameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap) {
+		setWebsiteNameMap(websiteNameMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setWebsiteNameMap(Map<Locale, String> websiteNameMap,
+		Locale defaultLocale) {
+		if (websiteNameMap == null) {
+			return;
+		}
+
+		setWebsiteName(LocalizationUtil.updateLocalization(websiteNameMap,
+				getWebsiteName(), "WebsiteName",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
 	public Integer getFree() {
 		return _free;
 	}
@@ -1763,6 +1874,17 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			}
 		}
 
+		Map<Locale, String> websiteNameMap = getWebsiteNameMap();
+
+		for (Map.Entry<Locale, String> entry : websiteNameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> priceMap = getPriceMap();
 
 		for (Map.Entry<Locale, String> entry : priceMap.entrySet()) {
@@ -1858,6 +1980,16 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 				defaultLocale);
 		}
 
+		String websiteName = getWebsiteName(defaultLocale);
+
+		if (Validator.isNull(websiteName)) {
+			setWebsiteName(getWebsiteName(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setWebsiteName(getWebsiteName(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
 		String price = getPrice(defaultLocale);
 
 		if (Validator.isNull(price)) {
@@ -1919,6 +2051,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		campaignEventImpl.setPublicPhone(getPublicPhone());
 		campaignEventImpl.setPublicEmail(getPublicEmail());
 		campaignEventImpl.setWebsiteURL(getWebsiteURL());
+		campaignEventImpl.setWebsiteName(getWebsiteName());
 		campaignEventImpl.setFree(getFree());
 		campaignEventImpl.setPrice(getPrice());
 		campaignEventImpl.setCampaignId(getCampaignId());
@@ -2255,6 +2388,14 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			campaignEventCacheModel.websiteURL = null;
 		}
 
+		campaignEventCacheModel.websiteName = getWebsiteName();
+
+		String websiteName = campaignEventCacheModel.websiteName;
+
+		if ((websiteName != null) && (websiteName.length() == 0)) {
+			campaignEventCacheModel.websiteName = null;
+		}
+
 		campaignEventCacheModel.free = getFree();
 
 		campaignEventCacheModel.price = getPrice();
@@ -2284,7 +2425,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(87);
+		StringBundler sb = new StringBundler(89);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -2360,6 +2501,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		sb.append(getPublicEmail());
 		sb.append(", websiteURL=");
 		sb.append(getWebsiteURL());
+		sb.append(", websiteName=");
+		sb.append(getWebsiteName());
 		sb.append(", free=");
 		sb.append(getFree());
 		sb.append(", price=");
@@ -2379,7 +2522,7 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(133);
+		StringBundler sb = new StringBundler(136);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.CampaignEvent");
@@ -2534,6 +2677,10 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		sb.append(getWebsiteURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>websiteName</column-name><column-value><![CDATA[");
+		sb.append(getWebsiteName());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>free</column-name><column-value><![CDATA[");
 		sb.append(getFree());
 		sb.append("]]></column-value></column>");
@@ -2615,6 +2762,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	private String _publicEmail;
 	private String _websiteURL;
 	private String _websiteURLCurrentLanguageId;
+	private String _websiteName;
+	private String _websiteNameCurrentLanguageId;
 	private Integer _free;
 	private String _price;
 	private String _priceCurrentLanguageId;
