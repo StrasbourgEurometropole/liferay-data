@@ -22,7 +22,7 @@
 			<aui:fieldset collapsed="false" collapsible="true" label="private-contact-information">
 				<!-- Nom, prénom, mail, téléphone -->
 				<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
-				<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}" />
+				<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.lastName}" />
 				<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
 				<aui:input name="email" required="true"  value="${not empty dc.campaignEvent ? dc.campaignEvent.email : themeDisplay.user.emailAddress}" />
 				
