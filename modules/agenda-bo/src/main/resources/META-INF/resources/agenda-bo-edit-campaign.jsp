@@ -19,6 +19,10 @@
 
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="managers-error" message="managers-error" />
+	<liferay-ui:error key="themes-error" message="themes-error" />
+	
 	<aui:form action="${saveCampaignURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -38,13 +42,13 @@
 				<aui:input name="exportEnabled" type="toggle-switch"
 					value="${not empty dc.campaign ? dc.campaign.exportEnabled : false}" />
 
-				<label><liferay-ui:message key="themes" /></label>
+				<label><liferay-ui:message key="themes" /><span class="icon-asterisk text-warning"></span></label>
 				<select class="form-control" name="<portlet:namespace />themesIds"
 					id="themesIds"
 					placeholder="<liferay-ui:message key="select-themes" />" multiple>
 				</select>
 				
-				<label><liferay-ui:message key="managers" /></label>
+				<label><liferay-ui:message key="managers" /><span class="icon-asterisk text-warning"></span></label>
 				<select class="form-control" name="<portlet:namespace />managersIds"
 					id="managersIds"
 					placeholder="<liferay-ui:message key="select-managers" />" multiple>
@@ -80,7 +84,10 @@
 				<aui:button cssClass="btn-lg" href="${deleteCampaignURL}"
 					type="cancel" value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<liferay-portlet:renderURL varImpl="cancelURL">
+				<liferay-portlet:param name="tab" value="campaigns" />
+			</liferay-portlet:renderURL>
+			<aui:button cssClass="btn-lg" href="${cancelURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>
