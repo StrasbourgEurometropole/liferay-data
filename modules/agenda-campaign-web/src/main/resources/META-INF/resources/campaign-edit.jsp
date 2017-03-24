@@ -60,7 +60,7 @@
 				<!-- Titre, sous-titre, description -->
 				<aui:input name="title" required="true" />
 				<aui:input name="subtitle" />
-				<aui:input name="description" />
+				<aui:input name="description" label="eu.campaign.description" helpMessage="description-help" />
 				
 				<!-- Manifestations -->
 				<label><liferay-ui:message key="manifestations" /></label>
@@ -90,7 +90,14 @@
 					<p><img src="${dc.campaignEvent.imageURL}"></p>
 				</c:if>
 				
-				<aui:input name="imageOwner" />
+				<aui:input name="imageOwner">
+					<aui:validator name="required"
+						errorMessage="this-field-is-required">
+						function() {
+							return $('[name$=_image]').val().length > 0;
+						}	
+					</aui:validator>
+				</aui:input>
 				
 				<c:if test="${dc.campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
 					<aui:input type="file" name="webImage">
@@ -159,6 +166,7 @@
 				<aui:input name="publicEmail" helpMessage="public-email-help">
 					<aui:validator name="email" />
 				</aui:input>
+				<aui:input name="websiteName" />
 				<aui:input name="websiteURL">
 					<aui:validator name="url" />
 				</aui:input>
