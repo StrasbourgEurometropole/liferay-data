@@ -11,7 +11,7 @@
 </span>
 
 <div class="time-detail-wrapper">
-	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="Horaires" localized="true" inlineField="true" required="true" />
+	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="period-times" localized="true" inlineField="true" />
 </div>
 
 <aui:input type="hidden" value="${param.startDate}" id="startDate${param.index}" name="startDate${param.index}" cssClass="startDate" />
