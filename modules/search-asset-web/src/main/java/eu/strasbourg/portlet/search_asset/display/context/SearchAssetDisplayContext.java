@@ -198,7 +198,15 @@ public class SearchAssetDisplayContext {
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (entry != null) {
-					results.add(entry);
+					// Si l'événement est censé être mis en avant, on s'assure
+					// qu'il soit en premier dans la liste
+					boolean entryIsBoosted = entry.getTags().stream().anyMatch(
+						t -> ArrayUtil.contains(boostTagsNames, t.getName()));
+					if (entryIsBoosted) {
+						results.add(0, entry);
+					} else {
+						results.add(entry);
+					}
 				}
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext,
