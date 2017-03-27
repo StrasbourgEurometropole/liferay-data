@@ -112,3 +112,17 @@ img {
     cursor: pointer;
     padding: 2px 11px;
 }
+
+.campaign-web .portlet-title-text {
+	display: none;
+}
+
+.big-button {
+	text-align: center;
+}
+
+.big-button .btn {
+    font-size: 32px;
+    padding: 25px 30px;
+    margin-top: 40px;
+}
