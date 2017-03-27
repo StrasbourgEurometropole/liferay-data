@@ -60,6 +60,10 @@
     max-width: 300px;
 }
 
+.language-error ul {
+	margin-top: 10px;
+}
+
 .portlet-body > .daterangepicker {
     display: none;
 }
