@@ -152,7 +152,7 @@
 								selected="${city.categoryId eq dc.campaignEvent.placeCityId or empty dc.campaignEvent.placeCityId && city.name eq 'Strasbourg'}" />
 						</c:forEach>
 					</aui:select>
-					<aui:input name="placeCountry" />
+					<aui:input name="placeCountry" value="${empty dc.campaignEvent.placeCountry ? 'France' : dc.campaignEvent.placeCountry}" />
 					<a href="#" class="show-autocomplete-place"><liferay-ui:message key="show-autocomplete-place" /></a>
 				</div>
 				
