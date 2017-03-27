@@ -37,9 +37,14 @@ import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.ListType;
+import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.ListTypeLocalServiceUtil;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -99,13 +104,26 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			// Nom, prénom, téléphone, mail
 			String lastName = ParamUtil.getString(request, "lastName");
 			String firstName = ParamUtil.getString(request, "firstName");
-			String phone = ParamUtil.getString(request, "phone");
+			String phoneNumber = ParamUtil.getString(request, "phone");
 			String email = ParamUtil.getString(request, "email");
 			campaignEvent.setLastName(lastName);
 			campaignEvent.setFirstName(firstName);
-			campaignEvent.setPhone(phone);
+			campaignEvent.setPhone(phoneNumber);
 			campaignEvent.setEmail(email);
-			// TODO : enregistrer téléphone dans utilisateur si n'existe pas
+
+			// Enregistrement du numéro de téléphone si l'utilisateur n'en a pas
+			// encore
+			if (user.getPhones().size() == 0) {
+				List<ListType> listTypes = ListTypeLocalServiceUtil
+					.getListTypes(
+						Contact.class.getName() + ListTypeConstants.PHONE);
+				if (listTypes.size() > 0) {
+					PhoneLocalServiceUtil.addPhone(user.getUserId(),
+						Contact.class.getName(), user.getContactId(),
+						phoneNumber, "", listTypes.get(0).getListTypeId(), true,
+						sc);
+				}
+			}
 
 			// Service
 			Long serviceId = ParamUtil.getLong(request, "serviceId");
@@ -333,7 +351,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 
 				// On envoie un mail si le statut est une demande de validation,
 				// une validation ou une demande de suppression
-				int[] statuses = {WorkflowConstants.STATUS_PENDING, WorkflowConstants.STATUS_APPROVED, WorkflowConstants.STATUS_IN_TRASH};
+				int[] statuses = { WorkflowConstants.STATUS_PENDING,
+					WorkflowConstants.STATUS_APPROVED,
+					WorkflowConstants.STATUS_IN_TRASH };
 				if (ArrayUtil.contains(statuses, newStatus)) {
 					campaignEvent.sendStatusMail();
 				}
