@@ -168,7 +168,7 @@
 				</aui:input>
 				<aui:input name="websiteName" />
 				<aui:input name="websiteURL">
-					<aui:validator name="url" />
+					<aui:validator name="url" errorMessage="url-error" />
 				</aui:input>
 			</aui:fieldset>
 			
