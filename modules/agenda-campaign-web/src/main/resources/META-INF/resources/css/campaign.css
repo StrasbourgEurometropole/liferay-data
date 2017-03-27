@@ -130,3 +130,21 @@ img {
     padding: 25px 30px;
     margin-top: 40px;
 }
+
+.campaign-web .panel-title {
+    display: block;
+    padding: 10px 15px;
+    background: #F5F8FA;
+}
+
+.campaign-web .panel-group .panel-title > a {
+    padding: 0;
+}
+
+.campaign-web .panel-body {
+    border-top: 2px solid #65B6F0;
+}
+
+.campaign-web .status-history {
+	column-count: 3;
+}
