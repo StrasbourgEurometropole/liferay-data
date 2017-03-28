@@ -308,20 +308,20 @@
 			
 			<!-- Autres informations -->
 			<aui:fieldset collapsed="true" collapsible="false" label="other-information">
-			
-				<!-- Campagne -->
-				<aui:select name="campaignId" required="true" label="campaign">
-					<aui:option value="" label="" />
-					<c:forEach var="campaign" items="${dc.campaigns}">
-						<aui:option value="${campaign.campaignId}"
-							label="${campaign.getTitle(locale)}"
-							selected="${campaign.campaignId eq dc.campaignEvent.campaignId}" />
-					</c:forEach>
-				</aui:select>
-				
-				<!-- Type / thême / publics -->
 				<div class="row">
-					<div class="col-md-4">
+					<!-- Campagne -->
+					<div class="col-md-3">
+						<aui:select name="campaignId" required="true" label="campaign">
+							<aui:option value="" label="" />
+							<c:forEach var="campaign" items="${dc.campaigns}">
+								<aui:option value="${campaign.campaignId}"
+									label="${campaign.getTitle(locale)}"
+									selected="${campaign.campaignId eq dc.campaignEvent.campaignId}" />
+							</c:forEach>
+						</aui:select>
+					</div>
+					<!-- Type / thême / publics -->
+					<div class="col-md-3">
 						<aui:select name="typeId" required="true" label="type">
 							<aui:option value="" label="" />
 							<c:forEach var="type" items="${dc.types}">
@@ -331,7 +331,7 @@
 							</c:forEach>
 						</aui:select>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<!-- TODO : thèmes de la campagne uniquement -->
 						<aui:select name="themeId" required="true" label="theme">
 							<aui:option value="" label="" />
@@ -342,7 +342,7 @@
 							</c:forEach>
 						</aui:select>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<label>
 							<liferay-ui:message key="publics" />
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="publics-help" />"> <span class=""> <svg class="lexicon-icon lexicon-icon-question-circle-full" role="img" title="" viewBox="0 0 512 512">  
