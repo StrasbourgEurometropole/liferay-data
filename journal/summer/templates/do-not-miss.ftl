@@ -33,7 +33,7 @@ background: #e6f4ee;  color: #268033; float:left; text-transform: none; font-siz
 <div class="portlet"> 
   <div class="asset-header-image-page"> 
     <div> 
-      <span class="title-with-picto-span last-images">${title.getData()}</span> 
+      <span class="title-with-picto-span last-images">${title.getData()}</span>
     </div> 
     <div class="asset-header-div asset-header-image-div results-grid">  
     
@@ -56,7 +56,7 @@ background: #e6f4ee;  color: #268033; float:left; text-transform: none; font-siz
             <a class="" href="${link.getData()}">${text.getData()}</a> 
           </div> 
           <div class="column-bottom button-pas-manquer" style="height: 35px;"> 
-            <a href="${link.getData()}" title="${button.getData()}" class="image-link btn-more" style="">${button.getData()}</a> 
+            <a href="${link.getData()}" title="${buttonTitle.getData()}" class="image-link btn-more" style="">${buttonTitle.getData()}</a> 
             <div class="clearer">&nbsp;</div> 
           </div> 
         </div> 
