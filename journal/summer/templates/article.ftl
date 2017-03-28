@@ -24,10 +24,10 @@
   </div>
   <div class="article-clear"></div>
   <div class="article-catcher">
-    ${catcher.getData()}
+    ${chapo.getData()}
   </div>
   <div class="article-texte">
-    ${text.getData()}
+    ${content.getData()}
   </div>
   <div class="clearer">&nbsp;</div>
                  

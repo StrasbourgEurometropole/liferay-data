@@ -29,7 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "text"
+                "fr_FR": "content"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -44,7 +44,7 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "text",
+            "name": "content",
             "readOnly": false,
             "repeatable": false,
             "required": false,

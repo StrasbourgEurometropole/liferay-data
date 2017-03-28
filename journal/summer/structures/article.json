@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "title"
+                "fr_FR": "Titre"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -53,7 +53,7 @@
         },
         {
             "label": {
-                "fr_FR": "catcher"
+                "fr_FR": "Chapô"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -67,7 +67,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "catcher",
+            "name": "chapo",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -76,7 +76,7 @@
         },
         {
             "label": {
-                "fr_FR": "text"
+                "fr_FR": "Contenu"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -89,9 +89,9 @@
             },
             "dataType": "html",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "text",
             "localizable": true,
-            "name": "text",
+            "name": "content",
             "readOnly": false,
             "repeatable": false,
             "required": false,

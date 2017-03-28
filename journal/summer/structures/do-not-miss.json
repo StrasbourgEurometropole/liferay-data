@@ -29,7 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "Image"
+                "fr_FR": "image"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -44,7 +44,7 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "Image6j3y",
+            "name": "image",
             "readOnly": false,
             "repeatable": false,
             "required": false,

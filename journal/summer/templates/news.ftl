@@ -30,10 +30,10 @@
   </div>
   <div class="article-clear"></div>
   <div class="article-catcher">
-        ${catcher.getData()}
+        ${chapo.getData()}
     </div>
   <div class="article-texte">
-    ${text.getData()}
+    ${content.getData()}
   </div>
 <br>
 <div class="previous-link" style="background-color:transparent; padding-bottom:20px;"><p><a href="javascript:history.back()"><@liferay_ui.message key='eu.news.all-news' /></a></p></div>
