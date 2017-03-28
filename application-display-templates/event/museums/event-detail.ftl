@@ -24,7 +24,7 @@
         </#if>
         ${place.zipCode} ${place.city}
       <#else>
-        ${entry.placeName} 
+        ${entry.getPlaceName(locale)} 
         <br> 
         <#if entry.placeStreetNumber?has_content>
           ${entry.placeStreetNumber}

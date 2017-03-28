@@ -44,7 +44,10 @@
     "imageCopyright": "test", // Copyright de l'image
     "placeSIGId": "5_LOI_1", // ID SIG du lieu
     "place": { // Ou lieu "manuel"
-      "name": "Lieu", // Obligatoire si lieu manuel
+      "name": { // Multilingue, obligatoire si lieu manuel
+        "fr_FR": "Nom du lieu",
+        "en_US": "Place name"
+      },
       "streetNumber": "5",
       "streetName": "rue",
       "zipCode": "67000",
