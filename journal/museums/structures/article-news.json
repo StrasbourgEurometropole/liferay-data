@@ -89,7 +89,7 @@
             },
             "dataType": "html",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "text",
             "localizable": true,
             "name": "content",
             "readOnly": false,
