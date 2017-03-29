@@ -87,7 +87,9 @@
 							placeholder="<liferay-ui:message key="manifestations" />" multiple>
 							<c:forEach var="manifestation" items="${dc.manifestations}">
 								<option value="${manifestation.idSource}" 
-									<c:if test="${not empty dc.campaignEvent and fn:contains(dc.campaignEvent.manifestationsIds, manifestation.idSource)}">
+									<c:if test="${not empty dc.campaignEvent 
+													and not empty dc.campaignEvent.manifestationsIds 
+													and fn:contains(dc.campaignEvent.manifestationsIds, manifestation.idSource)}">
 										selected
 									</c:if>
 								>
