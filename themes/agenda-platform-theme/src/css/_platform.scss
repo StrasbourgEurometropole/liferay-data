@@ -11,6 +11,12 @@ body.open #wrapper {
 .top-header {
   background-color: #343433;
   padding: 8px 0 5px 0;
+  .login-link {
+    float: right;
+    a {
+      color: white;
+    }
+  }
 }
 
 // Header principal

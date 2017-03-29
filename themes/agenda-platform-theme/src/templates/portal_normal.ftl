@@ -28,6 +28,13 @@
 			<a href="http://strasbourg.eu">
 				<img src="/o/agenda-platform-theme/images/strasbourg-logo.png" alt="Strasbourg.eu" />
 			</a>
+			<div class="login-link">
+				<#if !is_signed_in>
+					<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow"><@liferay_ui.message key="eu.login" /></a>
+				<#else>
+					<a data-redirect="${is_login_redirect_required?string}" href="/c/portal/logout" id="sign-out" rel="nofollow"><@liferay_ui.message key="eu.logout" /></a>
+				</#if>
+			</div>
 		</div>
 	</div>
 </div>
@@ -40,11 +47,6 @@
 	</header>
 
 	<section class="container-fluid-1280" id="content">
-		<#if !is_signed_in>
-			<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow"><@liferay_ui.message key="eu.login" /></a>
-		<#else>
-			<a data-redirect="${is_login_redirect_required?string}" href="/c/portal/logout" id="sign-out" rel="nofollow"><@liferay_ui.message key="eu.logout" /></a>
-		</#if>
 		<h1 class="hide-accessible">${the_title}</h1>
 		<#if selectable>
 			<@liferay_util["include"] page=content_include />
