@@ -232,7 +232,11 @@ public class AssetVocabularyHelper {
 			jsonCategory.put("name",
 				JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
 			try {
-				jsonCategory.put("level", category.getAncestors().size());
+				int level = category.getAncestors().size();
+				jsonCategory.put("level", level);
+				if (level > 0) {
+					jsonCategory.put("parentId", category.getParentCategoryId());
+				}
 			} catch (PortalException e) {
 				_log.error(e);
 			}

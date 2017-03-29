@@ -148,7 +148,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	@Override
 	public JSONObject getEvent(long id) throws PortalException {
 		Event event = this.eventLocalService.fetchEvent(id);
-		if (!event.isApproved()) {
+		if (event == null || !event.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
 		}
 		return event.toJSON();
