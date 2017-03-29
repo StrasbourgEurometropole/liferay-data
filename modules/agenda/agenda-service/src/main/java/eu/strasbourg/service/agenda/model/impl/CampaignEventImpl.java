@@ -305,7 +305,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("delete-subject-template.ftl", "delete-template.ftl",
+			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl",
 				context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
