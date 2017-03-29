@@ -36,26 +36,24 @@
 
 				<aui:input name="subtitle" />
 				
+				<strasbourg-picker:image label="image" name="imageId"
+					required="true" value="${dc.edition.imageId}" />
+				
 				<aui:input name="description" label="required-description" />
 				<!-- Hack pour ajouter une validation sur la description -->
 				<div class="has-error">
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-description-error">
 							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
+								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionContainer").get(0).scrollIntoView();
 								}
 								return validate;
 							}
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<strasbourg-picker:image label="image" name="imageId"
-					required="true" value="${dc.edition.imageId}" />
-				
-				<aui:input name="description" />
 
 				<aui:input name="author" />
 
