@@ -3,11 +3,14 @@ package eu.strasbourg.portlet.agenda.portlet.action;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -36,7 +39,14 @@ public class UpdateCampaignEventStatusActionCommand
 
 		try {
 			doProcessAction(actionRequest, actionResponse);
-
+			ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
+				.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) actionRequest
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			actionResponse.sendRedirect(renderUrl.toString());
 			return SessionErrors.isEmpty(actionRequest);
 		} catch (PortletException pe) {
 			throw pe;
@@ -93,11 +103,12 @@ public class UpdateCampaignEventStatusActionCommand
 				status.setComment(comment);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
-			} 
+			}
 			if (status != null) {
 				if (status.getDeletionDenied() == true) {
 					event.sendDeletionDeniedMail();
-				} else if (statusId == 0 || status.getStatus() == WorkflowConstants.STATUS_DENIED) {
+				} else if (statusId == 0
+					|| status.getStatus() == WorkflowConstants.STATUS_DENIED) {
 					event.sendStatusMail();
 				}
 			}

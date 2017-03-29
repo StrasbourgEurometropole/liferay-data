@@ -27,6 +27,8 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,6 +43,7 @@ import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ListTypeLocalServiceUtil;
@@ -320,9 +323,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setPublicsIds(StringUtil.merge(publicsIds));
 
 			// Gestion du statut
+			CampaignEventStatus status;
 			if (isNewStatus) {
 				// Création du premier statut
-				CampaignEventStatus status = campaignEvent
+				status = campaignEvent
 					.updateStatus(WorkflowConstants.STATUS_DRAFT, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
@@ -330,24 +334,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				// Création du statut (au cas où l'utilisateur ne laisse pas de
 				// commentaire)
 				int newStatus = ParamUtil.getInteger(request, "newStatus", -2);
-				CampaignEventStatus status = campaignEvent
+				status = campaignEvent
 					.updateStatus(newStatus, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
-
-				// Redirection vers la page d'update de statut uniquement si le
-				// statut cible n'est pas brouillon
-				if (newStatus != WorkflowConstants.STATUS_DRAFT) {
-					response.setRenderParameter("mvcPath",
-						"/campaign-update-status.jsp");
-
-					// On passe l'id du statut en paramètre car la page pour
-					// laisser
-					// un commentaire doit modifier le statut existant et pas en
-					// ajouter un
-					response.setRenderParameter("statusId",
-						String.valueOf(status.getStatusId()));
-				}
 
 				// On envoie un mail si le statut est une demande de validation,
 				// une validation ou une demande de suppression
@@ -361,6 +351,32 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 
 			// Modification de l'événement
 			campaignEventLocalService.updateCampaignEvent(campaignEvent);
+
+			// Redirection (évite double
+			// requête POST si l'utilisateur actualise sa page)
+			String portletName = (String) request
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+
+			// Redirection vers la page d'update de statut uniquement si le
+			// statut cible n'est pas brouillon
+			if (campaignEvent.getStatus() != WorkflowConstants.STATUS_DRAFT) {
+				renderUrl.setParameter("mvcPath",
+					"/campaign-update-status.jsp");
+
+				// On passe l'id du statut en paramètre car la page pour
+				// laisser
+				// un commentaire doit modifier le statut existant et pas en
+				// ajouter un
+				renderUrl.setParameter("statusId",
+					String.valueOf(status.getStatusId()));
+				renderUrl.setParameter("campaignEventId",
+					String.valueOf(campaignEvent.getCampaignEventId()));
+			}
+
+			response.sendRedirect(renderUrl.toString());
 		} catch (PortalException | IOException e) {
 			_log.error(e);
 		}
