@@ -35,7 +35,23 @@
 				</aui:input>
 
 				<aui:input name="subtitle" />
-
+				
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+								var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
+								if (!validate) {
+									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+								}
+								return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
+				
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.edition.imageId}" />
 				
@@ -49,7 +65,9 @@
 			</aui:fieldset>
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="file">
-				<aui:input name="URL" />
+				<aui:input name="URL">
+					<aui:validator name="url" errorMessage="url-error" />
+				</aui:input>
 				
 				
 				<strasbourg-picker:file label="file" name="fileId"
