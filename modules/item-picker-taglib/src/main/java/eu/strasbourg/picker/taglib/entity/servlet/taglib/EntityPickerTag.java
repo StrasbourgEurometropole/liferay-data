@@ -59,6 +59,10 @@ public class EntityPickerTag extends IncludeTag {
 		_type = type;
 	}
 
+	public void setGlobal(String global) {
+		_global = global;
+	}
+
 	@Override
 	public void setPageContext(PageContext pageContext) {
 		super.setPageContext(pageContext);
@@ -84,6 +88,7 @@ public class EntityPickerTag extends IncludeTag {
 		request.setAttribute("value", "0".equals(_value) ? "" : _value);
 		request.setAttribute("multiple", "true".equals(_multiple));
 		request.setAttribute("type", _type);
+		request.setAttribute("global", "true".equals(_global));
 
 		// Entities
 		List<AssetEntry> entities = new ArrayList<AssetEntry>();
@@ -107,7 +112,7 @@ public class EntityPickerTag extends IncludeTag {
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
 		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
 
-		PortletURL itemSelectorURL;
+		PortletURL itemSelectorURL = null;
 		switch (_type) {
 		case "eu.strasbourg.service.edition.model.Edition":
 			EditionItemSelectorCriterion editionItemSelectorCriterion = new EditionItemSelectorCriterion();
@@ -117,8 +122,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, editionItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.edition.model.EditionGallery":
 			EditionGalleryItemSelectorCriterion editionGalleryItemSelectorCriterion = new EditionGalleryItemSelectorCriterion();
@@ -130,8 +133,6 @@ public class EntityPickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name,
 					editionGalleryItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.artwork.model.Artwork":
 			ArtworkItemSelectorCriterion artworkItemSelectorCriterion = new ArtworkItemSelectorCriterion();
@@ -141,8 +142,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, artworkItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.artwork.model.ArtworkCollection":
 			ArtworkCollectionItemSelectorCriterion artworkCollectionItemSelectorCriterion = new ArtworkCollectionItemSelectorCriterion();
@@ -154,8 +153,6 @@ public class EntityPickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name,
 					artworkCollectionItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.video.model.Video":
 			VideoItemSelectorCriterion videoItemSelectorCriterion = new VideoItemSelectorCriterion();
@@ -165,8 +162,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, videoItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.video.model.VideoGallery":
 			VideoGalleryItemSelectorCriterion videoGalleryItemSelectorCriterion = new VideoGalleryItemSelectorCriterion();
@@ -176,8 +171,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, videoGalleryItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.agenda.model.Event":
 			EventItemSelectorCriterion eventItemSelectorCriterion = new EventItemSelectorCriterion();
@@ -187,8 +180,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, eventItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.agenda.model.Manifestation":
 			ManifestationItemSelectorCriterion manifestationItemSelectorCriterion = new ManifestationItemSelectorCriterion();
@@ -199,8 +190,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, manifestationItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.link.model.Link":
 			LinkItemSelectorCriterion linkItemSelectorCriterion = new LinkItemSelectorCriterion();
@@ -211,8 +200,6 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, linkItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		case "eu.strasbourg.service.place.model.Place":
 			PlaceItemSelectorCriterion placeItemSelectorCriterion = new PlaceItemSelectorCriterion();
@@ -223,10 +210,17 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, placeItemSelectorCriterion);
-			itemSelectorURL.setParameter("multiple", _multiple);
-			request.setAttribute("itemSelectorURL", itemSelectorURL);
 			break;
 		}
+		
+		// Si l'attribut "global" est "true", on se met sur le groupe global en
+		// modifiant l'URL
+		String itemSelectorURLString = itemSelectorURL.toString();
+		if ("true".equals(this._global)) {	
+			itemSelectorURLString = itemSelectorURLString.replaceAll("(?<=group).*(?=~)", "/global/");
+		}
+		itemSelectorURL.setParameter("multiple", _multiple);
+		request.setAttribute("itemSelectorURL", itemSelectorURLString);
 
 	}
 
@@ -238,6 +232,7 @@ public class EntityPickerTag extends IncludeTag {
 	private String _value;
 	private String _multiple;
 	private String _type;
+	private String _global;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
