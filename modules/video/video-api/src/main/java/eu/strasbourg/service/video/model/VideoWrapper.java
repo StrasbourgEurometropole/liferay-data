@@ -897,11 +897,27 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne les fournisseurs de la vidéo
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProviders() {
+		return _video.getProviders();
+	}
+
+	/**
 	* Renvoie la liste des galeries vidéos publiées de la
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideoGalleries() {
 		return _video.getPublishedVideoGalleries();
+	}
+
+	/**
+	* Retourne les thèmes de la vidéo
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _video.getThemes();
 	}
 
 	/**

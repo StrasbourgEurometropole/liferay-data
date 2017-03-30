@@ -34,14 +34,28 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="source" />
+				<aui:input name="source" label="eu.videos.source" required="true" />
 
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.video.imageId}" />
 				
-				<aui:input name="description" />
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+								var validate = $('#_eu_strasbourg_portlet_video_VideoBOPortlet_description_fr_FR').val().length > 0;
+								if (!validate) {
+									$("#_eu_strasbourg_portlet_video_VideoBOPortlet_descriptionContainer").get(0).scrollIntoView();
+								}
+								return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
 				
-				<aui:input name="copyright" />
+				<aui:input name="copyright" value="${not empty dc.video ? dc.video.copyright : 'Ville et Eurométropole de Strasbourg' }" />
 				
 				<aui:input name="origin" />
 				

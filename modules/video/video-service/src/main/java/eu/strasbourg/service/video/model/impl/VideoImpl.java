@@ -185,4 +185,22 @@ public class VideoImpl extends VideoBaseImpl {
 		return FileEntryHelper
 			.getFileEntryURL(GetterUtil.getLong(this.getTranscriptionFileId()));
 	}
+	
+	/**
+	 * Retourne les fournisseurs de la vidéo
+	 */
+	@Override
+	public List<AssetCategory> getProviders() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "fournisseur video");
+	}
+
+	/**
+	 * Retourne les thèmes de la vidéo
+	 */
+	@Override
+	public List<AssetCategory> getThemes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), "theme video");
+	}
 }
