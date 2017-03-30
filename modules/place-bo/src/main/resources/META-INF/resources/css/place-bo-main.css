@@ -9,6 +9,24 @@
     padding-top: 1px;
 }
 
+.place-period-name, .place-period-label, .place-period-url, .place-period-default, .place-period-start-date, .place-period-end-date {
+   	margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
+.place-slot-start-hour, .place-slot-end-hour {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
+.place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
 .row-fields {
 	padding: 20px;
 }
@@ -51,4 +69,9 @@
 
 .schedule-label {
 	margin-bottom: 10px;
+}
+
+.schedule-exception{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

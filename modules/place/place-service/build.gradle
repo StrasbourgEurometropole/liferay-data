@@ -4,6 +4,7 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
 	compile project (':modules:utils')
 	compile project(":modules:place:place-api")
+	compile project(":modules:video:video-api")
 }
 
 buildService {

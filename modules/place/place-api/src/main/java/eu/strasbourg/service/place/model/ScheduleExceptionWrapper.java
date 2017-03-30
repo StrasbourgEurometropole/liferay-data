@@ -60,7 +60,8 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 
 		attributes.put("uuid", getUuid());
 		attributes.put("exceptionId", getExceptionId());
-		attributes.put("date", getDate());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
 		attributes.put("comment", getComment());
@@ -85,10 +86,16 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 			setExceptionId(exceptionId);
 		}
 
-		Date date = (Date)attributes.get("date");
+		Date startDate = (Date)attributes.get("startDate");
 
-		if (date != null) {
-			setDate(date);
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 
 		String startHour = (String)attributes.get("startHour");
@@ -168,6 +175,14 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		return _scheduleException.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON des exceptions
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _scheduleException.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.place.model.ScheduleException> toCacheModel() {
 		return _scheduleException.toCacheModel();
@@ -215,6 +230,69 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
+	* Returns the localized comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getComment(java.lang.String languageId) {
+		return _scheduleException.getComment(languageId);
+	}
+
+	/**
+	* Returns the localized comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getComment(java.util.Locale locale) {
+		return _scheduleException.getComment(locale);
+	}
+
+	/**
+	* Returns the localized comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getCommentCurrentLanguageId() {
+		return _scheduleException.getCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getCommentCurrentValue() {
+		return _scheduleException.getCommentCurrentValue();
+	}
+
+	@Override
+	public java.lang.String getDefaultLanguageId() {
+		return _scheduleException.getDefaultLanguageId();
+	}
+
+	/**
 	* Returns the end hour of this schedule exception.
 	*
 	* @return the end hour of this schedule exception
@@ -254,14 +332,39 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		return _scheduleException.toXmlString();
 	}
 
+	@Override
+	public java.lang.String[] getAvailableLanguageIds() {
+		return _scheduleException.getAvailableLanguageIds();
+	}
+
 	/**
-	* Returns the date of this schedule exception.
+	* Returns the end date of this schedule exception.
 	*
-	* @return the date of this schedule exception
+	* @return the end date of this schedule exception
 	*/
 	@Override
-	public Date getDate() {
-		return _scheduleException.getDate();
+	public Date getEndDate() {
+		return _scheduleException.getEndDate();
+	}
+
+	/**
+	* Returns the start date of this schedule exception.
+	*
+	* @return the start date of this schedule exception
+	*/
+	@Override
+	public Date getStartDate() {
+		return _scheduleException.getStartDate();
+	}
+
+	/**
+	* Returns a map of the locales and localized comments of this schedule exception.
+	*
+	* @return the locales and localized comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getCommentMap() {
+		return _scheduleException.getCommentMap();
 	}
 
 	/**
@@ -310,6 +413,19 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_scheduleException.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+		java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_scheduleException.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_scheduleException.setCachedModel(cachedModel);
 	}
@@ -335,13 +451,66 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
-	* Sets the date of this schedule exception.
+	* Sets the localized comment of this schedule exception in the language.
 	*
-	* @param date the date of this schedule exception
+	* @param comment the localized comment of this schedule exception
+	* @param locale the locale of the language
 	*/
 	@Override
-	public void setDate(Date date) {
-		_scheduleException.setDate(date);
+	public void setComment(java.lang.String comment, java.util.Locale locale) {
+		_scheduleException.setComment(comment, locale);
+	}
+
+	/**
+	* Sets the localized comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param comment the localized comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setComment(java.lang.String comment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setComment(comment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized comments of this schedule exception from the map of locales and localized comments.
+	*
+	* @param commentMap the locales and localized comments of this schedule exception
+	*/
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, java.lang.String> commentMap) {
+		_scheduleException.setCommentMap(commentMap);
+	}
+
+	/**
+	* Sets the localized comments of this schedule exception from the map of locales and localized comments, and sets the default locale.
+	*
+	* @param commentMap the locales and localized comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, java.lang.String> commentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setCommentMap(commentMap, defaultLocale);
+	}
+
+	/**
+	* Sets the end date of this schedule exception.
+	*
+	* @param endDate the end date of this schedule exception
+	*/
+	@Override
+	public void setEndDate(Date endDate) {
+		_scheduleException.setEndDate(endDate);
 	}
 
 	/**
@@ -408,6 +577,16 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_scheduleException.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the start date of this schedule exception.
+	*
+	* @param startDate the start date of this schedule exception
+	*/
+	@Override
+	public void setStartDate(Date startDate) {
+		_scheduleException.setStartDate(startDate);
 	}
 
 	/**

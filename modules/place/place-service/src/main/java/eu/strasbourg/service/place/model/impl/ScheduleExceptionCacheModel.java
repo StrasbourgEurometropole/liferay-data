@@ -66,14 +66,16 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", exceptionId=");
 		sb.append(exceptionId);
-		sb.append(", date=");
-		sb.append(date);
+		sb.append(", startDate=");
+		sb.append(startDate);
+		sb.append(", endDate=");
+		sb.append(endDate);
 		sb.append(", startHour=");
 		sb.append(startHour);
 		sb.append(", endHour=");
@@ -104,11 +106,18 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 		scheduleExceptionImpl.setExceptionId(exceptionId);
 
-		if (date == Long.MIN_VALUE) {
-			scheduleExceptionImpl.setDate(null);
+		if (startDate == Long.MIN_VALUE) {
+			scheduleExceptionImpl.setStartDate(null);
 		}
 		else {
-			scheduleExceptionImpl.setDate(new Date(date));
+			scheduleExceptionImpl.setStartDate(new Date(startDate));
+		}
+
+		if (endDate == Long.MIN_VALUE) {
+			scheduleExceptionImpl.setEndDate(null);
+		}
+		else {
+			scheduleExceptionImpl.setEndDate(new Date(endDate));
 		}
 
 		if (startHour == null) {
@@ -146,7 +155,8 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		uuid = objectInput.readUTF();
 
 		exceptionId = objectInput.readLong();
-		date = objectInput.readLong();
+		startDate = objectInput.readLong();
+		endDate = objectInput.readLong();
 		startHour = objectInput.readUTF();
 		endHour = objectInput.readUTF();
 		comment = objectInput.readUTF();
@@ -169,7 +179,8 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		}
 
 		objectOutput.writeLong(exceptionId);
-		objectOutput.writeLong(date);
+		objectOutput.writeLong(startDate);
+		objectOutput.writeLong(endDate);
 
 		if (startHour == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -201,7 +212,8 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 	public String uuid;
 	public long exceptionId;
-	public long date;
+	public long startDate;
+	public long endDate;
 	public String startHour;
 	public String endHour;
 	public String comment;

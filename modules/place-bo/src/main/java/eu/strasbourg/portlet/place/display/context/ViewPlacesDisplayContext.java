@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.place.display.context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -29,18 +32,19 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class ViewPlacesDisplayContext {
 
 	public ViewPlacesDisplayContext(RenderRequest request,
-		RenderResponse response) {
+			RenderResponse response) {
 
 		this._request = request;
 		this._response = response;
 		this._themeDisplay = (ThemeDisplay) _request
-			.getAttribute(WebKeys.THEME_DISPLAY);
+				.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	public SearchContainer<Place> getSearchContainer() throws PortalException {
@@ -50,17 +54,17 @@ public class ViewPlacesDisplayContext {
 		iteratorURL.setParameter("orderByCol", this.getOrderByCol());
 		iteratorURL.setParameter("orderByType", this.getOrderByType());
 		iteratorURL.setParameter("filterCategoriesIds",
-			this.getFilterCategoriesIds());
+				this.getFilterCategoriesIds());
 		iteratorURL.setParameter("keywords", this.getKeywords());
 
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<Place>(this._request,
-				iteratorURL, null, "no-entries-were-found");
+					iteratorURL, null, "no-entries-were-found");
 
 			this._searchContainer.setEmptyResultsMessageCssClass(
-				"taglib-empty-result-message-header-has-plus-btn");
+					"taglib-empty-result-message-header-has-plus-btn");
 			this._searchContainer
-				.setRowChecker(new EmptyOnClickRowChecker(this._response));
+					.setRowChecker(new EmptyOnClickRowChecker(this._response));
 			this._searchContainer.setOrderByColParam("orderByCol");
 			this._searchContainer.setOrderByTypeParam("orderByType");
 		}
@@ -70,32 +74,33 @@ public class ViewPlacesDisplayContext {
 	public List<Place> getPlaces() throws PortalException {
 		if (this._places == null) {
 			HttpServletRequest servletRequest = PortalUtil
-				.getHttpServletRequest(_request);
+					.getHttpServletRequest(_request);
 			SearchContext searchContext = SearchContextFactory
-				.getInstance(servletRequest);
+					.getInstance(servletRequest);
 
 			// Recherche des hits
 			String keywords = ParamUtil.getString(servletRequest, "keywords");
 			Hits hits = SearchHelper.getBOSearchHits(searchContext,
-				this.getSearchContainer().getStart(),
-				this.getSearchContainer().getEnd(), Place.class.getName(),
-				this._themeDisplay.getCompanyGroupId(),
-				this.getFilterCategoriesIds(), keywords,
-				this.getOrderByColSearchField(),
-				"desc".equals(this.getOrderByType()));
+					this.getSearchContainer().getStart(),
+					this.getSearchContainer().getEnd(), Place.class.getName(),
+					this._themeDisplay.getCompanyGroupId(),
+					this.getCategoriesIds(), keywords,
+					this.getOrderByColSearchField(),
+					"desc".equals(this.getOrderByType()));
 
 			// Total
 			int count = (int) SearchHelper.getBOSearchCount(searchContext,
-				Place.class.getName(), this._themeDisplay.getCompanyGroupId(),
-				this.getFilterCategoriesIds(), keywords);
+					Place.class.getName(),
+					this._themeDisplay.getCompanyGroupId(),
+					this.getCategoriesIds(), keywords);
 			this.getSearchContainer().setTotal(count);
 
 			// Création de la liste d'objet
 			List<Place> results = new ArrayList<Place>();
 			if (hits != null) {
 				for (Document document : hits.getDocs()) {
-					Place place = PlaceLocalServiceUtil.fetchPlace(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					Place place = PlaceLocalServiceUtil.fetchPlace(GetterUtil
+							.getLong(document.get(Field.ENTRY_CLASS_PK)));
 					if (place != null) {
 						results.add(place);
 					}
@@ -126,7 +131,7 @@ public class ViewPlacesDisplayContext {
 
 	public String getOrderByCol() {
 		return ParamUtil.getString(this._request, "orderByCol",
-			"modified-date");
+				"modified-date");
 	}
 
 	public String getOrderByType() {
@@ -139,8 +144,8 @@ public class ViewPlacesDisplayContext {
 
 	public List<AssetVocabulary> getVocabularies() {
 		if (this._vocabularies == null) {
-			this._vocabularies = PlaceLocalServiceUtil
-				.getAttachedVocabularies(this._themeDisplay.getCompanyGroupId());
+			this._vocabularies = PlaceLocalServiceUtil.getAttachedVocabularies(
+					this._themeDisplay.getCompanyGroupId());
 		}
 		return this._vocabularies;
 	}
@@ -161,22 +166,22 @@ public class ViewPlacesDisplayContext {
 			return _filterCategoriesIds;
 		}
 		_filterCategoriesIds = ParamUtil.getString(_request,
-			"filterCategoriesIds", ",");
+				"filterCategoriesIds", ",");
 		Long vocabularyToRemove = ParamUtil.getLong(_request,
-			"vocabularyToRemove");
+				"vocabularyToRemove");
 		if (vocabularyToRemove > 0) {
 			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
-				.getVocabulary(vocabularyToRemove);
+					.getVocabulary(vocabularyToRemove);
 			List<AssetCategory> categories = vocabulary.getCategories();
 			for (AssetCategory category : categories) {
 				if (_filterCategoriesIds
-					.contains(String.valueOf(category.getCategoryId()))) {
+						.contains(String.valueOf(category.getCategoryId()))) {
 					_filterCategoriesIds = _filterCategoriesIds
-						.replace("," + category.getCategoryId(), "");
+							.replace("," + category.getCategoryId(), "");
 				}
 			}
 			_filterCategoriesIds = _filterCategoriesIds
-				.replace(vocabularyToRemove + ",", "");
+					.replace(vocabularyToRemove + ",", "");
 		}
 		String categoryToAdd = ParamUtil.getString(_request, "categoryToAdd");
 		if (Validator.isNotNull(categoryToAdd)) {
@@ -186,16 +191,67 @@ public class ViewPlacesDisplayContext {
 	}
 
 	/**
+	 * Retourne la liste des IDs des catégories que l'utilisateur peut voir
+	 * 
+	 * @return
+	 * @throws PortalException
+	 */
+	private String getCategoriesIdsPermission() throws PortalException {
+		String categoriesIds = "";
+		if (this.hasPermission("CONTRIBUTE")) {
+			User user = _themeDisplay.getUser();
+			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+					.getGlobalVocabulary("type de lieu");
+			if (placeTypeVocabulary != null) {
+				long placeTypeVocabularyId = placeTypeVocabulary
+						.getVocabularyId();
+				List<AssetCategory> userCategories = AssetCategoryLocalServiceUtil
+						.getCategories(User.class.getName(), user.getUserId());
+				List<AssetCategory> userPlaceTypeCategories = userCategories
+						.stream().filter(
+								c -> c.getVocabularyId() == placeTypeVocabularyId)
+						.collect(Collectors.toList());
+
+				for (AssetCategory category : userPlaceTypeCategories) {
+					if (Validator.isNull(categoriesIds)) {
+						categoriesIds += ",";
+					}
+					categoriesIds += String.valueOf(category.getCategoryId());
+					categoriesIds += ",";
+				}
+			}
+		}
+		return categoriesIds;
+	}
+
+	/**
+	 * Retourne la liste des ids de categories sur lesquels la liste des lieux
+	 * est filtrée. Si l'utilisateur est un contributeur lieu, on filtre
+	 * toujours sur les catégories liées à l'utilisateur. Le front-end n'affiche
+	 * que les catégories sur lesquels l'utilisateur a le droit de filtrer, on
+	 * considère donc que getFilterCategories ne peut renvoyer que des
+	 * catégories autorisées pour l'utilisateur
+	 */
+	private String getCategoriesIds() throws PortalException {
+		// Pas de filtre par l'utilisateur
+		if (Validator.isNull(getFilterCategoriesIds()) || getFilterCategoriesIds().equals(",")) {
+			return this.getCategoriesIdsPermission();
+		} else {
+			return getFilterCategoriesIds();
+		}
+	}
+
+	/**
 	 * Retourne le nom à afficher pour un filtre "Vocabulaire" - Si aucune
 	 * catégorie du vocabulaire n'a été sélectionné, le nom du vocabulaire - Si
 	 * une catégorie du vocabulaire a été sélectionnée, le nom de la catégorie
 	 */
 	public String getVocabularyFilterLabel(AssetVocabulary vocabulary)
-		throws PortalException {
+			throws PortalException {
 		List<AssetCategory> categories = vocabulary.getCategories();
 		for (AssetCategory category : categories) {
 			if (this.getFilterCategoriesIds()
-				.contains(String.valueOf(category.getCategoryId()))) {
+					.contains(String.valueOf(category.getCategoryId()))) {
 				return category.getName();
 			}
 		}
@@ -207,8 +263,8 @@ public class ViewPlacesDisplayContext {
 	 */
 	public boolean isWorkflowEnabled() {
 		return WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-			_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
-			Place.class.getName());
+				_themeDisplay.getCompanyId(), _themeDisplay.getCompanyGroupId(),
+				Place.class.getName());
 	}
 
 	/**
@@ -216,8 +272,9 @@ public class ViewPlacesDisplayContext {
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.PLACE_BO,
-			StrasbourgPortletKeys.PLACE_BO, actionId);
+				this._themeDisplay.getScopeGroupId(),
+				StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO,
+				actionId);
 	}
 
 	private final RenderRequest _request;

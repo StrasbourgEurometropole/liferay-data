@@ -28,7 +28,7 @@
 				</aui:fieldset>
 				<aui:button-row>
 					<aui:button cssClass="btn-lg" type="submit"
-						value="import" />
+						value="to-import" />
 				</aui:button-row>
 			</aui:form>
 			
@@ -41,7 +41,7 @@
 				</aui:fieldset>
 				<aui:button-row>
 					<aui:button cssClass="btn-lg" type="submit"
-						value="import" />
+						value="to-import" />
 				</aui:button-row>
 			</aui:form>
 			
@@ -54,7 +54,7 @@
 				</aui:fieldset>
 				<aui:button-row>
 					<aui:button cssClass="btn-lg" type="submit"
-						value="import" />
+						value="to-import" />
 				</aui:button-row>
 			</aui:form>
 		</c:when>

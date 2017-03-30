@@ -19,6 +19,7 @@ import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriteri
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -110,7 +111,7 @@ public class FilePickerTag extends IncludeTag {
 		// * pour chaque langue, la liste des ids
 		// Cas sans localisation
 		if (!"true".equals(_localized)) {
-			Locale defaultLocale = new Locale("fr");
+			Locale defaultLocale = LocaleUtil.getDefault();
 			List<FileObject> files = new ArrayList<FileObject>();
 
 			for (String fileId : _value.split(",")) {

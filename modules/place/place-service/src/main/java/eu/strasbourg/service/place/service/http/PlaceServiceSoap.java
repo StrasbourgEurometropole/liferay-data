@@ -16,9 +16,16 @@ package eu.strasbourg.service.place.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.place.service.PlaceServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.place.service.PlaceServiceUtil} service utility. The
+ * {@link PlaceServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,111 @@ import aQute.bnd.annotation.ProviderType;
  * @author Angelique Zunino Champougny
  * @see PlaceServiceHttp
  * @see eu.strasbourg.service.place.model.PlaceSoap
- * @see eu.strasbourg.service.place.service.PlaceServiceUtil
+ * @see PlaceServiceUtil
  * @generated
  */
 @ProviderType
 public class PlaceServiceSoap {
+	public static java.lang.String getPlaces() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlaces();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlaceById(long id)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getPlaceById(id);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlaceByIdSIG(java.lang.String SIGId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getPlaceByIdSIG(SIGId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlacesByType(java.lang.String typeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlacesByType(typeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlacesByTerritory(
+		java.lang.String territoryId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlacesByTerritory(territoryId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlacesByNameAndLanguage(
+		java.lang.String name, java.lang.String language)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlacesByNameAndLanguage(name,
+					language);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPlacesByTerritoryAndType(
+		java.lang.String territoryId, java.lang.String typeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlacesByTerritoryAndType(territoryId,
+					typeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PlaceServiceSoap.class);
 }

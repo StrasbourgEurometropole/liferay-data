@@ -20,13 +20,18 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.ScheduleExceptionModel;
@@ -37,7 +42,10 @@ import java.sql.Types;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The base model implementation for the ScheduleException service. Represents a row in the &quot;place_ScheduleException&quot; database table, with each column mapped to a property of this class.
@@ -64,7 +72,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "exceptionId", Types.BIGINT },
-			{ "date_", Types.TIMESTAMP },
+			{ "startDate", Types.TIMESTAMP },
+			{ "endDate", Types.TIMESTAMP },
 			{ "startHour", Types.VARCHAR },
 			{ "endHour", Types.VARCHAR },
 			{ "comment_", Types.CLOB },
@@ -77,7 +86,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("exceptionId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("startHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
@@ -86,7 +96,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,date_ DATE null,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ TEXT null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ TEXT null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_ScheduleException";
 	public static final String ORDER_BY_JPQL = " ORDER BY scheduleException.exceptionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_ScheduleException.exceptionId ASC";
@@ -148,7 +158,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 		attributes.put("uuid", getUuid());
 		attributes.put("exceptionId", getExceptionId());
-		attributes.put("date", getDate());
+		attributes.put("startDate", getStartDate());
+		attributes.put("endDate", getEndDate());
 		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
 		attributes.put("comment", getComment());
@@ -176,10 +187,16 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			setExceptionId(exceptionId);
 		}
 
-		Date date = (Date)attributes.get("date");
+		Date startDate = (Date)attributes.get("startDate");
 
-		if (date != null) {
-			setDate(date);
+		if (startDate != null) {
+			setStartDate(startDate);
+		}
+
+		Date endDate = (Date)attributes.get("endDate");
+
+		if (endDate != null) {
+			setEndDate(endDate);
 		}
 
 		String startHour = (String)attributes.get("startHour");
@@ -253,13 +270,23 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	}
 
 	@Override
-	public Date getDate() {
-		return _date;
+	public Date getStartDate() {
+		return _startDate;
 	}
 
 	@Override
-	public void setDate(Date date) {
-		_date = date;
+	public void setStartDate(Date startDate) {
+		_startDate = startDate;
+	}
+
+	@Override
+	public Date getEndDate() {
+		return _endDate;
+	}
+
+	@Override
+	public void setEndDate(Date endDate) {
+		_endDate = endDate;
 	}
 
 	@Override
@@ -303,8 +330,92 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	}
 
 	@Override
+	public String getComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId);
+	}
+
+	@Override
+	public String getComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getComment(String languageId) {
+		return LocalizationUtil.getLocalization(getComment(), languageId);
+	}
+
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return _commentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCommentCurrentValue() {
+		Locale locale = getLocale(_commentCurrentLanguageId);
+
+		return getComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getComment());
+	}
+
+	@Override
 	public void setComment(String comment) {
 		_comment = comment;
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale) {
+		setComment(comment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(comment)) {
+			setComment(LocalizationUtil.updateLocalization(getComment(),
+					"Comment", comment, languageId, defaultLanguageId));
+		}
+		else {
+			setComment(LocalizationUtil.removeLocalization(getComment(),
+					"Comment", languageId));
+		}
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		_commentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap) {
+		setCommentMap(commentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap,
+		Locale defaultLocale) {
+		if (commentMap == null) {
+			return;
+		}
+
+		setComment(LocalizationUtil.updateLocalization(commentMap,
+				getComment(), "Comment", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -384,6 +495,67 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> commentMap = getCommentMap();
+
+		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getComment();
+
+		if (xml == null) {
+			return StringPool.BLANK;
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(ScheduleException.class.getName(),
+				getPrimaryKey(), defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String comment = getComment(defaultLocale);
+
+		if (Validator.isNull(comment)) {
+			setComment(getComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setComment(getComment(defaultLocale), defaultLocale, defaultLocale);
+		}
+	}
+
+	@Override
 	public ScheduleException toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = (ScheduleException)ProxyUtil.newProxyInstance(_classLoader,
@@ -399,7 +571,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 		scheduleExceptionImpl.setUuid(getUuid());
 		scheduleExceptionImpl.setExceptionId(getExceptionId());
-		scheduleExceptionImpl.setDate(getDate());
+		scheduleExceptionImpl.setStartDate(getStartDate());
+		scheduleExceptionImpl.setEndDate(getEndDate());
 		scheduleExceptionImpl.setStartHour(getStartHour());
 		scheduleExceptionImpl.setEndHour(getEndHour());
 		scheduleExceptionImpl.setComment(getComment());
@@ -495,13 +668,22 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 		scheduleExceptionCacheModel.exceptionId = getExceptionId();
 
-		Date date = getDate();
+		Date startDate = getStartDate();
 
-		if (date != null) {
-			scheduleExceptionCacheModel.date = date.getTime();
+		if (startDate != null) {
+			scheduleExceptionCacheModel.startDate = startDate.getTime();
 		}
 		else {
-			scheduleExceptionCacheModel.date = Long.MIN_VALUE;
+			scheduleExceptionCacheModel.startDate = Long.MIN_VALUE;
+		}
+
+		Date endDate = getEndDate();
+
+		if (endDate != null) {
+			scheduleExceptionCacheModel.endDate = endDate.getTime();
+		}
+		else {
+			scheduleExceptionCacheModel.endDate = Long.MIN_VALUE;
 		}
 
 		scheduleExceptionCacheModel.startHour = getStartHour();
@@ -539,14 +721,16 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", exceptionId=");
 		sb.append(getExceptionId());
-		sb.append(", date=");
-		sb.append(getDate());
+		sb.append(", startDate=");
+		sb.append(getStartDate());
+		sb.append(", endDate=");
+		sb.append(getEndDate());
 		sb.append(", startHour=");
 		sb.append(getStartHour());
 		sb.append(", endHour=");
@@ -566,7 +750,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.ScheduleException");
@@ -581,8 +765,12 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		sb.append(getExceptionId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>date</column-name><column-value><![CDATA[");
-		sb.append(getDate());
+			"<column><column-name>startDate</column-name><column-value><![CDATA[");
+		sb.append(getStartDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>endDate</column-name><column-value><![CDATA[");
+		sb.append(getEndDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>startHour</column-name><column-value><![CDATA[");
@@ -621,10 +809,12 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	private String _uuid;
 	private String _originalUuid;
 	private long _exceptionId;
-	private Date _date;
+	private Date _startDate;
+	private Date _endDate;
 	private String _startHour;
 	private String _endHour;
 	private String _comment;
+	private String _commentCurrentLanguageId;
 	private boolean _closed;
 	private long _placeId;
 	private long _originalPlaceId;

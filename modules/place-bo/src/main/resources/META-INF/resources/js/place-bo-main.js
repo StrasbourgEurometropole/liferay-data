@@ -28,3 +28,50 @@ jQuery(function() {
 		}
 	});;
 });
+
+function affichageDates(objet, id) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	if (objet.checked) {
+		$('.dates' + id).hide();
+	} else {
+		$('.dates' + id).show();
+	}
+
+}
+
+function affichageOuverture(objet, id) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	if (objet.checked) {
+		$('.ouvertures' + id).hide();
+	} else {
+		$('.ouvertures' + id).show();
+	}
+
+}
+
+function affichageHeures(objet, id) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	if (objet.checked) {
+		$('.heure' + id).hide();
+	} else {
+		$('.heure' + id).show();
+	}
+
+}
+
+function copyHoraire(idPeriod) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
+		var heureDebut = $(namespaceAUI + 'startHour' + idPeriod + '-0-' + indexSlot).val();
+		var heureFin = $(namespaceAUI + 'endHour' + idPeriod + '-0-' + indexSlot).val();
+		for (var jour = 1; jour < 7; jour++) {
+			$(namespaceAUI + 'startHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureDebut);
+			$(namespaceAUI + 'endHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureFin);
+		}
+	}
+
+}

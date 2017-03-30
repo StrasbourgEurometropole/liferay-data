@@ -49,7 +49,7 @@
 			selected="${tab eq 'subPlaces'}" />
 	</aui:nav>
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${importURL}" label="import"
+		<aui:nav-item href="${importURL}" label="place-import"
 			selected="${tab eq 'import'}" />
 	</aui:nav>
 

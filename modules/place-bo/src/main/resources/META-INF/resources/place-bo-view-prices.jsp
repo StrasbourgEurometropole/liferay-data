@@ -43,10 +43,6 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editPriceURL}" name="title" truncate="true" orderable="true"
 					value="${price.titleCurrentValue}" />
-				
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="price" truncate="true" orderable="true"
-					value="${price.price}" />
 
 
 				<liferay-ui:search-container-column-text>

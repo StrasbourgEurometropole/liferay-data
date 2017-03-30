@@ -2082,6 +2082,21 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setPriceId(long priceId);
 
 	/**
+	 * Returns the documents IDs of this place.
+	 *
+	 * @return the documents IDs of this place
+	 */
+	@AutoEscape
+	public String getDocumentsIds();
+
+	/**
+	 * Sets the documents IDs of this place.
+	 *
+	 * @param documentsIds the documents IDs of this place
+	 */
+	public void setDocumentsIds(String documentsIds);
+
+	/**
 	 * Returns <code>true</code> if this place is approved.
 	 *
 	 * @return <code>true</code> if this place is approved; <code>false</code> otherwise

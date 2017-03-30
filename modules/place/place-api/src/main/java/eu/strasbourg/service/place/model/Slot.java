@@ -53,4 +53,9 @@ public interface Slot extends SlotModel, PersistedModel {
 				return Slot.class;
 			}
 		};
+
+	/**
+	* Retourne la version JSON des horaires
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }
