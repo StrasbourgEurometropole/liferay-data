@@ -24,218 +24,245 @@ jQuery(function() {
 		setFacebookConditionalValidators();
 		setScheduleExceptionValidators();
 		setPeriodValidators();
-		setSlotValidators();
 	});
 
 	Liferay.on('allPortletsReady', setSiteConditionalValidators);
 	Liferay.on('allPortletsReady', setFacebookConditionalValidators);
 	Liferay.on('allPortletsReady', setScheduleExceptionValidators);
 	Liferay.on('allPortletsReady', setPeriodValidators);
-	Liferay.on('allPortletsReady', setSlotValidators);
-	
+
 	function setSiteConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			var labelHasValue = $(namespaceAUI + 'siteLabel').val().length > 0;	
+		AUI().use('liferay-form',function() {
+			var rules = Liferay.Form.get(namespace + 'fm').formValidator
+					.get('rules');
+			var labelHasValue = $(namespaceAUI + 'siteLabel')
+					.val().length > 0;
 			var URLHasValue = $(namespaceAUI + 'siteURL').val().length > 0;
-			if(labelHasValue && !URLHasValue){
+			if (labelHasValue && !URLHasValue) {
 				rules[namespace + 'siteLabel'].required = false;
 				rules[namespace + 'siteURL'].required = true;
-			}else{ if(!labelHasValue && URLHasValue){
-				rules[namespace + 'siteLabel'].required = true;
-				rules[namespace + 'siteURL'].required = false;
-				}else{
+			} else {
+				if (!labelHasValue && URLHasValue) {
+					rules[namespace + 'siteLabel'].required = true;
+					rules[namespace + 'siteURL'].required = false;
+				} else {
 					rules[namespace + 'siteLabel'].required = false;
 					rules[namespace + 'siteURL'].required = false;
 				}
 			}
 		});
-		
 	}
-	
+
 	function setFacebookConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			var labelHasValue = $(namespaceAUI + 'facebookLabel').val().length > 0;	
-			var URLHasValue = $(namespaceAUI + 'facebookURL').val().length > 0;
-			if(labelHasValue && !URLHasValue){
+		AUI().use('liferay-form',function() {
+			var rules = Liferay.Form.get(namespace + 'fm').formValidator
+					.get('rules');
+			var labelHasValue = $(
+					namespaceAUI + 'facebookLabel').val().length > 0;
+			var URLHasValue = $(namespaceAUI + 'facebookURL')
+					.val().length > 0;
+			if (labelHasValue && !URLHasValue) {
 				rules[namespace + 'facebookLabel'].required = false;
 				rules[namespace + 'facebookURL'].required = true;
-			}else{ if(!labelHasValue && URLHasValue){
-				rules[namespace + 'facebookLabel'].required = true;
-				rules[namespace + 'facebookURL'].required = false;
-				}else{
+			} else {
+				if (!labelHasValue && URLHasValue) {
+					rules[namespace + 'facebookLabel'].required = true;
+					rules[namespace + 'facebookURL'].required = false;
+				} else {
 					rules[namespace + 'facebookLabel'].required = false;
 					rules[namespace + 'facebookURL'].required = false;
 				}
 			}
 		});
-		
 	}
-	
-	function setScheduleExceptionValidators() {
-		
-		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			var indexes = $(namespaceAUI + "shedulesExceptionsIndexes").val().split(",");
-			for (var i = 0, len = indexes.length; i < len; i++) {
-				var dateSchedule = $(namespaceAUI + "dateScheduleException" + indexes[i]).val();
-				var fermeture = $(namespaceAUI + "closed" + indexes[i]).get(0).checked;
-				if(dateSchedule != undefined){
-					if(dateSchedule != ""){
-						rules[namespace + 'scheduleExceptionDescription'+ indexes[i]].required = true;
-						rules[namespace + 'dateScheduleException'+ indexes[i]].required = true;
-						if(fermeture){
-							rules[namespace + 'startHour'+ indexes[i]].required = false;
-							rules[namespace + 'endHour'+ indexes[i]].required = false;
-						}else{
-							rules[namespace + 'startHour'+ indexes[i]].required = true;
-							rules[namespace + 'endHour'+ indexes[i]].required = true;
-						}
-					}else{
-						rules[namespace + 'startHour'+ indexes[i]].required = false;
-						rules[namespace + 'endHour'+ indexes[i]].required = false;
-						rules[namespace + 'scheduleExceptionDescription'+ indexes[i]].required = false;
-						rules[namespace + 'dateScheduleException'+ indexes[i]].required = false;	
-					}
-				}
-			}
-			
-		});
-		
-	}
-	
+
 	function setPeriodValidators() {
-		
-		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			var indexes = $(namespaceAUI + "periodsIndexes").val().split(",");
-			for (var i = 0, len = indexes.length; i < len; i++) {
-				var nom = $(namespaceAUI + "namePeriod" + indexes[i]).val();
-				if(nom != undefined){
-					if(nom != ""){
-						rules[namespace + 'namePeriod'+ indexes[i]].required = true;
+		var allValidated = true;
+		var periodLabels = document
+				.querySelectorAll('#date-fields2 .period-label');
+		var nbPeriodDefault = 0;
+		for (var i = 0; i < periodLabels.length; i++) {
+			var periodLabel = periodLabels[i];
+			var index = $(periodLabel).attr('id');
+			// On ne lance la validation que si l'élément ne contient pas la
+			// classe "hide"
+			var nom = $(namespaceAUI + "namePeriod" + index).val();
+			if (nom != undefined
+					&& $(periodLabel).parents('.lfr-form-row').attr('class')
+								.indexOf('hide') == -1) {
+				var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
+				var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
+				
+				if (nom == "") {
+					if (labelHasValue || URLHasValue) {
+						$('.place-period-name', $(periodLabel).parent()).show();
+						allValidated = false;
 					}else{
-						rules[namespace + 'namePeriod'+ indexes[i]].required = false;
+						$('.place-period-name', $(periodLabel).parent()).hide();
+					} 
+				}else{
+					$('.place-period-name', $(periodLabel).parent()).hide();
+					if (labelHasValue && !URLHasValue) {
+						$('.place-period-label', $(periodLabel).parent()).hide();
+						$('.place-period-url', $(periodLabel).parent()).show();
+						allValidated = false;
+					} else {
+						if (!labelHasValue && URLHasValue) {
+							$('.place-period-label', $(periodLabel).parent()).show();
+							$('.place-period-url', $(periodLabel).parent()).hide();
+							allValidated = false;
+						} else{
+							$('.place-period-label', $(periodLabel).parent()).hide();
+							$('.place-period-url', $(periodLabel).parent()).hide();
+						}
 					}
-					var labelHasValue = $(namespaceAUI + 'periodLabel' + indexes[i]).val().length > 0;	
-					var URLHasValue = $(namespaceAUI + 'periodURL' + indexes[i]).val().length > 0;
-					if(labelHasValue && !URLHasValue){
-						rules[namespace + 'periodLabel'+ indexes[i]].required = false;
-						rules[namespace + 'periodURL'+ indexes[i]].required = true;
-					}else{ if(!labelHasValue && URLHasValue){
-						rules[namespace + 'periodLabel'+ indexes[i]].required = true;
-						rules[namespace + 'periodURL'+ indexes[i]].required = false;
+					var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
+					if (periodDefault) {
+						$('.place-period-start-date', $(periodLabel).parent()).hide();
+						$('.place-period-end-date', $(periodLabel).parent()).hide();
+						if (nbPeriodDefault == 0) {
+							nbPeriodDefault++;
+							$('.place-period-default', $(periodLabel).parent()).hide();
+						} else {
+							$('.place-period-default', $(periodLabel).parent()).show();
+							allValidated = false;
+						}
+					} else{
+						$('.place-period-default', $(periodLabel).parent()).hide();
+						var startDatePeriod = $(namespaceAUI + "startDatePeriod" + index).val();
+						if(startDatePeriod == ""){
+							$('.place-period-start-date', $(periodLabel).parent()).show();
+							allValidated = false;
 						}else{
-							rules[namespace + 'periodLabel'+ indexes[i]].required = false;
-							rules[namespace + 'periodURL'+ indexes[i]].required = false;
+							$('.place-period-start-date', $(periodLabel).parent()).hide();
+						}
+						var endDatePeriod = $(namespaceAUI + "endDatePeriod" + index).val();
+						if(endDatePeriod == ""){
+							$('.place-period-end-date', $(periodLabel).parent()).show();
+							allValidated = false;
+						}else{
+							$('.place-period-end-date', $(periodLabel).parent()).hide();
 						}
 					}
 				}
-			}
-			
-			
-
-			
-		});
-		
-	}
-	
-	function setSlotValidators() {
-		
-		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-			var indexesPeriodes = $(namespaceAUI + "periodsIndexes").val().split(",");
-			for (var i = 0, len = indexesPeriodes.length; i < len; i++) {
-				var nom = $(namespaceAUI + "namePeriod" + indexesPeriodes[i]).val();
-				if(nom != undefined){
-					for (var jour = 0; jour < 7; jour++) {
-						for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
-							var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-							var heureDebutHasValue = $(namespaceAUI + 'startHour' + indexesPeriodes[i] + '-' + jour + '-'  + indexSlot).val().length > 0;	
-							var heureFinHasValue = $(namespaceAUI + 'endHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot).val().length > 0;	
-							if(heureDebutHasValue && !heureFinHasValue){
-								rules[namespace + 'startHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = false;
-								rules[namespace + 'endHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = true;
-							}else{ if(!heureDebutHasValue && heureFinHasValue){
-								rules[namespace + 'startHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = true;
-								rules[namespace + 'endHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = false;
-								}else{
-									rules[namespace + 'startHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = false;
-									rules[namespace + 'endHour' + indexesPeriodes[i] + '-'  + jour + '-'  + indexSlot].required = false;
-								}
-							}
-						}
-					}
+				if(!setSlotValidators(index, periodLabel)){
+					allValidated = false;
 				}
 			}
-			
-		});
+		}
 		
-	}
-	
-});
-
-
-function affichageHeures(objet, id) {
-	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; 
-	var namespaceAUI = "#" + namespace;
-	if(objet.checked){
-		$('.heure' + id).hide();
-	}else{
-		$('.heure' + id).show();
-	}
-		
-}
-
-
-function affichageDates(objet, id) {
-	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; 
-	var namespaceAUI = "#" + namespace;
-	if(objet.checked){
-		$('.dates' + id).hide();
-	}else{
-		$('.dates' + id).show();
-	}
-		
-}
-
-
-function affichageOuverture(objet, id) {
-	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; 
-	var namespaceAUI = "#" + namespace;
-	if(objet.checked){
-		$('.ouvertures' + id).hide();
-	}else{
-		$('.ouvertures' + id).show();
-	}
-		
-}
-
-function copyHoraire(idPeriod) {
-	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; 
-	var namespaceAUI = "#" + namespace;
-	for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
-		var heureDebut = $(namespaceAUI + 'startHour' + idPeriod + '-0-'  + indexSlot).val();	
-		var heureFin = $(namespaceAUI + 'endHour' + idPeriod + '-0-'  + indexSlot).val();
-		for (var jour = 1; jour < 7; jour++) {
-			$(namespaceAUI + 'startHour' + idPeriod + '-' + jour  + '-'  + indexSlot).val(heureDebut);
-			$(namespaceAUI + 'endHour' + idPeriod + '-' + jour  + '-'  + indexSlot).val(heureFin);
+		if (!allValidated) {
+			event.preventDefault();
 		}
 	}
-		
-}
 
-//Schedules
+	function setSlotValidators(indexPeriod, periodLabel) {
+		var allValidated = true;
+		for (var jour = 0; jour < 7; jour++) {
+			for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
+				var heureDebutHasValue = $(namespaceAUI + 'startHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot).val().length > 0;
+				var heureFinHasValue = $(namespaceAUI + 'endHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot).val().length > 0;
+				if (heureDebutHasValue && !heureFinHasValue) {
+					$('#slotStartHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+					$('#slotEndHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
+					allValidated = false;
+				} else {
+					if (!heureDebutHasValue && heureFinHasValue) {
+						$('#slotStartHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
+						$('#slotEndHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+						allValidated = false;
+					} else {
+						$('#slotStartHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+						$('#slotEndHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+					}
+				}
+			}
+		}
+		return allValidated;
+	}
+
+	function setScheduleExceptionValidators() {
+		var allValidated = true;
+		var scheduleLabels = document
+				.querySelectorAll('#date-fields .schedule-label');
+		for (var i = 0; i < scheduleLabels.length; i++) {
+			var scheduleLabel = scheduleLabels[i];
+			var index = $(scheduleLabel).attr('id');
+			// On ne lance la validation que si l'élément ne contient pas la
+			// classe "hide"
+			var startDateSchedule = $(namespaceAUI + "startDateScheduleException" + index).val();
+			if (startDateSchedule != undefined
+					&& $(scheduleLabel).parents('.lfr-form-row').attr('class')
+							.indexOf('hide') == -1) {
+				var scheduleExceptionDescription = $(
+						namespaceAUI + "scheduleExceptionDescription" + index)
+						.val();
+				var endDateSchedule = $(namespaceAUI + "endDateScheduleException" + index).val();
+				if(startDateSchedule == ""){
+					var startHour = $(namespaceAUI + "startHour" + index).val();
+					var endHour = $(namespaceAUI + "endHour" + index).val();
+					if (endDateSchedule || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
+						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
+						allValidated = false;
+					}else{
+						$('.place-schedule-start-date', $(scheduleLabel).parent()).hide();
+					}
+				}else{
+					if (endDateSchedule == "") {
+						$('.place-schedule-end-date', $(scheduleLabel).parent()).show();
+						allValidated = false;
+					}else{
+						$('.place-schedule-end-date', $(scheduleLabel).parent()).hide();
+					}
+					if (scheduleExceptionDescription == "") {
+						$('.place-schedule-description', $(scheduleLabel).parent()).show();
+						allValidated = false;
+					}else{
+						$('.place-schedule-description', $(scheduleLabel).parent()).hide();
+					}
+					var fermeture = $(namespaceAUI + "closed" + index).get(0).checked;
+					if (!fermeture) {
+						var startHour = $(namespaceAUI + "startHour" + index).val();
+						var endHour = $(namespaceAUI + "endHour" + index).val();
+						if(startHour == "") {
+							$('.place-schedule-start-hour', $(scheduleLabel).parent()).show();
+							allValidated = false;
+						}else{
+							$('.place-schedule-start-hour', $(scheduleLabel).parent()).hide();
+						}
+						if(endHour == "") {
+							$('.place-schedule-end-hour', $(scheduleLabel).parent()).show();
+							allValidated = false;
+						}else{
+							$('.place-schedule-end-hour', $(scheduleLabel).parent()).hide();
+						}
+					}
+				}
+			}
+		}
+		
+		if (!allValidated) {
+			event.preventDefault();
+		}
+	}
+
+});
+
+// Schedules
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; // Namespace du portlet
-	
+
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('date-fields')) {
@@ -244,17 +271,17 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 				contentBox : '#date-fields',
 				fieldIndexes : namespace + 'shedulesExceptionsIndexes',
 				namespace : namespace,
-				url: getscheduleExceptionRowJSPURL
+				url : getscheduleExceptionRowJSPURL
 			}).render();
 		}
 	});
 })(jQuery);
 
-//Périodes
+// Périodes
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; // Namespace du portlet
-	
+
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('date-fields2')) {
@@ -263,7 +290,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 				contentBox : '#date-fields2',
 				fieldIndexes : namespace + 'periodsIndexes',
 				namespace : namespace,
-				url: getperiodRowJSPURL
+				url : getperiodRowJSPURL
 			}).render();
 		}
 	});
