@@ -4,16 +4,12 @@
 	<model name="eu.strasbourg.service.place.model.Period">
 		<field name="uuid" type="String" />
 		<field name="periodId" type="long" />
-		<field name="name" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="name" type="String" />
 		<field name="defaultPeriod" type="Boolean" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
-		<field name="linkLabel" type="String" />
-		<field name="linkURL" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="linkLabel" type="String" />
+		<field localized="true" name="linkURL" type="String" />
 		<field name="alwaysOpen" type="Boolean" />
 		<field name="placeId" type="long" />
 		<field name="subPlaceId" type="long" />
@@ -33,27 +29,17 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="SIGid" type="String" />
-		<field name="name" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="addressComplement" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="addressStreet" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="addressDistribution" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field name="name" type="String" />
+		<field name="addressComplement" type="String" />
+		<field name="addressStreet" type="String" />
+		<field name="addressDistribution" type="String" />
 		<field name="addressZipCode" type="String" />
 		<field name="addressCountry" type="String" />
 		<field name="mercatorX" type="String" />
 		<field name="mercatorY" type="String" />
 		<field name="RGF93X" type="String" />
 		<field name="RGF93Y" type="String" />
-		<field localized="true" name="alias" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="alias" type="String" />
 		<field localized="true" name="presentation" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -73,17 +59,11 @@
 		</field>
 		<field name="phone" type="String" />
 		<field name="mail" type="String" />
-		<field localized="true" name="siteURL" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="siteURL" type="String" />
 		<field localized="true" name="siteLabel" type="String" />
-		<field localized="true" name="facebookURL" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="facebookURL" type="String" />
 		<field localized="true" name="facebookLabel" type="String" />
-		<field localized="true" name="accesMap" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="accesMap" type="String" />
 		<field localized="true" name="access" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -110,20 +90,15 @@
 			<hint name="default-value">0</hint>
 		</field>
 		<field name="imageId" type="long" />
-		<field name="imageIds" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="videosIds" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field name="imageIds" type="String" />
+		<field name="videosIds" type="String" />
 		<field name="priceId" type="long" />
+		<field name="documentsIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.Price">
 		<field name="uuid" type="String" />
 		<field name="priceId" type="long" />
-		<field localized="true" name="title" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="title" type="String" />
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -131,9 +106,7 @@
 	<model name="eu.strasbourg.service.place.model.PublicHoliday">
 		<field name="uuid" type="String" />
 		<field name="publicHolidayId" type="long" />
-		<field localized="true" name="name" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="name" type="String" />
 		<field name="date" type="Date">
 			<hint name="show-time">false</hint>
 		</field>
@@ -142,12 +115,15 @@
 	<model name="eu.strasbourg.service.place.model.ScheduleException">
 		<field name="uuid" type="String" />
 		<field name="exceptionId" type="long" />
-		<field name="date" type="Date">
+		<field name="startDate" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
+		<field name="endDate" type="Date">
 			<hint name="show-time">false</hint>
 		</field>
 		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
-		<field name="comment" type="String">
+		<field localized="true" name="comment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="closed" type="boolean" />
@@ -165,9 +141,7 @@
 	<model name="eu.strasbourg.service.place.model.SubPlace">
 		<field name="uuid" type="String" />
 		<field name="subPlaceId" type="long" />
-		<field localized="true" name="name" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field localized="true" name="name" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

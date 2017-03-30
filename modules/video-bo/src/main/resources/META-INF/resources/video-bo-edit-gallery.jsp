@@ -40,7 +40,21 @@
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.videoGallery.imageId}" />
 
-				<aui:input name="description" />
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+								var validate = $('#_eu_strasbourg_portlet_video_VideoBOPortlet_description_fr_FR').val().length > 0;
+								if (!validate) {
+									$("#_eu_strasbourg_portlet_video_VideoBOPortlet_descriptionContainer").get(0).scrollIntoView();
+								}
+								return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
 				
 				<strasbourg-picker:entity label="videos" name="videosIds"
 					value="${dc.videoGallery.videosIds}"

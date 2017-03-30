@@ -43,6 +43,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.LegacyPlace;
 
 /**
@@ -227,9 +228,10 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return locale_legacyPlace.get(locale);
 	}
-	
+
 	/**
-	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du
+	 * lieu lié sinon
 	 */
 	@Override
 	public String getCity(Locale locale) {
@@ -243,29 +245,33 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	 * Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu
+	 * lié sinon
 	 */
 	@Override
 	public String getPlaceAlias(Locale locale) {
-		if (Validator.isNotNull(this.getPlaceName())) {
-			return this.getPlaceName();
+		if (Validator.isNotNull(this.getPlaceName(locale))) {
+			return this.getPlaceName(locale);
 		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
 			return this.getLegacyPlace(locale).getAlias();
 		} else {
 			return "";
 		}
 	}
-	
+
 	/**
-	 * Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	 * Retourne l'adresse complète du lieu, provenant du lieu interne s'il
+	 * existe, du lieu lié sinon
 	 */
 	@Override
 	public String getPlaceAddressHTML(Locale locale) {
 		if (Validator.isNotNull(this.getPlaceName())) {
-			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName() + "<br>" + this.getPlaceZipCode() + " " + this.getCity(locale);
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName()
+				+ "<br>" + this.getPlaceZipCode() + " " + this.getCity(locale);
 		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
 			LegacyPlace place = this.getLegacyPlace(locale);
-			return place.getStreet() + "<br>" + place.getZipCode() + " " + place.getCity();
+			return place.getStreet() + "<br>" + place.getZipCode() + " "
+				+ place.getCity();
 		} else {
 			return "";
 		}
@@ -279,7 +285,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "type agenda");
 	}
-	
+
 	/**
 	 * Retourne le label des types de l'événement
 	 */
@@ -303,7 +309,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "theme agenda");
 	}
-	
+
 	/**
 	 * Retourne le label des thèmes de l'événement
 	 */
@@ -327,7 +333,7 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), "public agenda");
 	}
-	
+
 	/**
 	 * Retourne le label des publics de l'événement
 	 */
@@ -370,7 +376,7 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("id", this.getEventId());
 		jsonEvent.put("externalId", this.getIdSource());
-		
+
 		jsonEvent.put("title",
 			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 
@@ -381,7 +387,8 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("description",
 			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
-		jsonEvent.put("imageURL", this.getImageURL());
+		jsonEvent.put("imageURL",
+			StrasbourgPropsUtil.getURL() + this.getImageURL());
 
 		jsonEvent.put("imageCopyright",
 			this.getImageCopyright(Locale.getDefault()));
@@ -390,10 +397,12 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", this.getPlaceName());
+			jsonPlace.put("name",
+				JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			jsonPlace.put("streetName", this.getPlaceStreetName());
 			jsonPlace.put("zipCode", this.getPlaceZipCode());
+			jsonPlace.put("city", this.getPlaceCity());
 			jsonPlace.put("access",
 				JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
 			jsonPlace.put("accessForDisabled",
@@ -438,11 +447,13 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
 		for (EventPeriod period : this.getEventPeriods()) {
 			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
-			
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+
+			DateFormat dateFormat = DateFormatFactoryUtil
+				.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate",
+				dateFormat.format(period.getStartDate()));
 			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
-			
+
 			if (Validator.isNotNull(period.getTimeDetail())) {
 				periodJSON.put("timeDetail",
 					JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
@@ -507,6 +518,9 @@ public class EventImpl extends EventBaseImpl {
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}
+
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL()
+			+ "/-/entity/id/" + this.getEventId());
 
 		return jsonEvent;
 	}

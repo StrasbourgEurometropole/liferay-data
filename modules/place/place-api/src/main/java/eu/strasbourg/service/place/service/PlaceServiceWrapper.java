@@ -32,6 +32,53 @@ public class PlaceServiceWrapper implements PlaceService,
 		_placeService = placeService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlaces()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlaces();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
+		java.lang.String name, java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesByNameAndLanguage(name, language);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
+		java.lang.String territoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesByTerritory(territoryId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritoryAndType(
+		java.lang.String territoryId, java.lang.String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesByTerritoryAndType(territoryId, typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByType(
+		java.lang.String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesByType(typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlaceById(id);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
+		java.lang.String SIGId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlaceByIdSIG(SIGId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

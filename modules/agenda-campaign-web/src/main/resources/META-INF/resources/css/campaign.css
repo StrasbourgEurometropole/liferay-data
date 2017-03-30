@@ -60,6 +60,10 @@
     max-width: 300px;
 }
 
+.language-error ul {
+	margin-top: 10px;
+}
+
 .portlet-body > .daterangepicker {
     display: none;
 }
@@ -111,4 +115,37 @@ img {
 .autocomplete-suggestion {
     cursor: pointer;
     padding: 2px 11px;
+}
+
+.campaign-web .portlet-title-text {
+	display: none;
+}
+
+.big-button {
+	text-align: center;
+}
+
+.big-button .btn {
+    font-size: 32px;
+    padding: 25px 30px;
+    margin-top: 40px;
+}
+
+.campaign-web .panel-title {
+    display: block;
+    padding: 10px 15px;
+    background: #97bf0c;
+    color: white;
+}
+
+.campaign-web .panel-group .panel-title > a {
+    padding: 0;
+}
+
+.campaign-web .panel-body {
+    border-top: 2px solid #97bf0c;
+}
+
+.campaign-web .status-history {
+	column-count: 3;
 }

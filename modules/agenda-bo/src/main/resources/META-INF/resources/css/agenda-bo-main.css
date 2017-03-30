@@ -14,6 +14,10 @@
    margin-bottom: -40px;
 }
 
+.time-detail-wrapper .form-group {
+	max-width: 65%;
+}
+
 .time-detail-generator-wrapper {
 	margin-top: 10px;
 }

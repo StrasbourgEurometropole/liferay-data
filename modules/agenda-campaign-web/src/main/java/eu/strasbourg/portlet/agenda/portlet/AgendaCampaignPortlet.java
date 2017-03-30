@@ -28,6 +28,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.single-page-application=false",
 		"com.liferay.portlet.requires-namespaced-parameters=false",
+		"com.liferay.portlet.css-class-wrapper=campaign-web",
 		"javax.portlet.display-name=agenda-campaign-web Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/campaign-view.jsp",

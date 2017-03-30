@@ -12,6 +12,7 @@
 				<action-key>ADD_PLACE</action-key>
 				<action-key>DELETE_PLACE</action-key>
 				<action-key>EDIT_PLACE</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -24,6 +25,7 @@
 				<action-key>ADD_PLACE</action-key>		
 				<action-key>DELETE_PLACE</action-key>
 				<action-key>EDIT_PLACE</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

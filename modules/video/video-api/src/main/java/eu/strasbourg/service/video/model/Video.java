@@ -101,4 +101,14 @@ public interface Video extends VideoModel, PersistedModel {
 	* Retourne l'URL de téléchargement du fichier de transcription
 	*/
 	public java.lang.String getTranscriptionDownloadURL();
+
+	/**
+	* Retourne les fournisseurs de la vidéo
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProviders();
+
+	/**
+	* Retourne les thèmes de la vidéo
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
 }

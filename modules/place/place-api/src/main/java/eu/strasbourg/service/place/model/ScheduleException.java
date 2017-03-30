@@ -53,4 +53,9 @@ public interface ScheduleException extends ScheduleExceptionModel, PersistedMode
 				return ScheduleException.class;
 			}
 		};
+
+	/**
+	* Retourne la version JSON des exceptions
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

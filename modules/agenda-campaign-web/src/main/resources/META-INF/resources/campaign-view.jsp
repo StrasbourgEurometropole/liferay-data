@@ -16,12 +16,18 @@
 <liferay-portlet:actionURL varImpl="deleteSelectionURL" name="deleteCampaignEvent">
 </liferay-portlet:actionURL>
 
-<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${campaignEventsURL}" label="events"
-			selected="true" />
-	</aui:nav>
+<liferay-portlet:renderURL varImpl="addCampaignEventURL">
+	<portlet:param name="cmd" value="editCampaignEvent" />
+	<portlet:param name="mvcPath" value="/campaign-edit.jsp" />
+	<portlet:param name="returnURL" value="${campaignEventsURL}" />
+</liferay-portlet:renderURL>
 
+<div class="big-button">
+	<aui:button href="${addCampaignEventURL}" type="button"
+		value="add-campaign-event" primary="true" />
+</div>
+
+<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
 			<liferay-ui:input-search markupView="lexicon" />
@@ -29,13 +35,12 @@
 	</aui:nav-bar-search>
 </aui:nav-bar>
 
-
 <liferay-frontend:management-bar includeCheckBox="true"
 	searchContainerId="campaignEventsSearchContainer">
 	
 	<liferay-frontend:management-bar-filters>
 		<liferay-frontend:management-bar-navigation
-			label="${dc.statusId ge 0 ? dc.statuses.get(dc.statusId) : 'status'}">
+			label="${dc.statusId ge 0 ? dc.statuses.get(dc.statusId) : 'filter-by-status'}">
 			<liferay-portlet:renderURL var="anyStatusURL">
 				<liferay-portlet:param name="statusId" value="" />
 				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
@@ -57,7 +62,7 @@
 			</c:forEach>
 		</liferay-frontend:management-bar-navigation>
 		<liferay-frontend:management-bar-navigation
-			label="${dc.themeId gt 0 ? dc.themeLabel : 'theme'}">
+			label="${dc.themeId gt 0 ? dc.themeLabel : 'filter-by-theme'}">
 			<liferay-portlet:renderURL var="anyThemeURL">
 				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
 				<liferay-portlet:param name="themeId" value="" />
@@ -182,6 +187,13 @@
 						</c:if>
 						<liferay-ui:icon icon="times" message="request-deletion"
 							url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 8)" />
+							
+						<c:if test="${campaignEvent.status eq 2}">
+							<liferay-portlet:actionURL name="duplicateCampaignEvent" var="duplicateCampaignEventURL">
+								<liferay-portlet:param name="campaignEventId" value="${campaignEvent.campaignEventId}" />
+							</liferay-portlet:actionURL>
+							<liferay-ui:icon icon="copy" message="duplicate" url="${duplicateCampaignEventURL}" />
+						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -192,11 +204,6 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:renderURL varImpl="addCampaignEventURL">
-		<portlet:param name="cmd" value="editCampaignEvent" />
-		<portlet:param name="mvcPath" value="/campaign-edit.jsp" />
-		<portlet:param name="returnURL" value="${campaignEventsURL}" />
-	</liferay-portlet:renderURL>
 	<aui:button-row>
 		<aui:button href="${addCampaignEventURL}" type="button"
 			value="add-campaign-event" primary="true" />

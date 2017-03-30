@@ -36,7 +36,7 @@
         
         <!-- Lieu -->
         <column name="placeSIGId" type="String" />
-        <column name="placeName" type="String" />
+        <column name="placeName" type="String" localized="true" />
         <column name="placeStreetNumber" type="String" />
         <column name="placeStreetName" type="String" />
         <column name="placeZipCode" type="String" />
@@ -286,7 +286,7 @@
 		<column name="imageOwner" type="String" />
 		<column name="manifestationsIds" type="String" />
 		<column name="placeSIGId" type="String" />
-		<column name="placeName" type="String" />
+		<column name="placeName" type="String" localized="true" />
 		<column name="placeStreetNumber" type="String" />
 		<column name="placeStreetName" type="String" />
 		<column name="placeZipCode" type="String" />
@@ -296,6 +296,7 @@
 		<column name="publicPhone" type="String" />
 		<column name="publicEmail" type="String" />
 		<column name="websiteURL" type="String" localized="true" />
+		<column name="websiteName" type="String" localized="true" />
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		<column name="campaignId" type="Long" />

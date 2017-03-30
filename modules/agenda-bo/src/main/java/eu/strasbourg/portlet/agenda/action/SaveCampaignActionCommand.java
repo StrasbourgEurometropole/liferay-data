@@ -31,9 +31,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
@@ -65,15 +68,33 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
-			campaign.setTitleMap(title);
-			
 			Boolean exportEnabled = ParamUtil.getBoolean(request, "exportEnabled");
-			campaign.setExportEnabled(exportEnabled);
-
 			long[] managersIds = ParamUtil.getLongValues(request, "managersIds");
-			campaign.setManagersIds(StringUtil.merge(managersIds));
-			
 			long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+			
+			// Validation
+			boolean isValid = true;
+			if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+				SessionErrors.add(request, "title-error");
+			}
+			if (themesIds.length == 0) {
+				SessionErrors.add(request, "themes-error");
+				isValid = false;
+			}
+			if (managersIds.length == 0) {
+				SessionErrors.add(request, "managers-error");
+				isValid = false;
+			}
+			
+			if (!isValid) {
+				PortalUtil.copyRequestParameters(request, response);
+				response.setRenderParameter("mvcPath", "/agenda-bo-edit-campaign.jsp");
+				return false;
+			}
+			
+			campaign.setTitleMap(title);
+			campaign.setExportEnabled(exportEnabled);
+			campaign.setManagersIds(StringUtil.merge(managersIds));
 			sc.setAssetCategoryIds(themesIds);
 			
 			_campaignLocalService

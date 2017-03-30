@@ -41,6 +41,45 @@ public class PlaceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.place.service.impl.PlaceServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONArray getPlaces()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlaces();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
+		java.lang.String name, java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesByNameAndLanguage(name, language);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
+		java.lang.String territoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesByTerritory(territoryId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritoryAndType(
+		java.lang.String territoryId, java.lang.String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesByTerritoryAndType(territoryId, typeId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByType(
+		java.lang.String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesByType(typeId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getPlaceById(
+		long id) throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlaceById(id);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
+		java.lang.String SIGId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlaceByIdSIG(SIGId);
+	}
 
 	/**
 	* Returns the OSGi service identifier.

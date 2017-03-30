@@ -66,7 +66,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(87);
+		StringBundler sb = new StringBundler(89);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -142,6 +142,8 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		sb.append(publicEmail);
 		sb.append(", websiteURL=");
 		sb.append(websiteURL);
+		sb.append(", websiteName=");
+		sb.append(websiteName);
 		sb.append(", free=");
 		sb.append(free);
 		sb.append(", price=");
@@ -373,6 +375,13 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 			campaignEventImpl.setWebsiteURL(websiteURL);
 		}
 
+		if (websiteName == null) {
+			campaignEventImpl.setWebsiteName(StringPool.BLANK);
+		}
+		else {
+			campaignEventImpl.setWebsiteName(websiteName);
+		}
+
 		campaignEventImpl.setFree(free);
 
 		if (price == null) {
@@ -446,6 +455,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		publicPhone = objectInput.readUTF();
 		publicEmail = objectInput.readUTF();
 		websiteURL = objectInput.readUTF();
+		websiteName = objectInput.readUTF();
 
 		free = objectInput.readInt();
 		price = objectInput.readUTF();
@@ -658,6 +668,13 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 			objectOutput.writeUTF(websiteURL);
 		}
 
+		if (websiteName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(websiteName);
+		}
+
 		objectOutput.writeInt(free);
 
 		if (price == null) {
@@ -718,6 +735,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 	public String publicPhone;
 	public String publicEmail;
 	public String websiteURL;
+	public String websiteName;
 	public int free;
 	public String price;
 	public long campaignId;

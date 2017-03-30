@@ -177,7 +177,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName VARCHAR(75) null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -1281,8 +1281,94 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	@Override
+	public String getPlaceName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPlaceName(languageId);
+	}
+
+	@Override
+	public String getPlaceName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPlaceName(languageId, useDefault);
+	}
+
+	@Override
+	public String getPlaceName(String languageId) {
+		return LocalizationUtil.getLocalization(getPlaceName(), languageId);
+	}
+
+	@Override
+	public String getPlaceName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getPlaceName(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getPlaceNameCurrentLanguageId() {
+		return _placeNameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getPlaceNameCurrentValue() {
+		Locale locale = getLocale(_placeNameCurrentLanguageId);
+
+		return getPlaceName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getPlaceNameMap() {
+		return LocalizationUtil.getLocalizationMap(getPlaceName());
+	}
+
+	@Override
 	public void setPlaceName(String placeName) {
 		_placeName = placeName;
+	}
+
+	@Override
+	public void setPlaceName(String placeName, Locale locale) {
+		setPlaceName(placeName, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPlaceName(String placeName, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(placeName)) {
+			setPlaceName(LocalizationUtil.updateLocalization(getPlaceName(),
+					"PlaceName", placeName, languageId, defaultLanguageId));
+		}
+		else {
+			setPlaceName(LocalizationUtil.removeLocalization(getPlaceName(),
+					"PlaceName", languageId));
+		}
+	}
+
+	@Override
+	public void setPlaceNameCurrentLanguageId(String languageId) {
+		_placeNameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap) {
+		setPlaceNameMap(placeNameMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPlaceNameMap(Map<Locale, String> placeNameMap,
+		Locale defaultLocale) {
+		if (placeNameMap == null) {
+			return;
+		}
+
+		setPlaceName(LocalizationUtil.updateLocalization(placeNameMap,
+				getPlaceName(), "PlaceName",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -2235,6 +2321,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			}
 		}
 
+		Map<Locale, String> placeNameMap = getPlaceNameMap();
+
+		for (Map.Entry<Locale, String> entry : placeNameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> accessMap = getAccessMap();
 
 		for (Map.Entry<Locale, String> entry : accessMap.entrySet()) {
@@ -2351,6 +2448,16 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		}
 		else {
 			setDescription(getDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String placeName = getPlaceName(defaultLocale);
+
+		if (Validator.isNull(placeName)) {
+			setPlaceName(getPlaceName(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setPlaceName(getPlaceName(defaultLocale), defaultLocale,
 				defaultLocale);
 		}
 
@@ -3178,6 +3285,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _externalImageCopyright;
 	private String _placeSIGId;
 	private String _placeName;
+	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;
 	private String _placeStreetName;
 	private String _placeZipCode;

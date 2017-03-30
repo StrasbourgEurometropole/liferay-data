@@ -8,6 +8,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.environment");
 	}
 	
+	public static String getURL() {
+		return PropsUtil.get("eu.strasbourg.url");
+	}
+	
 	public static String getRecaptchaSecretKey() {
 		return PropsUtil.get("eu.strasbourg.recaptcha.secret");
 	}
@@ -42,5 +46,13 @@ public class StrasbourgPropsUtil {
 
 	public static String getAgendaPlatformURL() {
 		return PropsUtil.get("eu.strasbourg.agenda.platform.url");
+	}
+	
+	public static String getPlaceDetailURL() {
+		return PropsUtil.get("eu.strasbourg.place.detail.url");
+	}
+
+	public static String getAgendaDetailURL() {
+		return PropsUtil.get("eu.strasbourg.agenda.detail.url");
 	}
 }

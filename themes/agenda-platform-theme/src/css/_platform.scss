@@ -1,0 +1,268 @@
+// Pas de décallage du wrapper
+body.open #wrapper {
+  padding-left: 0 !important;
+}
+
+.has-control-menu #wrapper {
+  margin-top: 0 !important;
+}
+
+// Header "Strasbourg.eu"
+.top-header {
+  background-color: #343433;
+  padding: 8px 0 5px 0;
+  .login-link {
+    float: right;
+    a {
+      color: white;
+    }
+  }
+}
+
+// Header principal
+header.main-header {
+  height: 120px;
+  line-height: 120px;
+  padding-left: 60px;
+  margin-bottom: 50px;
+  font-size: 35px;
+  color: white;
+  background-color: #97bf0c;
+}
+
+// Couleurs
+.btn-primary {
+  background-color: #97bf0c;
+  border-color: #97bf0c;
+  &:hover, &:active, &:focus, &:hover:active {
+    background-color: #98d90d;
+    border-color: #98d90d;
+  }
+}
+
+.btn-link {
+  color: #97bf0c;
+  &:hover, &:active, &:focus, &:hover:active {
+    color: #98d90d;
+  }
+}
+
+// Footer
+#footer {
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  margin-top: 30px;
+  background: #3a3a3a !important;
+  color: #b3b3b3;
+  ul[role=nav] {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    display: inline-block;
+  }
+  .portlet {
+    margin-bottom: 0;
+  }
+  .footer-content {
+    @extend .container-fluid-1280;
+  }
+  a {
+    color: #b3b3b3 !important;
+    text-decoration: none;
+    &:hover {
+      color: white !important;
+      text-decoration: none;
+    }
+  }
+  .footer-left {
+    @media(min-width: 768px) {
+      width: 66.67%;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+  .footer-nav {
+    font-size: 16px;
+    margin: 0 15px;
+    padding: 20px 0;
+    border-bottom: 1px solid #757575;
+    @media(min-width: 640px) {
+      padding: 0;
+      padding-top: 5px;
+      margin: 0 20px;
+    }
+    @media(min-width: 768px) {
+      padding-top: 0;
+      font-size: 14px;
+    }
+    ul {
+      width: 100%;
+    }
+    li {
+      display: block;
+      float: none;
+      text-align: center;
+      @media(min-width: 640px) {
+        display: inline-block;
+        text-align: left;
+      }
+      @media(min-width: 768px) {
+        padding: 12px 5px 10px;
+      }
+      a {
+        display: block;
+        padding: 10px;
+        //font-family: $font-family-bold;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .footer-links {
+    font-size: 19px;
+    margin: 30px 15px 15px 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #757575;
+    @media(min-width: 640px) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    @media(min-width: 768px) {
+      border-bottom: 0;
+      width: 40%;
+      display: inline-block;
+      font-size: 16px;
+    }
+    ul {
+      width: 100%;
+      li {
+        display: block;
+        float: none;
+        text-align: center;
+        @media(min-width: 640px) {
+          text-align: left;
+        }
+        a {
+          display: block;
+          padding: 3px 0;
+        }
+      }
+    }
+  }
+
+  .footer-contact {
+    color: white;
+    margin: 25px 15px 0 15px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #757575;
+    font-size: 18px;
+    text-align: center;
+    @media(min-width: 640px) {
+      text-align: left;
+      border-bottom: none;
+      margin-left: 20px;
+      margin-right: 20px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    @media(min-width: 768px) {
+      width: 50%;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 15px;
+      border-left: 1px solid #757575;
+      margin-left: 0;
+      padding-left: 24px;    
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    img {
+      width: 90%;
+      max-width: 470px !important;
+      margin: 5px 0 12px 0;
+    }
+    a {
+      color: white;
+    }
+  }
+
+  .footer-share {
+    margin: 0 15px;
+    font-size: 16px;
+    //font-family: $font-family-bold;
+    text-align: center;
+    @media(min-width: 640px) {
+      margin: 0 20px;
+      text-align: left;
+    }
+    @media(min-width: 768px) {
+      width: 32%;
+      display: inline-block;
+      margin: 0;
+      vertical-align: text-bottom;
+    }
+    .footer-share-follow-us {
+      color: #b3b3b3;
+      padding: 30px 10px 15px 10px;
+      text-transform: uppercase;
+      @media(min-width: 640px) {
+        padding-top: 0;
+        border-bottom: 1px solid #757575;
+        margin-bottom: 15px;
+      }
+      @media(min-width: 768px) {
+        margin-top: 20px;
+        font-size: 15px;
+        padding-bottom: 20px;
+      }
+    }
+    .footer-share-buttons {
+      margin: 0 15px 30px 15px;
+      @media(min-width: 640px) {
+        margin-left: 0;
+        margin-bottom: 20px;
+      }
+      .share {
+        display: inline-block;
+        width: 40px;
+        margin: 7px 5px;
+        @media(min-width: 640px) {
+          margin: 7px;
+        }
+      }
+    }
+  }
+
+  .footer-copyright {
+    color: #b3b3b3;
+    font-size: 17px;
+    text-align: center;
+    margin: 5px 15px 25px 15px;
+    @media(min-width: 640px) {
+      margin: 5px 20px;
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+
+  .footer-bottom {
+    background: #2d2d2d;
+    margin-top: 15px;
+    text-align: center;
+    @media(min-width: 640px) {
+      text-align: left;
+    }
+    img {
+      margin: 22px 0 16px 0;
+      width: 120px;
+      @media(min-width: 640px) {
+        margin: 13px 0 9px 0;
+      }
+    }
+    .footer-content {
+      padding: 0 20px;
+    }
+  }
+}

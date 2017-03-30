@@ -35,11 +35,25 @@
 				</aui:input>
 
 				<aui:input name="subtitle" />
-
+				
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.edition.imageId}" />
 				
-				<aui:input name="description" />
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
+								if (!validate) {
+									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionContainer").get(0).scrollIntoView();
+								}
+								return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
 
 				<aui:input name="author" />
 
@@ -49,7 +63,9 @@
 			</aui:fieldset>
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="file">
-				<aui:input name="URL" />
+				<aui:input name="URL">
+					<aui:validator name="url" errorMessage="url-error" />
+				</aui:input>
 				
 				
 				<strasbourg-picker:file label="file" name="fileId"
@@ -121,7 +137,7 @@
 				</c:if>
 				<c:if test="${not dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" name="publish"
-							value="publish" />
+							value="eu.publish" />
 					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
 							value="save-as-draft" />
 				</c:if>

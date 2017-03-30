@@ -126,3 +126,13 @@ content: " ";
   margin-top: 10px !important;
   margin-right: 4px !important;
 }
+
+.dialog-iframe-popup #main-content, .dialog-iframe-popup #wrapper {
+	overflow: visible;
+}
+
+.portlet-body:after {
+    content: "";
+    display: block;
+    clear: both;
+}

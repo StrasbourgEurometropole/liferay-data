@@ -44,9 +44,11 @@
 					href="${editPublicHolidayURL}" name="name-public-holiday" truncate="true" orderable="true"
 					value="${publicHoliday.nameCurrentValue}" />
 				
+				<fmt:formatDate value="${publicHoliday.date}"
+					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="date-public-holiday" truncate="true" orderable="true"
-					value="${publicHoliday.date}" />
+					value="${formattedDate}" />
 				
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="recurrent" truncate="true" orderable="true"

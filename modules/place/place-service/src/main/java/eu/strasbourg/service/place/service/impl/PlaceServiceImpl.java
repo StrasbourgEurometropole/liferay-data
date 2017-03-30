@@ -14,18 +14,40 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.SearchHelper;
 
 /**
  * The implementation of the place remote service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.place.service.PlaceService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link eu.strasbourg.service.place.service.PlaceService} interface.
  *
  * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
+ * This is a remote service. Methods of this service are expected to have
+ * security checks based on the propagated JAAS credentials because this service
+ * can be accessed remotely.
  * </p>
  *
  * @author Angelique Zunino Champougny
@@ -37,6 +59,144 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.place.service.PlaceServiceUtil} to access the place remote service.
+	 * Never reference this class directly. Always use {@link
+	 * eu.strasbourg.service.place.service.PlaceServiceUtil} to access the place
+	 * remote service.
 	 */
+
+	@Override
+	public JSONArray getPlaces() throws PortalException {
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
+		return this.getApprovedJSONPlaces(places);
+	}
+
+	@Override
+	public JSONObject getPlaceById(long id) throws PortalException {
+		Place place = this.placeLocalService.fetchPlace(id);
+		if (!place.isApproved()) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+		return place.toJSON();
+	}
+
+	@Override
+	public JSONObject getPlaceByIdSIG(String SIGId) throws PortalException {
+		Place place = this.placeLocalService.getPlaceBySIGId(SIGId);
+		if (!place.isApproved()) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+		return place.toJSON();
+	}
+
+	@Override
+	public JSONArray getPlacesByType(String typeId) throws PortalException {
+		// Recherche du catégoryId
+		AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper
+				.getGlobalVocabulary("Type de lieu");
+		AssetCategory category = AssetVocabularyHelper
+				.getCategoryByVocabulaire(vocabularyTypeLieu, typeId);
+		long[] categoriesIds = { category.getCategoryId() };
+
+		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
+				Place.class.getName(), categoriesIds, null, null);
+		List<Place> places = new ArrayList<Place>();
+		for (Document document : hits.getDocs()) {
+			Long placeId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+			Place place = this.placeLocalService.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return this.getApprovedJSONPlaces(places);
+	}
+
+	@Override
+	public JSONArray getPlacesByTerritory(String territoryId)
+			throws PortalException {
+		// Recherche du catégoryId
+		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
+				.getGlobalVocabulary("Territoire");
+		AssetCategory category = AssetVocabularyHelper
+				.getCategoryByVocabulaire(vocabularyTerritory, territoryId);
+		long[] categoriesIds = { category.getCategoryId() };
+
+		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
+				Place.class.getName(), categoriesIds, null, null);
+		List<Place> places = new ArrayList<Place>();
+		for (Document document : hits.getDocs()) {
+			Long placeId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+			Place place = this.placeLocalService.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return this.getApprovedJSONPlaces(places);
+	}
+
+	@Override
+	public JSONArray getPlacesByNameAndLanguage(String name, String language)
+			throws PortalException {
+		Locale locale = LocaleUtil.fromLanguageId(language);
+		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
+				Place.class.getName(), null, name, locale);
+		List<Place> places = new ArrayList<Place>();
+		for (Document document : hits.getDocs()) {
+			Long placeId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+			Place place = this.placeLocalService.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return this.getApprovedJSONPlaces(places);
+	}
+
+	@Override
+	public JSONArray getPlacesByTerritoryAndType(String territoryId,
+			String typeId) throws PortalException {
+		// Recherche du catégoryId du vocabulaire Territoire
+		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
+				.getGlobalVocabulary("Territoire");
+		AssetCategory categoryTerritory = AssetVocabularyHelper
+				.getCategoryByVocabulaire(vocabularyTerritory, territoryId);
+
+		// Recherche du catégoryId du vocabulaire Type de lieu
+		AssetVocabulary vocabularyType = AssetVocabularyHelper
+				.getGlobalVocabulary("Type de lieu");
+		AssetCategory categoryType = AssetVocabularyHelper
+				.getCategoryByVocabulaire(vocabularyType, typeId);
+
+		long[] categoriesIds = { categoryTerritory.getCategoryId(),
+				categoryType.getCategoryId() };
+
+		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
+				Place.class.getName(), categoriesIds, null, null);
+		List<Place> places = new ArrayList<Place>();
+		for (Document document : hits.getDocs()) {
+			Long placeId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+			Place place = this.placeLocalService.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return this.getApprovedJSONPlaces(places);
+	}
+
+	private JSONArray getApprovedJSONPlaces(List<Place> places) {
+		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
+		for (Place place : places) {
+			try {
+				if (place.isApproved()) {
+					jsonPlaces.put(place.toJSON());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return jsonPlaces;
+	}
+
 }

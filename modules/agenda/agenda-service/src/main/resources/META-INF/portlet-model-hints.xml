@@ -53,7 +53,7 @@
 		<field name="imageOwner" type="String" />
 		<field name="manifestationsIds" type="String" />
 		<field name="placeSIGId" type="String" />
-		<field name="placeName" type="String" />
+		<field localized="true" name="placeName" type="String" />
 		<field name="placeStreetNumber" type="String" />
 		<field name="placeStreetName" type="String" />
 		<field name="placeZipCode" type="String" />
@@ -63,6 +63,7 @@
 		<field name="publicPhone" type="String" />
 		<field name="publicEmail" type="String" />
 		<field localized="true" name="websiteURL" type="String" />
+		<field localized="true" name="websiteName" type="String" />
 		<field name="free" type="Integer" />
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
@@ -116,7 +117,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="placeSIGId" type="String" />
-		<field name="placeName" type="String" />
+		<field localized="true" name="placeName" type="String" />
 		<field name="placeStreetNumber" type="String" />
 		<field name="placeStreetName" type="String" />
 		<field name="placeZipCode" type="String" />

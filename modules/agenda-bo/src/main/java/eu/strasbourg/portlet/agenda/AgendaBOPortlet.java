@@ -51,7 +51,8 @@ public class AgendaBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
-
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		
 		renderResponse.setTitle("Events");
 
 		// If we are on an "add" page, we set a return URL and show the "back"
@@ -73,7 +74,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 			EditManifestationDisplayContext dc = new EditManifestationDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editCampaign")) {
+		} else if (cmd.equals("editCampaign") || mvcPath.equals("/agenda-bo-edit-campaign.jsp")) {
 			EditCampaignDisplayContext dc = new EditCampaignDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

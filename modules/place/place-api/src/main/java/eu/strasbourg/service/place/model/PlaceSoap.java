@@ -90,6 +90,7 @@ public class PlaceSoap implements Serializable {
 		soapModel.setImageIds(model.getImageIds());
 		soapModel.setVideosIds(model.getVideosIds());
 		soapModel.setPriceId(model.getPriceId());
+		soapModel.setDocumentsIds(model.getDocumentsIds());
 
 		return soapModel;
 	}
@@ -602,6 +603,14 @@ public class PlaceSoap implements Serializable {
 		_priceId = priceId;
 	}
 
+	public String getDocumentsIds() {
+		return _documentsIds;
+	}
+
+	public void setDocumentsIds(String documentsIds) {
+		_documentsIds = documentsIds;
+	}
+
 	private String _uuid;
 	private long _placeId;
 	private long _groupId;
@@ -658,4 +667,5 @@ public class PlaceSoap implements Serializable {
 	private String _imageIds;
 	private String _videosIds;
 	private long _priceId;
+	private String _documentsIds;
 }
