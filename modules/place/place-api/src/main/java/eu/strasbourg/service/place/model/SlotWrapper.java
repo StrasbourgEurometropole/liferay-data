@@ -125,6 +125,14 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 		return _slot.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON des horaires
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _slot.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.place.model.Slot> toCacheModel() {
 		return _slot.toCacheModel();

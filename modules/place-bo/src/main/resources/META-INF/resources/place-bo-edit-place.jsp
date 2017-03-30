@@ -155,7 +155,7 @@
 					<aui:input type="hidden" name="serviceAndActivitiesValidatorInputHelper" value="placeholder" />
 				</div>
 				
-				<aui:input name="characteristics"   />
+				<aui:input name="characteristics" helpMessage="characteristics-help" />
 				<!-- Hack pour ajouter une validation sur les caractéristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
@@ -167,16 +167,19 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
-				<strasbourg-picker:image label="mane-image" name="imageId"
-					required="false" value="${dc.place.imageId}" />
+				<strasbourg-picker:image label="eu.place.main-image" name="imageId"
+					required="false" value="${dc.place.imageId}" global="true" />
 				
-				<strasbourg-picker:image label="additional-images" name="imageIds"
-					required="false" value="${dc.place.imageIds}" multiple="true" />
+				<strasbourg-picker:image label="eu.place.additional-images" name="imageIds"
+					required="false" value="${dc.place.imageIds}" multiple="true" global="true" />
 					
-				<strasbourg-picker:entity label="videos" name="videosIds"
+				<strasbourg-picker:entity label="eu.place.videos" name="videosIds"
 					value="${dc.place.videosIds}"
 					type="eu.strasbourg.service.video.model.Video"
-					multiple="true" />
+					multiple="true" global="true" />
+					
+				<strasbourg-picker:file label="eu.place.documents" name="documents"
+					required="false" value="${dc.place.documentsIds}" multiple="true" global="true" />
 				
 			</aui:fieldset>
 				
@@ -184,11 +187,13 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="contact">
 					
-						<aui:input name="phone" />
+						<aui:input name="phone" helpMessage="telephone-help" />
 						
-						<aui:input name="mail" />
+						<aui:input name="mail" helpMessage="email-help" >
+							<aui:validator name="email"/>
+						</aui:input>
 						
-						<aui:input name="siteLabel" id="siteLabel" helpMessage="site-help" >
+						<aui:input name="siteLabel" id="siteLabel" >
 							<aui:validator name="required"
 								errorMessage="site-label-is-required" />
 						</aui:input>
@@ -199,7 +204,7 @@
 								errorMessage="site-url-is-required" />
 						</aui:input>
 						
-						<aui:input name="facebookLabel" helpMessage="facebook-help" >
+						<aui:input name="facebookLabel" >
 					        <aui:validator name="require" errorMessage="facebook-label-required" />
 						</aui:input>
 						
@@ -214,14 +219,14 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
-				<aui:input name="access" label="access-mod" />
+				<aui:input name="access" label="access-mod" helpMessage="access-mod-help" />
 				<!-- Hack pour ajouter une validation sur le mode d'accès -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessValidatorInputHelper" value="placeholder"/>
 				</div>		
 				
-				<strasbourg-picker:file label="access-map" name="accesMap"
-					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" />
+				<strasbourg-picker:file label="eu.place.access-map" name="accesMap"
+					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" global="true" />
 				
 				<aui:input name="accessForDisabled"  />
 				<!-- Hack pour ajouter une validation sur le service aux personnes handicapées -->
@@ -229,15 +234,12 @@
 					<aui:input type="hidden" name="accessForDisabledValidatorInputHelper" value="placeholder"/>
 				</div>	
 						
-					
 				<div class="checkbox">
-				
-					<aui:input name="accessForBlind" type="toggle-switch" value="${not empty dc.place ? dc.place.accessForBlind : false}" />
-					<aui:input name="accessForDeaf" type="toggle-switch" value="${not empty dc.place ? dc.place.accessForDeaf : false}" />
-					<aui:input name="accessForWheelchair" type="toggle-switch" value="${not empty dc.place ? dc.place.accessForWheelchair : false}" />
-					<aui:input name="accessForElder" type="toggle-switch" value="${not empty dc.place ? dc.place.accessForElder : false}" />
-					<aui:input name="accessForDeficient" type="toggle-switch" value="${not empty dc.place ? dc.place.accessForDeficient : false}" />
-					
+					<aui:input name="accessForBlind" type="checkbox" value="${dc.place.accessForBlind}" helpMessage="acces-for-disabled-help" />
+					<aui:input name="accessForDeaf" type="checkbox" value="${dc.place.accessForDeaf}" helpMessage="acces-for-disabled-help" />
+					<aui:input name="accessForWheelchair" type="checkbox" value="${dc.place.accessForWheelchair}" helpMessage="acces-for-disabled-help" />
+					<aui:input name="accessForElder" type="checkbox" value="${dc.place.accessForElder}" helpMessage="acces-for-disabled-help" />
+					<aui:input name="accessForDeficient" type="checkbox" value="${dc.place.accessForDeficient}" helpMessage="acces-for-disabled-help" />
 				</div>
 				
 			</aui:fieldset>
@@ -308,6 +310,15 @@
 					</div>
 					
 				</aui:fieldset>
+				
+				<!-- Horaires particuliers -->
+				<div class="schedule-exception">
+					<aui:input name="exceptionalSchedule" label="exceptional-schedule" />
+					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
+					<div class="has-error">
+						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
+					</div>
+				</div>	
 					
 				<!-- Fermetures exceptionnelles -->
 				<aui:fieldset collapsed="false" collapsible="true"
@@ -327,13 +338,15 @@
 						<c:forEach items="${dc.place.scheduleExceptions}" var="scheduleException" varStatus="status">
 							<div class="lfr-form-row lfr-form-row-inline">
 								<div class="row-fields">
-									<fmt:formatDate value="${scheduleException.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
+									<fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+									<fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="${status.count}" />
 										<liferay-util:param name="startHour" value="${scheduleException.startHour}" />
 										<liferay-util:param name="endHour" value="${scheduleException.endHour}" />
 										<liferay-util:param name="comment" value="${scheduleException.comment}" />
-										<liferay-util:param name="date" value="${formattedDate}" />
+										<liferay-util:param name="startDate" value="${formattedStartDate}" />
+										<liferay-util:param name="endDate" value="${formattedEndDate}" />
 										<liferay-util:param name="closed" value="${scheduleException.closed}" />
 									</liferay-util:include>
 								</div>

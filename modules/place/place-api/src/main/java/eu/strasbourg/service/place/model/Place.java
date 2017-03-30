@@ -86,6 +86,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions();
 
 	/**
+	* Retourne les PublicHolidays du lieu
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays();
+
+	/**
 	* Renvoie la liste des IDs des ScheduleExceptions auxquelles ce lieu
 	* appartient sous forme de String
 	*/
@@ -121,4 +126,52 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne la ville
 	*/
 	public java.lang.String getCity(java.util.Locale locale);
+
+	/**
+	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();
+
+	/**
+	* Retourne le quartier
+	*/
+	public java.lang.String getDistrict(java.util.Locale locale);
+
+	/**
+	* Retourne la catégorie Territoire correspondant au quartier du lieu
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory();
+
+	/**
+	* Retourne la liste des URL publiques des images additionnelles
+	*/
+	public java.util.List<java.lang.String> getImagesURLs();
+
+	/**
+	* Retourne la liste des URL des documents de ce lieu
+	*/
+	public java.util.List<java.lang.String> getDocumentURLs();
+
+	/**
+	* Retourne true si l'événement est accessible pour au moins un type de
+	* handicap
+	*/
+	public boolean hasAnyAccessForDisabled();
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+		java.util.Date dateJour);
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine);
+
+	/**
+	* Retourne la version JSON du lieu
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

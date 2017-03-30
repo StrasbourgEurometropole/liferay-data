@@ -20,13 +20,18 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.PeriodModel;
@@ -37,7 +42,10 @@ import java.sql.Types;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The base model implementation for the Period service. Represents a row in the &quot;place_Period&quot; database table, with each column mapped to a property of this class.
@@ -90,7 +98,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name VARCHAR(400) null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel VARCHAR(75) null,linkURL VARCHAR(400) null,alwaysOpen BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Period";
 	public static final String ORDER_BY_JPQL = " ORDER BY period.periodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Period.periodId ASC";
@@ -281,8 +289,91 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	}
 
 	@Override
+	public String getName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getName(languageId);
+	}
+
+	@Override
+	public String getName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getName(languageId, useDefault);
+	}
+
+	@Override
+	public String getName(String languageId) {
+		return LocalizationUtil.getLocalization(getName(), languageId);
+	}
+
+	@Override
+	public String getName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getName(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getNameCurrentLanguageId() {
+		return _nameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getNameCurrentValue() {
+		Locale locale = getLocale(_nameCurrentLanguageId);
+
+		return getName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getNameMap() {
+		return LocalizationUtil.getLocalizationMap(getName());
+	}
+
+	@Override
 	public void setName(String name) {
 		_name = name;
+	}
+
+	@Override
+	public void setName(String name, Locale locale) {
+		setName(name, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setName(String name, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(name)) {
+			setName(LocalizationUtil.updateLocalization(getName(), "Name",
+					name, languageId, defaultLanguageId));
+		}
+		else {
+			setName(LocalizationUtil.removeLocalization(getName(), "Name",
+					languageId));
+		}
+	}
+
+	@Override
+	public void setNameCurrentLanguageId(String languageId) {
+		_nameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setNameMap(Map<Locale, String> nameMap) {
+		setNameMap(nameMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale) {
+		if (nameMap == null) {
+			return;
+		}
+
+		setName(LocalizationUtil.updateLocalization(nameMap, getName(), "Name",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -326,8 +417,94 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	}
 
 	@Override
+	public String getLinkLabel(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLinkLabel(languageId);
+	}
+
+	@Override
+	public String getLinkLabel(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLinkLabel(languageId, useDefault);
+	}
+
+	@Override
+	public String getLinkLabel(String languageId) {
+		return LocalizationUtil.getLocalization(getLinkLabel(), languageId);
+	}
+
+	@Override
+	public String getLinkLabel(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getLinkLabel(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getLinkLabelCurrentLanguageId() {
+		return _linkLabelCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getLinkLabelCurrentValue() {
+		Locale locale = getLocale(_linkLabelCurrentLanguageId);
+
+		return getLinkLabel(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getLinkLabelMap() {
+		return LocalizationUtil.getLocalizationMap(getLinkLabel());
+	}
+
+	@Override
 	public void setLinkLabel(String linkLabel) {
 		_linkLabel = linkLabel;
+	}
+
+	@Override
+	public void setLinkLabel(String linkLabel, Locale locale) {
+		setLinkLabel(linkLabel, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLinkLabel(String linkLabel, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(linkLabel)) {
+			setLinkLabel(LocalizationUtil.updateLocalization(getLinkLabel(),
+					"LinkLabel", linkLabel, languageId, defaultLanguageId));
+		}
+		else {
+			setLinkLabel(LocalizationUtil.removeLocalization(getLinkLabel(),
+					"LinkLabel", languageId));
+		}
+	}
+
+	@Override
+	public void setLinkLabelCurrentLanguageId(String languageId) {
+		_linkLabelCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setLinkLabelMap(Map<Locale, String> linkLabelMap) {
+		setLinkLabelMap(linkLabelMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLinkLabelMap(Map<Locale, String> linkLabelMap,
+		Locale defaultLocale) {
+		if (linkLabelMap == null) {
+			return;
+		}
+
+		setLinkLabel(LocalizationUtil.updateLocalization(linkLabelMap,
+				getLinkLabel(), "LinkLabel",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -341,8 +518,92 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	}
 
 	@Override
+	public String getLinkURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLinkURL(languageId);
+	}
+
+	@Override
+	public String getLinkURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLinkURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getLinkURL(String languageId) {
+		return LocalizationUtil.getLocalization(getLinkURL(), languageId);
+	}
+
+	@Override
+	public String getLinkURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getLinkURL(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getLinkURLCurrentLanguageId() {
+		return _linkURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getLinkURLCurrentValue() {
+		Locale locale = getLocale(_linkURLCurrentLanguageId);
+
+		return getLinkURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getLinkURLMap() {
+		return LocalizationUtil.getLocalizationMap(getLinkURL());
+	}
+
+	@Override
 	public void setLinkURL(String linkURL) {
 		_linkURL = linkURL;
+	}
+
+	@Override
+	public void setLinkURL(String linkURL, Locale locale) {
+		setLinkURL(linkURL, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLinkURL(String linkURL, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(linkURL)) {
+			setLinkURL(LocalizationUtil.updateLocalization(getLinkURL(),
+					"LinkURL", linkURL, languageId, defaultLanguageId));
+		}
+		else {
+			setLinkURL(LocalizationUtil.removeLocalization(getLinkURL(),
+					"LinkURL", languageId));
+		}
+	}
+
+	@Override
+	public void setLinkURLCurrentLanguageId(String languageId) {
+		_linkURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setLinkURLMap(Map<Locale, String> linkURLMap) {
+		setLinkURLMap(linkURLMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLinkURLMap(Map<Locale, String> linkURLMap,
+		Locale defaultLocale) {
+		if (linkURLMap == null) {
+			return;
+		}
+
+		setLinkURL(LocalizationUtil.updateLocalization(linkURLMap,
+				getLinkURL(), "LinkURL", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -414,6 +675,108 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> nameMap = getNameMap();
+
+		for (Map.Entry<Locale, String> entry : nameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> linkLabelMap = getLinkLabelMap();
+
+		for (Map.Entry<Locale, String> entry : linkLabelMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> linkURLMap = getLinkURLMap();
+
+		for (Map.Entry<Locale, String> entry : linkURLMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getName();
+
+		if (xml == null) {
+			return StringPool.BLANK;
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(Period.class.getName(),
+				getPrimaryKey(), defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String name = getName(defaultLocale);
+
+		if (Validator.isNull(name)) {
+			setName(getName(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setName(getName(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String linkLabel = getLinkLabel(defaultLocale);
+
+		if (Validator.isNull(linkLabel)) {
+			setLinkLabel(getLinkLabel(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setLinkLabel(getLinkLabel(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String linkURL = getLinkURL(defaultLocale);
+
+		if (Validator.isNull(linkURL)) {
+			setLinkURL(getLinkURL(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setLinkURL(getLinkURL(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -680,11 +1043,14 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	private String _originalUuid;
 	private long _periodId;
 	private String _name;
+	private String _nameCurrentLanguageId;
 	private Boolean _defaultPeriod;
 	private Date _startDate;
 	private Date _endDate;
 	private String _linkLabel;
+	private String _linkLabelCurrentLanguageId;
 	private String _linkURL;
+	private String _linkURLCurrentLanguageId;
 	private Boolean _alwaysOpen;
 	private long _placeId;
 	private long _originalPlaceId;

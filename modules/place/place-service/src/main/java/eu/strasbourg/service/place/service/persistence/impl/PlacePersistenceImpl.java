@@ -3170,6 +3170,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setImageIds(place.getImageIds());
 		placeImpl.setVideosIds(place.getVideosIds());
 		placeImpl.setPriceId(place.getPriceId());
+		placeImpl.setDocumentsIds(place.getDocumentsIds());
 
 		return placeImpl;
 	}

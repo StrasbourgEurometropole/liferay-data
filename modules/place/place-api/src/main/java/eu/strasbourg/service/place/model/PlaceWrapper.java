@@ -115,6 +115,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
 		attributes.put("priceId", getPriceId());
+		attributes.put("documentsIds", getDocumentsIds());
 
 		return attributes;
 	}
@@ -463,6 +464,12 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		if (priceId != null) {
 			setPriceId(priceId);
 		}
+
+		String documentsIds = (String)attributes.get("documentsIds");
+
+		if (documentsIds != null) {
+			setDocumentsIds(documentsIds);
+		}
 	}
 
 	/**
@@ -493,6 +500,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public boolean getSubjectToPublicHoliday() {
 		return _place.getSubjectToPublicHoliday();
+	}
+
+	/**
+	* Retourne true si l'événement est accessible pour au moins un type de
+	* handicap
+	*/
+	@Override
+	public boolean hasAnyAccessForDisabled() {
+		return _place.hasAnyAccessForDisabled();
 	}
 
 	/**
@@ -621,6 +637,22 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getCityCategory() {
+		return _place.getCityCategory();
+	}
+
+	/**
+	* Retourne la catégorie Territoire correspondant au quartier du lieu
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory() {
+		return _place.getDistrictCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -631,6 +663,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _place.getExpandoBridge();
+	}
+
+	/**
+	* Retourne la version JSON du lieu
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _place.toJSON();
 	}
 
 	@Override
@@ -1205,6 +1245,24 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
+	}
+
+	/**
+	* Retourne le quartier
+	*/
+	@Override
+	public java.lang.String getDistrict(java.util.Locale locale) {
+		return _place.getDistrict(locale);
+	}
+
+	/**
+	* Returns the documents IDs of this place.
+	*
+	* @return the documents IDs of this place
+	*/
+	@Override
+	public java.lang.String getDocumentsIds() {
+		return _place.getDocumentsIds();
 	}
 
 	/**
@@ -1942,11 +2000,44 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne la liste des URL des documents de ce lieu
+	*/
+	@Override
+	public java.util.List<java.lang.String> getDocumentURLs() {
+		return _place.getDocumentURLs();
+	}
+
+	/**
+	* Retourne la liste des URL publiques des images additionnelles
+	*/
+	@Override
+	public java.util.List<java.lang.String> getImagesURLs() {
+		return _place.getImagesURLs();
+	}
+
+	/**
 	* Retourne les Periods du lieux
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods() {
 		return _place.getPeriods();
+	}
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine) {
+		return _place.getPlaceSchedule(jourSemaine);
+	}
+
+	/**
+	* Retourne les PublicHolidays du lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays() {
+		return _place.getPublicHolidays();
 	}
 
 	/**
@@ -2069,6 +2160,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getFacebookURLMap() {
 		return _place.getFacebookURLMap();
+	}
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+		Date dateJour) {
+		return _place.getHoraire(dateJour);
 	}
 
 	/**
@@ -2765,6 +2865,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setDisplayEvents(boolean displayEvents) {
 		_place.setDisplayEvents(displayEvents);
+	}
+
+	/**
+	* Sets the documents IDs of this place.
+	*
+	* @param documentsIds the documents IDs of this place
+	*/
+	@Override
+	public void setDocumentsIds(java.lang.String documentsIds) {
+		_place.setDocumentsIds(documentsIds);
 	}
 
 	/**

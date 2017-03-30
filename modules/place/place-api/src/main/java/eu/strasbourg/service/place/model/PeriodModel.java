@@ -19,13 +19,17 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The base model interface for the Period service. Represents a row in the &quot;place_Period&quot; database table, with each column mapped to a property of this class.
@@ -41,7 +45,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface PeriodModel extends BaseModel<Period> {
+public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -96,8 +100,58 @@ public interface PeriodModel extends BaseModel<Period> {
 	 *
 	 * @return the name of this period
 	 */
-	@AutoEscape
 	public String getName();
+
+	/**
+	 * Returns the localized name of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized name of this period
+	 */
+	@AutoEscape
+	public String getName(Locale locale);
+
+	/**
+	 * Returns the localized name of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getName(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized name of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized name of this period
+	 */
+	@AutoEscape
+	public String getName(String languageId);
+
+	/**
+	 * Returns the localized name of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this period
+	 */
+	@AutoEscape
+	public String getName(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getNameCurrentLanguageId();
+
+	@AutoEscape
+	public String getNameCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized names of this period.
+	 *
+	 * @return the locales and localized names of this period
+	 */
+	public Map<Locale, String> getNameMap();
 
 	/**
 	 * Sets the name of this period.
@@ -105,6 +159,40 @@ public interface PeriodModel extends BaseModel<Period> {
 	 * @param name the name of this period
 	 */
 	public void setName(String name);
+
+	/**
+	 * Sets the localized name of this period in the language.
+	 *
+	 * @param name the localized name of this period
+	 * @param locale the locale of the language
+	 */
+	public void setName(String name, Locale locale);
+
+	/**
+	 * Sets the localized name of this period in the language, and sets the default locale.
+	 *
+	 * @param name the localized name of this period
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setName(String name, Locale locale, Locale defaultLocale);
+
+	public void setNameCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized names of this period from the map of locales and localized names.
+	 *
+	 * @param nameMap the locales and localized names of this period
+	 */
+	public void setNameMap(Map<Locale, String> nameMap);
+
+	/**
+	 * Sets the localized names of this period from the map of locales and localized names, and sets the default locale.
+	 *
+	 * @param nameMap the locales and localized names of this period
+	 * @param defaultLocale the default locale
+	 */
+	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale);
 
 	/**
 	 * Returns the default period of this period.
@@ -153,8 +241,58 @@ public interface PeriodModel extends BaseModel<Period> {
 	 *
 	 * @return the link label of this period
 	 */
-	@AutoEscape
 	public String getLinkLabel();
+
+	/**
+	 * Returns the localized link label of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized link label of this period
+	 */
+	@AutoEscape
+	public String getLinkLabel(Locale locale);
+
+	/**
+	 * Returns the localized link label of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link label of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getLinkLabel(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized link label of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized link label of this period
+	 */
+	@AutoEscape
+	public String getLinkLabel(String languageId);
+
+	/**
+	 * Returns the localized link label of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link label of this period
+	 */
+	@AutoEscape
+	public String getLinkLabel(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getLinkLabelCurrentLanguageId();
+
+	@AutoEscape
+	public String getLinkLabelCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized link labels of this period.
+	 *
+	 * @return the locales and localized link labels of this period
+	 */
+	public Map<Locale, String> getLinkLabelMap();
 
 	/**
 	 * Sets the link label of this period.
@@ -164,12 +302,98 @@ public interface PeriodModel extends BaseModel<Period> {
 	public void setLinkLabel(String linkLabel);
 
 	/**
+	 * Sets the localized link label of this period in the language.
+	 *
+	 * @param linkLabel the localized link label of this period
+	 * @param locale the locale of the language
+	 */
+	public void setLinkLabel(String linkLabel, Locale locale);
+
+	/**
+	 * Sets the localized link label of this period in the language, and sets the default locale.
+	 *
+	 * @param linkLabel the localized link label of this period
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setLinkLabel(String linkLabel, Locale locale,
+		Locale defaultLocale);
+
+	public void setLinkLabelCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized link labels of this period from the map of locales and localized link labels.
+	 *
+	 * @param linkLabelMap the locales and localized link labels of this period
+	 */
+	public void setLinkLabelMap(Map<Locale, String> linkLabelMap);
+
+	/**
+	 * Sets the localized link labels of this period from the map of locales and localized link labels, and sets the default locale.
+	 *
+	 * @param linkLabelMap the locales and localized link labels of this period
+	 * @param defaultLocale the default locale
+	 */
+	public void setLinkLabelMap(Map<Locale, String> linkLabelMap,
+		Locale defaultLocale);
+
+	/**
 	 * Returns the link u r l of this period.
 	 *
 	 * @return the link u r l of this period
 	 */
-	@AutoEscape
 	public String getLinkURL();
+
+	/**
+	 * Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized link u r l of this period
+	 */
+	@AutoEscape
+	public String getLinkURL(Locale locale);
+
+	/**
+	 * Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link u r l of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getLinkURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized link u r l of this period
+	 */
+	@AutoEscape
+	public String getLinkURL(String languageId);
+
+	/**
+	 * Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link u r l of this period
+	 */
+	@AutoEscape
+	public String getLinkURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getLinkURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getLinkURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized link u r ls of this period.
+	 *
+	 * @return the locales and localized link u r ls of this period
+	 */
+	public Map<Locale, String> getLinkURLMap();
 
 	/**
 	 * Sets the link u r l of this period.
@@ -177,6 +401,41 @@ public interface PeriodModel extends BaseModel<Period> {
 	 * @param linkURL the link u r l of this period
 	 */
 	public void setLinkURL(String linkURL);
+
+	/**
+	 * Sets the localized link u r l of this period in the language.
+	 *
+	 * @param linkURL the localized link u r l of this period
+	 * @param locale the locale of the language
+	 */
+	public void setLinkURL(String linkURL, Locale locale);
+
+	/**
+	 * Sets the localized link u r l of this period in the language, and sets the default locale.
+	 *
+	 * @param linkURL the localized link u r l of this period
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setLinkURL(String linkURL, Locale locale, Locale defaultLocale);
+
+	public void setLinkURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized link u r ls of this period from the map of locales and localized link u r ls.
+	 *
+	 * @param linkURLMap the locales and localized link u r ls of this period
+	 */
+	public void setLinkURLMap(Map<Locale, String> linkURLMap);
+
+	/**
+	 * Sets the localized link u r ls of this period from the map of locales and localized link u r ls, and sets the default locale.
+	 *
+	 * @param linkURLMap the locales and localized link u r ls of this period
+	 * @param defaultLocale the default locale
+	 */
+	public void setLinkURLMap(Map<Locale, String> linkURLMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the always open of this period.
@@ -252,6 +511,19 @@ public interface PeriodModel extends BaseModel<Period> {
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public Object clone();

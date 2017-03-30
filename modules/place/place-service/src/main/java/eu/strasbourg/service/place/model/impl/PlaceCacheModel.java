@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(113);
+		StringBundler sb = new StringBundler(115);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -179,6 +179,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(videosIds);
 		sb.append(", priceId=");
 		sb.append(priceId);
+		sb.append(", documentsIds=");
+		sb.append(documentsIds);
 		sb.append("}");
 
 		return sb.toString();
@@ -467,6 +469,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 		placeImpl.setPriceId(priceId);
 
+		if (documentsIds == null) {
+			placeImpl.setDocumentsIds(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setDocumentsIds(documentsIds);
+		}
+
 		placeImpl.resetOriginalValues();
 
 		return placeImpl;
@@ -550,6 +559,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		videosIds = objectInput.readUTF();
 
 		priceId = objectInput.readLong();
+		documentsIds = objectInput.readUTF();
 	}
 
 	@Override
@@ -824,6 +834,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 
 		objectOutput.writeLong(priceId);
+
+		if (documentsIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(documentsIds);
+		}
 	}
 
 	public String uuid;
@@ -882,4 +899,5 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String imageIds;
 	public String videosIds;
 	public long priceId;
+	public String documentsIds;
 }

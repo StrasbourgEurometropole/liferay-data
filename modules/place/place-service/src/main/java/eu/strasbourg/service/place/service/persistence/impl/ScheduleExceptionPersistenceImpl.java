@@ -1951,7 +1951,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 		scheduleExceptionImpl.setUuid(scheduleException.getUuid());
 		scheduleExceptionImpl.setExceptionId(scheduleException.getExceptionId());
-		scheduleExceptionImpl.setDate(scheduleException.getDate());
+		scheduleExceptionImpl.setStartDate(scheduleException.getStartDate());
+		scheduleExceptionImpl.setEndDate(scheduleException.getEndDate());
 		scheduleExceptionImpl.setStartHour(scheduleException.getStartHour());
 		scheduleExceptionImpl.setEndHour(scheduleException.getEndHour());
 		scheduleExceptionImpl.setComment(scheduleException.getComment());
@@ -2380,6 +2381,6 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ScheduleException exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(ScheduleExceptionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "date", "comment"
+				"uuid", "comment"
 			});
 }

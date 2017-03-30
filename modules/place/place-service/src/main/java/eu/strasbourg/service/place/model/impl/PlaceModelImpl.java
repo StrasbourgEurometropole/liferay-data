@@ -135,7 +135,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "imageId", Types.BIGINT },
 			{ "imageIds", Types.VARCHAR },
 			{ "videosIds", Types.VARCHAR },
-			{ "priceId", Types.BIGINT }
+			{ "priceId", Types.BIGINT },
+			{ "documentsIds", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -196,9 +197,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("priceId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTExternalId VARCHAR(75) null,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,imageId LONG,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTExternalId VARCHAR(75) null,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -290,6 +292,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setImageIds(soapModel.getImageIds());
 		model.setVideosIds(soapModel.getVideosIds());
 		model.setPriceId(soapModel.getPriceId());
+		model.setDocumentsIds(soapModel.getDocumentsIds());
 
 		return model;
 	}
@@ -410,6 +413,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
 		attributes.put("priceId", getPriceId());
+		attributes.put("documentsIds", getDocumentsIds());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -760,6 +764,12 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (priceId != null) {
 			setPriceId(priceId);
+		}
+
+		String documentsIds = (String)attributes.get("documentsIds");
+
+		if (documentsIds != null) {
+			setDocumentsIds(documentsIds);
 		}
 	}
 
@@ -2786,6 +2796,22 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		return _originalPriceId;
 	}
 
+	@JSON
+	@Override
+	public String getDocumentsIds() {
+		if (_documentsIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _documentsIds;
+		}
+	}
+
+	@Override
+	public void setDocumentsIds(String documentsIds) {
+		_documentsIds = documentsIds;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -3276,6 +3302,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setImageIds(getImageIds());
 		placeImpl.setVideosIds(getVideosIds());
 		placeImpl.setPriceId(getPriceId());
+		placeImpl.setDocumentsIds(getDocumentsIds());
 
 		placeImpl.resetOriginalValues();
 
@@ -3699,12 +3726,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeCacheModel.priceId = getPriceId();
 
+		placeCacheModel.documentsIds = getDocumentsIds();
+
+		String documentsIds = placeCacheModel.documentsIds;
+
+		if ((documentsIds != null) && (documentsIds.length() == 0)) {
+			placeCacheModel.documentsIds = null;
+		}
+
 		return placeCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(113);
+		StringBundler sb = new StringBundler(115);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3818,6 +3853,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getVideosIds());
 		sb.append(", priceId=");
 		sb.append(getPriceId());
+		sb.append(", documentsIds=");
+		sb.append(getDocumentsIds());
 		sb.append("}");
 
 		return sb.toString();
@@ -3825,7 +3862,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(172);
+		StringBundler sb = new StringBundler(175);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4055,6 +4092,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			"<column><column-name>priceId</column-name><column-value><![CDATA[");
 		sb.append(getPriceId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>documentsIds</column-name><column-value><![CDATA[");
+		sb.append(getDocumentsIds());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -4143,6 +4184,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private long _priceId;
 	private long _originalPriceId;
 	private boolean _setOriginalPriceId;
+	private String _documentsIds;
 	private long _columnBitmask;
 	private Place _escapedModel;
 }

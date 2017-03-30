@@ -147,13 +147,15 @@
 						<c:forEach items="${dc.subPlace.scheduleExceptions}" var="scheduleException" varStatus="status">
 							<div class="lfr-form-row lfr-form-row-inline">
 								<div class="row-fields">
-									<fmt:formatDate value="${scheduleException.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
+									<fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+									<fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="${status.count}" />
 										<liferay-util:param name="startHour" value="${scheduleException.startHour}" />
 										<liferay-util:param name="endHour" value="${scheduleException.endHour}" />
 										<liferay-util:param name="comment" value="${scheduleException.comment}" />
-										<liferay-util:param name="date" value="${formattedDate}" />
+										<liferay-util:param name="startDate" value="${formattedStartDate}" />
+										<liferay-util:param name="endDate" value="${formattedEndDate}" />
 										<liferay-util:param name="closed" value="${scheduleException.closed}" />
 									</liferay-util:include>
 								</div>

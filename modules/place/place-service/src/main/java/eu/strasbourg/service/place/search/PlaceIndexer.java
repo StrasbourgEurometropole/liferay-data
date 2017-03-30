@@ -78,7 +78,8 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 
 			// On ajoute les données de service et activité, tarif, nom et description des
 			// sous-lieux d'un lieu dans la map présentation
-			String description = place.getPresentation(locale);
+			String description = place.getSIGid();
+			description += place.getPresentation(locale);
 			description += place.getServiceAndActivities(locale);
 			if (place.getPrice() != null) {
 				description += place.getPrice().getPrice(locale);

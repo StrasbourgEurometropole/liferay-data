@@ -58,4 +58,9 @@ public interface Period extends PeriodModel, PersistedModel {
 	* Retourne les Slots de la période
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots();
+
+	/**
+	* Retourne la version JSON de la période
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }
