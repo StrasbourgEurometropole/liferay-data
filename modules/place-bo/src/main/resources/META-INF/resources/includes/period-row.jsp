@@ -1,30 +1,41 @@
 <%@ include file="/place-bo-init.jsp"%>
 
-<div class="period-label" onCLick="$('.period-content' + ${param.index}).toggle();"><label><liferay-ui:message key="period" /> ${param.index}</label></div>
+<div class="period-label" id="${param.index}" onCLick="$('.period-content' + ${param.index}).toggle();"><label><liferay-ui:message key="period" /> ${param.index}</label></div>
 <div class="period-content${param.index}" >
-	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}"  >
-			<aui:validator name="required"
-				errorMessage="this-field-is-required" />
-	</aui:input>
+		
+	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}" localized="true" type="text" />
+	<div class="place-period-name" style="display: none">
+		<liferay-ui:message key="this-field-is-required" />
+	</div>	
 				
-	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}"  >
-		<aui:validator name="required"
-			errorMessage="site-label-is-required" />
-	</aui:input>
+	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}" localized="true" type="text"  />
+	<div class="place-period-label" style="display: none">
+		<liferay-ui:message key="this-field-is-required" />
+	</div>
 				
-	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}"  >
+	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}" localized="true" type="text"  >
 	 	<aui:validator name="url"/>
-								<aui:validator name="required"
-									errorMessage="site-url-is-required" />
 	</aui:input>
+	<div class="place-period-url" style="display: none">
+		<liferay-ui:message key="this-field-is-required" />
+	</div>
 				
 	<aui:input name="defaultPeriod${param.index}" label="default-period" type="toggle-switch" 
-	value="${not empty param ? param.defaultPeriod : false}" onClick="affichageDates(this, ${param.index})" />
+		value="${not empty param ? param.defaultPeriod : false}" onClick="affichageDates(this, ${param.index})" />
+	<div class="place-period-default" style="display: none">
+		<liferay-ui:message key="can-not-checked" />
+	</div>
 	
 	<div class="dates${param.index}" <c:if test="${not empty param and param.defaultPeriod }">style="display: none;"</c:if>>
 		<aui:input type="date" name="startDatePeriod${param.index}" label="start-date" value="${param.startDate}" />
+		<div class="place-period-start-date" style="display: none">
+			<liferay-ui:message key="this-field-is-required" />
+		</div>
 		
 		<aui:input type="date" name="endDatePeriod${param.index}" label="end-date" value="${param.endDate}" />
+		<div class="place-period-end-date" style="display: none">
+			<liferay-ui:message key="this-field-is-required" />
+		</div>
 	</div>
 				
 	<aui:input name="alwaysOpen${param.index}" label="always-open" type="toggle-switch" 
