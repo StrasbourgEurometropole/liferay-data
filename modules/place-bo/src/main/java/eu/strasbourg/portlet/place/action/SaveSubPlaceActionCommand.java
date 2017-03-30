@@ -102,12 +102,16 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 				if (Validator.isNotNull(periodsIndex)
 						&& Validator.isNotNull(ParamUtil.getString(request,
 								"namePeriod" + periodsIndex))) {
-					String namePeriod = ParamUtil.getString(request,
-							"namePeriod" + periodsIndex);
-					String periodLabel = ParamUtil.getString(request,
-							"periodLabel" + periodsIndex);
-					String periodURL = ParamUtil.getString(request,
-							"periodURL" + periodsIndex);
+
+					Map<Locale, String> namePeriod = LocalizationUtil
+							.getLocalizationMap(request,
+									"namePeriod" + periodsIndex);
+					Map<Locale, String> periodLabel = LocalizationUtil
+							.getLocalizationMap(request,
+									"periodLabel" + periodsIndex);
+					Map<Locale, String> periodURL = LocalizationUtil
+							.getLocalizationMap(request,
+									"periodURL" + periodsIndex);
 					boolean defaultPeriod = ParamUtil.getBoolean(request,
 							"defaultPeriod" + periodsIndex);
 					Date startDatePeriod = ParamUtil.getDate(request,
@@ -120,9 +124,9 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 							"alwaysOpen" + periodsIndex);
 
 					Period period = _periodLocalService.createPeriod(sc);
-					period.setName(namePeriod);
-					period.setLinkLabel(periodLabel);
-					period.setLinkURL(periodURL);
+					period.setNameMap(namePeriod);
+					period.setLinkLabelMap(periodLabel);
+					period.setLinkURLMap(periodURL);
 					period.setDefaultPeriod(defaultPeriod);
 					if(!period.getDefaultPeriod()){
 						period.setStartDate(startDatePeriod);
@@ -192,19 +196,23 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 							"startHour" + shedulesExceptionsIndex);
 					String endHour = ParamUtil.getString(request,
 							"endHour" + shedulesExceptionsIndex);
-					String comment = ParamUtil.getString(request,
-							"scheduleExceptionDescription"
+					Map<Locale, String> comment = LocalizationUtil
+							.getLocalizationMap(request, "scheduleExceptionDescription"
 									+ shedulesExceptionsIndex);
-					Date date = ParamUtil.getDate(request,
-							"dateScheduleException" + shedulesExceptionsIndex,
+					Date startDate = ParamUtil.getDate(request,
+							"startDateScheduleException" + shedulesExceptionsIndex,
+							new SimpleDateFormat("yyyy-MM-dd"));
+					Date endDate = ParamUtil.getDate(request,
+							"endDateScheduleException" + shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean closed = ParamUtil.getBoolean(request,
 							"closed" + shedulesExceptionsIndex);
 
 					ScheduleException scheduleException = _scheduleExceptionLocalService
 							.createScheduleException(sc);
-					scheduleException.setComment(comment);
-					scheduleException.setDate(date);
+					scheduleException.setCommentMap(comment);
+					scheduleException.setStartDate(startDate);
+					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);
 					if(!scheduleException.getClosed()){
 						scheduleException.setStartHour(startHour);
