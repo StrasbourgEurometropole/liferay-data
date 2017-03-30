@@ -113,7 +113,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 						try {
 							int ligne = 1;
 
-							// Récupération du vocabulaire Type Lieu
+							// Récupération du vocabulaire Territoire
 							AssetVocabulary vocabulary = AssetVocabularyHelper
 									.getGlobalVocabulary("Territoire");
 
@@ -134,7 +134,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 											&& !nom.equals("")) {
 
 										// Récupération des catégories du
-										// vocabulaire Type Lieu
+										// vocabulaire Territoire
 										List<AssetCategory> categories = vocabulary
 												.getCategories();
 
@@ -404,7 +404,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithPlainText("no-reply@strasbourg.eu",
+			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
 					mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);
