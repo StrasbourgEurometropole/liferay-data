@@ -13,7 +13,7 @@
 			<aui:input name="selectionIds" type="hidden" value="${param.selectionIds}" />
 			<aui:input name="statusId" type="hidden" value="${param.statusId}" />
 			<aui:input name="newStatus" type="hidden" value="${param.newStatus}" />
-			<aui:fieldset collapsed="false" collapsible="true" label="status-change">
+			<aui:fieldset collapsed="false" collapsible="false" label="status-change">
 				<aui:input type="text" name="comment" />
 			</aui:fieldset>
 
@@ -22,7 +22,9 @@
 
 		<aui:button-row>
 			<aui:button cssClass="btn-lg" type="submit" name="submit" value="submit" />
-			<aui:button cssClass="btn-lg" href="${eventsCampaignURL}" type="cancel" value="${empty param.statusId ? 'cancel' : 'no-comment'}" />
+			<c:if test="${empty param.statusId}">
+				<aui:button cssClass="btn-lg" href="${eventsCampaignURL}" type="cancel" value="cancel" />
+			</c:if>
 		</aui:button-row>
 	</aui:form>
 </div>

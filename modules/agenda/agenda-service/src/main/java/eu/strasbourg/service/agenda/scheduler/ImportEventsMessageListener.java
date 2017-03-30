@@ -22,7 +22,7 @@ public class ImportEventsMessageListener
 	protected void activate() {
 		// Tous les jours à 4h
 		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 4 * * *"));
+			getEventListenerClass(), getEventListenerClass(), "0 0 4 1/1 * ? *"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
 	}

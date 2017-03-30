@@ -15,6 +15,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
@@ -31,10 +32,10 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	protected String _keywords;
 	protected SearchContainer<T> _searchContainer;
 	protected List<AssetVocabulary> _vocabularies;
-
 	private final Class<T> tClass;
 
-	public ViewListBaseDisplayContext(Class<T> tClass, RenderRequest request, RenderResponse response) {
+	public ViewListBaseDisplayContext(Class<T> tClass, RenderRequest request,
+		RenderResponse response) {
 		super(request, response);
 		this.tClass = tClass;
 	}
@@ -65,7 +66,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		}
 		return _searchContainer;
 	}
-	
+
 	/**
 	 * Retourne les Hits de recherche
 	 */
@@ -79,21 +80,20 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		String keywords = ParamUtil.getString(servletRequest, "keywords");
 		Hits hits = SearchHelper.getBOSearchHits(searchContext,
 			this.getSearchContainer().getStart(),
-			this.getSearchContainer().getEnd(), tClass.getName(),
-			groupId,
+			this.getSearchContainer().getEnd(), tClass.getName(), groupId,
 			this.getFilterCategoriesIds(), keywords,
 			this.getOrderByColSearchField(),
 			"desc".equals(this.getOrderByType()));
 
 		// Total
 		int count = (int) SearchHelper.getBOSearchCount(searchContext,
-			tClass.getName(), this._themeDisplay.getCompanyGroupId(),
+			tClass.getName(), groupId,
 			this.getFilterCategoriesIds(), keywords);
 		this.getSearchContainer().setTotal(count);
-		
+
 		return hits;
 	}
-	
+
 	/**
 	 * Retourne les mots clés de recherche saisis
 	 */
@@ -106,15 +106,18 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 
 	/**
 	 * Renvoie la colonne sur laquelle on fait le tri
+	 * 
 	 * @return
 	 */
 	public String getOrderByCol() {
 		return ParamUtil.getString(this._request, "orderByCol",
 			"modified-date");
 	}
-	
+
 	/**
-	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour ElasticSearch
+	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour
+	 * ElasticSearch
+	 * 
 	 * @return
 	 */
 	public String getOrderByColSearchField() {
@@ -131,7 +134,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 			return "modified_sortable";
 		}
 	}
-	
+
 	/**
 	 * Retourne le type de tri (desc ou asc)
 	 */
@@ -141,6 +144,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 
 	/**
 	 * Retourne la liste des colonnes sur lesquelles on peut faire le tri
+	 * 
 	 * @return
 	 */
 	public String[] getOrderColumns() {
@@ -200,7 +204,9 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 				return category.getName();
 			}
 		}
-		return vocabulary.getName();
+		String filterByLabel = LanguageUtil.get(this._themeDisplay.getLocale(),
+			"filter-by");
+		return filterByLabel + " " + vocabulary.getName();
 	}
 
 	public List<AssetVocabulary> getGlobalVocabularies() {

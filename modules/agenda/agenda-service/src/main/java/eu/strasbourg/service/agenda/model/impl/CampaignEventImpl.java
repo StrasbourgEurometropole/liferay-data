@@ -305,7 +305,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("delete-subject-template.ftl", "delete-template.ftl",
+			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl",
 				context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
@@ -514,7 +514,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		} else {
 			// Lieu manuel
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", this.getPlaceName());
+			jsonPlace.put("name",
+				JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			if (Validator.isNotNull(this.getPlaceStreetNumber())) {
 				jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			}
@@ -542,6 +543,10 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		if (Validator.isNotNull(this.getWebsiteURL())) {
 			jsonEvent.put("websiteURL",
 				JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+		}
+		if (Validator.isNotNull(this.getWebsiteName())) {
+			jsonEvent.put("websiteName",
+				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
 		}
 
 		// Tarifs

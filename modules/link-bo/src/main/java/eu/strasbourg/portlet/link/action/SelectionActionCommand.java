@@ -45,13 +45,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 				case "publish":
 					if (tab.equals("links")) {
 						Link link = _linkLocalService.getLink(entryId);
-						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_DRAFT);
+						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("links")) {
 						Link link = _linkLocalService.getLink(entryId);
-						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_APPROVED);
+						_linkLocalService.updateStatus(link, WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}

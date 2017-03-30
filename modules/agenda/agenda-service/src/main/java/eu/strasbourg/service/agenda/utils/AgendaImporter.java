@@ -491,14 +491,13 @@ public class AgendaImporter {
 			reportLine.error("pas de copyright d'image");
 		}
 		String placeSIGId = jsonEvent.getString("placeSIGId");
+		boolean isManualPlace = false;
 		if (Validator.isNull(placeSIGId)) {
 			JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 			if (jsonPlace == null) {
 				reportLine.error("lieu manquant");
 			} else {
-				if (Validator.isNull(jsonPlace.getString("name"))) {
-					reportLine.error("nom du lieu manquant");
-				}
+				isManualPlace = true;
 				if (Validator.isNull(jsonPlace.getString("city"))) {
 					reportLine.error("ville du lieu manquante");
 				}
@@ -522,6 +521,15 @@ public class AgendaImporter {
 		JSONObject jsonDescription = jsonEvent.getJSONObject("description");
 		if (!JSONHelper.validateI18nField(jsonDescription, locales)) {
 			reportLine.error("pas de description ou langue manquante");
+		}
+		if (isManualPlace) {
+			JSONObject jsonPlace = jsonEvent.getJSONObject("place");
+			if (jsonPlace != null) {
+				JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
+				if (!JSONHelper.validateI18nField(jsonPlaceName, locales)) {
+					reportLine.error("pas de nom de lieu ou langue manquante");
+				}
+			}
 		}
 
 		// Validation des périodes
@@ -696,26 +704,39 @@ public class AgendaImporter {
 				event.setAccessForDeficient(false);
 			} else {
 				JSONObject jsonPlace = jsonEvent.getJSONObject("place");
-				event.setPlaceName(jsonPlace.getString("name"));
 				event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));
 				event.setPlaceStreetName(jsonPlace.getString("streetName"));
 				event.setPlaceCity(jsonPlace.getString("city"));
 				event.setPlaceCountry(jsonPlace.getString("country"));
 				event.setPlaceZipCode(jsonPlace.getString("zipCode"));
+
+				JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
 				JSONObject jsonPlaceAccess = jsonPlace.getJSONObject("access");
 				JSONObject jsonPlaceAccessForDisabled = jsonPlace
 					.getJSONObject("accessForDisabled");
 				for (Locale locale : locales) {
-					String placeAccess = jsonPlaceAccess
-						.getString(locale.toString());
-					if (Validator.isNotNull(placeAccess)) {
-						event.setAccess(placeAccess, locale);
+					if (jsonPlaceName != null) {
+						String placeName = jsonPlaceName
+							.getString(locale.toString());
+						if (Validator.isNotNull(placeName)) {
+							event.setPlaceName(placeName, locale);
+						}
 					}
-					String placeAccessForDisabled = jsonPlaceAccessForDisabled
-						.getString(locale.toString());
-					if (Validator.isNotNull(placeAccessForDisabled)) {
-						event.setAccessForDisabled(placeAccessForDisabled,
-							locale);
+					if (jsonPlaceAccess != null) {
+						String placeAccess = jsonPlaceAccess
+							.getString(locale.toString());
+						if (Validator.isNotNull(placeAccess)) {
+							event.setAccess(placeAccess, locale);
+						}
+					}
+					if (jsonPlaceAccessForDisabled != null) {
+
+						String placeAccessForDisabled = jsonPlaceAccessForDisabled
+							.getString(locale.toString());
+						if (Validator.isNotNull(placeAccessForDisabled)) {
+							event.setAccessForDisabled(placeAccessForDisabled,
+								locale);
+						}
 					}
 				}
 				event.setAccessForBlind(jsonPlace.getBoolean("accessForBlind"));

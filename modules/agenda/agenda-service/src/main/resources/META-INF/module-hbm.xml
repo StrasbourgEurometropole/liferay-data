@@ -70,6 +70,7 @@
 		<property name="publicPhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="websiteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="websiteName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="free" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="campaignId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

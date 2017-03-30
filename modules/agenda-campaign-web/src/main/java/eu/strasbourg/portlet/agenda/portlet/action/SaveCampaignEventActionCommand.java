@@ -27,6 +27,8 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -37,14 +39,21 @@ import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.ListType;
+import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.ListTypeLocalServiceUtil;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
@@ -98,13 +107,26 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			// Nom, prénom, téléphone, mail
 			String lastName = ParamUtil.getString(request, "lastName");
 			String firstName = ParamUtil.getString(request, "firstName");
-			String phone = ParamUtil.getString(request, "phone");
+			String phoneNumber = ParamUtil.getString(request, "phone");
 			String email = ParamUtil.getString(request, "email");
 			campaignEvent.setLastName(lastName);
 			campaignEvent.setFirstName(firstName);
-			campaignEvent.setPhone(phone);
+			campaignEvent.setPhone(phoneNumber);
 			campaignEvent.setEmail(email);
-			// TODO : enregistrer téléphone dans utilisateur si n'existe pas
+
+			// Enregistrement du numéro de téléphone si l'utilisateur n'en a pas
+			// encore
+			if (user.getPhones().size() == 0) {
+				List<ListType> listTypes = ListTypeLocalServiceUtil
+					.getListTypes(
+						Contact.class.getName() + ListTypeConstants.PHONE);
+				if (listTypes.size() > 0) {
+					PhoneLocalServiceUtil.addPhone(user.getUserId(),
+						Contact.class.getName(), user.getContactId(),
+						phoneNumber, "", listTypes.get(0).getListTypeId(), true,
+						sc);
+				}
+			}
 
 			// Service
 			Long serviceId = ParamUtil.getLong(request, "serviceId");
@@ -157,7 +179,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"", imageBytes, sc);
 				campaignEvent.setImageId(fileEntry.getFileEntryId());
 			}
-			
+
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(webImage);
@@ -166,11 +188,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
 					sc.getUserId(), folder.getRepositoryId(),
 					folder.getFolderId(), webImage.getName(),
-					MimeTypesUtil.getContentType(webImage), webImage.getName(), "",
-					"", imageBytes, sc);
+					MimeTypesUtil.getContentType(webImage), webImage.getName(),
+					"", "", imageBytes, sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
 			}
-
 
 			String imageOwner = ParamUtil.getString(request, "imageOwner");
 			campaignEvent.setImageOwner(imageOwner);
@@ -193,8 +214,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			} else {
 				campaignEvent.setPlaceSIGId("");
 
-				String placeName = ParamUtil.getString(request, "placeName");
-				campaignEvent.setPlaceName(placeName);
+				Map<Locale, String> placeName = LocalizationUtil
+					.getLocalizationMap(request, "placeName");
+				campaignEvent.setPlaceNameMap(placeName);
 
 				String placeStreetNumber = ParamUtil.getString(request,
 					"placeStreetNumber");
@@ -216,7 +238,6 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				campaignEvent.setPlaceCountry(placeCountry);
 			}
 
-
 			/**
 			 * Informations de contact public
 			 */
@@ -226,11 +247,14 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			String publicEmail = ParamUtil.getString(request, "publicEmail");
 			Map<Locale, String> websiteURL = LocalizationUtil
 				.getLocalizationMap(request, "websiteURL");
+			Map<Locale, String> websiteName = LocalizationUtil
+				.getLocalizationMap(request, "websiteName");
 
 			campaignEvent.setPromoter(promoter);
 			campaignEvent.setPublicPhone(publicPhone);
 			campaignEvent.setPublicEmail(publicEmail);
 			campaignEvent.setWebsiteURLMap(websiteURL);
+			campaignEvent.setWebsiteNameMap(websiteName);
 
 			/**
 			 * Dates et horaires
@@ -265,9 +289,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					eventPeriod.setEndDate(endDate);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(0);
-					eventPeriod.setCampaignEventId(campaignEvent.getCampaignEventId());
-					this.eventPeriodLocalService
-						.updateEventPeriod(eventPeriod);
+					eventPeriod
+						.setCampaignEventId(campaignEvent.getCampaignEventId());
+					this.eventPeriodLocalService.updateEventPeriod(eventPeriod);
 				}
 			}
 
@@ -279,7 +303,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setFree(free);
 
 			// Tarifs
-			Map<Locale, String> price = LocalizationUtil.getLocalizationMap(request, "price");
+			Map<Locale, String> price = LocalizationUtil
+				.getLocalizationMap(request, "price");
 			campaignEvent.setPriceMap(price);
 
 			/**
@@ -298,9 +323,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setPublicsIds(StringUtil.merge(publicsIds));
 
 			// Gestion du statut
+			CampaignEventStatus status;
 			if (isNewStatus) {
 				// Création du premier statut
-				CampaignEventStatus status = campaignEvent
+				status = campaignEvent
 					.updateStatus(WorkflowConstants.STATUS_DRAFT, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
@@ -308,28 +334,49 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				// Création du statut (au cas où l'utilisateur ne laisse pas de
 				// commentaire)
 				int newStatus = ParamUtil.getInteger(request, "newStatus", -2);
-				CampaignEventStatus status = campaignEvent
+				status = campaignEvent
 					.updateStatus(newStatus, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
 
-				// Redirection vers la page d'update de statut uniquement si le
-				// statut cible n'est pas brouillon
-				if (newStatus != WorkflowConstants.STATUS_DRAFT) {
-					response.setRenderParameter("mvcPath",
-						"/campaign-update-status.jsp");
-
-					// On passe l'id du statut en paramètre car la page pour
-					// laisser
-					// un commentaire doit modifier le statut existant et pas en
-					// ajouter un
-					response.setRenderParameter("statusId",
-						String.valueOf(status.getStatusId()));
+				// On envoie un mail si le statut est une demande de validation,
+				// une validation ou une demande de suppression
+				int[] statuses = { WorkflowConstants.STATUS_PENDING,
+					WorkflowConstants.STATUS_APPROVED,
+					WorkflowConstants.STATUS_IN_TRASH };
+				if (ArrayUtil.contains(statuses, newStatus)) {
+					campaignEvent.sendStatusMail();
 				}
 			}
 
 			// Modification de l'événement
 			campaignEventLocalService.updateCampaignEvent(campaignEvent);
+
+			// Redirection (évite double
+			// requête POST si l'utilisateur actualise sa page)
+			String portletName = (String) request
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+
+			// Redirection vers la page d'update de statut uniquement si le
+			// statut cible n'est pas brouillon
+			if (campaignEvent.getStatus() != WorkflowConstants.STATUS_DRAFT) {
+				renderUrl.setParameter("mvcPath",
+					"/campaign-update-status.jsp");
+
+				// On passe l'id du statut en paramètre car la page pour
+				// laisser
+				// un commentaire doit modifier le statut existant et pas en
+				// ajouter un
+				renderUrl.setParameter("statusId",
+					String.valueOf(status.getStatusId()));
+				renderUrl.setParameter("campaignEventId",
+					String.valueOf(campaignEvent.getCampaignEventId()));
+			}
+
+			response.sendRedirect(renderUrl.toString());
 		} catch (PortalException | IOException e) {
 			_log.error(e);
 		}

@@ -31,7 +31,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="placeId" type="hidden" />
 
-			<!-- Informations géographique -->
+			<!-- Informations gÃ©ographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
 				
@@ -150,20 +150,20 @@
 				</div>
 				
 				<aui:input name="serviceAndActivities"   />
-				<!-- Hack pour ajouter une validation sur les services et activités -->
+				<!-- Hack pour ajouter une validation sur les services et activitÃ©s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="serviceAndActivitiesValidatorInputHelper" value="placeholder" />
 				</div>
 				
 				<aui:input name="characteristics"   />
-				<!-- Hack pour ajouter une validation sur les caractéristiques -->
+				<!-- Hack pour ajouter une validation sur les caractÃ©ristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
 				
 			</aui:fieldset>
 				
-			<!-- Médias -->
+			<!-- MÃ©dias -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
@@ -210,12 +210,12 @@
 
 			</aui:fieldset>
 				
-			<!-- Accès -->
+			<!-- AccÃ¨s -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
 				<aui:input name="access" label="access-mod" />
-				<!-- Hack pour ajouter une validation sur le mode d'accès -->
+				<!-- Hack pour ajouter une validation sur le mode d'accÃ¨s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessValidatorInputHelper" value="placeholder"/>
 				</div>		
@@ -224,7 +224,7 @@
 					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" />
 				
 				<aui:input name="accessForDisabled"  />
-				<!-- Hack pour ajouter une validation sur le service aux personnes handicapées -->
+				<!-- Hack pour ajouter une validation sur le service aux personnes handicapÃ©es -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessForDisabledValidatorInputHelper" value="placeholder"/>
 				</div>	
@@ -246,7 +246,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- Périodes & horaires -->
+				<!-- PÃ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 				
@@ -351,21 +351,21 @@
 					
 			</aui:fieldset>
 				
-			<!-- Informations complémentaires -->
+			<!-- Informations complÃ©mentaires -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
 				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : false}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
-				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
+				<!-- Hack pour ajouter une validation sur les inforrmations complÃ©mentaires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="additionalInformationValidatorInputHelper" value="placeholder"/>
 				</div>	
 				
 			</aui:fieldset>
 				
-			<!-- Fréquentation temps réel -->
+			<!-- FrÃ©quentation temps rÃ©el -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="attendance">
 				
@@ -419,7 +419,7 @@
 				</c:if>
 				<c:if test="${not dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" name="publish"
-							value="publish" />
+							value="eu.publish" />
 					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
 							value="save-as-draft" />
 				</c:if>

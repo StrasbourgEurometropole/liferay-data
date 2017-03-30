@@ -112,6 +112,36 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editVideoURL}" name="title" truncate="true"
 					orderable="true" value="${video.titleCurrentValue}" />
+					
+				<liferay-ui:search-container-column-text
+					cssClass="content-column table-cell-content" name="eu.video.provider">
+					<c:forEach var="provider" items="${video.providers}" varStatus="status">
+						<c:if test="${status.index gt 0}">
+						 - 
+						</c:if>
+						${provider.getTitle(locale)}
+					</c:forEach>
+				</liferay-ui:search-container-column-text>
+				
+				<liferay-ui:search-container-column-text
+					cssClass="content-column table-cell-content" name="themes">
+					<c:forEach var="theme" items="${video.themes}" varStatus="status">
+						<c:if test="${status.index gt 0}">
+						 - 
+						</c:if>
+						${theme.getTitle(locale)}
+					</c:forEach>
+				</liferay-ui:search-container-column-text>
+				
+				<liferay-ui:search-container-column-text
+					cssClass="content-column table-cell-content" name="galleries">
+					<c:forEach var="gallery" items="${video.videoGalleries}" varStatus="status">
+						<c:if test="${status.index gt 0}">
+						 - 
+						</c:if>
+						${gallery.getTitle(locale)}
+					</c:forEach>
+				</liferay-ui:search-container-column-text>
 
 				<fmt:formatDate value="${video.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />

@@ -3,17 +3,19 @@ package eu.strasbourg.portlet.agenda.portlet.action;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -37,7 +39,14 @@ public class UpdateCampaignEventStatusActionCommand
 
 		try {
 			doProcessAction(actionRequest, actionResponse);
-
+			ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
+				.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) actionRequest
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			actionResponse.sendRedirect(renderUrl.toString());
 			return SessionErrors.isEmpty(actionRequest);
 		} catch (PortletException pe) {
 			throw pe;
@@ -96,12 +105,10 @@ public class UpdateCampaignEventStatusActionCommand
 					.updateCampaignEventStatus(status);
 			}
 			if (status != null) {
-				if (status.getDeletionDenied() == true
-					&& Validator.isNotNull(status.getComment())) {
+				if (status.getDeletionDenied() == true) {
 					event.sendDeletionDeniedMail();
-				} else if (!status.getDeletionDenied()
-					&& (status.getStatus() != WorkflowConstants.STATUS_DENIED
-						|| Validator.isNotNull(status.getComment()))) {
+				} else if (statusId == 0
+					|| status.getStatus() == WorkflowConstants.STATUS_DENIED) {
 					event.sendStatusMail();
 				}
 			}

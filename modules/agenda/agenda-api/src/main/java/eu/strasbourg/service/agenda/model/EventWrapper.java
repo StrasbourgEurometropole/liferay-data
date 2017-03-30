@@ -991,6 +991,64 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the localized place name of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized place name of this event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.lang.String languageId) {
+		return _event.getPlaceName(languageId);
+	}
+
+	/**
+	* Returns the localized place name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized place name of this event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getPlaceName(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized place name of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized place name of this event
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.util.Locale locale) {
+		return _event.getPlaceName(locale);
+	}
+
+	/**
+	* Returns the localized place name of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized place name of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getPlaceName(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getPlaceName(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getPlaceNameCurrentLanguageId() {
+		return _event.getPlaceNameCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getPlaceNameCurrentValue() {
+		return _event.getPlaceNameCurrentValue();
+	}
+
+	/**
 	* Returns the place s i g ID of this event.
 	*
 	* @return the place s i g ID of this event
@@ -1652,6 +1710,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns a map of the locales and localized place names of this event.
+	*
+	* @return the locales and localized place names of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getPlaceNameMap() {
+		return _event.getPlaceNameMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized prices of this event.
 	*
 	* @return the locales and localized prices of this event
@@ -2225,6 +2293,59 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setPlaceName(java.lang.String placeName) {
 		_event.setPlaceName(placeName);
+	}
+
+	/**
+	* Sets the localized place name of this event in the language.
+	*
+	* @param placeName the localized place name of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setPlaceName(java.lang.String placeName, java.util.Locale locale) {
+		_event.setPlaceName(placeName, locale);
+	}
+
+	/**
+	* Sets the localized place name of this event in the language, and sets the default locale.
+	*
+	* @param placeName the localized place name of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPlaceName(java.lang.String placeName,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setPlaceName(placeName, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPlaceNameCurrentLanguageId(java.lang.String languageId) {
+		_event.setPlaceNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized place names of this event from the map of locales and localized place names.
+	*
+	* @param placeNameMap the locales and localized place names of this event
+	*/
+	@Override
+	public void setPlaceNameMap(
+		Map<java.util.Locale, java.lang.String> placeNameMap) {
+		_event.setPlaceNameMap(placeNameMap);
+	}
+
+	/**
+	* Sets the localized place names of this event from the map of locales and localized place names, and sets the default locale.
+	*
+	* @param placeNameMap the locales and localized place names of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPlaceNameMap(
+		Map<java.util.Locale, java.lang.String> placeNameMap,
+		java.util.Locale defaultLocale) {
+		_event.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
