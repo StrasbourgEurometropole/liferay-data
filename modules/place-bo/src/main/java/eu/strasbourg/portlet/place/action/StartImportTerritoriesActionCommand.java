@@ -106,7 +106,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine[1]
+					if (chaine.length == 3 && chaine[1]
 							.equals("Identifiant_Parent_Categorie_Territoire")
 							&& chaine[2].equals("Nom_Categorie_Territoire")) {
 

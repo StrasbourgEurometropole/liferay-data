@@ -81,7 +81,6 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 		try {
 			sc = ServiceContextFactory.getInstance(request);
-			sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 
 			ThemeDisplay td = (ThemeDisplay) request
 					.getAttribute(WebKeys.THEME_DISPLAY);
@@ -121,7 +120,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine[0].equals("Identifiant_Lieu_SIG")
+					if (chaine.length == 14  && chaine[0].equals("Identifiant_Lieu_SIG")
 							&& chaine[1].equals("Alias_Lieu_SIG")
 							&& chaine[2].equals("Identifiant_Categorie_SIG")
 							&& chaine[3].equals("Complement_Adresse")
@@ -227,13 +226,21 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 											if (place == null) {
 												sc.setWorkflowAction(
-														WorkflowConstants.ACTION_PUBLISH);
+														WorkflowConstants.ACTION_SAVE_DRAFT);
 												place = this._placeLocalService
 														.createPlace(sc);
 												place.setAliasMap(
 														LocalizationUtil
 																.getLocalizationMap(
 																		alias));
+											} else {
+												if (place.isApproved()) {
+													sc.setWorkflowAction(
+															WorkflowConstants.ACTION_PUBLISH);
+												} else {
+													sc.setWorkflowAction(
+															WorkflowConstants.ACTION_SAVE_DRAFT);
+												}
 											}
 											place.setSIGid(idSIG);
 											place.setName(alias);
