@@ -313,7 +313,7 @@
 				
 				<!-- Horaires particuliers -->
 				<div class="schedule-exception">
-					<aui:input name="exceptionalSchedule" label="exceptional-schedule" />
+					<aui:input name="exceptionalSchedule" label="exceptionals-schedules" />
 					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
 					<div class="has-error">
 						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>

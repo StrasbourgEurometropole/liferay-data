@@ -30,11 +30,11 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="subPlaceId" type="hidden" />
 
-			<!-- Informations gÃ©nÃ©rale -->
+			<!-- Informations générale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
-				<aui:input name="name">
+				<aui:input name="name" label="name-subplace">
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
@@ -66,7 +66,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- PÃ©riodes & horaires -->
+				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 				
