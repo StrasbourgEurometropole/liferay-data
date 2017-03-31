@@ -30,7 +30,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="subPlaceId" type="hidden" />
 
-			<!-- Informations générale -->
+			<!-- Informations gÃ©nÃ©rale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
@@ -39,7 +39,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="description" />
+				<aui:input name="description" label="description-subplace" />
 				<!-- Hack pour ajouter une validation sur la description -->
 				<div class="has-error">
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
@@ -66,7 +66,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- Périodes & horaires -->
+				<!-- PÃ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 				

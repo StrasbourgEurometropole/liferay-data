@@ -28,17 +28,17 @@
 	</div>
 </div>
 			
-<aui:input name="scheduleExceptionDescription${param.index}" label="description" value="${param.comment}" localized="true" type="textarea"  />
+<aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="textarea"  />
 <div class="place-schedule-description" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
 
-<aui:input type="date" name="startDateScheduleException${param.index}" label="start-date" value="${param.startDate}" />
+<aui:input type="date" name="startDateScheduleException${param.index}" label="start-date-schedule" value="${param.startDate}" />
 <div class="place-schedule-start-date" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
 
-<aui:input type="date" name="endDateScheduleException${param.index}" label="end-date" value="${param.endDate}" />
+<aui:input type="date" name="endDateScheduleException${param.index}" label="end-date-schedule" value="${param.endDate}" />
 <div class="place-schedule-end-date" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
