@@ -53,14 +53,14 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("places")) {
 						Place place = _placeLocalService.getPlace(entryId);
 						_placeLocalService.updateStatus(place,
-								WorkflowConstants.STATUS_DRAFT);
+								WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("places")) {
 						Place place = _placeLocalService.getPlace(entryId);
 						_placeLocalService.updateStatus(place,
-								WorkflowConstants.STATUS_APPROVED);
+								WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}
