@@ -227,13 +227,19 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 											if (place == null) {
 												sc.setWorkflowAction(
-														WorkflowConstants.ACTION_PUBLISH);
+														WorkflowConstants.ACTION_SAVE_DRAFT);
 												place = this._placeLocalService
 														.createPlace(sc);
 												place.setAliasMap(
 														LocalizationUtil
 																.getLocalizationMap(
 																		alias));
+											} else {
+												if (place.isApproved()) {
+													sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+												} else {
+													sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);													
+												}
 											}
 											place.setSIGid(idSIG);
 											place.setName(alias);
