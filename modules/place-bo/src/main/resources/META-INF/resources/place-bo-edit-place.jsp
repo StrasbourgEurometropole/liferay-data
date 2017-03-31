@@ -193,14 +193,16 @@
 							<aui:validator name="email"/>
 						</aui:input>
 						
-						<aui:input name="siteLabel" >
-							<aui:validator name="required" errorMessage="this-field-is-required" />
-						</aui:input>
-						
-						<aui:input name="siteURL" >
-						 	<aui:validator name="url"/>
-							<aui:validator name="required" errorMessage="this-field-is-required" />
-						</aui:input>
+						<div id="site">
+							<aui:input name="siteLabel" >
+								<aui:validator name="required" errorMessage="this-field-is-required" />
+							</aui:input>
+							
+							<aui:input name="siteURL" >
+							 	<aui:validator name="url"/>
+								<aui:validator name="required" errorMessage="this-field-is-required" />
+							</aui:input>
+						</div>
 						
 						<aui:input name="facebookLabel" >
 					        <aui:validator name="require" errorMessage="this-field-is-required" />
@@ -213,7 +215,7 @@
 
 			</aui:fieldset>
 				
-			<!-- AccÃÂ¨s -->
+			<!-- Accés -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
