@@ -226,7 +226,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu
 	 */
@@ -245,7 +245,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		return null;
 	}
 
-
 	/**
 	 * Retourne le quartier
 	 */
@@ -257,7 +256,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Retourne la catégorie Territoire correspondant au quartier du lieu
 	 */
@@ -519,37 +518,37 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (Validator.isNotNull(this.getAddressComplement())) {
 			jsonPlace.put("complement", this.getAddressComplement());
 		}
-		
+
 		// Code postal
 		jsonPlace.put("zipCode", this.getAddressZipCode());
-		
+
 		// Quartier
 		AssetCategory districtCategory = this.getDistrictCategory();
 		if (districtCategory != null) {
-			String SIGId = AssetVocabularyHelper
-					.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
+			String SIGId = AssetVocabularyHelper.getCategoryProperty(
+					districtCategory.getCategoryId(), "SIG");
 			jsonPlace.put("districtCode", SIGId);
 		}
-		
+
 		// Ville
 		AssetCategory cityCategory = this.getCityCategory();
 		if (cityCategory != null) {
 			String SIGId = AssetVocabularyHelper
 					.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
 			jsonPlace.put("cityCode", SIGId);
-		}	
-		
+		}
+
 		jsonPlace.put("city", this.getCity(Locale.getDefault()));
-		
+
 		// Pays
 		jsonPlace.put("country", this.getAddressCountry());
-		
+
 		// Coordonnées
 		jsonPlace.put("RGF93Y", this.getRGF93Y());
 		jsonPlace.put("RGF93X", this.getRGF93X());
 		jsonPlace.put("mercatorY", this.getMercatorY());
 		jsonPlace.put("mercatorX", this.getMercatorX());
-		
+
 		// Types
 		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory assetCategory : this.getTypes()) {
@@ -563,13 +562,13 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// Description
 		jsonPlace.put("description",
 				JSONHelper.getJSONFromI18nMap(this.getPresentationMap()));
-		
+
 		// Services et activités
 		if (Validator.isNotNull(this.getServiceAndActivities())) {
 			jsonPlace.put("serviceAndActivities", JSONHelper
 					.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
 		}
-		
+
 		// Caractéristiques
 		if (Validator.isNotNull(this.getCharacteristics())) {
 			jsonPlace.put("characteristics", JSONHelper
@@ -582,7 +581,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jsonPlace.put("price", JSONHelper
 					.getJSONFromI18nMap(this.getPrice().getPriceMap()));
 		}
-		
+
 		// Mail
 		if (Validator.isNotNull(this.getMail())) {
 			jsonPlace.put("mail", this.getMail());
@@ -590,7 +589,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (Validator.isNotNull(this.getPhone())) {
 			jsonPlace.put("phone", this.getPhone());
 		}
-		
+
 		// Facebook
 		if (Validator.isNotNull(this.getFacebookLabel())) {
 			jsonPlace.put("facebookName",
@@ -598,7 +597,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jsonPlace.put("facebookURL",
 					JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
 		}
-		
+
 		// Site
 		if (Validator.isNotNull(this.getSiteLabel())) {
 			jsonPlace.put("websiteName",
@@ -617,12 +616,10 @@ public class PlaceImpl extends PlaceBaseImpl {
 					.getJSONFromI18nMap(this.getAccessForDisabledMap()));
 		}
 		jsonPlace.put("accessForBlind", this.getAccessForBlind());
-		jsonPlace.put("accessForWheelchair",
-				this.getAccessForWheelchair());
+		jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
 		jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 		jsonPlace.put("accessForElder", this.getAccessForElder());
-		jsonPlace.put("accessForDeficient",
-				this.getAccessForDeficient());
+		jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
 
 		// Horaires et périodes
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
@@ -647,6 +644,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 					.getJSONFromI18nMap(this.getExceptionalScheduleMap()));
 		}
 
+		// Information complémentaire
+		if (Validator.isNotNull(this.getAdditionalInformation())) {
+			jsonPlace.put("additionalInformation", JSONHelper
+					.getJSONFromI18nMap(this.getAdditionalInformationMap()));
+		}
+
 		// URL du lieu
 		jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL()
 				+ "/-/entity/id/" + this.getPlaceId());
@@ -655,11 +658,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (Validator.isNotNull(this.getImageURL())) {
 			String imageURL = this.getImageURL();
 			imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-			jsonPlace.put("imageURL",imageURL );
+			jsonPlace.put("imageURL", imageURL);
 			jsonPlace.put("imageCopyright",
 					this.getImageCopyright(Locale.getDefault()));
 		}
-		
+
 		// Images secondaires
 		JSONArray imagesJSON = JSONFactoryUtil.createJSONArray();
 		for (String imageIdString : this.getImageIds().split(",")) {
@@ -668,7 +671,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 			if (imageId > 0) {
 				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
 				imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-				String imageCopyright = FileEntryHelper.getImageCopyright(imageId, LocaleUtil.FRENCH);
+				String imageCopyright = FileEntryHelper
+						.getImageCopyright(imageId, LocaleUtil.FRENCH);
 				imageJSON.put("imageURL", imageURL);
 				imageJSON.put("imageCopyright", imageCopyright);
 				imagesJSON.put(imageJSON);
@@ -677,20 +681,20 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (imagesJSON.length() > 0) {
 			jsonPlace.put("images", imagesJSON);
 		}
-		
+
 		// Vidéos
 		JSONArray videosJSON = JSONFactoryUtil.createJSONArray();
 		for (String videoIdString : this.getVideosIds().split(",")) {
 			Long videoId = GetterUtil.getLong(videoIdString);
 			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
 			if (Validator.isNotNull(video)) {
-				videosJSON.put(video.getSource());	
+				videosJSON.put(video.getSource());
 			}
 		}
 		if (videosJSON.length() > 0) {
 			jsonPlace.put("videos", videosJSON);
 		}
-		
+
 		// Documents
 		JSONArray documentsJSON = JSONFactoryUtil.createJSONArray();
 		for (String documentURL : this.getDocumentURLs()) {

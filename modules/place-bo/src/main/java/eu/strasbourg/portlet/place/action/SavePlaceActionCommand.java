@@ -326,7 +326,10 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 								"scheduleExceptionDescription"
 										+ shedulesExceptionsIndex))
 						&& Validator.isNotNull(ParamUtil.getString(request,
-								"dateScheduleException"
+								"startDateScheduleException"
+										+ shedulesExceptionsIndex))
+						&& Validator.isNotNull(ParamUtil.getString(request,
+								"endDateScheduleException"
 										+ shedulesExceptionsIndex))) {
 					String startHour = ParamUtil.getString(request,
 							"startHour" + shedulesExceptionsIndex);

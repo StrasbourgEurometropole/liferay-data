@@ -106,7 +106,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine[0].equals("Identifiant_Categories_SIG")
+					if (chaine.length == 3 && chaine[0].equals("Identifiant_Categories_SIG")
 							&& chaine[1].equals(
 									"Identifiant_Parent_Categories_SIG")) {
 

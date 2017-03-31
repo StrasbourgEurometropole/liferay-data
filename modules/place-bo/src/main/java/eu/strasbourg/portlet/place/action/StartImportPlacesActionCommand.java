@@ -59,9 +59,11 @@ import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-@Component(immediate = true, property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
-		"mvc.command.name=startImportPlaces" }, service = MVCActionCommand.class)
+@Component(
+	immediate = true,
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
+		"mvc.command.name=startImportPlaces" },
+	service = MVCActionCommand.class)
 public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
@@ -77,14 +79,13 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
-			throws PortletException {
+		throws PortletException {
 
 		try {
 			sc = ServiceContextFactory.getInstance(request);
-			sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 
 			ThemeDisplay td = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
+				.getAttribute(WebKeys.THEME_DISPLAY);
 			sc.setScopeGroupId(td.getCompanyGroupId());
 			sc.setUserId(td.getUserId());
 		} catch (PortalException e) {
@@ -92,7 +93,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		}
 
 		UploadPortletRequest uploadRequest = PortalUtil
-				.getUploadPortletRequest(request);
+			.getUploadPortletRequest(request);
 		placesFile = uploadRequest.getFile("places-file");
 		_log.info("Start import");
 
@@ -121,20 +122,20 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine[0].equals("Identifiant_Lieu_SIG")
-							&& chaine[1].equals("Alias_Lieu_SIG")
-							&& chaine[2].equals("Identifiant_Categorie_SIG")
-							&& chaine[3].equals("Complement_Adresse")
-							&& chaine[4].equals("Voie")
-							&& chaine[5].equals("Mentions_Distribution")
-							&& chaine[6].equals("Code_Postal")
-							&& chaine[7].equals("Ville")
-							&& chaine[8].equals("Pays")
-							&& chaine[9].equals("Coordonnees_SIG_Mercator_X")
-							&& chaine[10].equals("Coordonnees_SIG_Mercator_Y")
-							&& chaine[11].equals("Coordonnees_SIG_RGF93_X")
-							&& chaine[12].equals("Coordonnees_SIG_RGF93_Y")
-							&& chaine[13].equals("Identifiant_Territoire")) {
+					if (chaine.length == 14
+						&& chaine[0].equals("Identifiant_Lieu_SIG")
+						&& chaine[1].equals("Alias_Lieu_SIG")
+						&& chaine[2].equals("Identifiant_Categorie_SIG")
+						&& chaine[3].equals("Complement_Adresse")
+						&& chaine[4].equals("Voie")
+						&& chaine[5].equals("Mentions_Distribution")
+						&& chaine[6].equals("Code_Postal")
+						&& chaine[7].equals("Ville") && chaine[8].equals("Pays")
+						&& chaine[9].equals("Coordonnees_SIG_Mercator_X")
+						&& chaine[10].equals("Coordonnees_SIG_Mercator_Y")
+						&& chaine[11].equals("Coordonnees_SIG_RGF93_X")
+						&& chaine[12].equals("Coordonnees_SIG_RGF93_Y")
+						&& chaine[13].equals("Identifiant_Territoire")) {
 
 						try {
 
@@ -142,43 +143,39 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 							// Récupération du vocabulaire Type Lieu
 							AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper
-									.getGlobalVocabulary("Type de lieu");
+								.getGlobalVocabulary("Type de lieu");
 
 							// Récupération des catégories du
 							// vocabulaire
 							// Type de Lieu
 							List<AssetCategory> categoriesTypeLieu = vocabularyTypeLieu
-									.getCategories();
+								.getCategories();
 							Map<String, Long> listTypeLieu = new HashMap<String, Long>();
 							for (AssetCategory category : categoriesTypeLieu) {
 								listTypeLieu.put(
-										AssetVocabularyHelper
-												.getCategoryProperty(
-														category.getCategoryId(),
-														"SIG"),
-										category.getCategoryId());
+									AssetVocabularyHelper.getCategoryProperty(
+										category.getCategoryId(), "SIG"),
+									category.getCategoryId());
 							}
 
 							// Récupération du vocabulaire Territoire
 							AssetVocabulary vocabularyTerritoire = AssetVocabularyHelper
-									.getGlobalVocabulary("Territoire");
+								.getGlobalVocabulary("Territoire");
 
 							// Récupération des catégories du
 							// vocabulaire Territoire
 							List<AssetCategory> categoriesTerritoire = vocabularyTerritoire
-									.getCategories();
+								.getCategories();
 							Map<String, Long> SIGId_categoryIdMap = new HashMap<String, Long>();
 							for (AssetCategory category : categoriesTerritoire) {
 								SIGId_categoryIdMap.put(
-										AssetVocabularyHelper
-												.getCategoryProperty(
-														category.getCategoryId(),
-														"SIG"),
-										category.getCategoryId());
+									AssetVocabularyHelper.getCategoryProperty(
+										category.getCategoryId(), "SIG"),
+									category.getCategoryId());
 							}
 
 							for (line = br.readLine(); line != null; line = br
-									.readLine()) {
+								.readLine()) {
 								chaine = line.split(";");
 
 								ligne++;
@@ -198,56 +195,55 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								idTerritoireSIG = chaine[13].split(",");
 
 								if (!idSIG.equals("") && !alias.equals("")
-										&& idCategSIG.length > 0
-										&& !voie.equals("")
-										&& !codePostal.equals("")
-										&& !pays.equals("")
-										&& !mercatorX.equals("")
-										&& !mercatorY.equals("")
-										&& !rgf93X.equals("")
-										&& !rgf93Y.equals("")
-										&& idTerritoireSIG.length > 0) {
+									&& idCategSIG.length > 0 && !voie.equals("")
+									&& !codePostal.equals("")
+									&& !pays.equals("") && !mercatorX.equals("")
+									&& !mercatorY.equals("")
+									&& !rgf93X.equals("") && !rgf93Y.equals("")
+									&& idTerritoireSIG.length > 0) {
 
 									boolean categoryExiste = true;
 									for (String category : idCategSIG) {
 										if (listTypeLieu
-												.get(category.trim()) == null)
+											.get(category.trim()) == null)
 											categoryExiste = false;
 									}
 									if (categoryExiste) {
 										boolean territoireExiste = true;
 										for (String territoire : idTerritoireSIG) {
-											if (SIGId_categoryIdMap.get(
-													territoire.trim()) == null)
+											if (SIGId_categoryIdMap
+												.get(territoire.trim()) == null)
 												territoireExiste = false;
 										}
 										if (territoireExiste) {
 											Place place = this._placeLocalService
-													.getPlaceBySIGId(idSIG);
+												.getPlaceBySIGId(idSIG);
 
 											if (place == null) {
 												sc.setWorkflowAction(
-														WorkflowConstants.ACTION_SAVE_DRAFT);
+													WorkflowConstants.ACTION_SAVE_DRAFT);
 												place = this._placeLocalService
-														.createPlace(sc);
+													.createPlace(sc);
 												place.setAliasMap(
-														LocalizationUtil
-																.getLocalizationMap(
-																		alias));
+													LocalizationUtil
+														.getLocalizationMap(
+															alias));
 											} else {
 												if (place.isApproved()) {
-													sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+													sc.setWorkflowAction(
+														WorkflowConstants.ACTION_PUBLISH);
 												} else {
-													sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);													
+													sc.setWorkflowAction(
+														WorkflowConstants.ACTION_SAVE_DRAFT);
 												}
 											}
 											place.setSIGid(idSIG);
 											place.setName(alias);
 											place.setAddressComplement(
-													complement);
+												complement);
 											place.setAddressStreet(voie);
 											place.setAddressDistribution(
-													distribution);
+												distribution);
 											place.setAddressZipCode(codePostal);
 											place.setAddressCountry(pays);
 											place.setMercatorX(mercatorX);
@@ -262,200 +258,191 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 											if (!place.isNew()) {
 												nouveau = false;
 												assetTagNames = place
-														.getAssetEntry()
-														.getTagNames();
+													.getAssetEntry()
+													.getTagNames();
 
 												for (long assetCategoryId : place
-														.getAssetEntry()
-														.getCategoryIds()) {
+													.getAssetEntry()
+													.getCategoryIds()) {
 													AssetCategory assetCategory = AssetCategoryLocalServiceUtil
-															.getAssetCategory(
-																	assetCategoryId);
+														.getAssetCategory(
+															assetCategoryId);
 													if (assetCategory != null
-															&& assetCategory
-																	.getVocabularyId() != vocabularyTypeLieu
-																			.getVocabularyId()
-															&& assetCategory
-																	.getVocabularyId() != vocabularyTerritoire
-																			.getVocabularyId())
+														&& assetCategory
+															.getVocabularyId() != vocabularyTypeLieu
+																.getVocabularyId()
+														&& assetCategory
+															.getVocabularyId() != vocabularyTerritoire
+																.getVocabularyId())
 														listAssetCategoryId.add(
-																assetCategoryId);
+															assetCategoryId);
 												}
 											}
 											sc.setAssetTagNames(assetTagNames);
 
 											for (String category : idCategSIG) {
-												if (listTypeLieu.get(category
-														.trim()) != null)
+												if (listTypeLieu.get(
+													category.trim()) != null)
 													listAssetCategoryId
-															.add(listTypeLieu
-																	.get(category
-																			.trim())
-																	.longValue());
+														.add(listTypeLieu
+															.get(
+																category.trim())
+															.longValue());
 											}
 											for (String territorySIGId : idTerritoireSIG) {
 												if (Validator.isNotNull(
-														territorySIGId)) {
+													territorySIGId)) {
 													Long categoryId = SIGId_categoryIdMap
-															.get(territorySIGId
-																	.trim())
-															.longValue();
+														.get(territorySIGId
+															.trim())
+														.longValue();
 													listAssetCategoryId
-															.add(categoryId);
+														.add(categoryId);
 												}
 											}
 											long[] categoryIds = ArrayUtil
-													.toLongArray(
-															listAssetCategoryId);
+												.toLongArray(
+													listAssetCategoryId);
 											sc.setAssetCategoryIds(categoryIds);
 
 											try {
 												this._placeLocalService
-														.updatePlace(place, sc);
+													.updatePlace(place, sc);
 												if (nouveau) {
-													listLieuxCrees
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant SIG : "
-																	+ idSIG
-																	+ ", nom du lieu : "
-																	+ alias
-																	+ "\n");
+													listLieuxCrees.add(
+														"N° ligne : " + ligne
+															+ ", identifiant SIG : "
+															+ idSIG
+															+ ", nom du lieu : "
+															+ alias + "\n");
 													_log.info(
-															"Lieu crée => N° ligne : "
-																	+ ligne
-																	+ ", identifiant SIG : "
-																	+ idSIG
-																	+ ", nom du lieu : "
-																	+ alias);
+														"Lieu crée => N° ligne : "
+															+ ligne
+															+ ", identifiant SIG : "
+															+ idSIG
+															+ ", nom du lieu : "
+															+ alias);
 												} else {
-													listLieuxModifies
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant SIG : "
-																	+ idSIG
-																	+ ", nom du lieu : "
-																	+ alias
-																	+ "\n");
+													listLieuxModifies.add(
+														"N° ligne : " + ligne
+															+ ", identifiant SIG : "
+															+ idSIG
+															+ ", nom du lieu : "
+															+ alias + "\n");
 													_log.info(
-															"Lieu modifié => N° ligne : "
-																	+ ligne
-																	+ ", identifiant SIG : "
-																	+ idSIG
-																	+ ", nom du lieu : "
-																	+ alias);
+														"Lieu modifié => N° ligne : "
+															+ ligne
+															+ ", identifiant SIG : "
+															+ idSIG
+															+ ", nom du lieu : "
+															+ alias);
 												}
 											} catch (Exception e) {
 												e.printStackTrace();
 												resultat = "Réussi avec des erreurs";
-												listLieuxErreurs.add(
-														"N° ligne : " + ligne
-																+ ", identifiant SIG : "
-																+ idSIG
-																+ ", nom du lieu : "
-																+ alias + " => "
-																+ e.getMessage()
-																+ ".\n");
+												listLieuxErreurs
+													.add("N° ligne : " + ligne
+														+ ", identifiant SIG : "
+														+ idSIG
+														+ ", nom du lieu : "
+														+ alias + " => "
+														+ e.getMessage()
+														+ ".\n");
 												_log.info(
-														"Erreur à la création/modification du lieu => N° ligne : "
-																+ ligne
-																+ ", identifiant SIG : "
-																+ idSIG
-																+ ", nom du lieu : "
-																+ alias + " => "
-																+ e.getMessage());
+													"Erreur à la création/modification du lieu => N° ligne : "
+														+ ligne
+														+ ", identifiant SIG : "
+														+ idSIG
+														+ ", nom du lieu : "
+														+ alias + " => "
+														+ e.getMessage());
 											}
 
 										} else {
 											resultat = "Réussi avec des erreurs";
 											listLieuxErreurs.add("N° ligne : "
+												+ ligne + ", identifiant SIG : "
+												+ idSIG + ", nom du lieu : "
+												+ alias
+												+ " : Le(s) territoire(s) associé(s) à la ligne "
+												+ ligne
+												+ " n’existe(nt) pas.\n");
+											_log.info(
+												"Erreur à la création/modification du lieu => N° ligne : "
 													+ ligne
 													+ ", identifiant SIG : "
 													+ idSIG + ", nom du lieu : "
 													+ alias
-													+ " : Le(s) territoire(s) associé(s) à la ligne "
-													+ ligne
-													+ " n’existe(nt) pas.\n");
-											_log.info(
-													"Erreur à la création/modification du lieu => N° ligne : "
-															+ ligne
-															+ ", identifiant SIG : "
-															+ idSIG
-															+ ", nom du lieu : "
-															+ alias
-															+ " => Le(s) territoire(s) associé(s) à la ligne n'existe(nt) pas.");
+													+ " => Le(s) territoire(s) associé(s) à la ligne n'existe(nt) pas.");
 										}
 									} else {
 										resultat = "Réussi avec des erreurs";
 										listLieuxErreurs.add("N° ligne : "
+											+ ligne + ", identifiant SIG : "
+											+ idSIG + ", nom du lieu : " + alias
+											+ " : Le type de lieu de la ligne "
+											+ ligne + " n’existe pas.\n");
+										_log.info(
+											"Erreur à la création/modification du lieu => N° ligne : "
 												+ ligne + ", identifiant SIG : "
 												+ idSIG + ", nom du lieu : "
 												+ alias
-												+ " : Le type de lieu de la ligne "
-												+ ligne + " n’existe pas.\n");
-										_log.info(
-												"Erreur à la création/modification du lieu => N° ligne : "
-														+ ligne
-														+ ", identifiant SIG : "
-														+ idSIG
-														+ ", nom du lieu : "
-														+ alias
-														+ " => Le type de lieu de la ligne n'existe pas.");
+												+ " => Le type de lieu de la ligne n'existe pas.");
 									}
 								} else {
 									resultat = "Réussi avec des erreurs";
 									String erreur = "N° ligne : " + ligne
-											+ ", identifiant SIG : " + idSIG
-											+ ", nom du lieu : " + alias;
+										+ ", identifiant SIG : " + idSIG
+										+ ", nom du lieu : " + alias;
 									if (idSIG.equals("")) {
 										erreur += "\nLe champ Identifiant_Lieu_SIG est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (alias.equals("")) {
 										erreur += "\nLe champ Alias_Lieu_SIG est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (idCategSIG.length == 0) {
 										erreur += "\nLe champ Identifiant_Categorie_SIG est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (voie.equals("")) {
 										erreur += "\nLe champ Voie est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (codePostal.equals("")) {
 										erreur += "\nLe champ Code_Postal est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (pays.equals("")) {
 										erreur += "\nLe champ Pays est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (mercatorX.equals("")) {
 										erreur += "\nLe champ Coordonnees_SIG_Mercator_X est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (mercatorY.equals("")) {
 										erreur += "\nLe champ Coordonnees_SIG_Mercator_Y est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (rgf93X.equals("")) {
 										erreur += "\nLe champ Coordonnees_SIG_RGF93_X est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (rgf93Y.equals("")) {
 										erreur += "\nLe champ Coordonnees_SIG_RGF93_Y est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									if (idTerritoireSIG.length == 0) {
 										erreur += "\nLe champ Identifiant_Territoire est manquant à la ligne "
-												+ ligne;
+											+ ligne;
 									}
 									erreur += "\n";
 									listLieuxErreurs.add(erreur);
 									_log.info(
-											"Erreur à la création/modification du lieu => "
-													+ erreur);
+										"Erreur à la création/modification du lieu => "
+											+ erreur);
 								}
 							}
 						} catch (PortalException e) {
@@ -494,7 +481,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
 		String titre = environment + " Journal d’import des lieux - "
-				+ resultat;
+			+ resultat;
 		String corps;
 		if (resultat.equals("Erreur")) {
 			corps = "L'import du fichier ";
@@ -502,13 +489,13 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 				corps += placesFile.getName();
 			}
 			corps += " n’a pas pu être fait pour les raisons suivantes : \n"
-					+ messagesErreurs;
+				+ messagesErreurs;
 		} else {
 			String dateImport = new SimpleDateFormat("yyyy-MM-dd à HH:mm")
-					.format(new Date());
+				.format(new Date());
 			corps = "L'import du fichier " + placesFile.getName()
-					+ " a été réalisé avec succès le " + dateImport + ".\n"
-					+ "Lieux créés (" + listLieuxCrees.size() + ") :\n";
+				+ " a été réalisé avec succès le " + dateImport + ".\n"
+				+ "Lieux créés (" + listLieuxCrees.size() + ") :\n";
 			for (String lieuxCrees : listLieuxCrees) {
 				corps += lieuxCrees;
 			}
@@ -526,7 +513,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 		try {
 			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
-					mailAddresses, titre, corps);
+				mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);
 		}
