@@ -62,8 +62,8 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 	private File categoriesFile = null;
 
-	private String resultat = "Succès";
-	private String messagesErreurs = "";
+	private String resultat;
+	private String messagesErreurs;
 	private List<String> listCategoryCrees = new ArrayList<String>();
 	private List<String> listCategoryModifies = new ArrayList<String>();
 	private List<String> listCategoryErreurs = new ArrayList<String>();
@@ -74,6 +74,8 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 			throws PortletException {
 
 		try {
+			resultat = "Succès";
+			messagesErreurs = "";
 			sc = ServiceContextFactory.getInstance(request);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 

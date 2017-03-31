@@ -70,8 +70,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	private File placesFile = null;
 
-	private String resultat = "Succès";
-	private String messagesErreurs = "";
+	private String resultat;
+	private String messagesErreurs;
 	private List<String> listLieuxCrees = new ArrayList<String>();
 	private List<String> listLieuxModifies = new ArrayList<String>();
 	private List<String> listLieuxErreurs = new ArrayList<String>();
@@ -82,6 +82,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		throws PortletException {
 
 		try {
+			resultat = "Succès";
+			messagesErreurs = "";
 			sc = ServiceContextFactory.getInstance(request);
 
 			ThemeDisplay td = (ThemeDisplay) request
