@@ -215,11 +215,11 @@ public class EntityPickerTag extends IncludeTag {
 		
 		// Si l'attribut "global" est "true", on se met sur le groupe global en
 		// modifiant l'URL
+		itemSelectorURL.setParameter("multiple", _multiple);
 		String itemSelectorURLString = itemSelectorURL.toString();
 		if ("true".equals(this._global)) {	
 			itemSelectorURLString = itemSelectorURLString.replaceAll("(?<=group).*(?=~)", "/global/");
 		}
-		itemSelectorURL.setParameter("multiple", _multiple);
 		request.setAttribute("itemSelectorURL", itemSelectorURLString);
 
 	}
