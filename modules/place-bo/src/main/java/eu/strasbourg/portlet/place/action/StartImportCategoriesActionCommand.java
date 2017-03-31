@@ -385,17 +385,17 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 					.format(new Date());
 			corps = "L'import du fichier " + categoriesFile.getName()
 					+ " a été réalisé avec succès le " + dateImport + ".\n"
-					+ "Territoires créés (" + listCategoryCrees.size()
+					+ "Catégories créées (" + listCategoryCrees.size()
 					+ ") :\n";
 			for (String lieuxCrees : listCategoryCrees) {
 				corps += lieuxCrees;
 			}
-			corps += "Territoires modifiés (" + listCategoryModifies.size()
+			corps += "Catégories modifiées (" + listCategoryModifies.size()
 					+ ") :\n";
 			for (String lieuxModifies : listCategoryModifies) {
 				corps += lieuxModifies;
 			}
-			corps += "Territoires en erreur (" + listCategoryErreurs.size()
+			corps += "Catégories en erreur (" + listCategoryErreurs.size()
 					+ ") :\n";
 			for (String lieuxErreurs : listCategoryErreurs) {
 				corps += lieuxErreurs;
