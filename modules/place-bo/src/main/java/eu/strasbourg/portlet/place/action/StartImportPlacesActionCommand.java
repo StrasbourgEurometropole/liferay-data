@@ -72,9 +72,9 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	private String resultat;
 	private String messagesErreurs;
-	private List<String> listLieuxCrees = new ArrayList<String>();
-	private List<String> listLieuxModifies = new ArrayList<String>();
-	private List<String> listLieuxErreurs = new ArrayList<String>();
+	private List<String> listLieuxCrees;
+	private List<String> listLieuxModifies;
+	private List<String> listLieuxErreurs;
 	private ServiceContext sc = null;
 
 	@Override
@@ -84,6 +84,9 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		try {
 			resultat = "Succès";
 			messagesErreurs = "";
+			listLieuxCrees = new ArrayList<String>();
+			listLieuxModifies = new ArrayList<String>();
+			listLieuxErreurs = new ArrayList<String>();
 			sc = ServiceContextFactory.getInstance(request);
 
 			ThemeDisplay td = (ThemeDisplay) request

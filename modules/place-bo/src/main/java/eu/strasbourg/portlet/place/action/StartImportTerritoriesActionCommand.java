@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -93,10 +95,6 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 		_log.info("Start import");
 
-		String idTerritoire = "";
-		String idParentTerritoire = "";
-		String nom = "";
-
 		if (territoriesFile != null) {
 
 			FileReader fr = null;
@@ -108,243 +106,18 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine.length == 3 && chaine[1]
-							.equals("Identifiant_Parent_Categorie_Territoire")
+					if (chaine.length == 3
+							&& chaine[1]
+									.equals("Identifiant_Parent_Categorie_Territoire")
 							&& chaine[2].equals("Nom_Categorie_Territoire")) {
 
-						try {
-							int ligne = 1;
+						traitementFichier(br);
 
-							// Récupération du vocabulaire Territoire
-							AssetVocabulary vocabulary = AssetVocabularyHelper
-									.getGlobalVocabulary("Territoire");
-
-							if (vocabulary != null) {
-
-								for (line = br
-										.readLine(); line != null; line = br
-												.readLine()) {
-									chaine = line.split(";");
-
-									ligne++;
-
-									idTerritoire = chaine[0];
-									idParentTerritoire = chaine[1];
-									nom = chaine[2];
-
-									if (!idTerritoire.equals("")
-											&& !nom.equals("")) {
-
-										// Récupération des catégories du
-										// vocabulaire Territoire
-										List<AssetCategory> categories = vocabulary
-												.getCategories();
-
-										// Récupère la catégorie
-										AssetCategory selectCategory = null;
-										for (AssetCategory category : categories) {
-											if (AssetVocabularyHelper
-													.getCategoryProperty(
-															category.getCategoryId(),
-															"SIG")
-													.equals(idTerritoire)) {
-												selectCategory = category;
-												break;
-											}
-										}
-
-										// Récupère la catégorie parent
-										AssetCategory categoryParent = null;
-										long idParent = 0;
-										if (!idParentTerritoire.equals("")) {
-											for (AssetCategory category : categories) {
-												if (AssetVocabularyHelper
-														.getCategoryProperty(
-																category.getCategoryId(),
-																"SIG")
-														.equals(idParentTerritoire)) {
-													categoryParent = category;
-													idParent = categoryParent
-															.getCategoryId();
-													break;
-												}
-											}
-										}
-
-										if (idParentTerritoire.equals("")
-												|| categoryParent != null) {
-
-											String[] categoryProperties = {
-													"SIG:" + idTerritoire };
-
-											if (selectCategory == null) {
-
-												try {
-													_assetCategoryService
-															.addCategory(
-																	sc.getScopeGroupId(),
-																	idParent,
-																	LocalizationUtil
-																			.getLocalizationMap(
-																					nom),
-																	null,
-																	vocabulary
-																			.getVocabularyId(),
-																	categoryProperties,
-																	sc);
-
-													listCategoryCrees
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ "\n");
-													_log.info(
-															"territoire crée => N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom);
-												} catch (Exception e) {
-													resultat = "Réussi avec des erreurs";
-													listCategoryErreurs
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ " => "
-																	+ e.getMessage()
-																	+ ".\n");
-													_log.info(
-															"Erreur à la création du territoire => N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ " => "
-																	+ e.getMessage()
-																	+ ".");
-												}
-											} else {
-												try {
-													_assetCategoryService
-															.updateCategory(
-																	selectCategory
-																			.getCategoryId(),
-																	idParent,
-																	LocalizationUtil
-																			.getLocalizationMap(
-																					nom),
-																	null,
-																	vocabulary
-																			.getVocabularyId(),
-																	categoryProperties,
-																	sc);
-
-													listCategoryModifies
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ "\n");
-													_log.info(
-															"Territoire modifié => N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom);
-												} catch (Exception e) {
-													resultat = "Réussi avec des erreurs";
-													listCategoryErreurs
-															.add("N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ " => "
-																	+ e.getMessage()
-																	+ ".\n");
-													_log.info(
-															"Erreur à la modification du territoire => N° ligne : "
-																	+ ligne
-																	+ ", identifiant territoire : "
-																	+ idTerritoire
-																	+ ", nom du territoire : "
-																	+ nom
-																	+ " => "
-																	+ e.getMessage()
-																	+ ".");
-												}
-											}
-										} else {
-											resultat = "Réussi avec des erreurs";
-											listCategoryErreurs
-													.add("N° ligne : " + ligne
-															+ ", identifiant territoire : "
-															+ idTerritoire
-															+ ", nom du territoire : "
-															+ nom
-															+ " => Le parent associé à la ligne "
-															+ ligne
-															+ " n’existe pas.\n");
-											_log.info(
-													"Erreur à la création/modification du territoire => N° ligne : "
-															+ ligne
-															+ ", identifiant territoire : "
-															+ idTerritoire
-															+ ", nom du territoire : "
-															+ nom
-															+ " => Le parent associé à la ligne n’existe pas.");
-										}
-									} else {
-										resultat = "Réussi avec des erreurs";
-										String erreur = "N° ligne : " + ligne
-												+ ", identifiant territoire : "
-												+ idTerritoire
-												+ ", nom du territoire : " + nom
-												+ "";
-										if (idTerritoire.equals("")) {
-											erreur += "\nLe champ Identifiant_Categories_SIG est manquant à la ligne "
-													+ ligne;
-										}
-										if (nom.equals("")) {
-											erreur += "\nLe champ Nom_Catégorie_SIG est manquant à la ligne "
-													+ ligne;
-										}
-										erreur += "\n";
-										listCategoryErreurs.add(erreur);
-										_log.info(
-												"Erreur à la création/modification du territoire => N° ligne : "
-														+ ligne
-														+ ", identifiant territoire : "
-														+ idTerritoire
-														+ ", nom du territoire : "
-														+ nom
-														+ " => champ Identifiant_Categories_SIG et/ou Nom_Catégorie_SIG manquant(s).");
-									}
-								}
-							} else {
-								messagesErreurs = "Le vocabulaire Territoire n'existe pas.";
-								resultat = "Erreur";
-							}
-						} catch (PortalException e) {
-							messagesErreurs += e.getMessage();
-							resultat = "Erreur";
-						}
 					} else {
 						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
 						resultat = "Erreur";
 					}
+
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
@@ -362,10 +135,191 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 			resultat = "Erreur";
 		}
 		_log.info("End import");
-		
+
 		sendMail();
 
 		return true;
+	}
+
+	public void traitementFichier(BufferedReader br) throws IOException {
+
+		String idTerritoire = "";
+		String idParentTerritoire = "";
+		String nom = "";
+		int ligne = 1;
+
+		try {
+
+			// Récupération du vocabulaire Territoire
+			AssetVocabulary vocabulary = AssetVocabularyHelper
+					.getGlobalVocabulary("Territoire");
+
+			if (vocabulary != null) {
+
+				String line = br.readLine();
+				String[] chaine = line.split(";");
+
+				for (line = br.readLine(); line != null; line = br.readLine()) {
+					chaine = line.split(";");
+
+					ligne++;
+
+					idTerritoire = chaine[0];
+					idParentTerritoire = chaine[1];
+					nom = chaine[2];
+
+					if (!idTerritoire.equals("") && !nom.equals("")) {
+
+						// Récupération des catégories du
+						// vocabulaire Territoire
+						List<AssetCategory> categories = vocabulary
+								.getCategories();
+
+						// Récupère la catégorie
+						AssetCategory selectCategory = null;
+						for (AssetCategory category : categories) {
+							if (AssetVocabularyHelper
+									.getCategoryProperty(
+											category.getCategoryId(), "SIG")
+									.equals(idTerritoire)) {
+								selectCategory = category;
+								break;
+							}
+						}
+
+						// Récupère la catégorie parent
+						AssetCategory categoryParent = null;
+						long idParent = 0;
+						if (!idParentTerritoire.equals("")) {
+							for (AssetCategory category : categories) {
+								if (AssetVocabularyHelper
+										.getCategoryProperty(
+												category.getCategoryId(), "SIG")
+										.equals(idParentTerritoire)) {
+									categoryParent = category;
+									idParent = categoryParent.getCategoryId();
+									break;
+								}
+							}
+						}
+
+						if (idParentTerritoire.equals("")
+								|| categoryParent != null) {
+
+							String[] categoryProperties = {
+									"SIG:" + idTerritoire };
+
+							if (selectCategory == null) {
+								// le territoire n'existe pas encore
+								try {
+									_assetCategoryService.addCategory(
+											sc.getScopeGroupId(), idParent,
+											LocalizationUtil
+													.getLocalizationMap(nom),
+											null, vocabulary.getVocabularyId(),
+											categoryProperties, sc);
+
+									listCategoryCrees.add(ligneRetour(ligne,
+											idTerritoire, nom) + "\n");
+									_log.info(
+											"territoire crée => " + ligneRetour(
+													ligne, idTerritoire, nom));
+								} catch (Exception e) {
+									resultat = "Réussi avec des erreurs";
+									listCategoryErreurs.add(ligneRetour(ligne,
+											idTerritoire, nom) + " => "
+											+ e.getMessage() + ".\n");
+									_log.info(
+											"Erreur à la création du territoire => "
+													+ ligneRetour(ligne,
+															idTerritoire, nom)
+													+ " => " + e.getMessage()
+													+ ".");
+								}
+							} else {
+								// le territoire existe déjà, on ne le modifie
+								// que si son titre français est différent du
+								// nom
+								if (!nom.equals(selectCategory
+										.getTitle(Locale.FRENCH))) {
+									try {
+										// ATTENTION, on ne modifie que le titre
+										// en français
+										Map<Locale, String> titres = selectCategory
+												.getTitleMap();
+										titres.replace(Locale.FRENCH, nom);
+										_assetCategoryService.updateCategory(
+												selectCategory.getCategoryId(),
+												idParent, titres, null,
+												vocabulary.getVocabularyId(),
+												categoryProperties, sc);
+
+										listCategoryModifies.add(
+												ligneRetour(ligne, idTerritoire,
+														nom) + "\n");
+										_log.info("Territoire modifié => "
+												+ ligneRetour(ligne,
+														idTerritoire, nom));
+									} catch (Exception e) {
+										resultat = "Réussi avec des erreurs";
+										listCategoryErreurs.add(ligneRetour(
+												ligne, idTerritoire, nom)
+												+ " => " + e.getMessage()
+												+ ".\n");
+										_log.info(
+												"Erreur à la modification du territoire => "
+														+ ligneRetour(ligne,
+																idTerritoire,
+																nom)
+														+ " => "
+														+ e.getMessage() + ".");
+									}
+								}
+							}
+						} else {
+							resultat = "Réussi avec des erreurs";
+							listCategoryErreurs
+									.add(ligneRetour(ligne, idTerritoire, nom)
+											+ " => Le parent associé à la ligne "
+											+ ligne + " n’existe pas.\n");
+							_log.info(
+									"Erreur à la création/modification du territoire => "
+											+ ligneRetour(ligne, idTerritoire,
+													nom)
+											+ " => Le parent associé à la ligne n’existe pas.");
+						}
+					} else {
+						resultat = "Réussi avec des erreurs";
+						String erreur = ligneRetour(ligne, idTerritoire, nom);
+						if (idTerritoire.equals("")) {
+							erreur += "\nLe champ Identifiant_Categories_SIG est manquant à la ligne "
+									+ ligne;
+						}
+						if (nom.equals("")) {
+							erreur += "\nLe champ Nom_Catégorie_SIG est manquant à la ligne "
+									+ ligne;
+						}
+						erreur += "\n";
+						listCategoryErreurs.add(erreur);
+						_log.info(
+								"Erreur à la création/modification du territoire => "
+										+ ligneRetour(ligne, idTerritoire, nom)
+										+ " => champ Identifiant_Categories_SIG et/ou Nom_Catégorie_SIG manquant(s).");
+					}
+				}
+			} else {
+				messagesErreurs = "Le vocabulaire Territoire n'existe pas.";
+				resultat = "Erreur";
+			}
+		} catch (PortalException e) {
+			messagesErreurs += e.getMessage();
+			resultat = "Erreur";
+		}
+	}
+
+	public String ligneRetour(int ligne, String idTerritoire, String nom) {
+		return "N° ligne : " + ligne + ", identifiant territoire : "
+				+ idTerritoire + ", nom du territoire : " + nom;
 	}
 
 	public void sendMail() {
