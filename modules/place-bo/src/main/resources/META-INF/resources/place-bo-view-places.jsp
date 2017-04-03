@@ -105,15 +105,31 @@
 					href="${editPlaceURL}" name="alias" truncate="true" orderable="true"
 					value="${place.aliasCurrentValue}" />
 				
-				<fmt:formatDate value="${place.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<c:set var="typePlace" value="" />	
+				<c:forEach var="category" items="${place.getTypes()}">
+					<c:if test="${not empty typePlace}">
+						<c:set var="typePlace" value="${typePlace}, ${category.getName()}" />
+					</c:if>
+					<c:if test="${empty typePlace}">
+						<c:set var="typePlace" value="${category.getName()}" />
+					</c:if>	
+				</c:forEach>	
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
+					name="type-place" truncate="true" orderable="true"
+					value="${typePlace}" />
 					
-				<liferay-ui:search-container-column-text name="user">
-					${place.statusByUserName}
-				</liferay-ui:search-container-column-text>
+				<c:set var="territory" value="" />	
+				<c:forEach var="category" items="${place.getTerritories()}">
+					<c:if test="${not empty territory}">
+						<c:set var="territory" value="${territory}, ${category.getName()}" />
+					</c:if>	
+					<c:if test="${empty territory}">
+						<c:set var="territory" value="${category.getName()}" />
+					</c:if>
+				</c:forEach>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="territory" truncate="true" orderable="true"
+					value="${territory}" />
 
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
