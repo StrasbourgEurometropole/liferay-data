@@ -121,7 +121,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
-					messagesErreurs += "Lecture du fichier impossible.";
+					messagesErreurs = "Lecture du fichier impossible.";
 					resultat = "Erreur";
 				}
 			} catch (FileNotFoundException e) {
@@ -156,10 +156,9 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 			if (vocabulary != null) {
 
-				String line = br.readLine();
-				String[] chaine = line.split(";");
-
-				for (line = br.readLine(); line != null; line = br.readLine()) {
+				String[] chaine;
+				for (String line = br.readLine(); line != null; line = br
+						.readLine()) {
 					chaine = line.split(";");
 
 					ligne++;
@@ -220,7 +219,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 											categoryProperties, sc);
 
 									listCategoryCrees.add(ligneRetour(ligne,
-											idTerritoire, nom) + "\n");
+											idTerritoire, nom) + "<br>");
 									_log.info(
 											"territoire crée => " + ligneRetour(
 													ligne, idTerritoire, nom));
@@ -228,7 +227,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 									resultat = "Réussi avec des erreurs";
 									listCategoryErreurs.add(ligneRetour(ligne,
 											idTerritoire, nom) + " => "
-											+ e.getMessage() + ".\n");
+											+ e.getMessage() + ".<br>");
 									_log.info(
 											"Erreur à la création du territoire => "
 													+ ligneRetour(ligne,
@@ -256,7 +255,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 										listCategoryModifies.add(
 												ligneRetour(ligne, idTerritoire,
-														nom) + "\n");
+														nom) + "<br>");
 										_log.info("Territoire modifié => "
 												+ ligneRetour(ligne,
 														idTerritoire, nom));
@@ -265,7 +264,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 										listCategoryErreurs.add(ligneRetour(
 												ligne, idTerritoire, nom)
 												+ " => " + e.getMessage()
-												+ ".\n");
+												+ ".<br>");
 										_log.info(
 												"Erreur à la modification du territoire => "
 														+ ligneRetour(ligne,
@@ -280,31 +279,31 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 							resultat = "Réussi avec des erreurs";
 							listCategoryErreurs
 									.add(ligneRetour(ligne, idTerritoire, nom)
-											+ " => Le parent associé à la ligne "
-											+ ligne + " n’existe pas.\n");
+											+ " => Le parent associ&eacute; &agrave; la ligne "
+											+ ligne + " n'existe pas.<br>");
 							_log.info(
 									"Erreur à la création/modification du territoire => "
 											+ ligneRetour(ligne, idTerritoire,
 													nom)
-											+ " => Le parent associé à la ligne n’existe pas.");
+											+ " => Le parent associé à la ligne n'existe pas.");
 						}
 					} else {
 						resultat = "Réussi avec des erreurs";
 						String erreur = ligneRetour(ligne, idTerritoire, nom);
 						if (idTerritoire.equals("")) {
-							erreur += "\nLe champ Identifiant_Categories_SIG est manquant à la ligne "
+							erreur += "<br>Le champ Identifiant_Categories_SIG est manquant &agrave; la ligne "
 									+ ligne;
 						}
 						if (nom.equals("")) {
-							erreur += "\nLe champ Nom_Catégorie_SIG est manquant à la ligne "
+							erreur += "<br>Le champ Nom_Categorie_SIG est manquant &agrave; la ligne "
 									+ ligne;
 						}
-						erreur += "\n";
+						erreur += "<br>";
 						listCategoryErreurs.add(erreur);
 						_log.info(
 								"Erreur à la création/modification du territoire => "
 										+ ligneRetour(ligne, idTerritoire, nom)
-										+ " => champ Identifiant_Categories_SIG et/ou Nom_Catégorie_SIG manquant(s).");
+										+ " => champ Identifiant_Categories_SIG et/ou Nom_Categorie_SIG manquant(s).");
 					}
 				}
 			} else {
@@ -312,20 +311,20 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 				resultat = "Erreur";
 			}
 		} catch (PortalException e) {
-			messagesErreurs += e.getMessage();
+			messagesErreurs = e.getMessage();
 			resultat = "Erreur";
 		}
 	}
 
 	public String ligneRetour(int ligne, String idTerritoire, String nom) {
-		return "N° ligne : " + ligne + ", identifiant territoire : "
+		return "N&deg; ligne : " + ligne + ", identifiant territoire : "
 				+ idTerritoire + ", nom du territoire : " + nom;
 	}
 
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d’import des territoires - "
+		String titre = environment + " Journal d'import des territoires - "
 				+ resultat;
 		String corps;
 		if (resultat.equals("Erreur")) {
@@ -333,25 +332,28 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 			if (territoriesFile != null) {
 				corps += territoriesFile.getName();
 			}
-			corps += " n’a pas pu être fait pour les raisons suivantes : \n"
+			corps += " n'a pas pu &ecirc;tre fait pour les raisons suivantes : <br>"
 					+ messagesErreurs;
 		} else {
-			String dateImport = new SimpleDateFormat("yyyy-MM-dd à HH:mm")
+			String dateImport = new SimpleDateFormat("yyyy-MM-dd")
+					.format(new Date());
+			String heureImport = new SimpleDateFormat("HH:mm")
 					.format(new Date());
 			corps = "L'import du fichier " + territoriesFile.getName()
-					+ " a été réalisé avec succès le " + dateImport + ".\n"
-					+ "Territoires créés (" + listCategoryCrees.size()
-					+ ") :\n";
+					+ " a &eacute;t&eacute; r&eacute;alis&eacute; avec succ&egrave;s le "
+					+ dateImport + " &agrave; " + heureImport + ".<br>"
+					+ "Territoires cr&eacute;&eacute;s ("
+					+ listCategoryCrees.size() + ") :<br>";
 			for (String lieuxCrees : listCategoryCrees) {
 				corps += lieuxCrees;
 			}
-			corps += "Territoires modifiés (" + listCategoryModifies.size()
-					+ ") :\n";
+			corps += "Territoires modifi&eacute;s ("
+					+ listCategoryModifies.size() + ") :<br>";
 			for (String lieuxModifies : listCategoryModifies) {
 				corps += lieuxModifies;
 			}
 			corps += "Territoires en erreur (" + listCategoryErreurs.size()
-					+ ") :\n";
+					+ ") :<br>";
 			for (String lieuxErreurs : listCategoryErreurs) {
 				corps += lieuxErreurs;
 			}
@@ -360,7 +362,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
+			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu",
 					mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);

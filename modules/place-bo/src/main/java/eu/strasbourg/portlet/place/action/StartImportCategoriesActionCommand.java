@@ -120,11 +120,11 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
 						resultat = "Erreur";
 					}
-					
+
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
-					messagesErreurs += "Lecture du fichier impossible.";
+					messagesErreurs = "Lecture du fichier impossible.";
 					resultat = "Erreur";
 				}
 
@@ -148,6 +148,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 		String idParentSIG = "";
 		String nom = "";
 		int ligne = 1;
+
 		try {
 			// Récupération du vocabulaire Type de lieu
 			AssetVocabulary vocabulary = AssetVocabularyHelper
@@ -155,9 +156,9 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 			if (vocabulary != null) {
 
-				String line = br.readLine();
-				String[] chaine = line.split(";");
-				for (line = br.readLine(); line != null; line = br.readLine()) {
+				String[] chaine;
+				for (String line = br.readLine(); line != null; line = br
+						.readLine()) {
 					chaine = line.split(";");
 
 					ligne++;
@@ -216,16 +217,15 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 											categoryProperties, sc);
 									listCategoryCrees
 											.add(ligneRetour(ligne, idSIG, nom)
-													+ "\n");
+													+ "<br>");
 									_log.info("Type de lieu crée => "
-											+ ligneRetour(ligne, idSIG, nom)
-											+ "\n");
+											+ ligneRetour(ligne, idSIG, nom));
 								} catch (Exception e) {
 
 									listCategoryErreurs
 											.add(ligneRetour(ligne, idSIG, nom)
 													+ " => " + e.getMessage()
-													+ ".\n");
+													+ ".<br>");
 									_log.info(
 											"Erreur à la création du type de lieu => "
 													+ ligneRetour(ligne, idSIG,
@@ -253,7 +253,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 										listCategoryModifies.add(
 												ligneRetour(ligne, idSIG, nom)
-														+ "\n");
+														+ "<br>");
 										_log.info("Type de lieu modifié => "
 												+ ligneRetour(ligne, idSIG,
 														nom));
@@ -263,7 +263,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 												ligneRetour(ligne, idSIG, nom)
 														+ " => "
 														+ e.getMessage()
-														+ ".\n");
+														+ ".<br>");
 										_log.info(
 												"Erreur à la modification du type de lieu => "
 														+ ligneRetour(ligne,
@@ -278,31 +278,31 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 							resultat = "Réussi avec des erreurs";
 							listCategoryErreurs
 									.add(ligneRetour(ligne, idSIG, nom)
-											+ " => Le parent associé à la ligne "
-											+ ligne + " n’existe pas.\n");
+											+ " => Le parent associ&eacute; &agrave; la ligne "
+											+ ligne + " n'existe pas.<br>");
 							_log.info(
 									"Erreur à la création/modification du type de lieu => "
 											+ ligneRetour(ligne, idSIG, nom)
-											+ " => Le parent associé à la ligne n’existe pas.");
+											+ " => Le parent associ& à la ligne n'existe pas.");
 						}
 
 					} else {
 						resultat = "Réussi avec des erreurs";
 						String erreur = ligneRetour(ligne, idSIG, nom);
 						if (idSIG.equals("")) {
-							erreur += "\nLe champ Identifiant_Categories_SIG est manquant à la ligne "
+							erreur += "<br>Le champ Identifiant_Categories_SIG est manquant &agrave; la ligne "
 									+ ligne;
 						}
 						if (nom.equals("")) {
-							erreur += "\nLe champ Nom_Catégorie_SIG est manquant à la ligne "
+							erreur += "<br>Le champ Nom_Categorie_SIG est manquant &agrave; la ligne "
 									+ ligne;
 						}
-						erreur += "\n";
+						erreur += "<br>";
 						listCategoryErreurs.add(erreur);
 						_log.info(
 								"Erreur à la création/modification du type de lieu => "
 										+ ligneRetour(ligne, idSIG, nom)
-										+ " => champ Identifiant_Categories_SIG et/ou Nom_Catégorie_SIG manquant(s).");
+										+ " => champ Identifiant_Categories_SIG et/ou Nom_Categorie_SIG manquant(s).");
 					}
 				}
 			} else {
@@ -316,14 +316,14 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 	}
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
-		return "N° ligne : " + ligne + ", identifiant type de lieu : " + idSIG
-				+ ", nom du type de lieu : " + nom;
+		return "N&deg; ligne : " + ligne + ", identifiant type de lieu : "
+				+ idSIG + ", nom du type de lieu : " + nom;
 	}
 
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d’import des catégories - "
+		String titre = environment + " Journal d'import des catégories - "
 				+ resultat;
 		String corps;
 		if (resultat.equals("Erreur")) {
@@ -331,25 +331,28 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 			if (categoriesFile != null) {
 				corps += categoriesFile.getName();
 			}
-			corps += " n’a pas pu être fait pour les raisons suivantes : \n"
+			corps += " n'a pas pu &ecirc;tre fait pour les raisons suivantes : <br>"
 					+ messagesErreurs;
 		} else {
-			String dateImport = new SimpleDateFormat("yyyy-MM-dd à HH:mm")
+			String dateImport = new SimpleDateFormat("yyyy-MM-dd")
+					.format(new Date());
+			String heureImport = new SimpleDateFormat("HH:mm")
 					.format(new Date());
 			corps = "L'import du fichier " + categoriesFile.getName()
-					+ " a été réalisé avec succès le " + dateImport + ".\n"
-					+ "Catégories créées (" + listCategoryCrees.size()
-					+ ") :\n";
+					+ " a &eacute;t&eacute; r&eacute;alis&eacute; avec succ&egrave;s le "
+					+ dateImport + " &agrave; " + heureImport + ".<br>"
+					+ "Cat&eacute;gories cr&eacute;&eacute;es ("
+					+ listCategoryCrees.size() + ") :<br>";
 			for (String lieuxCrees : listCategoryCrees) {
 				corps += lieuxCrees;
 			}
-			corps += "Catégories modifiées (" + listCategoryModifies.size()
-					+ ") :\n";
+			corps += "Cat&eacute;gories modifi&eacute;es ("
+					+ listCategoryModifies.size() + ") :<br>";
 			for (String lieuxModifies : listCategoryModifies) {
 				corps += lieuxModifies;
 			}
-			corps += "Catégories en erreur (" + listCategoryErreurs.size()
-					+ ") :\n";
+			corps += "Cat&eacute;gories en erreur ("
+					+ listCategoryErreurs.size() + ") :<br>";
 			for (String lieuxErreurs : listCategoryErreurs) {
 				corps += lieuxErreurs;
 			}
@@ -358,7 +361,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
+			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu",
 					mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);
