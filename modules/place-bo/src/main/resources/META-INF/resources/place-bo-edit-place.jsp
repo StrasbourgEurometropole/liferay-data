@@ -163,7 +163,7 @@
 				
 			</aui:fieldset>
 				
-			<!-- MÃÂ©dias -->
+			<!-- Médias -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
@@ -248,7 +248,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- PÃÂ©riodes & horaires -->
+				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 				
