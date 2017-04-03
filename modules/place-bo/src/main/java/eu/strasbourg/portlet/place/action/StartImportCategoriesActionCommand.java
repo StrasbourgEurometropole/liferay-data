@@ -323,7 +323,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d’import des territoires - "
+		String titre = environment + " Journal d’import des catégories - "
 				+ resultat;
 		String corps;
 		if (resultat.equals("Erreur")) {
