@@ -123,17 +123,20 @@ public interface Event extends EventModel, PersistedModel {
 		java.util.Locale locale);
 
 	/**
-	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
+	* lieu lié sinon
 	*/
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
-	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu
+	* lié sinon
 	*/
 	public java.lang.String getPlaceAlias(java.util.Locale locale);
 
 	/**
-	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il
+	* existe, du lieu lié sinon
 	*/
 	public java.lang.String getPlaceAddressHTML(java.util.Locale locale);
 

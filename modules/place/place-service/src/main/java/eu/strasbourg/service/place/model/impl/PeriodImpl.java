@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
 import eu.strasbourg.utils.JSONHelper;
