@@ -86,7 +86,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions();
 
 	/**
-	* Retourne les PublicHolidays du lieu
+	* Retourne les PublicHolidays
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays();
 
@@ -146,6 +146,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	public java.util.List<java.lang.String> getImagesURLs();
+
+	/**
+	* Retourne une map d'URL et de titre des images additionnelles et des vidéos
+	*/
+	public java.util.List<java.lang.String> getContenus(java.util.Locale locale);
 
 	/**
 	* Retourne la liste des URL des documents de ce lieu

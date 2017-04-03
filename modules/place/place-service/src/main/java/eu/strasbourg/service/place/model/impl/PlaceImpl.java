@@ -17,6 +17,7 @@ package eu.strasbourg.service.place.model.impl;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -139,11 +140,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les PublicHolidays du lieu
+	 * Retourne les PublicHolidays
 	 */
 	@Override
 	public List<PublicHoliday> getPublicHolidays() {
-		return PublicHolidayLocalServiceUtil.getPublicHolidaies(0, 0);
+		return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
 	}
 
 	/**
@@ -289,6 +290,35 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 		return URLs;
+	}
+
+	/**
+	 * Retourne une map d'URL et de titre des images additionnelles et des vidéos
+	 */
+	@Override
+	public List<String> getContenus(Locale locale) {
+		List<String> contenus = new ArrayList<String>();
+		
+		for (String imageIdStr : this.getImageIds().split(",")) {
+			Long imageId = GetterUtil.getLong(imageIdStr);
+			if (Validator.isNotNull(imageId)) {
+				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
+				String imageTitle = FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+				contenus.add(";" + imageURL + ";" + imageTitle);
+			}
+		}
+		for (String videoIdString : this.getVideosIds().split(",")) {
+			Long videoId = GetterUtil.getLong(videoIdString);
+			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
+			if (Validator.isNotNull(video)) {
+				String videoURL = video.getSource(locale);
+				String imageURL = video.getImageURL();
+				String videoTitle = video.getTitle(locale);
+				contenus.add(videoURL + ";" + imageURL + ";" + videoTitle);
+			}
+		}
+		Collections.shuffle(contenus);
+		return contenus;
 	}
 
 	/**

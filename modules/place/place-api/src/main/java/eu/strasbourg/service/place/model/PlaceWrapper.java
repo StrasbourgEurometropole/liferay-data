@@ -2000,6 +2000,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne une map d'URL et de titre des images additionnelles et des vidéos
+	*/
+	@Override
+	public java.util.List<java.lang.String> getContenus(java.util.Locale locale) {
+		return _place.getContenus(locale);
+	}
+
+	/**
 	* Retourne la liste des URL des documents de ce lieu
 	*/
 	@Override
@@ -2033,7 +2041,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne les PublicHolidays du lieu
+	* Retourne les PublicHolidays
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays() {
