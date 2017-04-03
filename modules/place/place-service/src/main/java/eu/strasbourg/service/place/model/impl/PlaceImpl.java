@@ -320,11 +320,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les horaires d'ouverture de la semaine en cours
+	 * Retourne une map contennant le jour et une autre map contenant les horaires
+	 * d'ouverture de la semaine en cours (key = schedule, from et/ou to)
 	 */
 	@Override
-	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour) {
-		Map<String, List<PlaceSchedule>> listHoraires = new HashMap<String, List<PlaceSchedule>>();
+	public Map<String, Map<String, String>> getHoraire(Date dateJour) {
+		Map<String, Map<String, String>> listHoraires = new HashMap<String, Map<String, String>>();
 
 		// réupère le jour voulu de la semaine
 		GregorianCalendar jourSemaine = new GregorianCalendar();
@@ -337,9 +338,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jourSemaine.set(Calendar.DAY_OF_WEEK,
 					(int) (jour == 6 ? 1 : jour + 2));
 
-			List<PlaceSchedule> list = getPlaceSchedule(jourSemaine);
+			Map<String, String> map = new HashMap<String, String>();
+			for (PlaceSchedule placeSchedule : getPlaceSchedule(jourSemaine)) {
+				if (placeSchedule.isClosed()) {
+					map.put("schedule", "closed");
+				} else if (placeSchedule.isAlwaysOpen()) {
+					map.put("schedule", "always-open");
+				} else {
+					map.put("from", placeSchedule.getStartTime().toString());
+					map.put("to", placeSchedule.getEndTime().toString());
+				}
+			}
 
-			listHoraires.put(Integer.toString(jour), list);
+			listHoraires.put(Integer.toString(jour), map);
 		}
 		return listHoraires;
 	}

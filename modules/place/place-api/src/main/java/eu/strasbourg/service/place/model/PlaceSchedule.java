@@ -42,12 +42,12 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public class PlaceSchedule {
 	
-	private LocalTime startTime;
-	private LocalTime endTime;
-	private Boolean closed;
-	private Boolean alwaysOpen;
-	private Boolean publicHoliday;
-	private Boolean exception;
+	private LocalTime startTime = LocalTime.of(0, 0);
+	private LocalTime endTime = LocalTime.of(0, 0);
+	private Boolean closed = false;
+	private Boolean alwaysOpen = false;
+	private Boolean publicHoliday = false;
+	private Boolean exception = false;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 

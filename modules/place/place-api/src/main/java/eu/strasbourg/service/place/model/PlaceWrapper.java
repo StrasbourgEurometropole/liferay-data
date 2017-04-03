@@ -2163,10 +2163,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
+	* Retourne une map contennant le jour et une autre map contenant les horaires
+	* d'ouverture de la semaine en cours (key = schedule, from et/ou to)
 	*/
 	@Override
-	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+	public Map<java.lang.String, Map<java.lang.String, java.lang.String>> getHoraire(
 		Date dateJour) {
 		return _place.getHoraire(dateJour);
 	}
