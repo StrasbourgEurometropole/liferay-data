@@ -339,14 +339,16 @@ public class PlaceImpl extends PlaceBaseImpl {
 					(int) (jour == 6 ? 1 : jour + 2));
 
 			Map<String, String> map = new HashMap<String, String>();
+			int nbSlot = 1;
 			for (PlaceSchedule placeSchedule : getPlaceSchedule(jourSemaine)) {
 				if (placeSchedule.isClosed()) {
 					map.put("schedule", "closed");
 				} else if (placeSchedule.isAlwaysOpen()) {
 					map.put("schedule", "always-open");
 				} else {
-					map.put("from", placeSchedule.getStartTime().toString());
-					map.put("to", placeSchedule.getEndTime().toString());
+					map.put(nbSlot + "from", placeSchedule.getStartTime().toString());
+					map.put(nbSlot + "to", placeSchedule.getEndTime().toString());
+					nbSlot++;
 				}
 			}
 
