@@ -125,8 +125,8 @@
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 
-				<liferay-ui:search-container-column-text name="user">
-					${event.statusByUserName}
+				<liferay-ui:search-container-column-text name="provider">
+					${not empty event.source ? event.source : event.statusByUserName}
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text name="status">
