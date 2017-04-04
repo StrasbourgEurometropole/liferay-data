@@ -27,9 +27,10 @@ jQuery(function() {
 								.indexOf('hide') == -1) {
 				var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
 				var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
+				var retour = setSlotValidators(index, periodLabel).split(";");
 				
 				if (nom == "") {
-					if (labelHasValue || URLHasValue) {
+					if (labelHasValue || URLHasValue || retour[0] == "true") {
 						$('.place-period-name', $(periodLabel).parent()).show();
 						allValidated = false;
 					}else{
@@ -80,7 +81,7 @@ jQuery(function() {
 						}
 					}
 				}
-				if(!setSlotValidators(index, periodLabel)){
+				if(retour[1] == "false"){
 					allValidated = false;
 				}
 			}
@@ -92,7 +93,9 @@ jQuery(function() {
 	}
 
 	function setSlotValidators(indexPeriod, periodLabel) {
+		var renseigner = false;
 		var allValidated = true;
+		
 		for (var jour = 0; jour < 7; jour++) {
 			for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
 				var heureDebutHasValue = $(namespaceAUI + 'startHour' + indexPeriod
@@ -104,6 +107,7 @@ jQuery(function() {
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
 					$('#slotEndHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
+					renseigner = true;
 					allValidated = false;
 				} else {
 					if (!heureDebutHasValue && heureFinHasValue) {
@@ -111,17 +115,21 @@ jQuery(function() {
 								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
 						$('#slotEndHour' + indexPeriod
 								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+						renseigner = true;
 						allValidated = false;
 					} else {
 						$('#slotStartHour' + indexPeriod
 								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
 						$('#slotEndHour' + indexPeriod
 								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+						if(heureDebutHasValue && heureFinHasValue){
+							renseigner = true;
+						}
 					}
 				}
 			}
 		}
-		return allValidated;
+		return renseigner + ";" + allValidated;
 	}
 
 	function setScheduleExceptionValidators() {
