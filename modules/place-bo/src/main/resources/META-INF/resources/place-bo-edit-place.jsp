@@ -156,7 +156,7 @@
 				</div>
 				
 				<aui:input name="characteristics" helpMessage="characteristics-help" />
-				<!-- Hack pour ajouter une validation sur les caractÃ©ristiques -->
+				<!-- Hack pour ajouter une validation sur les caractéristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
@@ -310,15 +310,6 @@
 					</div>
 					
 				</aui:fieldset>
-				
-				<!-- Horaires particuliers -->
-				<div class="schedule-exception">
-					<aui:input name="exceptionalSchedule" label="exceptionals-schedules" />
-					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
-					<div class="has-error">
-						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
-					</div>
-				</div>	
 					
 				<!-- Fermetures exceptionnelles -->
 				<aui:fieldset collapsed="false" collapsible="true"
@@ -361,32 +352,49 @@
 					</div>
 					
 				</aui:fieldset>
+				
+				<!-- Horaires particuliers -->
+				<div class="schedule-exception">
+					<aui:input name="exceptionalSchedule" label="exceptionals-schedules" />
+					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
+					<div class="has-error">
+						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
+					</div>
+				</div>	
 					
 			</aui:fieldset>
 				
-			<!-- Informations complÃÂ©mentaires -->
+			<!-- Informations complémentaires -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
 				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : false}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
-				<!-- Hack pour ajouter une validation sur les inforrmations complÃÂ©mentaires -->
+				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="additionalInformationValidatorInputHelper" value="placeholder"/>
 				</div>	
 				
 			</aui:fieldset>
 				
-			<!-- FrÃÂ©quentation temps rÃÂ©el -->
+			<!-- Fréquentation temps réel -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="attendance">
-				
 				<aui:input name="RTExternalId" />
-				<aui:input name="RTGreenThreshold" />
-				<aui:input name="RTOrangeThreshold" />
-				<aui:input name="RTRedThreshold" />
-				<aui:input name="RTMaxThreshold" />
+				<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+					<div id="attendance${status.count}" >
+						<div class="attendance-label" id="${status.count}" onCLick="$('.attendance-content' + ${status.count}).toggle();">
+							<label><liferay-ui:message key="period" /> : ${period.nameCurrentValue}</label>
+						</div>
+						<div class="attendance-content${status.count}" >
+							<aui:input type="text" name="RTGreenThreshold${status.count}" label="rtgreen-threshold" value="${period.RTGreenThreshold}" />
+							<aui:input type="text" name="RTOrangeThreshold${status.count}" label="rtorange-threshold" value="${period.RTOrangeThreshold}" />
+							<aui:input type="text" name="RTRedThreshold${status.count}" label="rtred-threshold" value="${period.RTRedThreshold}" />
+							<aui:input type="text" name="RTMaxThreshold${status.count}" label="rtmax-threshold" value="${period.RTMaxThreshold}" />
+						</div>
+					</div>
+				</c:forEach>
 				
 			</aui:fieldset>
 				
@@ -396,21 +404,27 @@
 				
 				<ul class="full-borders tabular-list-group">
 				
-					<li class="list-group-item">
+					<li class="list-group-item2">
 						<div class="list-group-item-content">
-							<liferay-ui:message key="sub-place" />
+							<h2><liferay-ui:message key="sub-place" /></h2>
 						</div>
 						<div class="list-group-item-content">
-							<liferay-ui:message key="delete" />
+							<h2><liferay-ui:message key="delete" /></h2>
 						</div>
 					</li>
 					<c:forEach var="subPlace" items="${dc.place.subPlaces}">
-						<li class="list-group-item">
+						<li class="list-group-item2">
 							<div class="list-group-item-content">
-								${subPlace.name}
+								<liferay-portlet:renderURL varImpl="editSubPlaceURL">
+									<portlet:param name="cmd" value="editSubPlace" />
+									<portlet:param name="tab" value="subPlaces" />
+									<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
+									<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+								</liferay-portlet:renderURL>
+								<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
 							</div>
 							<div class="list-group-item-content">
-								<aui:input name="suppression" label="" type="checkbox" value="${subPlace.subPlaceId}" />
+								<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
 							</div>
 						</li>
 					</c:forEach>
