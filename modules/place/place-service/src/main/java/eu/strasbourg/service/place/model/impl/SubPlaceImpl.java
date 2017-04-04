@@ -18,8 +18,10 @@ import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
 
 /**
@@ -67,5 +69,13 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	@Override
 	public List<Period> getPeriods() {
 		return PeriodLocalServiceUtil.getBySubPlaceId(this.getSubPlaceId());
+	}
+
+	/**
+	 * Retourne le lieu parent du sous-lieu
+	 */
+	@Override
+	public Place getPlaceByPlaceId(long placeId) {
+		return PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
 	}
 }

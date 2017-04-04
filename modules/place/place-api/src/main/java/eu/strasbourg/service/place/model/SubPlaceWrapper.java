@@ -123,6 +123,15 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 		return _subPlace.toCacheModel();
 	}
 
+	/**
+	* Retourne le lieu parent du sous-lieu
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
+		long placeId) {
+		return _subPlace.getPlaceByPlaceId(placeId);
+	}
+
 	@Override
 	public eu.strasbourg.service.place.model.SubPlace toEscapedModel() {
 		return new SubPlaceWrapper(_subPlace.toEscapedModel());

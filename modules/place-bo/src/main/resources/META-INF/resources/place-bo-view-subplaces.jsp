@@ -42,8 +42,12 @@
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editSubPlaceURL}" name="name" truncate="true"
+					href="${editSubPlaceURL}" name="name-subplace" truncate="true"
 					orderable="true" value="${subPlace.nameCurrentValue}" />
+				
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="name-parent" truncate="true" orderable="true"
+					value="${subPlace.getPlaceByPlaceId(subPlace.placeId).aliasCurrentValue}" />
 
 
 				<liferay-ui:search-container-column-text>
