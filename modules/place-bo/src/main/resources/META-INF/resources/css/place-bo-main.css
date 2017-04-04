@@ -86,3 +86,16 @@
     height: 0px;
     padding: 0;
 }
+
+.attendance-label {
+	margin: -10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	cursor: pointer;
+	color: #869CAD;
+	background-color: #F5F8FA;
+}
+
+.attendance-label label {
+	cursor: pointer;
+}
