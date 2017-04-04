@@ -22,44 +22,9 @@
 
 		<liferay-frontend:management-bar-filters>
 			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-
-				<liferay-portlet:renderURL varImpl="removeVocabularyFilterURL">
-					<portlet:param name="tab" value="galleries" />
-					<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-					<portlet:param name="orderByType" value="${dc.orderByType}" />
-					<portlet:param name="filterCategoriesIds"
-						value="${dc.filterCategoriesIds}" />
-					<portlet:param name="keywords" value="${dc.keywords}" />
-					<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-					<portlet:param name="vocabularyToRemove"
-						value="${vocabulary.vocabularyId}" />
-				</liferay-portlet:renderURL>
-
-				<liferay-frontend:management-bar-navigation
-					label="${dc.getVocabularyFilterLabel(vocabulary)}">
-					<liferay-frontend:management-bar-filter-item
-						label="${vocabulary.name} : n'importe lequel"
-						url="${removeVocabularyFilterURL}" />
-					<c:forEach var="category" items="${vocabulary.categories}">
-						<liferay-portlet:renderURL var="filterURL">
-							<portlet:param name="tab" value="galleries" />
-							<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-							<portlet:param name="orderByType" value="${dc.orderByType}" />
-							<portlet:param name="filterCategoriesIds"
-								value="${dc.filterCategoriesIds}" />
-							<portlet:param name="keywords" value="${dc.keywords}" />
-							<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-							<portlet:param name="vocabularyToRemove"
-								value="${vocabulary.vocabularyId}" />
-							<portlet:param name="categoryToAdd"
-								value="${category.categoryId}" />
-						</liferay-portlet:renderURL>
-						<c:set var="isActive"
-							value="${dc.filterCategoriesIds.contains(String.valueOf(category.categoryId))}" />
-						<liferay-frontend:management-bar-filter-item
-							label="${category.name}" url="${filterURL}" active="${isActive}" />
-					</c:forEach>
-				</liferay-frontend:management-bar-navigation>
+				<liferay-frontend:management-bar-filter 
+					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
+					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
 			</c:forEach>
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"

@@ -2,8 +2,11 @@ package eu.strasbourg.utils.display.context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -12,19 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 
 public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
@@ -248,5 +256,86 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 			_themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
 			tClass.getName());
 	}
+	
+	/**
+	 * Affichage des filtres par catégories
+	 */
+	public List<ManagementBarFilterItem> getManagementBarFilterItems(
+		AssetVocabulary vocabulary) throws PortalException {
+		List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
+
+		String tab = ParamUtil.getString(this._request, "tab");
+		String orderByCol = this.getOrderByCol();
+		String orderByType = this.getOrderByType();
+		String filterCategoriesIds = this.getFilterCategoriesIds();
+		String keywords = this.getKeywords();
+		ThemeDisplay themeDisplay = (ThemeDisplay) this._request
+			.getAttribute(WebKeys.THEME_DISPLAY);
+		String portletName = (String) this._request
+			.getAttribute(WebKeys.PORTLET_ID);
+		PortletURL filterURL = PortletURLFactoryUtil.create(this._request,
+			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+		int delta = this.getSearchContainer().getDelta();
+		long vocabularyToRemove = vocabulary.getVocabularyId();
+		filterURL.setParameter("tab", tab);
+		filterURL.setParameter("orderByCol", orderByCol);
+		filterURL.setParameter("orderByType", orderByType);
+		filterURL.setParameter("filterCategoriesIds", filterCategoriesIds);
+		filterURL.setParameter("keywords", keywords);
+		filterURL.setParameter("delta", String.valueOf(delta));
+		filterURL.setParameter("vocabularyToRemove",
+			String.valueOf(vocabularyToRemove));
+
+		ManagementBarFilterItem allItemsFilter = new ManagementBarFilterItem(
+			false, vocabulary.getName() + " : "
+				+ LanguageUtil.get(Locale.FRENCH, "any"),
+			filterURL.toString());
+		managementBarFilterItems.add(allItemsFilter);
+
+		List<AssetCategory> rootCategories = vocabulary.getCategories().stream()
+			.filter(c -> c.isRootCategory()).collect(Collectors.toList());
+		for (AssetCategory category : rootCategories) {
+			populateManagementBar(managementBarFilterItems, category,
+				filterURL);
+		}
+
+		return managementBarFilterItems;
+	}
+
+	private List<ManagementBarFilterItem> populateManagementBar(
+		List<ManagementBarFilterItem> managementBarFilterItems,
+		AssetCategory category, PortletURL filterURL) throws PortalException {
+
+		ManagementBarFilterItem managementBarFilterItem = getCategoryBarFilterItem(
+			category, filterURL);
+		managementBarFilterItems.add(managementBarFilterItem);
+
+		for (AssetCategory childCategory : AssetVocabularyHelper
+			.getChild(category.getCategoryId())) {
+			populateManagementBar(managementBarFilterItems, childCategory, filterURL);
+		}
+
+		return managementBarFilterItems;
+	}
+
+	private ManagementBarFilterItem getCategoryBarFilterItem(
+		AssetCategory category, PortletURL filterURL) throws PortalException {
+		boolean isActive = this.getFilterCategoriesIds()
+			.contains(String.valueOf(category.getCategoryId()));
+
+		String prefix = "";
+		for (int i = 0; i < category.getAncestors().size(); i++) {
+			prefix += " - ";
+		}
+		String label = prefix + category.getName();
+
+		long categoryToAdd = category.getCategoryId();
+
+		filterURL.setParameter("categoryToAdd", String.valueOf(categoryToAdd));
+		String url = filterURL.toString();
+
+		return new ManagementBarFilterItem(isActive, label, url);
+	}
+
 
 }
