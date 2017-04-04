@@ -52,7 +52,7 @@
 				
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="recurrent" truncate="true" orderable="true"
-					value="${publicHoliday.recurrent}" />
+					value="${publicHoliday.recurrent? 'Oui' : 'Non'}" />
 
 
 				<liferay-ui:search-container-column-text>
@@ -83,7 +83,7 @@
 <liferay-frontend:add-menu>
 
 	<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}"> 
-		<liferay-frontend:add-menu-item title="Ajouter un jour férié" url="${addPublicHolidayURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un jour fÃ©riÃ©" url="${addPublicHolidayURL}" />
 	 </c:if>
 </liferay-frontend:add-menu>
 
