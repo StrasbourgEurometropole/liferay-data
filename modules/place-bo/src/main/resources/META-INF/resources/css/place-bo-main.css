@@ -79,3 +79,10 @@
 #site .icon-asterisk{
 	display:none;
 }
+
+.tabular-list-group > li, .tabular-list-group .list-group-item2 {
+    border-width: 0;
+    display: table-row;
+    height: 0px;
+    padding: 0;
+}
