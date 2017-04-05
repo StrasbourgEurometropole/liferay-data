@@ -28,7 +28,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=getPeriodRow" }, service = MVCActionCommand.class)
-public class getPeriodRowActionCommand implements MVCActionCommand {
+public class GetPeriodRowActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
