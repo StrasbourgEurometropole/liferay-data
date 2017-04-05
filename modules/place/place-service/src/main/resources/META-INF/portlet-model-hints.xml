@@ -11,6 +11,18 @@
 		<field localized="true" name="linkLabel" type="String" />
 		<field localized="true" name="linkURL" type="String" />
 		<field name="alwaysOpen" type="Boolean" />
+		<field name="RTGreenThreshold" type="long">
+			<hint name="default-value">0</hint>
+		</field>
+		<field name="RTOrangeThreshold" type="long">
+			<hint name="default-value">0</hint>
+		</field>
+		<field name="RTRedThreshold" type="long">
+			<hint name="default-value">0</hint>
+		</field>
+		<field name="RTMaxThreshold" type="long">
+			<hint name="default-value">0</hint>
+		</field>
 		<field name="placeId" type="long" />
 		<field name="subPlaceId" type="long" />
 	</model>
@@ -75,20 +87,7 @@
 		<field name="accessForWheelchair" type="Boolean" />
 		<field name="accessForElder" type="Boolean" />
 		<field name="accessForDeficient" type="Boolean" />
-		<field name="RTEnabled" type="boolean" />
 		<field name="RTExternalId" type="String" />
-		<field name="RTGreenThreshold" type="long">
-			<hint name="default-value">0</hint>
-		</field>
-		<field name="RTOrangeThreshold" type="long">
-			<hint name="default-value">0</hint>
-		</field>
-		<field name="RTRedThreshold" type="long">
-			<hint name="default-value">0</hint>
-		</field>
-		<field name="RTMaxThreshold" type="long">
-			<hint name="default-value">0</hint>
-		</field>
 		<field name="imageId" type="long" />
 		<field name="imageIds" type="String" />
 		<field name="videosIds" type="String" />
@@ -98,6 +97,10 @@
 	<model name="eu.strasbourg.service.place.model.Price">
 		<field name="uuid" type="String" />
 		<field name="priceId" type="long" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String" />
 		<field localized="true" name="price" type="String">
 			<hint-collection name="EDITOR" />
@@ -141,6 +144,10 @@
 	<model name="eu.strasbourg.service.place.model.SubPlace">
 		<field name="uuid" type="String" />
 		<field name="subPlaceId" type="long" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 		<field localized="true" name="name" type="String" />
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
