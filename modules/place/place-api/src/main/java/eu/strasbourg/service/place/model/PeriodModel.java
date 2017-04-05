@@ -452,6 +452,62 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	public void setAlwaysOpen(Boolean alwaysOpen);
 
 	/**
+	 * Returns the r t green threshold of this period.
+	 *
+	 * @return the r t green threshold of this period
+	 */
+	public long getRTGreenThreshold();
+
+	/**
+	 * Sets the r t green threshold of this period.
+	 *
+	 * @param RTGreenThreshold the r t green threshold of this period
+	 */
+	public void setRTGreenThreshold(long RTGreenThreshold);
+
+	/**
+	 * Returns the r t orange threshold of this period.
+	 *
+	 * @return the r t orange threshold of this period
+	 */
+	public long getRTOrangeThreshold();
+
+	/**
+	 * Sets the r t orange threshold of this period.
+	 *
+	 * @param RTOrangeThreshold the r t orange threshold of this period
+	 */
+	public void setRTOrangeThreshold(long RTOrangeThreshold);
+
+	/**
+	 * Returns the r t red threshold of this period.
+	 *
+	 * @return the r t red threshold of this period
+	 */
+	public long getRTRedThreshold();
+
+	/**
+	 * Sets the r t red threshold of this period.
+	 *
+	 * @param RTRedThreshold the r t red threshold of this period
+	 */
+	public void setRTRedThreshold(long RTRedThreshold);
+
+	/**
+	 * Returns the r t max threshold of this period.
+	 *
+	 * @return the r t max threshold of this period
+	 */
+	public long getRTMaxThreshold();
+
+	/**
+	 * Sets the r t max threshold of this period.
+	 *
+	 * @param RTMaxThreshold the r t max threshold of this period
+	 */
+	public void setRTMaxThreshold(long RTMaxThreshold);
+
+	/**
 	 * Returns the place ID of this period.
 	 *
 	 * @return the place ID of this period

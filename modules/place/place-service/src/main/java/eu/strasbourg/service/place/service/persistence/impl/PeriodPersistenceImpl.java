@@ -1926,6 +1926,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		periodImpl.setLinkLabel(period.getLinkLabel());
 		periodImpl.setLinkURL(period.getLinkURL());
 		periodImpl.setAlwaysOpen(period.getAlwaysOpen());
+		periodImpl.setRTGreenThreshold(period.getRTGreenThreshold());
+		periodImpl.setRTOrangeThreshold(period.getRTOrangeThreshold());
+		periodImpl.setRTRedThreshold(period.getRTRedThreshold());
+		periodImpl.setRTMaxThreshold(period.getRTMaxThreshold());
 		periodImpl.setPlaceId(period.getPlaceId());
 		periodImpl.setSubPlaceId(period.getSubPlaceId());
 

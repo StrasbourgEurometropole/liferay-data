@@ -128,6 +128,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
+	* Retourne la ville
+	*/
+	public java.lang.Boolean isEnabled();
+
+	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();

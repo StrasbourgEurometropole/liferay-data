@@ -218,7 +218,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 })(jQuery);
 
 // Périodes
-var autoFields = undefined; // Référence au champ répétable (setté plus loin)
+var autoFields2 = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; 
 	
@@ -226,7 +226,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('date-fields2')) {
 			// Création de l'autofield
-			autoFields = new Liferay.AutoFields({
+			autoFields2 = new Liferay.AutoFields({
 				contentBox : '#date-fields2',
 				fieldIndexes : namespace + 'periodsIndexes',
 				namespace : namespace,

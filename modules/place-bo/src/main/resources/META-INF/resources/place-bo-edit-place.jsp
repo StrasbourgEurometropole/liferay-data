@@ -254,7 +254,7 @@
 				
 					<div id="date-fields2">
 						<c:if test="${empty dc.place.periods}">
-							<div class="lfr-form-row lfr-form-row-inline period">
+							<div class="lfr-form-row lfr-form-row-inline period" id="1">
 								<div class="row-fields">
 									<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="1" />
@@ -264,7 +264,7 @@
 						</c:if>
 					
 						<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-							<div class="lfr-form-row lfr-form-row-inline period">
+							<div class="lfr-form-row lfr-form-row-inline period" id="${status.count}">
 								<div class="row-fields">
 									<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
 									<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
@@ -379,24 +379,45 @@
 			</aui:fieldset>
 				
 			<!-- Fréquentation temps réel -->
-			<aui:fieldset collapsed="false" collapsible="true"
-				label="attendance">
-				<aui:input name="RTExternalId" />
-				<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-					<div id="attendance${status.count}" >
-						<div class="attendance-label" id="${status.count}" onCLick="$('.attendance-content' + ${status.count}).toggle();">
-							<label><liferay-ui:message key="period" /> : ${period.nameCurrentValue}</label>
+			
+			<c:if test="${dc.place.isEnabled()}">
+				<aui:fieldset collapsed="false" collapsible="true"
+					label="attendance" >
+					<aui:input name="RTExternalId" />
+					
+					<c:if test="${empty dc.place.periods}">
+						<div class="lfr-form-row lfr-form-row-inline" id="attendance1">
+							<div class="row-fields">
+								<div class="attendance-label" id="1" onCLick="$('.attendance-content1').toggle();">
+									<label><liferay-ui:message key="period" /> 1</label>
+								</div>
+								<div class="attendance-content1" >
+									<aui:input type="text" name="RTGreenThreshold1" label="rtgreen-threshold"  />
+									<aui:input type="text" name="RTOrangeThreshold1" label="rtorange-threshold"  />
+									<aui:input type="text" name="RTRedThreshold1" label="rtred-threshold"  />
+									<aui:input type="text" name="RTMaxThreshold1" label="rtmax-threshold"  />
+								</div>
+							</div>
 						</div>
-						<div class="attendance-content${status.count}" >
-							<aui:input type="text" name="RTGreenThreshold${status.count}" label="rtgreen-threshold" value="${period.RTGreenThreshold}" />
-							<aui:input type="text" name="RTOrangeThreshold${status.count}" label="rtorange-threshold" value="${period.RTOrangeThreshold}" />
-							<aui:input type="text" name="RTRedThreshold${status.count}" label="rtred-threshold" value="${period.RTRedThreshold}" />
-							<aui:input type="text" name="RTMaxThreshold${status.count}" label="rtmax-threshold" value="${period.RTMaxThreshold}" />
+					</c:if>
+							
+					<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+						<div class="lfr-form-row lfr-form-row-inline" id="attendance${status.count}">
+							<div class="row-fields">
+								<div class="attendance-label" id="${status.count}" onCLick="$('.attendance-content' + ${status.count}).toggle();">
+									<label><liferay-ui:message key="period" /> ${status.count} : ${period.nameCurrentValue}</label>
+								</div>
+								<div class="attendance-content${status.count}" >
+									<aui:input type="text" name="RTGreenThreshold${status.count}" label="rtgreen-threshold" value="${period.RTGreenThreshold}" />
+									<aui:input type="text" name="RTOrangeThreshold${status.count}" label="rtorange-threshold" value="${period.RTOrangeThreshold}" />
+									<aui:input type="text" name="RTRedThreshold${status.count}" label="rtred-threshold" value="${period.RTRedThreshold}" />
+									<aui:input type="text" name="RTMaxThreshold${status.count}" label="rtmax-threshold" value="${period.RTMaxThreshold}" />
+								</div>
+							</div>
 						</div>
-					</div>
-				</c:forEach>
-				
-			</aui:fieldset>
+					</c:forEach>
+				</aui:fieldset>
+			</c:if>
 				
 			<!-- Sous lieux -->
 			<aui:fieldset collapsed="false" collapsible="true"

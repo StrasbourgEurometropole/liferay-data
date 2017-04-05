@@ -150,8 +150,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String videosIds = ParamUtil.getString(request, "videosIds");
 			place.setVideosIds(videosIds);
 
-			String documents = ParamUtil
-					.getString(request, "documents");
+			String documents = ParamUtil.getString(request, "documents");
 			place.setDocumentsIds(documents);
 
 			// ---------------------------------------------------------------
@@ -252,37 +251,58 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean alwaysOpen = ParamUtil.getBoolean(request,
 							"alwaysOpen" + periodsIndex);
+					Long RTGreenThreshold = ParamUtil.getLong(request,
+							"RTGreenThreshold" + periodsIndex);
+					Long RTOrangeThreshold = ParamUtil.getLong(request,
+							"RTOrangeThreshold" + periodsIndex);
+					Long RTRedThreshold = ParamUtil.getLong(request,
+							"RTRedThreshold" + periodsIndex);
+					Long RTMaxThreshold = ParamUtil.getLong(request,
+							"RTMaxThreshold" + periodsIndex);
 
 					Period period = _periodLocalService.createPeriod(sc);
 					period.setNameMap(namePeriod);
 					period.setLinkLabelMap(periodLabel);
 					period.setLinkURLMap(periodURL);
 					period.setDefaultPeriod(defaultPeriod);
-					if(!period.getDefaultPeriod()){
+					if (!period.getDefaultPeriod()) {
 						period.setStartDate(startDatePeriod);
 						period.setEndDate(endDatePeriod);
 					}
 					period.setAlwaysOpen(alwaysOpen);
 					period.setPlaceId(place.getPlaceId());
+					if(place.isEnabled()){
+						period.setRTGreenThreshold(RTGreenThreshold);
+						period.setRTOrangeThreshold(RTOrangeThreshold);
+						period.setRTRedThreshold(RTRedThreshold);
+						period.setRTMaxThreshold(RTMaxThreshold);
+					}
 					this._periodLocalService.updatePeriod(period);
 
-					if(!period.getAlwaysOpen()){
+					if (!period.getAlwaysOpen()) {
 						// Ajout des slots liées à la période
 						for (int jour = 0; jour < 7; jour++) {
 							for (int slotIndex = 0; slotIndex < 3; slotIndex++) {
 								if (Validator
 										.isNotNull(ParamUtil.getString(request,
-												"startHour" + periodsIndex + "-" + jour
-														+ "-" + slotIndex))
-										&& Validator.isNotNull(ParamUtil.getString(
-												request, "endHour" + periodsIndex + "-"
-														+ jour + "-" + slotIndex))) {
-									String startHour = ParamUtil.getString(request,
-											"startHour" + periodsIndex + "-" + jour
-													+ "-" + slotIndex);
-									String endHour = ParamUtil.getString(request,
-											"endHour" + periodsIndex + "-" + jour
-													+ "-" + slotIndex);
+												"startHour" + periodsIndex + "-"
+														+ jour + "-" + slotIndex))
+										&& Validator.isNotNull(
+												ParamUtil.getString(request,
+														"endHour" + periodsIndex
+																+ "-" + jour
+																+ "-"
+																+ slotIndex))) {
+									String startHour = ParamUtil
+											.getString(request,
+													"startHour" + periodsIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
+									String endHour = ParamUtil
+											.getString(request,
+													"endHour" + periodsIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
 
 									Slot slot = _slotLocalService
 											.createSlot(sc);
@@ -336,13 +356,16 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					String endHour = ParamUtil.getString(request,
 							"endHour" + shedulesExceptionsIndex);
 					Map<Locale, String> comment = LocalizationUtil
-							.getLocalizationMap(request, "scheduleExceptionDescription"
-									+ shedulesExceptionsIndex);
+							.getLocalizationMap(request,
+									"scheduleExceptionDescription"
+											+ shedulesExceptionsIndex);
 					Date startDate = ParamUtil.getDate(request,
-							"startDateScheduleException" + shedulesExceptionsIndex,
+							"startDateScheduleException"
+									+ shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					Date endDate = ParamUtil.getDate(request,
-							"endDateScheduleException" + shedulesExceptionsIndex,
+							"endDateScheduleException"
+									+ shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean closed = ParamUtil.getBoolean(request,
 							"closed" + shedulesExceptionsIndex);
@@ -353,7 +376,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					scheduleException.setStartDate(startDate);
 					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);
-					if(!scheduleException.getClosed()){
+					if (!scheduleException.getClosed()) {
 						scheduleException.setStartHour(startHour);
 						scheduleException.setEndHour(endHour);
 					}
@@ -383,21 +406,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String RTExternalId = ParamUtil.getString(request, "RTExternalId");
 			place.setRTExternalId(RTExternalId);
 
-			Long RTGreenThreshold = ParamUtil.getLong(request,
-					"RTGreenThreshold");
-			place.setRTGreenThreshold(RTGreenThreshold);
-
-			Long RTOrangeThreshold = ParamUtil.getLong(request,
-					"RTOrangeThreshold");
-			place.setRTOrangeThreshold(RTOrangeThreshold);
-
-			Long RTRedThreshold = ParamUtil.getLong(request, "RTRedThreshold");
-			place.setRTRedThreshold(RTRedThreshold);
-
-			Long RTMaxThreshold = ParamUtil.getLong(request, "RTMaxThreshold");
-			place.setRTMaxThreshold(RTMaxThreshold);
-			place.setRGF93Y(RGF93Y);
-
 			// ----------------------------------------------------------------
 			// -------------------------- SOUS LIEUX --------------------------
 			// ----------------------------------------------------------------
@@ -411,10 +419,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 				subPlace.setPlaceId(0);
 				_subPlaceLocalService.updateSubPlace(subPlace);
 			}
-
-			boolean RTEnabled = false;
-			// boolean RTEnabled = ParamUtil.getBoolean(request, "RTEnabled");
-			place.setRTEnabled(RTEnabled);
 
 			place.setSubjectToPublicHoliday(false);
 
@@ -466,8 +470,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 	private SlotLocalService _slotLocalService;
 
 	@Reference(unbind = "-")
-	protected void setSlotLocalService(
-			SlotLocalService slotLocalService) {
+	protected void setSlotLocalService(SlotLocalService slotLocalService) {
 
 		_slotLocalService = slotLocalService;
 	}

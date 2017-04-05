@@ -229,6 +229,20 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne la ville
+	 */
+	@Override
+	public Boolean isEnabled() {
+		List<AssetCategory> types = this.getTypes();
+		for (AssetCategory type : types) {
+			if(Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "realtime"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu
 	 */
 	@Override

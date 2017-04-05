@@ -99,7 +99,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		place.setAccessForElder(false);
 		place.setAccessForWheelchair(false);
 		place.setDisplayEvents(false);
-		place.setRTEnabled(false);
 		place.setSubjectToPublicHoliday(false);
 
 		place.setStatus(WorkflowConstants.STATUS_DRAFT);

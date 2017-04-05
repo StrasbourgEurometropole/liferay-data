@@ -126,12 +126,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "accessForWheelchair", Types.BOOLEAN },
 			{ "accessForElder", Types.BOOLEAN },
 			{ "accessForDeficient", Types.BOOLEAN },
-			{ "RTEnabled", Types.BOOLEAN },
 			{ "RTExternalId", Types.VARCHAR },
-			{ "RTGreenThreshold", Types.BIGINT },
-			{ "RTOrangeThreshold", Types.BIGINT },
-			{ "RTRedThreshold", Types.BIGINT },
-			{ "RTMaxThreshold", Types.BIGINT },
 			{ "imageId", Types.BIGINT },
 			{ "imageIds", Types.VARCHAR },
 			{ "videosIds", Types.VARCHAR },
@@ -187,12 +182,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("accessForWheelchair", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("accessForElder", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("accessForDeficient", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("RTEnabled", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("RTExternalId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("RTGreenThreshold", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("RTOrangeThreshold", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("RTRedThreshold", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("RTMaxThreshold", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
@@ -200,7 +190,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTExternalId VARCHAR(75) null,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTExternalId VARCHAR(75) null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -282,12 +272,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setAccessForWheelchair(soapModel.getAccessForWheelchair());
 		model.setAccessForElder(soapModel.getAccessForElder());
 		model.setAccessForDeficient(soapModel.getAccessForDeficient());
-		model.setRTEnabled(soapModel.getRTEnabled());
 		model.setRTExternalId(soapModel.getRTExternalId());
-		model.setRTGreenThreshold(soapModel.getRTGreenThreshold());
-		model.setRTOrangeThreshold(soapModel.getRTOrangeThreshold());
-		model.setRTRedThreshold(soapModel.getRTRedThreshold());
-		model.setRTMaxThreshold(soapModel.getRTMaxThreshold());
 		model.setImageId(soapModel.getImageId());
 		model.setImageIds(soapModel.getImageIds());
 		model.setVideosIds(soapModel.getVideosIds());
@@ -403,12 +388,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("accessForWheelchair", getAccessForWheelchair());
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
-		attributes.put("RTEnabled", getRTEnabled());
 		attributes.put("RTExternalId", getRTExternalId());
-		attributes.put("RTGreenThreshold", getRTGreenThreshold());
-		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
-		attributes.put("RTRedThreshold", getRTRedThreshold());
-		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -706,40 +686,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			setAccessForDeficient(accessForDeficient);
 		}
 
-		Boolean RTEnabled = (Boolean)attributes.get("RTEnabled");
-
-		if (RTEnabled != null) {
-			setRTEnabled(RTEnabled);
-		}
-
 		String RTExternalId = (String)attributes.get("RTExternalId");
 
 		if (RTExternalId != null) {
 			setRTExternalId(RTExternalId);
-		}
-
-		Long RTGreenThreshold = (Long)attributes.get("RTGreenThreshold");
-
-		if (RTGreenThreshold != null) {
-			setRTGreenThreshold(RTGreenThreshold);
-		}
-
-		Long RTOrangeThreshold = (Long)attributes.get("RTOrangeThreshold");
-
-		if (RTOrangeThreshold != null) {
-			setRTOrangeThreshold(RTOrangeThreshold);
-		}
-
-		Long RTRedThreshold = (Long)attributes.get("RTRedThreshold");
-
-		if (RTRedThreshold != null) {
-			setRTRedThreshold(RTRedThreshold);
-		}
-
-		Long RTMaxThreshold = (Long)attributes.get("RTMaxThreshold");
-
-		if (RTMaxThreshold != null) {
-			setRTMaxThreshold(RTMaxThreshold);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -2655,23 +2605,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
-	public boolean getRTEnabled() {
-		return _RTEnabled;
-	}
-
-	@JSON
-	@Override
-	public boolean isRTEnabled() {
-		return _RTEnabled;
-	}
-
-	@Override
-	public void setRTEnabled(boolean RTEnabled) {
-		_RTEnabled = RTEnabled;
-	}
-
-	@JSON
-	@Override
 	public String getRTExternalId() {
 		if (_RTExternalId == null) {
 			return StringPool.BLANK;
@@ -2684,50 +2617,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	@Override
 	public void setRTExternalId(String RTExternalId) {
 		_RTExternalId = RTExternalId;
-	}
-
-	@JSON
-	@Override
-	public long getRTGreenThreshold() {
-		return _RTGreenThreshold;
-	}
-
-	@Override
-	public void setRTGreenThreshold(long RTGreenThreshold) {
-		_RTGreenThreshold = RTGreenThreshold;
-	}
-
-	@JSON
-	@Override
-	public long getRTOrangeThreshold() {
-		return _RTOrangeThreshold;
-	}
-
-	@Override
-	public void setRTOrangeThreshold(long RTOrangeThreshold) {
-		_RTOrangeThreshold = RTOrangeThreshold;
-	}
-
-	@JSON
-	@Override
-	public long getRTRedThreshold() {
-		return _RTRedThreshold;
-	}
-
-	@Override
-	public void setRTRedThreshold(long RTRedThreshold) {
-		_RTRedThreshold = RTRedThreshold;
-	}
-
-	@JSON
-	@Override
-	public long getRTMaxThreshold() {
-		return _RTMaxThreshold;
-	}
-
-	@Override
-	public void setRTMaxThreshold(long RTMaxThreshold) {
-		_RTMaxThreshold = RTMaxThreshold;
 	}
 
 	@JSON
@@ -3292,12 +3181,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setAccessForWheelchair(getAccessForWheelchair());
 		placeImpl.setAccessForElder(getAccessForElder());
 		placeImpl.setAccessForDeficient(getAccessForDeficient());
-		placeImpl.setRTEnabled(getRTEnabled());
 		placeImpl.setRTExternalId(getRTExternalId());
-		placeImpl.setRTGreenThreshold(getRTGreenThreshold());
-		placeImpl.setRTOrangeThreshold(getRTOrangeThreshold());
-		placeImpl.setRTRedThreshold(getRTRedThreshold());
-		placeImpl.setRTMaxThreshold(getRTMaxThreshold());
 		placeImpl.setImageId(getImageId());
 		placeImpl.setImageIds(getImageIds());
 		placeImpl.setVideosIds(getVideosIds());
@@ -3688,8 +3572,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeCacheModel.accessForDeficient = getAccessForDeficient();
 
-		placeCacheModel.RTEnabled = getRTEnabled();
-
 		placeCacheModel.RTExternalId = getRTExternalId();
 
 		String RTExternalId = placeCacheModel.RTExternalId;
@@ -3697,14 +3579,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		if ((RTExternalId != null) && (RTExternalId.length() == 0)) {
 			placeCacheModel.RTExternalId = null;
 		}
-
-		placeCacheModel.RTGreenThreshold = getRTGreenThreshold();
-
-		placeCacheModel.RTOrangeThreshold = getRTOrangeThreshold();
-
-		placeCacheModel.RTRedThreshold = getRTRedThreshold();
-
-		placeCacheModel.RTMaxThreshold = getRTMaxThreshold();
 
 		placeCacheModel.imageId = getImageId();
 
@@ -3739,7 +3613,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(105);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3833,18 +3707,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAccessForElder());
 		sb.append(", accessForDeficient=");
 		sb.append(getAccessForDeficient());
-		sb.append(", RTEnabled=");
-		sb.append(getRTEnabled());
 		sb.append(", RTExternalId=");
 		sb.append(getRTExternalId());
-		sb.append(", RTGreenThreshold=");
-		sb.append(getRTGreenThreshold());
-		sb.append(", RTOrangeThreshold=");
-		sb.append(getRTOrangeThreshold());
-		sb.append(", RTRedThreshold=");
-		sb.append(getRTRedThreshold());
-		sb.append(", RTMaxThreshold=");
-		sb.append(getRTMaxThreshold());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", imageIds=");
@@ -3862,7 +3726,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(175);
+		StringBundler sb = new StringBundler(160);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4053,28 +3917,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAccessForDeficient());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>RTEnabled</column-name><column-value><![CDATA[");
-		sb.append(getRTEnabled());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>RTExternalId</column-name><column-value><![CDATA[");
 		sb.append(getRTExternalId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>RTGreenThreshold</column-name><column-value><![CDATA[");
-		sb.append(getRTGreenThreshold());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>RTOrangeThreshold</column-name><column-value><![CDATA[");
-		sb.append(getRTOrangeThreshold());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>RTRedThreshold</column-name><column-value><![CDATA[");
-		sb.append(getRTRedThreshold());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>RTMaxThreshold</column-name><column-value><![CDATA[");
-		sb.append(getRTMaxThreshold());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
@@ -4172,12 +4016,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private Boolean _accessForWheelchair;
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
-	private boolean _RTEnabled;
 	private String _RTExternalId;
-	private long _RTGreenThreshold;
-	private long _RTOrangeThreshold;
-	private long _RTRedThreshold;
-	private long _RTMaxThreshold;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

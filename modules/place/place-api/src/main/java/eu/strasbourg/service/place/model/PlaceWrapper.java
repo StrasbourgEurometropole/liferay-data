@@ -105,12 +105,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("accessForWheelchair", getAccessForWheelchair());
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
-		attributes.put("RTEnabled", getRTEnabled());
 		attributes.put("RTExternalId", getRTExternalId());
-		attributes.put("RTGreenThreshold", getRTGreenThreshold());
-		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
-		attributes.put("RTRedThreshold", getRTRedThreshold());
-		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -405,40 +400,10 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 			setAccessForDeficient(accessForDeficient);
 		}
 
-		Boolean RTEnabled = (Boolean)attributes.get("RTEnabled");
-
-		if (RTEnabled != null) {
-			setRTEnabled(RTEnabled);
-		}
-
 		String RTExternalId = (String)attributes.get("RTExternalId");
 
 		if (RTExternalId != null) {
 			setRTExternalId(RTExternalId);
-		}
-
-		Long RTGreenThreshold = (Long)attributes.get("RTGreenThreshold");
-
-		if (RTGreenThreshold != null) {
-			setRTGreenThreshold(RTGreenThreshold);
-		}
-
-		Long RTOrangeThreshold = (Long)attributes.get("RTOrangeThreshold");
-
-		if (RTOrangeThreshold != null) {
-			setRTOrangeThreshold(RTOrangeThreshold);
-		}
-
-		Long RTRedThreshold = (Long)attributes.get("RTRedThreshold");
-
-		if (RTRedThreshold != null) {
-			setRTRedThreshold(RTRedThreshold);
-		}
-
-		Long RTMaxThreshold = (Long)attributes.get("RTMaxThreshold");
-
-		if (RTMaxThreshold != null) {
-			setRTMaxThreshold(RTMaxThreshold);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -480,16 +445,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public boolean getDisplayEvents() {
 		return _place.getDisplayEvents();
-	}
-
-	/**
-	* Returns the r t enabled of this place.
-	*
-	* @return the r t enabled of this place
-	*/
-	@Override
-	public boolean getRTEnabled() {
-		return _place.getRTEnabled();
 	}
 
 	/**
@@ -604,16 +559,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public boolean isPending() {
 		return _place.isPending();
-	}
-
-	/**
-	* Returns <code>true</code> if this place is r t enabled.
-	*
-	* @return <code>true</code> if this place is r t enabled; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isRTEnabled() {
-		return _place.isRTEnabled();
 	}
 
 	/**
@@ -769,6 +714,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.Boolean getAccessForWheelchair() {
 		return _place.getAccessForWheelchair();
+	}
+
+	/**
+	* Retourne la ville
+	*/
+	@Override
+	public java.lang.Boolean isEnabled() {
+		return _place.isEnabled();
 	}
 
 	@Override
@@ -2281,46 +2234,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the r t green threshold of this place.
-	*
-	* @return the r t green threshold of this place
-	*/
-	@Override
-	public long getRTGreenThreshold() {
-		return _place.getRTGreenThreshold();
-	}
-
-	/**
-	* Returns the r t max threshold of this place.
-	*
-	* @return the r t max threshold of this place
-	*/
-	@Override
-	public long getRTMaxThreshold() {
-		return _place.getRTMaxThreshold();
-	}
-
-	/**
-	* Returns the r t orange threshold of this place.
-	*
-	* @return the r t orange threshold of this place
-	*/
-	@Override
-	public long getRTOrangeThreshold() {
-		return _place.getRTOrangeThreshold();
-	}
-
-	/**
-	* Returns the r t red threshold of this place.
-	*
-	* @return the r t red threshold of this place
-	*/
-	@Override
-	public long getRTRedThreshold() {
-		return _place.getRTRedThreshold();
-	}
-
-	/**
 	* Returns the status by user ID of this place.
 	*
 	* @return the status by user ID of this place
@@ -3320,16 +3233,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets whether this place is r t enabled.
-	*
-	* @param RTEnabled the r t enabled of this place
-	*/
-	@Override
-	public void setRTEnabled(boolean RTEnabled) {
-		_place.setRTEnabled(RTEnabled);
-	}
-
-	/**
 	* Sets the r t external ID of this place.
 	*
 	* @param RTExternalId the r t external ID of this place
@@ -3337,46 +3240,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setRTExternalId(java.lang.String RTExternalId) {
 		_place.setRTExternalId(RTExternalId);
-	}
-
-	/**
-	* Sets the r t green threshold of this place.
-	*
-	* @param RTGreenThreshold the r t green threshold of this place
-	*/
-	@Override
-	public void setRTGreenThreshold(long RTGreenThreshold) {
-		_place.setRTGreenThreshold(RTGreenThreshold);
-	}
-
-	/**
-	* Sets the r t max threshold of this place.
-	*
-	* @param RTMaxThreshold the r t max threshold of this place
-	*/
-	@Override
-	public void setRTMaxThreshold(long RTMaxThreshold) {
-		_place.setRTMaxThreshold(RTMaxThreshold);
-	}
-
-	/**
-	* Sets the r t orange threshold of this place.
-	*
-	* @param RTOrangeThreshold the r t orange threshold of this place
-	*/
-	@Override
-	public void setRTOrangeThreshold(long RTOrangeThreshold) {
-		_place.setRTOrangeThreshold(RTOrangeThreshold);
-	}
-
-	/**
-	* Sets the r t red threshold of this place.
-	*
-	* @param RTRedThreshold the r t red threshold of this place
-	*/
-	@Override
-	public void setRTRedThreshold(long RTRedThreshold) {
-		_place.setRTRedThreshold(RTRedThreshold);
 	}
 
 	/**

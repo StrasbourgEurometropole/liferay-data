@@ -286,7 +286,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 })(jQuery);
 
 // Périodes
-var autoFields = undefined; // Référence au champ répétable (setté plus loin)
+var autoFields2 = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; // Namespace du portlet
 
@@ -294,12 +294,47 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('date-fields2')) {
 			// Création de l'autofield
-			autoFields = new Liferay.AutoFields({
+			autoFields2 = new Liferay.AutoFields({
 				contentBox : '#date-fields2',
 				fieldIndexes : namespace + 'periodsIndexes',
 				namespace : namespace,
-				url : getperiodRowJSPURL
+				url : getperiodRowJSPURL,
+				on: {
+					'clone': function(event) {
+						var index = event.details[0].guid;
+						var html = "<div class='lfr-form-row lfr-form-row-inline' id='attendance" + index + "'>"
+						+"<div class='row-fields'>"
+						+"<div class='attendance-label' id='" + index + "' onCLick=\"$('.attendance-content" + index + "').toggle();\">"
+						+"<label>Période " + event.details[0].guid + "</label>"
+						+"</div>"
+						+"<div class='attendance-content" + event.details[0].guid + "' >"
+						+"<div class='form-group input-text-wrapper'>" 
+						+"<label class='control-label' for='" + namespace + "RTGreenThreshold" + event.details[0].guid + "'> Seuil Vert - Orange </label> " 
+						+"<input class='field form-control' id='" + namespace + "RTGreenThreshold" + event.details[0].guid + "' name='" + namespace + "RTGreenThreshold" + event.details[0].guid + "' type='text' >" 
+						+"</div> " 
+						+"<div class='form-group input-text-wrapper'> " 
+						+"<label class='control-label' for='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "'> Seuil Orange - Rouge </label>" 
+						+"<input class='field form-control' id='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "' name='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "' type='text'> " 
+						+"</div> " 
+						+"<div class='form-group input-text-wrapper'> " 
+						+"<label class='control-label' for='" + namespace + "RTRedThreshold" + event.details[0].guid + "'> Seuil Rouge - Noir </label> " 
+						+"<input class='field form-control' id='" + namespace + "RTRedThreshold" + event.details[0].guid + "' name='" + namespace + "RTRedThreshold" + event.details[0].guid + "' type='text'> " 
+						+"</div> " 
+						+"<div class='form-group input-text-wrapper'> " 
+						+"<label class='control-label' for='" + namespace + "RTMaxThreshold" + event.details[0].guid + "'> Capacité totale </label> " 
+						+"<input class='field form-control' id='" + namespace + "RTMaxThreshold" + event.details[0].guid + "' name='" + namespace + "RTMaxThreshold" + event.details[0].guid + "' type='text'> " 
+						+"</div>" 
+						+"</div>"
+						+"</div>"
+						+"</div>";
+						$('#attendanceContent').children().append(html);
+					},
+					'delete': function(event) {
+						$('#attendance'+ event.deletedRow._node.innerText.trim().split(" ")[1]).remove();
+					}
+				},
 			}).render();
 		}
+		
 	});
 })(jQuery);

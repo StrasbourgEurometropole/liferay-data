@@ -1932,27 +1932,6 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setAccessForDeficient(Boolean accessForDeficient);
 
 	/**
-	 * Returns the r t enabled of this place.
-	 *
-	 * @return the r t enabled of this place
-	 */
-	public boolean getRTEnabled();
-
-	/**
-	 * Returns <code>true</code> if this place is r t enabled.
-	 *
-	 * @return <code>true</code> if this place is r t enabled; <code>false</code> otherwise
-	 */
-	public boolean isRTEnabled();
-
-	/**
-	 * Sets whether this place is r t enabled.
-	 *
-	 * @param RTEnabled the r t enabled of this place
-	 */
-	public void setRTEnabled(boolean RTEnabled);
-
-	/**
 	 * Returns the r t external ID of this place.
 	 *
 	 * @return the r t external ID of this place
@@ -1966,62 +1945,6 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	 * @param RTExternalId the r t external ID of this place
 	 */
 	public void setRTExternalId(String RTExternalId);
-
-	/**
-	 * Returns the r t green threshold of this place.
-	 *
-	 * @return the r t green threshold of this place
-	 */
-	public long getRTGreenThreshold();
-
-	/**
-	 * Sets the r t green threshold of this place.
-	 *
-	 * @param RTGreenThreshold the r t green threshold of this place
-	 */
-	public void setRTGreenThreshold(long RTGreenThreshold);
-
-	/**
-	 * Returns the r t orange threshold of this place.
-	 *
-	 * @return the r t orange threshold of this place
-	 */
-	public long getRTOrangeThreshold();
-
-	/**
-	 * Sets the r t orange threshold of this place.
-	 *
-	 * @param RTOrangeThreshold the r t orange threshold of this place
-	 */
-	public void setRTOrangeThreshold(long RTOrangeThreshold);
-
-	/**
-	 * Returns the r t red threshold of this place.
-	 *
-	 * @return the r t red threshold of this place
-	 */
-	public long getRTRedThreshold();
-
-	/**
-	 * Sets the r t red threshold of this place.
-	 *
-	 * @param RTRedThreshold the r t red threshold of this place
-	 */
-	public void setRTRedThreshold(long RTRedThreshold);
-
-	/**
-	 * Returns the r t max threshold of this place.
-	 *
-	 * @return the r t max threshold of this place
-	 */
-	public long getRTMaxThreshold();
-
-	/**
-	 * Sets the r t max threshold of this place.
-	 *
-	 * @param RTMaxThreshold the r t max threshold of this place
-	 */
-	public void setRTMaxThreshold(long RTMaxThreshold);
 
 	/**
 	 * Returns the image ID of this place.
