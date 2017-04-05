@@ -76,7 +76,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 			throws PortletException {
 
 		try {
-			resultat = "Succès";
+			resultat = "SUCCES";
 			messagesErreurs = "";
 			listCategoryCrees = new ArrayList<String>();
 			listCategoryModifies = new ArrayList<String>();
@@ -118,23 +118,23 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 					} else {
 						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
-						resultat = "Erreur";
+						resultat = "ERREUR";
 					}
 
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
 					messagesErreurs = "Lecture du fichier impossible.";
-					resultat = "Erreur";
+					resultat = "ERREUR";
 				}
 
 			} catch (FileNotFoundException e) {
 				messagesErreurs = "Fichier introuvable.";
-				resultat = "Erreur";
+				resultat = "ERREUR";
 			}
 		} else {
 			messagesErreurs = "Aucun fichier choisi.";
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 		sendMail();
 		_log.info("End import");
@@ -258,7 +258,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 												+ ligneRetour(ligne, idSIG,
 														nom));
 									} catch (Exception e) {
-										resultat = "Réussi avec des erreurs";
+										resultat = "REUSSI avec des erreurs";
 										listCategoryErreurs.add(
 												ligneRetour(ligne, idSIG, nom)
 														+ " => "
@@ -275,7 +275,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 							}
 
 						} else {
-							resultat = "Réussi avec des erreurs";
+							resultat = "REUSSI avec des erreurs";
 							listCategoryErreurs
 									.add(ligneRetour(ligne, idSIG, nom)
 											+ " => Le parent associ&eacute; &agrave; la ligne "
@@ -287,7 +287,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 						}
 
 					} else {
-						resultat = "Réussi avec des erreurs";
+						resultat = "REUSSI avec des erreurs";
 						String erreur = ligneRetour(ligne, idSIG, nom);
 						if (idSIG.equals("")) {
 							erreur += "<br>Le champ Identifiant_Categories_SIG est manquant &agrave; la ligne "
@@ -307,11 +307,11 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 				}
 			} else {
 				messagesErreurs = "Le vocabulaire Type de lieu n'existe pas.";
-				resultat = "Erreur";
+				resultat = "ERREUR";
 			}
 		} catch (PortalException e) {
 			messagesErreurs = e.getMessage();
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 	}
 
@@ -326,7 +326,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 		String titre = environment + " Journal d'import des catégories - "
 				+ resultat;
 		String corps;
-		if (resultat.equals("Erreur")) {
+		if (resultat.equals("ERREUR")) {
 			corps = "L'import du fichier ";
 			if (categoriesFile != null) {
 				corps += categoriesFile.getName();

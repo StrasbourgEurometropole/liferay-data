@@ -80,7 +80,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 			throws PortletException {
 
 		try {
-			resultat = "Succès";
+			resultat = "SUCCES";
 			messagesErreurs = "";
 			listLieuxCrees = new ArrayList<String>();
 			listLieuxModifies = new ArrayList<String>();
@@ -131,23 +131,23 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 					} else {
 						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
-						resultat = "Erreur";
+						resultat = "ERREUR";
 					}
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
 					messagesErreurs += "Lecture du fichier impossible.";
-					resultat = "Erreur";
+					resultat = "ERREUR";
 				}
 			} catch (FileNotFoundException e) {
 				messagesErreurs = "Fichier introuvable.";
-				resultat = "Erreur";
+				resultat = "ERREUR";
 			}
 		} else
 
 		{
 			messagesErreurs = "Aucun fichier choisi.";
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 
 		sendMail();
@@ -343,7 +343,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
-								resultat = "Réussi avec des erreurs";
+								resultat = "REUSSI avec des erreurs";
 								listLieuxErreurs
 										.add(ligneRetour(ligne, idSIG, alias)
 												+ " => " + e.getMessage()
@@ -356,7 +356,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							}
 
 						} else {
-							resultat = "Réussi avec des erreurs";
+							resultat = "REUSSI avec des erreurs";
 							listLieuxErreurs
 									.add(ligneRetour(ligne, idSIG, alias)
 											+ " : Le(s) territoire(s) associ&eacute;(s) &agrave; la ligne "
@@ -367,7 +367,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 											+ " => Le(s) territoire(s) associé(s) à la ligne n'existe(nt) pas.");
 						}
 					} else {
-						resultat = "Réussi avec des erreurs";
+						resultat = "REUSSI avec des erreurs";
 						listLieuxErreurs.add(ligneRetour(ligne, idSIG, alias)
 								+ " : Le(s) type(s) de lieu de la ligne "
 								+ ligne + " n'existe(nt) pas.<br>");
@@ -377,7 +377,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 										+ " => Le(s) type(s) de lieu de la ligne n'existe(nt) pas.");
 					}
 				} else {
-					resultat = "Réussi avec des erreurs";
+					resultat = "REUSSI avec des erreurs";
 					String erreur = ligneRetour(ligne, idSIG, alias);
 					if (idSIG.equals("")) {
 						erreur += "<br>Le champ Identifiant_Lieu_SIG est manquant &agrave; la ligne "
@@ -431,7 +431,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 			}
 		} catch (PortalException e) {
 			messagesErreurs += e.getMessage();
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 	}
 
@@ -446,7 +446,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		String titre = environment + " Journal d'import des lieux - "
 				+ resultat;
 		String corps;
-		if (resultat.equals("Erreur")) {
+		if (resultat.equals("ERREUR")) {
 			corps = "L'import du fichier ";
 			if (placesFile != null) {
 				corps += placesFile.getName();

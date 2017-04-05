@@ -76,7 +76,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 			throws PortletException {
 
 		try {
-			resultat = "Succès";
+			resultat = "SUCCES";
 			messagesErreurs = "";
 			sc = ServiceContextFactory.getInstance(request);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
@@ -115,24 +115,24 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 					} else {
 						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
-						resultat = "Erreur";
+						resultat = "ERREUR";
 					}
 
 					br.close();
 					fr.close();
 				} catch (IOException e1) {
 					messagesErreurs = "Lecture du fichier impossible.";
-					resultat = "Erreur";
+					resultat = "ERREUR";
 				}
 			} catch (FileNotFoundException e) {
 				messagesErreurs = "Fichier introuvable.";
-				resultat = "Erreur";
+				resultat = "ERREUR";
 			}
 		} else
 
 		{
 			messagesErreurs = "Aucun fichier choisi.";
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 		_log.info("End import");
 
@@ -224,7 +224,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 											"territoire crée => " + ligneRetour(
 													ligne, idTerritoire, nom));
 								} catch (Exception e) {
-									resultat = "Réussi avec des erreurs";
+									resultat = "REUSSI avec des erreurs";
 									listCategoryErreurs.add(ligneRetour(ligne,
 											idTerritoire, nom) + " => "
 											+ e.getMessage() + ".<br>");
@@ -260,7 +260,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 												+ ligneRetour(ligne,
 														idTerritoire, nom));
 									} catch (Exception e) {
-										resultat = "Réussi avec des erreurs";
+										resultat = "REUSSI avec des erreurs";
 										listCategoryErreurs.add(ligneRetour(
 												ligne, idTerritoire, nom)
 												+ " => " + e.getMessage()
@@ -276,7 +276,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 								}
 							}
 						} else {
-							resultat = "Réussi avec des erreurs";
+							resultat = "REUSSI avec des erreurs";
 							listCategoryErreurs
 									.add(ligneRetour(ligne, idTerritoire, nom)
 											+ " => Le parent associ&eacute; &agrave; la ligne "
@@ -288,7 +288,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 											+ " => Le parent associé à la ligne n'existe pas.");
 						}
 					} else {
-						resultat = "Réussi avec des erreurs";
+						resultat = "REUSSI avec des erreurs";
 						String erreur = ligneRetour(ligne, idTerritoire, nom);
 						if (idTerritoire.equals("")) {
 							erreur += "<br>Le champ Identifiant_Categories_SIG est manquant &agrave; la ligne "
@@ -308,11 +308,11 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 				}
 			} else {
 				messagesErreurs = "Le vocabulaire Territoire n'existe pas.";
-				resultat = "Erreur";
+				resultat = "ERREUR";
 			}
 		} catch (PortalException e) {
 			messagesErreurs = e.getMessage();
-			resultat = "Erreur";
+			resultat = "ERREUR";
 		}
 	}
 
@@ -327,7 +327,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 		String titre = environment + " Journal d'import des territoires - "
 				+ resultat;
 		String corps;
-		if (resultat.equals("Erreur")) {
+		if (resultat.equals("ERREUR")) {
 			corps = "L'import du fichier ";
 			if (territoriesFile != null) {
 				corps += territoriesFile.getName();
