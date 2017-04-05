@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -58,6 +59,10 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("priceId", getPriceId());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("price", getPrice());
 
@@ -78,6 +83,30 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 			setPriceId(priceId);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -91,9 +120,39 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 		}
 	}
 
+	/**
+	* Returns <code>true</code> if this price is approved.
+	*
+	* @return <code>true</code> if this price is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _price.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _price.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is denied.
+	*
+	* @return <code>true</code> if this price is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _price.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is a draft.
+	*
+	* @return <code>true</code> if this price is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _price.isDraft();
 	}
 
 	@Override
@@ -101,9 +160,59 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 		return _price.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this price is expired.
+	*
+	* @return <code>true</code> if this price is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _price.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is inactive.
+	*
+	* @return <code>true</code> if this price is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _price.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is incomplete.
+	*
+	* @return <code>true</code> if this price is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _price.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _price.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is pending.
+	*
+	* @return <code>true</code> if this price is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _price.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this price is scheduled.
+	*
+	* @return <code>true</code> if this price is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _price.isScheduled();
 	}
 
 	@Override
@@ -129,6 +238,16 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	@Override
 	public int compareTo(eu.strasbourg.service.place.model.Price price) {
 		return _price.compareTo(price);
+	}
+
+	/**
+	* Returns the status of this price.
+	*
+	* @return the status of this price
+	*/
+	@Override
+	public int getStatus() {
+		return _price.getStatus();
 	}
 
 	@Override
@@ -228,6 +347,26 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	}
 
 	/**
+	* Returns the status by user name of this price.
+	*
+	* @return the status by user name of this price
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _price.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this price.
+	*
+	* @return the status by user uuid of this price
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _price.getStatusByUserUuid();
+	}
+
+	/**
 	* Returns the title of this price.
 	*
 	* @return the title of this price
@@ -320,6 +459,16 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	}
 
 	/**
+	* Returns the status date of this price.
+	*
+	* @return the status date of this price
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _price.getStatusDate();
+	}
+
+	/**
 	* Retourne les lieux du tarif
 	*/
 	@Override
@@ -365,6 +514,16 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	@Override
 	public long getPrimaryKey() {
 		return _price.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this price.
+	*
+	* @return the status by user ID of this price
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _price.getStatusByUserId();
 	}
 
 	@Override
@@ -495,6 +654,56 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_price.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the status of this price.
+	*
+	* @param status the status of this price
+	*/
+	@Override
+	public void setStatus(int status) {
+		_price.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this price.
+	*
+	* @param statusByUserId the status by user ID of this price
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_price.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this price.
+	*
+	* @param statusByUserName the status by user name of this price
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_price.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this price.
+	*
+	* @param statusByUserUuid the status by user uuid of this price
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_price.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this price.
+	*
+	* @param statusDate the status date of this price
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_price.setStatusDate(statusDate);
 	}
 
 	/**

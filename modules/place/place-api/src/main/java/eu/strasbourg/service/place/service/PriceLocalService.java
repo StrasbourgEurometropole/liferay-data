@@ -38,6 +38,7 @@ import eu.strasbourg.service.place.model.Price;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Price. Methods of this
@@ -150,6 +151,19 @@ public interface PriceLocalService extends BaseLocalService,
 	public Price updatePrice(Price price);
 
 	/**
+	* Met à jour un tarif et l'enregistre en base de données
+	*/
+	public Price updatePrice(Price price, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut du tarif par le framework workflow
+	*/
+	public Price updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
+
+	/**
 	* Returns the number of prices.
 	*
 	* @return the number of prices
@@ -234,4 +248,10 @@ public interface PriceLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut du tarif "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(long userId, Price price, int status)
+		throws PortalException;
 }

@@ -16,10 +16,17 @@
 
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
+					icon="check" label="publish" />
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
+					icon="times" label="unpublish" />
+				<liferay-frontend:management-bar-button
 				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
 				icon="trash" label="delete" />
 			</c:if>
+			
 		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
@@ -43,6 +50,11 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editPriceURL}" name="title" truncate="true" orderable="true"
 					value="${price.titleCurrentValue}" />
+
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${price.status}" />
+				</liferay-ui:search-container-column-text>
 
 
 				<liferay-ui:search-container-column-text>
@@ -82,10 +94,19 @@
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="prices" />
 </liferay-portlet:actionURL>
-
+<liferay-portlet:actionURL name="selectionAction"
+	var="publishSelectionURL">
+	<portlet:param name="cmd" value="publish" />
+	<portlet:param name="tab" value="prices" />
+</liferay-portlet:actionURL>
+<liferay-portlet:actionURL name="selectionAction"
+	var="unpublishSelectionURL">
+	<portlet:param name="cmd" value="unpublish" />
+	<portlet:param name="tab" value="prices" />
+</liferay-portlet:actionURL>
 <aui:script>
 	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-prices" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
@@ -93,6 +114,28 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${deleteSelectionURL}');
+		}
+	}
+	function <portlet:namespace />publishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-prices" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${publishSelectionURL}');
+		}
+	}
+	function <portlet:namespace />unpublishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-prices" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${unpublishSelectionURL}');
 		}
 	}
 </aui:script>

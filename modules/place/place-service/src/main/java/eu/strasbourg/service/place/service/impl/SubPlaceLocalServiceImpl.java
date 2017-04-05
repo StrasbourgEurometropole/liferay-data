@@ -14,12 +14,18 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
@@ -61,7 +67,63 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 	@Override
 	public SubPlace createSubPlace(ServiceContext sc) throws PortalException {
 		long pk = counterLocalService.increment();
+
+		SubPlace subPlace = this.subPlaceLocalService.createSubPlace(pk);
+		subPlace.setStatus(WorkflowConstants.STATUS_DRAFT);
+
 		return this.subPlaceLocalService.createSubPlace(pk);
+	}
+
+	/**
+	 * Met à jour un sous-lieu et l'enregistre en base de données
+	 */
+	@Override
+	public SubPlace updateSubPlace(SubPlace subPlace, ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		subPlace.setStatusByUserId(sc.getUserId());
+		subPlace.setStatusByUserName(user.getFullName());
+		subPlace.setStatusDate(sc.getModifiedDate());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			subPlace.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			subPlace.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		subPlace = this.subPlaceLocalService.updateSubPlace(subPlace);
+
+		return subPlace;
+	}
+
+	/**
+	 * Met à jour le statut du sous-lieu par le framework workflow
+	 */
+	@Override
+	public SubPlace updateStatus(long userId, long entryId, int status,
+			ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		// Statut de l'entité
+		SubPlace subPlace = this.getSubPlace(entryId);
+		subPlace.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			subPlace.setStatusByUserId(user.getUserId());
+			subPlace.setStatusByUserName(user.getFullName());
+		}
+		subPlace.setStatusDate(new Date());
+		subPlace = this.subPlaceLocalService.updateSubPlace(subPlace);
+
+		return subPlace;
+	}
+
+	/**
+	 * Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(long userId, SubPlace subPlace, int status)
+			throws PortalException {
+		this.updateStatus(userId, subPlace.getSubPlaceId(), status, null, null);
 	}
 
 	/**
@@ -76,13 +138,14 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 		// Supprime les exceptions liées au sous-lieu
 		List<ScheduleException> exceptions = subPlace.getScheduleExceptions();
 		for (ScheduleException exception : exceptions) {
-			this.scheduleExceptionLocalService.deleteScheduleException(exception.getExceptionId());
+			this.scheduleExceptionLocalService
+					.deleteScheduleException(exception.getExceptionId());
 		}
-		
+
 		// Supprime les périodes
 		List<Period> periods = subPlace.getPeriods();
 		for (Period period : periods) {
-			 this.periodLocalService.removePeriod(period.getPeriodId());
+			this.periodLocalService.removePeriod(period.getPeriodId());
 		}
 
 		return subPlace;
@@ -92,8 +155,7 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 	 * Lance une recherche par mots-clés
 	 */
 	@Override
-	public List<SubPlace> findByKeyword(String keyword, int start,
-			int end) {
+	public List<SubPlace> findByKeyword(String keyword, int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 
 		if (keyword.length() > 0) {
@@ -101,7 +163,8 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 
-		return subPlacePersistence.findWithDynamicQuery(dynamicQuery, start, end);
+		return subPlacePersistence.findWithDynamicQuery(dynamicQuery, start,
+				end);
 	}
 
 	/**
@@ -117,7 +180,6 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 
 		return subPlacePersistence.countWithDynamicQuery(dynamicQuery);
 	}
-
 
 	/**
 	 * Retourne les SubPlace rattachés à un lieu

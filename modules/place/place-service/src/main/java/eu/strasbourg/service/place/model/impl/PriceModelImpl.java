@@ -21,10 +21,13 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -32,6 +35,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.model.PriceModel;
@@ -40,6 +44,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -70,6 +75,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "priceId", Types.BIGINT },
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "price", Types.CLOB }
 		};
@@ -78,11 +87,15 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("priceId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Price (uuid_ VARCHAR(75) null,priceId LONG not null primary key,title STRING null,price TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Price (uuid_ VARCHAR(75) null,priceId LONG not null primary key,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,price TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Price";
 	public static final String ORDER_BY_JPQL = " ORDER BY price.priceId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Price.priceId ASC";
@@ -142,6 +155,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("priceId", getPriceId());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("price", getPrice());
 
@@ -163,6 +180,30 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 		if (priceId != null) {
 			setPriceId(priceId);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 
 		String title = (String)attributes.get("title");
@@ -209,6 +250,67 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	@Override
 	public void setPriceId(long priceId) {
 		_priceId = priceId;
+	}
+
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
 	}
 
 	@Override
@@ -407,6 +509,86 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 				"Price", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -521,6 +703,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 		priceImpl.setUuid(getUuid());
 		priceImpl.setPriceId(getPriceId());
+		priceImpl.setStatus(getStatus());
+		priceImpl.setStatusByUserId(getStatusByUserId());
+		priceImpl.setStatusByUserName(getStatusByUserName());
+		priceImpl.setStatusDate(getStatusDate());
 		priceImpl.setTitle(getTitle());
 		priceImpl.setPrice(getPrice());
 
@@ -604,6 +790,27 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 		priceCacheModel.priceId = getPriceId();
 
+		priceCacheModel.status = getStatus();
+
+		priceCacheModel.statusByUserId = getStatusByUserId();
+
+		priceCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = priceCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			priceCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			priceCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			priceCacheModel.statusDate = Long.MIN_VALUE;
+		}
+
 		priceCacheModel.title = getTitle();
 
 		String title = priceCacheModel.title;
@@ -625,12 +832,20 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", priceId=");
 		sb.append(getPriceId());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", statusByUserId=");
+		sb.append(getStatusByUserId());
+		sb.append(", statusByUserName=");
+		sb.append(getStatusByUserName());
+		sb.append(", statusDate=");
+		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
 		sb.append(", price=");
@@ -642,7 +857,7 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Price");
@@ -655,6 +870,22 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		sb.append(
 			"<column><column-name>priceId</column-name><column-value><![CDATA[");
 		sb.append(getPriceId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
+		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>title</column-name><column-value><![CDATA[");
@@ -677,6 +908,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	private String _uuid;
 	private String _originalUuid;
 	private long _priceId;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _price;

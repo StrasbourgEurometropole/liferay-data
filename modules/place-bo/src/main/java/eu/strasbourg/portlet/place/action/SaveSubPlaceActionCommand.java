@@ -238,7 +238,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 
 			}
 
-			_subPlaceLocalService.updateSubPlace(subPlace);
+			_subPlaceLocalService.updateSubPlace(subPlace, sc);
 		} catch (PortalException e) {
 			_log.error(e);
 		}

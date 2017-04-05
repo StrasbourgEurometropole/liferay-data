@@ -38,6 +38,7 @@ import eu.strasbourg.service.place.model.SubPlace;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for SubPlace. Methods of this
@@ -141,6 +142,13 @@ public interface SubPlaceLocalService extends BaseLocalService,
 	public SubPlace removeSubPlace(long subPlaceId) throws PortalException;
 
 	/**
+	* Met à jour le statut du sous-lieu par le framework workflow
+	*/
+	public SubPlace updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
+
+	/**
 	* Updates the sub place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param subPlace the sub place
@@ -148,6 +156,12 @@ public interface SubPlaceLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public SubPlace updateSubPlace(SubPlace subPlace);
+
+	/**
+	* Met à jour un sous-lieu et l'enregistre en base de données
+	*/
+	public SubPlace updateSubPlace(SubPlace subPlace, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of sub places.
@@ -251,4 +265,10 @@ public interface SubPlaceLocalService extends BaseLocalService,
 	* Compte de la recherche par mots-clés
 	*/
 	public long findByKeywordCount(java.lang.String keyword);
+
+	/**
+	* Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(long userId, SubPlace subPlace, int status)
+		throws PortalException;
 }

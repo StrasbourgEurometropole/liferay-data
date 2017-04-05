@@ -13,7 +13,6 @@
 <liferay-frontend:management-bar includeCheckBox="true"
 	searchContainerId="placesSearchContainer">
 	<c:if test="${empty dc.keywords}">
-
 		<liferay-frontend:management-bar-filters>
 			<c:if test="${not dc.hasPermission('CONTRIBUTE') or themeDisplay.permissionChecker.isOmniadmin()}">
 				<c:forEach var="vocabulary" items="${dc.vocabularies}">
@@ -180,7 +179,7 @@
 </liferay-portlet:actionURL>
 <aui:script>
 	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
@@ -191,7 +190,7 @@
 		}
 	}
 	function <portlet:namespace />publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
@@ -202,7 +201,7 @@
 		}
 	}
 	function <portlet:namespace />unpublishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];

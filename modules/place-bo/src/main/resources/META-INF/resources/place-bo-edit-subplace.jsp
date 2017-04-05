@@ -176,6 +176,7 @@
 		</aui:fieldset-group>
 
 		<aui:button-row>
+			<aui:input type="hidden" name="workflowAction" value="" />
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" type="submit" name="publish"
 					value="eu.publish" />
