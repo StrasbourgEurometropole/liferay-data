@@ -80,123 +80,113 @@ jQuery(function() {
 
 	function setPeriodValidators() {
 		var allValidated = true;
-		var periodLabels = document
-				.querySelectorAll('#date-fields2 .period-label');
+		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
+		var periodsIndexes = "";
 		for (var i = 0; i < periodLabels.length; i++) {
 			var periodLabel = periodLabels[i];
-			var index = $(periodLabel).attr('id');
-			// On ne lance la validation que si l'élément ne contient pas la
-			// classe "hide"
-			var nom = $(namespaceAUI + "namePeriod" + index).val();
-			if (nom != undefined
-					&& $(periodLabel).parents('.lfr-form-row').attr('class')
-								.indexOf('hide') == -1) {
-				var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
-				var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
-				var retour = setSlotValidators(index, periodLabel).split(";");
-				
-				if (nom == "") {
-					if (labelHasValue || URLHasValue || retour[0] == "true") {
-						$('.place-period-name', $(periodLabel).parent()).show();
-						allValidated = false;
-					}else{
-						$('.place-period-name', $(periodLabel).parent()).hide();
-					} 
-				}else{
-					$('.place-period-name', $(periodLabel).parent()).hide();
-					if (labelHasValue && !URLHasValue) {
-						$('.place-period-label', $(periodLabel).parent()).hide();
-						$('.place-period-url', $(periodLabel).parent()).show();
-						allValidated = false;
-					} else {
-						if (!labelHasValue && URLHasValue) {
-							$('.place-period-label', $(periodLabel).parent()).show();
-							$('.place-period-url', $(periodLabel).parent()).hide();
-							allValidated = false;
-						} else{
-							$('.place-period-label', $(periodLabel).parent()).hide();
-							$('.place-period-url', $(periodLabel).parent()).hide();
-						}
-					}
-					var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
-					if (periodDefault) {
-						$('.place-period-start-date', $(periodLabel).parent()).hide();
-						$('.place-period-end-date', $(periodLabel).parent()).hide();
-						if (nbPeriodDefault == 0) {
-							nbPeriodDefault++;
-							$('.place-period-default', $(periodLabel).parent()).hide();
-						} else {
-							$('.place-period-default', $(periodLabel).parent()).show();
-							allValidated = false;
-						}
-					} else{
-						$('.place-period-default', $(periodLabel).parent()).hide();
-						var startDatePeriod = $(namespaceAUI + "startDatePeriod" + index).val();
-						if(startDatePeriod == ""){
-							$('.place-period-start-date', $(periodLabel).parent()).show();
-							allValidated = false;
-						}else{
-							$('.place-period-start-date', $(periodLabel).parent()).hide();
-						}
-						var endDatePeriod = $(namespaceAUI + "endDatePeriod" + index).val();
-						if(endDatePeriod == ""){
-							$('.place-period-end-date', $(periodLabel).parent()).show();
-							allValidated = false;
-						}else{
-							$('.place-period-end-date', $(periodLabel).parent()).hide();
-						}
-					}
+			var index = $(periodLabel).children('input[id*=numPeriod]').val();
+			periodsIndexes += index + ",";
+			var nom = $(namespaceAUI + "namePeriod" + index).val();			
+			if (nom == "") {
+				$('.place-period-name', $(periodLabel).parent()).show();
+				allValidated = false;
+			}else{
+				$('.place-period-name', $(periodLabel).parent()).hide();
+			}
+
+			var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
+			var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
+			if (labelHasValue && !URLHasValue) {
+				$('.place-period-label', $(periodLabel).parent()).hide();
+				$('.place-period-url', $(periodLabel).parent()).show();
+				allValidated = false;
+			} else {
+				if (!labelHasValue && URLHasValue) {
+					$('.place-period-label', $(periodLabel).parent()).show();
+					$('.place-period-url', $(periodLabel).parent()).hide();
+					allValidated = false;
+				} else{
+					$('.place-period-label', $(periodLabel).parent()).hide();
+					$('.place-period-url', $(periodLabel).parent()).hide();
 				}
-				if(retour[1] == "false"){
+			}
+			
+			var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
+			if (periodDefault) {
+				$('.place-period-start-date', $(periodLabel).parent()).hide();
+				$('.place-period-end-date', $(periodLabel).parent()).hide();
+				if (nbPeriodDefault == 0) {
+					nbPeriodDefault++;
+					$('.place-period-default', $(periodLabel).parent()).hide();
+				} else {
+					$('.place-period-default', $(periodLabel).parent()).show();
 					allValidated = false;
 				}
+			} else{
+				$('.place-period-default', $(periodLabel).parent()).hide();
+				var startDatePeriod = $(namespaceAUI + "startDatePeriod" + index).val();
+				if(startDatePeriod == ""){
+					$('.place-period-start-date', $(periodLabel).parent()).show();
+					allValidated = false;
+				}else{
+					$('.place-period-start-date', $(periodLabel).parent()).hide();
+				}
+				var endDatePeriod = $(namespaceAUI + "endDatePeriod" + index).val();
+				if(endDatePeriod == ""){
+					$('.place-period-end-date', $(periodLabel).parent()).show();
+					allValidated = false;
+				}else{
+					$('.place-period-end-date', $(periodLabel).parent()).hide();
+				}
+			}
+			var retour = setSlotValidators(index, periodLabel);
+			if(!retour){
+				allValidated = false;
 			}
 		}
 		
 		if (!allValidated) {
 			event.preventDefault();
+		}else{
+			$(namespaceAUI + 'periodsIndexes').val(periodsIndexes.substr(0, periodsIndexes.length -1));
 		}
 	}
 
 	function setSlotValidators(indexPeriod, periodLabel) {
-		var renseigner = false;
 		var allValidated = true;
 		
 		for (var jour = 0; jour < 7; jour++) {
-			for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
+			var nbSlot = $(namespaceAUI + 'nbSlot' + indexPeriod
+					+ '-' + jour).val();
+			var slotsIndexes = "";
+			for (var indexSlot = 0; indexSlot < nbSlot; indexSlot++) {
+				slotsIndexes += indexSlot + ",";
 				var heureDebutHasValue = $(namespaceAUI + 'startHour' + indexPeriod
 								+ '-' + jour + '-' + indexSlot).val().length > 0;
-				var heureFinHasValue = $(namespaceAUI + 'endHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot).val().length > 0;
-				if (heureDebutHasValue && !heureFinHasValue) {
+				if (!heureDebutHasValue) {
 					$('#slotStartHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
-					$('#slotEndHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
-					renseigner = true;
 					allValidated = false;
 				} else {
-					if (!heureDebutHasValue && heureFinHasValue) {
-						$('#slotStartHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
-						$('#slotEndHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
-						renseigner = true;
-						allValidated = false;
-					} else {
-						$('#slotStartHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
-						$('#slotEndHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
-						if(heureDebutHasValue && heureFinHasValue){
-							renseigner = true;
-						}
-					}
+					$('#slotStartHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+				}
+				var heureFinHasValue = $(namespaceAUI + 'endHour' + indexPeriod
+								+ '-' + jour + '-' + indexSlot).val().length > 0;
+				if (!heureFinHasValue) {
+					$('#slotEndHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
+					allValidated = false;
+				} else {
+					$('#slotEndHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
 				}
 			}
+			$(namespaceAUI + 'slotsIndexes' + indexPeriod + "-" + jour).val(slotsIndexes.substr(0, slotsIndexes.length -1));
 		}
-		return renseigner + ";" + allValidated;
+
+		return allValidated;
 	}
 
 	function setScheduleExceptionValidators() {
@@ -282,59 +272,5 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 				url : getscheduleExceptionRowJSPURL
 			}).render();
 		}
-	});
-})(jQuery);
-
-// Périodes
-var autoFields2 = undefined; // Référence au champ répétable (setté plus loin)
-(function($) {
-	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_"; // Namespace du portlet
-
-	// Configuration de l'autofield
-	AUI().use('liferay-auto-fields', function(Y) {
-		if (!!document.getElementById('date-fields2')) {
-			// Création de l'autofield
-			autoFields2 = new Liferay.AutoFields({
-				contentBox : '#date-fields2',
-				fieldIndexes : namespace + 'periodsIndexes',
-				namespace : namespace,
-				url : getperiodRowJSPURL,
-				on: {
-					'clone': function(event) {
-						var index = event.details[0].guid;
-						var html = "<div class='lfr-form-row lfr-form-row-inline' id='attendance" + index + "'>"
-						+"<div class='row-fields'>"
-						+"<div class='attendance-label' id='" + index + "' onCLick=\"$('.attendance-content" + index + "').toggle();\">"
-						+"<label>Période " + event.details[0].guid + "</label>"
-						+"</div>"
-						+"<div class='attendance-content" + event.details[0].guid + "' >"
-						+"<div class='form-group input-text-wrapper'>" 
-						+"<label class='control-label' for='" + namespace + "RTGreenThreshold" + event.details[0].guid + "'> Seuil Vert - Orange </label> " 
-						+"<input class='field form-control' id='" + namespace + "RTGreenThreshold" + event.details[0].guid + "' name='" + namespace + "RTGreenThreshold" + event.details[0].guid + "' type='text' >" 
-						+"</div> " 
-						+"<div class='form-group input-text-wrapper'> " 
-						+"<label class='control-label' for='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "'> Seuil Orange - Rouge </label>" 
-						+"<input class='field form-control' id='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "' name='" + namespace + "RTOrangeThreshold" + event.details[0].guid + "' type='text'> " 
-						+"</div> " 
-						+"<div class='form-group input-text-wrapper'> " 
-						+"<label class='control-label' for='" + namespace + "RTRedThreshold" + event.details[0].guid + "'> Seuil Rouge - Noir </label> " 
-						+"<input class='field form-control' id='" + namespace + "RTRedThreshold" + event.details[0].guid + "' name='" + namespace + "RTRedThreshold" + event.details[0].guid + "' type='text'> " 
-						+"</div> " 
-						+"<div class='form-group input-text-wrapper'> " 
-						+"<label class='control-label' for='" + namespace + "RTMaxThreshold" + event.details[0].guid + "'> Capacité totale </label> " 
-						+"<input class='field form-control' id='" + namespace + "RTMaxThreshold" + event.details[0].guid + "' name='" + namespace + "RTMaxThreshold" + event.details[0].guid + "' type='text'> " 
-						+"</div>" 
-						+"</div>"
-						+"</div>"
-						+"</div>";
-						$('#attendanceContent').children().append(html);
-					},
-					'delete': function(event) {
-						$('#attendance'+ event.deletedRow._node.innerText.trim().split(" ")[1]).remove();
-					}
-				},
-			}).render();
-		}
-		
 	});
 })(jQuery);

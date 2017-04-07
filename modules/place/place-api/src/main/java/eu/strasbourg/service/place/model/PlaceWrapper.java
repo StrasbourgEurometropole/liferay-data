@@ -718,9 +718,12 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 	/**
 	* Retourne la ville
+	*
+	* @throws PortalException
 	*/
 	@Override
-	public java.lang.Boolean isEnabled() {
+	public java.lang.Boolean isEnabled()
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _place.isEnabled();
 	}
 

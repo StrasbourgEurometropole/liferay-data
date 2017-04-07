@@ -29,6 +29,77 @@ jQuery(function() {
 	});;
 });
 
+function addPeriod() {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	var nbPeriod = $(namespaceAUI + 'nbPeriod').val();
+	var lastPeriod = 0;
+	if(nbPeriod > 0){
+		lastPeriod = parseInt($('input[name*=numPeriod]')[nbPeriod-1].id.split(namespace + 'numPeriod')[1]) + 1;
+	}
+	var htmlOnglet = "<li role='presentation' id='onglet" + lastPeriod + "' class='active' >" +
+		"<a aria-controls='period" + lastPeriod + "' href='#period" + lastPeriod + "' data-toggle='tab' role='tab'>" +
+		Liferay.Language.get('period') + " " + (parseInt(lastPeriod) + 1)  +
+		" <span class='btn-icon icon icon-trash' onClick='deletePeriod(" + lastPeriod + "); return false;'></span>" +
+		"</a>" +
+		"</li>";
+	
+	$.ajax({
+		url: getperiodRowJSPURL + '&' + namespace + 'index=' + lastPeriod,
+		success: function (html) {
+			// on on enleve le focus à l'ancienne période
+			$('li[class=active]').attr('class','');
+			$('div[class*=active]').attr('class','tab-pane fade in');
+			
+			$('.tab-content').append(html);
+			$('#addPeriod').before(htmlOnglet);
+			
+			// on donne le focus à la nouvelle période
+			$('#period' + lastPeriod).attr('class', 'tab-pane active fade in');
+		}
+	});
+	  
+	//	ajout de la fréquentation
+	$.ajax({
+		url: getattendanceRowJSPURL + '&' + namespace + 'indexPeriod=' + lastPeriod,
+		success: function (html) {
+			$('#attendanceContent').children().append(html);
+		}
+	});
+
+	// on ajuste le nb de période
+	$(namespaceAUI + 'nbPeriod').val(parseInt(nbPeriod)+1);
+}
+
+function deletePeriod(idPeriod) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	var nbPeriod = $(namespaceAUI + 'nbPeriod').val();
+	var selected = $('#onglet'+ idPeriod).attr('class') == 'active';
+
+	$('#onglet'+ idPeriod).remove();
+	$('#period'+ idPeriod).remove();
+	
+	// si la période à supprimer a le focus, on le donne à la dernière période ouverte
+	if(nbPeriod > 1 && selected){
+		var lastPeriod = $('input[name*=numPeriod]')[nbPeriod-2].id.split(namespace + 'numPeriod')[1];
+		$('#period'+ lastPeriod).attr('class', 'tab-pane active fade in');
+		$('#onglet'+ lastPeriod).attr('class', 'active');
+	}else{
+		if(nbPeriod == 1){
+			$('#noPeriod').attr('class', 'tab-pane active fade in');
+			$('#addPeriod').attr('class', 'active');
+		}
+	}
+	
+	
+	// on supprime la fréquentation
+	$('#attendance'+ idPeriod).remove();
+	
+	// on ajuste le nb de période
+	$(namespaceAUI + 'nbPeriod').val(parseInt($(namespaceAUI + 'nbPeriod').val())-1);
+}
+
 function affichageDates(objet, id) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
 	var namespaceAUI = "#" + namespace;
@@ -62,16 +133,72 @@ function affichageHeures(objet, id) {
 
 }
 
+function deleteSlot(idPeriod, jour, slot) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	$('#' + idPeriod + '-' + jour + '-' + slot).remove();
+	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod
+			+ '-' + jour).val();
+	$(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val(nbSlot - 1);
+}
+
+function addSlot(idPeriod, jour) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod
+			+ '-' + jour).val();
+	var lastSlot = 0;
+	if(nbSlot > 0){
+		lastSlot = parseInt($('input[name*=numSlot]')[nbSlot-1].id.split(namespace + 'numSlot')[1]) + 1;
+	}
+	$.ajax({
+		  url: getslotRowJSPURL + '&' + namespace + 'indexPeriod=' + idPeriod  + '&' + namespace + 'jour=' + jour 
+		  	+ '&' + namespace + 'indexSlot=' + lastSlot,
+		  success: function (html) {
+				$('#' + idPeriod + '-' + jour ).before(html);
+		  }
+		});
+	$(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val(parseInt(nbSlot)+1);
+}
+
 function copyHoraire(idPeriod) {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
 	var namespaceAUI = "#" + namespace;
-	for (var indexSlot = 0; indexSlot < 3; indexSlot++) {
-		var heureDebut = $(namespaceAUI + 'startHour' + idPeriod + '-0-' + indexSlot).val();
-		var heureFin = $(namespaceAUI + 'endHour' + idPeriod + '-0-' + indexSlot).val();
+	var nbSlotLundi = $(namespaceAUI + 'nbSlot' + idPeriod
+			+ '-0').val();
+	for (var indexSlot = 0; indexSlot < nbSlotLundi; indexSlot++) {
+		var heureDebutLundi = $(namespaceAUI + 'startHour' + idPeriod + '-0-' + indexSlot).val();
+		var heureFinLundi = $(namespaceAUI + 'endHour' + idPeriod + '-0-' + indexSlot).val();
 		for (var jour = 1; jour < 7; jour++) {
-			$(namespaceAUI + 'startHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureDebut);
-			$(namespaceAUI + 'endHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureFin);
+			var heureDebut = $(namespaceAUI + 'startHour' + idPeriod + '-' + jour + '-' + indexSlot).val();
+			var heureFin = $(namespaceAUI + 'endHour' + idPeriod + '-' + jour + '-' + indexSlot).val();
+			if(heureDebut != undefined && heureFin != undefined){
+				$(namespaceAUI + 'startHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureDebutLundi);
+				$(namespaceAUI + 'endHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureFinLundi);
+			}else{
+				addSlot(idPeriod, jour, indexSlot, heureDebutLundi, heureFinLundi);
+			}
 		}
 	}
+}
 
+function addSlot(idPeriod, jour, indexSlot, heureDebutLundi, heureFinLundi) {
+	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
+	var namespaceAUI = "#" + namespace;
+	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod
+			+ '-' + jour).val();
+	var lastSlot = 0;
+	if(nbSlot > 0){
+		lastSlot = parseInt($('input[name*=numSlot]')[nbSlot-1].id.split(namespace + 'numSlot')[1]) + 1;
+	}
+	$.ajax({
+		  url: getslotRowJSPURL + '&' + namespace + 'indexPeriod=' + idPeriod  + '&' + namespace + 'jour=' + jour 
+		  	+ '&' + namespace + 'indexSlot=' + lastSlot,
+		  success: function (html) {
+				$('#' + idPeriod + '-' + jour ).before(html);
+				$(namespaceAUI + 'startHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureDebutLundi);
+				$(namespaceAUI + 'endHour' + idPeriod + '-' + jour + '-' + indexSlot).val(heureFinLundi);
+		  }
+		});
+	$(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val(parseInt(nbSlot)+1);
 }

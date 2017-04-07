@@ -129,8 +129,11 @@ public interface Place extends PlaceModel, PersistedModel {
 
 	/**
 	* Retourne la ville
+	*
+	* @throws PortalException
 	*/
-	public java.lang.Boolean isEnabled();
+	public java.lang.Boolean isEnabled()
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu

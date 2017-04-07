@@ -230,13 +230,20 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 	/**
 	 * Retourne la ville
+	 * @throws PortalException 
 	 */
 	@Override
-	public Boolean isEnabled() {
+	public Boolean isEnabled() throws PortalException {
 		List<AssetCategory> types = this.getTypes();
 		for (AssetCategory type : types) {
 			if(Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "realtime"))){
 				return true;
+			}
+			// vérification des parents
+			for (AssetCategory ancestor : type.getAncestors()) {
+				if(Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(ancestor.getCategoryId(), "realtime"))){
+					return true;
+				}
 			}
 		}
 		return false;

@@ -98,30 +98,30 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			// Ajout des période liées au sous lieu
 			String periodsIndexes = ParamUtil.getString(request,
 					"periodsIndexes");
-			for (String periodsIndex : periodsIndexes.split(",")) {
-				if (Validator.isNotNull(periodsIndex)
+			for (String periodIndex : periodsIndexes.split(",")) {
+				if (Validator.isNotNull(periodIndex)
 						&& Validator.isNotNull(ParamUtil.getString(request,
-								"namePeriod" + periodsIndex))) {
+								"namePeriod" + periodIndex))) {
 
 					Map<Locale, String> namePeriod = LocalizationUtil
 							.getLocalizationMap(request,
-									"namePeriod" + periodsIndex);
+									"namePeriod" + periodIndex);
 					Map<Locale, String> periodLabel = LocalizationUtil
 							.getLocalizationMap(request,
-									"periodLabel" + periodsIndex);
+									"periodLabel" + periodIndex);
 					Map<Locale, String> periodURL = LocalizationUtil
 							.getLocalizationMap(request,
-									"periodURL" + periodsIndex);
+									"periodURL" + periodIndex);
 					boolean defaultPeriod = ParamUtil.getBoolean(request,
-							"defaultPeriod" + periodsIndex);
+							"defaultPeriod" + periodIndex);
 					Date startDatePeriod = ParamUtil.getDate(request,
-							"startDatePeriod" + periodsIndex,
+							"startDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					Date endDatePeriod = ParamUtil.getDate(request,
-							"endDatePeriod" + periodsIndex,
+							"endDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean alwaysOpen = ParamUtil.getBoolean(request,
-							"alwaysOpen" + periodsIndex);
+							"alwaysOpen" + periodIndex);
 
 					Period period = _periodLocalService.createPeriod(sc);
 					period.setNameMap(namePeriod);
@@ -139,25 +139,27 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 					if (!period.getAlwaysOpen()) {
 						// Ajout des slots liées à la période
 						for (int jour = 0; jour < 7; jour++) {
-							for (int slotIndex = 0; slotIndex < 3; slotIndex++) {
+							String slotsIndexes = ParamUtil.getString(request,
+									"slotsIndexes" + periodIndex + "-" + jour);
+							for (String slotIndex : slotsIndexes.split(",")) {
 								if (Validator
 										.isNotNull(ParamUtil.getString(request,
-												"startHour" + periodsIndex + "-"
+												"startHour" + periodIndex + "-"
 														+ jour + "-" + slotIndex))
 										&& Validator.isNotNull(
 												ParamUtil.getString(request,
-														"endHour" + periodsIndex
+														"endHour" + periodIndex
 																+ "-" + jour
 																+ "-"
 																+ slotIndex))) {
 									String startHour = ParamUtil
 											.getString(request,
-													"startHour" + periodsIndex
+													"startHour" + periodIndex
 															+ "-" + jour + "-"
 															+ slotIndex);
 									String endHour = ParamUtil
 											.getString(request,
-													"endHour" + periodsIndex
+													"endHour" + periodIndex
 															+ "-" + jour + "-"
 															+ slotIndex);
 
