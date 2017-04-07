@@ -28,6 +28,7 @@ import java.util.Map;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -37,6 +38,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -357,6 +360,35 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 		return URLs;
+	}
+
+	/**
+	 * Retourne une map de titre et d'URL des documents de ce lieu
+	 */
+	@Override
+	public Map<String, String> getDocuments() {
+		Map<String, String> documents = new HashMap<String, String>();
+		for (String documentIdStr : this.getDocumentsIds().split(",")) {
+			Long documentId = GetterUtil.getLong(documentIdStr);
+			if (Validator.isNotNull(documentId)) {
+				String documentURL = FileEntryHelper
+						.getFileEntryURL(documentId);
+				DLFileEntry document = FileEntryHelper
+						.getFileEntryByRelativeURL(documentURL);
+				String documentTitle = document.getTitle();
+				documents.put(documentTitle, documentURL);
+			}
+		}
+		return documents;
+	}
+
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public List<Event> getEvents() {
+		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+		return events;
 	}
 
 	/**

@@ -447,5 +447,13 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 	}
 
+	/**
+	 * Lance une recherche par placeSIGId
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId) {
+		return eventPersistence.findByPlaceSIGId(placeSIGId);
+	}
+
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

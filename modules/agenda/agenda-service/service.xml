@@ -104,6 +104,9 @@
 		<finder name="IdSource" return-type="Event">
 			<finder-column name="idSource" />
 		</finder>
+		<finder name="PlaceSIGId" return-type="Collection">
+			<finder-column name="placeSIGId" />
+		</finder>
 		
 
 		<!-- References -->

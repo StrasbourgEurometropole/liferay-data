@@ -1972,6 +1972,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents() {
+		return _place.getEvents();
+	}
+
+	/**
 	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	@Override
@@ -2094,6 +2102,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getCharacteristicsMap() {
 		return _place.getCharacteristicsMap();
+	}
+
+	/**
+	* Retourne une map de titre et d'URL des documents de ce lieu
+	*/
+	@Override
+	public Map<java.lang.String, java.lang.String> getDocuments() {
+		return _place.getDocuments();
 	}
 
 	/**

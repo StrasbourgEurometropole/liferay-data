@@ -196,12 +196,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 8L;
-	public static final long SOURCE_COLUMN_BITMASK = 16L;
-	public static final long STATUS_COLUMN_BITMASK = 32L;
-	public static final long TITLE_COLUMN_BITMASK = 64L;
-	public static final long UUID_COLUMN_BITMASK = 128L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+	public static final long PLACESIGID_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 16L;
+	public static final long SOURCE_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long TITLE_COLUMN_BITMASK = 128L;
+	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 512L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -1266,7 +1267,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
+		_columnBitmask |= PLACESIGID_COLUMN_BITMASK;
+
+		if (_originalPlaceSIGId == null) {
+			_originalPlaceSIGId = _placeSIGId;
+		}
+
 		_placeSIGId = placeSIGId;
+	}
+
+	public String getOriginalPlaceSIGId() {
+		return GetterUtil.getString(_originalPlaceSIGId);
 	}
 
 	@JSON
@@ -2650,6 +2661,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		eventModelImpl._originalTitle = eventModelImpl._title;
 
+		eventModelImpl._originalPlaceSIGId = eventModelImpl._placeSIGId;
+
 		eventModelImpl._originalSource = eventModelImpl._source;
 
 		eventModelImpl._originalIdSource = eventModelImpl._idSource;
@@ -3284,6 +3297,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private String _placeSIGId;
+	private String _originalPlaceSIGId;
 	private String _placeName;
 	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;

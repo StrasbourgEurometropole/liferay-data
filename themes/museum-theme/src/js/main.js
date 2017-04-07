@@ -233,6 +233,19 @@
                     }
                 }
             });
+            // Carousel places
+            $('.items-carousel.places-carousel .owl-carousel').owlCarousel({
+                items: 4,
+                nav: true,
+                responsiveBaseElement: '.items-carousel.places-carousel'
+            });
+            // Carousel Agenda
+            $('.agenda-collections-carousel .owl-carousel').owlCarousel({
+                items: 4,
+                margin: 10,
+                loop: true,
+                responsiveBaseElement: '.agenda-collections-carousel'
+            });
             // Carousel collections d'oeuvres
             $('.artwork-collections-carousel .owl-carousel').owlCarousel({
                 items: 10,

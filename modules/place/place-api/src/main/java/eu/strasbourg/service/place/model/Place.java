@@ -166,6 +166,16 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<java.lang.String> getDocumentURLs();
 
 	/**
+	* Retourne une map de titre et d'URL des documents de ce lieu
+	*/
+	public java.util.Map<java.lang.String, java.lang.String> getDocuments();
+
+	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
+
+	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
 	* handicap
 	*/

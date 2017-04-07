@@ -287,6 +287,11 @@ public interface EventLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
+	* Lance une recherche par placeSIGId
+	*/
+	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
