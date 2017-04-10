@@ -25,6 +25,7 @@ import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 public class EditCampaignEventDisplayContext extends BaseDisplayContext {
@@ -93,7 +94,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	public List<AssetCategory> getEMSServices() throws PortalException {
 		if (Validator.isNull(EMSServices)) {
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary("service gestionnaire");
+				.getGlobalVocabulary(VocabularyNames.EVENT_SERVICE);
 			if (vocabulary != null) {
 				EMSServices = vocabulary.getCategories();
 			}
@@ -107,7 +108,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	public List<AssetCategory> getThemes() throws PortalException {
 		if (Validator.isNull(themes)) {
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary("theme agenda");
+				.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
 			if (vocabulary != null) {
 				themes = vocabulary.getCategories();
 			}
@@ -121,7 +122,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	public List<AssetCategory> getTypes() throws PortalException {
 		if (Validator.isNull(types)) {
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary("type agenda");
+				.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
 			if (vocabulary != null) {
 				types = vocabulary.getCategories();
 			}
@@ -135,7 +136,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	public List<AssetCategory> getPublics() throws PortalException {
 		if (Validator.isNull(publics)) {
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary("public agenda");
+				.getGlobalVocabulary(VocabularyNames.EVENT_PUBLIC);
 			if (vocabulary != null) {
 				publics = vocabulary.getCategories();
 			}
@@ -149,7 +150,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	public List<AssetCategory> getCities() throws PortalException {
 		if (Validator.isNull(cities)) {
 			AssetVocabulary vocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary("territoire");
+				.getGlobalVocabulary(VocabularyNames.TERRITORY);
 			if (vocabulary != null) {
 				cities = vocabulary.getCategories().stream().filter(c -> {
 					try {
