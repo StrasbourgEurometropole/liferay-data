@@ -55,7 +55,8 @@ public class VideoGalleryPortletDisplayTemplateHandler
 			"Galeries de videos", List.class, PortletDisplayTemplateManager.ENTRIES, 
 			"Galerie de videos", VideoGallery.class, "currentGallery", "getTitle(locale)");
 		
-		fieldsTemplateVariableGroup.addVariable("Galerie de video", VideoGallery.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Galerie de videos", VideoGallery.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

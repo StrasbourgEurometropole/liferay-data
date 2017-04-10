@@ -56,6 +56,7 @@ public class VideoPortletDisplayTemplateHandler
 			"Video", Video.class, "currentVideo", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Video", Video.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}
