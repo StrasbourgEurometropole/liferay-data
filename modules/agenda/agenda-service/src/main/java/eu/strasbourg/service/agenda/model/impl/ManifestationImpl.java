@@ -291,42 +291,32 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 			jsonManifestation.put("events", jsonEvents);
 		}
 		
-		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getCategories()) {
-			jsonCategories.put(category.getCategoryId());
-		}
+		JSONArray jsonCategories = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getCategories());
 		if (jsonCategories.length() > 0) {
 			jsonManifestation.put("categories", jsonCategories);
 		}
 
-		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getThemes()) {
-			jsonThemes.put(category.getCategoryId());
-		}
+		JSONArray jsonThemes = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getThemes());	
 		if (jsonThemes.length() > 0) {
 			jsonManifestation.put("themes", jsonThemes);
 		}
 
-		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getTypes()) {
-			jsonTypes.put(category.getCategoryId());
-		}
+		JSONArray jsonTypes = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getTypes());	
 		if (jsonTypes.length() > 0) {
 			jsonManifestation.put("types", jsonTypes);
 		}
 		
-		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getPublics()) {
-			jsonPublics.put(category.getCategoryId());
-		}
+		JSONArray jsonPublics = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getPublics());	
 		if (jsonPublics.length() > 0) {
 			jsonManifestation.put("publics", jsonPublics);
 		}
 
-		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getServices()) {
-			jsonServices.put(category.getCategoryId());
-		}
+		JSONArray jsonServices = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getServices());		
 		if (jsonServices.length() > 0) {
 			jsonManifestation.put("services", jsonServices);
 		}

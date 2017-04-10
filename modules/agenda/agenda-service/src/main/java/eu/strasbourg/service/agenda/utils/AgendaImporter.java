@@ -16,7 +16,6 @@ import java.util.Map;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -51,6 +50,7 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 public class AgendaImporter {
 
@@ -356,16 +356,9 @@ public class AgendaImporter {
 		for (AssetVocabulary vocabulary : manifestationRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
-		List<Long> categoriesIds = JSONHelper.getCategoriesIdsFromFields(
+		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonManifestation, "themes", "types", "publics", "services");
-		for (Long categoryId : categoriesIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(categoryId);
-			if (category == null) {
-				reportLine.error("la catégorie ayant pour id " + categoryId
-					+ " n'existe pas");
-				continue;
-			}
+		for (AssetCategory category : categories) {
 			boolean isFromValidVocabulary = manifestationVocabularies.stream()
 				.anyMatch(
 					v -> v.getVocabularyId() == category.getVocabularyId());
@@ -397,7 +390,9 @@ public class AgendaImporter {
 			sc.setUserId(defaultUserId);
 			sc.setCompanyId(companyId);
 			sc.setScopeGroupId(this.globalGroupId);
-			sc.setAssetCategoryIds(ArrayUtil.toLongArray(categoriesIds));
+			long[] categoriesIds = categories.stream()
+				.mapToLong(AssetCategory::getCategoryId).toArray();
+			sc.setAssetCategoryIds(categoriesIds);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
@@ -617,16 +612,9 @@ public class AgendaImporter {
 		for (AssetVocabulary vocabulary : eventRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
-		List<Long> categoriesIds = JSONHelper.getCategoriesIdsFromFields(
+		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonEvent, "themes", "types", "publics", "territories", "services");
-		for (Long categoryId : categoriesIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(categoryId);
-			if (category == null) {
-				reportLine.error("la catégorie ayant pour id " + categoryId
-					+ " n'existe pas");
-				continue;
-			}
+		for (AssetCategory category : categories) {
 			boolean isFromValidVocabulary = eventVocabularies.stream().anyMatch(
 				v -> v.getVocabularyId() == category.getVocabularyId());
 			if (!isFromValidVocabulary) {
@@ -657,7 +645,9 @@ public class AgendaImporter {
 			sc.setUserId(defaultUserId);
 			sc.setCompanyId(companyId);
 			sc.setScopeGroupId(this.globalGroupId);
-			sc.setAssetCategoryIds(ArrayUtil.toLongArray(categoriesIds));
+			long[] categoriesIds = categories.stream()
+				.mapToLong(AssetCategory::getCategoryId).toArray();
+			sc.setAssetCategoryIds(categoriesIds);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
@@ -827,6 +817,51 @@ public class AgendaImporter {
 		}
 
 		return reportLine;
+	}
+
+	private List<AssetCategory> getCategoriesIdsFromFields(
+		ImportReportLine reportLine, JSONObject json, String... fields) {
+		List<AssetCategory> categories = new ArrayList<AssetCategory>();
+		try {
+			AssetVocabulary themeVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+			AssetVocabulary typeVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+			AssetVocabulary publicVocabulary;
+			publicVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_PUBLIC);
+			AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.TERRITORY);
+			AssetVocabulary serviceVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_SERVICE);
+			Map<String, AssetVocabulary> fieldVocabularies = new HashMap<String, AssetVocabulary>();
+			fieldVocabularies.put("themes", themeVocabulary);
+			fieldVocabularies.put("types", typeVocabulary);
+			fieldVocabularies.put("publics", publicVocabulary);
+			fieldVocabularies.put("territories", territoryVocabulary);
+			fieldVocabularies.put("services", serviceVocabulary);
+			for (String field : fields) {
+				JSONArray categoryArray = json.getJSONArray(field);
+				if (categoryArray != null) {
+					for (int i = 0; i < categoryArray.length(); i++) {
+						String externalId = categoryArray.getString(i);
+						AssetVocabulary fieldVocabulary = fieldVocabularies
+							.get(field);
+						AssetCategory category = AssetVocabularyHelper
+							.getCategoryByExternalId(fieldVocabulary,
+								externalId);
+						categories.add(category);
+						if (category == null) {
+							reportLine.error("la catégorie ayant pour id "
+								+ externalId + " n'existe pas");
+						}
+					}
+				}
+			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return categories;
 	}
 
 }
