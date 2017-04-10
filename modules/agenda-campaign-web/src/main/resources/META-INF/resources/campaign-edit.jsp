@@ -75,6 +75,20 @@
 				<div class="row">
 					<div class="col-md-8">
 						<aui:input name="description" label="eu.campaign.description" helpMessage="description-help" />
+						<!-- Hack pour ajouter une validation sur la description -->
+						<div class="has-error">
+							<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+								<aui:validator name="custom" errorMessage="this-field-is-required">
+									function (val, fieldNode, ruleValue) {
+										var validate = $('#<portlet:namespace />description_fr_FR').val().length > 0;
+										if (!validate) {
+											$("#<portlet:namespace />descriptionContainer").get(0).scrollIntoView();
+										}
+										return validate;
+									}
+								</aui:validator>
+							</aui:input>
+						</div>
 					</div>
 				</div>
 				
