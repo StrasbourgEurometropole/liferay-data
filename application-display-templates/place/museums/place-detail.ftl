@@ -294,7 +294,13 @@
                 <div class="place-info-section">
                     <h4>
                         <@liferay_ui.message key="eu.times" />
-                        <!-- <a href="#"><@liferay_ui.message key="eu.all-times" /></a>-->
+                        <#assign types = entry.getTypes() />
+                        <#if types?has_content>
+                            <#list types as type>
+                                ${type.getCategoryId()}
+                                 <a href="tous-les-horaires/-/entity/id/${type.getCategoryId()}" target="_blank"><@liferay_ui.message key="eu.all-times" /></a>
+                            </#list>
+                        </#if>
                     </h4>
                     <div class="place-schedule">
                         <ul>
@@ -368,5 +374,5 @@
 
     </div>
 <#else>
-    <@liferay_ui.message key="select-place" />Veuillez s&eacute;lectionner un lieu dans la configuration du portlet. Merci.
+    <@liferay_ui.message key="select-place" />
 </#if>
