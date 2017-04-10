@@ -21,7 +21,7 @@
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
 
 	<liferay-ui:search-container
-		emptyResultsMessage="there-are-no-galleries"
+		emptyResultsMessage="no-entries-were-found"
 		iteratorURL="${portletURL}"
 		total="${total}"
 		rowChecker="<%=new RowChecker(renderResponse) %>"
