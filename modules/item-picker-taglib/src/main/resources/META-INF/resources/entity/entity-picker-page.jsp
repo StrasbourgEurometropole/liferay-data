@@ -30,6 +30,10 @@
 		</aui:input>
 	</div>
 </div>
+<c:set var="dialogTitle" value="${type}" />
+<c:if test="${multiple}">
+	<c:set var="dialogTitle" value="${dialogTitle.concat('s')}" />
+</c:if>
 <aui:script use="liferay-item-selector-dialog">
 $('#<portlet:namespace />choose-entity-${name}').on('click',
 	function(event) {
@@ -71,7 +75,7 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 						}
 					}
 				},
-				title: '<liferay-ui:message key="${type}"/>',
+				title: '<liferay-ui:message key="${dialogTitle}"/>',
 				url: '${itemSelectorURL}'
 			}
 		);
