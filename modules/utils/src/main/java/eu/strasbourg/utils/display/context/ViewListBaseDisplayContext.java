@@ -212,9 +212,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 				return category.getName();
 			}
 		}
-		String filterByLabel = LanguageUtil.get(this._themeDisplay.getLocale(),
-			"filter-by");
-		return filterByLabel + " " + vocabulary.getName();
+		return vocabulary.getName();
 	}
 
 	public List<AssetVocabulary> getGlobalVocabularies() {
