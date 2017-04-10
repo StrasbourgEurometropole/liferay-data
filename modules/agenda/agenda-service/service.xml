@@ -97,6 +97,13 @@
 			<finder-column comparator="&lt;" name="publicationDate" />
 			<finder-column name="status" />
 		</finder>
+		<finder name="LastEndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="lastEndDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
+			<finder-column name="status" />
+		</finder>
 		<finder name="SourceAndIdSource" return-type="Event">
 			<finder-column name="source" />
 			<finder-column name="idSource" />
@@ -164,6 +171,13 @@
 		</finder>
 		<finder name="PublicationDateAndStatus" return-type="Collection">
 			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="EndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="endDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
 			<finder-column name="status" />
 		</finder>
 		<finder name="SourceAndIdSource" return-type="Manifestation">

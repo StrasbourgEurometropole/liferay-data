@@ -196,12 +196,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 8L;
-	public static final long SOURCE_COLUMN_BITMASK = 16L;
-	public static final long STATUS_COLUMN_BITMASK = 32L;
-	public static final long TITLE_COLUMN_BITMASK = 64L;
-	public static final long UUID_COLUMN_BITMASK = 128L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
+	public static final long LASTENDDATE_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 16L;
+	public static final long SOURCE_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long STATUSDATE_COLUMN_BITMASK = 128L;
+	public static final long TITLE_COLUMN_BITMASK = 256L;
+	public static final long UUID_COLUMN_BITMASK = 512L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -905,7 +907,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_originalStatusDate == null) {
+			_originalStatusDate = _statusDate;
+		}
+
 		_statusDate = statusDate;
+	}
+
+	public Date getOriginalStatusDate() {
+		return _originalStatusDate;
 	}
 
 	@JSON
@@ -2167,7 +2179,17 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setLastEndDate(Date lastEndDate) {
+		_columnBitmask |= LASTENDDATE_COLUMN_BITMASK;
+
+		if (_originalLastEndDate == null) {
+			_originalLastEndDate = _lastEndDate;
+		}
+
 		_lastEndDate = lastEndDate;
+	}
+
+	public Date getOriginalLastEndDate() {
+		return _originalLastEndDate;
 	}
 
 	@JSON
@@ -2648,6 +2670,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		eventModelImpl._setOriginalStatus = false;
 
+		eventModelImpl._originalStatusDate = eventModelImpl._statusDate;
+
 		eventModelImpl._originalTitle = eventModelImpl._title;
 
 		eventModelImpl._originalSource = eventModelImpl._source;
@@ -2655,6 +2679,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventModelImpl._originalIdSource = eventModelImpl._idSource;
 
 		eventModelImpl._originalPublicationDate = eventModelImpl._publicationDate;
+
+		eventModelImpl._originalLastEndDate = eventModelImpl._lastEndDate;
 
 		eventModelImpl._columnBitmask = 0;
 	}
@@ -3274,6 +3300,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private Date _originalStatusDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _originalTitle;
@@ -3318,6 +3345,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Date _originalPublicationDate;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
+	private Date _originalLastEndDate;
 	private Long _imageId;
 	private long _columnBitmask;
 	private Event _escapedModel;

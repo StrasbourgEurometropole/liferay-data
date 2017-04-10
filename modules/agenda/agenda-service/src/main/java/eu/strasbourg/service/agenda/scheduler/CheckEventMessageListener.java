@@ -16,6 +16,11 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.ManifestationLocalService;
 
+/**
+ * Passe au statut "APPROVED" tous les événements et les manifestations dont la
+ * publication a été programmée et dont la date de publication est désormais
+ * dépassée
+ */
 @Component(immediate = true, service = CheckEventMessageListener.class)
 public class CheckEventMessageListener
 	extends BaseSchedulerEntryMessageListener {
@@ -39,16 +44,21 @@ public class CheckEventMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		_eventLocalService.checkEvents();
+		_eventLocalService.unpublishPastEvents();
+		_eventLocalService.deleteOldUnpublishedEvents();
 		_manifestationLocalService.checkManifestations();
+		_manifestationLocalService.unpublishPastManifestations();
+		_manifestationLocalService.deleteOldUnpublishedManifestations();
 	}
 
 	@Reference(unbind = "-")
 	protected void setEventLocalService(EventLocalService eventLocalService) {
 		_eventLocalService = eventLocalService;
 	}
-	
+
 	@Reference(unbind = "-")
-	protected void setEventManifestationLocalService(ManifestationLocalService manifestationLocalService) {
+	protected void setEventManifestationLocalService(
+		ManifestationLocalService manifestationLocalService) {
 		_manifestationLocalService = manifestationLocalService;
 	}
 

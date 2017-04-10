@@ -3122,6 +3122,1102 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		"manifestation.publicationDate < ? AND ";
 	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
 		"manifestation.status = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ENDDATE = new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED,
+			ManifestationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByEndDate",
+			new String[] {
+				Date.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_ENDDATE = new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByEndDate",
+			new String[] { Date.class.getName() });
+
+	/**
+	 * Returns all the manifestations where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @return the matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByEndDate(Date endDate) {
+		return findByEndDate(endDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the manifestations where endDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param endDate the end date
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @return the range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByEndDate(Date endDate, int start, int end) {
+		return findByEndDate(endDate, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the manifestations where endDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param endDate the end date
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByEndDate(Date endDate, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return findByEndDate(endDate, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the manifestations where endDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param endDate the end date
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByEndDate(Date endDate, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ENDDATE;
+		finderArgs = new Object[] { endDate, start, end, orderByComparator };
+
+		List<Manifestation> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Manifestation>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Manifestation manifestation : list) {
+					if ((endDate.getTime() <= manifestation.getEndDate()
+															   .getTime())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_MANIFESTATION_WHERE);
+
+			boolean bindEndDate = false;
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_1);
+			}
+			else {
+				bindEndDate = true;
+
+				query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ManifestationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEndDate) {
+					qPos.add(new Timestamp(endDate.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Manifestation>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Manifestation>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first manifestation in the ordered set where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching manifestation
+	 * @throws NoSuchManifestationException if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation findByEndDate_First(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = fetchByEndDate_First(endDate,
+				orderByComparator);
+
+		if (manifestation != null) {
+			return manifestation;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("endDate=");
+		msg.append(endDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchManifestationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first manifestation in the ordered set where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchByEndDate_First(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator) {
+		List<Manifestation> list = findByEndDate(endDate, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last manifestation in the ordered set where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching manifestation
+	 * @throws NoSuchManifestationException if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation findByEndDate_Last(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = fetchByEndDate_Last(endDate,
+				orderByComparator);
+
+		if (manifestation != null) {
+			return manifestation;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("endDate=");
+		msg.append(endDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchManifestationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last manifestation in the ordered set where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchByEndDate_Last(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator) {
+		int count = countByEndDate(endDate);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Manifestation> list = findByEndDate(endDate, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the manifestations before and after the current manifestation in the ordered set where endDate &lt; &#63;.
+	 *
+	 * @param manifestationId the primary key of the current manifestation
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next manifestation
+	 * @throws NoSuchManifestationException if a manifestation with the primary key could not be found
+	 */
+	@Override
+	public Manifestation[] findByEndDate_PrevAndNext(long manifestationId,
+		Date endDate, OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = findByPrimaryKey(manifestationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Manifestation[] array = new ManifestationImpl[3];
+
+			array[0] = getByEndDate_PrevAndNext(session, manifestation,
+					endDate, orderByComparator, true);
+
+			array[1] = manifestation;
+
+			array[2] = getByEndDate_PrevAndNext(session, manifestation,
+					endDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Manifestation getByEndDate_PrevAndNext(Session session,
+		Manifestation manifestation, Date endDate,
+		OrderByComparator<Manifestation> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_MANIFESTATION_WHERE);
+
+		boolean bindEndDate = false;
+
+		if (endDate == null) {
+			query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_1);
+		}
+		else {
+			bindEndDate = true;
+
+			query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ManifestationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindEndDate) {
+			qPos.add(new Timestamp(endDate.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(manifestation);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Manifestation> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the manifestations where endDate &lt; &#63; from the database.
+	 *
+	 * @param endDate the end date
+	 */
+	@Override
+	public void removeByEndDate(Date endDate) {
+		for (Manifestation manifestation : findByEndDate(endDate,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(manifestation);
+		}
+	}
+
+	/**
+	 * Returns the number of manifestations where endDate &lt; &#63;.
+	 *
+	 * @param endDate the end date
+	 * @return the number of matching manifestations
+	 */
+	@Override
+	public int countByEndDate(Date endDate) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_ENDDATE;
+
+		Object[] finderArgs = new Object[] { endDate };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_MANIFESTATION_WHERE);
+
+			boolean bindEndDate = false;
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_1);
+			}
+			else {
+				bindEndDate = true;
+
+				query.append(_FINDER_COLUMN_ENDDATE_ENDDATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEndDate) {
+					qPos.add(new Timestamp(endDate.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ENDDATE_ENDDATE_1 = "manifestation.endDate IS NULL";
+	private static final String _FINDER_COLUMN_ENDDATE_ENDDATE_2 = "manifestation.endDate < ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSDATEANDSTATUS =
+		new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED,
+			ManifestationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByStatusDateAndStatus",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_STATUSDATEANDSTATUS =
+		new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
+			ManifestationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByStatusDateAndStatus",
+			new String[] { Date.class.getName(), Integer.class.getName() });
+
+	/**
+	 * Returns all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @return the matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByStatusDateAndStatus(Date statusDate,
+		int status) {
+		return findByStatusDateAndStatus(statusDate, status, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @return the range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByStatusDateAndStatus(Date statusDate,
+		int status, int start, int end) {
+		return findByStatusDateAndStatus(statusDate, status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByStatusDateAndStatus(Date statusDate,
+		int status, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return findByStatusDateAndStatus(statusDate, status, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of manifestations
+	 * @param end the upper bound of the range of manifestations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching manifestations
+	 */
+	@Override
+	public List<Manifestation> findByStatusDateAndStatus(Date statusDate,
+		int status, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSDATEANDSTATUS;
+		finderArgs = new Object[] {
+				statusDate, status,
+				
+				start, end, orderByComparator
+			};
+
+		List<Manifestation> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Manifestation>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Manifestation manifestation : list) {
+					if ((statusDate.getTime() <= manifestation.getStatusDate()
+																  .getTime()) ||
+							(status != manifestation.getStatus())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_MANIFESTATION_WHERE);
+
+			boolean bindStatusDate = false;
+
+			if (statusDate == null) {
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+			}
+			else {
+				bindStatusDate = true;
+
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ManifestationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStatusDate) {
+					qPos.add(new Timestamp(statusDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<Manifestation>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Manifestation>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching manifestation
+	 * @throws NoSuchManifestationException if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation findByStatusDateAndStatus_First(Date statusDate,
+		int status, OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = fetchByStatusDateAndStatus_First(statusDate,
+				status, orderByComparator);
+
+		if (manifestation != null) {
+			return manifestation;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("statusDate=");
+		msg.append(statusDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchManifestationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchByStatusDateAndStatus_First(Date statusDate,
+		int status, OrderByComparator<Manifestation> orderByComparator) {
+		List<Manifestation> list = findByStatusDateAndStatus(statusDate,
+				status, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching manifestation
+	 * @throws NoSuchManifestationException if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation findByStatusDateAndStatus_Last(Date statusDate,
+		int status, OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = fetchByStatusDateAndStatus_Last(statusDate,
+				status, orderByComparator);
+
+		if (manifestation != null) {
+			return manifestation;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("statusDate=");
+		msg.append(statusDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchManifestationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	 */
+	@Override
+	public Manifestation fetchByStatusDateAndStatus_Last(Date statusDate,
+		int status, OrderByComparator<Manifestation> orderByComparator) {
+		int count = countByStatusDateAndStatus(statusDate, status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Manifestation> list = findByStatusDateAndStatus(statusDate,
+				status, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the manifestations before and after the current manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param manifestationId the primary key of the current manifestation
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next manifestation
+	 * @throws NoSuchManifestationException if a manifestation with the primary key could not be found
+	 */
+	@Override
+	public Manifestation[] findByStatusDateAndStatus_PrevAndNext(
+		long manifestationId, Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws NoSuchManifestationException {
+		Manifestation manifestation = findByPrimaryKey(manifestationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Manifestation[] array = new ManifestationImpl[3];
+
+			array[0] = getByStatusDateAndStatus_PrevAndNext(session,
+					manifestation, statusDate, status, orderByComparator, true);
+
+			array[1] = manifestation;
+
+			array[2] = getByStatusDateAndStatus_PrevAndNext(session,
+					manifestation, statusDate, status, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Manifestation getByStatusDateAndStatus_PrevAndNext(
+		Session session, Manifestation manifestation, Date statusDate,
+		int status, OrderByComparator<Manifestation> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_MANIFESTATION_WHERE);
+
+		boolean bindStatusDate = false;
+
+		if (statusDate == null) {
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+		}
+		else {
+			bindStatusDate = true;
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ManifestationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindStatusDate) {
+			qPos.add(new Timestamp(statusDate.getTime()));
+		}
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(manifestation);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Manifestation> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the manifestations where statusDate &lt; &#63; and status = &#63; from the database.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 */
+	@Override
+	public void removeByStatusDateAndStatus(Date statusDate, int status) {
+		for (Manifestation manifestation : findByStatusDateAndStatus(
+				statusDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(manifestation);
+		}
+	}
+
+	/**
+	 * Returns the number of manifestations where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @return the number of matching manifestations
+	 */
+	@Override
+	public int countByStatusDateAndStatus(Date statusDate, int status) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_STATUSDATEANDSTATUS;
+
+		Object[] finderArgs = new Object[] { statusDate, status };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_MANIFESTATION_WHERE);
+
+			boolean bindStatusDate = false;
+
+			if (statusDate == null) {
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+			}
+			else {
+				bindStatusDate = true;
+
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStatusDate) {
+					qPos.add(new Timestamp(statusDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1 = "manifestation.statusDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2 = "manifestation.statusDate < ? AND ";
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2 = "manifestation.status = ?";
 	public static final FinderPath FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE = new FinderPath(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
 			ManifestationModelImpl.FINDER_CACHE_ENABLED,
 			ManifestationImpl.class, FINDER_CLASS_NAME_ENTITY,
