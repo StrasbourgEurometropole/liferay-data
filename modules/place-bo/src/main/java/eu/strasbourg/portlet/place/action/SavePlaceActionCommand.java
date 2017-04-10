@@ -227,80 +227,91 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			// Ajout des période liées au sous lieu
 			String periodsIndexes = ParamUtil.getString(request,
 					"periodsIndexes");
-			for (String periodIndex : periodsIndexes.split(",")) {
-				Map<Locale, String> namePeriod = LocalizationUtil
-						.getLocalizationMap(request,
-								"namePeriod" + periodIndex);
-				Map<Locale, String> periodLabel = LocalizationUtil
-						.getLocalizationMap(request,
-								"periodLabel" + periodIndex);
-				Map<Locale, String> periodURL = LocalizationUtil
-						.getLocalizationMap(request, "periodURL" + periodIndex);
-				boolean defaultPeriod = ParamUtil.getBoolean(request,
-						"defaultPeriod" + periodIndex);
-				Date startDatePeriod = ParamUtil.getDate(request,
-						"startDatePeriod" + periodIndex,
-						new SimpleDateFormat("yyyy-MM-dd"));
-				Date endDatePeriod = ParamUtil.getDate(request,
-						"endDatePeriod" + periodIndex,
-						new SimpleDateFormat("yyyy-MM-dd"));
-				boolean alwaysOpen = ParamUtil.getBoolean(request,
-						"alwaysOpen" + periodIndex);
-				Long RTGreenThreshold = ParamUtil.getLong(request,
-						"RTGreenThreshold" + periodIndex);
-				Long RTOrangeThreshold = ParamUtil.getLong(request,
-						"RTOrangeThreshold" + periodIndex);
-				Long RTRedThreshold = ParamUtil.getLong(request,
-						"RTRedThreshold" + periodIndex);
-				Long RTMaxThreshold = ParamUtil.getLong(request,
-						"RTMaxThreshold" + periodIndex);
+			if (Validator.isNotNull(periodsIndexes)) {
+				for (String periodIndex : periodsIndexes.split(",")) {
+					Map<Locale, String> namePeriod = LocalizationUtil
+							.getLocalizationMap(request,
+									"namePeriod" + periodIndex);
+					Map<Locale, String> periodLabel = LocalizationUtil
+							.getLocalizationMap(request,
+									"periodLabel" + periodIndex);
+					Map<Locale, String> periodURL = LocalizationUtil
+							.getLocalizationMap(request,
+									"periodURL" + periodIndex);
+					boolean defaultPeriod = ParamUtil.getBoolean(request,
+							"defaultPeriod" + periodIndex);
+					Date startDatePeriod = ParamUtil.getDate(request,
+							"startDatePeriod" + periodIndex,
+							new SimpleDateFormat("yyyy-MM-dd"));
+					Date endDatePeriod = ParamUtil.getDate(request,
+							"endDatePeriod" + periodIndex,
+							new SimpleDateFormat("yyyy-MM-dd"));
+					boolean alwaysOpen = ParamUtil.getBoolean(request,
+							"alwaysOpen" + periodIndex);
+					Long RTGreenThreshold = ParamUtil.getLong(request,
+							"RTGreenThreshold" + periodIndex);
+					Long RTOrangeThreshold = ParamUtil.getLong(request,
+							"RTOrangeThreshold" + periodIndex);
+					Long RTRedThreshold = ParamUtil.getLong(request,
+							"RTRedThreshold" + periodIndex);
+					Long RTMaxThreshold = ParamUtil.getLong(request,
+							"RTMaxThreshold" + periodIndex);
 
-				Period period = _periodLocalService.createPeriod(sc);
-				period.setNameMap(namePeriod);
-				period.setLinkLabelMap(periodLabel);
-				period.setLinkURLMap(periodURL);
-				period.setDefaultPeriod(defaultPeriod);
-				if (!period.getDefaultPeriod()) {
-					period.setStartDate(startDatePeriod);
-					period.setEndDate(endDatePeriod);
-				}
-				period.setAlwaysOpen(alwaysOpen);
-				period.setPlaceId(place.getPlaceId());
+					Period period = _periodLocalService.createPeriod(sc);
+					period.setNameMap(namePeriod);
+					period.setLinkLabelMap(periodLabel);
+					period.setLinkURLMap(periodURL);
+					period.setDefaultPeriod(defaultPeriod);
+					if (!period.getDefaultPeriod()) {
+						period.setStartDate(startDatePeriod);
+						period.setEndDate(endDatePeriod);
+					}
+					period.setAlwaysOpen(alwaysOpen);
+					period.setPlaceId(place.getPlaceId());
 
-				// ------------------------ Fréquentation
-				// ------------------------
-				if (place.isEnabled()) {
-					period.setRTGreenThreshold(RTGreenThreshold);
-					period.setRTOrangeThreshold(RTOrangeThreshold);
-					period.setRTRedThreshold(RTRedThreshold);
-					period.setRTMaxThreshold(RTMaxThreshold);
-				}
-				this._periodLocalService.updatePeriod(period);
+					// ------------------------ Fréquentation
+					// ------------------------
+					if (place.isEnabled()) {
+						period.setRTGreenThreshold(RTGreenThreshold);
+						period.setRTOrangeThreshold(RTOrangeThreshold);
+						period.setRTRedThreshold(RTRedThreshold);
+						period.setRTMaxThreshold(RTMaxThreshold);
+					}
+					this._periodLocalService.updatePeriod(period);
 
-				if (!period.getAlwaysOpen()) {
-					// Ajout des slots liées à la période
-					for (int jour = 0; jour < 7; jour++) {
-						String slotsIndexes = ParamUtil.getString(request,
-								"slotsIndexes" + periodIndex + "-" + jour);
-						for (String slotIndex : slotsIndexes.split(",")) {
-							String startHour = ParamUtil.getString(request,
-									"startHour" + periodIndex + "-" + jour + "-"
-											+ slotIndex);
-							String endHour = ParamUtil.getString(request,
-									"endHour" + periodIndex + "-" + jour + "-"
-											+ slotIndex);
+					if (!period.getAlwaysOpen()) {
+						// Ajout des slots liées à la période
+						for (int jour = 0; jour < 7; jour++) {
+							String slotsIndexes = ParamUtil.getString(request,
+									"slotsIndexes" + periodIndex + "-" + jour);
+							if (Validator.isNotNull(slotsIndexes)) {
+								for (String slotIndex : slotsIndexes
+										.split(",")) {
+									String startHour = ParamUtil
+											.getString(request,
+													"startHour" + periodIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
+									String endHour = ParamUtil
+											.getString(request,
+													"endHour" + periodIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
 
-							Slot slot = _slotLocalService.createSlot(sc);
-							slot.setDayOfWeek(jour);
-							slot.setStartHour(startHour);
-							slot.setEndHour(endHour);
-							slot.setPeriodId(period.getPeriodId());
-							this._slotLocalService.updateSlot(slot);
+									Slot slot = _slotLocalService
+											.createSlot(sc);
+									slot.setDayOfWeek(jour);
+									slot.setStartHour(startHour);
+									slot.setEndHour(endHour);
+									slot.setPeriodId(period.getPeriodId());
+									this._slotLocalService.updateSlot(slot);
 
+								}
+							}
 						}
 					}
-				}
 
+				}
 			}
 
 			// -------------------- Horaires particuliers --------------------

@@ -332,15 +332,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 		for (String imageIdStr : this.getImageIds().split(",")) {
 			Long imageId = GetterUtil.getLong(imageIdStr);
-			AssetEntry imageEntry = AssetEntryLocalServiceUtil
-					.getEntry(DLFileEntry.class.getName(), imageId);
-			contenus.add(imageEntry);
+			if (Validator.isNotNull(imageId)) {
+				AssetEntry imageEntry = AssetEntryLocalServiceUtil
+						.getEntry(DLFileEntry.class.getName(), imageId);
+				contenus.add(imageEntry);
+			}
 		}
 		for (String videoIdString : this.getVideosIds().split(",")) {
 			Long videoId = GetterUtil.getLong(videoIdString);
-			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
-			AssetEntry videoEntry = video.getAssetEntry();
-			contenus.add(videoEntry);
+			if (Validator.isNotNull(videoId)) {
+				Video video = VideoLocalServiceUtil.fetchVideo(videoId);
+				AssetEntry videoEntry = video.getAssetEntry();
+				contenus.add(videoEntry);
+			}
 		}
 		Collections.shuffle(contenus);
 		return contenus;
