@@ -1426,6 +1426,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne le copyright publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.lang.Long imageId,
+		java.util.Locale locale) {
+		return _place.getImageCopyright(imageId, locale);
+	}
+
+	/**
 	* Retourne le copyright de l'image principale
 	*/
 	@Override
@@ -1444,11 +1453,28 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne la légende publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageLegend(java.lang.Long imageId,
+		java.util.Locale locale) {
+		return _place.getImageLegend(imageId, locale);
+	}
+
+	/**
 	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
 	public java.lang.String getImageURL() {
 		return _place.getImageURL();
+	}
+
+	/**
+	* Retourne l'URL publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageURL(java.lang.Long imageId) {
+		return _place.getImageURL(imageId);
 	}
 
 	/**
@@ -1956,14 +1982,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne une map d'URL et de titre des images additionnelles et des vidéos
-	*/
-	@Override
-	public java.util.List<java.lang.String> getContenus(java.util.Locale locale) {
-		return _place.getContenus(locale);
-	}
-
-	/**
 	* Retourne la liste des URL des documents de ce lieu
 	*/
 	@Override
@@ -2010,6 +2028,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays() {
 		return _place.getPublicHolidays();
+	}
+
+	/**
+	* Retourne une map d'URL et de titre des images additionnelles et des
+	* vidéos
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getRandomContents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _place.getRandomContents();
 	}
 
 	/**
@@ -2143,11 +2173,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne une map contennant le jour et une autre map contenant les horaires
-	* d'ouverture de la semaine en cours (key = schedule, from et/ou to)
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
 	*/
 	@Override
-	public Map<java.lang.String, Map<java.lang.String, java.lang.String>> getHoraire(
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
 		Date dateJour) {
 		return _place.getHoraire(dateJour);
 	}

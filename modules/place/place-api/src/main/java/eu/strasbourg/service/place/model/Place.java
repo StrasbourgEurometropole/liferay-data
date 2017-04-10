@@ -156,9 +156,30 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<java.lang.String> getImagesURLs();
 
 	/**
-	* Retourne une map d'URL et de titre des images additionnelles et des vidéos
+	* Retourne une map d'URL et de titre des images additionnelles et des
+	* vidéos
+	*
+	* @throws PortalException
 	*/
-	public java.util.List<java.lang.String> getContenus(java.util.Locale locale);
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getRandomContents()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Retourne l'URL publiques de l'image
+	*/
+	public java.lang.String getImageURL(java.lang.Long imageId);
+
+	/**
+	* Retourne le copyright publiques de l'image
+	*/
+	public java.lang.String getImageCopyright(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
+	* Retourne la légende publiques de l'image
+	*/
+	public java.lang.String getImageLegend(java.lang.Long imageId,
+		java.util.Locale locale);
 
 	/**
 	* Retourne la liste des URL des documents de ce lieu
@@ -182,10 +203,10 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean hasAnyAccessForDisabled();
 
 	/**
-	* Retourne une map contennant le jour et une autre map contenant les horaires
-	* d'ouverture de la semaine en cours (key = schedule, from et/ou to)
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
 	*/
-	public java.util.Map<java.lang.String, java.util.Map<java.lang.String, java.lang.String>> getHoraire(
+	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
 		java.util.Date dateJour);
 
 	/**

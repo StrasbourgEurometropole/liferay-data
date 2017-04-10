@@ -233,25 +233,29 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 	/**
 	 * Retourne la ville
-	 * @throws PortalException 
+	 * 
+	 * @throws PortalException
 	 */
 	@Override
 	public Boolean isEnabled() throws PortalException {
 		List<AssetCategory> types = this.getTypes();
 		for (AssetCategory type : types) {
-			if(Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "realtime"))){
+			if (Validator.isNotNull(AssetVocabularyHelper
+					.getCategoryProperty(type.getCategoryId(), "realtime"))) {
 				return true;
 			}
 			// vérification des parents
 			for (AssetCategory ancestor : type.getAncestors()) {
-				if(Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(ancestor.getCategoryId(), "realtime"))){
+				if (Validator
+						.isNotNull(AssetVocabularyHelper.getCategoryProperty(
+								ancestor.getCategoryId(), "realtime"))) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu
 	 */
@@ -317,32 +321,68 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne une map d'URL et de titre des images additionnelles et des vidéos
+	 * Retourne une map d'URL et de titre des images additionnelles et des
+	 * vidéos
+	 * 
+	 * @throws PortalException
 	 */
 	@Override
-	public List<String> getContenus(Locale locale) {
-		List<String> contenus = new ArrayList<String>();
-		
+	public List<AssetEntry> getRandomContents() throws PortalException {
+		List<AssetEntry> contenus = new ArrayList<AssetEntry>();
+
 		for (String imageIdStr : this.getImageIds().split(",")) {
 			Long imageId = GetterUtil.getLong(imageIdStr);
-			if (Validator.isNotNull(imageId)) {
-				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
-				String imageTitle = FileEntryHelper.getImageCopyright(this.getImageId(), locale);
-				contenus.add(";" + imageURL + ";" + imageTitle);
-			}
+			AssetEntry imageEntry = AssetEntryLocalServiceUtil
+					.getEntry(DLFileEntry.class.getName(), imageId);
+			contenus.add(imageEntry);
 		}
 		for (String videoIdString : this.getVideosIds().split(",")) {
 			Long videoId = GetterUtil.getLong(videoIdString);
 			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
-			if (Validator.isNotNull(video)) {
-				String videoURL = video.getSource(locale);
-				String imageURL = video.getImageURL();
-				String videoTitle = video.getTitle(locale);
-				contenus.add(videoURL + ";" + imageURL + ";" + videoTitle);
-			}
+			AssetEntry videoEntry = video.getAssetEntry();
+			contenus.add(videoEntry);
 		}
 		Collections.shuffle(contenus);
 		return contenus;
+	}
+
+	/**
+	 * Retourne l'URL publiques de l'image
+	 */
+	@Override
+	public String getImageURL(Long imageId) {
+		String imageURL = null;
+		if (Validator.isNotNull(imageId)) {
+			imageURL = FileEntryHelper.getFileEntryURL(imageId);
+		}
+		return imageURL;
+
+	}
+
+	/**
+	 * Retourne le copyright publiques de l'image
+	 */
+	@Override
+	public String getImageCopyright(Long imageId, Locale locale) {
+		String imageTitle = null;
+		if (Validator.isNotNull(imageId)) {
+			imageTitle = FileEntryHelper.getImageCopyright(imageId, locale);
+		}
+		return imageTitle;
+
+	}
+
+	/**
+	 * Retourne la légende publiques de l'image
+	 */
+	@Override
+	public String getImageLegend(Long imageId, Locale locale) {
+		String imageTitle = null;
+		if (Validator.isNotNull(imageId)) {
+			imageTitle = FileEntryHelper.getImageLegend(imageId, locale);
+		}
+		return imageTitle;
+
 	}
 
 	/**
@@ -387,7 +427,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public List<Event> getEvents() {
-		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+		List<Event> events = EventLocalServiceUtil
+				.findByPlaceSIGId(this.getSIGid());
 		return events;
 	}
 
@@ -403,12 +444,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne une map contennant le jour et une autre map contenant les horaires
-	 * d'ouverture de la semaine en cours (key = schedule, from et/ou to)
+	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	 * semaine en cours
 	 */
 	@Override
-	public Map<String, Map<String, String>> getHoraire(Date dateJour) {
-		Map<String, Map<String, String>> listHoraires = new HashMap<String, Map<String, String>>();
+	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour) {
+		Map<String, List<PlaceSchedule>> listHoraires = new HashMap<String, List<PlaceSchedule>>();
 
 		// réupère le jour voulu de la semaine
 		GregorianCalendar jourSemaine = new GregorianCalendar();
@@ -421,21 +462,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jourSemaine.set(Calendar.DAY_OF_WEEK,
 					(int) (jour == 6 ? 1 : jour + 2));
 
-			Map<String, String> map = new HashMap<String, String>();
-			int nbSlot = 1;
-			for (PlaceSchedule placeSchedule : getPlaceSchedule(jourSemaine)) {
-				if (placeSchedule.isClosed()) {
-					map.put("schedule", "closed");
-				} else if (placeSchedule.isAlwaysOpen()) {
-					map.put("schedule", "always-open");
-				} else {
-					map.put(nbSlot + "from", placeSchedule.getStartTime().toString());
-					map.put(nbSlot + "to", placeSchedule.getEndTime().toString());
-					nbSlot++;
-				}
-			}
+			List<PlaceSchedule> liste = getPlaceSchedule(jourSemaine);
 
-			listHoraires.put(Integer.toString(jour), map);
+			listHoraires.put(Integer.toString(jour), liste);
 		}
 		return listHoraires;
 	}
