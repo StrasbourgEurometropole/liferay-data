@@ -7,7 +7,7 @@
 <div class="search-asset-fields portlet-cus-event-asset-fo">
 	<div class="block-filter">
 		<div class="col-filter">
-			<!-- Mots clés -->
+			<!-- Mots clÃ©s -->
 			<div class="keyword-field">
 				<aui:input type="text" name="${keywords}" value="${dc.keywords}" label="keywords" />
 			</div>
@@ -40,7 +40,7 @@
 			<c:if test="${dc.dateField}">
 				<div class="date-selection">
 					<label>
-						<liferay-ui:message key="eu.dates" />
+						<liferay-ui:message key="filter-by-date" />
 					</label>
 					<div class="date-selection-control open">
 						<div>
