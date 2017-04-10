@@ -43,9 +43,16 @@
 					value="${not empty dc.campaign ? dc.campaign.exportEnabled : false}" />
 
 				<label><liferay-ui:message key="themes" /><span class="icon-asterisk text-warning"></span></label>
-				<select class="form-control" name="<portlet:namespace />themesIds"
-					id="themesIds"
-					placeholder="<liferay-ui:message key="select-themes" />" multiple>
+				<select id="themesIds" name="<portlet:namespace />themesIds" placeholder="<liferay-ui:message key="select-themes" />" multiple >
+					<c:forEach var="theme" items="${dc.themes}">
+						<option value="${public.categoryId}"
+							<c:if test="${fn:contains(dc.themesIds, theme.categoryId)}">
+								selected
+							</c:if>
+						>
+							${theme.getTitle(locale)}
+						</option>
+					</c:forEach>
 				</select>
 				
 				<label><liferay-ui:message key="managers" /><span class="icon-asterisk text-warning"></span></label>
@@ -81,8 +88,8 @@
 			</c:if>
 			<c:if
 				test="${not empty dc.campaign and dc.hasPermission('DELETE_CAMPAIGN') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteCampaignURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<liferay-portlet:renderURL varImpl="cancelURL">
 				<liferay-portlet:param name="tab" value="campaigns" />
@@ -93,6 +100,7 @@
 </div>
 <liferay-util:html-bottom>
 	<script>
+		var managersIds = "${dc.campaign.managersIds}";
 		define._amd = define.amd;
 		define.amd = false;
 	</script>
@@ -100,40 +108,15 @@
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
 	<!-- Include Choices JavaScript -->
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
+	<script src="/o/agendabo/js/agenda-bo-edit-campaign.js"></script>
 	<script>
 		define.amd = define._amd;
-		Liferay.Service('/agenda.event/get-themes', function(themes) {
-			var choices = [];
-			var themesIds = "${dc.themesIds}";
-			for (var i = 0; i < themes.length; i++) {
-				choices.push({
-					label: themes[i].name.fr_FR,
-					value: themes[i].id,
-					selected: themesIds.indexOf(themes[i].id) > -1
-				});
-			}
-			new Choices('#themesIds', {
-				removeItemButton: true,
-				choices: choices
-			});
-		});
-		
-		Liferay.Service('/user/get-group-users', {
-			groupId : Liferay.ThemeDisplay.getScopeGroupId()
-		}, function(users) {
-			var choices = [];
-			var managersIds = "${dc.campaign.managersIds}";
-			for (var i = 0; i < users.length; i++) {
-				choices.push({
-					label: users[i].firstName + " " + users[i].lastName + " (" + users[i].screenName + " - " + users[i].emailAddress + ")",
-					value: users[i].userId,
-					selected: managersIds.indexOf(users[i].userId) > -1
-				});
-			}
-			new Choices('#managersIds', {
-				removeItemButton: true,
-				choices: choices
-			});
-		});
 	</script>
 </liferay-util:html-bottom>
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteCampaignURL}';
+		}
+	}
+</aui:script>
