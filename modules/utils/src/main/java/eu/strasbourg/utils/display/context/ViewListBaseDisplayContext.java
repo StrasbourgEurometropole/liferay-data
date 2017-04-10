@@ -55,7 +55,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 
 		if (this._searchContainer == null) {
 			PortletURL iteratorURL = this._response.createRenderURL();
-			iteratorURL.setParameter("tab", "events");
+			iteratorURL.setParameter("tab", ParamUtil.getString(this._request, "tab"));
 			iteratorURL.setParameter("orderByCol", this.getOrderByCol());
 			iteratorURL.setParameter("orderByType", this.getOrderByType());
 			iteratorURL.setParameter("filterCategoriesIds",
