@@ -22,7 +22,6 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field localized="true" name="copyright" type="String" />
-		<field localized="true" name="origin" type="String" />
 		<field localized="true" name="source" type="String">
 			<hint name="max-length">4000</hint>
 		</field>

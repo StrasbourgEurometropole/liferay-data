@@ -97,7 +97,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
 			{ "copyright", Types.VARCHAR },
-			{ "origin", Types.VARCHAR },
 			{ "source", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
@@ -122,14 +121,13 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("copyright", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("origin", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("transcriptionFileId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table video_Video (uuid_ VARCHAR(75) null,videoId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,copyright STRING null,origin STRING null,source STRING null,publicationDate DATE null,imageId LONG,transcriptionFileId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table video_Video (uuid_ VARCHAR(75) null,videoId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,description TEXT null,copyright STRING null,source STRING null,publicationDate DATE null,imageId LONG,transcriptionFileId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table video_Video";
 	public static final String ORDER_BY_JPQL = " ORDER BY video.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY video_Video.modifiedDate DESC";
@@ -181,7 +179,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
 		model.setCopyright(soapModel.getCopyright());
-		model.setOrigin(soapModel.getOrigin());
 		model.setSource(soapModel.getSource());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setImageId(soapModel.getImageId());
@@ -278,7 +275,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("copyright", getCopyright());
-		attributes.put("origin", getOrigin());
 		attributes.put("source", getSource());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
@@ -386,12 +382,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 		if (copyright != null) {
 			setCopyright(copyright);
-		}
-
-		String origin = (String)attributes.get("origin");
-
-		if (origin != null) {
-			setOrigin(origin);
 		}
 
 		String source = (String)attributes.get("source");
@@ -967,105 +957,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@JSON
 	@Override
-	public String getOrigin() {
-		if (_origin == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _origin;
-		}
-	}
-
-	@Override
-	public String getOrigin(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getOrigin(languageId);
-	}
-
-	@Override
-	public String getOrigin(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getOrigin(languageId, useDefault);
-	}
-
-	@Override
-	public String getOrigin(String languageId) {
-		return LocalizationUtil.getLocalization(getOrigin(), languageId);
-	}
-
-	@Override
-	public String getOrigin(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getOrigin(), languageId,
-			useDefault);
-	}
-
-	@Override
-	public String getOriginCurrentLanguageId() {
-		return _originCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getOriginCurrentValue() {
-		Locale locale = getLocale(_originCurrentLanguageId);
-
-		return getOrigin(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getOriginMap() {
-		return LocalizationUtil.getLocalizationMap(getOrigin());
-	}
-
-	@Override
-	public void setOrigin(String origin) {
-		_origin = origin;
-	}
-
-	@Override
-	public void setOrigin(String origin, Locale locale) {
-		setOrigin(origin, locale, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setOrigin(String origin, Locale locale, Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(origin)) {
-			setOrigin(LocalizationUtil.updateLocalization(getOrigin(),
-					"Origin", origin, languageId, defaultLanguageId));
-		}
-		else {
-			setOrigin(LocalizationUtil.removeLocalization(getOrigin(),
-					"Origin", languageId));
-		}
-	}
-
-	@Override
-	public void setOriginCurrentLanguageId(String languageId) {
-		_originCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setOriginMap(Map<Locale, String> originMap) {
-		setOriginMap(originMap, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setOriginMap(Map<Locale, String> originMap, Locale defaultLocale) {
-		if (originMap == null) {
-			return;
-		}
-
-		setOrigin(LocalizationUtil.updateLocalization(originMap, getOrigin(),
-				"Origin", LocaleUtil.toLanguageId(defaultLocale)));
-	}
-
-	@JSON
-	@Override
 	public String getSource() {
 		if (_source == null) {
 			return StringPool.BLANK;
@@ -1346,17 +1237,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			}
 		}
 
-		Map<Locale, String> originMap = getOriginMap();
-
-		for (Map.Entry<Locale, String> entry : originMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
 		Map<Locale, String> sourceMap = getSourceMap();
 
 		for (Map.Entry<Locale, String> entry : sourceMap.entrySet()) {
@@ -1433,15 +1313,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 				defaultLocale);
 		}
 
-		String origin = getOrigin(defaultLocale);
-
-		if (Validator.isNull(origin)) {
-			setOrigin(getOrigin(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setOrigin(getOrigin(defaultLocale), defaultLocale, defaultLocale);
-		}
-
 		String source = getSource(defaultLocale);
 
 		if (Validator.isNull(source)) {
@@ -1482,7 +1353,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		videoImpl.setTitle(getTitle());
 		videoImpl.setDescription(getDescription());
 		videoImpl.setCopyright(getCopyright());
-		videoImpl.setOrigin(getOrigin());
 		videoImpl.setSource(getSource());
 		videoImpl.setPublicationDate(getPublicationDate());
 		videoImpl.setImageId(getImageId());
@@ -1670,14 +1540,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			videoCacheModel.copyright = null;
 		}
 
-		videoCacheModel.origin = getOrigin();
-
-		String origin = videoCacheModel.origin;
-
-		if ((origin != null) && (origin.length() == 0)) {
-			videoCacheModel.origin = null;
-		}
-
 		videoCacheModel.source = getSource();
 
 		String source = videoCacheModel.source;
@@ -1704,7 +1566,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1738,8 +1600,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		sb.append(getDescription());
 		sb.append(", copyright=");
 		sb.append(getCopyright());
-		sb.append(", origin=");
-		sb.append(getOrigin());
 		sb.append(", source=");
 		sb.append(getSource());
 		sb.append(", publicationDate=");
@@ -1755,7 +1615,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.video.model.Video");
@@ -1826,10 +1686,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		sb.append(getCopyright());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>origin</column-name><column-value><![CDATA[");
-		sb.append(getOrigin());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>source</column-name><column-value><![CDATA[");
 		sb.append(getSource());
 		sb.append("]]></column-value></column>");
@@ -1882,8 +1738,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private String _descriptionCurrentLanguageId;
 	private String _copyright;
 	private String _copyrightCurrentLanguageId;
-	private String _origin;
-	private String _originCurrentLanguageId;
 	private String _source;
 	private String _sourceCurrentLanguageId;
 	private Date _publicationDate;

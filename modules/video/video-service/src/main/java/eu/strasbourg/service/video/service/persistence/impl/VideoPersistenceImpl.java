@@ -2933,7 +2933,6 @@ public class VideoPersistenceImpl extends BasePersistenceImpl<Video>
 		videoImpl.setTitle(video.getTitle());
 		videoImpl.setDescription(video.getDescription());
 		videoImpl.setCopyright(video.getCopyright());
-		videoImpl.setOrigin(video.getOrigin());
 		videoImpl.setSource(video.getSource());
 		videoImpl.setPublicationDate(video.getPublicationDate());
 		videoImpl.setImageId(video.getImageId());

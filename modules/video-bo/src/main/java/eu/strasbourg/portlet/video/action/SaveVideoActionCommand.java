@@ -87,10 +87,6 @@ public class SaveVideoActionCommand
 			Map<Locale, String> copyright = LocalizationUtil
 				.getLocalizationMap(request, "copyright");
 			video.setCopyrightMap(copyright);
-			
-			Map<Locale, String> origin = LocalizationUtil
-				.getLocalizationMap(request, "origin");
-			video.setOriginMap(origin);
 
 			Long transcriptionFileId = ParamUtil.getLong(request, "transcriptionFileId");
 			video.setTranscriptionFileId(transcriptionFileId);
