@@ -234,12 +234,13 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	}
 
 	private List<AssetVocabulary> getAttachedVocabularies(long groupId) {
+		long companyGroupId = this._themeDisplay.getCompanyGroupId();
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
 			.getAssetVocabularies(-1, -1);
 		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
 		long classNameId = ClassNameLocalServiceUtil.getClassNameId(tClass);
 		for (AssetVocabulary vocabulary : vocabularies) {
-			if (vocabulary.getGroupId() == groupId
+			if ((vocabulary.getGroupId() == groupId || vocabulary.getGroupId() == companyGroupId)
 				&& LongStream.of(vocabulary.getSelectedClassNameIds())
 					.anyMatch(c -> c == classNameId)) {
 				attachedVocabularies.add(vocabulary);
