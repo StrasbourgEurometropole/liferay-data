@@ -119,11 +119,19 @@
 				</c:if>
 			</c:if>
 			<c:if test="${not empty dc.video and dc.hasPermission('DELETE_VIDEO') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteVideoURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
 </div>
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteVideoURL}';
+		}
+	}
+</aui:script>

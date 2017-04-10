@@ -257,7 +257,7 @@
 			</c:if>
 			<c:if
 				test="${not empty dc.event and dc.hasPermission('DELETE_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteEventURL}" type="cancel"
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
@@ -298,3 +298,12 @@
 		src="/o/agendabo/js/agenda-bo-edit-event.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteEventURL}';
+		}
+	}
+</aui:script>
