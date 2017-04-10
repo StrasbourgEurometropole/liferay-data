@@ -56,6 +56,7 @@ public class EventDisplayTemplateHandler
 			"Event", Event.class, "currentEvent", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Event", Event.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

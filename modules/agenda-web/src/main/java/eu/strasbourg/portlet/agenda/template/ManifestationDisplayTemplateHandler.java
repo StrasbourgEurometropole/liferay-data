@@ -56,6 +56,7 @@ public class ManifestationDisplayTemplateHandler
 			"Galerie d'event", Manifestation.class, "currentGallery", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Galerie d'event", Manifestation.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

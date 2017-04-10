@@ -56,6 +56,7 @@ public class EditionDisplayTemplateHandler
 			"Edition", Edition.class, "currentEdition", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Edition", Edition.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

@@ -56,6 +56,7 @@ public class ArtworkDisplayTemplateHandler
 			"Oeuvre", Artwork.class, "currentArtwork", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Oeuvre", Artwork.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}
