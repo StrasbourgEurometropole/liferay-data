@@ -41,11 +41,27 @@ display: table;
 content: " ";
 }
 
+a:hover {
+  color: #337ab7;
+}
 
 .breadcrumb {
     padding: 5px 10px;
     background-color: white;
     margin: 0;
+}
+
+.breadcrumb > li + li:before {
+  content: '>';
+}
+
+.breadcrumb > li:last-child {
+  font-weight: bold;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+  font-family: Lato, "Century Gothic", sans-serif;
 }
 
 .portlet-breadcrumb .portlet-title-text {
@@ -56,8 +72,12 @@ content: " ";
     margin-bottom: 0;
 }
 
+.portlet-breadcrumb .portlet {
+  margin-top: 0 !important;
+}
+
 .portlet-breadcrumb {
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .portlet-journal-content .portlet-title-text {
@@ -76,6 +96,22 @@ content: " ";
   display: none;
 }
 
+.search-asset-portlet .lfr-pagination .search-results {
+  display: block;
+  float: none;
+  font-size: 12px;
+}
+
+.search-asset-portlet .lfr-pagination .lfr-pagination-config {
+    display: none;
+}
+
+.search-asset-portlet .pager {
+  float: none !important;
+  background: transparent;
+  font-size: 13px;
+}
+
 .entity-detail-portlet .portlet-title-text {
   display: none;
 }
@@ -87,10 +123,21 @@ content: " ";
 .rubric-portlet ul {
   font-size: 1.5em;
   line-height: 2em;
+  list-style-image: url(/o/summer-theme/images/puce_carree_1.png);  
+}
+
+.rubric-portlet h1 {
+    margin: 1em;
 }
 
 .portlet-asset-publisher .h2 {
   display: none;
+}
+
+.portlet-asset-publisher .previous-link a {
+  color: black;
+  text-decoration: underline;
+  font-size: 12px;
 }
 
 .date-selection .input-checkbox-wrapper {
@@ -103,10 +150,18 @@ content: " ";
   float: none !important;
 }
 
+.date-selection > label {
+  width: auto !important;
+}
+
 .date-selection .date-selector {
   display: inline-block;
-  min-width: 222px;
+  min-width: 210px;
   margin-left: 10px;
+}
+
+.date-selection .date-selector input {
+  background: #FFF url(/o/summer-theme/images/bg/icon-calendar.png) top right no-repeat !important;
 }
 
 .portlet-cus-event-asset-fo .col-filter {
@@ -135,4 +190,89 @@ content: " ";
     content: "";
     display: block;
     clear: both;
+}
+
+// Afficheur de liens internes
+.internal-link-viewer-portlet {
+    padding: 12px 10px 10px;
+}
+
+h3.useful-links-title {
+    display: none;
+}
+
+.internal-link-viewer-portlet h2 {
+    box-sizing: content-box;
+    border: 1px solid #e6f4ee;
+    display: block;
+    background: #e6f4ee;
+    line-height: 2em;
+    text-align: center;
+    color: #268033;
+    height: 25px;
+    font-size: 1.85em;
+    padding-bottom: 15px;
+    font-weight: normal;
+    max-width: none;
+    font-family: Lato, "Century Gothic", sans-serif;
+}
+
+.internal-link-viewer {
+    border: 1px solid #e6f4ee;
+}
+
+.internal-link-viewer {
+    border: 1px solid #e6f4ee;
+}
+
+.internal-link-viewer ul {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 10px 5px 5px 5px;
+    list-style: none;
+}
+
+.internal-link-viewer li {
+    list-style: none;
+    display: block;
+    font-weight: bold;
+    background: transparent url(/o/summer-theme/images/2016/dark_green_arrow.png) no-repeat scroll left 3px;
+    padding-left: 15px;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+    text-decoration: none;
+    color: #1A171B;
+    transition: all 0.3s ease 0s;
+}
+
+.internal-link-viewer li a {
+    color: #1A171B;
+    display: block;
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    border-bottom: none;
+    height: auto;
+    font-size: 1.5em;
+    line-height: 1.2em;
+    vertical-align: middle;
+    text-decoration: none;
+    font-weight: normal;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.internal-link-viewer li a:hover {
+    padding-left: 5px;
+}
+
+.col-md-4 .portlet {
+    margin-bottom: 24px;
 }

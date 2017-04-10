@@ -359,7 +359,7 @@ body {
 .news .new .entry-meta time {
     float: left;
     text-indent: 10px;
-    width:60%;
+    width:40%;
 }
 .portlet-video-item .entry-meta time, .portlet-visuel-item .entry-meta time {
     color: #cb2d2e;

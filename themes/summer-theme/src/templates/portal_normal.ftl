@@ -9,7 +9,7 @@
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 	
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css'>
 	
 	<@liferay_util["include"] page=top_head_include />
 </head>
@@ -28,13 +28,11 @@
 						<div class="center">
 							<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank"> <img src="/o/summer-theme/images/2014/logo_strasbourg.png" alt="Strasbourg.eu"> </a>
 							<ul>
-							 	<#if locale.language == "fr">
-									<li>
-										<a accesskey="1" href="http://ete.strasbourg.eu/evenement">
-											Proposer un évènement
-										</a>
-									</li>
-								</#if>
+								<li <#if locale.language != "fr">style="display:none;"</#if> >
+									<a accesskey="1" href="http://ete.strasbourg.eu/evenement">
+										Proposer un évènement
+									</a>
+								</li>
 								<li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr/web/ete${layout.friendlyURL}" title="Français">FR</a></li>
 								<li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de/web/ete${layout.friendlyURL}" title="Deutsch">DE</a></li>
 								<li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en/web/ete${layout.friendlyURL}" title="English">EN</a></li>
@@ -45,7 +43,7 @@
 					<h1 class="logo logo-home 
 						<#if locale.language == "en"> logo-en </#if> 
 						<#if locale.language == "de"> logo-de </#if>">
-						<a href="http://ete.strasbourg.eu"></a>
+						<a href="/web${layout.group.friendlyURL}"></a>
 					</h1>
 					
 					<#if layout.getGroup().isStagingGroup()>
