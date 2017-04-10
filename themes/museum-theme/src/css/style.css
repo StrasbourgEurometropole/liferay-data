@@ -2328,7 +2328,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 }
 /* line 26, ../sass/partials/_web-content.scss */
 .web-content h2, .items-carousel .item-content h2, .exhibition .exhibition-tab-content h2, .entity-detail .entity-description h2, .event-detail .place-links h2, .place-detail .place-links h2, .event-detail .event-info .event-info-section h2, .event-detail .event-info .place-info-section h2, .event-detail .place-info .event-info-section h2, .event-detail .place-info .place-info-section h2, .place-detail .event-info .event-info-section h2, .place-detail .event-info .place-info-section h2, .place-detail .place-info .event-info-section h2, .place-detail .place-info .place-info-section h2, .featured-header .featured-header-text h2, .featured-artwork .featured-artwork-text h2 {
-  font-size: 32px;
+  font-size: 24px;
   color: #a56a79;
   font-family: "proximanova-regular", sans-serif;
   text-transform: none;
@@ -2337,7 +2337,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 }
 /* line 34, ../sass/partials/_web-content.scss */
 .web-content h3, .items-carousel .item-content h3, .exhibition .exhibition-tab-content h3, .entity-detail .entity-description h3, .event-detail .place-links h3, .place-detail .place-links h3, .event-detail .event-info .event-info-section h3, .event-detail .event-info .place-info-section h3, .event-detail .place-info .event-info-section h3, .event-detail .place-info .place-info-section h3, .place-detail .event-info .event-info-section h3, .place-detail .event-info .place-info-section h3, .place-detail .place-info .event-info-section h3, .place-detail .place-info .place-info-section h3, .featured-header .featured-header-text h3, .featured-artwork .featured-artwork-text h3, .web-content .title-header .site-title, .title-header .web-content .site-title, .items-carousel .item-content .title-header .site-title, .title-header .items-carousel .item-content .site-title, .exhibition .exhibition-tab-content .title-header .site-title, .title-header .exhibition .exhibition-tab-content .site-title, .entity-detail .entity-description .title-header .site-title, .title-header .entity-detail .entity-description .site-title, .event-detail .place-links .title-header .site-title, .title-header .event-detail .place-links .site-title, .place-detail .place-links .title-header .site-title, .title-header .place-detail .place-links .site-title, .event-detail .event-info .event-info-section .title-header .site-title, .title-header .event-detail .event-info .event-info-section .site-title, .event-detail .event-info .place-info-section .title-header .site-title, .title-header .event-detail .event-info .place-info-section .site-title, .event-detail .place-info .event-info-section .title-header .site-title, .title-header .event-detail .place-info .event-info-section .site-title, .event-detail .place-info .place-info-section .title-header .site-title, .title-header .event-detail .place-info .place-info-section .site-title, .place-detail .event-info .event-info-section .title-header .site-title, .title-header .place-detail .event-info .event-info-section .site-title, .place-detail .event-info .place-info-section .title-header .site-title, .title-header .place-detail .event-info .place-info-section .site-title, .place-detail .place-info .event-info-section .title-header .site-title, .title-header .place-detail .place-info .event-info-section .site-title, .place-detail .place-info .place-info-section .title-header .site-title, .title-header .place-detail .place-info .place-info-section .site-title, .featured-header .featured-header-text .title-header .site-title, .title-header .featured-header .featured-header-text .site-title, .featured-artwork .featured-artwork-text .title-header .site-title, .title-header .featured-artwork .featured-artwork-text .site-title {
-  font-size: 20px;
+  font-size: 17px;
   text-transform: none;
   color: #a56a79;
   margin: 0;
@@ -4515,7 +4515,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
 .search-asset-portlet .lfr-pagination-delta-selector {
   display: none !important;
 }
-@media (max-width: 601px) {
+@media (max-width: 1279px) {
   /* line 235, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .lfr-pagination-config .dropdown-toggle {
     margin: 0 20px;
@@ -4531,7 +4531,7 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   border: none;
   background: none;
 }
-@media (max-width: 601px) {
+@media (max-width: 1279px) {
   /* line 247, ../sass/partials/_search-asset.scss */
   .search-asset-portlet .lfr-pagination-buttons li {
     width: 100%;
