@@ -34,7 +34,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="source" label="eu.videos.source" required="true" />
+				<aui:input name="source" label="eu.video.source" required="true" />
 
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.video.imageId}" />
@@ -54,10 +54,8 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="copyright" value="${not empty dc.video ? dc.video.copyright : 'Ville et Eurométropole de Strasbourg' }" />
-				
-				<aui:input name="origin" />
+
+				<aui:input name="copyright" value="${empty dc.video ? dc.defaultCopyright : dc.video.copyright}" localized="true" type="text" />
 				
 				<strasbourg-picker:file label="transcription" name="transcriptionFileId"
 					required="false" value="${dc.video.transcriptionFileId}" />
