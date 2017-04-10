@@ -94,7 +94,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper
 				.getGlobalVocabulary("Type de lieu");
 		AssetCategory category = AssetVocabularyHelper
-				.getCategoryByVocabulaire(vocabularyTypeLieu, typeId);
+				.getCategoryByExternalId(vocabularyTypeLieu, typeId);
 		long[] categoriesIds = { category.getCategoryId() };
 
 		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
@@ -118,7 +118,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
 				.getGlobalVocabulary("Territoire");
 		AssetCategory category = AssetVocabularyHelper
-				.getCategoryByVocabulaire(vocabularyTerritory, territoryId);
+				.getCategoryByExternalId(vocabularyTerritory, territoryId);
 		long[] categoriesIds = { category.getCategoryId() };
 
 		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
@@ -160,13 +160,13 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
 				.getGlobalVocabulary("Territoire");
 		AssetCategory categoryTerritory = AssetVocabularyHelper
-				.getCategoryByVocabulaire(vocabularyTerritory, territoryId);
+				.getCategoryByExternalId(vocabularyTerritory, territoryId);
 
 		// Recherche du catégoryId du vocabulaire Type de lieu
 		AssetVocabulary vocabularyType = AssetVocabularyHelper
 				.getGlobalVocabulary("Type de lieu");
 		AssetCategory categoryType = AssetVocabularyHelper
-				.getCategoryByVocabulaire(vocabularyType, typeId);
+				.getCategoryByExternalId(vocabularyType, typeId);
 
 		long[] categoriesIds = { categoryTerritory.getCategoryId(),
 				categoryType.getCategoryId() };
