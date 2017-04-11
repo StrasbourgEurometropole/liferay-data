@@ -357,11 +357,12 @@
                         </div>                        
                     </#if>
 
-                    <#if entry.getScheduleExceptions()?has_content >  
+                    <#assign scheduleExceptions = entry.getScheduleExceptions() />
+                    <#if scheduleExceptions?has_content >  
                         <strong  style="color:#B22222;">
                         	<@liferay_ui.message key="eu.exceptional-closings-openings" />
                         </strong>
-	                    <#list entry.getScheduleExceptions() as exception>
+	                    <#list scheduleExceptions as exception>
                         	<p>
 	                        	<strong>
 		                            <#if exception.startDate?date == exception.endDate?date >
