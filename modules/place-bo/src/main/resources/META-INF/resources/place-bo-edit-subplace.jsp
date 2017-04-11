@@ -69,6 +69,8 @@
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
+					
+					<aui:input name="periodsIndexes" type="hidden" />
 				
 				    <div class="nav-tabs">
 				        <ul class="nav nav-tabs" role="tablist">
@@ -78,7 +80,7 @@
 				            		<c:if test="${status.count == 1}">
 				            			class="active"
 				            		</c:if>
-				            	 id="onglet${status.count}" >
+				            	 id="onglet${nbPeriod}" >
 				            		<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
 					            		<liferay-ui:message key="period" /> ${status.count} 
 					            		<span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
@@ -86,7 +88,11 @@
 				            	</li>
 								<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
 							</c:forEach>
-			            	<li role="presentation" id="addPeriod">
+			            	<li role="presentation"
+			            		<c:if test="${empty dc.subPlace.periods}">
+			            			class="active"
+			            		</c:if>
+			            	 id="addPeriod" >
 			            		<a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
 			            	</li>
 				        </ul>
@@ -98,7 +104,7 @@
 							<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
 							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="${nbPeriod}" />
+								<liferay-util:param name="index" value="${status.count - 1}" />
 								<liferay-util:param name="name" value="${period.name}" />
 								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
 								<liferay-util:param name="startDate" value="${formattedStartDate}" />
@@ -128,6 +134,16 @@
 								<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
 							</liferay-util:include>
 						</c:forEach>
+						<div role="tabpanel" 
+							<c:if test="${empty dc.subPlace.periods}">
+								class="tab-pane active fade in"
+							</c:if>
+							<c:if test="${not empty dc.subPlace.periods}">
+								class="tab-pane fade in"
+							</c:if>
+						id="noPeriod">
+							<liferay-ui:message key="no-period" />
+						</div>
 				    </div>
 					
 				</aui:fieldset>
