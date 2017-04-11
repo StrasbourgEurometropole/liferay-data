@@ -181,8 +181,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					.getGlobalVocabulary("Type de lieu");
 
 			// Récupération des catégories du
-			// vocabulaire
-			// Type de Lieu
+			// vocabulaire Type de Lieu
 			List<AssetCategory> categoriesTypeLieu = vocabularyTypeLieu
 					.getCategories();
 			Map<String, Long> listTypeLieu = new HashMap<String, Long>();
