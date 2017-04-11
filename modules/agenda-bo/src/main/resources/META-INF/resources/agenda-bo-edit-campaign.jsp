@@ -45,7 +45,7 @@
 				<label><liferay-ui:message key="themes" /><span class="icon-asterisk text-warning"></span></label>
 				<select id="themesIds" name="<portlet:namespace />themesIds" placeholder="<liferay-ui:message key="select-themes" />" multiple >
 					<c:forEach var="theme" items="${dc.themes}">
-						<option value="${public.categoryId}"
+						<option value="${theme.categoryId}"
 							<c:if test="${fn:contains(dc.themesIds, theme.categoryId)}">
 								selected
 							</c:if>
