@@ -158,7 +158,7 @@
                   </div>
                 </#if>
                 <div class="ck-editor-content">
-                  <p>${place.getAccessForDisabled(locale)}</p>
+                  <p>${place.getAccessForDisabled()}</p>
                 </div>
               </div>
             </#if>
