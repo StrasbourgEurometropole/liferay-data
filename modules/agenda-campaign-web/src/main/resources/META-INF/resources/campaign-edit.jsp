@@ -11,6 +11,8 @@
 </liferay-portlet:actionURL>	
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="periods-error" message="periods-error" />
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
 		<aui:model-context bean="${dc.campaignEvent}"
 			model="<%=CampaignEvent.class %>" />
@@ -24,7 +26,7 @@
 					<!-- Nom, prénom, mail, téléphone -->
 					<div class="col-md-6">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
-						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.lastName}" />
+						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.firstName}" />
 						<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
 						<aui:input name="email" required="true"  value="${not empty dc.campaignEvent ? dc.campaignEvent.email : themeDisplay.user.emailAddress}" />
 					</div>
@@ -255,7 +257,7 @@
 				label="dates-and-times">				
 				
 				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
 				</div>
 				
 				<div class="add-dates-section">

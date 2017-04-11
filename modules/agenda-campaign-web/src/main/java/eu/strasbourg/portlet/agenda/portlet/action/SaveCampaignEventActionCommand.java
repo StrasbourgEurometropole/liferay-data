@@ -51,6 +51,7 @@ import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -99,6 +100,15 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			} else {
 				campaignEvent = campaignEventLocalService
 					.getCampaignEvent(campaignEventId);
+			}
+
+			// Validation
+			boolean isValid = this.validate(request);
+			if (!isValid) {
+				PortalUtil.copyRequestParameters(request, response);
+				response.setRenderParameter("mvcPath",
+					"/campaign-edit.jsp");
+				return false;
 			}
 
 			/**
@@ -334,8 +344,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				// Création du statut (au cas où l'utilisateur ne laisse pas de
 				// commentaire)
 				int newStatus = ParamUtil.getInteger(request, "newStatus", -2);
-				status = campaignEvent
-					.updateStatus(newStatus, "", user);
+				status = campaignEvent.updateStatus(newStatus, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
 
@@ -382,6 +391,39 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validation de la requête
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+		
+		// Titre
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
+			isValid = false;
+		}		
+		
+		// Périodes
+		String periodsIndexesString = ParamUtil.getString(request,
+			"periodIndexes");
+		int periodsCount = 0;
+		for (String periodIndex : periodsIndexesString.split(",")) {
+			if (Validator.isNotNull(periodIndex)
+				&& Validator.isNotNull(
+					ParamUtil.getString(request, "startDate" + periodIndex))
+				&& Validator.isNotNull(ParamUtil.getString(request,
+					"endDate" + periodIndex))) {
+				periodsCount++;
+			}
+		}
+		if (periodsCount == 0) {
+			SessionErrors.add(request, "periods-error");
+			isValid = false;
+		}
+		
+		return isValid;		
 	}
 
 	private CampaignEventLocalService campaignEventLocalService;

@@ -41,8 +41,8 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest,
 		RenderResponse renderResponse) throws IOException, PortletException {
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		if (cmd.equals("editCampaignEvent")) {
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		if (mvcPath.equals("/campaign-edit.jsp")) {
 			EditCampaignEventDisplayContext dc = new EditCampaignEventDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

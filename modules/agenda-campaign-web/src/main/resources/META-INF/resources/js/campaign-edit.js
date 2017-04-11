@@ -257,7 +257,7 @@ function validatePeriods(event) {
 				languages.push(locale);
 			}
 	    }
-		if (e.name.indexOf('_startDate') > -1 && e.value) {
+		if (e.name.indexOf('_startDate') > -1 && e.value && $(e.parentElement).is(':visible')) {
 			numberOfPeriods++;
 		}
 	}
@@ -276,7 +276,10 @@ function validatePeriods(event) {
 		var descriptionOk = descriptions.length == 1;
 
 		var timeDetails = params.filter(function(p) {
-			return p.name.indexOf('_timeDetail') > -1 && p.name.indexOf(languages[i]) > -1 && p.value;
+			return $(p.parentElement.parentElement).is(':visible') 
+				&& p.name.indexOf('_timeDetail') > -1 
+				&& p.name.indexOf(languages[i]) > -1 
+				&& p.value;
 		});
 		var timeDetailOk = timeDetails.length >= numberOfPeriods;
 		
