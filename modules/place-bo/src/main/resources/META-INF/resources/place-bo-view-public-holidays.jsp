@@ -16,9 +16,9 @@
 
 		<liferay-frontend:management-bar-action-buttons>
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
+					icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
@@ -52,7 +52,7 @@
 				
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="recurrent" truncate="true" orderable="true"
-					value="${publicHoliday.recurrent}" />
+					value="${publicHoliday.recurrent? 'Oui' : 'Non'}" />
 
 
 				<liferay-ui:search-container-column-text>
@@ -83,7 +83,7 @@
 <liferay-frontend:add-menu>
 
 	<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}"> 
-		<liferay-frontend:add-menu-item title="Ajouter un jour férié" url="${addPublicHolidayURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un jour fÃ©riÃ©" url="${addPublicHolidayURL}" />
 	 </c:if>
 </liferay-frontend:add-menu>
 
@@ -95,7 +95,7 @@
 
 <aui:script>
 	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-public-holidaies" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];

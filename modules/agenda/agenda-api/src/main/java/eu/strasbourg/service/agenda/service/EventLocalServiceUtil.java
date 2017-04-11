@@ -331,6 +331,14 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par placeSIGId
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(
+		java.lang.String placeSIGId) {
+		return getService().findByPlaceSIGId(placeSIGId);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(

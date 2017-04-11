@@ -22,10 +22,18 @@
 
 <portlet:defineObjects />
 
-<liferay-portlet:renderURL varImpl="scheduleExceptionRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<portlet:param name="mvcPath" value="/includes/exceptional-schedule-row.jsp" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:renderURL varImpl="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<portlet:param name="mvcPath" value="/includes/period-row.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL varImpl="slotRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<portlet:param name="mvcPath" value="/includes/slot-row.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL varImpl="attendanceRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<portlet:param name="mvcPath" value="/includes/attendance-row.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL varImpl="scheduleExceptionRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<portlet:param name="mvcPath" value="/includes/exceptional-schedule-row.jsp" />
 </liferay-portlet:renderURL>

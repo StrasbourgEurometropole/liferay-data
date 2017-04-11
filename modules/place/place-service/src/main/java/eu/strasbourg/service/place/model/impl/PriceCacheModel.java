@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Price in entity cache.
  *
@@ -63,12 +65,20 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", priceId=");
 		sb.append(priceId);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", price=");
@@ -90,6 +100,22 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		}
 
 		priceImpl.setPriceId(priceId);
+		priceImpl.setStatus(status);
+		priceImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			priceImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			priceImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			priceImpl.setStatusDate(null);
+		}
+		else {
+			priceImpl.setStatusDate(new Date(statusDate));
+		}
 
 		if (title == null) {
 			priceImpl.setTitle(StringPool.BLANK);
@@ -115,6 +141,12 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		uuid = objectInput.readUTF();
 
 		priceId = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		price = objectInput.readUTF();
 	}
@@ -130,6 +162,19 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		}
 
 		objectOutput.writeLong(priceId);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -148,6 +193,10 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 
 	public String uuid;
 	public long priceId;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String title;
 	public String price;
 }

@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing SubPlace in entity cache.
  *
@@ -63,12 +65,20 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", subPlaceId=");
 		sb.append(subPlaceId);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", name=");
 		sb.append(name);
 		sb.append(", description=");
@@ -92,6 +102,22 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		}
 
 		subPlaceImpl.setSubPlaceId(subPlaceId);
+		subPlaceImpl.setStatus(status);
+		subPlaceImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			subPlaceImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			subPlaceImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			subPlaceImpl.setStatusDate(null);
+		}
+		else {
+			subPlaceImpl.setStatusDate(new Date(statusDate));
+		}
 
 		if (name == null) {
 			subPlaceImpl.setName(StringPool.BLANK);
@@ -119,6 +145,12 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		uuid = objectInput.readUTF();
 
 		subPlaceId = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
 		description = objectInput.readUTF();
 
@@ -136,6 +168,19 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 		}
 
 		objectOutput.writeLong(subPlaceId);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 
 		if (name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -156,6 +201,10 @@ public class SubPlaceCacheModel implements CacheModel<SubPlace>, Externalizable 
 
 	public String uuid;
 	public long subPlaceId;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String name;
 	public String description;
 	public long placeId;

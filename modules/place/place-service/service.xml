@@ -70,12 +70,7 @@
 		<column name="accessForDeficient" type="Boolean" />
 
 		<!-- Temps réel -->
-		<column name="RTEnabled" type="boolean" />
 		<column name="RTExternalId" type="String" />
-		<column name="RTGreenThreshold" type="long" />
-		<column name="RTOrangeThreshold" type="long" />
-		<column name="RTRedThreshold" type="long" />
-		<column name="RTMaxThreshold" type="long" />
 		
 		
 		<!-- Links with other entities -->
@@ -109,6 +104,12 @@
 		<!-- PK fields -->
 		<column name="priceId" primary="true" type="long" />
 
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
 		<!-- Informations générales -->
 		<column name="title" type="String" localized="true" />
 		<column name="price" type="String" localized="true" />
@@ -120,6 +121,12 @@
 
 		<!-- PK fields -->
 		<column name="subPlaceId" primary="true" type="long" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
 
 		<!-- Informations générales -->
 		<column name="name" type="String" localized="true" />
@@ -177,6 +184,12 @@
 		<column name="linkLabel" type="String" localized="true" />
 		<column name="linkURL" type="String" localized="true" />
 		<column name="alwaysOpen" type="Boolean" />
+
+		<!-- Temps réel -->
+		<column name="RTGreenThreshold" type="long" />
+		<column name="RTOrangeThreshold" type="long" />
+		<column name="RTRedThreshold" type="long" />
+		<column name="RTMaxThreshold" type="long" />
 		
 		<!-- Links with other entities -->
 		<column name="placeId" type="long" />

@@ -156,6 +156,19 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 	}
 
 	/**
+	* Met à jour le statut du sous-lieu par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _subPlaceLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
+	}
+
+	/**
 	* Updates the sub place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param subPlace the sub place
@@ -165,6 +178,17 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
 		eu.strasbourg.service.place.model.SubPlace subPlace) {
 		return _subPlaceLocalService.updateSubPlace(subPlace);
+	}
+
+	/**
+	* Met à jour un sous-lieu et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
+		eu.strasbourg.service.place.model.SubPlace subPlace,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _subPlaceLocalService.updateSubPlace(subPlace, sc);
 	}
 
 	/**
@@ -307,6 +331,16 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 	@Override
 	public long findByKeywordCount(java.lang.String keyword) {
 		return _subPlaceLocalService.findByKeywordCount(keyword);
+	}
+
+	/**
+	* Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(long userId,
+		eu.strasbourg.service.place.model.SubPlace subPlace, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_subPlaceLocalService.updateStatus(userId, subPlace, status);
 	}
 
 	@Override

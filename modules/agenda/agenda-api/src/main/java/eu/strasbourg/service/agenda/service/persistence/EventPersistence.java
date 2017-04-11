@@ -1301,6 +1301,138 @@ public interface EventPersistence extends BasePersistence<Event> {
 	public int countByIdSource(java.lang.String idSource);
 
 	/**
+	* Returns all the events where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @return the matching events
+	*/
+	public java.util.List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
+
+	/**
+	* Returns a range of all the events where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place s i g ID
+	* @param start the lower bound of the range of events
+	* @param end the upper bound of the range of events (not inclusive)
+	* @return the range of matching events
+	*/
+	public java.util.List<Event> findByPlaceSIGId(java.lang.String placeSIGId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the events where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place s i g ID
+	* @param start the lower bound of the range of events
+	* @param end the upper bound of the range of events (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching events
+	*/
+	public java.util.List<Event> findByPlaceSIGId(java.lang.String placeSIGId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the events where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place s i g ID
+	* @param start the lower bound of the range of events
+	* @param end the upper bound of the range of events (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching events
+	*/
+	public java.util.List<Event> findByPlaceSIGId(java.lang.String placeSIGId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first event in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event
+	* @throws NoSuchEventException if a matching event could not be found
+	*/
+	public Event findByPlaceSIGId_First(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException;
+
+	/**
+	* Returns the first event in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public Event fetchByPlaceSIGId_First(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator);
+
+	/**
+	* Returns the last event in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event
+	* @throws NoSuchEventException if a matching event could not be found
+	*/
+	public Event findByPlaceSIGId_Last(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException;
+
+	/**
+	* Returns the last event in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event, or <code>null</code> if a matching event could not be found
+	*/
+	public Event fetchByPlaceSIGId_Last(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator);
+
+	/**
+	* Returns the events before and after the current event in the ordered set where placeSIGId = &#63;.
+	*
+	* @param eventId the primary key of the current event
+	* @param placeSIGId the place s i g ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next event
+	* @throws NoSuchEventException if a event with the primary key could not be found
+	*/
+	public Event[] findByPlaceSIGId_PrevAndNext(long eventId,
+		java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException;
+
+	/**
+	* Removes all the events where placeSIGId = &#63; from the database.
+	*
+	* @param placeSIGId the place s i g ID
+	*/
+	public void removeByPlaceSIGId(java.lang.String placeSIGId);
+
+	/**
+	* Returns the number of events where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place s i g ID
+	* @return the number of matching events
+	*/
+	public int countByPlaceSIGId(java.lang.String placeSIGId);
+
+	/**
 	* Caches the event in the entity cache if it is enabled.
 	*
 	* @param event the event

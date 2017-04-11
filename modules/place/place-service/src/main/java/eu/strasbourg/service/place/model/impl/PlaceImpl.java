@@ -17,6 +17,7 @@ package eu.strasbourg.service.place.model.impl;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -36,6 +38,8 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -139,11 +143,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les PublicHolidays du lieu
+	 * Retourne les PublicHolidays
 	 */
 	@Override
 	public List<PublicHoliday> getPublicHolidays() {
-		return PublicHolidayLocalServiceUtil.getPublicHolidaies(0, 0);
+		return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
 	}
 
 	/**
@@ -228,6 +232,31 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne la ville
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public Boolean isEnabled() throws PortalException {
+		List<AssetCategory> types = this.getTypes();
+		for (AssetCategory type : types) {
+			if (Validator.isNotNull(AssetVocabularyHelper
+					.getCategoryProperty(type.getCategoryId(), "realtime"))) {
+				return true;
+			}
+			// vérification des parents
+			for (AssetCategory ancestor : type.getAncestors()) {
+				if (Validator
+						.isNotNull(AssetVocabularyHelper.getCategoryProperty(
+								ancestor.getCategoryId(), "realtime"))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu
 	 */
 	@Override
@@ -292,6 +321,75 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une map d'URL et de titre des images additionnelles et des
+	 * vidéos
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public List<AssetEntry> getRandomContents() throws PortalException {
+		List<AssetEntry> contenus = new ArrayList<AssetEntry>();
+
+		for (String imageIdStr : this.getImageIds().split(",")) {
+			Long imageId = GetterUtil.getLong(imageIdStr);
+			if (Validator.isNotNull(imageId)) {
+				AssetEntry imageEntry = AssetEntryLocalServiceUtil
+						.getEntry(DLFileEntry.class.getName(), imageId);
+				contenus.add(imageEntry);
+			}
+		}
+		for (String videoIdString : this.getVideosIds().split(",")) {
+			Long videoId = GetterUtil.getLong(videoIdString);
+			if (Validator.isNotNull(videoId)) {
+				Video video = VideoLocalServiceUtil.fetchVideo(videoId);
+				AssetEntry videoEntry = video.getAssetEntry();
+				contenus.add(videoEntry);
+			}
+		}
+		Collections.shuffle(contenus);
+		return contenus;
+	}
+
+	/**
+	 * Retourne l'URL publiques de l'image
+	 */
+	@Override
+	public String getImageURL(Long imageId) {
+		String imageURL = null;
+		if (Validator.isNotNull(imageId)) {
+			imageURL = FileEntryHelper.getFileEntryURL(imageId);
+		}
+		return imageURL;
+
+	}
+
+	/**
+	 * Retourne le copyright publiques de l'image
+	 */
+	@Override
+	public String getImageCopyright(Long imageId, Locale locale) {
+		String imageTitle = null;
+		if (Validator.isNotNull(imageId)) {
+			imageTitle = FileEntryHelper.getImageCopyright(imageId, locale);
+		}
+		return imageTitle;
+
+	}
+
+	/**
+	 * Retourne la légende publiques de l'image
+	 */
+	@Override
+	public String getImageLegend(Long imageId, Locale locale) {
+		String imageTitle = null;
+		if (Validator.isNotNull(imageId)) {
+			imageTitle = FileEntryHelper.getImageLegend(imageId, locale);
+		}
+		return imageTitle;
+
+	}
+
+	/**
 	 * Retourne la liste des URL des documents de ce lieu
 	 */
 	@Override
@@ -309,6 +407,36 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une map de titre et d'URL des documents de ce lieu
+	 */
+	@Override
+	public Map<String, String> getDocuments() {
+		Map<String, String> documents = new HashMap<String, String>();
+		for (String documentIdStr : this.getDocumentsIds().split(",")) {
+			Long documentId = GetterUtil.getLong(documentIdStr);
+			if (Validator.isNotNull(documentId)) {
+				String documentURL = FileEntryHelper
+						.getFileEntryURL(documentId);
+				DLFileEntry document = FileEntryHelper
+						.getFileEntryByRelativeURL(documentURL);
+				String documentTitle = document.getTitle();
+				documents.put(documentTitle, documentURL);
+			}
+		}
+		return documents;
+	}
+
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public List<Event> getEvents() {
+		List<Event> events = EventLocalServiceUtil
+				.findByPlaceSIGId(this.getSIGid());
+		return events;
+	}
+
+	/**
 	 * Retourne true si l'événement est accessible pour au moins un type de
 	 * handicap
 	 */
@@ -320,7 +448,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les horaires d'ouverture de la semaine en cours
+	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	 * semaine en cours
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour) {
@@ -337,9 +466,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jourSemaine.set(Calendar.DAY_OF_WEEK,
 					(int) (jour == 6 ? 1 : jour + 2));
 
-			List<PlaceSchedule> list = getPlaceSchedule(jourSemaine);
+			List<PlaceSchedule> liste = getPlaceSchedule(jourSemaine);
 
-			listHoraires.put(Integer.toString(jour), list);
+			listHoraires.put(Integer.toString(jour), liste);
 		}
 		return listHoraires;
 	}

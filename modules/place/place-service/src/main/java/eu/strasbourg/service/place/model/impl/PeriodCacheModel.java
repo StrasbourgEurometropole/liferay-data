@@ -65,7 +65,7 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -85,6 +85,14 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		sb.append(linkURL);
 		sb.append(", alwaysOpen=");
 		sb.append(alwaysOpen);
+		sb.append(", RTGreenThreshold=");
+		sb.append(RTGreenThreshold);
+		sb.append(", RTOrangeThreshold=");
+		sb.append(RTOrangeThreshold);
+		sb.append(", RTRedThreshold=");
+		sb.append(RTRedThreshold);
+		sb.append(", RTMaxThreshold=");
+		sb.append(RTMaxThreshold);
 		sb.append(", placeId=");
 		sb.append(placeId);
 		sb.append(", subPlaceId=");
@@ -145,6 +153,10 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		}
 
 		periodImpl.setAlwaysOpen(alwaysOpen);
+		periodImpl.setRTGreenThreshold(RTGreenThreshold);
+		periodImpl.setRTOrangeThreshold(RTOrangeThreshold);
+		periodImpl.setRTRedThreshold(RTRedThreshold);
+		periodImpl.setRTMaxThreshold(RTMaxThreshold);
 		periodImpl.setPlaceId(placeId);
 		periodImpl.setSubPlaceId(subPlaceId);
 
@@ -167,6 +179,14 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		linkURL = objectInput.readUTF();
 
 		alwaysOpen = objectInput.readBoolean();
+
+		RTGreenThreshold = objectInput.readLong();
+
+		RTOrangeThreshold = objectInput.readLong();
+
+		RTRedThreshold = objectInput.readLong();
+
+		RTMaxThreshold = objectInput.readLong();
 
 		placeId = objectInput.readLong();
 
@@ -212,6 +232,14 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 
 		objectOutput.writeBoolean(alwaysOpen);
 
+		objectOutput.writeLong(RTGreenThreshold);
+
+		objectOutput.writeLong(RTOrangeThreshold);
+
+		objectOutput.writeLong(RTRedThreshold);
+
+		objectOutput.writeLong(RTMaxThreshold);
+
 		objectOutput.writeLong(placeId);
 
 		objectOutput.writeLong(subPlaceId);
@@ -226,6 +254,10 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 	public String linkLabel;
 	public String linkURL;
 	public boolean alwaysOpen;
+	public long RTGreenThreshold;
+	public long RTOrangeThreshold;
+	public long RTRedThreshold;
+	public long RTMaxThreshold;
 	public long placeId;
 	public long subPlaceId;
 }

@@ -42,6 +42,10 @@ public class PeriodSoap implements Serializable {
 		soapModel.setLinkLabel(model.getLinkLabel());
 		soapModel.setLinkURL(model.getLinkURL());
 		soapModel.setAlwaysOpen(model.getAlwaysOpen());
+		soapModel.setRTGreenThreshold(model.getRTGreenThreshold());
+		soapModel.setRTOrangeThreshold(model.getRTOrangeThreshold());
+		soapModel.setRTRedThreshold(model.getRTRedThreshold());
+		soapModel.setRTMaxThreshold(model.getRTMaxThreshold());
 		soapModel.setPlaceId(model.getPlaceId());
 		soapModel.setSubPlaceId(model.getSubPlaceId());
 
@@ -168,6 +172,38 @@ public class PeriodSoap implements Serializable {
 		_alwaysOpen = alwaysOpen;
 	}
 
+	public long getRTGreenThreshold() {
+		return _RTGreenThreshold;
+	}
+
+	public void setRTGreenThreshold(long RTGreenThreshold) {
+		_RTGreenThreshold = RTGreenThreshold;
+	}
+
+	public long getRTOrangeThreshold() {
+		return _RTOrangeThreshold;
+	}
+
+	public void setRTOrangeThreshold(long RTOrangeThreshold) {
+		_RTOrangeThreshold = RTOrangeThreshold;
+	}
+
+	public long getRTRedThreshold() {
+		return _RTRedThreshold;
+	}
+
+	public void setRTRedThreshold(long RTRedThreshold) {
+		_RTRedThreshold = RTRedThreshold;
+	}
+
+	public long getRTMaxThreshold() {
+		return _RTMaxThreshold;
+	}
+
+	public void setRTMaxThreshold(long RTMaxThreshold) {
+		_RTMaxThreshold = RTMaxThreshold;
+	}
+
 	public long getPlaceId() {
 		return _placeId;
 	}
@@ -193,6 +229,10 @@ public class PeriodSoap implements Serializable {
 	private String _linkLabel;
 	private String _linkURL;
 	private Boolean _alwaysOpen;
+	private long _RTGreenThreshold;
+	private long _RTOrangeThreshold;
+	private long _RTRedThreshold;
+	private long _RTMaxThreshold;
 	private long _placeId;
 	private long _subPlaceId;
 }

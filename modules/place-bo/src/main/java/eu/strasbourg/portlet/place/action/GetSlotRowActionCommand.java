@@ -27,8 +27,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
-		"mvc.command.name=getScheduleExceptionRow" }, service = MVCActionCommand.class)
-public class GetScheduleExceptionRowActionCommand implements MVCActionCommand {
+		"mvc.command.name=getSlotRow" }, service = MVCActionCommand.class)
+public class GetSlotRowActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)

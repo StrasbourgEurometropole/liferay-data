@@ -162,6 +162,30 @@ public class PriceLocalServiceWrapper implements PriceLocalService,
 	}
 
 	/**
+	* Met à jour un tarif et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Price updatePrice(
+		eu.strasbourg.service.place.model.Price price,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _priceLocalService.updatePrice(price, sc);
+	}
+
+	/**
+	* Met à jour le statut du tarif par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Price updateStatus(long userId,
+		long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _priceLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
+	}
+
+	/**
 	* Returns the number of prices.
 	*
 	* @return the number of prices
@@ -275,6 +299,16 @@ public class PriceLocalServiceWrapper implements PriceLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _priceLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut du tarif "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(long userId,
+		eu.strasbourg.service.place.model.Price price, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_priceLocalService.updateStatus(userId, price, status);
 	}
 
 	@Override

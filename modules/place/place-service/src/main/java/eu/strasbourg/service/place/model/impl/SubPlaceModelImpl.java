@@ -21,10 +21,13 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -32,6 +35,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.model.SubPlaceModel;
@@ -40,6 +44,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -71,6 +76,10 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "subPlaceId", Types.BIGINT },
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP },
 			{ "name", Types.VARCHAR },
 			{ "description", Types.CLOB },
 			{ "placeId", Types.BIGINT }
@@ -80,12 +89,16 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_SubPlace (uuid_ VARCHAR(75) null,subPlaceId LONG not null primary key,name STRING null,description TEXT null,placeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_SubPlace (uuid_ VARCHAR(75) null,subPlaceId LONG not null primary key,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,description TEXT null,placeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_SubPlace";
 	public static final String ORDER_BY_JPQL = " ORDER BY subPlace.subPlaceId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_SubPlace.subPlaceId ASC";
@@ -146,6 +159,10 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 		attributes.put("uuid", getUuid());
 		attributes.put("subPlaceId", getSubPlaceId());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
 		attributes.put("placeId", getPlaceId());
@@ -168,6 +185,30 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 		if (subPlaceId != null) {
 			setSubPlaceId(subPlaceId);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 
 		String name = (String)attributes.get("name");
@@ -220,6 +261,67 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
 		_subPlaceId = subPlaceId;
+	}
+
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
 	}
 
 	@Override
@@ -444,6 +546,86 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 		return _originalPlaceId;
 	}
 
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -559,6 +741,10 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 		subPlaceImpl.setUuid(getUuid());
 		subPlaceImpl.setSubPlaceId(getSubPlaceId());
+		subPlaceImpl.setStatus(getStatus());
+		subPlaceImpl.setStatusByUserId(getStatusByUserId());
+		subPlaceImpl.setStatusByUserName(getStatusByUserName());
+		subPlaceImpl.setStatusDate(getStatusDate());
 		subPlaceImpl.setName(getName());
 		subPlaceImpl.setDescription(getDescription());
 		subPlaceImpl.setPlaceId(getPlaceId());
@@ -647,6 +833,27 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 		subPlaceCacheModel.subPlaceId = getSubPlaceId();
 
+		subPlaceCacheModel.status = getStatus();
+
+		subPlaceCacheModel.statusByUserId = getStatusByUserId();
+
+		subPlaceCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = subPlaceCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			subPlaceCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			subPlaceCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			subPlaceCacheModel.statusDate = Long.MIN_VALUE;
+		}
+
 		subPlaceCacheModel.name = getName();
 
 		String name = subPlaceCacheModel.name;
@@ -670,12 +877,20 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", subPlaceId=");
 		sb.append(getSubPlaceId());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", statusByUserId=");
+		sb.append(getStatusByUserId());
+		sb.append(", statusByUserName=");
+		sb.append(getStatusByUserName());
+		sb.append(", statusDate=");
+		sb.append(getStatusDate());
 		sb.append(", name=");
 		sb.append(getName());
 		sb.append(", description=");
@@ -689,7 +904,7 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.SubPlace");
@@ -702,6 +917,22 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 		sb.append(
 			"<column><column-name>subPlaceId</column-name><column-value><![CDATA[");
 		sb.append(getSubPlaceId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
+		sb.append(getStatusDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>name</column-name><column-value><![CDATA[");
@@ -728,6 +959,10 @@ public class SubPlaceModelImpl extends BaseModelImpl<SubPlace>
 	private String _uuid;
 	private String _originalUuid;
 	private long _subPlaceId;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private String _description;

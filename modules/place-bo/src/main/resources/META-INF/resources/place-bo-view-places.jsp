@@ -13,7 +13,6 @@
 <liferay-frontend:management-bar includeCheckBox="true"
 	searchContainerId="placesSearchContainer">
 	<c:if test="${empty dc.keywords}">
-
 		<liferay-frontend:management-bar-filters>
 			<c:if test="${fn:length(dc.vocabularies) > 0}">
 				<li><a>Filtrer par :</a></li>
@@ -73,15 +72,31 @@
 					href="${editPlaceURL}" name="alias" truncate="true" orderable="true"
 					value="${place.aliasCurrentValue}" />
 				
-				<fmt:formatDate value="${place.modifiedDate}"
-					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+				<c:set var="typePlace" value="" />	
+				<c:forEach var="category" items="${place.getTypes()}">
+					<c:if test="${not empty typePlace}">
+						<c:set var="typePlace" value="${typePlace}, ${category.getName()}" />
+					</c:if>
+					<c:if test="${empty typePlace}">
+						<c:set var="typePlace" value="${category.getName()}" />
+					</c:if>	
+				</c:forEach>	
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
-					value="${formattedModifiedDate}" />
+					name="type-place" truncate="true" orderable="true"
+					value="${typePlace}" />
 					
-				<liferay-ui:search-container-column-text name="user">
-					${place.statusByUserName}
-				</liferay-ui:search-container-column-text>
+				<c:set var="territory" value="" />	
+				<c:forEach var="category" items="${place.getTerritories()}">
+					<c:if test="${not empty territory}">
+						<c:set var="territory" value="${territory}, ${category.getName()}" />
+					</c:if>	
+					<c:if test="${empty territory}">
+						<c:set var="territory" value="${category.getName()}" />
+					</c:if>
+				</c:forEach>
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="territory" truncate="true" orderable="true"
+					value="${territory}" />
 
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"
@@ -132,7 +147,7 @@
 </liferay-portlet:actionURL>
 <aui:script>
 	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
@@ -143,7 +158,7 @@
 		}
 	}
 	function <portlet:namespace />publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];
@@ -154,7 +169,7 @@
 		}
 	}
 	function <portlet:namespace />unpublishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
 			var selectionIdsInput = document
 					.getElementsByName('<portlet:namespace />selectionIds')[0];

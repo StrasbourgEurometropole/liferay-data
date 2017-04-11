@@ -5,6 +5,7 @@ dependencies {
 	compile project (':modules:utils')
 	compile project(":modules:place:place-api")
 	compile project(":modules:video:video-api")
+	compile project(":modules:agenda:agenda-api")
 }
 
 buildService {

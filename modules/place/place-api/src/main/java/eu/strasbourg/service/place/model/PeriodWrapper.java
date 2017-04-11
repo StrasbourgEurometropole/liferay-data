@@ -66,6 +66,10 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		attributes.put("linkLabel", getLinkLabel());
 		attributes.put("linkURL", getLinkURL());
 		attributes.put("alwaysOpen", getAlwaysOpen());
+		attributes.put("RTGreenThreshold", getRTGreenThreshold());
+		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
+		attributes.put("RTRedThreshold", getRTRedThreshold());
+		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("placeId", getPlaceId());
 		attributes.put("subPlaceId", getSubPlaceId());
 
@@ -126,6 +130,30 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 
 		if (alwaysOpen != null) {
 			setAlwaysOpen(alwaysOpen);
+		}
+
+		Long RTGreenThreshold = (Long)attributes.get("RTGreenThreshold");
+
+		if (RTGreenThreshold != null) {
+			setRTGreenThreshold(RTGreenThreshold);
+		}
+
+		Long RTOrangeThreshold = (Long)attributes.get("RTOrangeThreshold");
+
+		if (RTOrangeThreshold != null) {
+			setRTOrangeThreshold(RTOrangeThreshold);
+		}
+
+		Long RTRedThreshold = (Long)attributes.get("RTRedThreshold");
+
+		if (RTRedThreshold != null) {
+			setRTRedThreshold(RTRedThreshold);
+		}
+
+		Long RTMaxThreshold = (Long)attributes.get("RTMaxThreshold");
+
+		if (RTMaxThreshold != null) {
+			setRTMaxThreshold(RTMaxThreshold);
 		}
 
 		Long placeId = (Long)attributes.get("placeId");
@@ -546,6 +574,46 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
+	* Returns the r t green threshold of this period.
+	*
+	* @return the r t green threshold of this period
+	*/
+	@Override
+	public long getRTGreenThreshold() {
+		return _period.getRTGreenThreshold();
+	}
+
+	/**
+	* Returns the r t max threshold of this period.
+	*
+	* @return the r t max threshold of this period
+	*/
+	@Override
+	public long getRTMaxThreshold() {
+		return _period.getRTMaxThreshold();
+	}
+
+	/**
+	* Returns the r t orange threshold of this period.
+	*
+	* @return the r t orange threshold of this period
+	*/
+	@Override
+	public long getRTOrangeThreshold() {
+		return _period.getRTOrangeThreshold();
+	}
+
+	/**
+	* Returns the r t red threshold of this period.
+	*
+	* @return the r t red threshold of this period
+	*/
+	@Override
+	public long getRTRedThreshold() {
+		return _period.getRTRedThreshold();
+	}
+
+	/**
 	* Returns the sub place ID of this period.
 	*
 	* @return the sub place ID of this period
@@ -849,6 +917,46 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_period.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the r t green threshold of this period.
+	*
+	* @param RTGreenThreshold the r t green threshold of this period
+	*/
+	@Override
+	public void setRTGreenThreshold(long RTGreenThreshold) {
+		_period.setRTGreenThreshold(RTGreenThreshold);
+	}
+
+	/**
+	* Sets the r t max threshold of this period.
+	*
+	* @param RTMaxThreshold the r t max threshold of this period
+	*/
+	@Override
+	public void setRTMaxThreshold(long RTMaxThreshold) {
+		_period.setRTMaxThreshold(RTMaxThreshold);
+	}
+
+	/**
+	* Sets the r t orange threshold of this period.
+	*
+	* @param RTOrangeThreshold the r t orange threshold of this period
+	*/
+	@Override
+	public void setRTOrangeThreshold(long RTOrangeThreshold) {
+		_period.setRTOrangeThreshold(RTOrangeThreshold);
+	}
+
+	/**
+	* Sets the r t red threshold of this period.
+	*
+	* @param RTRedThreshold the r t red threshold of this period
+	*/
+	@Override
+	public void setRTRedThreshold(long RTRedThreshold) {
+		_period.setRTRedThreshold(RTRedThreshold);
 	}
 
 	/**

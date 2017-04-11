@@ -86,7 +86,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions();
 
 	/**
-	* Retourne les PublicHolidays du lieu
+	* Retourne les PublicHolidays
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays();
 
@@ -128,6 +128,14 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
+	* Retourne la ville
+	*
+	* @throws PortalException
+	*/
+	public java.lang.Boolean isEnabled()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();
@@ -148,9 +156,45 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<java.lang.String> getImagesURLs();
 
 	/**
+	* Retourne une map d'URL et de titre des images additionnelles et des
+	* vidéos
+	*
+	* @throws PortalException
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getRandomContents()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Retourne l'URL publiques de l'image
+	*/
+	public java.lang.String getImageURL(java.lang.Long imageId);
+
+	/**
+	* Retourne le copyright publiques de l'image
+	*/
+	public java.lang.String getImageCopyright(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
+	* Retourne la légende publiques de l'image
+	*/
+	public java.lang.String getImageLegend(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
 	* Retourne la liste des URL des documents de ce lieu
 	*/
 	public java.util.List<java.lang.String> getDocumentURLs();
+
+	/**
+	* Retourne une map de titre et d'URL des documents de ce lieu
+	*/
+	public java.util.Map<java.lang.String, java.lang.String> getDocuments();
+
+	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
@@ -159,7 +203,8 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean hasAnyAccessForDisabled();
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
 		java.util.Date dateJour);

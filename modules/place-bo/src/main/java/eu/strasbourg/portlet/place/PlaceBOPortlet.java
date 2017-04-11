@@ -50,7 +50,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		renderResponse.setTitle("Places");
 
-		// Si on est sur la page d'ajout, on affiche une lien de retour
+		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
