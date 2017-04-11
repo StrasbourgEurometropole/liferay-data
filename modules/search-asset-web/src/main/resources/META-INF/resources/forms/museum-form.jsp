@@ -49,7 +49,7 @@
 				<c:if
 					test="${dc.vocabulariesControlTypes[vocStatus.index] eq 'list'}">
 					<aui:select name="vocabulary_${vocStatus.index}" label=""
-						showEmptyOption="true">
+						showEmptyOption="true" ignoreRequestValue="true">
 						<c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
 							<c:set var="category" value="${category}" scope="request"/>
 							<c:set var="dc" value="${dc}" scope="request"/>

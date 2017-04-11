@@ -238,6 +238,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	public String getFilterCategoriesIdsString() {
+		if (Validator.isNull(this._filterCategoriesIdString)) {
 		String filterCategoriesIdsString = "";
 		for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
 			for (long filterCategoryId : filterCategoriesForVoc) {
@@ -247,7 +248,9 @@ public class SearchAssetDisplayContext {
 				filterCategoriesIdsString += filterCategoryId;
 			}
 		}
-		return filterCategoriesIdsString;
+			this._filterCategoriesIdString = filterCategoriesIdsString;
+		}
+		return this._filterCategoriesIdString;
 	}
 
 	/**
@@ -639,6 +642,7 @@ public class SearchAssetDisplayContext {
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
+	private String _filterCategoriesIdString;
 	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
 	private List<String> _classNames;

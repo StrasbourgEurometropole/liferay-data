@@ -33,4 +33,6 @@ public class StrasbourgPortletKeys {
 	public static final String LEGACY_PLACE_VIEWER = "eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet";
 	
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
+	
+	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
 }
