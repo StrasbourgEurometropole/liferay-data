@@ -11,11 +11,6 @@
         ${entry.getCopyright(locale)}
       </div>
     </#if>
-    <#if entry.getOrigin(locale)?has_content>
-      <div class="video-origin">
-         <a href="${entry.getOrigin(locale)}"><@liferay_ui["message"] key="eu.video.origin" /></a>
-      </div>
-    </#if>
     <#if entry.getTranscriptionDownloadURL()?has_content>
       <div class="video-transcription">
         <a href="${entry.getTranscriptionDownloadURL()}" download><@liferay_ui["message"] key="eu.video.transcription" /></a>
