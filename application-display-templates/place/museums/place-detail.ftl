@@ -48,10 +48,10 @@
 
         <div class="place-info">
             <div class="place-60">
-                <div class="google-map" data-zoom="13">
+                <!-- <div class="google-map" data-zoom="13">
                     <div class="marker" data-lat="${entry.mercatorY}" data-lng="${entry.mercatorX}" data-icon="img/design/gmap-markers.png">
                     </div>
-                </div>
+                </div> -->
 
                 <#if entry.getAccess(locale)?has_content >
                     <div class="place-info-section">
@@ -296,10 +296,15 @@
                         <@liferay_ui.message key="eu.times" />
                         <#assign types = entry.getTypes() />
                         <#if types?has_content>
+                        	<#assign categoriesIds = "" />
                             <#list types as type>
-                                <a href="tous-les-horaires/-/entity/id/${type.getCategoryId()}" target="_blank"><@liferay_ui.message key="eu.all-times" /></a>
-                                <#break>
+                                <#if type?counter == 1 >
+                        			<#assign categoriesIds = type.getCategoryId() />
+                                <#else> 
+                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
+                                </#if> 
                             </#list>
+                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}" target="_blank"><@liferay_ui.message key="eu.all-times" /></a>
                         </#if>
                     </h4>
                     <#assign hasURL = 0 />
@@ -334,7 +339,7 @@
                                                     <#if placeSchedule.isAlwaysOpen() >
                                                         <@liferay_ui.message key="always-open" />    
                                                     <#else>
-                                                        <#if placeSchedule?counter == 3 || placeSchedule?counter == 5 >
+                                                        <#if placeSchedule?counter gt 1 >
                                                             <br>
                                                         </#if> 
                                                         <@liferay_ui.message key="eu.from" /> ${placeSchedule.getStartTime().toString()} 
@@ -352,9 +357,35 @@
                         </div>                        
                     </#if>
 
+                    <#if entry.getScheduleExceptions()?has_content >  
+                        <strong  style="color:#B22222;">
+                        	<@liferay_ui.message key="eu.exceptional-closings-openings" />
+                        </strong>
+	                    <#list entry.getScheduleExceptions() as exception>
+                        	<p>
+	                        	<strong>
+		                            <#if exception.startDate?date == exception.endDate?date >
+		                                <@liferay_ui.message key="eu.the" /> ${exception.startDate?date} : 
+		                            <#else>
+		                                <@liferay_ui.message key="eu.from" /> ${exception.startDate?date} 
+		                                <@liferay_ui.message key="eu.to" /> ${exception.endDate?date} : 
+		                            </#if>
+	                            </strong>
+	                            <#if exception.isClosed() >
+	                                <@liferay_ui.message key="closed" />
+	                            <#else> 
+	                                ${exception.startHour} - ${exception.endHour}
+	                            </#if> 
+		                    	 - ${exception.comment}
+	                           </p>
+	                    </#list>
+                    </#if>
+
                     <#if entry.getExceptionalSchedule(locale)?has_content >
                         <strong><@liferay_ui.message key="eu.exceptional-schedule" /></strong>
-                        ${entry.getExceptionalSchedule(locale)}
+                        <p>
+                        	${entry.getExceptionalSchedule(locale)}
+                        </p>
                     </#if>
                 </div>
 
