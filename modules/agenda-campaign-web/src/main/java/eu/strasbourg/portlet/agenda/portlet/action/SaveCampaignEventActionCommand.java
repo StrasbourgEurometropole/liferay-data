@@ -315,11 +315,11 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setCampaignId(campaignId);
 
 			// Thème, type, publics
-			long themeId = ParamUtil.getLong(request, "themeId");
-			long typeId = ParamUtil.getLong(request, "typeId");
+			long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+			long[] typesIds = ParamUtil.getLongValues(request, "typesIds");
 			long[] publicsIds = ParamUtil.getLongValues(request, "publicsIds");
-			campaignEvent.setThemeId(themeId);
-			campaignEvent.setTypeId(typeId);
+			campaignEvent.setThemesIds(StringUtil.merge(themesIds));
+			campaignEvent.setTypesIds(StringUtil.merge(typesIds));
 			campaignEvent.setPublicsIds(StringUtil.merge(publicsIds));
 
 			// Gestion du statut

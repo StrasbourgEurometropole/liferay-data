@@ -74,8 +74,8 @@ public class CampaignEventSoap implements Serializable {
 		soapModel.setFree(model.getFree());
 		soapModel.setPrice(model.getPrice());
 		soapModel.setCampaignId(model.getCampaignId());
-		soapModel.setThemeId(model.getThemeId());
-		soapModel.setTypeId(model.getTypeId());
+		soapModel.setThemesIds(model.getThemesIds());
+		soapModel.setTypesIds(model.getTypesIds());
 		soapModel.setPublicsIds(model.getPublicsIds());
 
 		return soapModel;
@@ -457,20 +457,20 @@ public class CampaignEventSoap implements Serializable {
 		_campaignId = campaignId;
 	}
 
-	public Long getThemeId() {
-		return _themeId;
+	public String getThemesIds() {
+		return _themesIds;
 	}
 
-	public void setThemeId(Long themeId) {
-		_themeId = themeId;
+	public void setThemesIds(String themesIds) {
+		_themesIds = themesIds;
 	}
 
-	public Long getTypeId() {
-		return _typeId;
+	public String getTypesIds() {
+		return _typesIds;
 	}
 
-	public void setTypeId(Long typeId) {
-		_typeId = typeId;
+	public void setTypesIds(String typesIds) {
+		_typesIds = typesIds;
 	}
 
 	public String getPublicsIds() {
@@ -522,7 +522,7 @@ public class CampaignEventSoap implements Serializable {
 	private Integer _free;
 	private String _price;
 	private Long _campaignId;
-	private Long _themeId;
-	private Long _typeId;
+	private String _themesIds;
+	private String _typesIds;
 	private String _publicsIds;
 }

@@ -80,9 +80,14 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	public boolean isUserManagerOfTheEvent(long userId);
 
 	/**
-	* Retourne la catégorie thème
+	* Retourne les thèmes
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getTheme();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+
+	/**
+	* Retourne les thèmes
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
 	* Retourne le nom du service

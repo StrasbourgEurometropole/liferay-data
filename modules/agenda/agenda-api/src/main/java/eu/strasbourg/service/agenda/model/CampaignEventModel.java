@@ -1300,32 +1300,34 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	public void setCampaignId(Long campaignId);
 
 	/**
-	 * Returns the theme ID of this campaign event.
+	 * Returns the themes IDs of this campaign event.
 	 *
-	 * @return the theme ID of this campaign event
+	 * @return the themes IDs of this campaign event
 	 */
-	public Long getThemeId();
+	@AutoEscape
+	public String getThemesIds();
 
 	/**
-	 * Sets the theme ID of this campaign event.
+	 * Sets the themes IDs of this campaign event.
 	 *
-	 * @param themeId the theme ID of this campaign event
+	 * @param themesIds the themes IDs of this campaign event
 	 */
-	public void setThemeId(Long themeId);
+	public void setThemesIds(String themesIds);
 
 	/**
-	 * Returns the type ID of this campaign event.
+	 * Returns the types IDs of this campaign event.
 	 *
-	 * @return the type ID of this campaign event
+	 * @return the types IDs of this campaign event
 	 */
-	public Long getTypeId();
+	@AutoEscape
+	public String getTypesIds();
 
 	/**
-	 * Sets the type ID of this campaign event.
+	 * Sets the types IDs of this campaign event.
 	 *
-	 * @param typeId the type ID of this campaign event
+	 * @param typesIds the types IDs of this campaign event
 	 */
-	public void setTypeId(Long typeId);
+	public void setTypesIds(String typesIds);
 
 	/**
 	 * Returns the publics IDs of this campaign event.

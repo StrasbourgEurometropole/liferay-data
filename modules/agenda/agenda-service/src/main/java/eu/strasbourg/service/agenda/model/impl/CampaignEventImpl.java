@@ -17,6 +17,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -263,14 +264,47 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	/**
-	 * Retourne la catégorie thème
+	 * Retourne les thèmes
 	 */
 	@Override
-	public AssetCategory getTheme() {
-		long themeId = this.getThemeId();
-		AssetCategory theme = AssetCategoryLocalServiceUtil
-			.fetchAssetCategory(themeId);
-		return theme;
+	public List<AssetCategory> getThemes() {
+		List<AssetCategory> themes = new ArrayList<AssetCategory>();
+		String themesIds = this.getThemesIds();
+		if (Validator.isNotNull(themesIds)) {
+			for (String themeIdString : themesIds.split(",")) {
+				long themeId = GetterUtil.getLong(themeIdString);
+				if (themeId > 0) {
+					AssetCategory theme = AssetCategoryLocalServiceUtil
+						.fetchAssetCategory(themeId);
+					if (theme != null) {
+						themes.add(theme);
+					}
+				}
+			}
+		}
+		return themes;
+	}
+
+	/**
+	 * Retourne les thèmes
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		List<AssetCategory> types = new ArrayList<AssetCategory>();
+		String typesIds = this.getTypesIds();
+		if (Validator.isNotNull(typesIds)) {
+			for (String typeIdString : typesIds.split(",")) {
+				long typeId = GetterUtil.getLong(typeIdString);
+				if (typeId > 0) {
+					AssetCategory type = AssetCategoryLocalServiceUtil
+						.fetchAssetCategory(typeId);
+					if (type != null) {
+						types.add(type);
+					}
+				}
+			}
+		}
+		return types;
 	}
 
 	/**
@@ -306,8 +340,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl",
-				context, userMailAddress);
+			sendMail("deletion-approved-subject-template.ftl",
+				"deletion-approved-template.ftl", context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
@@ -587,12 +621,11 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			jsonEvent.put("manifestations", jsonManifestations);
 		}
 
-		// Thème
+		// Thèmes
 		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
-		AssetCategory theme = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getThemeId());
-		if (theme != null) {
-			String externalId = AssetVocabularyHelper
-				.getExternalId(theme);
+		List<AssetCategory> themes = this.getThemes();
+		for (AssetCategory theme : themes) {
+			String externalId = AssetVocabularyHelper.getExternalId(theme);
 			if (Validator.isNotNull(externalId)) {
 				jsonThemes.put(externalId);
 			}
@@ -601,12 +634,11 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			jsonEvent.put("themes", jsonThemes);
 		}
 
-		// Type
+		// Types
 		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-		AssetCategory type = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getTypeId());
-		if (type != null) {
-			String externalId = AssetVocabularyHelper
-				.getExternalId(type);
+		List<AssetCategory> types = this.getTypes();
+		for (AssetCategory type : types) {
+			String externalId = AssetVocabularyHelper.getExternalId(type);
 			if (Validator.isNotNull(externalId)) {
 				jsonTypes.put(externalId);
 			}
@@ -617,10 +649,10 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Territoire
 		JSONArray jsonTerritories = JSONFactoryUtil.createJSONArray();
-		AssetCategory territory = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getPlaceCityId());
+		AssetCategory territory = AssetCategoryLocalServiceUtil
+			.fetchAssetCategory(this.getPlaceCityId());
 		if (territory != null) {
-			String externalId = AssetVocabularyHelper
-				.getExternalId(territory);
+			String externalId = AssetVocabularyHelper.getExternalId(territory);
 			if (Validator.isNotNull(externalId)) {
 				jsonTerritories.put(externalId);
 			}
@@ -633,7 +665,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
 		for (String publicIdStr : this.getPublicsIds().split(",")) {
 			Long publicId = GetterUtil.getLong(publicIdStr);
-			AssetCategory eventPublic = AssetCategoryLocalServiceUtil.fetchAssetCategory(publicId);
+			AssetCategory eventPublic = AssetCategoryLocalServiceUtil
+				.fetchAssetCategory(publicId);
 			if (eventPublic != null) {
 				String externalId = AssetVocabularyHelper
 					.getExternalId(eventPublic);
@@ -648,10 +681,10 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Services
 		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
-		AssetCategory service = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getServiceId());
+		AssetCategory service = AssetCategoryLocalServiceUtil
+			.fetchAssetCategory(this.getServiceId());
 		if (service != null) {
-			String externalId = AssetVocabularyHelper
-				.getExternalId(service);
+			String externalId = AssetVocabularyHelper.getExternalId(service);
 			if (Validator.isNotNull(externalId)) {
 				jsonServices.put(externalId);
 			}

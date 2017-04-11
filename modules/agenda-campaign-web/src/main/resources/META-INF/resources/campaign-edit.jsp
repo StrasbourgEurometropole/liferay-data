@@ -336,27 +336,35 @@
 							</c:forEach>
 						</aui:select>
 					</div>
-					<!-- Type / thême / publics -->
+					<!-- Types / thèmes / publics -->
 					<div class="col-md-3">
-						<aui:select name="typeId" required="true" label="type">
-							<aui:option value="" label="" />
+						<label><liferay-ui:message key="types" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
+						<select name="<portlet:namespace />typesIds" label="types" multiple>
 							<c:forEach var="type" items="${dc.types}">
-								<aui:option value="${type.categoryId}"
-									label="${type.getTitle(locale)}"
-									selected="${type.categoryId eq dc.campaignEvent.typeId}" />
+								<option value="${type.categoryId}"
+									<c:if test="${fn:contains(dc.campaignEvent.typesIds, type.categoryId)}">
+										selected
+									</c:if>
+								>
+									${type.getTitle(locale)}
+								</option>
 							</c:forEach>
-						</aui:select>
+						</select>
 					</div>
 					<div class="col-md-3">
 						<!-- TODO : thèmes de la campagne uniquement -->
-						<aui:select name="themeId" required="true" label="theme">
-							<aui:option value="" label="" />
-							<c:forEach var="type" items="${dc.themes}">
-								<aui:option value="${type.categoryId}"
-									label="${type.getTitle(locale)}"
-									selected="${type.categoryId eq dc.campaignEvent.themeId}" />
+						<label><liferay-ui:message key="themes" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
+						<select name="<portlet:namespace />themesIds" label="themes" multiple>
+							<c:forEach var="theme" items="${dc.themes}">
+								<option value="${theme.categoryId}"
+									<c:if test="${fn:contains(dc.campaignEvent.themesIds, theme.categoryId)}">
+										selected
+									</c:if>
+								>
+									${theme.getTitle(locale)}
+								</option>
 							</c:forEach>
-						</aui:select>
+						</select>
 					</div>
 					<div class="col-md-3">
 						<label>

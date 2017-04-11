@@ -150,10 +150,10 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		sb.append(price);
 		sb.append(", campaignId=");
 		sb.append(campaignId);
-		sb.append(", themeId=");
-		sb.append(themeId);
-		sb.append(", typeId=");
-		sb.append(typeId);
+		sb.append(", themesIds=");
+		sb.append(themesIds);
+		sb.append(", typesIds=");
+		sb.append(typesIds);
 		sb.append(", publicsIds=");
 		sb.append(publicsIds);
 		sb.append("}");
@@ -392,8 +392,20 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		}
 
 		campaignEventImpl.setCampaignId(campaignId);
-		campaignEventImpl.setThemeId(themeId);
-		campaignEventImpl.setTypeId(typeId);
+
+		if (themesIds == null) {
+			campaignEventImpl.setThemesIds(StringPool.BLANK);
+		}
+		else {
+			campaignEventImpl.setThemesIds(themesIds);
+		}
+
+		if (typesIds == null) {
+			campaignEventImpl.setTypesIds(StringPool.BLANK);
+		}
+		else {
+			campaignEventImpl.setTypesIds(typesIds);
+		}
 
 		if (publicsIds == null) {
 			campaignEventImpl.setPublicsIds(StringPool.BLANK);
@@ -461,10 +473,8 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		price = objectInput.readUTF();
 
 		campaignId = objectInput.readLong();
-
-		themeId = objectInput.readLong();
-
-		typeId = objectInput.readLong();
+		themesIds = objectInput.readUTF();
+		typesIds = objectInput.readUTF();
 		publicsIds = objectInput.readUTF();
 	}
 
@@ -686,9 +696,19 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 
 		objectOutput.writeLong(campaignId);
 
-		objectOutput.writeLong(themeId);
+		if (themesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(themesIds);
+		}
 
-		objectOutput.writeLong(typeId);
+		if (typesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(typesIds);
+		}
 
 		if (publicsIds == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -739,7 +759,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 	public int free;
 	public String price;
 	public long campaignId;
-	public long themeId;
-	public long typeId;
+	public String themesIds;
+	public String typesIds;
 	public String publicsIds;
 }

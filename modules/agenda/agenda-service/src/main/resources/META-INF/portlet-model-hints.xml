@@ -69,8 +69,8 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="campaignId" type="Long" />
-		<field name="themeId" type="Long" />
-		<field name="typeId" type="Long" />
+		<field name="themesIds" type="String" />
+		<field name="typesIds" type="String" />
 		<field name="publicsIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEventStatus">

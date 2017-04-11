@@ -314,8 +314,8 @@
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		<column name="campaignId" type="Long" />
-		<column name="themeId" type="Long" />
-		<column name="typeId" type="Long" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
 		<column name="publicsIds" type="String" />
 		
 		<!-- Finder methods -->
