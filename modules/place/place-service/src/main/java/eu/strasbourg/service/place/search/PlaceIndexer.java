@@ -100,7 +100,7 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 			contentMap.put(locale, content);
 		}
 		document.addLocalizedText(Field.DESCRIPTION, descriptionMap);
-		document.addLocalizedText(Field.CONTENT, descriptionMap); 
+		document.addLocalizedText(Field.CONTENT, contentMap); 
 		
 		document.addNumber(Field.STATUS, place.getStatus());
 		return document;
