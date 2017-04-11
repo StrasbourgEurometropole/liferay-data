@@ -30,7 +30,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="subPlaceId" type="hidden" />
 
-			<!-- Informations gÃÂ©nÃÂ©rale -->
+			<!-- Informations générale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
@@ -73,7 +73,7 @@
 				    <div class="nav-tabs">
 				        <ul class="nav nav-tabs" role="tablist">
 							<c:set var="nbPeriod" value="0"/>
-							<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+							<c:forEach items="${dc.subPlace.periods}" var="period" varStatus="status">
 				            	<li role="presentation"
 				            		<c:if test="${status.count == 1}">
 				            			class="active"
@@ -94,7 +94,7 @@
 				
 				    <div class="tab-content">
 						<aui:input name="nbPeriod" type="hidden" value="${nbPeriod}" />
-						<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+						<c:forEach items="${dc.subPlace.periods}" var="period" varStatus="status">
 							<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
 							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
