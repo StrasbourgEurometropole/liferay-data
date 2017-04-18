@@ -135,11 +135,9 @@
                                             <#assign image = contenu.getAssetRenderer().getAssetObject() />
                                             <#assign imageURL = entry.getImageURL(image.getFileEntryId()) />
                                             <#assign imageTitle = entry.getImageCopyright(image.getFileEntryId(), locale) />
-                                            <a href="${imageURL}" target="_blank">
-                                                <img src="${imageURL}" >
-                                            </a>
+                                            <img src="${imageURL}" >
                                             <div class="item-title">
-                                                <h4><a href="${imageURL}" target="_blank">${imageTitle}</a></h4>
+                                                <h4>${imageTitle}</h4>
                                             </div>
                                         <#else>  
                                             <#assign video = contenu.getAssetRenderer().getAssetObject() /> 
@@ -169,7 +167,7 @@
                                 <#list events as event>
                                     <div class="item"> 
                                         <div class="item-image">
-                                            <a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}" target="_blank">
+                                            <a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">
                                                 <img src="${event.externalImageURL}" >
                                             </a>
                                         </div>
@@ -304,7 +302,7 @@
                         			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
                                 </#if> 
                             </#list>
-                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}" target="_blank"><@liferay_ui.message key="eu.all-times" /></a>
+                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}"><@liferay_ui.message key="eu.all-times" /></a>
                         </#if>
                     </h4>
                     <#assign hasURL = 0 />
@@ -318,14 +316,16 @@
                             <#break />                      
                         </#if>    
                     </#list>  
-                    <#if hasURL == 0>   
+                    <#if hasURL == 0>  
+                    	<#assign idException = 0 /> 
+                    	<#assign scheduleExceptions = "" />   
                         <div class="place-schedule">
                             <ul>
-                                <#assign horaires = entry.getHoraire(.now) />
+                                <#assign horaires = entry.getHoraire(.now, locale) />
                                 <#list horaires?keys as jour>
                                     <li class="schedule">
                                         <div class="schedule-day">
-                                            <@liferay_ui.message key="jour-semaine${jour}" />
+                                            ${jour}
                                         </div>
                                         <div class="schedule-time">
                                             <#assign liste = horaires[jour] />
@@ -349,6 +349,31 @@
                                                 <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
                                                     *</span>                              
                                                 </#if>
+												<!-- stock les descriptions pour les ouvertures et fermetures exceptionnelle  -->
+                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
+	                                                <#if idException != placeSchedule.idSchedule >
+                    									<#assign idException = placeSchedule.idSchedule />  
+                    									<#assign scheduleExceptions >
+                    										${scheduleExceptions}
+									                        <p>
+									                        	<strong>
+										                            <#if placeSchedule.startDate?date == placeSchedule.endDate?date >
+										                                <@liferay_ui.message key="eu.the" /> ${placeSchedule.startDate?date} : 
+										                            <#else>
+										                                <@liferay_ui.message key="eu.from" /> ${placeSchedule.startDate?date} 
+										                                <@liferay_ui.message key="eu.to" /> ${placeSchedule.endDate?date} : 
+										                            </#if>
+									                            </strong>
+									                            <#if placeSchedule.isClosed() >
+									                                <@liferay_ui.message key="closed" />
+									                            <#else> 
+									                                ${placeSchedule.startTime} - ${placeSchedule.endTime}
+									                            </#if> 
+										                    	 - ${placeSchedule.getDescription(locale)}
+									                        </p>
+                    									</#assign>          
+	                                                </#if>                            
+                                                </#if>
                                             </#list>
                                         </div>
                                     </li>
@@ -357,29 +382,11 @@
                         </div>                        
                     </#if>
 
-                    <#assign scheduleExceptions = entry.getScheduleExceptions() />
                     <#if scheduleExceptions?has_content >  
                         <strong  style="color:#B22222;">
-                        	<@liferay_ui.message key="eu.exceptional-closings-openings" />
+                        	*<@liferay_ui.message key="eu.exceptional-closings-openings" />
                         </strong>
-	                    <#list scheduleExceptions as exception>
-                        	<p>
-	                        	<strong>
-		                            <#if exception.startDate?date == exception.endDate?date >
-		                                <@liferay_ui.message key="eu.the" /> ${exception.startDate?date} : 
-		                            <#else>
-		                                <@liferay_ui.message key="eu.from" /> ${exception.startDate?date} 
-		                                <@liferay_ui.message key="eu.to" /> ${exception.endDate?date} : 
-		                            </#if>
-	                            </strong>
-	                            <#if exception.isClosed() >
-	                                <@liferay_ui.message key="closed" />
-	                            <#else> 
-	                                ${exception.startHour} - ${exception.endHour}
-	                            </#if> 
-		                    	 - ${exception.comment}
-	                           </p>
-	                    </#list>
+                        ${scheduleExceptions}
                     </#if>
 
                     <#if entry.getExceptionalSchedule(locale)?has_content >
