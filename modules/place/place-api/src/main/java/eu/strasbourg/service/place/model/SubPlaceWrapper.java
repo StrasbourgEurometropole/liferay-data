@@ -485,6 +485,23 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine) {
+		return _subPlace.getPlaceSchedule(jourSemaine);
+	}
+
+	/**
+	* Retourne les PublicHolidays
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays() {
+		return _subPlace.getPublicHolidays();
+	}
+
+	/**
 	* Retourne les ScheduleExceptions du sous-lieu
 	*/
 	@Override
@@ -500,6 +517,16 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getDescriptionMap() {
 		return _subPlace.getDescriptionMap();
+	}
+
+	/**
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+		Date dateJour, java.util.Locale locale) {
+		return _subPlace.getHoraire(dateJour, locale);
 	}
 
 	/**

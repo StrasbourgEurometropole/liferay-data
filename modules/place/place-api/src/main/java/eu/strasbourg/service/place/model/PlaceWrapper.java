@@ -2178,8 +2178,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*/
 	@Override
 	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
-		Date dateJour) {
-		return _place.getHoraire(dateJour);
+		Date dateJour, java.util.Locale locale) {
+		return _place.getHoraire(dateJour, locale);
 	}
 
 	/**

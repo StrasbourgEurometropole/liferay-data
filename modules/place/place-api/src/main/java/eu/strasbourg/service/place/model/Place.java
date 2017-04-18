@@ -207,7 +207,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	* semaine en cours
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
-		java.util.Date dateJour);
+		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
 	* Retourne les horaires d'ouverture de la semaine en cours
