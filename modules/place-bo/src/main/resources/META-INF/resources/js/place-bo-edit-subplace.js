@@ -6,10 +6,7 @@ jQuery(function() {
 	$(":submit").on('click', function(e) {
 		setScheduleExceptionValidators();
 		setPeriodValidators();
-	});
-
-	Liferay.on('allPortletsReady', setScheduleExceptionValidators);
-	Liferay.on('allPortletsReady', setPeriodValidators);	
+	});	
 
 	function setPeriodValidators() {
 		var allValidated = true;

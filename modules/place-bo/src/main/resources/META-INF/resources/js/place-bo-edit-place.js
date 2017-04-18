@@ -26,11 +26,6 @@ jQuery(function() {
 		setPeriodValidators();
 	});
 
-	Liferay.on('allPortletsReady', setSiteConditionalValidators);
-	Liferay.on('allPortletsReady', setFacebookConditionalValidators);
-	Liferay.on('allPortletsReady', setScheduleExceptionValidators);
-	Liferay.on('allPortletsReady', setPeriodValidators);
-
 	function setSiteConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form',function() {
