@@ -64,7 +64,7 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
 				
-				<strasbourg-picker:entity label="galleries" name="galleriesIds"
+				<strasbourg-picker:entity label="eu.galleries" name="galleriesIds"
 					value="${dc.video.videoGalleriesIds}"
 					type="eu.strasbourg.service.video.model.VideoGallery"
 					multiple="true" />

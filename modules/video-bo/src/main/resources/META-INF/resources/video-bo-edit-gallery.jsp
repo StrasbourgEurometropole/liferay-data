@@ -56,7 +56,7 @@
 					</aui:input>
 				</div>
 				
-				<strasbourg-picker:entity label="videos" name="videosIds"
+				<strasbourg-picker:entity label="eu.videos" name="videosIds"
 					value="${dc.videoGallery.videosIds}"
 					type="eu.strasbourg.service.video.model.Video"
 					multiple="true" />				
