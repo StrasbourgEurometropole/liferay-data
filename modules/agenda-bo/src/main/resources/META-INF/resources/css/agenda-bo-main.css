@@ -2,11 +2,11 @@
 	margin-bottom: 10px;
 }
 
-.date-range {
+#date-fields .date-range {
 	cursor: pointer; 
 	padding: 5px 10px; 
 	border: 1px solid #ccc; 
-	width: 100%
+	width: 100%;
 }
 
 .time-detail-wrapper {
@@ -31,7 +31,7 @@
 }
 
 .add-dates-section {
-	padding: 10px 20px;
+	padding-top: 15px;
 }
 
 .row-fields {
