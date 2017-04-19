@@ -1947,6 +1947,35 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setRTExternalId(String RTExternalId);
 
 	/**
+	 * Returns the occupation of this place.
+	 *
+	 * @return the occupation of this place
+	 */
+	@AutoEscape
+	public String getOccupation();
+
+	/**
+	 * Sets the occupation of this place.
+	 *
+	 * @param occupation the occupation of this place
+	 */
+	public void setOccupation(String occupation);
+
+	/**
+	 * Returns the occupation last update of this place.
+	 *
+	 * @return the occupation last update of this place
+	 */
+	public Date getOccupationLastUpdate();
+
+	/**
+	 * Sets the occupation last update of this place.
+	 *
+	 * @param occupationLastUpdate the occupation last update of this place
+	 */
+	public void setOccupationLastUpdate(Date occupationLastUpdate);
+
+	/**
 	 * Returns the image ID of this place.
 	 *
 	 * @return the image ID of this place

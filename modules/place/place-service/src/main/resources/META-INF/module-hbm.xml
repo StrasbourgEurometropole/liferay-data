@@ -78,6 +78,8 @@
 		<property name="accessForElder" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="accessForDeficient" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="RTExternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="occupation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="occupationLastUpdate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
