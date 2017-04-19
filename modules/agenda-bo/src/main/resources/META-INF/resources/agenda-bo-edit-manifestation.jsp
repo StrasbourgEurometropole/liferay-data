@@ -79,7 +79,7 @@
 				
 				<aui:input name="endDate" />
 				
-				<strasbourg-picker:entity label="events" name="eventsIds"
+				<strasbourg-picker:entity label="eu.events" name="eventsIds"
 					value="${dc.manifestation.eventsIds}"
 					type="eu.strasbourg.service.agenda.model.Event"
 					multiple="true" />				

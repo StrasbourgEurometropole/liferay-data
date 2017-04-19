@@ -52,7 +52,7 @@
 					</aui:input>
 				</div>
 				
-				<strasbourg-picker:entity label="manifestations"
+				<strasbourg-picker:entity label="eu.manifestations"
 					name="manifestationsIds" value="${dc.event.manifestationsIds}"
 					type="eu.strasbourg.service.agenda.model.Manifestation"
 					multiple="true" />
