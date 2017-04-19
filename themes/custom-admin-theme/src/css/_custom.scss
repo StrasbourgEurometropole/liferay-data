@@ -260,12 +260,7 @@ body {
 }
 
 .categories-selectors .field-content {
-	margin-bottom: 20px;
-	border-bottom: 1px solid #b1b1b1;
-	padding-bottom: 20px;
-	label {
-		font-size: 17px;
-	}
+	margin-bottom: 35px;
 }
 
 .lfr-categories-selector-list .tree-node-content .tree-hitarea {
@@ -273,3 +268,52 @@ body {
     font-size: 18px;
     color: #2d2d2d;
 }
+
+/** Titres fieldsets **/
+.panel-group .panel-heading {
+    background: #18272E;
+}
+
+.panel-default > .panel-heading a {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #869cad;
+}
+
+/** Labels et marges sous champs **/
+fieldset label, label.control-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0px
+}
+
+.form-group, .strasbourg-entity-picker, .strasbourg-file-picker, .strasbourg-image-picker {
+    margin-bottom: 35px;
+}
+
+/** Strasbourg picker **/
+.strasbourg-entity-picker li,
+.strasbourg-file-picker li {
+    display: inline-block;
+    background: #dee7f8;
+    border: 1px solid #cad8f3;
+    padding: 7px 11px;
+    margin-right: 5px;
+    border-radius: 14px;
+}
+
+.strasbourg-entity-picker ul,
+.strasbourg-file-picker ul {
+    padding-left: 0;
+}
+
+.strasbourg-entity-picker i,
+.strasbourg-file-picker i {
+    color: red;
+    margin-left: 10px;
+}
+
