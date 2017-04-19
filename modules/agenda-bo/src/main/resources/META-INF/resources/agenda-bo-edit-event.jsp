@@ -66,7 +66,7 @@
 				</div>
 				
 				<div class="add-dates-section">
-					<span class="date-range" id="periodGenerator"><liferay-ui:message key="select-period-dates" /></span>
+					<aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
 				</div>
 				
 				<div class="change-times-section">
