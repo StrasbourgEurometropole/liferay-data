@@ -20,7 +20,7 @@
 		<ul id="files-thumbnails-${name}-${currentLocale}">
 			<c:forEach items="${locale_files[currentLocale]}" var="file">
 				<li>
-					<a href="${file.url}" target="_blank">${file.title}</a> - <a href="#" class="remove-file" data-entry-id="${file.id}">Supprimer</a>
+					<a href="${file.url}" target="_blank">${file.title}</a> <a href="#" class="remove-file" data-entry-id="${file.id}"><i class="icon-remove"></i></a>
 				</li>
 			</c:forEach>
 		</ul>
@@ -64,7 +64,7 @@
 							if (!!selectedItem && !!selectedItem.value) {
 								var itemValue = JSON.parse(selectedItem.value);
 								var htmlToAppend = '<li>'
-									+ '<a href="' + itemValue.url + '" target="_blank">' + itemValue.title + '</a> - <a href="#" class="remove-file" data-entry-id="' + itemValue.fileEntryId + '">Supprimer</a>';
+									+ '<a href="' + itemValue.url + '" target="_blank">' + itemValue.title + '</a> <a href="#" class="remove-file" data-entry-id="' + itemValue.fileEntryId + '"><i class="icon-remove"></i></a>';
 									+ '</li>';
 								if (!multipleSelection) {
 									$('#files-thumbnails-${name}-${currentLocale}').empty();

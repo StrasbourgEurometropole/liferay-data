@@ -14,7 +14,7 @@
 	<ul id="entities-thumbnails-${name}">
 		<c:forEach items="${entities}" var="entity">
 			<li>
-				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} - <a href="#" class="remove-entity" data-entry-id="${entity.classPK}">Supprimer</a>
+				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} <a href="#" class="remove-entity" data-entry-id="${entity.classPK}"><i class="icon-remove"></i></a>
 			</li>
 		</c:forEach>
 	</ul>
@@ -54,7 +54,7 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 						for (var i = 0; i < items.length; i++) {
 							var selectedItem = items[i];
 							var htmlToAppend = '<li>'
-								+ selectedItem.title + ' - <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '">Supprimer</a>';
+								+ selectedItem.title + ' <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a>';
 								+ '</li>';
 							if (!multipleSelection) {
 								$('#entities-thumbnails-${name}').empty();
