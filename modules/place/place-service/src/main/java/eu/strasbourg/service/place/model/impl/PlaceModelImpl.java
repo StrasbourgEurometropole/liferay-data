@@ -127,6 +127,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "accessForElder", Types.BOOLEAN },
 			{ "accessForDeficient", Types.BOOLEAN },
 			{ "RTExternalId", Types.VARCHAR },
+			{ "occupation", Types.VARCHAR },
+			{ "occupationLastUpdate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
 			{ "imageIds", Types.VARCHAR },
 			{ "videosIds", Types.VARCHAR },
@@ -183,6 +185,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("accessForElder", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("accessForDeficient", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("RTExternalId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("occupation", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("occupationLastUpdate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
@@ -190,7 +194,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTExternalId VARCHAR(75) null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTExternalId VARCHAR(75) null,occupation VARCHAR(75) null,occupationLastUpdate DATE null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -273,6 +277,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setAccessForElder(soapModel.getAccessForElder());
 		model.setAccessForDeficient(soapModel.getAccessForDeficient());
 		model.setRTExternalId(soapModel.getRTExternalId());
+		model.setOccupation(soapModel.getOccupation());
+		model.setOccupationLastUpdate(soapModel.getOccupationLastUpdate());
 		model.setImageId(soapModel.getImageId());
 		model.setImageIds(soapModel.getImageIds());
 		model.setVideosIds(soapModel.getVideosIds());
@@ -389,6 +395,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
 		attributes.put("RTExternalId", getRTExternalId());
+		attributes.put("occupation", getOccupation());
+		attributes.put("occupationLastUpdate", getOccupationLastUpdate());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -690,6 +698,18 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (RTExternalId != null) {
 			setRTExternalId(RTExternalId);
+		}
+
+		String occupation = (String)attributes.get("occupation");
+
+		if (occupation != null) {
+			setOccupation(occupation);
+		}
+
+		Date occupationLastUpdate = (Date)attributes.get("occupationLastUpdate");
+
+		if (occupationLastUpdate != null) {
+			setOccupationLastUpdate(occupationLastUpdate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -2621,6 +2641,33 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public String getOccupation() {
+		if (_occupation == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _occupation;
+		}
+	}
+
+	@Override
+	public void setOccupation(String occupation) {
+		_occupation = occupation;
+	}
+
+	@JSON
+	@Override
+	public Date getOccupationLastUpdate() {
+		return _occupationLastUpdate;
+	}
+
+	@Override
+	public void setOccupationLastUpdate(Date occupationLastUpdate) {
+		_occupationLastUpdate = occupationLastUpdate;
+	}
+
+	@JSON
+	@Override
 	public long getImageId() {
 		return _imageId;
 	}
@@ -3182,6 +3229,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setAccessForElder(getAccessForElder());
 		placeImpl.setAccessForDeficient(getAccessForDeficient());
 		placeImpl.setRTExternalId(getRTExternalId());
+		placeImpl.setOccupation(getOccupation());
+		placeImpl.setOccupationLastUpdate(getOccupationLastUpdate());
 		placeImpl.setImageId(getImageId());
 		placeImpl.setImageIds(getImageIds());
 		placeImpl.setVideosIds(getVideosIds());
@@ -3580,6 +3629,23 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.RTExternalId = null;
 		}
 
+		placeCacheModel.occupation = getOccupation();
+
+		String occupation = placeCacheModel.occupation;
+
+		if ((occupation != null) && (occupation.length() == 0)) {
+			placeCacheModel.occupation = null;
+		}
+
+		Date occupationLastUpdate = getOccupationLastUpdate();
+
+		if (occupationLastUpdate != null) {
+			placeCacheModel.occupationLastUpdate = occupationLastUpdate.getTime();
+		}
+		else {
+			placeCacheModel.occupationLastUpdate = Long.MIN_VALUE;
+		}
+
 		placeCacheModel.imageId = getImageId();
 
 		placeCacheModel.imageIds = getImageIds();
@@ -3613,7 +3679,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(105);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3709,6 +3775,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAccessForDeficient());
 		sb.append(", RTExternalId=");
 		sb.append(getRTExternalId());
+		sb.append(", occupation=");
+		sb.append(getOccupation());
+		sb.append(", occupationLastUpdate=");
+		sb.append(getOccupationLastUpdate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", imageIds=");
@@ -3726,7 +3796,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(160);
+		StringBundler sb = new StringBundler(166);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -3921,6 +3991,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getRTExternalId());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>occupation</column-name><column-value><![CDATA[");
+		sb.append(getOccupation());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>occupationLastUpdate</column-name><column-value><![CDATA[");
+		sb.append(getOccupationLastUpdate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -4017,6 +4095,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
 	private String _RTExternalId;
+	private String _occupation;
+	private Date _occupationLastUpdate;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

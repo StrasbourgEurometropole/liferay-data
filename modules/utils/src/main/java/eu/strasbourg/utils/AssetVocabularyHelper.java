@@ -252,6 +252,44 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
+	 * Vérifie si la catégorie est une piscine
+	 * 
+	 * @throws PortalException
+	 */
+	public static Boolean isSwimmingPool(AssetCategory category)
+			throws PortalException {
+		if (category.getName().equals("Piscines")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().equals("Piscines")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Vérifie si la catégorie est un parking
+	 * 
+	 * @throws PortalException
+	 */
+	public static Boolean isParking(AssetCategory category)
+			throws PortalException {
+		if (category.getName().equals("Parkings")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().equals("Parkings")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Retourne la version JSON d'une liste de catégories
 	 */
 	static public JSONArray toJSON(AssetVocabulary vocabulary) {

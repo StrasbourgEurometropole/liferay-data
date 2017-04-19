@@ -3161,6 +3161,8 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setAccessForElder(place.getAccessForElder());
 		placeImpl.setAccessForDeficient(place.getAccessForDeficient());
 		placeImpl.setRTExternalId(place.getRTExternalId());
+		placeImpl.setOccupation(place.getOccupation());
+		placeImpl.setOccupationLastUpdate(place.getOccupationLastUpdate());
 		placeImpl.setImageId(place.getImageId());
 		placeImpl.setImageIds(place.getImageIds());
 		placeImpl.setVideosIds(place.getVideosIds());

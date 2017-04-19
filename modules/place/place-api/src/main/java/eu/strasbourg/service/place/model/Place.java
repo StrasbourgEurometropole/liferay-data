@@ -102,12 +102,6 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getSubPlaces();
 
 	/**
-	* Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
-	* sous forme de String
-	*/
-	public java.lang.String getSubPlacesIds();
-
-	/**
 	* Retourne les Periods du lieux
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
@@ -128,7 +122,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.lang.String getCity(java.util.Locale locale);
 
 	/**
-	* Retourne la ville
+	* Vérifie si le lieu à accès au temps réel
 	*
 	* @throws PortalException
 	*/
@@ -203,11 +197,21 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean hasAnyAccessForDisabled();
 
 	/**
+	* Vérifie si le lieu est fermé
+	*/
+	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine);
+
+	/**
+	* Retourne le temps réel (couleur de fond,valeur)
+	*/
+	public java.lang.String[] getRealTime();
+
+	/**
 	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	* semaine en cours
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
-		java.util.Date dateJour);
+		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
 	* Retourne les horaires d'ouverture de la semaine en cours

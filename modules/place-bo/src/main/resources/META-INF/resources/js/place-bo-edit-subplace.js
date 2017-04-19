@@ -6,10 +6,7 @@ jQuery(function() {
 	$(":submit").on('click', function(e) {
 		setScheduleExceptionValidators();
 		setPeriodValidators();
-	});
-
-	Liferay.on('allPortletsReady', setScheduleExceptionValidators);
-	Liferay.on('allPortletsReady', setPeriodValidators);	
+	});	
 
 	function setPeriodValidators() {
 		var allValidated = true;
@@ -136,7 +133,7 @@ jQuery(function() {
 					&& $(scheduleLabel).parents('.lfr-form-row').attr('class')
 							.indexOf('hide') == -1) {
 				var scheduleExceptionDescription = $(
-						namespaceAUI + "scheduleExceptionDescription" + index)
+						namespaceAUI + "scheduleExceptionDescription" + index + "_fr_FR")
 						.val();
 				var endDateSchedule = $(namespaceAUI + "endDateScheduleException" + index).val();
 				if(startDateSchedule == ""){
