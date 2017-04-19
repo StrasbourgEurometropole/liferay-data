@@ -90,7 +90,7 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 				
-				<strasbourg-picker:entity label="galleries" name="galleriesIds"
+				<strasbourg-picker:entity label="eu.galleries" name="galleriesIds"
 					value="${dc.edition.editionGalleriesIds}"
 					type="eu.strasbourg.service.edition.model.EditionGallery"
 					multiple="true" />

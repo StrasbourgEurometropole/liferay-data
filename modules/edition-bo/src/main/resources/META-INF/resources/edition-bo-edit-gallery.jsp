@@ -42,7 +42,7 @@
 
 				<aui:input name="description" />
 				
-				<strasbourg-picker:entity label="editions" name="editionsIds"
+				<strasbourg-picker:entity label="eu.editions" name="editionsIds"
 					value="${dc.editionGallery.editionsIds}"
 					type="eu.strasbourg.service.edition.model.Edition"
 					multiple="true" />				
