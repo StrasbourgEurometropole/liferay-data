@@ -19,7 +19,7 @@
 		</c:forEach>
 	</ul>
 	<p>
-		<aui:button name="choose-entity-${name}" id="choose-entity-${name}" value="${multiple ? 'add' : 'choose'}" />
+		<aui:button name="choose-entity-${name}" id="choose-entity-${name}" value="select" />
 	</p>
 	<div class="has-error">
 		<aui:input name="${name}" type="hidden" value="${value}">

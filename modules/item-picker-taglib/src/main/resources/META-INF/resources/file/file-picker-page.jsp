@@ -25,7 +25,7 @@
 			</c:forEach>
 		</ul>
 		<p>
-			<aui:button name="choose-file-${name}-${currentLocale}" id="choose-file-${name}-${currentLocale}" value="${multiple ? 'add' : 'choose'}" />
+			<aui:button name="choose-file-${name}-${currentLocale}" id="choose-file-${name}-${currentLocale}" value="select" />
 		</p>
 		<%-- Champ hidden contenant les données qui seront utilisées ensuite par le contrôleur --%>
 		<div class="has-error">
