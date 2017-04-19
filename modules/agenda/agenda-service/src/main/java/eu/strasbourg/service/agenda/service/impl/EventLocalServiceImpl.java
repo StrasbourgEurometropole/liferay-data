@@ -15,6 +15,8 @@
 package eu.strasbourg.service.agenda.service.impl;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,7 +116,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusByUserId(sc.getUserId());
 		event.setStatusByUserName(user.getFullName());
 		event.setStatusDate(sc.getModifiedDate());
-		
+
 		// On classe les périodes par date de début, ce qui va nous
 		// permettre
 		// de setter les champs "firstStartDate" et "lastEndDate" sur
@@ -253,7 +255,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 	/**
 	 * Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
-	 * date de publication dans le futur
+	 * date de publication dans le futur.
 	 */
 	@Override
 	public void checkEvents() throws PortalException {
@@ -267,6 +269,35 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 		if (n > 0) {
 			_log.info("Published " + n + " events");
+		}
+	}
+
+	/**
+	 * Dépublie les événements dont la dernière date de fin est dépassée
+	 */
+	@Override
+	public void unpublishPastEvents() throws PortalException {
+		List<Event> events = this.eventPersistence
+			.findByLastEndDate(new Date());
+		for (Event event : events) {
+			if (event.getStatus() != WorkflowConstants.STATUS_DRAFT) {
+				this.updateStatus(event, WorkflowConstants.STATUS_DRAFT);
+			}
+		}
+	}
+
+	/**
+	 * Supprime les événements dépubliés depuis au moins un mois
+	 */
+	@Override
+	public void deleteOldUnpublishedEvents() throws PortalException {
+		LocalDate oneMonthAgoLocalDate = LocalDate.now().minusMonths(1);
+		Date oneMonthAgo = Date.from(oneMonthAgoLocalDate
+			.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		List<Event> events = this.eventPersistence.findByStatusDateAndStatus(
+			oneMonthAgo, WorkflowConstants.STATUS_DRAFT);
+		for (Event event : events) {
+			this.removeEvent(event.getEventId());
 		}
 	}
 
@@ -404,7 +435,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
+		dynamicQuery.add(PropertyFactoryUtil.forName("status")
+			.eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -423,8 +455,9 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
-		
+		dynamicQuery.add(PropertyFactoryUtil.forName("status")
+			.eq(WorkflowConstants.STATUS_APPROVED));
+
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
@@ -445,6 +478,14 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		} catch (NoSuchEventException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Lance une recherche par placeSIGId
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId) {
+		return eventPersistence.findByPlaceSIGId(placeSIGId);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());

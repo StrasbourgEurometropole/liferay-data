@@ -42,7 +42,7 @@
 
 				<aui:input name="description" />
 				
-				<strasbourg-picker:entity label="editions" name="editionsIds"
+				<strasbourg-picker:entity label="eu.editions" name="editionsIds"
 					value="${dc.editionGallery.editionsIds}"
 					type="eu.strasbourg.service.edition.model.Edition"
 					multiple="true" />				
@@ -100,10 +100,17 @@
 				</c:if>
 			</c:if>
 			<c:if test="${not empty dc.editionGallery and dc.hasPermission('DELETE_EDITION_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteGalleryURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteGalleryURL}';
+		}
+	}
+</aui:script>

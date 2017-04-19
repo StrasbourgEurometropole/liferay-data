@@ -52,7 +52,7 @@
 					</aui:input>
 				</div>
 				
-				<strasbourg-picker:entity label="manifestations"
+				<strasbourg-picker:entity label="eu.manifestations"
 					name="manifestationsIds" value="${dc.event.manifestationsIds}"
 					type="eu.strasbourg.service.agenda.model.Manifestation"
 					multiple="true" />
@@ -66,7 +66,7 @@
 				</div>
 				
 				<div class="add-dates-section">
-					<span class="date-range" id="periodGenerator"><liferay-ui:message key="select-period-dates" /></span>
+					<aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
 				</div>
 				
 				<div class="change-times-section">
@@ -195,11 +195,12 @@
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true" label="event-price">
-				<label><liferay-ui:message key="free-event" /></label>
-				<aui:input name="free" value="0" type="radio" checked="${dc.event.free eq 0}" label="no" />
-				<aui:input name="free" value="1" type="radio" checked="${dc.event.free eq 1}" label="yes" />
-				<aui:input name="free" value="2" type="radio" checked="${dc.event.free eq 2 or empty dc.event.free}" label="not-communicated" />
-				
+				<div class="form-group">
+					<label><liferay-ui:message key="free-event" /></label>
+					<aui:input name="free" value="1" type="radio" checked="${dc.event.free eq 1}" label="yes" />
+					<aui:input name="free" value="0" type="radio" checked="${dc.event.free eq 0}" label="no" />
+					<aui:input name="free" value="2" type="radio" checked="${dc.event.free eq 2 or empty dc.event.free}" label="not-communicated" />
+				</div>
 				<aui:input label="event-price" name="price" />
 			</aui:fieldset>
 
@@ -257,7 +258,7 @@
 			</c:if>
 			<c:if
 				test="${not empty dc.event and dc.hasPermission('DELETE_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteEventURL}" type="cancel"
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
@@ -298,3 +299,12 @@
 		src="/o/agendabo/js/agenda-bo-edit-event.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteEventURL}';
+		}
+	}
+</aui:script>

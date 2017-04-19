@@ -117,8 +117,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			{ "free", Types.INTEGER },
 			{ "price", Types.CLOB },
 			{ "campaignId", Types.BIGINT },
-			{ "themeId", Types.BIGINT },
-			{ "typeId", Types.BIGINT },
+			{ "themesIds", Types.VARCHAR },
+			{ "typesIds", Types.VARCHAR },
 			{ "publicsIds", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -165,12 +165,12 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		TABLE_COLUMNS_MAP.put("free", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("campaignId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("themeId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("themesIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("typesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themeId LONG,typeId LONG,publicsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_CampaignEvent";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaignEvent.campaignEventId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_CampaignEvent.campaignEventId ASC";
@@ -272,8 +272,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("campaignId", getCampaignId());
-		attributes.put("themeId", getThemeId());
-		attributes.put("typeId", getTypeId());
+		attributes.put("themesIds", getThemesIds());
+		attributes.put("typesIds", getTypesIds());
 		attributes.put("publicsIds", getPublicsIds());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -530,16 +530,16 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 			setCampaignId(campaignId);
 		}
 
-		Long themeId = (Long)attributes.get("themeId");
+		String themesIds = (String)attributes.get("themesIds");
 
-		if (themeId != null) {
-			setThemeId(themeId);
+		if (themesIds != null) {
+			setThemesIds(themesIds);
 		}
 
-		Long typeId = (Long)attributes.get("typeId");
+		String typesIds = (String)attributes.get("typesIds");
 
-		if (typeId != null) {
-			setTypeId(typeId);
+		if (typesIds != null) {
+			setTypesIds(typesIds);
 		}
 
 		String publicsIds = (String)attributes.get("publicsIds");
@@ -1758,23 +1758,33 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	}
 
 	@Override
-	public Long getThemeId() {
-		return _themeId;
+	public String getThemesIds() {
+		if (_themesIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _themesIds;
+		}
 	}
 
 	@Override
-	public void setThemeId(Long themeId) {
-		_themeId = themeId;
+	public void setThemesIds(String themesIds) {
+		_themesIds = themesIds;
 	}
 
 	@Override
-	public Long getTypeId() {
-		return _typeId;
+	public String getTypesIds() {
+		if (_typesIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _typesIds;
+		}
 	}
 
 	@Override
-	public void setTypeId(Long typeId) {
-		_typeId = typeId;
+	public void setTypesIds(String typesIds) {
+		_typesIds = typesIds;
 	}
 
 	@Override
@@ -2055,8 +2065,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		campaignEventImpl.setFree(getFree());
 		campaignEventImpl.setPrice(getPrice());
 		campaignEventImpl.setCampaignId(getCampaignId());
-		campaignEventImpl.setThemeId(getThemeId());
-		campaignEventImpl.setTypeId(getTypeId());
+		campaignEventImpl.setThemesIds(getThemesIds());
+		campaignEventImpl.setTypesIds(getTypesIds());
 		campaignEventImpl.setPublicsIds(getPublicsIds());
 
 		campaignEventImpl.resetOriginalValues();
@@ -2408,9 +2418,21 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 
 		campaignEventCacheModel.campaignId = getCampaignId();
 
-		campaignEventCacheModel.themeId = getThemeId();
+		campaignEventCacheModel.themesIds = getThemesIds();
 
-		campaignEventCacheModel.typeId = getTypeId();
+		String themesIds = campaignEventCacheModel.themesIds;
+
+		if ((themesIds != null) && (themesIds.length() == 0)) {
+			campaignEventCacheModel.themesIds = null;
+		}
+
+		campaignEventCacheModel.typesIds = getTypesIds();
+
+		String typesIds = campaignEventCacheModel.typesIds;
+
+		if ((typesIds != null) && (typesIds.length() == 0)) {
+			campaignEventCacheModel.typesIds = null;
+		}
 
 		campaignEventCacheModel.publicsIds = getPublicsIds();
 
@@ -2509,10 +2531,10 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		sb.append(getPrice());
 		sb.append(", campaignId=");
 		sb.append(getCampaignId());
-		sb.append(", themeId=");
-		sb.append(getThemeId());
-		sb.append(", typeId=");
-		sb.append(getTypeId());
+		sb.append(", themesIds=");
+		sb.append(getThemesIds());
+		sb.append(", typesIds=");
+		sb.append(getTypesIds());
 		sb.append(", publicsIds=");
 		sb.append(getPublicsIds());
 		sb.append("}");
@@ -2693,12 +2715,12 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 		sb.append(getCampaignId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>themeId</column-name><column-value><![CDATA[");
-		sb.append(getThemeId());
+			"<column><column-name>themesIds</column-name><column-value><![CDATA[");
+		sb.append(getThemesIds());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>typeId</column-name><column-value><![CDATA[");
-		sb.append(getTypeId());
+			"<column><column-name>typesIds</column-name><column-value><![CDATA[");
+		sb.append(getTypesIds());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publicsIds</column-name><column-value><![CDATA[");
@@ -2770,8 +2792,8 @@ public class CampaignEventModelImpl extends BaseModelImpl<CampaignEvent>
 	private Long _campaignId;
 	private Long _originalCampaignId;
 	private boolean _setOriginalCampaignId;
-	private Long _themeId;
-	private Long _typeId;
+	private String _themesIds;
+	private String _typesIds;
 	private String _publicsIds;
 	private long _columnBitmask;
 	private CampaignEvent _escapedModel;

@@ -24,7 +24,7 @@
 		</c:forEach>
 	</div>
 	<p>
-		<aui:button name="choose-image-${name}" id="choose-image-${name}" value="${multiple ? 'add' : 'choose'}" />
+		<aui:button name="choose-image-${name}" id="choose-image-${name}" value="select" />
 	</p>
 	<div class="has-error">
 		<aui:input name="${name}" type="hidden" value="${value}">

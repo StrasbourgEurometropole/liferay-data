@@ -136,15 +136,15 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	 * RangePicker permettant la création à la chaîne
 	 */
 	// Activation du RangePicker 
-	$('#periodGenerator').daterangepicker({
+	$('#' + namespace + 'periodGenerator').daterangepicker({
 		autoApply: false,
 		parentEl: '.portlet-body',
 		locale: dateRangePickerLocaleSettings
 	});
 	// Lors du clic sur le bouton "Appliquer
-	$('#periodGenerator').on('apply.daterangepicker', function (ev, picker) {
+	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
 		// On laisse le calendrier ouvert
-		$('#periodGenerator').trigger('click');
+		$('#' + namespace + 'periodGenerator').trigger('click');
 
 		// On simule le clic sur le bouton "+" de l'autoField
 		// On modifie également l'URL appelée pour récupérer la ligne répétable

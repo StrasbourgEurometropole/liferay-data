@@ -82,7 +82,7 @@ public class SavePriceActionCommand implements MVCActionCommand {
 				_placeLocalService.updatePlace(place);
 			}
 
-			_priceLocalService.updatePrice(price);
+			_priceLocalService.updatePrice(price, sc);
 		} catch (PortalException e) {
 			_log.error(e);
 		}

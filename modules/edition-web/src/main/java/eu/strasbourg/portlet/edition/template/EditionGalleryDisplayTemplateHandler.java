@@ -56,6 +56,7 @@ public class EditionGalleryDisplayTemplateHandler
 			"Galerie d'edition", EditionGallery.class, "currentGallery", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Galerie d'edition", EditionGallery.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

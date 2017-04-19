@@ -1932,27 +1932,6 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setAccessForDeficient(Boolean accessForDeficient);
 
 	/**
-	 * Returns the r t enabled of this place.
-	 *
-	 * @return the r t enabled of this place
-	 */
-	public boolean getRTEnabled();
-
-	/**
-	 * Returns <code>true</code> if this place is r t enabled.
-	 *
-	 * @return <code>true</code> if this place is r t enabled; <code>false</code> otherwise
-	 */
-	public boolean isRTEnabled();
-
-	/**
-	 * Sets whether this place is r t enabled.
-	 *
-	 * @param RTEnabled the r t enabled of this place
-	 */
-	public void setRTEnabled(boolean RTEnabled);
-
-	/**
 	 * Returns the r t external ID of this place.
 	 *
 	 * @return the r t external ID of this place
@@ -1968,60 +1947,33 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setRTExternalId(String RTExternalId);
 
 	/**
-	 * Returns the r t green threshold of this place.
+	 * Returns the occupation of this place.
 	 *
-	 * @return the r t green threshold of this place
+	 * @return the occupation of this place
 	 */
-	public long getRTGreenThreshold();
+	@AutoEscape
+	public String getOccupation();
 
 	/**
-	 * Sets the r t green threshold of this place.
+	 * Sets the occupation of this place.
 	 *
-	 * @param RTGreenThreshold the r t green threshold of this place
+	 * @param occupation the occupation of this place
 	 */
-	public void setRTGreenThreshold(long RTGreenThreshold);
+	public void setOccupation(String occupation);
 
 	/**
-	 * Returns the r t orange threshold of this place.
+	 * Returns the occupation last update of this place.
 	 *
-	 * @return the r t orange threshold of this place
+	 * @return the occupation last update of this place
 	 */
-	public long getRTOrangeThreshold();
+	public Date getOccupationLastUpdate();
 
 	/**
-	 * Sets the r t orange threshold of this place.
+	 * Sets the occupation last update of this place.
 	 *
-	 * @param RTOrangeThreshold the r t orange threshold of this place
+	 * @param occupationLastUpdate the occupation last update of this place
 	 */
-	public void setRTOrangeThreshold(long RTOrangeThreshold);
-
-	/**
-	 * Returns the r t red threshold of this place.
-	 *
-	 * @return the r t red threshold of this place
-	 */
-	public long getRTRedThreshold();
-
-	/**
-	 * Sets the r t red threshold of this place.
-	 *
-	 * @param RTRedThreshold the r t red threshold of this place
-	 */
-	public void setRTRedThreshold(long RTRedThreshold);
-
-	/**
-	 * Returns the r t max threshold of this place.
-	 *
-	 * @return the r t max threshold of this place
-	 */
-	public long getRTMaxThreshold();
-
-	/**
-	 * Sets the r t max threshold of this place.
-	 *
-	 * @param RTMaxThreshold the r t max threshold of this place
-	 */
-	public void setRTMaxThreshold(long RTMaxThreshold);
+	public void setOccupationLastUpdate(Date occupationLastUpdate);
 
 	/**
 	 * Returns the image ID of this place.

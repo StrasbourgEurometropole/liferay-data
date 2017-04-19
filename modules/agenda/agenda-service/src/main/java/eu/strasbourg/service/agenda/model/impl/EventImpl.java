@@ -387,8 +387,12 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("description",
 			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
-		jsonEvent.put("imageURL",
-			StrasbourgPropsUtil.getURL() + this.getImageURL());
+
+		String imageURL = this.getImageURL();
+		if (!imageURL.startsWith("http")) {
+			imageURL = StrasbourgPropsUtil.getURL() + this.getImageURL();
+		}
+		jsonEvent.put("imageURL", imageURL);
 
 		jsonEvent.put("imageCopyright",
 			this.getImageCopyright(Locale.getDefault()));
@@ -471,50 +475,38 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("manifestations", jsonManifestations);
 		}
 
-		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getCategories()) {
-			jsonCategories.put(category.getCategoryId());
-		}
+		JSONArray jsonCategories = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getCategories());
 		if (jsonCategories.length() > 0) {
 			jsonEvent.put("categories", jsonCategories);
 		}
 
-		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getThemes()) {
-			jsonThemes.put(category.getCategoryId());
-		}
+		JSONArray jsonThemes = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getThemes());
 		if (jsonThemes.length() > 0) {
 			jsonEvent.put("themes", jsonThemes);
 		}
 
-		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getTypes()) {
-			jsonTypes.put(category.getCategoryId());
-		}
+		JSONArray jsonTypes = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getTypes());
 		if (jsonTypes.length() > 0) {
 			jsonEvent.put("types", jsonTypes);
 		}
 
-		JSONArray jsonTerritories = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getTerritories()) {
-			jsonTerritories.put(category.getCategoryId());
-		}
+		JSONArray jsonTerritories = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getTerritories());
 		if (jsonTerritories.length() > 0) {
 			jsonEvent.put("territories", jsonTerritories);
 		}
 
-		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getPublics()) {
-			jsonPublics.put(category.getCategoryId());
-		}
+		JSONArray jsonPublics = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getPublics());
 		if (jsonPublics.length() > 0) {
 			jsonEvent.put("publics", jsonPublics);
 		}
 
-		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
-		for (AssetCategory category : this.getServices()) {
-			jsonServices.put(category.getCategoryId());
-		}
+		JSONArray jsonServices = AssetVocabularyHelper
+			.getExternalIdsJSONArray(this.getServices());
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}

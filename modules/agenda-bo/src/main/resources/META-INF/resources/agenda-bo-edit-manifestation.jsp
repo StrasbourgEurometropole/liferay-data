@@ -79,7 +79,7 @@
 				
 				<aui:input name="endDate" />
 				
-				<strasbourg-picker:entity label="events" name="eventsIds"
+				<strasbourg-picker:entity label="eu.events" name="eventsIds"
 					value="${dc.manifestation.eventsIds}"
 					type="eu.strasbourg.service.agenda.model.Event"
 					multiple="true" />				
@@ -141,8 +141,8 @@
 				</c:if>
 			</c:if>
 			<c:if test="${not empty dc.manifestation and dc.hasPermission('DELETE_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteManifestationURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
@@ -158,3 +158,10 @@
 		src="/o/agendabo/js/agenda-bo-edit-manif.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteManifestationURL}';
+		}
+	}
+</aui:script>

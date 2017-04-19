@@ -488,9 +488,25 @@ public class ManifestationLocalServiceUtil {
 		getService().deleteEventManifestations(eventId, manifestationIds);
 	}
 
+	/**
+	* Supprime les manifestations dépubliés depuis au moins un mois
+	*/
+	public static void deleteOldUnpublishedManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().deleteOldUnpublishedManifestations();
+	}
+
 	public static void setEventManifestations(long eventId,
 		long[] manifestationIds) {
 		getService().setEventManifestations(eventId, manifestationIds);
+	}
+
+	/**
+	* Dépublie les manifestations dont la date de fin est dépassée
+	*/
+	public static void unpublishPastManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().unpublishPastManifestations();
 	}
 
 	/**

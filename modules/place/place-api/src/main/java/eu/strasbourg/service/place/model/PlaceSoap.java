@@ -80,12 +80,9 @@ public class PlaceSoap implements Serializable {
 		soapModel.setAccessForWheelchair(model.getAccessForWheelchair());
 		soapModel.setAccessForElder(model.getAccessForElder());
 		soapModel.setAccessForDeficient(model.getAccessForDeficient());
-		soapModel.setRTEnabled(model.getRTEnabled());
 		soapModel.setRTExternalId(model.getRTExternalId());
-		soapModel.setRTGreenThreshold(model.getRTGreenThreshold());
-		soapModel.setRTOrangeThreshold(model.getRTOrangeThreshold());
-		soapModel.setRTRedThreshold(model.getRTRedThreshold());
-		soapModel.setRTMaxThreshold(model.getRTMaxThreshold());
+		soapModel.setOccupation(model.getOccupation());
+		soapModel.setOccupationLastUpdate(model.getOccupationLastUpdate());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setImageIds(model.getImageIds());
 		soapModel.setVideosIds(model.getVideosIds());
@@ -519,18 +516,6 @@ public class PlaceSoap implements Serializable {
 		_accessForDeficient = accessForDeficient;
 	}
 
-	public boolean getRTEnabled() {
-		return _RTEnabled;
-	}
-
-	public boolean isRTEnabled() {
-		return _RTEnabled;
-	}
-
-	public void setRTEnabled(boolean RTEnabled) {
-		_RTEnabled = RTEnabled;
-	}
-
 	public String getRTExternalId() {
 		return _RTExternalId;
 	}
@@ -539,36 +524,20 @@ public class PlaceSoap implements Serializable {
 		_RTExternalId = RTExternalId;
 	}
 
-	public long getRTGreenThreshold() {
-		return _RTGreenThreshold;
+	public String getOccupation() {
+		return _occupation;
 	}
 
-	public void setRTGreenThreshold(long RTGreenThreshold) {
-		_RTGreenThreshold = RTGreenThreshold;
+	public void setOccupation(String occupation) {
+		_occupation = occupation;
 	}
 
-	public long getRTOrangeThreshold() {
-		return _RTOrangeThreshold;
+	public Date getOccupationLastUpdate() {
+		return _occupationLastUpdate;
 	}
 
-	public void setRTOrangeThreshold(long RTOrangeThreshold) {
-		_RTOrangeThreshold = RTOrangeThreshold;
-	}
-
-	public long getRTRedThreshold() {
-		return _RTRedThreshold;
-	}
-
-	public void setRTRedThreshold(long RTRedThreshold) {
-		_RTRedThreshold = RTRedThreshold;
-	}
-
-	public long getRTMaxThreshold() {
-		return _RTMaxThreshold;
-	}
-
-	public void setRTMaxThreshold(long RTMaxThreshold) {
-		_RTMaxThreshold = RTMaxThreshold;
+	public void setOccupationLastUpdate(Date occupationLastUpdate) {
+		_occupationLastUpdate = occupationLastUpdate;
 	}
 
 	public long getImageId() {
@@ -657,12 +626,9 @@ public class PlaceSoap implements Serializable {
 	private Boolean _accessForWheelchair;
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
-	private boolean _RTEnabled;
 	private String _RTExternalId;
-	private long _RTGreenThreshold;
-	private long _RTOrangeThreshold;
-	private long _RTRedThreshold;
-	private long _RTMaxThreshold;
+	private String _occupation;
+	private Date _occupationLastUpdate;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

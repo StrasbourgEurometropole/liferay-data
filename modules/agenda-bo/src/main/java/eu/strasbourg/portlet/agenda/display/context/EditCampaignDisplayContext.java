@@ -1,11 +1,15 @@
 package eu.strasbourg.portlet.agenda.display.context;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
@@ -14,13 +18,14 @@ import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 public class EditCampaignDisplayContext extends BaseDisplayContext {
 
 	private Campaign _campaign;
-
 
 	public EditCampaignDisplayContext(RenderRequest request,
 		RenderResponse response) {
@@ -62,8 +67,24 @@ public class EditCampaignDisplayContext extends BaseDisplayContext {
 			actionId);
 	}
 
+	/**
+	 * Retourne la liste des ids des thèmes de la campagne sous forme de string
+	 */
 	public String getThemesIds() throws PortalException {
 		return (getCampaign() != null)
 			? ListUtil.toString(getCampaign().getThemes(), "categoryId") : "";
 	}
+
+	/**
+	 * Retourne la liste des themes
+	 */
+	public List<AssetCategory> getThemes() throws PortalException {
+		AssetVocabulary vocabulary = AssetVocabularyHelper
+			.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+		if (vocabulary != null) {
+			return vocabulary.getCategories();
+		}
+		return new ArrayList<AssetCategory>();
+	}
+
 }

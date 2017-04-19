@@ -74,8 +74,8 @@
 		<property name="free" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="campaignId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="themeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="themesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="typesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl" table="agenda_CampaignEventStatus">

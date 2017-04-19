@@ -159,10 +159,6 @@ public class SearchAssetDisplayContext {
 		String[] prefilterTagsNames = StringUtil
 			.split(prefilterTagsNamesString);
 
-		// Boost tags
-		String boostTagsNamesString = this._configuration.boostTagsNames();
-		String[] boostTagsNames = StringUtil.split(boostTagsNamesString);
-
 		// Champ date
 		boolean dateField = this._configuration.dateField();
 		String dateFieldName = this._configuration.defaultSortField();
@@ -179,7 +175,7 @@ public class SearchAssetDisplayContext {
 		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames,
 			groupId, globalGroupId, globalScope, keywords, dateField,
 			dateFieldName, fromDate, toDate, categoriesIds,
-			prefilterCategoriesIds, prefilterTagsNames, boostTagsNames,
+			prefilterCategoriesIds, prefilterTagsNames,
 			this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 			getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
@@ -194,25 +190,17 @@ public class SearchAssetDisplayContext {
 			}
 
 			for (Document document : this._hits.getDocs()) {
-				AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(
+				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
 					GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (entry != null) {
-					// Si l'événement est censé être mis en avant, on s'assure
-					// qu'il soit en premier dans la liste
-					boolean entryIsBoosted = entry.getTags().stream().anyMatch(
-						t -> ArrayUtil.contains(boostTagsNames, t.getName()));
-					if (entryIsBoosted) {
-						results.add(0, entry);
-					} else {
-						results.add(entry);
-					}
+					results.add(entry);
 				}
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext,
 				classNames, groupId, globalGroupId, globalScope, keywords,
 				dateField, dateFieldName, fromDate, toDate, categoriesIds,
-				prefilterCategoriesIds, prefilterTagsNames, boostTagsNames,
+				prefilterCategoriesIds, prefilterTagsNames,
 				this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
@@ -250,6 +238,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	public String getFilterCategoriesIdsString() {
+		if (Validator.isNull(this._filterCategoriesIdString)) {
 		String filterCategoriesIdsString = "";
 		for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
 			for (long filterCategoryId : filterCategoriesForVoc) {
@@ -259,7 +248,9 @@ public class SearchAssetDisplayContext {
 				filterCategoriesIdsString += filterCategoryId;
 			}
 		}
-		return filterCategoriesIdsString;
+			this._filterCategoriesIdString = filterCategoriesIdsString;
+		}
+		return this._filterCategoriesIdString;
 	}
 
 	/**
@@ -609,6 +600,27 @@ public class SearchAssetDisplayContext {
 		this._request.setAttribute("searchLogId", searchLog.getSearchLogId());
 	}
 
+	public Map<String, Object> getTemplateContextObjects(AssetEntry entry) {
+		Map<String, Object> contextObjects = new HashMap<String, Object>();
+		contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
+
+		boolean isFeatured = this.isEntryFeatured(entry);
+		contextObjects.put("isFeatured", isFeatured);
+		
+		return contextObjects;
+	}
+	
+	public boolean isEntryFeatured(AssetEntry entry) {
+		String[] boostTagsNames = StringUtil
+			.split(this.getConfiguration().boostTagsNames());
+		return entry.getTags().stream()
+			.anyMatch(t -> ArrayUtil.contains(boostTagsNames, t.getName()));
+	}
+
+	public List<Object> getTemplateEntries() {
+		return new ArrayList<Object>();
+	}
+
 	public SearchAssetConfiguration getConfiguration() {
 		return this._configuration;
 	}
@@ -630,6 +642,7 @@ public class SearchAssetDisplayContext {
 	private List<AssetVocabulary> _vocabularies;
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
+	private String _filterCategoriesIdString;
 	private String[] _filterClassNames;
 	private Map<String, String> _templatesMap;
 	private List<String> _classNames;

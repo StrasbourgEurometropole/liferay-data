@@ -397,7 +397,17 @@ public interface ManifestationLocalService extends BaseLocalService,
 
 	public void deleteEventManifestations(long eventId, long[] manifestationIds);
 
+	/**
+	* Supprime les manifestations dépubliés depuis au moins un mois
+	*/
+	public void deleteOldUnpublishedManifestations() throws PortalException;
+
 	public void setEventManifestations(long eventId, long[] manifestationIds);
+
+	/**
+	* Dépublie les manifestations dont la date de fin est dépassée
+	*/
+	public void unpublishPastManifestations() throws PortalException;
 
 	/**
 	* Met à jour le statut de la galerie "manuellement" (pas via le workflow)

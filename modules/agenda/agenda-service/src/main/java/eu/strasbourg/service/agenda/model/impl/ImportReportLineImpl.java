@@ -50,7 +50,7 @@ public class ImportReportLineImpl extends ImportReportLineBaseImpl {
 	@Override
 	public void error(String cause) {
 		if (Validator.isNotNull(this.getLog())) {
-			this.setLog(this.getLog() + " - " + cause);
+			this.setLog(this.getLog() + ", " + cause);
 		} else {
 			this.setLog(cause);
 		}

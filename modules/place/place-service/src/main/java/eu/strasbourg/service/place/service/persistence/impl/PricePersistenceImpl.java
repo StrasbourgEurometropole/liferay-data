@@ -882,6 +882,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 		priceImpl.setUuid(price.getUuid());
 		priceImpl.setPriceId(price.getPriceId());
+		priceImpl.setStatus(price.getStatus());
+		priceImpl.setStatusByUserId(price.getStatusByUserId());
+		priceImpl.setStatusByUserName(price.getStatusByUserName());
+		priceImpl.setStatusDate(price.getStatusDate());
 		priceImpl.setTitle(price.getTitle());
 		priceImpl.setPrice(price.getPrice());
 

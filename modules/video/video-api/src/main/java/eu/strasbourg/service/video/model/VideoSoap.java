@@ -50,7 +50,6 @@ public class VideoSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setCopyright(model.getCopyright());
-		soapModel.setOrigin(model.getOrigin());
 		soapModel.setSource(model.getSource());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setImageId(model.getImageId());
@@ -235,14 +234,6 @@ public class VideoSoap implements Serializable {
 		_copyright = copyright;
 	}
 
-	public String getOrigin() {
-		return _origin;
-	}
-
-	public void setOrigin(String origin) {
-		_origin = origin;
-	}
-
 	public String getSource() {
 		return _source;
 	}
@@ -291,7 +282,6 @@ public class VideoSoap implements Serializable {
 	private String _title;
 	private String _description;
 	private String _copyright;
-	private String _origin;
 	private String _source;
 	private Date _publicationDate;
 	private Long _imageId;

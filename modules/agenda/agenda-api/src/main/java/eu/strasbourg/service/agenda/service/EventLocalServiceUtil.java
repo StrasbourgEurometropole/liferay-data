@@ -331,6 +331,14 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par placeSIGId
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(
+		java.lang.String placeSIGId) {
+		return getService().findByPlaceSIGId(placeSIGId);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
@@ -472,7 +480,7 @@ public class EventLocalServiceUtil {
 
 	/**
 	* Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* date de publication dans le futur.
 	*/
 	public static void checkEvents()
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -503,9 +511,25 @@ public class EventLocalServiceUtil {
 		getService().deleteManifestationEvents(manifestationId, eventIds);
 	}
 
+	/**
+	* Supprime les événements dépubliés depuis au moins un mois
+	*/
+	public static void deleteOldUnpublishedEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().deleteOldUnpublishedEvents();
+	}
+
 	public static void setManifestationEvents(long manifestationId,
 		long[] eventIds) {
 		getService().setManifestationEvents(manifestationId, eventIds);
+	}
+
+	/**
+	* Dépublie les événements dont la dernière date de fin est dépassée
+	*/
+	public static void unpublishPastEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().unpublishPastEvents();
 	}
 
 	/**

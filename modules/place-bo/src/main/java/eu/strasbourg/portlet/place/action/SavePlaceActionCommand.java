@@ -150,8 +150,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String videosIds = ParamUtil.getString(request, "videosIds");
 			place.setVideosIds(videosIds);
 
-			String documents = ParamUtil
-					.getString(request, "documents");
+			String documents = ParamUtil.getString(request, "documents");
 			place.setDocumentsIds(documents);
 
 			// ---------------------------------------------------------------
@@ -228,61 +227,76 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			// Ajout des période liées au sous lieu
 			String periodsIndexes = ParamUtil.getString(request,
 					"periodsIndexes");
-			for (String periodsIndex : periodsIndexes.split(",")) {
-				if (Validator.isNotNull(periodsIndex)
-						&& Validator.isNotNull(ParamUtil.getString(request,
-								"namePeriod" + periodsIndex))) {
-
+			if (Validator.isNotNull(periodsIndexes)) {
+				for (String periodIndex : periodsIndexes.split(",")) {
 					Map<Locale, String> namePeriod = LocalizationUtil
 							.getLocalizationMap(request,
-									"namePeriod" + periodsIndex);
+									"namePeriod" + periodIndex);
 					Map<Locale, String> periodLabel = LocalizationUtil
 							.getLocalizationMap(request,
-									"periodLabel" + periodsIndex);
+									"periodLabel" + periodIndex);
 					Map<Locale, String> periodURL = LocalizationUtil
 							.getLocalizationMap(request,
-									"periodURL" + periodsIndex);
+									"periodURL" + periodIndex);
 					boolean defaultPeriod = ParamUtil.getBoolean(request,
-							"defaultPeriod" + periodsIndex);
+							"defaultPeriod" + periodIndex);
 					Date startDatePeriod = ParamUtil.getDate(request,
-							"startDatePeriod" + periodsIndex,
+							"startDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					Date endDatePeriod = ParamUtil.getDate(request,
-							"endDatePeriod" + periodsIndex,
+							"endDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean alwaysOpen = ParamUtil.getBoolean(request,
-							"alwaysOpen" + periodsIndex);
+							"alwaysOpen" + periodIndex);
+					Long RTGreenThreshold = ParamUtil.getLong(request,
+							"RTGreenThreshold" + periodIndex);
+					Long RTOrangeThreshold = ParamUtil.getLong(request,
+							"RTOrangeThreshold" + periodIndex);
+					Long RTRedThreshold = ParamUtil.getLong(request,
+							"RTRedThreshold" + periodIndex);
+					Long RTMaxThreshold = ParamUtil.getLong(request,
+							"RTMaxThreshold" + periodIndex);
 
 					Period period = _periodLocalService.createPeriod(sc);
 					period.setNameMap(namePeriod);
 					period.setLinkLabelMap(periodLabel);
 					period.setLinkURLMap(periodURL);
 					period.setDefaultPeriod(defaultPeriod);
-					if(!period.getDefaultPeriod()){
+					if (!period.getDefaultPeriod()) {
 						period.setStartDate(startDatePeriod);
 						period.setEndDate(endDatePeriod);
 					}
 					period.setAlwaysOpen(alwaysOpen);
 					period.setPlaceId(place.getPlaceId());
+
+					// ------------------------ Fréquentation
+					// ------------------------
+					if (place.isEnabled()) {
+						period.setRTGreenThreshold(RTGreenThreshold);
+						period.setRTOrangeThreshold(RTOrangeThreshold);
+						period.setRTRedThreshold(RTRedThreshold);
+						period.setRTMaxThreshold(RTMaxThreshold);
+					}
 					this._periodLocalService.updatePeriod(period);
 
-					if(!period.getAlwaysOpen()){
+					if (!period.getAlwaysOpen()) {
 						// Ajout des slots liées à la période
 						for (int jour = 0; jour < 7; jour++) {
-							for (int slotIndex = 0; slotIndex < 3; slotIndex++) {
-								if (Validator
-										.isNotNull(ParamUtil.getString(request,
-												"startHour" + periodsIndex + "-" + jour
-														+ "-" + slotIndex))
-										&& Validator.isNotNull(ParamUtil.getString(
-												request, "endHour" + periodsIndex + "-"
-														+ jour + "-" + slotIndex))) {
-									String startHour = ParamUtil.getString(request,
-											"startHour" + periodsIndex + "-" + jour
-													+ "-" + slotIndex);
-									String endHour = ParamUtil.getString(request,
-											"endHour" + periodsIndex + "-" + jour
-													+ "-" + slotIndex);
+							String slotsIndexes = ParamUtil.getString(request,
+									"slotsIndexes" + periodIndex + "-" + jour);
+							if (Validator.isNotNull(slotsIndexes)) {
+								for (String slotIndex : slotsIndexes
+										.split(",")) {
+									String startHour = ParamUtil
+											.getString(request,
+													"startHour" + periodIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
+									String endHour = ParamUtil
+											.getString(request,
+													"endHour" + periodIndex
+															+ "-" + jour + "-"
+															+ slotIndex);
 
 									Slot slot = _slotLocalService
 											.createSlot(sc);
@@ -291,13 +305,13 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 									slot.setEndHour(endHour);
 									slot.setPeriodId(period.getPeriodId());
 									this._slotLocalService.updateSlot(slot);
-								}
 
+								}
 							}
 						}
 					}
-				}
 
+				}
 			}
 
 			// -------------------- Horaires particuliers --------------------
@@ -326,20 +340,26 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 								"scheduleExceptionDescription"
 										+ shedulesExceptionsIndex))
 						&& Validator.isNotNull(ParamUtil.getString(request,
-								"dateScheduleException"
+								"startDateScheduleException"
+										+ shedulesExceptionsIndex))
+						&& Validator.isNotNull(ParamUtil.getString(request,
+								"endDateScheduleException"
 										+ shedulesExceptionsIndex))) {
 					String startHour = ParamUtil.getString(request,
 							"startHour" + shedulesExceptionsIndex);
 					String endHour = ParamUtil.getString(request,
 							"endHour" + shedulesExceptionsIndex);
 					Map<Locale, String> comment = LocalizationUtil
-							.getLocalizationMap(request, "scheduleExceptionDescription"
-									+ shedulesExceptionsIndex);
+							.getLocalizationMap(request,
+									"scheduleExceptionDescription"
+											+ shedulesExceptionsIndex);
 					Date startDate = ParamUtil.getDate(request,
-							"startDateScheduleException" + shedulesExceptionsIndex,
+							"startDateScheduleException"
+									+ shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					Date endDate = ParamUtil.getDate(request,
-							"endDateScheduleException" + shedulesExceptionsIndex,
+							"endDateScheduleException"
+									+ shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean closed = ParamUtil.getBoolean(request,
 							"closed" + shedulesExceptionsIndex);
@@ -350,7 +370,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					scheduleException.setStartDate(startDate);
 					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);
-					if(!scheduleException.getClosed()){
+					if (!scheduleException.getClosed()) {
 						scheduleException.setStartHour(startHour);
 						scheduleException.setEndHour(endHour);
 					}
@@ -380,21 +400,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String RTExternalId = ParamUtil.getString(request, "RTExternalId");
 			place.setRTExternalId(RTExternalId);
 
-			Long RTGreenThreshold = ParamUtil.getLong(request,
-					"RTGreenThreshold");
-			place.setRTGreenThreshold(RTGreenThreshold);
-
-			Long RTOrangeThreshold = ParamUtil.getLong(request,
-					"RTOrangeThreshold");
-			place.setRTOrangeThreshold(RTOrangeThreshold);
-
-			Long RTRedThreshold = ParamUtil.getLong(request, "RTRedThreshold");
-			place.setRTRedThreshold(RTRedThreshold);
-
-			Long RTMaxThreshold = ParamUtil.getLong(request, "RTMaxThreshold");
-			place.setRTMaxThreshold(RTMaxThreshold);
-			place.setRGF93Y(RGF93Y);
-
 			// ----------------------------------------------------------------
 			// -------------------------- SOUS LIEUX --------------------------
 			// ----------------------------------------------------------------
@@ -408,10 +413,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 				subPlace.setPlaceId(0);
 				_subPlaceLocalService.updateSubPlace(subPlace);
 			}
-
-			boolean RTEnabled = false;
-			// boolean RTEnabled = ParamUtil.getBoolean(request, "RTEnabled");
-			place.setRTEnabled(RTEnabled);
 
 			place.setSubjectToPublicHoliday(false);
 
@@ -463,8 +464,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 	private SlotLocalService _slotLocalService;
 
 	@Reference(unbind = "-")
-	protected void setSlotLocalService(
-			SlotLocalService slotLocalService) {
+	protected void setSlotLocalService(SlotLocalService slotLocalService) {
 
 		_slotLocalService = slotLocalService;
 	}

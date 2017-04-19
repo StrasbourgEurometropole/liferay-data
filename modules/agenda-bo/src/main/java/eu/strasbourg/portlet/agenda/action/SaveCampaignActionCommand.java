@@ -76,6 +76,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			boolean isValid = true;
 			if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 				SessionErrors.add(request, "title-error");
+				isValid = false;
 			}
 			if (themesIds.length == 0) {
 				SessionErrors.add(request, "themes-error");

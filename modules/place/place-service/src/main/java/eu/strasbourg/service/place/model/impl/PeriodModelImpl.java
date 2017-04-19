@@ -79,6 +79,10 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			{ "linkLabel", Types.VARCHAR },
 			{ "linkURL", Types.VARCHAR },
 			{ "alwaysOpen", Types.BOOLEAN },
+			{ "RTGreenThreshold", Types.BIGINT },
+			{ "RTOrangeThreshold", Types.BIGINT },
+			{ "RTRedThreshold", Types.BIGINT },
+			{ "RTMaxThreshold", Types.BIGINT },
 			{ "placeId", Types.BIGINT },
 			{ "subPlaceId", Types.BIGINT }
 		};
@@ -94,11 +98,15 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		TABLE_COLUMNS_MAP.put("linkLabel", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("linkURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("alwaysOpen", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("RTGreenThreshold", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTOrangeThreshold", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTRedThreshold", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTMaxThreshold", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Period";
 	public static final String ORDER_BY_JPQL = " ORDER BY period.periodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Period.periodId ASC";
@@ -167,6 +175,10 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		attributes.put("linkLabel", getLinkLabel());
 		attributes.put("linkURL", getLinkURL());
 		attributes.put("alwaysOpen", getAlwaysOpen());
+		attributes.put("RTGreenThreshold", getRTGreenThreshold());
+		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
+		attributes.put("RTRedThreshold", getRTRedThreshold());
+		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("placeId", getPlaceId());
 		attributes.put("subPlaceId", getSubPlaceId());
 
@@ -230,6 +242,30 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 		if (alwaysOpen != null) {
 			setAlwaysOpen(alwaysOpen);
+		}
+
+		Long RTGreenThreshold = (Long)attributes.get("RTGreenThreshold");
+
+		if (RTGreenThreshold != null) {
+			setRTGreenThreshold(RTGreenThreshold);
+		}
+
+		Long RTOrangeThreshold = (Long)attributes.get("RTOrangeThreshold");
+
+		if (RTOrangeThreshold != null) {
+			setRTOrangeThreshold(RTOrangeThreshold);
+		}
+
+		Long RTRedThreshold = (Long)attributes.get("RTRedThreshold");
+
+		if (RTRedThreshold != null) {
+			setRTRedThreshold(RTRedThreshold);
+		}
+
+		Long RTMaxThreshold = (Long)attributes.get("RTMaxThreshold");
+
+		if (RTMaxThreshold != null) {
+			setRTMaxThreshold(RTMaxThreshold);
 		}
 
 		Long placeId = (Long)attributes.get("placeId");
@@ -617,6 +653,46 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	}
 
 	@Override
+	public long getRTGreenThreshold() {
+		return _RTGreenThreshold;
+	}
+
+	@Override
+	public void setRTGreenThreshold(long RTGreenThreshold) {
+		_RTGreenThreshold = RTGreenThreshold;
+	}
+
+	@Override
+	public long getRTOrangeThreshold() {
+		return _RTOrangeThreshold;
+	}
+
+	@Override
+	public void setRTOrangeThreshold(long RTOrangeThreshold) {
+		_RTOrangeThreshold = RTOrangeThreshold;
+	}
+
+	@Override
+	public long getRTRedThreshold() {
+		return _RTRedThreshold;
+	}
+
+	@Override
+	public void setRTRedThreshold(long RTRedThreshold) {
+		_RTRedThreshold = RTRedThreshold;
+	}
+
+	@Override
+	public long getRTMaxThreshold() {
+		return _RTMaxThreshold;
+	}
+
+	@Override
+	public void setRTMaxThreshold(long RTMaxThreshold) {
+		_RTMaxThreshold = RTMaxThreshold;
+	}
+
+	@Override
 	public long getPlaceId() {
 		return _placeId;
 	}
@@ -802,6 +878,10 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		periodImpl.setLinkLabel(getLinkLabel());
 		periodImpl.setLinkURL(getLinkURL());
 		periodImpl.setAlwaysOpen(getAlwaysOpen());
+		periodImpl.setRTGreenThreshold(getRTGreenThreshold());
+		periodImpl.setRTOrangeThreshold(getRTOrangeThreshold());
+		periodImpl.setRTRedThreshold(getRTRedThreshold());
+		periodImpl.setRTMaxThreshold(getRTMaxThreshold());
 		periodImpl.setPlaceId(getPlaceId());
 		periodImpl.setSubPlaceId(getSubPlaceId());
 
@@ -939,6 +1019,14 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 		periodCacheModel.alwaysOpen = getAlwaysOpen();
 
+		periodCacheModel.RTGreenThreshold = getRTGreenThreshold();
+
+		periodCacheModel.RTOrangeThreshold = getRTOrangeThreshold();
+
+		periodCacheModel.RTRedThreshold = getRTRedThreshold();
+
+		periodCacheModel.RTMaxThreshold = getRTMaxThreshold();
+
 		periodCacheModel.placeId = getPlaceId();
 
 		periodCacheModel.subPlaceId = getSubPlaceId();
@@ -948,7 +1036,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -968,6 +1056,14 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		sb.append(getLinkURL());
 		sb.append(", alwaysOpen=");
 		sb.append(getAlwaysOpen());
+		sb.append(", RTGreenThreshold=");
+		sb.append(getRTGreenThreshold());
+		sb.append(", RTOrangeThreshold=");
+		sb.append(getRTOrangeThreshold());
+		sb.append(", RTRedThreshold=");
+		sb.append(getRTRedThreshold());
+		sb.append(", RTMaxThreshold=");
+		sb.append(getRTMaxThreshold());
 		sb.append(", placeId=");
 		sb.append(getPlaceId());
 		sb.append(", subPlaceId=");
@@ -979,7 +1075,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Period");
@@ -1022,6 +1118,22 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		sb.append(getAlwaysOpen());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>RTGreenThreshold</column-name><column-value><![CDATA[");
+		sb.append(getRTGreenThreshold());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTOrangeThreshold</column-name><column-value><![CDATA[");
+		sb.append(getRTOrangeThreshold());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTRedThreshold</column-name><column-value><![CDATA[");
+		sb.append(getRTRedThreshold());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTMaxThreshold</column-name><column-value><![CDATA[");
+		sb.append(getRTMaxThreshold());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>placeId</column-name><column-value><![CDATA[");
 		sb.append(getPlaceId());
 		sb.append("]]></column-value></column>");
@@ -1052,6 +1164,10 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	private String _linkURL;
 	private String _linkURLCurrentLanguageId;
 	private Boolean _alwaysOpen;
+	private long _RTGreenThreshold;
+	private long _RTOrangeThreshold;
+	private long _RTRedThreshold;
+	private long _RTMaxThreshold;
 	private long _placeId;
 	private long _originalPlaceId;
 	private boolean _setOriginalPlaceId;

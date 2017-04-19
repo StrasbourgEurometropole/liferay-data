@@ -13,15 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -51,6 +53,7 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 public class AgendaImporter {
 
@@ -64,8 +67,11 @@ public class AgendaImporter {
 	private List<AssetVocabulary> manifestationVocabularies;
 	private List<AssetVocabulary> eventRequiredVocabularies;
 	private List<AssetVocabulary> eventVocabularies;
+	private ResourceBundle bundle = ResourceBundleUtil
+		.getBundle("content.ImportErrors", this.getClass().getClassLoader());
 
 	public AgendaImporter() {
+
 		this.companyId = PortalUtil.getDefaultCompanyId();
 		try {
 			this.globalGroupId = CompanyLocalServiceUtil.getCompany(companyId)
@@ -291,7 +297,7 @@ public class AgendaImporter {
 		// Tout d'abord les champs non multilingues
 		String id = jsonManifestation.getString("externalId");
 		if (Validator.isNull(id)) {
-			reportLine.error("Une manifestation n'a pas d'id");
+			reportLine.error(LanguageUtil.get(bundle, "no-manifestation-id"));
 			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
 			return reportLine;
 		}
@@ -299,11 +305,11 @@ public class AgendaImporter {
 		reportLine.setEntityExternalId(id);
 		String imageURL = jsonManifestation.getString("imageURL");
 		if (Validator.isNull(imageURL)) {
-			reportLine.error("pas d'image");
+			reportLine.error(LanguageUtil.get(bundle, "no-image"));
 		}
 		String imageCopyright = jsonManifestation.getString("imageCopyright");
 		if (Validator.isNull(imageCopyright)) {
-			reportLine.error("pas de copyright d'image");
+			reportLine.error(LanguageUtil.get(bundle, "no-copyright"));
 		}
 
 		// Validation des champs multilingues
@@ -311,7 +317,7 @@ public class AgendaImporter {
 			.getLocalesUsedInJSON(jsonManifestation);
 		JSONObject jsonTitle = jsonManifestation.getJSONObject("title");
 		if (!JSONHelper.validateI18nField(jsonTitle, locales)) {
-			reportLine.error("pas de titre ou langue manquante");
+			reportLine.error(LanguageUtil.get(bundle, "no-title"));
 		} else {
 			reportLine.setEntityName(
 				jsonTitle.getString("fr_FR", "[no-french-title]"));
@@ -319,7 +325,7 @@ public class AgendaImporter {
 		JSONObject jsonDescription = jsonManifestation
 			.getJSONObject("description");
 		if (!JSONHelper.validateI18nField(jsonDescription, locales)) {
-			reportLine.error("pas de description ou langue manquante");
+			reportLine.error(LanguageUtil.get(bundle, "no-description"));
 		}
 
 		// Validation du format des dates
@@ -332,7 +338,8 @@ public class AgendaImporter {
 					throw new Exception();
 				}
 			} catch (Exception e) {
-				reportLine.error("le format de la date de début n'est pas bon");
+				reportLine.error(
+					LanguageUtil.get(Locale.FRANCE, "wrong-start-date-format"));
 			}
 		}
 		String endDateString = jsonManifestation.getString("endDate");
@@ -344,11 +351,13 @@ public class AgendaImporter {
 					throw new Exception();
 				}
 			} catch (Exception e) {
-				reportLine.error("le format de la date de fin n'est pas bon");
+				reportLine.error(
+					LanguageUtil.get(Locale.FRANCE, "wrong-end-date-format"));
 			}
 		}
 		if (startDate != null && endDate != null && startDate.after(endDate)) {
-			reportLine.error("la date de fin est avant la date de début");
+			reportLine.error(
+				LanguageUtil.get(Locale.FRANCE, "end-date-before-start-date"));
 		}
 
 		// Validation des catégories
@@ -356,23 +365,18 @@ public class AgendaImporter {
 		for (AssetVocabulary vocabulary : manifestationRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
-		List<Long> categoriesIds = JSONHelper.getCategoriesIdsFromFields(
+		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonManifestation, "themes", "types", "publics", "services");
-		for (Long categoryId : categoriesIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(categoryId);
-			if (category == null) {
-				reportLine.error("la catégorie ayant pour id " + categoryId
-					+ " n'existe pas");
-				continue;
-			}
+		for (AssetCategory category : categories) {
 			boolean isFromValidVocabulary = manifestationVocabularies.stream()
 				.anyMatch(
 					v -> v.getVocabularyId() == category.getVocabularyId());
 			if (!isFromValidVocabulary) {
-				reportLine.error("la catégorie '" + category.getName() + "' ("
-					+ category.getCategoryId()
-					+ ") appartient à un mauvais vocabulaire");
+				String wrongVocabularyError = LanguageUtil.format(bundle,
+					"category-belongs-to-wrong-vocabulary",
+					new String[] { category.getName(),
+						String.valueOf(category.getCategoryId()) });
+				reportLine.error(wrongVocabularyError);
 			}
 			for (Map.Entry<AssetVocabulary, Boolean> entry : vocabulariesValidationMap
 				.entrySet()) {
@@ -385,8 +389,9 @@ public class AgendaImporter {
 		for (Map.Entry<AssetVocabulary, Boolean> entry : vocabulariesValidationMap
 			.entrySet()) {
 			if (entry.getValue() == false) {
-				reportLine.error("pas de valeur pour le vocabulaire "
-					+ entry.getKey().getName());
+				reportLine.error(
+					LanguageUtil.format(bundle, "no-category-for-vocabulary",
+						new String[] { entry.getKey().getName() }));
 			}
 		}
 
@@ -397,7 +402,9 @@ public class AgendaImporter {
 			sc.setUserId(defaultUserId);
 			sc.setCompanyId(companyId);
 			sc.setScopeGroupId(this.globalGroupId);
-			sc.setAssetCategoryIds(ArrayUtil.toLongArray(categoriesIds));
+			long[] categoriesIds = categories.stream()
+				.mapToLong(AssetCategory::getCategoryId).toArray();
+			sc.setAssetCategoryIds(categoriesIds);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
@@ -412,8 +419,8 @@ public class AgendaImporter {
 						.createManifestation(sc);
 					reportLine.setEntityId(manifestation.getManifestationId());
 				} catch (PortalException e) {
-					reportLine.error(
-						"erreur lors de la création de la manifestation");
+					reportLine.error(LanguageUtil.get(bundle,
+						"error-while-creating-manifestation"));
 					return reportLine;
 				}
 			}
@@ -451,8 +458,8 @@ public class AgendaImporter {
 				ManifestationLocalServiceUtil.updateManifestation(manifestation,
 					sc);
 			} catch (PortalException e) {
-				reportLine.error(
-					"erreur lors de l'enregistrement de la manifestation");
+				reportLine.error(LanguageUtil.get(bundle,
+					"error-while-saving-manifestation"));
 			}
 
 		}
@@ -476,7 +483,7 @@ public class AgendaImporter {
 		// Tout d'abord les champs non multilingues
 		String id = jsonEvent.getString("externalId");
 		if (Validator.isNull(id)) {
-			reportLine.error("un event n'a pas d'id");
+			reportLine.error(LanguageUtil.get(bundle, "no-event-id"));
 			ImportReportLineLocalServiceUtil.updateImportReportLine(reportLine);
 			return reportLine;
 		}
@@ -484,50 +491,49 @@ public class AgendaImporter {
 		reportLine.setEntityExternalId(id);
 		String imageURL = jsonEvent.getString("imageURL");
 		if (Validator.isNull(imageURL)) {
-			reportLine.error("pas d'image");
+			reportLine.error(LanguageUtil.get(bundle, "no-image"));
 		}
 		String imageCopyright = jsonEvent.getString("imageCopyright");
 		if (Validator.isNull(imageCopyright)) {
-			reportLine.error("pas de copyright d'image");
+			reportLine.error(LanguageUtil.get(bundle, "no-copyright"));
 		}
 		String placeSIGId = jsonEvent.getString("placeSIGId");
 		boolean isManualPlace = false;
 		if (Validator.isNull(placeSIGId)) {
 			JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 			if (jsonPlace == null) {
-				reportLine.error("lieu manquant");
+				reportLine.error(LanguageUtil.get(bundle, "no-place"));
 			} else {
 				isManualPlace = true;
 				if (Validator.isNull(jsonPlace.getString("city"))) {
-					reportLine.error("ville du lieu manquante");
+					reportLine.error(LanguageUtil.get(bundle, "no-city"));
 				}
 			}
 		}
 		int freeEntry = jsonEvent.getInt("freeEntry", -1);
 		if (freeEntry < 0 || freeEntry > 2) {
-			reportLine
-				.error("la gratuité doit être 0, 1 ou 2 (non communiquée)");
+			reportLine.error(LanguageUtil.get(bundle, "wrong-free-entry"));
 		}
 
 		// Validation des champs multilingues
 		List<Locale> locales = JSONHelper.getLocalesUsedInJSON(jsonEvent);
 		JSONObject jsonTitle = jsonEvent.getJSONObject("title");
 		if (!JSONHelper.validateI18nField(jsonTitle, locales)) {
-			reportLine.error("pas de titre ou langue manquante");
+			reportLine.error(LanguageUtil.get(bundle, "no-title"));
 		} else {
 			reportLine.setEntityName(
 				jsonTitle.getString("fr_FR", "[no-french-title]"));
 		}
 		JSONObject jsonDescription = jsonEvent.getJSONObject("description");
 		if (!JSONHelper.validateI18nField(jsonDescription, locales)) {
-			reportLine.error("pas de description ou langue manquante");
+			reportLine.error(LanguageUtil.get(bundle, "no-description"));
 		}
 		if (isManualPlace) {
 			JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 			if (jsonPlace != null) {
 				JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
 				if (!JSONHelper.validateI18nField(jsonPlaceName, locales)) {
-					reportLine.error("pas de nom de lieu ou langue manquante");
+					reportLine.error(LanguageUtil.get(bundle, "no-place-name"));
 				}
 			}
 		}
@@ -535,7 +541,7 @@ public class AgendaImporter {
 		// Validation des périodes
 		JSONArray jsonPeriods = jsonEvent.getJSONArray("periods");
 		if (jsonPeriods == null || jsonPeriods.length() == 0) {
-			reportLine.error("pas de périodes");
+			reportLine.error(LanguageUtil.get(bundle, "no-periods"));
 		}
 		// On en profite pour créer directement nos objets "Period"
 		List<EventPeriod> periods = new ArrayList<EventPeriod>();
@@ -545,7 +551,8 @@ public class AgendaImporter {
 			String endDateString = jsonPeriod.getString("endDate");
 			JSONObject jsonTimeDetail = jsonPeriod.getJSONObject("timeDetail");
 			if (!JSONHelper.validateI18nField(jsonTimeDetail, locales)) {
-				reportLine.error("une période n'a pas d'horaires");
+				reportLine
+					.error(LanguageUtil.get(bundle, "period-without-schedule"));
 			}
 			Date startDate = null;
 			Date endDate = null;
@@ -556,8 +563,8 @@ public class AgendaImporter {
 						throw new Exception();
 					}
 				} catch (Exception e) {
-					reportLine.error(
-						"le format de la date de début d'une période n'est pas bon");
+					reportLine.error(LanguageUtil.get(bundle,
+						"bad-period-start-date-format"));
 				}
 				try {
 					endDate = dateFormat.parse(endDateString);
@@ -566,12 +573,12 @@ public class AgendaImporter {
 					}
 				} catch (Exception e) {
 					reportLine.error(
-						"le format de la date de fin d'une période n'est pas bon");
+						LanguageUtil.get(bundle, "bad-period-end-date-format"));
 				}
 				if (startDate != null && endDate != null) {
 					if (startDate.after(endDate)) {
-						reportLine.error(
-							"une période a une date de début ultérieure à sa date de fin");
+						reportLine.error(LanguageUtil.get(bundle,
+							"period-starts-after-end"));
 					} else if (!reportLine.hasError()) {
 						EventPeriod period;
 						try {
@@ -586,13 +593,13 @@ public class AgendaImporter {
 							}
 							periods.add(period);
 						} catch (PortalException e) {
-							reportLine.error(
-								"erreur lors de la création d'une période");
+							reportLine.error(LanguageUtil.get(bundle,
+								"error-while-creating-period"));
 						}
 						if (EventPeriodLocalServiceUtil
 							.checkForOverlappingPeriods(periods)) {
-							reportLine.error(
-								"des périodes ont des dates qui se chevauchent");
+							reportLine.error(LanguageUtil.get(bundle,
+								"overlapping-periods"));
 						}
 					}
 				}
@@ -607,7 +614,8 @@ public class AgendaImporter {
 				Manifestation manifestation = ManifestationLocalServiceUtil
 					.findByIdSource(manifestationId);
 				if (manifestation == null) {
-					reportLine.error("une des manifestation n'existe pas");
+					reportLine
+						.error(LanguageUtil.get(bundle, "wrong-manifestation"));
 				}
 			}
 		}
@@ -617,22 +625,16 @@ public class AgendaImporter {
 		for (AssetVocabulary vocabulary : eventRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
-		List<Long> categoriesIds = JSONHelper.getCategoriesIdsFromFields(
+		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonEvent, "themes", "types", "publics", "territories", "services");
-		for (Long categoryId : categoriesIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(categoryId);
-			if (category == null) {
-				reportLine.error("la catégorie ayant pour id " + categoryId
-					+ " n'existe pas");
-				continue;
-			}
+		for (AssetCategory category : categories) {
 			boolean isFromValidVocabulary = eventVocabularies.stream().anyMatch(
 				v -> v.getVocabularyId() == category.getVocabularyId());
 			if (!isFromValidVocabulary) {
-				reportLine.error("la catégorie '" + category.getName() + "' ("
-					+ category.getCategoryId()
-					+ ") appartient à un mauvais vocabulaire");
+				reportLine.error(LanguageUtil.format(bundle,
+					"category-belongs-to-wrong-vocabulary",
+					new String[] { category.getName(),
+						String.valueOf(category.getCategoryId()) }));
 			}
 			for (Map.Entry<AssetVocabulary, Boolean> entry : vocabulariesValidationMap
 				.entrySet()) {
@@ -645,8 +647,9 @@ public class AgendaImporter {
 		for (Map.Entry<AssetVocabulary, Boolean> entry : vocabulariesValidationMap
 			.entrySet()) {
 			if (entry.getValue() == false) {
-				reportLine.error("pas de valeur pour le vocabulaire "
-					+ entry.getKey().getName());
+				reportLine.error(
+					LanguageUtil.format(bundle, "no-category-for-vocabulary",
+						new String[] { entry.getKey().getName() }));
 			}
 		}
 
@@ -657,7 +660,9 @@ public class AgendaImporter {
 			sc.setUserId(defaultUserId);
 			sc.setCompanyId(companyId);
 			sc.setScopeGroupId(this.globalGroupId);
-			sc.setAssetCategoryIds(ArrayUtil.toLongArray(categoriesIds));
+			long[] categoriesIds = categories.stream()
+				.mapToLong(AssetCategory::getCategoryId).toArray();
+			sc.setAssetCategoryIds(categoriesIds);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
@@ -670,7 +675,8 @@ public class AgendaImporter {
 				try {
 					event = EventLocalServiceUtil.createEvent(sc);
 				} catch (PortalException e) {
-					reportLine.error("erreur lors de la création de l'event");
+					reportLine.error(
+						LanguageUtil.get(bundle, "error-while-creating-event"));
 					ImportReportLineLocalServiceUtil
 						.updateImportReportLine(reportLine);
 					return reportLine;
@@ -793,7 +799,8 @@ public class AgendaImporter {
 			try {
 				EventLocalServiceUtil.updateEvent(event, sc);
 			} catch (PortalException e) {
-				reportLine.error("erreur lors de l'enregistrement de l'event");
+				reportLine.error(
+					LanguageUtil.get(bundle, "error-while-saving-event"));
 			}
 
 			// On enregistre le lien avec les manifestations
@@ -827,6 +834,53 @@ public class AgendaImporter {
 		}
 
 		return reportLine;
+	}
+
+	private List<AssetCategory> getCategoriesIdsFromFields(
+		ImportReportLine reportLine, JSONObject json, String... fields) {
+		List<AssetCategory> categories = new ArrayList<AssetCategory>();
+		try {
+			AssetVocabulary themeVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+			AssetVocabulary typeVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+			AssetVocabulary publicVocabulary;
+			publicVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_PUBLIC);
+			AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.TERRITORY);
+			AssetVocabulary serviceVocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_SERVICE);
+			Map<String, AssetVocabulary> fieldVocabularies = new HashMap<String, AssetVocabulary>();
+			fieldVocabularies.put("themes", themeVocabulary);
+			fieldVocabularies.put("types", typeVocabulary);
+			fieldVocabularies.put("publics", publicVocabulary);
+			fieldVocabularies.put("territories", territoryVocabulary);
+			fieldVocabularies.put("services", serviceVocabulary);
+			for (String field : fields) {
+				JSONArray categoryArray = json.getJSONArray(field);
+				if (categoryArray != null) {
+					for (int i = 0; i < categoryArray.length(); i++) {
+						String externalId = categoryArray.getString(i);
+						AssetVocabulary fieldVocabulary = fieldVocabularies
+							.get(field);
+						AssetCategory category = AssetVocabularyHelper
+							.getCategoryByExternalId(fieldVocabulary,
+								externalId);
+						if (category == null) {
+							reportLine.error(LanguageUtil.format(bundle,
+								"wrong-category",
+								new String[] { String.valueOf(externalId) }));
+						} else {
+							categories.add(category);
+						}
+					}
+				}
+			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return categories;
 	}
 
 }

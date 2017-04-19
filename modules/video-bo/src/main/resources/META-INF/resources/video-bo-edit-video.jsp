@@ -34,7 +34,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="source" label="eu.videos.source" required="true" />
+				<aui:input name="source" label="eu.video.source" required="true" />
 
 				<strasbourg-picker:image label="image" name="imageId"
 					required="true" value="${dc.video.imageId}" />
@@ -54,10 +54,8 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="copyright" value="${not empty dc.video ? dc.video.copyright : 'Ville et Eurométropole de Strasbourg' }" />
-				
-				<aui:input name="origin" />
+
+				<aui:input name="copyright" value="${empty dc.video ? dc.defaultCopyright : dc.video.copyright}" localized="true" type="text" />
 				
 				<strasbourg-picker:file label="transcription" name="transcriptionFileId"
 					required="false" value="${dc.video.transcriptionFileId}" />
@@ -66,7 +64,7 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
 				
-				<strasbourg-picker:entity label="galleries" name="galleriesIds"
+				<strasbourg-picker:entity label="eu.galleries" name="galleriesIds"
 					value="${dc.video.videoGalleriesIds}"
 					type="eu.strasbourg.service.video.model.VideoGallery"
 					multiple="true" />
@@ -119,11 +117,19 @@
 				</c:if>
 			</c:if>
 			<c:if test="${not empty dc.video and dc.hasPermission('DELETE_VIDEO') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteVideoURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
 </div>
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteVideoURL}';
+		}
+	}
+</aui:script>

@@ -56,6 +56,7 @@ public class PlaceDisplayTemplateHandler
 			"Lieu", Place.class, "currentPlace", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Lieu", Place.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

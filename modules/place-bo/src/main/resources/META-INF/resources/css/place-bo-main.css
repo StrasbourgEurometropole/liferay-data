@@ -75,3 +75,27 @@
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+#site .icon-asterisk{
+	display:none;
+}
+
+.tabular-list-group > li, .tabular-list-group .list-group-item2 {
+    border-width: 0;
+    display: table-row;
+    height: 0px;
+    padding: 0;
+}
+
+.attendance-label {
+	margin: -10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	cursor: pointer;
+	color: #869CAD;
+	background-color: #F5F8FA;
+}
+
+.attendance-label label {
+	cursor: pointer;
+}

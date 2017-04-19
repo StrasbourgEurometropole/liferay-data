@@ -212,7 +212,7 @@ p.footer-contact {
 }
 
 
-@media only screen and (min-width: 1px) and (max-width: 640px) {
+@media only screen and (min-width: 1px) and (max-width: 770px) {
     .footer .footer-top {
         height: auto;
         margin: 0;

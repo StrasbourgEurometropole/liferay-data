@@ -113,21 +113,4 @@ public class JSONHelper {
 		}
 		return valid;
 	}
-
-	public static List<Long> getCategoriesIdsFromFields(JSONObject json,
-		String... fields) {
-		List<Long> categoriesIds = new ArrayList<Long>();
-		for (String field : fields) {
-			JSONArray categoryArray = json.getJSONArray(field);
-			if (categoryArray != null) {
-				for (int i = 0; i < categoryArray.length(); i++) {
-					Long categoryId = categoryArray.getLong(i);
-					if (categoryId > 0) {
-						categoriesIds.add(categoryId);
-					}
-				}
-			}
-		}
-		return categoriesIds;
-	}
 }

@@ -75,7 +75,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("copyright", getCopyright());
-		attributes.put("origin", getOrigin());
 		attributes.put("source", getSource());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("imageId", getImageId());
@@ -180,12 +179,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 
 		if (copyright != null) {
 			setCopyright(copyright);
-		}
-
-		String origin = (String)attributes.get("origin");
-
-		if (origin != null) {
-			setOrigin(origin);
 		}
 
 		String source = (String)attributes.get("source");
@@ -544,74 +537,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
-	* Returns the origin of this video.
-	*
-	* @return the origin of this video
-	*/
-	@Override
-	public java.lang.String getOrigin() {
-		return _video.getOrigin();
-	}
-
-	/**
-	* Returns the localized origin of this video in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized origin of this video
-	*/
-	@Override
-	public java.lang.String getOrigin(java.lang.String languageId) {
-		return _video.getOrigin(languageId);
-	}
-
-	/**
-	* Returns the localized origin of this video in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized origin of this video
-	*/
-	@Override
-	public java.lang.String getOrigin(java.lang.String languageId,
-		boolean useDefault) {
-		return _video.getOrigin(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized origin of this video in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized origin of this video
-	*/
-	@Override
-	public java.lang.String getOrigin(java.util.Locale locale) {
-		return _video.getOrigin(locale);
-	}
-
-	/**
-	* Returns the localized origin of this video in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized origin of this video. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getOrigin(java.util.Locale locale,
-		boolean useDefault) {
-		return _video.getOrigin(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getOriginCurrentLanguageId() {
-		return _video.getOriginCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getOriginCurrentValue() {
-		return _video.getOriginCurrentValue();
-	}
-
-	/**
 	* Retourne le code html embed du player si le champ "source" est un lien
 	* vers une vidéo Dailymotion, YouTube ou Vimeo, retourne le contenu du
 	* champ source sinon
@@ -949,16 +874,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
-	* Returns a map of the locales and localized origins of this video.
-	*
-	* @return the locales and localized origins of this video
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getOriginMap() {
-		return _video.getOriginMap();
-	}
-
-	/**
 	* Returns a map of the locales and localized sources of this video.
 	*
 	* @return the locales and localized sources of this video
@@ -1267,68 +1182,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setNew(boolean n) {
 		_video.setNew(n);
-	}
-
-	/**
-	* Sets the origin of this video.
-	*
-	* @param origin the origin of this video
-	*/
-	@Override
-	public void setOrigin(java.lang.String origin) {
-		_video.setOrigin(origin);
-	}
-
-	/**
-	* Sets the localized origin of this video in the language.
-	*
-	* @param origin the localized origin of this video
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setOrigin(java.lang.String origin, java.util.Locale locale) {
-		_video.setOrigin(origin, locale);
-	}
-
-	/**
-	* Sets the localized origin of this video in the language, and sets the default locale.
-	*
-	* @param origin the localized origin of this video
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setOrigin(java.lang.String origin, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
-		_video.setOrigin(origin, locale, defaultLocale);
-	}
-
-	@Override
-	public void setOriginCurrentLanguageId(java.lang.String languageId) {
-		_video.setOriginCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized origins of this video from the map of locales and localized origins.
-	*
-	* @param originMap the locales and localized origins of this video
-	*/
-	@Override
-	public void setOriginMap(Map<java.util.Locale, java.lang.String> originMap) {
-		_video.setOriginMap(originMap);
-	}
-
-	/**
-	* Sets the localized origins of this video from the map of locales and localized origins, and sets the default locale.
-	*
-	* @param originMap the locales and localized origins of this video
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setOriginMap(
-		Map<java.util.Locale, java.lang.String> originMap,
-		java.util.Locale defaultLocale) {
-		_video.setOriginMap(originMap, defaultLocale);
 	}
 
 	/**

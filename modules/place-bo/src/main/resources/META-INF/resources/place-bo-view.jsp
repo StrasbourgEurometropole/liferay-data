@@ -53,11 +53,13 @@
 			selected="${tab eq 'import'}" />
 	</aui:nav>
 
-	<aui:nav-bar-search>
-		<aui:form action="${searchURL}" name="searchFm">
-			<liferay-ui:input-search markupView="lexicon" />
-		</aui:form>
-	</aui:nav-bar-search>
+	<c:if test="${tab eq 'places'}">
+		<aui:nav-bar-search>
+			<aui:form action="${searchURL}" name="searchFm">
+				<liferay-ui:input-search markupView="lexicon" />
+			</aui:form>
+		</aui:nav-bar-search>
+	</c:if>
 </aui:nav-bar>
 
 <c:choose>

@@ -21,12 +21,15 @@
 					<liferay-ui:search-container-row
 						className="com.liferay.asset.kernel.model.AssetEntry"
 						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
-							<%
-								Map<String, Object> contextObjects = new HashMap<String, Object>();
-								contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
-								List<Object> entries = new ArrayList<Object>();
-							%>
-							<div>
+							<c:choose>
+								<c:when test="${dc.isEntryFeatured(entry)}">
+									<div class="featured">
+								</c:when>
+								<c:otherwise>
+									<div>
+								</c:otherwise>
+							</c:choose>
+							
 								<c:set var="className" value="${entry.className}" />
 								<c:choose>
 									<c:when test="${fn:contains(className, 'JournalArticle')}">
@@ -38,10 +41,10 @@
 								</c:choose>
 								<liferay-ddm:template-renderer
 								    className="${className}"
-								    contextObjects="<%=contextObjects%>"
+								    contextObjects="${dc.getTemplateContextObjects(entry)}"
 								    displayStyle="${dc.templatesMap[entry.className]}"
 								    displayStyleGroupId="${themeDisplay.scopeGroupId}"
-								    entries="<%=entries%>"
+								    entries="${dc.templateEntries }"
 								>
 									<liferay-ui:asset-display
 										assetEntry="${entry}"

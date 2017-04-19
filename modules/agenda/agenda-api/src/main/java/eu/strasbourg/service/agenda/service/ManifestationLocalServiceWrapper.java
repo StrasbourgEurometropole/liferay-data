@@ -543,10 +543,28 @@ public class ManifestationLocalServiceWrapper
 			manifestationIds);
 	}
 
+	/**
+	* Supprime les manifestations dépubliés depuis au moins un mois
+	*/
+	@Override
+	public void deleteOldUnpublishedManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_manifestationLocalService.deleteOldUnpublishedManifestations();
+	}
+
 	@Override
 	public void setEventManifestations(long eventId, long[] manifestationIds) {
 		_manifestationLocalService.setEventManifestations(eventId,
 			manifestationIds);
+	}
+
+	/**
+	* Dépublie les manifestations dont la date de fin est dépassée
+	*/
+	@Override
+	public void unpublishPastManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_manifestationLocalService.unpublishPastManifestations();
 	}
 
 	/**

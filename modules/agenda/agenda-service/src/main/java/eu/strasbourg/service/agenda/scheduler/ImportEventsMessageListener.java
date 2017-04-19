@@ -14,6 +14,10 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.agenda.service.EventLocalService;
 
+/**
+ * Importe automatiquement les événements et les manifestations des fichiers
+ * JSON présents dans le dossier d'import.
+ */
 public class ImportEventsMessageListener
 	extends BaseSchedulerEntryMessageListener {
 
@@ -21,8 +25,9 @@ public class ImportEventsMessageListener
 	@Modified
 	protected void activate() {
 		// Tous les jours à 4h
-		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 0 4 1/1 * ? *"));
+		schedulerEntryImpl.setTrigger(
+			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
+				getEventListenerClass(), "0 0 4 1/1 * ? *"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
 	}

@@ -5,12 +5,14 @@ import java.util.Set;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.video.model.Video;
@@ -58,6 +60,19 @@ public class EditVideoDisplayContext {
 			this._themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO,
 			actionId);
+	}
+	
+	/**
+	 * Retourne le copyright par défaut
+	 */
+	public String getDefaultCopyright() {
+		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(this._request);
+		String copyright = "<?xml version='1.0' encoding='UTF-8'?>";
+		copyright += "<root available-locales='fr_FR' default-locale='fr_FR'>";
+		copyright += "<Copyright language-id='fr_FR'>";
+		copyright += LanguageUtil.get(servletRequest, "eu.ems");
+		copyright += "</Copyright></root>";
+		return copyright;
 	}
 
 	private Video _video;

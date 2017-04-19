@@ -1,8 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
@@ -10,24 +7,40 @@ import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.ArrayUtil;
 
 public class MailHelper {
+
+	/**
+	 * Envoie un mail en mode "plain text"
+	 * 
+	 * @param from
+	 *            Adresse de l'expéditeur
+	 * @param to
+	 *            Addresses du ou des destinataires, séparées par des virgules
+	 *            si elles sont plusieurs
+	 * @param subject
+	 *            Sujet du mail
+	 * @param body
+	 *            Body du mail
+	 * @return True si le mail a correctement été envoyé, false sinon
+	 */
 	public static boolean sendMailWithPlainText(String from, String to,
 		String subject, String body) {
 		InternetAddress fromAddress = null;
-		List<InternetAddress> toAddressesList = new ArrayList<InternetAddress>();
-		
+		InternetAddress[] toAddresses = new InternetAddress[0];
+
 		try {
 			fromAddress = new InternetAddress(from);
-			for (String address : to.split(",")) {
-				if (Validator.isEmailAddress(address)) {
-					toAddressesList.add(new InternetAddress(address));
+			for (String toAddress : to.split(",")) {
+				try {
+					InternetAddress address = new InternetAddress(toAddress);
+					toAddresses = ArrayUtil.append(toAddresses, address);
+				} catch (AddressException ex) {
+					log.error(ex);
 				}
 			}
-			InternetAddress[] toAddresses = new InternetAddress[toAddressesList.size()];
-			toAddressesList.toArray(toAddresses);
-			
+
 			MailMessage mailMessage = new MailMessage();
 			mailMessage.setTo(toAddresses);
 			mailMessage.setFrom(fromAddress);
@@ -36,21 +49,43 @@ public class MailHelper {
 			MailServiceUtil.sendEmail(mailMessage);
 			return true;
 		} catch (AddressException e) {
-			_log.error(e);
+			log.error(e);
 			return false;
 		}
 	}
 	
+	/**
+	 * Envoie un mail en mode "plain text"
+	 * 
+	 * @param from
+	 *            Adresse de l'expéditeur
+	 * @param to
+	 *            Addresses du ou des destinataires, séparées par des virgules
+	 *            si elles sont plusieurs
+	 * @param subject
+	 *            Sujet du mail
+	 * @param body
+	 *            Body du mail
+	 * @return True si le mail a correctement été envoyé, false sinon
+	 */
 	public static boolean sendMailWithHTML(String from, String to,
 		String subject, String body) {
 		InternetAddress fromAddress = null;
-		InternetAddress toAddress = null;
+		InternetAddress[] toAddresses = new InternetAddress[0];
 
 		try {
 			fromAddress = new InternetAddress(from);
-			toAddress = new InternetAddress(to);
+			for (String toAddress : to.split(",")) {
+				try {
+					InternetAddress address = new InternetAddress(toAddress);
+					toAddresses = ArrayUtil.append(toAddresses, address);
+				} catch (AddressException ex) {
+					log.error(ex);
+				}
+			}
+
 			MailMessage mailMessage = new MailMessage();
-			mailMessage.setTo(toAddress);
+			mailMessage.setTo(toAddresses);
 			mailMessage.setFrom(fromAddress);
 			mailMessage.setSubject(subject);
 			mailMessage.setBody(body);
@@ -58,10 +93,11 @@ public class MailHelper {
 			MailServiceUtil.sendEmail(mailMessage);
 			return true;
 		} catch (AddressException e) {
-			_log.error(e);
+			log.error(e);
 			return false;
 		}
 	}
-	
-	private static final Log _log = LogFactoryUtil.getLog(MailHelper.class.getName());
+
+	private static final Log log = LogFactoryUtil
+		.getLog(MailHelper.class.getName());
 }

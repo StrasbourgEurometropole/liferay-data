@@ -19,6 +19,8 @@
 
 <portlet:defineObjects />
 
+<jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
+
 <style>
 	.approved {
 		color: #4CAF50;

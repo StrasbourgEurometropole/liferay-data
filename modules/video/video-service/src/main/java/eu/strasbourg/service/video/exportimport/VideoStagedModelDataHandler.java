@@ -137,7 +137,6 @@ public class VideoStagedModelDataHandler
 		importedVideo.setTitle(stagedModel.getTitle());
 		importedVideo.setDescription(stagedModel.getDescription());
 		importedVideo.setCopyright(stagedModel.getCopyright());
-		importedVideo.setOrigin(stagedModel.getOrigin());
 		importedVideo.setSource(stagedModel.getSource());
 		importedVideo.setPublicationDate(stagedModel.getPublicationDate());
 		importedVideo.setStatus(stagedModel.getStatus());

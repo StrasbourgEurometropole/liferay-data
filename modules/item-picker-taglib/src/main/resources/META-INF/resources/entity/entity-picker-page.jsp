@@ -14,12 +14,12 @@
 	<ul id="entities-thumbnails-${name}">
 		<c:forEach items="${entities}" var="entity">
 			<li>
-				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} - <a href="#" class="remove-entity" data-entry-id="${entity.classPK}">Supprimer</a>
+				${not empty entity.titleMap ? entity.getTitle(locale) : entity.title} <a href="#" class="remove-entity" data-entry-id="${entity.classPK}"><i class="icon-remove"></i></a>
 			</li>
 		</c:forEach>
 	</ul>
 	<p>
-		<aui:button name="choose-entity-${name}" id="choose-entity-${name}" value="${multiple ? 'add' : 'choose'}" />
+		<aui:button name="choose-entity-${name}" id="choose-entity-${name}" value="select" />
 	</p>
 	<div class="has-error">
 		<aui:input name="${name}" type="hidden" value="${value}">
@@ -30,6 +30,10 @@
 		</aui:input>
 	</div>
 </div>
+<c:set var="dialogTitle" value="${type}" />
+<c:if test="${multiple}">
+	<c:set var="dialogTitle" value="${dialogTitle.concat('s')}" />
+</c:if>
 <aui:script use="liferay-item-selector-dialog">
 $('#<portlet:namespace />choose-entity-${name}').on('click',
 	function(event) {
@@ -50,7 +54,7 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 						for (var i = 0; i < items.length; i++) {
 							var selectedItem = items[i];
 							var htmlToAppend = '<li>'
-								+ selectedItem.title + ' - <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '">Supprimer</a>';
+								+ selectedItem.title + ' <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a>';
 								+ '</li>';
 							if (!multipleSelection) {
 								$('#entities-thumbnails-${name}').empty();
@@ -71,7 +75,7 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 						}
 					}
 				},
-				title: '<liferay-ui:message key="${type}"/>',
+				title: '<liferay-ui:message key="${dialogTitle}"/>',
 				url: '${itemSelectorURL}'
 			}
 		);

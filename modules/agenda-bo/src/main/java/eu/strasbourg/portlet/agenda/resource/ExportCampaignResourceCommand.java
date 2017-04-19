@@ -33,7 +33,8 @@ public class ExportCampaignResourceCommand implements MVCResourceCommand {
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest,
 		ResourceResponse resourceResponse) throws PortletException {
-		resourceResponse.setContentType("text/javascript");
+		resourceResponse.setContentType("application/force-download");
+		resourceResponse.setProperty("content-disposition", "attachment; filename=campaign.json");
 		long campaignId = ParamUtil.getLong(resourceRequest, "campaignId");
 		Campaign campaign = campaignLocalService.fetchCampaign(campaignId);
 		if (campaign != null) {

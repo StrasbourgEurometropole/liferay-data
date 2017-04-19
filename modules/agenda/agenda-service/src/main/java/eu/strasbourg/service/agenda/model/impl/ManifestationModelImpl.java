@@ -150,13 +150,15 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Manifestation"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 8L;
-	public static final long SOURCE_COLUMN_BITMASK = 16L;
-	public static final long STATUS_COLUMN_BITMASK = 32L;
-	public static final long TITLE_COLUMN_BITMASK = 64L;
-	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long ENDDATE_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long IDSOURCE_COLUMN_BITMASK = 8L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 16L;
+	public static final long SOURCE_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long STATUSDATE_COLUMN_BITMASK = 128L;
+	public static final long TITLE_COLUMN_BITMASK = 256L;
+	public static final long UUID_COLUMN_BITMASK = 512L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -680,7 +682,17 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
+
+		if (_originalStatusDate == null) {
+			_originalStatusDate = _statusDate;
+		}
+
 		_statusDate = statusDate;
+	}
+
+	public Date getOriginalStatusDate() {
+		return _originalStatusDate;
 	}
 
 	@JSON
@@ -957,7 +969,17 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 	@Override
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= ENDDATE_COLUMN_BITMASK;
+
+		if (_originalEndDate == null) {
+			_originalEndDate = _endDate;
+		}
+
 		_endDate = endDate;
+	}
+
+	public Date getOriginalEndDate() {
+		return _originalEndDate;
 	}
 
 	@JSON
@@ -1331,7 +1353,11 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 
 		manifestationModelImpl._setOriginalStatus = false;
 
+		manifestationModelImpl._originalStatusDate = manifestationModelImpl._statusDate;
+
 		manifestationModelImpl._originalTitle = manifestationModelImpl._title;
+
+		manifestationModelImpl._originalEndDate = manifestationModelImpl._endDate;
 
 		manifestationModelImpl._originalSource = manifestationModelImpl._source;
 
@@ -1685,6 +1711,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private Date _originalStatusDate;
 	private Long _imageId;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1695,6 +1722,7 @@ public class ManifestationModelImpl extends BaseModelImpl<Manifestation>
 	private String _externalImageCopyright;
 	private Date _startDate;
 	private Date _endDate;
+	private Date _originalEndDate;
 	private String _source;
 	private String _originalSource;
 	private String _idSource;

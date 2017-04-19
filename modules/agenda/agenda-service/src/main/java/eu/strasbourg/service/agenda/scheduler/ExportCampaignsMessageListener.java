@@ -16,6 +16,9 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 
+/**
+ * Exporte automatiquement les campagnes au format JSON et les place dans le dossier d'import.
+ */
 @Component(immediate = true, service = CheckEventMessageListener.class)
 public class ExportCampaignsMessageListener
 		extends BaseSchedulerEntryMessageListener {

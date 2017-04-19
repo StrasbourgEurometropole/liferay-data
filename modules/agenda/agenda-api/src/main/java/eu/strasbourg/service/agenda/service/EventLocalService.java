@@ -287,6 +287,11 @@ public interface EventLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
+	* Lance une recherche par placeSIGId
+	*/
+	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -391,7 +396,7 @@ public interface EventLocalService extends BaseLocalService,
 
 	/**
 	* Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* date de publication dans le futur.
 	*/
 	public void checkEvents() throws PortalException;
 
@@ -406,7 +411,17 @@ public interface EventLocalService extends BaseLocalService,
 
 	public void deleteManifestationEvents(long manifestationId, long[] eventIds);
 
+	/**
+	* Supprime les événements dépubliés depuis au moins un mois
+	*/
+	public void deleteOldUnpublishedEvents() throws PortalException;
+
 	public void setManifestationEvents(long manifestationId, long[] eventIds);
+
+	/**
+	* Dépublie les événements dont la dernière date de fin est dépassée
+	*/
+	public void unpublishPastEvents() throws PortalException;
 
 	/**
 	* Met à jour le statut de l'édition "manuellement" (pas via le workflow)

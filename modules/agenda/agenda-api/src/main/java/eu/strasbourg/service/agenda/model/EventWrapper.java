@@ -779,7 +779,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
+	* lieu lié sinon
 	*/
 	@Override
 	public java.lang.String getCity(java.util.Locale locale) {
@@ -945,7 +946,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il
+	* existe, du lieu lié sinon
 	*/
 	@Override
 	public java.lang.String getPlaceAddressHTML(java.util.Locale locale) {
@@ -953,7 +955,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu lié sinon
+	* Retourne le nom du lieu, provenant du lieu interne s'il existe, du lieu
+	* lié sinon
 	*/
 	@Override
 	public java.lang.String getPlaceAlias(java.util.Locale locale) {

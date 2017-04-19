@@ -77,9 +77,7 @@ public class CampaignEventLocalServiceImpl
 		campaignEvent.setImageId((long) 0);
 		campaignEvent.setWebImageId((long) 0);
 		campaignEvent.setPlaceCityId((long) 0);
-		campaignEvent.setThemeId((long) 0);
 		campaignEvent.setCampaignId((long) 0);
-		campaignEvent.setTypeId((long) 0);
 		campaignEvent.setFree(-1);
 		campaignEvent.setGroupId(sc.getScopeGroupId());
 		campaignEvent.setUserName(user.getFullName());

@@ -24,6 +24,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 @Component(
 	immediate = true,
 	property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/campaign.css",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.single-page-application=false",
@@ -41,8 +42,8 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest,
 		RenderResponse renderResponse) throws IOException, PortletException {
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		if (cmd.equals("editCampaignEvent")) {
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		if (mvcPath.equals("/campaign-edit.jsp")) {
 			EditCampaignEventDisplayContext dc = new EditCampaignEventDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

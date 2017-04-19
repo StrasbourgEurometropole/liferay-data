@@ -60,7 +60,7 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
 				
-				<strasbourg-picker:entity label="collections" name="collectionsIds"
+				<strasbourg-picker:entity label="eu.collections" name="collectionsIds"
 					value="${dc.artwork.artworkCollectionsIds}"
 					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
 					multiple="true" />
@@ -108,11 +108,19 @@
 				</c:if>
 			</c:if>
 			<c:if test="${not empty dc.artwork and dc.hasPermission('DELETE_ARTWORK') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteArtworkURL}"
-					type="cancel" value="delete" />
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+					value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
 </div>
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteArtworkURL}';
+		}
+	}
+</aui:script>

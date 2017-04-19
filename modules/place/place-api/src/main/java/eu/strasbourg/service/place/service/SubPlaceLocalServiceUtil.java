@@ -151,6 +151,18 @@ public class SubPlaceLocalServiceUtil {
 	}
 
 	/**
+	* Met à jour le statut du sous-lieu par le framework workflow
+	*/
+	public static eu.strasbourg.service.place.model.SubPlace updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
+	}
+
+	/**
 	* Updates the sub place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param subPlace the sub place
@@ -159,6 +171,16 @@ public class SubPlaceLocalServiceUtil {
 	public static eu.strasbourg.service.place.model.SubPlace updateSubPlace(
 		eu.strasbourg.service.place.model.SubPlace subPlace) {
 		return getService().updateSubPlace(subPlace);
+	}
+
+	/**
+	* Met à jour un sous-lieu et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.place.model.SubPlace updateSubPlace(
+		eu.strasbourg.service.place.model.SubPlace subPlace,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateSubPlace(subPlace, sc);
 	}
 
 	/**
@@ -290,6 +312,15 @@ public class SubPlaceLocalServiceUtil {
 	*/
 	public static long findByKeywordCount(java.lang.String keyword) {
 		return getService().findByKeywordCount(keyword);
+	}
+
+	/**
+	* Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(long userId,
+		eu.strasbourg.service.place.model.SubPlace subPlace, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(userId, subPlace, status);
 	}
 
 	public static SubPlaceLocalService getService() {

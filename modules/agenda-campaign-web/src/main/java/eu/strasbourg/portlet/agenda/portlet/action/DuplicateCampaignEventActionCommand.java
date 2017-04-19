@@ -128,8 +128,8 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 		newEvent.setFree(event.getFree());
 		newEvent.setPrice(event.getPrice());
 		newEvent.setCampaignId(event.getCampaignId());
-		newEvent.setThemeId(event.getThemeId());
-		newEvent.setTypeId(event.getTypeId());
+		newEvent.setThemesIds(event.getThemesIds());
+		newEvent.setTypesIds(event.getTypesIds());
 		event.setPublicsIds(event.getPublicsIds());
 		CampaignEventStatus status = newEvent
 			.updateStatus(WorkflowConstants.STATUS_DRAFT, "", td.getUser());

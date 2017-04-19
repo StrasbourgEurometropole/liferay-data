@@ -346,6 +346,15 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	}
 
 	/**
+	* Lance une recherche par placeSIGId
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(
+		java.lang.String placeSIGId) {
+		return _eventLocalService.findByPlaceSIGId(placeSIGId);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à l'entité Event
 	*/
 	@Override
@@ -501,7 +510,7 @@ public class EventLocalServiceWrapper implements EventLocalService,
 
 	/**
 	* Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
-	* date de publication dans le futur
+	* date de publication dans le futur.
 	*/
 	@Override
 	public void checkEvents()
@@ -536,9 +545,27 @@ public class EventLocalServiceWrapper implements EventLocalService,
 		_eventLocalService.deleteManifestationEvents(manifestationId, eventIds);
 	}
 
+	/**
+	* Supprime les événements dépubliés depuis au moins un mois
+	*/
+	@Override
+	public void deleteOldUnpublishedEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_eventLocalService.deleteOldUnpublishedEvents();
+	}
+
 	@Override
 	public void setManifestationEvents(long manifestationId, long[] eventIds) {
 		_eventLocalService.setManifestationEvents(manifestationId, eventIds);
+	}
+
+	/**
+	* Dépublie les événements dont la dernière date de fin est dépassée
+	*/
+	@Override
+	public void unpublishPastEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_eventLocalService.unpublishPastEvents();
 	}
 
 	/**

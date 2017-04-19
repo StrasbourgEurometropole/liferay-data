@@ -65,7 +65,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,8 +99,6 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		sb.append(description);
 		sb.append(", copyright=");
 		sb.append(copyright);
-		sb.append(", origin=");
-		sb.append(origin);
 		sb.append(", source=");
 		sb.append(source);
 		sb.append(", publicationDate=");
@@ -196,13 +194,6 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			videoImpl.setCopyright(copyright);
 		}
 
-		if (origin == null) {
-			videoImpl.setOrigin(StringPool.BLANK);
-		}
-		else {
-			videoImpl.setOrigin(origin);
-		}
-
 		if (source == null) {
 			videoImpl.setSource(StringPool.BLANK);
 		}
@@ -249,7 +240,6 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		copyright = objectInput.readUTF();
-		origin = objectInput.readUTF();
 		source = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 
@@ -321,13 +311,6 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			objectOutput.writeUTF(copyright);
 		}
 
-		if (origin == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(origin);
-		}
-
 		if (source == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -358,7 +341,6 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	public String title;
 	public String description;
 	public String copyright;
-	public String origin;
 	public String source;
 	public long publicationDate;
 	public long imageId;

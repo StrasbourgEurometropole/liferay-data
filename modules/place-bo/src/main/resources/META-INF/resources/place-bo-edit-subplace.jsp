@@ -34,12 +34,12 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
-				<aui:input name="name">
+				<aui:input name="name" label="name-subplace">
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="description" />
+				<aui:input name="description" label="description-subplace" />
 				<!-- Hack pour ajouter une validation sur la description -->
 				<div class="has-error">
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
@@ -55,7 +55,7 @@
 					</aui:input>
 				</div>
 					
-				<strasbourg-picker:entity label="place"
+				<strasbourg-picker:entity label="eu.place"
 					name="placeId" value="${dc.subPlace.placeId}"
 					type="eu.strasbourg.service.place.model.Place"
 					multiple="false" />
@@ -69,63 +69,82 @@
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
-				
-					<div id="date-fields2">
-						<c:if test="${empty dc.subPlace.periods}">
-							<div class="lfr-form-row lfr-form-row-inline period">
-								<div class="row-fields">
-									<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="1" />
-									</liferay-util:include>
-								</div>
-							</div>
-						</c:if>
 					
+					<aui:input name="periodsIndexes" type="hidden" />
+				
+				    <div class="nav-tabs">
+				        <ul class="nav nav-tabs" role="tablist">
+							<c:set var="nbPeriod" value="0"/>
+							<c:forEach items="${dc.subPlace.periods}" var="period" varStatus="status">
+				            	<li role="presentation"
+				            		<c:if test="${status.count == 1}">
+				            			class="active"
+				            		</c:if>
+				            	 id="onglet${nbPeriod}" >
+				            		<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
+					            		<liferay-ui:message key="period" /> ${status.count} 
+					            		<span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+					            	</a>
+				            	</li>
+								<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
+							</c:forEach>
+			            	<li role="presentation"
+			            		<c:if test="${empty dc.subPlace.periods}">
+			            			class="active"
+			            		</c:if>
+			            	 id="addPeriod" >
+			            		<a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
+			            	</li>
+				        </ul>
+				    </div>
+				
+				    <div class="tab-content">
+						<aui:input name="nbPeriod" type="hidden" value="${nbPeriod}" />
 						<c:forEach items="${dc.subPlace.periods}" var="period" varStatus="status">
-							<div class="lfr-form-row lfr-form-row-inline period">
-								<div class="row-fields">
-									<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
-									<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
-									<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="${status.count}" />
-										<liferay-util:param name="name" value="${period.name}" />
-										<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
-										<liferay-util:param name="startDate" value="${formattedStartDate}" />
-										<liferay-util:param name="endDate" value="${formattedEndDate}" />
-										<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
-										<liferay-util:param name="linkURL" value="${period.linkURL}" />
-										<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
-										<liferay-util:param name="periodId" value="${period.periodId}" />
-										<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
-										<c:set var="slotJour" value="" />
-										<c:set var="slotStartHour" value="" />
-										<c:set var="slotEndHour" value="" />
-										<c:forEach items="${period.slots}" var="slot">
-											<c:if test="${not empty slotJour}">
-												<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
-												<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
-												<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
-											</c:if>
-											<c:if test="${empty slotJour}">
-												<c:set var="slotJour" value="${slot.dayOfWeek}" />
-												<c:set var="slotStartHour" value="${slot.startHour}" />
-												<c:set var="slotEndHour" value="${slot.endHour}" />
-											</c:if>
-										</c:forEach>
-										<liferay-util:param name="slotJours" value="${slotJour}" />
-										<liferay-util:param name="slotStartHours" value="${slotStartHour}" />
-										<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
-									</liferay-util:include>
-								</div>
-							</div>
+							<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+								<liferay-util:param name="index" value="${status.count - 1}" />
+								<liferay-util:param name="name" value="${period.name}" />
+								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
+								<liferay-util:param name="startDate" value="${formattedStartDate}" />
+								<liferay-util:param name="endDate" value="${formattedEndDate}" />
+								<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
+								<liferay-util:param name="linkURL" value="${period.linkURL}" />
+								<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
+								<liferay-util:param name="periodId" value="${period.periodId}" />
+								<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
+								<c:set var="slotJour" value="" />
+								<c:set var="slotStartHour" value="" />
+								<c:set var="slotEndHour" value="" />
+								<c:forEach items="${period.slots}" var="slot">
+									<c:if test="${not empty slotJour}">
+										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
+										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
+										<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
+									</c:if>
+									<c:if test="${empty slotJour}">
+										<c:set var="slotJour" value="${slot.dayOfWeek}" />
+										<c:set var="slotStartHour" value="${slot.startHour}" />
+										<c:set var="slotEndHour" value="${slot.endHour}" />
+									</c:if>
+								</c:forEach>
+								<liferay-util:param name="slotJours" value="${slotJour}" />
+								<liferay-util:param name="slotStartHours" value="${slotStartHour}" />
+								<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
+							</liferay-util:include>
 						</c:forEach>
-						<c:if test="${empty dc.subPlace.periods}">
-							<aui:input type="hidden" name="periodsIndexes" value="1" />
-						</c:if>
-						<c:if test="${not empty dc.subPlace.periods}">
-							<aui:input type="hidden" name="periodsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.subPlace.periods))}" />
-						</c:if>
-					</div>
+						<div role="tabpanel" 
+							<c:if test="${empty dc.subPlace.periods}">
+								class="tab-pane active fade in"
+							</c:if>
+							<c:if test="${not empty dc.subPlace.periods}">
+								class="tab-pane fade in"
+							</c:if>
+						id="noPeriod">
+							<liferay-ui:message key="no-period" />
+						</div>
+				    </div>
 					
 				</aui:fieldset>
 					
@@ -176,6 +195,7 @@
 		</aui:fieldset-group>
 
 		<aui:button-row>
+			<aui:input type="hidden" name="workflowAction" value="" />
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" type="submit" name="publish"
 					value="eu.publish" />
@@ -195,8 +215,11 @@
 
 <liferay-util:html-top>
 	<script>
-	var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
 	var getperiodRowJSPURL = '${periodRowURL}';
+	var getslotRowJSPURL = '${slotRowURL}';
+	var getattendanceRowJSPURL = '${attendanceRowURL}';
+	
+	var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>

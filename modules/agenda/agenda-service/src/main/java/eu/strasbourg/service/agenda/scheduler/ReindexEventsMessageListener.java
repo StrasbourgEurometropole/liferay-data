@@ -21,19 +21,23 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
+/**
+ * Réindexe les événements et les manifestations. Utile car on souhaite que
+ * seules les dates futures de l'événement soient indexées.
+ */
 @Component(immediate = true, service = CheckEventMessageListener.class)
 public class ReindexEventsMessageListener
-		extends BaseSchedulerEntryMessageListener {
+	extends BaseSchedulerEntryMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
 		schedulerEntryImpl.setTrigger(
-				TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-						getEventListenerClass(), 2, TimeUnit.HOUR));
+			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
+				getEventListenerClass(), 2, TimeUnit.HOUR));
 
 		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-				DestinationNames.SCHEDULER_DISPATCH);
+			DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -48,12 +52,12 @@ public class ReindexEventsMessageListener
 		String[] companyIdStringArray = new String[] { companyIdString };
 		this._log.info("Start reindexing events and manifestations");
 		Indexer<Event> eventIndexer = IndexerRegistryUtil
-				.getIndexer(Event.class);
+			.getIndexer(Event.class);
 		if (eventIndexer != null) {
 			eventIndexer.reindex(companyIdStringArray);
 		}
 		Indexer<Manifestation> manifestationIndexer = IndexerRegistryUtil
-				.getIndexer(Manifestation.class);
+			.getIndexer(Manifestation.class);
 		if (manifestationIndexer != null) {
 			manifestationIndexer.reindex(companyIdStringArray);
 		}

@@ -101,8 +101,8 @@ public class CampaignEventWrapper implements CampaignEvent,
 		attributes.put("free", getFree());
 		attributes.put("price", getPrice());
 		attributes.put("campaignId", getCampaignId());
-		attributes.put("themeId", getThemeId());
-		attributes.put("typeId", getTypeId());
+		attributes.put("themesIds", getThemesIds());
+		attributes.put("typesIds", getTypesIds());
 		attributes.put("publicsIds", getPublicsIds());
 
 		return attributes;
@@ -356,16 +356,16 @@ public class CampaignEventWrapper implements CampaignEvent,
 			setCampaignId(campaignId);
 		}
 
-		Long themeId = (Long)attributes.get("themeId");
+		String themesIds = (String)attributes.get("themesIds");
 
-		if (themeId != null) {
-			setThemeId(themeId);
+		if (themesIds != null) {
+			setThemesIds(themesIds);
 		}
 
-		Long typeId = (Long)attributes.get("typeId");
+		String typesIds = (String)attributes.get("typesIds");
 
-		if (typeId != null) {
-			setTypeId(typeId);
+		if (typesIds != null) {
+			setTypesIds(typesIds);
 		}
 
 		String publicsIds = (String)attributes.get("publicsIds");
@@ -397,14 +397,6 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public boolean isUserManagerOfTheEvent(long userId) {
 		return _campaignEvent.isUserManagerOfTheEvent(userId);
-	}
-
-	/**
-	* Retourne la catégorie thème
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getTheme() {
-		return _campaignEvent.getTheme();
 	}
 
 	@Override
@@ -540,26 +532,6 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public java.lang.Long getServiceId() {
 		return _campaignEvent.getServiceId();
-	}
-
-	/**
-	* Returns the theme ID of this campaign event.
-	*
-	* @return the theme ID of this campaign event
-	*/
-	@Override
-	public java.lang.Long getThemeId() {
-		return _campaignEvent.getThemeId();
-	}
-
-	/**
-	* Returns the type ID of this campaign event.
-	*
-	* @return the type ID of this campaign event
-	*/
-	@Override
-	public java.lang.Long getTypeId() {
-		return _campaignEvent.getTypeId();
 	}
 
 	/**
@@ -1068,6 +1040,16 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Returns the themes IDs of this campaign event.
+	*
+	* @return the themes IDs of this campaign event
+	*/
+	@Override
+	public java.lang.String getThemesIds() {
+		return _campaignEvent.getThemesIds();
+	}
+
+	/**
 	* Returns the title of this campaign event.
 	*
 	* @return the title of this campaign event
@@ -1132,6 +1114,16 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public java.lang.String getTitleCurrentValue() {
 		return _campaignEvent.getTitleCurrentValue();
+	}
+
+	/**
+	* Returns the types IDs of this campaign event.
+	*
+	* @return the types IDs of this campaign event
+	*/
+	@Override
+	public java.lang.String getTypesIds() {
+		return _campaignEvent.getTypesIds();
 	}
 
 	/**
@@ -1368,6 +1360,22 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEventStatus> getStatusHistory() {
 		return _campaignEvent.getStatusHistory();
+	}
+
+	/**
+	* Retourne les thèmes
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes() {
+		return _campaignEvent.getThemes();
+	}
+
+	/**
+	* Retourne les thèmes
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _campaignEvent.getTypes();
 	}
 
 	/**
@@ -2129,13 +2137,13 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the theme ID of this campaign event.
+	* Sets the themes IDs of this campaign event.
 	*
-	* @param themeId the theme ID of this campaign event
+	* @param themesIds the themes IDs of this campaign event
 	*/
 	@Override
-	public void setThemeId(java.lang.Long themeId) {
-		_campaignEvent.setThemeId(themeId);
+	public void setThemesIds(java.lang.String themesIds) {
+		_campaignEvent.setThemesIds(themesIds);
 	}
 
 	/**
@@ -2200,13 +2208,13 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the type ID of this campaign event.
+	* Sets the types IDs of this campaign event.
 	*
-	* @param typeId the type ID of this campaign event
+	* @param typesIds the types IDs of this campaign event
 	*/
 	@Override
-	public void setTypeId(java.lang.Long typeId) {
-		_campaignEvent.setTypeId(typeId);
+	public void setTypesIds(java.lang.String typesIds) {
+		_campaignEvent.setTypesIds(typesIds);
 	}
 
 	/**

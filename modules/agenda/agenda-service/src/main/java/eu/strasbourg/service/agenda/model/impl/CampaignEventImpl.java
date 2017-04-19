@@ -17,6 +17,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
@@ -262,14 +264,47 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	/**
-	 * Retourne la catégorie thème
+	 * Retourne les thèmes
 	 */
 	@Override
-	public AssetCategory getTheme() {
-		long themeId = this.getThemeId();
-		AssetCategory theme = AssetCategoryLocalServiceUtil
-			.fetchAssetCategory(themeId);
-		return theme;
+	public List<AssetCategory> getThemes() {
+		List<AssetCategory> themes = new ArrayList<AssetCategory>();
+		String themesIds = this.getThemesIds();
+		if (Validator.isNotNull(themesIds)) {
+			for (String themeIdString : themesIds.split(",")) {
+				long themeId = GetterUtil.getLong(themeIdString);
+				if (themeId > 0) {
+					AssetCategory theme = AssetCategoryLocalServiceUtil
+						.fetchAssetCategory(themeId);
+					if (theme != null) {
+						themes.add(theme);
+					}
+				}
+			}
+		}
+		return themes;
+	}
+
+	/**
+	 * Retourne les thèmes
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		List<AssetCategory> types = new ArrayList<AssetCategory>();
+		String typesIds = this.getTypesIds();
+		if (Validator.isNotNull(typesIds)) {
+			for (String typeIdString : typesIds.split(",")) {
+				long typeId = GetterUtil.getLong(typeIdString);
+				if (typeId > 0) {
+					AssetCategory type = AssetCategoryLocalServiceUtil
+						.fetchAssetCategory(typeId);
+					if (type != null) {
+						types.add(type);
+					}
+				}
+			}
+		}
+		return types;
 	}
 
 	/**
@@ -305,8 +340,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl",
-				context, userMailAddress);
+			sendMail("deletion-approved-subject-template.ftl",
+				"deletion-approved-template.ftl", context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
@@ -416,7 +451,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		StringWriter bodyWriter = new StringWriter();
 		subjectTemplate.process(context, subjectWriter);
 		bodyTemplate.process(context, bodyWriter);
-		MailHelper.sendMailWithHTML("no-reply@no-replay-strasbourg.eu", mail,
+		MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mail,
 			subjectWriter.toString(), bodyWriter.toString());
 	}
 
@@ -586,19 +621,27 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			jsonEvent.put("manifestations", jsonManifestations);
 		}
 
-		// Thème
+		// Thèmes
 		JSONArray jsonThemes = JSONFactoryUtil.createJSONArray();
-		if (this.getThemeId() > 0) {
-			jsonThemes.put(this.getThemeId());
+		List<AssetCategory> themes = this.getThemes();
+		for (AssetCategory theme : themes) {
+			String externalId = AssetVocabularyHelper.getExternalId(theme);
+			if (Validator.isNotNull(externalId)) {
+				jsonThemes.put(externalId);
+			}
 		}
 		if (jsonThemes.length() > 0) {
 			jsonEvent.put("themes", jsonThemes);
 		}
 
-		// Type
+		// Types
 		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-		if (this.getTypeId() > 0) {
-			jsonTypes.put(this.getTypeId());
+		List<AssetCategory> types = this.getTypes();
+		for (AssetCategory type : types) {
+			String externalId = AssetVocabularyHelper.getExternalId(type);
+			if (Validator.isNotNull(externalId)) {
+				jsonTypes.put(externalId);
+			}
 		}
 		if (jsonTypes.length() > 0) {
 			jsonEvent.put("types", jsonTypes);
@@ -606,8 +649,13 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Territoire
 		JSONArray jsonTerritories = JSONFactoryUtil.createJSONArray();
-		if (this.getPlaceCityId() > 0) {
-			jsonTerritories.put(this.getPlaceCityId());
+		AssetCategory territory = AssetCategoryLocalServiceUtil
+			.fetchAssetCategory(this.getPlaceCityId());
+		if (territory != null) {
+			String externalId = AssetVocabularyHelper.getExternalId(territory);
+			if (Validator.isNotNull(externalId)) {
+				jsonTerritories.put(externalId);
+			}
 		}
 		if (jsonTerritories.length() > 0) {
 			jsonEvent.put("territories", jsonTerritories);
@@ -617,8 +665,14 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
 		for (String publicIdStr : this.getPublicsIds().split(",")) {
 			Long publicId = GetterUtil.getLong(publicIdStr);
-			if (publicId > 0) {
-				jsonPublics.put(publicId);
+			AssetCategory eventPublic = AssetCategoryLocalServiceUtil
+				.fetchAssetCategory(publicId);
+			if (eventPublic != null) {
+				String externalId = AssetVocabularyHelper
+					.getExternalId(eventPublic);
+				if (Validator.isNotNull(externalId)) {
+					jsonPublics.put(externalId);
+				}
 			}
 		}
 		if (jsonPublics.length() > 0) {
@@ -627,8 +681,13 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Services
 		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
-		if (this.getServiceId() > 0) {
-			jsonServices.put(this.getServiceId());
+		AssetCategory service = AssetCategoryLocalServiceUtil
+			.fetchAssetCategory(this.getServiceId());
+		if (service != null) {
+			String externalId = AssetVocabularyHelper.getExternalId(service);
+			if (Validator.isNotNull(externalId)) {
+				jsonServices.put(externalId);
+			}
 		}
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);

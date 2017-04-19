@@ -23,10 +23,12 @@ import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -44,7 +46,8 @@ import java.util.Map;
  * @generated
  */
 @ProviderType
-public interface PriceModel extends BaseModel<Price>, LocalizedModel {
+public interface PriceModel extends BaseModel<Price>, LocalizedModel,
+	WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -93,6 +96,87 @@ public interface PriceModel extends BaseModel<Price>, LocalizedModel {
 	 * @param priceId the price ID of this price
 	 */
 	public void setPriceId(long priceId);
+
+	/**
+	 * Returns the status of this price.
+	 *
+	 * @return the status of this price
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this price.
+	 *
+	 * @param status the status of this price
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this price.
+	 *
+	 * @return the status by user ID of this price
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this price.
+	 *
+	 * @param statusByUserId the status by user ID of this price
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this price.
+	 *
+	 * @return the status by user uuid of this price
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this price.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this price
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this price.
+	 *
+	 * @return the status by user name of this price
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this price.
+	 *
+	 * @param statusByUserName the status by user name of this price
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this price.
+	 *
+	 * @return the status date of this price
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this price.
+	 *
+	 * @param statusDate the status date of this price
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the title of this price.
@@ -291,6 +375,70 @@ public interface PriceModel extends BaseModel<Price>, LocalizedModel {
 	 * @param defaultLocale the default locale
 	 */
 	public void setPriceMap(Map<Locale, String> priceMap, Locale defaultLocale);
+
+	/**
+	 * Returns <code>true</code> if this price is approved.
+	 *
+	 * @return <code>true</code> if this price is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this price is denied.
+	 *
+	 * @return <code>true</code> if this price is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this price is a draft.
+	 *
+	 * @return <code>true</code> if this price is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this price is expired.
+	 *
+	 * @return <code>true</code> if this price is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this price is inactive.
+	 *
+	 * @return <code>true</code> if this price is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this price is incomplete.
+	 *
+	 * @return <code>true</code> if this price is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this price is pending.
+	 *
+	 * @return <code>true</code> if this price is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this price is scheduled.
+	 *
+	 * @return <code>true</code> if this price is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

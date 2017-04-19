@@ -1404,6 +1404,10 @@ public class SubPlacePersistenceImpl extends BasePersistenceImpl<SubPlace>
 
 		subPlaceImpl.setUuid(subPlace.getUuid());
 		subPlaceImpl.setSubPlaceId(subPlace.getSubPlaceId());
+		subPlaceImpl.setStatus(subPlace.getStatus());
+		subPlaceImpl.setStatusByUserId(subPlace.getStatusByUserId());
+		subPlaceImpl.setStatusByUserName(subPlace.getStatusByUserName());
+		subPlaceImpl.setStatusDate(subPlace.getStatusDate());
 		subPlaceImpl.setName(subPlace.getName());
 		subPlaceImpl.setDescription(subPlace.getDescription());
 		subPlaceImpl.setPlaceId(subPlace.getPlaceId());

@@ -32,6 +32,7 @@
 				<#if !is_signed_in>
 					<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow"><@liferay_ui.message key="eu.login" /></a>
 				<#else>
+					<span style="color:white;padding-right: 90px;"><@liferay.language key="welcome" /> ${user_name} </span>
 					<a data-redirect="${is_login_redirect_required?string}" href="/c/portal/logout" id="sign-out" rel="nofollow"><@liferay_ui.message key="eu.logout" /></a>
 				</#if>
 			</div>
@@ -42,7 +43,7 @@
 <div id="wrapper">
 	<header class="main-header">
 		<div class="container-fluid-1280">
-			Plateforme de proposition d'événements
+			Plateforme de saisie d'événements
 		</div>
 	</header>
 

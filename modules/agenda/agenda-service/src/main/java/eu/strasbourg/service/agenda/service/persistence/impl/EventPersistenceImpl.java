@@ -3670,6 +3670,1092 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		"event.publicationDate < ? AND ";
 	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
 		"event.status = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_LASTENDDATE =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLastEndDate",
+			new String[] {
+				Date.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_LASTENDDATE =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLastEndDate",
+			new String[] { Date.class.getName() });
+
+	/**
+	 * Returns all the events where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @return the matching events
+	 */
+	@Override
+	public List<Event> findByLastEndDate(Date lastEndDate) {
+		return findByLastEndDate(lastEndDate, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the events where lastEndDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param lastEndDate the last end date
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @return the range of matching events
+	 */
+	@Override
+	public List<Event> findByLastEndDate(Date lastEndDate, int start, int end) {
+		return findByLastEndDate(lastEndDate, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param lastEndDate the last end date
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByLastEndDate(Date lastEndDate, int start, int end,
+		OrderByComparator<Event> orderByComparator) {
+		return findByLastEndDate(lastEndDate, start, end, orderByComparator,
+			true);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param lastEndDate the last end date
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByLastEndDate(Date lastEndDate, int start, int end,
+		OrderByComparator<Event> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_LASTENDDATE;
+		finderArgs = new Object[] { lastEndDate, start, end, orderByComparator };
+
+		List<Event> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Event>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Event event : list) {
+					if ((lastEndDate.getTime() <= event.getLastEndDate()
+														   .getTime())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_EVENT_WHERE);
+
+			boolean bindLastEndDate = false;
+
+			if (lastEndDate == null) {
+				query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+			}
+			else {
+				bindLastEndDate = true;
+
+				query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(EventModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindLastEndDate) {
+					qPos.add(new Timestamp(lastEndDate.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByLastEndDate_First(Date lastEndDate,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByLastEndDate_First(lastEndDate, orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("lastEndDate=");
+		msg.append(lastEndDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByLastEndDate_First(Date lastEndDate,
+		OrderByComparator<Event> orderByComparator) {
+		List<Event> list = findByLastEndDate(lastEndDate, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByLastEndDate_Last(Date lastEndDate,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByLastEndDate_Last(lastEndDate, orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("lastEndDate=");
+		msg.append(lastEndDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByLastEndDate_Last(Date lastEndDate,
+		OrderByComparator<Event> orderByComparator) {
+		int count = countByLastEndDate(lastEndDate);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Event> list = findByLastEndDate(lastEndDate, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63;.
+	 *
+	 * @param eventId the primary key of the current event
+	 * @param lastEndDate the last end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event
+	 * @throws NoSuchEventException if a event with the primary key could not be found
+	 */
+	@Override
+	public Event[] findByLastEndDate_PrevAndNext(long eventId,
+		Date lastEndDate, OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException {
+		Event event = findByPrimaryKey(eventId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Event[] array = new EventImpl[3];
+
+			array[0] = getByLastEndDate_PrevAndNext(session, event,
+					lastEndDate, orderByComparator, true);
+
+			array[1] = event;
+
+			array[2] = getByLastEndDate_PrevAndNext(session, event,
+					lastEndDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Event getByLastEndDate_PrevAndNext(Session session, Event event,
+		Date lastEndDate, OrderByComparator<Event> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_EVENT_WHERE);
+
+		boolean bindLastEndDate = false;
+
+		if (lastEndDate == null) {
+			query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+		}
+		else {
+			bindLastEndDate = true;
+
+			query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(EventModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindLastEndDate) {
+			qPos.add(new Timestamp(lastEndDate.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(event);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Event> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the events where lastEndDate &lt; &#63; from the database.
+	 *
+	 * @param lastEndDate the last end date
+	 */
+	@Override
+	public void removeByLastEndDate(Date lastEndDate) {
+		for (Event event : findByLastEndDate(lastEndDate, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(event);
+		}
+	}
+
+	/**
+	 * Returns the number of events where lastEndDate &lt; &#63;.
+	 *
+	 * @param lastEndDate the last end date
+	 * @return the number of matching events
+	 */
+	@Override
+	public int countByLastEndDate(Date lastEndDate) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_LASTENDDATE;
+
+		Object[] finderArgs = new Object[] { lastEndDate };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_EVENT_WHERE);
+
+			boolean bindLastEndDate = false;
+
+			if (lastEndDate == null) {
+				query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+			}
+			else {
+				bindLastEndDate = true;
+
+				query.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindLastEndDate) {
+					qPos.add(new Timestamp(lastEndDate.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1 = "event.lastEndDate IS NULL";
+	private static final String _FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2 = "event.lastEndDate < ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSDATEANDSTATUS =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByStatusDateAndStatus",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_STATUSDATEANDSTATUS =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByStatusDateAndStatus",
+			new String[] { Date.class.getName(), Integer.class.getName() });
+
+	/**
+	 * Returns all the events where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @return the matching events
+	 */
+	@Override
+	public List<Event> findByStatusDateAndStatus(Date statusDate, int status) {
+		return findByStatusDateAndStatus(statusDate, status, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the events where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @return the range of matching events
+	 */
+	@Override
+	public List<Event> findByStatusDateAndStatus(Date statusDate, int status,
+		int start, int end) {
+		return findByStatusDateAndStatus(statusDate, status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByStatusDateAndStatus(Date statusDate, int status,
+		int start, int end, OrderByComparator<Event> orderByComparator) {
+		return findByStatusDateAndStatus(statusDate, status, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByStatusDateAndStatus(Date statusDate, int status,
+		int start, int end, OrderByComparator<Event> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSDATEANDSTATUS;
+		finderArgs = new Object[] {
+				statusDate, status,
+				
+				start, end, orderByComparator
+			};
+
+		List<Event> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Event>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Event event : list) {
+					if ((statusDate.getTime() <= event.getStatusDate().getTime()) ||
+							(status != event.getStatus())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_EVENT_WHERE);
+
+			boolean bindStatusDate = false;
+
+			if (statusDate == null) {
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+			}
+			else {
+				bindStatusDate = true;
+
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(EventModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStatusDate) {
+					qPos.add(new Timestamp(statusDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByStatusDateAndStatus_First(Date statusDate, int status,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByStatusDateAndStatus_First(statusDate, status,
+				orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("statusDate=");
+		msg.append(statusDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByStatusDateAndStatus_First(Date statusDate, int status,
+		OrderByComparator<Event> orderByComparator) {
+		List<Event> list = findByStatusDateAndStatus(statusDate, status, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByStatusDateAndStatus_Last(Date statusDate, int status,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByStatusDateAndStatus_Last(statusDate, status,
+				orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("statusDate=");
+		msg.append(statusDate);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByStatusDateAndStatus_Last(Date statusDate, int status,
+		OrderByComparator<Event> orderByComparator) {
+		int count = countByStatusDateAndStatus(statusDate, status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Event> list = findByStatusDateAndStatus(statusDate, status,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the events before and after the current event in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param eventId the primary key of the current event
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event
+	 * @throws NoSuchEventException if a event with the primary key could not be found
+	 */
+	@Override
+	public Event[] findByStatusDateAndStatus_PrevAndNext(long eventId,
+		Date statusDate, int status, OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException {
+		Event event = findByPrimaryKey(eventId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Event[] array = new EventImpl[3];
+
+			array[0] = getByStatusDateAndStatus_PrevAndNext(session, event,
+					statusDate, status, orderByComparator, true);
+
+			array[1] = event;
+
+			array[2] = getByStatusDateAndStatus_PrevAndNext(session, event,
+					statusDate, status, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Event getByStatusDateAndStatus_PrevAndNext(Session session,
+		Event event, Date statusDate, int status,
+		OrderByComparator<Event> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_EVENT_WHERE);
+
+		boolean bindStatusDate = false;
+
+		if (statusDate == null) {
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+		}
+		else {
+			bindStatusDate = true;
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+		}
+
+		query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(EventModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindStatusDate) {
+			qPos.add(new Timestamp(statusDate.getTime()));
+		}
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(event);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Event> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the events where statusDate &lt; &#63; and status = &#63; from the database.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 */
+	@Override
+	public void removeByStatusDateAndStatus(Date statusDate, int status) {
+		for (Event event : findByStatusDateAndStatus(statusDate, status,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(event);
+		}
+	}
+
+	/**
+	 * Returns the number of events where statusDate &lt; &#63; and status = &#63;.
+	 *
+	 * @param statusDate the status date
+	 * @param status the status
+	 * @return the number of matching events
+	 */
+	@Override
+	public int countByStatusDateAndStatus(Date statusDate, int status) {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_STATUSDATEANDSTATUS;
+
+		Object[] finderArgs = new Object[] { statusDate, status };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_EVENT_WHERE);
+
+			boolean bindStatusDate = false;
+
+			if (statusDate == null) {
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1);
+			}
+			else {
+				bindStatusDate = true;
+
+				query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2);
+			}
+
+			query.append(_FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindStatusDate) {
+					qPos.add(new Timestamp(statusDate.getTime()));
+				}
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_1 = "event.statusDate IS NULL AND ";
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUSDATE_2 = "event.statusDate < ? AND ";
+	private static final String _FINDER_COLUMN_STATUSDATEANDSTATUS_STATUS_2 = "event.status = ?";
 	public static final FinderPath FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE = new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
 			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchBySourceAndIdSource",
@@ -4203,6 +5289,550 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_1 = "event.idSource IS NULL";
 	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_2 = "event.idSource = ?";
 	private static final String _FINDER_COLUMN_IDSOURCE_IDSOURCE_3 = "(event.idSource IS NULL OR event.idSource = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACESIGID =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceSIGId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID =
+		new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, EventImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceSIGId",
+			new String[] { String.class.getName() },
+			EventModelImpl.PLACESIGID_COLUMN_BITMASK |
+			EventModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PLACESIGID = new FinderPath(EventModelImpl.ENTITY_CACHE_ENABLED,
+			EventModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceSIGId",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the events where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @return the matching events
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId) {
+		return findByPlaceSIGId(placeSIGId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the events where placeSIGId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @return the range of matching events
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId, int start, int end) {
+		return findByPlaceSIGId(placeSIGId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where placeSIGId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId, int start, int end,
+		OrderByComparator<Event> orderByComparator) {
+		return findByPlaceSIGId(placeSIGId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the events where placeSIGId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param start the lower bound of the range of events
+	 * @param end the upper bound of the range of events (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching events
+	 */
+	@Override
+	public List<Event> findByPlaceSIGId(String placeSIGId, int start, int end,
+		OrderByComparator<Event> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID;
+			finderArgs = new Object[] { placeSIGId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACESIGID;
+			finderArgs = new Object[] { placeSIGId, start, end, orderByComparator };
+		}
+
+		List<Event> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Event>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Event event : list) {
+					if (!Objects.equals(placeSIGId, event.getPlaceSIGId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_EVENT_WHERE);
+
+			boolean bindPlaceSIGId = false;
+
+			if (placeSIGId == null) {
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_1);
+			}
+			else if (placeSIGId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_3);
+			}
+			else {
+				bindPlaceSIGId = true;
+
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(EventModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPlaceSIGId) {
+					qPos.add(placeSIGId);
+				}
+
+				if (!pagination) {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Event>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event in the ordered set where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByPlaceSIGId_First(String placeSIGId,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByPlaceSIGId_First(placeSIGId, orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("placeSIGId=");
+		msg.append(placeSIGId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event in the ordered set where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByPlaceSIGId_First(String placeSIGId,
+		OrderByComparator<Event> orderByComparator) {
+		List<Event> list = findByPlaceSIGId(placeSIGId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event in the ordered set where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event
+	 * @throws NoSuchEventException if a matching event could not be found
+	 */
+	@Override
+	public Event findByPlaceSIGId_Last(String placeSIGId,
+		OrderByComparator<Event> orderByComparator) throws NoSuchEventException {
+		Event event = fetchByPlaceSIGId_Last(placeSIGId, orderByComparator);
+
+		if (event != null) {
+			return event;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("placeSIGId=");
+		msg.append(placeSIGId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event in the ordered set where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event, or <code>null</code> if a matching event could not be found
+	 */
+	@Override
+	public Event fetchByPlaceSIGId_Last(String placeSIGId,
+		OrderByComparator<Event> orderByComparator) {
+		int count = countByPlaceSIGId(placeSIGId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Event> list = findByPlaceSIGId(placeSIGId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the events before and after the current event in the ordered set where placeSIGId = &#63;.
+	 *
+	 * @param eventId the primary key of the current event
+	 * @param placeSIGId the place s i g ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event
+	 * @throws NoSuchEventException if a event with the primary key could not be found
+	 */
+	@Override
+	public Event[] findByPlaceSIGId_PrevAndNext(long eventId,
+		String placeSIGId, OrderByComparator<Event> orderByComparator)
+		throws NoSuchEventException {
+		Event event = findByPrimaryKey(eventId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Event[] array = new EventImpl[3];
+
+			array[0] = getByPlaceSIGId_PrevAndNext(session, event, placeSIGId,
+					orderByComparator, true);
+
+			array[1] = event;
+
+			array[2] = getByPlaceSIGId_PrevAndNext(session, event, placeSIGId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Event getByPlaceSIGId_PrevAndNext(Session session, Event event,
+		String placeSIGId, OrderByComparator<Event> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_EVENT_WHERE);
+
+		boolean bindPlaceSIGId = false;
+
+		if (placeSIGId == null) {
+			query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_1);
+		}
+		else if (placeSIGId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_3);
+		}
+		else {
+			bindPlaceSIGId = true;
+
+			query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(EventModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPlaceSIGId) {
+			qPos.add(placeSIGId);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(event);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Event> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the events where placeSIGId = &#63; from the database.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 */
+	@Override
+	public void removeByPlaceSIGId(String placeSIGId) {
+		for (Event event : findByPlaceSIGId(placeSIGId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(event);
+		}
+	}
+
+	/**
+	 * Returns the number of events where placeSIGId = &#63;.
+	 *
+	 * @param placeSIGId the place s i g ID
+	 * @return the number of matching events
+	 */
+	@Override
+	public int countByPlaceSIGId(String placeSIGId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PLACESIGID;
+
+		Object[] finderArgs = new Object[] { placeSIGId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_EVENT_WHERE);
+
+			boolean bindPlaceSIGId = false;
+
+			if (placeSIGId == null) {
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_1);
+			}
+			else if (placeSIGId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_3);
+			}
+			else {
+				bindPlaceSIGId = true;
+
+				query.append(_FINDER_COLUMN_PLACESIGID_PLACESIGID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPlaceSIGId) {
+					qPos.add(placeSIGId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PLACESIGID_PLACESIGID_1 = "event.placeSIGId IS NULL";
+	private static final String _FINDER_COLUMN_PLACESIGID_PLACESIGID_2 = "event.placeSIGId = ?";
+	private static final String _FINDER_COLUMN_PLACESIGID_PLACESIGID_3 = "(event.placeSIGId IS NULL OR event.placeSIGId = '')";
 
 	public EventPersistenceImpl() {
 		setModelClass(Event.class);
@@ -4667,6 +6297,23 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDTITLE,
 					args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE,
+					args);
+			}
+
+			if ((eventModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						eventModelImpl.getOriginalPlaceSIGId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACESIGID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID,
+					args);
+
+				args = new Object[] { eventModelImpl.getPlaceSIGId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACESIGID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID,
 					args);
 			}
 		}

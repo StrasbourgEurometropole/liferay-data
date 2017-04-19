@@ -15,6 +15,8 @@
 package eu.strasbourg.service.agenda.service.impl;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -100,7 +102,8 @@ public class ManifestationLocalServiceImpl
 		manifestation.setGroupId(sc.getScopeGroupId());
 		manifestation.setUserName(user.getFullName());
 		manifestation.setUserId(sc.getUserId());
-		manifestation.setIdSource(String.valueOf(manifestation.getManifestationId()));
+		manifestation
+			.setIdSource(String.valueOf(manifestation.getManifestationId()));
 
 		manifestation.setStatus(WorkflowConstants.STATUS_DRAFT);
 
@@ -268,6 +271,36 @@ public class ManifestationLocalServiceImpl
 	}
 
 	/**
+	 * Dépublie les manifestations dont la date de fin est dépassée
+	 */
+	@Override
+	public void unpublishPastManifestations() throws PortalException {
+		List<Manifestation> manifestations = this.manifestationPersistence
+			.findByEndDate(new Date());
+		for (Manifestation manifestation : manifestations) {
+			if (manifestation.getStatus() != WorkflowConstants.STATUS_DRAFT) {
+				this.updateStatus(manifestation, WorkflowConstants.STATUS_DRAFT);
+			}
+		}
+	}
+
+	/**
+	 * Supprime les manifestations dépubliés depuis au moins un mois
+	 */
+	@Override
+	public void deleteOldUnpublishedManifestations() throws PortalException {
+		LocalDate oneMonthAgoLocalDate = LocalDate.now().minusMonths(1);
+		Date oneMonthAgo = Date.from(oneMonthAgoLocalDate
+			.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		List<Manifestation> manifestations = this.manifestationPersistence
+			.findByStatusDateAndStatus(oneMonthAgo,
+				WorkflowConstants.STATUS_DRAFT);
+		for (Manifestation manifestation : manifestations) {
+			this.removeManifestation(manifestation.getManifestationId());
+		}
+	}
+
+	/**
 	 * Delete an Event Manifestation
 	 * 
 	 * @param manifestationId
@@ -384,7 +417,8 @@ public class ManifestationLocalServiceImpl
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
+		dynamicQuery.add(PropertyFactoryUtil.forName("status")
+			.eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -400,7 +434,8 @@ public class ManifestationLocalServiceImpl
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(WorkflowConstants.STATUS_APPROVED));
+		dynamicQuery.add(PropertyFactoryUtil.forName("status")
+			.eq(WorkflowConstants.STATUS_APPROVED));
 
 		return eventPersistence.countWithDynamicQuery(dynamicQuery);
 	}
@@ -411,16 +446,18 @@ public class ManifestationLocalServiceImpl
 			.nullSafeGetIndexer(Manifestation.class);
 		return indexer.search(searchContext);
 	}
-	
+
 	@Override
-	public Manifestation findBySourceAndIdSource(String source, String idSource) {
+	public Manifestation findBySourceAndIdSource(String source,
+		String idSource) {
 		try {
-			return manifestationPersistence.findBySourceAndIdSource(source, idSource);
+			return manifestationPersistence.findBySourceAndIdSource(source,
+				idSource);
 		} catch (NoSuchManifestationException e) {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Manifestation findByIdSource(String idSource) {
 		try {

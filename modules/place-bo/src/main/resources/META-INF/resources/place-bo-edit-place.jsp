@@ -133,7 +133,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input name="presentation"  />
+				<aui:input name="presentation" />
 				<!-- Hack pour ajouter une validation sur la description -->
 				<div class="has-error">
 					<aui:input type="hidden" name="presentationValidatorInputHelper" value="placeholder">
@@ -156,8 +156,7 @@
 				</div>
 				
 				<aui:input name="characteristics" helpMessage="characteristics-help" />
-				<!-- Hack pour ajouter une validation sur les caract�ristiques -->
-==== BASE ====
+				<!-- Hack pour ajouter une validation sur les caractéristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
@@ -194,35 +193,34 @@
 							<aui:validator name="email"/>
 						</aui:input>
 						
-						<aui:input name="siteLabel" id="siteLabel" >
-							<aui:validator name="required"
-								errorMessage="site-label-is-required" />
-						</aui:input>
-						
-						<aui:input name="siteURL" id="siteURL" >
-						 	<aui:validator name="url"/>
-							<aui:validator name="required"
-								errorMessage="site-url-is-required" />
-						</aui:input>
+						<div id="site">
+							<aui:input name="siteLabel" >
+								<aui:validator name="required" errorMessage="this-field-is-required" />
+							</aui:input>
+							
+							<aui:input name="siteURL" >
+							 	<aui:validator name="url"/>
+								<aui:validator name="required" errorMessage="this-field-is-required" />
+							</aui:input>
+						</div>
 						
 						<aui:input name="facebookLabel" >
-					        <aui:validator name="require" errorMessage="facebook-label-required" />
+					        <aui:validator name="require" errorMessage="this-field-is-required" />
 						</aui:input>
 						
 						<aui:input name="facebookURL">
 							<aui:validator name="url"/>
-							<aui:validator name="require" errorMessage="facebook-url-required" />
+							<aui:validator name="require" errorMessage="this-field-is-required" />
 						</aui:input>		
 
 			</aui:fieldset>
 				
-			<!-- Accès -->
+			<!-- Accés -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
 				<aui:input name="access" label="access-mod" helpMessage="access-mod-help" />
-				<!-- Hack pour ajouter une validation sur le mode d'acc�s -->
-==== BASE ====
+				<!-- Hack pour ajouter une validation sur le mode d'accès -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessValidatorInputHelper" value="placeholder"/>
 				</div>		
@@ -237,11 +235,11 @@
 				</div>	
 						
 				<div class="checkbox">
-					<aui:input name="accessForBlind" type="checkbox" value="${dc.place.accessForBlind}" helpMessage="acces-for-disabled-help" />
-					<aui:input name="accessForDeaf" type="checkbox" value="${dc.place.accessForDeaf}" helpMessage="acces-for-disabled-help" />
-					<aui:input name="accessForWheelchair" type="checkbox" value="${dc.place.accessForWheelchair}" helpMessage="acces-for-disabled-help" />
-					<aui:input name="accessForElder" type="checkbox" value="${dc.place.accessForElder}" helpMessage="acces-for-disabled-help" />
-					<aui:input name="accessForDeficient" type="checkbox" value="${dc.place.accessForDeficient}" helpMessage="acces-for-disabled-help" />
+					<div style="position:relative"><aui:input name="accessForBlind" type="checkbox" value="${dc.place.accessForBlind}" helpMessage="acces-for-disabled-help" /></div>
+					<div style="position:relative"><aui:input name="accessForDeaf" type="checkbox" value="${dc.place.accessForDeaf}" helpMessage="acces-for-disabled-help" /></div>
+					<div style="position:relative"><aui:input name="accessForWheelchair" type="checkbox" value="${dc.place.accessForWheelchair}" helpMessage="acces-for-disabled-help" /></div>
+					<div style="position:relative"><aui:input name="accessForElder" type="checkbox" value="${dc.place.accessForElder}" helpMessage="acces-for-disabled-help" /></div>
+					<div style="position:relative"><aui:input name="accessForDeficient" type="checkbox" value="${dc.place.accessForDeficient}" helpMessage="acces-for-disabled-help" /></div>
 				</div>
 				
 			</aui:fieldset>
@@ -253,74 +251,84 @@
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
-				
-					<div id="date-fields2">
-						<c:if test="${empty dc.place.periods}">
-							<div class="lfr-form-row lfr-form-row-inline period">
-								<div class="row-fields">
-									<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="1" />
-									</liferay-util:include>
-								</div>
-							</div>
-						</c:if>
 					
+					<aui:input name="periodsIndexes" type="hidden" />
+				
+				    <div class="nav-tabs">
+				        <ul class="nav nav-tabs" role="tablist">
+							<c:set var="nbPeriod" value="0"/>
+							<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+				            	<li role="presentation"
+				            		<c:if test="${status.count == 1}">
+				            			class="active"
+				            		</c:if>
+				            	 id="onglet${nbPeriod}" >
+				            		<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
+					            		<liferay-ui:message key="period" /> ${status.count} 
+					            		<span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+					            	</a>
+				            	</li>
+								<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
+							</c:forEach>
+			            	<li role="presentation"
+			            		<c:if test="${empty dc.place.periods}">
+			            			class="active"
+			            		</c:if>
+			            	 id="addPeriod" >
+			            		<a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
+			            	</li>
+				        </ul>
+				    </div>
+				
+				    <div class="tab-content">
+						<aui:input name="nbPeriod" type="hidden" value="${nbPeriod}" />
 						<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-							<div class="lfr-form-row lfr-form-row-inline period">
-								<div class="row-fields">
-									<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
-									<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
-									<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="${status.count}" />
-										<liferay-util:param name="name" value="${period.name}" />
-										<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
-										<liferay-util:param name="startDate" value="${formattedStartDate}" />
-										<liferay-util:param name="endDate" value="${formattedEndDate}" />
-										<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
-										<liferay-util:param name="linkURL" value="${period.linkURL}" />
-										<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
-										<liferay-util:param name="periodId" value="${period.periodId}" />
-										<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
-										<c:set var="slotJour" value="" />
-										<c:set var="slotStartHour" value="" />
-										<c:set var="slotEndHour" value="" />
-										<c:forEach items="${period.slots}" var="slot">
-											<c:if test="${not empty slotJour}">
-												<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
-												<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
-												<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
-											</c:if>
-											<c:if test="${empty slotJour}">
-												<c:set var="slotJour" value="${slot.dayOfWeek}" />
-												<c:set var="slotStartHour" value="${slot.startHour}" />
-												<c:set var="slotEndHour" value="${slot.endHour}" />
-											</c:if>
-										</c:forEach>
-										<liferay-util:param name="slotJours" value="${slotJour}" />
-										<liferay-util:param name="slotStartHours" value="${slotStartHour}" />
-										<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
-									</liferay-util:include>
-								</div>
-							</div>
+							<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+								<liferay-util:param name="index" value="${status.count - 1}" />
+								<liferay-util:param name="name" value="${period.name}" />
+								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
+								<liferay-util:param name="startDate" value="${formattedStartDate}" />
+								<liferay-util:param name="endDate" value="${formattedEndDate}" />
+								<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
+								<liferay-util:param name="linkURL" value="${period.linkURL}" />
+								<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
+								<liferay-util:param name="periodId" value="${period.periodId}" />
+								<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
+								<c:set var="slotJour" value="" />
+								<c:set var="slotStartHour" value="" />
+								<c:set var="slotEndHour" value="" />
+								<c:forEach items="${period.slots}" var="slot">
+									<c:if test="${not empty slotJour}">
+										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
+										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
+										<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
+									</c:if>
+									<c:if test="${empty slotJour}">
+										<c:set var="slotJour" value="${slot.dayOfWeek}" />
+										<c:set var="slotStartHour" value="${slot.startHour}" />
+										<c:set var="slotEndHour" value="${slot.endHour}" />
+									</c:if>
+								</c:forEach>
+								<liferay-util:param name="slotJours" value="${slotJour}" />
+								<liferay-util:param name="slotStartHours" value="${slotStartHour}" />
+								<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
+							</liferay-util:include>
 						</c:forEach>
-						<c:if test="${empty dc.place.periods}">
-							<aui:input type="hidden" name="periodsIndexes" value="1" />
-						</c:if>
-						<c:if test="${not empty dc.place.periods}">
-							<aui:input type="hidden" name="periodsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.periods))}" />
-						</c:if>
-					</div>
+						<div role="tabpanel" 
+							<c:if test="${empty dc.place.periods}">
+								class="tab-pane active fade in"
+							</c:if>
+							<c:if test="${not empty dc.place.periods}">
+								class="tab-pane fade in"
+							</c:if>
+						id="noPeriod">
+							<liferay-ui:message key="no-period" />
+						</div>
+				    </div>
 					
 				</aui:fieldset>
-				
-				<!-- Horaires particuliers -->
-				<div class="schedule-exception">
-					<aui:input name="exceptionalSchedule" label="exceptional-schedule" />
-					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
-					<div class="has-error">
-						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
-					</div>
-				</div>	
 					
 				<!-- Fermetures exceptionnelles -->
 				<aui:fieldset collapsed="false" collapsible="true"
@@ -363,6 +371,15 @@
 					</div>
 					
 				</aui:fieldset>
+				
+				<!-- Horaires particuliers -->
+				<div class="schedule-exception">
+					<aui:input name="exceptionalSchedule" label="exceptionals-schedules" />
+					<!-- Hack pour ajouter une validation sur les horaires particuliers -->
+					<div class="has-error">
+						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
+					</div>
+				</div>	
 					
 			</aui:fieldset>
 				
@@ -381,16 +398,24 @@
 			</aui:fieldset>
 				
 			<!-- Fréquentation temps réel -->
-			<aui:fieldset collapsed="false" collapsible="true"
-				label="attendance">
-				
-				<aui:input name="RTExternalId" />
-				<aui:input name="RTGreenThreshold" />
-				<aui:input name="RTOrangeThreshold" />
-				<aui:input name="RTRedThreshold" />
-				<aui:input name="RTMaxThreshold" />
-				
-			</aui:fieldset>
+			
+			<c:if test="${dc.place.isEnabled()}">
+				<aui:fieldset collapsed="false" collapsible="true"
+					label="attendance" >
+					<aui:input name="RTExternalId" />
+							
+					<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+						<liferay-util:include page="/includes/attendance-row.jsp" servletContext="<%=application %>">
+							<liferay-util:param name="indexPeriod" value="${status.count -1}" />
+							<liferay-util:param name="name" value="${period.nameCurrentValue}" />
+							<liferay-util:param name="green" value="${period.RTGreenThreshold}" />
+							<liferay-util:param name="orange" value="${period.RTOrangeThreshold}" />
+							<liferay-util:param name="red" value="${period.RTRedThreshold}" />
+							<liferay-util:param name="max" value="${period.RTMaxThreshold}" />
+						</liferay-util:include>
+					</c:forEach>
+				</aui:fieldset>
+			</c:if>
 				
 			<!-- Sous lieux -->
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -398,21 +423,27 @@
 				
 				<ul class="full-borders tabular-list-group">
 				
-					<li class="list-group-item">
+					<li class="list-group-item2">
 						<div class="list-group-item-content">
-							<liferay-ui:message key="sub-place" />
+							<h2><liferay-ui:message key="sub-place" /></h2>
 						</div>
 						<div class="list-group-item-content">
-							<liferay-ui:message key="delete" />
+							<h2><liferay-ui:message key="delete" /></h2>
 						</div>
 					</li>
 					<c:forEach var="subPlace" items="${dc.place.subPlaces}">
-						<li class="list-group-item">
+						<li class="list-group-item2">
 							<div class="list-group-item-content">
-								${subPlace.name}
+								<liferay-portlet:renderURL varImpl="editSubPlaceURL">
+									<portlet:param name="cmd" value="editSubPlace" />
+									<portlet:param name="tab" value="subPlaces" />
+									<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
+									<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+								</liferay-portlet:renderURL>
+								<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
 							</div>
 							<div class="list-group-item-content">
-								<aui:input name="suppression" label="" type="checkbox" value="${subPlace.subPlaceId}" />
+								<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
 							</div>
 						</li>
 					</c:forEach>
@@ -451,8 +482,11 @@
 
 <liferay-util:html-top>
 	<script>
-		var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
-		var getperiodRowJSPURL = '${periodRowURL}';
+	var getperiodRowJSPURL = '${periodRowURL}';
+	var getslotRowJSPURL = '${slotRowURL}';
+	var getattendanceRowJSPURL = '${attendanceRowURL}';
+	
+	var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>

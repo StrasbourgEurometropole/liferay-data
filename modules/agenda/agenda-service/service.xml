@@ -97,12 +97,22 @@
 			<finder-column comparator="&lt;" name="publicationDate" />
 			<finder-column name="status" />
 		</finder>
+		<finder name="LastEndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="lastEndDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
+			<finder-column name="status" />
+		</finder>
 		<finder name="SourceAndIdSource" return-type="Event">
 			<finder-column name="source" />
 			<finder-column name="idSource" />
 		</finder>
 		<finder name="IdSource" return-type="Event">
 			<finder-column name="idSource" />
+		</finder>
+		<finder name="PlaceSIGId" return-type="Collection">
+			<finder-column name="placeSIGId" />
 		</finder>
 		
 
@@ -164,6 +174,13 @@
 		</finder>
 		<finder name="PublicationDateAndStatus" return-type="Collection">
 			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="EndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="endDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
 			<finder-column name="status" />
 		</finder>
 		<finder name="SourceAndIdSource" return-type="Manifestation">
@@ -300,8 +317,8 @@
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
 		<column name="campaignId" type="Long" />
-		<column name="themeId" type="Long" />
-		<column name="typeId" type="Long" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
 		<column name="publicsIds" type="String" />
 		
 		<!-- Finder methods -->

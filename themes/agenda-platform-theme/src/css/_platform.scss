@@ -1,4 +1,7 @@
 // Pas de décallage du wrapper
+.control-menu {
+	position: static !important;
+}
 body.open #wrapper {
   padding-left: 0 !important;
 }
@@ -265,4 +268,20 @@ header.main-header {
       padding: 0 20px;
     }
   }
+}
+
+// Inscription
+.portlet-login {
+	.portlet-title-text {
+		display: none;
+	}
+	
+	[name$=middleName], [for$=middleName],
+	[name$=languageId], [for$=languageId],
+	[name$=suffixValue], [for$=suffixValue],
+	[name$=birthday], [for$=birthday],
+	[name$=prefixValue], [for$=prefixValue] {
+		display: none;
+	}
+	
 }

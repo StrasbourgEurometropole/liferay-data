@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -159,18 +159,12 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(accessForElder);
 		sb.append(", accessForDeficient=");
 		sb.append(accessForDeficient);
-		sb.append(", RTEnabled=");
-		sb.append(RTEnabled);
 		sb.append(", RTExternalId=");
 		sb.append(RTExternalId);
-		sb.append(", RTGreenThreshold=");
-		sb.append(RTGreenThreshold);
-		sb.append(", RTOrangeThreshold=");
-		sb.append(RTOrangeThreshold);
-		sb.append(", RTRedThreshold=");
-		sb.append(RTRedThreshold);
-		sb.append(", RTMaxThreshold=");
-		sb.append(RTMaxThreshold);
+		sb.append(", occupation=");
+		sb.append(occupation);
+		sb.append(", occupationLastUpdate=");
+		sb.append(occupationLastUpdate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", imageIds=");
@@ -438,7 +432,6 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setAccessForWheelchair(accessForWheelchair);
 		placeImpl.setAccessForElder(accessForElder);
 		placeImpl.setAccessForDeficient(accessForDeficient);
-		placeImpl.setRTEnabled(RTEnabled);
 
 		if (RTExternalId == null) {
 			placeImpl.setRTExternalId(StringPool.BLANK);
@@ -447,10 +440,20 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setRTExternalId(RTExternalId);
 		}
 
-		placeImpl.setRTGreenThreshold(RTGreenThreshold);
-		placeImpl.setRTOrangeThreshold(RTOrangeThreshold);
-		placeImpl.setRTRedThreshold(RTRedThreshold);
-		placeImpl.setRTMaxThreshold(RTMaxThreshold);
+		if (occupation == null) {
+			placeImpl.setOccupation(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setOccupation(occupation);
+		}
+
+		if (occupationLastUpdate == Long.MIN_VALUE) {
+			placeImpl.setOccupationLastUpdate(null);
+		}
+		else {
+			placeImpl.setOccupationLastUpdate(new Date(occupationLastUpdate));
+		}
+
 		placeImpl.setImageId(imageId);
 
 		if (imageIds == null) {
@@ -542,17 +545,9 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		accessForElder = objectInput.readBoolean();
 
 		accessForDeficient = objectInput.readBoolean();
-
-		RTEnabled = objectInput.readBoolean();
 		RTExternalId = objectInput.readUTF();
-
-		RTGreenThreshold = objectInput.readLong();
-
-		RTOrangeThreshold = objectInput.readLong();
-
-		RTRedThreshold = objectInput.readLong();
-
-		RTMaxThreshold = objectInput.readLong();
+		occupation = objectInput.readUTF();
+		occupationLastUpdate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 		imageIds = objectInput.readUTF();
@@ -800,8 +795,6 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 		objectOutput.writeBoolean(accessForDeficient);
 
-		objectOutput.writeBoolean(RTEnabled);
-
 		if (RTExternalId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -809,13 +802,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(RTExternalId);
 		}
 
-		objectOutput.writeLong(RTGreenThreshold);
+		if (occupation == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(occupation);
+		}
 
-		objectOutput.writeLong(RTOrangeThreshold);
-
-		objectOutput.writeLong(RTRedThreshold);
-
-		objectOutput.writeLong(RTMaxThreshold);
+		objectOutput.writeLong(occupationLastUpdate);
 
 		objectOutput.writeLong(imageId);
 
@@ -889,12 +883,9 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public boolean accessForWheelchair;
 	public boolean accessForElder;
 	public boolean accessForDeficient;
-	public boolean RTEnabled;
 	public String RTExternalId;
-	public long RTGreenThreshold;
-	public long RTOrangeThreshold;
-	public long RTRedThreshold;
-	public long RTMaxThreshold;
+	public String occupation;
+	public long occupationLastUpdate;
 	public long imageId;
 	public String imageIds;
 	public String videosIds;

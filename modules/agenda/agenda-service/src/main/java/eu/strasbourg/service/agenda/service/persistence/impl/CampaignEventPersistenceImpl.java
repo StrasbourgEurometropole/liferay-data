@@ -2417,8 +2417,8 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 		campaignEventImpl.setFree(campaignEvent.getFree());
 		campaignEventImpl.setPrice(campaignEvent.getPrice());
 		campaignEventImpl.setCampaignId(campaignEvent.getCampaignId());
-		campaignEventImpl.setThemeId(campaignEvent.getThemeId());
-		campaignEventImpl.setTypeId(campaignEvent.getTypeId());
+		campaignEventImpl.setThemesIds(campaignEvent.getThemesIds());
+		campaignEventImpl.setTypesIds(campaignEvent.getTypesIds());
 		campaignEventImpl.setPublicsIds(campaignEvent.getPublicsIds());
 
 		return campaignEventImpl;

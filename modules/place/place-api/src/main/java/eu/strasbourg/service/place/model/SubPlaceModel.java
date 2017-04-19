@@ -23,10 +23,12 @@ import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -44,7 +46,8 @@ import java.util.Map;
  * @generated
  */
 @ProviderType
-public interface SubPlaceModel extends BaseModel<SubPlace>, LocalizedModel {
+public interface SubPlaceModel extends BaseModel<SubPlace>, LocalizedModel,
+	WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -93,6 +96,87 @@ public interface SubPlaceModel extends BaseModel<SubPlace>, LocalizedModel {
 	 * @param subPlaceId the sub place ID of this sub place
 	 */
 	public void setSubPlaceId(long subPlaceId);
+
+	/**
+	 * Returns the status of this sub place.
+	 *
+	 * @return the status of this sub place
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this sub place.
+	 *
+	 * @param status the status of this sub place
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this sub place.
+	 *
+	 * @return the status by user ID of this sub place
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this sub place.
+	 *
+	 * @param statusByUserId the status by user ID of this sub place
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this sub place.
+	 *
+	 * @return the status by user uuid of this sub place
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this sub place.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this sub place
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this sub place.
+	 *
+	 * @return the status by user name of this sub place
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this sub place.
+	 *
+	 * @param statusByUserName the status by user name of this sub place
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this sub place.
+	 *
+	 * @return the status date of this sub place
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this sub place.
+	 *
+	 * @param statusDate the status date of this sub place
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the name of this sub place.
@@ -307,6 +391,70 @@ public interface SubPlaceModel extends BaseModel<SubPlace>, LocalizedModel {
 	 * @param placeId the place ID of this sub place
 	 */
 	public void setPlaceId(long placeId);
+
+	/**
+	 * Returns <code>true</code> if this sub place is approved.
+	 *
+	 * @return <code>true</code> if this sub place is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this sub place is denied.
+	 *
+	 * @return <code>true</code> if this sub place is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this sub place is a draft.
+	 *
+	 * @return <code>true</code> if this sub place is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this sub place is expired.
+	 *
+	 * @return <code>true</code> if this sub place is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this sub place is inactive.
+	 *
+	 * @return <code>true</code> if this sub place is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this sub place is incomplete.
+	 *
+	 * @return <code>true</code> if this sub place is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this sub place is pending.
+	 *
+	 * @return <code>true</code> if this sub place is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this sub place is scheduled.
+	 *
+	 * @return <code>true</code> if this sub place is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

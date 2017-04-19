@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -58,6 +59,10 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("subPlaceId", getSubPlaceId());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
 		attributes.put("placeId", getPlaceId());
@@ -79,6 +84,30 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 			setSubPlaceId(subPlaceId);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String name = (String)attributes.get("name");
 
 		if (name != null) {
@@ -98,9 +127,39 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 		}
 	}
 
+	/**
+	* Returns <code>true</code> if this sub place is approved.
+	*
+	* @return <code>true</code> if this sub place is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _subPlace.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _subPlace.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is denied.
+	*
+	* @return <code>true</code> if this sub place is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _subPlace.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is a draft.
+	*
+	* @return <code>true</code> if this sub place is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _subPlace.isDraft();
 	}
 
 	@Override
@@ -108,9 +167,59 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 		return _subPlace.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this sub place is expired.
+	*
+	* @return <code>true</code> if this sub place is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _subPlace.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is inactive.
+	*
+	* @return <code>true</code> if this sub place is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _subPlace.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is incomplete.
+	*
+	* @return <code>true</code> if this sub place is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _subPlace.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _subPlace.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is pending.
+	*
+	* @return <code>true</code> if this sub place is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _subPlace.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this sub place is scheduled.
+	*
+	* @return <code>true</code> if this sub place is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _subPlace.isScheduled();
 	}
 
 	@Override
@@ -121,6 +230,15 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.place.model.SubPlace> toCacheModel() {
 		return _subPlace.toCacheModel();
+	}
+
+	/**
+	* Retourne le lieu parent du sous-lieu
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
+		long placeId) {
+		return _subPlace.getPlaceByPlaceId(placeId);
 	}
 
 	@Override
@@ -136,6 +254,16 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public int compareTo(eu.strasbourg.service.place.model.SubPlace subPlace) {
 		return _subPlace.compareTo(subPlace);
+	}
+
+	/**
+	* Returns the status of this sub place.
+	*
+	* @return the status of this sub place
+	*/
+	@Override
+	public int getStatus() {
+		return _subPlace.getStatus();
 	}
 
 	@Override
@@ -294,6 +422,26 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
+	* Returns the status by user name of this sub place.
+	*
+	* @return the status by user name of this sub place
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _subPlace.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this sub place.
+	*
+	* @return the status by user uuid of this sub place
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _subPlace.getStatusByUserUuid();
+	}
+
+	/**
 	* Returns the uuid of this sub place.
 	*
 	* @return the uuid of this sub place
@@ -319,11 +467,38 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
+	* Returns the status date of this sub place.
+	*
+	* @return the status date of this sub place
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _subPlace.getStatusDate();
+	}
+
+	/**
 	* Retourne les Periods du sous-lieu
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods() {
 		return _subPlace.getPeriods();
+	}
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine) {
+		return _subPlace.getPlaceSchedule(jourSemaine);
+	}
+
+	/**
+	* Retourne les PublicHolidays
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays() {
+		return _subPlace.getPublicHolidays();
 	}
 
 	/**
@@ -342,6 +517,16 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getDescriptionMap() {
 		return _subPlace.getDescriptionMap();
+	}
+
+	/**
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+		Date dateJour, java.util.Locale locale) {
+		return _subPlace.getHoraire(dateJour, locale);
 	}
 
 	/**
@@ -372,6 +557,16 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public long getPrimaryKey() {
 		return _subPlace.getPrimaryKey();
+	}
+
+	/**
+	* Returns the status by user ID of this sub place.
+	*
+	* @return the status by user ID of this sub place
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _subPlace.getStatusByUserId();
 	}
 
 	/**
@@ -576,6 +771,56 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_subPlace.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the status of this sub place.
+	*
+	* @param status the status of this sub place
+	*/
+	@Override
+	public void setStatus(int status) {
+		_subPlace.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this sub place.
+	*
+	* @param statusByUserId the status by user ID of this sub place
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_subPlace.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this sub place.
+	*
+	* @param statusByUserName the status by user name of this sub place
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_subPlace.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this sub place.
+	*
+	* @param statusByUserUuid the status by user uuid of this sub place
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_subPlace.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this sub place.
+	*
+	* @param statusDate the status date of this sub place
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_subPlace.setStatusDate(statusDate);
 	}
 
 	/**

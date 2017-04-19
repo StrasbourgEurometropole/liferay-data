@@ -30,7 +30,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="publicHolidayId" type="hidden" />
 
-			<!-- Informations générale -->
+			<!-- Informations gÃ©nÃ©rale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 
@@ -53,10 +53,7 @@
 
 		<aui:button-row>
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" type="submit" name="publish"
-					value="eu.publish" />
-				<aui:button cssClass="btn-lg btn-default" type="submit"
-					name="save-as-draft" value="save-as-draft" />
+					<aui:button cssClass="btn-lg" type="submit" value="save" />
 			</c:if>
 			<c:if
 				test="${not empty dc.publicHoliday and empty themeDisplay.scopeGroup.getStagingGroup()}">

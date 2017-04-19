@@ -1010,6 +1010,348 @@ public class ManifestationUtil {
 	}
 
 	/**
+	* Returns all the manifestations where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @return the matching manifestations
+	*/
+	public static List<Manifestation> findByEndDate(Date endDate) {
+		return getPersistence().findByEndDate(endDate);
+	}
+
+	/**
+	* Returns a range of all the manifestations where endDate &lt; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param endDate the end date
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @return the range of matching manifestations
+	*/
+	public static List<Manifestation> findByEndDate(Date endDate, int start,
+		int end) {
+		return getPersistence().findByEndDate(endDate, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the manifestations where endDate &lt; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param endDate the end date
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching manifestations
+	*/
+	public static List<Manifestation> findByEndDate(Date endDate, int start,
+		int end, OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence()
+				   .findByEndDate(endDate, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the manifestations where endDate &lt; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param endDate the end date
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching manifestations
+	*/
+	public static List<Manifestation> findByEndDate(Date endDate, int start,
+		int end, OrderByComparator<Manifestation> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByEndDate(endDate, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first manifestation in the ordered set where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public static Manifestation findByEndDate_First(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence().findByEndDate_First(endDate, orderByComparator);
+	}
+
+	/**
+	* Returns the first manifestation in the ordered set where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchByEndDate_First(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence().fetchByEndDate_First(endDate, orderByComparator);
+	}
+
+	/**
+	* Returns the last manifestation in the ordered set where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public static Manifestation findByEndDate_Last(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence().findByEndDate_Last(endDate, orderByComparator);
+	}
+
+	/**
+	* Returns the last manifestation in the ordered set where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchByEndDate_Last(Date endDate,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence().fetchByEndDate_Last(endDate, orderByComparator);
+	}
+
+	/**
+	* Returns the manifestations before and after the current manifestation in the ordered set where endDate &lt; &#63;.
+	*
+	* @param manifestationId the primary key of the current manifestation
+	* @param endDate the end date
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next manifestation
+	* @throws NoSuchManifestationException if a manifestation with the primary key could not be found
+	*/
+	public static Manifestation[] findByEndDate_PrevAndNext(
+		long manifestationId, Date endDate,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence()
+				   .findByEndDate_PrevAndNext(manifestationId, endDate,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the manifestations where endDate &lt; &#63; from the database.
+	*
+	* @param endDate the end date
+	*/
+	public static void removeByEndDate(Date endDate) {
+		getPersistence().removeByEndDate(endDate);
+	}
+
+	/**
+	* Returns the number of manifestations where endDate &lt; &#63;.
+	*
+	* @param endDate the end date
+	* @return the number of matching manifestations
+	*/
+	public static int countByEndDate(Date endDate) {
+		return getPersistence().countByEndDate(endDate);
+	}
+
+	/**
+	* Returns all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @return the matching manifestations
+	*/
+	public static List<Manifestation> findByStatusDateAndStatus(
+		Date statusDate, int status) {
+		return getPersistence().findByStatusDateAndStatus(statusDate, status);
+	}
+
+	/**
+	* Returns a range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @return the range of matching manifestations
+	*/
+	public static List<Manifestation> findByStatusDateAndStatus(
+		Date statusDate, int status, int start, int end) {
+		return getPersistence()
+				   .findByStatusDateAndStatus(statusDate, status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching manifestations
+	*/
+	public static List<Manifestation> findByStatusDateAndStatus(
+		Date statusDate, int status, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence()
+				   .findByStatusDateAndStatus(statusDate, status, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the manifestations where statusDate &lt; &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ManifestationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param start the lower bound of the range of manifestations
+	* @param end the upper bound of the range of manifestations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching manifestations
+	*/
+	public static List<Manifestation> findByStatusDateAndStatus(
+		Date statusDate, int status, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStatusDateAndStatus(statusDate, status, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public static Manifestation findByStatusDateAndStatus_First(
+		Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence()
+				   .findByStatusDateAndStatus_First(statusDate, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchByStatusDateAndStatus_First(
+		Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusDateAndStatus_First(statusDate, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation
+	* @throws NoSuchManifestationException if a matching manifestation could not be found
+	*/
+	public static Manifestation findByStatusDateAndStatus_Last(
+		Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence()
+				   .findByStatusDateAndStatus_Last(statusDate, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching manifestation, or <code>null</code> if a matching manifestation could not be found
+	*/
+	public static Manifestation fetchByStatusDateAndStatus_Last(
+		Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator) {
+		return getPersistence()
+				   .fetchByStatusDateAndStatus_Last(statusDate, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the manifestations before and after the current manifestation in the ordered set where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param manifestationId the primary key of the current manifestation
+	* @param statusDate the status date
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next manifestation
+	* @throws NoSuchManifestationException if a manifestation with the primary key could not be found
+	*/
+	public static Manifestation[] findByStatusDateAndStatus_PrevAndNext(
+		long manifestationId, Date statusDate, int status,
+		OrderByComparator<Manifestation> orderByComparator)
+		throws eu.strasbourg.service.agenda.exception.NoSuchManifestationException {
+		return getPersistence()
+				   .findByStatusDateAndStatus_PrevAndNext(manifestationId,
+			statusDate, status, orderByComparator);
+	}
+
+	/**
+	* Removes all the manifestations where statusDate &lt; &#63; and status = &#63; from the database.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	*/
+	public static void removeByStatusDateAndStatus(Date statusDate, int status) {
+		getPersistence().removeByStatusDateAndStatus(statusDate, status);
+	}
+
+	/**
+	* Returns the number of manifestations where statusDate &lt; &#63; and status = &#63;.
+	*
+	* @param statusDate the status date
+	* @param status the status
+	* @return the number of matching manifestations
+	*/
+	public static int countByStatusDateAndStatus(Date statusDate, int status) {
+		return getPersistence().countByStatusDateAndStatus(statusDate, status);
+	}
+
+	/**
 	* Returns the manifestation where source = &#63; and idSource = &#63; or throws a {@link NoSuchManifestationException} if it could not be found.
 	*
 	* @param source the source

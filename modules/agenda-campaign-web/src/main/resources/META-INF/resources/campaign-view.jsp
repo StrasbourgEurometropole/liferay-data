@@ -146,7 +146,12 @@
 
 				<liferay-ui:search-container-column-text
 					cssClass="content-column table-cell-content" name="theme">
-					${campaignEvent.theme.getTitle(locale)}
+					<c:forEach var="theme" items="${campaignEvent.themes}" varStatus="themeStatus">
+						<c:if test="${themeStatus.index gt 0}">
+						 - 
+						</c:if>
+						${theme.getTitle(locale)}
+					</c:forEach>
 					
 				</liferay-ui:search-container-column-text>
 				<liferay-ui:search-container-column-text

@@ -56,6 +56,7 @@ public class LinkDisplayTemplateHandler
 			"Lien", Link.class, "currentLink", "getTitle(locale)");
 		
 		fieldsTemplateVariableGroup.addVariable("Lien", Link.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;
 	}

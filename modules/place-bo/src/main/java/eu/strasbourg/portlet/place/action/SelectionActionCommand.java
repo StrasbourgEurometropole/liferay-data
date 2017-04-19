@@ -11,11 +11,15 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.Price;
+import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PriceLocalService;
 import eu.strasbourg.service.place.service.PublicHolidayLocalService;
@@ -30,6 +34,8 @@ public class SelectionActionCommand implements MVCActionCommand {
 	@Override
 	public boolean processAction(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws PortletException {
+		ThemeDisplay td =  (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		
 		String tab = ParamUtil.getString(actionRequest, "tab");
 
 		try {
@@ -53,14 +59,30 @@ public class SelectionActionCommand implements MVCActionCommand {
 					if (tab.equals("places")) {
 						Place place = _placeLocalService.getPlace(entryId);
 						_placeLocalService.updateStatus(place,
-								WorkflowConstants.STATUS_DRAFT);
+								WorkflowConstants.STATUS_APPROVED);
+					} else if (tab.equals("prices")) {
+						Price price = _priceLocalService.getPrice(entryId);
+						_priceLocalService.updateStatus(td.getUserId(), price,
+								WorkflowConstants.STATUS_APPROVED);
+					} else if (tab.equals("subPlaces")) {
+						SubPlace subPlace = _subPlaceLocalService.getSubPlace(entryId);
+						_subPlaceLocalService.updateStatus(td.getUserId(), subPlace,
+								WorkflowConstants.STATUS_APPROVED);
 					}
 					break;
 				case "unpublish":
 					if (tab.equals("places")) {
 						Place place = _placeLocalService.getPlace(entryId);
 						_placeLocalService.updateStatus(place,
-								WorkflowConstants.STATUS_APPROVED);
+								WorkflowConstants.STATUS_DRAFT);
+					} else if (tab.equals("prices")) {
+						Price price = _priceLocalService.getPrice(entryId);
+						_priceLocalService.updateStatus(td.getUserId(), price,
+								WorkflowConstants.STATUS_DRAFT);
+					} else if (tab.equals("subPlaces")) {
+						SubPlace subPlace = _subPlaceLocalService.getSubPlace(entryId);
+						_subPlaceLocalService.updateStatus(td.getUserId(), subPlace,
+								WorkflowConstants.STATUS_DRAFT);
 					}
 					break;
 				}
