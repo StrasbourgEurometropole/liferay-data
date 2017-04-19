@@ -553,6 +553,7 @@ body {
     float: left;
     width: 100%;
     margin-bottom: 1em;
+    vertical-align: top;
 }
 .block-filter .col-filter .field {
     margin-bottom: 10px;
