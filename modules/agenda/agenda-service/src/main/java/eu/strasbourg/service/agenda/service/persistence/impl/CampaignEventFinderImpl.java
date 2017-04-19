@@ -49,6 +49,7 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 			campaignEventQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
+		campaignEventQuery.setLimit(start, end);
 		Criterion userCriterion = RestrictionsFactoryUtil.or(
 			PropertyFactoryUtil.forName("userId").eq(userId),
 			PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
