@@ -15,6 +15,7 @@
 package eu.strasbourg.service.place.model;
 
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,7 +42,10 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class PlaceSchedule {
-	
+
+	private long idSchedule;
+	private Date startDate;
+	private Date endDate;
 	private LocalTime startTime = LocalTime.of(0, 0);
 	private LocalTime endTime = LocalTime.of(0, 0);
 	private Boolean closed = false;
@@ -59,6 +63,37 @@ public class PlaceSchedule {
 	 * eu.strasbourg.service.place.model.Place} interface instead.
 	 */
 	public PlaceSchedule() {
+	}
+	
+	public PlaceSchedule(long idSchedule, Date startDate, Date endDate, Map<Locale, String> descriptionMap) {
+		this.setIdSchedule(idSchedule);
+		this.setStartDate(startDate);
+		this.setEndDate(endDate);
+		this.setDescriptionMap(descriptionMap);
+	}
+
+	public long getIdSchedule() {
+		return idSchedule;
+	}
+
+	public void setIdSchedule(long idSchedule) {
+		this.idSchedule = idSchedule;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public LocalTime getStartTime() {
