@@ -2,9 +2,9 @@ package eu.strasbourg.portlet.event_viewer;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.event_viewer.configuration.EventViewerConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 
@@ -187,14 +188,11 @@ public class EventViewerPortlet extends MVCPortlet {
 		// ensuite les autres classés par date de début
 		List<Event> eventsOfTheDay = new ArrayList<Event>();
 		List<Event> otherEvents = new ArrayList<Event>();
-		Date now = new Date();
 		for (Document document : hits.getDocs()) {
 			Event event = EventLocalServiceUtil.fetchEvent(
 				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 			if (event != null) {
-				if (event.getEventPeriods().stream()
-					.anyMatch(p -> p.getStartDate().before(now)
-						&& p.getEndDate().after(now))) {
+				if (this.eventIsHappeningToday(event)) {
 					eventsOfTheDay.add(event);
 				} else {
 					otherEvents.add(event);
@@ -224,5 +222,21 @@ public class EventViewerPortlet extends MVCPortlet {
 		}
 
 		return entries;
+	}
+
+	private boolean eventIsHappeningToday(Event event) {
+		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
+		for (EventPeriod period : event.getEventPeriods()) {
+			LocalDate startDate = period.getStartDate().toInstant()
+				.atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate endDate = period.getEndDate().toInstant()
+				.atZone(ZoneId.systemDefault()).toLocalDate();
+			endDate = endDate.plusDays(1);
+			if (today.isAfter(startDate) && endDate.isBefore(endDate)
+				|| today.isEqual(startDate) || today.isEqual(endDate)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
