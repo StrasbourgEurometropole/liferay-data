@@ -14,11 +14,11 @@
 	searchContainerId="placesSearchContainer">
 	<c:if test="${empty dc.keywords}">
 		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
+			<c:if test="${fn:length(dc.globalVocabularies) > 0}">
 				<li><a>Filtrer par :</a></li>
 			</c:if>
 			<c:if test="${not dc.hasPermission('CONTRIBUTE') or themeDisplay.permissionChecker.isOmniadmin()}">
-				<c:forEach var="vocabulary" items="${dc.vocabularies}">
+				<c:forEach var="vocabulary" items="${dc.globalVocabularies}">
 					<liferay-frontend:management-bar-filter 
 						managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
 						value="${dc.getVocabularyFilterLabel(vocabulary)}" />
