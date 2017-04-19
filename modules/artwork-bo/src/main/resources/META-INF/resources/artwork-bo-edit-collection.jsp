@@ -41,7 +41,7 @@
 
 				<aui:input name="contributors" />
 				
-				<strasbourg-picker:entity label="artworks" name="artworksIds"
+				<strasbourg-picker:entity label="eu.artworks" name="artworksIds"
 					value="${dc.collection.artworksIds}"
 					type="eu.strasbourg.service.artwork.model.Artwork"
 					multiple="true" />

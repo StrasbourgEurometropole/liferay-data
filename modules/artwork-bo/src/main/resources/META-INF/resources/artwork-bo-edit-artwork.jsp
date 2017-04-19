@@ -60,7 +60,7 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>"
 				label="categorization">
 				
-				<strasbourg-picker:entity label="collections" name="collectionsIds"
+				<strasbourg-picker:entity label="eu.collections" name="collectionsIds"
 					value="${dc.artwork.artworkCollectionsIds}"
 					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
 					multiple="true" />
