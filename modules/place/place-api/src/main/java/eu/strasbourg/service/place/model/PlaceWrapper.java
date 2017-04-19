@@ -717,7 +717,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne la ville
+	* Vérifie si le lieu est fermé
+	*/
+	@Override
+	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine) {
+		return _place.isClosed(jourSemaine);
+	}
+
+	/**
+	* Vérifie si le lieu à accès au temps réel
 	*
 	* @throws PortalException
 	*/
@@ -1869,15 +1877,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
-	* sous forme de String
-	*/
-	@Override
-	public java.lang.String getSubPlacesIds() {
-		return _place.getSubPlacesIds();
-	}
-
-	/**
 	* Returns the user name of this place.
 	*
 	* @return the user name of this place
@@ -1930,6 +1929,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String[] getAvailableLanguageIds() {
 		return _place.getAvailableLanguageIds();
+	}
+
+	/**
+	* Retourne le temps réel (couleur de fond,valeur)
+	*/
+	@Override
+	public java.lang.String[] getRealTime() {
+		return _place.getRealTime();
 	}
 
 	/**
