@@ -645,7 +645,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jourSemaine.set(Calendar.DAY_OF_WEEK,
 					(int) (jour == 6 ? 1 : jour + 2));
 
-			List<PlaceSchedule> liste = getPlaceSchedule(jourSemaine);
+			List<PlaceSchedule> liste = getPlaceSchedule(jourSemaine, locale);
 
 			DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
 			listHoraires.put(df.format(jourSemaine.getTime()), liste);
@@ -654,10 +654,10 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les horaires d'ouverture de la semaine en cours
+	 * Retourne les horaires d'ouverture du jour
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine) {
+	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
 		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
@@ -673,7 +673,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 						scheduleException.getExceptionId(),
 						scheduleException.getStartDate(),
 						scheduleException.getEndDate(),
-						scheduleException.getCommentMap());
+						scheduleException.getComment(locale), locale);
 				placeSchedule.setException(true);
 				if (scheduleException.isClosed()) {
 					placeSchedule.setClosed(true);
@@ -701,7 +701,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 				PlaceSchedule placeSchedule = new PlaceSchedule(
 						publicHoliday.getPublicHolidayId(),
 						publicHoliday.getDate(), publicHoliday.getDate(),
-						publicHoliday.getNameMap());
+						publicHoliday.getName(locale), locale);
 				placeSchedule.setPublicHoliday(true);
 				placeSchedule.setClosed(true);
 				listHoraires.add(placeSchedule);
@@ -726,7 +726,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 						if (period.getAlwaysOpen()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getNameMap());
+									period.getEndDate(), period.getName(locale), locale);
 							placeSchedule.setAlwaysOpen(true);
 							listHoraires.add(placeSchedule);
 						} else {
@@ -741,7 +741,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 											period.getPeriodId(),
 											period.getStartDate(),
 											period.getEndDate(),
-											period.getNameMap());
+											period.getName(locale), locale);
 									String[] heure = slot.getStartHour()
 											.split(":");
 									LocalTime startHour = LocalTime.of(
@@ -760,7 +760,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 						if (listHoraires.isEmpty()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getNameMap());
+									period.getEndDate(), period.getName(locale), locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}
@@ -772,7 +772,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 					if (period.getAlwaysOpen()) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(
 								period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getNameMap());
+								period.getEndDate(), period.getName(locale), locale);
 						placeSchedule.setAlwaysOpen(true);
 						listHoraires.add(placeSchedule);
 					} else {
@@ -787,7 +787,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 										period.getPeriodId(),
 										period.getStartDate(),
 										period.getEndDate(),
-										period.getNameMap());
+										period.getName(locale), locale);
 								String[] heure = slot.getStartHour().split(":");
 								LocalTime startHour = LocalTime.of(
 										Integer.parseInt(heure[0]),
@@ -804,7 +804,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 						if (listHoraires.isEmpty()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getNameMap());
+									period.getEndDate(), period.getName(locale), locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}

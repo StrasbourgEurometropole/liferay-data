@@ -214,10 +214,10 @@ public interface Place extends PlaceModel, PersistedModel {
 		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
+	* Retourne les horaires d'ouverture du jour
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine);
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
 	* Retourne la version JSON du lieu

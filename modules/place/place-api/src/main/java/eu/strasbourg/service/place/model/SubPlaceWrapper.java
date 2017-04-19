@@ -489,8 +489,8 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine) {
-		return _subPlace.getPlaceSchedule(jourSemaine);
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+		return _subPlace.getPlaceSchedule(jourSemaine, locale);
 	}
 
 	/**
