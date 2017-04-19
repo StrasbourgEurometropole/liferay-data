@@ -21,5 +21,5 @@ public class EnResourceBundle extends ResourceBundle {
 	}
 
 	private final ResourceBundle _resourceBundle = ResourceBundle
-		.getBundle("content.Language", UTF8Control.INSTANCE);
+		.getBundle("content.english.Language", UTF8Control.INSTANCE);
 }
