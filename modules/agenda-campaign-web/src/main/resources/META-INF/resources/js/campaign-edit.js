@@ -37,7 +37,12 @@ $('[name=serviceType]').on('click change', function(e) {
 
 // Champs select multiples
 var choices = new Choices('[multiple]', {
-	removeItemButton: true
+	removeItemButton: true,
+	loadingText: 'Chargement...',
+    noResultsText: 'Aucun résultat trouvé',
+    noChoicesText: 'Aucune option disponible',
+    itemSelectText: 'Cliquer pour sélectionner',
+    shouldSort: false
 });
 
 // Autocomplete lieux
@@ -168,15 +173,15 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	 * RangePicker permettant la création à la chaîne
 	 */
 	// Activation du RangePicker 
-	$('#periodGenerator').daterangepicker({
+	$('#' + namespace + 'periodGenerator').daterangepicker({
 		autoApply: false,
 		parentEl: '.portlet-boundary_eu_strasbourg_portlet_agenda_portlet_AgendaCampaignPortlet_ .portlet-body',
 		locale: dateRangePickerLocaleSettings
 	});
 	// Lors du clic sur le bouton "Appliquer
-	$('#periodGenerator').on('apply.daterangepicker', function (ev, picker) {
+	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
 		// On laisse le calendrier ouvert
-		$('#periodGenerator').trigger('click');
+		$('#' + namespace + 'periodGenerator').trigger('click');
 
 		// On simule le clic sur le bouton "+" de l'autoField
 		// On modifie également l'URL appelée pour récupérer la ligne répétable

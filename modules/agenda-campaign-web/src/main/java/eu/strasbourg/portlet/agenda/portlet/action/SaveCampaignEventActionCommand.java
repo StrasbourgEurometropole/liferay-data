@@ -106,8 +106,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			boolean isValid = this.validate(request);
 			if (!isValid) {
 				PortalUtil.copyRequestParameters(request, response);
-				response.setRenderParameter("mvcPath",
-					"/campaign-edit.jsp");
+				response.setRenderParameter("mvcPath", "/campaign-edit.jsp");
 				return false;
 			}
 
@@ -376,9 +375,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"/campaign-update-status.jsp");
 
 				// On passe l'id du statut en paramètre car la page pour
-				// laisser
-				// un commentaire doit modifier le statut existant et pas en
-				// ajouter un
+				// laisser un commentaire doit modifier le statut existant et
+				// pas en ajouter un
+				renderUrl.setParameter("newStatus",
+					String.valueOf(status.getStatus()));
 				renderUrl.setParameter("statusId",
 					String.valueOf(status.getStatusId()));
 				renderUrl.setParameter("campaignEventId",
@@ -398,13 +398,13 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 	 */
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
-		
+
 		// Titre
 		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 			SessionErrors.add(request, "title-error");
 			isValid = false;
-		}		
-		
+		}
+
 		// Périodes
 		String periodsIndexesString = ParamUtil.getString(request,
 			"periodIndexes");
@@ -413,8 +413,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			if (Validator.isNotNull(periodIndex)
 				&& Validator.isNotNull(
 					ParamUtil.getString(request, "startDate" + periodIndex))
-				&& Validator.isNotNull(ParamUtil.getString(request,
-					"endDate" + periodIndex))) {
+				&& Validator.isNotNull(
+					ParamUtil.getString(request, "endDate" + periodIndex))) {
 				periodsCount++;
 			}
 		}
@@ -422,8 +422,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "periods-error");
 			isValid = false;
 		}
-		
-		return isValid;		
+
+		return isValid;
 	}
 
 	private CampaignEventLocalService campaignEventLocalService;

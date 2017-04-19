@@ -24,6 +24,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 @Component(
 	immediate = true,
 	property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/campaign.css",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.single-page-application=false",

@@ -11,6 +11,7 @@
 </liferay-portlet:actionURL>	
 
 <div class="container-fluid-1280 main-content-body">
+	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="periods-error" message="periods-error" />
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
@@ -29,36 +30,41 @@
 						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.firstName}" />
 						<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
 						<aui:input name="email" required="true"  value="${not empty dc.campaignEvent ? dc.campaignEvent.email : themeDisplay.user.emailAddress}" />
+						
+						
+						<aui:fieldset collapsed="false" collapsible="false" label="organization-service">
+							<!-- Service : service EMS ou autre -->
+							<div class="service-type-selection">
+								<label><input type="radio" value="emsService" name="serviceType" 
+								<c:if test="${not empty dc.campaignEvent.serviceId and dc.campaignEvent.serviceId gt 0}">checked</c:if>> <liferay-ui:message key="ems-service" /></label><br>
+								<label><input type="radio" value="otherService" name="serviceType"
+									<c:if test="${not empty dc.campaignEvent.service}">checked</c:if>> <liferay-ui:message key="other-service" /></label><br><br>
+									
+								<div class="emsService" <c:if test="${empty dc.campaignEvent.serviceId or dc.campaignEvent.serviceId eq 0}">style="display: none;"</c:if>>
+									<aui:select name="serviceId" label="ems-service">
+										<aui:option value="" label="select-service" />
+										<c:forEach var="service" items="${dc.EMSServices}">
+											<aui:option value="${service.categoryId}"
+												label="${service.getTitle(locale)}"
+												selected="${service.categoryId eq dc.campaignEvent.serviceId}" />
+										</c:forEach>
+									</aui:select>
+								</div>
+								
+								<div class="otherService" <c:if test="${empty dc.campaignEvent.service}">style="display: none;"</c:if>>
+									<aui:input name="service" />
+								</div>
+							</div>
+						</aui:fieldset>
 					</div>
 					
 					<div class="col-md-5 col-md-offset-1">
-						<!-- Personne sur place -->
-						<aui:input name="onSiteFirstName" />
-						<aui:input name="onSiteLastName" />
-						<aui:input name="onSitePhone" />
-						
-						<!-- Service : service EMS ou autre -->
-						<div class="service-type-selection">
-							<label><input type="radio" value="emsService" name="serviceType" 
-							<c:if test="${(not empty dc.campaignEvent.serviceId and dc.campaignEvent.serviceId gt 0) or empty dc.campaignEvent.service }">checked</c:if>> <liferay-ui:message key="ems-service" /></label><br>
-							<label><input type="radio" value="otherService" name="serviceType"
-								<c:if test="${(empty dc.campaignEvent.serviceId or dc.campaignEvent.serviceId eq 0) and not empty dc.campaignEvent.service }">checked</c:if>> <liferay-ui:message key="other-service" /></label><br><br>
-								
-							<div class="emsService" <c:if test="${(empty dc.campaignEvent.serviceId or dc.campaignEvent.serviceId eq 0) and not empty dc.campaignEvent.service }">style="display: none;"</c:if>>
-								<aui:select name="serviceId" label="ems-service">
-									<aui:option value="" label="" />
-									<c:forEach var="service" items="${dc.EMSServices}">
-										<aui:option value="${service.categoryId}"
-											label="${service.getTitle(locale)}"
-											selected="${service.categoryId eq dc.campaignEvent.serviceId}" />
-									</c:forEach>
-								</aui:select>
-							</div>
-							
-							<div class="otherService" <c:if test="${(not empty dc.campaignEvent.serviceId and dc.campaignEvent.serviceId gt 0) or empty dc.campaignEvent.service }">style="display: none;"</c:if>>
-								<aui:input name="service" />
-							</div>
-						</div>
+						<aui:fieldset collapsed="false" collapsible="false" label="on-site-person">
+							<!-- Personne sur place -->
+							<aui:input name="onSiteFirstName" />
+							<aui:input name="onSiteLastName" />
+							<aui:input name="onSitePhone" />
+						</aui:fieldset>
 					</div>
 				</div>
 			</aui:fieldset>
@@ -69,8 +75,6 @@
 				<div class="row">
 					<div class="col-md-6">
 						<aui:input name="title" required="true" />
-					</div>
-					<div class="col-md-5 col-md-offset-1">
 						<aui:input name="subtitle" />
 					</div>
 				</div>
@@ -96,11 +100,11 @@
 				
 				<!-- Manifestations -->
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col-md-6">
 						<label><liferay-ui:message key="manifestations" /></label>
 						<select class="form-control" name="<portlet:namespace />manifestations"
 							id="manifestations"
-							placeholder="<liferay-ui:message key="manifestations" />" multiple>
+							placeholder="<liferay-ui:message key="select-manifestations" />" multiple>
 							<c:forEach var="manifestation" items="${dc.manifestations}">
 								<option value="${manifestation.idSource}" 
 									<c:if test="${not empty dc.campaignEvent 
@@ -120,17 +124,17 @@
 			<!-- Images -->
 			<aui:fieldset collapsed="true" collapsible="false" label="images">		
 				
-				<!-- Image -->
 				<div class="row">
 					<div class="col-md-6">
+						<!-- Image -->
 						<aui:input type="file" name="image">
 							<aui:validator name="acceptFiles">'jpg,png'</aui:validator>
 						</aui:input>
 						<c:if test="${not empty dc.campaignEvent.imageId}">
 							<p><img src="${dc.campaignEvent.imageURL}"></p>
 						</c:if>
-					</div>
-					<div class="col-md-5 col-md-offset-1">
+						
+						<!-- Auteur de l'image -->
 						<aui:input name="imageOwner">
 							<aui:validator name="required"
 								errorMessage="this-field-is-required">
@@ -139,22 +143,19 @@
 								}	
 							</aui:validator>
 						</aui:input>
-					</div>
-				</div>
-				
-				<!-- Image pour le web -->
-				<c:if test="${dc.campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
-					<div class="row">
-						<div class="col-md-6">
+						
+						<!-- Image pour le web -->
+						<c:if test="${dc.campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
 							<aui:input type="file" name="webImage">
 								<aui:validator name="acceptFiles">'jpg,png'</aui:validator>
 							</aui:input>
 							<c:if test="${not empty dc.campaignEvent.webImageId}">
 								<p><img src="${dc.campaignEvent.webImageURL}"></p>
 							</c:if>
-						</div>
+						</c:if>
 					</div>
-				</c:if>
+				</div>
+				
 				
 			</aui:fieldset>
 				
@@ -163,27 +164,31 @@
 				
 				<!-- Autocomplete lieu -->
 				<div class="place-autocomplete" <c:if test="${empty dc.campaignEvent.placeSIGId and not empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
-					<div class="place-autocomplete-input-wrapper">
-						<aui:input label="Choisir un lieu" type="text" name="place" value="" />
+					<div class="row">
+						<div class="col-md-6">
+							<div class="place-autocomplete-input-wrapper">
+								<aui:input label="Choisir un lieu" type="text" name="place" value="" />
+							</div>
+							<span id="place-autocomplete-hidden-value">
+								<aui:input type="hidden" name="placeSIGId" value="${dc.campaignEvent.placeSIGId}" />
+							</span>
+							<aui:input label="Lieu choisi" type="text" value="${dc.campaignEvent.getLegacyPlace(locale).alias}" name="selectedPlace" disabled="true" cssClass="selected-place" >
+								<aui:validator name="required"
+									errorMessage="this-field-is-required">
+									function() {
+										return jQuery('.place-autocomplete').css('display') !== 'none';
+									}	
+								</aui:validator>
+							</aui:input>
+						</div>
 					</div>
-					<span id="place-autocomplete-hidden-value">
-						<aui:input type="hidden" name="placeSIGId" value="${dc.campaignEvent.placeSIGId}" />
-					</span>
-					<aui:input label="Lieu choisi" type="text" value="${dc.campaignEvent.getLegacyPlace(locale).alias}" name="selectedPlace" disabled="true" cssClass="selected-place" >
-						<aui:validator name="required"
-							errorMessage="this-field-is-required">
-							function() {
-								return jQuery('.place-autocomplete').css('display') !== 'none';
-							}	
-						</aui:validator>
-					</aui:input>
-					<a href="#" class="show-manual-place"><liferay-ui:message key="show-manual-place" /></a>
+					<aui:button id="showManualPlace" cssClass="show-manual-place" name="changeTimes" value="show-manual-place" />
 				</div>
 				
 				<!-- Saisie manuelle -->
 				<div class="place-manual" <c:if test="${not empty dc.campaignEvent.placeSIGId or empty dc.campaignEvent.placeName }">style="display: none;"</c:if>>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<aui:input name="placeName" helpMessage="place-name-help" required="true" >
 								<aui:validator name="required"
 									errorMessage="this-field-is-required">
@@ -198,7 +203,9 @@
 						<div class="col-md-1">
 							<aui:input name="placeStreetNumber" />
 						</div>
-						<div class="col-md-11">
+					</div>
+					<div class="row">
+						<div class="col-md-4">
 							<aui:input name="placeStreetName" />
 						</div>
 					</div>
@@ -206,7 +213,9 @@
 						<div class="col-md-2">
 							<aui:input name="placeZipCode" />
 						</div>
-						<div class="col-md-5">
+					</div>
+					<div class="row">
+						<div class="col-md-4">
 							<aui:select name="placeCityId" label="eu.campaign.city">
 								<c:forEach var="city" items="${dc.cities}">
 									<aui:option value="${city.categoryId}"
@@ -215,11 +224,13 @@
 								</c:forEach>
 							</aui:select>
 						</div>
-						<div class="col-md-4 col-md-offset-1">
+					</div>
+					<div class="row">
+						<div class="col-md-4">
 							<aui:input name="placeCountry" value="${empty dc.campaignEvent.placeCountry ? 'France' : dc.campaignEvent.placeCountry}" />
 						</div>
 					</div>
-					<a href="#" class="show-autocomplete-place"><liferay-ui:message key="show-autocomplete-place" /></a>
+					<aui:button id="showAutocompletePlace" cssClass="show-autocomplete-place" name="showAutocompletePlace" value="show-autocomplete-place" />
 				</div>
 				
 			</aui:fieldset>
@@ -231,9 +242,13 @@
 					<div class="col-md-4">
 						<aui:input name="promoter" />
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-4">
 						<aui:input name="publicPhone" helpMessage="public-phone-help" />
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-4">
 						<aui:input name="publicEmail" helpMessage="public-email-help">
 							<aui:validator name="email" />
@@ -241,11 +256,13 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-5">
-						<aui:input name="websiteName" />
+					<div class="col-md-4">
+						<aui:input name="websiteName" helpMessage="website-name-help" />
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-7">
-						<aui:input name="websiteURL">
+						<aui:input name="websiteURL" helpMessage="website-url-help" >
 							<aui:validator name="url" errorMessage="url-error" />
 						</aui:input>
 					</div>
@@ -261,7 +278,7 @@
 				</div>
 				
 				<div class="add-dates-section">
-					<span class="date-range" id="periodGenerator"><liferay-ui:message key="select-period-dates" /></span>
+					<aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
 				</div>
 				
 				<div class="change-times-section">
@@ -328,62 +345,69 @@
 			<aui:fieldset collapsed="true" collapsible="false" label="other-information">
 				<div class="row">
 					<!-- Campagne -->
-					<div class="col-md-3">
+					<div class="col-md-5">
 						<aui:select name="campaignId" required="true" label="campaign">
-							<aui:option value="" label="" />
+							<aui:option value="" label="select-campaign" />
 							<c:forEach var="campaign" items="${dc.campaigns}">
 								<aui:option value="${campaign.campaignId}"
 									label="${campaign.getTitle(locale)}"
-									selected="${campaign.campaignId eq dc.campaignEvent.campaignId}" />
+									selected="${campaign.campaignId eq dc.campaignEvent.campaignId}"
+									localizeLabel="false" />
 							</c:forEach>
 						</aui:select>
 					</div>
+				</div>
+				<div class="row">
 					<!-- Types / thèmes / publics -->
-					<div class="col-md-3">
+					<div class="col-md-7 form-group">
 						<label><liferay-ui:message key="types" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
-						<select name="<portlet:namespace />typesIds" label="types" multiple>
-							<c:forEach var="type" items="${dc.types}">
-								<option value="${type.categoryId}"
-									<c:if test="${fn:contains(dc.campaignEvent.typesIds, type.categoryId)}">
-										selected
-									</c:if>
-								>
-									${type.getTitle(locale)}
-								</option>
+						<select name="<portlet:namespace />typesIds" label="types" multiple placeholder="<liferay-ui:message key="select-types" />">
+							<c:forEach items="${dc.types}" var="category">
+								<c:if test="${category.rootCategory}">
+									<c:set var="category" value="${category}" scope="request"/>
+									<c:set var="dc" value="${dc}" scope="request"/>
+									<c:set var="level" value="0" scope="request" />
+									<c:set var="categoryIds" value="${dc.campaignEvent.typesIds}" scope="request" />
+									<jsp:include page="/category-option.jsp"/>
+								</c:if>
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-3">
+				</div>
+				<div class="row">
+					<div class="col-md-7 form-group">
 						<!-- TODO : thèmes de la campagne uniquement -->
 						<label><liferay-ui:message key="themes" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
-						<select name="<portlet:namespace />themesIds" label="themes" multiple>
-							<c:forEach var="theme" items="${dc.themes}">
-								<option value="${theme.categoryId}"
-									<c:if test="${fn:contains(dc.campaignEvent.themesIds, theme.categoryId)}">
-										selected
-									</c:if>
-								>
-									${theme.getTitle(locale)}
-								</option>
+						<select name="<portlet:namespace />themesIds" label="themes" multiple placeholder="<liferay-ui:message key="select-themes" />">
+							<c:forEach items="${dc.themes}" var="category">
+								<c:if test="${category.rootCategory}">
+									<c:set var="category" value="${category}" scope="request"/>
+									<c:set var="dc" value="${dc}" scope="request"/>
+									<c:set var="level" value="0" scope="request" />
+									<c:set var="categoryIds" value="${dc.campaignEvent.themesIds}" scope="request" />
+									<jsp:include page="/category-option.jsp"/>
+								</c:if>
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-3">
+				</div>
+				<div class="row">
+					<div class="col-md-7 form-group">
 						<label>
 							<liferay-ui:message key="publics" />
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="publics-help" />"> <span class=""> <svg class="lexicon-icon lexicon-icon-question-circle-full" role="img" title="" viewBox="0 0 512 512">  
 							<path class="lexicon-icon-outline" d="M256 0c-141.37 0-256 114.6-256 256 0 141.37 114.629 256 256 256s256-114.63 256-256c0-141.4-114.63-256-256-256zM269.605 360.769c-4.974 4.827-10.913 7.226-17.876 7.226s-12.873-2.428-17.73-7.226c-4.857-4.827-7.285-10.708-7.285-17.613 0-6.933 2.428-12.844 7.285-17.788 4.857-4.915 10.767-7.402 17.73-7.402s12.932 2.457 17.876 7.402c4.945 4.945 7.431 10.854 7.431 17.788 0 6.905-2.457 12.786-7.431 17.613zM321.038 232.506c-5.705 8.923-13.283 16.735-22.791 23.464l-12.99 9.128c-5.5 3.979-9.714 8.455-12.668 13.37-2.955 4.945-4.447 10.649-4.447 17.145v1.901h-34.202c-0.439-2.106-0.731-4.184-0.936-6.291s-0.321-4.301-0.321-6.612c0-8.397 1.901-16.413 5.705-24.079s10.24-14.834 19.309-21.563l15.185-11.322c9.070-6.7 13.605-15.009 13.605-24.869 0-3.57-0.644-7.080-1.901-10.533s-3.219-6.495-5.851-9.128c-2.633-2.633-5.969-4.71-9.977-6.291s-8.66-2.369-13.927-2.369c-5.705 0-10.561 1.054-14.571 3.16s-7.343 4.769-9.977 8.017c-2.633 3.247-4.594 7.022-5.851 11.322s-1.901 8.66-1.901 13.049c0 4.213 0.41 7.548 1.258 10.065l-39.877-1.58c-0.644-2.311-1.054-4.652-1.258-7.080-0.205-2.399-0.321-4.769-0.321-7.080 0-8.397 1.58-16.619 4.74-24.693s7.812-15.214 13.927-21.416c6.114-6.173 13.663-11.176 22.645-14.951s19.368-5.676 31.188-5.676c12.229 0 22.996 1.785 32.3 5.355 9.274 3.57 17.087 8.25 23.435 14.014 6.319 5.764 11.089 12.434 14.248 19.982s4.74 15.331 4.74 23.289c0.058 12.581-2.809 23.347-8.514 32.27z"></path>
 							</svg> <span class="taglib-icon-label"> </span> </span> <span class="taglib-text hide-accessible"><liferay-ui:message key="publics-help" /></span> </span>
 						</label>
-						<select name="<portlet:namespace />publicsIds" label="publics" multiple>
-							<c:forEach var="public" items="${dc.publics}">
-								<option value="${public.categoryId}"
-									<c:if test="${fn:contains(dc.campaignEvent.publicsIds, public.categoryId)}">
-										selected
-									</c:if>
-								>
-									${public.getTitle(locale)}
-								</option>
+						<select name="<portlet:namespace />publicsIds" label="publics" multiple placeholder="<liferay-ui:message key="select-publics" />">
+							<c:forEach items="${dc.publics}" var="category">
+								<c:if test="${category.rootCategory}">
+									<c:set var="category" value="${category}" scope="request"/>
+									<c:set var="dc" value="${dc}" scope="request"/>
+									<c:set var="level" value="0" scope="request" />
+									<c:set var="categoryIds" value="${dc.campaignEvent.publicsIds}" scope="request" />
+									<jsp:include page="/category-option.jsp"/>
+								</c:if>
 							</c:forEach>
 						</select>
 					</div>
@@ -447,7 +471,6 @@
 		var getPeriodRowJSPURL = '${periodRowURL}';
 	</aui:script>
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
-	<link rel="stylesheet" href="/o/agendabo/css/vendors/daterangepicker.css">
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
 	<script src="/o/agendabo/js/vendors/moment.min.js"></script>
 	<script src="/o/agendabo/js/vendors/daterangepicker.js"></script>
