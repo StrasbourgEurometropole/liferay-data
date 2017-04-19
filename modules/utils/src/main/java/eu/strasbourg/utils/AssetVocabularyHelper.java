@@ -1,9 +1,7 @@
 package eu.strasbourg.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -236,15 +234,54 @@ public class AssetVocabularyHelper {
 	 * Retourne la catégorie avec l'id du vocabulaire et le sig id de la
 	 * catérogie
 	 */
-	public static AssetCategory getCategoryByVocabulaire(AssetVocabulary vocabulary,
-			String idSIG) {
+	public static AssetCategory getCategoryByVocabulaire(
+			AssetVocabulary vocabulary, String idSIG) {
 		List<AssetCategory> categories = vocabulary.getCategories();
 		for (AssetCategory category : categories) {
-			if(AssetVocabularyHelper.getCategoryProperty(
-							category.getCategoryId(), "SIG").equals(idSIG))
+			if (AssetVocabularyHelper
+					.getCategoryProperty(category.getCategoryId(), "SIG")
+					.equals(idSIG))
 				return category;
 		}
 		return null;
+	}
+
+	/**
+	 * Vérifie si la catégorie est une piscine
+	 * 
+	 * @throws PortalException
+	 */
+	public static Boolean isSwimmingPool(AssetCategory category)
+			throws PortalException {
+		if (category.getName().equals("Piscines")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().equals("Piscines")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Vérifie si la catégorie est un parking
+	 * 
+	 * @throws PortalException
+	 */
+	public static Boolean isParking(AssetCategory category)
+			throws PortalException {
+		if (category.getName().equals("Parkings")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().equals("Parkings")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -272,7 +309,8 @@ public class AssetVocabularyHelper {
 				int level = category.getAncestors().size();
 				if (level > 0) {
 					jsonCategory.put("level", level);
-					jsonCategory.put("parentId", category.getParentCategoryId());
+					jsonCategory.put("parentId",
+							category.getParentCategoryId());
 				}
 			} catch (PortalException e) {
 				_log.error(e);
