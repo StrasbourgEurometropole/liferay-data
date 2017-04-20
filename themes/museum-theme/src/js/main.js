@@ -237,14 +237,30 @@
             $('.items-carousel.places-carousel .owl-carousel').owlCarousel({
                 items: 4,
                 nav: true,
-                responsiveBaseElement: '.items-carousel.places-carousel'
+                responsiveBaseElement: '.items-carousel.places-carousel',
+                responsive: {
+                    601: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
             });
             // Carousel Agenda
             $('.agenda-collections-carousel .owl-carousel').owlCarousel({
                 items: 4,
                 margin: 10,
                 loop: true,
-                responsiveBaseElement: '.agenda-collections-carousel'
+                responsiveBaseElement: '.agenda-collections-carousel',
+                responsive: {
+                    601: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
             });
             // Carousel collections d'oeuvres
             $('.artwork-collections-carousel .owl-carousel').owlCarousel({
@@ -298,7 +314,7 @@
         $('.featured-artwork-description').dotdotdot({
             height: 40
         });
-        $('.news .news-content').dotdotdot({
+        $('.news .news-content, .places-carousel .item-content, .agenda-collections-carousel .item-content').dotdotdot({
             height: 100
         });
     }
