@@ -325,7 +325,7 @@
                                 <#list horaires?keys as jour>
                                     <li class="schedule">
                                         <div class="schedule-day">
-                                            ${jour}
+                                            ${jour?capitalize}
                                         </div>
                                         <div class="schedule-time">
                                             <#assign liste = horaires[jour] />
@@ -357,19 +357,14 @@
                     										${scheduleExceptions}
 									                        <p>
 									                        	<strong>
-										                            <#if placeSchedule.startDate?date == placeSchedule.endDate?date >
-										                                <@liferay_ui.message key="eu.the" /> ${placeSchedule.startDate?date} : 
-										                            <#else>
-										                                <@liferay_ui.message key="eu.from" /> ${placeSchedule.startDate?date} 
-										                                <@liferay_ui.message key="eu.to" /> ${placeSchedule.endDate?date} : 
-										                            </#if>
+										                            ${placeSchedule.period}
 									                            </strong>
 									                            <#if placeSchedule.isClosed() >
 									                                <@liferay_ui.message key="closed" />
 									                            <#else> 
 									                                ${placeSchedule.startTime} - ${placeSchedule.endTime}
 									                            </#if> 
-										                    	 - ${placeSchedule.getDescription(locale)}
+										                    	 - ${placeSchedule.getDescription()}
 									                        </p>
                     									</#assign>          
 	                                                </#if>                            
