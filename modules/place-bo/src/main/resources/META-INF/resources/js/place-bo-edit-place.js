@@ -134,6 +134,14 @@ jQuery(function() {
 				}else{
 					$('.place-period-end-date', $(periodLabel).parent()).hide();
 				}
+				
+				// on vérifie que la date de début soit <= à la date de fin
+				if(!comparDatesYMD(startDatePeriod, endDatePeriod)){
+					$('.place-period-incorrect-date', $(periodLabel).parent()).show();
+					allValidated = false;
+				}else{
+					$('.place-period-incorrect-date', $(periodLabel).parent()).hide();
+				}
 			}
 			var retour = setSlotValidators(index, periodLabel);
 			if(!retour){
@@ -157,24 +165,34 @@ jQuery(function() {
 			var slotsIndexes = "";
 			for (var indexSlot = 0; indexSlot < nbSlot; indexSlot++) {
 				slotsIndexes += indexSlot + ",";
-				var heureDebutHasValue = $(namespaceAUI + 'startHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot).val().length > 0;
-				if (!heureDebutHasValue) {
+				var startHour = $(namespaceAUI + 'startHour' + indexPeriod
+						+ '-' + jour + '-' + indexSlot).val();
+				var endHour = $(namespaceAUI + 'endHour' + indexPeriod
+						+ '-' + jour + '-' + indexSlot).val();
+				if(startHour == "") {
 					$('#slotStartHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
 					allValidated = false;
-				} else {
+				}else{
 					$('#slotStartHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
 				}
-				var heureFinHasValue = $(namespaceAUI + 'endHour' + indexPeriod
-								+ '-' + jour + '-' + indexSlot).val().length > 0;
-				if (!heureFinHasValue) {
+				if(endHour == "") {
 					$('#slotEndHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
 					allValidated = false;
-				} else {
+				}else{
 					$('#slotEndHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+				}
+
+				// on vérifie que l'heure de début soit < à l'heure de fin
+				if(!comparHour(startHour, endHour)){
+					$('#slotIncorrectHour' + indexPeriod
+							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
+					allValidated = false;
+				}else{
+					$('#slotIncorrectHour' + indexPeriod
 							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
 				}
 			}
@@ -216,6 +234,14 @@ jQuery(function() {
 						allValidated = false;
 					}else{
 						$('.place-schedule-end-date', $(scheduleLabel).parent()).hide();
+						
+						// on vérifie que la date de début soit <= à la date de fin
+						if(!comparDatesYMD(startDateSchedule, endDateSchedule)){
+							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).show();
+							allValidated = false;
+						}else{
+							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).hide();
+						}
 					}
 					if (scheduleExceptionDescription == "") {
 						$('.place-schedule-description', $(scheduleLabel).parent()).show();
@@ -238,6 +264,14 @@ jQuery(function() {
 							allValidated = false;
 						}else{
 							$('.place-schedule-end-hour', $(scheduleLabel).parent()).hide();
+						}
+
+						// on vérifie que l'heure de début soit < à l'heure de fin
+						if(!comparHour(startHour, endHour)){
+							$('.place-schedule-incorrect-hour', $(scheduleLabel).parent()).show();
+							allValidated = false;
+						}else{
+							$('.place-schedule-incorrect-hour', $(scheduleLabel).parent()).hide();
 						}
 					}
 				}

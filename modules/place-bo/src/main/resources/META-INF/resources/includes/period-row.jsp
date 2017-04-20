@@ -38,6 +38,10 @@ id="period${param.index}">
 			<liferay-ui:message key="this-field-is-required" />
 		</div>
 		
+		<div class="place-period-incorrect-date" style="display: none">
+			<liferay-ui:message key="incorrect-date" />
+		</div>
+		
 		<aui:input type="date" name="endDatePeriod${param.index}" label="end-date" value="${param.endDate}" />
 		<div class="place-period-end-date" style="display: none">
 			<liferay-ui:message key="this-field-is-required" />
