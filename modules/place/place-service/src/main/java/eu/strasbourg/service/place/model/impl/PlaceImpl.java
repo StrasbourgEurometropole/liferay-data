@@ -458,7 +458,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public Boolean isClosed(GregorianCalendar jourSemaine) {
-		Boolean closed = false;
+		Boolean closed = true;
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
 		for (ScheduleException scheduleException : this
@@ -739,6 +739,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 									listHoraires.add(placeSchedule);
 								}
 							}
+							if(listHoraires.isEmpty()){
+								PlaceSchedule placeSchedule = new PlaceSchedule(
+										period.getPeriodId(),
+										period.getStartDate(),
+										period.getEndDate(),
+										period.getName(locale), locale);
+								placeSchedule.setClosed(true);
+								listHoraires.add(placeSchedule);
+							}
 						}
 						return listHoraires;
 					}
@@ -777,6 +786,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 								placeSchedule.setEndTime(endHour);
 								listHoraires.add(placeSchedule);
 							}
+						}
+						if(listHoraires.isEmpty()){
+							PlaceSchedule placeSchedule = new PlaceSchedule(
+									period.getPeriodId(),
+									period.getStartDate(),
+									period.getEndDate(),
+									period.getName(locale), locale);
+							placeSchedule.setClosed(true);
+							listHoraires.add(placeSchedule);
 						}
 					}
 				}

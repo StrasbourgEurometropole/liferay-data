@@ -63,7 +63,7 @@ public class EditPlaceDisplayContext {
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
 		return _themeDisplay.getPermissionChecker().hasPermission(
-				this._themeDisplay.getScopeGroupId(),
+				this._themeDisplay.getCompanyGroupId(),
 				StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO,
 				actionId);
 	}
