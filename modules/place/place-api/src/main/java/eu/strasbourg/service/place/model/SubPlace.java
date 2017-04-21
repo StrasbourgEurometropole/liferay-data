@@ -86,5 +86,5 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	* Retourne les horaires d'ouverture de la semaine en cours
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine);
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 }

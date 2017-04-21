@@ -17,15 +17,9 @@ package eu.strasbourg.service.place.model;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
-
-import com.liferay.portal.kernel.json.JSON;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.utils.DateHelper;
 
 /**
  * The extended model implementation for the Place service. Represents a row in
@@ -44,16 +38,14 @@ import aQute.bnd.annotation.ProviderType;
 public class PlaceSchedule {
 
 	private long idSchedule;
-	private Date startDate;
-	private Date endDate;
+	private String period;
 	private LocalTime startTime = LocalTime.of(0, 0);
 	private LocalTime endTime = LocalTime.of(0, 0);
 	private Boolean closed = false;
 	private Boolean alwaysOpen = false;
 	private Boolean publicHoliday = false;
 	private Boolean exception = false;
-	private String _description;
-	private String _descriptionCurrentLanguageId;
+	private String description;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -65,11 +57,10 @@ public class PlaceSchedule {
 	public PlaceSchedule() {
 	}
 	
-	public PlaceSchedule(long idSchedule, Date startDate, Date endDate, Map<Locale, String> descriptionMap) {
+	public PlaceSchedule(long idSchedule, Date startDate, Date endDate, String description, Locale locale) {
 		this.setIdSchedule(idSchedule);
-		this.setStartDate(startDate);
-		this.setEndDate(endDate);
-		this.setDescriptionMap(descriptionMap);
+		this.setPeriod(DateHelper.displayPeriod(startDate, endDate, locale));
+		this.setDescription(description);
 	}
 
 	public long getIdSchedule() {
@@ -80,20 +71,12 @@ public class PlaceSchedule {
 		this.idSchedule = idSchedule;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public String getPeriod() {
+		return period;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 
 	public LocalTime getStartTime() {
@@ -145,94 +128,10 @@ public class PlaceSchedule {
 	}
 
 	public String getDescription() {
-		if (_description == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _description;
-		}
+		return description;
 	}
 
-	public String getDescription(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getDescription(languageId);
-	}
-
-	public String getDescription(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getDescription(languageId, useDefault);
-	}
-
-	public String getDescription(String languageId) {
-		return LocalizationUtil.getLocalization(getDescription(), languageId);
-	}
-
-	public String getDescription(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getDescription(), languageId,
-			useDefault);
-	}
-
-	public String getDescriptionCurrentLanguageId() {
-		return _descriptionCurrentLanguageId;
-	}
-
-	@JSON
-	public String getDescriptionCurrentValue() {
-		Locale locale = null;
-
-		if (_descriptionCurrentLanguageId != null) {
-			locale = LocaleUtil.fromLanguageId(_descriptionCurrentLanguageId);
-		}
-
-		if (locale == null) {
-			locale = LocaleUtil.getMostRelevantLocale();
-		}
-
-		return getDescription(locale);
-	}
-
-	public Map<Locale, String> getDescriptionMap() {
-		return LocalizationUtil.getLocalizationMap(getDescription());
-	}
-
-	public void setDescription(String name) {
-		_description = name;
-	}
-
-	public void setDescription(String name, Locale locale) {
-		setDescription(name, locale, LocaleUtil.getDefault());
-	}
-
-	public void setDescription(String name, Locale locale, Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(name)) {
-			setDescription(LocalizationUtil.updateLocalization(getDescription(), "Name",
-					name, languageId, defaultLanguageId));
-		}
-		else {
-			setDescription(LocalizationUtil.removeLocalization(getDescription(), "Name",
-					languageId));
-		}
-	}
-
-	public void setDescriptionCurrentLanguageId(String languageId) {
-		_descriptionCurrentLanguageId = languageId;
-	}
-
-	public void setDescriptionMap(Map<Locale, String> nameMap) {
-		setDescriptionMap(nameMap, LocaleUtil.getDefault());
-	}
-
-	public void setDescriptionMap(Map<Locale, String> nameMap, Locale defaultLocale) {
-		if (nameMap == null) {
-			return;
-		}
-
-		setDescription(LocalizationUtil.updateLocalization(nameMap, getDescription(), "Name",
-				LocaleUtil.toLanguageId(defaultLocale)));
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

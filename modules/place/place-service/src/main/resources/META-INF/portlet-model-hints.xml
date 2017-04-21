@@ -128,9 +128,7 @@
 		</field>
 		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
-		<field localized="true" name="comment" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field localized="true" name="comment" type="String" />
 		<field name="closed" type="boolean" />
 		<field name="placeId" type="long" />
 		<field name="subPlaceId" type="long" />

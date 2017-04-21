@@ -15,6 +15,10 @@
 	<div class="place-slot-start-hour" style="display: none" id="slotStartHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" >
 		<liferay-ui:message key="this-field-is-required" />
 	</div>
+	
+	<div class="place-slot-incorrect-hour" style="display: none" id="slotIncorrectHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" >
+		<liferay-ui:message key="incorrect-hour" />
+	</div>
 					
 	<aui:input type="text" value="${param.endHour}" name="endHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="slot-end-hour" placeholder="HH:MM" >
 		<aui:validator errorMessage="hour-format" 

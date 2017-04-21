@@ -203,8 +203,12 @@ public interface Place extends PlaceModel, PersistedModel {
 
 	/**
 	* Retourne le temps réel (couleur de fond,valeur)
+	*
+	* @param type
+	(1 = piscine, 2 = parking
 	*/
-	public java.lang.String[] getRealTime();
+	public eu.strasbourg.utils.OccupationState getRealTime(
+		java.lang.String type);
 
 	/**
 	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
@@ -214,10 +218,10 @@ public interface Place extends PlaceModel, PersistedModel {
 		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
+	* Retourne les horaires d'ouverture du jour
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine);
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
 	* Retourne la version JSON du lieu

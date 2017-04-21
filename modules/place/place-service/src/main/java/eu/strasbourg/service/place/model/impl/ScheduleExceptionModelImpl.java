@@ -76,7 +76,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			{ "endDate", Types.TIMESTAMP },
 			{ "startHour", Types.VARCHAR },
 			{ "endHour", Types.VARCHAR },
-			{ "comment_", Types.CLOB },
+			{ "comment_", Types.VARCHAR },
 			{ "closed", Types.BOOLEAN },
 			{ "placeId", Types.BIGINT },
 			{ "subPlaceId", Types.BIGINT }
@@ -90,13 +90,13 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("startHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("comment_", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("closed", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ TEXT null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ STRING null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_ScheduleException";
 	public static final String ORDER_BY_JPQL = " ORDER BY scheduleException.exceptionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_ScheduleException.exceptionId ASC";
