@@ -115,8 +115,8 @@
                                 </#if>
                             </div>
                         </#if>
-                        ${entry.getAccessForDisabled(locale)}
-                    </div>
+                        ${entry.getAccessForDisabled(locale)
+ }                   </div>
                 </#if>
 
                 <!-- Widget Bloc Contenus associés -->
@@ -289,108 +289,110 @@
                         </div>
                     </#if>
                 </div>
-                <div class="place-info-section">
-                    <h4>
-                        <@liferay_ui.message key="eu.times" />
-                        <#assign types = entry.getTypes() />
-                        <#if types?has_content>
-                        	<#assign categoriesIds = "" />
-                            <#list types as type>
-                                <#if type?counter == 1 >
-                        			<#assign categoriesIds = type.getCategoryId() />
-                                <#else> 
-                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
-                                </#if> 
-                            </#list>
-                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}"><@liferay_ui.message key="eu.all-times" /></a>
-                        </#if>
-                    </h4>
-                    <#assign hasURL = 0 />
-                    <#assign periods = entry.periods />
-                    <#list periods as period>
-                        <#if period.linkURL?has_content && period.linkLabel?has_content >
-                            <div class="place-schedule">
-                                <a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
-                            </div>    
-                            <#assign hasURL = 1 />
-                            <#break />                      
-                        </#if>    
-                    </#list>  
-                    <#if hasURL == 0>  
-                    	<#assign idException = 0 /> 
-                    	<#assign scheduleExceptions = "" />   
-                        <div class="place-schedule">
-                            <ul>
-                                <#assign horaires = entry.getHoraire(.now, locale) />
-                                <#list horaires?keys as jour>
-                                    <li class="schedule">
-                                        <div class="schedule-day">
-                                            ${jour?capitalize}
-                                        </div>
-                                        <div class="schedule-time">
-                                            <#assign liste = horaires[jour] />
-                                            <#list liste as placeSchedule >
-                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
-                                                    <span style="color:#B22222;">                              
-                                                </#if>
-                                                <#if placeSchedule.isClosed() >
-                                                    <@liferay_ui.message key="closed" />
-                                                <#else>
-                                                    <#if placeSchedule.isAlwaysOpen() >
-                                                        <@liferay_ui.message key="always-open" />    
-                                                    <#else>
-                                                        <#if placeSchedule?counter gt 1 >
-                                                            <br>
-                                                        </#if> 
-                                                        <@liferay_ui.message key="eu.from" /> ${placeSchedule.getStartTime().toString()} 
-                                                        <@liferay_ui.message key="eu.to" /> ${placeSchedule.getEndTime().toString()}
-                                                    </#if> 
-                                                </#if> 
-                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
-                                                    *</span>                              
-                                                </#if>
-												<!-- stock les descriptions pour les ouvertures et fermetures exceptionnelle  -->
-                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
-	                                                <#if idException != placeSchedule.idSchedule >
-                    									<#assign idException = placeSchedule.idSchedule />  
-                    									<#assign scheduleExceptions >
-                    										${scheduleExceptions}
-									                        <p>
-									                        	<strong>
-										                            ${placeSchedule.period}
-									                            </strong>
-									                            <#if placeSchedule.isClosed() >
-									                                <@liferay_ui.message key="closed" />
-									                            <#else> 
-									                                ${placeSchedule.startTime} - ${placeSchedule.endTime}
-									                            </#if> 
-										                    	 - ${placeSchedule.getDescription()}
-									                        </p>
-                    									</#assign>          
-	                                                </#if>                            
-                                                </#if>
-                                            </#list>
-                                        </div>
-                                    </li>
-                                </#list>
-                            </ul>
-                        </div>                        
-                    </#if>
+                <#if entry.periods?has_content>
+	                <div class="place-info-section">
+	                    <h4>
+	                        <@liferay_ui.message key="eu.times" />
+	                        <#assign types = entry.getTypes() />
+	                        <#if types?has_content>
+	                        	<#assign categoriesIds = "" />
+	                            <#list types as type>
+	                                <#if type?counter == 1 >
+	                        			<#assign categoriesIds = type.getCategoryId() />
+	                                <#else> 
+	                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
+	                                </#if> 
+	                            </#list>
+	                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}"><@liferay_ui.message key="eu.all-times" /></a>
+	                        </#if>
+	                    </h4>
+	                    <#assign hasURL = 0 />
+	                    <#assign periods = entry.periods />
+	                    <#list periods as period>
+	                        <#if period.linkURL?has_content && period.linkLabel?has_content >
+	                            <div class="place-schedule">
+	                                <a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
+	                            </div>    
+	                            <#assign hasURL = 1 />
+	                            <#break />                      
+	                        </#if>    
+	                    </#list>  
+	                    <#if hasURL == 0>  
+	                    	<#assign idException = 0 /> 
+	                    	<#assign scheduleExceptions = "" />   
+	                        <div class="place-schedule">
+	                            <ul>
+	                                <#assign horaires = entry.getHoraire(.now, locale) />
+	                                <#list horaires?keys as jour>
+	                                    <li class="schedule">
+	                                        <div class="schedule-day">
+	                                            ${jour?capitalize}
+	                                        </div>
+	                                        <div class="schedule-time">
+	                                            <#assign liste = horaires[jour] />
+	                                            <#list liste as placeSchedule >
+	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
+	                                                    <span style="color:#B22222;">                              
+	                                                </#if>
+	                                                <#if placeSchedule.isClosed() >
+	                                                    <@liferay_ui.message key="closed" />
+	                                                <#else>
+	                                                    <#if placeSchedule.isAlwaysOpen() >
+	                                                        <@liferay_ui.message key="always-open" />    
+	                                                    <#else>
+	                                                        <#if placeSchedule?counter gt 1 >
+	                                                            <br>
+	                                                        </#if> 
+	                                                        <@liferay_ui.message key="eu.from" /> ${placeSchedule.getStartTime().toString()} 
+	                                                        <@liferay_ui.message key="eu.to" /> ${placeSchedule.getEndTime().toString()}
+	                                                    </#if> 
+	                                                </#if> 
+	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
+	                                                    *</span>                              
+	                                                </#if>
+													<!-- stock les descriptions pour les ouvertures et fermetures exceptionnelle  -->
+	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
+		                                                <#if idException != placeSchedule.idSchedule >
+	                    									<#assign idException = placeSchedule.idSchedule />  
+	                    									<#assign scheduleExceptions >
+	                    										${scheduleExceptions}
+										                        <p>
+										                        	<strong>
+											                            ${placeSchedule.period}
+										                            </strong>
+										                            <#if placeSchedule.isClosed() >
+										                                <@liferay_ui.message key="closed" />
+										                            <#else> 
+										                                ${placeSchedule.startTime} - ${placeSchedule.endTime}
+										                            </#if> 
+											                    	 - ${placeSchedule.getDescription()}
+										                        </p>
+	                    									</#assign>          
+		                                                </#if>                            
+	                                                </#if>
+	                                            </#list>
+	                                        </div>
+	                                    </li>
+	                                </#list>
+	                            </ul>
+	                        </div>                        
+	                    </#if>
 
-                    <#if scheduleExceptions?has_content >  
-                        <strong  style="color:#B22222;">
-                        	*<@liferay_ui.message key="eu.exceptional-closings-openings" />
-                        </strong>
-                        ${scheduleExceptions}
-                    </#if>
+	                    <#if scheduleExceptions?has_content >  
+	                        <strong  style="color:#B22222;">
+	                        	*<@liferay_ui.message key="eu.exceptional-closings-openings" />
+	                        </strong>
+	                        ${scheduleExceptions}
+	                    </#if>
 
-                    <#if entry.getExceptionalSchedule(locale)?has_content >
-                        <strong><@liferay_ui.message key="eu.exceptional-schedule" /></strong>
-                        <p>
-                        	${entry.getExceptionalSchedule(locale)}
-                        </p>
-                    </#if>
-                </div>
+	                    <#if entry.getExceptionalSchedule(locale)?has_content >
+	                        <strong><@liferay_ui.message key="eu.exceptional-schedule" /></strong>
+	                        <p>
+	                        	${entry.getExceptionalSchedule(locale)}
+	                        </p>
+	                    </#if>
+	                </div>
+                </#if>
 
                 <#if entry.getPrice()?has_content >
                     <div class="place-info-section">
