@@ -105,7 +105,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * semaine en cours
 	 */
 	@Override
-	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour, Locale locale) {
+	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour,
+			Locale locale) {
 		Map<String, List<PlaceSchedule>> listHoraires = new LinkedHashMap<String, List<PlaceSchedule>>();
 
 		// réupère le jour voulu de la semaine
@@ -131,7 +132,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * Retourne les horaires d'ouverture de la semaine en cours
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
+	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine,
+			Locale locale) {
 		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
@@ -169,17 +171,21 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		}
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
-		for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-			if (publicHoliday.getDate() != null && publicHoliday.getDate()
-					.compareTo(jourSemaine.getTime()) == 0) {
-				PlaceSchedule placeSchedule = new PlaceSchedule(
-						publicHoliday.getPublicHolidayId(),
-						publicHoliday.getDate(), publicHoliday.getDate(),
-						publicHoliday.getName(locale), locale);
-				placeSchedule.setPublicHoliday(true);
-				placeSchedule.setClosed(true);
-				listHoraires.add(placeSchedule);
-				return listHoraires;
+		// vérifie si le lieu attaché est assujeti au jour férié
+		Place place = this.getPlaceByPlaceId(this.getPlaceId());
+		if (place.isSubjectToPublicHoliday()) {
+			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+				if (publicHoliday.getDate() != null && publicHoliday.getDate()
+						.compareTo(jourSemaine.getTime()) == 0) {
+					PlaceSchedule placeSchedule = new PlaceSchedule(
+							publicHoliday.getPublicHolidayId(),
+							publicHoliday.getDate(), publicHoliday.getDate(),
+							publicHoliday.getName(locale), locale);
+					placeSchedule.setPublicHoliday(true);
+					placeSchedule.setClosed(true);
+					listHoraires.add(placeSchedule);
+					return listHoraires;
+				}
 			}
 		}
 
@@ -200,7 +206,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 						if (period.getAlwaysOpen()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
+									period.getEndDate(), period.getName(locale),
+									locale);
 							placeSchedule.setAlwaysOpen(true);
 							listHoraires.add(placeSchedule);
 						} else {
@@ -234,7 +241,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 						if (listHoraires.isEmpty()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
+									period.getEndDate(), period.getName(locale),
+									locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}
@@ -246,7 +254,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 					if (period.getAlwaysOpen()) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(
 								period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getName(locale), locale);
+								period.getEndDate(), period.getName(locale),
+								locale);
 						placeSchedule.setAlwaysOpen(true);
 						listHoraires.add(placeSchedule);
 					} else {
@@ -278,7 +287,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 						if (listHoraires.isEmpty()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
+									period.getEndDate(), period.getName(locale),
+									locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}

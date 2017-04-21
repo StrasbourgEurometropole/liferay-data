@@ -248,6 +248,9 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
+				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
+					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : false}" />
+				
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">

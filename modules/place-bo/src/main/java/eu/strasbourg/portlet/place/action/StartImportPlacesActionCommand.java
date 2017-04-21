@@ -278,6 +278,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							place.setMercatorY(mercatorY);
 							place.setRGF93X(rgf93X);
 							place.setRGF93Y(rgf93Y);
+							place.setSubjectToPublicHoliday(true);
 
 							// renseigne l'assetEntry avec les anciennes
 							// catégories (des vocabulaires autre que Type de

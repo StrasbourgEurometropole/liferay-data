@@ -42,6 +42,8 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.place.ParkingStateClient;
+import eu.strasbourg.service.place.PoolStateSOAPClient;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -60,7 +62,9 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Place service. Represents a row in
@@ -209,7 +213,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	@Override
 	public List<AssetCategory> getTerritories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-				this.getAssetEntry(), "Territoire");
+				this.getAssetEntry(), VocabularyNames.TERRITORY);
 	}
 
 	/**
@@ -218,7 +222,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-				this.getAssetEntry(), "Type de lieu");
+				this.getAssetEntry(), VocabularyNames.PLACE_TYPE);
 	}
 
 	/**
@@ -454,7 +458,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public Boolean isClosed(GregorianCalendar jourSemaine) {
-		Boolean closed = true;
+		Boolean closed = false;
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
 		for (ScheduleException scheduleException : this
@@ -473,10 +477,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 
 		// vérifie si cette date n'est pas dans les jours fériés
-		for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-			if (publicHoliday.getDate() != null && publicHoliday.getDate()
-					.compareTo(jourSemaine.getTime()) == 0) {
-				return true;
+		if (this.isSubjectToPublicHoliday()) {
+			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+				if (publicHoliday.getDate() != null && publicHoliday.getDate()
+						.compareTo(jourSemaine.getTime()) == 0) {
+					return true;
+				}
 			}
 		}
 
@@ -502,7 +508,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 								return false;
 							}
 						}
-						return true;
 					}
 				}
 			} else {
@@ -528,101 +533,75 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
+	 * 
+	 * @param type
+	 *            (1 = piscine, 2 = parking
 	 */
 	@Override
-	public String[] getRealTime() {
-		String[] realtime = { "#ddd", "noPeriod" };
-		if (Validator.isNotNull(this.getRTExternalId())) {
-			Calendar jourSemaine = GregorianCalendar.getInstance();
+	public OccupationState getRealTime(String type) {
+		OccupationState state = null;
+		if (Validator.isNull(this.getRTExternalId())) {
+			state = OccupationState.DISABLED;
+			return state;
+		}
 
-			// vérifie si cette date n'est pas dans les horaires d'exception
-			for (ScheduleException scheduleException : this
-					.getScheduleExceptions()) {
-				if (scheduleException.getStartDate() != null
-						&& scheduleException.getEndDate() != null
-						&& scheduleException.getStartDate()
-								.compareTo(jourSemaine.getTime()) <= 0
-						&& scheduleException.getEndDate()
-								.compareTo(jourSemaine.getTime()) >= 0) {
-					if (scheduleException.isClosed()) {
-						realtime[0] = "#616161";
-						realtime[1] = "closed";
-						return realtime;
-					}
-				}
+		long occupation = 0;
+		switch (type) {
+		case "1":
+			// récupération de la période en cours
+			GregorianCalendar today = new GregorianCalendar();
+			today.set(Calendar.HOUR_OF_DAY, 0);
+			today.clear(Calendar.MINUTE);
+			today.clear(Calendar.SECOND);
+			today.clear(Calendar.MILLISECOND);
+			if (this.isClosed(today)) {
+				state = OccupationState.CLOSED;
+				return state;
 			}
 
-			// vérifie si cette date n'est pas dans les jours fériés
-			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-				if (publicHoliday.getDate() != null && publicHoliday.getDate()
-						.compareTo(jourSemaine.getTime()) == 0) {
-					realtime[0] = "#616161";
-					realtime[1] = "closed";
-					return realtime;
-				}
-			}
-
-			// s'il n'y a pas d'exception, on vérifie dans les périodes
+			Period periodEnCours = null;
 			for (Period period : this.getPeriods()) {
 				if (!period.getDefaultPeriod()) {
 					if (period.getStartDate() != null
 							&& period.getEndDate() != null
 							&& period.getStartDate()
-									.compareTo(jourSemaine.getTime()) <= 0
+									.compareTo(today.getTime()) <= 0
 							&& period.getEndDate()
-									.compareTo(jourSemaine.getTime()) >= 0) {
-						if (period.getAlwaysOpen()) {
-							realtime[0] = "#97bf0c";
-							realtime[1] = "10";
-							return realtime;
-						} else {
-							// on vérifie qu'il n'y a pas de créneau pour ce
-							// jour
-							for (Slot slot : period.getSlots()) {
-								if (slot.getDayOfWeek() == (jourSemaine
-										.get(Calendar.DAY_OF_WEEK) == 1
-												? 6
-												: jourSemaine
-														.get(Calendar.DAY_OF_WEEK)
-														- 2)) {
-									realtime[0] = "#97bf0c";
-									realtime[1] = "20";
-									return realtime;
-								}
-							}
-							realtime[0] = "#616161";
-							realtime[1] = "closed";
-							return realtime;
-						}
+									.compareTo(today.getTime()) >= 0) {
+						periodEnCours = period;
+						break;
 					}
 				} else {
-					// on vérifie si le lieu n'est pas ouvert 24h/24
-					// 7j/7
-					if (period.getAlwaysOpen()) {
-						realtime[0] = "#97bf0c";
-						realtime[1] = "30";
-					} else {
-						for (Slot slot : period.getSlots()) {
-							if (slot.getDayOfWeek() == (jourSemaine
-									.get(Calendar.DAY_OF_WEEK) == 1
-											? 6
-											: jourSemaine
-													.get(Calendar.DAY_OF_WEEK)
-													- 2)) {
-								realtime[0] = "#97bf0c";
-								realtime[1] = "40";
-								break;
-							}
-						}
-					}
+					periodEnCours = period;
 				}
 			}
-			return realtime;
-		} else {
-			realtime[0] = "white";
-			realtime[1] = "noRealTime";
-			return realtime;
+			if (Validator.isNull(periodEnCours)) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (Validator.isNull(periodEnCours.getRTMaxThreshold())) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			occupation = PoolStateSOAPClient.getOccupation(this);
+			if (occupation == -1) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (occupation > periodEnCours.getRTRedThreshold()) {
+				state = OccupationState.BLACK;
+			} else if (occupation > periodEnCours.getRTOrangeThreshold()) {
+				state = OccupationState.RED;
+			} else if (occupation > periodEnCours.getRTGreenThreshold()) {
+				state = OccupationState.ORANGE;
+			} else
+				state = OccupationState.GREEN;
+			state.setOccupation("" + occupation);
+			break;
+		case "2":
+			state = ParkingStateClient.getOccupationState(this);
 		}
+		return state;
 	}
 
 	/**
@@ -657,7 +636,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * Retourne les horaires d'ouverture du jour
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
+	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine,
+			Locale locale) {
 		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
@@ -695,17 +675,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 
 		// vérifie si cette date n'est pas dans les jours fériés
-		for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-			if (publicHoliday.getDate() != null && publicHoliday.getDate()
-					.compareTo(jourSemaine.getTime()) == 0) {
-				PlaceSchedule placeSchedule = new PlaceSchedule(
-						publicHoliday.getPublicHolidayId(),
-						publicHoliday.getDate(), publicHoliday.getDate(),
-						publicHoliday.getName(locale), locale);
-				placeSchedule.setPublicHoliday(true);
-				placeSchedule.setClosed(true);
-				listHoraires.add(placeSchedule);
-				return listHoraires;
+		if (this.isSubjectToPublicHoliday()) {
+			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+				if (publicHoliday.getDate() != null && publicHoliday.getDate()
+						.compareTo(jourSemaine.getTime()) == 0) {
+					PlaceSchedule placeSchedule = new PlaceSchedule(
+							publicHoliday.getPublicHolidayId(),
+							publicHoliday.getDate(), publicHoliday.getDate(),
+							publicHoliday.getName(locale), locale);
+					placeSchedule.setPublicHoliday(true);
+					placeSchedule.setClosed(true);
+					listHoraires.add(placeSchedule);
+					return listHoraires;
+				}
 			}
 		}
 
@@ -726,7 +708,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 						if (period.getAlwaysOpen()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
 									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
+									period.getEndDate(), period.getName(locale),
+									locale);
 							placeSchedule.setAlwaysOpen(true);
 							listHoraires.add(placeSchedule);
 						} else {
@@ -757,13 +740,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 								}
 							}
 						}
-						if (listHoraires.isEmpty()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(
-									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
-							placeSchedule.setClosed(true);
-							listHoraires.add(placeSchedule);
-						}
 						return listHoraires;
 					}
 				} else {
@@ -772,7 +748,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 					if (period.getAlwaysOpen()) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(
 								period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getName(locale), locale);
+								period.getEndDate(), period.getName(locale),
+								locale);
 						placeSchedule.setAlwaysOpen(true);
 						listHoraires.add(placeSchedule);
 					} else {
@@ -800,13 +777,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 								placeSchedule.setEndTime(endHour);
 								listHoraires.add(placeSchedule);
 							}
-						}
-						if (listHoraires.isEmpty()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(
-									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
-							placeSchedule.setClosed(true);
-							listHoraires.add(placeSchedule);
 						}
 					}
 				}

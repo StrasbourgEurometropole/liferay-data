@@ -655,6 +655,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getPrice();
 	}
 
+	/**
+	* Retourne le temps réel (couleur de fond,valeur)
+	*
+	* @param type
+	(1 = piscine, 2 = parking
+	*/
+	@Override
+	public eu.strasbourg.utils.OccupationState getRealTime(
+		java.lang.String type) {
+		return _place.getRealTime(type);
+	}
+
 	@Override
 	public int compareTo(eu.strasbourg.service.place.model.Place place) {
 		return _place.compareTo(place);
@@ -1953,14 +1965,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String[] getAvailableLanguageIds() {
 		return _place.getAvailableLanguageIds();
-	}
-
-	/**
-	* Retourne le temps réel (couleur de fond,valeur)
-	*/
-	@Override
-	public java.lang.String[] getRealTime() {
-		return _place.getRealTime();
 	}
 
 	/**
