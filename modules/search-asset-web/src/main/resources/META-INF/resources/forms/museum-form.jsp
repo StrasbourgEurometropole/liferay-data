@@ -95,11 +95,11 @@
 			<div class="date-selection-control open">
 				<label><liferay-ui:message key="search-asset-from" /></label>
 				<liferay-ui:input-date name="fromDate" nullable="true"
-					cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonth - 1}"
+					cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonthIndex}"
 					yearParam="fromYear" yearValue="${dc.fromYear}" />
 				<label><liferay-ui:message key="search-asset-to" /></label>
 				<liferay-ui:input-date name="toDate" nullable="true"
-					cssClass="date-selector" dayParam="toDay" dayValue="${dc.toDay}" monthParam="toMonth" monthValue="${dc.toMonth - 1}"
+					cssClass="date-selector" dayParam="toDay" dayValue="${dc.toDay}" monthParam="toMonth" monthValue="${dc.toMonthIndex}"
 					yearParam="toYear" yearValue="${dc.toYear}" />
 			</div>
 		</div>
