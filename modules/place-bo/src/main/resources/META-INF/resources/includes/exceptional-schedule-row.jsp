@@ -2,7 +2,7 @@
 						
 <div class="schedule-label" id="${param.index}"><label><liferay-ui:message key="date-exception" /> ${param.index}</label></div>
 			
-<aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="editor"  /> 
+<aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="text"  /> 
 <div class="place-schedule-description" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
