@@ -217,10 +217,11 @@
 					<div class="row">
 						<div class="col-md-4">
 							<aui:select name="placeCityId" label="eu.campaign.city">
+								<aui:option value="" label="select-city" />
 								<c:forEach var="city" items="${dc.cities}">
 									<aui:option value="${city.categoryId}"
 										label="${city.getTitle(locale)}"
-										selected="${city.categoryId eq dc.campaignEvent.placeCityId or empty dc.campaignEvent.placeCityId && city.name eq 'Strasbourg'}" />
+										selected="${city.categoryId eq dc.campaignEvent.placeCityId}" />
 								</c:forEach>
 							</aui:select>
 						</div>
@@ -480,3 +481,24 @@
 	</script>
 	<script src="/o/agendacampaignweb/js/campaign-edit.js"></script>
 </liferay-util:html-bottom>
+<!-- Ajout du champ obligatoire conditionnel sur le select de la ville -->
+<!-- (obligé de passer par du JS car pas de aui:validator sur aui:select -->
+<aui:script use="liferay-form">
+	var form = Liferay.Form.get('<portlet:namespace />fm');
+    var oldFieldRules = form.get('fieldRules');
+
+    var newFieldRules = [
+    	{
+    		body: function () {
+    			return jQuery('.place-manual').css('display') !== 'none';
+			},
+			custom: false,
+			errorMessage: '<liferay-ui:message key="this-field-is-required" />',
+			fieldName: '<portlet:namespace />placeCityId',
+			validatorName: 'required'
+		}
+	];
+
+	var fieldRules = oldFieldRules.concat(newFieldRules);
+	form.set('fieldRules', fieldRules);
+</aui:script>

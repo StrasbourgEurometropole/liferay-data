@@ -105,22 +105,9 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getEventScheduleDisplay(java.util.Locale locale);
 
 	/**
-	* Retourne true si l'événement est accessible pour au moins un type de
-	* handicap
-	*/
-	public boolean hasAnyAccessForDisabled();
-
-	/**
 	* Retourne la version live de l'édition, si elle existe
 	*/
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
-
-	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	* existe
-	*/
-	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
-		java.util.Locale locale);
 
 	/**
 	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
@@ -133,6 +120,22 @@ public interface Event extends EventModel, PersistedModel {
 	* lié sinon
 	*/
 	public java.lang.String getPlaceAlias(java.util.Locale locale);
+
+	/**
+	* Retourne l'adresse sans la ville
+	*/
+	public java.lang.String getPlaceAddress(java.util.Locale locale);
+
+	/**
+	* Retourne la ville
+	*/
+	public java.lang.String getPlaceCity(java.util.Locale locale);
+
+	/**
+	* Retourne true si l'événement est accessible pour au moins un type de
+	* handicap
+	*/
+	public boolean hasAnyAccessForDisabled();
 
 	/**
 	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il

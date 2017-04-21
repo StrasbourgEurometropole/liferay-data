@@ -197,11 +197,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
 	public static final long LASTENDDATE_COLUMN_BITMASK = 8L;
-	public static final long PLACESIGID_COLUMN_BITMASK = 16L;	
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 23L;
+	public static final long PLACESIGID_COLUMN_BITMASK = 16L;
+	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 32L;
 	public static final long SOURCE_COLUMN_BITMASK = 64L;
 	public static final long STATUS_COLUMN_BITMASK = 128L;
-	public static final long STATUSDATE_COLUMN_BITMASK = 254L;
+	public static final long STATUSDATE_COLUMN_BITMASK = 256L;
 	public static final long TITLE_COLUMN_BITMASK = 512L;
 	public static final long UUID_COLUMN_BITMASK = 1024L;
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2048L;

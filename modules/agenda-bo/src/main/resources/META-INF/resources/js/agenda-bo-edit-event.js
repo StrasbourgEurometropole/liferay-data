@@ -220,21 +220,25 @@ function validatePeriods(event) {
 	return allValidated;
 }
 
+// Autocomplete des lieux
 jQuery(function() {
 	if (!!window.placeAutocompleteURL) {
 		var options = {
-			serviceUrl : placeAutocompleteURL,
+			type : "POST",
+			serviceUrl : "/api/jsonws/place.place/get-places-by-name-and-language/",
 			params : {
-				_eu_strasbourg_portlet_agenda_AgendaBOPortlet_name : '[name]'
+				name : '[name]',
+				language: 'fr_FR',
+				p_auth: Liferay.authToken
 			},
-			paramName : '_eu_strasbourg_portlet_agenda_AgendaBOPortlet_name',
+			paramName : 'name',
 			transformResult : function(response) {
 				return {
 					suggestions : jQuery.map(
-							JSON.parse(response).places, function(
+							JSON.parse(response), function(
 									dataItem) {
 								return {
-									value : dataItem.name,
+									value : dataItem.name.fr_FR,
 									data : dataItem.idSurfs
 								};
 							})
