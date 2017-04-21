@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -278,6 +279,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							place.setMercatorY(mercatorY);
 							place.setRGF93X(rgf93X);
 							place.setRGF93Y(rgf93Y);
+							place.setSubjectToPublicHoliday(true);
 
 							// renseigne l'assetEntry avec les anciennes
 							// catégories (des vocabulaires autre que Type de
@@ -436,7 +438,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant SIG : " + idSIG
-				+ ", nom du lieu : " + nom;
+				+ ", nom du lieu : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {

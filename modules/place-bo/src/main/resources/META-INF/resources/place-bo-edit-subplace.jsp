@@ -55,7 +55,7 @@
 					</aui:input>
 				</div>
 					
-				<strasbourg-picker:entity label="eu.place"
+				<strasbourg-picker:entity label="place-first"
 					name="placeId" value="${dc.subPlace.placeId}"
 					type="eu.strasbourg.service.place.model.Place"
 					multiple="false" />
