@@ -424,34 +424,36 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="sub-places">
 				
-				<ul class="full-borders tabular-list-group">
+				<div id="table">
 				
-					<li class="list-group-item2">
-						<div class="list-group-item-content">
-							<h2><liferay-ui:message key="sub-place" /></h2>
-						</div>
-						<div class="list-group-item-content">
-							<h2><liferay-ui:message key="delete" /></h2>
-						</div>
-					</li>
-					<c:forEach var="subPlace" items="${dc.place.subPlaces}">
-						<li class="list-group-item2">
-							<div class="list-group-item-content">
-								<liferay-portlet:renderURL varImpl="editSubPlaceURL">
-									<portlet:param name="cmd" value="editSubPlace" />
-									<portlet:param name="tab" value="subPlaces" />
-									<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
-									<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
-								</liferay-portlet:renderURL>
-								<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
-							</div>
-							<div class="list-group-item-content">
-								<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
-							</div>
-						</li>
-					</c:forEach>
+					<table border="1">
+						<tr>
+							<th>
+								<strong><liferay-ui:message key="sub-place" /></strong>
+							</th>
+							<th >
+								<strong><liferay-ui:message key="delete" /></strong>
+							</th>
+						</tr>
+						<tr>
+							<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+								<td >
+									<liferay-portlet:renderURL varImpl="editSubPlaceURL">
+										<portlet:param name="cmd" value="editSubPlace" />
+										<portlet:param name="tab" value="subPlaces" />
+										<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
+										<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+									</liferay-portlet:renderURL>
+									<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
+								</td>
+								<td >
+									<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
+								</td>
+							</c:forEach>
+						</tr>
+					</table>
 					
-				</ul>	
+				</div>
 
 				<aui:button cssClass="btn-lg" href="${manageSubPlacesURL}"
 					type="button" value="manage-sub-places" target="_blank" />
