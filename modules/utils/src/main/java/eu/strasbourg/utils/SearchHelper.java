@@ -569,13 +569,20 @@ public class SearchHelper {
 			query.addRequiredTerm(Field.STATUS,
 				WorkflowConstants.STATUS_APPROVED);
 
-			// Mots clés
+			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
-				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
-					Field.TITLE + '_' + locale, "*" + keywords + "*");
-				query.add(titleWildcardQuery, BooleanClauseOccur.MUST);
-			}
+				BooleanQuery keywordQuery = new BooleanQueryImpl();
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
+				titleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
+					Field.TITLE, "*" + keywords + "*");
+				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+
+				query.add(keywordQuery, BooleanClauseOccur.MUST);
+			}
+			
 			// Catégories
 			if (categoriesIds != null) {
 				for (long categoryId : categoriesIds) {
