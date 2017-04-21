@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -320,7 +321,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idTerritoire, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant territoire : "
-				+ idTerritoire + ", nom du territoire : " + nom;
+				+ idTerritoire + ", nom du territoire : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {

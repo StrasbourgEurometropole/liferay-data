@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -319,7 +320,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant type de lieu : "
-				+ idSIG + ", nom du type de lieu : " + nom;
+				+ idSIG + ", nom du type de lieu : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {
