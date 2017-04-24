@@ -7,7 +7,7 @@
 	<portlet:param name="placeId" value="${placeId}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL var="nextURL">
+<liferay-portlet:renderURL var="nextURL" >
 	<portlet:param name="categoryId" value="${category.categoryId}" />
 	<portlet:param name="date" value="${next}" />
 	<portlet:param name="placeId" value="${placeId}" />
@@ -115,7 +115,11 @@
 								<td >
 								    <strong  class="title">${fn:toUpperCase(place.getAlias(locale))}</strong><br/>
 								    ${place.getCity(locale)}<br />
-									<strong><a href="${detailURL}/-/entity/place/${place.placeId}" class="linkMuseum"><liferay-ui:message key="link-detail" /></a></strong>
+									<liferay-portlet:renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal" plid="${plId}" >
+									  <liferay-portlet:param name="classPK" value="${place.placeId}" />
+									  <liferay-portlet:param name="returnURL" value="${currentURL}" />
+									</liferay-portlet:renderURL>
+									<strong><a href="${detailURL}" class="linkMuseum"><liferay-ui:message key="link-detail" /></a></strong>
 								</td>
 								<c:if test="${piscine}">
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
