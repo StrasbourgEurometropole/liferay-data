@@ -175,16 +175,21 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		Place place = this.getPlaceByPlaceId(this.getPlaceId());
 		if (place.isSubjectToPublicHoliday()) {
 			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-				if (publicHoliday.getDate() != null && publicHoliday.getDate()
-						.compareTo(jourSemaine.getTime()) == 0) {
-					PlaceSchedule placeSchedule = new PlaceSchedule(
-							publicHoliday.getPublicHolidayId(),
-							publicHoliday.getDate(), publicHoliday.getDate(),
-							publicHoliday.getName(locale), locale);
-					placeSchedule.setPublicHoliday(true);
-					placeSchedule.setClosed(true);
-					listHoraires.add(placeSchedule);
-					return listHoraires;
+				if (publicHoliday.getDate() != null) {
+					GregorianCalendar publicHolidayYear = new GregorianCalendar();
+					publicHolidayYear.setTime(publicHoliday.getDate());
+					publicHolidayYear.set(Calendar.YEAR,
+							jourSemaine.get(Calendar.YEAR));
+					if (publicHolidayYear.compareTo(jourSemaine) == 0) {
+						PlaceSchedule placeSchedule = new PlaceSchedule(
+								publicHoliday.getPublicHolidayId(),
+								publicHoliday.getDate(), publicHoliday.getDate(),
+								publicHoliday.getName(locale), locale);
+						placeSchedule.setPublicHoliday(true);
+						placeSchedule.setClosed(true);
+						listHoraires.add(placeSchedule);
+						return listHoraires;
+					}
 				}
 			}
 		}
