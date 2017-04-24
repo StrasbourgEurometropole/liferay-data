@@ -535,7 +535,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 * 
 	 * @param type
-	 *            (1 = piscine, 2 = parking
+	 *            (1 = piscine, 2 = parking)
 	 */
 	@Override
 	public OccupationState getRealTime(String type) {

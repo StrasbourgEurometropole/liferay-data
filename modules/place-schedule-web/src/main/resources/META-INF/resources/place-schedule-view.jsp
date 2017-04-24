@@ -135,11 +135,11 @@
 								<c:if test="${parking}">
 										<c:set var="occupationState" value="${place.getRealTime('2')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
-											<c:if test="${empty occupationState.getOccupation()}">
+											<c:if test="${empty occupationState.getAvailable()}">
 												<liferay-ui:message key="${occupationState.getLabel()}" />
 											</c:if>
-											<c:if test="${not empty occupationState.getOccupation()}">
-												${occupationState.getOccupation()} 
+											<c:if test="${not empty occupationState.getAvailable()}">
+												${occupationState.getAvailable()} 
 												<liferay-ui:message key="places_available" /><br/>
 												<liferay-ui:message key="capacity" /> ${occupationState.getCapacity()} 
 											</c:if>
