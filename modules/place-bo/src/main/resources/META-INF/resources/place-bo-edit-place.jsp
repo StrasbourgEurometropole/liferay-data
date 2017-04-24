@@ -425,7 +425,7 @@
 				label="sub-places">
 				
 				<c:if test="${not empty dc.place.subPlaces}">
-					<div id="table">
+					<div id="subPlaces">
 					
 						<table border="1">
 							<tr>

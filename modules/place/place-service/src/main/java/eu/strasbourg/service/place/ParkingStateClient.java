@@ -70,8 +70,7 @@ public class ParkingStateClient extends MVCPortlet {
 				switch (status) {
 				case "status_1":
 					state = OccupationState.OPEN;
-					long occupation = capacity - available;
-					state.setOccupation(""+occupation);
+					state.setAvailable(""+available);
 					state.setCapacity(""+capacity);
 					break;
 				case "status_2":

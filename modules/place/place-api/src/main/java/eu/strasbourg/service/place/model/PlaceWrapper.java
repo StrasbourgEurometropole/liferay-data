@@ -659,7 +659,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type
-	(1 = piscine, 2 = parking
+	(1 = piscine, 2 = parking)
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime(

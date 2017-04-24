@@ -17,4 +17,7 @@ public interface PlaceScheduleConfiguration {
 	@Meta.AD(name = "textScheduleXML", deflt = "", required = false)
 	public String textScheduleXML();
 
+	@Meta.AD(name="linksUuids", deflt = "", required = false)
+	public String linksUuids();
+
 }
