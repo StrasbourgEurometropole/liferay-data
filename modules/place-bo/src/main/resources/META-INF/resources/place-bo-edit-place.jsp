@@ -436,8 +436,8 @@
 									<strong><liferay-ui:message key="delete" /></strong>
 								</th>
 							</tr>
-							<tr>
-								<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+							<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+								<tr>
 									<td >
 										<liferay-portlet:renderURL varImpl="editSubPlaceURL">
 											<portlet:param name="cmd" value="editSubPlace" />
@@ -450,8 +450,8 @@
 									<td >
 										<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
 									</td>
-								</c:forEach>
-							</tr>
+								</tr>
+							</c:forEach>
 						</table>
 						
 					</div>
