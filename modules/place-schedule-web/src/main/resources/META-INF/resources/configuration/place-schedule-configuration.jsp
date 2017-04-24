@@ -14,14 +14,19 @@
 	
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
-	
-		<aui:input name="textMap" value="${textSchedule}" localized="true" type="editor" label="text" />
-		<br/>
 		
 		<aui:fieldset>
 			<div id="categorySelectorLabel"></div>
 			<div id="categorySelector"></div>
 			<aui:input type="hidden" name="categoryId" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="textMap" value="${textSchedule}" localized="true" type="editor" label="text" />
+		</aui:fieldset>
+	
+		<aui:fieldset>
+			<strasbourg-picker:layout name="linksUuids" label="pages" multiple="false" required="true" value="${linksUuids}" />
 		</aui:fieldset>
 		
 		<aui:button-row>

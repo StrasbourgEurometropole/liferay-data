@@ -205,7 +205,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type
-	(1 = piscine, 2 = parking
+	(1 = piscine, 2 = parking)
 	*/
 	public eu.strasbourg.utils.OccupationState getRealTime(
 		java.lang.String type);

@@ -25,7 +25,9 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -39,7 +41,6 @@ import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 /**
  * @author 01i454
@@ -83,6 +84,19 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			}
 			request.setAttribute("textSchedule", text);
 
+			// récupère le plid
+			long plId = 0;
+			String layoutUuid = configuration.linksUuids();
+			if (Validator.isNotNull(layoutUuid)) {
+				Layout layout = LayoutLocalServiceUtil
+						.fetchLayoutByUuidAndGroupId(layoutUuid,
+								themeDisplay.getScopeGroupId(), false);
+				if (Validator.isNotNull(layout)) {
+					plId = layout.getPlid();
+				}
+			}
+			request.setAttribute("plId", plId);
+
 			// réupère le jour voulue
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			GregorianCalendar jourSemaine = new GregorianCalendar();
@@ -120,7 +134,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				StringBuilder date = new StringBuilder(
 						df.format(jourSemaine.getTime()));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
-				String[] dates = {date.toString(), df2.format(jourSemaine.getTime())};
+				String[] dates = { date.toString(),
+						df2.format(jourSemaine.getTime()) };
 				week.add(dates);
 			}
 			request.setAttribute("semaine", week);
@@ -236,8 +251,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);
 
-			request.setAttribute("detailURL",
-					StrasbourgPropsUtil.getPlaceDetailURL());
+			// request.setAttribute("detailURL",
+			// StrasbourgPropsUtil.getPlaceDetailURL());
 
 			super.render(request, response);
 		} catch (Exception e) {
