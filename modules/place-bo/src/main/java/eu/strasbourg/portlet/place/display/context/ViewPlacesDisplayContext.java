@@ -65,7 +65,7 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 		if (Validator.isNull(super.getFilterCategoriesIds()) || super.getFilterCategoriesIds().equals(",")) {
 			return this.getCategoriesIdsPermission();
 		} else {
-			return getFilterCategoriesIds();
+			return super.getFilterCategoriesIds();
 		}
 	}
 	
