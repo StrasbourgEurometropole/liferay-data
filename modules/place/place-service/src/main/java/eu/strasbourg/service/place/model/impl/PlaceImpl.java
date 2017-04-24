@@ -479,14 +479,20 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// vérifie si cette date n'est pas dans les jours fériés
 		if (this.isSubjectToPublicHoliday()) {
 			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-				if (publicHoliday.getDate() != null && publicHoliday.getDate()
-						.compareTo(jourSemaine.getTime()) == 0) {
-					return true;
+				if (publicHoliday.getDate() != null) {
+					GregorianCalendar publicHolidayYear = new GregorianCalendar();
+					publicHolidayYear.setTime(publicHoliday.getDate());
+					publicHolidayYear.set(Calendar.YEAR,
+							jourSemaine.get(Calendar.YEAR));
+					if (publicHolidayYear.compareTo(jourSemaine) == 0) {
+						return true;
+					}
 				}
 			}
 		}
 
 		// s'il n'y a pas d'exception, on vérifie dans les périodes
+		LocalTime heureActuelle = LocalTime.now();
 		for (Period period : this.getPeriods()) {
 			if (!period.getDefaultPeriod()) {
 				if (period.getStartDate() != null && period.getEndDate() != null
@@ -505,7 +511,18 @@ public class PlaceImpl extends PlaceBaseImpl {
 											: jourSemaine
 													.get(Calendar.DAY_OF_WEEK)
 													- 2)) {
-								return false;
+								String[] heure = slot.getStartHour().split(":");
+								LocalTime startHour = LocalTime.of(
+										Integer.parseInt(heure[0]),
+										Integer.parseInt(heure[1]));
+								heure = slot.getEndHour().split(":");
+								LocalTime endHour = LocalTime.of(
+										Integer.parseInt(heure[0]),
+										Integer.parseInt(heure[1]));
+								if (heureActuelle.isAfter(startHour)
+										&& heureActuelle.isBefore(endHour)) {
+									return false;
+								}
 							}
 						}
 					}
@@ -521,8 +538,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 								.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 										: jourSemaine.get(Calendar.DAY_OF_WEEK)
 												- 2)) {
-							closed = false;
-							break;
+							String[] heure = slot.getStartHour().split(":");
+							LocalTime startHour = LocalTime.of(
+									Integer.parseInt(heure[0]),
+									Integer.parseInt(heure[1]));
+							heure = slot.getEndHour().split(":");
+							LocalTime endHour = LocalTime.of(
+									Integer.parseInt(heure[0]),
+									Integer.parseInt(heure[1]));
+							if (heureActuelle.isAfter(startHour)
+									&& heureActuelle.isBefore(endHour)) {
+								closed = false;
+								break;
+							}
 						}
 					}
 				}
@@ -677,16 +705,21 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// vérifie si cette date n'est pas dans les jours fériés
 		if (this.isSubjectToPublicHoliday()) {
 			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-				if (publicHoliday.getDate() != null && publicHoliday.getDate()
-						.compareTo(jourSemaine.getTime()) == 0) {
-					PlaceSchedule placeSchedule = new PlaceSchedule(
-							publicHoliday.getPublicHolidayId(),
-							publicHoliday.getDate(), publicHoliday.getDate(),
-							publicHoliday.getName(locale), locale);
-					placeSchedule.setPublicHoliday(true);
-					placeSchedule.setClosed(true);
-					listHoraires.add(placeSchedule);
-					return listHoraires;
+				if (publicHoliday.getDate() != null) {
+					GregorianCalendar publicHolidayYear = new GregorianCalendar();
+					publicHolidayYear.setTime(publicHoliday.getDate());
+					publicHolidayYear.set(Calendar.YEAR,
+							jourSemaine.get(Calendar.YEAR));
+					if (publicHolidayYear.compareTo(jourSemaine) == 0) {
+						PlaceSchedule placeSchedule = new PlaceSchedule(
+								publicHoliday.getPublicHolidayId(),
+								publicHoliday.getDate(), publicHoliday.getDate(),
+								publicHoliday.getName(locale), locale);
+						placeSchedule.setPublicHoliday(true);
+						placeSchedule.setClosed(true);
+						listHoraires.add(placeSchedule);
+						return listHoraires;
+					}
 				}
 			}
 		}
@@ -739,7 +772,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 									listHoraires.add(placeSchedule);
 								}
 							}
-							if(listHoraires.isEmpty()){
+							if (listHoraires.isEmpty()) {
 								PlaceSchedule placeSchedule = new PlaceSchedule(
 										period.getPeriodId(),
 										period.getStartDate(),
@@ -787,12 +820,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 								listHoraires.add(placeSchedule);
 							}
 						}
-						if(listHoraires.isEmpty()){
+						if (listHoraires.isEmpty()) {
 							PlaceSchedule placeSchedule = new PlaceSchedule(
-									period.getPeriodId(),
-									period.getStartDate(),
-									period.getEndDate(),
-									period.getName(locale), locale);
+									period.getPeriodId(), period.getStartDate(),
+									period.getEndDate(), period.getName(locale),
+									locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}
