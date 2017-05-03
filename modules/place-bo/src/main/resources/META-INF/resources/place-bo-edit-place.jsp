@@ -249,7 +249,7 @@
 				label="horaire">
 				
 				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
-					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : false}" />
+					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
 				
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
@@ -390,7 +390,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
-				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : false}" />
+				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
 				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
