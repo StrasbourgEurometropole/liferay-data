@@ -85,13 +85,13 @@
 	margin-bottom: 20px;
 }
 
-#subPlacestable tr{
+#subPlaces table tr{
 	vertical-align: middle;
 	text-align: center !important;
 	height: 50px;
 }
 
-#subPlacestable th{
+#subPlaces table th{
 	padding: 10px;
 	text-align: center !important;
 	font-size: 18px;
