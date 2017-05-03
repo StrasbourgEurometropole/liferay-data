@@ -11,6 +11,8 @@ import javax.portlet.RenderResponse;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -103,6 +105,37 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	}
 
 	/**
+	 * Retourne la map campaignId/themesIds (ou themesIds est la liste des ids
+	 * des thèmes séparés par des virgules
+	 */
+	public String getCampaignThemes() {
+		JSONObject campaignThemes = JSONFactoryUtil.createJSONObject();
+		for (Campaign campaign : this.getCampaigns()) {
+			String themesIds = "";
+			for (AssetCategory theme : campaign.getThemes()) {
+				if (themesIds.length() > 0) {
+					themesIds += ",";
+				}
+				themesIds += theme.getCategoryId();
+			}
+			campaignThemes.put(String.valueOf(campaign.getCampaignId()), themesIds);
+		}
+		return campaignThemes.toJSONString();
+	}
+	
+	/**
+	 * Retourne la map themeId/themeLabel
+	 */
+	public String getThemeLabels() throws PortalException {
+		JSONObject themeLabels = JSONFactoryUtil.createJSONObject();
+		
+		for (AssetCategory theme : this.getThemes()) {
+			themeLabels.put(String.valueOf(theme.getCategoryId()), theme.getName());
+		}
+		return themeLabels.toJSONString();
+	}
+
+	/**
 	 * Retourne la liste des themes
 	 */
 	public List<AssetCategory> getThemes() throws PortalException {
@@ -171,18 +204,18 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 		return ManifestationLocalServiceUtil.getManifestations(-1, -1).stream()
 			.filter(m -> m.isApproved()).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Retourne les indexes par défaut de l'autofield des périodes
 	 */
 	public String getDefaultPeriodIndexes() throws PortalException {
 		if (this.getCampaignEvent() != null) {
-    		List<EventPeriod> periods = this.getCampaignEvent().getPeriods();
-    		String indexes = "0";
-    		for (int i = 1; i <= periods.size(); i++) {
-    			indexes +=  "," + i;
-    		}
-    		return indexes;
+			List<EventPeriod> periods = this.getCampaignEvent().getPeriods();
+			String indexes = "0";
+			for (int i = 1; i <= periods.size(); i++) {
+				indexes += "," + i;
+			}
+			return indexes;
 		}
 		return "";
 	}

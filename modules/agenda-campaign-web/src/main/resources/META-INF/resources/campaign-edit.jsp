@@ -14,6 +14,8 @@
 	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="periods-error" message="periods-error" />
+	<liferay-ui:error key="types-error" message="types-error" />
+	<liferay-ui:error key="themes-error" message="themes-error" />
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
 		<aui:model-context bean="${dc.campaignEvent}"
 			model="<%=CampaignEvent.class %>" />
@@ -359,7 +361,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- Types / thèmes / publics -->
+					<!-- Types -->
 					<div class="col-md-7 form-group">
 						<label><liferay-ui:message key="types" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
 						<select name="<portlet:namespace />typesIds" label="types" multiple placeholder="<liferay-ui:message key="select-types" />">
@@ -377,7 +379,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-7 form-group">
-						<!-- TODO : thèmes de la campagne uniquement -->
+						<!-- Thèmes -->
 						<label><liferay-ui:message key="themes" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
 						<select name="<portlet:namespace />themesIds" label="themes" multiple placeholder="<liferay-ui:message key="select-themes" />">
 							<c:forEach items="${dc.themes}" var="category">
@@ -394,6 +396,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-7 form-group">
+						<!-- Types -->
 						<label>
 							<liferay-ui:message key="publics" />
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="publics-help" />"> <span class=""> <svg class="lexicon-icon lexicon-icon-question-circle-full" role="img" title="" viewBox="0 0 512 512">  
@@ -470,6 +473,9 @@
 		var namespace = '<portlet:namespace />';
 		var placeAutocompleteURL = '${placeAutocompleteURL}';
 		var getPeriodRowJSPURL = '${periodRowURL}';
+		var themeLabels = ${dc.themeLabels};
+		var campaignThemes = ${dc.campaignThemes};
+		var eventThemes = '${dc.campaignEvent.themesIds}';
 	</aui:script>
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
