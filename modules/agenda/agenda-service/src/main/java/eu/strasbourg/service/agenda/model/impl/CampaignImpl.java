@@ -41,6 +41,7 @@ import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Campaign service. Represents a row
@@ -97,7 +98,7 @@ public class CampaignImpl extends CampaignBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "theme agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
 	}
 
 	/**

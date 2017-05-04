@@ -32,6 +32,7 @@ import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Video service. Represents a row in
@@ -192,7 +193,7 @@ public class VideoImpl extends VideoBaseImpl {
 	@Override
 	public List<AssetCategory> getProviders() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "fournisseur video");
+			this.getAssetEntry(), VocabularyNames.VIDEO_PROVIDER);
 	}
 
 	/**
@@ -201,6 +202,6 @@ public class VideoImpl extends VideoBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "theme video");
+			this.getAssetEntry(), VocabularyNames.VIDEO_THEME);
 	}
 }
