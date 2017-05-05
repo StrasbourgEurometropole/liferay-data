@@ -19,6 +19,7 @@ import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -60,7 +61,7 @@ public class EventItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Events";
+		return LanguageUtil.get(Locale.FRANCE, "eu.events");
 	}
 
 	@Override
