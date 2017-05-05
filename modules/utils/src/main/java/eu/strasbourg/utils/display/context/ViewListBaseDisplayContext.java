@@ -131,6 +131,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
+		case "alias":
 			return "localized_title_fr_FR_sortable";
 		case "modified-date":
 			return "modified_sortable";
