@@ -85,6 +85,10 @@
 	margin-bottom: 20px;
 }
 
+#subPlaces table {
+	border: #869CAD;
+}
+
 #subPlaces table tr{
 	vertical-align: middle;
 	text-align: center !important;
