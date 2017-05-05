@@ -317,3 +317,9 @@ fieldset label, label.control-label {
     margin-left: 10px;
 }
 
+/** WYSIWYG non localisables **/
+.lfr-input-editor.form-control {
+    height: auto;
+    border-bottom: none;
+}
+

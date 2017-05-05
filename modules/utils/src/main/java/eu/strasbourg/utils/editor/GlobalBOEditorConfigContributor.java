@@ -20,7 +20,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.LINK_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO },
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
+		"javax.portlet.name=" + StrasbourgPortletKeys.OFFICIAL_BO },
 	service = EditorConfigContributor.class)
 public class GlobalBOEditorConfigContributor
 	extends BaseEditorConfigContributor {

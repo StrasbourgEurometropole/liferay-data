@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.official.model.Official">
+		<field name="uuid" type="String" />
+		<field name="officialId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="gender" type="int" />
+		<field name="lastName" type="String" />
+		<field name="firstName" type="String" />
+		<field name="thematicDelegation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="missions" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="wasMinister" type="boolean" />
+		<field name="contact" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="imageId" type="Long" />
+	</model>
+</model-hints>

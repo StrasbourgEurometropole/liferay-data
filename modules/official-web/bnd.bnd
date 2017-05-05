@@ -1,0 +1,4 @@
+Bundle-Name: official-web
+Bundle-SymbolicName: official.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.official.itemselector
