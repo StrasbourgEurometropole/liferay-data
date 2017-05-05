@@ -166,9 +166,9 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 					ligne++;
 
-					idTerritoire = chaine[0];
-					idParentTerritoire = chaine[1];
-					nom = chaine[2];
+					idTerritoire = chaine.length > 0 ? chaine[0] : "";
+					idParentTerritoire = chaine.length > 1 ? chaine[1] : "";
+					nom = chaine.length > 2 ? chaine[2] : "";
 
 					if (!idTerritoire.equals("") && !nom.equals("")) {
 
