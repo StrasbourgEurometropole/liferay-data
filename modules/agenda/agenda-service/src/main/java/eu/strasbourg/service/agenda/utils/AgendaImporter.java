@@ -52,6 +52,7 @@ import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -255,6 +256,11 @@ public class AgendaImporter {
 		}
 		if (fileIndex == 0) {
 			_log.info("No file to import");
+			String from = "no-reply@no-reply.strasbourg.eu";
+			String to = StrasbourgPropsUtil.getAgendaImportMails();
+			String subject = "Aucun fichier dans le dossier d'import";
+			String body ="Aucun fichier ne se trouve dans le dossier d'import.";
+			MailHelper.sendMailWithPlainText(from, to, subject, body);
 		}
 
 		// On purge les plus anciens des rapports d'import

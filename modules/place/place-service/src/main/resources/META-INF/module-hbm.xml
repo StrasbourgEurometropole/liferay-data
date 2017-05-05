@@ -78,6 +78,8 @@
 		<property name="accessForElder" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="accessForDeficient" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="RTExternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="occupation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="occupationLastUpdate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -114,7 +116,7 @@
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="startHour" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="endHour" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="closed" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="subPlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

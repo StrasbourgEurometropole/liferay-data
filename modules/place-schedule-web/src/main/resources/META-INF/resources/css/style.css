@@ -1,0 +1,246 @@
+.place-schedule-portlet div[class^=col-] {
+  padding: 0px 15px 0px 15px !important;
+}
+
+.place-schedule-portlet .left{
+	float: left;
+}
+
+.place-schedule-portlet .right{
+	float: right;
+}
+
+.place-schedule-portlet .center{
+	vertical-align: middle;
+	text-align: center;
+}
+
+.place-schedule-portlet table{
+	width: 100%;
+	border-spacing : 2px 5px;
+	border-collapse: inherit;
+	background-color: rgba(255, 255, 255, 0.15);
+
+}
+
+.place-schedule-portlet table tr{
+	vertical-align: middle;
+	background-color: #ddd;
+	height: 100px;
+}
+
+.place-schedule-portlet table th{
+	padding: 10px;
+	text-align: center !important;
+	font-size: 18px;
+}
+
+.place-schedule-portlet table td{
+	text-align: center;
+}
+
+.place-schedule-portlet .place{
+	text-align: left;
+	padding: 10px;
+	width: 13.5%;
+}
+
+.place-schedule-portlet .jours{
+	width: 11%;
+}
+
+.place-schedule-portlet .occupation{
+	width: 9.5%;
+}
+
+.white{
+	background-color: white;
+	color: black;	
+}
+
+.green{
+	background-color: #97bf0c;
+	color: white;
+}
+
+.orange{
+	background-color: #e79615;
+	color: white;
+}
+
+.red{
+	background-color: #d40000;
+	color: white;
+}
+
+.grey{
+	background-color: #616161;
+	color: white;
+}
+
+.black{
+	background-color: black;
+	color: white;
+}
+    
+
+.place-schedule-portlet .linkMuseum{
+	text-decoration: underline !important;
+}
+
+.place-schedule-portlet .subPlace{
+	text-align: left;
+	padding-left: 30px;
+}
+
+
+.place-schedule-portlet .color946_CUL_97 td{
+	border-bottom: 10px #41C797 solid;
+}
+
+.place-schedule-portlet .color945_CUL_96 td{
+	border-bottom: 10px #A30000 solid;
+}
+
+.place-schedule-portlet .color948_CUL_99 td{
+	border-bottom: 10px #4C28D4 solid;
+}
+
+.place-schedule-portlet .color949_CUL_100 td{
+	border-bottom: 10px #C79D49 solid;
+}
+
+.place-schedule-portlet .color942_CUL_93 td{
+	border-bottom: 10px #3F2575 solid;
+}
+
+.place-schedule-portlet .color950_CUL_101 td{
+	border-bottom: 10px #790C3A solid;
+}
+
+.place-schedule-portlet .color944_CUL_95 td{
+	border-bottom: 10px #17B7CB solid;
+}
+
+.place-schedule-portlet .color947_CUL_98 td{
+	border-bottom: 10px #628BA7 solid;
+}
+
+.place-schedule-portlet .color951_CUL_102 td{
+	border-bottom: 10px #D42889 solid;
+}
+
+.place-schedule-portlet .color952_CUL_103 td{
+	border-bottom: 10px #00A369 solid;
+}
+
+.place-schedule-portlet .color943_CUL_94 td{
+	border-bottom: 10px #F3AC00 solid;
+}
+
+.place-schedule-portlet .color1704_CUL_167 td{
+	border-bottom: 10px rgba(255, 255, 255, 0.15) solid;
+}
+
+.place-schedule-portlet .coloraud td{
+	border-bottom: 10px #9528D4 solid;
+}
+
+.place-schedule-portlet .colorbib td{
+	border-bottom: 10px #ED6B2A solid;
+}
+
+.place-schedule-portlet .noRealTime{
+	background-color: white;
+}
+
+.place-schedule-portlet .closed{
+	background-color: #616161;
+}
+
+.place-schedule-portlet .greenPeriod{
+	background-color: #97bf0c;
+}
+
+.place-schedule-portlet .orangePeriod{
+	background-color: #e79615;
+}
+
+.place-schedule-portlet .redPeriod{
+	background-color: #d40000;
+}
+
+.place-schedule-portlet .blackPeriod{
+	background-color: black;
+}
+
+
+
+.place-schedule-portlet .color946_CUL_97 .title{
+	color: #41C797;
+}
+
+.place-schedule-portlet .color945_CUL_96 .title{
+	color: #A30000;
+}
+
+.place-schedule-portlet .color948_CUL_99 .title{
+	color: #4C28D4;
+}
+
+.place-schedule-portlet .color949_CUL_100 .title{
+	color: #C79D49;
+}
+
+.place-schedule-portlet .color942_CUL_93 .title{
+	color: #3F2575;
+}
+
+.place-schedule-portlet .color950_CUL_101 .title{
+	color: #790C3A;
+}
+
+.place-schedule-portlet .color944_CUL_95 .title{
+	color: #17B7CB;
+}
+
+.place-schedule-portlet .color947_CUL_98 .title{
+	color: #628BA7;
+}
+
+.place-schedule-portlet .color951_CUL_102 .title{
+	color: #D42889;
+}
+
+.place-schedule-portlet .color952_CUL_103 .title{
+	color: #00A369;
+}
+
+.place-schedule-portlet .color943_CUL_94 .title{
+	color: #F3AC00;
+}
+
+.place-schedule-portlet .color1704_CUL_167 .title{
+	color: rgba(255, 255, 255, 0.15);
+}
+
+.place-schedule-portlet .coloraud .title{
+	color: #9528D4;
+}
+
+.place-schedule-portlet .colorbib .title{
+	color: #ED6B2A;
+}
+
+.screen{
+	display: ;
+}
+
+/* Media queries
+-------------------------------------------------*/
+@media screen and (max-width: 800px) {
+
+.screen{
+	display: none;
+}
+}

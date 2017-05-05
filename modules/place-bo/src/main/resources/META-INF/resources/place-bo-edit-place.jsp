@@ -248,6 +248,9 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
+				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
+					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
+				
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
@@ -387,7 +390,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
-				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : false}" />
+				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
 				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
@@ -421,34 +424,38 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="sub-places">
 				
-				<ul class="full-borders tabular-list-group">
-				
-					<li class="list-group-item2">
-						<div class="list-group-item-content">
-							<h2><liferay-ui:message key="sub-place" /></h2>
-						</div>
-						<div class="list-group-item-content">
-							<h2><liferay-ui:message key="delete" /></h2>
-						</div>
-					</li>
-					<c:forEach var="subPlace" items="${dc.place.subPlaces}">
-						<li class="list-group-item2">
-							<div class="list-group-item-content">
-								<liferay-portlet:renderURL varImpl="editSubPlaceURL">
-									<portlet:param name="cmd" value="editSubPlace" />
-									<portlet:param name="tab" value="subPlaces" />
-									<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
-									<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
-								</liferay-portlet:renderURL>
-								<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
-							</div>
-							<div class="list-group-item-content">
-								<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
-							</div>
-						</li>
-					</c:forEach>
+				<c:if test="${not empty dc.place.subPlaces}">
+					<div id="subPlaces">
 					
-				</ul>	
+						<table border="1">
+							<tr>
+								<th>
+									<strong><liferay-ui:message key="sub-place" /></strong>
+								</th>
+								<th >
+									<strong><liferay-ui:message key="delete" /></strong>
+								</th>
+							</tr>
+							<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+								<tr>
+									<td >
+										<liferay-portlet:renderURL varImpl="editSubPlaceURL">
+											<portlet:param name="cmd" value="editSubPlace" />
+											<portlet:param name="tab" value="subPlaces" />
+											<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
+											<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+										</liferay-portlet:renderURL>
+										<a href="${editSubPlaceURL}" target="_blank">${subPlace.name}</a>
+									</td>
+									<td >
+										<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+						
+					</div>
+				</c:if>
 
 				<aui:button cssClass="btn-lg" href="${manageSubPlacesURL}"
 					type="button" value="manage-sub-places" target="_blank" />

@@ -532,16 +532,6 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return new EventWrapper(_event.toUnescapedModel());
 	}
 
-	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	* existe
-	*/
-	@Override
-	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
-		java.util.Locale locale) {
-		return _event.getLegacyPlace(locale);
-	}
-
 	@Override
 	public int compareTo(eu.strasbourg.service.agenda.model.Event event) {
 		return _event.compareTo(event);
@@ -946,6 +936,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne l'adresse sans la ville
+	*/
+	@Override
+	public java.lang.String getPlaceAddress(java.util.Locale locale) {
+		return _event.getPlaceAddress(locale);
+	}
+
+	/**
 	* Retourne l'adresse complète du lieu, provenant du lieu interne s'il
 	* existe, du lieu lié sinon
 	*/
@@ -971,6 +969,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getPlaceCity() {
 		return _event.getPlaceCity();
+	}
+
+	/**
+	* Retourne la ville
+	*/
+	@Override
+	public java.lang.String getPlaceCity(java.util.Locale locale) {
+		return _event.getPlaceCity(locale);
 	}
 
 	/**

@@ -216,6 +216,10 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			// -------------------------- HORAIRES ---------------------------
 			// ---------------------------------------------------------------
 
+			boolean subjectPublicHolidays = ParamUtil.getBoolean(request,
+					"subjectPublicHolidays");
+			place.setSubjectToPublicHoliday(subjectPublicHolidays);
+
 			// --------------------- Périodes & horaires ---------------------
 
 			// Suppression des périodes liées au sous lieu
@@ -269,8 +273,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					period.setAlwaysOpen(alwaysOpen);
 					period.setPlaceId(place.getPlaceId());
 
-					// ------------------------ Fréquentation
-					// ------------------------
+					// ------------------------ Fréquentation ------------------------
 					if (place.isEnabled()) {
 						period.setRTGreenThreshold(RTGreenThreshold);
 						period.setRTOrangeThreshold(RTOrangeThreshold);
@@ -413,8 +416,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 				subPlace.setPlaceId(0);
 				_subPlaceLocalService.updateSubPlace(subPlace);
 			}
-
-			place.setSubjectToPublicHoliday(false);
 
 			_placeLocalService.updatePlace(place, sc);
 		} catch (

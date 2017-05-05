@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(105);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -161,6 +161,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(accessForDeficient);
 		sb.append(", RTExternalId=");
 		sb.append(RTExternalId);
+		sb.append(", occupation=");
+		sb.append(occupation);
+		sb.append(", occupationLastUpdate=");
+		sb.append(occupationLastUpdate);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", imageIds=");
@@ -436,6 +440,20 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setRTExternalId(RTExternalId);
 		}
 
+		if (occupation == null) {
+			placeImpl.setOccupation(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setOccupation(occupation);
+		}
+
+		if (occupationLastUpdate == Long.MIN_VALUE) {
+			placeImpl.setOccupationLastUpdate(null);
+		}
+		else {
+			placeImpl.setOccupationLastUpdate(new Date(occupationLastUpdate));
+		}
+
 		placeImpl.setImageId(imageId);
 
 		if (imageIds == null) {
@@ -528,6 +546,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 		accessForDeficient = objectInput.readBoolean();
 		RTExternalId = objectInput.readUTF();
+		occupation = objectInput.readUTF();
+		occupationLastUpdate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
 		imageIds = objectInput.readUTF();
@@ -782,6 +802,15 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(RTExternalId);
 		}
 
+		if (occupation == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(occupation);
+		}
+
+		objectOutput.writeLong(occupationLastUpdate);
+
 		objectOutput.writeLong(imageId);
 
 		if (imageIds == null) {
@@ -855,6 +884,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public boolean accessForElder;
 	public boolean accessForDeficient;
 	public String RTExternalId;
+	public String occupation;
+	public long occupationLastUpdate;
 	public long imageId;
 	public String imageIds;
 	public String videosIds;

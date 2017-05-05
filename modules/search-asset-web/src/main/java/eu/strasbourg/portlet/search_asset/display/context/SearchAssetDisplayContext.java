@@ -95,12 +95,12 @@ public class SearchAssetDisplayContext {
 			iteratorURL.setParameter("fromDay",
 				String.valueOf(this.getFromDay()));
 			iteratorURL.setParameter("fromMonth",
-				String.valueOf(this.getFromMonth()));
+				String.valueOf(this.getFromMonthIndex()));
 			iteratorURL.setParameter("fromYear",
 				String.valueOf(this.getFromYear()));
 			iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
 			iteratorURL.setParameter("toMonth",
-				String.valueOf(this.getToMonth()));
+				String.valueOf(this.getToMonthIndex()));
 			iteratorURL.setParameter("toYear",
 				String.valueOf(this.getToYear()));
 		}
@@ -163,8 +163,8 @@ public class SearchAssetDisplayContext {
 		boolean dateField = this._configuration.dateField();
 		String dateFieldName = this._configuration.defaultSortField();
 		LocalDate fromDate = LocalDate.of(this.getFromYear(),
-			this.getFromMonth(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonth(),
+			this.getFromMonthValue(), this.getFromDay());
+		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(),
 			this.getToDay());
 
 		// Ordre
@@ -239,15 +239,16 @@ public class SearchAssetDisplayContext {
 
 	public String getFilterCategoriesIdsString() {
 		if (Validator.isNull(this._filterCategoriesIdString)) {
-		String filterCategoriesIdsString = "";
-		for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
-			for (long filterCategoryId : filterCategoriesForVoc) {
-				if (filterCategoriesIdsString.length() > 0) {
-					filterCategoriesIdsString += ",";
+			String filterCategoriesIdsString = "";
+			for (Long[] filterCategoriesForVoc : this
+				.getFilterCategoriesIds()) {
+				for (long filterCategoryId : filterCategoriesForVoc) {
+					if (filterCategoriesIdsString.length() > 0) {
+						filterCategoriesIdsString += ",";
+					}
+					filterCategoriesIdsString += filterCategoryId;
 				}
-				filterCategoriesIdsString += filterCategoryId;
 			}
-		}
 			this._filterCategoriesIdString = filterCategoriesIdsString;
 		}
 		return this._filterCategoriesIdString;
@@ -500,8 +501,12 @@ public class SearchAssetDisplayContext {
 		}
 
 	}
+	
+	public int getFromMonthIndex() {
+		return getFromMonthValue() - 1;
+	}
 
-	public int getFromMonth() {
+	public int getFromMonthValue() {
 		String fromMonthString = ParamUtil.getString(this._request,
 			"fromMonth");
 		if (Validator.isNull(fromMonthString)) {
@@ -545,8 +550,12 @@ public class SearchAssetDisplayContext {
 			}
 		}
 	}
+	
+	public int getToMonthIndex() {
+		return getToMonthValue() - 1;
+	}
 
-	public int getToMonth() {
+	public int getToMonthValue() {
 		String toMonthString = ParamUtil.getString(this._request, "toMonth");
 		if (Validator.isNull(toMonthString)) {
 			if (this._configuration.defaultDateRange() > 0) {
@@ -602,14 +611,16 @@ public class SearchAssetDisplayContext {
 
 	public Map<String, Object> getTemplateContextObjects(AssetEntry entry) {
 		Map<String, Object> contextObjects = new HashMap<String, Object>();
-		contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
+		if (entry.getAssetRenderer() != null) {
+			contextObjects.put("entry",
+				entry.getAssetRenderer().getAssetObject());
 
-		boolean isFeatured = this.isEntryFeatured(entry);
-		contextObjects.put("isFeatured", isFeatured);
-		
+			boolean isFeatured = this.isEntryFeatured(entry);
+			contextObjects.put("isFeatured", isFeatured);
+		}
 		return contextObjects;
 	}
-	
+
 	public boolean isEntryFeatured(AssetEntry entry) {
 		String[] boostTagsNames = StringUtil
 			.split(this.getConfiguration().boostTagsNames());

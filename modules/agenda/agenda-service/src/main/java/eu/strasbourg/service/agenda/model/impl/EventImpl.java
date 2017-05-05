@@ -16,10 +16,8 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -39,12 +37,14 @@ import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.models.LegacyPlace;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -184,17 +184,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne true si l'événement est accessible pour au moins un type de
-	 * handicap
-	 */
-	@Override
-	public boolean hasAnyAccessForDisabled() {
-		return this.getAccessForBlind() || this.getAccessForDeaf()
-			|| this.getAccessForWheelchair() || this.getAccessForDeficient()
-			|| this.getAccessForElder();
-	}
-
-	/**
 	 * Retourne la version live de l'édition, si elle existe
 	 */
 	@Override
@@ -211,22 +200,16 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	 * Retourne l'objet "Place" correspondant au lieu de l'événement, s'il
 	 * existe
 	 */
-	@Override
-	public LegacyPlace getLegacyPlace(Locale locale) {
-		if (locale_legacyPlace == null) {
-			locale_legacyPlace = new HashMap<Locale, LegacyPlace>();
+	private Place place = null;
+
+	private Place getPlace() {
+		if (place == null && Validator.isNotNull(this.getPlaceSIGId())) {
+			place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 		}
-		if (locale_legacyPlace.get(locale) == null) {
-			LegacyPlace legacyPlace = LegacyPlace
-				.fromSIGId(this.getPlaceSIGId(), locale);
-			if (legacyPlace != null) {
-				locale_legacyPlace.put(locale, legacyPlace);
-			}
-		}
-		return locale_legacyPlace.get(locale);
+		return place;
 	}
 
 	/**
@@ -235,13 +218,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getCity(Locale locale) {
-		if (Validator.isNotNull(this.getPlaceCity())) {
-			return this.getPlaceCity();
-		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
-			return this.getLegacyPlace(locale).getCity();
-		} else {
-			return "";
-		}
+		return this.getPlace() == null ? super.getPlaceCity()
+			: this.getPlace().getCity(locale);
 	}
 
 	/**
@@ -250,13 +228,90 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getPlaceAlias(Locale locale) {
-		if (Validator.isNotNull(this.getPlaceName(locale))) {
-			return this.getPlaceName(locale);
-		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
-			return this.getLegacyPlace(locale).getAlias();
+		return this.getPlace() == null ? super.getPlaceName(locale)
+			: this.getPlace().getAlias(locale);
+	}
+
+	/**
+	 * Retourne l'adresse sans la ville
+	 */
+	@Override
+	public String getPlaceAddress(Locale locale) {
+		if (this.getPlace() == null) {
+			return this.getPlaceStreetNumber() + " "
+				+ this.getPlaceStreetName();
 		} else {
-			return "";
+			return this.getPlace().getAddressStreet() + " "
+				+ this.getPlace().getAddressComplement();
 		}
+	}
+
+	/**
+	 * Retourne la ville
+	 */
+	@Override
+	public String getPlaceCity(Locale locale) {
+		return this.getPlace() == null ? super.getPlaceCity()
+			: this.getPlace().getCity(locale);
+	}
+
+	/**
+	 * Retourne le code postal
+	 */
+	@Override
+	public String getPlaceZipCode() {
+		return this.getPlace() == null ? super.getPlaceZipCode()
+			: this.getPlace().getAddressZipCode();
+	}
+
+	/**
+	 * Retourne l'accès
+	 */
+	@Override
+	public String getAccess(Locale locale) {
+		return this.getPlace() == null ? super.getAccess(locale)
+			: this.getPlace().getAccess(locale);
+	}
+
+	@Override
+	public Boolean getAccessForBlind() {
+		return this.getPlace() == null ? super.getAccessForBlind()
+			: this.getPlace().getAccessForBlind();
+	}
+
+	@Override
+	public Boolean getAccessForDeaf() {
+		return this.getPlace() == null ? super.getAccessForDeaf()
+			: this.getPlace().getAccessForDeaf();
+	}
+
+	@Override
+	public Boolean getAccessForDeficient() {
+		return this.getPlace() == null ? super.getAccessForDeficient()
+			: this.getPlace().getAccessForDeficient();
+	}
+
+	@Override
+	public Boolean getAccessForElder() {
+		return this.getPlace() == null ? super.getAccessForElder()
+			: this.getPlace().getAccessForElder();
+	}
+
+	@Override
+	public Boolean getAccessForWheelchair() {
+		return this.getPlace() == null ? super.getAccessForWheelchair()
+			: this.getPlace().getAccessForWheelchair();
+	}
+
+	/**
+	 * Retourne true si l'événement est accessible pour au moins un type de
+	 * handicap
+	 */
+	@Override
+	public boolean hasAnyAccessForDisabled() {
+		return (this.getAccessForBlind() || this.getAccessForDeaf()
+			|| this.getAccessForWheelchair() || this.getAccessForDeficient()
+			|| this.getAccessForElder());
 	}
 
 	/**
@@ -268,10 +323,10 @@ public class EventImpl extends EventBaseImpl {
 		if (Validator.isNotNull(this.getPlaceName())) {
 			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName()
 				+ "<br>" + this.getPlaceZipCode() + " " + this.getCity(locale);
-		} else if (Validator.isNotNull(this.getLegacyPlace(locale))) {
-			LegacyPlace place = this.getLegacyPlace(locale);
-			return place.getStreet() + "<br>" + place.getZipCode() + " "
-				+ place.getCity();
+		} else if (Validator.isNotNull(this.getPlace())) {
+			Place place = this.getPlace();
+			return place.getAddressStreet() + "<br>" + place.getAddressZipCode()
+				+ " " + place.getCity(locale);
 		} else {
 			return "";
 		}
@@ -283,7 +338,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "type agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_TYPE);
 	}
 
 	/**
@@ -307,7 +362,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "theme agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
 	}
 
 	/**
@@ -331,7 +386,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getPublics() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "public agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_PUBLIC);
 	}
 
 	/**
@@ -355,7 +410,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getTerritories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "territoire");
+			this.getAssetEntry(), VocabularyNames.TERRITORY);
 	}
 
 	/**
@@ -364,7 +419,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "service gestionnaire");
+			this.getAssetEntry(), VocabularyNames.EVENT_SERVICE);
 	}
 
 	/**
@@ -516,7 +571,4 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
-
-	private Map<Locale, LegacyPlace> locale_legacyPlace;
-
 }

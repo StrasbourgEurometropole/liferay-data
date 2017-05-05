@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -70,6 +71,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 	private List<String> listCategoryModifies;
 	private List<String> listCategoryErreurs;
 	private ServiceContext sc = null;
+	private Locale locale = null;
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
@@ -86,6 +88,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 			ThemeDisplay td = (ThemeDisplay) request
 					.getAttribute(WebKeys.THEME_DISPLAY);
+			locale = td.getLocale();
 			sc.setScopeGroupId(td.getCompanyGroupId());
 			sc.setUserId(td.getUserId());
 		} catch (PortalException e) {
@@ -163,9 +166,9 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 					ligne++;
 
-					idSIG = chaine[0];
-					idParentSIG = chaine[1];
-					nom = chaine[2];
+					idSIG = chaine.length > 0 ? chaine[0] : "";
+					idParentSIG = chaine.length > 1 ? chaine[1] : "";
+					nom = chaine.length > 2 ? chaine[2] : "";
 
 					if (!idSIG.equals("") && !nom.equals("")) {
 
@@ -238,13 +241,13 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 								// que si son titre français est différent du
 								// nom
 								if (!nom.equals(selectCategory
-										.getTitle(Locale.FRENCH))) {
+										.getTitle(locale))) {
 									try {
 										// ATTENTION, on ne modifie que le titre
 										// en français
 										Map<Locale, String> titres = selectCategory
 												.getTitleMap();
-										titres.replace(Locale.FRENCH, nom);
+										titres.replace(locale, nom);
 										_assetCategoryService.updateCategory(
 												selectCategory.getCategoryId(),
 												idParent, titres, null,
@@ -317,13 +320,13 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant type de lieu : "
-				+ idSIG + ", nom du type de lieu : " + nom;
+				+ idSIG + ", nom du type de lieu : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d'import des catégories - "
+		String titre = environment + " Journal d'import des categories - "
 				+ resultat;
 		String corps;
 		if (resultat.equals("ERREUR")) {

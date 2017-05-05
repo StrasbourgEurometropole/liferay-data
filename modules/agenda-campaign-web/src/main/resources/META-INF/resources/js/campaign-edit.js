@@ -35,32 +35,25 @@ $('[name=serviceType]').on('click change', function(e) {
 	$('.' + classOfDivToHide + ' select').val('');
 });
 
-// Champs select multiples
-var choices = new Choices('[multiple]', {
-	removeItemButton: true,
-	loadingText: 'Chargement...',
-    noResultsText: 'Aucun résultat trouvé',
-    noChoicesText: 'Aucune option disponible',
-    itemSelectText: 'Cliquer pour sélectionner',
-    shouldSort: false
-});
-
-// Autocomplete lieux
+//Autocomplete des lieux
 jQuery(function() {
 	if (!!window.placeAutocompleteURL) {
 		var options = {
-			serviceUrl : placeAutocompleteURL,
+			type : "POST",
+			serviceUrl : "/api/jsonws/place.place/get-places-by-name-and-language/",
 			params : {
-				name : '[name]'
+				name : '[name]',
+				language: 'fr_FR',
+				p_auth: Liferay.authToken
 			},
 			paramName : 'name',
 			transformResult : function(response) {
 				return {
 					suggestions : jQuery.map(
-							JSON.parse(response).places, function(
+							JSON.parse(response), function(
 									dataItem) {
 								return {
-									value : dataItem.name,
+									value : dataItem.name.fr_FR,
 									data : dataItem.idSurfs
 								};
 							})
@@ -210,6 +203,57 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 			Liferay.component($(this).attr('id')).updateInputLanguage(newValue);
 		});
 	});
+})(jQuery);
+
+// Choices.js et dropdown des thèmes en fonction de la dropdown des campagnes
+(function($) {
+	// Champs select multiples
+	var choicesOptions = {
+		removeItemButton: true,
+		loadingText: 'Chargement...',
+	    noResultsText: 'Aucun résultat trouvé',
+	    noChoicesText: 'Aucune option disponible',
+	    itemSelectText: 'Cliquer pour sélectionner',
+	    shouldSort: false
+	}
+
+	var manifestationChoices = new Choices('[name=' + namespace + 'manifestations][multiple]', choicesOptions);
+	var themeChoices = new Choices('[name=' + namespace + 'themesIds][multiple]', choicesOptions);
+	var typeChoices = new Choices('[name=' + namespace + 'typesIds][multiple]', choicesOptions);
+	var publicChoices = new Choices('[name=' + namespace + 'publicsIds][multiple]', choicesOptions);
+	window.themeChoices = themeChoices; // On en a besoin ci dessous
+
+	// Met à jour la dropdown des thèmes selon le paramètre "campaignId"
+	// La désactive si campaignId est vide
+	function updateThemeOptions(campaignId) {
+		if (!campaignId) {
+			themeChoices.clearInput();
+			themeChoices.clearStore();
+			themeChoices.disable();
+		} else {
+			var themesIdsString = campaignThemes[campaignId];
+			var themesIds = themesIdsString.split(',');
+			var choices = [];
+			for (var i = 0; i < themesIds.length; i++) {
+				choices.push({
+					label: themeLabels[themesIds[i]],
+					value: themesIds[i],
+					selected: eventThemes.indexOf(themesIds[i]) > -1
+				});
+			}
+			themeChoices.clearInput();
+			themeChoices.clearStore();
+			themeChoices.setChoices(choices, 'value', 'label', true);
+			themeChoices.enable();
+		}	
+	}
+	
+	var campaignDropdown = $('[name=' + namespace + 'campaignId]');
+	campaignDropdown.on('change', function(event) {
+		updateThemeOptions(campaignDropdown.val());
+	});
+	updateThemeOptions(campaignDropdown.val());
+	
 })(jQuery);
 
 

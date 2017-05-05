@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -215,19 +216,19 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 				ligne++;
 
-				idSIG = chaine[0];
-				alias = chaine[1];
-				idCategSIG = chaine[2].split(",");
-				complement = chaine[3];
-				voie = chaine[4];
-				distribution = chaine[5];
-				codePostal = chaine[6];
-				pays = chaine[8];
-				mercatorX = chaine[9];
-				mercatorY = chaine[10];
-				rgf93X = chaine[11];
-				rgf93Y = chaine[12];
-				idTerritoireSIG = chaine[13].split(",");
+				idSIG = chaine.length > 0 ? chaine[0] : "";
+				alias = chaine.length > 1 ? chaine[1] : "";
+				idCategSIG = chaine.length > 2 ? chaine[2].split(",") : new String[0];
+				complement = chaine.length > 3 ? chaine[3] : "";
+				voie = chaine.length > 4 ? chaine[4] : "";
+				distribution = chaine.length > 5 ? chaine[5] : "";
+				codePostal = chaine.length > 6 ? chaine[6] : "";
+				pays = chaine.length > 8 ? chaine[8] : "";
+				mercatorX = chaine.length > 9 ? chaine[9] : "";
+				mercatorY = chaine.length > 10 ? chaine[10] : "";
+				rgf93X = chaine.length > 11 ? chaine[11] : "";
+				rgf93Y = chaine.length > 12 ? chaine[12] : "";
+				idTerritoireSIG =  chaine.length > 13 ? chaine[13].split(",") :  new String[0];
 
 				if (!idSIG.equals("") && !alias.equals("")
 						&& idCategSIG.length > 0 && !voie.equals("")
@@ -278,6 +279,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							place.setMercatorY(mercatorY);
 							place.setRGF93X(rgf93X);
 							place.setRGF93Y(rgf93Y);
+							place.setSubjectToPublicHoliday(true);
 
 							// renseigne l'assetEntry avec les anciennes
 							// catégories (des vocabulaires autre que Type de
@@ -436,7 +438,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant SIG : " + idSIG
-				+ ", nom du lieu : " + nom;
+				+ ", nom du lieu : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {

@@ -81,6 +81,8 @@ public class PlaceSoap implements Serializable {
 		soapModel.setAccessForElder(model.getAccessForElder());
 		soapModel.setAccessForDeficient(model.getAccessForDeficient());
 		soapModel.setRTExternalId(model.getRTExternalId());
+		soapModel.setOccupation(model.getOccupation());
+		soapModel.setOccupationLastUpdate(model.getOccupationLastUpdate());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setImageIds(model.getImageIds());
 		soapModel.setVideosIds(model.getVideosIds());
@@ -522,6 +524,22 @@ public class PlaceSoap implements Serializable {
 		_RTExternalId = RTExternalId;
 	}
 
+	public String getOccupation() {
+		return _occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		_occupation = occupation;
+	}
+
+	public Date getOccupationLastUpdate() {
+		return _occupationLastUpdate;
+	}
+
+	public void setOccupationLastUpdate(Date occupationLastUpdate) {
+		_occupationLastUpdate = occupationLastUpdate;
+	}
+
 	public long getImageId() {
 		return _imageId;
 	}
@@ -609,6 +627,8 @@ public class PlaceSoap implements Serializable {
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
 	private String _RTExternalId;
+	private String _occupation;
+	private Date _occupationLastUpdate;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

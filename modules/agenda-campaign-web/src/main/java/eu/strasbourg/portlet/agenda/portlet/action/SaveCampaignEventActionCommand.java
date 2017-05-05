@@ -422,6 +422,18 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "periods-error");
 			isValid = false;
 		}
+		
+		// Thèmes et types
+		long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+		long[] typesIds = ParamUtil.getLongValues(request, "typesIds");
+		if (themesIds.length == 0) {
+			SessionErrors.add(request, "themes-error");
+			isValid = false;
+		}
+		if (typesIds.length == 0) {
+			SessionErrors.add(request, "types-error");
+			isValid = false;
+		}
 
 		return isValid;
 	}

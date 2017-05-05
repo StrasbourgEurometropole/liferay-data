@@ -1,6 +1,7 @@
 package eu.strasbourg.service.agenda.scheduler;
 
 import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -18,6 +19,7 @@ import eu.strasbourg.service.agenda.service.EventLocalService;
  * Importe automatiquement les événements et les manifestations des fichiers
  * JSON présents dans le dossier d'import.
  */
+@Component(immediate = true, service = ImportEventsMessageListener.class)
 public class ImportEventsMessageListener
 	extends BaseSchedulerEntryMessageListener {
 
@@ -27,7 +29,7 @@ public class ImportEventsMessageListener
 		// Tous les jours à 4h
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), "0 0 4 1/1 * ? *"));
+				getEventListenerClass(), "0 0 4 * * ?"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
 	}

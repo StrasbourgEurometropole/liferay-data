@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -70,6 +71,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 	private List<String> listCategoryModifies = new ArrayList<String>();
 	private List<String> listCategoryErreurs = new ArrayList<String>();
 	private ServiceContext sc = null;
+	private Locale locale = null;
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
@@ -83,6 +85,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 			ThemeDisplay td = (ThemeDisplay) request
 					.getAttribute(WebKeys.THEME_DISPLAY);
+			locale = td.getLocale();
 			sc.setScopeGroupId(td.getCompanyGroupId());
 			sc.setUserId(td.getUserId());
 		} catch (PortalException e) {
@@ -163,9 +166,9 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 					ligne++;
 
-					idTerritoire = chaine[0];
-					idParentTerritoire = chaine[1];
-					nom = chaine[2];
+					idTerritoire = chaine.length > 0 ? chaine[0] : "";
+					idParentTerritoire = chaine.length > 1 ? chaine[1] : "";
+					nom = chaine.length > 2 ? chaine[2] : "";
 
 					if (!idTerritoire.equals("") && !nom.equals("")) {
 
@@ -240,13 +243,13 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 								// que si son titre français est différent du
 								// nom
 								if (!nom.equals(selectCategory
-										.getTitle(Locale.FRENCH))) {
+										.getTitle(locale))) {
 									try {
 										// ATTENTION, on ne modifie que le titre
 										// en français
 										Map<Locale, String> titres = selectCategory
 												.getTitleMap();
-										titres.replace(Locale.FRENCH, nom);
+										titres.replace(locale, nom);
 										_assetCategoryService.updateCategory(
 												selectCategory.getCategoryId(),
 												idParent, titres, null,
@@ -318,7 +321,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 	public String ligneRetour(int ligne, String idTerritoire, String nom) {
 		return "N&deg; ligne : " + ligne + ", identifiant territoire : "
-				+ idTerritoire + ", nom du territoire : " + nom;
+				+ idTerritoire + ", nom du territoire : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {

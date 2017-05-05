@@ -88,6 +88,8 @@
 		<field name="accessForElder" type="Boolean" />
 		<field name="accessForDeficient" type="Boolean" />
 		<field name="RTExternalId" type="String" />
+		<field name="occupation" type="String" />
+		<field name="occupationLastUpdate" type="Date" />
 		<field name="imageId" type="long" />
 		<field name="imageIds" type="String" />
 		<field name="videosIds" type="String" />
@@ -126,9 +128,7 @@
 		</field>
 		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
-		<field localized="true" name="comment" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field localized="true" name="comment" type="String" />
 		<field name="closed" type="boolean" />
 		<field name="placeId" type="long" />
 		<field name="subPlaceId" type="long" />

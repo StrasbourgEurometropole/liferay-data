@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -277,8 +278,10 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 */
 	@Override
 	public void unpublishPastEvents() throws PortalException {
+		Calendar tomorrow = Calendar.getInstance();
+		tomorrow.add(Calendar.DATE, 1);
 		List<Event> events = this.eventPersistence
-			.findByLastEndDate(new Date());
+			.findByLastEndDate(tomorrow.getTime());
 		for (Event event : events) {
 			if (event.getStatus() != WorkflowConstants.STATUS_DRAFT) {
 				this.updateStatus(event, WorkflowConstants.STATUS_DRAFT);

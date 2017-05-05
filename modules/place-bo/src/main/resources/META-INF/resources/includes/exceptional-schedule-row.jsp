@@ -2,7 +2,7 @@
 						
 <div class="schedule-label" id="${param.index}"><label><liferay-ui:message key="date-exception" /> ${param.index}</label></div>
 			
-<aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="textarea"  />
+<aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="text"  /> 
 <div class="place-schedule-description" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
@@ -10,6 +10,10 @@
 <aui:input type="date" name="startDateScheduleException${param.index}" label="start-date-schedule" value="${param.startDate}" />
 <div class="place-schedule-start-date" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
+</div>
+
+<div class="place-schedule-incorrect-date" style="display: none">
+	<liferay-ui:message key="incorrect-date" />
 </div>
 
 <aui:input type="date" name="endDateScheduleException${param.index}" label="end-date-schedule" value="${param.endDate}" />
@@ -23,7 +27,7 @@
 	
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
 	<aui:input type="text" value="${param.startHour}" name="startHour${param.index}" label="start-hour" placeholder="HH:MM" >
-		<aui:validator errorMessage="hour-required" 
+		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {
 		        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
@@ -34,8 +38,13 @@
 	<div class="place-schedule-start-hour" style="display: none">
 		<liferay-ui:message key="this-field-is-required" />
 	</div>
+	
+	<div class="place-schedule-incorrect-hour" style="display: none">
+		<liferay-ui:message key="incorrect-hour" />
+	</div>
+
 	<aui:input type="text" value="${param.endHour}" name="endHour${param.index}" label="end-hour" placeholder="HH:MM" >
-		<aui:validator errorMessage="hour-required" 
+		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {
 		        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);

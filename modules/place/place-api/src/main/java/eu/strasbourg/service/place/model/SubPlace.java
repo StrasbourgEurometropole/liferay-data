@@ -69,4 +69,22 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	*/
 	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
 		long placeId);
+
+	/**
+	* Retourne les PublicHolidays
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays();
+
+	/**
+	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
+	* semaine en cours
+	*/
+	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
+		java.util.Date dateJour, java.util.Locale locale);
+
+	/**
+	* Retourne les horaires d'ouverture de la semaine en cours
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 }

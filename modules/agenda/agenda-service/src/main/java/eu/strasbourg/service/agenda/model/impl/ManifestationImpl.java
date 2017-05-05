@@ -39,6 +39,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Manifestation service. Represents a
@@ -183,7 +184,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "type agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_TYPE);
 	}
 	
 	/**
@@ -207,7 +208,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "theme agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
 	}
 	
 	/**
@@ -231,7 +232,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	@Override
 	public List<AssetCategory> getPublics() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "public agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_PUBLIC);
 	}
 	
 	/**
@@ -255,7 +256,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	@Override
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "service gestionnaire");
+			this.getAssetEntry(), VocabularyNames.EVENT_SERVICE);
 	}
 
 	/**

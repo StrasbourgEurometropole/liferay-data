@@ -193,12 +193,10 @@
 						<liferay-ui:icon icon="times" message="request-deletion"
 							url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 8)" />
 							
-						<c:if test="${campaignEvent.status eq 2}">
-							<liferay-portlet:actionURL name="duplicateCampaignEvent" var="duplicateCampaignEventURL">
-								<liferay-portlet:param name="campaignEventId" value="${campaignEvent.campaignEventId}" />
-							</liferay-portlet:actionURL>
-							<liferay-ui:icon icon="copy" message="duplicate" url="${duplicateCampaignEventURL}" />
-						</c:if>
+						<liferay-portlet:actionURL name="duplicateCampaignEvent" var="duplicateCampaignEventURL">
+							<liferay-portlet:param name="campaignEventId" value="${campaignEvent.campaignEventId}" />
+						</liferay-portlet:actionURL>
+						<liferay-ui:icon icon="copy" message="duplicate" url="${duplicateCampaignEventURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

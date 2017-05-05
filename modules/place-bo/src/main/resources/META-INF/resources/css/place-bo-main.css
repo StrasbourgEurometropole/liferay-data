@@ -9,19 +9,19 @@
     padding-top: 1px;
 }
 
-.place-period-name, .place-period-label, .place-period-url, .place-period-default, .place-period-start-date, .place-period-end-date {
+.place-period-name, .place-period-label, .place-period-url, .place-period-default, .place-period-start-date, .place-period-end-date, .place-period-incorrect-date {
    	margin-top: -10px;
     margin-bottom: 10px;
     color: #CC6677;
 }
 
-.place-slot-start-hour, .place-slot-end-hour {
+.place-slot-start-hour, .place-slot-end-hour, .place-slot-incorrect-hour {
     margin-top: -10px;
     margin-bottom: 10px;
     color: #CC6677;
 }
 
-.place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date {
+.place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date, .place-schedule-incorrect-date, .place-schedule-incorrect-hour {
     margin-top: -10px;
     margin-bottom: 10px;
     color: #CC6677;
@@ -80,11 +80,31 @@
 	display:none;
 }
 
-.tabular-list-group > li, .tabular-list-group .list-group-item2 {
-    border-width: 0;
-    display: table-row;
-    height: 0px;
-    padding: 0;
+#subPlaces{
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#subPlaces table {
+	border: #869CAD;
+}
+
+#subPlaces table tr{
+	vertical-align: middle;
+	text-align: center !important;
+	height: 50px;
+}
+
+#subPlaces table th{
+	padding: 10px;
+	text-align: center !important;
+	font-size: 18px;
+	background-color: #ddd;
+	width: 25%;
+}
+
+#subPlaces .form-group{
+	margin-bottom: 0px;
 }
 
 .attendance-label {

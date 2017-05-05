@@ -106,6 +106,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
 		attributes.put("RTExternalId", getRTExternalId());
+		attributes.put("occupation", getOccupation());
+		attributes.put("occupationLastUpdate", getOccupationLastUpdate());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -406,6 +408,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 			setRTExternalId(RTExternalId);
 		}
 
+		String occupation = (String)attributes.get("occupation");
+
+		if (occupation != null) {
+			setOccupation(occupation);
+		}
+
+		Date occupationLastUpdate = (Date)attributes.get("occupationLastUpdate");
+
+		if (occupationLastUpdate != null) {
+			setOccupationLastUpdate(occupationLastUpdate);
+		}
+
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -641,6 +655,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getPrice();
 	}
 
+	/**
+	* Retourne le temps réel (couleur de fond,valeur)
+	*
+	* @param type
+	(1 = piscine, 2 = parking)
+	*/
+	@Override
+	public eu.strasbourg.utils.OccupationState getRealTime(
+		java.lang.String type) {
+		return _place.getRealTime(type);
+	}
+
 	@Override
 	public int compareTo(eu.strasbourg.service.place.model.Place place) {
 		return _place.compareTo(place);
@@ -717,7 +743,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne la ville
+	* Vérifie si le lieu est fermé
+	*/
+	@Override
+	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine) {
+		return _place.isClosed(jourSemaine);
+	}
+
+	/**
+	* Vérifie si le lieu à accès au temps réel
 	*
 	* @throws PortalException
 	*/
@@ -1518,6 +1552,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns the occupation of this place.
+	*
+	* @return the occupation of this place
+	*/
+	@Override
+	public java.lang.String getOccupation() {
+		return _place.getOccupation();
+	}
+
+	/**
 	* Returns the phone of this place.
 	*
 	* @return the phone of this place
@@ -1869,15 +1913,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Renvoie la liste des IDs des sous lieux auxquelles ce lieu appartient
-	* sous forme de String
-	*/
-	@Override
-	public java.lang.String getSubPlacesIds() {
-		return _place.getSubPlacesIds();
-	}
-
-	/**
 	* Returns the user name of this place.
 	*
 	* @return the user name of this place
@@ -1963,6 +1998,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns the occupation last update of this place.
+	*
+	* @return the occupation last update of this place
+	*/
+	@Override
+	public Date getOccupationLastUpdate() {
+		return _place.getOccupationLastUpdate();
+	}
+
+	/**
 	* Returns the status date of this place.
 	*
 	* @return the status date of this place
@@ -2014,12 +2059,12 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
+	* Retourne les horaires d'ouverture du jour
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine) {
-		return _place.getPlaceSchedule(jourSemaine);
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+		return _place.getPlaceSchedule(jourSemaine, locale);
 	}
 
 	/**
@@ -2178,8 +2223,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*/
 	@Override
 	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
-		Date dateJour) {
-		return _place.getHoraire(dateJour);
+		Date dateJour, java.util.Locale locale) {
+		return _place.getHoraire(dateJour, locale);
 	}
 
 	/**
@@ -3150,6 +3195,26 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setNew(boolean n) {
 		_place.setNew(n);
+	}
+
+	/**
+	* Sets the occupation of this place.
+	*
+	* @param occupation the occupation of this place
+	*/
+	@Override
+	public void setOccupation(java.lang.String occupation) {
+		_place.setOccupation(occupation);
+	}
+
+	/**
+	* Sets the occupation last update of this place.
+	*
+	* @param occupationLastUpdate the occupation last update of this place
+	*/
+	@Override
+	public void setOccupationLastUpdate(Date occupationLastUpdate) {
+		_place.setOccupationLastUpdate(occupationLastUpdate);
 	}
 
 	/**
