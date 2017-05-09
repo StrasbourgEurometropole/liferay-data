@@ -175,7 +175,10 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 			return _filterCategoriesIds;
 		}
 		_filterCategoriesIds = ParamUtil.getString(_request,
-			"filterCategoriesIds", ",");
+			"filterCategoriesIds");
+		if (_filterCategoriesIds.length() == 0) {
+			_filterCategoriesIds = ",";
+		}
 		Long vocabularyToRemove = ParamUtil.getLong(_request,
 			"vocabularyToRemove");
 		if (vocabularyToRemove > 0) {
