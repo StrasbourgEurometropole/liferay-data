@@ -3,7 +3,7 @@
 <div class="slot-content" id="${param.indexPeriod}-${param.jour}-${param.indexSlot}">
 	<label><liferay-ui:message key="slot" /> ${param.indexSlot + 1}</label><br/>
 	<aui:input name="numSlot${param.indexSlot}" value="${param.indexSlot}" type="hidden" />		
-	<aui:input type="text" value="${param.startHour}" name="startHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="slot-start-hour" placeholder="HH:MM" >
+	<aui:input type="time" value="${param.startHour}" name="startHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="slot-start-hour" placeholder="HH:MM" >
 		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {
@@ -20,7 +20,7 @@
 		<liferay-ui:message key="incorrect-hour" />
 	</div>
 					
-	<aui:input type="text" value="${param.endHour}" name="endHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="slot-end-hour" placeholder="HH:MM" >
+	<aui:input type="time" value="${param.endHour}" name="endHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="slot-end-hour" placeholder="HH:MM" >
 		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {

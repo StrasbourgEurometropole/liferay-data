@@ -492,7 +492,6 @@
 	var getperiodRowJSPURL = '${periodRowURL}';
 	var getslotRowJSPURL = '${slotRowURL}';
 	var getattendanceRowJSPURL = '${attendanceRowURL}';
-	
 	var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
 	</script>
 </liferay-util:html-top>
