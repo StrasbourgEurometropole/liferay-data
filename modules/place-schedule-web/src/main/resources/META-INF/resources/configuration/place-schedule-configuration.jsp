@@ -26,7 +26,7 @@
 		</aui:fieldset>
 	
 		<aui:fieldset>
-			<strasbourg-picker:layout name="linksUuids" label="pages" multiple="false" required="true" value="${linksUuids}" />
+			<strasbourg-picker:layout name="linksUuids" label="detail-page" multiple="false" required="true" value="${linksUuids}" />
 		</aui:fieldset>
 		
 		<aui:button-row>
@@ -46,7 +46,12 @@
 			labelNode: '#categorySelectorLabel',
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: '181501'
+			vocabularyIds: '${placeTypeVocabularyId}'
 		}
 	).render();
 </aui:script>
+<style>
+	fieldset {
+		margin-bottom: 20px;
+	}
+</style>
