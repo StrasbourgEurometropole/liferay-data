@@ -75,7 +75,7 @@ public interface PlaceService extends BaseService {
 	public JSONObject getPlaceById(long id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPlaceByIdSIG(java.lang.String SIGId)
+	public JSONObject getPlaceByIdSIG(java.lang.String sigId)
 		throws PortalException;
 
 	/**

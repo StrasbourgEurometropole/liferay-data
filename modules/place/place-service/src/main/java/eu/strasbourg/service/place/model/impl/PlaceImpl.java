@@ -1026,7 +1026,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			Long videoId = GetterUtil.getLong(videoIdString);
 			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
 			if (Validator.isNotNull(video)) {
-				videosJSON.put(video.getSource());
+				videosJSON.put(video.getSource(Locale.FRANCE));
 			}
 		}
 		if (videosJSON.length() > 0) {

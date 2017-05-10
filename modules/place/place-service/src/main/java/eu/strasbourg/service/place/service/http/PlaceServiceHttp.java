@@ -118,13 +118,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-		HttpPrincipal httpPrincipal, java.lang.String SIGId)
+		HttpPrincipal httpPrincipal, java.lang.String sigId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
 					"getPlaceByIdSIG", _getPlaceByIdSIGParameterTypes2);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, SIGId);
+			MethodHandler methodHandler = new MethodHandler(methodKey, sigId);
 
 			Object returnObj = null;
 

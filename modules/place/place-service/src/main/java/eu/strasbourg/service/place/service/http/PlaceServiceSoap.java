@@ -92,10 +92,10 @@ public class PlaceServiceSoap {
 		}
 	}
 
-	public static java.lang.String getPlaceByIdSIG(java.lang.String SIGId)
+	public static java.lang.String getPlaceByIdSIG(java.lang.String sigId)
 		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getPlaceByIdSIG(SIGId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getPlaceByIdSIG(sigId);
 
 			return returnValue.toString();
 		}
