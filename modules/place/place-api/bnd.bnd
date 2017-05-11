@@ -1,5 +1,5 @@
 Bundle-SymbolicName: place-api
-Bundle-Version: 1.12.0
+Bundle-Version: 1.13.0
 Export-Package:\
 	eu.strasbourg.service.place.exception,\
 	eu.strasbourg.service.place.model,\
