@@ -131,6 +131,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
+		case "alias":
 			return "localized_title_fr_FR_sortable";
 		case "modified-date":
 			return "modified_sortable";
@@ -174,7 +175,10 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 			return _filterCategoriesIds;
 		}
 		_filterCategoriesIds = ParamUtil.getString(_request,
-			"filterCategoriesIds", ",");
+			"filterCategoriesIds");
+		if (_filterCategoriesIds.length() == 0) {
+			_filterCategoriesIds = ",";
+		}
 		Long vocabularyToRemove = ParamUtil.getLong(_request,
 			"vocabularyToRemove");
 		if (vocabularyToRemove > 0) {

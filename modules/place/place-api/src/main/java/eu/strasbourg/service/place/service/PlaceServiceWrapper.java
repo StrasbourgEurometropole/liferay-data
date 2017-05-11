@@ -74,9 +74,9 @@ public class PlaceServiceWrapper implements PlaceService,
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-		java.lang.String SIGId)
+		java.lang.String sigId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlaceByIdSIG(SIGId);
+		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
 	/**

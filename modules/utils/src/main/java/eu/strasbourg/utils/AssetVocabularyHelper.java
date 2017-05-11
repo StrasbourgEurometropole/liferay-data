@@ -16,8 +16,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -179,14 +181,16 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne la liste des catéogories enfants à une catégorie donnée
+	 * Retourne la liste des catéogories enfants à une catégorie donnée. Si la
+	 * catégorie est "live", on ajoute également les versions staging
 	 */
 	public static List<AssetCategory> getChild(long categoryId) {
 		return AssetCategoryLocalServiceUtil.getChildCategories(categoryId);
 	}
 
 	/**
-	 * Retourne l'ensemble des catégories pasées en paramètre et leur parents
+	 * Retourne l'ensemble des catégories pasées en paramètre et leur parents.
+	 * Si la catégorie est "live", on ajoute également les versions staging
 	 */
 	public static List<AssetCategory> getFullHierarchyCategories(
 		List<AssetCategory> categories) throws PortalException {
@@ -195,13 +199,33 @@ public class AssetVocabularyHelper {
 			List<AssetCategory> ancestors = category.getAncestors();
 			allCategories.add(category);
 			allCategories.addAll(ancestors);
+			
+			// Ajout des catégories staging
+			Group group = GroupLocalServiceUtil.getGroup(category.getGroupId());
+			if (group.getStagingGroup() != null) {
+				AssetCategory stagingCategory = AssetCategoryLocalServiceUtil
+					.fetchAssetCategoryByUuidAndGroupId(category.getUuid(),
+						group.getStagingGroup().getGroupId());
+				if (stagingCategory != null) {
+					allCategories.add(stagingCategory);
+				}
+				for (AssetCategory ancestor : ancestors) {
+					AssetCategory stagingAncestor = AssetCategoryLocalServiceUtil
+						.fetchAssetCategoryByUuidAndGroupId(ancestor.getUuid(),
+							group.getStagingGroup().getGroupId());
+					if (stagingAncestor != null) {
+						allCategories.add(stagingAncestor);
+					}
+				}
+			}
 		}
 		return allCategories;
 	}
 
 	/**
 	 * Renvoie l'ensemble des catégories parentes, les catégorie passée en
-	 * paramètre et leurs enfants sous forme d'array d'ids
+	 * paramètre et leurs enfants sous forme d'array d'ids. Si la catégorie est
+	 * "live", on ajoute également les versions staging
 	 */
 	public static long[] getFullHierarchyCategoriesIds(
 		List<AssetCategory> categories) throws PortalException {
@@ -257,7 +281,7 @@ public class AssetVocabularyHelper {
 	 * @throws PortalException
 	 */
 	public static Boolean isSwimmingPool(AssetCategory category)
-			throws PortalException {
+		throws PortalException {
 		if (category.getName().equals("Piscines")) {
 			return true;
 		}
@@ -276,7 +300,7 @@ public class AssetVocabularyHelper {
 	 * @throws PortalException
 	 */
 	public static Boolean isParking(AssetCategory category)
-			throws PortalException {
+		throws PortalException {
 		if (category.getName().equals("Parkings")) {
 			return true;
 		}

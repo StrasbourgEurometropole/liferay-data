@@ -249,7 +249,7 @@
 				label="horaire">
 				
 				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
-					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : false}" />
+					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
 				
 				<!-- Périodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
@@ -390,7 +390,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
-				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : false}" />
+				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
 				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
@@ -436,8 +436,8 @@
 									<strong><liferay-ui:message key="delete" /></strong>
 								</th>
 							</tr>
-							<tr>
-								<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+							<c:forEach var="subPlace" items="${dc.place.subPlaces}">
+								<tr>
 									<td >
 										<liferay-portlet:renderURL varImpl="editSubPlaceURL">
 											<portlet:param name="cmd" value="editSubPlace" />
@@ -450,8 +450,8 @@
 									<td >
 										<aui:input name="suppression" label="none" type="checkbox" value="${subPlace.subPlaceId}" helpMessage="delete-help" />
 									</td>
-								</c:forEach>
-							</tr>
+								</tr>
+							</c:forEach>
 						</table>
 						
 					</div>
@@ -492,7 +492,6 @@
 	var getperiodRowJSPURL = '${periodRowURL}';
 	var getslotRowJSPURL = '${slotRowURL}';
 	var getattendanceRowJSPURL = '${attendanceRowURL}';
-	
 	var getscheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
 	</script>
 </liferay-util:html-top>

@@ -34,6 +34,7 @@ import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Edition service. Represents a row
@@ -199,7 +200,7 @@ public class EditionImpl extends EditionBaseImpl {
 	@Override
 	public List<AssetCategory> getSources() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "source des editions");
+			this.getAssetEntry(), VocabularyNames.EDITION_SOURCE);
 	}
 
 	/**
@@ -208,7 +209,7 @@ public class EditionImpl extends EditionBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "type des editions");
+			this.getAssetEntry(), VocabularyNames.EDITION_TYPE);
 	}
 
 }

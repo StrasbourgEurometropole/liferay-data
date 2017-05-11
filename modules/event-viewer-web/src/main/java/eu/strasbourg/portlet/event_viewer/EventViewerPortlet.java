@@ -78,7 +78,10 @@ public class EventViewerPortlet extends MVCPortlet {
 			log.error(e);
 		}
 
-		if (Validator.isNull(this.configuration.categoriesIds())) {
+		if (Validator.isNull(this.configuration.categoriesIds())
+			&& Validator.isNull(this.configuration.tagsNames())
+			&& Validator.isNull(this.configuration.fromDate())
+			&& Validator.isNull(this.configuration.toDate())) {
 			request.setAttribute("noconfig", true);
 			super.render(request, response);
 			return;
@@ -185,7 +188,7 @@ public class EventViewerPortlet extends MVCPortlet {
 
 		// On renvoie la liste des événements :
 		// d'abord les événements du jour classés par date de fin
-		// ensuite les autres classés par date de début
+		// ensuite les autres, classés par date de fin également
 		List<Event> eventsOfTheDay = new ArrayList<Event>();
 		List<Event> otherEvents = new ArrayList<Event>();
 		for (Document document : hits.getDocs()) {
@@ -211,7 +214,7 @@ public class EventViewerPortlet extends MVCPortlet {
 				|| e2.getFirstStartDate() == null) {
 				return 0;
 			}
-			return e1.getFirstStartDate().compareTo(e2.getFirstStartDate());
+			return e1.getLastEndDate().compareTo(e2.getLastEndDate());
 		}).collect(Collectors.toList());
 
 		for (Event event : eventsOfTheDay) {

@@ -166,9 +166,9 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 
 					ligne++;
 
-					idSIG = chaine[0];
-					idParentSIG = chaine[1];
-					nom = chaine[2];
+					idSIG = chaine.length > 0 ? chaine[0] : "";
+					idParentSIG = chaine.length > 1 ? chaine[1] : "";
+					nom = chaine.length > 2 ? chaine[2] : "";
 
 					if (!idSIG.equals("") && !nom.equals("")) {
 
@@ -326,7 +326,7 @@ public class StartImportCategoriesActionCommand implements MVCActionCommand {
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d'import des catégories - "
+		String titre = environment + " Journal d'import des categories - "
 				+ resultat;
 		String corps;
 		if (resultat.equals("ERREUR")) {

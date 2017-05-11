@@ -36,6 +36,7 @@ import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Artwork service. Represents a row
@@ -217,7 +218,7 @@ public class ArtworkImpl extends ArtworkBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getSources() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), "musees");
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.MUSEUM);
 	}
 
 	/**

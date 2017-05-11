@@ -44,6 +44,7 @@ import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -337,7 +338,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getTypes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "type agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_TYPE);
 	}
 
 	/**
@@ -361,7 +362,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "theme agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
 	}
 
 	/**
@@ -385,7 +386,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getPublics() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "public agenda");
+			this.getAssetEntry(), VocabularyNames.EVENT_PUBLIC);
 	}
 
 	/**
@@ -409,7 +410,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getTerritories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "territoire");
+			this.getAssetEntry(), VocabularyNames.TERRITORY);
 	}
 
 	/**
@@ -418,7 +419,7 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), "service gestionnaire");
+			this.getAssetEntry(), VocabularyNames.EVENT_SERVICE);
 	}
 
 	/**

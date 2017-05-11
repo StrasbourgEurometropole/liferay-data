@@ -13,6 +13,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -26,13 +27,19 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
-@Component(configurationPid = "eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration", configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true, property = {
-		"javax.portlet.name="
-				+ StrasbourgPortletKeys.PLACE_SCHEDULE_WEB }, service = ConfigurationAction.class)
+@Component(
+	configurationPid = "eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration",
+	configurationPolicy = ConfigurationPolicy.OPTIONAL,
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB },
+	service = ConfigurationAction.class)
 public class PlaceScheduleConfigurationAction
-		extends DefaultConfigurationAction {
+	extends DefaultConfigurationAction {
 
 	/**
 	 * Action : Sauvegarde de la configuration si on a validé le formulaire ou
@@ -41,10 +48,10 @@ public class PlaceScheduleConfigurationAction
 	 */
 	@Override
 	public void processAction(PortletConfig portletConfig,
-			ActionRequest request, ActionResponse response) throws Exception {
+		ActionRequest request, ActionResponse response) throws Exception {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
+			.getAttribute(WebKeys.THEME_DISPLAY);
 		Locale locale = themeDisplay.getLocale();
 
 		String cmd = ParamUtil.getString(request, "cmd");
@@ -58,7 +65,7 @@ public class PlaceScheduleConfigurationAction
 			String categoryTitle = "";
 			if (Validator.isNotNull(categoryId)) {
 				AssetCategory category = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(Long.parseLong(categoryId));
+					.fetchAssetCategory(Long.parseLong(categoryId));
 				if (Validator.isNotNull(category)) {
 					categoryTitle = category.getTitle(locale);
 				}
@@ -67,14 +74,14 @@ public class PlaceScheduleConfigurationAction
 
 			// Text
 			Map<Locale, String> textMap = LocalizationUtil
-					.getLocalizationMap(request, "textMap");
+				.getLocalizationMap(request, "textMap");
 			LocalizedValuesMap map = new LocalizedValuesMap();
 			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
 				map.put(e.getKey(), e.getValue());
 			}
 			String textXML = LocalizationUtil.getXml(map, "TextSchedule");
 			setPreference(request, "textScheduleXML", textXML);
-			
+
 			// Type d'entité
 			String linksUuids = ParamUtil.getString(request, "linksUuids");
 			setPreference(request, "linksUuids", linksUuids);
@@ -87,19 +94,28 @@ public class PlaceScheduleConfigurationAction
 	 */
 	@Override
 	public void include(PortletConfig portletConfig, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+		HttpServletResponse response) throws Exception {
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
+				.getAttribute(WebKeys.THEME_DISPLAY);
+
+			// Vocabulaire type de lieux
+			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+				.getVocabulary(VocabularyNames.PLACE_TYPE,
+					themeDisplay.getCompanyGroupId());
+			request.setAttribute("placeTypeVocabularyId",
+				placeTypeVocabulary.getVocabularyId());
 
 			// Pages sélectionnées
 			PlaceScheduleConfiguration configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							PlaceScheduleConfiguration.class);
-			request.setAttribute("categoryId", configuration.categoryId());
+				.getPortletDisplay().getPortletInstanceConfiguration(
+					PlaceScheduleConfiguration.class);
+			request.setAttribute("categoryId", configuration.categoryId() > 0
+				? configuration.categoryId() : "");
 			request.setAttribute("categoryTitle",
-					configuration.categoryTitle());
-			request.setAttribute("textSchedule", configuration.textScheduleXML());
+				configuration.categoryTitle());
+			request.setAttribute("textSchedule",
+				configuration.textScheduleXML());
 			request.setAttribute("linksUuids", configuration.linksUuids());
 
 		} catch (ConfigurationException e) {

@@ -80,8 +80,8 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONObject getPlaceByIdSIG(String SIGId) throws PortalException {
-		Place place = this.placeLocalService.getPlaceBySIGId(SIGId);
+	public JSONObject getPlaceByIdSIG(String sigId) throws PortalException {
+		Place place = this.placeLocalService.getPlaceBySIGId(sigId);
 		if (!place.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
 		}

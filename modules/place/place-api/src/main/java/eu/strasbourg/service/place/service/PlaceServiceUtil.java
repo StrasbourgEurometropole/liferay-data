@@ -76,9 +76,9 @@ public class PlaceServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-		java.lang.String SIGId)
+		java.lang.String sigId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getPlaceByIdSIG(SIGId);
+		return getService().getPlaceByIdSIG(sigId);
 	}
 
 	/**

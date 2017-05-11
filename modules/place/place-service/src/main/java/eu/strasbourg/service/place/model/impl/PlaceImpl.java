@@ -514,11 +514,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 								String[] heure = slot.getStartHour().split(":");
 								LocalTime startHour = LocalTime.of(
 										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
+										Integer.parseInt(heure[1]),0,0);
 								heure = slot.getEndHour().split(":");
 								LocalTime endHour = LocalTime.of(
 										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
+										Integer.parseInt(heure[1]),59,999);
 								if (heureActuelle.isAfter(startHour)
 										&& heureActuelle.isBefore(endHour)) {
 									return false;
@@ -541,11 +541,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 							String[] heure = slot.getStartHour().split(":");
 							LocalTime startHour = LocalTime.of(
 									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]));
+									Integer.parseInt(heure[1]),0,0);
 							heure = slot.getEndHour().split(":");
 							LocalTime endHour = LocalTime.of(
 									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]));
+									Integer.parseInt(heure[1]),59,999);
 							if (heureActuelle.isAfter(startHour)
 									&& heureActuelle.isBefore(endHour)) {
 								closed = false;
@@ -1026,7 +1026,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			Long videoId = GetterUtil.getLong(videoIdString);
 			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
 			if (Validator.isNotNull(video)) {
-				videosJSON.put(video.getSource());
+				videosJSON.put(video.getSource(Locale.FRANCE));
 			}
 		}
 		if (videosJSON.length() > 0) {

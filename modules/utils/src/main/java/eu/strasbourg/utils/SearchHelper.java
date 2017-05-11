@@ -420,7 +420,7 @@ public class SearchHelper {
 				BooleanQuery tagsQuery = new BooleanQueryImpl();
 				for (String tagName : prefilterTagsNames) {
 					BooleanQuery tagQuery = new BooleanQueryImpl();
-					tagQuery.addRequiredTerm(Field.ASSET_TAG_NAMES,
+					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES,
 						String.valueOf(tagName));
 					tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
 				}
