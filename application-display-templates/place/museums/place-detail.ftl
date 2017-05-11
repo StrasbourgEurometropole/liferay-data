@@ -116,7 +116,7 @@
                             </div>
                         </#if>
                         ${entry.getAccessForDisabled(locale)
- }                   </div>
+                    </div>
                 </#if>
 
                 <!-- Widget Bloc Contenus associés -->
