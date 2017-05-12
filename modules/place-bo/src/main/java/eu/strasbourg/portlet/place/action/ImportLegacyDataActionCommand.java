@@ -46,10 +46,11 @@ public class ImportLegacyDataActionCommand implements MVCActionCommand {
 		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
 		int updatedPlacesCount = 0;
 		int placesWithoutLegacyCount = 0;
+
 		for (Place place : places) {
 			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(place.getSIGid(),
 				Locale.FRANCE);
-			if (legacyPlace != null && place.getSIGid().equals("408_SPO_9")) {
+			if (legacyPlace != null) {
 				place.setAlias(legacyPlace.getAlias(), Locale.FRANCE);
 				place.setPresentation(legacyPlace.getPresentation(),
 					Locale.FRANCE);
