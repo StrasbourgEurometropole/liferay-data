@@ -278,10 +278,10 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 */
 	@Override
 	public void unpublishPastEvents() throws PortalException {
-		Calendar tomorrow = Calendar.getInstance();
-		tomorrow.add(Calendar.DATE, 1);
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DATE, -1);
 		List<Event> events = this.eventPersistence
-			.findByLastEndDate(tomorrow.getTime());
+			.findByLastEndDate(yesterday.getTime());
 		for (Event event : events) {
 			if (event.getStatus() != WorkflowConstants.STATUS_DRAFT) {
 				this.updateStatus(event, WorkflowConstants.STATUS_DRAFT);
