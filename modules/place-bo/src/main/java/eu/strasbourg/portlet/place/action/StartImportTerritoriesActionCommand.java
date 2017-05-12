@@ -67,9 +67,9 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 
 	private String resultat;
 	private String messagesErreurs;
-	private List<String> listCategoryCrees = new ArrayList<String>();
-	private List<String> listCategoryModifies = new ArrayList<String>();
-	private List<String> listCategoryErreurs = new ArrayList<String>();
+	private List<String> listCategoryCrees;
+	private List<String> listCategoryModifies;
+	private List<String> listCategoryErreurs;
 	private ServiceContext sc = null;
 	private Locale locale = null;
 
@@ -80,6 +80,9 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 		try {
 			resultat = "SUCCES";
 			messagesErreurs = "";
+			listCategoryCrees = new ArrayList<String>();
+			listCategoryModifies = new ArrayList<String>();
+			listCategoryErreurs = new ArrayList<String>();
 			sc = ServiceContextFactory.getInstance(request);
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
