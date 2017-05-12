@@ -26,7 +26,7 @@
 	value="${not empty param ? param.closed : false}" onClick="affichageHeures(this, ${param.index})" />
 	
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
-	<aui:input type="text" value="${param.startHour}" name="startHour${param.index}" label="start-hour" placeholder="HH:MM" >
+	<aui:input type="time" value="${param.startHour}" name="startHour${param.index}" label="start-hour" placeholder="HH:MM" >
 		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {
@@ -43,7 +43,7 @@
 		<liferay-ui:message key="incorrect-hour" />
 	</div>
 
-	<aui:input type="text" value="${param.endHour}" name="endHour${param.index}" label="end-hour" placeholder="HH:MM" >
+	<aui:input type="time" value="${param.endHour}" name="endHour${param.index}" label="end-hour" placeholder="HH:MM" >
 		<aui:validator errorMessage="hour-format" 
 		name="custom">
 	        function(val, fieldNode, ruleValue) {
