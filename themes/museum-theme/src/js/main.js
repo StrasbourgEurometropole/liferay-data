@@ -1,7 +1,7 @@
 // Important : wrap it with AUI "all portlet ready" code
 // Dropdown langues
 (function($) {
-    $('.language-menu a').on('click', function(e) {
+    $('.language-menu > a').on('click', function(e) {
         e.preventDefault();
         $('.language-menu').toggleClass('open');
     });
