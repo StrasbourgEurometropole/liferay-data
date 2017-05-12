@@ -27,7 +27,7 @@
                 </div>
             </#if>
 
-            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content) || (entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content)>
+            <#if entry.mail?has_content || (entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content)>
                 <div class="place-links">
                     <#if entry.mail?has_content>
                         <a href="#contact-form-section"><@liferay_ui.message key="contact" /></a> 
@@ -36,11 +36,6 @@
                         <a href="${entry.getFacebookURL(locale)}" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                             ${entry.getFacebookLabel(locale)}
                         </a> 
-                    </#if>
-                    <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
-                        <a href="${entry.getSiteURL(locale)}" title="${entry.getSiteLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
-                            ${entry.getSiteLabel(locale)}
-                        </a>  
                     </#if>
                 </div>
             </#if>
@@ -115,7 +110,7 @@
                                 </#if>
                             </div>
                         </#if>
-                        ${entry.getAccessForDisabled(locale)
+                        ${entry.getAccessForDisabled(locale)}
                     </div>
                 </#if>
 
@@ -173,14 +168,11 @@
                                         </div>
                                         <div class="item-info">
                                             <div class="item-date">
-                                                <date><@liferay_ui.message key="from" /> ${event.firstStartDate?date} <@liferay_ui.message key="to" /> ${event.lastEndDate?date}</date>
+                                                <date>${event.getEventScheduleDisplay(locale)}</date>
                                             </div>
                                             <div class="item-title">
                                                 <h4><a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">${event.getTitle(locale)}</a></h4>
-                                                <h5><a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">${event.getSubtitle(locale)}</a></h5>
-                                            </div>
-                                            <div class="item-content">
-                                                ${event.getDescription(locale)}
+                                                <h5 style="margin-bottom: 25px"><a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">${event.getSubtitle(locale)}</a></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -407,7 +399,7 @@
                 <#if entry.getDocumentURLs()?has_content >
                     <div class="place-info-section">
                         <h4>
-                            <@liferay_ui.message key="read-too" />
+                            <@liferay_ui.message key="eu.useful-documents" />
                         </h4>
                         <ul>
                             <#assign documents = entry.getDocuments() />
