@@ -259,6 +259,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								place = this._placeLocalService.createPlace(sc);
 								place.setAliasMap(LocalizationUtil
 										.getLocalizationMap(alias));
+								place.setDisplayEvents(true);
+								place.setSubjectToPublicHoliday(true);
 							} else {
 								if (place.isApproved()) {
 									sc.setWorkflowAction(
@@ -279,7 +281,6 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							place.setMercatorY(mercatorY);
 							place.setRGF93X(rgf93X);
 							place.setRGF93Y(rgf93Y);
-							place.setSubjectToPublicHoliday(true);
 
 							// renseigne l'assetEntry avec les anciennes
 							// catégories (des vocabulaires autre que Type de
