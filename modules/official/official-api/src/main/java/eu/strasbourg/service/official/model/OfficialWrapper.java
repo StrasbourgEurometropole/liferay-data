@@ -214,6 +214,17 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Vérifie si c'est un élu eurométropolitain
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public boolean getCommunalMembership()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _official.getCommunalMembership();
+	}
+
+	/**
 	* Returns the was minister of this official.
 	*
 	* @return the was minister of this official
@@ -231,6 +242,17 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isApproved() {
 		return _official.isApproved();
+	}
+
+	/**
+	* Vérifie si c'est un élu municipal
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public boolean isAssistant()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _official.isAssistant();
 	}
 
 	@Override
@@ -264,6 +286,28 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isDraft() {
 		return _official.isDraft();
+	}
+
+	/**
+	* Vérifie si c'est un élu eurométropolitain
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public boolean isEluEurometropole()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _official.isEluEurometropole();
+	}
+
+	/**
+	* Vérifie si c'est un élu municipal
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public boolean isEluMunicipal()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _official.isEluMunicipal();
 	}
 
 	@Override
@@ -490,6 +534,69 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Returns the localized contact of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized contact of this official
+	*/
+	@Override
+	public java.lang.String getContact(java.lang.String languageId) {
+		return _official.getContact(languageId);
+	}
+
+	/**
+	* Returns the localized contact of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized contact of this official
+	*/
+	@Override
+	public java.lang.String getContact(java.lang.String languageId,
+		boolean useDefault) {
+		return _official.getContact(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized contact of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized contact of this official
+	*/
+	@Override
+	public java.lang.String getContact(java.util.Locale locale) {
+		return _official.getContact(locale);
+	}
+
+	/**
+	* Returns the localized contact of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized contact of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getContact(java.util.Locale locale,
+		boolean useDefault) {
+		return _official.getContact(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getContactCurrentLanguageId() {
+		return _official.getContactCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getContactCurrentValue() {
+		return _official.getContactCurrentValue();
+	}
+
+	@Override
+	public java.lang.String getDefaultLanguageId() {
+		return _official.getDefaultLanguageId();
+	}
+
+	/**
 	* Returns the first name of this official.
 	*
 	* @return the first name of this official
@@ -497,6 +604,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.String getFirstName() {
 		return _official.getFirstName();
+	}
+
+	/**
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _official.getImageURL();
 	}
 
 	/**
@@ -520,16 +635,74 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Returns the localized missions of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized missions of this official
+	*/
+	@Override
+	public java.lang.String getMissions(java.lang.String languageId) {
+		return _official.getMissions(languageId);
+	}
+
+	/**
+	* Returns the localized missions of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized missions of this official
+	*/
+	@Override
+	public java.lang.String getMissions(java.lang.String languageId,
+		boolean useDefault) {
+		return _official.getMissions(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized missions of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized missions of this official
+	*/
+	@Override
+	public java.lang.String getMissions(java.util.Locale locale) {
+		return _official.getMissions(locale);
+	}
+
+	/**
+	* Returns the localized missions of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized missions of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getMissions(java.util.Locale locale,
+		boolean useDefault) {
+		return _official.getMissions(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getMissionsCurrentLanguageId() {
+		return _official.getMissionsCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getMissionsCurrentValue() {
+		return _official.getMissionsCurrentValue();
+	}
+
+	/**
 	* Retourne le nom féminin/masculin de la catégorie
 	*
 	* @throws PortalException
 	*/
 	@Override
 	public java.lang.String getName(
-		com.liferay.asset.kernel.model.AssetCategory category, long gender,
+		com.liferay.asset.kernel.model.AssetCategory category,
 		java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _official.getName(category, gender, locale);
+		return _official.getName(category, locale);
 	}
 
 	/**
@@ -560,6 +733,64 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.String getThematicDelegation() {
 		return _official.getThematicDelegation();
+	}
+
+	/**
+	* Returns the localized thematic delegation of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized thematic delegation of this official
+	*/
+	@Override
+	public java.lang.String getThematicDelegation(java.lang.String languageId) {
+		return _official.getThematicDelegation(languageId);
+	}
+
+	/**
+	* Returns the localized thematic delegation of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized thematic delegation of this official
+	*/
+	@Override
+	public java.lang.String getThematicDelegation(java.lang.String languageId,
+		boolean useDefault) {
+		return _official.getThematicDelegation(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized thematic delegation of this official in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized thematic delegation of this official
+	*/
+	@Override
+	public java.lang.String getThematicDelegation(java.util.Locale locale) {
+		return _official.getThematicDelegation(locale);
+	}
+
+	/**
+	* Returns the localized thematic delegation of this official in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized thematic delegation of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getThematicDelegation(java.util.Locale locale,
+		boolean useDefault) {
+		return _official.getThematicDelegation(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getThematicDelegationCurrentLanguageId() {
+		return _official.getThematicDelegationCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getThematicDelegationCurrentValue() {
+		return _official.getThematicDelegationCurrentValue();
 	}
 
 	/**
@@ -600,6 +831,11 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _official.toXmlString();
+	}
+
+	@Override
+	public java.lang.String[] getAvailableLanguageIds() {
+		return _official.getAvailableLanguageIds();
 	}
 
 	/**
@@ -668,6 +904,36 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Returns a map of the locales and localized contacts of this official.
+	*
+	* @return the locales and localized contacts of this official
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getContactMap() {
+		return _official.getContactMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized missionses of this official.
+	*
+	* @return the locales and localized missionses of this official
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getMissionsMap() {
+		return _official.getMissionsMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized thematic delegations of this official.
+	*
+	* @return the locales and localized thematic delegations of this official
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getThematicDelegationMap() {
+		return _official.getThematicDelegationMap();
+	}
+
+	/**
 	* Returns the company ID of this official.
 	*
 	* @return the company ID of this official
@@ -733,6 +999,19 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_official.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+		java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_official.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_official.setCachedModel(cachedModel);
 	}
@@ -755,6 +1034,59 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setContact(java.lang.String contact) {
 		_official.setContact(contact);
+	}
+
+	/**
+	* Sets the localized contact of this official in the language.
+	*
+	* @param contact the localized contact of this official
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setContact(java.lang.String contact, java.util.Locale locale) {
+		_official.setContact(contact, locale);
+	}
+
+	/**
+	* Sets the localized contact of this official in the language, and sets the default locale.
+	*
+	* @param contact the localized contact of this official
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setContact(java.lang.String contact, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_official.setContact(contact, locale, defaultLocale);
+	}
+
+	@Override
+	public void setContactCurrentLanguageId(java.lang.String languageId) {
+		_official.setContactCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized contacts of this official from the map of locales and localized contacts.
+	*
+	* @param contactMap the locales and localized contacts of this official
+	*/
+	@Override
+	public void setContactMap(
+		Map<java.util.Locale, java.lang.String> contactMap) {
+		_official.setContactMap(contactMap);
+	}
+
+	/**
+	* Sets the localized contacts of this official from the map of locales and localized contacts, and sets the default locale.
+	*
+	* @param contactMap the locales and localized contacts of this official
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setContactMap(
+		Map<java.util.Locale, java.lang.String> contactMap,
+		java.util.Locale defaultLocale) {
+		_official.setContactMap(contactMap, defaultLocale);
 	}
 
 	/**
@@ -851,6 +1183,59 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setMissions(java.lang.String missions) {
 		_official.setMissions(missions);
+	}
+
+	/**
+	* Sets the localized missions of this official in the language.
+	*
+	* @param missions the localized missions of this official
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setMissions(java.lang.String missions, java.util.Locale locale) {
+		_official.setMissions(missions, locale);
+	}
+
+	/**
+	* Sets the localized missions of this official in the language, and sets the default locale.
+	*
+	* @param missions the localized missions of this official
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setMissions(java.lang.String missions, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_official.setMissions(missions, locale, defaultLocale);
+	}
+
+	@Override
+	public void setMissionsCurrentLanguageId(java.lang.String languageId) {
+		_official.setMissionsCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized missionses of this official from the map of locales and localized missionses.
+	*
+	* @param missionsMap the locales and localized missionses of this official
+	*/
+	@Override
+	public void setMissionsMap(
+		Map<java.util.Locale, java.lang.String> missionsMap) {
+		_official.setMissionsMap(missionsMap);
+	}
+
+	/**
+	* Sets the localized missionses of this official from the map of locales and localized missionses, and sets the default locale.
+	*
+	* @param missionsMap the locales and localized missionses of this official
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setMissionsMap(
+		Map<java.util.Locale, java.lang.String> missionsMap,
+		java.util.Locale defaultLocale) {
+		_official.setMissionsMap(missionsMap, defaultLocale);
 	}
 
 	/**
@@ -951,6 +1336,62 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setThematicDelegation(java.lang.String thematicDelegation) {
 		_official.setThematicDelegation(thematicDelegation);
+	}
+
+	/**
+	* Sets the localized thematic delegation of this official in the language.
+	*
+	* @param thematicDelegation the localized thematic delegation of this official
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setThematicDelegation(java.lang.String thematicDelegation,
+		java.util.Locale locale) {
+		_official.setThematicDelegation(thematicDelegation, locale);
+	}
+
+	/**
+	* Sets the localized thematic delegation of this official in the language, and sets the default locale.
+	*
+	* @param thematicDelegation the localized thematic delegation of this official
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setThematicDelegation(java.lang.String thematicDelegation,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_official.setThematicDelegation(thematicDelegation, locale,
+			defaultLocale);
+	}
+
+	@Override
+	public void setThematicDelegationCurrentLanguageId(
+		java.lang.String languageId) {
+		_official.setThematicDelegationCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized thematic delegations of this official from the map of locales and localized thematic delegations.
+	*
+	* @param thematicDelegationMap the locales and localized thematic delegations of this official
+	*/
+	@Override
+	public void setThematicDelegationMap(
+		Map<java.util.Locale, java.lang.String> thematicDelegationMap) {
+		_official.setThematicDelegationMap(thematicDelegationMap);
+	}
+
+	/**
+	* Sets the localized thematic delegations of this official from the map of locales and localized thematic delegations, and sets the default locale.
+	*
+	* @param thematicDelegationMap the locales and localized thematic delegations of this official
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setThematicDelegationMap(
+		Map<java.util.Locale, java.lang.String> thematicDelegationMap,
+		java.util.Locale defaultLocale) {
+		_official.setThematicDelegationMap(thematicDelegationMap, defaultLocale);
 	}
 
 	/**

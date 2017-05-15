@@ -22,6 +22,7 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -31,10 +32,13 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.official.model.Official;
@@ -49,7 +53,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The base model implementation for the Official service. Represents a row in the &quot;official_Official&quot; database table, with each column mapped to a property of this class.
@@ -684,8 +691,99 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	}
 
 	@Override
+	public String getThematicDelegation(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getThematicDelegation(languageId);
+	}
+
+	@Override
+	public String getThematicDelegation(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getThematicDelegation(languageId, useDefault);
+	}
+
+	@Override
+	public String getThematicDelegation(String languageId) {
+		return LocalizationUtil.getLocalization(getThematicDelegation(),
+			languageId);
+	}
+
+	@Override
+	public String getThematicDelegation(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getThematicDelegation(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getThematicDelegationCurrentLanguageId() {
+		return _thematicDelegationCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getThematicDelegationCurrentValue() {
+		Locale locale = getLocale(_thematicDelegationCurrentLanguageId);
+
+		return getThematicDelegation(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getThematicDelegationMap() {
+		return LocalizationUtil.getLocalizationMap(getThematicDelegation());
+	}
+
+	@Override
 	public void setThematicDelegation(String thematicDelegation) {
 		_thematicDelegation = thematicDelegation;
+	}
+
+	@Override
+	public void setThematicDelegation(String thematicDelegation, Locale locale) {
+		setThematicDelegation(thematicDelegation, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setThematicDelegation(String thematicDelegation, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(thematicDelegation)) {
+			setThematicDelegation(LocalizationUtil.updateLocalization(
+					getThematicDelegation(), "ThematicDelegation",
+					thematicDelegation, languageId, defaultLanguageId));
+		}
+		else {
+			setThematicDelegation(LocalizationUtil.removeLocalization(
+					getThematicDelegation(), "ThematicDelegation", languageId));
+		}
+	}
+
+	@Override
+	public void setThematicDelegationCurrentLanguageId(String languageId) {
+		_thematicDelegationCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setThematicDelegationMap(
+		Map<Locale, String> thematicDelegationMap) {
+		setThematicDelegationMap(thematicDelegationMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setThematicDelegationMap(
+		Map<Locale, String> thematicDelegationMap, Locale defaultLocale) {
+		if (thematicDelegationMap == null) {
+			return;
+		}
+
+		setThematicDelegation(LocalizationUtil.updateLocalization(
+				thematicDelegationMap, getThematicDelegation(),
+				"ThematicDelegation", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -700,8 +798,93 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	}
 
 	@Override
+	public String getMissions(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMissions(languageId);
+	}
+
+	@Override
+	public String getMissions(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMissions(languageId, useDefault);
+	}
+
+	@Override
+	public String getMissions(String languageId) {
+		return LocalizationUtil.getLocalization(getMissions(), languageId);
+	}
+
+	@Override
+	public String getMissions(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getMissions(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getMissionsCurrentLanguageId() {
+		return _missionsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getMissionsCurrentValue() {
+		Locale locale = getLocale(_missionsCurrentLanguageId);
+
+		return getMissions(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getMissionsMap() {
+		return LocalizationUtil.getLocalizationMap(getMissions());
+	}
+
+	@Override
 	public void setMissions(String missions) {
 		_missions = missions;
+	}
+
+	@Override
+	public void setMissions(String missions, Locale locale) {
+		setMissions(missions, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMissions(String missions, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(missions)) {
+			setMissions(LocalizationUtil.updateLocalization(getMissions(),
+					"Missions", missions, languageId, defaultLanguageId));
+		}
+		else {
+			setMissions(LocalizationUtil.removeLocalization(getMissions(),
+					"Missions", languageId));
+		}
+	}
+
+	@Override
+	public void setMissionsCurrentLanguageId(String languageId) {
+		_missionsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setMissionsMap(Map<Locale, String> missionsMap) {
+		setMissionsMap(missionsMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMissionsMap(Map<Locale, String> missionsMap,
+		Locale defaultLocale) {
+		if (missionsMap == null) {
+			return;
+		}
+
+		setMissions(LocalizationUtil.updateLocalization(missionsMap,
+				getMissions(), "Missions",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -733,8 +916,92 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	}
 
 	@Override
+	public String getContact(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getContact(languageId);
+	}
+
+	@Override
+	public String getContact(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getContact(languageId, useDefault);
+	}
+
+	@Override
+	public String getContact(String languageId) {
+		return LocalizationUtil.getLocalization(getContact(), languageId);
+	}
+
+	@Override
+	public String getContact(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getContact(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getContactCurrentLanguageId() {
+		return _contactCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getContactCurrentValue() {
+		Locale locale = getLocale(_contactCurrentLanguageId);
+
+		return getContact(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getContactMap() {
+		return LocalizationUtil.getLocalizationMap(getContact());
+	}
+
+	@Override
 	public void setContact(String contact) {
 		_contact = contact;
+	}
+
+	@Override
+	public void setContact(String contact, Locale locale) {
+		setContact(contact, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setContact(String contact, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(contact)) {
+			setContact(LocalizationUtil.updateLocalization(getContact(),
+					"Contact", contact, languageId, defaultLanguageId));
+		}
+		else {
+			setContact(LocalizationUtil.removeLocalization(getContact(),
+					"Contact", languageId));
+		}
+	}
+
+	@Override
+	public void setContactCurrentLanguageId(String languageId) {
+		_contactCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setContactMap(Map<Locale, String> contactMap) {
+		setContactMap(contactMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setContactMap(Map<Locale, String> contactMap,
+		Locale defaultLocale) {
+		if (contactMap == null) {
+			return;
+		}
+
+		setContact(LocalizationUtil.updateLocalization(contactMap,
+				getContact(), "Contact", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -849,6 +1116,109 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> thematicDelegationMap = getThematicDelegationMap();
+
+		for (Map.Entry<Locale, String> entry : thematicDelegationMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> missionsMap = getMissionsMap();
+
+		for (Map.Entry<Locale, String> entry : missionsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> contactMap = getContactMap();
+
+		for (Map.Entry<Locale, String> entry : contactMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getThematicDelegation();
+
+		if (xml == null) {
+			return StringPool.BLANK;
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(Official.class.getName(),
+				getPrimaryKey(), defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String thematicDelegation = getThematicDelegation(defaultLocale);
+
+		if (Validator.isNull(thematicDelegation)) {
+			setThematicDelegation(getThematicDelegation(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setThematicDelegation(getThematicDelegation(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
+
+		String missions = getMissions(defaultLocale);
+
+		if (Validator.isNull(missions)) {
+			setMissions(getMissions(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setMissions(getMissions(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String contact = getContact(defaultLocale);
+
+		if (Validator.isNull(contact)) {
+			setContact(getContact(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setContact(getContact(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1264,9 +1634,12 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private String _lastName;
 	private String _firstName;
 	private String _thematicDelegation;
+	private String _thematicDelegationCurrentLanguageId;
 	private String _missions;
+	private String _missionsCurrentLanguageId;
 	private boolean _wasMinister;
 	private String _contact;
+	private String _contactCurrentLanguageId;
 	private Long _imageId;
 	private long _columnBitmask;
 	private Official _escapedModel;

@@ -30,6 +30,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
@@ -71,6 +72,14 @@ public class OfficialImpl extends OfficialBaseImpl {
 		Official liveOfficial = OfficialLocalServiceUtil
 				.fetchOfficialByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveOfficial;
+	}
+
+	/**
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 
 	/**
@@ -242,13 +251,66 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 * @throws PortalException
 	 */
 	@Override
-	public String getName(AssetCategory category, long gender, Locale locale) throws PortalException {
-		switch (""+gender) {
-		case "2":
-			return AssetVocabularyHelper
-			.getCategoryProperty(category.getCategoryId(), "female");
-		default:
-			return category.getTitle(locale);
+	public String getName(AssetCategory category, Locale locale)
+			throws PortalException {
+		if (Validator.isNotNull(category)) {
+			switch ("" + this.getGender()) {
+			case "2":
+				return AssetVocabularyHelper.getCategoryProperty(
+						category.getCategoryId(), "female");
+			default:
+				return category.getTitle(locale);
+			}
 		}
+		return null;
 	}
+
+	/**
+	 * Vérifie si c'est un élu municipal
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public boolean isAssistant() throws PortalException {
+		if (Validator.isNotNull(getDistricts()))
+			return true;
+		return false;
+	}
+
+	/**
+	 * Vérifie si c'est un élu municipal
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public boolean isEluMunicipal() throws PortalException {
+		if (Validator.isNotNull(getFonctionCity()))
+			return true;
+		return false;
+	}
+
+	/**
+	 * Vérifie si c'est un élu eurométropolitain
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public boolean isEluEurometropole() throws PortalException {
+		if (Validator.isNotNull(getFonctionEurometropole()))
+			return true;
+		return false;
+	}
+
+	/**
+	 * Vérifie si c'est un élu eurométropolitain
+	 * 
+	 * @throws PortalException
+	 */
+	@Override
+	public boolean getCommunalMembership() throws PortalException {
+		if (Validator.isNotNull(getTown()))
+			return true;
+		return false;
+	}
+
 }

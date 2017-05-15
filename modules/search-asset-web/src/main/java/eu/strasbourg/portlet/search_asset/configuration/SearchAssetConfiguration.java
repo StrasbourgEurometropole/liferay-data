@@ -77,4 +77,7 @@ public interface SearchAssetConfiguration {
 	
 	@Meta.AD(name = "searchForm", required = false)
 	public String searchForm();
+	
+	@Meta.AD(name = "displayExport", required = false)
+	public boolean displayExport();
 }

@@ -31,10 +31,10 @@
 		<column name="gender" type="int" />
 		<column name="lastName" type="String" />
 		<column name="firstName" type="String" />
-		<column name="thematicDelegation" type="String" />
-		<column name="missions" type="String" />
+		<column name="thematicDelegation" type="String" localized="true" />
+		<column name="missions" type="String" localized="true" />
 		<column name="wasMinister" type="boolean" />
-		<column name="contact" type="String" />
+		<column name="contact" type="String" localized="true" />
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

@@ -1,7 +1,9 @@
 package eu.strasbourg.service.official.search;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -66,11 +68,37 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 				assetCategories);
 
 		String title = official.getLastName() + " " + official.getFirstName();
-		title += official.getFirstName() + " " + official.getLastName();
-		document.addText(Field.TITLE, title);
+
+		Locale[] locales = new Locale[] { Locale.FRANCE, Locale.GERMANY,
+				Locale.US };
+		Map<Locale, String> localizedTitle = new HashMap<Locale, String>();
+		for (Locale locale : locales) {
+			localizedTitle.put(locale, title);
+		}
+		document.addLocalizedKeyword(Field.TITLE, localizedTitle);
 
 		document.addNumber(Field.STATUS, official.getStatus());
 
+		AssetCategory emsFunction = official.getFonctionEurometropole();
+		if (emsFunction != null) {
+			String orderString = AssetVocabularyHelper
+					.getCategoryProperty(emsFunction.getCategoryId(), "order");
+			long order = GetterUtil.getLong(orderString);
+			if (order > 0) {
+				document.addNumberSortable("order_ems", order);
+			}
+		}
+
+		AssetCategory cityFunction = official.getFonctionCity();
+		if (cityFunction != null) {
+			String orderString = AssetVocabularyHelper
+					.getCategoryProperty(cityFunction.getCategoryId(), "order");
+			long order = GetterUtil.getLong(orderString);
+			if (order > 0) {
+				document.addNumberSortable("order_city", order);
+			}
+		}
+		
 		return document;
 	}
 

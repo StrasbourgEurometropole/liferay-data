@@ -17,6 +17,8 @@ package eu.strasbourg.portlet.official.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -27,7 +29,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -35,6 +36,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -77,18 +79,20 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			official.setImageId(imageId);
 
-			String thematicDelegation = ParamUtil.getString(request,
-					"thematicDelegation");
-			official.setThematicDelegation(thematicDelegation);
+			Map<Locale, String> thematicDelegation = LocalizationUtil
+					.getLocalizationMap(request, "thematicDelegation");
+			official.setThematicDelegationMap(thematicDelegation);
 
-			String missions = ParamUtil.getString(request, "missions");
-			official.setMissions(missions);
+			Map<Locale, String> missions = LocalizationUtil
+					.getLocalizationMap(request, "missions");
+			official.setMissionsMap(missions);
 
 			boolean wasMinister = ParamUtil.getBoolean(request, "wasMinister");
 			official.setWasMinister(wasMinister);
 
-			String contact = ParamUtil.getString(request, "contact");
-			official.setContact(contact);
+			Map<Locale, String> contact = LocalizationUtil
+					.getLocalizationMap(request, "contact");
+			official.setContactMap(contact);
 
 			_officialLocalService.updateOfficial(official, sc);
 
@@ -104,7 +108,9 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			String[] districts = request.getParameterValues("districts2");
 			if (Validator.isNotNull(districts)) {
 				for (int i = 0; i < districts.length; i++) {
-					categories.add(districts[i]);
+					if (Validator.isNotNull(districts[i])) {
+						categories.add(districts[i]);
+					}
 				}
 			}
 
@@ -141,7 +147,8 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 				categories.add(politicalGroupEurometropole.toString());
 			}
 
-			String[] othersMandates = request.getParameterValues("others-mandates");
+			String[] othersMandates = request
+					.getParameterValues("others-mandates");
 			if (Validator.isNotNull(othersMandates)) {
 				for (int i = 0; i < othersMandates.length; i++) {
 					categories.add(othersMandates[i]);
@@ -150,7 +157,9 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 
 			long[] categoryIds = new long[categories.size()];
 			for (int i = 0; i < categories.size(); i++) {
-				categoryIds[i] = Long.parseLong(categories.get(i));
+				if (Validator.isNotNull(categories.get(i))) {
+					categoryIds[i] = Long.parseLong(categories.get(i));
+				}
 			}
 
 			AssetEntryLocalServiceUtil.updateEntry(sc.getUserId(),

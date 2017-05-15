@@ -42,7 +42,6 @@ public class OfficialBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
 
 		renderResponse.setTitle("Officials");
 
@@ -66,10 +65,6 @@ public class OfficialBOPortlet extends MVCPortlet {
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		}
-
-		
-		// Admin ou pas
-		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
 	}

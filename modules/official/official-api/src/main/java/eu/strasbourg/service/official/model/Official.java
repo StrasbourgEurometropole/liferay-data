@@ -60,6 +60,11 @@ public interface Official extends OfficialModel, PersistedModel {
 	public eu.strasbourg.service.official.model.Official getLiveVersion();
 
 	/**
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
@@ -127,7 +132,39 @@ public interface Official extends OfficialModel, PersistedModel {
 	* @throws PortalException
 	*/
 	public java.lang.String getName(
-		com.liferay.asset.kernel.model.AssetCategory category, long gender,
+		com.liferay.asset.kernel.model.AssetCategory category,
 		java.util.Locale locale)
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Vérifie si c'est un élu municipal
+	*
+	* @throws PortalException
+	*/
+	public boolean isAssistant()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Vérifie si c'est un élu municipal
+	*
+	* @throws PortalException
+	*/
+	public boolean isEluMunicipal()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Vérifie si c'est un élu eurométropolitain
+	*
+	* @throws PortalException
+	*/
+	public boolean isEluEurometropole()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Vérifie si c'est un élu eurométropolitain
+	*
+	* @throws PortalException
+	*/
+	public boolean getCommunalMembership()
 		throws com.liferay.portal.kernel.exception.PortalException;
 }

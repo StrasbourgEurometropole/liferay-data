@@ -1,2 +1,20 @@
 Bundle-SymbolicName: search.asset.web
 Bundle-Version: 1.12.0
+Bundle-ClassPath:\
+  .,\
+ lib/itext.jar, lib/crypto.jar, lib/jcp.jar, lib/bcprov.jar, lib/bcmail.jar, lib/junit.jar, lib/ham.jar, lib/bcprovext.jar, lib/bctsp.jar,\
+ lib/commons-io.jar, lib/xmlworker.jar
+-includeresource:\
+ lib/itext.jar=itextpdf-5.5.10.jar,\
+ lib/xmlworker.jar=xmlworker-5.5.10.jar,\
+ lib/crypto.jar=jsr105-api-1.0.1.jar,\
+ lib/jcp.jar=xmlsec-1.5.1.jar,\
+ lib/bcprov.jar=bcprov-jdk15-1.46.jar,\
+ lib/bcmail.jar=bcmail-jdk15-1.46.jar,\
+ lib/junit.jar=junit-4.12.jar,\
+ lib/ham.jar=hamcrest-core-1.3.jar,\
+ lib/bcprovext.jar=bcprov-ext-jdk14-1.47.jar,\
+ lib/bctsp.jar=bctsp-jdk15-1.46.jar,\
+ lib/commons-io.jar=commons-io-2.0.1.jar
+ 
+ 

@@ -19,8 +19,10 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
@@ -29,6 +31,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The base model interface for the Official service. Represents a row in the &quot;official_Official&quot; database table, with each column mapped to a property of this class.
@@ -44,8 +48,8 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface OfficialModel extends BaseModel<Official>, ShardedModel,
-	StagedGroupedModel, WorkflowedModel {
+public interface OfficialModel extends BaseModel<Official>, LocalizedModel,
+	ShardedModel, StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -356,8 +360,58 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 	 *
 	 * @return the thematic delegation of this official
 	 */
-	@AutoEscape
 	public String getThematicDelegation();
+
+	/**
+	 * Returns the localized thematic delegation of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized thematic delegation of this official
+	 */
+	@AutoEscape
+	public String getThematicDelegation(Locale locale);
+
+	/**
+	 * Returns the localized thematic delegation of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized thematic delegation of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getThematicDelegation(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized thematic delegation of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized thematic delegation of this official
+	 */
+	@AutoEscape
+	public String getThematicDelegation(String languageId);
+
+	/**
+	 * Returns the localized thematic delegation of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized thematic delegation of this official
+	 */
+	@AutoEscape
+	public String getThematicDelegation(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getThematicDelegationCurrentLanguageId();
+
+	@AutoEscape
+	public String getThematicDelegationCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized thematic delegations of this official.
+	 *
+	 * @return the locales and localized thematic delegations of this official
+	 */
+	public Map<Locale, String> getThematicDelegationMap();
 
 	/**
 	 * Sets the thematic delegation of this official.
@@ -367,12 +421,99 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 	public void setThematicDelegation(String thematicDelegation);
 
 	/**
+	 * Sets the localized thematic delegation of this official in the language.
+	 *
+	 * @param thematicDelegation the localized thematic delegation of this official
+	 * @param locale the locale of the language
+	 */
+	public void setThematicDelegation(String thematicDelegation, Locale locale);
+
+	/**
+	 * Sets the localized thematic delegation of this official in the language, and sets the default locale.
+	 *
+	 * @param thematicDelegation the localized thematic delegation of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setThematicDelegation(String thematicDelegation, Locale locale,
+		Locale defaultLocale);
+
+	public void setThematicDelegationCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized thematic delegations of this official from the map of locales and localized thematic delegations.
+	 *
+	 * @param thematicDelegationMap the locales and localized thematic delegations of this official
+	 */
+	public void setThematicDelegationMap(
+		Map<Locale, String> thematicDelegationMap);
+
+	/**
+	 * Sets the localized thematic delegations of this official from the map of locales and localized thematic delegations, and sets the default locale.
+	 *
+	 * @param thematicDelegationMap the locales and localized thematic delegations of this official
+	 * @param defaultLocale the default locale
+	 */
+	public void setThematicDelegationMap(
+		Map<Locale, String> thematicDelegationMap, Locale defaultLocale);
+
+	/**
 	 * Returns the missions of this official.
 	 *
 	 * @return the missions of this official
 	 */
-	@AutoEscape
 	public String getMissions();
+
+	/**
+	 * Returns the localized missions of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized missions of this official
+	 */
+	@AutoEscape
+	public String getMissions(Locale locale);
+
+	/**
+	 * Returns the localized missions of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized missions of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getMissions(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized missions of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized missions of this official
+	 */
+	@AutoEscape
+	public String getMissions(String languageId);
+
+	/**
+	 * Returns the localized missions of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized missions of this official
+	 */
+	@AutoEscape
+	public String getMissions(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getMissionsCurrentLanguageId();
+
+	@AutoEscape
+	public String getMissionsCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized missionses of this official.
+	 *
+	 * @return the locales and localized missionses of this official
+	 */
+	public Map<Locale, String> getMissionsMap();
 
 	/**
 	 * Sets the missions of this official.
@@ -380,6 +521,41 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 	 * @param missions the missions of this official
 	 */
 	public void setMissions(String missions);
+
+	/**
+	 * Sets the localized missions of this official in the language.
+	 *
+	 * @param missions the localized missions of this official
+	 * @param locale the locale of the language
+	 */
+	public void setMissions(String missions, Locale locale);
+
+	/**
+	 * Sets the localized missions of this official in the language, and sets the default locale.
+	 *
+	 * @param missions the localized missions of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setMissions(String missions, Locale locale, Locale defaultLocale);
+
+	public void setMissionsCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized missionses of this official from the map of locales and localized missionses.
+	 *
+	 * @param missionsMap the locales and localized missionses of this official
+	 */
+	public void setMissionsMap(Map<Locale, String> missionsMap);
+
+	/**
+	 * Sets the localized missionses of this official from the map of locales and localized missionses, and sets the default locale.
+	 *
+	 * @param missionsMap the locales and localized missionses of this official
+	 * @param defaultLocale the default locale
+	 */
+	public void setMissionsMap(Map<Locale, String> missionsMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the was minister of this official.
@@ -407,8 +583,58 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 	 *
 	 * @return the contact of this official
 	 */
-	@AutoEscape
 	public String getContact();
+
+	/**
+	 * Returns the localized contact of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized contact of this official
+	 */
+	@AutoEscape
+	public String getContact(Locale locale);
+
+	/**
+	 * Returns the localized contact of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized contact of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getContact(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized contact of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized contact of this official
+	 */
+	@AutoEscape
+	public String getContact(String languageId);
+
+	/**
+	 * Returns the localized contact of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized contact of this official
+	 */
+	@AutoEscape
+	public String getContact(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getContactCurrentLanguageId();
+
+	@AutoEscape
+	public String getContactCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized contacts of this official.
+	 *
+	 * @return the locales and localized contacts of this official
+	 */
+	public Map<Locale, String> getContactMap();
 
 	/**
 	 * Sets the contact of this official.
@@ -416,6 +642,41 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 	 * @param contact the contact of this official
 	 */
 	public void setContact(String contact);
+
+	/**
+	 * Sets the localized contact of this official in the language.
+	 *
+	 * @param contact the localized contact of this official
+	 * @param locale the locale of the language
+	 */
+	public void setContact(String contact, Locale locale);
+
+	/**
+	 * Sets the localized contact of this official in the language, and sets the default locale.
+	 *
+	 * @param contact the localized contact of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setContact(String contact, Locale locale, Locale defaultLocale);
+
+	public void setContactCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized contacts of this official from the map of locales and localized contacts.
+	 *
+	 * @param contactMap the locales and localized contacts of this official
+	 */
+	public void setContactMap(Map<Locale, String> contactMap);
+
+	/**
+	 * Sets the localized contacts of this official from the map of locales and localized contacts, and sets the default locale.
+	 *
+	 * @param contactMap the locales and localized contacts of this official
+	 * @param defaultLocale the default locale
+	 */
+	public void setContactMap(Map<Locale, String> contactMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the image ID of this official.
@@ -527,6 +788,19 @@ public interface OfficialModel extends BaseModel<Official>, ShardedModel,
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public Object clone();

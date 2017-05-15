@@ -138,9 +138,9 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 				sc.getAssetTagNames(), // Tags IDs
 				true, // Listable
 				official.isApproved(), // Visible
-				null, // Start date
+				official.getCreateDate(), // Start date
 				null, // End date
-				null, // Publication date
+				official.getCreateDate(), // Publication date
 				null, // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
 				official.getLastName() + " " + official.getFirstName(), // Title
