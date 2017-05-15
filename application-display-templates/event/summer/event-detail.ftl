@@ -114,102 +114,51 @@
         </div>
 
         <div class="col-50">
-
-          <#if entry.getLegacyPlace(locale)?has_content>
-            <#assign place = entry.getLegacyPlace(locale) />
-            <#if place.getAccess()?has_content >
-              <div class="event-info-block">
-                <h4><@liferay_ui.message key="eu.access-and-services" /></h4>
-                <div class="ck-editor-content">
-                  <p>${place.getAccess()}</p>
-                </div>
+          <#if entry.getAccess(locale)?has_content >
+            <div class="event-info-block">
+              <h4 class="no-top-margin event-access-mode"><@liferay_ui.message key="eu.access-and-services" /></h4>
+              <div class="ck-editor-content">
+                <p>${entry.getAccess(locale)}</p>
               </div>
-            </#if>
-            <#if place.hasAnyAccessForDisabled() || place.getAccessForDisabled()?has_content >
-              <div class="event-info-block">
-                <h4 class="no-top-margin event-access-mode"><@liferay_ui.message key="eu.access-for-disabled" /></h4>
-                <#if place.hasAnyAccessForDisabled() >
-                  <div class="pictos">
-                    <#if place.accessForWheelchair>
-                        <img src="/o/agendaweb/images/access-for-wheelchair.png" 
-                        title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
-                        alt="<@liferay_ui.message key="access-for-wheelchair" />">
-                    </#if>
-                    <#if place.accessForBlind>
-                        <img src="/o/agendaweb/images/access-for-blind.png" 
-                        title="<@liferay_ui.message key="eu.access-for-blind" />"
-                        alt="<@liferay_ui.message key="eu.access-for-blind" />">
-                    </#if>
-                    <#if place.accessForDeaf>
-                        <img src="/o/agendaweb/images/access-for-deaf.png" 
-                        title="<@liferay_ui.message key="eu.access-for-deaf" />"
-                        alt="<@liferay_ui.message key="access-for-deaf" />">
-                    </#if>
-                    <#if place.accessForElder>
-                        <img src="/o/agendaweb/images/access-for-elder.png" 
-                        title="<@liferay_ui.message key="eu.access-for-elder" />"
-                        alt="<@liferay_ui.message key="access-for-elder" />">
-                    </#if>
-                    <#if place.accessForDeficient>
-                        <img src="/o/agendaweb/images/access-for-deficient.png" 
-                        title="<@liferay_ui.message key="eu.access-for-deficient" />"
-                        alt="<@liferay_ui.message key="access-for-deficient" />">
-                    </#if>
-                  </div>
-                </#if>
-                <div class="ck-editor-content">
-                  <p>${place.getAccessForDisabled()}</p>
-                </div>
-              </div>
-            </#if>
-          <#else>
-            <#if entry.getAccess(locale)?has_content >
-              <div class="event-info-block">
-                <h4 class="no-top-margin event-access-mode"><@liferay_ui.message key="eu.access-and-services" /></h4>
-                <div class="ck-editor-content">
-                  <p>${entry.getAccess(locale)}</p>
-                </div>
-              </div>
-            </#if>
-            <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
-              <div class="event-info-block">
-                <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
-                <#if entry.hasAnyAccessForDisabled() >
-                  <div class="pictos">
-                    <#if entry.accessForWheelchair>
-                        <img src="/o/agendaweb/images/access-for-wheelchair.png" 
-                        title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
-                        alt="<@liferay_ui.message key="access-for-wheelchair" />">
-                    </#if>
-                    <#if entry.accessForBlind>
-                        <img src="/o/agendaweb/images/access-for-blind.png" 
-                        title="<@liferay_ui.message key="eu.access-for-blind" />"
-                        alt="<@liferay_ui.message key="eu.access-for-blind" />">
-                    </#if>
-                    <#if entry.accessForDeaf>
-                        <img src="/o/agendaweb/images/access-for-deaf.png" 
-                        title="<@liferay_ui.message key="eu.access-for-deaf" />"
-                        alt="<@liferay_ui.message key="access-for-deaf" />">
-                    </#if>
-                    <#if entry.accessForElder>
-                        <img src="/o/agendaweb/images/access-for-elder.png" 
-                        title="<@liferay_ui.message key="eu.access-for-elder" />"
-                        alt="<@liferay_ui.message key="access-for-elder" />">
-                    </#if>
-                    <#if entry.accessForDeficient>
-                        <img src="/o/agendaweb/images/access-for-deficient.png" 
-                        title="<@liferay_ui.message key="eu.access-for-deficient" />"
-                        alt="<@liferay_ui.message key="access-for-deficient" />">
-                    </#if>
-                  </div>
-                </#if>
-                <div class="ck-editor-content">
-                  <p>${entry.getAccessForDisabled(locale)}</p>
-                </div>
-              </div>
-            </#if>
+            </div>
           </#if>
-
+          <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+            <div class="event-info-block">
+              <h4><@liferay_ui.message key="eu.access-for-disabled" /></h4>
+              <#if entry.hasAnyAccessForDisabled() >
+                <div class="pictos">
+                  <#if entry.accessForWheelchair>
+                      <img src="/o/agendaweb/images/access-for-wheelchair.png" 
+                      title="<@liferay_ui.message key="eu.access-for-wheelchair" />"
+                      alt="<@liferay_ui.message key="access-for-wheelchair" />">
+                  </#if>
+                  <#if entry.accessForBlind>
+                      <img src="/o/agendaweb/images/access-for-blind.png" 
+                      title="<@liferay_ui.message key="eu.access-for-blind" />"
+                      alt="<@liferay_ui.message key="eu.access-for-blind" />">
+                  </#if>
+                  <#if entry.accessForDeaf>
+                      <img src="/o/agendaweb/images/access-for-deaf.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deaf" />"
+                      alt="<@liferay_ui.message key="access-for-deaf" />">
+                  </#if>
+                  <#if entry.accessForElder>
+                      <img src="/o/agendaweb/images/access-for-elder.png" 
+                      title="<@liferay_ui.message key="eu.access-for-elder" />"
+                      alt="<@liferay_ui.message key="access-for-elder" />">
+                  </#if>
+                  <#if entry.accessForDeficient>
+                      <img src="/o/agendaweb/images/access-for-deficient.png" 
+                      title="<@liferay_ui.message key="eu.access-for-deficient" />"
+                      alt="<@liferay_ui.message key="access-for-deficient" />">
+                  </#if>
+                </div>
+              </#if>
+              <div class="ck-editor-content">
+                <p>${entry.getAccessForDisabled(locale)}</p>
+              </div>
+            </div>
+          </#if>
         </div>
         
       <div class="clearer"></div>

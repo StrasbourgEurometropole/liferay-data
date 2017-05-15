@@ -28,7 +28,7 @@
   <div class="entry-header">
     <span class="category">${entry.getTypeLabel(locale)} - ${entry.getThemeLabel(locale)}</span>
     <h2>
-      <a href="${detailURLFilter}" title="L’Elsässer Owe">
+      <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">
         ${entry.getTitle(locale)}
       </a>
     </h2>
