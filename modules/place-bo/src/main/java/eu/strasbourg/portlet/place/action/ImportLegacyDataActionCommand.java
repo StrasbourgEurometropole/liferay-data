@@ -65,6 +65,7 @@ public class ImportLegacyDataActionCommand implements MVCActionCommand {
 				place.setSiteLabel(legacyPlace.getWebsiteName(), Locale.FRANCE);
 				place.setFacebookLabel(legacyPlace.getFacebookName(),
 					Locale.FRANCE);
+				place.setFacebookURL(legacyPlace.getFacebookURL());
 				place.setAccessForBlind(legacyPlace.getAccessForBlind());
 				place.setAccessForDeaf(legacyPlace.getAccessForDeaf());
 				place.setAccessForWheelchair(
