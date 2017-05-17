@@ -60,7 +60,12 @@
 			</div>
 		</nav>
 		<div class="title-header">
-			<h1 class="site-title"><a href="/web${layout.group.friendlyURL}">Musées de la ville de Strasbourg</a></h1>
+			<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+				<#assign homeURL = "/web${layout.group.friendlyURL}" />
+			<#else>
+				<#assign homeURL = "/" />
+			</#if>
+			<h1 class="site-title"><a href="${homeURL}">Musées de la ville de Strasbourg</a></h1>
 			<div class="mobile-menu-toggle">
 				<span></span>
 			</div>
@@ -185,7 +190,7 @@
 
 
 <script>
-	window.homeURL = '/web${layout.group.friendlyURL}';
+	window.homeURL = '${homeURL}';
 </script>
 <script src="/o/museum-theme/js/vendors/owl.carousel.min.js"></script>
 <script src="/o/museum-theme/js/vendors/jquery.dotdotdot.min.js"></script>
