@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.activity.model.Activity">
+		<field name="uuid" type="String" />
+		<field name="activityId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="videosIds" type="String" />
+		<field name="imageId" type="long" />
+		<field name="imagesIds" type="String" />
+		<field name="filesIds" type="String" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.activity.model.ActivityCourse">
+		<field name="uuid" type="String" />
+		<field name="activityCourseId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="arrangements" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="price" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="activityId" type="long" />
+		<field name="serviceId" type="long" />
+		<field name="organizerId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.activity.model.ActivityCoursePlace">
+		<field name="uuid" type="String" />
+		<field name="activityCoursePlaceId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="activityCourseId" type="long" />
+		<field name="placeSIGId" type="String" />
+		<field localized="true" name="placeName" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="placeStreetNumber" type="String" />
+		<field name="placeStreetName" type="String" />
+		<field name="placeZipCode" type="String" />
+		<field name="placeCityId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.activity.model.ActivityCourseSchedule">
+		<field name="uuid" type="String" />
+		<field name="activityCourseScheduleId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="activityCoursePlaceId" type="long" />
+		<field name="startTime" type="String" />
+		<field name="endTime" type="String" />
+		<field name="days" type="String" />
+		<field localized="true" name="comments" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="periodId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.activity.model.ActivityOrganizer">
+		<field name="uuid" type="String" />
+		<field name="activityOrganizerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field localized="true" name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="contactInformation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="imageId" type="long" />
+	</model>
+</model-hints>

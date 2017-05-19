@@ -1,6 +1,8 @@
 package eu.strasbourg.utils.constants;
 
 public class StrasbourgPortletKeys {
+	public static final String ACTIVITY_BO = "eu_strasbourg_portlet_activity_ActivityBOPortlet";
+
 	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
 	public static final String AGENDA_WEB = "eu_strasbourg_portlet_agenda_AgendaPortlet";
 	public static final String CAMPAIGN_WEB = "eu_strasbourg_portlet_agenda_portlet_AgendaCampaignPortlet";

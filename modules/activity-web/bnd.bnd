@@ -1,0 +1,6 @@
+Bundle-SymbolicName: activity.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.activity.itemselector
+Include-Resource:\
+        META-INF/resources=src/main/resources/META-INF/resources
+Web-ContextPath: /activity-web

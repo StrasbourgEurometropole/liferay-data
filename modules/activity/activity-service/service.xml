@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.activity">
+  <namespace>activity</namespace>
+  
+  <entity local-service="true" name="Activity" remote-service="true" uuid="true">
+
+    <!-- PK fields -->
+    <column name="activityId" primary="true" type="long" />
+
+    <!-- Audit fields -->
+    <column name="groupId" type="long" />
+    <column name="companyId" type="long" />
+    <column name="userId" type="long" />
+    <column name="userName" type="String" />
+    <column name="createDate" type="Date" />
+    <column name="modifiedDate" type="Date" />
+
+    <!-- Other fields -->
+    <column name="title" type="String" localized="true" />
+    <column name="description" type="String" localized="true" />
+    <column name="videosIds" type="String" />
+    <column name="imageId" type="long" />
+    <column name="imagesIds" type="String" />
+    <column name="filesIds" type="String" /> 
+   
+	<!-- Workflow fields -->
+	<column name="status" type="int" />
+	<column name="statusByUserId" type="long" />
+	<column name="statusByUserName" type="String" />
+	<column name="statusDate" type="Date" />
+
+    <!-- Finder methods -->
+    <finder name="GroupId" return-type="Collection">
+      <finder-column name="groupId" />
+    </finder>
+
+    <!-- References -->
+	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+  </entity>
+  
+  <entity local-service="true" name="ActivityOrganizer" remote-service="true" uuid="true">
+
+    <!-- PK fields -->
+    <column name="activityOrganizerId" primary="true" type="long" />
+
+    <!-- Audit fields -->
+    <column name="groupId" type="long" />
+    <column name="companyId" type="long" />
+    <column name="userId" type="long" />
+    <column name="userName" type="String" />
+    <column name="createDate" type="Date" />
+    <column name="modifiedDate" type="Date" /> 
+   
+	<!-- Workflow fields -->
+	<column name="status" type="int" />
+	<column name="statusByUserId" type="long" />
+	<column name="statusByUserName" type="String" />
+	<column name="statusDate" type="Date" />
+
+    <!-- Other fields -->
+    <column name="name" type="String" localized="true" />
+    <column name="contactInformation" type="String" localized="true" />
+    <column name="imageId" type="long" />
+
+    <!-- Finder methods -->
+    <finder name="GroupId" return-type="Collection">
+      <finder-column name="groupId" />
+    </finder>
+
+    <!-- References -->
+	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+  </entity>
+  <entity local-service="true" name="ActivityCourse" remote-service="true" uuid="true">
+
+    <!-- PK fields -->
+    <column name="activityCourseId" primary="true" type="long" />
+
+    <!-- Audit fields -->
+    <column name="groupId" type="long" />
+    <column name="companyId" type="long" />
+    <column name="userId" type="long" />
+    <column name="userName" type="String" />
+    <column name="createDate" type="Date" />
+    <column name="modifiedDate" type="Date" /> 
+   
+	<!-- Workflow fields -->
+	<column name="status" type="int" />
+	<column name="statusByUserId" type="long" />
+	<column name="statusByUserName" type="String" />
+	<column name="statusDate" type="Date" />
+
+    <!-- Other fields -->
+    <column name="name" type="String" localized="true" />
+    <column name="arrangements" type="String" localized="true" />
+    <column name="price" type="String" localized="true" />
+    <column name="activityId" type="long" />
+    <column name="serviceId" type="long" />
+    <column name="organizerId" type="long" />
+
+    <!-- Finder methods -->
+    <finder name="Activity" return-type="Collection">
+      <finder-column name="activityId" />
+    </finder>
+    <finder name="GroupId" return-type="Collection">
+      <finder-column name="groupId" />
+    </finder>
+
+    <!-- References -->
+	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+  </entity>
+  
+  <entity local-service="true" name="ActivityCoursePlace" remote-service="true" uuid="true">
+
+    <!-- PK fields -->
+    <column name="activityCoursePlaceId" primary="true" type="long" />
+
+    <!-- Audit fields -->
+    <column name="groupId" type="long" />
+    <column name="companyId" type="long" />
+    <column name="userId" type="long" />
+    <column name="userName" type="String" />
+    <column name="createDate" type="Date" />
+    <column name="modifiedDate" type="Date" />
+
+    <!-- Other fields -->
+    <column name="activityCourseId" type="long" />
+    <column name="placeSIGId" type="String" />
+    <column name="placeName" type="String" localized="true" />
+    <column name="placeStreetNumber" type="String" />
+    <column name="placeStreetName" type="String" />
+    <column name="placeZipCode" type="String" />
+    <column name="placeCityId" type="long" />
+    
+    <!-- Finder methods -->
+    <finder name="GroupId" return-type="Collection">
+      <finder-column name="groupId" />
+    </finder>
+    <finder name="ActivityCourse" return-type="Collection">
+      <finder-column name="activityCourseId" />
+    </finder>
+    
+    <!-- References -->
+	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+  </entity>
+  
+  <entity local-service="true" name="ActivityCourseSchedule" remote-service="true" uuid="true">
+
+    <!-- PK fields -->
+    <column name="activityCourseScheduleId" primary="true" type="long" />
+
+    <!-- Audit fields -->
+    <column name="groupId" type="long" />
+    <column name="companyId" type="long" />
+    <column name="userId" type="long" />
+    <column name="userName" type="String" />
+    <column name="createDate" type="Date" />
+    <column name="modifiedDate" type="Date" />
+
+    <!-- Other fields -->
+    <column name="activityCoursePlaceId" type="long" />
+    <column name="startTime" type="String" />
+    <column name="endTime" type="String" />
+    <column name="days" type="String" />
+    <column name="comments" type="String" localized="true" />
+    <column name="periodId" type="long" />
+
+    <!-- Finder methods -->
+    <finder name="GroupId" return-type="Collection">
+      <finder-column name="groupId" />
+    </finder>
+    <finder name="ActivityCoursePlace" return-type="Collection">
+      <finder-column name="activityCoursePlaceId" />
+    </finder>
+    <finder name="ActivityCoursePlaceAndPeriodId" return-type="Collection">
+      <finder-column name="activityCoursePlaceId" />
+      <finder-column name="periodId" />
+    </finder>
+    
+    <!-- References -->
+	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+  </entity>
+</service-builder>

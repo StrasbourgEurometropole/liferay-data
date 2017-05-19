@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityServiceImpl" id="eu.strasbourg.service.activity.service.ActivityService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityPersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCourseLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCourseLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCourseServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCourseService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityCoursePersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityCoursePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCoursePlaceLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCoursePlaceServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCoursePlaceService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityCoursePlacePersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCourseScheduleLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityCourseScheduleServiceImpl" id="eu.strasbourg.service.activity.service.ActivityCourseScheduleService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityCourseSchedulePersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityOrganizerLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityOrganizerLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.ActivityOrganizerServiceImpl" id="eu.strasbourg.service.activity.service.ActivityOrganizerService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityOrganizerPersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityOrganizerPersistence" parent="basePersistence" />
+</beans>
