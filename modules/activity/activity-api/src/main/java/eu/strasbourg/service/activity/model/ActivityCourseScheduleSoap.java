@@ -48,7 +48,7 @@ public class ActivityCourseScheduleSoap implements Serializable {
 		soapModel.setEndTime(model.getEndTime());
 		soapModel.setDays(model.getDays());
 		soapModel.setComments(model.getComments());
-		soapModel.setPeriodId(model.getPeriodId());
+		soapModel.setPeriodsIds(model.getPeriodsIds());
 
 		return soapModel;
 	}
@@ -208,12 +208,12 @@ public class ActivityCourseScheduleSoap implements Serializable {
 		_comments = comments;
 	}
 
-	public long getPeriodId() {
-		return _periodId;
+	public String getPeriodsIds() {
+		return _periodsIds;
 	}
 
-	public void setPeriodId(long periodId) {
-		_periodId = periodId;
+	public void setPeriodsIds(String periodsIds) {
+		_periodsIds = periodsIds;
 	}
 
 	private String _uuid;
@@ -229,5 +229,5 @@ public class ActivityCourseScheduleSoap implements Serializable {
 	private String _endTime;
 	private String _days;
 	private String _comments;
-	private long _periodId;
+	private String _periodsIds;
 }

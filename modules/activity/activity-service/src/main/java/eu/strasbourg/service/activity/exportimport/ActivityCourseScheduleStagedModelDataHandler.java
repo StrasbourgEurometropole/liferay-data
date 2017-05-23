@@ -106,7 +106,7 @@ public class ActivityCourseScheduleStagedModelDataHandler
 		importedActivityCourseSchedule.setDays(stagedModel.getDays());
 		importedActivityCourseSchedule.setComments(stagedModel.getComments());
 		// TODO : pas sûr, id de staging
-		importedActivityCourseSchedule.setPeriodId(stagedModel.getPeriodId());
+		importedActivityCourseSchedule.setPeriodsIds(stagedModel.getPeriodsIds());
 
 		// Import de l'asset, tags, catégories, et des élémeents liés
 		// potentiellement non publiés

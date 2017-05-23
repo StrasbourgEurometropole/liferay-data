@@ -74,7 +74,7 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		attributes.put("endTime", getEndTime());
 		attributes.put("days", getDays());
 		attributes.put("comments", getComments());
-		attributes.put("periodId", getPeriodId());
+		attributes.put("periodsIds", getPeriodsIds());
 
 		return attributes;
 	}
@@ -161,11 +161,20 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 			setComments(comments);
 		}
 
-		Long periodId = (Long)attributes.get("periodId");
+		String periodsIds = (String)attributes.get("periodsIds");
 
-		if (periodId != null) {
-			setPeriodId(periodId);
+		if (periodsIds != null) {
+			setPeriodsIds(periodsIds);
 		}
+	}
+
+	/**
+	* Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
+	* 0 et 6)
+	*/
+	@Override
+	public boolean hasScheduleOnDay(int day) {
+		return _activityCourseSchedule.hasScheduleOnDay(day);
 	}
 
 	@Override
@@ -181,6 +190,15 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public boolean isNew() {
 		return _activityCourseSchedule.isNew();
+	}
+
+	/**
+	* Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
+	* jour, false sinon
+	*/
+	@Override
+	public boolean[] getWeekDays() {
+		return _activityCourseSchedule.getWeekDays();
 	}
 
 	/**
@@ -342,6 +360,16 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
+	* Returns the periods IDs of this activity course schedule.
+	*
+	* @return the periods IDs of this activity course schedule
+	*/
+	@Override
+	public java.lang.String getPeriodsIds() {
+		return _activityCourseSchedule.getPeriodsIds();
+	}
+
+	/**
 	* Returns the start time of this activity course schedule.
 	*
 	* @return the start time of this activity course schedule
@@ -473,16 +501,6 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public long getGroupId() {
 		return _activityCourseSchedule.getGroupId();
-	}
-
-	/**
-	* Returns the period ID of this activity course schedule.
-	*
-	* @return the period ID of this activity course schedule
-	*/
-	@Override
-	public long getPeriodId() {
-		return _activityCourseSchedule.getPeriodId();
 	}
 
 	/**
@@ -693,13 +711,13 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Sets the period ID of this activity course schedule.
+	* Sets the periods IDs of this activity course schedule.
 	*
-	* @param periodId the period ID of this activity course schedule
+	* @param periodsIds the periods IDs of this activity course schedule
 	*/
 	@Override
-	public void setPeriodId(long periodId) {
-		_activityCourseSchedule.setPeriodId(periodId);
+	public void setPeriodsIds(java.lang.String periodsIds) {
+		_activityCourseSchedule.setPeriodsIds(periodsIds);
 	}
 
 	/**

@@ -374,18 +374,19 @@ public interface ActivityCourseScheduleModel extends BaseModel<ActivityCourseSch
 		Locale defaultLocale);
 
 	/**
-	 * Returns the period ID of this activity course schedule.
+	 * Returns the periods IDs of this activity course schedule.
 	 *
-	 * @return the period ID of this activity course schedule
+	 * @return the periods IDs of this activity course schedule
 	 */
-	public long getPeriodId();
+	@AutoEscape
+	public String getPeriodsIds();
 
 	/**
-	 * Sets the period ID of this activity course schedule.
+	 * Sets the periods IDs of this activity course schedule.
 	 *
-	 * @param periodId the period ID of this activity course schedule
+	 * @param periodsIds the periods IDs of this activity course schedule
 	 */
-	public void setPeriodId(long periodId);
+	public void setPeriodsIds(String periodsIds);
 
 	@Override
 	public boolean isNew();

@@ -94,8 +94,8 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		sb.append(days);
 		sb.append(", comments=");
 		sb.append(comments);
-		sb.append(", periodId=");
-		sb.append(periodId);
+		sb.append(", periodsIds=");
+		sb.append(periodsIds);
 		sb.append("}");
 
 		return sb.toString();
@@ -168,7 +168,12 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			activityCourseScheduleImpl.setComments(comments);
 		}
 
-		activityCourseScheduleImpl.setPeriodId(periodId);
+		if (periodsIds == null) {
+			activityCourseScheduleImpl.setPeriodsIds(StringPool.BLANK);
+		}
+		else {
+			activityCourseScheduleImpl.setPeriodsIds(periodsIds);
+		}
 
 		activityCourseScheduleImpl.resetOriginalValues();
 
@@ -195,8 +200,7 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		endTime = objectInput.readUTF();
 		days = objectInput.readUTF();
 		comments = objectInput.readUTF();
-
-		periodId = objectInput.readLong();
+		periodsIds = objectInput.readUTF();
 	}
 
 	@Override
@@ -257,7 +261,12 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			objectOutput.writeUTF(comments);
 		}
 
-		objectOutput.writeLong(periodId);
+		if (periodsIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(periodsIds);
+		}
 	}
 
 	public String uuid;
@@ -273,5 +282,5 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 	public String endTime;
 	public String days;
 	public String comments;
-	public long periodId;
+	public String periodsIds;
 }

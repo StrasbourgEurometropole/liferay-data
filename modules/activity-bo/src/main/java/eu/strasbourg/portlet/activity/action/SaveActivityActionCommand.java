@@ -62,6 +62,10 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 	protected void doProcessAction(ActionRequest request,
 		ActionResponse response) throws Exception {
 		ServiceContext sc = ServiceContextFactory.getInstance(request);
+		ThemeDisplay themeDisplay = (ThemeDisplay) request
+			.getAttribute(WebKeys.THEME_DISPLAY);
+		String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+
 		long activityId = ParamUtil.getLong(request, "activityId");
 		Activity activity;
 		if (activityId == 0) {
@@ -73,7 +77,15 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 		// Validation
 		boolean isValid = validate(request);
 		if (!isValid) {
+			// Si pas valide : on reste sur la page d'édition
 			PortalUtil.copyRequestParameters(request, response);
+
+			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			returnURL.setParameter("tab", request.getParameter("tab"));
+
+			response.setRenderParameter("returnURL", returnURL.toString());
 			response.setRenderParameter("mvcPath",
 				"/activity-bo-edit-activity.jsp");
 			return;
@@ -109,9 +121,6 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 		activityLocalService.updateActivity(activity, sc);
 
 		// Post / Redirect / Get si tout est bon
-		ThemeDisplay themeDisplay = (ThemeDisplay) request
-			.getAttribute(WebKeys.THEME_DISPLAY);
-		String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 		PortletURL renderURL = PortletURLFactoryUtil.create(request,
 			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
 		renderURL.setParameter("tab", request.getParameter("tab"));

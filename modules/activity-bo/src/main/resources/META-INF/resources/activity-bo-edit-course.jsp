@@ -20,6 +20,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="service-error" message="service-error" />
+	<liferay-ui:error key="place-error" message="place-error" />
 	
 	<aui:form action="${saveActivityCourseURL}" method="post" name="fm" onSubmit="submitForm(event);">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -97,7 +98,7 @@
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
 								<liferay-util:include page="/includes/course-place-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="index" value="0" />
 								</liferay-util:include>
 							</div>
 						</div>
@@ -107,7 +108,7 @@
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
 								<liferay-util:include page="/includes/course-place-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="index" value="${status.index}" />
 								</liferay-util:include>
 							</div>
 						</div>

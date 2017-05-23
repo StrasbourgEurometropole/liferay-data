@@ -86,7 +86,7 @@
 		<property name="endTime" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="days" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="periodId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="periodsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.activity.model.impl.ActivityOrganizerImpl" table="activity_ActivityOrganizer">
 		<id name="activityOrganizerId" type="long">

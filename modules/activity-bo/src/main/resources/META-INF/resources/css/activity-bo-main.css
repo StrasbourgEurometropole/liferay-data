@@ -1,3 +1,4 @@
+ /* Autocomplete */
 .place-autocomplete-input-wrapper {
 	position: relative;
 }
@@ -13,4 +14,34 @@
 .autocomplete-suggestion {
     cursor: pointer;
     padding: 2px 11px;
+}
+
+/* Horaires */
+#wrapper #place-fields .main-content-card {
+	margin-bottom: 50px;
+	min-height: 0;
+}
+
+.schedule {
+    width: 350px;
+    display: inline-block;
+    border: 1px solid #869CAD;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.schedules .checkbox input[type="checkbox"], .schedules .checkbox-inline input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    margin-left: -2px;
+    margin-top: 25px;
+}
+
+.schedules .periods .form-group {
+	margin-bottom: 10px;
+}
+
+#place-fields .panel-group .panel-heading {
+	background-color: #677580;
 }

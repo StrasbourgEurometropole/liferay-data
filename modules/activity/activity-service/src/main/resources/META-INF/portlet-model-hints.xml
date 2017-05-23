@@ -86,7 +86,7 @@
 		<field localized="true" name="comments" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="periodId" type="long" />
+		<field name="periodsIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.activity.model.ActivityOrganizer">
 		<field name="uuid" type="String" />

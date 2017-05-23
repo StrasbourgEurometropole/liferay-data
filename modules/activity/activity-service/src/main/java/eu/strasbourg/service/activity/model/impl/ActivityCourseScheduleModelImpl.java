@@ -93,7 +93,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			{ "endTime", Types.VARCHAR },
 			{ "days", Types.VARCHAR },
 			{ "comments", Types.VARCHAR },
-			{ "periodId", Types.BIGINT }
+			{ "periodsIds", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -111,10 +111,10 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		TABLE_COLUMNS_MAP.put("endTime", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("days", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comments", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("periodId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("periodsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourseSchedule (uuid_ VARCHAR(75) null,activityCourseScheduleId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,activityCoursePlaceId LONG,startTime VARCHAR(75) null,endTime VARCHAR(75) null,days VARCHAR(75) null,comments STRING null,periodId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourseSchedule (uuid_ VARCHAR(75) null,activityCourseScheduleId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,activityCoursePlaceId LONG,startTime VARCHAR(75) null,endTime VARCHAR(75) null,days VARCHAR(75) null,comments STRING null,periodsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table activity_ActivityCourseSchedule";
 	public static final String ORDER_BY_JPQL = " ORDER BY activityCourseSchedule.activityCourseScheduleId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY activity_ActivityCourseSchedule.activityCourseScheduleId ASC";
@@ -133,9 +133,8 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 	public static final long ACTIVITYCOURSEPLACEID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long PERIODID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long ACTIVITYCOURSESCHEDULEID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long ACTIVITYCOURSESCHEDULEID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -164,7 +163,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		model.setEndTime(soapModel.getEndTime());
 		model.setDays(soapModel.getDays());
 		model.setComments(soapModel.getComments());
-		model.setPeriodId(soapModel.getPeriodId());
+		model.setPeriodsIds(soapModel.getPeriodsIds());
 
 		return model;
 	}
@@ -243,7 +242,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		attributes.put("endTime", getEndTime());
 		attributes.put("days", getDays());
 		attributes.put("comments", getComments());
-		attributes.put("periodId", getPeriodId());
+		attributes.put("periodsIds", getPeriodsIds());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -333,10 +332,10 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			setComments(comments);
 		}
 
-		Long periodId = (Long)attributes.get("periodId");
+		String periodsIds = (String)attributes.get("periodsIds");
 
-		if (periodId != null) {
-			setPeriodId(periodId);
+		if (periodsIds != null) {
+			setPeriodsIds(periodsIds);
 		}
 	}
 
@@ -666,25 +665,18 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 
 	@JSON
 	@Override
-	public long getPeriodId() {
-		return _periodId;
+	public String getPeriodsIds() {
+		if (_periodsIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _periodsIds;
+		}
 	}
 
 	@Override
-	public void setPeriodId(long periodId) {
-		_columnBitmask |= PERIODID_COLUMN_BITMASK;
-
-		if (!_setOriginalPeriodId) {
-			_setOriginalPeriodId = true;
-
-			_originalPeriodId = _periodId;
-		}
-
-		_periodId = periodId;
-	}
-
-	public long getOriginalPeriodId() {
-		return _originalPeriodId;
+	public void setPeriodsIds(String periodsIds) {
+		_periodsIds = periodsIds;
 	}
 
 	@Override
@@ -798,7 +790,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		activityCourseScheduleImpl.setEndTime(getEndTime());
 		activityCourseScheduleImpl.setDays(getDays());
 		activityCourseScheduleImpl.setComments(getComments());
-		activityCourseScheduleImpl.setPeriodId(getPeriodId());
+		activityCourseScheduleImpl.setPeriodsIds(getPeriodsIds());
 
 		activityCourseScheduleImpl.resetOriginalValues();
 
@@ -876,10 +868,6 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		activityCourseScheduleModelImpl._originalActivityCoursePlaceId = activityCourseScheduleModelImpl._activityCoursePlaceId;
 
 		activityCourseScheduleModelImpl._setOriginalActivityCoursePlaceId = false;
-
-		activityCourseScheduleModelImpl._originalPeriodId = activityCourseScheduleModelImpl._periodId;
-
-		activityCourseScheduleModelImpl._setOriginalPeriodId = false;
 
 		activityCourseScheduleModelImpl._columnBitmask = 0;
 	}
@@ -964,7 +952,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			activityCourseScheduleCacheModel.comments = null;
 		}
 
-		activityCourseScheduleCacheModel.periodId = getPeriodId();
+		activityCourseScheduleCacheModel.periodsIds = getPeriodsIds();
+
+		String periodsIds = activityCourseScheduleCacheModel.periodsIds;
+
+		if ((periodsIds != null) && (periodsIds.length() == 0)) {
+			activityCourseScheduleCacheModel.periodsIds = null;
+		}
 
 		return activityCourseScheduleCacheModel;
 	}
@@ -999,8 +993,8 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		sb.append(getDays());
 		sb.append(", comments=");
 		sb.append(getComments());
-		sb.append(", periodId=");
-		sb.append(getPeriodId());
+		sb.append(", periodsIds=");
+		sb.append(getPeriodsIds());
 		sb.append("}");
 
 		return sb.toString();
@@ -1067,8 +1061,8 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		sb.append(getComments());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>periodId</column-name><column-value><![CDATA[");
-		sb.append(getPeriodId());
+			"<column><column-name>periodsIds</column-name><column-value><![CDATA[");
+		sb.append(getPeriodsIds());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1102,9 +1096,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 	private String _days;
 	private String _comments;
 	private String _commentsCurrentLanguageId;
-	private long _periodId;
-	private long _originalPeriodId;
-	private boolean _setOriginalPeriodId;
+	private String _periodsIds;
 	private long _columnBitmask;
 	private ActivityCourseSchedule _escapedModel;
 }

@@ -15,4 +15,5 @@ public class VocabularyNames {
 	public static final String ACTIVITY_TYPE = "type des activites";
 	public static final String ACTIVITY_PUBLIC = "public des activites";
 	public static final String ACTIVITY_SERVICE = "service gestionnaire des activites";
+	public static final String ACTIVITY_PERIOD = "periode des activites";
 }

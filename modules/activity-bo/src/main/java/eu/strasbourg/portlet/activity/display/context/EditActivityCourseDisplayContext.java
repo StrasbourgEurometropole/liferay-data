@@ -30,6 +30,7 @@ public class EditActivityCourseDisplayContext {
 	private final RenderRequest request;
 	private final ThemeDisplay themeDisplay;
 	private List<AssetCategory> cities;
+	private List<AssetCategory> periods;
 
 	public EditActivityCourseDisplayContext(RenderRequest request,
 		RenderResponse response) {
@@ -80,18 +81,19 @@ public class EditActivityCourseDisplayContext {
 				this.themeDisplay.getScopeGroupId());
 		return servicesVocabulary.getCategories();
 	}
-	
+
 	/**
 	 * Renvoie les indexes des lieux par défaut
 	 */
 	public String getDefaultPlaceIndexes() throws PortalException {
 		if (this.getActivityCourse() != null) {
-    		List<ActivityCoursePlace> places = this.getActivityCourse().getActivityCoursePlaces();
-    		String indexes = "0";
-    		for (int i = 1; i <= places.size(); i++) {
-    			indexes +=  "," + i;
-    		}
-    		return indexes;
+			List<ActivityCoursePlace> places = this.getActivityCourse()
+				.getActivityCoursePlaces();
+			String indexes = "0";
+			for (int i = 1; i <= places.size(); i++) {
+				indexes += "," + i;
+			}
+			return indexes;
 		}
 		return "";
 	}
@@ -101,10 +103,10 @@ public class EditActivityCourseDisplayContext {
 	 */
 	public List<AssetCategory> getCities() throws PortalException {
 		if (Validator.isNull(cities)) {
-			AssetVocabulary vocabulary = AssetVocabularyHelper
+			AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
 				.getGlobalVocabulary(VocabularyNames.TERRITORY);
-			if (vocabulary != null) {
-				cities = vocabulary.getCategories().stream().filter(c -> {
+			if (territoriesVocabulary != null) {
+				cities = territoriesVocabulary.getCategories().stream().filter(c -> {
 					try {
 						return c.getAncestors().size() == 1;
 					} catch (Exception e) {
@@ -116,4 +118,16 @@ public class EditActivityCourseDisplayContext {
 		return cities;
 	}
 
+	/**
+	 * Retourne la liste des périodes d'activité
+	 */
+	public List<AssetCategory> getPeriods() throws PortalException {
+		if (Validator.isNull(periods)) {
+			AssetVocabulary periodsVocabulary = AssetVocabularyHelper.getVocabulary(
+				VocabularyNames.ACTIVITY_PERIOD,
+				themeDisplay.getScopeGroupId());
+			periods = periodsVocabulary.getCategories();
+		}
+		return periods;
+	}
 }

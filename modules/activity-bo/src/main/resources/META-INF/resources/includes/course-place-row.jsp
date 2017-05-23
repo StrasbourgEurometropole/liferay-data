@@ -66,7 +66,38 @@
 			</div>
 		</div>
 		<aui:button id="showAutocompletePlace" cssClass="show-autocomplete-place" name="showAutocompletePlace" value="show-autocomplete-place" />
-	</div>		
+	</div>
+	
+	<!-- Horaires pour le lieu -->
+	<aui:fieldset-group markupView="lexicon">
+		<aui:fieldset id="schedules-fieldset-${param.index}" collapsed="true" collapsible="true" label="schedules-for-place" cssClass="schedules-fieldset">
+			<button class="btn btn-default add-first-schedule" 
+				<c:if test="${not empty coursePlace.activityCourseSchedules}">
+					style="display:none"
+				</c:if>
+			>
+				<liferay-ui:message key="add-schedule" />
+			</button>
+			<div class="schedules" id="schedules-${param.index}" data-index="${param.index}">
+				<c:if test="${empty coursePlace.activityCourseSchedules}">
+					<liferay-util:include page="/includes/course-place-schedule-row.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="placeIndex" value="${param.index}" />
+						<liferay-util:param name="scheduleIndex" value="0" />
+						<liferay-util:param name="hidden" value="true" />
+					</liferay-util:include>
+				</c:if>
+				<c:forEach items="${coursePlace.activityCourseSchedules}" var="courseSchedule" varStatus="scheduleStatus">
+					<c:set var="courseSchedule" value="${courseSchedule}" scope="request"/>
+					<liferay-util:include page="/includes/course-place-schedule-row.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="placeIndex" value="${param.index}" />
+						<liferay-util:param name="scheduleIndex" value="${scheduleStatus.index}" />
+					</liferay-util:include>
+				</c:forEach>
+			</div>
+			<aui:input type="hidden" name="scheduleCount_${param.index}"
+				value="${not empty coursePlace.activityCourseSchedules ? fn:length(coursePlace.activityCourseSchedules) : 0}" />
+		</aui:fieldset>
+	</aui:fieldset-group>
 </div>
 
 <c:if test="${not empty fromAjax}">

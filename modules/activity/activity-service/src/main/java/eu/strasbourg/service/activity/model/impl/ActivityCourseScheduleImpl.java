@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -21,6 +22,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
@@ -47,6 +49,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 @ProviderType
 public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 	private static final long serialVersionUID = -3804075489036515389L;
+
 	public ActivityCourseScheduleImpl() {
 	}
 
@@ -84,7 +87,7 @@ public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Activity.class.getName(),
 			this.getPrimaryKey());
 	}
-	
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cette entité (via
 	 * l'assetEntry)
@@ -93,5 +96,31 @@ public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
+	 * jour, false sinon
+	 */
+	@Override
+	public boolean[] getWeekDays() {
+		boolean[] days = new boolean[7];
+		Arrays.fill(days, false);
+		int i = 0;
+		for (String happensOnDayString : this.getDays().split(",")) {
+			boolean happensOnDay = GetterUtil.getBoolean(happensOnDayString);
+			days[i] = happensOnDay;
+			i++;
+		}
+		return days;
+	}
+
+	/**
+	 * Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
+	 * 0 et 6)
+	 */
+	@Override
+	public boolean hasScheduleOnDay(int day) {
+		return this.getWeekDays()[day];
 	}
 }

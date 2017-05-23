@@ -172,7 +172,7 @@
     <column name="endTime" type="String" />
     <column name="days" type="String" />
     <column name="comments" type="String" localized="true" />
-    <column name="periodId" type="long" />
+    <column name="periodsIds" type="String" />
 
     <!-- Finder methods -->
     <finder name="GroupId" return-type="Collection">
@@ -180,10 +180,6 @@
     </finder>
     <finder name="ActivityCoursePlace" return-type="Collection">
       <finder-column name="activityCoursePlaceId" />
-    </finder>
-    <finder name="ActivityCoursePlaceAndPeriodId" return-type="Collection">
-      <finder-column name="activityCoursePlaceId" />
-      <finder-column name="periodId" />
     </finder>
     
     <!-- References -->

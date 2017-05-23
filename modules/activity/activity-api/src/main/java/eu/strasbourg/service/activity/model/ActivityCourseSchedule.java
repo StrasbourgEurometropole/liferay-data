@@ -76,4 +76,16 @@ public interface ActivityCourseSchedule extends ActivityCourseScheduleModel,
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
+	* jour, false sinon
+	*/
+	public boolean[] getWeekDays();
+
+	/**
+	* Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
+	* 0 et 6)
+	*/
+	public boolean hasScheduleOnDay(int day);
 }
