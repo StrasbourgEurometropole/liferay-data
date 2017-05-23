@@ -1,7 +1,7 @@
 <!-- Horaire d'un lieu -->
 <%@ include file="/activity-bo-init.jsp"%>
 
-<div class="schedule" <c:if test="${param.hidden eq 'true'}">style="display:none"</c:if>>	
+<div class="schedule new-schedule" <c:if test="${param.hidden eq 'true'}">style="display:none"</c:if>>	
 	<!-- Périodes -->
 	<div class="periods">
 		<aui:select multiple="true" label="periods" name="periods_${param.placeIndex}_${param.scheduleIndex}">

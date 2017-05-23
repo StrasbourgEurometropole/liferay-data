@@ -95,7 +95,8 @@
 					
 				<div id="place-fields">
 					<c:if test="${empty dc.activityCourse.activityCoursePlaces}">
-						<div class="lfr-form-row lfr-form-row-inline">
+						<div class="lfr-form-row lfr-form-row-inline main-content-card">
+							<h3><liferay-ui:message key="place" /></h3>
 							<div class="row-fields">
 								<liferay-util:include page="/includes/course-place-row.jsp" servletContext="<%=application %>">
 									<liferay-util:param name="index" value="0" />
@@ -105,7 +106,8 @@
 					</c:if>
 					<c:forEach items="${dc.activityCourse.activityCoursePlaces}" var="coursePlace" varStatus="status">
 						<c:set var="coursePlace" value="${coursePlace}" scope="request"/>
-						<div class="lfr-form-row lfr-form-row-inline">
+						<div class="lfr-form-row lfr-form-row-inline main-content-card">
+							<h3><liferay-ui:message key="place" /></h3>
 							<div class="row-fields">
 								<liferay-util:include page="/includes/course-place-row.jsp" servletContext="<%=application %>">
 									<liferay-util:param name="index" value="${status.index}" />

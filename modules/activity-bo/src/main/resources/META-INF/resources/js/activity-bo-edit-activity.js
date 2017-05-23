@@ -113,12 +113,13 @@ jQuery(function() {
 jQuery('#place-fields').on('click', '.add-schedule', function() {
 	// On clone
 	var clone = $(this).closest('.schedule').clone();
+	clone.addClass('new-schedule');
 	// En remettant les contrôles à des valeurs vides
 	$('input', clone).val('');
 	$('option', clone).prop('selected', false);
 	$('input[type=checkbox]', clone).prop('checked', false);	
 	// On ajoute au DOM
-	clone.appendTo($(this).closest('.schedules'));
+	$(this).closest('.schedule').after(clone);
 	// Et on met à jour les index
 	var placeIndex = $(this).closest('.schedules').data('index');
 	updateScheduleIndexes(placeIndex);
@@ -135,6 +136,13 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 		// Sinon on le masque tout en rendant disable tous les champs
 		schedule.hide();
 		$('input, select', schedule).prop('disabled', true)
+		
+		// Et en les vidant
+		// En remettant les contrôles à des valeurs vides
+		$('input', schedule).val('');
+		$('option', schedule).prop('selected', false);
+		$('input[type=checkbox]', schedule).prop('checked', false);	
+		
 		// On affiche le bouton pour ajouter un premier schedule
 		$('.add-first-schedule', $(this).closest('.schedules-fieldset')).show();
 	}
@@ -146,12 +154,13 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 	// On crée le clone
 	var schedule = $(this).closest('.schedule');
 	var clone = schedule.clone();
+	clone.addClass('new-schedule');
 	// On remet correctement les valeurs des périodes
 	$('option', clone).each(function() {
 		$(this).prop('selected', $('option[value=' + $(this).val() + ']', schedule).is(':selected'));
 	});
 	// On ajoute au DOM
-	clone.appendTo($(this).closest('.schedules'));
+	$(this).closest('.schedule').after(clone);
 	// Et on remet à jour les index
 	var placeIndex = $(this).closest('.schedules').data('index');
 	updateScheduleIndexes(placeIndex);
@@ -170,6 +179,8 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 	updateScheduleIndexes(placeIndex);
 });
 
+// Fonction mettant à jour les noms des champs des schedules 
+// ainsi que les attributs "for" des labels
 function updateScheduleIndexes(placeIndex) {
 	var schedules = $('#schedules-' + placeIndex);
 	var i = 0;
