@@ -1,4 +1,5 @@
 <#setting date_format = "dd/MM/yyyy">
+<#setting locale = locale />
 <div class="portlet-cus-galleries portlet-cus-image-fo">
     <div class="header">
         <h2 class="gallery-title">${title.getData()}</h2>
