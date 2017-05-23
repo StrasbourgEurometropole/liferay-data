@@ -32,7 +32,7 @@ public class OfficialDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		return "Template Official";
+		return "Template Elus";
 	}
 
 	@Override

@@ -106,7 +106,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		try {
 			ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse);
 		} catch (Exception e2) {
-			System.out.println("Error in " + getClass().getName() + "\n" + e2);
+			_log.error(e2);
 		}
 		super.serveResource(resourceRequest, resourceResponse);
 	}

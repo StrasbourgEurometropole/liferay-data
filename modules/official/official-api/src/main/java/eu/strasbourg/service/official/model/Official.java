@@ -124,7 +124,7 @@ public interface Official extends OfficialModel, PersistedModel {
 	/**
 	* Retourne la catégorie Autres mandats correspondant à l'élu
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getOthersMandates();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getOthersMandates();
 
 	/**
 	* Retourne le nom féminin/masculin de la catégorie

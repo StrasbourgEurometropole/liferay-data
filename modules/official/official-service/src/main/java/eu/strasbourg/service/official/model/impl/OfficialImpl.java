@@ -235,14 +235,14 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 * Retourne la catégorie Autres mandats correspondant à l'élu
 	 */
 	@Override
-	public AssetCategory getOthersMandates() {
+	public List<AssetCategory> getOthersMandates() {
 		List<AssetCategory> mandates = AssetVocabularyHelper
 				.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 						VocabularyNames.OTHERS_MANDATES);
-		if (!mandates.isEmpty()) {
-			return mandates.get(0);
-		}
-		return null;
+		// if (!mandates.isEmpty()) {
+		// return mandates.get(0);
+		// }
+		return mandates;
 	}
 
 	/**
@@ -254,11 +254,11 @@ public class OfficialImpl extends OfficialBaseImpl {
 	public String getName(AssetCategory category, Locale locale)
 			throws PortalException {
 		if (Validator.isNotNull(category)) {
-			switch ("" + this.getGender()) {
-			case "2":
-				return AssetVocabularyHelper.getCategoryProperty(
-						category.getCategoryId(), "female");
-			default:
+			String female = AssetVocabularyHelper
+					.getCategoryProperty(category.getCategoryId(), "female");
+			if (this.getGender() == 2 && Validator.isNotNull(female)) {
+				return female;
+			} else {
 				return category.getTitle(locale);
 			}
 		}

@@ -405,14 +405,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Retourne la catégorie Autres mandats correspondant à l'élu
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getOthersMandates() {
-		return _official.getOthersMandates();
-	}
-
-	/**
 	* Retourne la catégorie Groupe Politique ville correspondant à l'élu
 	*/
 	@Override
@@ -893,6 +885,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistricts() {
 		return _official.getDistricts();
+	}
+
+	/**
+	* Retourne la catégorie Autres mandats correspondant à l'élu
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getOthersMandates() {
+		return _official.getOthersMandates();
 	}
 
 	/**

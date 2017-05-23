@@ -764,6 +764,10 @@ public class SearchAssetDisplayContext {
 			Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil.toLongArray(
 					StringUtil.split(prefilterCategoriesIdsGroupByVocabulary,
 							",", 0));
+			if (prefilterCategoriesIdsForVocabulary.length == 0) {
+				officialType = OfficialsConstants.MUNICIPAL;
+				break;
+			}
 			prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
 
 			// type d'élu
@@ -833,7 +837,7 @@ public class SearchAssetDisplayContext {
 		return exportURL;
 	}
 
-	private static Log _log = LogFactoryUtil.getLog("eu.strasbourg");
+	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;
