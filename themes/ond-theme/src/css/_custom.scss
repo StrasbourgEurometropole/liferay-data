@@ -1,0 +1,1178 @@
+@import url(lr6/custom.css);
+
+@import "partials/layout";
+
+.control-menu.control-menu-level-1 {
+    position: static;
+}
+
+.js .controls-hidden .lfr-meta-actions, .js .controls-hidden .lfr-configurator-visibility {
+    display: block;
+}
+
+.ond .wrapper{
+	margin-top: 0px !important;
+	padding-top: 0px !important;
+
+	.header{
+		z-index: 1;
+
+		/* Bandeau */
+		.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+			display: block;
+
+			.portlet{
+				margin-bottom: 0px;
+				width: 100%;
+
+				.slide_header{
+					display:inline;
+
+					li {
+						text-align: center;
+					}
+				}
+
+				.bx-controls-auto{
+					width: 60px;
+
+					.bx-controls-auto-item{
+						width: 16px;
+
+						a{
+							padding: 0px;
+							width: 10pw;
+						}
+					}
+				}
+
+				.portlet-content{
+					padding: 0px;
+					background-color: #d7d6cc;
+
+					.portlet-title-text{
+						display:none;
+					}
+				}
+			}
+
+			a{
+				border: none;
+			}
+		}
+
+		/* Menu */
+		.menu{
+			position: static;
+		}
+	}
+
+	.content{
+		z-index: 2;
+
+		/* Fil d'ariane */
+		.fil-ariane {
+
+			a{
+				border: none;
+			}
+
+			p{
+				float:left;
+			}
+
+			.breadcrumbs-bar{
+				float:left;
+
+				.portlet-breadcrumb{
+					margin-top: -6px;
+
+					.portlet{
+						display: inline;
+
+						header{
+    						width: 250px;
+						}
+
+						.portlet-content{
+							padding: 0px;
+							background-color: rgba(0,0,0,0);
+							border: none;
+
+							.portlet-title-text{
+								display:none;
+							}
+
+							.breadcrumb.breadcrumb-horizontal {
+								display: inline;
+								font-size: 12px !important;
+								background-color: rgba(0,0,0,0);
+
+								a, li, p {
+									display: inline;
+									font-family: 'Lato', sans-serif;
+									font-size: 12px !important;
+									background-color: rgba(0,0,0,0);
+									height: auto;
+									margin-bottom: 0px;
+								}
+
+								ul{
+									display: inline;
+								}
+
+								li{
+									max-width: none;
+									margin: 0px 0px 0px 4px;
+
+									a{
+										border: none;
+										padding: 0px;
+										font-weight: normal;
+										float: left;
+									}
+								}
+
+								> li + li:before {
+									background-image: url();
+									content: "\00a0>\00a0";
+									margin-top: -0.5em;
+									color: #333333;
+									margin-left: -2px;
+								}
+
+								> li:last-child a{
+									font-weight: bold;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.portlet-layout{
+			margin: 0px;
+		}
+
+		/* Colonne de gauche */
+		.col-md-8{
+			z-index: 2;
+			padding: 0px;
+
+			/* Contenu entete */
+			.portlet-boundary_eu_strasbourg_portlet_page_header_PageHeaderPortlet_{
+				padding: 10px;
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.page-header{
+							margin-top: 0px;
+						}
+
+						#infos {
+							padding-bottom: 12px;
+
+							#titleDiv h1 {
+								font-size: 2.2em;
+								line-height: 1em;
+								font-family: 'Open Sans', sans-serif;
+								font-weight: bold;
+								background: url(../img/bg/title_underline.png) bottom left no-repeat;
+								margin: 0;
+								padding-bottom: 20px;
+								width: 100%;
+								color: #ad3939;
+							}
+
+							#rubricHeaderImgDiv{
+								display: none;
+							}
+
+							#descriptionDiv{
+								font-size: 1.2em;
+								line-height: 1.2em;
+								margin-top: 15px;
+							}
+						}
+					}
+				}
+			}
+
+			/* Contenu rubrique */
+			.portlet-boundary_eu_strasbourg_portlet_rubric_RubricPortlet_{
+				margin-top: 30px;
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.rubric:hover{
+							background: #ad3939;
+							color: white;
+
+							#rubricTitle a{
+								color: white;
+							}
+
+							#rubricTitle a:hover{
+								text-decoration: underline;
+							}
+						}
+
+						.rubric{
+							width: 299px;
+							height: 225px;
+							float: left;
+							margin-bottom: 30px;
+							background: #e7e6d9;
+							color: #3a3a3a;
+							-moz-transition: all 0.3s ease 0s;
+							transition: all 0.3s ease 0s;
+							position: relative;
+							border-left: 1px solid #f2f1e8;
+							border-left-width: 1px;
+							border-left-style: solid;
+							border-left-color: rgb(242, 241, 232);
+
+							a{
+								border: none;
+								float: none;
+								padding: 0px;
+							}
+
+							#rubricTitle {
+								margin: 160px 15px 15px 15px;
+								background-color: transparent;
+								padding: 0;
+
+								a {
+									font-family: 'Open Sans', sans-serif;
+									font-weight: 700;
+									text-transform: none;
+									font-size: 0.6em;
+									line-height: 1.2em;
+									text-decoration: none;
+									color: black;
+								}
+							}
+
+							.rubricThumbnail {
+								width: 100%;
+								height: 148px;
+								overflow: hidden;
+								position: absolute;
+								top: 0;
+								left: 0;
+
+								img {
+									width: 100%;
+								}
+							}
+
+							#rubricLinks {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+
+			/* Contenu contact */
+			.portlet-boundary_eu_strasbourg_portlet_formassembly_FormAssemblyPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px 10px 0px 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.wFormContainer{
+							width: auto;
+							font-size: 14px;
+
+							.preField {
+								padding: 5px 10px 4px 0px;
+							}
+
+							input[type='text'], input[type='password'], input[type='file'], textarea, select {
+								box-sizing: border-box;
+								width: 305px;
+								padding: 5px;
+								border: 2px solid #e6eaef !important;
+								background-image: none;
+							}
+
+							a{
+								margin:0px;
+								padding: 0px;
+								color: #2d2d2d;
+								text-decoration: underline;
+								font-size: 14px;
+								display: inline;
+								float: none;
+								font-weight: normal;
+							}
+
+							p{
+								line-height: 150%;
+							}
+
+							.captcha{
+
+								legend{
+									font-size: 16px;
+									font-weight: bold;
+									line-height: 150%;
+									margin: 0px;
+									border-bottom: none;
+									width:auto;
+								}
+
+								label{
+									min-width: 80px;
+								}
+							}
+
+							.primaryAction{
+								padding: 8px 20px;
+    							border: none;
+    							line-height: normal;
+							}
+
+							.supportInfo {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+
+			/* Contenu actualité */
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_.all-news{
+				position: relative;
+			}
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content{
+				article {
+					height: 203px;	
+
+					.entry-header h2{
+						margin-top: -218px;
+						display: none;
+					}
+
+					.entry-content{
+						display: none;
+					}
+
+					.entry-meta{
+						display: none;
+					}
+				}
+
+				.btn-news{
+				    display: block;
+				    float: right;
+				    line-height: 2em;
+				    text-decoration: none;
+				    color: #ad3939;
+				    border: 1px solid #ad3939;
+				    font-family: Arial;
+				    font-size: 1.25em;
+				    font-weight: bold;
+				    -webkit-transition: all 0.3s ease;
+				    -moz-transition: all 0.3s ease;
+				    -o-transition: all 0.3s ease;
+				    -ms-transition: all 0.3s ease;
+				    transition: all 0.3s ease;
+				    padding: 0 10px;
+				    margin-right: 40px;
+				    margin-top: 20px;
+				}
+			} 
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px 10px 0px 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}	
+
+						.h2 {
+							display: none;
+						}
+
+						h1{
+							margin: 0;
+							padding: 15px 0;
+							color: black;
+							font-weight: 700;
+							font-family: 'Open Sans', sans-serif;
+							font-size: 2em;
+							line-height: 1em;
+							text-transform: uppercase;
+							color: #3a3a3a;
+							background: url(../img/bg/title_underline.png) bottom left no-repeat;
+							margin-bottom: 15px;
+						}
+
+						.article-title {
+						    font-size: 2.2em;
+							line-height: 1em;
+							font-family: 'Open Sans', sans-serif;
+							margin: 0;
+							padding-bottom: 20px;
+							width: 80%;
+							background: none;
+							color: #ad3939;
+							text-transform: none;
+						}
+
+						.article-date-publication{
+								color: #ad3939;
+						}
+
+						.social{
+							    width: 270px;
+    							height: 45px;
+						}
+
+						article {
+							width: 299px;
+						    margin: 0px 0px 30px 0px;
+						    color: white;
+						    background: #ad3939;
+						    float: left;
+							border-left: 1px solid #f2f1e8;
+    						border-bottom: 1px solid #f2f1e8;
+
+						    .entry-header {
+
+						    	a{
+						    		padding: 0px;
+						    		margin: 0px;
+						    		float: none;
+
+							    	img{
+								    	width: 100%;
+								    }
+						    	}
+
+						    	h2 {
+						    		padding: 15px 0px;
+						    		margin: 0px 15px 9px 15px;
+									background: url(../img/bg/actu_underline.png) no-repeat left bottom;
+								    overflow:hidden !important;
+								    text-overflow: ellipsis;
+									height: 65px;
+
+						    		a{
+								    	color: white;
+								    	float: none;
+								    	font-family: "Lato",sans-serif;
+									    font-size: 0.5em;
+									    font-weight: bold;
+									    line-height: 1.1em;
+									}
+								}
+							}
+
+							.entry-content {
+							    overflow:hidden !important;
+							    text-overflow: ellipsis;
+							    padding: 0px 15px;
+
+							    a{
+									float: none;
+									color: white;
+									font-family: "Lato",sans-serif;
+									font-size: 0.9em;
+									font-weight: normal;
+									text-decoration: none;
+									height: 66px;
+									padding: 0px;
+									margin: 0px;
+								}
+							}
+
+							.entry-meta{
+								padding: 0px 15px;
+
+								time{
+									font-family: Arial;
+									font-size: 1em;
+									font-weight: bold;
+									float: left;
+								}
+
+								a{
+									color: white;
+									border: 1px solid;
+									margin: 0px;
+									margin-bottom: 10px;
+									width: auto;
+								}
+							}
+						}
+
+						.taglib-page-iterator {
+
+							a {
+								background-color: rgba(0,0,0,0);
+							}
+
+							.search-results, .lfr-pagination-delta-selector {
+								display: none;
+							}
+						}
+
+						.btn-news{
+							display: none;
+						}
+
+						.previous-link-div{
+							float: left;
+							height: auto;
+							background-position: 10px 15px;
+
+							.previous-link {
+								margin: 0px;
+
+								a{
+								    color: #3A3A3A;
+									font-weight: normal;
+									font-size: 12px;
+								    font-family: 'Lato', sans-serif;
+								    padding: 0px;
+									margin: 0px;
+								}
+							}
+						}
+
+						.previous-link-div:hover{
+							background-position: -17px 15px;
+						}
+					}
+				}
+			}
+
+			/* Contenu article */
+			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						h1 {
+						    font-size: 2.2em;
+							line-height: 1em;
+							font-family: 'Open Sans', sans-serif;
+							margin: 0;
+							padding-bottom: 20px;
+							width: 80%;
+							background: none;
+							color: #ad3939;
+							text-transform: none;
+							font-weight: bold;
+						}
+
+						a{
+							margin: 0px;
+							padding: 0px;
+						    float: none;
+						    line-height: 1.2em;
+						    text-decoration: underline;
+						    color: #3a3a3a;
+						    font-family: 'Lato', sans-serif;
+						    font-size: 1em;
+						    font-weight: normal;
+						    display: inline;
+						}
+					}
+				}
+			}
+
+			/* Contenu plan du site */
+			.portlet-boundary_com_liferay_site_navigation_site_map_web_portlet_SiteNavigationSiteMapPortlet_{
+				padding: 10px;
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						h2{
+							font-size: 1.6em;
+							line-height: 1em;
+							font-family: 'Open Sans', sans-serif;
+							font-weight: bold;
+							background: url(../img/bg/title_underline.png) bottom left no-repeat;
+							margin: 0px 0px 15px 0px;
+							padding-bottom: 15px;
+							width: auto;
+							text-transform: uppercase;
+						}
+
+						ul li  a{
+							color: #3a3a3a;
+							font-family: "Lato",sans-serif;
+							font-size: 1em;
+							line-height: 1.2em;
+							margin: 0px;
+							padding: 0px;
+							float: none;
+							font-weight: normal;
+						}
+					}
+				}
+			}
+		}
+
+		/* Menu de droite */
+		.col-md-4{
+			z-index: 1;
+
+			/* Contenu escalier et galerie */ 
+			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.quick-links{
+							float: none;
+
+							a{
+								float: none;
+								min-height: 4.58em;
+							}
+						}
+
+						.portlet{
+							margin: 0px;
+						}
+
+						.title-with-picto-span{
+							margin: 0;
+							padding: 15px 0;
+							color: black;
+							font-weight: 700;
+							font-family: 'Open Sans', sans-serif;
+							font-size: 2em;
+							line-height: 1em;
+							text-transform: uppercase;
+							text-align: right;
+							color: #3a3a3a;
+							background: url(../img/bg/title_underline.png) bottom right no-repeat;
+							margin-bottom: 15px;
+							display: block;
+						}
+
+						.column-image{
+							background: #d7d6cc;
+
+							table{
+								width: 100%;
+							}
+
+							img{
+								margin: auto;
+							}
+						}
+
+						.column-title{    
+							background-color: #ad3939;
+						    width: 100%;
+						    margin-top: -40px;
+						    position: relative;
+						    float: left;
+
+						    a{
+						    	margin: 0px;
+						    	padding: 10px;
+						    	float: left;
+						    	color: white;
+						    }
+						}
+
+						.btn-more{
+							border: solid 1px;
+							margin-bottom: 0px;
+						}
+					}
+				}
+			}
+
+			/* Contenu lire aussi */ 
+			.portlet-boundary_eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.internal-link-viewer{
+							a{
+								border: none;
+								float: none;
+								padding: 0px;
+							}
+
+							.useful-links-title{
+								padding: 15px 0px;
+								margin: 0px 0px 15px 0px;
+								background: url(../img/bg/title_underline.png) bottom right no-repeat;
+								color: #3a3a3a;
+								font-size: 2em;
+								line-height: 1.2em;
+								letter-spacing: inherit;
+								font-weight: 700;
+								font-family: 'Open Sans', sans-serif;
+								text-transform: uppercase;
+								display: block;
+								text-align: right;
+							}
+
+							ul{
+								margin-bottom: 0px;
+								background: #dfdfd5;
+								margin-bottom: 50px;
+								background: #e0dfd6;
+								height: auto;
+								margin: 0;
+								padding: 5px 20px;
+
+								> li {
+									padding: 0;
+								}
+
+								li {
+									background: url(../img/bg/chevron.png) no-repeat left 4px !important;
+									padding-left: 1em !important;
+									width: auto;
+									list-style: none;
+									margin: 0;
+									padding: 0;							
+
+									a {
+										color: #3b393c;
+										margin: 18px 0px;
+										font-family: "Lato",sans-serif;
+										font-weight: bold;
+										float: none;
+										line-height: 1.3em;
+										font-size: 14px;
+									}
+								}
+							}
+						}	
+					}
+				}
+			}
+
+			/* Contenu documents utiles */
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.bloc-util-docs{
+							background: #e0dfd6;
+							height: auto;
+							margin: 0;
+							padding: 5px 20px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/* Pied de page */
+	.footer {
+
+		.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+			display: block;
+
+			a{
+				border: none;
+			}
+
+			.portlet{
+				margin-bottom: 0px;
+				width: 100%;
+
+				.portlet-content{
+					padding: 0px;
+					background-color: rgba(0,0,0,0);
+					border: none;
+
+					.portlet-title-text{
+						display:none;
+					}
+
+					.footer-top {
+
+						.nav-footer{
+							height: 35px;
+
+							li{
+								height: 14px;
+							}
+						}
+
+						.social-network {
+							ul{
+								height: 0px;
+							}
+
+							a{
+								font-size: 1em;
+								font-weight: normal;
+								line-height: 1em;
+								margin-bottom: 0px;
+							}
+						}
+
+						.coordonnees {
+
+							.adresse{
+								height: 38px;
+
+								a{
+									float: left;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 640px){
+
+	.ond .wrapper{
+
+		.header{
+
+			/* Bandeau */
+			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+
+				.portlet{
+					padding: 0px;
+
+					.portlet-content{
+						border: none;
+
+						.journal-content-article{
+							margin: 0px;
+
+							.slide_header{
+
+								li {
+									width: 100%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.content{
+
+			.portlet-layout{
+				width: 100%;
+			}
+
+			/* Fil d'ariane */
+			.fil-ariane {
+				height: 2em;
+
+				.breadcrumbs-bar{
+
+					.portlet-breadcrumb{
+
+						.portlet{
+
+							.portlet-content{
+								margin-top: -15px;
+
+								.breadcrumb.breadcrumb-horizontal {
+
+									li a{
+										margin: 0px;
+										font-family: 'Lato', sans-serif;
+									}
+
+									> li + li:before {
+										margin-top: -0.7em;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			/* Colonne de gauche */
+			.col-md-8{
+
+				/* Contenu entete */ 
+				.portlet-boundary_eu_strasbourg_portlet_page_header_PageHeaderPortlet_{
+					padding: 10px 15px;
+
+					.portlet .portlet-content #infos #rubricHeaderImgDiv{
+						display: block;
+					}
+				}
+
+				/* Contenu rubrique */ 
+				.portlet-boundary_eu_strasbourg_portlet_rubric_RubricPortlet_{
+					margin-top: 0px;
+
+					.portlet {
+						padding: 15px 0px;
+
+						.portlet-content .rubric{
+							width: 100%;
+
+							.rubricThumbnail {
+								background: #d7d6cc;
+
+								img {
+								    width: auto;
+								    max-height: 148px;
+								    vertical-align: middle;
+								    display: block;
+			    					margin: auto;
+								}
+							}
+						}
+					}
+				} 
+
+				/* Contenu contact */
+				.portlet-boundary_eu_strasbourg_portlet_formassembly_FormAssemblyPortlet_ .portlet .portlet-content .wFormContainer .inputWrapper{
+					width: 100%;
+
+					input[type='text'], input[type='password'], input[type='file'], textarea, select {
+						width: 100%;
+					}
+				}
+
+				/* Contenu actualité */
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content{
+
+					.btn-news{
+					    margin: 15px;
+						width: inherit;
+						float: none;
+					}
+
+				 	article {
+						height: auto;	
+
+						.entry-header h2{
+							margin-top: 0px;
+							display: block;
+						}
+
+						.entry-content{
+							display: block;
+						}
+
+						.entry-meta{
+							display: block;
+						}
+					}
+				}
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content article{
+					width: 450px;
+					float: none;
+					margin: 15px auto;
+				}
+			} 
+
+			/* Menu de droite */
+			.col-md-4{
+				float: none;
+
+				/* Contenu escalier */ 
+				.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+					.portlet{
+						padding: 0px;
+
+						.portlet-content .quick-links a{	
+							background-position-x: 96%;
+						}
+					}
+				}
+
+				/* Contenu lire aussi */ 
+				.portlet-boundary_eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet_ .portlet .portlet-content .internal-link-viewer .useful-links-title{
+					font-size: 1.6em;
+				}
+
+				/* Contenu documents utiles */
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet{
+					padding: 0px;
+				}
+			}
+		}
+
+		/* Pied de page */
+		.footer {
+
+		   a{
+		   		float: none;
+		   }
+
+			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+			    height: auto;
+			    margin: 0;
+			    padding: 0;
+
+				.portlet{
+					padding: 0px;
+
+					.portlet-content{
+
+						.journal-content-article{
+							margin: 0px;
+
+							.footer-top {
+							    background: #2d2d2d;
+
+							 	.nav-footer{
+							 		height: auto;
+
+							   		li{
+							   			height: 100%;
+
+									   a{
+									   		width: 100%;
+									   		margin: 0px;
+									   }
+									}
+							   	}
+
+								.social-network {
+									ul{
+										height: auto;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.closure{
+				height: 70px;
+			}
+		}
+	}
+}	
