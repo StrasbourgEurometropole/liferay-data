@@ -163,7 +163,7 @@
                                     <div class="item"> 
                                         <div class="item-image">
                                             <a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">
-                                                <img src="${event.externalImageURL}" >
+                                                <img src="${event.imageURL}" >
                                             </a>
                                         </div>
                                         <div class="item-info">
