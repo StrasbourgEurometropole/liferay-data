@@ -49,6 +49,9 @@
 	       
 		<!-- jQuery 1.9.1 -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+		<!-- Magnific Popup core JS file -->
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
 	</head>
 
 	<body class="ond ${css_class}<#if layout.getFriendlyURL() == '/accueil'> home</#if>">
@@ -70,7 +73,7 @@
 		                </a>
 		                <ul>
 		                    <li class="contact">
-		                        <a href="/web${themeDisplay.getLayout().getGroup().getFriendlyURL()}/pied-de-page/contact" title="Contact"><@liferay_ui.message key='contact' /></a>
+		                        <a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/pied-de-page/contact" title="Contact"><@liferay_ui.message key='contact' /></a>
 		                    </li>
 		                </ul>
 		                <div class="clearfix"></div>
@@ -78,7 +81,7 @@
 		        </nav>
 		        <h1 class="title"><@liferay_ui.message key='site.title.ond' /></h1>
 		        <div class="logo">
-		        	<a href="/" title="<@liferay_ui.message key='breadcrumb-home' /> - <@liferay_ui.message key='site.title.ond' />">
+		        	<a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}" title="<@liferay_ui.message key='breadcrumb-home' /> - <@liferay_ui.message key='site.title.ond' />">
 		               <img src="${images_folder}/../img/logo.png" alt="<@liferay_ui.message key='site.title.ond' />" />
 		           </a>
 		       </div>
@@ -116,7 +119,7 @@
 		                    <p>
 			                    <@liferay_ui.message key='you-are-here' /> : 
 								<#if layout.getFriendlyURL() != "/accueil">
-			                    	<a href="/"><@liferay_ui.message key='breadcrumb-home' /></a> >
+			                    	<a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}"><@liferay_ui.message key='breadcrumb-home' /></a> >
 								</#if> 
 							</p> 
 							<div class="breadcrumbs-bar">
@@ -125,8 +128,8 @@
 		                </div>
 		                <aside class="quick-links-medias">
 		                    <ul>
-		                        <li><a href="/web${themeDisplay.getLayout().getGroup().getFriendlyURL()}/medias/videos" class="videos" title="<@liferay_ui.message key='gallery_videos' />"><@liferay_ui.message key='gallery_videos' /></a></li>
-		                        <li><a href="/web${themeDisplay.getLayout().getGroup().getFriendlyURL()}/medias/visuels" class="images" title="<@liferay_ui.message key='gallery_images' />"><@liferay_ui.message key='gallery_images' /></a></li>
+		                        <li><a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/medias/videos" class="videos" title="<@liferay_ui.message key='gallery_videos' />"><@liferay_ui.message key='gallery_videos' /></a></li>
+		                        <li><a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/medias/visuels" class="images" title="<@liferay_ui.message key='gallery_images' />"><@liferay_ui.message key='gallery_images' /></a></li>
 		                    </ul>
 		                </aside>
 		                <div class="clearfix"></div>

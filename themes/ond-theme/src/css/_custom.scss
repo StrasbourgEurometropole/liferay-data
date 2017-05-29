@@ -155,9 +155,271 @@
 			margin: 0px;
 		}
 
+		/*Colonne unique */
+		.col-md-12{
+			padding: 0px;
+
+			/* Contenu détail vidéo */
+			.portlet-boundary_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						h2 {
+						    font-size: 2.2em;
+							line-height: 1em;
+							font-family: 'Open Sans', sans-serif;
+							margin: 0;
+							margin-bottom: 20px;
+							padding-bottom: 20px;
+							background: none;
+							color: #ad3939;
+							text-transform: none;
+							font-weight: bold;
+							background: url(../img/bg/title_underline.png) bottom left no-repeat;
+						}
+
+						.details {
+
+							iframe{
+								width: 100%;
+								height: 500px;
+							}
+
+							.gray{
+								color: #787679;
+							}
+
+							.description {
+								font-size: 1.2em;
+								line-height: 1.2em;
+							}
+						}
+
+						.button-gray .middle{
+							width: 315px;
+							float: left;
+
+							a{
+								margin-bottom: 15px;
+								color: #3a3a3a;
+								font-family: 'Lato', sans-serif;
+								font-size: 12px;
+								font-weight: normal;
+								float: left;
+								margin-top: -5px;
+							}
+						}
+					}
+				}
+			}
+
+			/* Contenu Galerie de visuels */
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
+
+				a{
+					border: none;
+				}
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.subtitle{
+						    background-repeat: no-repeat;
+						    background-position: left top;
+						    color: #3a3a3a;
+						    font-family: 'Open Sans';
+						    font-size: 2.08em;
+						    font-weight: 700;
+						    text-transform: uppercase;
+						    margin: 0;
+						    height: 35px;
+						    padding-left: 52px;
+						    padding-top: 5px;
+						    line-height: 0.5em;
+						}
+
+						.subtitle.video{
+						    background-image: url(../img/bg/wrapper_title_vid.png);
+						}
+
+						.subtitle.visuel{
+						    background-image: url(../img/bg/wrapper_title_pic.png);
+						}
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						.h2{
+							display: none;
+						}
+
+						.header{
+
+							h2 {
+								padding-bottom: 20px;
+								color: #ad3939;
+								font-weight: bold;
+							}
+
+							.article-text{
+								font-size: 1.2em;
+								line-height: 1.2em;
+								margin-top: 10px;
+								margin-bottom: 15px;
+							}
+						}
+
+						.button-gray{
+							clear: both;
+
+							.middle{
+								float: left;
+
+								a{
+									margin-bottom: 15px;
+									color: #3a3a3a;
+									font-family: 'Lato', sans-serif;
+									font-size: 12px;
+									font-weight: normal;
+									float: left;
+									margin-top: -5px;
+								}
+							}
+						}
+
+						.content{
+							clear: both;
+							margin-top: 40px;
+
+							.lfr-search-container{
+								overflow: hidden;
+							}
+
+							.entry-header {
+								padding: 10px 15px;
+								float: right;
+
+								a{
+									margin: 0px;
+								}
+							}
+
+							a{
+								width: 100%;
+								padding: 0px;
+								font-family: 'Lato', sans-serif;
+
+								img{
+									width: 100%;
+								}
+							}
+
+							footer {
+								float: right;
+
+								a{
+								    font-family: Arial;
+								    padding: 0 8px;
+								    border: 1px solid #ad3939;
+								    margin-top: 20px;
+								    float: right;
+								    margin: 0px;
+								}
+							}
+						}
+
+						.content.video, .content.visuel{
+							margin-top: 0px;
+
+							.lfr-search-container {
+								margin-top: 0px;
+							}
+						}
+
+						.content.video {
+
+							.event {
+							    width: 293px;
+							    margin-right: 27px;
+							    float: left;
+							    margin-bottom: 20px;
+							    background: #FFF;
+							}
+
+							.entry-image {
+								height: 165px;
+
+								a{
+									margin: 0px;
+								}
+							}
+
+							.entry-category {
+							    background: #ad3939;
+							    height: 20px;
+							    color: white;
+							    line-height: 20px;
+							    padding: 0 15px;
+							    font-size: 1.1em;
+							}
+
+							.entry-header{
+								width: 100%;
+								height: 56px;
+
+								a {
+								    text-decoration: none;
+								    transition: all 0.3s ease;
+								    font-size: 1.2em;
+								    font-weight: 700;
+								    line-height: 1.1em;
+								    float: none;
+								}
+
+								a:hover{
+									text-decoration: underline;
+								}
+							}
+
+							footer{
+								float: none;
+
+								a{
+									float: right;
+									width: auto;
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+
 		/* Colonne de gauche */
 		.col-md-8{
-			z-index: 2;
 			padding: 0px;
 
 			/* Contenu entete */
@@ -1121,6 +1383,54 @@
 				/* Contenu documents utiles */
 				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet{
 					padding: 0px;
+				}
+			}
+
+			/*Colonne unique */
+			.col-md-12{
+
+				/* Contenu Galerie de visuels */
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
+
+					.portlet .portlet-content{
+
+						.details iframe{
+							height: 360px;
+						}
+
+						.illustration, .illustration img{
+							width: 100%;
+						}
+ 						
+ 						.content.video{
+
+							.entry-image {
+								height: 165px;
+
+	    						a{
+									margin: 0px;
+									height: 100%
+								}
+							}
+						}
+						
+ 						.content .event, .content.video .event {
+							width: 100%;
+
+							.entry-header{
+								float: left;
+							}
+
+							img{
+								    width: auto;
+	    							height: 165px;
+							}
+
+							footer, footer a{
+								width: 100%
+							}
+						}
+					}
 				}
 			}
 		}
