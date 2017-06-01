@@ -3,16 +3,20 @@
 @import "partials/layout";
 
 .control-menu.control-menu-level-1 {
-    position: static;
+   // position: static;
 }
 
 .js .controls-hidden .lfr-meta-actions, .js .controls-hidden .lfr-configurator-visibility {
     display: block;
 }
 
+
+/* Contenu détail boutique */
+.portlet-boundary_com_liferay_journal_web_portlet_JournalPortlet_ .white-popup-block .presentation {
+	width: 600px;
+}
+			
 .ond .wrapper{
-	margin-top: 0px !important;
-	padding-top: 0px !important;
 
 	.header{
 		z-index: 1;
@@ -228,7 +232,7 @@
 				}
 			}
 
-			/* Contenu Galerie de visuels */
+			/* Contenu détail visuel, galerie de visuels et de vidéos, contenu boutique */
 			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
 
 				a{
@@ -244,37 +248,11 @@
 						background-color: rgba(0,0,0,0);
 						border: none;
 
-						.subtitle{
-						    background-repeat: no-repeat;
-						    background-position: left top;
-						    color: #3a3a3a;
-						    font-family: 'Open Sans';
-						    font-size: 2.08em;
-						    font-weight: 700;
-						    text-transform: uppercase;
-						    margin: 0;
-						    height: 35px;
-						    padding-left: 52px;
-						    padding-top: 5px;
-						    line-height: 0.5em;
-						}
-
-						.subtitle.video{
-						    background-image: url(../img/bg/wrapper_title_vid.png);
-						}
-
-						.subtitle.visuel{
-						    background-image: url(../img/bg/wrapper_title_pic.png);
-						}
-
 						.portlet-title-text{
 							display: none;
 						}
 
-						.h2{
-							display: none;
-						}
-
+						// détail visuel
 						.header{
 
 							h2 {
@@ -289,6 +267,10 @@
 								margin-top: 10px;
 								margin-bottom: 15px;
 							}
+						}
+
+						.h2{
+							display: none;
 						}
 
 						.button-gray{
@@ -309,21 +291,30 @@
 							}
 						}
 
+						// galeries
+						.subtitle{
+						    background-repeat: no-repeat;
+						    background-position: left top;
+						    color: #3a3a3a;
+						    font-family: 'Open Sans';
+						    font-size: 2.08em;
+						    font-weight: 700;
+						    text-transform: uppercase;
+						    margin: 0;
+						    height: 35px;
+						    padding-left: 52px;
+						    padding-top: 5px;
+						    line-height: 0.5em;
+						}
+
 						.content{
 							clear: both;
 							margin-top: 40px;
+							margin-top: 0px;
 
 							.lfr-search-container{
 								overflow: hidden;
-							}
-
-							.entry-header {
-								padding: 10px 15px;
-								float: right;
-
-								a{
-									margin: 0px;
-								}
+								margin-top: 0px;
 							}
 
 							a{
@@ -350,12 +341,15 @@
 							}
 						}
 
-						.content.video, .content.visuel{
-							margin-top: 0px;
+						// galerie visuel
+						.subtitle.visuel{
+						    background-image: url(../img/bg/wrapper_title_pic.png);
+						}
 
-							.lfr-search-container {
-								margin-top: 0px;
-							}
+						
+						// galerie vidéo
+						.subtitle.video{
+						    background-image: url(../img/bg/wrapper_title_vid.png);
 						}
 
 						.content.video {
@@ -412,10 +406,209 @@
 								}
 							}
 						}
+
+						// contenu boutique
+						.detail-commande .produit {
+						    width: 218px;
+						    background: white;
+						    float: left;
+						    margin-right: 17px;
+						    margin-bottom: 22px;
+						    height: 240px;
+						    position: relative;
+
+						    .entry-header {
+
+						    	a{
+						    		float: none;
+						    		margin: 0px;
+									min-height: 147px;
+									padding: 0px;
+
+							    	img {
+									    max-height: 147px;
+									    max-width: 220px;
+									    margin: auto;
+									    display: block;
+									}
+						    	}
+
+				    			h3 {
+								    width: 100%;
+								    box-sizing: border-box;
+								    margin: 0;
+								    padding: 10px;
+								    padding-bottom: 0;
+
+								    a{
+									    text-decoration: none;
+									    font-family: 'Lato', sans-serif;
+									    font-weight: bold;
+									    font-size: 0.6em;
+									    line-height: 1.5em;
+									    color: #3A3A3A;
+									    padding: 0px;
+									}
+								}
+							}
+
+						    footer {
+							    position: absolute;
+							    bottom: 0;
+							    left: 0;
+							    right: 0;
+
+							    .prix {
+								    display: block;
+								    width: 96px;
+								    color: #ad3939;
+								    float: left;
+								    font-size: 1.4em;
+								    line-height: 2.25em;
+								    text-align: center;
+								    background: #f2f1e8;
+								    box-sizing: border-box;
+								    border: 1px solid #ad3939;
+								}
+
+								.btn-more {
+								    margin: 0;
+								    background: #ad3939;
+								    color: white;
+								    line-height: 2.5em;
+								    border: 1px solid #ad3939;
+								    width: 121px;
+								    -webkit-box-sizing: border-box;
+								    -moz-box-sizing: border-box;
+								    box-sizing: border-box;
+								    padding: 0px 8px;
+								}
+
+								.btn-more:hover {
+								    background: white;
+								    color: #ad3939;
+								}
+							}
+						}
 					}
 				}
 			}
 
+			/* Contenu boutique reproductions */
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_.reproductions .portlet .portlet-content{ 
+
+				.portlet-title-text{
+					display: block;
+				    font-size: 1.5em;
+				    font-family: 'Open sans',sans-serif;
+				    color: #ad3939;
+				    font-weight: bold;
+				    text-transform: uppercase;
+				    margin-bottom: 22px;
+				}
+			}
+
+			/* Contenu entete boutique */
+			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+				.portlet{
+					width: 100%;
+					padding: 0px;
+
+					.portlet-content{
+						padding: 0px;
+						background-color: rgba(0,0,0,0);
+						border: none;
+
+						.portlet-title-text{
+							display: none;
+						}
+
+						h1.entry-title {
+						    text-transform: uppercase;
+						    font-family: 'Open sans',sans-serif;
+						    margin-bottom: 45px;
+						    margin-top: 30px;
+						    color: #ad3939;
+						    font-weight: bold;
+						    font-size: 1.8em;
+						    line-height: 1em;
+						}
+
+						ul{
+							display: inline-flex;
+							list-style: none;
+							padding: 0px;
+
+							a{    
+								border: 0px;
+							    transition: initial;
+							    color: transparent;
+							}
+						}
+
+						.btn-comment{
+							margin: 30px 0px 0px 0px;
+							padding: 0px 0px 0px 4px;
+    						background-color: rgb(58, 58, 58);
+    						border-color: rgb(58, 58, 58);
+    						text-transform: uppercase;
+    						color: white;
+						    width: 250px;
+						    display: block;
+						    text-align: center;
+						    font-size: 1.2em;
+						    position: absolute;
+						    right: 0;
+						    margin-top: 30px;
+						    font-weight: normal;
+							font-family: 'Lato', sans-serif;
+							line-height: 1em;
+
+						    span {
+							    display: inline-block;
+							    border: 1px solid white;
+							    width: 26px;
+							    height: 26px;
+							    padding: 4px 0px 0px 0px;
+							    margin: 4px;
+							    line-height: 1em;
+							    border-radius: 50%;
+							    font-size: 1.1em;
+							}
+						}
+
+						.btn-comment:hover{
+    						background-color: white;
+    						color: rgb(58, 58, 58);
+
+						    span {
+							    border-color: rgb(58, 58, 58);
+							}
+						}
+
+						.categories-titles {
+						    margin-top: 90px;
+						    clear: both;
+
+						    .entry-title {
+							    font-size: 1.6em;
+							    line-height: 1.3em;
+							    color: #3a3a3a;
+							    font-family: 'Open sans',sans-serif;
+							    font-weight: bold;
+							    text-transform: uppercase;
+							    margin-bottom: 35px;
+							    padding-left: 50px;
+							    background-repeat: no-repeat;
+							    padding-top: 9px;
+							    padding-bottom: 9px;
+							    margin-top: 0;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		/* Colonne de gauche */
@@ -647,18 +840,25 @@
 			/* Contenu actualité */
 			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_.all-news{
 				position: relative;
+
+				article{
+				    margin: 0px 0px 30px 0px;
+				}
 			}
 			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content{
-				article {
-					height: 203px;	
+				article {	
 
-					.entry-header h2{
-						margin-top: -218px;
-						display: none;
+					.entry-header {
+
+						h2{
+							margin-top: -218px;
+							display: none;
+						}
 					}
 
 					.entry-content{
 						display: none;
+						min-height: 102px;
 					}
 
 					.entry-meta{
@@ -682,7 +882,7 @@
 				    -ms-transition: all 0.3s ease;
 				    transition: all 0.3s ease;
 				    padding: 0 10px;
-				    margin-right: 40px;
+				    margin-right: 20px;
 				    margin-top: 20px;
 				}
 			} 
@@ -736,17 +936,21 @@
 						}
 
 						.article-date-publication{
-								color: #ad3939;
+							color: #ad3939;
 						}
 
 						.social{
-							    width: 270px;
-    							height: 45px;
+						    width: 270px;
+							height: 45px;
+
+							#at4-share {
+							    display: none !important;
+    							opacity: 0 !important;
+							}
 						}
 
 						article {
 							width: 299px;
-						    margin: 0px 0px 30px 0px;
 						    color: white;
 						    background: #ad3939;
 						    float: left;
@@ -762,6 +966,7 @@
 
 							    	img{
 								    	width: 100%;
+										min-height: 224px;
 								    }
 						    	}
 
@@ -863,7 +1068,7 @@
 				}
 			}
 
-			/* Contenu article */
+			/* Contenu article et denières images*/
 			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
 
 				a{
@@ -878,6 +1083,102 @@
 						padding: 0px;
 						background-color: rgba(0,0,0,0);
 						border: none;
+
+						.images{
+							max-width: 600px;
+						}
+
+						.slider_home img{
+							width: 100%;
+						}
+
+						.bx-controls-auto{
+							width: 45px;
+
+							a{
+								display: block;
+								margin: 0px 3px;
+							}
+						} 
+
+						.headband{
+							position: absolute;
+						    bottom: 0;
+						    left: 0;
+						    right: 0;
+						    padding-top: 4px;
+						    width: 100%;
+						    background: rgba(173, 57, 57, 0.9);
+						    color: #FFF;
+						    text-align: left;
+
+						    a{
+						    	color: white;
+						    }
+
+						    .copyright {
+							    font-size: 0.9em;
+							    line-height: 1.1em;
+							    padding: 0 80px 0 20px;
+							    margin: 8px 0;
+							    display: block;
+							    text-transform: none;
+							}
+						}
+
+						.bx-default-pager{
+							text-align: right;
+						    width: 90px !important;
+						    z-index: 1000000;
+						    position: absolute;
+						    bottom: 15px;
+						    right: 8px;
+						    font-size: .85em;
+						    font-family: Arial;
+						    font-weight: bold;
+						    color: #666;
+						    padding-top: 20px;
+
+						    a {
+							    transform: rotate(-45deg);
+							    border-radius: 0;
+							    border: 1px solid white;
+							    background: transparent;
+							    text-indent: 100px;
+							    overflow: hidden;
+							    width: 6px;
+							    height: 6px;
+							    display: block;
+							    margin: 0 5px;
+							    outline: 0;
+							}
+
+						    a:hover, a.active {
+							    background: white;
+							}
+						}
+
+						.btn-more{
+							border: solid 1px;
+							margin-bottom: 0px;
+						    color: #ad3939;
+						    display: block;
+						    line-height: 2em;
+						    text-decoration: none;
+						    font-family: Arial;
+						    font-size: 1.25em;
+						    font-weight: 700;
+						    padding: 0 8px;
+						    border: 1px solid #ad3939;
+						    transition: all 0.3s ease;
+						    margin-top: 20px;
+						    float: right;
+						}
+
+						.btn-more:hover{
+						    background-color: #ad3939;
+						    color: white;
+						}
 
 						.portlet-title-text{
 							display: none;
@@ -901,12 +1202,16 @@
 							padding: 0px;
 						    float: none;
 						    line-height: 1.2em;
-						    text-decoration: underline;
+						    text-decoration: none;
 						    color: #3a3a3a;
 						    font-family: 'Lato', sans-serif;
 						    font-size: 1em;
 						    font-weight: normal;
 						    display: inline;
+						}
+
+						a:hover{
+							text-decoration: underline;
 						}
 					}
 				}
@@ -1390,45 +1695,133 @@
 			.col-md-12{
 
 				/* Contenu Galerie de visuels */
-				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content{
 
-					.portlet .portlet-content{
+					.details iframe{
+						height: 360px;
+					}
 
-						.details iframe{
-							height: 360px;
-						}
-
-						.illustration, .illustration img{
-							width: 100%;
-						}
+					.illustration, .illustration img{
+						width: 100%;
+					}
  						
- 						.content.video{
+					.content.video{
 
-							.entry-image {
-								height: 165px;
+						.entry-image {
+							height: 165px;
 
-	    						a{
-									margin: 0px;
-									height: 100%
+    						a{
+								margin: 0px;
+								height: 100%
+							}
+						}
+					}
+						
+					.content .event, .content.video .event {
+						width: 100%;
+
+						.entry-header{
+							float: left;
+						}
+
+						img{
+							    width: auto;
+    							height: 165px;
+						}
+
+						footer, footer a{
+							width: 100%
+						}
+					}
+				}
+
+				/* Contenu entete boutique */
+				.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+					.portlet{
+
+						.portlet-content{
+
+							ul{
+								width: 100%;
+								display: block;
+
+								li{
+    								background: #ad3939;
+    								float: left;
+
+    								a{
+    									background-repeat: no-repeat;
+									    background-position: 4px 6px;
+									    text-indent: 40px;
+									    font-size: 1.4em;
+									    line-height: 2.6em;
+									    color: white;
+									    margin: 0px;
+									    font-weight: normal;
+									    font-family: 'Lato', sans-serif;
+    								}
+
+    								a.active {
+    									background-color: #8a2e2e;
+    								}
 								}
 							}
+
+							.categories-titles .entry-title {
+							    margin: 0;
+							    line-height: 1.5em;
+							    margin-top: 20px;
+							    margin-bottom: 10px;
+							}
+
+							.btn-comment{
+    							transition-duration: 0s;
+								margin-bottom: 10px;
+								background: #3a3a3a;
+							    color: white;
+							    width: 100%;
+							    display: block;
+							    height: 45px;
+							    line-height: 45px;
+							    text-indent: 35px;
+							    font-size: 1.4em;
+							    margin-top: 5px;
+							    text-align: left;
+							    position: relative;
+							    text-transform: none;
+							    background-image: url(../img/bg/boutique_infos.png);
+							    background-repeat: no-repeat;
+							    background-position: 4px 6px;
+
+								span{
+									display: none;
+								}
+							}
+
+							.btn-comment:hover{
+								background: rgb(26,26,26);
+							    color: white;
+							    background-image: url(../img/bg/boutique_infos.png);
+							    background-repeat: no-repeat;
+							    background-position: 4px 6px;
+							}
 						}
-						
- 						.content .event, .content.video .event {
-							width: 100%;
+					}
+				}
 
-							.entry-header{
-								float: left;
-							}
+				/* Contenu boutique  */
+				.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content  .detail-commande .produit {
+				    width: 100%;
 
-							img{
-								    width: auto;
-	    							height: 165px;
-							}
+				    footer {
 
-							footer, footer a{
-								width: 100%
-							}
+					    .prix {
+					    	width: 50%;
+						}
+
+						.btn-more {
+					    	width: 50%;
 						}
 					}
 				}
