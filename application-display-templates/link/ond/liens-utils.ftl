@@ -1,4 +1,4 @@
-<!-- Liens utiles -->
+<!-- Liens utils -->
 <#setting locale = locale />
 <#if entries?has_content>
     <div class="title-with-picto-div doc-title"><@liferay_ui.message key="eu.useful-links" /></div>

@@ -12,7 +12,7 @@
 	<div class="portlet">
 		<div class="asset-header-image-page">
 			<div>
-				<span class="title-with-picto-span last-${mainTitle.getData()}">${mainTitle.getData()}</span>
+              <span class="title-with-picto-span last-${mainTitle.getData()}">${mainTitle.getData()}</span>
 			</div>
 			<div class="asset-header-div asset-header-image-div results-grid">
 				<div class="column-image">
@@ -21,7 +21,11 @@
 							<tr>
 								<td>
 									<a class="teasing" title="${imageTitle.getData()}" href="${imageLink.getData()}">
-										<img src="${image.getData()}" alt="© ${image.getAttribute('alt')} " title="${imageTitle.getData()}" />
+              							<#if image.getAttribute('alt')?has_content>
+											<img src="${image.getData()}" alt="© ${image.getAttribute('alt')} " title="${imageTitle.getData()}" />
+              							<#else>
+											<img src="${image.getData()}" title="${imageTitle.getData()}" />
+              							</#if>
 									</a>
 								</td>
 							</tr>

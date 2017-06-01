@@ -28,7 +28,9 @@
 
     <div class="button-gray button-gray-right">
         <div class="middle">
-            <a target="_self" href="/web/ond//medias/visuels" title="<@liferay_ui.message key="eu.galery.all-galeries" />">
+          <@liferay_portlet.renderURL var="viewURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+          </@liferay_portlet.renderURL>
+            <a target="_self" href="${viewURL}/medias/visuels" title="<@liferay_ui.message key="eu.galery.all-galeries" />">
                 <@liferay_ui.message key="eu.galery.all-galeries" />
             </a>
         </div>
@@ -76,7 +78,7 @@
                                     <div class="gray">
                                         <@liferay_ui.message key="eu.published-on" />
                                         &nbsp;${file.createDate?date}
-                                        <#if copyright??>
+                                        <#if copyright?? && copyright != "">
                                               &copy; ${copyright}
                                         </#if>
                                     </div>

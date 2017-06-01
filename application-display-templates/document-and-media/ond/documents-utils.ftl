@@ -1,4 +1,4 @@
-<!-- Documents utiles -->
+<!-- Documents utils -->
 <#setting locale = locale />
 <#if entries?has_content>
     <#assign FileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />

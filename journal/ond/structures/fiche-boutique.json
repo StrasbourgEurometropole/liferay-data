@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Titre"
+                "fr_FR": "Title"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -29,7 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "Image"
+                "fr_FR": "Illustration"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -53,7 +53,7 @@
         },
         {
             "label": {
-                "fr_FR": "Catcher"
+                "fr_FR": "Réference"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -67,16 +67,39 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "catcher",
+            "name": "reference",
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "textarea"
+            "type": "text"
         },
         {
             "label": {
-                "fr_FR": "Texte"
+                "fr_FR": "Dimensions"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "dimensions",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Description"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -91,12 +114,35 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "text",
+            "name": "description",
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
             "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Price"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "price",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
         }
     ]
 }
