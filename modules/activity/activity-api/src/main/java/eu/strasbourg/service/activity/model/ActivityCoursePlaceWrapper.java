@@ -173,6 +173,14 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 		}
 	}
 
+	/**
+	* Retourne true si le cours a des horaires pour ce lieux
+	*/
+	@Override
+	public boolean hasSchedules() {
+		return _activityCoursePlace.hasSchedules();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _activityCoursePlace.isCachedModel();
@@ -259,7 +267,7 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 	}
 
 	/**
-	* Retourne le nom du lieu SIG
+	* Retourne le nom du lieu SIG ou "manuel"
 	*/
 	@Override
 	public java.lang.String getPlaceAlias(java.util.Locale locale) {
@@ -375,6 +383,14 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 	}
 
 	/**
+	* Retourne le nom du lieu SIG
+	*/
+	@Override
+	public java.lang.String getSIGPlaceAlias(java.util.Locale locale) {
+		return _activityCoursePlace.getSIGPlaceAlias(locale);
+	}
+
+	/**
 	* Returns the user name of this activity course place.
 	*
 	* @return the user name of this activity course place
@@ -445,6 +461,16 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 	@Override
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> getActivityCourseSchedules() {
 		return _activityCoursePlace.getActivityCourseSchedules();
+	}
+
+	/**
+	* Retourne les horaires du cours dans le lieu pour un jour donné (lundi =
+	* 0, mardi = 1, etc.)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> getActivityCourseSchedulesForDay(
+		int day) {
+		return _activityCoursePlace.getActivityCourseSchedulesForDay(day);
 	}
 
 	/**

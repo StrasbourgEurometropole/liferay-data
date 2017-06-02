@@ -20,7 +20,7 @@ import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService;
 
-// @Component(immediate = true, service = StagedModelDataHandler.class)
+@Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityCoursePlaceStagedModelDataHandler
 	extends BaseStagedModelDataHandler<ActivityCoursePlace> {
 
@@ -139,7 +139,7 @@ public class ActivityCoursePlaceStagedModelDataHandler
 		// On lie les horaires au lieu
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> activityCourseSchedulesIdsMap = (Map<Long, Long>) portletDataContext
-			.getNewPrimaryKeysMap(ActivityCoursePlace.class);
+			.getNewPrimaryKeysMap(ActivityCourseSchedule.class);
 		for (Map.Entry<Long, Long> activityCourseScheduleIdMapEntry : activityCourseSchedulesIdsMap
 			.entrySet()) {
 			long activityCourseScheduleId = activityCourseScheduleIdMapEntry

@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
+import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.service.base.ActivityLocalServiceBaseImpl;
 
 /**
@@ -322,7 +323,7 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		return activityPersistence.findWithDynamicQuery(dynamicQuery, start,
 			end);
 	}
-	
+
 	/**
 	 * Compte de la recherche par mots-clés
 	 */
@@ -339,5 +340,22 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		}
 
 		return activityPersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * Lance une recherche par liste d'ids
+	 */
+	@Override
+	public List<Activity> findByIds(List<Long> activityIds) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (activityIds.size() > 0) {
+			dynamicQuery
+				.add(RestrictionsFactoryUtil.in("activityId", activityIds));
+		} else {
+			return new ArrayList<Activity>();
+		}
+
+		return activityPersistence.findWithDynamicQuery(dynamicQuery, -1, -1);
 	}
 }

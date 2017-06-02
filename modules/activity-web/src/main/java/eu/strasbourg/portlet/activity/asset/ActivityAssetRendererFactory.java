@@ -14,7 +14,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO},
+	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB,
+		},
 	service = AssetRendererFactory.class
 )
 public class ActivityAssetRendererFactory extends BaseAssetRendererFactory<Activity> {

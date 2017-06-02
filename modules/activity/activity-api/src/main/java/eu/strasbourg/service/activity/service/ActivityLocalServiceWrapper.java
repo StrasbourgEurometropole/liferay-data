@@ -306,6 +306,15 @@ public class ActivityLocalServiceWrapper implements ActivityLocalService,
 	}
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.Activity> findByIds(
+		java.util.List<java.lang.Long> activityIds) {
+		return _activityLocalService.findByIds(activityIds);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	@Override

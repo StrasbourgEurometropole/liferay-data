@@ -408,6 +408,14 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	}
 
 	/**
+	* Retourne l'URL de l'image
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _activityOrganizer.getImageURL();
+	}
+
+	/**
 	* Returns the name of this activity organizer.
 	*
 	* @return the name of this activity organizer

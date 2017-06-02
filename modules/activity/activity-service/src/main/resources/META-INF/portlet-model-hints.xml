@@ -82,7 +82,13 @@
 		<field name="activityCoursePlaceId" type="long" />
 		<field name="startTime" type="String" />
 		<field name="endTime" type="String" />
-		<field name="days" type="String" />
+		<field name="monday" type="boolean" />
+		<field name="tuesday" type="boolean" />
+		<field name="wednesday" type="boolean" />
+		<field name="thursday" type="boolean" />
+		<field name="friday" type="boolean" />
+		<field name="saturday" type="boolean" />
+		<field name="sunday" type="boolean" />
 		<field localized="true" name="comments" type="String">
 			<hint name="max-length">400</hint>
 		</field>

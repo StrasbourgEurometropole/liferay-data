@@ -16,7 +16,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
-	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO },
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB },
 	service = TemplateHandler.class)
 public class ActivityCourseDisplayTemplateHandler
 	extends BasePortletDisplayTemplateHandler {
@@ -28,12 +28,12 @@ public class ActivityCourseDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		return "Template ActivityCourse";
+		return "Template Cours d'activite";
 	}
 
 	@Override
 	public String getResourceName() {
-		return StrasbourgPortletKeys.ACTIVITY_BO;
+		return StrasbourgPortletKeys.ACTIVITY_WEB;
 	}
 
 	@Override

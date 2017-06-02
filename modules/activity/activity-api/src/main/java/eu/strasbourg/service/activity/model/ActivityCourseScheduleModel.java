@@ -259,19 +259,151 @@ public interface ActivityCourseScheduleModel extends BaseModel<ActivityCourseSch
 	public void setEndTime(String endTime);
 
 	/**
-	 * Returns the days of this activity course schedule.
+	 * Returns the monday of this activity course schedule.
 	 *
-	 * @return the days of this activity course schedule
+	 * @return the monday of this activity course schedule
 	 */
-	@AutoEscape
-	public String getDays();
+	public boolean getMonday();
 
 	/**
-	 * Sets the days of this activity course schedule.
+	 * Returns <code>true</code> if this activity course schedule is monday.
 	 *
-	 * @param days the days of this activity course schedule
+	 * @return <code>true</code> if this activity course schedule is monday; <code>false</code> otherwise
 	 */
-	public void setDays(String days);
+	public boolean isMonday();
+
+	/**
+	 * Sets whether this activity course schedule is monday.
+	 *
+	 * @param monday the monday of this activity course schedule
+	 */
+	public void setMonday(boolean monday);
+
+	/**
+	 * Returns the tuesday of this activity course schedule.
+	 *
+	 * @return the tuesday of this activity course schedule
+	 */
+	public boolean getTuesday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is tuesday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is tuesday; <code>false</code> otherwise
+	 */
+	public boolean isTuesday();
+
+	/**
+	 * Sets whether this activity course schedule is tuesday.
+	 *
+	 * @param tuesday the tuesday of this activity course schedule
+	 */
+	public void setTuesday(boolean tuesday);
+
+	/**
+	 * Returns the wednesday of this activity course schedule.
+	 *
+	 * @return the wednesday of this activity course schedule
+	 */
+	public boolean getWednesday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is wednesday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is wednesday; <code>false</code> otherwise
+	 */
+	public boolean isWednesday();
+
+	/**
+	 * Sets whether this activity course schedule is wednesday.
+	 *
+	 * @param wednesday the wednesday of this activity course schedule
+	 */
+	public void setWednesday(boolean wednesday);
+
+	/**
+	 * Returns the thursday of this activity course schedule.
+	 *
+	 * @return the thursday of this activity course schedule
+	 */
+	public boolean getThursday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is thursday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is thursday; <code>false</code> otherwise
+	 */
+	public boolean isThursday();
+
+	/**
+	 * Sets whether this activity course schedule is thursday.
+	 *
+	 * @param thursday the thursday of this activity course schedule
+	 */
+	public void setThursday(boolean thursday);
+
+	/**
+	 * Returns the friday of this activity course schedule.
+	 *
+	 * @return the friday of this activity course schedule
+	 */
+	public boolean getFriday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is friday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is friday; <code>false</code> otherwise
+	 */
+	public boolean isFriday();
+
+	/**
+	 * Sets whether this activity course schedule is friday.
+	 *
+	 * @param friday the friday of this activity course schedule
+	 */
+	public void setFriday(boolean friday);
+
+	/**
+	 * Returns the saturday of this activity course schedule.
+	 *
+	 * @return the saturday of this activity course schedule
+	 */
+	public boolean getSaturday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is saturday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is saturday; <code>false</code> otherwise
+	 */
+	public boolean isSaturday();
+
+	/**
+	 * Sets whether this activity course schedule is saturday.
+	 *
+	 * @param saturday the saturday of this activity course schedule
+	 */
+	public void setSaturday(boolean saturday);
+
+	/**
+	 * Returns the sunday of this activity course schedule.
+	 *
+	 * @return the sunday of this activity course schedule
+	 */
+	public boolean getSunday();
+
+	/**
+	 * Returns <code>true</code> if this activity course schedule is sunday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is sunday; <code>false</code> otherwise
+	 */
+	public boolean isSunday();
+
+	/**
+	 * Sets whether this activity course schedule is sunday.
+	 *
+	 * @param sunday the sunday of this activity course schedule
+	 */
+	public void setSunday(boolean sunday);
 
 	/**
 	 * Returns the comments of this activity course schedule.

@@ -170,7 +170,13 @@
     <column name="activityCoursePlaceId" type="long" />
     <column name="startTime" type="String" />
     <column name="endTime" type="String" />
-    <column name="days" type="String" />
+	<column name="monday" type="boolean" />
+	<column name="tuesday" type="boolean" />
+	<column name="wednesday" type="boolean" />
+	<column name="thursday" type="boolean" />
+	<column name="friday" type="boolean" />
+	<column name="saturday" type="boolean" />
+	<column name="sunday" type="boolean" />
     <column name="comments" type="String" localized="true" />
     <column name="periodsIds" type="String" />
 

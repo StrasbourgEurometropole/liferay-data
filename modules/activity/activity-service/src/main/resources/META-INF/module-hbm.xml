@@ -84,7 +84,13 @@
 		<property name="activityCoursePlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="startTime" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="endTime" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="days" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="monday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="tuesday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="wednesday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="thursday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="friday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="saturday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sunday" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="periodsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

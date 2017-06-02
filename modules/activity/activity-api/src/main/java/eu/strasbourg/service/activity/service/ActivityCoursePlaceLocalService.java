@@ -261,10 +261,21 @@ public interface ActivityCoursePlaceLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	public List<ActivityCoursePlace> findByIds(
+		List<java.lang.Long> activityCoursePlaceIds);
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public List<ActivityCoursePlace> findByKeyword(java.lang.String keyword,
 		long groupId, int start, int end);
+
+	/**
+	* Récupère la liste des lieux sans horaires
+	*/
+	public List<ActivityCoursePlace> findWithNoSchedule(long groupId);
 
 	/**
 	* Returns a range of all the activity course places.

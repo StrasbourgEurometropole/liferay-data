@@ -286,6 +286,16 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	}
 
 	/**
+	* Retourne la liste des horaires pour une liste de jours donnés sur une
+	* plage horaire donnée
+	*/
+	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> findByDaysAndTimes(
+		long groupId, boolean[] days, java.lang.String startTime,
+		java.lang.String endTime) {
+		return getService().findByDaysAndTimes(groupId, days, startTime, endTime);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> findByKeyword(

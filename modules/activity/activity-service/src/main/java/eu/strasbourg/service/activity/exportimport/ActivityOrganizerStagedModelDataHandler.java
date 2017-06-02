@@ -25,7 +25,7 @@ import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
 import eu.strasbourg.utils.FileEntryHelper;
 
-// @Component(immediate = true, service = StagedModelDataHandler.class)
+@Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityOrganizerStagedModelDataHandler
 	extends BaseStagedModelDataHandler<ActivityOrganizer> {
 
@@ -135,7 +135,7 @@ public class ActivityOrganizerStagedModelDataHandler
 		portletDataContext.importClassedModel(stagedModel,
 			importedActivityOrganizer);
 		
-
+		
 		// On update l'id des images avec les nouveaux
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> newIdsMap = (Map<Long, Long>) portletDataContext

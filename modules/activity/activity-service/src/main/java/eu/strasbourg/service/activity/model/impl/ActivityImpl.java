@@ -32,6 +32,8 @@ import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
+import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -162,7 +164,6 @@ public class ActivityImpl extends ActivityBaseImpl {
 	
 	/**
 	 * Retourne l'URL de l'image
-	 * 
 	 */
 	@Override
 	public String getImageURL() {
@@ -180,6 +181,38 @@ public class ActivityImpl extends ActivityBaseImpl {
 			if (Validator.isNotNull(imageId)) {
 				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
 				URLs.add(imageURL);
+			}
+		}
+		return URLs;
+	}
+	
+	/**
+	 * Retourne la liste des vidéos
+	 */
+	@Override
+	public List<Video> getVideos() {
+		List<Video> videos = new ArrayList<Video>();
+		for (String videoIdsStr : this.getVideosIds().split(",")) {
+			Long videoId = GetterUtil.getLong(videoIdsStr);
+			Video video = VideoLocalServiceUtil.fetchVideo(videoId);
+			if (video != null) {
+				videos.add(video);
+			}
+		}
+		return videos;
+	}
+	
+	/**
+	 * Retourne la liste des URLs des documents
+	 */
+	@Override
+	public List<String> getFilesURLs() {
+		List<String> URLs = new ArrayList<String>();
+		for (String fileIdStr : this.getFilesIds().split(",")) {
+			Long fileId = GetterUtil.getLong(fileIdStr);
+			if (Validator.isNotNull(fileId)) {
+				String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+				URLs.add(fileURL);
 			}
 		}
 		return URLs;

@@ -301,6 +301,18 @@ public class ActivityCourseScheduleLocalServiceWrapper
 	}
 
 	/**
+	* Retourne la liste des horaires pour une liste de jours donnés sur une
+	* plage horaire donnée
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> findByDaysAndTimes(
+		long groupId, boolean[] days, java.lang.String startTime,
+		java.lang.String endTime) {
+		return _activityCourseScheduleLocalService.findByDaysAndTimes(groupId,
+			days, startTime, endTime);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	@Override

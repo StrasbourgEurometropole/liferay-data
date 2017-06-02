@@ -261,6 +261,12 @@ public interface ActivityCourseLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	public List<ActivityCourse> findByIds(
+		List<java.lang.Long> activityCourseIds);
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public List<ActivityCourse> findByKeyword(java.lang.String keyword,

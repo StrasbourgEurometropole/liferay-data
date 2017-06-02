@@ -662,6 +662,14 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	}
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _activity.getFilesURLs();
+	}
+
+	/**
 	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	@Override
@@ -691,6 +699,14 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
 		return _activity.getTypes();
+	}
+
+	/**
+	* Retourne la liste des vidéos
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
+		return _activity.getVideos();
 	}
 
 	/**

@@ -111,4 +111,14 @@ public interface Activity extends ActivityModel, PersistedModel {
 	* Retourne la liste des URL publiques des images additionnelles
 	*/
 	public java.util.List<java.lang.String> getImagesURLs();
+
+	/**
+	* Retourne la liste des vidéos
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos();
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
 }

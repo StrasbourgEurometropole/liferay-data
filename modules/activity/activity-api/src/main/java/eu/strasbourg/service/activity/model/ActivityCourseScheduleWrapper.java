@@ -72,7 +72,13 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		attributes.put("activityCoursePlaceId", getActivityCoursePlaceId());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
-		attributes.put("days", getDays());
+		attributes.put("monday", getMonday());
+		attributes.put("tuesday", getTuesday());
+		attributes.put("wednesday", getWednesday());
+		attributes.put("thursday", getThursday());
+		attributes.put("friday", getFriday());
+		attributes.put("saturday", getSaturday());
+		attributes.put("sunday", getSunday());
 		attributes.put("comments", getComments());
 		attributes.put("periodsIds", getPeriodsIds());
 
@@ -149,10 +155,46 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 			setEndTime(endTime);
 		}
 
-		String days = (String)attributes.get("days");
+		Boolean monday = (Boolean)attributes.get("monday");
 
-		if (days != null) {
-			setDays(days);
+		if (monday != null) {
+			setMonday(monday);
+		}
+
+		Boolean tuesday = (Boolean)attributes.get("tuesday");
+
+		if (tuesday != null) {
+			setTuesday(tuesday);
+		}
+
+		Boolean wednesday = (Boolean)attributes.get("wednesday");
+
+		if (wednesday != null) {
+			setWednesday(wednesday);
+		}
+
+		Boolean thursday = (Boolean)attributes.get("thursday");
+
+		if (thursday != null) {
+			setThursday(thursday);
+		}
+
+		Boolean friday = (Boolean)attributes.get("friday");
+
+		if (friday != null) {
+			setFriday(friday);
+		}
+
+		Boolean saturday = (Boolean)attributes.get("saturday");
+
+		if (saturday != null) {
+			setSaturday(saturday);
+		}
+
+		Boolean sunday = (Boolean)attributes.get("sunday");
+
+		if (sunday != null) {
+			setSunday(sunday);
 		}
 
 		String comments = (String)attributes.get("comments");
@@ -166,6 +208,76 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		if (periodsIds != null) {
 			setPeriodsIds(periodsIds);
 		}
+	}
+
+	/**
+	* Returns the friday of this activity course schedule.
+	*
+	* @return the friday of this activity course schedule
+	*/
+	@Override
+	public boolean getFriday() {
+		return _activityCourseSchedule.getFriday();
+	}
+
+	/**
+	* Returns the monday of this activity course schedule.
+	*
+	* @return the monday of this activity course schedule
+	*/
+	@Override
+	public boolean getMonday() {
+		return _activityCourseSchedule.getMonday();
+	}
+
+	/**
+	* Returns the saturday of this activity course schedule.
+	*
+	* @return the saturday of this activity course schedule
+	*/
+	@Override
+	public boolean getSaturday() {
+		return _activityCourseSchedule.getSaturday();
+	}
+
+	/**
+	* Returns the sunday of this activity course schedule.
+	*
+	* @return the sunday of this activity course schedule
+	*/
+	@Override
+	public boolean getSunday() {
+		return _activityCourseSchedule.getSunday();
+	}
+
+	/**
+	* Returns the thursday of this activity course schedule.
+	*
+	* @return the thursday of this activity course schedule
+	*/
+	@Override
+	public boolean getThursday() {
+		return _activityCourseSchedule.getThursday();
+	}
+
+	/**
+	* Returns the tuesday of this activity course schedule.
+	*
+	* @return the tuesday of this activity course schedule
+	*/
+	@Override
+	public boolean getTuesday() {
+		return _activityCourseSchedule.getTuesday();
+	}
+
+	/**
+	* Returns the wednesday of this activity course schedule.
+	*
+	* @return the wednesday of this activity course schedule
+	*/
+	@Override
+	public boolean getWednesday() {
+		return _activityCourseSchedule.getWednesday();
 	}
 
 	/**
@@ -187,9 +299,79 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		return _activityCourseSchedule.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this activity course schedule is friday.
+	*
+	* @return <code>true</code> if this activity course schedule is friday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isFriday() {
+		return _activityCourseSchedule.isFriday();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is monday.
+	*
+	* @return <code>true</code> if this activity course schedule is monday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isMonday() {
+		return _activityCourseSchedule.isMonday();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _activityCourseSchedule.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is saturday.
+	*
+	* @return <code>true</code> if this activity course schedule is saturday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isSaturday() {
+		return _activityCourseSchedule.isSaturday();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is sunday.
+	*
+	* @return <code>true</code> if this activity course schedule is sunday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isSunday() {
+		return _activityCourseSchedule.isSunday();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is thursday.
+	*
+	* @return <code>true</code> if this activity course schedule is thursday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isThursday() {
+		return _activityCourseSchedule.isThursday();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is tuesday.
+	*
+	* @return <code>true</code> if this activity course schedule is tuesday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isTuesday() {
+		return _activityCourseSchedule.isTuesday();
+	}
+
+	/**
+	* Returns <code>true</code> if this activity course schedule is wednesday.
+	*
+	* @return <code>true</code> if this activity course schedule is wednesday; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isWednesday() {
+		return _activityCourseSchedule.isWednesday();
 	}
 
 	/**
@@ -332,16 +514,6 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public java.lang.String getCommentsCurrentValue() {
 		return _activityCourseSchedule.getCommentsCurrentValue();
-	}
-
-	/**
-	* Returns the days of this activity course schedule.
-	*
-	* @return the days of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getDays() {
-		return _activityCourseSchedule.getDays();
 	}
 
 	@Override
@@ -650,16 +822,6 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Sets the days of this activity course schedule.
-	*
-	* @param days the days of this activity course schedule
-	*/
-	@Override
-	public void setDays(java.lang.String days) {
-		_activityCourseSchedule.setDays(days);
-	}
-
-	/**
 	* Sets the end time of this activity course schedule.
 	*
 	* @param endTime the end time of this activity course schedule
@@ -686,6 +848,16 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
+	* Sets whether this activity course schedule is friday.
+	*
+	* @param friday the friday of this activity course schedule
+	*/
+	@Override
+	public void setFriday(boolean friday) {
+		_activityCourseSchedule.setFriday(friday);
+	}
+
+	/**
 	* Sets the group ID of this activity course schedule.
 	*
 	* @param groupId the group ID of this activity course schedule
@@ -703,6 +875,16 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_activityCourseSchedule.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	* Sets whether this activity course schedule is monday.
+	*
+	* @param monday the monday of this activity course schedule
+	*/
+	@Override
+	public void setMonday(boolean monday) {
+		_activityCourseSchedule.setMonday(monday);
 	}
 
 	@Override
@@ -736,6 +918,16 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
+	* Sets whether this activity course schedule is saturday.
+	*
+	* @param saturday the saturday of this activity course schedule
+	*/
+	@Override
+	public void setSaturday(boolean saturday) {
+		_activityCourseSchedule.setSaturday(saturday);
+	}
+
+	/**
 	* Sets the start time of this activity course schedule.
 	*
 	* @param startTime the start time of this activity course schedule
@@ -743,6 +935,36 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public void setStartTime(java.lang.String startTime) {
 		_activityCourseSchedule.setStartTime(startTime);
+	}
+
+	/**
+	* Sets whether this activity course schedule is sunday.
+	*
+	* @param sunday the sunday of this activity course schedule
+	*/
+	@Override
+	public void setSunday(boolean sunday) {
+		_activityCourseSchedule.setSunday(sunday);
+	}
+
+	/**
+	* Sets whether this activity course schedule is thursday.
+	*
+	* @param thursday the thursday of this activity course schedule
+	*/
+	@Override
+	public void setThursday(boolean thursday) {
+		_activityCourseSchedule.setThursday(thursday);
+	}
+
+	/**
+	* Sets whether this activity course schedule is tuesday.
+	*
+	* @param tuesday the tuesday of this activity course schedule
+	*/
+	@Override
+	public void setTuesday(boolean tuesday) {
+		_activityCourseSchedule.setTuesday(tuesday);
 	}
 
 	/**
@@ -783,6 +1005,16 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_activityCourseSchedule.setUuid(uuid);
+	}
+
+	/**
+	* Sets whether this activity course schedule is wednesday.
+	*
+	* @param wednesday the wednesday of this activity course schedule
+	*/
+	@Override
+	public void setWednesday(boolean wednesday) {
+		_activityCourseSchedule.setWednesday(wednesday);
 	}
 
 	@Override

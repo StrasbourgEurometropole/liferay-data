@@ -2966,7 +2966,13 @@ public class ActivityCourseSchedulePersistenceImpl extends BasePersistenceImpl<A
 		activityCourseScheduleImpl.setActivityCoursePlaceId(activityCourseSchedule.getActivityCoursePlaceId());
 		activityCourseScheduleImpl.setStartTime(activityCourseSchedule.getStartTime());
 		activityCourseScheduleImpl.setEndTime(activityCourseSchedule.getEndTime());
-		activityCourseScheduleImpl.setDays(activityCourseSchedule.getDays());
+		activityCourseScheduleImpl.setMonday(activityCourseSchedule.isMonday());
+		activityCourseScheduleImpl.setTuesday(activityCourseSchedule.isTuesday());
+		activityCourseScheduleImpl.setWednesday(activityCourseSchedule.isWednesday());
+		activityCourseScheduleImpl.setThursday(activityCourseSchedule.isThursday());
+		activityCourseScheduleImpl.setFriday(activityCourseSchedule.isFriday());
+		activityCourseScheduleImpl.setSaturday(activityCourseSchedule.isSaturday());
+		activityCourseScheduleImpl.setSunday(activityCourseSchedule.isSunday());
 		activityCourseScheduleImpl.setComments(activityCourseSchedule.getComments());
 		activityCourseScheduleImpl.setPeriodsIds(activityCourseSchedule.getPeriodsIds());
 

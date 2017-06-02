@@ -26,6 +26,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 /**
  * The extended model implementation for the ActivityOrganizer service.
@@ -82,6 +83,14 @@ public class ActivityOrganizerImpl extends ActivityOrganizerBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Retourne l'URL de l'image
+	 */
+	@Override
+	public String getImageURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageId());
 	}
 
 }

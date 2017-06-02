@@ -30,10 +30,10 @@ import eu.strasbourg.service.activity.service.ActivityLocalService;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-//@Component(
-//	immediate = true,
-//	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO },
-//	service = PortletDataHandler.class)
+@Component(
+	immediate = true,
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO },
+	service = PortletDataHandler.class)
 public class ActivityPortletDataHandler extends BasePortletDataHandler {
 
 	private ActivityLocalService activityLocalService;
@@ -97,7 +97,7 @@ public class ActivityPortletDataHandler extends BasePortletDataHandler {
 			new PortletDataHandlerBoolean(NAMESPACE,
 				"Activity Course Schedule entity", true, false, null,
 				ActivityCourseSchedule.class.getName()),
-			new PortletDataHandlerBoolean(NAMESPACE, "Activity Organizerentity",
+			new PortletDataHandlerBoolean(NAMESPACE, "Activity Organizer entity",
 				true, false, null, ActivityOrganizer.class.getName()));
 
 		XStreamAliasRegistryUtil.register(ActivityImpl.class, "Activity");

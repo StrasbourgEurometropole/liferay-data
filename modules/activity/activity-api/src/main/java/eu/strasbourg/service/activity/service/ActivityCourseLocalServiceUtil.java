@@ -289,6 +289,14 @@ public class ActivityCourseLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCourse> findByIds(
+		java.util.List<java.lang.Long> activityCourseIds) {
+		return getService().findByIds(activityCourseIds);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCourse> findByKeyword(

@@ -66,7 +66,7 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -90,8 +90,20 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		sb.append(startTime);
 		sb.append(", endTime=");
 		sb.append(endTime);
-		sb.append(", days=");
-		sb.append(days);
+		sb.append(", monday=");
+		sb.append(monday);
+		sb.append(", tuesday=");
+		sb.append(tuesday);
+		sb.append(", wednesday=");
+		sb.append(wednesday);
+		sb.append(", thursday=");
+		sb.append(thursday);
+		sb.append(", friday=");
+		sb.append(friday);
+		sb.append(", saturday=");
+		sb.append(saturday);
+		sb.append(", sunday=");
+		sb.append(sunday);
 		sb.append(", comments=");
 		sb.append(comments);
 		sb.append(", periodsIds=");
@@ -154,12 +166,13 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			activityCourseScheduleImpl.setEndTime(endTime);
 		}
 
-		if (days == null) {
-			activityCourseScheduleImpl.setDays(StringPool.BLANK);
-		}
-		else {
-			activityCourseScheduleImpl.setDays(days);
-		}
+		activityCourseScheduleImpl.setMonday(monday);
+		activityCourseScheduleImpl.setTuesday(tuesday);
+		activityCourseScheduleImpl.setWednesday(wednesday);
+		activityCourseScheduleImpl.setThursday(thursday);
+		activityCourseScheduleImpl.setFriday(friday);
+		activityCourseScheduleImpl.setSaturday(saturday);
+		activityCourseScheduleImpl.setSunday(sunday);
 
 		if (comments == null) {
 			activityCourseScheduleImpl.setComments(StringPool.BLANK);
@@ -198,7 +211,20 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 		activityCoursePlaceId = objectInput.readLong();
 		startTime = objectInput.readUTF();
 		endTime = objectInput.readUTF();
-		days = objectInput.readUTF();
+
+		monday = objectInput.readBoolean();
+
+		tuesday = objectInput.readBoolean();
+
+		wednesday = objectInput.readBoolean();
+
+		thursday = objectInput.readBoolean();
+
+		friday = objectInput.readBoolean();
+
+		saturday = objectInput.readBoolean();
+
+		sunday = objectInput.readBoolean();
 		comments = objectInput.readUTF();
 		periodsIds = objectInput.readUTF();
 	}
@@ -247,12 +273,19 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 			objectOutput.writeUTF(endTime);
 		}
 
-		if (days == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(days);
-		}
+		objectOutput.writeBoolean(monday);
+
+		objectOutput.writeBoolean(tuesday);
+
+		objectOutput.writeBoolean(wednesday);
+
+		objectOutput.writeBoolean(thursday);
+
+		objectOutput.writeBoolean(friday);
+
+		objectOutput.writeBoolean(saturday);
+
+		objectOutput.writeBoolean(sunday);
 
 		if (comments == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -280,7 +313,13 @@ public class ActivityCourseScheduleCacheModel implements CacheModel<ActivityCour
 	public long activityCoursePlaceId;
 	public String startTime;
 	public String endTime;
-	public String days;
+	public boolean monday;
+	public boolean tuesday;
+	public boolean wednesday;
+	public boolean thursday;
+	public boolean friday;
+	public boolean saturday;
+	public boolean sunday;
 	public String comments;
 	public String periodsIds;
 }

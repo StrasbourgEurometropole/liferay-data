@@ -189,20 +189,25 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne l'ensemble des catégories pasées en paramètre et leur parents.
+	 * Retourne l'ensemble des catégories passées en paramètre et leur parents.
 	 * Si la catégorie est "live", on ajoute également les versions staging
 	 */
 	public static List<AssetCategory> getFullHierarchyCategories(
-		List<AssetCategory> categories) throws PortalException {
+		List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
-			List<AssetCategory> ancestors = category.getAncestors();
+			List<AssetCategory> ancestors;
+			try {
+				ancestors = category.getAncestors();
+			} catch (PortalException e) {
+				ancestors = new ArrayList<AssetCategory>();
+			}
 			allCategories.add(category);
 			allCategories.addAll(ancestors);
 			
 			// Ajout des catégories staging
-			Group group = GroupLocalServiceUtil.getGroup(category.getGroupId());
-			if (group.getStagingGroup() != null) {
+			Group group = GroupLocalServiceUtil.fetchGroup(category.getGroupId());
+			if (group != null && group.getStagingGroup() != null) {
 				AssetCategory stagingCategory = AssetCategoryLocalServiceUtil
 					.fetchAssetCategoryByUuidAndGroupId(category.getUuid(),
 						group.getStagingGroup().getGroupId());
@@ -228,7 +233,7 @@ public class AssetVocabularyHelper {
 	 * "live", on ajoute également les versions staging
 	 */
 	public static long[] getFullHierarchyCategoriesIds(
-		List<AssetCategory> categories) throws PortalException {
+		List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = getFullHierarchyCategories(
 			categories);
 		return ListUtil.toLongArray(allCategories,

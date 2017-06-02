@@ -115,7 +115,7 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 	var clone = $(this).closest('.schedule').clone();
 	clone.addClass('new-schedule');
 	// En remettant les contrôles à des valeurs vides
-	$('input', clone).val('');
+	$('input[type=text], input[type=time]', clone).val('');
 	$('option', clone).prop('selected', false);
 	$('input[type=checkbox]', clone).prop('checked', false);	
 	// On ajoute au DOM
@@ -139,7 +139,7 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 		
 		// Et en les vidant
 		// En remettant les contrôles à des valeurs vides
-		$('input', schedule).val('');
+		$('input[type=text], input[type=time]', schedule).val('');
 		$('option', schedule).prop('selected', false);
 		$('input[type=checkbox]', schedule).prop('checked', false);	
 		
@@ -177,6 +177,12 @@ jQuery('#place-fields').on('click', '.add-schedule', function() {
 	// Et on remet à jour les index
 	var placeIndex = schedule.parent().data('index');
 	updateScheduleIndexes(placeIndex);
+})
+.on('click', '.toggle-comments', function(event) {
+	event.preventDefault();
+	var comments = $(this).closest('.comments');
+	$('.comment[data-french=false]', comments).toggle();
+	$('.toggle-comments', comments).toggle();
 });
 
 // Fonction mettant à jour les noms des champs des schedules 
@@ -186,7 +192,7 @@ function updateScheduleIndexes(placeIndex) {
 	var i = 0;
 	$('.schedule:visible', schedules).each(function() {
 		var schedule = this;
-		$('input, select', this).each(function() {
+		$('input:visible, select', this).each(function() {
 			var oldName = $(this).attr('name');
 			var originalName = oldName.replace(/([0-9]+)$/, '');
 			var newName = originalName + i;

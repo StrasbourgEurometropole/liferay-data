@@ -1,23 +1,23 @@
 <!-- Horaire d'un lieu -->
 <%@ include file="/activity-bo-init.jsp"%>
 
-<div class="schedule new-schedule" <c:if test="${param.hidden eq 'true'}">style="display:none"</c:if>>	
-	<!-- Périodes -->
-	<div class="periods">
-		<aui:select multiple="true" label="periods" name="periods_${param.placeIndex}_${param.scheduleIndex}">
-			<c:forEach items="${dc.periods}" var="period">
-				<aui:option value="${period.categoryId}" label="${period.getTitle(locale)}" 
-					selected="${fn:contains(courseSchedule.periodsIds, period.categoryId)}"/>
-			</c:forEach>
-		</aui:select>
-	</div>
+<div class="schedule new-schedule" <c:if test="${param.hidden eq 'true'}">style="display:none"</c:if>>
 	
-	<!-- Horaires -->
 	<div class="row">
-		<div class="col-md-6">
-			<aui:input type="time" name="startTime_${param.placeIndex}_${param.scheduleIndex}" label="start" value="${courseSchedule.startTime}" />
+		<div class="col-md-8">
+			<!-- Périodes -->
+			<div class="periods">
+				<aui:select multiple="true" label="periods" name="periods_${param.placeIndex}_${param.scheduleIndex}">
+					<c:forEach items="${dc.periods}" var="period">
+						<aui:option value="${period.categoryId}" label="${period.getTitle(locale)}" 
+							selected="${fn:contains(courseSchedule.periodsIds, period.categoryId)}"/>
+					</c:forEach>
+				</aui:select>
+			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4 time">
+		<!-- Horaires -->
+			<aui:input type="time" name="startTime_${param.placeIndex}_${param.scheduleIndex}" label="start" value="${courseSchedule.startTime}" />
 			<aui:input type="time" name="endTime_${param.placeIndex}_${param.scheduleIndex}" label="end" value="${courseSchedule.endTime}"/>
 		</div>
 	</div>
@@ -44,6 +44,24 @@
 			
 		<aui:input type="checkbox" value="1" name="sunday_${param.placeIndex}_${param.scheduleIndex}" 
 			label="D" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(6)}" />
+	</div>
+	
+	<div class="comments">
+		<c:forEach var="currentLocale" items="${dc.availableLocales}" varStatus="localeStatus">
+			<div class="comment" 
+				<c:if test="${localeStatus.index gt 0}">style="display: none"</c:if>
+				<c:if test="${localeStatus.index gt 0}">data-french="false"</c:if>
+			>
+				<aui:input type="text" value="${courseSchedule.getComments(currentLocale)}" 
+					name="comments_${currentLocale}_${param.placeIndex}_${param.scheduleIndex}"
+					label="comments_${currentLocale}" />
+				<c:if test="${localeStatus.index eq 0}">
+					<a href="#" class="toggle-comments see-all-comments"><liferay-ui:message key="see-other-languages" /></a>
+					<a href="#" class="toggle-comments hide-comments" style="display:none"><liferay-ui:message key="hide-comments" /></a>
+				</c:if>
+			</div>
+		</c:forEach>
+		
 	</div>
 	
 	<!-- Ajout, suppression, duplication -->

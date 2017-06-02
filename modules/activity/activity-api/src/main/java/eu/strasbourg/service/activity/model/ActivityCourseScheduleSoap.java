@@ -46,7 +46,13 @@ public class ActivityCourseScheduleSoap implements Serializable {
 		soapModel.setActivityCoursePlaceId(model.getActivityCoursePlaceId());
 		soapModel.setStartTime(model.getStartTime());
 		soapModel.setEndTime(model.getEndTime());
-		soapModel.setDays(model.getDays());
+		soapModel.setMonday(model.getMonday());
+		soapModel.setTuesday(model.getTuesday());
+		soapModel.setWednesday(model.getWednesday());
+		soapModel.setThursday(model.getThursday());
+		soapModel.setFriday(model.getFriday());
+		soapModel.setSaturday(model.getSaturday());
+		soapModel.setSunday(model.getSunday());
 		soapModel.setComments(model.getComments());
 		soapModel.setPeriodsIds(model.getPeriodsIds());
 
@@ -192,12 +198,88 @@ public class ActivityCourseScheduleSoap implements Serializable {
 		_endTime = endTime;
 	}
 
-	public String getDays() {
-		return _days;
+	public boolean getMonday() {
+		return _monday;
 	}
 
-	public void setDays(String days) {
-		_days = days;
+	public boolean isMonday() {
+		return _monday;
+	}
+
+	public void setMonday(boolean monday) {
+		_monday = monday;
+	}
+
+	public boolean getTuesday() {
+		return _tuesday;
+	}
+
+	public boolean isTuesday() {
+		return _tuesday;
+	}
+
+	public void setTuesday(boolean tuesday) {
+		_tuesday = tuesday;
+	}
+
+	public boolean getWednesday() {
+		return _wednesday;
+	}
+
+	public boolean isWednesday() {
+		return _wednesday;
+	}
+
+	public void setWednesday(boolean wednesday) {
+		_wednesday = wednesday;
+	}
+
+	public boolean getThursday() {
+		return _thursday;
+	}
+
+	public boolean isThursday() {
+		return _thursday;
+	}
+
+	public void setThursday(boolean thursday) {
+		_thursday = thursday;
+	}
+
+	public boolean getFriday() {
+		return _friday;
+	}
+
+	public boolean isFriday() {
+		return _friday;
+	}
+
+	public void setFriday(boolean friday) {
+		_friday = friday;
+	}
+
+	public boolean getSaturday() {
+		return _saturday;
+	}
+
+	public boolean isSaturday() {
+		return _saturday;
+	}
+
+	public void setSaturday(boolean saturday) {
+		_saturday = saturday;
+	}
+
+	public boolean getSunday() {
+		return _sunday;
+	}
+
+	public boolean isSunday() {
+		return _sunday;
+	}
+
+	public void setSunday(boolean sunday) {
+		_sunday = sunday;
 	}
 
 	public String getComments() {
@@ -227,7 +309,13 @@ public class ActivityCourseScheduleSoap implements Serializable {
 	private long _activityCoursePlaceId;
 	private String _startTime;
 	private String _endTime;
-	private String _days;
+	private boolean _monday;
+	private boolean _tuesday;
+	private boolean _wednesday;
+	private boolean _thursday;
+	private boolean _friday;
+	private boolean _saturday;
+	private boolean _sunday;
 	private String _comments;
 	private String _periodsIds;
 }

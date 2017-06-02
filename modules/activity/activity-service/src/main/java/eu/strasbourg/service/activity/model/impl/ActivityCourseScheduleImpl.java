@@ -106,12 +106,13 @@ public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 	public boolean[] getWeekDays() {
 		boolean[] days = new boolean[7];
 		Arrays.fill(days, false);
-		int i = 0;
-		for (String happensOnDayString : this.getDays().split(",")) {
-			boolean happensOnDay = GetterUtil.getBoolean(happensOnDayString);
-			days[i] = happensOnDay;
-			i++;
-		}
+		days[0] = this.getMonday();
+		days[1] = this.getTuesday();
+		days[2] = this.getWednesday();
+		days[3] = this.getThursday();
+		days[4] = this.getFriday();
+		days[5] = this.getSaturday();
+		days[6] = this.getSunday();
 		return days;
 	}
 

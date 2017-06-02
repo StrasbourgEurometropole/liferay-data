@@ -16,6 +16,7 @@ package eu.strasbourg.service.activity.model.impl;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -55,7 +56,17 @@ public class ActivityCoursePlaceImpl extends ActivityCoursePlaceBaseImpl {
 
 	public ActivityCoursePlaceImpl() {
 	}
-	
+
+	/**
+	 * Retourne true si le cours a des horaires pour ce lieux
+	 */
+	@Override
+	public boolean hasSchedules() {
+		return ActivityCourseScheduleLocalServiceUtil
+			.getByActivityCoursePlace(this.getActivityCoursePlaceId())
+			.size() > 0;
+	}
+
 	/**
 	 * Retourne les horaires du cours dans le lieu
 	 */
@@ -63,6 +74,19 @@ public class ActivityCoursePlaceImpl extends ActivityCoursePlaceBaseImpl {
 	public List<ActivityCourseSchedule> getActivityCourseSchedules() {
 		return ActivityCourseScheduleLocalServiceUtil
 			.getByActivityCoursePlace(this.getActivityCoursePlaceId());
+	}
+
+	/**
+	 * Retourne les horaires du cours dans le lieu pour un jour donné (lundi =
+	 * 0, mardi = 1, etc.)
+	 */
+	@Override
+	public List<ActivityCourseSchedule> getActivityCourseSchedulesForDay(
+		int day) {
+		List<ActivityCourseSchedule> schedules = ActivityCourseScheduleLocalServiceUtil
+			.getByActivityCoursePlace(this.getActivityCoursePlaceId());
+		return schedules.stream().filter(s -> s.hasScheduleOnDay(day))
+			.collect(Collectors.toList());
 	}
 
 	/**
@@ -99,7 +123,7 @@ public class ActivityCoursePlaceImpl extends ActivityCoursePlaceBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Activity.class.getName(),
 			this.getPrimaryKey());
 	}
-	
+
 	/**
 	 * Retourne la liste des AssetCategory rattachées à cette entité (via
 	 * l'assetEntry)
@@ -109,17 +133,32 @@ public class ActivityCoursePlaceImpl extends ActivityCoursePlaceBaseImpl {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
 	}
-	
+
 	/**
 	 * Retourne le nom du lieu SIG
 	 */
 	@Override
-	public String getPlaceAlias(Locale locale) {
-		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+	public String getSIGPlaceAlias(Locale locale) {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
 		if (place != null) {
 			return place.getAlias(locale);
 		} else {
 			return "";
+		}
+	}
+
+	/**
+	 * Retourne le nom du lieu SIG ou "manuel"
+	 */
+	@Override
+	public String getPlaceAlias(Locale locale) {
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return place.getAlias(locale);
+		} else {
+			return this.getPlaceName(locale);
 		}
 	}
 

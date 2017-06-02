@@ -16,6 +16,7 @@ package eu.strasbourg.service.activity.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -23,6 +24,8 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactory;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -41,6 +44,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
+import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalServiceUtil;
 import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServiceBaseImpl;
 
 /**
@@ -186,7 +190,8 @@ public class ActivityCoursePlaceLocalServiceImpl
 				.getByActivityCoursePlace(activityCoursePlaceId);
 			for (ActivityCourseSchedule activityCourseSchedule : activityCourseSchedules) {
 				this.activityCourseScheduleLocalService
-					.removeActivityCourseSchedule(activityCourseSchedule.getPrimaryKey());
+					.removeActivityCourseSchedule(
+						activityCourseSchedule.getPrimaryKey());
 			}
 		}
 
@@ -196,14 +201,6 @@ public class ActivityCoursePlaceLocalServiceImpl
 
 		// Supprime l'index
 		this.reindex(activityCoursePlace, true);
-
-		// S'il existe une version live de l'édition, on la supprime
-		ActivityCoursePlace liveActivityCoursePlace = activityCoursePlace
-			.getLiveVersion();
-		if (liveActivityCoursePlace != null) {
-			this.removeActivityCoursePlace(
-				liveActivityCoursePlace.getActivityCoursePlaceId());
-		}
 
 		return activityCoursePlace;
 	}
@@ -276,10 +273,53 @@ public class ActivityCoursePlaceLocalServiceImpl
 			dynamicQuery
 				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
-		dynamicQuery.add(PropertyFactoryUtil.forName("status")
-			.eq(WorkflowConstants.STATUS_APPROVED));
 
 		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
 			start, end);
 	}
+
+	/**
+	 * Récupère la liste des lieux sans horaires
+	 */
+	@Override
+	public List<ActivityCoursePlace> findWithNoSchedule(long groupId) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (groupId > 0) {
+			dynamicQuery
+				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+		}
+
+		List<ActivityCourseSchedule> schedules = activityCourseScheduleLocalService
+			.getActivityCourseSchedules(-1, -1);
+		List<Long> placesWithSchedulesIds = schedules.stream()
+			.map(c -> c.getActivityCoursePlaceId()).distinct()
+			.collect(Collectors.toList());
+
+		dynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil
+			.in("activityCoursePlaceId", placesWithSchedulesIds)));
+
+		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
+			-1, -1);
+	}
+
+	/**
+	 * Lance une recherche par liste d'ids
+	 */
+	@Override
+	public List<ActivityCoursePlace> findByIds(
+		List<Long> activityCoursePlaceIds) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (activityCoursePlaceIds.size() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.in("activityCoursePlaceId",
+				activityCoursePlaceIds));
+		} else {
+			return new ArrayList<ActivityCoursePlace>();
+		}
+
+		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
+			-1, -1);
+	}
+
 }

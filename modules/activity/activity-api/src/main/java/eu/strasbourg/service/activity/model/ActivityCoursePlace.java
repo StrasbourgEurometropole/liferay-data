@@ -57,9 +57,21 @@ public interface ActivityCoursePlace extends ActivityCoursePlaceModel,
 		};
 
 	/**
+	* Retourne true si le cours a des horaires pour ce lieux
+	*/
+	public boolean hasSchedules();
+
+	/**
 	* Retourne les horaires du cours dans le lieu
 	*/
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> getActivityCourseSchedules();
+
+	/**
+	* Retourne les horaires du cours dans le lieu pour un jour donné (lundi =
+	* 0, mardi = 1, etc.)
+	*/
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourseSchedule> getActivityCourseSchedulesForDay(
+		int day);
 
 	/**
 	* Retourne le cours du lieu
@@ -84,6 +96,11 @@ public interface ActivityCoursePlace extends ActivityCoursePlaceModel,
 
 	/**
 	* Retourne le nom du lieu SIG
+	*/
+	public java.lang.String getSIGPlaceAlias(java.util.Locale locale);
+
+	/**
+	* Retourne le nom du lieu SIG ou "manuel"
 	*/
 	public java.lang.String getPlaceAlias(java.util.Locale locale);
 }

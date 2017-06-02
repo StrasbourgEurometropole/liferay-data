@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>eu_strasbourg_portlet_activity_ActivityBOPortlet</portlet-name>
+		<portlet-name>eu_strasbourg_portlet_activity_ActivityPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>

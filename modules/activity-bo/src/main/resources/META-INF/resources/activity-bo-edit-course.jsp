@@ -82,7 +82,7 @@
 				</div>
 
 				<!-- Autre service -->				
-				<div class="otherService" <c:if test="${(dc.activityCourse.serviceId gt 0 or param.organizerType eq 1) or empty dc.activityCourse}">style="display: none;"</c:if>>
+				<div class="otherService" <c:if test="${(dc.activityCourse.serviceId gt 0 or param.organizerType eq 'emsService') or empty dc.activityCourse}">style="display: none;"</c:if>>
 					<strasbourg-picker:entity type="eu.strasbourg.service.activity.model.ActivityOrganizer" label="eu.activity.organizer" name="organizerId"
 						value="${dc.activityCourse.organizerId}" multiple="false" required="true" />
 				</div>

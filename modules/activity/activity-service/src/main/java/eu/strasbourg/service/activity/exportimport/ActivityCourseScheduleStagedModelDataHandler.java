@@ -16,7 +16,7 @@ import com.liferay.portal.kernel.xml.Element;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService;
 
-// @Component(immediate = true, service = StagedModelDataHandler.class)
+@Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityCourseScheduleStagedModelDataHandler
 	extends BaseStagedModelDataHandler<ActivityCourseSchedule> {
 
@@ -103,7 +103,13 @@ public class ActivityCourseScheduleStagedModelDataHandler
 		importedActivityCourseSchedule.setUuid(stagedModel.getUuid());
 		importedActivityCourseSchedule.setStartTime(stagedModel.getStartTime());
 		importedActivityCourseSchedule.setEndTime(stagedModel.getEndTime());
-		importedActivityCourseSchedule.setDays(stagedModel.getDays());
+		importedActivityCourseSchedule.setMonday(stagedModel.getMonday());
+		importedActivityCourseSchedule.setTuesday(stagedModel.getTuesday());
+		importedActivityCourseSchedule.setWednesday(stagedModel.getWednesday());
+		importedActivityCourseSchedule.setThursday(stagedModel.getThursday());
+		importedActivityCourseSchedule.setFriday(stagedModel.getFriday());
+		importedActivityCourseSchedule.setSaturday(stagedModel.getSaturday());
+		importedActivityCourseSchedule.setSunday(stagedModel.getFriday());
 		importedActivityCourseSchedule.setComments(stagedModel.getComments());
 		// TODO : pas sûr, id de staging
 		importedActivityCourseSchedule.setPeriodsIds(stagedModel.getPeriodsIds());

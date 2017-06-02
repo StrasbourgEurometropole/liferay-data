@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
@@ -22,6 +24,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -191,14 +194,6 @@ public class ActivityCourseScheduleLocalServiceImpl
 		// Supprime l'index
 		this.reindex(activityCourseSchedule, true);
 
-		// S'il existe une version live de l'édition, on la supprime
-		ActivityCourseSchedule liveActivityCourseSchedule = activityCourseSchedule
-			.getLiveVersion();
-		if (liveActivityCourseSchedule != null) {
-			this.removeActivityCourseSchedule(
-				liveActivityCourseSchedule.getActivityCourseScheduleId());
-		}
-
 		return activityCourseSchedule;
 	}
 
@@ -275,5 +270,74 @@ public class ActivityCourseScheduleLocalServiceImpl
 
 		return activityCourseSchedulePersistence
 			.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * Retourne la liste des horaires pour une liste de jours donnés sur une
+	 * plage horaire donnée
+	 */
+	@Override
+	public List<ActivityCourseSchedule> findByDaysAndTimes(long groupId,
+		boolean[] days, String startTime, String endTime) {
+
+		List<ActivityCourseSchedule> schedules = new ArrayList<ActivityCourseSchedule>();
+
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		// GroupId
+		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+
+		// Jours
+		if (days == null || days.length != 7) {
+			return new ArrayList<ActivityCourseSchedule>();
+		}
+		String[] dayFields = { "monday", "tuesday", "wednesday", "thursday",
+			"friday", "saturday", "sunday" };
+		Disjunction daysDisjunction = RestrictionsFactoryUtil.disjunction();
+		for (int i = 0; i < 7; i++) {
+			if (days[i]) {
+				daysDisjunction
+					.add(PropertyFactoryUtil.forName(dayFields[i]).eq(true));
+			}
+		}
+		dynamicQuery.add(daysDisjunction);
+
+		List<ActivityCourseSchedule> schedulesForDays = activityCourseSchedulePersistence
+			.findWithDynamicQuery(dynamicQuery, -1, -1);
+
+		// Horaires
+		LocalTime criterionStartTime = null;
+		LocalTime criterionEndTime = null;
+		try {
+			criterionStartTime = LocalTime.parse(startTime);
+		} catch (DateTimeParseException ex) {
+			criterionStartTime = LocalTime.parse("00:00");
+		}
+		try {
+			criterionEndTime = LocalTime.parse(endTime);
+		} catch (DateTimeParseException ex) {
+			criterionEndTime = LocalTime.parse("23:59");
+		}
+		for (ActivityCourseSchedule schedule : schedulesForDays) {
+			LocalTime scheduleStartTime = null;
+			LocalTime scheduleEndTime = null;
+			try {
+				scheduleStartTime = LocalTime.parse(schedule.getStartTime());
+			} catch (DateTimeParseException ex) {
+				scheduleStartTime = LocalTime.parse("00:00");
+			}
+			try {
+				scheduleEndTime = LocalTime.parse(schedule.getEndTime());
+			} catch (DateTimeParseException ex) {
+				scheduleEndTime = LocalTime.parse("23:59");
+			}
+			if (!(criterionStartTime.isAfter(scheduleEndTime)
+				|| criterionEndTime.isBefore(scheduleStartTime)
+				|| criterionStartTime.isAfter(criterionEndTime))) {
+				schedules.add(schedule);
+			}
+		}
+
+		return schedules;
 	}
 }

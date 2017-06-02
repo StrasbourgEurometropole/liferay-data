@@ -281,11 +281,27 @@ public class ActivityCoursePlaceLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> findByIds(
+		java.util.List<java.lang.Long> activityCoursePlaceIds) {
+		return getService().findByIds(activityCoursePlaceIds);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Récupère la liste des lieux sans horaires
+	*/
+	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> findWithNoSchedule(
+		long groupId) {
+		return getService().findWithNoSchedule(groupId);
 	}
 
 	/**

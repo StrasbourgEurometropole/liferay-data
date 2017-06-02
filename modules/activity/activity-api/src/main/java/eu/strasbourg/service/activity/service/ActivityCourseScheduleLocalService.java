@@ -261,6 +261,13 @@ public interface ActivityCourseScheduleLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne la liste des horaires pour une liste de jours donnés sur une
+	* plage horaire donnée
+	*/
+	public List<ActivityCourseSchedule> findByDaysAndTimes(long groupId,
+		boolean[] days, java.lang.String startTime, java.lang.String endTime);
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public List<ActivityCourseSchedule> findByKeyword(

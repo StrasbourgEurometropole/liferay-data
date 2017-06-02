@@ -17,6 +17,7 @@ package eu.strasbourg.portlet.activity.action;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -26,6 +27,7 @@ import javax.portlet.PortletURL;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -233,25 +235,40 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 					activityCourseSchedule.setEndTime(endTime);
 
 					// Jours concernés
-					int monday = ParamUtil.getInteger(request,
+					boolean monday = ParamUtil.getBoolean(request,
 						"monday_" + activityPlaceIndex + "_" + i);
-					int tuesday = ParamUtil.getInteger(request,
+					boolean tuesday = ParamUtil.getBoolean(request,
 						"tuesday_" + activityPlaceIndex + "_" + i);
-					int wednesday = ParamUtil.getInteger(request,
+					boolean wednesday = ParamUtil.getBoolean(request,
 						"wednesday_" + activityPlaceIndex + "_" + i);
-					int thursday = ParamUtil.getInteger(request,
+					boolean thursday = ParamUtil.getBoolean(request,
 						"thursday_" + activityPlaceIndex + "_" + i);
-					int friday = ParamUtil.getInteger(request,
+					boolean friday = ParamUtil.getBoolean(request,
 						"friday_" + activityPlaceIndex + "_" + i);
-					int saturday = ParamUtil.getInteger(request,
+					boolean saturday = ParamUtil.getBoolean(request,
 						"saturday_" + activityPlaceIndex + "_" + i);
-					int sunday = ParamUtil.getInteger(request,
+					boolean sunday = ParamUtil.getBoolean(request,
 						"sunday_" + activityPlaceIndex + "_" + i);
-					String days = monday + "," + tuesday + "," + wednesday + ","
-						+ thursday + "," + friday + "," + saturday + ","
-						+ sunday;
-					activityCourseSchedule.setDays(days);
+					activityCourseSchedule.setMonday(monday);
+					activityCourseSchedule.setTuesday(tuesday);
+					activityCourseSchedule.setWednesday(wednesday);
+					activityCourseSchedule.setThursday(thursday);
+					activityCourseSchedule.setFriday(friday);
+					activityCourseSchedule.setSaturday(saturday);
+					activityCourseSchedule.setSunday(sunday);
 
+
+
+					// Commentaires
+					Set<Locale> availableLocalesSet = LanguageUtil
+						.getAvailableLocales(themeDisplay.getScopeGroupId());
+					for (Locale locale : availableLocalesSet) {
+						String commentInLocale = ParamUtil.getString(request,
+							"comments_" + locale + "_" + activityPlaceIndex
+								+ "_" + i);
+						activityCourseSchedule.setComments(commentInLocale, locale);
+					}
+					
 					// Rattachement au lieu
 					activityCourseSchedule.setActivityCoursePlaceId(
 						activityCoursePlace.getActivityCoursePlaceId());

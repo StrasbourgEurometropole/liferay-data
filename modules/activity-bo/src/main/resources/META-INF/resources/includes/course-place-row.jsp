@@ -11,7 +11,7 @@
 				<span id="place-autocomplete-hidden-value">
 					<aui:input type="hidden" name="placeSIGId${param.index}" value="${coursePlace.placeSIGId}" />
 				</span>
-				<aui:input label="Lieu choisi" type="text" value="${coursePlace.getPlaceAlias(locale)}" name="selectedPlace${param.index}" disabled="true" cssClass="selected-place" >
+				<aui:input label="Lieu choisi" type="text" value="${coursePlace.getSIGPlaceAlias(locale)}" name="selectedPlace${param.index}" disabled="true" cssClass="selected-place" >
 					<aui:validator name="required"
 						errorMessage="this-field-is-required">
 						function(node) {
@@ -80,6 +80,7 @@
 			</button>
 			<div class="schedules" id="schedules-${param.index}" data-index="${param.index}">
 				<c:if test="${empty coursePlace.activityCourseSchedules}">
+					<c:remove var="courseSchedule" scope="request" />
 					<liferay-util:include page="/includes/course-place-schedule-row.jsp" servletContext="<%=application %>">
 						<liferay-util:param name="placeIndex" value="${param.index}" />
 						<liferay-util:param name="scheduleIndex" value="0" />

@@ -244,8 +244,8 @@ public class ActivityCourseLocalServiceImpl
 			List<ActivityCoursePlace> activityCoursePlaces = this.activityCoursePlaceLocalService
 				.getByActivityCourse(activityCourseId);
 			for (ActivityCoursePlace activityCoursePlace : activityCoursePlaces) {
-				this.activityCoursePlaceLocalService
-					.removeActivityCoursePlace(activityCoursePlace.getActivityCourseId());
+				this.activityCoursePlaceLocalService.removeActivityCoursePlace(
+					activityCoursePlace.getActivityCourseId());
 			}
 		}
 
@@ -339,7 +339,7 @@ public class ActivityCourseLocalServiceImpl
 		return activityCoursePersistence.findWithDynamicQuery(dynamicQuery,
 			start, end);
 	}
-	
+
 	/**
 	 * Compte de la recherche par mots-clés
 	 */
@@ -356,5 +356,23 @@ public class ActivityCourseLocalServiceImpl
 		}
 
 		return activityPersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * Lance une recherche par liste d'ids
+	 */
+	@Override
+	public List<ActivityCourse> findByIds(List<Long> activityCourseIds) {
+		DynamicQuery dynamicQuery = dynamicQuery();
+
+		if (activityCourseIds.size() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.in("activityCourseId",
+				activityCourseIds));
+		} else {
+			return new ArrayList<ActivityCourse>();
+		}
+
+		return activityCoursePersistence.findWithDynamicQuery(dynamicQuery, -1,
+			-1);
 	}
 }

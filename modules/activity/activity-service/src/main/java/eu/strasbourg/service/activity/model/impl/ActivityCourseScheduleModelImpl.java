@@ -91,7 +91,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			{ "activityCoursePlaceId", Types.BIGINT },
 			{ "startTime", Types.VARCHAR },
 			{ "endTime", Types.VARCHAR },
-			{ "days", Types.VARCHAR },
+			{ "monday", Types.BOOLEAN },
+			{ "tuesday", Types.BOOLEAN },
+			{ "wednesday", Types.BOOLEAN },
+			{ "thursday", Types.BOOLEAN },
+			{ "friday", Types.BOOLEAN },
+			{ "saturday", Types.BOOLEAN },
+			{ "sunday", Types.BOOLEAN },
 			{ "comments", Types.VARCHAR },
 			{ "periodsIds", Types.VARCHAR }
 		};
@@ -109,12 +115,18 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		TABLE_COLUMNS_MAP.put("activityCoursePlaceId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("startTime", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("endTime", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("days", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("monday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("tuesday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("wednesday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("thursday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("friday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("saturday", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("sunday", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("comments", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("periodsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourseSchedule (uuid_ VARCHAR(75) null,activityCourseScheduleId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,activityCoursePlaceId LONG,startTime VARCHAR(75) null,endTime VARCHAR(75) null,days VARCHAR(75) null,comments STRING null,periodsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourseSchedule (uuid_ VARCHAR(75) null,activityCourseScheduleId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,activityCoursePlaceId LONG,startTime VARCHAR(75) null,endTime VARCHAR(75) null,monday BOOLEAN,tuesday BOOLEAN,wednesday BOOLEAN,thursday BOOLEAN,friday BOOLEAN,saturday BOOLEAN,sunday BOOLEAN,comments STRING null,periodsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table activity_ActivityCourseSchedule";
 	public static final String ORDER_BY_JPQL = " ORDER BY activityCourseSchedule.activityCourseScheduleId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY activity_ActivityCourseSchedule.activityCourseScheduleId ASC";
@@ -161,7 +173,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		model.setActivityCoursePlaceId(soapModel.getActivityCoursePlaceId());
 		model.setStartTime(soapModel.getStartTime());
 		model.setEndTime(soapModel.getEndTime());
-		model.setDays(soapModel.getDays());
+		model.setMonday(soapModel.getMonday());
+		model.setTuesday(soapModel.getTuesday());
+		model.setWednesday(soapModel.getWednesday());
+		model.setThursday(soapModel.getThursday());
+		model.setFriday(soapModel.getFriday());
+		model.setSaturday(soapModel.getSaturday());
+		model.setSunday(soapModel.getSunday());
 		model.setComments(soapModel.getComments());
 		model.setPeriodsIds(soapModel.getPeriodsIds());
 
@@ -240,7 +258,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		attributes.put("activityCoursePlaceId", getActivityCoursePlaceId());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
-		attributes.put("days", getDays());
+		attributes.put("monday", getMonday());
+		attributes.put("tuesday", getTuesday());
+		attributes.put("wednesday", getWednesday());
+		attributes.put("thursday", getThursday());
+		attributes.put("friday", getFriday());
+		attributes.put("saturday", getSaturday());
+		attributes.put("sunday", getSunday());
 		attributes.put("comments", getComments());
 		attributes.put("periodsIds", getPeriodsIds());
 
@@ -320,10 +344,46 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			setEndTime(endTime);
 		}
 
-		String days = (String)attributes.get("days");
+		Boolean monday = (Boolean)attributes.get("monday");
 
-		if (days != null) {
-			setDays(days);
+		if (monday != null) {
+			setMonday(monday);
+		}
+
+		Boolean tuesday = (Boolean)attributes.get("tuesday");
+
+		if (tuesday != null) {
+			setTuesday(tuesday);
+		}
+
+		Boolean wednesday = (Boolean)attributes.get("wednesday");
+
+		if (wednesday != null) {
+			setWednesday(wednesday);
+		}
+
+		Boolean thursday = (Boolean)attributes.get("thursday");
+
+		if (thursday != null) {
+			setThursday(thursday);
+		}
+
+		Boolean friday = (Boolean)attributes.get("friday");
+
+		if (friday != null) {
+			setFriday(friday);
+		}
+
+		Boolean saturday = (Boolean)attributes.get("saturday");
+
+		if (saturday != null) {
+			setSaturday(saturday);
+		}
+
+		Boolean sunday = (Boolean)attributes.get("sunday");
+
+		if (sunday != null) {
+			setSunday(sunday);
 		}
 
 		String comments = (String)attributes.get("comments");
@@ -548,18 +608,121 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 
 	@JSON
 	@Override
-	public String getDays() {
-		if (_days == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _days;
-		}
+	public boolean getMonday() {
+		return _monday;
+	}
+
+	@JSON
+	@Override
+	public boolean isMonday() {
+		return _monday;
 	}
 
 	@Override
-	public void setDays(String days) {
-		_days = days;
+	public void setMonday(boolean monday) {
+		_monday = monday;
+	}
+
+	@JSON
+	@Override
+	public boolean getTuesday() {
+		return _tuesday;
+	}
+
+	@JSON
+	@Override
+	public boolean isTuesday() {
+		return _tuesday;
+	}
+
+	@Override
+	public void setTuesday(boolean tuesday) {
+		_tuesday = tuesday;
+	}
+
+	@JSON
+	@Override
+	public boolean getWednesday() {
+		return _wednesday;
+	}
+
+	@JSON
+	@Override
+	public boolean isWednesday() {
+		return _wednesday;
+	}
+
+	@Override
+	public void setWednesday(boolean wednesday) {
+		_wednesday = wednesday;
+	}
+
+	@JSON
+	@Override
+	public boolean getThursday() {
+		return _thursday;
+	}
+
+	@JSON
+	@Override
+	public boolean isThursday() {
+		return _thursday;
+	}
+
+	@Override
+	public void setThursday(boolean thursday) {
+		_thursday = thursday;
+	}
+
+	@JSON
+	@Override
+	public boolean getFriday() {
+		return _friday;
+	}
+
+	@JSON
+	@Override
+	public boolean isFriday() {
+		return _friday;
+	}
+
+	@Override
+	public void setFriday(boolean friday) {
+		_friday = friday;
+	}
+
+	@JSON
+	@Override
+	public boolean getSaturday() {
+		return _saturday;
+	}
+
+	@JSON
+	@Override
+	public boolean isSaturday() {
+		return _saturday;
+	}
+
+	@Override
+	public void setSaturday(boolean saturday) {
+		_saturday = saturday;
+	}
+
+	@JSON
+	@Override
+	public boolean getSunday() {
+		return _sunday;
+	}
+
+	@JSON
+	@Override
+	public boolean isSunday() {
+		return _sunday;
+	}
+
+	@Override
+	public void setSunday(boolean sunday) {
+		_sunday = sunday;
 	}
 
 	@JSON
@@ -788,7 +951,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		activityCourseScheduleImpl.setActivityCoursePlaceId(getActivityCoursePlaceId());
 		activityCourseScheduleImpl.setStartTime(getStartTime());
 		activityCourseScheduleImpl.setEndTime(getEndTime());
-		activityCourseScheduleImpl.setDays(getDays());
+		activityCourseScheduleImpl.setMonday(getMonday());
+		activityCourseScheduleImpl.setTuesday(getTuesday());
+		activityCourseScheduleImpl.setWednesday(getWednesday());
+		activityCourseScheduleImpl.setThursday(getThursday());
+		activityCourseScheduleImpl.setFriday(getFriday());
+		activityCourseScheduleImpl.setSaturday(getSaturday());
+		activityCourseScheduleImpl.setSunday(getSunday());
 		activityCourseScheduleImpl.setComments(getComments());
 		activityCourseScheduleImpl.setPeriodsIds(getPeriodsIds());
 
@@ -936,13 +1105,19 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 			activityCourseScheduleCacheModel.endTime = null;
 		}
 
-		activityCourseScheduleCacheModel.days = getDays();
+		activityCourseScheduleCacheModel.monday = getMonday();
 
-		String days = activityCourseScheduleCacheModel.days;
+		activityCourseScheduleCacheModel.tuesday = getTuesday();
 
-		if ((days != null) && (days.length() == 0)) {
-			activityCourseScheduleCacheModel.days = null;
-		}
+		activityCourseScheduleCacheModel.wednesday = getWednesday();
+
+		activityCourseScheduleCacheModel.thursday = getThursday();
+
+		activityCourseScheduleCacheModel.friday = getFriday();
+
+		activityCourseScheduleCacheModel.saturday = getSaturday();
+
+		activityCourseScheduleCacheModel.sunday = getSunday();
 
 		activityCourseScheduleCacheModel.comments = getComments();
 
@@ -965,7 +1140,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -989,8 +1164,20 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		sb.append(getStartTime());
 		sb.append(", endTime=");
 		sb.append(getEndTime());
-		sb.append(", days=");
-		sb.append(getDays());
+		sb.append(", monday=");
+		sb.append(getMonday());
+		sb.append(", tuesday=");
+		sb.append(getTuesday());
+		sb.append(", wednesday=");
+		sb.append(getWednesday());
+		sb.append(", thursday=");
+		sb.append(getThursday());
+		sb.append(", friday=");
+		sb.append(getFriday());
+		sb.append(", saturday=");
+		sb.append(getSaturday());
+		sb.append(", sunday=");
+		sb.append(getSunday());
 		sb.append(", comments=");
 		sb.append(getComments());
 		sb.append(", periodsIds=");
@@ -1002,7 +1189,7 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.activity.model.ActivityCourseSchedule");
@@ -1053,8 +1240,32 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 		sb.append(getEndTime());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>days</column-name><column-value><![CDATA[");
-		sb.append(getDays());
+			"<column><column-name>monday</column-name><column-value><![CDATA[");
+		sb.append(getMonday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tuesday</column-name><column-value><![CDATA[");
+		sb.append(getTuesday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>wednesday</column-name><column-value><![CDATA[");
+		sb.append(getWednesday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>thursday</column-name><column-value><![CDATA[");
+		sb.append(getThursday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>friday</column-name><column-value><![CDATA[");
+		sb.append(getFriday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>saturday</column-name><column-value><![CDATA[");
+		sb.append(getSaturday());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sunday</column-name><column-value><![CDATA[");
+		sb.append(getSunday());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>comments</column-name><column-value><![CDATA[");
@@ -1093,7 +1304,13 @@ public class ActivityCourseScheduleModelImpl extends BaseModelImpl<ActivityCours
 	private boolean _setOriginalActivityCoursePlaceId;
 	private String _startTime;
 	private String _endTime;
-	private String _days;
+	private boolean _monday;
+	private boolean _tuesday;
+	private boolean _wednesday;
+	private boolean _thursday;
+	private boolean _friday;
+	private boolean _saturday;
+	private boolean _sunday;
 	private String _comments;
 	private String _commentsCurrentLanguageId;
 	private String _periodsIds;

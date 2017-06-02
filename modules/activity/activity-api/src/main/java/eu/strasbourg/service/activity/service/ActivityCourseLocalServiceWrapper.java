@@ -310,6 +310,15 @@ public class ActivityCourseLocalServiceWrapper
 	}
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse> findByIds(
+		java.util.List<java.lang.Long> activityCourseIds) {
+		return _activityCourseLocalService.findByIds(activityCourseIds);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	@Override

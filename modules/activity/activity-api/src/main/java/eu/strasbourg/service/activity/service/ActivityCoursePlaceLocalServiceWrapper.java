@@ -301,6 +301,15 @@ public class ActivityCoursePlaceLocalServiceWrapper
 	}
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> findByIds(
+		java.util.List<java.lang.Long> activityCoursePlaceIds) {
+		return _activityCoursePlaceLocalService.findByIds(activityCoursePlaceIds);
+	}
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	@Override
@@ -308,6 +317,15 @@ public class ActivityCoursePlaceLocalServiceWrapper
 		java.lang.String keyword, long groupId, int start, int end) {
 		return _activityCoursePlaceLocalService.findByKeyword(keyword, groupId,
 			start, end);
+	}
+
+	/**
+	* Récupère la liste des lieux sans horaires
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> findWithNoSchedule(
+		long groupId) {
+		return _activityCoursePlaceLocalService.findWithNoSchedule(groupId);
 	}
 
 	/**

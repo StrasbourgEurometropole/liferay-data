@@ -70,4 +70,9 @@ public interface ActivityOrganizer extends ActivityOrganizerModel, PersistedMode
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne l'URL de l'image
+	*/
+	public java.lang.String getImageURL();
 }

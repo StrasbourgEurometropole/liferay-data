@@ -12,13 +12,14 @@ import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 
 import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 
 @Component(
 	immediate = true,
 	property = {
-        "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO
+        "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB
     },
 	service = TemplateHandler.class
 )
@@ -32,12 +33,12 @@ public class ActivityDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		return "Template Activity";
+		return "Template Activite";
 	}
 
 	@Override
 	public String getResourceName() {
-		return StrasbourgPortletKeys.ACTIVITY_BO;
+		return StrasbourgPortletKeys.ACTIVITY_WEB;
 	}
 
 	@Override
@@ -55,7 +56,11 @@ public class ActivityDisplayTemplateHandler
 			"Activities", List.class, PortletDisplayTemplateManager.ENTRIES, 
 			"Activity", Activity.class, "currentActivity", "getTitle(locale)");
 		
+		
 		fieldsTemplateVariableGroup.addVariable("Activity", Activity.class, "entry");
+		fieldsTemplateVariableGroup.addCollectionVariable(
+			"Courses", List.class, "courses", 
+			"Course", ActivityCourse.class, "currentCourse", "getName(locale)");
 		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;

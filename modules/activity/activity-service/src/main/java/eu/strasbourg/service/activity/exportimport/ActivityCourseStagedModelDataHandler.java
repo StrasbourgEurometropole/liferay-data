@@ -3,23 +3,27 @@ package eu.strasbourg.service.activity.exportimport;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
+import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.xml.Element;
 
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
+import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService;
 
-// @Component(immediate = true, service = StagedModelDataHandler.class)
+@Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityCourseStagedModelDataHandler
 	extends BaseStagedModelDataHandler<ActivityCourse> {
 
@@ -86,7 +90,16 @@ public class ActivityCourseStagedModelDataHandler
 			.getActivityCoursePlaces()) {
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
 				portletDataContext, stagedModel, activityCoursePlace,
-				PortletDataContext.REFERENCE_TYPE_PARENT);
+				PortletDataContext.REFERENCE_TYPE_CHILD);
+		}
+		// Supprime les lieux live s'il y en a
+		ActivityCourse liveModel = stagedModel.getLiveVersion();
+		if (liveModel != null) {
+			for (ActivityCoursePlace liveActivityCourseePlace : liveModel
+				.getActivityCoursePlaces()) {
+				this.activityCoursePlaceLocalService.removeActivityCoursePlace(
+					liveActivityCourseePlace.getActivityCoursePlaceId());
+			}
 		}
 
 		// Et à l'organizer
@@ -138,8 +151,10 @@ public class ActivityCourseStagedModelDataHandler
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> newIdsMap = (Map<Long, Long>) portletDataContext
 			.getNewPrimaryKeysMap(ActivityOrganizer.class);
-		long organizerId = newIdsMap.get(stagedModel.getOrganizerId());
-		importedActivityCourse.setOrganizerId(organizerId);
+		if (stagedModel.getOrganizerId() > 0) {
+			long organizerId = newIdsMap.get(stagedModel.getOrganizerId());
+			importedActivityCourse.setOrganizerId(organizerId);
+		}
 
 		// Import de l'asset, tags, catégories, et des élémeents liés
 		// potentiellement non publiés
@@ -149,7 +164,7 @@ public class ActivityCourseStagedModelDataHandler
 		// On lie les lieux au cours
 		@SuppressWarnings("unchecked")
 		Map<Long, Long> activityCoursePlacesIdsMap = (Map<Long, Long>) portletDataContext
-			.getNewPrimaryKeysMap(ActivityCourse.class);
+			.getNewPrimaryKeysMap(ActivityCoursePlace.class);
 		for (Map.Entry<Long, Long> activityCoursePlaceIdMapEntry : activityCoursePlacesIdsMap
 			.entrySet()) {
 			long activityCoursePlaceId = activityCoursePlaceIdMapEntry

@@ -257,6 +257,11 @@ public interface ActivityLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Lance une recherche par liste d'ids
+	*/
+	public List<Activity> findByIds(List<java.lang.Long> activityIds);
+
+	/**
 	* Lance une recherche par mots-clés
 	*/
 	public List<Activity> findByKeyword(java.lang.String keyword, long groupId,

@@ -43,12 +43,13 @@
 }
 
 .schedule {
-    width: 350px;
+    width: 360px;
     display: inline-block;
     border: 1px solid #869CAD;
     margin: 10px;
     border-radius: 5px;
     padding: 10px;
+    vertical-align: top;
 }
 
 .schedules .checkbox input[type="checkbox"], .schedules .checkbox-inline input[type="checkbox"] {
@@ -58,12 +59,32 @@
     margin-top: 25px;
 }
 
+.schedules select {
+	height: 115px;
+}
+
+.schedules .time .form-group {
+	margin-bottom: 10px;
+}
+
 .schedules .periods .form-group {
 	margin-bottom: 10px;
 }
 
+.schedules .days {
+	margin: 10px 0;
+}
+
 #place-fields .panel-group .panel-heading {
 	background-color: #607D8B;
+}
+
+.comments .form-group.input-text-wrapper {
+    margin-bottom: 10px;
+}
+
+.schedule button {
+	margin-top: 10px;
 }
 
 @-webkit-keyframes highlight-fade {   
