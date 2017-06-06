@@ -229,13 +229,17 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 				rgf93X = chaine.length > 11 ? chaine[11] : "";
 				rgf93Y = chaine.length > 12 ? chaine[12] : "";
 				idTerritoireSIG =  chaine.length > 13 ? chaine[13].split(",") :  new String[0];
-
+				String rgfPattern = "[0-9]+\\.[0-9]+";
 				if (!idSIG.equals("") && !alias.equals("")
 						&& idCategSIG.length > 0 && !voie.equals("")
 						&& !codePostal.equals("") && !pays.equals("")
 						&& !mercatorX.equals("") && !mercatorY.equals("")
 						&& !rgf93X.equals("") && !rgf93Y.equals("")
-						&& idTerritoireSIG.length > 0) {
+						&& idTerritoireSIG.length > 0
+						&& mercatorX.matches(rgfPattern)
+						&& mercatorY.matches(rgfPattern)
+						&& rgf93X.matches(rgfPattern)
+						&& rgf93Y.matches(rgfPattern)) {
 
 					boolean categoriesExiste = true;
 					for (String category : idCategSIG) {
@@ -259,6 +263,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								place = this._placeLocalService.createPlace(sc);
 								place.setAliasMap(LocalizationUtil
 										.getLocalizationMap(alias));
+								place.setDisplayEvents(true);
+								place.setSubjectToPublicHoliday(true);
 							} else {
 								if (place.isApproved()) {
 									sc.setWorkflowAction(
@@ -279,7 +285,6 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							place.setMercatorY(mercatorY);
 							place.setRGF93X(rgf93X);
 							place.setRGF93Y(rgf93Y);
-							place.setSubjectToPublicHoliday(true);
 
 							// renseigne l'assetEntry avec les anciennes
 							// catégories (des vocabulaires autre que Type de
@@ -412,12 +417,28 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 						erreur += "<br>Le champ Coordonnees_SIG_Mercator_Y est manquant &agrave; la ligne "
 								+ ligne;
 					}
+					if (!mercatorX.matches(rgfPattern)) {
+						erreur += "<br>Le champ Coordonnees_SIG_Mercator_X ne respecte pas le format d&eacute;cimal &agrave; la ligne "
+								+ ligne;
+					}
+					if (!mercatorY.matches(rgfPattern)) {
+						erreur += "<br>Le champ Coordonnees_SIG_Mercator_Y ne respecte pas le format d&eacute;cimal &agrave; la ligne "
+								+ ligne;
+					}
 					if (rgf93X.equals("")) {
 						erreur += "<br>Le champ Coordonnees_SIG_RGF93_X est manquant &agrave; la ligne "
 								+ ligne;
 					}
 					if (rgf93Y.equals("")) {
 						erreur += "<br>Le champ Coordonnees_SIG_RGF93_Y est manquant &agrave; la ligne "
+								+ ligne;
+					}
+					if (!rgf93X.matches(rgfPattern)) {
+						erreur += "<br>Le champ Coordonnees_SIG_RGF93_X ne respecte pas le format d&eacute;cimal &agrave; la ligne "
+								+ ligne;
+					}
+					if (!rgf93Y.matches(rgfPattern)) {
+						erreur += "<br>Le champ Coordonnees_SIG_RGF93_Y ne respecte pas le format d&eacute;cimal &agrave; la ligne "
 								+ ligne;
 					}
 					if (idTerritoireSIG.length == 0) {

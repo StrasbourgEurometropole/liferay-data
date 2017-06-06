@@ -89,13 +89,15 @@ public class VideoStagedModelDataHandler
 			}
 
 			// Ajout référence au fichier de transcription
-			FileEntry transcription = DLAppLocalServiceUtil
-				.getFileEntry(stagedModel.getTranscriptionFileId());
-			if (GroupLocalServiceUtil.getGroup(transcription.getGroupId())
-				.isStagingGroup()) {
-				StagedModelDataHandlerUtil.exportReferenceStagedModel(
-					portletDataContext, stagedModel, transcription,
-					PortletDataContext.REFERENCE_TYPE_WEAK);
+			if (stagedModel.getTranscriptionFileId() > 0) {
+				FileEntry transcription = DLAppLocalServiceUtil
+					.getFileEntry(stagedModel.getTranscriptionFileId());
+				if (transcription != null && GroupLocalServiceUtil.getGroup(transcription.getGroupId())
+					.isStagingGroup()) {
+					StagedModelDataHandlerUtil.exportReferenceStagedModel(
+						portletDataContext, stagedModel, transcription,
+						PortletDataContext.REFERENCE_TYPE_WEAK);
+				}
 			}
 		} catch (Exception e) {
 			_log.error(e);

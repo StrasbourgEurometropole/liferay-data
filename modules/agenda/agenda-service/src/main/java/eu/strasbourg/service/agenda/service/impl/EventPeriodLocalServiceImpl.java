@@ -74,13 +74,14 @@ public class EventPeriodLocalServiceImpl
 	public List<EventPeriod> getByEventId(long eventId) {
 		return this.eventPeriodPersistence.findByEventId(eventId);
 	}
-	
+
 	/**
 	 * Retourne les périodes d'un événement de campagne
 	 */
 	@Override
 	public List<EventPeriod> getByCampaignEventId(long campaignEventId) {
-		return this.eventPeriodPersistence.findByCampaignEventId(campaignEventId);
+		return this.eventPeriodPersistence
+			.findByCampaignEventId(campaignEventId);
 	}
 
 	/**
@@ -93,9 +94,11 @@ public class EventPeriodLocalServiceImpl
 			.collect(Collectors.toList());
 		Date lastEnd = null;
 		for (int i = 0; i < sortedPeriods.size(); i++) {
+			EventPeriod period = sortedPeriods.get(i);
 			if (i == 0) {
-				lastEnd = sortedPeriods.get(i).getEndDate();
-			} else if (sortedPeriods.get(i).getStartDate().before(lastEnd)) {
+				lastEnd = period.getEndDate();
+			} else if (period.getStartDate().before(lastEnd)
+				|| period.getStartDate().equals(lastEnd)) {
 				return true;
 			}
 			if (lastEnd.after(periods.get(i).getEndDate())) {

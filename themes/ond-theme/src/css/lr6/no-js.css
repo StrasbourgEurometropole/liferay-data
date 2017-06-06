@@ -1,0 +1,80 @@
+.no-js .scriptLink {
+	display: none;
+}
+
+/* Gestion des sliders d'image (bandeau et slider de la home) : 
+on n'affiche que la première image, que l'on centre et que l'on affiche avec une taille maximum de 100% */
+.no-js .slide_header li, 
+.no-js .slide_header_child li, 
+.no-js .slider_home li {
+	display: none;
+}
+
+.no-js .slide_header li:first-child,
+.no-js .slide_header_child li:first-child,
+.no-js .slider_home li:first-child {
+	display: block;
+}
+
+.no-js .slide_header li:first-child,
+.no-js .slide_header_child li:first-child {
+	text-align: center;
+}
+
+.no-js .slide_header li img, 
+.no-js .slide_header_child li img {
+	max-width: 100%;
+}
+
+/* On corrige l'affichage de certains effets indésirables dûs à la non suppression des feuilles de style "commons" */
+.no-js .portlet-cus-image-fo .column-image img,
+.no-js .portlet-asset-header .asset-header-image-div .column-image img {
+	max-width: none;
+	max-height: none;
+}
+
+/* Gestion du logo : sur la home affichage en taille originale, on ne l'affiche pas sur les pages intérieurs */
+.no-js .header .logo a img {
+	display: none;
+}
+
+.no-js .home .header .logo a img {
+	display: block;
+	height: 108px;
+	margin-top: 20px;
+}
+
+/* La boutique : on masque toute la partie menu, les titres et on arrange l'affichage des vignettes */
+.no-js .portlet-menu-boutique,
+.no-js .categorie .sub-entry-title {
+	display: none;
+}
+
+.no-js article.produit {
+	max-width: 300px;
+	background: white;
+	margin-bottom: 20px;
+}
+
+.no-js article.produit img {
+	max-width: 100%;
+}
+
+.no-js article.produit span.prix {
+	font-size: 15px;
+}
+
+.no-js article.produit h3 .boutique-popup-link,
+.no-js article.produit span.prix {
+	padding-left: 15px;
+}
+
+.no-js .portlet-boundary_AssetHeaderPortlet_WAR_Cusallhook_ .asset-header-image-page .asset-header-image-div .image-link {
+	margin-bottom: 40px;
+}
+
+@media all and (max-width: 640px) {
+	.no-js .header .logo a img {
+		height: 70%;
+	}
+}

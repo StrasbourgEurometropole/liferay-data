@@ -1,0 +1,251 @@
+/**** HEADER *****/
+/*--- Nav lang ---*/
+.header {
+    width: 100%;
+    background: #d7d6cc;
+    position: relative;
+    float: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header .logo_strasbourg img
+{
+    margin: 9px;
+    margin-bottom: 5px;
+}
+
+.header .nav-lang {
+    width: 100%;
+    background: #ad3939;
+    /*height: 40px;*/
+    position: absolute;
+    top:0;
+    opacity: 0.9;
+    z-index: 100;
+}
+.header .nav-lang ul {
+    margin: 0;
+    padding: 0;
+    float: right;
+    list-style: none;
+}
+.header .nav-lang ul li {
+    display: block;
+    float: left;
+}
+.header .nav-lang ul li a {
+    color: #FFF;
+    font-size: 1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    line-height: 3.3em;
+    padding: 0 10px;
+    font-weight: bold;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.header .nav-lang ul li.active a {
+    background: #261a21;
+}
+.header .nav-lang ul li.contact a {
+    background: #6e1314;
+}
+.header .nav-lang ul li:hover a {
+    color: #f1b6b6;
+}
+/*--- Logo ---*/
+.header .title
+{
+    display: none;
+}
+
+header .logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:40px;
+    max-height: 210px;
+    z-index: 1000;
+}
+.header .logo a img{
+    height: 70%;
+    margin:auto;
+    display: block;
+    max-height: 147px;
+    min-height: 52px;
+}
+
+.home .header .logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:40px;
+    max-height: 350px;
+}
+.home .header .logo a img{
+    height: 70%;
+    margin:auto;
+    display: block;
+    max-height: 245px;
+    min-height: 110px;
+}
+
+.header .logo {
+    z-index: 110;
+}
+
+
+.slide_header,.slide_header_child
+{
+    margin:0;
+    padding: 0;
+}
+
+.header .bx-controls.bx-has-controls-auto
+{
+   bottom:10px;
+   z-index: 118;
+   margin: auto;
+   height: 0;
+   position: absolute;
+   width:100%;
+}
+
+.header .bx-wrapper .bx-controls-auto
+{
+    bottom: 80px;
+    background: url(../../img/bg/bg_slider_controls.png);
+    width: 40px;
+    right:10px;
+    padding: 10px;
+}
+
+/*--- Nav primary ---*/
+.nav-primary {
+    width: 100%;
+    background: url(../../img/bg/bg_menu.png);
+    height: 6.7em;
+    margin-top: -80px;
+    z-index: 65;
+    position: relative;
+}
+.nav-primary .center {
+    position: static;
+}
+.nav-primary ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-primary ul li {
+    display: block;
+    float: left;
+    border-right: 1px solid #282320;
+    display: table;
+    width:233px;
+}
+.nav-primary ul li:first-child {
+    border-left: 1px solid #282320;
+    width:234px;
+}
+.nav-primary ul li a {
+    height: 100%;
+    text-align: center;
+    line-height: 1.2em;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    color: #FFF;
+    text-decoration: none;
+    padding: 0 16px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    display: table-cell;
+    vertical-align: middle;
+    height: 80px;
+}
+.nav-primary ul li.expanded a {
+    display:block;
+    line-height: 1.2em;
+    display: table-cell;
+    vertical-align: middle;
+}
+.nav-primary ul li.active a,
+.nav-primary ul li a:hover {
+    background-color: #ad3939;
+    color:#ffffff;
+}
+.nav-primary ul li .submenu {
+    width: 100%;
+    min-width: 940px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #ad3939;
+    height: 0;
+    overflow: hidden;
+    z-index: 70;
+    margin-top: 80px;
+}
+.nav-primary ul li .submenu .center {
+    width: 950px;
+    padding-left:10px;
+    padding-top: 10px;
+}
+
+.nav-primary ul li .submenu ul li {
+    border: 0;
+    width: 150px;
+    margin-right: 8px;
+    padding: 0;
+}
+
+.nav-primary ul li .submenu ul li {
+    width: 150px;
+}
+
+.nav-primary ul li .submenu ul li:last-child{
+    margin:0;
+}
+.nav-primary ul li .submenu ul li a {
+    font-family: Arial;
+    font-size: 1.25em;
+    font-weight: 300;
+    margin-right: 16%;
+    padding-left: 8px;
+    text-align: left;
+    color:black;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.nav-primary ul li .submenu ul li a.item_img{
+    padding: 0;
+    margin: 0;
+    display: block;
+    height:auto;
+}
+
+.nav-primary ul li .submenu ul li a.item_content{
+    margin: 0;
+    padding: 5px;
+    text-transform: none;
+    font-family: 'Lato', sans-serif;
+    height:auto;
+    font-size: 13px;
+    color:white;
+}
+.nav-primary ul li .submenu ul li .item{
+    height: 150px;
+}
+
+.nav-primary ul li .submenu ul li:hover a {
+    text-decoration: underline;
+}

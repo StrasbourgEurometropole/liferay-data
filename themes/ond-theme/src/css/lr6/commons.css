@@ -1,0 +1,139 @@
+
+/** Pagination **/
+
+/* On cache le sélecteur de nombre d element par page */
+/*
+.taglib-page-iterator .search-pages .delta-selector {
+	display:none;
+}
+*/
+
+.taglib-search-iterator-page-iterator-bottom {
+	padding-top: 0px;
+}
+
+/* On cache le sélecteur de page */
+/*
+.taglib-search-iterator-page-iterator-top .search-pages .page-selector,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-selector {
+	display:none;
+}
+*/
+
+/* On cache le navigation de page par défaut */
+/*
+.taglib-search-iterator-page-iterator-top .search-pages .page-links,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links {
+	display:none;
+}
+*/
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers {
+	vertical-align: middle;
+	background-color:#808080;		
+	padding-right: 10px;	
+	text-align: right;	
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a {	
+	text-decoration:none;	
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a:hover,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a:hover {	
+	text-decoration:underline;	
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers .break,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers .break {
+	color: #FFFFFF;	
+}
+
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a.previous,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a.previous {
+	background-image:url("../../images/commons/pagination/arrow_previous.png");
+	background-position: center;
+    background-repeat: no-repeat;
+	border: none;
+	padding-right: 5px; 
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a.next,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a.next {
+	background-image:url("../../images/commons/pagination/arrow_next.png");
+	background-position: center;
+    background-repeat: no-repeat;
+	border: none;	
+	padding-left: 5px; 
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a.page-number,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a.page-number {	
+	color:#F2F2F2;
+	text-decoration:none;
+	margin-left:2px;	
+	margin-right:2px;
+	font-size:1.2em;
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a.page-number:hover,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a.page-number:hover {	
+	color:#F2F2F2;
+	text-decoration:underline;
+}
+
+.taglib-search-iterator-page-iterator-top .search-pages .page-links-numbers a.page-number-current,
+.taglib-search-iterator-page-iterator-bottom .search-pages .page-links-numbers a.page-number-current {	
+	color:#000000;
+	text-decoration:none;	
+	font-size:1.5em;
+	font-weight:bold;
+}
+
+/** FIN PAGINATION **/
+
+/** Browser Alfresco **/
+
+#browser-alfresco-preview-image {
+	margin-bottom: 10px;
+}
+
+#browser-alfresco-preview-image img {
+	height: 100px;
+}
+
+#drag div div, #enteteDrag div div {
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+// Autocomplete
+.autocomplete-suggestion {
+    background: white;
+    border-bottom: 1px solid #e6eaef;
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer
+}
+
+.autocomplete-suggestion:last-child {
+    border-bottom: 0
+}
+
+.autocomplete-suggestion strong {
+    color: #97bf0c;
+    font-weight: normal
+}
+
+.autocomplete-suggestion.autocomplete-selected {
+    background: #97bf0c;
+    color: white
+}
+
+.autocomplete-suggestion.autocomplete-selected strong {
+    color: white
+}

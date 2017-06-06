@@ -1,0 +1,171 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+html {
+    min-width:960px;
+}
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #ad3939;
+}
+
+body.ond {
+    font-size: 12px;
+    line-height: 1em;
+    background: #f2f1e8;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #ad3939;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ad3939;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ad3939;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #ad3939;
+}
+
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    margin-top: 6px;
+    line-height: 2.14em;
+    height: 2.14em;
+    font-size: 1em;
+    font-weight: 700;
+    width: 212px;
+    border: none;
+    padding: 0 4px;
+    display: block;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -o-border-radius: 0;
+    -ms-border-radius: 0;
+}
+
+input.btn-submit {
+    color: #FFF;
+    background: #3a3a3a;
+    width: auto;
+    padding: 0 25px;
+    text-transform: uppercase;
+
+
+
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+input.btn-submit:hover {
+    background: #ad3939;
+}
+
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+a, 
+a:link,
+a:visited,
+a:focus {
+    outline: 0 none;
+}
+
+a {
+    text-decoration: none;
+    color: #3A3A3A;
+}
+
+.strong {
+    font-weight: 800;
+}
+
+.highlight {
+    color:#b44b4a;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Chrome Frame prompt
+   ========================================================================== */
+
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}

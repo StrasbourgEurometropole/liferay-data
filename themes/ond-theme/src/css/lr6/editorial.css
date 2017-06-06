@@ -1,0 +1,82 @@
+
+/**** BACK ****/
+    
+.link-back
+{
+    padding-top: 10px;
+}
+
+/**** EDITORIAL *****/
+.editorial {
+    width: 100%;
+    float: left;
+}
+.editorial h2 {
+    margin: 0;
+    padding: 15px 0;
+    color: black;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2em;
+    line-height: 1.2em;
+    text-transform: uppercase;
+    color: #3a3a3a;
+    background: url(../../img/bg/title_underline.png) bottom left no-repeat;
+}
+.editorial h2 strong {
+    font-size: 1.2em;
+    font-weight: 800;
+}
+.editorial article {
+    color: black;
+    font-size: 1em;
+    line-height: 1.5em;
+    font-weight: normal;
+    font-family: Arial;
+    position: relative;
+    margin-bottom: 20px;
+    width:600px;
+    float: left;
+}
+.editorial article img {
+    margin: -20px 0;
+    margin-right: 25px;
+    position: relative;
+    display: block;
+}
+.editorial article p{
+    font-size: 1.05em;
+}
+.editorial article .strong em {
+    font-weight: 700;
+    font-style: italic;
+}
+.editorial article .btn-more {
+    float: right;
+}
+.editorial .info-editorial {
+    color: #808080;
+    font-size: 1em;
+    line-height: 1.9em;
+    font-family: Arial;
+    font-weight: 600;
+    padding-bottom: 25px;
+}
+.editorial .info-editorial h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.16em;
+    font-weight: 700;
+    font-style: italic;
+    color: #d69f1f;
+}
+.editorial .info-editorial p {
+    margin: 0;
+}
+.editorial .info-editorial p.icon-geo {
+    background: transparent url(../../img/sprite.png) 0 -6px no-repeat;
+    padding-left: 40px;
+}
+.editorial .info-editorial strong {
+    font-weight: 800;
+}

@@ -35,4 +35,10 @@ public interface AssetVocabularyHelperService {
 	 * Retourne une chaîne vide si la propriété n'existe pas
 	 */
 	public String getCategoryProperty(long categoryId, String key);
+
+	/**
+	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
+	 * donné
+	 */
+	public AssetVocabulary getVocabulary(String vocabularyName, long groupId);
 }

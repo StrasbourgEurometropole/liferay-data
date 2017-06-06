@@ -19,6 +19,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
 
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
+import eu.strasbourg.portlet.activity.itemselector.ActivityCourseItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.ActivityItemSelectorCriterion;
+import eu.strasbourg.portlet.activity.itemselector.ActivityOrganizerItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.ManifestationItemSelectorCriterion;
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorCriterion;
@@ -26,6 +29,7 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
+import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
@@ -210,6 +214,47 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, placeItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.activity.model.Activity":
+			ActivityItemSelectorCriterion activityItemSelectorCriterion = new ActivityItemSelectorCriterion();
+			activityItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, activityItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.activity.model.ActivityCourse":
+			ActivityCourseItemSelectorCriterion activityCourseItemSelectorCriterion = new ActivityCourseItemSelectorCriterion();
+			activityCourseItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name,
+					activityCourseItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.activity.model.ActivityOrganizer":
+			ActivityOrganizerItemSelectorCriterion activityOrganizerItemSelectorCriterion = new ActivityOrganizerItemSelectorCriterion();
+			activityOrganizerItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, activityOrganizerItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.official.model.Official":
+			OfficialItemSelectorCriterion officialItemSelectorCriterion = new OfficialItemSelectorCriterion();
+			officialItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, officialItemSelectorCriterion);
 			break;
 		}
 		

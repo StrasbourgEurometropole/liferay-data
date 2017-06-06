@@ -134,20 +134,6 @@
 				</aui:input>
 				
 				<aui:input name="presentation" />
-				<!-- Hack pour ajouter une validation sur la description -->
-				<div class="has-error">
-					<aui:input type="hidden" name="presentationValidatorInputHelper" value="placeholder">
-						<aui:validator name="custom" errorMessage="requested-presentation-error">
-							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_place_PlaceBOPortlet_presentation_fr_FR').val().length > 0;
-								if (!validate) {
-									$("#_eu_strasbourg_portlet_place_PlaceBOPortlet_presentationContainer").get(0).scrollIntoView();
-								}
-								return validate;
-							}
-						</aui:validator>
-					</aui:input>
-				</div>
 				
 				<aui:input name="serviceAndActivities"   />
 				<!-- Hack pour ajouter une validation sur les services et activités -->

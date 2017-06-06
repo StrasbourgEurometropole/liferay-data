@@ -12,7 +12,6 @@
 
 <liferay-frontend:management-bar includeCheckBox="true"
 	searchContainerId="placesSearchContainer">
-	<c:if test="${empty dc.keywords}">
 		<liferay-frontend:management-bar-filters>
 			<c:if test="${fn:length(dc.globalVocabularies) > 0}">
 				<li><a>Filtrer par :</a></li>
@@ -48,7 +47,6 @@
 				icon="trash" label="delete" />
 			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
-	</c:if>
 </liferay-frontend:management-bar>
 
 <div class="container-fluid-1280 main-content-body">

@@ -235,8 +235,8 @@ public class EventViewerPortlet extends MVCPortlet {
 			LocalDate endDate = period.getEndDate().toInstant()
 				.atZone(ZoneId.systemDefault()).toLocalDate();
 			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && endDate.isBefore(endDate)
-				|| today.isEqual(startDate) || today.isEqual(endDate)) {
+			if (today.isAfter(startDate) && endDate.isBefore(today)
+				|| today.isEqual(startDate)) {
 				return true;
 			}
 		}

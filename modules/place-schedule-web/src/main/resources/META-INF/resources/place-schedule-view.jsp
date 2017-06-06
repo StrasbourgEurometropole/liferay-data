@@ -55,7 +55,7 @@
 					</div>
 					
 					<div class="col-md-2" >
-						<aui:button cssClass="btn-lg" type="button" value="filtered" onClick="document.forms['fm'].submit(); return false;"/>
+						<aui:button cssClass="btn-lg" type="button" value="filter-places" onClick="document.forms['fm'].submit(); return false;"/>
 					</div>
 					
 					<div class="col-md-1" ></div>

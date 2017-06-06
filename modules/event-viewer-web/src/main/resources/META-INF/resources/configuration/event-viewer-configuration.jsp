@@ -87,7 +87,7 @@
 				<liferay-ui:message key="agenda-page-explanations" />
 			</p>
 			<div class="agenda-page">
-				<strasbourg-picker:layout name="agendaPageUuid" label="page" multiple="false" required="true" value="${agendaPageUuid}" />
+				<strasbourg-picker:layout name="agendaPageUuid" label="page" multiple="false" required="false" value="${agendaPageUuid}" />
 			</div>
 			
 			<p>

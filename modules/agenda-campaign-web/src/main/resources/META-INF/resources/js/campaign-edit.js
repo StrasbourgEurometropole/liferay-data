@@ -306,7 +306,7 @@ function validatePeriods(event) {
 				languages.push(locale);
 			}
 	    }
-		if (e.name.indexOf('_startDate') > -1 && e.value && $(e.parentElement).is(':visible')) {
+		if (!!e.name && e.name.indexOf('_startDate') > -1 && e.value && $(e.parentElement).is(':visible')) {
 			numberOfPeriods++;
 		}
 	}
