@@ -47,6 +47,8 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
@@ -694,6 +696,18 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		}
 
 		return jsonEvent;
+	}
+	
+	/**
+	 * Retourne le nom lieu rattaché à l'événement
+	 */
+	public String getPlaceAlias(Locale locale) {
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		if (place != null) {
+			return place.getAlias(locale);
+		} else {
+			return "";
+		}
 	}
 
 	private final Log log = LogFactoryUtil.getLog(this.getClass());
