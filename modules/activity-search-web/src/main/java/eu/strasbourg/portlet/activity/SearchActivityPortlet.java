@@ -30,9 +30,10 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.display-category=category.strasbourg",
+	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.single-page-application=false",
+		"com.liferay.portlet.css-class-wrapper=search-activity-portlet",
 		"com.liferay.portlet.header-portlet-css=/css/search-activity-main.css",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/search-activity-view.jsp",

@@ -2,28 +2,37 @@
 
 <liferay-portlet:renderURL var="searchURL" />
 
+<!-- Formulaire de recherche -->
 <aui:form name="fm" action="${searchURL}">
-	<aui:select name="activityId">
+
+	<!-- Activité -->
+	<aui:select name="activityId" label="activity">
 		<aui:option value="" label="" />
 		<c:forEach var="activity" items="${allActivities}">
 			<aui:option value="${activity.activityId}"
 				label="${activity.getTitle(locale)}" />
 		</c:forEach>
 	</aui:select>
-	<aui:select name="typeId">
+	
+	<!-- Type -->
+	<aui:select name="typeId" label="type">
 		<aui:option value="" label="" />
 		<c:forEach var="type" items="${types}">
 			<aui:option value="${type.categoryId}" label="${type.getTitle(locale)}" />
 		</c:forEach>
 	</aui:select>
-	<aui:select name="publicId">
+	
+	<!-- Public -->
+	<aui:select name="publicId" label="eu.activity.public">
 		<aui:option value="" label="" />
 		<c:forEach var="public" items="${publics}">
 			<aui:option value="${public.categoryId}"
 				label="${public.getTitle(locale)}" />
 		</c:forEach>
 	</aui:select>
-	<aui:select name="territoryId">
+	
+	<!-- Territoire -->
+	<aui:select name="territoryId" label="eu.territory">
 		<aui:option value="" label="" />
 		<c:forEach items="${territories}" var="category">
 			<c:if test="${category.rootCategory}">
@@ -34,6 +43,8 @@
 		</c:forEach>
 	</aui:select>
 	
+	
+	<!-- Lieu -->
 	<div class="place-autocomplete" <c:if test="${empty coursePlace.placeSIGId and not empty coursePlace.placeName }">style="display: none;"</c:if>>
 		<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper-${param.index}">
 			<aui:input label="Choisir un lieu" type="text" name="place" />
@@ -43,20 +54,25 @@
 		</span>
 	</div>
 	
-	<aui:input type="checkbox" name="monday" />
-	<aui:input type="checkbox" name="tuesday" />
-	<aui:input type="checkbox" name="wednesday" />
-	<aui:input type="checkbox" name="thursday" />
-	<aui:input type="checkbox" name="friday" />
-	<aui:input type="checkbox" name="saturday" />
-	<aui:input type="checkbox" name="sunday" />
+	
+	<!-- Jours -->
+	<aui:input type="checkbox" name="monday" label="monday" />
+	<aui:input type="checkbox" name="tuesday" label="tuesday" />
+	<aui:input type="checkbox" name="wednesday" label="wednesday" />
+	<aui:input type="checkbox" name="thursday" label="thursday" />
+	<aui:input type="checkbox" name="friday" label="friday" />
+	<aui:input type="checkbox" name="saturday" label="saturday" />
+	<aui:input type="checkbox" name="sunday" label="sunday" />
 
-	<aui:input type="time" name="startTime" value="${param.startTime}" />
-	<aui:input type="time" name="endTime" value="${param.endTime}"/>
+	
+	<!-- Heures -->
+	<aui:input type="time" name="startTime" value="${param.startTime}" label="start" />
+	<aui:input type="time" name="endTime" value="${param.endTime}" label="end "/>
 
-	<aui:button type="submit" />
+	<aui:button type="submit" value="search" />
 </aui:form>
-
+	
+<!-- Liste des résultats -->
 <div class="activities">
 	<c:forEach var="activityEntry" items="${dc.results}">
 		<liferay-ddm:template-renderer
