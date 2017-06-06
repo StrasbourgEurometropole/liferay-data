@@ -4,29 +4,88 @@
 /* endinject */
 
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
-.portlet-boundary .portlet .portlet-content h2.portlet-title-text{
-	display: none;
+.portlet-boundary .portlet {
+	margin: 0px;
+
+	.portlet-content h2.portlet-title-text{
+		display: none;
+	}
 }
 
 .portlet-asset-publisher .portlet-body > div > .h2 {
     display: none;
 }
 
-.breadcrumb {
+.fil-ariane .nav .breadcrumb {
     padding: 0px;
     background: none;
+    font-size: 0;
+    line-height: 40px;
+    margin: 0;
 }
 
-.fil-ariane .nav .breadcrumb li:first-child {
+.fil-ariane .nav .breadcrumb li {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: static;
+    float: none;
+
+	a {
+	    font-family: "robotoregular", Arial, sans-serif;
+	    font-size: 1.4rem;
+	    line-height: inherit;
+	    display: inline-block;
+	    vertical-align: middle;
+	    transition: color 0.3s ease 0s;
+	}
+}
+
+.fil-ariane .nav .breadcrumb li:before{
+    content: '';
+    background: url(../images/pictos/ariane-chevron.png) no-repeat center center;
+    margin-top: 15px !important;
+    position: static;
+    display: inline-block;
+    vertical-align: middle;
+    width: 5px;
+    height: 8px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0;
+    -webkit-border-radius: 0;
+}
+
+.fil-ariane .nav .breadcrumb li:after{
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.fil-ariane .nav .breadcrumb li:first-of-type {
+	font-size: 0;
 
 	a{
 	    font-size: 0;
 	    display: inline-block;
 	    width: 20px;
-	    float: left
+	    height: 18px;
 	    position: relative;
-	    background-image: url(../images/pictos/home-on.png);
+	    background-image: url(../images/pictos/home-off.png);
 	    background-repeat: no-repeat;
 	    background-position: center center;
 	}
+
+	a:hover{
+	    background-image: url(../images/pictos/home-on.png);
+	}
+}
+
+.fil-ariane .nav .breadcrumb li:first-of-type:before{
+	background: none;
+    margin: 0px;
+    width: 0;
 }

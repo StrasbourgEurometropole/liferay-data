@@ -43,10 +43,10 @@
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-16x16.png" sizes="16x16">
 
+    <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <@liferay_util["include"] page=top_head_include />
-
-    <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
 
   </head>
 

@@ -77,6 +77,7 @@ if ($('#player').length){
 			// Enlever la tabulation
 			//$('#player').attr('tabindex', '-1');
 		}
+		onPlayerReady();
 
 		function onPlayerStateChange(event) {
 			player.playVideo();
