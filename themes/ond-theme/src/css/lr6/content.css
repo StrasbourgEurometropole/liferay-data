@@ -1,0 +1,164 @@
+
+/**** CONTENT *****/
+.content {
+    background: #f2f1e8 url(../../img/bg/bg-edito.png) top center no-repeat;
+    position: relative;
+}
+/*
+.content .content-left {
+    width: 640px;
+    float: left;
+    position: relative;
+}
+.content .content-top {
+	position: absolute;
+	top: -34px;
+	width: 100%; 
+}
+.content .content-top .addinto_sharebox {
+	padding: 0 6px;
+}
+.content .addinto_sharebox {
+    float: right;
+	padding: 10px 6px;
+	background: #FFF;
+    -webkit-box-shadow:  1px 1px 1px rgba(0, 0, 0, 0.10);
+    box-shadow:  1px 1px 1px rgba(0, 0, 0, 0.10);
+    margin-right: 40px;
+    font-size: 1.17em;
+    font-family: Arial;
+    font-weight: 700;
+    line-height: 1.64em;
+}*/
+.content .entry-content {
+    padding-right: 40px;
+    font-size: 1.17em;
+}
+.content .entry-content a {
+    color: black;
+    text-decoration: underline;
+}
+.content .entry-content h1, 
+.content .entry-content h2, 
+.content .entry-content h3,
+.content .entry-content h4,
+.content .entry-content h5 {
+	color: #d69f1f;
+	font-weight: 800;
+	clear: both;
+	font-family: Arial;
+}
+.content .entry-content h1 {
+    font-size: 1.7em;
+    line-height: 1.4em;
+    margin: 0.4em 0;
+}
+.content .entry-content h2 {
+	/*background: transparent url(../../img/sprite.png) 0 -878px no-repeat;*/
+	padding-left: 30px;
+	margin: 0.5em 0;
+    font-size: 1.3em;
+    line-height: 1.4em;
+}
+.content .entry-content h3 {
+    font-size: 1em;
+    line-height: 1.4em;
+    margin: 0.4em 0;
+}
+.content .entry-content h4 {
+    font-size: 1.1em;
+    line-height: 1.4em;
+    margin: 0.2em 0;
+}
+.content .entry-content p {
+	line-height: 1.6em;
+	margin: 1.3em 0;
+	margin-top: 0;
+	clear: both;
+}
+/*
+.content .entry-content .date_detail_actu {
+    font-size: 1em;
+    line-height: 1.4em;
+    margin: 0.4em 0;
+    color:#d69f1f;
+    clear:both;
+    font-weight:800;
+    font-family:Arial;
+}*/
+
+.content .entry-content img {
+	max-width: 100%;
+	margin-bottom: 10px;
+	border: 15px solid #FFF;
+	-webkit-box-shadow:  1px 1px 1px rgba(0, 0, 0, 0.10);
+    box-shadow:  1px 1px 1px rgba(0, 0, 0, 0.10);
+}
+.content .entry-content img.f-right {
+    margin-left: 15px;
+}
+.content .entry-content img.f-left {
+    margin-right: 15px;
+}
+.content .entry-content img.no-border {
+    border: none;
+    -webkit-box-shadow:  none;
+    box-shadow: none;
+}
+.content .entry-content .caption {
+	font-size: 1.14em;	
+	line-height: 1.5em;
+	margin: 0.5em 0;
+}
+.content .entry-content .col-50 {
+	width: 44%;
+    padding-right: 2%;
+    margin-right: 3%;
+	float: left;
+}
+.content .entry-content ul {
+	margin: 0;
+	margin-bottom: 1.3em;
+	padding: 0;
+	list-style: none;
+}
+.content .entry-content ul li {
+	padding-left: 20px;
+	background: transparent url(../../img/bg/puce-list.png) 0 7px no-repeat;
+    line-height: 1.5em;
+}
+.content .entry-content .btn {
+	color: #d69f1f;
+	padding-right: 25px;
+	background: transparent url(../../img/btn/content-btn.png) 98% center no-repeat;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.content .entry-content .btn:hover {
+	color: #003958;
+	background-position: 100% center;
+}
+.content .entry-content .btn-background {
+    display: inline-block;
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 1.7em;
+    color: #FFF;
+    text-decoration: none;
+    padding: 13px 0;
+    padding-left: 12px;
+    padding-right: 30px;
+    background: #d69f1f url(../../img/btn/fleche-blanc.png) 97% center no-repeat;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.content .entry-content .btn-background:hover {
+    background-color: #f5b625 ;
+    background-position: 98% center;
+}

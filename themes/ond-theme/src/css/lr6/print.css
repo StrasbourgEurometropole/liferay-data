@@ -1,0 +1,24 @@
+
+@media print {
+    * {
+        color: #000 !important; Black prints faster: h5bp.com/s
+    }
+
+    /* On masque le menu */
+    .nav-lang,
+    .nav-primary
+     {
+        display: none;
+    }
+
+    .slide_header_child {
+        width: auto !important;
+        transition: inherit !important;
+        -webkit-transform: inherit !important;
+    }
+
+    .bx-controls {
+        display: none;
+    }
+
+}

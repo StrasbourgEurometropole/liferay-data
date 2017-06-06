@@ -1,0 +1,38 @@
+
+/**** BREADCRUMB *****/
+.breadcrumb {
+	background: #eeeeee;
+}
+.breadcrumb ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+    padding-left: 1px;
+}
+.breadcrumb ul li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-size: 0.91em;
+    line-height: 1.82em;
+}
+.breadcrumb ul li a {
+    color: #003958;
+    border-left: 1px solid #dcb456;
+    padding: 0 5px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.breadcrumb ul li a:hover {
+	color: #d69f1f;
+}
+.breadcrumb ul li.current a {
+	font-weight: bold;
+}
+.breadcrumb ul li:first-child a {
+    border-left: none;
+}
+

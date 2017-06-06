@@ -1,0 +1,157 @@
+
+/**** images ****/
+.images
+{
+    margin: 20px 0 40px 0;
+}
+
+.images .diapo {
+    width:100%;
+}
+.images .diapo ul,.images .diapo ul li{
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background: white;
+    height:400px;
+}
+
+.images .diapo .bx-wrapper img
+{
+    max-height: 100%;
+}
+
+.images h2.title {
+    margin: 0;
+    padding: 15px 0;
+    color: black;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2em;
+    line-height: 1.2em;
+    text-transform: uppercase;
+    color: #3a3a3a;
+    background: url(../../img/bg/title_underline.png) bottom left no-repeat;
+    margin-bottom:15px;
+}
+
+.images .bx-wrapper .bx-caption span
+{
+    font-size: 1.2em;
+    font-family: 'Lato', sans-serif;
+}
+
+.images .bx-wrapper .bx-caption span span
+{
+    font-size: 0.8em;
+    margin:0;
+    padding: 0;
+    margin-top: 3px;
+}
+
+.images .slider li
+{
+    height:415px;
+}
+
+.bx-wrapper {
+    height: 100%;
+    margin: 0;
+}
+
+.bx-wrapper .bx-pager
+{
+    z-index: 1000000;
+    position: absolute;
+    bottom: 15px;
+    right:8px;
+    text-align: right;
+    width: 90px;
+}
+
+.bx-wrapper .bx-caption {
+    background: url(../../img/bg/bg_news.png);
+    text-align: left;
+}
+
+.bx-wrapper img {
+    margin: auto;
+}
+
+.bx-wrapper .bx-prev{
+    left:0;
+}
+
+.bx-wrapper .bx-next{
+    right:0;
+}
+
+.bx-wrapper .bx-pager.bx-default-pager a {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border:1px solid white;
+    background: transparent;
+    text-indent: 100px;
+    overflow: hidden;
+    width:6px;
+    height: 6px;
+}
+
+.bx-wrapper .bx-pager.bx-default-pager a:hover, .bx-wrapper .bx-pager.bx-default-pager a.active {
+    background: white;
+}
+
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto{
+    bottom:70px;
+    right:10px;
+    z-index: 1000;
+    background: url(../../img/bg/bg_slider_controls.png);
+    padding: 5px;
+}
+
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager
+{
+    text-align: right;
+}
+
+.diapo ul li .headband {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    padding-top: 4px;
+    width: 100%;
+    background: #ad3939;
+    background: rgba(173, 57, 57, 0.9);
+    color: #FFF;
+    text-align: left;
+}
+.diapo ul li .headband span {
+    font-size: 1.1em;
+    line-height: 1.1em;
+    padding: 0 80px 0 20px;
+    margin: 8px 0;
+    display: block;
+    text-transform: none;
+}
+.diapo ul li .headband span.copyright {
+    font-size: 0.9em;
+}
+.diapo ul li .headband span a {
+    color: #FFF;
+}
+.diapo ul li .headband span a:hover {
+    text-decoration: underline
+}
+
+.diapo a.bx-prev, .diapo a.bx-next {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.portlet-cus-image-fo .list-evt .event img {
+    max-height: 147px;
+}

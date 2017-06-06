@@ -1,0 +1,207 @@
+
+/**** SELECT *****/
+div.selector {
+    margin-top: 6px;
+    line-height: 2.14em;
+    height: 2.14em;
+    padding: 0;
+    position: relative;
+    overflow: hidden; 
+    color: #ad3939;
+    cursor: pointer;
+    border:1px solid #ad3939;
+}
+div.selector span {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    background-position: right 0;
+    text-indent: 4px;
+    cursor: pointer;
+    width: 100%;
+    display: block; 
+    background: url(../../img/btn/btn-select.jpg) top right no-repeat;
+    padding-right: 30px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+div.selector.fixedWidth {
+    width: 190px; 
+}
+div.selector.fixedWidth span {
+    width: 190px; 
+}
+div.selector select {
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 220px;
+    font-size: 1em;
+    line-height: 2.14em;
+    height: 2.14em;
+    border: none;
+    font-family: Arial;
+}
+div.selector.active span {
+    background-position: right bottom; 
+}
+  div.selector.hover span, div.selector.focus span {
+    background-position: right bottom; 
+}
+div.selector.hover.active span, div.selector.focus.active span {
+    background-position: right bottom; 
+}
+      
+      
+/**** BUTTONS *****/
+.btn-menu {
+    padding-left: 60px;
+    display: block;
+    color: #FFF;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 1.25em;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: none;
+    line-height: 4.25em;
+    background: transparent url(../../img/btn/btn-menu.png) top left no-repeat;
+}
+.btn-more
+, .portlet-cus-image-fo .link-all a {
+    display: block;
+    float: left;
+    line-height: 2em;
+    color: #ad3939;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 1.25em;
+    font-weight: 700;
+    padding: 0 8px;
+    border: 1px solid #ad3939;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    float: right;
+}
+.btn-more:hover
+, .portlet-cus-image-fo .link-all a:hover {
+    background-color: #ad3939;
+    color:white
+}
+/*
+.glossaire-btn-more {
+    margin-bottom: 45px;
+}
+*/
+.back_arrow
+, .button-gray .middle
+, .previous-link-div
+{
+    background: transparent url(../../img/btn/back_arrow.png) 11px 10px no-repeat;
+    height: 30px;
+    width: 112px;
+    transition: all 0.25s linear;
+}
+
+.all-news .previous-link-div {
+    width: 230px;
+}
+
+.back_arrow:hover
+, .button-gray .middle:hover
+, .previous-link-div:hover
+{   
+    background-position:-16px 10px;
+    background-color: #b44a4a;
+}
+
+.back_arrow .btn-back
+, .button-gray a
+, .previous-link
+{
+    background: transparent url(../../img/btn/back.png) center left no-repeat;
+    font-size: 12px;
+    text-transform: uppercase;
+    float:left;
+    padding: 9px 38px !important;
+    margin-bottom: 15px;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-news {
+    display: block;
+    float: right;
+    line-height: 2em;
+    text-decoration: none;
+    color: #ad3939;
+    border : 1px solid #ad3939;
+    font-family: Arial;
+    font-size: 1.25em;
+    font-weight: bold;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0 10px;
+    margin-right: 40px;
+    margin-top: 20px;
+}
+.btn-news:hover {
+    background-color: #ad3939;
+    color:white;
+}
+.btn-top {
+    display: block;
+    width: 120px;
+    height: 60px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+   background:  url(../../img/btn/btn-fleche-top.png) top center no-repeat;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: #f2f1e8;
+    overflow:hidden;
+}
+.btn-top:hover {
+    background-position: bottom center;
+    background-color: #ad3939;
+}
+.btn-top span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent url(../../img/btn/btn-top.png) top center no-repeat;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding-top: 70px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.btn-top:hover span {
+    padding-top: 38px;
+}
