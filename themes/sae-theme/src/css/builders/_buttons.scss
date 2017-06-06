@@ -1,0 +1,77 @@
+//Button
+%btn{
+	font-family: 'robotomedium';
+	font-size:14px;
+	font-size:1.4rem;
+	line-height: 2.714em;
+	color:#33383a;
+	text-transform: uppercase;
+	border:1px solid #000;
+	@include border-radius(2px);
+	padding:0px 28px;
+	text-decoration: none;
+	display: inline-block;
+	position:relative;
+	overflow:hidden;
+	background: none;
+	@include transition(color 0.4s ease 0s);
+	z-index: 0;
+	&:after{
+		content: '';
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background: #000;
+	    z-index: -1;
+	    opacity: 0;
+	    @include transform(scale3d(0.7, 1, 1));
+	    @include transition(all 0.4s);
+	}
+	&:hover, &:active, &:focus{
+		color:#fff;
+		&:after{
+			opacity: 1;
+			@include transform(translate3d(0,0,0));
+		}
+	}
+}
+// btn HP infos
+%btn-infos{ 
+	@extend %btn;
+	color:#fff;
+	border:1px solid #fff;
+	&:after{
+		background: #fff;
+	}
+	&:hover, &:active, &:focus{
+		color:#3c5420;
+	}
+}
+
+%btn-light{ 
+	@extend %btn;
+	color:$color-primary;
+	border:1px solid $color-primary;
+	&:after{
+		background: $color-primary;
+	}
+	&:hover, &:active, &:focus{
+		color:#fff;
+	}
+}
+
+%btn-close{
+	position: absolute;
+	top: 45px;
+	right: 50px;
+	display: block;
+	z-index: 1;
+	border: none;
+	background: none;
+	@include transition(opacity 0.3s);
+	&:hover, &:active, &:focus{
+		opacity: 0.8;
+	}
+}

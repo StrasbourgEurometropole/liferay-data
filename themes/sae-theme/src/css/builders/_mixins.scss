@@ -1,0 +1,432 @@
+//Mixin flex
+@mixin flex($property, $value) {
+    @if $property == display {
+        display: #{$value};
+        display: -ms-#{$value};
+        display: -moz-#{$value};
+        display: -webkit-#{$value};
+    }
+    @else {
+        #{$property}: $value;
+        -ms-#{$property}: $value;
+        -moz-#{$property}: $value;
+        -webkit-#{$property}: $value;
+    }
+}
+
+@mixin border-radius($radius: 5px) {
+    border-radius: $radius;
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+}
+
+//Box-shadow
+@mixin box-shadow($left, $top, $blur, $color, $inset:"") {
+  -webkit-box-shadow:$left $top $blur $color #{$inset};
+     -moz-box-shadow:$left $top $blur $color #{$inset};
+          box-shadow:$left $top $blur $color #{$inset};
+}
+
+//Transform
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+//Scale
+@mixin scale($echelle) {
+  @include transform(scale(#{$echelle}));
+}
+
+//Ratotation
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+@mixin rotateY($deg) {
+  @include transform(rotateY(#{$deg}deg));
+}
+
+//translateX largeur
+@mixin translateX($pixel) {
+  @include transform(translateX(#{$pixel}));
+}
+
+//translateY hauteur
+@mixin translateY($pixel) {
+  @include transform(translateY(#{$pixel}));
+}
+
+//translate 2D
+@mixin translate($pixelX, $pixelY) {
+  @include transform(translate(#{$pixelX, $pixelY}));
+}
+
+//3 transformations
+@mixin transform3D($transform1, $transform2, $transform3) {
+    @include transform(#{$transform1 $transform2 $transform3});
+}
+
+@mixin transition($transition : all 0.3s ease 0s) {
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+
+@mixin double-transition($transition1: all 0.3s ease 0s, $transition2: all 0.3s ease 0s) {
+       -moz-transition: $transition1, $transition2;
+         -o-transition: $transition1, $transition2;
+    -webkit-transition: $transition1, $transition2;
+            transition: $transition1, $transition2;
+}
+@mixin triple-transition($transition1: all, $duration1: 0.3s, $easing1: ease, $delay1: 0s, $transition2: all, $duration2: 0.3s, $easing2: ease, $delay2: 0s, $transition3: all, $duration3: 0.3s, $easing3: ease, $delay3: 0s) {
+       -moz-transition: $transition1 $duration1 $easing1 $delay1, $transition2 $duration2 $easing2 $delay2, $transition3 $duration3 $easing3 $delay3;
+         -o-transition: $transition1 $duration1 $easing1 $delay1, $transition2, $duration2, $easing2 $delay2, $transition3 $duration3 $easing3 $delay3;
+    -webkit-transition: $transition1 $duration1 $easing1 $delay1, $transition2 $duration2 $easing2 $delay2, $transition3 $duration3 $easing3 $delay3;
+            transition: $transition1 $duration1 $easing1 $delay1, $transition2 $duration2 $easing2 $delay2, $transition3 $duration3 $easing3 $delay3;
+}
+
+@mixin calc($property, $calc) {
+    #{$property}: calc(#{$calc});
+    #{$property}: -moz-calc(#{$calc});
+    #{$property}: -webkit-calc(#{$calc});
+}
+
+@mixin RWD($media) {
+    @if $media == mobile {
+        @media only screen and (max-width: $break-small + "px") {
+            @content;
+        }
+    }
+    @else if $media == tablet_only {
+        @media only screen and (min-width: $break-small + "px") and (max-width: $break-large - 1 + "px") {
+            @content;
+        }
+    }
+    @else if $media == tablet {
+        @media only screen and (max-width: $break-large - 1 + "px") {
+            @content;
+        }
+    }
+    @else if $media == desktop {
+        @media only screen and (min-width: $break-large + "px") {
+            @content;
+        }
+    }
+}
+
+/*
+  GRID DISTRIBUTION
+  - $number: nombre de vignettes par ligne
+  - $margin: largeur de la gouttiere entre chaque vignette
+
+  -a utiliser avec des medias queries specifiques, pour eviter les surcharges en RWD: 
+  desktop/tablet_only/mobile
+  - max: 8 vignettes par ligne
+*/
+@mixin grid-distribution($number, $margin) {
+    .grid-item {
+        @include calc(width, "1 / #{$number} * 100% - ( ((#{$number}px - 1px) * #{$margin}) / #{$number})");
+
+        @if $number == 1 {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        @else if $number == 2 {
+            &:nth-child(2n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(2n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 3 {
+            &:nth-child(3n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(3n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(3n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 4 {
+            &:nth-child(4n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(4n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(4n+3) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(4n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 5 {
+            &:nth-child(5n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(5n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(5n+3) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(5n+4) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(5n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 6 {
+            &:nth-child(6n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(6n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+3) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+4) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+5) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(6n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 7 {
+            &:nth-child(7n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(7n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+3) {
+                margin-left: #{($number - 5) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+4) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+5) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 5) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+6) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(7n) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+        }
+        @else if $number == 8 {
+            &:nth-child(8n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(8n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+3) {
+                margin-left: #{($number - 6) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+4) {
+                margin-left: #{($number - 5) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+5) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 5) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+6) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 6) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+7) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(8n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+/* 
+  GRID STRUCTURE
+  
+  -pas besoin de preciser visu-bot ou visu-top. Pour visu-bot, inverser le .grid-item-text et le .visu dans l'html
+
+  * Visuel Top
+    - $height de l'image a preciser (defaut: 300px)
+    - $ratio: padding-bottom de l'image en rwd(mobile), si non renseigne on garde la $height en mobile
+
+  * Visuel Bottom
+    - Modifier le code html pour que .grid-item-visu se trouve apres .grid-item-text
+    - memes parametres que Visuel Top
+
+  * Visuel Left
+    - $type: visu-left
+    - $height de la vignette a preciser (defaut: 300px);
+    - $width de l'image a preciser
+
+  * Visuel Full
+    - $type: visu-full
+    - $ratio: padding-bottom de l'image, peut etre en % ou en px
+
+  * Visuel Bulle
+    - $bulle: true , rend le visuel circulaire
+*/
+@mixin grid-structure($type: visu-top, $height: 300px, $width: 100%, $ratio: true, $bulle: false) {
+    .grid-item {
+        .grid-item-visu {
+            height: $height;
+        }
+
+        @if $ratio != false {
+            @include RWD(mobile) {
+                .grid-item-visu {
+                    height: auto;
+                    padding-bottom: $ratio;
+                }
+            }
+        }
+
+        @if $bulle != false {
+            .grid-item-visu {
+                height: auto;
+                padding-bottom: 100%;
+
+                @include border-radius(50%);
+            }
+        }
+    }
+
+    @if ($type == visu-full) {
+        .grid-item {
+            a {
+                overflow: hidden;
+                height: 100%;
+                position: relative;
+                padding-bottom: $ratio;
+                display: block;
+            }
+
+            .grid-item-visu {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                &:before{
+                    content:'';
+                    height:100%;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+            .grid-item-text{
+                position: absolute;
+                z-index: 2;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                padding:42px;
+                &:before{
+                    content:'';
+                    height:100%;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }/*@else if ($type == visu-left) {
+        .grid-item {
+            a {
+                height: $height;
+
+                @include flex(display, flex !important);
+            }
+
+            .grid-item-visu {
+                @include flex(flex, 100%);
+                height: 100%;
+                max-width: $width;
+            }
+
+            .grid-item-text {
+                @include flex(flex, 1);
+            }
+        }
+    }*/
+}
