@@ -495,7 +495,7 @@
 			}
 
 			/* Contenu boutique reproductions */
-			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_.reproductions .portlet .portlet-content{ 
+			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_.categorie .portlet .portlet-content{ 
 
 				.portlet-title-text{
 					display: block;
@@ -1881,3 +1881,7 @@
 		}
 	}
 }	
+
+#wrapper {
+	padding-top: 0;
+}
