@@ -1,5 +1,5 @@
 Bundle-SymbolicName: search.asset.web
-Bundle-Version: 1.13.0
+Bundle-Version: 1.14.0
 Bundle-ClassPath:\
   .,\
  lib/itext.jar, lib/crypto.jar, lib/jcp.jar, lib/bcprov.jar, lib/bcmail.jar, lib/junit.jar, lib/ham.jar, lib/bcprovext.jar, lib/bctsp.jar,\
