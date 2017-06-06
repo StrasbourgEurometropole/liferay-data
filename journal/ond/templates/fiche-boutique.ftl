@@ -13,7 +13,7 @@
         });
     </script>
     <div id="custom-content" class="white-popup-block" style="max-width:600px; margin: 20px auto;">
-        <#if title.getData() != "" && illustration.getData() != "" && dimensions.getData() != "" && reference.getData() != "" && description.getData() != "" && price.getData() != "">
+        <#if title.getData() != "" || illustration.getData() != "" || dimensions.getData() != "" || reference.getData() != "" || description.getData() != "" || price.getData() != "">
             <div class="viewer"></div>
             <div class="presentation">
                 <div class="entry-image">
