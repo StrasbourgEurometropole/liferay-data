@@ -205,6 +205,12 @@
 					<aui:option value="dates_Number_sortable" selected="${defaultSortField eq 'dates_Number_sortable'}">
 						<liferay-ui:message key="entity-date" />
 					</aui:option>
+					<aui:option value="order_city_Number_sortable" selected="${defaultSortField eq 'order_city_Number_sortable'}">
+						<liferay-ui:message key="city-order-property" />
+					</aui:option>
+					<aui:option value="order_ems_Number_sortable" selected="${defaultSortField eq 'order_ems_Number_sortable'}">
+						<liferay-ui:message key="ems-order-property" />
+					</aui:option>
 				</aui:select>
 				
 				<!-- Type de tri par défaut -->
@@ -235,7 +241,13 @@
 					<aui:option value="summer" selected="${searchForm eq 'summer'}">
 						<liferay-ui:message key="summer" />
 					</aui:option>
+					<aui:option value="official" selected="${searchForm eq 'official'}">
+						<liferay-ui:message key="official" />
+					</aui:option>
 				</aui:select>
+				
+				<!-- Bouton exporter -->
+					<aui:input type="checkbox" name="displayExport" value="${displayExport}" label="display-export" inlineField="true" />
 			</aui:fieldset>
 
 		</aui:fieldset-group>

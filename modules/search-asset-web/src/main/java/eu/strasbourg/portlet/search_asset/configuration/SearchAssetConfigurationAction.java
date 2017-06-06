@@ -281,6 +281,12 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"defaultDateRange");
 			setPreference(actionRequest, "defaultDateRange",
 				String.valueOf(defaultDateRange));
+
+			// Affichage bouton export
+			boolean displayExport = ParamUtil.getBoolean(actionRequest,
+				"displayExport");
+			setPreference(actionRequest, "displayExport",
+				String.valueOf(displayExport));
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -486,6 +492,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			// Filtre par date par défault
 			long defaultDateRange = configuration.defaultDateRange();
 			request.setAttribute("defaultDateRange", defaultDateRange);
+
+			// Affichage bouton export
+			boolean displayExport = ParamUtil.getBoolean(request,
+				"displayExport", configuration.displayExport());
+			request.setAttribute("displayExport", displayExport);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

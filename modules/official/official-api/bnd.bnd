@@ -1,0 +1,9 @@
+Bundle-Name: official-api
+Bundle-SymbolicName: official.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.official.exception,\
+	eu.strasbourg.service.official.model,\
+	eu.strasbourg.service.official.service,\
+	eu.strasbourg.service.official.service.persistence
+-includeresource: META-INF/service.xml=../official-service/service.xml
