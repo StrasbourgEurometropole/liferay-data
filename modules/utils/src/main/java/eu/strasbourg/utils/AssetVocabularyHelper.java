@@ -196,7 +196,12 @@ public class AssetVocabularyHelper {
 		List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
-			List<AssetCategory> ancestors = category.getAncestors();
+			List<AssetCategory> ancestors;
+			try {
+				ancestors = category.getAncestors();
+			} catch (PortalException e) {
+				ancestors = new ArrayList<AssetCategory>();
+			}
 			allCategories.add(category);
 			allCategories.addAll(ancestors);
 			
