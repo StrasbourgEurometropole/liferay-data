@@ -10,10 +10,10 @@
         </#if>
         <div class="general-informations" style="margin-bottom: 20px">
             <div class="gray published">
-                <@liferay_ui.message key="eu.published-on" /> : ${.vars['reserved-article-display-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')}
+                <@liferay_ui.message key="eu.published-on" /> : <#setting locale = "fr_FR" />${.vars['reserved-article-display-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')}<#setting locale = locale />
             </div>
             <div class="gray modified">
-                <@liferay_ui.message key="eu.modified-on" /> : ${.vars['reserved-article-modified-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')}
+                <@liferay_ui.message key="eu.modified-on" /> : <#setting locale = "fr_FR" /> ${.vars['reserved-article-modified-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')}<#setting locale = locale />
             </div>
             <div class="gray number">
                 <@liferay_ui.message key="eu.image-count" /> : ${images.siblings?size}
@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+    <div class="clearfix" ></div>
     <div class="content agenda galeries">
         <div class="list-evt">
             <#if images.getSiblings()?has_content>
@@ -43,7 +44,7 @@
                             </div>
                             <div class="entry-header">
                                 <h2>
-                                    <a class="scriptLink openImageLightboxGallery" href="#${index}">
+                                    <a style="word-wrap:break-word;" class="scriptLink openImageLightboxGallery" href="#${index}">
                                         ${file.getTitle()}
                                     </a>
                                 </h2>
