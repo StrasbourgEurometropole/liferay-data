@@ -1,0 +1,109 @@
+@import "lr6/custom.scss";
+
+#wrapper {
+	.portlet-layout.row{
+		margin: 0px;
+	}
+
+	.col-md-12{
+		padding:0px;
+	}
+
+	.portlet .portlet-content {
+		border: none;
+		background: none;
+		padding: 0px;
+
+		input{
+			color: initial;
+		}
+
+		.portlet-title-text{
+			display: none;
+		}
+
+		h3{
+			margin: 1em 0;
+		}
+
+		label{
+			font-weight: normal;
+		}
+
+		.form-control{
+			border-radius : 0px;
+		}
+
+		.btn{
+			line-height: normal;
+		}
+
+		.video-grid .btn{
+			padding: 0px;
+		}
+
+		.video-grid .search-asset-results{
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.grid-3 form{
+			width: 100%;	
+		}
+
+		.grid-3> form > div > * {
+		    width: 33.33333333%;
+		}
+
+		[class*="grid-"]> form > div > * {
+		    -webkit-box-flex: 0;
+		    -webkit-flex: 0 0 auto;
+		    -ms-flex: 0 0 auto;
+		    flex: 0 0 auto;
+		    display: block;
+		    border-left: 1em solid transparent;
+		    background-clip: padding-box !important;
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	#wrapper #content .col-md-12 {
+		float: none;
+    }
+}
+
+@media (max-width: 992px) {
+	#wrapper #content .col-md-12 {
+		width: 100%;
+    }
+}
+@media (max-width: 1230px){
+	.container {
+		width: inherit;
+	}
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	#wrapper .portlet .portlet-content .grid-3 form > div > * {
+		width: 33.3333%;
+	}
+}
+@media (min-width: 481px) and (max-width: 768px) {
+	#wrapper .portlet .portlet-content .grid-3 form > div > * {
+		width: 50%;
+	}
+}
+@media (max-width: 480px) {
+	#wrapper .portlet .portlet-content .grid-3 form > div > * {
+		width: calc(100% + 4.2rem);
+	}
+
+	.video-thumbnail {
+		margin-left: -2.8rem;
+	}
+
+	.video-thumbnail.meta {
+		margin-left: 0px;
+	}
+}

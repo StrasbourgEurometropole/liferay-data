@@ -108,6 +108,29 @@ public interface Video extends VideoModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getProviders();
 
 	/**
+	* Retourne le texte à afficher pour les fournisseurs de la vidéo
+	*/
+	public java.lang.String getProvidersLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les chaînes de la vidéo
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getChaines();
+
+	/**
+	* Retourne l'url de la catégorie de la vidéo
+	*/
+	public java.lang.String getCategoryURL(
+		com.liferay.asset.kernel.model.AssetCategory category)
+		throws com.liferay.portal.kernel.exception.PortalException;
+
+	/**
+	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
+		java.util.Locale locale);
+
+	/**
 	* Retourne les thèmes de la vidéo
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();

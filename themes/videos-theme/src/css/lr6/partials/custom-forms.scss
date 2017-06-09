@@ -1,0 +1,33 @@
+.container {
+	input[type="text"],
+	select {
+		background: none;
+		background-color: white;
+		border: none;
+		padding: 1rem;
+		font-family: 'Roboto', sans-serif;
+		width: 30rem;
+		height: 4rem;
+	}
+	input:focus,
+	select:focus {
+		outline: none;
+	}
+	button,
+	button:hover {
+		background: #2d2d2d;
+		color: white;
+		text-shadow: none;
+		font-family: 'Roboto', sans-serif;
+		font-weight: 500;
+		border-radius: 0;
+		border: 2px solid white;
+		transition: background 0.3s ease;
+	}
+	button:hover {
+		background: #97bf0c;
+	}
+	button:focus {
+		outline: none;
+	}
+}
