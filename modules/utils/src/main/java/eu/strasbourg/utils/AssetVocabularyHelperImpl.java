@@ -15,23 +15,22 @@ import eu.strasbourg.utils.api.AssetVocabularyHelperService;
  *
  */
 @Component(
-    immediate = true,
-    property = {
-    },
-    service = AssetVocabularyHelperService.class
-)
+	immediate = true,
+	property = {},
+	service = AssetVocabularyHelperService.class)
 public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	@Override
-	public List<AssetVocabulary> getVocabulariesForAssetType(long groupId, long classNameId) {
-		return AssetVocabularyHelper.getVocabulariesForAssetType(groupId, classNameId);
+	public List<AssetVocabulary> getVocabulariesForAssetType(long groupId,
+		long classNameId) {
+		return AssetVocabularyHelper.getVocabulariesForAssetType(groupId,
+			classNameId);
 	}
 
 	/**
 	 * Retourne la liste des catégories rattachées à un AssetEntry
 	 */
 	@Override
-	public List<AssetCategory> getAssetEntryCategories(
-		AssetEntry entry) {
+	public List<AssetCategory> getAssetEntryCategories(AssetEntry entry) {
 		return AssetVocabularyHelper.getAssetEntryCategories(entry);
 	}
 
@@ -43,15 +42,26 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	@Override
 	public List<AssetCategory> getAssetEntryCategoriesByVocabulary(
 		AssetEntry entry, String vocabularyName) {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry, vocabularyName);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(entry,
+			vocabularyName);
 	}
 
 	/**
-	 * Retourne la valeur d'une propriété d'une catégorie
-	 * Retourne une chaîne vide si la propriété n'existe pas
+	 * Retourne la valeur d'une propriété d'une catégorie Retourne une chaîne
+	 * vide si la propriété n'existe pas
 	 */
 	@Override
 	public String getCategoryProperty(long categoryId, String key) {
 		return AssetVocabularyHelper.getCategoryProperty(categoryId, key);
+	}
+
+	/**
+	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
+	 * donné
+	 */
+	@Override
+	public AssetVocabulary getVocabulary(String vocabularyName,
+		long groupId) {
+		return AssetVocabularyHelper.getVocabulary(vocabularyName, groupId);
 	}
 }

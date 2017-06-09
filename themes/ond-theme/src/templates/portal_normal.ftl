@@ -166,7 +166,7 @@
 				${freeMarkerPortletPreferences.reset()}
 		        <div class="closure">
 		            <div class="center">
-		                <a href="$websiteUrl" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" target="_blank">Strasbourg.eu</a>
+		                <a href="${websiteUrl}" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" target="_blank">Strasbourg.eu</a>
 		            </div>
 		        </div>
 		    </footer>

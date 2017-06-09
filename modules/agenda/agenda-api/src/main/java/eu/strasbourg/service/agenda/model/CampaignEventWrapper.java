@@ -729,6 +729,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Retourne le nom lieu rattaché à l'événement
+	*/
+	@Override
+	public java.lang.String getPlaceAlias(java.util.Locale locale) {
+		return _campaignEvent.getPlaceAlias(locale);
+	}
+
+	/**
 	* Returns the place country of this campaign event.
 	*
 	* @return the place country of this campaign event

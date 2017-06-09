@@ -134,4 +134,9 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	* Retourne la version JSON de l'object
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Retourne le nom lieu rattaché à l'événement
+	*/
+	public java.lang.String getPlaceAlias(java.util.Locale locale);
 }

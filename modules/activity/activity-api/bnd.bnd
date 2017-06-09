@@ -1,0 +1,7 @@
+Bundle-SymbolicName: activity-api
+Bundle-Version: 1.14.0
+Export-Package:\
+	eu.strasbourg.service.activity.exception,\
+	eu.strasbourg.service.activity.model,\
+	eu.strasbourg.service.activity.service,\
+	eu.strasbourg.service.activity.service.persistence

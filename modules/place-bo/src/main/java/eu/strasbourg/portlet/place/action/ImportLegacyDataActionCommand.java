@@ -79,6 +79,7 @@ public class ImportLegacyDataActionCommand implements MVCActionCommand {
 				updatedPlacesCount++;
 				System.out
 					.println("Mise à jour " + place.getAlias(Locale.FRANCE));
+				placeLocalService.updatePlace(place);
 			} else {
 				System.out
 					.println("Non-existant " + place.getAlias(Locale.FRANCE));

@@ -1,0 +1,111 @@
+ /* Autocomplete */
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}
+
+/* Lieux */
+#wrapper #place-fields > .main-content-card {
+    padding: 0 20px 25px 20px;
+    padding-bottom: 25px;
+    background: #ECEFF1;
+    border: none;
+}
+
+.main-content-card > h3 {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+    background: #37474F;
+    margin: 0 -21px;
+    margin-bottom: 20px;
+}
+
+/* Horaires */
+#wrapper #place-fields .main-content-card {
+	margin-bottom: 50px;
+	min-height: 0;
+}
+
+.schedule {
+    width: 360px;
+    display: inline-block;
+    border: 1px solid #869CAD;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.schedules .checkbox input[type="checkbox"], .schedules .checkbox-inline input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    margin-left: -2px;
+    margin-top: 25px;
+}
+
+.schedules select {
+	height: 115px;
+}
+
+.schedules .time .form-group {
+	margin-bottom: 10px;
+}
+
+.schedules .periods .form-group {
+	margin-bottom: 10px;
+}
+
+.schedules .days {
+	margin: 10px 0;
+}
+
+#place-fields .panel-group .panel-heading {
+	background-color: #607D8B;
+}
+
+.comments .form-group.input-text-wrapper {
+    margin-bottom: 10px;
+}
+
+.schedule button {
+	margin-top: 10px;
+}
+
+@-webkit-keyframes highlight-fade {   
+   0% {
+   	background: #CFD8DC;
+   }
+   100% {
+   	background: none;
+   }
+}
+
+@keyframes highlight-fade { 
+   0% {
+   	background: #CFD8DC;
+   }
+   100% {
+   	background: none;
+   }
+}
+
+.new-schedule {
+   -webkit-animation: highlight-fade 1s ease-in 1;
+   animation: highlight-fade 1s ease-in 1;
+}

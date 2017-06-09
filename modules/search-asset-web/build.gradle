@@ -10,5 +10,17 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api", version: "2.0.0"
 	compile project (':modules:utils')
 	compile project (':modules:edition:edition-api')
+	compile project (':modules:official:official-api')
 	compile project (':modules:search-log:search-log-api')
+	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.10'
+	compile group: 'com.itextpdf.tool', name: 'xmlworker', version: '5.5.10'
+	compile group: 'org.apache.santuario', name: 'xmlsec', version: '1.5.1'
+	compile group: 'javax.xml.crypto', name: 'jsr105-api', version: '1.0.1'
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk15', version: '1.46'
+	compile group: 'org.bouncycastle', name: 'bcmail-jdk15', version: '1.46'
+	compile group: 'junit', name: 'junit', version: '4.12'
+	compile group: 'org.bouncycastle', name: 'bcprov-ext-jdk14', version: '1.47'
+	compile group: 'org.bouncycastle', name: 'bctsp-jdk15', version: '1.46'
+	compile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+	compile group: 'commons-io', name: 'commons-io', version: '2.0.1'
 }

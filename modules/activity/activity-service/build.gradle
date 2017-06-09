@@ -1,0 +1,16 @@
+dependencies {
+	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
+	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
+	compile group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
+	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
+	compile project(":modules:activity:activity-api")
+	compile project(":modules:video:video-api")
+	compile project(":modules:place:place-api")
+	compile project (':modules:utils')
+}
+
+buildService {
+	apiDir = "../activity-api/src/main/java"
+	osgiModule = true
+	propsUtil = "eu.strasbourg.service.activity.service.util.PropsUtil"
+}
