@@ -8,7 +8,7 @@ html > .lfr-dockbar-pinned {
 
 .header .nav-lang {
 	width: 100%;
-	background-color: #268033;
+	background-color: white;
 	max-height: 40px;
 
 }
@@ -31,7 +31,7 @@ html > .lfr-dockbar-pinned {
 }
 
 .header .nav-lang ul li a {
-	color: #FFF;
+	color: #e6617c;
 	font-size: 1em;
 	text-decoration: none;
 	display: block;
@@ -47,13 +47,13 @@ html > .lfr-dockbar-pinned {
 }
 
 .header .nav-lang ul li.active a {
-	background: #55bd5d;
+	background: #e6617c;
 	height: 40px;
 	color: #fff!important;
 }
 
 .header .nav-lang ul li:hover a {
-	color: #268033 !important;
+	color: black !important;
 	background: #fff;
 	height: 40px;
 }
@@ -77,10 +77,7 @@ html > .lfr-dockbar-pinned {
 
 .home .wrapper > .header-back > .header {
     max-width: 100%;
-    background: url("../images/2016/header.png") top center /contain no-repeat;
     display: block;
-    background-size: auto 180px;
-    background-position: center 40px;
 }
 
 .header .logo {
@@ -145,7 +142,7 @@ html > .lfr-dockbar-pinned {
 	transition-property: color, background-color;
 	transition-duration: 0.5s;
 	float: left;
-	background: white;
+	background: #e6617c;
 }
 
 .nav-primary ul li:first-child {
@@ -156,9 +153,9 @@ html > .lfr-dockbar-pinned {
 	height: 100%;
 	text-align: center;
 	font-size: 13px;
-	font-family: 'Quicksand', 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif;
 	text-transform: uppercase;
-	color: #268033;
+	color: white;
 	text-decoration: none;
 	padding: 0 16px;
 	height: 60px;
@@ -181,12 +178,12 @@ html > .lfr-dockbar-pinned {
 
 .nav-primary ul li.active a {
     color: #FFF !important;
-    background: #268033;
+    background: #e6617c;
 }
 
 .nav-primary ul li a:hover {
     color: #FFF;
-    background: #55bd5d;
+    background: #c74c65;
 }
 
 .nav-primary ul li .submenu {
@@ -235,14 +232,14 @@ html > .lfr-dockbar-pinned {
 	text-align: left;
 	height: inherit;
 	text-transform:none;
-	color: #268033 !important;
-	background: white;
+	color: white !important;
+	background: #c74c65;
 }
 
 
 .nav-primary ul li .submenu ul li a:hover {
-    color: white !important;
-    background: #55bd5d;
+    color: #e6617c !important;
+    background: white;
 }
 
 /* Fil d'ariane */
@@ -253,7 +250,7 @@ html > .lfr-dockbar-pinned {
 	width: 100%;
 	max-width: 1000px;
 	margin: auto !important;
-	border-bottom: 1px solid #268033;
+	border-bottom: 1px solid #e6617c;
     font-size: 1.1em;
     font-weight: normal;
 }
@@ -303,12 +300,6 @@ html > .lfr-dockbar-pinned {
 	
     .header {
     	float: none;
-    }
-    
-    .home .wrapper > .header-back > .header {
-      background: url("../images/2016/header-mobile.png") top center no-repeat;
-	    background-size: auto 80px;
-	    background-position: center 40px;
     }
 
 	.header .logo {
