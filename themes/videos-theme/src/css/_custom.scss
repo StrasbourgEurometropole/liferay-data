@@ -1,6 +1,10 @@
 @import "lr6/custom.scss";
 
 #wrapper {
+
+	.arrow-box{
+		margin-left: -4px;
+	}
 	.portlet-layout.row{
 		margin: 0px;
 	}
@@ -40,6 +44,7 @@
 
 		.video-grid .btn{
 			padding: 0px;
+			border-radius: 0px;
 		}
 
 		.video-grid .search-asset-results{
@@ -99,7 +104,7 @@
 		width: calc(100% + 4.2rem);
 	}
 
-	.video-thumbnail {
+	.search-asset-results .video-thumbnail {
 		margin-left: -2.8rem;
 	}
 
