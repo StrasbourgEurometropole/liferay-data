@@ -101,10 +101,7 @@ html > .lfr-dockbar-pinned {
 /*--- Nav primary ---*/
 .nav-primary {
  	background: none repeat scroll 0 0;
- 	background: #fff;
  	padding: 0;
- 	border-top: 1px solid #e6e6e6;
- 	border-bottom: 1px solid #e6e6e6;
  	margin: auto;
  	width: 100%;
  	font-weight: bold;
@@ -128,12 +125,8 @@ html > .lfr-dockbar-pinned {
 	position: initial;
 }
 
-.nav-primary ul.child-menu {
-	border-top: 1px solid;
-}
-
 .nav-primary ul li {
-	border-right: 1px solid #e6e6e6;
+	border-right: 1px solid #c74c65;
 	width: calc(100% / 7);
 	box-sizing: border-box;
 	position: relative;
@@ -145,8 +138,8 @@ html > .lfr-dockbar-pinned {
 	background: #e6617c;
 }
 
-.nav-primary ul li:first-child {
-	border-left: 1px solid #FFF;
+.nav-primary ul li:last-child {
+	border-right: 0;
 }
 
 .nav-primary ul li a {
@@ -212,10 +205,9 @@ html > .lfr-dockbar-pinned {
 .nav-primary ul li .submenu ul li {
 	width:200px;
 	float: none;
-	border: 1px solid #e6e6e6;
-	border-top:none;	
+	border-top: 1px solid #e6617c;
 
-    -webkit-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
 	-o-transition: all 0.3s ease;
 	-ms-transition: all 0.3s ease;
@@ -358,7 +350,7 @@ html > .lfr-dockbar-pinned {
 			float: none;
 			width: 100%;
 			height:40px;
-			background:#268033!important;
+			background:#e6617c!important;
 			display: table;
 
 	}
@@ -426,13 +418,13 @@ html > .lfr-dockbar-pinned {
 			width: 96%;
 			position: relative;
 			top: auto;
-			background: none repeat scroll 0 0 #268033;
+			background: none repeat scroll 0 0 #e6617c;
 	}
 	.nav-primary ul li .submenu ul li {
 			float: none;
 			width: 100%;
 			padding-left: 6%;
-			background: #268033 !important;
+			background: #e6617c !important;
 			
 	}
 
@@ -469,8 +461,12 @@ html > .lfr-dockbar-pinned {
 
    .btn-menu {
 	      display: block !important;
-	      background-color: #268033 !important;
+	      background-color: #e6617c !important;
 
+   }
+
+   .nav-primary a:hover {
+   	color: white;
    }
 	
 	/* Fil d'ariane */
