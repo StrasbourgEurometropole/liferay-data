@@ -44,6 +44,10 @@
 				<!-- Activité -->
 				<strasbourg-picker:entity type="eu.strasbourg.service.activity.model.Activity" label="activity" name="activityId" 
 				value="${dc.activityCourse.activityId}" multiple="false" required="true" />
+				<liferay-portlet:renderURL varImpl="activitiesURL">
+					<portlet:param name="tab" value="activities" />
+				</liferay-portlet:renderURL>
+				<a href="${activitiesURL}" target="_blank"><liferay-ui:message key="manage-activities" /></a>
 				 
 				<!-- Modalités -->
 				<aui:input name="arrangements" />
@@ -85,6 +89,11 @@
 				<div class="otherService" <c:if test="${(dc.activityCourse.serviceId gt 0 or param.organizerType eq 'emsService') or empty dc.activityCourse}">style="display: none;"</c:if>>
 					<strasbourg-picker:entity type="eu.strasbourg.service.activity.model.ActivityOrganizer" label="eu.activity.organizer" name="organizerId"
 						value="${dc.activityCourse.organizerId}" multiple="false" required="true" />
+						
+					<liferay-portlet:renderURL varImpl="activityOrganizersURL">
+						<portlet:param name="tab" value="activityOrganizers" />
+					</liferay-portlet:renderURL>
+					<a href="${activityOrganizersURL}" target="_blank"><liferay-ui:message key="manage-organizers" /></a>
 				</div>
 
 			</aui:fieldset>
