@@ -50,13 +50,13 @@ jQuery(document).ready(function() {
 	});
 	
 	jQuery('.nav-primary ul.menu > li.expanded > .submenu > ul.child-menu > li').hover(function(){
-			jQuery(this).parents( "li" ).css( "background-color", "#268033" );	
+			jQuery(this).parents( "li" ).css( "background-color", "#e6617c" );	
 			jQuery(this).parents( "li").find("a").first().css( "color", "#FFF" );
 	});
 	
 	jQuery('.nav-primary ul.menu > li.expanded > .submenu > ul.child-menu > li').mouseleave(function(){
-			jQuery('.nav-primary ul.menu > li.expanded').css( "background-color", "#fff" );	
-			jQuery('.nav-primary ul.menu > li.expanded > a').css( "color", "#268033" );	
+			jQuery('.nav-primary ul.menu > li.expanded').css( "background-color", "#e6617c" );	
+			jQuery('.nav-primary ul.menu > li.expanded > a').css( "color", "#fff" );	
 	});     
 	
 

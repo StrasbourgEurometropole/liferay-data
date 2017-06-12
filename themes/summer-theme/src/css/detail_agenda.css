@@ -1,16 +1,16 @@
 .ui-widget-header {
     border: 1px solid #aaa;
-    background: #268033 !important;
+    background: #e6617c !important;
     color: #FFF;
     font-weight: bold;
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
-	background: #268033 !important;
+	background: #e6617c !important;
 }
 
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-	background: #268033 !important;
+	background: #e6617c !important;
 }
 
 .portlet-cus-event-asset-fo #contactForm {
@@ -52,7 +52,7 @@
     margin: 0;
     margin-bottom: 20px;
     padding: 0px;
-    color: #268033;
+    color: #e6617c;
 }
 
 #main-content .portlet-cus-event-asset-fo .event-description h2
@@ -73,10 +73,10 @@
     padding-right: 20px;
     padding-bottom: 25px;
     padding-left: 20px;
-    //color: #268033;
+    //color: #e6617c;
     color:  white;
    //background: #e6f4ee;
-    background: #268033;
+    background: #e6617c;
     line-height:normal;
 }
 
@@ -148,7 +148,7 @@
     font-size: 16px;
     margin-bottom: 5px;
     margin-top: 0;
-    color: #268033;
+    color: #e6617c;
     font-weight: bold;
 }
 
@@ -201,7 +201,7 @@
   background-color: white;
   background-repeat: no-repeat;
   background-position: center center;
-  border: #268033;
+  border: #e6617c;
   position: relative;
   box-sizing: border-box;
   float: none;
@@ -211,7 +211,7 @@
   content: "";
   width: 19px;
   height: 3px;
-  background-color: #268033;
+  background-color: #e6617c;
   display: block;
   position: absolute;
   top: 12px;
@@ -222,7 +222,7 @@
   width: 3px;
   height: 19px;
   display: block;
-  background-color: #268033;
+  background-color: #e6617c;
   top: 4px;
   left: 12px;
   position: relative;
@@ -235,7 +235,7 @@
   background-color: white;
   background-repeat: no-repeat;
   background-position: center center;
-  border: 2px solid #268033;
+  border: 2px solid #e6617c;
   position: relative;
   box-sizing: border-box;
   float: none;
@@ -245,7 +245,7 @@
   content: "";
   width: 19px;
   height: 3px;
-  background-color: #268033;
+  background-color: #e6617c;
   display: block;
   position: absolute;
   top: 12px;
@@ -325,7 +325,7 @@
     
 }
 .button-gray .middle a {
-    color: #268033;
+    color: #e6617c;
     display: inline-block;
     font-size: 1.3em;
     font-weight: bold;
@@ -341,7 +341,7 @@
 
 .button-gray .middle a:hover {
     text-decoration: none;
-    background: #268033;
+    background: #e6617c;
     color: white;
 }
 

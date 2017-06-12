@@ -1,46 +1,46 @@
 /**** BUTTONS *****/
 .btn-menu {
-	position:relative;
-	padding-left: 60px;
-	color: #FFF;
-	width:auto;
-	margin:auto;
-	text-decoration: none;
-	font-family: Arial;
-	font-size: 1.25em;
-	font-weight: bold;
-	text-transform: uppercase;
-	line-height: 4.25em;
-	background: transparent url(../images/btn/btn-menu.png) left no-repeat;
-	display: none;
+  position:relative;
+  padding-left: 60px;
+  color: #FFF;
+  width:auto;
+  margin:auto;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 1.25em;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 4.25em;
+  background: transparent url(../images/btn/btn-menu.png) left no-repeat;
+  display: none;
 }
 
 .btn-more, .image-link{
-	display: block;
-	float: left;
-	line-height: 3em;
-	color: #FFF;
-	text-decoration: none;
-	font-family: Arial;
-	font-size: 1.1em;
-	text-transform: uppercase;
-	font-weight: bold;
-	padding: 0 10px;
-	background: #cb2d2e;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	-o-transition: all 0.3s ease;
-	-ms-transition: all 0.3s ease;
-	transition: all 0.3s ease;
+  display: block;
+  float: left;
+  line-height: 3em;
+  color: #FFF;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0 10px;
+  background: #cb2d2e;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 
 .btn-more:hover , .image-link:hover {
-	background-color: #D69F1F;
+  background-color: #D69F1F;
 }
 
 .image-link:hover {
-	background-color: #D69F1F;
+  background-color: #D69F1F;
 }
 
 .btn-news {
@@ -50,7 +50,7 @@
     line-height: 3.2em;
     text-decoration: none;
     color: #FFF;
-    background: #268033 url(../images/sprite.png) 10px -488px no-repeat;
+    background: #e6617c url(../images/sprite.png) 10px -488px no-repeat;
     font-family: Arial;
     font-size: 1.25em;
     text-transform: uppercase;
@@ -65,80 +65,81 @@
 }
 
 .btn-news:hover {
-	background-color: #55bd5d;
+  background-color: #c74c65;
+  color: white;
 }
 
 .btn-top {
-	width: 45px;
-	height: 40px;
-	margin: 20px auto;
-	cursor: pointer;
-	background: url(../images/2016/back_to_top.png) bottom;
-	-moz-transition-property: all;
-	-o-transition-property: all;
-	-webkit-transition-property: all;
-	transition-property: all;
-	-moz-transition-duration: 0.2s;
-	-o-transition-duration: 0.2s;
-	-webkit-transition-duration: 0.2s;
-	transition-duration: 0.2s;
-	-moz-transition-delay: 0s;
-	-o-transition-delay: 0s;
-	-webkit-transition-delay: 0s;
-	transition-delay: 0s;
-	-moz-transition-timing-function: ease-in-out;
-	-o-transition-timing-function: ease-in-out;
-	-webkit-transition-timing-function: ease-in-out;
-	transition-timing-function: ease-in-out;
+  width: 45px;
+  height: 40px;
+  margin: 20px auto;
+  cursor: pointer;
+  background: url(../images/2017/back_to_top.png) bottom;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -moz-transition-duration: 0.2s;
+  -o-transition-duration: 0.2s;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -moz-transition-delay: 0s;
+  -o-transition-delay: 0s;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+  -moz-transition-timing-function: ease-in-out;
+  -o-transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
 }
 
 .btn-top:hover {
-	background-position: top;
+  background-position: top;
 }
 
 .btn-back {
 }
 
 .btn-back:hover {
-	color: #d69f1f;
+  color: #d69f1f;
 }
 
 .btn-calendar-noel {
-	font-size: 1.33em;
-	color: #003958;
-	font-weight: bold;
-	position: absolute;
-	right: 0;
-	bottom: 15px;
-	padding-right: 40px;
-	text-transform: none;
-	line-height: 1.44em;
-	padding-top: 30px;
-	background: transparent url(../images/btn/favorite-events.png) top
-		center no-repeat;
+  font-size: 1.33em;
+  color: #003958;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  padding-right: 40px;
+  text-transform: none;
+  line-height: 1.44em;
+  padding-top: 30px;
+  background: transparent url(../images/btn/favorite-events.png) top
+    center no-repeat;
 }
 
 .btn-calendar-noel:hover {
-	color: #d69f1f;
+  color: #d69f1f;
 }
 
 .btn-calendar-noel .icon {
-	display: block;
-	width: 30px;
-	height: 30px;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	background: transparent url(../images/sprite.png) -58px -976px no-repeat;
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: transparent url(../images/sprite.png) -58px -976px no-repeat;
 }
 
 .btn-calendar-noel:hover .icon {
-	background-position: -5px -976px;
+  background-position: -5px -976px;
 }
 
 
 .btn-shop {
-	display: block;
+  display: block;
     padding: 10px 0;
     min-height: 58px;
     padding-left: 20px;
@@ -158,7 +159,7 @@
 /* Bouton pour Lancer la recherche */
 .portlet-cus-video-fo .searchForm .submitButton input,
 .portlet-cus-image-fo .searchForm .submitButton input {
-	background: none repeat scroll 0 0 #D69F1F;
+  background: none repeat scroll 0 0 #D69F1F;
     color: #FFFFFF;
     padding: 0 25px;
     text-transform: uppercase;
@@ -175,7 +176,7 @@
 .portlet-cus-event-asset-fo .searchForm .submitButton input:hover,
 .portlet-cus-video-fo .searchForm .submitButton input:hover ,
 .portlet-cus-image-fo .searchForm .submitButton input:hover {
-	background: #f5b625;
+  background: #f5b625;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
@@ -185,26 +186,26 @@
 
 /*Position bouton pour Evènements*/
 .portlet-cus-event-asset-fo .submitButton {
-	margin-top: 90px;
+  margin-top: 90px;
     margin-right: 90px;
 }
 
 /*Position bouton pour Videos*/
 .portlet-cus-video-fo .searchForm .submitButton {
-	margin-right: 10px;
+  margin-right: 10px;
     margin-top: 38px;
 }
 
 /* Position bouton pour Visuels */
 .portlet-cus-image-fo .searchForm .submitButton {
-	/* margin-right: 20px; */
+  /* margin-right: 20px; */
     margin-top: 34px;
 }
 
 
 
 .btn-shop span {
-	display: block;
+  display: block;
     color: #FFF;
     font-size:0.67em;
     line-height: 1.2em;
@@ -214,19 +215,19 @@
 }
 
 .btn-shop:hover {
-	background-color: #d69f1f;
-	color: #FFF;
+  background-color: #d69f1f;
+  color: #FFF;
 }
 
 
 
 .btn-tps-forts {
-	background: #FFFFFF;
+  background: #FFFFFF;
 }
 
 .btn-tps-forts:hover {
-	background: #f5b625;
-	color: #FFFFFF; 
+  background: #f5b625;
+  color: #FFFFFF; 
 }
 
 
