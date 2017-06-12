@@ -44,4 +44,6 @@ public class StrasbourgPortletKeys {
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
 	
 	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
+	
+	public static final String TWITTER_WEB = "eu_strasbourg_portlet_twitter_TwitterPortlet";
 }
