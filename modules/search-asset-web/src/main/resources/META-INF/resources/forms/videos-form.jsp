@@ -1,12 +1,10 @@
 <%@ include file="/search-asset-init.jsp"%>
 
 <h3><liferay-ui:message key="eu.videos-theme.search-engine" /></h3> 
-<div class="grid-4"> 
+<div class="grid-3"> 
 	<div class="field"> 
-		<label for="keywords"><liferay-ui:message key="eu.videos-theme.keywords" /></label> 
-		<input id="keywords" type="text" name="keywords" value=""> 
+		<aui:input type="text" name="keywords" value="${dc.keywords}" label="keywords" />
 	</div> 
-	<input type="hidden" name="channel" value=""> 
 
 	<!-- Vocabulaires -->
 	<aui:input type="hidden" name="vocabulariesCount"
@@ -60,7 +58,7 @@
 	<!-- Tri -->
 	<c:if test="${dc.configuration.displayDateSorting()}">
 		<div class="field"> 
-			<label for="order"><liferay-ui:message key="eu.order" /></label> 
+			<label for="order"><liferay-ui:message key="order" /></label> 
 			<div class="order-selection-control open">
 				<aui:select name="sortFieldAndType" label="" showEmptyOption="false">
 					<c:if test="${not empty dc.keywords or not empty dc.configuration.boostTagsNames()}">
