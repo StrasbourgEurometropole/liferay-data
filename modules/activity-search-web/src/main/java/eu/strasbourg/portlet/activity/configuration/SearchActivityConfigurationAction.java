@@ -16,10 +16,12 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -30,7 +32,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB },
 	service = ConfigurationAction.class)
-public class SearchActivityConfigurationAction extends DefaultConfigurationAction {
+public class SearchActivityConfigurationAction
+	extends DefaultConfigurationAction {
 
 	@Override
 	public String getJspPath(HttpServletRequest request) {
@@ -43,6 +46,13 @@ public class SearchActivityConfigurationAction extends DefaultConfigurationActio
 		ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		if (ParamUtil.getString(actionRequest, "cmd").equals("update")) {
+			// Page de détail
+			String detailPageUuid = ParamUtil.getString(actionRequest,
+				"detailPageUuid");
+			setPreference(actionRequest, "detailPageUuid", detailPageUuid);
+		}
+
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
 
@@ -50,14 +60,25 @@ public class SearchActivityConfigurationAction extends DefaultConfigurationActio
 	public void include(PortletConfig portletConfig, HttpServletRequest request,
 		HttpServletResponse response) throws Exception {
 		try {
-			String portletResource = ParamUtil.getString(request,
-			    "portletResource");
-			PortletPreferences preferences = PortletPreferencesFactoryUtil.getPortletSetup(
-				request, portletResource);
-			
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+				.getAttribute(WebKeys.THEME_DISPLAY);
+			SearchActivityConfiguration configuration = themeDisplay
+				.getPortletDisplay().getPortletInstanceConfiguration(
+					SearchActivityConfiguration.class);
+
+			// Page de détail
+			request.setAttribute("detailPageUuid",
+				configuration.detailPageUuid());
+
 			// Tout ce qui est Application Display Template
-			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
-			long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
+			String portletResource = ParamUtil.getString(request,
+				"portletResource");
+			PortletPreferences preferences = PortletPreferencesFactoryUtil
+				.getPortletSetup(request, portletResource);
+			String displayStyle = GetterUtil.getString(
+				preferences.getValue("displayStyle", StringPool.BLANK));
+			long displayStyleGroupId = GetterUtil
+				.getLong(preferences.getValue("displayStyleGroupId", null), 0);
 			String refreshURL = PortalUtil.getCurrentURL(request);
 			request.setAttribute("displayStyle", displayStyle);
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);

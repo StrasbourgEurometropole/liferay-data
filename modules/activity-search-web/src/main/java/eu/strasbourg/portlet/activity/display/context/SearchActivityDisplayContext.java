@@ -11,11 +11,17 @@ import javax.portlet.PortletRequest;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
@@ -34,6 +40,8 @@ public class SearchActivityDisplayContext {
 	private ThemeDisplay themeDisplay;
 	private Map<Activity, List<ActivityCourse>> results;
 
+	private Log log = LogFactoryUtil.getLog(this.getClass());
+
 	public SearchActivityDisplayContext(PortletRequest request) {
 		this.request = request;
 		this.themeDisplay = (ThemeDisplay) request
@@ -41,7 +49,26 @@ public class SearchActivityDisplayContext {
 	}
 
 	public Map<String, Object> getTemplateContextObjects(Activity activity) {
+
+		// Friendly URL de la page de détail
+		SearchActivityConfiguration configuration = null;
+		try {
+			configuration = themeDisplay.getPortletDisplay()
+				.getPortletInstanceConfiguration(
+					SearchActivityConfiguration.class);
+		} catch (ConfigurationException e) {
+			log.error(e);
+		}
+		String detailPageUuid = configuration.detailPageUuid();
+		Layout layout = LayoutLocalServiceUtil.fetchLayoutByUuidAndGroupId(
+			detailPageUuid, themeDisplay.getScopeGroupId(), false);
 		Map<String, Object> contextObjects = new HashMap<String, Object>();
+		if (layout != null) {
+			String detailPageFriendlyURL = layout
+				.getFriendlyURL(themeDisplay.getLocale());
+			contextObjects.put("detailPageFriendlyURL", detailPageFriendlyURL);
+
+		}
 		contextObjects.put("entry", activity);
 		contextObjects.put("courses", results.get(activity));
 		return contextObjects;
@@ -123,8 +150,8 @@ public class SearchActivityDisplayContext {
 
 			// On filtre ces activités par statut, typeId, publicId et
 			// activityId
-			activities = this.filterActivitiesByTypeAndId(activities,
-				typeId, activityId);
+			activities = this.filterActivitiesByTypeAndId(activities, typeId,
+				activityId);
 
 			// On rempli maintenant la map pour l'affichage
 			// On souhaite afficher les activites et les cours correspondant aux
@@ -207,8 +234,7 @@ public class SearchActivityDisplayContext {
 	 * Filtre les activités par type, public et id
 	 */
 	private List<Activity> filterActivitiesByTypeAndId(
-		List<Activity> allActivities, long typeId,
-		long activityId) {
+		List<Activity> allActivities, long typeId, long activityId) {
 
 		List<Activity> activities = new ArrayList<Activity>();
 		for (Activity activity : allActivities) {

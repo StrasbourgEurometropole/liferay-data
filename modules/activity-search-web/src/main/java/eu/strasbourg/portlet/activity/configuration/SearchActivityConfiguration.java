@@ -13,4 +13,7 @@ import aQute.bnd.annotation.metatype.Meta;
 	name = "portlet.activity.configuration.name")
 public interface SearchActivityConfiguration {
 
+	@Meta.AD(name = "detailPageUuid", deflt = "", required = false)
+	public String detailPageUuid();
+
 }

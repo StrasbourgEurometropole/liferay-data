@@ -26,6 +26,10 @@
 		            showEmptyOption="<%= true %>"
 		        />
 		    </div>
+		    
+			<strasbourg-picker:layout name="detailPageUuid" label="detail-page" 
+				multiple="false" required="false" value="${detailPageUuid}" />
+				
 		</aui:fieldset>
 	
 		<aui:button-row>
