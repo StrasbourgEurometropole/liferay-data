@@ -41,6 +41,29 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
+				<!-- Catégories -->
+				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+				<div class="has-error">
+					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
+							function (val, fieldNode, ruleValue) {
+								var validated = true;
+								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								for (var i = 0; i < fields.length; i++) {
+									fieldContent = fields[i];
+								    if ($(fieldContent).find('.icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    	validated = false;
+								    	break;
+								    }
+								}
+								return validated;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
+				
 				<!-- Activité -->
 				<strasbourg-picker:entity type="eu.strasbourg.service.activity.model.Activity" label="activity" name="activityId" 
 				value="${dc.activityCourse.activityId}" multiple="false" required="true" />

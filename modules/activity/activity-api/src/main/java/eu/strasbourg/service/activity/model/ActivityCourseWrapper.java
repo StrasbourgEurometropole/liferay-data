@@ -587,6 +587,14 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Retourne le texte à afficher pour les publics du cours
+	*/
+	@Override
+	public java.lang.String getPublicsLabel(java.util.Locale locale) {
+		return _activityCourse.getPublicsLabel(locale);
+	}
+
+	/**
 	* Returns the status by user name of this activity course.
 	*
 	* @return the status by user name of this activity course
@@ -604,6 +612,14 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _activityCourse.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne le texte à afficher pour les types du cours
+	*/
+	@Override
+	public java.lang.String getTypesLabels(java.util.Locale locale) {
+		return _activityCourse.getTypesLabels(locale);
 	}
 
 	/**
@@ -696,6 +712,22 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _activityCourse.getCategories();
+	}
+
+	/**
+	* Retourne les publics dui cours
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _activityCourse.getPublics();
+	}
+
+	/**
+	* Retourne les types du cours
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _activityCourse.getTypes();
 	}
 
 	/**

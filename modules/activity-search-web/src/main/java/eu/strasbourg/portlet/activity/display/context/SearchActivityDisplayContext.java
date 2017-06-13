@@ -97,17 +97,21 @@ public class SearchActivityDisplayContext {
 				.findWithNoSchedule(themeDisplay.getScopeGroupId());
 
 			// On filtre ces lieux par territoryId et sigId
-			List<ActivityCoursePlace> coursePlaces = new ArrayList<ActivityCoursePlace>(coursePlacesWithSchedules);
+			List<ActivityCoursePlace> coursePlaces = new ArrayList<ActivityCoursePlace>(
+				coursePlacesWithSchedules);
 			coursePlaces.addAll(coursePlacesWithNoSchedule);
 			coursePlaces = this.filterActivityPlacesBySIGIdAndTerritoryId(
 				coursePlaces, sigId, territoryId);
 
 			// On récupère les cours publiés correspondant à ces critères
+			// On filtre également par public si le public a été renseigné
 			List<Long> courseIds = coursePlaces.stream()
 				.map(ActivityCoursePlace::getActivityCourseId).distinct()
 				.collect(Collectors.toList());
 			List<ActivityCourse> courses = ActivityCourseLocalServiceUtil
-				.findByIds(courseIds).stream().filter(c -> c.isApproved())
+				.findByIds(courseIds).stream()
+				.filter(c -> c.isApproved() && (publicId == 0 || c.getPublics()
+					.stream().anyMatch(p -> p.getCategoryId() == publicId)))
 				.collect(Collectors.toList());
 
 			// On récupère la liste des activités correspondant à ces cours
@@ -119,8 +123,8 @@ public class SearchActivityDisplayContext {
 
 			// On filtre ces activités par statut, typeId, publicId et
 			// activityId
-			activities = this.filterActivitiesByTypePublicAndId(activities,
-				typeId, publicId, activityId);
+			activities = this.filterActivitiesByTypeAndId(activities,
+				typeId, activityId);
 
 			// On rempli maintenant la map pour l'affichage
 			// On souhaite afficher les activites et les cours correspondant aux
@@ -202,8 +206,8 @@ public class SearchActivityDisplayContext {
 	/**
 	 * Filtre les activités par type, public et id
 	 */
-	private List<Activity> filterActivitiesByTypePublicAndId(
-		List<Activity> allActivities, long typeId, long publicId,
+	private List<Activity> filterActivitiesByTypeAndId(
+		List<Activity> allActivities, long typeId,
 		long activityId) {
 
 		List<Activity> activities = new ArrayList<Activity>();
@@ -227,11 +231,6 @@ public class SearchActivityDisplayContext {
 				okToAddActivity = false;
 			}
 
-			// Public
-			if (publicId > 0 && !categories.stream()
-				.anyMatch(c -> c.getCategoryId() == publicId)) {
-				okToAddActivity = false;
-			}
 			if (okToAddActivity) {
 				activities.add(activity);
 			}

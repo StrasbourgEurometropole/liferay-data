@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -56,23 +57,27 @@ public class SearchActivityPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		List<Activity> allActivities = activityLocalService.getActivities(-1,
-			-1);
+		// Liste de toutes les activités du groupe
+		List<Activity> allActivities = activityLocalService
+			.getByGroupId(themeDisplay.getScopeGroupId());
 		request.setAttribute("allActivities", allActivities);
 
+		// Vocabulaires
 		AssetVocabulary territoryVocabulary = AssetVocabularyHelper
 			.getVocabulary(VocabularyNames.TERRITORY,
 				themeDisplay.getCompanyGroupId());
 		AssetVocabulary typeVocabulary = AssetVocabularyHelper.getVocabulary(
 			VocabularyNames.ACTIVITY_TYPE, themeDisplay.getScopeGroupId());
 		AssetVocabulary publicVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_PUBLIC, themeDisplay.getScopeGroupId());
+			VocabularyNames.ACTIVITY_COURSE_PUBLIC,
+			themeDisplay.getScopeGroupId());
 
 		request.setAttribute("territories",
 			territoryVocabulary.getCategories());
 		request.setAttribute("types", typeVocabulary.getCategories());
 		request.setAttribute("publics", publicVocabulary.getCategories());
 
+		// Display context
 		request.setAttribute("dc", new SearchActivityDisplayContext(request));
 
 		// Application display templates
