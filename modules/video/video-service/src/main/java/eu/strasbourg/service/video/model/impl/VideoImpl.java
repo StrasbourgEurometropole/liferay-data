@@ -237,6 +237,22 @@ public class VideoImpl extends VideoBaseImpl {
 	}
 
 	/**
+	 * Retourne le texte à afficher pour les chaînes de la vidéo
+	 */
+	@Override
+	public String getChannelsLabel(Locale locale) {
+		List<AssetCategory> channels = this.getChaines();
+		String label = "";
+		for (AssetCategory channel : channels) {
+			if (label.length() > 0) {
+				label += ", ";
+			}
+			label += channel.getTitle(locale);
+		}
+		return label;
+	}
+
+	/**
 	 * Retourne l'url de la catégorie de la vidéo
 	 */
 	@Override

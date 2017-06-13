@@ -34,6 +34,25 @@
 <div id="page">
 	<div id="wrapper">
 		<div class="video-header">
+	       <!-- HEADEROND -->
+			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+	        <#if layout.getFriendlyURL() == "/accueil">
+		       	<@liferay_portlet["runtime"]
+					defaultPreferences="${freeMarkerPortletPreferences}"
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+					instanceId="header-home"
+					settingsScope="group" />
+			<#else>
+		       	<@liferay_portlet["runtime"]
+					defaultPreferences="${freeMarkerPortletPreferences}"
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+					instanceId="header-pages"
+					settingsScope="group" />
+			</#if>
+			${freeMarkerPortletPreferences.reset()}
+	       <!-- /HEADEROND -->
 		</div>
 		<#if has_navigation>
 			<#include "${full_templates_path}/navigation.ftl" />
@@ -76,6 +95,7 @@
 	<script src="${javascript_folder}/players-api.js"></script>
 	<script src="${javascript_folder}/more-videos.js"></script>
 	<script src="${javascript_folder}/search.js"></script>
+	<script src="${javascript_folder}/carrousel.js"></script>
 	<script src="${images_folder}/../vendors/owl/dist/owl.carousel.min.js"></script>
 	<script src="${images_folder}/../bower_components/retina.js/dist/retina.min.js"></script>
 

@@ -398,6 +398,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne le texte à afficher pour les chaînes de la vidéo
+	*/
+	@Override
+	public java.lang.String getChannelsLabel(java.util.Locale locale) {
+		return _video.getChannelsLabel(locale);
+	}
+
+	/**
 	* Returns the copyright of this video.
 	*
 	* @return the copyright of this video
@@ -865,6 +873,8 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 
 	/**
 	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @throws PortalException
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(

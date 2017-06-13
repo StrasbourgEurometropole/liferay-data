@@ -118,6 +118,11 @@ public interface Video extends VideoModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getChaines();
 
 	/**
+	* Retourne le texte à afficher pour les chaînes de la vidéo
+	*/
+	public java.lang.String getChannelsLabel(java.util.Locale locale);
+
+	/**
 	* Retourne l'url de la catégorie de la vidéo
 	*/
 	public java.lang.String getCategoryURL(
@@ -126,6 +131,8 @@ public interface Video extends VideoModel, PersistedModel {
 
 	/**
 	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @throws PortalException
 	*/
 	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
 		java.util.Locale locale);
