@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "category"
+                "fr_FR": "Catégorie"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -29,7 +29,7 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "title"
+                        "fr_FR": "Titre"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -52,7 +52,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "illustration"
+                        "fr_FR": "Illustration"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -76,7 +76,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "illustration-responsive"
+                        "fr_FR": "Illustration responsive"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -100,7 +100,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "illustration-titre"
+                        "fr_FR": "Titre de l'illustration"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -126,7 +126,7 @@
         },
         {
             "label": {
-                "fr_FR": "largeur-categorie"
+                "fr_FR": "Largeur"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -149,7 +149,7 @@
         },
         {
             "label": {
-                "fr_FR": "hauteur-categorie"
+                "fr_FR": "Hauteur"
             },
             "predefinedValue": {
                 "fr_FR": ""
