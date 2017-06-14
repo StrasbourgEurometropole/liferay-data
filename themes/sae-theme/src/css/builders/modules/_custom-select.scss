@@ -1,0 +1,81 @@
+// Config, ne pas toucher
+.silencedSelect {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 38px;
+}
+
+
+// -------------------------- Personnalisation
+
+//Variables
+$arrowDimensions: 10;
+$field-background-color: #fff;
+$field-font-color: $color-text;
+$list-background-color: #fff;
+$list-font-color: #1b1b1b;
+$list-padding-y: 10px;
+$list-padding-x: 10px;
+$arrow-color: #33383a;
+
+//Container
+.customSelectContain {
+    position: relative;
+    &.focused{
+        
+    }
+}
+
+// Select Field
+.customSelect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    padding: 0px 10px;
+    background-color: $field-background-color;
+    border: none;
+    border-radius: 0px;
+    line-height: 38px;
+    overflow: hidden;
+    height: 38px;
+    .customArrow {
+        &:after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            border-style: solid;
+            border-width: #{$arrowDimensions}px #{$arrowDimensions / 2}px 0 #{$arrowDimensions / 2}px;
+            border-color: $arrow-color transparent transparent;
+            top: 50%;
+            margin-top: -#{$arrowDimensions / 2}px;
+        }
+    }
+}
+
+// Select Content
+.customSelectInner {
+    font-family: $font-text;
+    font-size: 15px;
+    color: $field-font-color;
+}
+
+
+// Liste d├®roulante
+.toSelectCustom {
+    background-color: $list-background-color;
+    color: $list-font-color;
+    option {
+        padding-left: $list-padding-x;
+        padding-right: $list-padding-x;
+        padding-top: $list-padding-y;
+        padding-bottom: $list-padding-y;
+    }
+}

@@ -1,0 +1,32 @@
+/* Layout */
+.portlet-column {
+    display: inline-block;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.portlet-column-only {
+    width: 100%;
+    display: block;
+}
+
+.portlet-column-content {
+    padding: 0;
+}
+
+.portlet-layout, .portlet-layout > tbody,
+.portlet-layout > tbody > tr,
+.portlet-layout > tbody > tr > td {
+    display: block;
+}
+
+.portlet-topper {
+    display: none;
+}
+
+.portlet-column-only .portlet-topper {
+    display: block;
+}
