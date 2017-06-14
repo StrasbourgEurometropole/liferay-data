@@ -60,21 +60,6 @@ public class SearchActivityPortlet extends MVCPortlet {
 			.getByGroupId(themeDisplay.getScopeGroupId());
 		request.setAttribute("allActivities", allActivities);
 
-		// Vocabulaires
-		AssetVocabulary territoryVocabulary = AssetVocabularyHelper
-			.getVocabulary(VocabularyNames.TERRITORY,
-				themeDisplay.getCompanyGroupId());
-		AssetVocabulary typeVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_TYPE, themeDisplay.getScopeGroupId());
-		AssetVocabulary publicVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_COURSE_PUBLIC,
-			themeDisplay.getScopeGroupId());
-
-		request.setAttribute("territories",
-			territoryVocabulary.getCategories());
-		request.setAttribute("types", typeVocabulary.getCategories());
-		request.setAttribute("publics", publicVocabulary.getCategories());
-
 		// Display context
 		request.setAttribute("dc", new SearchActivityDisplayContext(request));
 

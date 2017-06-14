@@ -30,10 +30,113 @@
 			<strasbourg-picker:layout name="detailPageUuid" label="detail-page" 
 				multiple="false" required="false" value="${detailPageUuid}" />
 				
+			<!-- Type d'activité -->
+			<div class="categorySelector">
+				<div id="activityTypeSelectorLabel">
+					<label><liferay-ui:message key="activity-type" /></label>
+				</div>
+				<div id="activityTypeSelector"></div>
+				<aui:input type="hidden" name="activityTypeIds" />
+			</div>
+			
+			<!-- Type de cours-->
+			<div class="categorySelector">
+				<div id="courseTypeSelectorLabel">
+					<label><liferay-ui:message key="course-type" /></label>
+				</div>
+				<div id="courseTypeSelector"></div>
+				<aui:input type="hidden" name="courseTypeIds" />
+			</div>
+			
+			<!-- Public -->
+			<div class="categorySelector">
+				<div id="publicSelectorLabel">
+					<label><liferay-ui:message key="public" /></label>
+				</div>
+				<div id="publicSelector"></div>
+				<aui:input type="hidden" name="publicIds" />
+			</div>
+			
+			<!-- Territoire -->
+			<div class="categorySelector">
+				<div id="territorySelectorLabel">
+					<label><liferay-ui:message key="territory" /></label>
+				</div>
+				<div id="territorySelector"></div>
+				<aui:input type="hidden" name="territoryIds" />
+			</div>
+			
 		</aui:fieldset>
 	
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>
 	</aui:form>
+
+	<aui:script use="liferay-asset-categories-selector">
+		// Type d'activité
+		new Liferay.AssetCategoriesSelector(
+			{
+				curEntryIds: '${activityTypeIds}',
+				curEntries: '${activityTypeNames}',
+				hiddenInput: '#<portlet:namespace />activityTypeIds',
+				contentBox: '#activityTypeSelector',
+				label: '<liferay-ui:message key="select" />',
+				labelNode: '#activityTypeSelectorLabel',
+				singleSelect: false,
+				vocabularyGroupIds: ${themeDisplay.scopeGroupId},
+				vocabularyIds: '${activityTypeVocabularyId}'
+			}
+		).render();
+
+		// Type de cours
+		new Liferay.AssetCategoriesSelector(
+			{
+				curEntryIds: '${courseTypeIds}',
+				curEntries: '${courseTypeNames}',
+				hiddenInput: '#<portlet:namespace />courseTypeIds',
+				contentBox: '#courseTypeSelector',
+				label: '<liferay-ui:message key="select" />',
+				labelNode: '#courseTypeSelectorLabel',
+				singleSelect: false,
+				vocabularyGroupIds: ${themeDisplay.scopeGroupId},
+				vocabularyIds: '${courseTypeVocabularyId}'
+			}
+		).render();
+
+		// Public
+		new Liferay.AssetCategoriesSelector(
+			{
+				curEntryIds: '${publicIds}',
+				curEntries: '${publicNames}',
+				hiddenInput: '#<portlet:namespace />publicIds',
+				contentBox: '#publicSelector',
+				label: '<liferay-ui:message key="select" />',
+				labelNode: '#publicSelectorLabel',
+				singleSelect: false,
+				vocabularyGroupIds: ${themeDisplay.scopeGroupId},
+				vocabularyIds: '${publicVocabularyId}'
+			}
+		).render();
+
+		// Territoire
+		new Liferay.AssetCategoriesSelector(
+			{
+				curEntryIds: '${territoryIds}',
+				curEntries: '${territoryNames}',
+				hiddenInput: '#<portlet:namespace />territoryIds',
+				contentBox: '#territorySelector',
+				label: '<liferay-ui:message key="select" />',
+				labelNode: '#territorySelectorLabel',
+				singleSelect: false,
+				vocabularyGroupIds: ${themeDisplay.companyGroupId},
+				vocabularyIds: '${territoryVocabularyId}'
+			}
+		).render();
+	</aui:script>
 </div>
+<style>
+	.categorySelector {
+		margin-bottom: 20px;
+	}
+</style>

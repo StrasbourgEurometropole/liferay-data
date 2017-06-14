@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.activity.configuration;
 
+import java.util.Locale;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -21,9 +26,12 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration",
@@ -51,9 +59,46 @@ public class SearchActivityConfigurationAction
 			String detailPageUuid = ParamUtil.getString(actionRequest,
 				"detailPageUuid");
 			setPreference(actionRequest, "detailPageUuid", detailPageUuid);
+
+			// Types d'activités
+			saveVocabularyPreference("activityType", actionRequest);
+
+			// Types de cours
+			saveVocabularyPreference("courseType", actionRequest);
+
+			// Public
+			saveVocabularyPreference("public", actionRequest);
+
+			// Territoire
+			saveVocabularyPreference("territory", actionRequest);
 		}
 
 		super.processAction(portletConfig, actionRequest, actionResponse);
+	}
+
+	private void saveVocabularyPreference(String vocabularyParamName,
+		ActionRequest actionRequest) {
+		long[] activityTypesIds = ParamUtil.getLongValues(actionRequest,
+			vocabularyParamName + "Ids");
+		String[] activityTypesIdsString = new String[activityTypesIds.length];
+		String[] activityTypesUuids = new String[activityTypesIds.length];
+		String[] activityTypesNames = new String[activityTypesIds.length];
+		for (int i = 0; i < activityTypesIds.length; i++) {
+			AssetCategory assetCategory = AssetCategoryLocalServiceUtil
+				.fetchAssetCategory(activityTypesIds[i]);
+			if (assetCategory != null) {
+				activityTypesIdsString[i] = String
+					.valueOf(assetCategory.getCategoryId());
+				activityTypesUuids[i] = assetCategory.getUuid();
+				activityTypesNames[i] = assetCategory.getName();
+			}
+		}
+		setPreference(actionRequest, vocabularyParamName + "Uuids",
+			StringUtil.merge(activityTypesUuids));
+		setPreference(actionRequest, vocabularyParamName + "Names",
+			StringUtil.merge(activityTypesNames, "_CATEGORY_") + "_CATEGORY_");
+		setPreference(actionRequest, vocabularyParamName + "Ids",
+			StringUtil.merge(activityTypesIdsString));
 	}
 
 	@Override
@@ -69,6 +114,35 @@ public class SearchActivityConfigurationAction
 			// Page de détail
 			request.setAttribute("detailPageUuid",
 				configuration.detailPageUuid());
+
+			// Type d'activité
+			setVocabularyAttributes("activityType",
+				VocabularyNames.ACTIVITY_TYPE,
+				configuration.activityTypeIds(),
+				configuration.activityTypeNames(),
+				request,
+				themeDisplay.getScopeGroupId());
+			// Type de cours
+			setVocabularyAttributes("courseType",
+				VocabularyNames.ACTIVITY_COURSE_TYPE,
+				configuration.courseTypeIds(),
+				configuration.courseTypeNames(),
+				request,
+				themeDisplay.getScopeGroupId());
+			// Public
+			setVocabularyAttributes("public",
+				VocabularyNames.ACTIVITY_COURSE_PUBLIC,
+				configuration.publicIds(),
+				configuration.publicNames(),
+				request,
+				themeDisplay.getScopeGroupId());
+			// Territoires
+			setVocabularyAttributes("territory",
+				VocabularyNames.TERRITORY,
+				configuration.territoryIds(),
+				configuration.territoryNames(),
+				request,
+				themeDisplay.getCompanyGroupId());
 
 			// Tout ce qui est Application Display Template
 			String portletResource = ParamUtil.getString(request,
@@ -88,6 +162,20 @@ public class SearchActivityConfigurationAction
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}
+	}
+
+	private void setVocabularyAttributes(String vocabularyParamName,
+		String vocabularyName, String values, String names,
+		HttpServletRequest request, long groupId) {
+		request.setAttribute(vocabularyParamName + "Ids", values);
+		request.setAttribute(vocabularyParamName + "Names", names);
+		AssetVocabulary vocabulary = AssetVocabularyHelper
+			.getVocabulary(vocabularyName, groupId);
+		if (vocabulary != null) {
+			request.setAttribute(vocabularyParamName + "VocabularyId",
+				vocabulary.getVocabularyId());
+		}
+
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
