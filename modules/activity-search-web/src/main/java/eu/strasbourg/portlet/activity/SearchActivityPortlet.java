@@ -2,7 +2,9 @@ package eu.strasbourg.portlet.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -51,19 +53,17 @@ public class SearchActivityPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest request, RenderResponse response)
 		throws IOException, PortletException {
-		PortletPreferences preferences = request.getPreferences();
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		// Liste de toutes les activités du groupe
-		List<Activity> allActivities = activityLocalService
-			.getByGroupId(themeDisplay.getScopeGroupId());
+		List<Activity> allActivities = activityLocalService.getActivities(-1,
+			-1);
 		request.setAttribute("allActivities", allActivities);
 
-		// Display context
 		request.setAttribute("dc", new SearchActivityDisplayContext(request));
 
 		// Application display templates
+		PortletPreferences preferences = request.getPreferences();
 		String displayStyle = GetterUtil
 			.getString(preferences.getValue("displayStyle", StringPool.BLANK));
 		long displayStyleGroupId = GetterUtil

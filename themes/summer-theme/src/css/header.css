@@ -198,7 +198,7 @@ html > .lfr-dockbar-pinned {
 .nav-primary ul li:hover .submenu {
     height: auto;
     opacity: 1;
-    background: #268033;
+    background: #e6617c;
     color: #fff;
 }
 
@@ -369,14 +369,14 @@ html > .lfr-dockbar-pinned {
 
 	.nav-primary ul li:hover  {
 	    background: #fff !important;
-	    color: #268033 !important;
+	    color: #e6617c !important;
 	    width: 100% !important;
 	}
 
 
   .nav-primary ul li a:hover {
 	    background:transparent;
-	    color: #268033 !important;
+	    color: #e6617c !important;
 	}
 
 	.nav-primary ul li.active a {
@@ -387,7 +387,7 @@ html > .lfr-dockbar-pinned {
 	}
 
     .nav-primary ul.menu li.expanded > a:hover {
-       color: #268033 !important;
+       color: #e6617c !important;
        
     }
 

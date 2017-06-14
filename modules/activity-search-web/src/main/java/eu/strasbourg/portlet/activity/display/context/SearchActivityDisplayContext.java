@@ -35,6 +35,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.group.GroupHelper;
 
 public class SearchActivityDisplayContext {
 
@@ -90,8 +91,33 @@ public class SearchActivityDisplayContext {
 			contextObjects.put("detailPageFriendlyURL", detailPageFriendlyURL);
 
 		}
+
+		// Activité
 		contextObjects.put("entry", activity);
+
+		// Cours
 		contextObjects.put("courses", results.get(activity));
+
+		// Périodes, avec celle qui a la propriété "default" à "true" en premier
+		// si elle existe
+		AssetVocabulary periodVocabulary = AssetVocabularyHelper
+			.getVocabulary(VocabularyNames.ACTIVITY_PERIOD, GroupHelper
+				.getScopeOrStagingGroupId(themeDisplay.getScopeGroupId()));
+		List<AssetCategory> periodCategories = periodVocabulary.getCategories();
+		List<AssetCategory> periods = new ArrayList<AssetCategory>(
+			periodCategories.size());
+		for (int i = 0; i < periodCategories.size(); i++) {
+			AssetCategory period = periodCategories.get(i);
+			String isDefault = AssetVocabularyHelper
+				.getCategoryProperty(period.getCategoryId(), "default");
+			if (Validator.isNotNull(isDefault) && isDefault.equals("true")) {
+				periods.add(0, period);
+			} else {
+				periods.add(period);
+			}
+		}
+		contextObjects.put("periods", periods);
+
 		return contextObjects;
 	}
 
