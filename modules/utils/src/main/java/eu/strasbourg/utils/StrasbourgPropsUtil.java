@@ -69,6 +69,6 @@ public class StrasbourgPropsUtil {
 	}
 
 	public static String getTwitterTokenSecret() {
-		return PropsUtil.get("eu.strasbourg.twitter.token.public");
+		return PropsUtil.get("eu.strasbourg.twitter.token.secret");
 	}
 }

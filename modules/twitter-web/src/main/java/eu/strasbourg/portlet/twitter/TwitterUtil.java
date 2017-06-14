@@ -62,7 +62,7 @@ public class TwitterUtil {
 			twitterConsumerKey = StrasbourgPropsUtil.getTwitterConsumerKey();
 			twitterConsumerSecret = StrasbourgPropsUtil.getTwitterConsumerSecret();
 			twitterAccessToken = StrasbourgPropsUtil.getTwitterToken();
-			twitterAccessTokenSecret = StrasbourgPropsUtil.getTwitterToken();
+			twitterAccessTokenSecret = StrasbourgPropsUtil.getTwitterTokenSecret();
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true).setOAuthConsumerKey(twitterConsumerKey)
 				.setOAuthConsumerSecret(twitterConsumerSecret)
