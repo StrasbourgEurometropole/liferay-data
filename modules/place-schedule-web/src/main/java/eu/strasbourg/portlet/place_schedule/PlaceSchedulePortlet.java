@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,20 +98,22 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			// réupère le jour voulue
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-			GregorianCalendar jourSemaine = new GregorianCalendar();
 			String dateChoisie = ParamUtil.getString(request, "date");
+			GregorianCalendar jourChoisi = new GregorianCalendar();
 			if (Validator.isNotNull(dateChoisie)) {
-				jourSemaine.set(Integer.parseInt(dateChoisie.substring(0, 4)),
+				jourChoisi.set(Integer.parseInt(dateChoisie.substring(0, 4)),
 						Integer.parseInt(dateChoisie.substring(5, 7)) - 1,
 						Integer.parseInt(dateChoisie.substring(8, 10)));
 			}
-			jourSemaine.set(Calendar.HOUR_OF_DAY, 0);
-			jourSemaine.clear(Calendar.MINUTE);
-			jourSemaine.clear(Calendar.SECOND);
-			jourSemaine.clear(Calendar.MILLISECOND);
-			request.setAttribute("jourChoisi", jourSemaine.getTime());
+			jourChoisi.set(Calendar.HOUR_OF_DAY, 0);
+			jourChoisi.clear(Calendar.MINUTE);
+			jourChoisi.clear(Calendar.SECOND);
+			jourChoisi.clear(Calendar.MILLISECOND);
+			request.setAttribute("jourChoisi", jourChoisi.getTime());
 
 			// récupère la semaine passée et future
+			GregorianCalendar jourSemaine = new GregorianCalendar();
+			jourSemaine.setTime(jourChoisi.getTime());
 			GregorianCalendar previous = new GregorianCalendar();
 			GregorianCalendar next = new GregorianCalendar();
 			previous.setTime(jourSemaine.getTime());
@@ -129,7 +130,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			List<String[]> week = new ArrayList<String[]>();
 			for (int jour = 0; jour <= 6; jour++) {
 				jourSemaine.set(Calendar.DAY_OF_WEEK,
-						(int) (jour == 6 ? 1 : jour + 2));
+						(int) (jour == 6 ? Calendar.SUNDAY : jour + 2));
 
 				StringBuilder date = new StringBuilder(
 						df.format(jourSemaine.getTime()));
@@ -177,21 +178,18 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
 				selectedPlaces.add(place);
 				// récupération des ouvertures et fermetures exceptionnelles du
-				// lieu
-				Collection<List<PlaceSchedule>> horaires = place
-						.getHoraire(jourSemaine.getTime(), locale).values();
-				List<PlaceSchedule> placeSchedules = getPlacesSchedules(
-						horaires);
+				// lieu sur 2 mois
+				List<PlaceSchedule> placeSchedules = place
+						.getPlaceScheduleException(jourChoisi, true, locale);
 				if (!placeSchedules.isEmpty()) {
 					exceptions.put(place.getAlias(locale), placeSchedules);
 				}
 				// récupération des ouvertures et fermetures exceptionnelles des
-				// sous lieux du lieu
+				// sous lieux du lieu sur 2 mois
 				List<SubPlace> subPlaces = place.getSubPlaces();
 				for (SubPlace subPlace : subPlaces) {
-					horaires = subPlace
-							.getHoraire(jourSemaine.getTime(), locale).values();
-					placeSchedules = getPlacesSchedules(horaires);
+					placeSchedules = subPlace.getSubPlaceScheduleException(
+							jourChoisi, true, locale);
 					if (!placeSchedules.isEmpty()) {
 						exceptions.put(subPlace.getName(locale),
 								placeSchedules);
@@ -215,28 +213,22 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 							if (Validator.isNull(placeId)) {
 								selectedPlaces.add(place);
 								// récupération des ouvertures et fermetures
-								// exceptionnelles des lieux
-								Collection<List<PlaceSchedule>> horaires = place
-										.getHoraire(jourSemaine.getTime(),
-												locale)
-										.values();
-								List<PlaceSchedule> placeSchedules = getPlacesSchedules(
-										horaires);
+								// exceptionnelles des lieux sur 2 mois
+								List<PlaceSchedule> placeSchedules = place
+										.getPlaceScheduleException(jourChoisi,
+												true, locale);
 								if (!placeSchedules.isEmpty()) {
 									exceptions.put(place.getAlias(locale),
 											placeSchedules);
 								}
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des
-								// sous lieux du lieu
+								// sous lieux du lieu sur 2 mois
 								List<SubPlace> subPlaces = place.getSubPlaces();
 								for (SubPlace subPlace : subPlaces) {
-									horaires = subPlace
-											.getHoraire(jourSemaine.getTime(),
-													locale)
-											.values();
-									placeSchedules = getPlacesSchedules(
-											horaires);
+									placeSchedules = subPlace
+											.getSubPlaceScheduleException(
+													jourChoisi, true, locale);
 									if (!placeSchedules.isEmpty()) {
 										exceptions.put(subPlace.getName(locale),
 												placeSchedules);
@@ -259,26 +251,6 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			_log.error(e);
 		}
 
-	}
-
-	public List<PlaceSchedule> getPlacesSchedules(
-			Collection<List<PlaceSchedule>> horaires) {
-
-		long idException = 0;
-		List<PlaceSchedule> placeSchedules = new ArrayList<PlaceSchedule>();
-		for (List<PlaceSchedule> list : horaires) {
-			for (PlaceSchedule placeSchedule : list) {
-				if (placeSchedule.isException()
-						|| placeSchedule.isPublicHoliday()) {
-					if (idException != placeSchedule.getIdSchedule()) {
-						idException = placeSchedule.getIdSchedule();
-						placeSchedules.add(placeSchedule);
-					}
-				}
-			}
-		}
-
-		return placeSchedules;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
