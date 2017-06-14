@@ -130,10 +130,10 @@
 				<aui:select class="form-control" name="town2" >
         			<aui:option value="" />
 					<c:forEach items="${dc.towns}" var="category" varStatus="status">
-						<c:if test="${dc.official.isCategoryOfficial(category.categoryId)}">
+						<c:if test="${dc.official.isCategoryOfficial(category.categoryId) && dc.official.isEluEurometropole()}">
         					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" selected="true" />
 						</c:if>
-						<c:if test="${!dc.official.isCategoryOfficial(category.categoryId)}">
+						<c:if test="${!dc.official.isCategoryOfficial(category.categoryId) || !dc.official.isEluEurometropole()}">
         					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" />
 						</c:if>
 					</c:forEach>
