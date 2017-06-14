@@ -1,0 +1,55 @@
+.wFormContainer {
+	background-color: transparent;
+	color: white;
+}
+
+#main-content .form-assembly-portlet h3 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 2.8rem;
+	font-weight: bold;
+	color: white;
+}
+
+.wForm .labelsAbove .preField {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+}
+
+#main-content .htmlContent,
+#main-content .htmlContent a {
+	margin-top: 20px;
+	color: white;
+}
+
+#main-content .form-assembly-portlet input.primaryAction {
+    background: #2d2d2d;
+    color: white;
+    text-shadow: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    border-radius: 0;
+    border: 2px solid white !important;
+    transition: background 0.3s ease;
+    width: 12rem;
+    display: block;
+    margin-top: 20px;
+    padding: 8px 0;
+    font-size: 1.6rem;
+}
+
+#main-content .form-assembly-portlet input.primaryAction:hover {
+    background: #97bf0c !important;
+    color: white !important;
+}
+
+#main-content .form-assembly-portlet textarea.focus {
+	background-color: white;
+}
+
+#main-content .wForm input[type="text"],
+#main-content .wForm textarea {
+    border: none !important;
+}

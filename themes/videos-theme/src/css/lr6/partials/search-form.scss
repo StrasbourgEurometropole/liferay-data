@@ -1,0 +1,44 @@
+.search-videos-portlet {
+	margin-top: 2rem;
+	h2, h3 {
+		font-family: 'Roboto', sans-serif;
+		color: white;
+		font-weight: 500;
+	}
+	h2 {
+		font-size: 2.4rem;
+	}
+	h3 {
+		font-size: 1.8rem;
+ 		margin-bottom: 0.5rem;
+	}
+}
+.search-videos-portlet .search-asset-form form {
+	padding: 2rem;
+	background: #444444;
+	input[type="text"], 
+	select {
+		width: 100%;
+		font-size: 1.6rem;
+	}
+	label {
+		color: white;
+		padding-bottom: 5px;
+		font-size: 1.6rem;
+		font-family: 'Roboto', sans-serif;
+	}
+	button {
+		width: 12rem;
+		margin: auto;
+		display: block;
+		margin-top: 20px;
+		padding: 8px 0;
+		font-size: 1.6rem;
+	}
+}
+
+.mobile .search-videos-portlet form {
+	button {
+		margin-top: 3.5rem;
+	}
+}

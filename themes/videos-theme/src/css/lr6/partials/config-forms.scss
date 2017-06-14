@@ -1,0 +1,313 @@
+.portlet-configuration .archived-setups {
+	margin-bottom: 1em;
+	margin-right: 0.5em;
+	text-align: right;
+}
+
+.portlet-configuration .edit-permissions form:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+.ie .portlet-configuration .edit-permissions form {
+	height: 1%;
+}
+
+.portlet-configuration .edit-permissions .assign-permissions {
+	float: left;
+}
+
+.portlet-configuration .edit-permissions .assign-permissions .aui-button-holder {
+	position: relative;
+}
+
+.portlet-configuration .edit-permissions .assign-permissions .aui-button-holder .finished {
+	position: absolute;
+	right: 0;
+}
+
+/** Popup **/
+body.configuration-popup
+{
+    border: none !important;
+}
+
+/** Config form **/
+form.config-form
+{
+    width: 450px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+form.config-form .field
+{
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/** Inputs **/
+form.config-form input[type='text'],
+form.config-form input[type='file'],
+form.config-form select,
+form.config-form textarea
+{
+	display: inline-block;
+    box-sizing: border-box;
+    width: 305px;
+    padding: 5px;
+    height: 35px;
+
+    border: 2px solid #e6eaef;
+    background-image: none;
+}
+
+textarea {
+	vertical-align: top;
+	height: inherit;
+	width: 305px !important;
+}
+
+form.config-form input[type='radio'] {
+	vertical-align: middle;
+}
+form.config-form div.radio-container {
+	width: 305px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+form.config-form input[type='checkbox']
+{
+    position: relative;
+    top: 2px;
+}
+
+/** Date **/
+form.config-form .aui-datepicker {
+	display: inline-block;
+	float: none;
+	vertical-align: middle;
+}
+form.config-form .aui-datepicker-day {
+	width: 60px;
+}
+
+form.config-form .aui-datepicker-month {
+	width: 100px;
+}
+
+form.config-form .aui-datepicker-year {
+	width: 70px;
+}
+form.config-form .aui-datepicker-button-wrapper button {
+	border: none !important;
+	background: none !important;
+}
+
+/** Time **/
+form.config-form .lfr-input-time {
+	float: none;
+	clear: none;
+	display: inline-block;
+}
+
+form.config-form .lfr-input-time select {
+	display: inline-block;
+	width: 60px;
+}
+
+
+/** Input variant states **/
+form.config-form input[type='text']:focus,
+form.config-form input[type='file']:focus,
+form.config-form select:focus {
+	border-color: #797979;
+	outline: none;
+}
+
+
+form.config-form select:disabled
+{
+    background: #e6eaef;
+}
+
+/** Labels **/
+form.config-form label
+{
+    display: inline-block;
+
+    width: 130px;
+    padding-right: 10px;
+
+    text-align: right;
+}
+form.config-form input[type="radio"] + label {
+	text-align: left;
+	width: auto;
+	padding-left: 5px;
+	margin-bottom: 7px;
+}
+
+/** Buttons **/
+form.config-form button#button-save
+{
+	cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+
+    float: right;
+    clear: right;
+
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 6px;
+
+    color: white;
+    border: none;
+    border-radius: 0;
+    background: #797979;
+    text-shadow: none;
+}
+
+form.config-form button#button-save:hover
+{
+    background: #b8bfc7;
+}
+
+/** Titles **/
+#main-content form.config-form h1
+{
+    font-size: 25px;
+
+    padding-bottom: 5px;
+    padding-left: 5px;
+
+    text-transform: none;
+
+    color: #2d2d2d;
+    border-bottom: 2px solid #e6eaef;
+}
+
+/** Summaries **/
+form.config-form .summary ul
+{
+    list-style: none;
+}
+
+form.config-form .summary ul li
+{
+    line-height: 17px;
+
+    padding: 5px;
+}
+
+form.config-form .summary
+{
+    font-size: 12px;
+
+    overflow: auto;
+
+    max-height: 200px;
+    margin-bottom: 15px;
+    padding: 20px;
+
+    background: rgb(244, 253, 239);
+}
+
+form.config-form .summary.failed
+{
+    border-color: #f7e5e8;
+    background: #f7e5e8;
+}
+
+/** Items lists **/
+form.config-form .item {
+    background: #c6ccd2;
+    margin-bottom: 20px;
+    clear: both;
+    height: 70px;
+}
+form.config-form .item > div {
+    display: inline-block;
+    vertical-align: middle ;
+    padding: 5px;
+}
+form.config-form .item .title {
+    max-width: 220px;
+}
+form.config-form .item img {
+    max-width: 80px;
+    max-height: 60px;
+}
+form.config-form .item .actions {
+	float: right;
+}
+form.config-form .item .actions span {
+	width: 21px;
+	height: 21px;
+	background-size: contain;
+	display: inline-block;
+	cursor: pointer;
+}
+form.config-form .item .actions .add {
+	background-image: url("/Cus-all-hook/images/commons/config/add.png");
+}
+form.config-form .item .actions .delete {
+	background-image: url("/Cus-all-hook/images/commons/config/delete.png");
+}
+form.config-form .item .actions .move-up {
+	background-image: url("/Cus-all-hook/images/commons/config/up.png");
+}
+form.config-form .item .actions .move-down {
+	background-image: url("/Cus-all-hook/images/commons/config/down.png");
+}
+
+form.config-form .selected-items .add {
+	display: none;
+}
+form.config-form .items .move-up,
+form.config-form .items .move-down,
+form.config-form .items .delete {
+	display: none !important;
+}
+form.config-form .selected-items .item:first-of-type .move-up,
+form.config-form .selected-items .item:last-of-type .move-down  {
+	display: none !important;
+}
+
+.autocomplete-suggestions {
+    overflow: auto;
+    border: 1px solid #e6eaef
+}
+
+// Autocomplete
+.autocomplete-suggestion {
+    background: white;
+    border-bottom: 1px solid #e6eaef;
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer
+}
+
+.autocomplete-suggestion:last-child {
+    border-bottom: 0
+}
+
+.autocomplete-suggestion strong {
+    color: #97bf0c;
+    font-weight: normal
+}
+
+.autocomplete-suggestion.autocomplete-selected {
+    background: #97bf0c;
+    color: white
+}
+
+.autocomplete-suggestion.autocomplete-selected strong {
+    color: white
+}

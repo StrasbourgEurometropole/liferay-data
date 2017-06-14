@@ -388,6 +388,24 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne l'url de la catégorie de la vidéo
+	*/
+	@Override
+	public java.lang.String getCategoryURL(
+		com.liferay.asset.kernel.model.AssetCategory category)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _video.getCategoryURL(category);
+	}
+
+	/**
+	* Retourne le texte à afficher pour les chaînes de la vidéo
+	*/
+	@Override
+	public java.lang.String getChannelsLabel(java.util.Locale locale) {
+		return _video.getChannelsLabel(locale);
+	}
+
+	/**
 	* Returns the copyright of this video.
 	*
 	* @return the copyright of this video
@@ -544,6 +562,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public java.lang.String getPlayer(java.util.Locale locale) {
 		return _video.getPlayer(locale);
+	}
+
+	/**
+	* Retourne le texte à afficher pour les fournisseurs de la vidéo
+	*/
+	@Override
+	public java.lang.String getProvidersLabel(java.util.Locale locale) {
+		return _video.getProvidersLabel(locale);
 	}
 
 	/**
@@ -822,6 +848,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Retourne les chaînes de la vidéo
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getChaines() {
+		return _video.getChaines();
+	}
+
+	/**
 	* Retourne les fournisseurs de la vidéo
 	*/
 	@Override
@@ -835,6 +869,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.VideoGallery> getPublishedVideoGalleries() {
 		return _video.getPublishedVideoGalleries();
+	}
+
+	/**
+	* Retourne 3 suggestions max pour un thème appartenant à la vidéo en cours
+	*
+	* @throws PortalException
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.Video> getSuggestions(
+		java.util.Locale locale) {
+		return _video.getSuggestions(locale);
 	}
 
 	/**
