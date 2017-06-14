@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -72,11 +73,11 @@ public class AgendaImporter {
 		.getBundle("content.ImportErrors", this.getClass().getClassLoader());
 
 	public AgendaImporter() {
-
-		this.companyId = PortalUtil.getDefaultCompanyId();
 		try {
-			this.globalGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-				.getGroup().getGroupId();
+			Company defaultCompany = CompanyLocalServiceUtil
+				.getCompanyByWebId("liferay.com");
+			this.companyId = defaultCompany.getCompanyId();
+			this.globalGroupId = defaultCompany.getGroup().getGroupId();
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -259,7 +260,7 @@ public class AgendaImporter {
 			String from = "no-reply@no-reply.strasbourg.eu";
 			String to = StrasbourgPropsUtil.getAgendaImportMails();
 			String subject = "Aucun fichier dans le dossier d'import";
-			String body ="Aucun fichier ne se trouve dans le dossier d'import.";
+			String body = "Aucun fichier ne se trouve dans le dossier d'import.";
 			MailHelper.sendMailWithPlainText(from, to, subject, body);
 		}
 
@@ -606,12 +607,10 @@ public class AgendaImporter {
 				}
 			}
 		}
-		if (EventPeriodLocalServiceUtil
-			.checkForOverlappingPeriods(periods)) {
-			reportLine.error(LanguageUtil.get(bundle,
-				"overlapping-periods"));
+		if (EventPeriodLocalServiceUtil.checkForOverlappingPeriods(periods)) {
+			reportLine.error(LanguageUtil.get(bundle, "overlapping-periods"));
 		}
-		
+
 		// Validation du lien avec les manifestations
 		JSONArray jsonManifestations = jsonEvent.getJSONArray("manifestations");
 		if (jsonManifestations != null) {
