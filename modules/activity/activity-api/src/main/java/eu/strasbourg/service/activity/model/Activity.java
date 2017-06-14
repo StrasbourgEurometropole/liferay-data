@@ -93,16 +93,6 @@ public interface Activity extends ActivityModel, PersistedModel {
 	public java.lang.String getTypesLabel(java.util.Locale locale);
 
 	/**
-	* Retourne les publics de l'activité
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
-
-	/**
-	* Retourne le texte à afficher pour les publics de l'activité
-	*/
-	public java.lang.String getPublicsLabel(java.util.Locale locale);
-
-	/**
 	* Retourne l'URL de l'image
 	*/
 	public java.lang.String getImageURL();

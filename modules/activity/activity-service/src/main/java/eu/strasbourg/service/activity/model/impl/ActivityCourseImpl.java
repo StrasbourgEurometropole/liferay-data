@@ -15,6 +15,7 @@
 package eu.strasbourg.service.activity.model.impl;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -34,6 +35,7 @@ import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUti
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the ActivityCourse service. Represents
@@ -100,6 +102,56 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	public List<ActivityCoursePlace> getActivityCoursePlaces() {
 		return ActivityCoursePlaceLocalServiceUtil
 			.getByActivityCourse(this.getActivityCourseId());
+	}
+
+	/**
+	 * Retourne les publics dui cours
+	 */
+	@Override
+	public List<AssetCategory> getPublics() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), VocabularyNames.ACTIVITY_COURSE_PUBLIC);
+	}
+
+	/**
+	 * Retourne le texte à afficher pour les publics du cours
+	 */
+	@Override
+	public String getPublicsLabel(Locale locale) {
+		List<AssetCategory> publics = this.getPublics();
+		String label = "";
+		for (AssetCategory publicCategory : publics) {
+			if (label.length() > 0) {
+				label += ", ";
+			}
+			label += publicCategory.getTitle(locale);
+		}
+		return label;
+	}
+
+	/**
+	 * Retourne les types du cours
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), VocabularyNames.ACTIVITY_COURSE_TYPE);
+	}
+
+	/**
+	 * Retourne le texte à afficher pour les types du cours
+	 */
+	@Override
+	public String getTypesLabels(Locale locale) {
+		List<AssetCategory> types = this.getTypes();
+		String label = "";
+		for (AssetCategory typeCategory : types) {
+			if (label.length() > 0) {
+				label += ", ";
+			}
+			label += typeCategory.getTitle(locale);
+		}
+		return label;
 	}
 
 	/**

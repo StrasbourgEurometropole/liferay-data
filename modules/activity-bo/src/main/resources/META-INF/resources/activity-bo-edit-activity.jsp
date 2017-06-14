@@ -62,7 +62,7 @@
 				
 				<aui:input name="tags" type="assetTags" />
 				
-				<strasbourg-picker:image label="image" name="imageId"
+				<strasbourg-picker:image label="eu.illustration-image" name="imageId"
 					required="false" value="${dc.activity.imageId}" /> 
 				
 			</aui:fieldset>

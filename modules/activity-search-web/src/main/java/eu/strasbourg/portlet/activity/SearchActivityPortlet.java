@@ -2,9 +2,7 @@ package eu.strasbourg.portlet.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -53,38 +51,25 @@ public class SearchActivityPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest request, RenderResponse response)
 		throws IOException, PortletException {
+		PortletPreferences preferences = request.getPreferences();
 		ThemeDisplay themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		List<Activity> allActivities = activityLocalService.getActivities(-1,
-			-1);
+		// Liste de toutes les activités du groupe
+		List<Activity> allActivities = activityLocalService
+			.getByGroupId(themeDisplay.getScopeGroupId());
 		request.setAttribute("allActivities", allActivities);
 
-		AssetVocabulary territoryVocabulary = AssetVocabularyHelper
-			.getVocabulary(VocabularyNames.TERRITORY,
-				themeDisplay.getCompanyGroupId());
-		AssetVocabulary typeVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_TYPE, themeDisplay.getScopeGroupId());
-		AssetVocabulary publicVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_PUBLIC, themeDisplay.getScopeGroupId());
-
-		request.setAttribute("territories",
-			territoryVocabulary.getCategories());
-		request.setAttribute("types", typeVocabulary.getCategories());
-		request.setAttribute("publics", publicVocabulary.getCategories());
-
+		// Display context
 		request.setAttribute("dc", new SearchActivityDisplayContext(request));
 
 		// Application display templates
-		PortletPreferences preferences = request.getPreferences();
 		String displayStyle = GetterUtil
 			.getString(preferences.getValue("displayStyle", StringPool.BLANK));
 		long displayStyleGroupId = GetterUtil
 			.getLong(preferences.getValue("displayStyleGroupId", null), 0);
-		Map<String, Object> contextObjects = new HashMap<String, Object>();
 		request.setAttribute("displayStyle", displayStyle);
 		request.setAttribute("displayStyleGroupId", displayStyleGroupId);
-		request.setAttribute("contextObjects", contextObjects);
 		request.setAttribute("templateEntries", new ArrayList<Object>());
 
 		super.render(request, response);

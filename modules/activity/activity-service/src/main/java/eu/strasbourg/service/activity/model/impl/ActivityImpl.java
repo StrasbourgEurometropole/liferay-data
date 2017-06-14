@@ -136,31 +136,6 @@ public class ActivityImpl extends ActivityBaseImpl {
 		}
 		return label;
 	}
-
-	/**
-	 * Retourne les publics de l'activité
-	 */
-	@Override
-	public List<AssetCategory> getPublics() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.ACTIVITY_PUBLIC);
-	}
-
-	/**
-	 * Retourne le texte à afficher pour les publics de l'activité
-	 */
-	@Override
-	public String getPublicsLabel(Locale locale) {
-		List<AssetCategory> publics = this.getPublics();
-		String label = "";
-		for (AssetCategory publicCategory : publics) {
-			if (label.length() > 0) {
-				label += ", ";
-			}
-			label += publicCategory.getTitle(locale);
-		}
-		return label;
-	}
 	
 	/**
 	 * Retourne l'URL de l'image
