@@ -224,6 +224,22 @@ public interface Place extends PlaceModel, PersistedModel {
 		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
+		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.Locale locale);
+
+	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleExceptionFreeMarker(
+		java.util.Date dateDeb, java.lang.Boolean surPeriode,
+		java.util.Locale locale);
+
+	/**
 	* Retourne la version JSON du lieu
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
