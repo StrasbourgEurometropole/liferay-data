@@ -514,11 +514,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 								String[] heure = slot.getStartHour().split(":");
 								LocalTime startHour = LocalTime.of(
 										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]),0,0);
+										Integer.parseInt(heure[1]), 0, 0);
 								heure = slot.getEndHour().split(":");
 								LocalTime endHour = LocalTime.of(
 										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]),59,999);
+										Integer.parseInt(heure[1]), 59, 999);
 								if (heureActuelle.isAfter(startHour)
 										&& heureActuelle.isBefore(endHour)) {
 									return false;
@@ -541,11 +541,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 							String[] heure = slot.getStartHour().split(":");
 							LocalTime startHour = LocalTime.of(
 									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]),0,0);
+									Integer.parseInt(heure[1]), 0, 0);
 							heure = slot.getEndHour().split(":");
 							LocalTime endHour = LocalTime.of(
 									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]),59,999);
+									Integer.parseInt(heure[1]), 59, 999);
 							if (heureActuelle.isAfter(startHour)
 									&& heureActuelle.isBefore(endHour)) {
 								closed = false;
@@ -668,61 +668,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 			Locale locale) {
 		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
 
-		// vérifie si cette date n'est pas dans les horaires d'exception
-		for (ScheduleException scheduleException : this
-				.getScheduleExceptions()) {
-			if (scheduleException.getStartDate() != null
-					&& scheduleException.getEndDate() != null
-					&& scheduleException.getStartDate()
-							.compareTo(jourSemaine.getTime()) <= 0
-					&& scheduleException.getEndDate()
-							.compareTo(jourSemaine.getTime()) >= 0) {
-				PlaceSchedule placeSchedule = new PlaceSchedule(
-						scheduleException.getExceptionId(),
-						scheduleException.getStartDate(),
-						scheduleException.getEndDate(),
-						scheduleException.getComment(locale), locale);
-				placeSchedule.setException(true);
-				if (scheduleException.isClosed()) {
-					placeSchedule.setClosed(true);
-				} else {
-					String[] heure = scheduleException.getStartHour()
-							.split(":");
-					LocalTime startHour = LocalTime.of(
-							Integer.parseInt(heure[0]),
-							Integer.parseInt(heure[1]));
-					heure = scheduleException.getEndHour().split(":");
-					LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
-							Integer.parseInt(heure[1]));
-					placeSchedule.setStartTime(startHour);
-					placeSchedule.setEndTime(endHour);
-				}
-				listHoraires.add(placeSchedule);
-				return listHoraires;
-			}
-		}
-
-		// vérifie si cette date n'est pas dans les jours fériés
-		if (this.isSubjectToPublicHoliday()) {
-			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-				if (publicHoliday.getDate() != null) {
-					GregorianCalendar publicHolidayYear = new GregorianCalendar();
-					publicHolidayYear.setTime(publicHoliday.getDate());
-					publicHolidayYear.set(Calendar.YEAR,
-							jourSemaine.get(Calendar.YEAR));
-					if (publicHolidayYear.compareTo(jourSemaine) == 0) {
-						PlaceSchedule placeSchedule = new PlaceSchedule(
-								publicHoliday.getPublicHolidayId(),
-								publicHoliday.getDate(), publicHoliday.getDate(),
-								publicHoliday.getName(locale), locale);
-						placeSchedule.setPublicHoliday(true);
-						placeSchedule.setClosed(true);
-						listHoraires.add(placeSchedule);
-						return listHoraires;
-					}
-				}
-			}
-		}
+		// vérifie si cette date n'est pas dans les horaires d'exception ni dans
+		// les jours fériés
+		listHoraires = getPlaceScheduleException(jourSemaine, false, locale);
 
 		// s'il n'y a pas d'exception, on récupère les horaires de la
 		// période concernée
@@ -833,6 +781,101 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 		return listHoraires;
+	}
+
+	/**
+	 * Retourne les horaires des exceptions d'ouverture à partir du lundi
+	 * de la semaine en cours
+	 * 
+	 * @param surPériode
+	 *            (false = horaires d'une journée uniquement , true = horaires sur une semaine)
+	 */
+	@Override
+	public List<PlaceSchedule> getPlaceScheduleException(
+			GregorianCalendar premierJour, Boolean surPeriode, Locale locale) {
+		List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
+		GregorianCalendar dernierJour = new GregorianCalendar();
+		dernierJour.setTime(premierJour.getTime());
+		if (surPeriode) {
+			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			dernierJour.add(Calendar.MONTH, 2);
+		}
+
+		// vérifie s'il y a des horaires d'exception
+		for (ScheduleException scheduleException : this
+				.getScheduleExceptions()) {
+			if (scheduleException.getStartDate() != null
+					&& scheduleException.getEndDate() != null
+					&& scheduleException.getStartDate()
+							.compareTo(dernierJour.getTime()) <= 0
+					&& scheduleException.getEndDate()
+							.compareTo(premierJour.getTime()) >= 0) {
+				PlaceSchedule placeSchedule = new PlaceSchedule(
+						scheduleException.getExceptionId(),
+						scheduleException.getStartDate(),
+						scheduleException.getEndDate(),
+						scheduleException.getComment(locale), locale);
+				placeSchedule.setException(true);
+				if (scheduleException.isClosed()) {
+					placeSchedule.setClosed(true);
+				} else {
+					String[] heure = scheduleException.getStartHour()
+							.split(":");
+					LocalTime startHour = LocalTime.of(
+							Integer.parseInt(heure[0]),
+							Integer.parseInt(heure[1]));
+					heure = scheduleException.getEndHour().split(":");
+					LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
+							Integer.parseInt(heure[1]));
+					placeSchedule.setStartTime(startHour);
+					placeSchedule.setEndTime(endHour);
+				}
+				listPlaceSchedules.add(placeSchedule);
+			}
+		}
+
+		if (premierJour.compareTo(dernierJour) == 0
+				&& !listPlaceSchedules.isEmpty()) {
+			return listPlaceSchedules;
+		}
+
+		// vérifie s'il y a des jours fériés
+		if (this.isSubjectToPublicHoliday()) {
+			for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+				if (publicHoliday.getDate() != null) {
+					GregorianCalendar publicHolidayYear = new GregorianCalendar();
+					publicHolidayYear.setTime(publicHoliday.getDate());
+					if (publicHoliday.isRecurrent()) {
+						publicHolidayYear.set(Calendar.YEAR,
+								premierJour.get(Calendar.YEAR));
+					}
+					if (publicHolidayYear.compareTo(premierJour) >= 0
+							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
+						PlaceSchedule placeSchedule = new PlaceSchedule(
+								publicHoliday.getPublicHolidayId(),
+								publicHoliday.getDate(),
+								publicHoliday.getDate(),
+								publicHoliday.getName(locale), locale);
+						placeSchedule.setPublicHoliday(true);
+						placeSchedule.setClosed(true);
+						listPlaceSchedules.add(placeSchedule);
+					}
+				}
+			}
+		}
+		return listPlaceSchedules;
+	}
+
+	/**
+	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+	 */
+	@Override
+	public List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode,
+			Locale locale) {
+		GregorianCalendar premierJour = new GregorianCalendar();
+		premierJour.setTime(dateDeb);
+		return getPlaceScheduleException(premierJour, surPeriode, locale);
 	}
 
 	/**
