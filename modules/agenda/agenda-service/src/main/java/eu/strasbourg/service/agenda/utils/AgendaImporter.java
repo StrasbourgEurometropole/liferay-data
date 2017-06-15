@@ -631,6 +631,12 @@ public class AgendaImporter {
 		for (AssetVocabulary vocabulary : eventRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
+		// Si on a affaire à un lieu manuel, le territoire est obligatoire
+		if (true) {
+			AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+				.getVocabulary(VocabularyNames.TERRITORY, globalGroupId);
+			vocabulariesValidationMap.put(territoryVocabulary, false);
+		}
 		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonEvent, "themes", "types", "publics", "territories", "services");
 		for (AssetCategory category : categories) {
