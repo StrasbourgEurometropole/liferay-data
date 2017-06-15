@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -51,6 +50,8 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
@@ -713,6 +714,21 @@ public class AgendaImporter {
 				event.setAccessForWheelchair(false);
 				event.setAccessForElder(false);
 				event.setAccessForDeficient(false);
+				
+				// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+				// catégories territoires du lieu aux catégories à ajouter à
+				// l'entité
+				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
+				List<AssetCategory> territories = place.getTerritories();
+				long[] newCategories = sc.getAssetCategoryIds();
+				for (AssetCategory territory : territories) {
+					if (!ArrayUtil.contains(newCategories,
+						territory.getCategoryId())) {
+						newCategories = ArrayUtil.append(newCategories,
+							territory.getCategoryId());
+					}
+				}
+				sc.setAssetCategoryIds(newCategories);
 			} else {
 				JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 				event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));

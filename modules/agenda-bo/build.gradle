@@ -12,4 +12,5 @@ dependencies {
 	compile group: "org.osgi", name: "org.osgi.compendium", version: "5.0.0"
 	compile project (':modules:utils')
 	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:place:place-api')
 }

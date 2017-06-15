@@ -29,6 +29,7 @@ import javax.portlet.PortletException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,6 +37,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -47,6 +49,8 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalService;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -73,24 +77,28 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				event = _eventLocalService.getEvent(eventId);
 			}
 
+			// Titre
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
 			event.setTitleMap(title);
 
+			// Sous-titre
 			Map<Locale, String> subtitle = LocalizationUtil
 				.getLocalizationMap(request, "subtitle");
 			event.setSubtitleMap(subtitle);
 
+			// Description
 			Map<Locale, String> description = LocalizationUtil
 				.getLocalizationMap(request, "description");
 			event.setDescriptionMap(description);
 
+			// Image
 			Long imageId = ParamUtil.getLong(request, "imageId");
-			if (imageId > 0) {
+			if (imageId > 0) { // Image interne
 				event.setImageId(imageId);
 				event.setExternalImageURL("");
 				event.setExternalImageCopyright("");
-			} else {
+			} else { // I
 				event.setImageId((long) 0);
 				String externalImageURL = ParamUtil.getString(request,
 					"externalImageURL");
@@ -101,14 +109,30 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				event.setExternalImageCopyright(externalImageCopyright);
 			}
 
+			// Lieu
 			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
-			if (Validator.isNotNull(placeSIGId)) {
+			if (Validator.isNotNull(placeSIGId)) { // Lieu SIG
 				event.setPlaceSIGId(placeSIGId);
 				event.setPlaceName("");
 				event.setPlaceStreetNumber("");
 				event.setPlaceStreetName("");
 				event.setPlaceZipCode("");
 				event.setPlaceCountry("");
+
+				// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+				// catégories territoires du lieu aux catégories à ajouter à
+				// l'entité
+				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
+				List<AssetCategory> territories = place.getTerritories();
+				long[] newCategories = sc.getAssetCategoryIds();
+				for (AssetCategory territory : territories) {
+					if (!ArrayUtil.contains(newCategories,
+						territory.getCategoryId())) {
+						newCategories = ArrayUtil.append(newCategories,
+							territory.getCategoryId());
+					}
+				}
+				sc.setAssetCategoryIds(newCategories);
 			} else {
 				event.setPlaceSIGId("");
 
