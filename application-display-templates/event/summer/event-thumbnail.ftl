@@ -26,7 +26,14 @@
     </a>
   </div>
   <div class="entry-header">
-    <span class="category">${entry.getTypeLabel(locale)} - ${entry.getThemeLabel(locale)}</span>
+    <span class="category">
+      <#assign categories = entry.getTypeLabel(locale) + " - " + entry.getThemeLabel(locale) />
+      <#if categories?length < 100>
+        ${categories}
+      <#else>
+        ${categories?substring(0,100)}...
+      </#if>
+      </span>
     <h2>
       <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">
         ${entry.getTitle(locale)}
