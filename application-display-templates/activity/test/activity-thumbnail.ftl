@@ -4,7 +4,7 @@
 <div style="margin-bottom: 20px; border-bottom: 1px solid grey;" class="activity-detail">
   <h1>Titre : ${entry.getTitle(locale)}</h1>
   <ul>
-    <li><a href="/web${layout.group.friendlyURL}/detail-activite/-/entity/id/${entry.activityId}">Voir détail</a>
+    <li><a href="/web${layout.group.friendlyURL}${detailPageFriendlyURL}/-/entity/id/${entry.activityId}">Voir détail</a>
   </ul>
   <div class="courses">
     <#if courses?has_content>
@@ -21,11 +21,8 @@
             Lieux et horaires :
             <ul>
               <li>Changer de période :
-                <#assign groupHelperService = serviceLocator.findService("eu.strasbourg.utils.api.GroupHelperService") />
-                <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
-                <ul>
-                  <#assign stagingGroupId = groupHelperService.getScopeOrStagingGroupId(themeDisplay.scopeGroupId) />
-                  <#list assetVocabularyHelper.getVocabulary("periode des activites", stagingGroupId).categories as period>
+               <ul>
+                  <#list periods as period>
                     <li><a href="#" class="switchPeriod" data-period-id="${period.categoryId}">${period.getTitle(locale)}</a>
                   </#list>
                 </ul>
