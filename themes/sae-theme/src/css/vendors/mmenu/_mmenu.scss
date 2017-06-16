@@ -1,0 +1,184 @@
+/*
+	jQuery.mmenu oncanvas CSS
+*/
+
+@import "_imp/import";
+
+@import "_imp/menu";
+@import "_imp/panels";
+@import "_imp/vertical";
+@import "_imp/buttons";
+@import "_imp/navbars";
+@import "_imp/listviews";
+@import "_imp/inset_lists";
+@import "_imp/dividers";
+@import "_imp/spacers";
+
+@include mm_colors;
+
+#mmenu{
+	// Nav bar
+	.mm-navbar{
+		//Titre du panel
+		.mm-title{
+			padding-left:40px;
+		}
+	}
+	//Premier panel
+	#mm-0{
+		.mm-navbar{
+			.mm-title{
+				padding-left:0;
+			}
+		}
+	}
+
+	//Effet des link
+	.mm-opened{
+		li{
+			transform: translate3d(100%, 0, 0);
+			animation-name:flip;
+			animation-duration: 0.5s;
+			animation-fill-mode: forwards;
+			animation-direction: normal;
+		}
+	}
+	
+	//Search
+	.item-search{
+		display: none;
+	}
+
+	// ul menu
+	.list-principal{
+		margin:0px;
+	}
+}
+
+//Flèche next
+.mm-listview{
+	display: block !important;
+	li{
+		&:before{
+			content:none;
+		}
+	}
+	.mm-next{
+		&:before{
+			content:none;
+		}
+	}
+}
+
+//Mmenu commun
+.mm-menu{
+	width: 72%;
+	&.mm-offcanvas{
+		display: none;
+		position: fixed;
+		&.mm-current{
+			display: block;
+		}
+	}
+	//Logo svg
+	.mini-logo{
+		display: block;
+		text-align: center;
+		margin-top:20px;
+		margin-bottom:20px;
+		svg{
+			width:60px;
+			display: inline-block;
+		}
+	}
+}
+
+.mm-panels{
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 0;
+	background: inherit;
+	border-color: inherit;
+	position: absolute;
+	& > .mm-panel {
+	    padding: 30px 0px;
+	    background: inherit;
+		border-color: inherit;
+		position: absolute;
+		-webkit-overflow-scrolling: touch;
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: auto;
+		width: 100%;
+	}
+}
+.mm-panel{
+	@include transition(all 0.3s ease 0s);
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	width:100%;
+	overflow:scroll;
+	overflow-x:hidden;
+	//Barre tout en haut du menu
+	.mm-navbar{
+		display: none;
+	}
+}
+.mm-listview .mm-vertical{
+	position:relative;
+}
+
+//Tous les ul qui sera dans le mmenu
+.mm-listview{
+	list-style: none;
+	display: block;
+	padding: 0px;
+	margin: 0;
+}
+
+//Tout le site
+html.mm-opening{
+	.mm-slideout, #mm-blocker{
+		-webkit-transform: translate(-72%, 0);
+		-moz-transform: translate(-72%, 0);
+		-ms-transform: translate(-72%, 0);
+		-o-transform: translate(-72%, 0);
+		transform: translate(-72%, 0);
+	}
+}
+
+html.mm-opened, html.mm-opened body {
+    overflow: hidden;
+}
+html.mm-opened {
+    overflow-x: hidden;
+    position: relative;
+}
+.mm-slideout {
+	@include transition(transform 0.3s ease);
+    z-index: 1;
+}
+.mm-page {
+    box-sizing: border-box;
+    //position: relative;
+}
+
+html.mm-opened #mm-blocker {
+    display: block;
+}
+#mm-blocker {
+    background: rgba(3, 2, 1, 0);
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
