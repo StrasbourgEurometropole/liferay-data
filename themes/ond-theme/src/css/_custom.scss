@@ -846,7 +846,21 @@
 				}
 			}
 			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content{
+
+				.all-news{
+					width: 100%;
+				    margin-bottom: 30px;
+				}
+
 				article {	
+				    width: 299px;
+				    height: 203px;
+				    overflow: hidden;
+				    position: relative;
+				    border-right: 1px solid #f2f1e8;
+				    border-bottom: 1px solid #f2f1e8;
+				    background: #ad3939;
+				    vertical-align: top;
 
 					.entry-header {
 
@@ -857,12 +871,24 @@
 					}
 
 					.entry-content{
-						display: none;
-						min-height: 102px;
+					    padding: 0px 15px 15px;
+					    line-height: 1.3em;
+					    font-weight: 300;
+					    min-height: 3.5em;
+					    position: relative;
+					    font-family: Lato, sans-serif;
+					    font-size: 1.1em;
+					    display: none;
 					}
 
 					.entry-meta{
-						display: none;
+						height: 3.3em;
+					    line-height: 3.3em;
+					    position: absolute;
+					    bottom: 0px;
+					    left: 0px;
+					    right: 0px;
+					    display: none;
 					}
 				}
 
@@ -1024,6 +1050,11 @@
 									margin-bottom: 10px;
 									width: auto;
 								}
+
+								a:hover{
+									background-color: white;
+									color: #ad3939;
+								}
 							}
 						}
 
@@ -1086,6 +1117,10 @@
 
 						.images{
 							max-width: 600px;
+
+							.bx-controls-direction a{
+							    transition: none;
+							}
 						}
 
 						.slider_home img{
@@ -1419,6 +1454,10 @@
 										line-height: 1.3em;
 										font-size: 14px;
 									}
+
+									a:hover{
+										text-decoration: underline;
+									}
 								}
 							}
 						}	
@@ -1454,6 +1493,10 @@
 				}
 			}
 		}
+	}
+
+	.btn-top:hover{
+		text-decoration: none;
 	}
 
 	/* Pied de page */
