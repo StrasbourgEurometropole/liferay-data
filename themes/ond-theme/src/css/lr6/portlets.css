@@ -682,7 +682,7 @@
     line-height: 2.4em;
     border: 1px solid;
     text-align: center;
-    background:#f2f1e8;
+    background:#f1eeed;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1082,7 +1082,7 @@ display:none !important;
     -moz-transition:all 0.3s ease 0s;
     transition:all 0.3s ease 0s;
     position: relative;
-    border-left:1px solid #f2f1e8;
+    border-left:1px solid #f1eeed;
 }
 
 .rubricNavigation-portlet .rubric:hover{
@@ -1614,7 +1614,7 @@ display:none !important;
 .list-evt .event .entry-meta {
     height: 2.6em;
     line-height: 2.6em;
-    border-top: 1px solid #f2f1e8;
+    border-top: 1px solid #f1eeed;
     color:#474747;
 }
 .list-evt .event .entry-meta .btn-more{

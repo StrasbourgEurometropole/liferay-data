@@ -153,7 +153,7 @@
 			</div>
 
 			<!-- FOOTER -->
-			<a href="#" class="btn-top" title="Haut de page"><span><@liferay_ui.message key='eu.top' /></span></a>
+			<a href="#" class="btn-top" title="Haut de page"><span><@liferay_ui.message key='eu.ond-theme.top' /></span></a>
 		    <footer class="footer">
 		        
 				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />

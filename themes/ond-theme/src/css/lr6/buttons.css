@@ -178,7 +178,7 @@ div.selector.hover.active span, div.selector.focus.active span {
     -o-transition: all 0.3s ease;
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    background-color: #f2f1e8;
+    background-color: #f1eeed;
     overflow:hidden;
 }
 .btn-top:hover {
