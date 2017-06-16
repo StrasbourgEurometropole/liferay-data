@@ -19,11 +19,17 @@
 .ond .wrapper{
 
 	.header{
-		z-index: 1;
+
+		.logo{
+			z-index: 70;
+		    max-width: 200px;
+		    margin: auto;
+		}
 
 		/* Bandeau */
 		.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
 			display: block;
+			min-height: 300px;
 
 			.portlet{
 				margin-bottom: 0px;
