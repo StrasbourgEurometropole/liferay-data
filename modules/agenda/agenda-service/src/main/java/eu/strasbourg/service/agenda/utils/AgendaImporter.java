@@ -632,7 +632,7 @@ public class AgendaImporter {
 			vocabulariesValidationMap.put(vocabulary, false);
 		}
 		// Si on a affaire à un lieu manuel, le territoire est obligatoire
-		if (true) {
+		if (isManualPlace) {
 			AssetVocabulary territoryVocabulary = AssetVocabularyHelper
 				.getVocabulary(VocabularyNames.TERRITORY, globalGroupId);
 			vocabulariesValidationMap.put(territoryVocabulary, false);
