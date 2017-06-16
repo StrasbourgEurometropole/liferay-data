@@ -73,6 +73,8 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("defaultImageId", getDefaultImageId());
+		attributes.put("defaultImageCopyright", getDefaultImageCopyright());
 		attributes.put("managersIds", getManagersIds());
 		attributes.put("exportEnabled", getExportEnabled());
 
@@ -163,6 +165,19 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		Long defaultImageId = (Long)attributes.get("defaultImageId");
+
+		if (defaultImageId != null) {
+			setDefaultImageId(defaultImageId);
+		}
+
+		String defaultImageCopyright = (String)attributes.get(
+				"defaultImageCopyright");
+
+		if (defaultImageCopyright != null) {
+			setDefaultImageCopyright(defaultImageCopyright);
 		}
 
 		String managersIds = (String)attributes.get("managersIds");
@@ -356,6 +371,83 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public java.lang.Object clone() {
 		return new CampaignWrapper((Campaign)_campaign.clone());
+	}
+
+	/**
+	* Returns the default image copyright of this campaign.
+	*
+	* @return the default image copyright of this campaign
+	*/
+	@Override
+	public java.lang.String getDefaultImageCopyright() {
+		return _campaign.getDefaultImageCopyright();
+	}
+
+	/**
+	* Returns the localized default image copyright of this campaign in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized default image copyright of this campaign
+	*/
+	@Override
+	public java.lang.String getDefaultImageCopyright(
+		java.lang.String languageId) {
+		return _campaign.getDefaultImageCopyright(languageId);
+	}
+
+	/**
+	* Returns the localized default image copyright of this campaign in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized default image copyright of this campaign
+	*/
+	@Override
+	public java.lang.String getDefaultImageCopyright(
+		java.lang.String languageId, boolean useDefault) {
+		return _campaign.getDefaultImageCopyright(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized default image copyright of this campaign in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized default image copyright of this campaign
+	*/
+	@Override
+	public java.lang.String getDefaultImageCopyright(java.util.Locale locale) {
+		return _campaign.getDefaultImageCopyright(locale);
+	}
+
+	/**
+	* Returns the localized default image copyright of this campaign in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized default image copyright of this campaign. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getDefaultImageCopyright(java.util.Locale locale,
+		boolean useDefault) {
+		return _campaign.getDefaultImageCopyright(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getDefaultImageCopyrightCurrentLanguageId() {
+		return _campaign.getDefaultImageCopyrightCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getDefaultImageCopyrightCurrentValue() {
+		return _campaign.getDefaultImageCopyrightCurrentValue();
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getDefaultImageURL() {
+		return _campaign.getDefaultImageURL();
 	}
 
 	@Override
@@ -576,6 +668,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	/**
+	* Returns a map of the locales and localized default image copyrights of this campaign.
+	*
+	* @return the locales and localized default image copyrights of this campaign
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getDefaultImageCopyrightMap() {
+		return _campaign.getDefaultImageCopyrightMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized titles of this campaign.
 	*
 	* @return the locales and localized titles of this campaign
@@ -603,6 +705,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public long getCompanyId() {
 		return _campaign.getCompanyId();
+	}
+
+	/**
+	* Returns the default image ID of this campaign.
+	*
+	* @return the default image ID of this campaign
+	*/
+	@Override
+	public long getDefaultImageId() {
+		return _campaign.getDefaultImageId();
 	}
 
 	/**
@@ -705,6 +817,84 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	@Override
 	public void setCreateDate(Date createDate) {
 		_campaign.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the default image copyright of this campaign.
+	*
+	* @param defaultImageCopyright the default image copyright of this campaign
+	*/
+	@Override
+	public void setDefaultImageCopyright(java.lang.String defaultImageCopyright) {
+		_campaign.setDefaultImageCopyright(defaultImageCopyright);
+	}
+
+	/**
+	* Sets the localized default image copyright of this campaign in the language.
+	*
+	* @param defaultImageCopyright the localized default image copyright of this campaign
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setDefaultImageCopyright(
+		java.lang.String defaultImageCopyright, java.util.Locale locale) {
+		_campaign.setDefaultImageCopyright(defaultImageCopyright, locale);
+	}
+
+	/**
+	* Sets the localized default image copyright of this campaign in the language, and sets the default locale.
+	*
+	* @param defaultImageCopyright the localized default image copyright of this campaign
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDefaultImageCopyright(
+		java.lang.String defaultImageCopyright, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_campaign.setDefaultImageCopyright(defaultImageCopyright, locale,
+			defaultLocale);
+	}
+
+	@Override
+	public void setDefaultImageCopyrightCurrentLanguageId(
+		java.lang.String languageId) {
+		_campaign.setDefaultImageCopyrightCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized default image copyrights of this campaign from the map of locales and localized default image copyrights.
+	*
+	* @param defaultImageCopyrightMap the locales and localized default image copyrights of this campaign
+	*/
+	@Override
+	public void setDefaultImageCopyrightMap(
+		Map<java.util.Locale, java.lang.String> defaultImageCopyrightMap) {
+		_campaign.setDefaultImageCopyrightMap(defaultImageCopyrightMap);
+	}
+
+	/**
+	* Sets the localized default image copyrights of this campaign from the map of locales and localized default image copyrights, and sets the default locale.
+	*
+	* @param defaultImageCopyrightMap the locales and localized default image copyrights of this campaign
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDefaultImageCopyrightMap(
+		Map<java.util.Locale, java.lang.String> defaultImageCopyrightMap,
+		java.util.Locale defaultLocale) {
+		_campaign.setDefaultImageCopyrightMap(defaultImageCopyrightMap,
+			defaultLocale);
+	}
+
+	/**
+	* Sets the default image ID of this campaign.
+	*
+	* @param defaultImageId the default image ID of this campaign
+	*/
+	@Override
+	public void setDefaultImageId(long defaultImageId) {
+		_campaign.setDefaultImageId(defaultImageId);
 	}
 
 	@Override

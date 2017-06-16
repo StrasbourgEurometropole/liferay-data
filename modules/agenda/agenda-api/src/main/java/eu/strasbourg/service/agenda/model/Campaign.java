@@ -84,6 +84,11 @@ public interface Campaign extends CampaignModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent> getEvents();
 
 	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getDefaultImageURL();
+
+	/**
 	* Génère l'export et place le fichier dans le dossier d'import des
 	* événements
 	*/

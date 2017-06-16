@@ -92,6 +92,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
+			{ "defaultImageId", Types.BIGINT },
+			{ "defaultImageCopyright", Types.VARCHAR },
 			{ "managersIds", Types.VARCHAR },
 			{ "exportEnabled", Types.BOOLEAN }
 		};
@@ -112,11 +114,13 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("defaultImageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("defaultImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("managersIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("exportEnabled", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,defaultImageId LONG,defaultImageCopyright STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Campaign";
 	public static final String ORDER_BY_JPQL = " ORDER BY campaign.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Campaign.modifiedDate DESC";
@@ -191,6 +195,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("defaultImageId", getDefaultImageId());
+		attributes.put("defaultImageCopyright", getDefaultImageCopyright());
 		attributes.put("managersIds", getManagersIds());
 		attributes.put("exportEnabled", getExportEnabled());
 
@@ -284,6 +290,19 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		Long defaultImageId = (Long)attributes.get("defaultImageId");
+
+		if (defaultImageId != null) {
+			setDefaultImageId(defaultImageId);
+		}
+
+		String defaultImageCopyright = (String)attributes.get(
+				"defaultImageCopyright");
+
+		if (defaultImageCopyright != null) {
+			setDefaultImageCopyright(defaultImageCopyright);
 		}
 
 		String managersIds = (String)attributes.get("managersIds");
@@ -625,6 +644,124 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	}
 
 	@Override
+	public long getDefaultImageId() {
+		return _defaultImageId;
+	}
+
+	@Override
+	public void setDefaultImageId(long defaultImageId) {
+		_defaultImageId = defaultImageId;
+	}
+
+	@Override
+	public String getDefaultImageCopyright() {
+		if (_defaultImageCopyright == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _defaultImageCopyright;
+		}
+	}
+
+	@Override
+	public String getDefaultImageCopyright(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDefaultImageCopyright(languageId);
+	}
+
+	@Override
+	public String getDefaultImageCopyright(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDefaultImageCopyright(languageId, useDefault);
+	}
+
+	@Override
+	public String getDefaultImageCopyright(String languageId) {
+		return LocalizationUtil.getLocalization(getDefaultImageCopyright(),
+			languageId);
+	}
+
+	@Override
+	public String getDefaultImageCopyright(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getDefaultImageCopyright(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getDefaultImageCopyrightCurrentLanguageId() {
+		return _defaultImageCopyrightCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDefaultImageCopyrightCurrentValue() {
+		Locale locale = getLocale(_defaultImageCopyrightCurrentLanguageId);
+
+		return getDefaultImageCopyright(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDefaultImageCopyrightMap() {
+		return LocalizationUtil.getLocalizationMap(getDefaultImageCopyright());
+	}
+
+	@Override
+	public void setDefaultImageCopyright(String defaultImageCopyright) {
+		_defaultImageCopyright = defaultImageCopyright;
+	}
+
+	@Override
+	public void setDefaultImageCopyright(String defaultImageCopyright,
+		Locale locale) {
+		setDefaultImageCopyright(defaultImageCopyright, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDefaultImageCopyright(String defaultImageCopyright,
+		Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(defaultImageCopyright)) {
+			setDefaultImageCopyright(LocalizationUtil.updateLocalization(
+					getDefaultImageCopyright(), "DefaultImageCopyright",
+					defaultImageCopyright, languageId, defaultLanguageId));
+		}
+		else {
+			setDefaultImageCopyright(LocalizationUtil.removeLocalization(
+					getDefaultImageCopyright(), "DefaultImageCopyright",
+					languageId));
+		}
+	}
+
+	@Override
+	public void setDefaultImageCopyrightCurrentLanguageId(String languageId) {
+		_defaultImageCopyrightCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDefaultImageCopyrightMap(
+		Map<Locale, String> defaultImageCopyrightMap) {
+		setDefaultImageCopyrightMap(defaultImageCopyrightMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDefaultImageCopyrightMap(
+		Map<Locale, String> defaultImageCopyrightMap, Locale defaultLocale) {
+		if (defaultImageCopyrightMap == null) {
+			return;
+		}
+
+		setDefaultImageCopyright(LocalizationUtil.updateLocalization(
+				defaultImageCopyrightMap, getDefaultImageCopyright(),
+				"DefaultImageCopyright", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
 	public String getManagersIds() {
 		if (_managersIds == null) {
 			return StringPool.BLANK;
@@ -767,6 +904,17 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			}
 		}
 
+		Map<Locale, String> defaultImageCopyrightMap = getDefaultImageCopyrightMap();
+
+		for (Map.Entry<Locale, String> entry : defaultImageCopyrightMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -811,6 +959,17 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		else {
 			setTitle(getTitle(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String defaultImageCopyright = getDefaultImageCopyright(defaultLocale);
+
+		if (Validator.isNull(defaultImageCopyright)) {
+			setDefaultImageCopyright(getDefaultImageCopyright(
+					modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDefaultImageCopyright(getDefaultImageCopyright(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -841,6 +1000,8 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		campaignImpl.setStatusByUserName(getStatusByUserName());
 		campaignImpl.setStatusDate(getStatusDate());
 		campaignImpl.setTitle(getTitle());
+		campaignImpl.setDefaultImageId(getDefaultImageId());
+		campaignImpl.setDefaultImageCopyright(getDefaultImageCopyright());
 		campaignImpl.setManagersIds(getManagersIds());
 		campaignImpl.setExportEnabled(getExportEnabled());
 
@@ -1006,6 +1167,17 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 			campaignCacheModel.title = null;
 		}
 
+		campaignCacheModel.defaultImageId = getDefaultImageId();
+
+		campaignCacheModel.defaultImageCopyright = getDefaultImageCopyright();
+
+		String defaultImageCopyright = campaignCacheModel.defaultImageCopyright;
+
+		if ((defaultImageCopyright != null) &&
+				(defaultImageCopyright.length() == 0)) {
+			campaignCacheModel.defaultImageCopyright = null;
+		}
+
 		campaignCacheModel.managersIds = getManagersIds();
 
 		String managersIds = campaignCacheModel.managersIds;
@@ -1021,7 +1193,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1051,6 +1223,10 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", defaultImageId=");
+		sb.append(getDefaultImageId());
+		sb.append(", defaultImageCopyright=");
+		sb.append(getDefaultImageCopyright());
 		sb.append(", managersIds=");
 		sb.append(getManagersIds());
 		sb.append(", exportEnabled=");
@@ -1062,7 +1238,7 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Campaign");
@@ -1125,6 +1301,14 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>defaultImageId</column-name><column-value><![CDATA[");
+		sb.append(getDefaultImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>defaultImageCopyright</column-name><column-value><![CDATA[");
+		sb.append(getDefaultImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>managersIds</column-name><column-value><![CDATA[");
 		sb.append(getManagersIds());
 		sb.append("]]></column-value></column>");
@@ -1164,6 +1348,9 @@ public class CampaignModelImpl extends BaseModelImpl<Campaign>
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _originalTitle;
+	private long _defaultImageId;
+	private String _defaultImageCopyright;
+	private String _defaultImageCopyrightCurrentLanguageId;
 	private String _managersIds;
 	private Boolean _exportEnabled;
 	private long _columnBitmask;

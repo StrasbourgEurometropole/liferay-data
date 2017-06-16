@@ -2926,6 +2926,8 @@ public class CampaignPersistenceImpl extends BasePersistenceImpl<Campaign>
 		campaignImpl.setStatusByUserName(campaign.getStatusByUserName());
 		campaignImpl.setStatusDate(campaign.getStatusDate());
 		campaignImpl.setTitle(campaign.getTitle());
+		campaignImpl.setDefaultImageId(campaign.getDefaultImageId());
+		campaignImpl.setDefaultImageCopyright(campaign.getDefaultImageCopyright());
 		campaignImpl.setManagersIds(campaign.getManagersIds());
 		campaignImpl.setExportEnabled(campaign.getExportEnabled());
 

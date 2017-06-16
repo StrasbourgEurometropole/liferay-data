@@ -40,6 +40,7 @@ import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -140,6 +141,14 @@ public class CampaignImpl extends CampaignBaseImpl {
 	public List<CampaignEvent> getEvents() {
 		return CampaignEventLocalServiceUtil
 			.findByCampaignId(this.getCampaignId());
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getDefaultImageURL() {
+		return FileEntryHelper.getFileEntryURL(this.getDefaultImageId());
 	}
 
 	/**

@@ -16,6 +16,8 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field localized="true" name="title" type="String" />
+		<field name="defaultImageId" type="long" />
+		<field localized="true" name="defaultImageCopyright" type="String" />
 		<field name="managersIds" type="String" />
 		<field name="exportEnabled" type="Boolean" />
 	</model>
