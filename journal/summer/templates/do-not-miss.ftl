@@ -1,33 +1,3 @@
-<style>
-.do-not-miss .portlet {
-  margin: 12px 10px 10px;
-}
-
-.do-not-miss .element-title a {
-  display: block;
-  font-size: 13px;
-  color: #1a171b;
-  text-decoration: none;
-  line-height: 1.8em;
-  font-weight: bold;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-
-.do-not-miss .button-pas-manquer a {
-background: #e6f4ee;  color: #268033; float:left; text-transform: none; font-size: 1.3em; font-weight: bold; height: 30px; line-height: 30px; padding: 0 5px; margin: 13px -9px 6px 0;
-}
-
-.do-not-miss .button-pas-manquer a:focus,
-.do-not-miss .button-pas-manquer a:hover {
-    background: #268033 none repeat scroll 0 0;
-    color: #ffffff;
-    text-decoration: none;
-}
-
-</style>
-
 <div class="do-not-miss portlet"> 
   <div class="asset-header-image-page"> 
     <div> 
