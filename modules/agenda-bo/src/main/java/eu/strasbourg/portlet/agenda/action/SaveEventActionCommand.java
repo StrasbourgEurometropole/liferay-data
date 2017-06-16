@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,14 +35,17 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -51,6 +56,7 @@ import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -69,6 +75,29 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			sc.setScopeGroupId(
 				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
 					.getCompanyGroupId());
+			
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+				String portletName = (String) request
+					.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+					"/agenda-bo-edit-event.jsp");
+				return false;
+			}
+
+			// Edition de l'événement
 			long eventId = ParamUtil.getLong(request, "eventId");
 			Event event;
 			if (eventId == 0) {
@@ -281,6 +310,91 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Titre
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
+			isValid = false;
+		}
+
+		// Description
+		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+			SessionErrors.add(request, "description-error");
+			isValid = false;
+		}
+
+		// Image
+		long imageId = ParamUtil.getLong(request, "imageId");
+		String imageURL = ParamUtil.getString(request, "externalImageURL");
+		if (imageId == 0 && Validator.isNull(imageURL)) {
+			SessionErrors.add(request, "image-error");
+			isValid = false;
+		}
+
+		// Copyright de l'image
+		String imageCopyright = ParamUtil.getString(request,
+			"externalImageCopyright");
+		boolean internalImageWithoutCopyright = imageId > 0 && Validator
+			.isNull(FileEntryHelper.getImageCopyright(imageId, Locale.FRANCE));
+		boolean externalImageWithoutCopyright = Validator.isNotNull(imageURL)
+			&& Validator.isNull(imageCopyright);
+		if (internalImageWithoutCopyright || externalImageWithoutCopyright) {
+			SessionErrors.add(request, "image-copyright-error");
+			isValid = false;
+		}
+
+		// Lieu
+		String placeSIGId = ParamUtil.getString(request, "placeSIGId");
+		boolean isManualPlace = Validator.isNull(placeSIGId);
+		if (isManualPlace) {
+			String placeName = ParamUtil.getString(request, "placeName");
+			String placeCity = ParamUtil.getString(request, "placeCity");
+			if (Validator.isNull(placeName)) {
+				SessionErrors.add(request, "place-name-error");
+				isValid = false;
+			}
+			if (Validator.isNull(placeCity)) {
+				SessionErrors.add(request, "place-city-error");
+				isValid = false;
+			}
+		}
+
+		// Horaires
+		String periodsIndexesString = ParamUtil.getString(request,
+			"periodIndexes");
+		int periodCount = 0;
+		for (String periodIndex : periodsIndexesString.split(",")) {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			if (Validator.isNotNull(periodIndex)
+				&& Validator.isNotNull(
+					ParamUtil.getString(request, "startDate" + periodIndex))
+				&& Validator.isNotNull(
+					ParamUtil.getString(request, "endDate" + periodIndex))) {
+
+				Date startDate = ParamUtil.getDate(request,
+					"startDate" + periodIndex, dateFormat);
+				Date endDate = ParamUtil.getDate(request,
+					"endDate" + periodIndex, dateFormat);
+				if (endDate.before(startDate)) {
+					SessionErrors.add(request, "period-date-error");
+					isValid = false;
+				}
+				periodCount++;
+			}
+		}
+		if (periodCount == 0) {
+			SessionErrors.add(request, "period-error");
+			isValid = false;
+		}
+
+		return isValid;
 	}
 
 	private EventLocalService _eventLocalService;

@@ -66,7 +66,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 
 		// If we are on the Event event page, we add the corresponding
 		// display context
-		if (cmd.equals("editEvent")) {
+		if (cmd.equals("editEvent") || mvcPath.equals("/agenda-bo-edit-event.jsp")) {
 			EditEventDisplayContext dc = new EditEventDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

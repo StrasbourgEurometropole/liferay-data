@@ -17,6 +17,15 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
+	<liferay-ui:error key="place-name-error" message="place-name-error" />
+	<liferay-ui:error key="place-city-error" message="place-city-error" />
+	<liferay-ui:error key="period-date-error" message="period-date-error" />
+	<liferay-ui:error key="period-error" message="period-error" />
+
 	<aui:form action="${saveEventURL}" method="post" name="fm" onSubmit="validatePeriods(event);">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
