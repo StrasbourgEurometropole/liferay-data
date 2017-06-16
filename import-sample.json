@@ -10,7 +10,7 @@
       "fr_FR": "<p>Description</p>",
       "en_US": "<p>Description</p>"
     },
-    "imageURL": "http://urldelimage", // URL de l'image, obligatoire
+    "imageURL": "http://urldelimage", // URL de l'image, obligatoire, HTTPS si possible
     "imageCopyright": "Copyright", // Copyright de l'image, obligatoire
     "startDate": "2016-11-10", // Dates de début et de fin, obligatoires
     "endDate": "2016-11-30",
@@ -27,7 +27,7 @@
       "444"
     ]
   }],
-  "events": [{
+  "events": [{ // Liste des événements
     "externalId": "3646",// ID dans le système du prestataire, obligatoire
     "title": { // Titre, obligatoire multilingue
       "fr_FR": "titre",
@@ -40,11 +40,11 @@
       "fr_FR": "description",
       "en_US": "description"
     },
-    "imageURL": "http://urldelimage", // URL de l'image, obligatoire
+    "imageURL": "https://urldelimage", // URL de l'image, obligatoire, HTTPS si possible
     "imageCopyright": "test", // Copyright de l'image
     "placeSIGId": "5_LOI_1", // ID SIG du lieu
     "place": { // Ou lieu "manuel"
-      "name": { // Multilingue, obligatoire si lieu manuel
+      "name": { // Nom du lieu, multilingue, obligatoire si lieu manuel
         "fr_FR": "Nom du lieu",
         "en_US": "Place name"
       },
@@ -84,7 +84,7 @@
         "fr_FR": "7h-14h",
         "en_US": "7am-2pm"
       },
-      "startDate": "2015-01-01", // Dates de début et de fin, obligatoire (et date de début antérieure à date de fin)
+      "startDate": "2015-01-01", // Dates de début et de fin, obligatoire (et date de début antérieure à date de fin), format yyyy-mm-dd
       "endDate": "2018-01-01"
     }],
     "manifestations": [ // ID des manifestations auxquels l'événement appartient, correspond au champ "externalId" des manifestations
@@ -101,7 +101,7 @@
     "publics": [
       "333"
     ],
-    "territories": [
+    "territories": [ // Obligatoire si lieu manuel
       "444"
     ],
     "services": [
