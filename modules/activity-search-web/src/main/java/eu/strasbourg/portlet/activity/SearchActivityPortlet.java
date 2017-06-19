@@ -60,19 +60,6 @@ public class SearchActivityPortlet extends MVCPortlet {
 			-1);
 		request.setAttribute("allActivities", allActivities);
 
-		AssetVocabulary territoryVocabulary = AssetVocabularyHelper
-			.getVocabulary(VocabularyNames.TERRITORY,
-				themeDisplay.getCompanyGroupId());
-		AssetVocabulary typeVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_TYPE, themeDisplay.getScopeGroupId());
-		AssetVocabulary publicVocabulary = AssetVocabularyHelper.getVocabulary(
-			VocabularyNames.ACTIVITY_PUBLIC, themeDisplay.getScopeGroupId());
-
-		request.setAttribute("territories",
-			territoryVocabulary.getCategories());
-		request.setAttribute("types", typeVocabulary.getCategories());
-		request.setAttribute("publics", publicVocabulary.getCategories());
-
 		request.setAttribute("dc", new SearchActivityDisplayContext(request));
 
 		// Application display templates
@@ -81,10 +68,8 @@ public class SearchActivityPortlet extends MVCPortlet {
 			.getString(preferences.getValue("displayStyle", StringPool.BLANK));
 		long displayStyleGroupId = GetterUtil
 			.getLong(preferences.getValue("displayStyleGroupId", null), 0);
-		Map<String, Object> contextObjects = new HashMap<String, Object>();
 		request.setAttribute("displayStyle", displayStyle);
 		request.setAttribute("displayStyleGroupId", displayStyleGroupId);
-		request.setAttribute("contextObjects", contextObjects);
 		request.setAttribute("templateEntries", new ArrayList<Object>());
 
 		super.render(request, response);

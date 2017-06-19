@@ -217,25 +217,25 @@
 											<c:if test="${displayDate == status.count}">
 								        		<td >
 											</c:if>
-												<c:forEach var="placeSchedule" items="${horaires.value}" varStatus="status">
-													<c:if test="${placeSchedule.isException() || placeSchedule.isPublicHoliday()}">
+												<c:forEach var="subPlaceSchedule" items="${horaires.value}" varStatus="status">
+													<c:if test="${subPlaceSchedule.isException() || subPlaceSchedule.isPublicHoliday()}">
 														<span style="color:#B22222;">                              
 													</c:if>
 													<c:choose>
-														<c:when test="${placeSchedule.isClosed()}">
+														<c:when test="${subPlaceSchedule.isClosed()}">
 															<liferay-ui:message key="eu.closed" />
 														</c:when>
-														<c:when test="${placeSchedule.isAlwaysOpen()}">
+														<c:when test="${subPlaceSchedule.isAlwaysOpen()}">
 													        <liferay-ui:message key="always-open" />
 														</c:when>
 														<c:otherwise>
 															<c:if test="${status.count > 1}">
 																<br>
 															</c:if>
-															${placeSchedule.startTime} - ${placeSchedule.endTime} 
+															${subPlaceSchedule.startTime} - ${subPlaceSchedule.endTime} 
 														</c:otherwise>
 													</c:choose>   
-													<c:if test="${placeSchedule.isException() || placeSchedule.isPublicHoliday()}">
+													<c:if test="${subPlaceSchedule.isException() || subPlaceSchedule.isPublicHoliday()}">
 														*</span>                             
 													</c:if>
 												</c:forEach>
@@ -260,29 +260,53 @@
 			</aui:button-row>
 			
        		<c:if test="${!empty exceptions}">
-                <strong  style="color:#B22222;">
-                	*<liferay-ui:message key="eu.exceptional-closings-openings" />
-                </strong>
-                <p>
-					<c:forEach var="exceptions" items="${exceptions}" varStatus="status">
-						<c:forEach var="placeSchedule" items="${exceptions.value}" varStatus="status2">
-							<c:if test="${status.count + status2.count > 2}">
-								<br>
+       			<div class="calendar-schedule-exceptions">
+	                <strong  style="color:#B22222;">
+	                	*<liferay-ui:message key="eu.exceptional-closings-openings" />
+	                </strong>
+	                <c:set var="nbExceptions" value="0" />
+					<c:forEach var="exceptions" items="${exceptions}">
+						<c:forEach var="scheduleException" items="${exceptions.value}">
+	               			<c:set var="nbExceptions" value="${nbExceptions + 1}" />
+							<c:if test="${nbExceptions <= 4}">
+	                			<p>
 							</c:if>
-							<strong>
-								${exceptions.key} - 
-								${placeSchedule.period} 
-							</strong>
-							<c:if test="${placeSchedule.isClosed()}">
-								<liferay-ui:message key="eu.closed" />
+							<c:if test="${nbExceptions > 4}">
+	                			<p class="more-schedules">
 							</c:if>
-							<c:if test="${!placeSchedule.isClosed()}">
-								${placeSchedule.startTime} - ${placeSchedule.endTime}
-							</c:if>
-							- ${placeSchedule.getDescription()}
+								<strong>
+									${exceptions.key} - 
+									${scheduleException.period} 
+								</strong>
+								<c:if test="${scheduleException.isClosed()}">
+									<liferay-ui:message key="eu.closed" />
+								</c:if>
+								<c:if test="${!scheduleException.isClosed()}">
+									${scheduleException.startTime} - ${scheduleException.endTime}
+								</c:if>
+								- ${scheduleException.getDescription()}
+							</p>
 						</c:forEach>
 					</c:forEach>
-				</p>
+					<a href="#" class="btn-more-schedules" title="Voir toutes les exceptions" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
+					<a href="#horaires" class="btn-less-schedules" title="Masquer les exceptions" style="display: none;"><span class="btn-icon icon icon-minus"></span></a>
+				</div>
+				<script>
+					/*<![CDATA[*/
+						jQuery(".btn-more-schedules").on("click",function(a){
+							a.preventDefault();
+							jQuery(".more-schedules").show();
+							jQuery(".btn-more-schedules").hide();
+							jQuery(".btn-less-schedules").show()
+						});
+					
+						jQuery(".btn-less-schedules").on("click",function(a){
+							jQuery(".more-schedules").hide();
+							jQuery(".btn-more-schedules").show();
+							jQuery(".btn-less-schedules").hide()
+						});
+					/*]]>*/
+				</script>
        		</c:if>
 			
 		</c:otherwise>

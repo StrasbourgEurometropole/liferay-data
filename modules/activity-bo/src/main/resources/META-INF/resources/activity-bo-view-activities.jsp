@@ -75,10 +75,6 @@
 					href="${editActivityURL}" name="title" truncate="true"
 					orderable="true" value="${activity.titleCurrentValue}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editActivityURL}" name="title" truncate="true"
-					orderable="true" value="${activity.titleCurrentValue}" />
-
 				<liferay-ui:search-container-column-text name="type">
 					${activity.getTypesLabel(locale)}
 				</liferay-ui:search-container-column-text>

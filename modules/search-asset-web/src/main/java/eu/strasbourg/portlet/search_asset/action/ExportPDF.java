@@ -63,9 +63,7 @@ public class ExportPDF extends MVCPortlet {
 			DocumentException, SystemException, PortalException {
 
 		// récupération du domaine
-		ThemeDisplay themeDisplay = (ThemeDisplay) req
-				.getAttribute(WebKeys.THEME_DISPLAY);
-		domaine = themeDisplay.getPortalURL();
+		domaine = "http://localhost:8080";
 
 		// génération du pdf
 		Document doc = new Document();

@@ -140,7 +140,7 @@
     text-indent: -999em;
     overflow: hidden;
     height: 24px;
-    background: transparent url(../../img/btn/social-network.png) top left no-repeat;
+    background: transparent url(../../img/btn/social-network_petit.png) top left no-repeat;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
@@ -161,8 +161,12 @@
     width: 115px;
 }
 .footer .footer-top .social-network ul li a.btn-tw {
-    background-position: top right;
+    background-position: -265px 0px;
     width: 95px;
+}
+.footer .footer-top .social-network ul li a.btn-in {
+    background-position: top right;
+    width: 70px;
 }
 .footer .closure {
     height: 50px;

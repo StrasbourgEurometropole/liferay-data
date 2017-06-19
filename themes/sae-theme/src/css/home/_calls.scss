@@ -1,0 +1,41 @@
+h3, .main-title span{
+	font-family: 'proximanovalight';
+	font-size:36px;
+	font-size:3.6rem;
+	line-height: 1em;
+	color:#1b1b1b;
+	text-transform: uppercase;
+	font-weight: 300;
+	margin:0px 0px 40px;
+	display: inline-block;
+	position: relative;
+	&:before, &:after{
+		content:'';
+		height:1px;
+		width:50px;
+		background-color: $color-primary;
+		position:absolute;
+		top:50%;
+	}
+	&:before{
+		left:-70px;
+	}
+	&:after{
+		right:-70px;
+	}
+	@include RWD(mobile){
+		&:before, &:after{
+			content: none;
+		}
+	}
+}
+
+.content-center{
+	@extend %content-center;
+}
+
+.btn-general,
+.link-all a{
+	@extend %btn;
+	margin-top:33px;
+}

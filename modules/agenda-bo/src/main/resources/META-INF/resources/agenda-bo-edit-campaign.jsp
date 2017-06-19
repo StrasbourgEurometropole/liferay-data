@@ -20,6 +20,8 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="copyright-error" message="copyright-error" />
 	<liferay-ui:error key="managers-error" message="managers-error" />
 	<liferay-ui:error key="themes-error" message="themes-error" />
 	
@@ -38,6 +40,11 @@
 					<aui:validator name="required"
 						errorMessage="this-field-is-required" />
 				</aui:input>
+				
+				<strasbourg-picker:image label="eu.default-image" name="defaultImageId"
+						required="true" value="${dc.campaign.defaultImageId}" global="true" />
+						
+				<aui:input name="defaultImageCopyright" label="default-copyright" required="true" />
 
 				<aui:input name="exportEnabled" type="toggle-switch"
 					value="${not empty dc.campaign ? dc.campaign.exportEnabled : false}" />

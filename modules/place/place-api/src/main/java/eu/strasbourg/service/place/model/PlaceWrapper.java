@@ -2068,6 +2068,28 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
+		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.Locale locale) {
+		return _place.getPlaceScheduleException(premierJour, surPeriode, locale);
+	}
+
+	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleExceptionFreeMarker(
+		Date dateDeb, java.lang.Boolean surPeriode, java.util.Locale locale) {
+		return _place.getPlaceScheduleExceptionFreeMarker(dateDeb, surPeriode,
+			locale);
+	}
+
+	/**
 	* Retourne les PublicHolidays
 	*/
 	@Override

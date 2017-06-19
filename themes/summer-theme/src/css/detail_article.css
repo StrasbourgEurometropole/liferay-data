@@ -107,7 +107,7 @@ img.img-border {
     margin: 0;
     padding-left: 20px;
     text-transform: uppercase;
-    color: #268033;
+    color: #e6617c;
 }
 .article-detail p {
     line-height: 20px;
@@ -136,7 +136,7 @@ img.img-border {
     padding-top: 10px;
     padding-right: 20px;
     padding-left: 20px;
-    color: #268033;
+    color: #e6617c;
 }
 
 .article-detail .date_detail_actu {
@@ -145,7 +145,7 @@ img.img-border {
     font-weight: 800;
     line-height: 1.4em;
     clear: both;
-    color: #268033;
+    color: #e6617c;
 }
 
 .article-detail .article-clear {
@@ -160,7 +160,6 @@ img.img-border {
     font-weight: normal;
     clear: both;
     text-transform: none;
-    color: #55bd5d !important;
 }
 
 .article-detail h2 {
@@ -174,7 +173,7 @@ img.img-border {
 #main-content .article-detail h3 {
     font-size: 20px;
     line-height: 120%;
-    color: #268033;
+    color: #e6617c;
     padding: 0;
     margin-bottom: 6px;
     margin-top: 18px;

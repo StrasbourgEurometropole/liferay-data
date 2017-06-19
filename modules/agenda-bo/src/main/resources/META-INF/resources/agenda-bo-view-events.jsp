@@ -105,6 +105,16 @@
 							<liferay-ui:icon message="edit" url="${editEventURL}" />
 						</c:if>
 
+						<liferay-portlet:actionURL name="duplicateEvent"
+							var="duplicateEventURL">
+							<portlet:param name="cmd" value="duplicateEvent" />
+							<portlet:param name="tab" value="events" />
+							<portlet:param name="eventId" value="${event.eventId}" />
+						</liferay-portlet:actionURL>
+						<c:if test="${dc.hasPermission('ADD_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="duplicate" url="${duplicateEventURL}" />
+						</c:if>
+
 						<liferay-portlet:actionURL name="deleteEvent"
 							var="deleteEventURL">
 							<portlet:param name="cmd" value="deleteEvent" />

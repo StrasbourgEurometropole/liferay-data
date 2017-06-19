@@ -27,6 +27,8 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="defaultImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="defaultImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="managersIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="exportEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>

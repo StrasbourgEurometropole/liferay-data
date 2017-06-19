@@ -1,0 +1,9 @@
+Bundle-SymbolicName: twitter.web
+Bundle-Version: 1.0.0
+Bundle-ClassPath:\
+  .,\
+ lib/twitter4j.jar,
+-includeresource:\
+ lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.6_1.jar
+ 
+ 

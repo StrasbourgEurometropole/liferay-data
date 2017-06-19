@@ -125,8 +125,9 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		activityCourse.setActivityId(activityId);
 
 		// Modalités
-		String arrangements = ParamUtil.getString(request, "arrangements");
-		activityCourse.setArrangements(arrangements);
+		Map<Locale, String> arrangements = LocalizationUtil.getLocalizationMap(request,
+			"arrangements");
+		activityCourse.setArrangementsMap(arrangements);
 
 		// Tarif
 		Map<Locale, String> price = LocalizationUtil.getLocalizationMap(request,

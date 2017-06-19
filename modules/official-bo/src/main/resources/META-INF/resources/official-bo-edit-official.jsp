@@ -130,10 +130,10 @@
 				<aui:select class="form-control" name="town2" >
         			<aui:option value="" />
 					<c:forEach items="${dc.towns}" var="category" varStatus="status">
-						<c:if test="${dc.official.isCategoryOfficial(category.categoryId)}">
+						<c:if test="${dc.official.isCategoryOfficial(category.categoryId) && dc.official.isEluEurometropole()}">
         					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" selected="true" />
 						</c:if>
-						<c:if test="${!dc.official.isCategoryOfficial(category.categoryId)}">
+						<c:if test="${!dc.official.isCategoryOfficial(category.categoryId) || !dc.official.isEluEurometropole()}">
         					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" />
 						</c:if>
 					</c:forEach>
@@ -158,30 +158,18 @@
 				label="additionnals-informations">
 				
 				<c:if test="${not empty dc.othersMandates}">
-					<div class="form-group input-String-wrapper">
-						<label><liferay-ui:message key="fonctions-town" /></label>
-						<c:forEach items="${dc.fonctionsTown}" var="category" varStatus="status">
-								<c:if test="${dc.official.isCategoryOfficial(category.categoryId)}">
-		        					<aui:input name="fonction-town" value="${category.categoryId}" label="${category.getTitle(locale)}" type="radio" checked="true" />
-								</c:if>
-								<c:if test="${!dc.official.isCategoryOfficial(category.categoryId)}">
-		        					<aui:input name="fonction-town" value="${category.categoryId}" label="${category.getTitle(locale)}" type="radio" />
-								</c:if>
+					<aui:select class="form-control" name="others-mandates" multiple="true" >
+	        			<aui:option value="" />
+						<c:forEach items="${dc.othersMandates}" var="category" varStatus="status">
+							<c:if test="${dc.official.isCategoryOfficial(category.categoryId)}">
+	        					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" selected="true" />
+							</c:if>
+							<c:if test="${!dc.official.isCategoryOfficial(category.categoryId)}">
+	        					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" />
+							</c:if>
 						</c:forEach>
-					</div>
+				    </aui:select>
 				</c:if>	
-				
-				<aui:select class="form-control" name="others-mandates" multiple="true" >
-        			<aui:option value="" />
-					<c:forEach items="${dc.othersMandates}" var="category" varStatus="status">
-						<c:if test="${dc.official.isCategoryOfficial(category.categoryId)}">
-        					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" selected="true" />
-						</c:if>
-						<c:if test="${!dc.official.isCategoryOfficial(category.categoryId)}">
-        					<aui:option value="${category.categoryId}" label="${category.getTitle(locale)}" />
-						</c:if>
-					</c:forEach>
-			    </aui:select>
 				
 				<div class="form-group input-String-wrapper">
 					<label><liferay-ui:message key="olds-mandats" /></label>

@@ -76,6 +76,26 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> getActivityCoursePlaces();
 
 	/**
+	* Retourne les publics dui cours
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne le texte à afficher pour les publics du cours
+	*/
+	public java.lang.String getPublicsLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les types du cours
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne le texte à afficher pour les types du cours
+	*/
+	public java.lang.String getTypesLabels(java.util.Locale locale);
+
+	/**
 	* Retourne la version live de cette entité
 	*/
 	public eu.strasbourg.service.activity.model.ActivityCourse getLiveVersion();

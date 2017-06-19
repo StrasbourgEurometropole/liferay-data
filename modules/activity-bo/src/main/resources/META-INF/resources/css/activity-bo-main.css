@@ -109,3 +109,10 @@
    -webkit-animation: highlight-fade 1s ease-in 1;
    animation: highlight-fade 1s ease-in 1;
 }
+
+/* Liens vers les activités et les organisateurs */
+.strasbourg-entity-picker + a {
+    margin-top: -30px;
+    display: block;
+    margin-bottom: 30px;
+}

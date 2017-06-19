@@ -16,7 +16,8 @@
     list-style: none;
     display: block;
     font-weight: bold;
-    background: transparent url("../images/2016/dark_green_arrow.png") no-repeat scroll left 3px;
+    background: transparent url("../images/2017/fleche-vert_bleu.png") no-repeat scroll left 3px;
+    background-size: 9px;
     padding-left: 15px;
     margin-left: 1em;
     margin-bottom: 1em;
@@ -71,9 +72,9 @@
 #main-content .portlet-link-viewer div.title-read-further,
 #main-content .portlet .title-procedures-and-services,
 #main-content .portlet .title-most-requested {
-    background: #e6f4ec;
+    background: #e4f4f6;
     margin-bottom: 1em;
-    color: #268033;
+    color: #64bac5;
     font-size: 1.85em;
     height: 25px;
     margin-top: 0em;
@@ -143,7 +144,8 @@
 .portlet-cus-document-asset .bloc-util-docs .doc {
     display: block;
     font-weight: bold;
-    background: transparent url("../images/2016/dark_green_arrow.png") no-repeat scroll left 3px;
+    background: transparent url("../images/2017/fleche-vert_bleu.png") no-repeat scroll left 3px;
+    background-size: 9px;
     padding-left: 15px;
     margin-left: 1em;
     margin-bottom: 1em;
@@ -163,10 +165,10 @@
     box-sizing: content-box;
     border: 1px solid #e6f4ee;
     display: block;
-    background: #e6f4ee;
+    background: #e4f4f6;
     line-height: 2em;
     text-align: center;
-    color: #268033;
+    color: #64bac5;
     height: 25px;
     font-size: 1.85em;
     padding-bottom: 15px;
@@ -400,8 +402,8 @@
 .portlet-cus-document-asset .btn-more,
 .portlet-link-viewer .btn-more,
 .portlet-agenda .link-all a {
-    background: #e6f4ec;
-    color: #268033;
+    background: #e4f4f6;
+    color: #64bac5;
     display: inline-block;
     padding: 5px 10px;
     font-weight: bold;

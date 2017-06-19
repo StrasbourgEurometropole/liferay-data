@@ -69,6 +69,9 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
 			Boolean exportEnabled = ParamUtil.getBoolean(request, "exportEnabled");
+			long defaultImageId = ParamUtil.getLong(request, "defaultImageId");
+			Map<Locale, String> defaultImageCopyright = LocalizationUtil
+				.getLocalizationMap(request, "defaultImageCopyright");
 			long[] managersIds = ParamUtil.getLongValues(request, "managersIds");
 			long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
 			
@@ -76,6 +79,14 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			boolean isValid = true;
 			if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 				SessionErrors.add(request, "title-error");
+				isValid = false;
+			}
+			if (defaultImageId == 0) {
+				SessionErrors.add(request, "image-error");
+				isValid = false;
+			}
+			if (Validator.isNull(ParamUtil.getString(request, "defaultImageCopyright"))) {
+				SessionErrors.add(request, "copyright-error");
 				isValid = false;
 			}
 			if (themesIds.length == 0) {
@@ -94,6 +105,8 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			}
 			
 			campaign.setTitleMap(title);
+			campaign.setDefaultImageId(defaultImageId);
+			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);
 			campaign.setExportEnabled(exportEnabled);
 			campaign.setManagersIds(StringUtil.merge(managersIds));
 			sc.setAssetCategoryIds(themesIds);

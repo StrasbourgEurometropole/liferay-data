@@ -457,14 +457,6 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	}
 
 	/**
-	* Retourne le texte à afficher pour les publics de l'activité
-	*/
-	@Override
-	public java.lang.String getPublicsLabel(java.util.Locale locale) {
-		return _activity.getPublicsLabel(locale);
-	}
-
-	/**
 	* Returns the status by user name of this activity.
 	*
 	* @return the status by user name of this activity
@@ -675,14 +667,6 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	@Override
 	public java.util.List<java.lang.String> getImagesURLs() {
 		return _activity.getImagesURLs();
-	}
-
-	/**
-	* Retourne les publics de l'activité
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
-		return _activity.getPublics();
 	}
 
 	/**

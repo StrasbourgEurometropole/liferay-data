@@ -128,7 +128,7 @@ a:hover {
 .rubric-portlet ul {
   font-size: 1.5em;
   line-height: 2em;
-  list-style-image: url(/o/summer-theme/images/puce_carree_1.png);  
+  list-style-image: url(/o/summer-theme/images/2017/square_pink.png);  
 }
 
 .rubric-portlet h1 {
@@ -166,7 +166,7 @@ a:hover {
 }
 
 .date-selection .date-selector input {
-  background: #FFF url(/o/summer-theme/images/bg/icon-calendar.png) top right no-repeat !important;
+  background: #FFF url(/o/summer-theme/images/2017/icon-calendar-pink.png) top right no-repeat !important;
 }
 
 .portlet-cus-event-asset-fo .col-filter {
@@ -210,10 +210,10 @@ h3.useful-links-title {
     box-sizing: content-box;
     border: 1px solid #e6f4ee;
     display: block;
-    background: #e6f4ee;
+    background: #e4f4f6;
     line-height: 2em;
     text-align: center;
-    color: #268033;
+    color: #64bac5;
     height: 25px;
     font-size: 1.85em;
     padding-bottom: 15px;
@@ -242,7 +242,8 @@ h3.useful-links-title {
     list-style: none;
     display: block;
     font-weight: bold;
-    background: transparent url(/o/summer-theme/images/2016/dark_green_arrow.png) no-repeat scroll left 3px;
+    background: transparent url(/o/summer-theme/images/2017/fleche-vert_bleu.png) no-repeat scroll left 3px;
+    background-size: 9px;
     padding-left: 15px;
     margin-left: 1em;
     margin-bottom: 1em;
