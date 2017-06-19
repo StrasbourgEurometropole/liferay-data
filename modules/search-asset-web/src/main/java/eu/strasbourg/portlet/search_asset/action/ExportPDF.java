@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.search_asset.action;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -124,6 +125,7 @@ public class ExportPDF extends MVCPortlet {
 				break;
 			}
 		}
+		document.addTitle(titrePortlet + ".pdf");
 		insertCell(table, "title",
 				new Phrase(new Phrase(titrePortlet.toUpperCase(), fontTitle)),
 				null, 3);
@@ -205,6 +207,11 @@ public class ExportPDF extends MVCPortlet {
 		if (elu.isEluMunicipal()) {
 			phrase.add(new Chunk(elu.getName(elu.getFonctionCity(), locale),
 					fontBold));
+			if (Validator.isNotNull(elu.getPoliticalGroupCity())) {
+				phrase.add("\n");
+				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupCity(), locale),
+					font));
+			}
 
 			if (Validator.isNotNull(elu.getThematicDelegation())) {
 				String cityMission = StringUtil.replaceFirst(
@@ -247,6 +254,11 @@ public class ExportPDF extends MVCPortlet {
 			phrase.add(new Chunk(
 					elu.getName(elu.getFonctionEurometropole(), locale),
 					fontBold));
+			if (Validator.isNotNull(elu.getPoliticalGroupEurometropole())) {
+				phrase.add("\n");
+				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupEurometropole(), locale),
+					font));
+			}
 
 			if (Validator.isNotNull(elu.getFonctionTown())) {
 				phrase.add(new Chunk(
