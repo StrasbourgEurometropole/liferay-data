@@ -2,7 +2,7 @@
 	<div class="header-image">
 	</div>
 	<div class="cover">
-		<a href="#" class="home-link">
+		<a href="accueil" class="home-link">
 		</a>
 		<div class="strasbourg-bar">
 			<div class="container">
@@ -14,16 +14,16 @@
 		<div class="site-title-row">
 			<div class="container">
 				<h1 class="site-title">
-					<a href="#" class="logo">
+					<a href="accueil" class="logo">
 						<img class="desktop-only hide-tablet" src="/o/videos-theme/images/logo/logo_video_grey.png" />
 						<img class="mobile-only show-tablet" src="/o/videos-theme/images/logo/logo_video.png" />
 					</a> 
-					<a href="#">
+					<a href="accueil">
 						<span class="site-subtitle"><@liferay.language key='eu.videos-theme.description-page' /></span>
 					</a>
 					<div class="action mobile-only">
 						<img src="/o/videos-theme/images/ui/search.png" title="Search" alt="Search" id="search-toggle" />
-						<a id="nav-toggle" href="#"><span></span></a>
+						<a id="nav-toggle" href="accueil"><span></span></a>
 					</div>
 					<div class="search-box">
 						<form class="search-form">
