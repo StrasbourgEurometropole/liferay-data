@@ -7,7 +7,7 @@
 	<div class="cover">
 		<div class="strasbourg-bar">
 			<div class="container">
-				<a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu (<@liferay.language key='eu.new-window' />)"> 
+				<a href="//www.strasbourg.eu" target="_blank" title="Strasbourg.eu (<@liferay.language key='eu.new-window' />)"> 
 					<img class="strasbourg-logo" src="/o/videos-theme/images/logo/logo_strasbourg.png" />
 				</a>
 			</div>

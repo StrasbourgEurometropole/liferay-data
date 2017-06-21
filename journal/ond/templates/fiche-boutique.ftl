@@ -49,7 +49,7 @@
                     <a href="mailto:oeuvre-notre-dame@strasbourg.eu" style="color: #ffffff;">oeuvre-notre-dame@strasbourg.eu</a>
                 </div>
                 <div class="col-1">
-                    Les bureaux de la Fondation sont ouverts à la vente de nos produits<br /><span class="strong">de 8h00 à 12h00 et de 14h00 à 17h00.</span><br/><a href="https://www.facebook.com/laboutiqueculture.strasbourg" title="La Boutique culture sur Facebook (nouvelle fenêtre)" target="_blank" style="color: #ffffff; text-decoration: underline;">La Boutique culture</a> est ouverte du mardi au samedi de 12h00 à 19h00.
+                    Les bureaux de la Fondation sont ouverts à la vente de nos produits<br /><span class="strong">de 8h00 à 12h00 et de 14h00 à 17h00.</span><br/><a href="//www.facebook.com/laboutiqueculture.strasbourg" title="La Boutique culture sur Facebook (nouvelle fenêtre)" target="_blank" style="color: #ffffff; text-decoration: underline;">La Boutique culture</a> est ouverte du mardi au samedi de 12h00 à 19h00.
                 </div>
             </div>
         </div>
