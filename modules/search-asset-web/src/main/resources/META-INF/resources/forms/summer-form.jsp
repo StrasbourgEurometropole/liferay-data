@@ -9,7 +9,7 @@
 		<div class="col-filter">
 			<!-- Mots clÃ©s -->
 			<div class="keyword-field">
-				<aui:input type="text" name="${keywords}" value="${dc.keywords}" label="keywords" />
+				<aui:input type="text" name="keywords" value="${dc.keywords}" label="keywords" />
 			</div>
 		
 			<!-- Vocabulaires -->
