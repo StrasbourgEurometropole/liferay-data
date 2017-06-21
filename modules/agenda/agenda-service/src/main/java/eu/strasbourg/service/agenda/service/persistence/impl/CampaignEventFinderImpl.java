@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Order;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -53,7 +55,9 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 		Criterion userCriterion = RestrictionsFactoryUtil.or(
 			PropertyFactoryUtil.forName("userId").eq(userId),
 			PropertyFactoryUtil.forName("campaignId").in(campaignQuery));
-		campaignEventQuery.add(userCriterion);
+		
+		Order order = OrderFactoryUtil.desc("modifiedDate");
+		campaignEventQuery.add(userCriterion).addOrder(order);
 
 		return this.campaignEventPersistence
 			.findWithDynamicQuery(campaignEventQuery);
