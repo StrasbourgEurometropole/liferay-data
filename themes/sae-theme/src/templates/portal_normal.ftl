@@ -6,13 +6,13 @@
 <#assign currentGroupName = currentGroup.getName() />
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 <#if locale.language == "en">
-  <#assign websiteUrl = "http://www.en.strasbourg.eu" />
+  <#assign websiteUrl = "//www.en.strasbourg.eu" />
 <#else>
   <#if locale.language == "fr">
-    <#assign websiteUrl = "http://www.strasbourg.eu" />
+    <#assign websiteUrl = "//www.strasbourg.eu" />
   <#else>
     <#if locale.language == "de">
-      <#assign websiteUrl = "http://www.de.strasbourg.eu" />
+      <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
   </#if>
 </#if>
@@ -68,7 +68,7 @@
       <!-- pre-header -->
       <nav class="nav-lang"> 
         <div class="center"> 
-          <a href="http://www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
+          <a href="//www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
             <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Strasbourg.eu" />
           </a>
           <ul style="display: none;"> 
