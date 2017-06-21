@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.portlet.PortletRequest;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -159,33 +159,55 @@ public class SearchActivityDisplayContext {
 			// Types d'activité
 			List<Long> activityTypeIds = new ArrayList<Long>();
 			if (activityTypeId > 0) {
-				activityTypeIds.add(activityTypeId);
-			} else {
-				activityTypeIds.addAll(activityTypesFromConfiguration.stream()
+				List<AssetCategory> allActivityTypes = AssetVocabularyHelper
+					.getCategoryWithChild(activityTypeId);
+				List<Long> allActivityTypesIds = allActivityTypes.stream()
 					.map(AssetCategory::getCategoryId)
-					.collect(Collectors.toList()));
+					.collect(Collectors.toList());
+				activityTypeIds.addAll(allActivityTypesIds);
+			} else {
+				List<Long> allActivityTypeIds = AssetVocabularyHelper
+					.getCategoriesWithChild(activityTypesFromConfiguration)
+					.stream().map(AssetCategory::getCategoryId)
+					.collect(Collectors.toList());
+				activityTypeIds.addAll(allActivityTypeIds);
 			}
 			// Types de cours
-			List<Long> courseTypeIds = courseTypesFromConfiguration.stream()
+			List<Long> courseTypeIds = AssetVocabularyHelper
+				.getCategoriesWithChild(courseTypesFromConfiguration).stream()
 				.map(AssetCategory::getCategoryId).collect(Collectors.toList());
 
 			// Publics
 			List<Long> publicIds = new ArrayList<Long>();
-			if (activityTypeId > 0) {
-				publicIds.add(publicId);
-			} else {
-				publicIds.addAll(publicsFromConfiguration.stream()
+			if (publicId > 0) {
+				List<AssetCategory> allPublics = AssetVocabularyHelper
+					.getCategoryWithChild(publicId);
+				List<Long> allPublicsIds = allPublics.stream()
 					.map(AssetCategory::getCategoryId)
-					.collect(Collectors.toList()));
+					.collect(Collectors.toList());
+				publicIds.addAll(allPublicsIds);
+			} else {
+				List<Long> allPublicIds = AssetVocabularyHelper
+					.getCategoriesWithChild(publicsFromConfiguration).stream()
+					.map(AssetCategory::getCategoryId)
+					.collect(Collectors.toList());
+				publicIds.addAll(allPublicIds);
 			}
 			// Territoires
 			List<Long> territoryIds = new ArrayList<Long>();
-			if (activityTypeId > 0) {
-				territoryIds.add(territoryId);
-			} else {
-				territoryIds.addAll(territoriesFromConfiguration.stream()
+			if (territoryId > 0) {
+				List<AssetCategory> allTerritorys = AssetVocabularyHelper
+					.getCategoryWithChild(territoryId);
+				List<Long> allTerritorysIds = allTerritorys.stream()
 					.map(AssetCategory::getCategoryId)
-					.collect(Collectors.toList()));
+					.collect(Collectors.toList());
+				territoryIds.addAll(allTerritorysIds);
+			} else {
+				List<Long> allTerritoryIds = AssetVocabularyHelper
+					.getCategoriesWithChild(territoriesFromConfiguration)
+					.stream().map(AssetCategory::getCategoryId)
+					.collect(Collectors.toList());
+				territoryIds.addAll(allTerritoryIds);
 			}
 
 			/**
@@ -203,10 +225,15 @@ public class SearchActivityDisplayContext {
 			List<ActivityCoursePlace> coursePlacesWithSchedules = ActivityCoursePlaceLocalServiceUtil
 				.findByIds(coursePlaceIds);
 
-			// Mais on veut aussi récupérer les lieux qui n'ont pas de schedule
-			// !
-			List<ActivityCoursePlace> coursePlacesWithNoSchedule = ActivityCoursePlaceLocalServiceUtil
-				.findWithNoSchedule(themeDisplay.getScopeGroupId());
+			// Mais si on n'a pas de critère temporel (jours ou heures) on veut
+			// aussi récupérer les lieux qui n'ont pas de schedule !
+			List<ActivityCoursePlace> coursePlacesWithNoSchedule = new ArrayList<ActivityCoursePlace>();
+			if (!monday && !tuesday && !thursday && !wednesday && !thursday
+				&& !friday && !saturday && !sunday
+				&& Validator.isNull(startTime) && Validator.isNull(endTime)) {
+				coursePlacesWithNoSchedule = ActivityCoursePlaceLocalServiceUtil
+					.findWithNoSchedule(themeDisplay.getScopeGroupId());
+			}
 
 			// On filtre ces lieux par territoryId et sigId
 			List<ActivityCoursePlace> coursePlaces = new ArrayList<ActivityCoursePlace>(
@@ -292,20 +319,7 @@ public class SearchActivityDisplayContext {
 			if (territoryIds.size() > 0) {
 				if (Validator.isNotNull(place.getPlaceCityId())) {
 					// Lieu manuel
-					long cityId = place.getPlaceCityId();
-					AssetCategory city = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(cityId);
-					if (city != null) {
-						try {
-							if (!city.getAncestors().stream()
-								.anyMatch(c -> territoryIds.stream()
-									.anyMatch(t -> c.getCategoryId() == t))) {
-								okToAddPlace = false;
-							}
-						} catch (PortalException e) {
-							okToAddPlace = false;
-						}
-					} else {
+					if (!territoryIds.contains(place.getPlaceCityId())) {
 						okToAddPlace = false;
 					}
 				} else {
@@ -313,10 +327,8 @@ public class SearchActivityDisplayContext {
 					Place sigPlace = PlaceLocalServiceUtil
 						.getPlaceBySIGId(place.getPlaceSIGId());
 					List<AssetCategory> territories = sigPlace.getTerritories();
-					List<AssetCategory> allPlaceTerritories = AssetVocabularyHelper
-						.getFullHierarchyCategories(territories);
-					if (!allPlaceTerritories.stream().anyMatch(c -> territoryIds
-						.stream().anyMatch(t -> c.getCategoryId() == t))) {
+					if (!territoryIds.stream().anyMatch(c -> territories
+						.stream().anyMatch(t -> c == t.getCategoryId()))) {
 						okToAddPlace = false;
 					}
 				}
@@ -390,7 +402,7 @@ public class SearchActivityDisplayContext {
 	 * de recherche
 	 */
 	public List<AssetCategory> getActivityTypes() {
-		return this.getCategoriesForDropdowns(VocabularyNames.ACTIVITY_TYPE,
+		return this.getCategoriesForDropdown(VocabularyNames.ACTIVITY_TYPE,
 			this.activityTypesFromConfiguration,
 			themeDisplay.getScopeGroupId());
 	}
@@ -400,7 +412,7 @@ public class SearchActivityDisplayContext {
 	 * recherche
 	 */
 	public List<AssetCategory> getPublics() {
-		return this.getCategoriesForDropdowns(
+		return this.getCategoriesForDropdown(
 			VocabularyNames.ACTIVITY_COURSE_PUBLIC,
 			this.publicsFromConfiguration, themeDisplay.getScopeGroupId());
 	}
@@ -410,7 +422,7 @@ public class SearchActivityDisplayContext {
 	 * recherche
 	 */
 	public List<AssetCategory> getTerritories() {
-		return this.getCategoriesForDropdowns(VocabularyNames.TERRITORY,
+		return this.getCategoriesForDropdown(VocabularyNames.TERRITORY,
 			this.territoriesFromConfiguration,
 			themeDisplay.getCompanyGroupId());
 	}
@@ -419,7 +431,7 @@ public class SearchActivityDisplayContext {
 	 * Retourne la liste des catégories à afficher dans la liste déroulante pour
 	 * un vocabulaire
 	 */
-	private List<AssetCategory> getCategoriesForDropdowns(String vocabularyName,
+	private List<AssetCategory> getCategoriesForDropdown(String vocabularyName,
 		List<AssetCategory> categoriesFromConfiguration, long groupId) {
 
 		// Si il n'y a pas de préfiltre dans la configuration, on renvoie toutes
@@ -442,6 +454,29 @@ public class SearchActivityDisplayContext {
 		else {
 			return categoriesFromConfiguration;
 		}
+	}
+
+	/**
+	 * Retourne la liste des activités à afficher dans la liste déroulante du
+	 * moteur de recherche
+	 */
+	public List<Activity> getActivitiesForDropdown() {
+		List<Activity> activities = ActivityLocalServiceUtil.getActivities(-1,
+			-1);
+
+		List<Long> activityTypeIds = AssetVocabularyHelper
+			.getCategoriesWithChild(activityTypesFromConfiguration).stream()
+			.map(AssetCategory::getCategoryId).collect(Collectors.toList());
+
+		activities = activities.stream()
+			.filter(a -> a.getGroupId() == themeDisplay.getScopeGroupId())
+			.filter(a -> a.getTypes().stream()
+				.anyMatch(activityType -> activityTypeIds.stream()
+					.anyMatch(typeIdFromConf -> typeIdFromConf == activityType
+						.getCategoryId())))
+			.collect(Collectors.toList());
+
+		return activities;
 	}
 
 }
