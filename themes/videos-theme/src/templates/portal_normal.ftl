@@ -11,7 +11,7 @@
 	<title>${the_title} | Videos.strasbourg.eu</title>
 
 	<!-- jQuery 1.9.1 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
 	<link rel="stylesheet" href="${images_folder}/../vendors/owl/dist/assets/owl.carousel.min.css" />
 	<link rel="stylesheet" href="${images_folder}/../vendors/owl/dist/assets/owl.theme.default.min.css" />
