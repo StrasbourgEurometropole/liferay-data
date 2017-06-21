@@ -1,0 +1,97 @@
+#search-engine{
+	background-color:rgba(0,174,239,0.9);
+	z-index: 8;
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	display: none;
+	//filtre
+	&:before{
+		content:'';
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+		position:absolute;
+		background: -moz-linear-gradient(top,  rgba(0,0,0,1) 0%, rgba(0,0,0,0.69) 14%, rgba(255,255,255,0) 45%);
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.69) 14%,rgba(255,255,255,0) 45%);
+		background: linear-gradient(to bottom,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.69) 14%,rgba(255,255,255,0) 45%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00ffffff',GradientType=0 );
+	}
+	&:after{
+		content:'';
+		height:100%;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.container{
+		@extend %container;
+		display: inline-block;
+		vertical-align: middle;
+		@include RWD(tablet){
+			height:100%;
+			&:before{
+				content:'';
+				height:100%;
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
+	.content-close{
+		position: absolute;
+		top: 0px;
+		left: 50%;
+		margin-left: -600px;
+		width:1200px;
+		@include RWD(tablet){
+			width:100%;
+			left:0;
+			right:0;
+			margin-left:0px;
+		}
+	}
+	.search-input{
+		background-color:#fff;
+		font-family: 'roadwayregular';
+		font-size:30px;
+		font-size:3rem;
+		color:#737373;
+		text-transform: uppercase;
+		height:60px;
+		line-height: 1em;
+		padding:0px 20px;
+		display: inline-block;
+		vertical-align: middle;
+		width:53%;
+		margin-right:10px;
+		@include RWD(mobile){
+			width:72%;
+			font-size:20px;
+			font-size:2rem;
+		}
+	}
+	#btn-search{
+		background-image: none;
+		border: none;
+		background-color: #fff;
+		width:60px;
+		height:60px;
+		@include transition(background-color 0.3s);
+		&:hover, &:active, &:focus{
+			background-image: none;
+			background-color: #e0e0e0;
+		}
+	}
+	#search-close{
+		@extend %btn-close;
+		@include RWD(mobile){
+			top: 20px;
+			right: 20px;
+		}
+	}
+}

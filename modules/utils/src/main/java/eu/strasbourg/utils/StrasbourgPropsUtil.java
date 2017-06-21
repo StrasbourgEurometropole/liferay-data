@@ -55,4 +55,20 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaDetailURL() {
 		return PropsUtil.get("eu.strasbourg.agenda.detail.url");
 	}
+	
+	public static String getTwitterConsumerKey() {
+		return PropsUtil.get("eu.strasbourg.twitter.key");
+	}
+	
+	public static String getTwitterConsumerSecret() {
+		return PropsUtil.get("eu.strasbourg.twitter.secret");
+	}
+
+	public static String getTwitterToken() {
+		return PropsUtil.get("eu.strasbourg.twitter.token");
+	}
+
+	public static String getTwitterTokenSecret() {
+		return PropsUtil.get("eu.strasbourg.twitter.token.secret");
+	}
 }

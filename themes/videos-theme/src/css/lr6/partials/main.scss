@@ -1,0 +1,50 @@
+html {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+}
+body {
+	background: #4d4d4d;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Roboto', sans-serif;
+}
+
+ul {
+	margin-left: 0;
+	margin-bottom: 0;
+	margin-right: 0;
+}
+
+a {
+	color: inherit;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover {
+		color: inherit;
+		text-decoration: underline;
+	}
+}
+
+.btn,
+[role="button"] {
+	cursor: pointer;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.portlet-msg-success {
+	display: none;
+}
+
+[class*="grid-"] {
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	-webkit-flex-wrap: wrap;
+}
+
+[class*="grid-"] > * {
+	-webkit-flex: 0 0 auto;
+}

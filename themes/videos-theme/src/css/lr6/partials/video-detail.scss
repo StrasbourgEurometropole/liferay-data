@@ -1,0 +1,125 @@
+.view-video-portlet {
+    margin-top: 2rem;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    h3, h4 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #FFFFFF;
+        margin-bottom: 0.5rem;
+    }
+    h4 {
+        font-size: 1.4rem;
+        font-weight: normal;
+        margin-bottom: 1rem;
+    }
+    .meta {
+        span {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.6rem;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .channels {
+            text-transform: uppercase;
+        }
+        .channels span,
+        .provider span {
+            background: #97bf0c;
+            padding: 3px 10px;
+        }
+    }
+    .infos .description, .source {
+        margin-top: 4rem;
+        a {
+            color:  #A6CE00;
+        }   
+    }
+    .video-player {
+        position: relative;
+        padding-top: 56.25%;
+        margin-bottom: 20px;
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .galleries-wrapper,
+    .suggestions-wrapper {
+        margin-bottom: 4rem;
+    }
+    .galleries,
+    .suggestions {
+        padding: 1rem 3rem;
+        margin-bottom: 2rem;
+        background: #444444;
+    }
+    .gallery {
+        margin-bottom: 0;
+    }
+    .video-thumbnail .date,
+    .video-thumbnail .provider {
+        bottom: -5px !important;
+    }
+    .gallery-detail, .provider-detail {
+        background: #444444;
+        padding: 2rem;
+        a {
+            color: #A6CE00;
+        }
+        .gallery-image, .provider-image {
+            padding-right: 2rem;
+            float: left;
+            img {
+                max-width: 380px;
+                max-height: 217px;
+            }
+        }
+    }
+}
+
+.mobile .view-video-portlet .other-videos .meta {
+    padding: 0.5rem 0;
+    .date {
+        float: none;
+        display: block;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 480px) {
+    .infos, .other-videos {
+        width: 50% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .view-video-portlet h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .view-video-portlet .gallery-detail .gallery-image,
+    .view-video-portlet .provider-detail .provider-image {
+        img {
+            max-width: 100%;
+            max-height: none;
+            margin-bottom: 2rem; 
+        }
+        padding-right: 0;
+        float: none;
+        text-align: center;
+    }
+    .view-video-portlet .other-videos {
+        margin-top: 4rem;
+    }
+    .video-player-wrapper {
+        margin-left: -1.5rem;
+        width: calc(100% + 3rem);
+    }
+    .view-video-portlet .gallery h4 {
+        margin-left: -1.5rem;
+    }
+}

@@ -5,15 +5,15 @@
 <#assign GroupIdGlobal = themeDisplay.getCompanyGroupId() />
 <#if locale.language == "en">
 	<#assign lang = "en_US" />
-	<#assign websiteUrl = "http://www.en.strasbourg.eu" />
+	<#assign websiteUrl = "//www.en.strasbourg.eu" />
 <#else>
 	<#if locale.language == "fr">
 		<#assign lang = "fr_FR" />
-		<#assign websiteUrl = "http://www.strasbourg.eu" />
+		<#assign websiteUrl = "//www.strasbourg.eu" />
 	<#else>
 		<#if locale.language == "de">
 			<#assign lang = "de_DE" />
-			<#assign websiteUrl = "http://www.de.strasbourg.eu" />
+			<#assign websiteUrl = "//www.de.strasbourg.eu" />
 		</#if>
 	</#if>
 </#if>
@@ -43,12 +43,12 @@
 		<@liferay_util["include"] page=top_head_include />
 		
 		<!-- Google fonts -->
-		<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-	    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css' />
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+	    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css' />
 	       
 		<!-- jQuery 1.9.1 -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
@@ -68,7 +68,7 @@
 		    <header class="header">
 		        <nav class="nav-lang">
 		            <div class="center">
-						<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" class="logo_strasbourg" target="_blank"> 
+						<a href="//www.strasbourg.eu/" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" class="logo_strasbourg" target="_blank"> 
 		                    <img src="${images_folder}/../img/logo_strasbourg.png" alt="Strasbourg.eu" />
 		                </a>
 		                <ul>
@@ -153,7 +153,7 @@
 			</div>
 
 			<!-- FOOTER -->
-			<a href="#" class="btn-top" title="Haut de page"><span><@liferay_ui.message key='eu.top' /></span></a>
+			<a href="#" class="btn-top" title="Haut de page"><span><@liferay_ui.message key='eu.ond-theme.top' /></span></a>
 		    <footer class="footer">
 		        
 				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />

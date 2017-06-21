@@ -1,0 +1,234 @@
+// form general
+.aui-form{
+	.block-filter{
+		background-color:#f2f2f2;
+		padding:40px 80px;
+		@include RWD(tablet_only){
+			padding:40px 2.9%;
+		}
+		@include RWD(mobile){
+			padding: 40px 20px;
+		}
+	}	
+	.col-filter{
+		width:50%;
+		float: left;
+		#public-field, #territory-field{
+			display: none;
+		}
+		&:nth-of-type(1){
+			padding-right:3.33%;
+			@include RWD(mobile){
+				padding-right:0px;
+			}
+		}
+		&:nth-of-type(2), &:nth-of-type(3){
+			padding-left: 3.33%;
+			@include RWD(mobile){
+				padding-left:0px;
+			}
+		}
+		@include RWD(mobile){
+			width:100%;
+		}
+	}
+	.field{
+		margin-bottom:30px;
+		label{
+			font-family: $font-title;
+			font-size:32px;
+			font-size:3.2rem;
+			font-weight: normal;
+			line-height: normal;
+			color:#008ce7;
+			text-transform: uppercase;
+			margin-bottom:10px;
+			width:100%;
+		}
+		input{
+			width:100%;
+			height: 38px;
+			line-height: 38px;
+			padding: 0px 10px;
+		}
+		.sd-block{
+			width:50%;
+			&:nth-of-type(1){
+				float:left;
+				input{
+					width: calc(100% - 50px);
+				}
+			}
+			&:nth-of-type(2){
+				float: right;
+				input{
+					width: calc(100% - 35px);
+				}
+			}
+			label{
+				display: inline-block;
+				vertical-align: middle;
+				width:auto;
+				color:$color-text;
+				font-size:28px;
+				font-size:2.8rem;
+				text-transform: none;
+				margin:0px;
+			}
+			input{
+				display: inline-block;
+				vertical-align: middle;
+				width:calc(100% - 34px);
+				@include RWD(tablet){
+					//width:20%;
+				}
+			}
+		}
+	}
+}
+
+// form search
+.search-form{
+	.field{
+		margin:0px;
+		input{
+			width: calc(100% - 185px);
+			@include RWD(mobile){
+				width:100%;
+				margin-bottom:20px;
+			}
+		}
+		.btn-submit{
+			float:right;
+			@include RWD(mobile){
+				float:none;
+			}
+		}
+		@include RWD(mobile){
+			text-align: right;
+			label{
+				text-align: left;
+			}
+		}
+	}
+}
+
+.btn-submit, .primaryAction{
+	@extend %btn-light;
+}
+
+input{
+	&.btn-submit, &.primaryAction{
+		@extend %btn-light;
+		&:hover, &:active, &:focus{
+			background-color: $color-primary;
+			color:#fff;
+		}
+	}
+}
+.actions{
+	text-align: right;
+	margin-top:40px;
+	@include RWD(mobile){
+		margin-bottom:20px;
+	}
+}
+
+//Formulaire
+	
+//Titre form
+.wFormTitle{
+	@extend %h2;
+	font-size: 32px !important;
+	font-size: 3.2rem !important;
+	text-transform: none;
+	margin-top:70px;
+  margin-bottom:20px;
+}
+
+.wForm {
+	//Label
+	.oneField{
+		margin-bottom:30px;
+		margin-top:30px;
+		//Pas très propre 
+		br{
+			display: none;
+		}
+	}
+	.preField{
+		font-family: 'robotobold';
+		display: inline-block;
+		vertical-align: middle;
+		text-align: right;
+		width:25.41%;
+		padding-right:18px;
+		font-family: 'robotobold';
+		padding-right: 18px;
+		@include RWD(mobile){
+			width:100%;
+		}
+	}
+	.label{
+		display: inline-block;
+		vertical-align: top;
+		text-align: right;
+		font-size: 15px;
+		font-size: 1.5rem;
+		width:25.41%;
+		padding-top:5px;
+		//Asterisque
+		&.reqMark::after {
+			content: " *";
+		    color: #ff3636;
+		    font-size: 90%;
+		}
+		@include RWD(mobile){
+			width:100%;
+			text-align: left;
+		}
+	}
+	//Input
+	.inputWrapper,
+	.htmlSection p{
+		display: inline-block;
+		vertical-align: middle;
+		width: 73.59%;
+		input, textarea{
+			height:40px;
+			line-height: 40px;
+			border: 2px solid #f1f1f1;
+			padding:0px 15px;
+			width:54.5%;
+			@include RWD(mobile){
+				width:100%;
+			}
+		}
+		textarea{
+			min-height:175px;
+		}
+		@include RWD(mobile){
+			width:100%;
+		}
+	}
+
+	.errMsg{
+		color:#ff3636;
+		padding-left:25.41%;
+		margin-bottom:15px;
+		@include RWD(mobile){
+			padding:0px;
+		}
+	}
+	.primaryAction {
+		background-color: white !important;
+    color: #00aeef !important;
+    font-family: inherit !important;
+    border: 1px solid #00aeef !important;
+    font-weight: normal !important;
+    &:hover {
+    	background-color: #00aeef !important;
+    	color: white !important;
+    }
+	}
+}

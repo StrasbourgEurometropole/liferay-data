@@ -1,0 +1,42 @@
+// BreakPoints
+$break-small: 767;
+$break-large: 1200;
+
+// COLORS
+	// Base Color
+	$color-primary: #00aeef;
+	$color-primary-invert: #FFFFFF;
+
+	// Headings Color
+	/*$color-headings: #263238;
+	$color-headings-invert: #455a64;*/
+
+	// Links Color
+	$color-link: #a60331;
+	$color-link-hover: #df0442;
+
+	// States Color
+	$color-error: #df0442; 
+	$color-success: #455a64;
+
+	// Social Networks Color
+	/*$color-fb: #36589b;
+	$color-twitter: #31aae1;
+	$color-pinterest: #cb2027;
+	$color-linkedin: #0e689b;*/
+
+	// Background Color
+	$color-bg: #FFFFFF;
+	$color-bg-invert: #141618;
+	$color-bg-light: #F5F5F5;
+
+
+	// Text
+	$color-text: #1b1b1b;
+
+
+//-- typo:start --//
+	$font-text: 'robotoregular', Arial, sans-serif;
+	$font-title: 'proximanovalight', Arial, sans-serif;
+//-- typo:end --// 
+

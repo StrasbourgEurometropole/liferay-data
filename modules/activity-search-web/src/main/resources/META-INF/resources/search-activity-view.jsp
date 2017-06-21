@@ -6,47 +6,54 @@
 <aui:form name="fm" action="${searchURL}">
 
 	<!-- Activité -->
-	<aui:select name="activityId" label="activity">
-		<aui:option value="" label="" />
-		<c:forEach var="activity" items="${allActivities}">
-			<aui:option value="${activity.activityId}"
-				label="${activity.getTitle(locale)}" />
-		</c:forEach>
-	</aui:select>
+	<div class="activity-autocomplete">
+		<div class="activity-autocomplete-input-wrapper" id="activity-autocomplete-input-wrapper">
+			<aui:input label="Choisir une activit&eacute;" type="text" name="activity" />
+		</div>
+		<span id="activity-autocomplete-hidden-value">
+			<aui:input type="hidden" name="activityId" value="${param.activityId}"/>
+		</span>
+	</div>
 	
 	<!-- Type -->
-	<aui:select name="typeId" label="type">
-		<aui:option value="" label="" />
-		<c:forEach var="type" items="${types}">
-			<aui:option value="${type.categoryId}" label="${type.getTitle(locale)}" />
-		</c:forEach>
-	</aui:select>
-	
-	<!-- Public -->
-	<aui:select name="publicId" label="eu.activity.public">
-		<aui:option value="" label="" />
-		<c:forEach var="public" items="${publics}">
-			<aui:option value="${public.categoryId}"
-				label="${public.getTitle(locale)}" />
-		</c:forEach>
-	</aui:select>
-	
-	<!-- Territoire -->
-	<aui:select name="territoryId" label="eu.territory">
-		<aui:option value="" label="" />
-		<c:forEach items="${territories}" var="category">
-			<c:if test="${category.rootCategory}">
+	<c:if test="${not empty dc.activityTypes}">
+		<aui:select name="activityTypeId" label="type">
+			<aui:option value="" label="" />
+			<c:forEach items="${dc.activityTypes}" var="category">
 				<c:set var="category" value="${category}" scope="request" />
 				<c:set var="level" value="0" scope="request" />
 				<jsp:include page="/category-option.jsp" />
-			</c:if>
-		</c:forEach>
-	</aui:select>
+			</c:forEach>
+		</aui:select>
+	</c:if>
 	
+	<!-- Public -->
+	<c:if test="${not empty dc.publics}">
+		<aui:select name="publicId" label="eu.activity.public">
+			<aui:option value="" label="" />
+			<c:forEach items="${dc.publics}" var="category">
+				<c:set var="category" value="${category}" scope="request" />
+				<c:set var="level" value="0" scope="request" />
+				<jsp:include page="/category-option.jsp" />
+			</c:forEach>
+		</aui:select>
+	</c:if>
+	
+	<!-- Territoire -->
+	<c:if test="${not empty dc.territories}">
+		<aui:select name="territoryId" label="eu.territory">
+			<aui:option value="" label="" />
+			<c:forEach items="${dc.territories}" var="category">
+				<c:set var="category" value="${category}" scope="request" />
+				<c:set var="level" value="0" scope="request" />
+				<jsp:include page="/category-option.jsp" />
+			</c:forEach>
+		</aui:select>
+	</c:if>
 	
 	<!-- Lieu -->
-	<div class="place-autocomplete" <c:if test="${empty coursePlace.placeSIGId and not empty coursePlace.placeName }">style="display: none;"</c:if>>
-		<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper-${param.index}">
+	<div class="place-autocomplete">
+		<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper">
 			<aui:input label="Choisir un lieu" type="text" name="place" />
 		</div>
 		<span id="place-autocomplete-hidden-value">

@@ -308,13 +308,15 @@ public class SearchHelper {
 				// Fuzzy sur titre
 				MatchQuery titleQuery = new MatchQuery(
 					Field.TITLE + '_' + locale, keywords);
-				titleQuery.setFuzziness(new Float(10));
+				titleQuery.setFuzziness(new Float(2));
 				titleQuery.setAnalyzer("strasbourg_analyzer");
+				titleQuery.setBoost(3);
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
 				// Wildcard sur titre
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
 					Field.TITLE + "_" + locale, "*" + keywords + "*");
+				titleWildcardQuery.setBoost(30);
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur description (tous les champs indexables de nos
@@ -322,8 +324,9 @@ public class SearchHelper {
 				// sont dans ce champ)
 				MatchQuery descriptionQuery = new MatchQuery(
 					Field.DESCRIPTION + "_" + locale, keywords);
-				descriptionQuery.setFuzziness(new Float(10));
+				//descriptionQuery.setFuzziness(new Float(1));
 				descriptionQuery.setAnalyzer("strasbourg_analyzer");
+				descriptionQuery.setBoost(new Float(1.5));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				// Pour les fichiers on recherche dans le champ "title" sans la
@@ -331,7 +334,7 @@ public class SearchHelper {
 				BooleanQuery fileQuery = new BooleanQueryImpl();
 				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE,
 					keywords);
-				fileTitleQuery.setFuzziness(new Float(10));
+				//fileTitleQuery.setFuzziness(new Float(10));
 				fileQuery.add(fileTitleQuery, BooleanClauseOccur.MUST);
 				fileQuery.addTerm(Field.ENTRY_CLASS_NAME,
 					DLFileEntry.class.getName(), false,
@@ -343,20 +346,20 @@ public class SearchHelper {
 				// CW et de D&M sont dans ce champ)
 				MatchQuery contentQuery = new MatchQuery(
 					Field.CONTENT + "_" + locale, keywords);
-				contentQuery.setFuzziness(new Float(10));
+				//contentQuery.setFuzziness(new Float(1));
 				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur catégorie
 				MatchQuery categoryKeywordQuery = new MatchQuery(
 					Field.ASSET_CATEGORY_TITLES, keywords);
-				titleQuery.setFuzziness(new Float(10));
+				//titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(categoryKeywordQuery,
 					BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur tags
 				MatchQuery tagKeywordQuery = new MatchQuery(
 					Field.ASSET_TAG_NAMES, keywords);
-				titleQuery.setFuzziness(new Float(10));
+				//titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(tagKeywordQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);

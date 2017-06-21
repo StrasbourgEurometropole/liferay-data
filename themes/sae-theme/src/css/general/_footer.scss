@@ -1,0 +1,264 @@
+footer{
+	background-color:#3a3a3a;
+	padding-top: 20px;
+    width: 100%;
+    margin-top:30px;
+    .center {
+	    position: relative;
+	    max-width: 1200px;
+	    margin: auto;
+	    font-size: 0.8em;
+	    @include RWD(tablet){
+	    	width: 100%;
+	    }
+	}
+	.clearer{
+		clear:both;
+		height:0;
+	}
+	.footer-top {
+		.f-left {
+			display: inline-block;
+			vertical-align: top;
+			margin-left:-2px;
+		    width: 66%;
+		    @include RWD(mobile){
+		    	width: 100%;
+			    margin: 0;
+			    padding: 0 10px;
+			    float: none;
+			    background: #3a3a3a;
+		    }
+		}
+		.f-right{
+			display: inline-block;
+			vertical-align: top;
+			width: 34%;
+			margin-left:-2px;
+			@include RWD(mobile){
+				width: 100%;
+			    margin: 0;
+			    padding: 0 10px;
+			    float: none;
+			}
+		}
+		.nav-footer{
+			width: 100%;
+		    margin: 0;
+		    padding: 0;
+		    padding-bottom: 20px;
+		    border-bottom: 1px solid #4d4d4d;
+		    font-size:0;
+		    li{
+		    	display: inline-block;
+			    border-left: 1px solid #4d4d4d;
+			    &:before{
+			    	content:none;
+			    }
+			    a{
+			    	display: block;
+				    line-height: 1.18em;
+				    color: #fff;
+				    text-decoration: none;
+				    text-transform: uppercase;
+				    font-weight: bold;
+				    padding: 0 11px;
+				    @include transition(all 0.3s ease 0s);
+				    font-family: 'Arial', sans-serif;
+				    font-size: 11px;
+				    font-size:1.1rem;
+				    &:hover, &:active, &:focus{
+				    	color: $color-primary;
+				    }
+				    @include RWD(mobile){
+				    	height: 4.16em;
+					    line-height: 4.16em;
+					    padding: 0;
+					    text-align: center;
+				    }
+			    }
+			    &:first-child{
+					border:none;
+					a{
+						padding-left: 0;
+					}
+			    }
+			    @include RWD(mobile){
+			    	float: none;
+				    width: 100%;
+				    border: none;
+				    padding: 0;
+				    border-top: 1px solid #4d4d4d;
+			    }
+		    }
+		    @include RWD(mobile){
+		    	border: none;
+			    padding: 0;
+			    margin: 0;
+			    height: auto;
+		    }
+		}
+		.footer-contact{
+			clear: both;
+		    margin: 20px 0 5px 0;
+		    font-size:12px;
+		    font-size: 1.2rem;
+		    line-height: 1.4em;
+		    color: #b1b1b1;
+		    font-style: normal;
+		    font-weight: 400;
+		    font-family: 'Arial', sans-serif;
+		    @include RWD(mobile){
+		    	display: none;
+		    }
+		}
+		.numeros, .adresse{
+			@extend .footer-contact;
+			a{
+				@extend .footer-contact;
+				@include transition(color 0.3s ease 0s);
+				&:hover, &:active, &:focus{
+			    	color: $color-primary;
+			    }
+			}
+		}
+		.adresse{
+			margin:0;
+		}
+	    .social-network{
+			span{
+				padding: 0;
+			    margin: 0;
+			    display: block;
+			    width: 100%;
+			    font-size: 11px;
+				font-size:1.1rem;
+			    line-height: 1.18em;
+			    color: #fff;
+			    text-transform: uppercase;
+			    font-weight: bold;
+			    padding: 0;
+			    padding-bottom: 20px;
+			    border-bottom: 1px solid #4d4d4d;
+			    font-family: 'Arial', sans-serif;
+			    @include RWD(mobile){
+			    	height: 4.16em;
+				    line-height: 4.16em;
+				    padding: 0;
+				    margin: 0;
+				    text-align: center;
+			    }
+			}
+			ul{
+				margin: 0;
+			    padding: 15px 0;
+			    li{
+			    	padding: 0;
+				    margin: 0;
+				    display: block;
+				    float: left;
+				    padding: 0 7px;
+				    &:before{
+				    	content:none;
+				    }
+				    a{
+				    	display: block;
+					    text-indent: -999em;
+					    overflow: hidden;
+					    width: 20px;
+					    height: 20px;
+					    @include transition(all 0.3s ease 0s);
+					    &.btn-twitter{
+					    	background-image:url(../images/icone/icone-twitter.jpg);
+					    }
+					    &.btn-linkedin{
+					    	background-image:url(../images/icone/picto_linkedin_footer.png);
+					   	}
+					   	&.btn-soundcloud{
+					   		background-image:url(../images/icone/picto_soundcloud_footer.png);
+					   	}
+					   	&.btn-daily{
+					   		background-image:url(../images/icone/picto_dailymotion_footer.png);
+					   	}
+					   	&.btn-tumblr{
+					   		background-image:url(../images/icone/icone-tumblr.jpg);
+					   	}
+					   	&.btn-insta{
+					   		background-image:url(../images/icone/icone-instagram.jpg);
+					   	}
+					   	&.btn-netvibes{
+					   		background-image:url(../images/icone/icone-netvibes.jpg);
+					   	}
+					   	&.btn-fb{
+					   		background-image:url(../images/icone/icone-facebook.jpg);
+					   	}
+					   	&:hover, &:active, &:focus{
+					   		opacity: 0.4;
+					   	}
+					   	@include RWD(mobile){
+					   		background-size: 30px 30px;
+						    width: 30px;
+						    height: 30px;
+						    margin: auto;
+						    position: relative;
+						    top: 9.5px;
+						}
+				    }
+				    &:first-child{
+				    	border: none;
+    					padding-left: 0;
+				    }
+				    @include RWD(mobile){
+				    	padding: 0;
+					    text-align: center;
+					    float: none;
+					    border: none;
+					    border-top: 1px solid #4d4d4d;
+					    height: 4.2em;
+				    }
+			    }
+			    @include RWD(mobile){
+					padding: 0;
+			    }
+			}
+			@include RWD(mobile){
+				width: 100%;
+   				background: none;
+			}
+		}
+		@include RWD(tablet_only){
+			padding:0px 40px;
+		}
+		@include RWD(mobile){
+		    height: auto;
+		    margin: 0;
+		    padding: 0;
+		    background: #2d2d2d;
+		}
+	}
+	.closure{
+		height: 50px;
+	    width: 100%;
+	    background: #2d2d2d;
+	    margin-top: 15px;
+	    a{
+	    	text-indent: -9999em;
+		    overflow: hidden;
+		    background: transparent url(../images/btn-stras-eu.png) center center no-repeat;
+		    height: 50px;
+		    width: 126px;
+		    display: block;
+		    @include RWD(mobile){
+		    	margin: auto;
+		    }
+	    }
+	    @include RWD(tablet_only){
+			padding:0px 40px;
+		}
+	    @include RWD(mobile){
+	    	padding-top: 20px;
+	    	height: auto;
+	    	margin-top:0;
+	    }
+	}
+}

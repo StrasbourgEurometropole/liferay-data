@@ -411,6 +411,123 @@ public interface CampaignModel extends BaseModel<Campaign>, LocalizedModel,
 	public void setTitleMap(Map<Locale, String> titleMap, Locale defaultLocale);
 
 	/**
+	 * Returns the default image ID of this campaign.
+	 *
+	 * @return the default image ID of this campaign
+	 */
+	public long getDefaultImageId();
+
+	/**
+	 * Sets the default image ID of this campaign.
+	 *
+	 * @param defaultImageId the default image ID of this campaign
+	 */
+	public void setDefaultImageId(long defaultImageId);
+
+	/**
+	 * Returns the default image copyright of this campaign.
+	 *
+	 * @return the default image copyright of this campaign
+	 */
+	public String getDefaultImageCopyright();
+
+	/**
+	 * Returns the localized default image copyright of this campaign in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized default image copyright of this campaign
+	 */
+	@AutoEscape
+	public String getDefaultImageCopyright(Locale locale);
+
+	/**
+	 * Returns the localized default image copyright of this campaign in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized default image copyright of this campaign. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDefaultImageCopyright(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized default image copyright of this campaign in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized default image copyright of this campaign
+	 */
+	@AutoEscape
+	public String getDefaultImageCopyright(String languageId);
+
+	/**
+	 * Returns the localized default image copyright of this campaign in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized default image copyright of this campaign
+	 */
+	@AutoEscape
+	public String getDefaultImageCopyright(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDefaultImageCopyrightCurrentLanguageId();
+
+	@AutoEscape
+	public String getDefaultImageCopyrightCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized default image copyrights of this campaign.
+	 *
+	 * @return the locales and localized default image copyrights of this campaign
+	 */
+	public Map<Locale, String> getDefaultImageCopyrightMap();
+
+	/**
+	 * Sets the default image copyright of this campaign.
+	 *
+	 * @param defaultImageCopyright the default image copyright of this campaign
+	 */
+	public void setDefaultImageCopyright(String defaultImageCopyright);
+
+	/**
+	 * Sets the localized default image copyright of this campaign in the language.
+	 *
+	 * @param defaultImageCopyright the localized default image copyright of this campaign
+	 * @param locale the locale of the language
+	 */
+	public void setDefaultImageCopyright(String defaultImageCopyright,
+		Locale locale);
+
+	/**
+	 * Sets the localized default image copyright of this campaign in the language, and sets the default locale.
+	 *
+	 * @param defaultImageCopyright the localized default image copyright of this campaign
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDefaultImageCopyright(String defaultImageCopyright,
+		Locale locale, Locale defaultLocale);
+
+	public void setDefaultImageCopyrightCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized default image copyrights of this campaign from the map of locales and localized default image copyrights.
+	 *
+	 * @param defaultImageCopyrightMap the locales and localized default image copyrights of this campaign
+	 */
+	public void setDefaultImageCopyrightMap(
+		Map<Locale, String> defaultImageCopyrightMap);
+
+	/**
+	 * Sets the localized default image copyrights of this campaign from the map of locales and localized default image copyrights, and sets the default locale.
+	 *
+	 * @param defaultImageCopyrightMap the locales and localized default image copyrights of this campaign
+	 * @param defaultLocale the default locale
+	 */
+	public void setDefaultImageCopyrightMap(
+		Map<Locale, String> defaultImageCopyrightMap, Locale defaultLocale);
+
+	/**
 	 * Returns the managers IDs of this campaign.
 	 *
 	 * @return the managers IDs of this campaign

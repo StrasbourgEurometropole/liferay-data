@@ -1,0 +1,196 @@
+.fil-ariane{
+	position:absolute;
+	bottom:0;
+	background-color:rgba(52,52,51,0.87);
+	min-height: 40px;
+	width:100%;
+	z-index:1;
+	ul{
+		font-size:0;
+		line-height: 40px;
+		margin:0;
+	}
+	.nav{
+		float: left;
+		line-height: 0;
+		&:before{
+			content:'';
+			height:100%;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		li{
+			display: inline-block;
+			vertical-align: middle;
+			&:before{
+				content:'';
+				background:url(../images/pictos/ariane-chevron.png) no-repeat center center;
+				display: inline-block;
+				vertical-align: middle;
+				width:5px;
+				height:8px;
+				margin-left:20px;
+				margin-right:20px;
+				margin-top: 0;
+				@include border-radius(0);
+				@include RWD(mobile) {
+					margin-left:0;
+				}
+			}
+			&:after{
+				content:'';
+				height:100%;
+				display: inline-block;
+				vertical-align: middle;
+			}
+			a{
+				font-family: $font-text;
+				font-size:14px;
+				font-size:1.4rem;
+				line-height: inherit;
+				color:#a7a6a6;
+				text-decoration: none;
+				display: inline-block;
+				vertical-align: middle;
+				@include transition(color 0.3s ease 0s);
+				&:hover, &:active, &:focus{
+					color:#fff;
+					text-decoration: underline;
+				}
+			}
+			@include RWD(mobile){
+				display: none;
+			}
+		}
+		.active{
+			a{
+				color:#fff;
+			}
+		}
+		.first{
+			font-size:0;
+			a{
+				font-size:0;
+				display: inline-block;
+				width: 20px;
+				height:18px;
+				position: relative;
+				background-image:url(../images/pictos/home-on.png);
+				background-repeat:no-repeat;
+				background-position:center center;
+				&:after{
+					content:'';
+					display: block;
+					position:absolute;
+					top:0;
+					left:0;
+					bottom:0;
+					right:0;
+					background-image:url(../images/pictos/home-off.png);
+					background-repeat:no-repeat;
+					background-position:center center;
+					opacity: 1;
+					@include transition(opacity 0.3s ease 0s);
+				}
+				&:hover, &:active, &:focus{
+					&:after{
+						opacity: 0;
+					}
+				}
+			}
+			&:before{
+				background:none;
+				margin:0px;
+				width:0;
+			}
+		}
+		.back-to{
+			display: none;
+			@extend .ariane-item;
+			@include RWD(mobile){
+				display: inline-block;
+			}
+		}
+		@include RWD(mobile){
+			width:calc(100% - 40px);
+		}
+	}
+}
+.social-network{
+	float:right;
+	li{
+		display: inline-block;
+		vertical-align: top;
+		margin-right:20px;
+		&:before{
+			content:none;
+		}
+		&:nth-last-of-type(1){
+			margin-right:0px;
+		}
+		@include RWD(mobile){
+			margin-right:0px;
+		}
+	}
+	a{
+		width:20px;
+		display: block;
+		height: 40px;
+		position: relative;
+		&:before, &:after{
+			content:'';
+			position:absolute;
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+			background-repeat:no-repeat;
+			background-position:center center;
+			@include transition(opacity 0.3s);
+		}
+		&:before{
+			opacity: 1;
+		}
+		&:after{
+			opacity: 0;
+		}
+		&:hover, &:active, &:focus{
+			&:before{
+				opacity: 0;
+			}
+			&:after{
+				opacity: 1;
+			}
+		}
+	}
+	.share{
+		a:before{
+			background-image:url(../images/pictos/share-off.png);
+		}
+		a:after{
+			background-image:url(../images/pictos/share-on.png);
+		}
+	}
+	.pdf{
+		a:before{
+			background-image:url(../images/pictos/pdf-off.png);
+		}
+		a:after{
+			background-image:url(../images/pictos/pdf-on.png);
+		}
+		@include RWD(mobile){
+			display: none;
+		}
+	}
+	.printer{
+		a:before{
+			background-image:url(../images/pictos/printer-off.png);
+		}
+		a:after{
+			background-image:url(../images/pictos/printer-on.png);
+		}
+		@include RWD(mobile){
+			display: none;
+		}
+	}
+}

@@ -65,7 +65,7 @@ input.textdate {
     width: auto;
     display: inline-block;
     color: #FFF;
-    background: #55bd5d;
+    background: #e6617c;
     padding: 3px 10px;
     text-decoration: none;
     text-transform: none;
@@ -117,9 +117,15 @@ body {
     width: 100%;
 }
 .wrapper {
-    background: #007540 url(../images/2016/background.jpg) no-repeat;
+    background: #a4d7de url(../images/2017/bandeau-retina.png) no-repeat;
     background-position: center top;
-    background-size: 100%;
+    background-size: 1420px;
+}
+@media (max-width: 1000px) {
+	.wrapper {
+	    background-size: 142%;
+        background-position: center 1%;
+	}
 }
 .wrapper .center {
     position: relative;
@@ -313,7 +319,7 @@ body {
     margin-bottom: 8px;
 }
 .news .new .entry-header h2 a {
-    color: #268033;
+    color: #e6617c;
     text-decoration: none;
 
     -webkit-transition: all 0.3s ease;
@@ -323,7 +329,7 @@ body {
     transition: all 0.3s ease;
 }
 .news .new .entry-header h2 a:hover {
-    color: #268033;
+    color: #e6617c;
 }
 .news .new .entry-content {
     font-size: 1em;
@@ -352,7 +358,7 @@ body {
     font-weight: bold;
     vertical-align:middle;
     font-style: normal;
-    color: #268033;
+    color: #e6617c;
     height: 35px;
 
 }
@@ -366,7 +372,7 @@ body {
 }
 .news .new .entry-meta .btn-more {
     float: right;
-    background: #268033;
+    background: #e6617c;
     color: white;
     text-decoration: none;
     text-transform: none;
@@ -377,6 +383,9 @@ body {
     height:37px;
     border-top: 1px solid #e6e6e6;
     border-left: 1px solid #e6e6e6;
+}
+.news .new .entry-meta .btn-more:hover {
+    background-color: #c74c65;
 }
 .pager {
     background: #d69f1f;
@@ -395,7 +404,7 @@ body {
     height: 100%;
     width: 22px;
     height: 22px;
-    background: #268033 center center no-repeat;
+    background: #e6617c center center no-repeat;
     background-size: 22px;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -405,7 +414,7 @@ body {
     display: inline-block;
 }
 .pager .nav:hover {
-    background-color: #55bd5d;
+    background-color: #e6617c;
 }
 .pager .nav-next {
     background-image: url(../images/btn/right.png);
@@ -432,9 +441,9 @@ body {
 }
 .pager ul li a {
 	font-size: 16px;
-    color: #268033;
+    color: #e6617c;
     padding: 0 8px;
-    border-right: 1px solid #268033;
+    border-right: 1px solid #e6617c;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
@@ -443,7 +452,7 @@ body {
     text-decoration: none;
 }
 .pager ul li.active a, .pager ul li a:hover {
-    color: #55bd5d;
+    color: #e6617c;
 }
 .pager ul li:last-child a {
     border: none;
@@ -492,7 +501,7 @@ body {
     position: relative;
     margin-bottom: 30px;
     width: 100%;
-    background: #268033;
+    background: #e6617c;
     padding-top: 30px;
     border: 1px solid #E6F4EE;
     border-top:none;
@@ -594,6 +603,13 @@ body {
     width: 80px;
     float: right;
     text-transform:uppercase;
+    border: 1px solid white;
+    font-weight: bold;
+    padding: 2px 0px 0px 0px;
+}
+
+.home .wrapper  .block-filter .col-filter .btn-submit:hover {
+    background: #c74c65;
 }
 
 
@@ -633,8 +649,8 @@ body {
     max-width: 100%;
 }
 .agenda .event .entry-header h2 {
-    font-size: 0.9em;
-    font-weight: 700;
+    font-size: 21px;
+    font-weight: bold;
     line-height: 1.1em;
     margin: 10px 0;
     padding: 0;
@@ -642,11 +658,11 @@ body {
     text-align: left;
 }
 .agenda .event .entry-header h2 a, .portlet-asset-publisher .entry-content a {
-    color: #55bd5d;
+    color: #e6617c;
     text-decoration: none;
     font-style: normal;
     letter-spacing: 0.02em;
-    font-size: 1.7em;
+    font-size: 21px;
     line-height:1.1em;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -669,16 +685,16 @@ body {
     display: inline-block;
     font-size: 14px;
 
-    color: #55bd5d;
+    color: #e6617c;
 }
 
 .agenda .event .entry-header h2 a:hover, .portlet-asset-publisher .entry-content a:hover {
-    color: #55bd5d;
+    color: #e6617c;
     text-decoration: underline;
 }
 .agenda .event .entry-header .category {
-    color: #268033;
-    font-size: 13px;
+    color: #e6617c;
+    font-size: 14px;
     line-height: 1.1em;
     font-weight: bold;
 }
@@ -691,7 +707,7 @@ body {
     line-height: 1.5em;
     padding-left: 18px;
     margin-top: 15px;
-    background: transparent url(../images/sprite.png) -4px -48px no-repeat;
+    background: transparent url(../images/2017/sprite2017.png) -4px -48px no-repeat;
 }
 .agenda .event .entry-meta {
     height: 3.3em;
@@ -702,7 +718,7 @@ body {
     color: #1a4c68;
     font-weight: 700;
     padding-left: 40px;
-    background: transparent url(../images/sprite.png) 0 -679px no-repeat;
+    background: transparent url(../images/2017/sprite2017.png) 0 -679px no-repeat;
     line-height: 3.3em;
     display: block;
     float: left;
@@ -727,8 +743,8 @@ body {
     background-position: -1px -622px;
 }
 .agenda .event .entry-meta .btn-more {
-    float: right;
-    background: #268033;
+    width: 100%;
+    background: #e6617c;
     color: white;
     font-weight: bold;
     text-decoration: none;
@@ -738,9 +754,10 @@ body {
     vertical-align: middle;
     text-transform: none;
     font-style: normal;
+    text-align: center;
 }
 .agenda .event .entry-meta .btn-more:hover {
-    background: #55bd5d;
+    background: #c74c65;
     color: #fff;
     text-decoration: none;
 }
@@ -929,7 +946,7 @@ body {
     font-size: 1.3em;
     float: left;
     text-indent: 10px;
-    color: #268033;
+    color: #e6617c;
 }
 .wrapper .galeries {
     margin-top: 0px;
@@ -988,7 +1005,7 @@ body {
     border: 1px solid #e6f4ee;
     display: block;
     background: #e6f4ee;
-    color: #268033;
+    color: #e6617c;
     height: 25px;
     font-size: 1.5em;
     vertical-align: middle;
@@ -1251,4 +1268,32 @@ p#videoPlayer {
 @media print, ( -o-min-device-pixel-ratio : 5/4), ( -webkit-min-device-pixel-ratio : 1.25), ( min-resolution : 120dpi) {
 }
 @media print {
+}
+
+
+#content .do-not-miss .portlet {
+  margin: 12px 10px 10px;
+}
+
+#content .do-not-miss .element-title a {
+  display: block;
+  font-size: 13px;
+  color: #1a171b;
+  text-decoration: none;
+  line-height: 1.8em;
+  font-weight: bold;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+
+#content .do-not-miss .button-pas-manquer a {
+background: #e4f4f6;  color: #64bac5; float:left; text-transform: none; font-size: 1.3em; font-weight: bold; height: 30px; line-height: 30px; padding: 0 5px; margin: 13px -9px 6px 0;
+}
+
+#content .do-not-miss .button-pas-manquer a:focus,
+#content .do-not-miss .button-pas-manquer a:hover {
+    background: #e4f4f6 none repeat scroll 0 0;
+    color: #64bac5;
+    text-decoration: none;
 }

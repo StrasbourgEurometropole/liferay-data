@@ -5,7 +5,7 @@
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
-	<title>${the_title} - ${company_name}</title>
+	<title>${layout.getName(locale)} - Vivre l'été à Strasbourg</title>
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 	
@@ -26,24 +26,34 @@
 				<header class="header header-${locale.language}">
 					<nav class="nav-lang">
 						<div class="center">
-							<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank"> <img src="/o/summer-theme/images/2014/logo_strasbourg.png" alt="Strasbourg.eu"> </a>
+							<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank"> <img src="/o/summer-theme/images/2017/logo-eurometropole-rose.png" alt="Strasbourg.eu"> </a>
 							<ul>
 								<li <#if locale.language != "fr">style="display:none;"</#if> >
 									<a accesskey="1" href="http://ete.strasbourg.eu/evenement">
 										Proposer un évènement
 									</a>
 								</li>
-								<li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr/web/ete${layout.friendlyURL}" title="Français">FR</a></li>
-								<li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de/web/ete${layout.friendlyURL}" title="Deutsch">DE</a></li>
-								<li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en/web/ete${layout.friendlyURL}" title="English">EN</a></li>
+								<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+									<#assign currURL = "/web${layout.group.friendlyURL}" />
+								<#else>
+									<#assign currURL = "" />
+								</#if>
+								<li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr${currURL}${layout.friendlyURL}" title="Français">FR</a></li>
+								<li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de${currURL}${layout.friendlyURL}" title="Deutsch">DE</a></li>
+								<li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en${currURL}${layout.friendlyURL}" title="English">EN</a></li>
 							</ul>
 							<div class="clearfix"></div>
 						</div>
 					</nav>
+					<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+						<#assign homeURL = "/web${layout.group.friendlyURL}" />
+					<#else>
+						<#assign homeURL = "/" />
+					</#if>
 					<h1 class="logo logo-home 
 						<#if locale.language == "en"> logo-en </#if> 
 						<#if locale.language == "de"> logo-de </#if>">
-						<a href="/web${layout.group.friendlyURL}"></a>
+						<a href="${homeURL}"></a>
 					</h1>
 					
 					<#if layout.getGroup().isStagingGroup()>
@@ -86,7 +96,7 @@
     <script src="${javascript_folder}/vendor/jquery.uniform.js"></script>
     <script src="${javascript_folder}/vendor/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="${javascript_folder}/vendor/jquery.bxslider.min.js"></script>
-    <script src="${javascript_folder}/vendor/owl.carousel.js"></script>
+    <script src="${javascript_folder}/vendor/owl.carousel.min.js"></script>
     <script src="${javascript_folder}/vendor/lightbox.js"></script>
     <script src="${javascript_folder}/custom.carousel.js"></script>
     <script src="${javascript_folder}/lightbox-custom.js"></script>

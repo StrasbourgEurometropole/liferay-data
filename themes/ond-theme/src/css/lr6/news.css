@@ -58,8 +58,8 @@
     overflow: hidden;
     float: left ;
     position: relative;
-    border-right:1px solid #f2f1e8;
-    border-bottom:1px solid #f2f1e8;
+    border-right:1px solid #f1eeed;
+    border-bottom:1px solid #f1eeed;
     background: #ad3939;
     vertical-align: top;
 }

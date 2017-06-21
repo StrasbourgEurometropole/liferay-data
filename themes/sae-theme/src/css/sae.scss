@@ -1,0 +1,79 @@
+// Config (global vars for the project)
+@import 'config/_fonts';
+@import 'config/_variables';
+@import 'config/_reset';
+@import 'config/_bootstrap.min';
+
+//Builders (no css generated)
+@import 'builders/_mixins';
+@import 'builders/_animation';
+@import 'builders/_texts';
+@import 'builders/_structures';
+@import 'builders/_buttons';
+@import 'builders/_forms';
+@import 'builders/_pagination';
+@import 'builders/_ariane';
+	// Modules
+	@import 'builders/modules/_owl-carousel';
+	@import 'builders/modules/_custom-select';
+
+// Vendors (external plug-ins, optionnal)
+@import 'vendors/_formValidation';
+@import 'vendors/_print';
+@import 'vendors/_cookies';
+@import 'vendors/_skipnavigation';
+//@import 'vendors/_customSelect';
+	@import 'vendors/mmenu/_mmenu';
+
+// General (global CSS)
+@import 'general/_calls';
+@import 'general/_general';
+@import 'general/_ariane';
+@import 'general/_cookies';
+@import 'general/_pagination';
+	// Header
+	@import 'general/header/_pre-header.scss';
+	@import 'general/header/_header';
+	@import 'general/header/_menu';
+	@import 'general/header/_search';
+@import 'general/_footer';
+
+// Layout
+@import 'general/_custom-layout';
+
+// Intern (intern css)
+.class-inner{
+	@import 'int/_calls';
+	@import 'int/_yosemite-rte';
+	@import 'int/_page-int';
+	@import 'int/_form';
+	@import 'int/_form-assembly'; 
+
+	.rubrique{
+		@import 'int/_page-carrefour';
+	}
+	.portlet-cus-event-asset-fo{
+		@import 'int/_page-agenda';
+	}
+	.portlet-cus-event-asset-fo{
+		@import 'int/_page-details';
+	}
+	&.page-search{
+		@import 'int/_page-search';
+	}
+	.portlet-body{
+		@import 'int/_cus-news';
+	}
+}
+
+// Home Page (HP CSS override)
+.front-home{
+	@import 'home/_header';
+	@import 'home/_calls';
+	@import 'home/_home';
+} 
+
+// Hacks (hacks fo browsers and devices)
+@import 'hacks/_chrome'; 
+@import 'hacks/_no-js'; 
+

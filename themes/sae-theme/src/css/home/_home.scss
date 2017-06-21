@@ -1,0 +1,689 @@
+//Section actus
+.portlet-agenda{
+	padding-top:50px;
+	padding-bottom:60px;
+	&.container{
+		@extend %container;
+		@include RWD(mobile){
+			padding:0px 10px;
+		}
+	}
+	.link-all, .main-title {
+		text-align: center;
+	}
+	//Slider
+	.agenda-carousel{
+		width:1090px;
+		position:relative;
+		margin:0 auto;
+		display: block;
+		.event-content{
+			margin: 0px 10px 10px;
+			&:before{
+				content:none;
+			}
+			display: block;
+			a {
+				text-decoration: none;
+			}
+			.event-category {
+				display: none;
+			}
+			@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.35));
+			@include transition();
+			&:hover, &:active, &:focus{
+				@include box-shadow($left:0px, $top:3px, $blur:7px, $color:rgba(0,0,0,0.55));
+				.event-image{
+					height:300px;
+				}
+				.event-meta{
+					height:170px;
+					.title{
+						text-decoration: underline;
+					}
+					p{
+						font-size:15px;
+						font-size:1.5rem;
+						height:50px;
+					}
+				}
+			}
+			.event-image{
+				height:350px;
+				width:100%;
+				background-repeat:no-repeat;
+				background-size:cover;
+				background-position:center center;
+				object-fit: cover;
+				@include transition(height 0.3s);
+			}
+			.event-meta{
+				padding:20px 20px 0px;
+				height:120px;
+				@include transition(height 0.3s);
+				overflow: hidden;
+				.event-date{
+					font-family: 'robotoregular';
+					font-size:15px;
+					font-size:1.5rem;
+					line-height: 1.6em;
+					color:#1b1b1b;
+					position:relative;
+					display: block;
+					padding-left:30px;
+					&:before{
+						content:'';
+						background:url(../images/pictos/clock.png) no-repeat left center;
+						position:absolute;
+						top: 4px;
+						left:0px;
+						display: block;
+						width: 30px;
+						height: 20px;
+					}
+				}
+				h4{
+					font-family: 'proximanovalight';
+					font-size:20px;
+					font-size:2rem;
+					line-height: 1.2em;
+					color:#1b1b1b;
+					text-transform: uppercase;
+					display: block;
+					margin-top: 12px;
+				}
+				p{
+					font-size:0;
+					overflow:hidden;
+					display: block !important;
+				}
+			}
+		}
+		.owl-nav{
+			margin-left: -55px;
+			@include RWD(tablet){
+				width: calc(100% + 110px);
+			}
+			@include RWD(mobile){
+				width: calc(100% - 20px);
+				z-index: 1;
+				margin-left: 10px;
+				top: 175px;
+			}
+		}
+		@include RWD(tablet_only){
+			width: calc(100% - 110px);
+		}
+		@include RWD(mobile){
+			width: 100%;
+		}
+	}	
+}
+
+//Section activités
+#activities{
+	&.flex{
+		@extend %flex;
+		.flex-item{
+			width:25%;
+			position: relative;
+			overflow:hidden;
+			//Garder le ratio du carré
+			&:before{
+				content:'';
+				display: block;
+				padding-top:100%;
+			}
+			&:hover, &:active, &:focus{
+				&.block-img .background{
+					@include scale(1.25);
+					&:before{
+						opacity: 0.75;
+					}
+				}
+				&.block-color{
+					.on{
+						opacity: 1;
+					}
+					.off{
+						opacity: 0;
+					}
+					&:after{
+						opacity: 1;
+						@include scale(1);
+					}
+				}
+			}
+			@include RWD(tablet_only){
+				width:50%;
+			}
+			@include RWD(mobile){
+				width:100%;
+			}
+		}
+		.block-img{
+			position:relative;
+			.background{
+				position:relative;
+				background-repeat: no-repeat;
+				background-position:center center;
+				background-size:cover;
+				position:absolute;
+				top:0;
+				left:0;
+				bottom:0;
+				right:0;
+				z-index:0;
+				@include scale(1);
+				@include transition(transform 0.3s ease 0s);
+				&:before{
+					content:'';
+					position:absolute;
+					top:0;
+					left:0;
+					bottom:0;
+					right:0;
+					opacity: 0;
+					background-color: #232323;
+					@include transition(opacity 0.3s ease 0s);
+				}
+			}
+			&:after{
+				content:'';
+				position:absolute;
+				top:10px;
+				left:10px;
+				bottom:10px;
+				right:10px;
+				border: 2px solid #fff;
+			}
+		}
+		.block-color{
+			position:relative;
+			&:after{
+				content: '';
+				position: absolute;
+				top:10px;
+				left:10px;
+				bottom:10px;
+				right:10px;
+				border-width:2px;
+				border-style: solid;
+				opacity: 0;
+				@include double-transition(opacity 0.3s ease 0s, transform 0.3s ease 0s);
+				@include scale(0);
+			}
+		}
+	}
+	//Contenu de chaque block activités
+	.block-content{
+		position:absolute;
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		text-align: center;
+		z-index:1;
+		padding: 0px 14.28%;
+		//Pour pouvoir centrer le block verticalement
+		&:before{
+			content:'';
+			display: inline-block;
+			vertical-align: middle;
+			height:100%;
+		}
+		//Pour centrer le block verticalement
+		div{
+			display: inline-block;
+			vertical-align: middle;
+		}
+		i{
+			position:relative;
+			display: inline-block;
+			margin-bottom:30px;
+			img{
+				@include transition(opacity 0.3s ease 0s);
+			}
+			.on{
+				@extend %on;
+			}
+			.off{
+				@extend %off;
+			}
+		}
+		.intitule{
+			font-family: 'proximanovalight';
+			font-size:30px;
+			font-size:3rem;
+			line-height: 1em;
+			color:#ffffff;
+			text-transform: uppercase;
+			display: block;
+		}
+		p{	
+			font-family: 'robotoregular';
+			font-size:15px;
+			font-size:1.5rem;
+			line-height: 1.6em;
+			color:#ffffff;
+			display: block;
+			margin-top: 18px;
+		}
+	}
+	#logement{
+		background-color:#2bd6bd;
+		&:after{
+			border-color:#197d6e;
+		}
+	}
+	#restauration{
+		background-color: #33383a;
+		&:after{
+			border-color:#000;
+		}
+	}
+	#vie-nocturne{
+		background-color: #ff1744;
+		&:after{
+			border-color:#8a0c25;
+		}
+	}
+	#decouvrir{
+		width:50%;
+		@include flex($property:display, $value:flex);
+		&:before{
+			content:'';
+			display: block;
+			padding-top:50%;
+			@include RWD(mobile){
+				padding-top:100%;
+			}
+		}
+		.block-img, .block-color{
+			width:50%;
+			@include RWD(tablet){
+				position: absolute;
+				left: 0;
+				top: 0;
+				height: 100%;
+			}
+		}
+		.block-img{
+			.background{
+				@include transition(background-size 0.3s);
+				background-size:100%;
+				&:before{
+					background:none;
+				}
+			}
+			//Bordure top et bottom à droite du block
+			.border-right{
+				position:absolute;
+				right:11px;//pour le border de 2px
+				top:10px;
+				bottom:10px;
+				width:2px;
+				&:before, &:after{
+					content:'';
+					width: 0;
+					height: 0;
+					right: 0px;
+					position: absolute;
+					z-index: 1;
+					width: 2px;
+					height: calc(50% - 38px);
+					background-color: #8bc34a;
+					@include transition(background-color 0.3s ease 0s);
+				}
+				&:before{
+					top: 0px;
+				}
+				&:after{
+					bottom: 0px;
+				}
+			}
+			//chevron à droite
+			.chevron{
+				position:absolute;
+				top:0;
+				right:0;
+				bottom:0;
+				left:0;
+				z-index:1;
+				&:before, &:after{
+					content:'';
+					position:absolute;
+					top:0;
+					right:11px;
+					bottom:0;
+					left:0;
+					background-repeat:no-repeat;
+					background-position: right center;
+					@include transition(opacity 0.3s ease 0s);
+				}
+				&:before{
+					opacity: 1;
+					background-image:url(../images/pictos/wired-triangle.png);
+				}
+				&:after{
+					opacity: 0;
+					background-image:url(../images/pictos/wired-triangle-white.png);
+				}
+			}
+			&:after{
+				border-color:#8bc34a;
+				border-right:none;
+				@include transition(border-color 0.3s ease 0s);
+			}
+			.on{
+				@extend %on;
+			}
+			.off{
+				@extend %off;
+			}
+			i{
+				margin:0px;
+			}
+			@include RWD(tablet){
+				left: 0;
+			}
+			@include RWD(mobile){
+				width:100%;
+			}
+		}
+		.block-color{
+			background-color: #8bc34a;
+			&:before{
+				content:'';
+				width: 0;
+				height: 0;
+				left: -20px;
+				top: 50%;
+				position: absolute;
+				margin-top: -42.5px;
+				border-style: solid;
+				border-width: 42.5px 20px 42.5px 0;
+				border-color: transparent #8bc34a transparent transparent;
+			}
+			@include RWD(tablet){
+				left: 50%;
+			}
+			@include RWD(mobile){
+				display: none;
+			}
+		}
+		&:hover, &:active, &:focus{
+			.block-content{
+				.on{
+					opacity: 1;
+				}
+				.off{
+					opacity: 0;
+				}
+			}
+			.block-img{
+				&:after{
+					border-color:#fff;
+				}
+				.background{
+					background-size: 125%;
+				}
+			}
+			.border-right{
+				&:before, &:after{
+					background-color: #fff;
+				}
+			}
+			.chevron{
+				&:before{
+					opacity: 0;
+				}
+				&:after{
+					opacity: 1;
+				}
+			}
+		}
+		@include RWD(tablet){
+			width:100%;
+			display: block;
+		}
+	}
+}
+
+//Section twitter
+#twitter{
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-size:cover;
+	padding:60px 0px;
+	.container{
+		@extend %container;
+	}
+	.flex{
+		@extend %flex;
+		.item{
+			width:25.83%;
+			margin-right:11.25%;
+			text-decoration: none;
+			&:nth-last-of-type(1){
+				margin-right:0px;
+			}
+			p{
+				position:relative;
+				font-family: $font-text;
+				word-break: break-all;
+			}
+			&:hover, &:active, &:focus{
+				.pseudo{
+					.on{
+						opacity: 1;
+					}
+					.off{
+						opacity: 0;
+					}
+				}
+			}
+			.retweet a, .pseudo a {
+			    color: inherit;
+			    text-decoration: none;
+			    &:hover {
+			    	text-decoration: underline;
+			    }
+			}
+			@include RWD(tablet_only){
+				width: 30%;
+				margin-right: 5%;
+			}
+			@include RWD(mobile){
+				width:100%;
+				margin-right:0%;
+				margin-bottom:35px;
+			}
+		}
+	}	
+	.retweet{
+		display: block;
+		font-size:14px;
+		font-size:1.4rem;
+		color:#525252;
+		margin-bottom:5px;
+		line-height: 1em;
+		&:before{
+			content:'';
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+			background:url(../images/pictos/retweet.png) no-repeat center center;
+			width: 15px;
+			height: 9px;
+			margin-right: 4px;
+		}
+		.Emoji{
+			width:14px;
+			margin-left:2px;
+			margin-right:2px;
+		}
+	}
+	.pseudo{
+		display: block;
+		font-size:0;
+		border-bottom:1px solid #b4b4b4;
+		padding-bottom:7px;
+		margin-bottom:12px;
+		i{
+			position:relative;
+			display: inline-block;
+			vertical-align: top;
+			margin-right:8px;
+			img{
+				@include transition(opacity 0.3s ease 0s);
+			}
+			.on{
+				@extend %on;
+			}
+			.off{
+				@extend %off;
+			}
+		}
+		p{
+			//alias
+			display: inline-block;
+			vertical-align: top;
+			width:calc(100% - 47px);
+			color:#525252;
+			font-size:16px;
+			font-size:1.6rem;
+			line-height: 1em;
+			//pseudo
+			span{
+				display: block;
+				font-size:20px;
+				font-size:2rem;
+				color:#1b1b1b;
+				margin-bottom: 6px;
+			}
+		}
+	}
+	.post{
+		p{
+			display: block;
+			color:#1b1b1b;
+			font-size:16px;
+			font-size:1.6rem;
+			line-height: normal;
+			span{
+				color:#117a7e;
+			}
+		}
+	}
+	.Emoji{
+		width:18px;
+		margin-left:4px;
+		margin-right:4px;
+	}
+}
+
+//Section organization
+#organization{
+	.flex{
+		@extend %flex;
+		div{
+			width:50%;
+			text-align:center;
+			padding:60px 8.57%;
+			@include RWD(tablet){
+				width: 100%;
+			}
+		}
+	}
+	.infos{
+		background-color:#8bc34a;
+		img{
+			margin: 0 auto 40px;
+		}
+		p{
+			@extend %basis;
+			display: block;
+			line-height: normal;
+			color:#fff;
+			margin-bottom:40px;
+		}
+		.btn{
+			@extend %btn-infos;
+		}
+	}
+	.society{
+		background-position: center center;
+		background-size:cover;
+		background-repeat:no-repeat;
+		z-index:2;
+		img{
+			display: block;
+			margin: 0 auto 30px;
+		}
+		.btn{
+			@extend %btn;
+		}
+	}
+}
+
+//Section parnters
+#partners{
+	padding:60px 0px;
+	.container{
+		@extend %container;
+	}
+	.owl-partners{
+		width:1095px;
+		position:relative;
+		margin:0 auto;
+		display: block;
+		.item-partners{
+			&:before{
+				content:none;
+			}
+			a{
+				display: block;
+				text-decoration: none;
+				background-color:#f2f2f2;
+				text-align:center;
+				&:before{
+					content:'';
+					display: block;
+					padding-top:100%;
+				}
+				img{
+					@include transition(opacity 0.3s ease 0s);
+					max-width: 90%;
+					margin: 0 auto;
+				}
+				.on{
+					@extend %on;
+				}
+				.off{
+					@extend %off;
+				}
+				.center-vertical{
+					@extend %center-vertical;
+				}
+				.logo-partners{
+					display: inline-block;
+					vertical-align: middle;
+					position:relative;
+					height:auto;
+				}
+				&:hover, &:active, &:focus{
+					.on{
+						opacity: 1;
+					}
+					.off{
+						opacity: 0;
+					}
+				}
+			}
+		}
+		@include RWD(tablet){
+			width: calc(100% - 100px);
+		}
+	}	
+}

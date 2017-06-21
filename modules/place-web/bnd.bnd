@@ -1,4 +1,4 @@
 Bundle-Name: place-web
 Bundle-SymbolicName: place.web
-Bundle-Version: 1.14.0
+Bundle-Version: 1.16.0
 Export-Package: eu.strasbourg.portlet.place.itemselector

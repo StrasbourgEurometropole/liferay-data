@@ -538,10 +538,22 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Image et copyright
 		if (Validator.isNotNull(this.getWebImageURL())) {
-			jsonEvent.put("imageURL", this.getWebImageURL());
+			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL()
+				+ this.getWebImageURL());
+		} else {
+			String defaultImageURL = this.getCampaign().getDefaultImageURL();
+			if (Validator.isNotNull(defaultImageURL)) {
+				jsonEvent.put("imageURL",
+					StrasbourgPropsUtil.getAgendaPlatformURL()
+						+ defaultImageURL);
+			}
 		}
 		if (Validator.isNotNull(this.getImageOwner())) {
 			jsonEvent.put("imageCopyright", this.getImageOwner());
+		} else if (Validator
+			.isNotNull(this.getCampaign().getDefaultImageCopyright())) {
+			jsonEvent.put("imageCopyright", JSONHelper.getJSONFromI18nMap(
+				this.getCampaign().getDefaultImageCopyrightMap()));
 		}
 
 		// Lieu
@@ -697,12 +709,13 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		return jsonEvent;
 	}
-	
+
 	/**
 	 * Retourne le nom lieu rattaché à l'événement
 	 */
 	public String getPlaceAlias(Locale locale) {
-		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil
+			.getPlaceBySIGId(this.getPlaceSIGId());
 		if (place != null) {
 			return place.getAlias(locale);
 		} else {

@@ -47,6 +47,8 @@ public class CampaignSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
+		soapModel.setDefaultImageId(model.getDefaultImageId());
+		soapModel.setDefaultImageCopyright(model.getDefaultImageCopyright());
 		soapModel.setManagersIds(model.getManagersIds());
 		soapModel.setExportEnabled(model.getExportEnabled());
 
@@ -213,6 +215,22 @@ public class CampaignSoap implements Serializable {
 		_title = title;
 	}
 
+	public long getDefaultImageId() {
+		return _defaultImageId;
+	}
+
+	public void setDefaultImageId(long defaultImageId) {
+		_defaultImageId = defaultImageId;
+	}
+
+	public String getDefaultImageCopyright() {
+		return _defaultImageCopyright;
+	}
+
+	public void setDefaultImageCopyright(String defaultImageCopyright) {
+		_defaultImageCopyright = defaultImageCopyright;
+	}
+
 	public String getManagersIds() {
 		return _managersIds;
 	}
@@ -243,6 +261,8 @@ public class CampaignSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private long _defaultImageId;
+	private String _defaultImageCopyright;
 	private String _managersIds;
 	private Boolean _exportEnabled;
 }

@@ -355,6 +355,8 @@
 
 		<!-- Champs généraux -->
         <column name="title" type="String" localized="true" />
+        <column name="defaultImageId" type="long" />
+        <column name="defaultImageCopyright" type="String" localized="true" />
         <column name="managersIds" type="String" />
         <column name="exportEnabled" type="Boolean" />
         

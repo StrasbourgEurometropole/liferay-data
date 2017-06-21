@@ -236,6 +236,51 @@
 	display: ;
 }
 
+.place-schedule-portlet .calendar-schedule-exceptions p{
+	margin: 0px;
+    padding: 0px;
+    line-height: normal;
+    width: 100%
+}
+
+.place-schedule-portlet .more-schedules{
+	display: none;
+}
+
+.place-schedule-portlet .btns-schedule{
+	width: 100%;
+}
+
+.place-schedule-portlet .btn-more-schedules{
+    margin: 10px auto;
+    padding: 5px 6px;
+    width: 31px;
+    height: 31px;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 2px solid #97bf0c;
+    position: relative;
+    box-sizing: border-box;
+    color: #97bf0c;
+    display: block ;
+}
+
+.place-schedule-portlet .btn-less-schedules{
+    margin: 10px auto;
+    padding: 5px 6px;
+    width: 31px;
+    height: 31px;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 2px solid #97bf0c;
+    position: relative;
+    box-sizing: border-box;
+    color: #97bf0c;
+    display: block;
+}
+
 /* Media queries
 -------------------------------------------------*/
 @media screen and (max-width: 800px) {

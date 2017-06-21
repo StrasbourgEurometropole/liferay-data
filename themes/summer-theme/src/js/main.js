@@ -1,13 +1,15 @@
 jQuery(document).ready(function() {
 	
-	//Custom select 
-	jQuery(".block-filter select").uniform();
-	
+	//Custom select
+	if (!!jQuery.uniform) {
+		jQuery(".block-filter select").uniform();
+	}
 	//Datepicker
-	jQuery(".textdate").datepicker({
-		dateFormat : 'dd/mm/yy'
-	});
-
+	if (!!jQuery.datepicker) {
+		jQuery(".textdate").datepicker({
+			dateFormat : 'dd/mm/yy'
+		});
+	}
 	jQuery('.btn-top').bind('click', function() {
 		jQuery('html, body').stop().animate({ scrollTop: 0}, 400);
 		return false;
@@ -50,13 +52,13 @@ jQuery(document).ready(function() {
 	});
 	
 	jQuery('.nav-primary ul.menu > li.expanded > .submenu > ul.child-menu > li').hover(function(){
-			jQuery(this).parents( "li" ).css( "background-color", "#268033" );	
+			jQuery(this).parents( "li" ).css( "background-color", "#e6617c" );	
 			jQuery(this).parents( "li").find("a").first().css( "color", "#FFF" );
 	});
 	
 	jQuery('.nav-primary ul.menu > li.expanded > .submenu > ul.child-menu > li').mouseleave(function(){
-			jQuery('.nav-primary ul.menu > li.expanded').css( "background-color", "#fff" );	
-			jQuery('.nav-primary ul.menu > li.expanded > a').css( "color", "#268033" );	
+			jQuery('.nav-primary ul.menu > li.expanded').css( "background-color", "#e6617c" );	
+			jQuery('.nav-primary ul.menu > li.expanded > a').css( "color", "#fff" );	
 	});     
 	
 

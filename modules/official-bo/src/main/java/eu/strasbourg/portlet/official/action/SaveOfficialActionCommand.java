@@ -27,6 +27,8 @@ import javax.portlet.PortletException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -43,7 +45,9 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.OFFICIAL_BO,
@@ -103,6 +107,12 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			if (Validator.isNotNull(AssetCategoryLocalServiceUtil
 					.fetchAssetCategory(fonctionCity))) {
 				categories.add(fonctionCity.toString());
+
+				// ajout de la catégorie Strasbourg
+				AssetCategory category = AssetVocabularyHelper
+						.getCategory("Strasbourg", sc.getThemeDisplay().getCompanyGroupId());
+				categories.add(String.valueOf(category.getCategoryId()));
+
 			}
 
 			String[] districts = request.getParameterValues("districts2");

@@ -153,8 +153,12 @@ public class EditOfficialDisplayContext {
 		List<AssetCategory> territories = this.getTerritories();
 		for (AssetCategory territory : territories) {
 			try {
-				if (territory.getAncestors().size() == 1) {
-					towns.add(territory);
+				List<AssetCategory> ancestors = territory.getAncestors();
+				if (ancestors.size() == 1) {
+					AssetCategory ancestor = ancestors.get(0);
+					if(ancestor.getName().equals("France")){
+						towns.add(territory);
+					}
 				}
 			} catch (PortalException e) {
 				continue;

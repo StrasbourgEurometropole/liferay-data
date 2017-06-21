@@ -1,0 +1,159 @@
+.strasbourg-bar {
+	height: 40px;
+	background: rgba(151, 191, 12, 0.75);
+	.strasbourg-logo {
+		padding-top: 10px;
+	}
+}
+.site-title-row {
+	background: rgba(51, 51, 51, 0.50);
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.site-title {
+	padding: 2rem 0;
+	font-weight: normal;
+	font-size: 3rem;
+	.logo {
+		display: inline-block;
+		vertical-align: top;
+		padding-right: 2rem;
+		margin-right: 2rem;
+		border-right: 1px solid;
+		border-color: inherit;
+		img {
+			max-width: 15rem;
+		}
+	}
+}
+.site-subtitle {
+	display: inline-block;
+	font-weight: 300;
+	line-height: 3rem;
+	max-width: 23rem;
+	font-size: 2rem;
+}
+.image-wrapper {
+	height: auto !important;
+	.site-title-row {
+		background: none;
+		color: #2D2D2D;
+	}
+}
+.header-image {
+	height: 25rem;
+	width: 100%;
+	background-size: cover;
+	background-position: center;
+}
+.cover .home-link {
+	position: absolute;
+	width: 100%;
+	height: 210px;
+	top: 40px;
+	display: block;
+}
+
+.mobile {
+	.header-image {
+		display: none;
+	}
+	.show-tablet {
+		display: inherit;
+	}
+	.hide-tablet {
+		display: none !important;
+	}
+	.site-title {
+		color: white;
+		margin-bottom: 0;
+	}
+} 
+
+@media (max-width: 768px) {
+	.strasbourg-bar {
+		background: #262626;
+	}
+
+	.site-title {
+		margin: 0 0;
+		padding: 1rem 0;		
+	}
+	.site-title-row {
+		background: rgba(51, 51, 51, 0.5) !important;
+	}
+	.site-title .logo {
+		margin-right: 1rem;
+		padding-right: 1rem;
+		display: inline !important;
+		img {
+			max-width: 9rem;
+		}
+	}
+	.site-title .action {
+		float: right;
+		display: inline-block;
+		margin-top: -0.3rem;
+		img, a {
+			margin: 1rem;
+		}
+	}
+	.site-subtitle {
+		font-size: 1.2rem;
+		max-width: 14rem;
+		line-height: 1.5rem;
+	}
+	.cover .home-link {
+		display: none;
+	}
+}
+
+.mobile {
+	.strasbourg-bar {
+		background: #262626;
+	}
+
+	.site-title {
+		margin: 0 0;
+		padding: 1rem 0;		
+	}
+	.site-title-row {
+		background: rgba(51, 51, 51, 0.5) !important;
+	}
+	.site-title .logo {
+		margin-right: 1rem;
+		padding-right: 1rem;
+		display: inline !important;
+		img {
+			max-width: 9rem;
+		}
+	}
+	.site-title .action {
+		float: right;
+		display: inline-block;
+		margin-top: -0.3rem;
+		img, a {
+			margin: 1rem;
+		}
+	}
+	.site-subtitle {
+		font-size: 1.2rem;
+		max-width: 14rem;
+		line-height: 1.5rem;
+	}
+	.cover .home-link {
+		display: none;
+	}
+}
+
+@media (max-width: 420px) {
+	.site-subtitle {
+		display: none;
+	}
+	.site-title .logo {
+		margin-right: 0;
+		padding-right: 0;
+		border-right: none;
+	}
+}

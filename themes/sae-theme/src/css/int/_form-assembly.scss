@@ -1,0 +1,268 @@
+.form-assembly-portlet * {
+	font-family: Arial;
+}
+.wFormWebPage {
+     background-image: none;
+}
+/* Erreurs Liferay : masque par dÃ©faut, sauf les manuelles */
+.form-assembly-portlet .portlet-msg-error {
+	display: none;
+}
+.form-assembly-portlet .no-form-error .portlet-msg-error {
+	display: block;
+}
+.wFormContainer .errMsg {
+     color: #d60b12;
+}
+/* Erreur champ */
+.wForm form .errFld {
+     border-style: solid;
+     border-color: #FFBBBB;
+     border-width: 1px;
+}
+/* Container formulaire */
+.wFormContainer {
+     border-style: none;
+     border-width: 1px;
+     border-color: #393939;
+     color: #2d2d2d;
+     margin: 0 auto;
+     font-family: Verdana, Geneva, sans-serif;
+     font-size: 14px;
+     line-height: 150%;
+     background-color: #ffffff;
+}
+.form-assembly-portlet form
+{
+    margin-bottom: 20px;
+}
+
+
+/* Liens */
+#main-content .wFormContainer a {
+     color: #2d2d2d;
+     text-decoration: underline;
+}
+#main-content .wFormContainer a:hover {
+     text-decoration: none;
+}
+
+/* Conseil champ (inactif) */
+.wForm .field-hint-inactive {
+     color: #a1a1a1;
+}
+
+/* Fieldset */
+#main-content .wForm fieldset {
+     border-width: 1px;
+     border-style: solid;
+     margin: 0 auto;
+     margin-top: 20px;
+     border-color: #dbdbdb;
+}
+
+#main-content .reviewResponse .responseData .fieldset {
+	border-radius: 0;
+}
+
+/* Titres */
+.wFormTitle {
+     font-family: Verdana, Geneva, sans-serif;
+     font-weight: bold;
+     color: #2d2d2d;
+     font-size: 22px;
+}
+
+#main-content .form-assembly-portlet h3 {
+	font-size: 24px;
+	font-weight: 400;
+}
+.wForm legend, .reviewResponse legend, .wForm h4, .reviewResponse h4 {
+     font-size: 16px;
+     font-weight: bold;
+}
+.wForm fieldset legend, .reviewResponse fieldset legend {
+     border-style: none;
+}
+
+.wForm .preField, .wForm .inlineLabel {
+     text-align: inherit;
+}
+
+#wFormsSavedMessage {
+    padding: 20px;
+}
+
+#main-content .wFormContainer {
+	width: auto;
+}
+
+/* Champs des formulaires */
+.form-assembly-portlet form .field
+{
+    font-size: 14px;
+
+    margin-bottom: 15px;
+}
+
+
+.form-assembly-portlet form input[type='text'],
+.form-assembly-portlet form input[type='password'],
+.form-assembly-portlet form input[type='file'],
+.form-assembly-portlet form textarea,
+.form-assembly-portlet form select
+{
+    box-sizing: border-box;
+    width: 305px;
+    padding: 5px;
+
+    border: 2px solid #e6eaef !important;
+    background-image: none;
+}
+.form-assembly-portlet form textarea {
+	height: 150px;
+}
+.form-assembly-portlet form input[type='text']:focus, 
+.form-assembly-portlet form input[type='password']:focus,
+.form-assembly-portlet form input[type='file']:focus,
+.form-assembly-portlet form textarea:focus, 
+.form-assembly-portlet form select:focus {
+border-color: #797979 !important;
+outline: none;
+}
+.form-assembly-portlet form input[type='checkbox'] {
+	-webkit-appearance: checkbox;
+}
+.form-assembly-portlet form input[type='radio'] {
+	-webkit-appearance: radio;
+}
+.form-assembly-portlet form input[type="radio"]+label,
+.form-assembly-portlet form input[type='checkbox']+label {
+    width: auto;
+    padding-top: 0;
+}
+.form-assembly-portlet form input[type="radio"],
+.form-assembly-portlet form input[type='checkbox'] {
+	width: auto;
+    height: 21px;
+    display: inline;
+}
+.form-assembly-portlet form .choices.vertical {
+	position: relative;
+	top: 5px;
+	left: 5px;
+}
+
+.form-assembly-portlet form select:disabled
+{
+    background: #e6eaef;
+}
+
+.form-assembly-portlet form label.preField
+{
+	width: auto;
+    padding-right: 10px;
+    padding-top: 5px;
+    font-weight: bold;
+
+    text-align: left;
+    -moz-box-sizing:    border-box;   /* Firefox 1, probably can drop this */
+   	-webkit-box-sizing: border-box;   /* Safari 3-4, also probably droppable */
+    box-sizing:        border-box;
+}
+
+/* Boutons */
+.wForm input[type=button], 
+.wForm input[type=submit],
+.wForms input[type=submit] {
+	background-color: #2D2D2D;
+	color: #f2f2f2;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 8px 20px;
+	border-radius: 0;
+	border: none !important;
+	text-shadow: none;
+	background-image: none;
+	transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+#main-content .form-assembly-portlet .secondaryAction {
+	background-color: #a3a3a3;
+	color: #f2f2f2;
+}
+.wForm input[type=button]:hover, 
+.wForm input[type=submit]:hover,
+.wForms input[type=submit]:hover,
+.wForm input[type=button]:focus, 
+.wForm input[type=submit]:focus,
+.wForms input[type=submit]:focus {
+	background-color: #d8d8d8 !important;
+	background-image: none !important;
+	color: #2d2d2d !important;
+}
+
+/* Masque lien aide */
+.form-assembly-portlet .supportInfo,
+.form-assembly-portlet .assistanceLink {
+	display: none;
+}
+
+/* Save and resume */
+.saveAndResume {
+    text-align: left !important;
+}
+.saveAndResume a {
+    display: block;
+}
+.saveAndResume .separator {
+    display: none;
+}
+
+/* Hack pour masquer une barre verticale */
+.form-assembly-portlet .saveAndResume .oneField {
+	visibility: hidden;
+}
+.form-assembly-portlet .saveAndResume .oneField span, .saveAndResume .oneField a {
+	visibility: visible;
+}
+#saveAndResumeFieldset * {
+	visibility: visible;
+}
+
+/* On masque la bordure au dessus de la classe "separator" */
+.form-assembly-portlet .separator {
+	border-top: none;
+}
+
+/* Review */
+.reviewResponse .question {
+	font-weight: bold;
+}
+
+.reviewResponse .response {
+	font-weight: normal !important;
+}
+
+@media screen and (max-width: 640px) {
+    .form-assembly-portlet form input[type='text'], 
+    .form-assembly-portlet form input[type='password'],
+    .form-assembly-portlet form input[type='file'], 
+    .form-assembly-portlet form textarea, 
+    .form-assembly-portlet form select,
+    .wForm .inputWrapper {
+        width: 100%;
+    }
+
+    .wForm .labelsRightAligned .preField {
+		text-align: left !important;
+		width: auto;
+		padding-bottom: 5px;
+	}
+	
+	.wForm .yui-calcontainer {
+		left: 25px !important;
+		margin-top: 40px;
+	}
+
+}

@@ -1,4 +1,40 @@
 
+
+//Autocomplete des activités
+var activitiesOptions = {
+	appendTo: '.activity-autocomplete-input-wrapper',
+	lookup: function (query, done) {
+		Liferay.Service(
+		  '/activity.activity/get-activities',
+		  {
+		    groupId: Liferay.ThemeDisplay.getScopeGroupId(),
+		    name: query,
+		    language: ''
+		  },
+		  function(obj) {
+			 var suggestions = jQuery.map(
+				obj, function(
+						dataItem) {
+					return {
+						value : dataItem.title.fr_FR,
+						data : dataItem.id
+					};
+				});
+
+			done({
+				suggestions: suggestions
+			});
+		  }
+		)
+	},
+	onSelect : function(suggestion) {
+		jQuery('#activity-autocomplete-hidden-value input').val(
+				suggestion.data);
+		jQuery('input.selected-activity').val(suggestion.value);
+	}
+};
+jQuery('.activity-autocomplete-input-wrapper input').autocomplete(activitiesOptions);
+
 //Autocomplete des lieux
 var options = {
 	appendTo: '.place-autocomplete-input-wrapper',

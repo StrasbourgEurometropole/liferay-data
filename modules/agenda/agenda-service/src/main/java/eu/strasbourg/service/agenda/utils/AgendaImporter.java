@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -32,7 +33,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -50,6 +50,8 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
@@ -72,11 +74,11 @@ public class AgendaImporter {
 		.getBundle("content.ImportErrors", this.getClass().getClassLoader());
 
 	public AgendaImporter() {
-
-		this.companyId = PortalUtil.getDefaultCompanyId();
 		try {
-			this.globalGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-				.getGroup().getGroupId();
+			Company defaultCompany = CompanyLocalServiceUtil
+				.getCompanyByWebId("liferay.com");
+			this.companyId = defaultCompany.getCompanyId();
+			this.globalGroupId = defaultCompany.getGroup().getGroupId();
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -259,7 +261,7 @@ public class AgendaImporter {
 			String from = "no-reply@no-reply.strasbourg.eu";
 			String to = StrasbourgPropsUtil.getAgendaImportMails();
 			String subject = "Aucun fichier dans le dossier d'import";
-			String body ="Aucun fichier ne se trouve dans le dossier d'import.";
+			String body = "Aucun fichier ne se trouve dans le dossier d'import.";
 			MailHelper.sendMailWithPlainText(from, to, subject, body);
 		}
 
@@ -606,12 +608,10 @@ public class AgendaImporter {
 				}
 			}
 		}
-		if (EventPeriodLocalServiceUtil
-			.checkForOverlappingPeriods(periods)) {
-			reportLine.error(LanguageUtil.get(bundle,
-				"overlapping-periods"));
+		if (EventPeriodLocalServiceUtil.checkForOverlappingPeriods(periods)) {
+			reportLine.error(LanguageUtil.get(bundle, "overlapping-periods"));
 		}
-		
+
 		// Validation du lien avec les manifestations
 		JSONArray jsonManifestations = jsonEvent.getJSONArray("manifestations");
 		if (jsonManifestations != null) {
@@ -630,6 +630,12 @@ public class AgendaImporter {
 		Map<AssetVocabulary, Boolean> vocabulariesValidationMap = new HashMap<AssetVocabulary, Boolean>();
 		for (AssetVocabulary vocabulary : eventRequiredVocabularies) {
 			vocabulariesValidationMap.put(vocabulary, false);
+		}
+		// Si on a affaire à un lieu manuel, le territoire est obligatoire
+		if (isManualPlace) {
+			AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+				.getVocabulary(VocabularyNames.TERRITORY, globalGroupId);
+			vocabulariesValidationMap.put(territoryVocabulary, false);
 		}
 		List<AssetCategory> categories = getCategoriesIdsFromFields(reportLine,
 			jsonEvent, "themes", "types", "publics", "territories", "services");
@@ -714,6 +720,21 @@ public class AgendaImporter {
 				event.setAccessForWheelchair(false);
 				event.setAccessForElder(false);
 				event.setAccessForDeficient(false);
+				
+				// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+				// catégories territoires du lieu aux catégories à ajouter à
+				// l'entité
+				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
+				List<AssetCategory> territories = place.getTerritories();
+				long[] newCategories = sc.getAssetCategoryIds();
+				for (AssetCategory territory : territories) {
+					if (!ArrayUtil.contains(newCategories,
+						territory.getCategoryId())) {
+						newCategories = ArrayUtil.append(newCategories,
+							territory.getCategoryId());
+					}
+				}
+				sc.setAssetCategoryIds(newCategories);
 			} else {
 				JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 				event.setPlaceStreetNumber(jsonPlace.getString("streetNumber"));

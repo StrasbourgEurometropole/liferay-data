@@ -65,7 +65,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -95,6 +95,10 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
+		sb.append(", defaultImageId=");
+		sb.append(defaultImageId);
+		sb.append(", defaultImageCopyright=");
+		sb.append(defaultImageCopyright);
 		sb.append(", managersIds=");
 		sb.append(managersIds);
 		sb.append(", exportEnabled=");
@@ -172,6 +176,15 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 			campaignImpl.setTitle(title);
 		}
 
+		campaignImpl.setDefaultImageId(defaultImageId);
+
+		if (defaultImageCopyright == null) {
+			campaignImpl.setDefaultImageCopyright(StringPool.BLANK);
+		}
+		else {
+			campaignImpl.setDefaultImageCopyright(defaultImageCopyright);
+		}
+
 		if (managersIds == null) {
 			campaignImpl.setManagersIds(StringPool.BLANK);
 		}
@@ -208,6 +221,9 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
+
+		defaultImageId = objectInput.readLong();
+		defaultImageCopyright = objectInput.readUTF();
 		managersIds = objectInput.readUTF();
 
 		exportEnabled = objectInput.readBoolean();
@@ -262,6 +278,15 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 			objectOutput.writeUTF(title);
 		}
 
+		objectOutput.writeLong(defaultImageId);
+
+		if (defaultImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(defaultImageCopyright);
+		}
+
 		if (managersIds == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -286,6 +311,8 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
+	public long defaultImageId;
+	public String defaultImageCopyright;
 	public String managersIds;
 	public boolean exportEnabled;
 }

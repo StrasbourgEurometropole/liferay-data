@@ -485,15 +485,6 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
-	* Retourne les horaires d'ouverture de la semaine en cours
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceSchedule(
-		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
-		return _subPlace.getPlaceSchedule(jourSemaine, locale);
-	}
-
-	/**
 	* Retourne les PublicHolidays
 	*/
 	@Override
@@ -507,6 +498,38 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions() {
 		return _subPlace.getScheduleExceptions();
+	}
+
+	/**
+	* Retourne les horaires d'ouverture du jour voulu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+		return _subPlace.getSubPlaceSchedule(jourSemaine, locale);
+	}
+
+	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceScheduleException(
+		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.Locale locale) {
+		return _subPlace.getSubPlaceScheduleException(premierJour, surPeriode,
+			locale);
+	}
+
+	/**
+	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
+	* de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceScheduleExceptionFreeMarker(
+		Date dateDeb, java.lang.Boolean surPeriode, java.util.Locale locale) {
+		return _subPlace.getSubPlaceScheduleExceptionFreeMarker(dateDeb,
+			surPeriode, locale);
 	}
 
 	/**

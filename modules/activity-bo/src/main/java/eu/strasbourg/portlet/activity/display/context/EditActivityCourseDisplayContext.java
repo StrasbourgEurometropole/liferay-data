@@ -59,6 +59,14 @@ public class EditActivityCourseDisplayContext {
 			.getAvailableLocales(themeDisplay.getScopeGroupId());
 		Locale[] availableLocales = availableLocalesSet
 			.toArray(new Locale[availableLocalesSet.size()]);
+		for (int i = 0; i < availableLocales.length; i++) {
+			if (availableLocales[i].equals(Locale.FRANCE)) {
+				Locale buffer = availableLocales[0];
+				availableLocales[0] = availableLocales[i];
+				availableLocales[i] = buffer;
+				break;
+			}
+		}
 		return availableLocales;
 	}
 
