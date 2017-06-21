@@ -1,0 +1,96 @@
+// Configuration
+$help-absolute: false;
+
+// Positionne le help block en absolute (evite les margin quand le span apparait)
+$focus-border-color: #66AFE9;
+$focus-shadow-color: #66AFE9;
+
+// VALID : Design des bonnes validations
+$success-label-color: #3C763D;
+$success-input-border-color: $success-label-color;
+$success-help-color: $success-label-color;
+$success-icon-color: $success-label-color;
+$success-radio-color: $success-label-color;
+$success-checkbox-color: $success-label-color;
+$success-focus-color: $success-label-color;
+$success-focus-border-color: $success-label-color;
+$success-focus-shadow-color: $success-label-color;
+
+// INVALID : Design des erreur de validation
+$error-label-color: #A94442;
+$error-input-border-color: $error-label-color;
+$error-help-color: $error-label-color;
+$error-icon-color: $error-label-color;
+$error-radio-color: $error-label-color;
+$error-checkbox-color: $error-label-color;
+$error-focus-border-color: $error-label-color;
+$error-focus-shadow-color: $error-label-color;
+
+/* -------------------- */
+// CONFIGURATION
+@if $help-absolute {
+    .form-group .help-block {
+        position: absolute;
+    }
+}
+
+.form-control:focus {
+    border-color: $focus-border-color;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba($focus-shadow-color, 0.52);
+}
+
+// VALID
+.form-group.has-success {
+    .control-label {
+        color: $success-label-color;
+    }
+    .form-control {
+        border-color: $success-input-border-color;
+        &:focus {
+            border-color: $success-focus-border-color;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba($success-focus-shadow-color, 0.52);
+        }
+    }
+    .help-block {
+        color: $success-help-color;
+    }
+    .form-control-feedback {
+        color: $success-icon-color;
+    }
+    .radio {
+        color: $success-radio-color;
+    }
+    .checkbox {
+        color: $success-checkbox-color;
+    }
+}
+
+// INVALID
+.form-group.has-error {
+    .control-label {
+        color: $error-label-color;
+    }
+    .form-control {
+        border-color: $error-input-border-color;
+        &:focus {
+            border-color: $error-focus-border-color;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba($error-focus-shadow-color, 0.52);
+        }
+    }
+    .help-block {
+        color: $error-help-color;
+    }
+    .form-control-feedback {
+        color: $error-icon-color;
+    }
+    .radio {
+        color: $error-radio-color;
+    }
+    .checkbox {
+        color: $error-checkbox-color;
+    }
+}
+// Hack
+.checkbox-inline{
+    position: static;
+}

@@ -9,7 +9,7 @@
 	<input type="submit" id="submit-search-form" value="<liferay-ui:message key="search" />" />
 	
 	<c:if test="${dc.displayExport}">
-		<aui:button cssClass="btn-lg" href="${dc.exportResourceURL}"
+		<aui:button cssClass="btn-lg" href="${dc.exportResourceURL}" target="_blank"
 					type="button" value="export-pdf" />
 	</c:if>
 </form>

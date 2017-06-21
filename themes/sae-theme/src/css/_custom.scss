@@ -4,6 +4,12 @@
 /* endinject */
 
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
+
+.page-header{
+    margin: 0px;
+    padding: 0px;
+}
+
 .portlet-boundary .portlet {
 	margin: 0px;
 

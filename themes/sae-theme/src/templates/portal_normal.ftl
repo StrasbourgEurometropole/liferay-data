@@ -6,13 +6,13 @@
 <#assign currentGroupName = currentGroup.getName() />
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 <#if locale.language == "en">
-  <#assign websiteUrl = "http://www.en.strasbourg.eu" />
+  <#assign websiteUrl = "//www.en.strasbourg.eu" />
 <#else>
   <#if locale.language == "fr">
-    <#assign websiteUrl = "http://www.strasbourg.eu" />
+    <#assign websiteUrl = "//www.strasbourg.eu" />
   <#else>
     <#if locale.language == "de">
-      <#assign websiteUrl = "http://www.de.strasbourg.eu" />
+      <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
   </#if>
 </#if>
@@ -68,7 +68,7 @@
       <!-- pre-header -->
       <nav class="nav-lang"> 
         <div class="center"> 
-          <a href="http://www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
+          <a href="//www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
             <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Strasbourg.eu" />
           </a>
           <ul style="display: none;"> 
@@ -188,6 +188,10 @@
       <!-- END FOOTER -->
 
     </main>
+    <script>
+      define._amd = define.amd;
+      define.amd = false;
+    </script>
     <script type="text/javascript" src="${javascript_folder}/bootstrapValidator.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/owl.carousel.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/parallax.min.js" charset="utf-8"></script>
@@ -197,6 +201,9 @@
     <script type="text/javascript" src="${javascript_folder}/custom-select.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/environment.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/based.js" charset="utf-8"></script>
+    <script>
+      define.amd = define._amd;
+    </script>
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
  </body>

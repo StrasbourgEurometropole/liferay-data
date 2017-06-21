@@ -17,13 +17,13 @@
 	@import 'builders/modules/_owl-carousel';
 	@import 'builders/modules/_custom-select';
 
-// Dist (external plug-ins, optionnal)
-@import 'dist/_formValidation';
-@import 'dist/_print';
-@import 'dist/_cookies';
-@import 'dist/_skipnavigation';
-//@import 'dist/_customSelect';
-	@import 'dist/mmenu/_mmenu';
+// Vendors (external plug-ins, optionnal)
+@import 'vendors/_formValidation';
+@import 'vendors/_print';
+@import 'vendors/_cookies';
+@import 'vendors/_skipnavigation';
+//@import 'vendors/_customSelect';
+	@import 'vendors/mmenu/_mmenu';
 
 // General (global CSS)
 @import 'general/_calls';

@@ -72,7 +72,7 @@ if ($('#player').length){
 		//Start the video
 		function onPlayerReady(event) {
 			ratioYoutube('header', '.parameter-video');
-			player.mute();
+			//player.mute();
 
 			// Enlever la tabulation
 			//$('#player').attr('tabindex', '-1');
@@ -80,8 +80,6 @@ if ($('#player').length){
 		onPlayerReady();
 
 		function onPlayerStateChange(event) {
-			player.playVideo();
-			player.mute();
 		}
 
 	}

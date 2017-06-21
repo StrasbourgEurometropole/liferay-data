@@ -169,28 +169,28 @@ footer{
 					    height: 20px;
 					    @include transition(all 0.3s ease 0s);
 					    &.btn-twitter{
-					    	background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/15435052-4222-4e22-8341-1b0c2050fd58/icone-twitter.jpg);
+					    	background-image:url(../images/icone/icone-twitter.jpg);
 					    }
 					    &.btn-linkedin{
-					    	background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/97d13d58-6075-4ff3-8560-c4b503fe60f9/picto_linkedin_footer.png);
+					    	background-image:url(../images/icone/picto_linkedin_footer.png);
 					   	}
 					   	&.btn-soundcloud{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/1785a18d-b0d6-4122-a81f-36f8f48d6ac6/picto_soundcloud_footer.png);
+					   		background-image:url(../images/icone/picto_soundcloud_footer.png);
 					   	}
 					   	&.btn-daily{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/d5644965-7823-4765-bd79-16afc5aac688/picto_dailymotion_footer.png);
+					   		background-image:url(../images/icone/picto_dailymotion_footer.png);
 					   	}
 					   	&.btn-tumblr{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/e6ad4b5a-e225-40da-a06b-0ce0573d4aa7/icone-tumblr.jpg);
+					   		background-image:url(../images/icone/icone-tumblr.jpg);
 					   	}
 					   	&.btn-insta{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/2cb94b81-0e3e-4d67-b15f-53fe77886892/icone-instagram.jpg);
+					   		background-image:url(../images/icone/icone-instagram.jpg);
 					   	}
 					   	&.btn-netvibes{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/3dc87cae-987b-4b27-b649-9f46955016be/icone-netvibes.jpg);
+					   		background-image:url(../images/icone/icone-netvibes.jpg);
 					   	}
 					   	&.btn-fb{
-					   		background-image:url(http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/e57dc7de-04dd-41a5-87db-6cebcacc368e/icone-facebook.jpg);
+					   		background-image:url(../images/icone/icone-facebook.jpg);
 					   	}
 					   	&:hover, &:active, &:focus{
 					   		opacity: 0.4;
@@ -244,7 +244,7 @@ footer{
 	    a{
 	    	text-indent: -9999em;
 		    overflow: hidden;
-		    background: transparent url(http://www.ete.strasbourg.eu/uploads/gabarit/images/btn-stras-eu.png) center center no-repeat;
+		    background: transparent url(../images/btn-stras-eu.png) center center no-repeat;
 		    height: 50px;
 		    width: 126px;
 		    display: block;
