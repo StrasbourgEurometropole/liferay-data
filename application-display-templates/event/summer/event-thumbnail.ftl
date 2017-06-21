@@ -21,7 +21,7 @@
 
 <div class="event portlet-event-item" headers="ishh_col-1">
   <div class="entry-image"> 
-    <a href="${detailURLFilter}" title="${entry.getTitle(locale)}"">
+    <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">
       <img src="${entry.getImageURL()}" alt="">
     </a>
   </div>

@@ -45,7 +45,7 @@
         <li>Modalités : ${course.getArrangements(locale)}</li>
         <li>Prix : ${course.getPrice(locale)}</li>
         <li>Publics : ${course.getPublicsLabel(locale)}</li>
-        <li>Types : ${course.getTypesLabel(locale)}</li>
+        <li>Types : ${course.getTypesLabels(locale)}</li>
         <li>Organisateur -
           <#if course.service?has_content>
             service EMS : ${course.service.getTitle(locale)}
@@ -62,10 +62,11 @@
           Lieux et horaires :
           <ul>
             <li>Changer de période :
+              <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
               <ul>
-                  <#list periods as period>
-                    <li><a href="#" class="switchPeriod" data-period-id="${period.categoryId}">${period.getTitle(locale)}</a>
-                  </#list>
+                <#list assetVocabularyHelper.getVocabulary("periode des activites", themeDisplay.scopeGroupId).categories as period>
+                  <li><a href="#" class="switchPeriod" data-period-id="${period.categoryId}">${period.getTitle(locale)}</a>
+                </#list>
               </ul>
             </li>
           </ul>
