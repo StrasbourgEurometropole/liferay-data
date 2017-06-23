@@ -46,6 +46,7 @@
 			labelNode: "#categorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
+			vocabularyIds: "${placeTypeVocabularyId}"
 		}
 	).render();
 </aui:script>
