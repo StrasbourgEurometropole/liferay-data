@@ -17,6 +17,7 @@ package eu.strasbourg.service.activity.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -27,22 +28,36 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.ParseException;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.WildcardQuery;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.search.generic.MatchQuery;
+import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.service.base.ActivityLocalServiceBaseImpl;
 
 /**
@@ -73,6 +88,8 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 	 * eu.strasbourg.service.activity.service.ActivityLocalServiceUtil} to
 	 * access the activity local service.
 	 */
+
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 	/**
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
@@ -357,5 +374,64 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		}
 
 		return activityPersistence.findWithDynamicQuery(dynamicQuery, -1, -1);
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour le webservice des
+	 * activités
+	 */
+	@Override
+	public List<Activity> searchActivities(long groupId,
+		String keywords, Locale locale) {
+		try {
+			SearchContext searchContext = new SearchContext();
+			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
+
+			// Query
+			BooleanQuery query = new BooleanQueryImpl();
+			try {
+
+				query.addRequiredTerm(Field.ENTRY_CLASS_NAME,
+					Activity.class.getName(), false);
+				query.addRequiredTerm(Field.STATUS,
+					WorkflowConstants.STATUS_APPROVED);
+				query.addRequiredTerm(Field.GROUP_ID, groupId);
+
+				// Mots-clés
+				if (Validator.isNotNull(keywords)) {
+					BooleanQuery keywordQuery = new BooleanQueryImpl();
+					MatchQuery titleQuery = new MatchQuery(Field.TITLE,
+						keywords);
+					titleQuery.setFuzziness(new Float(10));
+					keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+					WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
+						Field.TITLE, "*" + keywords + "*");
+					keywordQuery.add(titleWildcardQuery,
+						BooleanClauseOccur.SHOULD);
+
+					query.add(keywordQuery, BooleanClauseOccur.MUST);
+				}
+			} catch (ParseException e) {
+				log.error(e);
+				return new ArrayList<Activity>();
+			}
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			List<Activity> activities = new ArrayList<Activity>();
+			for (Document document : hits.getDocs()) {
+				Long activityId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+				Activity activity = this.fetchActivity(activityId);
+				if (activity != null) {
+					activities.add(activity);
+				}
+			}
+
+			return activities;
+		} catch (SearchException e) {
+			log.error(e);
+			return new ArrayList<Activity>();
+		}
 	}
 }

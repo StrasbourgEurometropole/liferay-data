@@ -300,6 +300,14 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 		return _activity.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la version JSON de l'activité
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _activity.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.activity.model.Activity> toCacheModel() {
 		return _activity.toCacheModel();

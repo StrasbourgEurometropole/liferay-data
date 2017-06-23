@@ -391,6 +391,16 @@ public class ActivityLocalServiceWrapper implements ActivityLocalService,
 	}
 
 	/**
+	* Retourne les Hits correspondant aux paramètres pour le webservice des
+	* activités
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.Activity> searchActivities(
+		long groupId, java.lang.String keywords, java.util.Locale locale) {
+		return _activityLocalService.searchActivities(groupId, keywords, locale);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

@@ -41,6 +41,11 @@ public class ActivityServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.ActivityServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONArray getActivities(
+		long groupId, java.lang.String name, java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getActivities(groupId, name, language);
+	}
 
 	/**
 	* Returns the OSGi service identifier.
