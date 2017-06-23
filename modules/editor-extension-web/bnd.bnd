@@ -1,0 +1,3 @@
+Bundle-SymbolicName: editor.extension.web
+Bundle-Version: 1.16.0
+Fragment-Host: com.liferay.frontend.editor.ckeditor.web

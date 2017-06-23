@@ -1,0 +1,7 @@
+Bundle-SymbolicName: strasbourg-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.strasbourg.exception,\
+	eu.strasbourg.service.strasbourg.model,\
+	eu.strasbourg.service.strasbourg.service,\
+	eu.strasbourg.service.strasbourg.service.persistence
