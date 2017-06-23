@@ -1,0 +1,212 @@
+/**
+ * Style global de la portlet
+ */
+.tipi-portlet .portlet-borderless-container {
+    background: none;
+}
+
+#tipi .form	 .field
+{
+    clear: both;
+}
+
+#tipi .field .label
+{
+    display: block;
+}
+#tipi .field .mail-input
+{
+    display: inline;
+}
+
+#tipi .bill-form
+{
+    font-size: 14px;
+
+    background: url('/o/tipiportlet/images/assainissement.jpg');
+}
+
+#tipi #field-label
+{
+    font-weight: bold;
+
+    color: #e30119;
+}
+#tipi .button
+{
+    font-weight: bold;
+
+    width: 100px;
+    padding: 2px;
+
+    color: white;
+    background-color: #bb2727;
+}
+#tipi .reset-button
+{
+    font-weight: bold;
+
+    width: 80px;
+    padding: 1px;
+
+    color: white;
+    background-color: #968f8f;
+}
+
+#tipi #table-of-fields
+{
+    width: 100%;
+
+    border-left: 1px solid #dad8cc;
+    background-color: #f2f0e3;
+}
+#tipi #tipi-page
+{
+    width: auto;
+
+    border: 2px solid #dad8cc;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+    margin-bottom: 20px;
+}
+
+#tipi .errors {
+    display: none;
+    padding: 10px;
+    background: #EF2F2F;
+    width: auto;
+    color: white;
+    margin-bottom: 20px;
+}
+
+/*PARTIE CONCERNANT LA PETITE ENFANCE */
+
+#tipi .childhood .year-field
+{
+    position: relative;
+    top: 132px;
+    left: 61px;
+}
+
+#tipi .childhood .ref-field
+{
+    position: relative;
+    top: 186px;
+    left: 18px;
+}
+
+#tipi .childhood .price-field
+{
+    position: relative;
+    top: 350px;
+    left: 400px;
+}
+
+/*PARTIE CONCERNANT LA RESTAURATION SCOLAIRE */
+
+#tipi .schoolRestaurant .year-field
+{
+    position: relative;
+    top: 132px;
+    left: 61px;
+}
+
+#tipi .schoolRestaurant .ref-field
+{
+    position: relative;
+    top: 186px;
+    left: 18px;
+}
+
+#tipi .schoolRestaurant .price-field
+{
+    position: relative;
+    top: 350px;
+    left: 400px;
+}
+
+/*PARTIE CONCERNANT LE PERISCOLAIRE */
+
+#tipi .afterSchool .year-field
+{
+    position: relative;
+    top: 132px;
+    left: 61px;
+}
+
+#tipi .afterSchool .ref-field
+{
+    position: relative;
+    top: 186px;
+    left: 18px;
+}
+
+#tipi .afterSchool .price-field
+{
+    position: relative;
+    top: 350px;
+    left: 400px;
+}
+
+/*PARTIE CONCERNANT L'EAU */
+
+#tipi .water .year-field
+{
+    position: absolute;
+    top: 30px;
+    left: 283px;
+
+    width: 180px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .water .ref-field
+{
+    position: absolute;
+    top: 100px;
+    left: 360px;
+
+    width: 235px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+#tipi .water .price-field
+{
+    position: absolute;
+    top: 450px;
+    left: 380px;
+
+    width: 215px;
+    padding: 3px;
+
+    border: 1px solid red;
+    background-color: rgb(240, 210, 210);
+    background-color: rgba(240, 210, 210, .9);
+}
+
+/** Boutons */
+.buttons input {
+    border: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-width: 90px;
+    height: 29px;
+}
+
+.buttons input[type=button] {
+    background-color: #2d2d2d !important;
+    margin-right: 10px;
+}
+
+.buttons input[type=submit] {
+    background: #97bf0c !important;
+    float: right;
+}

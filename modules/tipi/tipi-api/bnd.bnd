@@ -1,0 +1,9 @@
+Bundle-Name: tipi-api
+Bundle-SymbolicName: tipi.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.tipi.exception,\
+	eu.strasbourg.service.tipi.model,\
+	eu.strasbourg.service.tipi.service,\
+	eu.strasbourg.service.tipi.service.persistence
+-includeresource: META-INF/service.xml=../tipi-service/service.xml

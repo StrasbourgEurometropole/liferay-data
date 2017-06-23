@@ -1,0 +1,94 @@
+/* These inject tags are used for dynamically creating imports for themelet styles, you can place them where ever you like in this file. */
+
+/* inject:imports */
+/* endinject */
+
+/* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
+
+a:hover, a:focus{
+	color: white;
+}
+
+body{
+	background: #EDEDED !important;
+    font-family: 'Open Sans';
+}
+
+
+.portlet-boundary .portlet .portlet-title-text {
+	display: none;
+}
+
+#wrapper {
+
+	.row{
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	.portlet-boundary:not(.popup) .portlet{
+		margin: 0px;
+
+		.portlet-content{
+			border: none;
+			background: transparent;
+			padding: 0px;
+			margin: 0px;
+		}
+	}
+
+	.portlet-boundary .portlet {
+
+		h2{
+			font-weight: bold;
+			margin: 1em 0;
+
+			em{
+				font-weight: normal;
+			}
+		}
+
+		.portlet-content{
+			border-radius: 0px;
+		}
+	}
+
+	.portlet-boundary.popup .content-metadata-asset-addon-entries{
+		clear: both;
+	}
+
+	.breadcrumbs{
+		padding: 0px;
+    	margin-bottom: 20px;
+
+		> li + li:before {
+			background-image: url();
+			content: "\00a0>\00a0";
+			margin-top: -0.5em;
+			color: #333333;
+			margin-left: 2px;
+		}
+	}
+
+	.col-md-12{
+		padding: 0px;
+	}
+
+	.col-md-8{
+		padding: 0px;
+		padding-right: 20px;
+
+		#tipi #tipi-page {
+			border: none;
+		}
+	}
+
+	.col-md-4{
+		padding: 0px;
+		padding-left: 5px;
+	}
+
+	.portlet-boundary_eu_strasbourg_portlet_tipi_callback_TipiCallbackWebPortlet_{
+		display: none;
+	}
+}

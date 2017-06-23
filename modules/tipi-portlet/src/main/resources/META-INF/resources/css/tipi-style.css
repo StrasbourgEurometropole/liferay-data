@@ -1,0 +1,555 @@
+body {
+    background: #EDEDED;
+}
+
+.wrapper > .header .nav-lang {
+    background: #97BF0C;
+}
+
+.wrapper > .header .nav-lang li a{
+    background: #88AC0B;
+}
+.wrapper > .header .nav-lang li a:hover {
+    background: #789809;
+}
+
+.wrapper > .header {
+    background: none;
+    background-color: #DEDEDE;
+    height: 240px;
+}
+
+nav.nav-primary {
+    display: none;
+}
+
+.logo {
+    background-image: url('http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/396c8cec-e13b-4633-81b4-a35a60b7818f/tipi.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+aside.quick-links-medias {
+    display: none;
+}
+
+.portlet-borderless-container {
+    background: none;
+    border-radius: 0;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
+
+.menu-container > a {
+    width: 32%;
+    height: 280px;
+    position: relative;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    /* border: 5px solid transparent; */
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.menu-container > a:after {
+    opacity: 1;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    border: 5px solid #97bf0c;
+    transition: opacity 0.3s linear;
+    opacity: 0;
+}
+
+.menu-container > a:hover:after {
+    opacity: 1;
+}
+
+.menu-container > a:hover {
+    box-shadow: 0 0px 0px 1000px rgba(0, 0, 0, 0.2) inset;
+    transition: box-shadow 0.3s;
+}
+
+.childhood-menu {
+    background-image: url('http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/906aa75c-a4cf-4c82-90cc-44ad2fa9c537/childhood-menu.jpg');
+}
+
+.afterSchool-menu {
+    background-image: url('http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/36d70fc5-5536-43e1-ac6c-a96205b5e29b/afterSchool-menu.jpg');
+}
+
+.schoolRestaurant-menu {
+    background-image: url('http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/380e5c98-3c48-4920-bb78-7916b7f0c2f4/schoolRestaurant-menu.jpg');
+}
+
+.water-menu {
+    background-image: url('http://media.strasbourg.eu/alfresco/d/d/workspace/SpacesStore/8f7776d6-6b7c-4d27-a054-93036bd3c2f5/water-menu.jpg');
+}
+
+.help {
+    background: white;
+    padding: 10px 20px;
+    font-size: 13px;
+}
+
+.help ul, .help p {
+    list-style: disc outside;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.help h3 {
+    font-size: 15px;
+    color: #7fa400 ;
+}
+
+.popup-help {
+    background: #444444;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.popup-help a.button-link {
+    display: block;
+    border: 1px solid white;
+    width: 130px;
+    margin: auto;
+    margin-top: 20px;
+    background: #2D2D2D;
+    padding: 10px 10px;
+    transition: background 0.3s;
+}
+
+.popup-help a.button-link:hover {
+    text-decoration: none;
+    background: #97bf0c;
+}
+
+.aui-w70 {
+    min-width: 605px;
+}
+
+/**
+ * Page contact
+ */
+.contact-form-portlet .portlet-borderless-container {
+    background: white;
+    padding: 10px;
+}
+.contact-form-portlet label+input, label+textarea {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    padding: 5px;
+}
+
+.contact-form-portlet input[type=text] {
+    width: 300px;
+}
+
+.contact-form-portlet #recaptcha_response_field {
+    width: 300px;
+    padding: 5px;
+}
+
+.contact-form-portlet div.mandatory {
+    margin: 10px 0;
+    float: left;
+}
+
+.contact-form-portlet .privacy-policy {
+    margin: 10px 0;
+    float: right;
+    text-decoration: underline;
+}
+
+.contact-form-portlet .field.submit {
+    clear: both;
+}
+
+.contact-form-portlet .field.submit input {
+    border: none;
+    background: #97bf0c;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+.contact-form-portlet .field.submit input:hover {
+    background: #789809;
+}
+
+/**
+ * Boutons
+ */
+#tipi .button {
+    font-weight: bold;
+    width: 100px;
+    padding: 2px;
+    color: white;
+    transition: background 0.3s;
+    background: #97bf0c !important;
+    float: right;
+}
+
+#tipi .button:hover {
+    background: #789809 !important;
+}
+
+#tipi .reset-button {
+    font-weight: bold;
+    width: 80px;
+    padding: 1px;
+    color: white;
+    background-color: #2d2d2d !important;
+    margin-right: 10px;
+    transition: all 0.3s;
+}
+
+#tipi .reset-button:hover {
+    background: #a3a3a3 !important;
+    color: #2d2d2d;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li a {
+    background: none;
+    color: #2D2D2D;
+}
+.wrapper .fil-ariane ul.breadcrumbs li a:hover {
+    text-decoration: underline;
+}
+.wrapper .fil-ariane ul.breadcrumbs li a:after {
+    display: none;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li a:before {
+    border: none;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li span:after {
+    content: " > ";
+    padding: 0 5px 0 3px;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li a {
+    margin-right: 0;
+    padding-right: 0;
+    display: inline-block;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li.last span:after {
+    display: none;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs {
+    border-bottom: 4px solid white;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li:first-child a {
+    padding-left: 2px;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li:last-child a {
+    padding-right: 2px;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li a:hover {
+    background: none;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li:last-child a {
+    font-weight: bold;
+}
+
+.wrapper .fil-ariane ul.breadcrumbs li:last-child:first-child a {
+    font-weight: normal;
+}
+
+/**
+ * Formulaires
+ */
+#tipi .water .ref-field {
+    width: 260px;
+    top: 90px;
+    left: 310px;
+}
+#tipi .water .year-field {
+    width: 200px;
+}
+
+/**
+* FOOTER
+*/
+
+.footer {
+    margin: auto;
+    padding-top: 20px;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.footer .footer-top {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.footer .footer-top .nav-footer {
+    padding-bottom: 35px;
+}
+
+.footer .footer-top .nav-footer li a:hover {
+    color: #7fa400;
+}
+
+.footer .footer-top .f-left {
+    padding-left: 20px;
+}
+
+.footer .footer-top .footer-contact {
+    margin: 20px 0 5px 0;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 400;
+    font-size: inherit;
+}
+
+.footer .footer-top .coordonnees, .footer .footer-top .coordonnees a {
+    color: #b1b1b1;
+}
+
+.footer .footer-top .coordonnees .numeros {
+    float: left;
+    width: 175px;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+.footer .footer-top .coordonnees .strong {
+    font-weight: 700;
+}
+
+.footer .footer-top .coordonnees .numeros .point_map {
+}
+
+.footer .footer-top .coordonnees .point_map {
+    font-weight: 800;
+    color: white;
+    padding-left: 16px;
+    height: 18px;
+    display: block;
+    background-image: url(../images/bg/point_map.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.footer .footer-top .coordonnees .numeros .point_map {
+    /* background: 0; */
+    padding-left: 0;
+}
+
+.footer .footer-top .coordonnees .adresse {
+    float: left;
+    line-height: 20px;
+    border-left: 1px solid #616161;
+    padding-left: 15px;
+}
+
+.clearer {
+    height: 1px;
+    font-size: .1em;
+    line-height: 1px;
+}
+
+.footer .footer-top .social-network {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+.footer .footer-top .social-network span {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.18em;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #4d4d4d;
+}
+
+.footer .footer-top .social-network ul li {
+    border: none;
+}
+
+.footer .footer-top .social-network ul li a {
+    width: 20px !important;
+    background-size: 20px;
+}
+
+.footer .closure a {
+    margin-left: 20px;
+}
+
+.footer .closure {
+    margin-top: 20px;
+}
+
+/*
+* Pages texte
+*/
+
+.container.view-cw-portlet {
+    background: white;
+    padding: 10px 20px;
+}
+
+.portlet-body h2 {
+    font-size: 24px;
+    color: #7fa400;
+}
+
+.container.view-cw-portlet h3 {
+    font-size: 20px;
+    color: #7fa400;
+}
+
+/**
+ * Aide popup
+ */
+.cw-description button:hover {
+    text-decoration: none;
+    background: #97bf0c !important;
+}
+
+/*
+* Footer responsive
+*/
+
+@media screen and (max-width:640px){
+	.footer .footer-top{
+		height:auto;
+		margin:0;
+		padding:0;
+		background:#2d2d2d;
+	}
+
+	.footer .footer-top .f-left{
+		width:auto;
+		margin:0;
+		padding:0 10px;
+		float:none;
+		background:#3a3a3a;
+	}
+
+	.footer .footer-top .f-right{
+		width:auto;
+		margin:0;
+		padding:0 10px;
+		float:none;
+	}
+
+	.footer .footer-top .nav-footer{
+		border:0;
+		padding:0;
+		margin:0;
+		height:auto;
+	}
+
+	.footer .footer-top .nav-footer{
+		text-align:center;
+	}
+
+	.footer .footer-top .nav-footer li{
+		float:none;
+		width:100%;
+		border:0;
+		padding:0;
+		margin:5px;
+		display:inline-block;
+	}
+
+	.footer .footer-top .nav-footer li a{
+		height:4.16em;
+		line-height:4.16em;
+		padding:0;
+		text-align:center;
+	}
+
+	.footer .footer-top .footer-contact,.footer .footer-top .coordonnees{
+		display:none
+	}
+
+	.footer .footer-top .social-network{
+		width:100%;
+		background:0;
+		padding:0;
+	}
+
+	.footer .footer-top .social-network span{
+		height:4.16em;
+		line-height:4.16em;
+		padding:0;
+		margin:0;
+		text-align:center;
+	}
+
+	.footer .footer-top .social-network ul{
+		padding:0;
+		text-align:center;
+	}
+
+	.footer .footer-top .social-network ul li{
+		padding:0;
+		text-align:center;
+		display:inline-block;
+		margin:5px;
+		border:0;
+		float:none;
+		height:4.16em;
+	}
+
+	.footer .footer-top .social-network ul li:last-child{
+		border:none;
+	}
+
+	.footer .footer-top .social-network ul li a{
+		margin:auto;
+		position:relative;
+		top:13px;
+	}
+
+	.footer .closure{
+		margin-top:0;
+	}
+
+	.footer .closure a{
+		margin:auto;
+	}
+
+	.footer .center{
+		width:100%;
+	}
+}
