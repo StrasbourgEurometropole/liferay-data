@@ -98,6 +98,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		Event event = this.eventLocalService.createEvent(pk);
 
 		event.setGroupId(sc.getScopeGroupId());
+		event.setCompanyId(sc.getCompanyId());
 		event.setUserName(user.getFullName());
 		event.setUserId(sc.getUserId());
 
@@ -114,6 +115,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
+		event.setCompanyId(sc.getCompanyId());
 		event.setStatusByUserId(sc.getUserId());
 		event.setStatusByUserName(user.getFullName());
 		event.setStatusDate(sc.getModifiedDate());
