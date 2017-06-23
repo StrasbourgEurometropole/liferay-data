@@ -38,15 +38,14 @@
 <aui:script use="liferay-asset-categories-selector">
 	new Liferay.AssetCategoriesSelector(
 		{
-			curEntryIds: '${categoryId}',
-			curEntries: '${categoryTitle}',
-			hiddenInput: '#<portlet:namespace />categoryId',
-			contentBox: '#categorySelector',
-			label: 'Type de lieu',
-			labelNode: '#categorySelectorLabel',
+			curEntryIds: "${categoryId}",
+			curEntries: "${categoryTitle}",
+			hiddenInput: "#<portlet:namespace />categoryId",
+			contentBox: "#categorySelector",
+			label: "Type de lieu",
+			labelNode: "#categorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: '${placeTypeVocabularyId}'
 		}
 	).render();
 </aui:script>
