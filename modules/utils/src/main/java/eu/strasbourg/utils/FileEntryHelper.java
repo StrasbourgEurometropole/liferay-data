@@ -153,7 +153,7 @@ public class FileEntryHelper {
 	 *            Locale
 	 * @return La valeur du champ personnalisé dans la langue désirée
 	 */
-	private static String getStructureFieldValue(Long fileEntryId,
+	public static String getStructureFieldValue(Long fileEntryId,
 		String fieldName, Locale locale) {
 		String fieldValue = "";
 		DLFileEntry file = DLFileEntryLocalServiceUtil
