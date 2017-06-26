@@ -41,7 +41,7 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 		}
 		if (themeId > 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("themeId").eq(themeId));
+				.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
 		}
 		if (status >= 0) {
 			campaignEventQuery
@@ -83,7 +83,7 @@ public class CampaignEventFinderImpl extends CampaignEventFinderBaseImpl
 		}
 		if (themeId > 0) {
 			campaignEventQuery
-				.add(PropertyFactoryUtil.forName("themeId").eq(themeId));
+				.add(RestrictionsFactoryUtil.like("themesIds", "%" + themeId + "%"));
 		}
 		if (status >= 0) {
 			campaignEventQuery
