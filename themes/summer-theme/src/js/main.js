@@ -1,13 +1,15 @@
 jQuery(document).ready(function() {
 	
-	//Custom select 
-	jQuery(".block-filter select").uniform();
-	
+	//Custom select
+	if (!!jQuery.uniform) {
+		jQuery(".block-filter select").uniform();
+	}
 	//Datepicker
-	jQuery(".textdate").datepicker({
-		dateFormat : 'dd/mm/yy'
-	});
-
+	if (!!jQuery.datepicker) {
+		jQuery(".textdate").datepicker({
+			dateFormat : 'dd/mm/yy'
+		});
+	}
 	jQuery('.btn-top').bind('click', function() {
 		jQuery('html, body').stop().animate({ scrollTop: 0}, 400);
 		return false;

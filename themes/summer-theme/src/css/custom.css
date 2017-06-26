@@ -145,27 +145,27 @@ a:hover {
   font-size: 12px;
 }
 
-.date-selection .input-checkbox-wrapper {
+.col-filter .date-selection .input-checkbox-wrapper {
   display: none;
 }
 
-.date-selection label {
+.col-filter .date-selection label {
   display: inline-block !important;
   width: 15px !important;
   float: none !important;
 }
 
-.date-selection > label {
+.col-filter .date-selection > label {
   width: auto !important;
 }
 
-.date-selection .date-selector {
+.col-filter .date-selection .date-selector {
   display: inline-block;
   min-width: 210px;
   margin-left: 10px;
 }
 
-.date-selection .date-selector input {
+.col-filter .date-selection .date-selector input {
   background: #FFF url(/o/summer-theme/images/2017/icon-calendar-pink.png) top right no-repeat !important;
 }
 

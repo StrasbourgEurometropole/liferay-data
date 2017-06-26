@@ -51,6 +51,9 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		if (this._searchContainer == null) {
 			PortletURL iteratorURL = this._response.createRenderURL();
 			iteratorURL.setParameter("keywords", this.getKeywords());
+			iteratorURL.setParameter("themeId", String.valueOf(this.getThemeId()));
+			iteratorURL.setParameter("statusId", String.valueOf(this.getStatusId()));
+			
 			this._searchContainer = new SearchContainer<CampaignEvent>(
 				this._request, iteratorURL, null, "no-entries-were-found");
 

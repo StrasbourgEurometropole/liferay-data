@@ -538,11 +538,14 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Image et copyright
 		if (Validator.isNotNull(this.getWebImageURL())) {
-			jsonEvent.put("imageURL", this.getWebImageURL());
+			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL()
+				+ this.getWebImageURL());
 		} else {
 			String defaultImageURL = this.getCampaign().getDefaultImageURL();
 			if (Validator.isNotNull(defaultImageURL)) {
-				jsonEvent.put("imageURL", defaultImageURL);
+				jsonEvent.put("imageURL",
+					StrasbourgPropsUtil.getAgendaPlatformURL()
+						+ defaultImageURL);
 			}
 		}
 		if (Validator.isNotNull(this.getImageOwner())) {

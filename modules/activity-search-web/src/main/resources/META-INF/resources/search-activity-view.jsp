@@ -6,13 +6,14 @@
 <aui:form name="fm" action="${searchURL}">
 
 	<!-- Activité -->
-	<aui:select name="activityId" label="activity">
-		<aui:option value="" label="" />
-		<c:forEach var="activity" items="${allActivities}">
-			<aui:option value="${activity.activityId}"
-				label="${activity.getTitle(locale)}" />
-		</c:forEach>
-	</aui:select>
+	<div class="activity-autocomplete">
+		<div class="activity-autocomplete-input-wrapper" id="activity-autocomplete-input-wrapper">
+			<aui:input label="Choisir une activit&eacute;" type="text" name="activity" />
+		</div>
+		<span id="activity-autocomplete-hidden-value">
+			<aui:input type="hidden" name="activityId" value="${param.activityId}"/>
+		</span>
+	</div>
 	
 	<!-- Type -->
 	<c:if test="${not empty dc.activityTypes}">
@@ -51,8 +52,8 @@
 	</c:if>
 	
 	<!-- Lieu -->
-	<div class="place-autocomplete" <c:if test="${empty coursePlace.placeSIGId and not empty coursePlace.placeName }">style="display: none;"</c:if>>
-		<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper-${param.index}">
+	<div class="place-autocomplete">
+		<div class="place-autocomplete-input-wrapper" id="place-autocomplete-input-wrapper">
 			<aui:input label="Choisir un lieu" type="text" name="place" />
 		</div>
 		<span id="place-autocomplete-hidden-value">

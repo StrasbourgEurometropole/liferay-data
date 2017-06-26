@@ -16,9 +16,16 @@ package eu.strasbourg.service.activity.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.activity.service.ActivityServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.activity.service.ActivityServiceUtil} service utility. The
+ * {@link ActivityServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,26 @@ import aQute.bnd.annotation.ProviderType;
  * @author Brian Wing Shun Chan
  * @see ActivityServiceHttp
  * @see eu.strasbourg.service.activity.model.ActivitySoap
- * @see eu.strasbourg.service.activity.service.ActivityServiceUtil
+ * @see ActivityServiceUtil
  * @generated
  */
 @ProviderType
 public class ActivityServiceSoap {
+	public static java.lang.String getActivities(long groupId,
+		java.lang.String name, java.lang.String language)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = ActivityServiceUtil.getActivities(groupId,
+					name, language);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(ActivityServiceSoap.class);
 }

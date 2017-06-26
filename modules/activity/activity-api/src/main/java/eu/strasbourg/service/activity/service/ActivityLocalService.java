@@ -46,6 +46,7 @@ import eu.strasbourg.service.activity.model.Activity;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Provides the local service interface for Activity. Methods of this
@@ -318,6 +319,14 @@ public interface ActivityLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Activity> getByGroupId(long groupId);
+
+	/**
+	* Retourne les Hits correspondant aux paramètres pour le webservice des
+	* activités
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Activity> searchActivities(long groupId,
+		java.lang.String keywords, Locale locale);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

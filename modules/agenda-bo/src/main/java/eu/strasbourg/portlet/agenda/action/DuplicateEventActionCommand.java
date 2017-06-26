@@ -139,7 +139,7 @@ public class DuplicateEventActionCommand implements MVCActionCommand {
 			}
 
 			// Périodes
-			List<EventPeriod> oldEventPeriods = event.getEventPeriods();
+			List<EventPeriod> oldEventPeriods = oldEvent.getEventPeriods();
 			for (EventPeriod period : oldEventPeriods) {
 				EventPeriod eventPeriod = _eventPeriodLocalService
 					.createEventPeriod();

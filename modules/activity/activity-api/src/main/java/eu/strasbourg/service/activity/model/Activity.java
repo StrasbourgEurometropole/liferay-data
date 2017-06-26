@@ -111,4 +111,9 @@ public interface Activity extends ActivityModel, PersistedModel {
 	* Retourne la liste des URLs des documents
 	*/
 	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
+	* Retourne la version JSON de l'activité
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

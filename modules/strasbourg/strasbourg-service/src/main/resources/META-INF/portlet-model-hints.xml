@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.strasbourg.model.Strasbourg">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+	</model>
+</model-hints>

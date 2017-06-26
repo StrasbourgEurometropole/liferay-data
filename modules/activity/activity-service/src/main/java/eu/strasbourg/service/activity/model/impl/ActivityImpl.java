@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -36,6 +38,7 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
@@ -63,7 +66,8 @@ public class ActivityImpl extends ActivityBaseImpl {
 	 */
 	@Override
 	public List<ActivityCourse> getActivityCourses() {
-		return ActivityCourseLocalServiceUtil.getByActivity(this.getActivityId());
+		return ActivityCourseLocalServiceUtil
+			.getByActivity(this.getActivityId());
 	}
 
 	/**
@@ -71,8 +75,9 @@ public class ActivityImpl extends ActivityBaseImpl {
 	 */
 	@Override
 	public List<ActivityCourse> getPublishedActivityCourses() {
-		return ActivityCourseLocalServiceUtil.getByActivity(this.getActivityId())
-			.stream().filter(c -> c.isApproved()).collect(Collectors.toList());
+		return ActivityCourseLocalServiceUtil
+			.getByActivity(this.getActivityId()).stream()
+			.filter(c -> c.isApproved()).collect(Collectors.toList());
 	}
 
 	/**
@@ -136,7 +141,7 @@ public class ActivityImpl extends ActivityBaseImpl {
 		}
 		return label;
 	}
-	
+
 	/**
 	 * Retourne l'URL de l'image
 	 */
@@ -160,7 +165,7 @@ public class ActivityImpl extends ActivityBaseImpl {
 		}
 		return URLs;
 	}
-	
+
 	/**
 	 * Retourne la liste des vidéos
 	 */
@@ -176,7 +181,7 @@ public class ActivityImpl extends ActivityBaseImpl {
 		}
 		return videos;
 	}
-	
+
 	/**
 	 * Retourne la liste des URLs des documents
 	 */
@@ -193,4 +198,16 @@ public class ActivityImpl extends ActivityBaseImpl {
 		return URLs;
 	}
 
+	/**
+	 * Retourne la version JSON de l'activité
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		
+		json.put("id", this.getActivityId());
+		json.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+
+		return json;
+	}
 }

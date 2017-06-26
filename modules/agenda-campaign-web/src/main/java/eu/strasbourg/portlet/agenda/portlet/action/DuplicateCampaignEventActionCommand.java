@@ -1,5 +1,8 @@
 package eu.strasbourg.portlet.agenda.portlet.action;
 
+import java.util.Locale;
+import java.util.Map;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -85,7 +88,15 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 		newEvent.setOnSiteFirstName(event.getOnSiteFirstName());
 		newEvent.setOnSiteLastName(event.getOnSiteLastName());
 		newEvent.setOnSitePhone(event.getOnSitePhone());
-		newEvent.setTitle(event.getTitle());
+
+		// Titre (ajout de " (copie)" après le titre existant)
+		Map<Locale, String> titleMap = event.getTitleMap();
+		for (Map.Entry<Locale, String> titleEntry : titleMap.entrySet()) {
+			titleMap.put(titleEntry.getKey(),
+				titleEntry.getValue() + " (copie)");
+		}
+		newEvent.setTitleMap(titleMap);
+
 		newEvent.setSubtitle(event.getSubtitle());
 		newEvent.setDescription(event.getDescription());
 		if (Validator.isNotNull(event.getImageId())) {
@@ -105,6 +116,7 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 			newEvent.setPlaceCountry("");
 		} else {
 			newEvent.setPlaceSIGId("");
+			newEvent.setPlaceName(event.getPlaceName());
 			newEvent.setPlaceStreetNumber(event.getPlaceStreetNumber());
 			newEvent.setPlaceStreetName(event.getPlaceStreetName());
 			newEvent.setPlaceZipCode(event.getPlaceZipCode());
@@ -130,7 +142,7 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 		newEvent.setCampaignId(event.getCampaignId());
 		newEvent.setThemesIds(event.getThemesIds());
 		newEvent.setTypesIds(event.getTypesIds());
-		event.setPublicsIds(event.getPublicsIds());
+		newEvent.setPublicsIds(event.getPublicsIds());
 		CampaignEventStatus status = newEvent
 			.updateStatus(WorkflowConstants.STATUS_DRAFT, "", td.getUser());
 		this.campaignEventStatusLocalService.updateCampaignEventStatus(status);

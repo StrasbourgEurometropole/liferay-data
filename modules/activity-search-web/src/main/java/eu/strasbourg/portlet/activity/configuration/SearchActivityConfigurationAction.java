@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -168,7 +169,7 @@ public class SearchActivityConfigurationAction
 		String vocabularyName, String values, String names,
 		HttpServletRequest request, long groupId) {
 		request.setAttribute(vocabularyParamName + "Ids", values);
-		request.setAttribute(vocabularyParamName + "Names", names);
+		request.setAttribute(vocabularyParamName + "Names", HtmlUtil.escape(names));
 		AssetVocabulary vocabulary = AssetVocabularyHelper
 			.getVocabulary(vocabularyName, groupId);
 		if (vocabulary != null) {
