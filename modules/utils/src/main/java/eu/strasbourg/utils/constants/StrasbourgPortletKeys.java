@@ -46,4 +46,9 @@ public class StrasbourgPortletKeys {
 	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
 	
 	public static final String TWITTER_WEB = "eu_strasbourg_portlet_twitter_TwitterPortlet";
+
+	public static final String TIPI_PORTLET_WEB = "eu_strasbourg_portlet_tipi_portlet_TipiPortlet";
+	public static final String TIPI_CALLBACK_PORTLET_WEB = "eu_strasbourg_portlet_tipi_callback_portlet_TipiCallbackPortlet";
+	public static final String TIPI_STATS_PORTLET_WEB = "eu_strasbourg_portlet_tipi_stats_portlet_TipiStatsPortlet";
+	public static final String TIPI_CALLBACK_WEB = "eu_strasbourg_portlet_tipi_callback_web_TipiCallbackWebPortlet";
 }

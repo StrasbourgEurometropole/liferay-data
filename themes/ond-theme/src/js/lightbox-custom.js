@@ -69,7 +69,7 @@ jQuery('.article-popup-link.lightbox-item-catcher-link').magnificPopup({
     }
 });
 
-jQuery('#how-to-order-popup').magnificPopup({
+jQuery('.how-to-order-link').magnificPopup({
 	type:'inline'
 });
 

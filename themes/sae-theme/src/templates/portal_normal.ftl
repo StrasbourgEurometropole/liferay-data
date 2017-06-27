@@ -20,7 +20,7 @@
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}" class="no-js">
 
   <head>
-    <title>${the_title} | ${currentGroupName}</title>
+    <title>${layout.getName(locale)} | Strasbourg aime ses &eacute;tudiants</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">

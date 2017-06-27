@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -30,7 +32,9 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -44,8 +48,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 /**
  * @author 01i454
  */
-@Component(immediate = true, property = {
-		"com.liferay.portlet.display-category=Strasbourg",
+@Component(
+	immediate = true,
+	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/style.css",
 		"com.liferay.portlet.requires-namespaced-parameters=false",
@@ -54,29 +59,30 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 		"javax.portlet.init-param.view-template=/place-schedule-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/place-schedule-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" },
+	service = Portlet.class)
 public class PlaceSchedulePortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response)
-			throws IOException, PortletException {
+		throws IOException, PortletException {
 		try {
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
+				.getAttribute(WebKeys.THEME_DISPLAY);
 			Locale locale = themeDisplay.getLocale();
 
 			PlaceScheduleConfiguration configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							PlaceScheduleConfiguration.class);
+				.getPortletDisplay().getPortletInstanceConfiguration(
+					PlaceScheduleConfiguration.class);
 
 			// récupère le texte de la configuration
 			String text = "";
 			Map<Locale, String> mapText = LocalizationUtil
-					.getLocalizationMap(configuration.textScheduleXML());
+				.getLocalizationMap(configuration.textScheduleXML());
 			for (Map.Entry<Locale, String> map : mapText.entrySet()) {
 				if (themeDisplay.getLocale().toString()
-						.equals(map.getKey().toString())) {
+					.equals(map.getKey().toString())) {
 					text = HtmlUtil.unescape(map.getValue());
 					break;
 				}
@@ -88,8 +94,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			String layoutUuid = configuration.linksUuids();
 			if (Validator.isNotNull(layoutUuid)) {
 				Layout layout = LayoutLocalServiceUtil
-						.fetchLayoutByUuidAndGroupId(layoutUuid,
-								themeDisplay.getScopeGroupId(), false);
+					.fetchLayoutByUuidAndGroupId(layoutUuid,
+						themeDisplay.getScopeGroupId(), false);
 				if (Validator.isNotNull(layout)) {
 					plId = layout.getPlid();
 				}
@@ -102,8 +108,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			GregorianCalendar jourChoisi = new GregorianCalendar();
 			if (Validator.isNotNull(dateChoisie)) {
 				jourChoisi.set(Integer.parseInt(dateChoisie.substring(0, 4)),
-						Integer.parseInt(dateChoisie.substring(5, 7)) - 1,
-						Integer.parseInt(dateChoisie.substring(8, 10)));
+					Integer.parseInt(dateChoisie.substring(5, 7)) - 1,
+					Integer.parseInt(dateChoisie.substring(8, 10)));
 			}
 			jourChoisi.set(Calendar.HOUR_OF_DAY, 0);
 			jourChoisi.clear(Calendar.MINUTE);
@@ -126,18 +132,18 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			// récupère les jours de la semaine voulue
 			DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
 			DateFormat df2 = DateFormat.getDateInstance(DateFormat.SHORT,
-					locale);
+				locale);
 			List<String[]> week = new ArrayList<String[]>();
-			for (int jour = 0; jour <= 6; jour++) {
-				jourSemaine.set(Calendar.DAY_OF_WEEK,
-						(int) (jour == 6 ? Calendar.SUNDAY : jour + 2));
-
+			int delta = -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
+			for (int jour = 0; jour < 7; jour++) {
 				StringBuilder date = new StringBuilder(
-						df.format(jourSemaine.getTime()));
+					df.format(jourSemaine.getTime()));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
 				String[] dates = { date.toString(),
-						df2.format(jourSemaine.getTime()) };
+					df2.format(jourSemaine.getTime()) };
 				week.add(dates);
+				jourSemaine.add(Calendar.DAY_OF_MONTH, 1);
 			}
 			request.setAttribute("semaine", week);
 
@@ -145,7 +151,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			long categoryIdFromConfiguration = configuration.categoryId();
 			long categoryIdFromParam = ParamUtil.getLong(request, "categoryId");
 			if (Validator.isNull(categoryIdFromConfiguration)
-					&& Validator.isNull(categoryIdFromParam)) {
+				&& Validator.isNull(categoryIdFromParam)) {
 				request.setAttribute("noconfig", true);
 				super.render(request, response);
 				return;
@@ -157,7 +163,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				categoryId = categoryIdFromParam;
 			}
 			AssetCategory category = AssetCategoryLocalServiceUtil
-					.fetchAssetCategory(categoryId);
+				.fetchAssetCategory(categoryId);
 			if (Validator.isNull(category)) {
 				request.setAttribute("noconfig", true);
 				super.render(request, response);
@@ -165,12 +171,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			}
 			request.setAttribute("category", category);
 			request.setAttribute("piscine",
-					AssetVocabularyHelper.isSwimmingPool(category));
+				AssetVocabularyHelper.isSwimmingPool(category));
 			request.setAttribute("parking",
-					AssetVocabularyHelper.isParking(category));
+				AssetVocabularyHelper.isParking(category));
 
 			List<Place> selectedPlaces = new ArrayList<Place>();
-			Map<String, List<PlaceSchedule>> exceptions = new LinkedHashMap<String, List<PlaceSchedule>>();
+
+			List<ObjectValuePair<String, List<PlaceSchedule>>> exceptions = new ArrayList<ObjectValuePair<String, List<PlaceSchedule>>>();
 			long placeId = ParamUtil.getLong(request, "placeId");
 			// Récupère le lieu choisi
 			if (Validator.isNotNull(placeId)) {
@@ -180,19 +187,22 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				// récupération des ouvertures et fermetures exceptionnelles du
 				// lieu sur 2 mois
 				List<PlaceSchedule> placeSchedules = place
-						.getPlaceScheduleException(jourChoisi, true, locale);
+					.getPlaceScheduleException(jourChoisi, true, locale);
 				if (!placeSchedules.isEmpty()) {
-					exceptions.put(place.getAlias(locale), placeSchedules);
+					ObjectValuePair<String, List<PlaceSchedule>> placeName_Exceptions = new ObjectValuePair<>(
+						place.getAlias(locale), placeSchedules);
+					exceptions.add(placeName_Exceptions);
 				}
 				// récupération des ouvertures et fermetures exceptionnelles des
 				// sous lieux du lieu sur 2 mois
 				List<SubPlace> subPlaces = place.getSubPlaces();
 				for (SubPlace subPlace : subPlaces) {
-					placeSchedules = subPlace.getSubPlaceScheduleException(
-							jourChoisi, true, locale);
+					placeSchedules = subPlace
+						.getSubPlaceScheduleException(jourChoisi, true, locale);
 					if (!placeSchedules.isEmpty()) {
-						exceptions.put(subPlace.getName(locale),
-								placeSchedules);
+						ObjectValuePair<String, List<PlaceSchedule>> placeName_Exceptions = new ObjectValuePair<>(
+							subPlace.getName(locale), placeSchedules);
+						exceptions.add(placeName_Exceptions);
 					}
 				}
 			}
@@ -201,13 +211,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			List<Place> places = new ArrayList<Place>();
 			if (Validator.isNotNull(category)) {
 				List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-						.getAssetCategoryAssetEntries(categoryId);
+					.getAssetCategoryAssetEntries(categoryId);
 				for (AssetEntry assetEntry : assetEntries) {
 					if (Validator.isNotNull(assetEntry)) {
 						Place place = PlaceLocalServiceUtil
-								.fetchPlaceByUuidAndGroupId(
-										assetEntry.getClassUuid(),
-										themeDisplay.getCompanyGroupId());
+							.fetchPlaceByUuidAndGroupId(
+								assetEntry.getClassUuid(),
+								themeDisplay.getCompanyGroupId());
 						if (Validator.isNotNull(place) && place.isApproved()) {
 							places.add(place);
 							if (Validator.isNull(placeId)) {
@@ -215,11 +225,12 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des lieux sur 2 mois
 								List<PlaceSchedule> placeSchedules = place
-										.getPlaceScheduleException(jourChoisi,
-												true, locale);
+									.getPlaceScheduleException(jourChoisi, true,
+										locale);
 								if (!placeSchedules.isEmpty()) {
-									exceptions.put(place.getAlias(locale),
-											placeSchedules);
+									ObjectValuePair<String, List<PlaceSchedule>> placeName_Exceptions = new ObjectValuePair<>(
+										place.getAlias(locale), placeSchedules);
+									exceptions.add(placeName_Exceptions);
 								}
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des
@@ -227,11 +238,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 								List<SubPlace> subPlaces = place.getSubPlaces();
 								for (SubPlace subPlace : subPlaces) {
 									placeSchedules = subPlace
-											.getSubPlaceScheduleException(
-													jourChoisi, true, locale);
+										.getSubPlaceScheduleException(
+											jourChoisi, true, locale);
 									if (!placeSchedules.isEmpty()) {
-										exceptions.put(subPlace.getName(locale),
-												placeSchedules);
+										ObjectValuePair<String, List<PlaceSchedule>> placeName_Exceptions = new ObjectValuePair<>(
+											subPlace.getName(locale),
+											placeSchedules);
+										exceptions.add(placeName_Exceptions);
 									}
 								}
 							}
@@ -239,6 +252,11 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					}
 				}
 			}
+
+			exceptions.stream()
+				.sorted((p1, p2) -> p1.getValue().get(0).getStartDate()
+					.compareTo(p2.getValue().get(0).getEndDate()))
+				.collect(Collectors.toList());
 			request.setAttribute("exceptions", exceptions);
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);

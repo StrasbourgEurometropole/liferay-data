@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.tipi.service.impl.TipiEntryLocalServiceImpl" id="eu.strasbourg.service.tipi.service.TipiEntryLocalService" />
+	<bean class="eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl" id="eu.strasbourg.service.tipi.service.TipiEntryService" />
+	<bean class="eu.strasbourg.service.tipi.service.persistence.impl.TipiEntryPersistenceImpl" id="eu.strasbourg.service.tipi.service.persistence.TipiEntryPersistence" parent="basePersistence" />
+</beans>
