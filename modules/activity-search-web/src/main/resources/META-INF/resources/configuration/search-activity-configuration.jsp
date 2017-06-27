@@ -17,6 +17,7 @@
 			value="<%=configurationRenderURL%>" />
 			
 		<aui:fieldset>
+			<!-- ADT vignette -->
 		    <div class="display-template">
 		        <liferay-ddm:template-selector
 		            className="<%= Activity.class.getName() %>"
@@ -27,6 +28,7 @@
 		        />
 		    </div>
 		    
+		    <!-- Page de détail -->
 			<strasbourg-picker:layout name="detailPageUuid" label="detail-page" 
 				multiple="false" required="false" value="${detailPageUuid}" />
 				
@@ -65,6 +67,9 @@
 				<div id="territorySelector"></div>
 				<aui:input type="hidden" name="territoryIds" />
 			</div>
+			
+			<!-- Texte à afficher sous le moteur de recherche et avant les résultats -->
+			<aui:input name="text" value="${textXML}" localized="true" type="editor" label="text" />
 			
 		</aui:fieldset>
 	

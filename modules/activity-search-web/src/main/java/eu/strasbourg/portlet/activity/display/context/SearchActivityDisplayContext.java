@@ -3,9 +3,9 @@ package eu.strasbourg.portlet.activity.display.context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.portlet.PortletRequest;
 
@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -477,6 +478,16 @@ public class SearchActivityDisplayContext {
 			.collect(Collectors.toList());
 
 		return activities;
+	}
+
+	/**
+	 * Retourne le texte à afficher après le formulaire et avant les résultats
+	 */
+	public String getText() {
+		String textXML = this.configuration.textXML();
+		Map<Locale, String> localizationMap = LocalizationUtil
+			.getLocalizationMap(textXML);
+		return localizationMap.get(this.themeDisplay.getLocale());
 	}
 
 }

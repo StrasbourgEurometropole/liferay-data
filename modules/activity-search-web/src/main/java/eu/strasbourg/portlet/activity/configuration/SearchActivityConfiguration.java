@@ -35,7 +35,7 @@ public interface SearchActivityConfiguration {
 	@Meta.AD(name = "courseTypeNames", deflt = "", required = false)
 	public String courseTypeNames();
 
-
+	
 	@Meta.AD(name = "publicIds", deflt = "", required = false)
 	public String publicIds();
 
@@ -55,5 +55,8 @@ public interface SearchActivityConfiguration {
 	@Meta.AD(name = "territoryNames", deflt = "", required = false)
 	public String territoryNames();
 
+
+	@Meta.AD(name = "textXML", deflt = "", required = false)
+	public String textXML();
 
 }
