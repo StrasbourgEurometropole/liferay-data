@@ -8,7 +8,7 @@ import aQute.bnd.annotation.metatype.Meta;
 @Meta.OCD(id = "eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration", localization = "content/Language", name = "portlet.place_schedule.configuration.name")
 public interface PlaceScheduleConfiguration {
 
-	@Meta.AD(name = "categoryId", deflt = "", required = false)
+	@Meta.AD(name = "categoryId", required = false)
 	public long categoryId();
 
 	@Meta.AD(name = "categoryTitle", deflt = "", required = false)
