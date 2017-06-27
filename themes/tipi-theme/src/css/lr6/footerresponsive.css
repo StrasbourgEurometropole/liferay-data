@@ -130,7 +130,7 @@
 	text-indent: -999em;
 	overflow: hidden;
 	height: 24px;
-	background: transparent url(../images/btn/social-network.png) top left
+	background: transparent url(/o/tipi-theme/images/btn/social-network.png) top left
 		no-repeat;
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
@@ -169,7 +169,7 @@
 .footer .closure a {
 	text-indent: -9999em;
 	overflow: hidden;
-	background: transparent url(../images/btn/btn-stras-eu.png) center
+	background: transparent url(/o/tipi-theme/images/btn/btn-stras-eu.png) center
 		center no-repeat;
 	height: 50px;
 	width: 126px;

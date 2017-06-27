@@ -92,3 +92,29 @@ body{
 		display: none;
 	}
 }
+
+.footer {
+	.footer-top .social-network ul li a.btn-fb {
+		background-image: url(/o/tipi-theme/images/icone/icone-facebook.jpg);
+	}
+	
+	.footer-top .social-network ul li a.btn-daily {
+		background-image: url(/o/tipi-theme/images/icone/icone-dailymotion.jpg);
+	}
+	
+	.footer-top .social-network ul li a.btn-insta {
+		background-image: url(/o/tipi-theme/images/icone/icone-instagram.jpg);
+	}
+	
+	.footer-top .social-network ul li a.btn-twitter {
+		background-image: url(/o/tipi-theme/images/icone/icone-twitter.jpg);
+	}
+	
+	.footer-top .social-network ul li a.btn-netvibes {
+		background-image: url(/o/tipi-theme/images/icone/icone-netvibes.jpg);
+	}
+	
+	.footer-top .social-network ul li a.btn-tumblr {
+		background-image: url(/o/tipi-theme/images/icone/icone-tumblr.jpg);
+	}	
+}

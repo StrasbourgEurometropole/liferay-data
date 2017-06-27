@@ -41,14 +41,48 @@
 <div id="page">
 	<div id="wrapper" class="wrapper">
 		<header class="header"> 
-			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
-	       	<@liferay_portlet["runtime"]
-				defaultPreferences="${freeMarkerPortletPreferences}"
-				portletProviderAction=portletProviderAction.VIEW
-				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-				instanceId="header"
-				settingsScope="group" />
-			${freeMarkerPortletPreferences.reset()}
+			<h1></h1> 
+			<nav class="nav-lang"> 
+				<div class="center"> 
+					<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank"> 
+						<img src="/o/tipi-theme/images/logo_strasbourg.png" alt="Strasbourg.eu"> 
+					</a> 
+					<ul> <li class="contact"> <a href="/web/tipi/pied-de-page/contact" title="Contact">Contact</a> </li> </ul> 
+					<div class="clearfix"></div> 
+				</div> 
+			</nav> 
+			<div class="logo"> 
+				<a href="https://tipi.strasbourg.eu/fr/accueil" title="Retour à l'accueil - TIPI" style="display: block; width: 100%; height: 100%;"> </a> 
+			</div> 
+			<nav class="nav-primary"> 
+				<div class="center"> 
+					<a id="touch-menu" class="mobile-menu" href="#"><i class="icon-reorder"></i>Menu</a> 
+					<ul class="menu"> 
+						<li class="selected"> <a href="https://tipi.strasbourg.eu/fr/accueil"><span> Accueil</span></a> </li> 
+						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-petite-enfance"><span> Facturation petite enfance</span></a> </li> 
+						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-restauration-scolaire"><span> Facturation restauration scolaire</span></a> </li> 
+						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-periscolaire"><span> Facturation services périscolaires (APM-ALM)</span></a> </li> 
+						<li> <a href="https://tipi.strasbourg.eu/fr/facture-d-eau-et-d-assainissement"><span> Facture d&amp;#039;eau et d&amp;#039;assainissement</span></a> </li> 
+					</ul> 
+				</div> 
+			</nav> 
+			<script>
+			/*<![CDATA[*/
+				$(document).ready(function(){
+					var b=$("#touch-menu");
+					var a=$(".menu");
+					$(b).on("click",function(c){
+						c.preventDefault();a.slideToggle()
+					});
+					$(window).resize(function(){
+						var c=$(window).width();
+						if(c>767&&a.is(":hidden")){
+							a.removeAttr("style")
+						}
+					})
+				});
+			/*]]>*/
+			</script> 
 		</header>
 
 		<div id="content">
@@ -79,14 +113,33 @@
 	</div>
 	<div class="footer-back-to-top" title="Haut de page"></div>
 	<footer class="footer">
-		<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
-       	<@liferay_portlet["runtime"]
-			defaultPreferences="${freeMarkerPortletPreferences}"
-			portletProviderAction=portletProviderAction.VIEW
-			portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-			instanceId="footer"
-			settingsScope="group" />
-		${freeMarkerPortletPreferences.reset()}
+		<div class="footer-top"> 
+			<div class="center"> 
+				<div class="f-left"> 
+					<ul class="nav-footer">
+						<li> <a href="accueil" title="Accueil">Accueil</a></li> 
+						<li> <a href="pied-de-page/contact" title="Contact">Contact</a></li> 
+						<li> <a href="mentions-legales" title="Mentions légales">Mentions légales</a></li> 
+					</ul> 
+					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © 2015</p> 
+				</div> 
+				<div class="f-right"> 
+					<div class="social-network"> 
+						<span>Suivez-nous</span> 
+						<ul> 
+							<li> <a class="btn-fb" href="https://www.facebook.com/strasbourg.eu" target="_blank" title="Page Facebook de Strasbourg.eu (nouvelle fenêtre)">Facebook</a></li> 
+							<li> <a class="btn-twitter" href="https://twitter.com/strasbourg" target="_blank" title="Fil Twitter de Strasbourg.eu (nouvelle fenêtre)">Twitter</a></li> 
+							<li> <a class="btn-daily" href="http://www.dailymotion.com/villedestrasbourg" target="_blank" title="Les vidéos de Strasbourg.eu (nouvelle fenêtre)">Dailymotion</a></li> 
+							<li> <a class="btn-insta" href="https://instagram.com/strasbourg_eurometropole" target="_blank" title="Instagram de Strasbourg.eu (nouvelle fenêtre)">Instagram</a></li> 
+							<li> <a class="btn-tumblr" href="http://www.strasblr.eu/" target="_blank" title="Strasblr : un autre regard sur Strasbourg (nouvelle fenêtre)">Tumblr</a></li> 
+							<li> <a class="btn-netvibes" href="http://www.netvibes.com/villedestrasbourg" target="_blank" title="Page Netvibes de Strasbourg.eu (nouvelle fenêtre)">Netvibes</a></li> 
+						</ul> 
+					</div> 
+				</div> 
+				<div class="clearer"> &nbsp;</div> 
+			</div> 
+		</div>
+		<div class="closure"> <div class="center"> <a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div> </div>
 	</footer>
 </div>
 
