@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.activity.configuration;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -21,9 +22,11 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -72,6 +75,18 @@ public class SearchActivityConfigurationAction
 
 			// Territoire
 			saveVocabularyPreference("territory", actionRequest);
+
+			// Texte
+			Map<Locale, String> textMap = LocalizationUtil
+				.getLocalizationMap(actionRequest, "text");
+			LocalizedValuesMap textLocalizedValuesMap = new LocalizedValuesMap();
+			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
+				textLocalizedValuesMap.put(e.getKey(), e.getValue());
+			}
+			String textXML = LocalizationUtil.getXml(textLocalizedValuesMap,
+				"Text");
+			setPreference(actionRequest, "textXML", textXML);
+
 		}
 
 		super.processAction(portletConfig, actionRequest, actionResponse);
@@ -118,32 +133,26 @@ public class SearchActivityConfigurationAction
 
 			// Type d'activité
 			setVocabularyAttributes("activityType",
-				VocabularyNames.ACTIVITY_TYPE,
-				configuration.activityTypeIds(),
-				configuration.activityTypeNames(),
-				request,
+				VocabularyNames.ACTIVITY_TYPE, configuration.activityTypeIds(),
+				configuration.activityTypeNames(), request,
 				themeDisplay.getScopeGroupId());
 			// Type de cours
 			setVocabularyAttributes("courseType",
 				VocabularyNames.ACTIVITY_COURSE_TYPE,
-				configuration.courseTypeIds(),
-				configuration.courseTypeNames(),
-				request,
-				themeDisplay.getScopeGroupId());
+				configuration.courseTypeIds(), configuration.courseTypeNames(),
+				request, themeDisplay.getScopeGroupId());
 			// Public
 			setVocabularyAttributes("public",
 				VocabularyNames.ACTIVITY_COURSE_PUBLIC,
-				configuration.publicIds(),
-				configuration.publicNames(),
-				request,
+				configuration.publicIds(), configuration.publicNames(), request,
 				themeDisplay.getScopeGroupId());
 			// Territoires
-			setVocabularyAttributes("territory",
-				VocabularyNames.TERRITORY,
-				configuration.territoryIds(),
-				configuration.territoryNames(),
-				request,
-				themeDisplay.getCompanyGroupId());
+			setVocabularyAttributes("territory", VocabularyNames.TERRITORY,
+				configuration.territoryIds(), configuration.territoryNames(),
+				request, themeDisplay.getCompanyGroupId());
+
+			// Texte
+			request.setAttribute("textXML", configuration.textXML());
 
 			// Tout ce qui est Application Display Template
 			String portletResource = ParamUtil.getString(request,
@@ -169,7 +178,8 @@ public class SearchActivityConfigurationAction
 		String vocabularyName, String values, String names,
 		HttpServletRequest request, long groupId) {
 		request.setAttribute(vocabularyParamName + "Ids", values);
-		request.setAttribute(vocabularyParamName + "Names", HtmlUtil.escape(names));
+		request.setAttribute(vocabularyParamName + "Names",
+			HtmlUtil.escape(names));
 		AssetVocabulary vocabulary = AssetVocabularyHelper
 			.getVocabulary(vocabularyName, groupId);
 		if (vocabulary != null) {

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.strasbourg">
+	<namespace>strasbourg</namespace>
+	<entity local-service="true" name="Strasbourg" remote-service="true" uuid="true">
+	 <column name="id" type="long" primary="true"></column>
+	</entity>
+</service-builder>

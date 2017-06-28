@@ -78,6 +78,10 @@
 
 	<aui:button type="submit" value="search" />
 </aui:form>
+
+<c:if test="${not empty dc.text}">
+	<div class="activities-postform">${dc.text}</div>
+</c:if>
 	
 <!-- Liste des résultats -->
 <div class="activities">

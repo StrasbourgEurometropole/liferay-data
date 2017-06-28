@@ -32,6 +32,13 @@ public class ActivityServiceWrapper implements ActivityService,
 		_activityService = activityService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getActivities(
+		long groupId, java.lang.String name, java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _activityService.getActivities(groupId, name, language);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

@@ -39,6 +39,8 @@ public class PlaceSchedule {
 
 	private long idSchedule;
 	private String period;
+	private Date startDate;
+	private Date endDate;
 	private LocalTime startTime = LocalTime.of(0, 0);
 	private LocalTime endTime = LocalTime.of(0, 0);
 	private Boolean closed = false;
@@ -59,6 +61,8 @@ public class PlaceSchedule {
 	
 	public PlaceSchedule(long idSchedule, Date startDate, Date endDate, String description, Locale locale) {
 		this.setIdSchedule(idSchedule);
+		this.setStartDate(startDate);
+		this.setEndDate(endDate);
 		this.setPeriod(DateHelper.displayPeriod(startDate, endDate, locale));
 		this.setDescription(description);
 	}
@@ -69,6 +73,22 @@ public class PlaceSchedule {
 
 	public void setIdSchedule(long idSchedule) {
 		this.idSchedule = idSchedule;
+	}
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getPeriod() {

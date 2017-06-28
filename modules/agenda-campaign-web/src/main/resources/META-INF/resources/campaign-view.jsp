@@ -45,6 +45,7 @@
 				<liferay-portlet:param name="statusId" value="" />
 				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
 				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 			</liferay-portlet:renderURL>
 			<liferay-frontend:management-bar-filter-item
 				label="n'importe lequel"
@@ -54,6 +55,7 @@
 					<liferay-portlet:param name="statusId" value="${status.key}" />
 					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
 					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 				</liferay-portlet:renderURL>
 				<c:set var="isActive"
 					value="${dc.statusId eq status.key}" />
@@ -67,6 +69,7 @@
 				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
 				<liferay-portlet:param name="themeId" value="" />
 				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 			</liferay-portlet:renderURL>
 			<liferay-frontend:management-bar-filter-item
 				label="n'importe lequel"
@@ -76,6 +79,7 @@
 					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
 					<liferay-portlet:param name="themeId" value="${theme.categoryId}" />
 					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
 				</liferay-portlet:renderURL>
 				<c:set var="isActive"
 					value="${dc.themeId eq theme.categoryId}" />
