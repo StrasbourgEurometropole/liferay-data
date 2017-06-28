@@ -253,7 +253,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				}
 			}
 
-			exceptions.stream()
+			exceptions = exceptions.stream()
 				.sorted((p1, p2) -> p1.getValue().get(0).getStartDate()
 					.compareTo(p2.getValue().get(0).getEndDate()))
 				.collect(Collectors.toList());
