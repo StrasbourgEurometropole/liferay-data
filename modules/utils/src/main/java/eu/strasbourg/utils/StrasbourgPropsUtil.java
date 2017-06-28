@@ -79,4 +79,8 @@ public class StrasbourgPropsUtil {
 	public static String getTipiCallbackURL() {
 		return PropsUtil.get("eu.strasbourg.tipi.callback.url");
 	}
+	
+	public static String getFelecURL() {
+		return PropsUtil.get("eu.strasbourg.felec.url");
+	}
 }
