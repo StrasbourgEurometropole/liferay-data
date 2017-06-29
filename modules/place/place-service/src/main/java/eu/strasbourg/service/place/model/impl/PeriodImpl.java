@@ -92,7 +92,7 @@ public class PeriodImpl extends PeriodBaseImpl {
 					JSONHelper.getJSONFromI18nMap(this.getLinkLabelMap()));
 		}
 		if (Validator.isNotNull(this.getLinkURLMap())) {
-			periodJSON.put("scheduleLinkRL",
+			periodJSON.put("scheduleLinkURL",
 					JSONHelper.getJSONFromI18nMap(this.getLinkURLMap()));
 		}
 		periodJSON.put("alwaysOpen", this.getAlwaysOpen() ? 1 : 0);

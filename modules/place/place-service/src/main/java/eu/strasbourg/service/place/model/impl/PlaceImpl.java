@@ -881,8 +881,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 		jsonPlace.put("name",
 			JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
 		jsonPlace.put("address",
-			this.getAddressStreet() + "<br />" + this.getAddressZipCode() + " "
-				+ this.getCity(Locale.getDefault()) + "<br />"
+			this.getAddressStreet() + " " + this.getAddressZipCode() + " "
+				+ this.getCity(Locale.getDefault()) + " "
 				+ this.getAddressCountry());
 		if (Validator.isNotNull(this.getAddressDistribution())) {
 			jsonPlace.put("distribution", this.getAddressDistribution());
