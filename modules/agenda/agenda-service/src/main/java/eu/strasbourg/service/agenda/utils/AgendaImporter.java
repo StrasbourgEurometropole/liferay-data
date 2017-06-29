@@ -837,7 +837,6 @@ public class AgendaImporter {
 			try {
 				EventLocalServiceUtil.updateEvent(event, sc);
 			} catch (PortalException e) {
-				e.printStackTrace();
 				reportLine.error(
 					LanguageUtil.get(bundle, "error-while-saving-event"));
 			}
