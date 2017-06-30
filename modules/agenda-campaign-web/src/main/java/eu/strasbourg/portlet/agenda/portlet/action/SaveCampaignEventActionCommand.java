@@ -335,8 +335,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			CampaignEventStatus status;
 			if (isNewStatus) {
 				// Création du premier statut
+				int newStatus = ParamUtil.getInteger(request, "newStatus", -2);
 				status = campaignEvent
-					.updateStatus(WorkflowConstants.STATUS_DRAFT, "", user);
+					.updateStatus(newStatus, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
 			} else {
