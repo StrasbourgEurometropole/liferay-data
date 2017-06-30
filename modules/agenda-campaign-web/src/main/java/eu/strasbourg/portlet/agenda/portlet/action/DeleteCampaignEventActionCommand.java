@@ -15,9 +15,13 @@
  */
 package eu.strasbourg.portlet.agenda.portlet.action;
 
+import java.io.IOException;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -25,6 +29,7 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -67,8 +72,20 @@ public class DeleteCampaignEventActionCommand implements MVCActionCommand {
 				this.campaignEventLocalService
 					.removeCampaignEvent(campaignEventId);
 			}
+
+			String portletName = (String) request
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			renderUrl.setParameter("statusId", ParamUtil.getString(request, "statusId"));
+			renderUrl.setParameter("themeId",
+				ParamUtil.getString(request, "themeId"));
+			response.sendRedirect(renderUrl.toString());
 		} catch (PortalException e) {
 			_log.error(e);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return true;
