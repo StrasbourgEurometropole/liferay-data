@@ -1,7 +1,7 @@
 <%@ include file="/search-asset-init.jsp"%>
 
 <div class="formHeader">
-	<div class="formTitle"><h1><liferay-ui:message key="agenda" /></h1></div>
+	<div class="formTitle"><h1>${dc.getPortletTitle('agenda')}</h1></div>
 	<div class="clearer"></div>
 </div>
 <div class="search-asset-fields portlet-cus-event-asset-fo">
