@@ -20,6 +20,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.TextFormatter;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
@@ -60,5 +61,20 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		String copyright = FileEntryHelper
 			.getImageCopyright(file.getFileEntryId(), locale);
 		return JSONFactoryUtil.createJSONObject().put("copyright", copyright);
+	}
+	
+	@Override
+	public JSONObject getFileDetails(long groupId, String uuid, String language) {
+		DLFileEntry file = DLFileEntryLocalServiceUtil
+			.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
+		Locale locale = Locale.forLanguageTag(language);
+		
+		JSONObject jsonDetail = JSONFactoryUtil.createJSONObject();
+		jsonDetail.put("name", file.getName());
+		jsonDetail.put("title", file.getTitle());
+		jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
+		jsonDetail.put("type", file.getExtension());
+		
+		return jsonDetail;
 	}
 }

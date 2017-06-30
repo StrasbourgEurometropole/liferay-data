@@ -38,6 +38,12 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 		return _strasbourgService.getCopyright(groupId, uuid, language);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
+		long groupId, java.lang.String uuid, java.lang.String language) {
+		return _strasbourgService.getFileDetails(groupId, uuid, language);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

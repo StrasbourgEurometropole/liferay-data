@@ -55,6 +55,10 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getCopyright(long groupId, java.lang.String uuid,
 		java.lang.String language);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
+		java.lang.String language);
+
 	/**
 	* Returns the OSGi service identifier.
 	*
