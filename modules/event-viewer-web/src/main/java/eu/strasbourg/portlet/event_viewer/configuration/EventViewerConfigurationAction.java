@@ -235,7 +235,7 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 
 			// Catégories
 			request.setAttribute("categoriesIds",
-				configuration.categoriesIds());
+				configuration.categoriesIds().replace(";", ","));
 
 			// Tags
 			request.setAttribute("tagsNames", configuration.tagsNames());
