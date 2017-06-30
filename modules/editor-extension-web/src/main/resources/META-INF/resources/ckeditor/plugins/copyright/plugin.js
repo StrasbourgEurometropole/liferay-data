@@ -24,7 +24,7 @@
 				}
 			});
 			editor.ui.addButton('Copyright', {
-				label : 'Add copyright',
+				label : 'Ajouter le copyright de l\'image',
 				command : 'insertCopyright',
 				icon : instance.path + 'assets/copyright.png'
 			});
