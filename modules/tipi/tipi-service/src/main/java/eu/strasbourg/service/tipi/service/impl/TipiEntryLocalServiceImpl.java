@@ -63,7 +63,7 @@ public class TipiEntryLocalServiceImpl extends TipiEntryLocalServiceBaseImpl {
 	}
 
 	public TipiEntry addPayment(Date date, String type, String status,
-			String price) {
+		String price) {
 		try {
 			List<TipiEntry> entries = TipiEntryLocalServiceUtil.getByDate(date);
 
@@ -76,8 +76,9 @@ public class TipiEntryLocalServiceImpl extends TipiEntryLocalServiceBaseImpl {
 					break;
 				}
 			}
-			if (!alreadyHasEntryTodayForThisType) { // Création d'une nouvelle
-													// entry
+			
+			// Création d'une nouvelle entry
+			if (!alreadyHasEntryTodayForThisType) {
 				long id = this.counterLocalService.increment();
 				todayEntry = this.createTipiEntry(id);
 				todayEntry.setDate(date);
