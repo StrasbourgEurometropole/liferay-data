@@ -33,9 +33,6 @@ public class ExportWaterResourceCommand implements MVCResourceCommand {
 	public boolean serveResource(ResourceRequest resourceRequest,
 			ResourceResponse resourceResponse) throws PortletException {
 		try {
-			// Mode "EAU" ou mode "ENFANCE"
-			String cmd = ParamUtil.getString(resourceRequest, "CMD");
-
 			StringBundler csv = new StringBundler(); // StringBuilder du CSV
 
 			// Le début est le même pour les deux modes
