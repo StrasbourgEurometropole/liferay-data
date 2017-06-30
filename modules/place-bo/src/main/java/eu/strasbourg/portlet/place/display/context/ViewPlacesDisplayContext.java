@@ -25,7 +25,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
-public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> {
+public class ViewPlacesDisplayContext
+	extends ViewListBaseDisplayContext<Place> {
 
 	public ViewPlacesDisplayContext(RenderRequest request,
 		RenderResponse response) {
@@ -34,15 +35,23 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 
 	public List<Place> getPlaces() throws PortalException {
 		if (this._places == null) {
-			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
 			List<Place> results = new ArrayList<Place>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Place place = PlaceLocalServiceUtil.fetchPlace(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (place != null) {
-						results.add(place);
+
+			// On essaye déjà de récupérer un lieu par id SIG
+			Place place = PlaceLocalServiceUtil
+				.getPlaceBySIGId(this.getKeywords());
+			if (place != null) {
+				results.add(place);
+			} else { // Sinon recherche classique
+				Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
+
+				if (hits != null) {
+					for (Document document : hits.getDocs()) {
+						place = PlaceLocalServiceUtil.fetchPlace(GetterUtil
+							.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						if (place != null) {
+							results.add(place);
+						}
 					}
 				}
 			}
@@ -62,13 +71,14 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 	@Override
 	public String getFilterCategoriesIds() throws PortalException {
 		// Pas de filtre par l'utilisateur
-		if (Validator.isNull(super.getFilterCategoriesIds()) || super.getFilterCategoriesIds().equals(",")) {
+		if (Validator.isNull(super.getFilterCategoriesIds())
+			|| super.getFilterCategoriesIds().equals(",")) {
 			return this.getCategoriesIdsPermission();
 		} else {
 			return super.getFilterCategoriesIds();
 		}
 	}
-	
+
 	/**
 	 * Retourne la liste des IDs des catégories que l'utilisateur peut voir
 	 * 
@@ -80,16 +90,16 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 		if (this.hasPermission("CONTRIBUTE")) {
 			User user = _themeDisplay.getUser();
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
-					.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+				.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
 			if (placeTypeVocabulary != null) {
 				long placeTypeVocabularyId = placeTypeVocabulary
-						.getVocabularyId();
+					.getVocabularyId();
 				List<AssetCategory> userCategories = AssetCategoryLocalServiceUtil
-						.getCategories(User.class.getName(), user.getUserId());
+					.getCategories(User.class.getName(), user.getUserId());
 				List<AssetCategory> userPlaceTypeCategories = userCategories
-						.stream().filter(
-								c -> c.getVocabularyId() == placeTypeVocabularyId)
-						.collect(Collectors.toList());
+					.stream()
+					.filter(c -> c.getVocabularyId() == placeTypeVocabularyId)
+					.collect(Collectors.toList());
 
 				for (AssetCategory category : userPlaceTypeCategories) {
 					if (Validator.isNull(categoriesIds)) {
@@ -103,7 +113,6 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 		return categoriesIds;
 	}
 
-
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
@@ -113,7 +122,6 @@ public class ViewPlacesDisplayContext extends ViewListBaseDisplayContext<Place> 
 			StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO,
 			actionId);
 	}
-
 
 	private List<Place> _places;
 
