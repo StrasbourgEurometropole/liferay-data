@@ -265,8 +265,7 @@
 	                	*<liferay-ui:message key="eu.exceptional-closings-openings" />
 	                </strong>
 	                <c:set var="nbExceptions" value="0" />
-					<c:forEach var="exceptions" items="${exceptions}">
-						<c:forEach var="scheduleException" items="${exceptions.value}">
+					<c:forEach var="exception" items="${exceptions}">
 	               			<c:set var="nbExceptions" value="${nbExceptions + 1}" />
 							<c:if test="${nbExceptions <= 4}">
 	                			<p>
@@ -275,18 +274,17 @@
 	                			<p class="more-schedules">
 							</c:if>
 								<strong>
-									${exceptions.key} - 
-									${scheduleException.period} 
+									${exception.key} - 
+									${exception.value.period} 
 								</strong>
-								<c:if test="${scheduleException.isClosed()}">
+								<c:if test="${exception.value.isClosed()}">
 									<liferay-ui:message key="eu.closed" />
 								</c:if>
-								<c:if test="${!scheduleException.isClosed()}">
-									${scheduleException.startTime} - ${scheduleException.endTime}
+								<c:if test="${!exception.value.isClosed()}">
+									${exception.value.startTime} - ${exception.value.endTime}
 								</c:if>
-								- ${scheduleException.getDescription()}
+								- ${exception.value.getDescription()}
 							</p>
-						</c:forEach>
 					</c:forEach>
 					<a href="#" class="btn-more-schedules" title="Voir toutes les exceptions" style="display: ${(nbExceptions <= 4) ? 'none' : 'block'};"><span class="btn-icon icon icon-plus"></span></a>
 					<a href="#horaires" class="btn-less-schedules" title="Masquer les exceptions" style="display: none;"><span class="btn-icon icon icon-minus"></span></a>

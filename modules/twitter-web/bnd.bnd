@@ -1,5 +1,5 @@
 Bundle-SymbolicName: twitter.web
-Bundle-Version: 1.16.0
+Bundle-Version: 1.17.0
 Bundle-ClassPath:\
   .,\
  lib/twitter4j.jar,

@@ -17,7 +17,7 @@
 								</div>									
 							</c:if>
 							<div class="pseudo">
-								<i><img src="/sae-theme/images/pictos/twitter-hover.png" alt="" class="on"><img class="off" src="/sae-theme/images/pictos/twitter.png" alt=""></i>
+								<i><img src="/o/sae-theme/images/pictos/twitter-hover.png" alt="" class="on"><img class="off" src="/o/sae-theme/images/pictos/twitter.png" alt=""></i>
 								<p style="word-wrap: break-word;">
 									<c:if test="${tweet.retweet}">
 										<span style="word-wrap: break-word;"><a href="https://twitter.com/${tweet.retweetScreenName}">${tweet.retweetUserName}</a></span><a href="https://twitter.com/${tweet.retweetScreenName}">@${tweet.retweetScreenName}</a>

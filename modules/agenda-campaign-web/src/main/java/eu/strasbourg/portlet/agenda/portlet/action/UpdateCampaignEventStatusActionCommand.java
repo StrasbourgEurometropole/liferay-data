@@ -46,6 +46,10 @@ public class UpdateCampaignEventStatusActionCommand
 			PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
+			renderUrl.setParameter("statusId",
+				ParamUtil.getString(actionRequest, "statusFilterId"));
+			renderUrl.setParameter("themeId",
+				ParamUtil.getString(actionRequest, "themeId"));
 			actionResponse.sendRedirect(renderUrl.toString());
 			return SessionErrors.isEmpty(actionRequest);
 		} catch (PortletException pe) {

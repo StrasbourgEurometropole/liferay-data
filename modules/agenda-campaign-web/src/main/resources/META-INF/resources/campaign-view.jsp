@@ -12,8 +12,17 @@
 <liferay-portlet:renderURL varImpl="updateStatusURL">
 	<liferay-portlet:param name="mvcPath"
 		value="/campaign-update-status.jsp" />
+	<liferay-portlet:param name="statusFilterId"
+		value="${dc.statusId}" />
+	<liferay-portlet:param name="themeId"
+		value="${dc.themeId}" />
 </liferay-portlet:renderURL>
+
 <liferay-portlet:actionURL varImpl="deleteSelectionURL" name="deleteCampaignEvent">
+	<liferay-portlet:param name="statusId"
+		value="${dc.statusId}" />
+	<liferay-portlet:param name="themeId"
+		value="${dc.themeId}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:renderURL varImpl="addCampaignEventURL">

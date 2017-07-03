@@ -46,6 +46,11 @@ public class StrasbourgServiceUtil {
 		return getService().getCopyright(groupId, uuid, language);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
+		long groupId, java.lang.String uuid, java.lang.String language) {
+		return getService().getFileDetails(groupId, uuid, language);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

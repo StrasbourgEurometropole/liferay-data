@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -517,6 +518,13 @@ public class AgendaImporter {
 					reportLine.error(LanguageUtil.get(bundle, "no-city"));
 				}
 			}
+		} else {
+			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
+			if (place == null) {
+				reportLine.error(LanguageUtil.format(bundle,
+					"sig-place-does-not-exist", new String[] { placeSIGId }));
+
+			}
 		}
 		int freeEntry = jsonEvent.getInt("freeEntry", -1);
 		if (freeEntry < 0 || freeEntry > 2) {
@@ -697,7 +705,10 @@ public class AgendaImporter {
 			// Si il existe on récupère les tags
 			else {
 				reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
-				sc.setAssetTagNames(event.getAssetEntry().getTagNames());
+				AssetEntry entry = event.getAssetEntry();
+				if (entry != null) {
+					sc.setAssetTagNames(event.getAssetEntry().getTagNames());
+				}
 			}
 
 			// On set les champs
@@ -720,7 +731,7 @@ public class AgendaImporter {
 				event.setAccessForWheelchair(false);
 				event.setAccessForElder(false);
 				event.setAccessForDeficient(false);
-				
+
 				// Dans le cas d'un lieu SIG, on ajoute automatiquement les
 				// catégories territoires du lieu aux catégories à ajouter à
 				// l'entité

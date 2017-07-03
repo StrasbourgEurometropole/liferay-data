@@ -73,7 +73,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	@Override
 	public JSONObject getPlaceById(long id) throws PortalException {
 		Place place = this.placeLocalService.fetchPlace(id);
-		if (!place.isApproved()) {
+		if (place == null || !place.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
 		}
 		return place.toJSON();
@@ -82,7 +82,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	@Override
 	public JSONObject getPlaceByIdSIG(String sigId) throws PortalException {
 		Place place = this.placeLocalService.getPlaceBySIGId(sigId);
-		if (!place.isApproved()) {
+		if (place == null || !place.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
 		}
 		return place.toJSON();

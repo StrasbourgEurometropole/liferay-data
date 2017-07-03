@@ -81,5 +81,21 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getFileDetails(long groupId,
+		java.lang.String uuid, java.lang.String language)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFileDetails(groupId,
+					uuid, language);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

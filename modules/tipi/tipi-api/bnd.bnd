@@ -1,6 +1,6 @@
 Bundle-Name: tipi-api
 Bundle-SymbolicName: tipi.api
-Bundle-Version: 1.0.0
+Bundle-Version: 1.17.0
 Export-Package:\
 	eu.strasbourg.service.tipi.exception,\
 	eu.strasbourg.service.tipi.model,\
