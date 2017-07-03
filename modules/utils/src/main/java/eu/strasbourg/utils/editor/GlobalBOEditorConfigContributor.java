@@ -29,6 +29,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	property = { "editor.name=ckeditor",
+		"javax.portlet.name=com_liferay_journal_web_portlet_JournalPortlet",
 		"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
@@ -36,7 +37,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.OFFICIAL_BO,
-		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO },
+		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO,
+		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB },
 	service = EditorConfigContributor.class)
 public class GlobalBOEditorConfigContributor
 	extends BaseEditorConfigContributor {

@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PrefsPropsUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -52,7 +55,7 @@ import freemarker.template.Template;
 @ProviderType
 public class ImportReportImpl extends ImportReportBaseImpl {
 	private static final long serialVersionUID = -910651822078087920L;
-	
+
 	private List<ImportReportLine> _lines;
 
 	/*
@@ -168,7 +171,8 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 		String environment = StrasbourgPropsUtil.getEnvironment();
 
 		String mailAddresses = StrasbourgPropsUtil.getAgendaImportMails();
-		String providerSpecificMailAddresses = StrasbourgPropsUtil.getAgendaImportMailsForProvider(this.getProvider());
+		String providerSpecificMailAddresses = StrasbourgPropsUtil
+			.getAgendaImportMailsForProvider(this.getProvider());
 		Map<String, Object> context = new HashMap<>();
 		context.put("report", this);
 		context.put("environment", environment);
@@ -179,15 +183,20 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 			"/templates/");
 		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
 		try {
-			Template subjectTemplate = configuration.getTemplate("import-notification-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("import-notification-mail-body.ftl");
+			Template subjectTemplate = configuration
+				.getTemplate("import-notification-mail-subject.ftl");
+			Template bodyTemplate = configuration
+				.getTemplate("import-notification-mail-body.ftl");
 			StringWriter subjectWriter = new StringWriter();
 			StringWriter bodyWriter = new StringWriter();
 			subjectTemplate.process(context, subjectWriter);
 			bodyTemplate.process(context, bodyWriter);
-			MailHelper.sendMailWithPlainText("no-reply@no-reply-strasbourg.eu",
-				mailAddresses + "," + providerSpecificMailAddresses, subjectWriter.toString(),
-				bodyWriter.toString());
+			String adminEmailFromAddress = PrefsPropsUtil.getString(
+				PortalUtil.getDefaultCompanyId(),
+				PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
+			MailHelper.sendMailWithPlainText(adminEmailFromAddress,
+				mailAddresses + "," + providerSpecificMailAddresses,
+				subjectWriter.toString(), bodyWriter.toString());
 		} catch (Exception e) {
 			_log.error(e);
 		}
