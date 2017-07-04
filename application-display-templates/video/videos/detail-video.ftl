@@ -13,12 +13,7 @@
 			<div class="meta"> 
 				<div class="channels"> 
 					<span> 
-						<#list entry.getChaines() as chaine>
-							<#if chaine?counter gt 1>
-								-
-							</#if>
-							<a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/${entry.getCategoryURL(chaine)}">${chaine.getTitle(locale)}</a>
-						 </#list>
+						${entry.getChannelsLabel(locale)}
 					</span> 
 				</div> 
 				<div class="provider"> 
