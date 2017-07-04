@@ -101,7 +101,7 @@ public class EventImpl extends EventBaseImpl {
 		if (Validator.isNotNull(this.getExternalImageURL())) {
 			return this.getExternalImageURL();
 		} else {
-			return StrasbourgPropsUtil.getURL() + FileEntryHelper.getFileEntryURL(this.getImageId());
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
 		}
 	}
 
