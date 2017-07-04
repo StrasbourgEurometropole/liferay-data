@@ -296,9 +296,11 @@ public class ActivityCoursePlaceLocalServiceImpl
 			.map(c -> c.getActivityCoursePlaceId()).distinct()
 			.collect(Collectors.toList());
 
-		dynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil
-			.in("activityCoursePlaceId", placesWithSchedulesIds)));
-
+		if (placesWithSchedulesIds.size() > 0) {
+			dynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil
+				.in("activityCoursePlaceId", placesWithSchedulesIds)));
+		}
+		
 		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
 			-1, -1);
 	}
