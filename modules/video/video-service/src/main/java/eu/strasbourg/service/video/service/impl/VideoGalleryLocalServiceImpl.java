@@ -316,12 +316,6 @@ public class VideoGalleryLocalServiceImpl
 			gallery.getCompanyId(), gallery.getGroupId(), Video.class.getName(),
 			gallery.getGalleryId());
 
-		// S'il existe une version live de la galerie, on la supprime
-		VideoGallery liveGallery = gallery.getLiveVersion();
-		if (liveGallery != null) {
-			this.removeGallery(liveGallery.getGalleryId());
-		}
-
 		return gallery;
 	}
 

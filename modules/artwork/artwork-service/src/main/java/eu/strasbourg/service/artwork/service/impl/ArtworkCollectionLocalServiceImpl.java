@@ -276,12 +276,6 @@ public class ArtworkCollectionLocalServiceImpl
 			collection.getCompanyId(), collection.getGroupId(),
 			Artwork.class.getName(), collection.getCollectionId());
 
-		// S'il existe une version live de l'oeuvre, on la supprime
-		ArtworkCollection liveCollection = collection.getLiveVersion();
-		if (liveCollection != null) {
-			this.removeArtworkCollection(liveCollection.getCollectionId());
-		}
-
 		return collection;
 	}
 

@@ -262,12 +262,6 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			artwork.getCompanyId(), artwork.getGroupId(),
 			Artwork.class.getName(), artwork.getArtworkId());
 
-		// S'il existe une version live de l'oeuvre, on la supprime
-		Artwork liveArtwork = artwork.getLiveVersion();
-		if (liveArtwork != null) {
-			this.removeArtwork(liveArtwork.getArtworkId());
-		}
-
 		return artwork;
 	}
 
