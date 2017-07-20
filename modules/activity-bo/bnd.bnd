@@ -1,2 +1,3 @@
 Bundle-SymbolicName: activity.bo
 Bundle-Version: 1.17.0
+Web-ContextPath: /activitybo

@@ -1,2 +1,3 @@
 Bundle-SymbolicName: entity.detail.web
 Bundle-Version: 1.17.0
+Web-ContextPath: /entitydetailweb

@@ -1,2 +1,3 @@
 Bundle-SymbolicName: internal.link.viewer.web
 Bundle-Version: 1.17.0
+Web-ContextPath: /internallinkviewerweb

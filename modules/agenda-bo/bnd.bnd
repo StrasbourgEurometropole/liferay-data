@@ -1,2 +1,3 @@
 Bundle-SymbolicName: agenda.bo
 Bundle-Version: 1.17.0
+Web-ContextPath: /agendabo
