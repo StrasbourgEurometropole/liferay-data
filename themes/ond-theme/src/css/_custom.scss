@@ -23,8 +23,6 @@
 
 		.logo{
 			z-index: 70;
-		    max-width: 200px;
-		    margin: auto;
 		}
 
 		/* Bandeau */
@@ -917,6 +915,9 @@
 				    padding: 0 10px;
 				    margin-right: 20px;
 				    margin-top: 20px;
+				    &:hover {
+				    	color: white;
+				    }
 				}
 			} 
 			.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_{
@@ -1381,6 +1382,9 @@
 						    	color: white;
 						    	font-size: 1.1em;
 						    	font-weight: normal;
+						    	&:hover {
+						    		text-decoration: underline;
+						    	}
 						    }
 						}
 
@@ -1935,4 +1939,8 @@
 
 #wrapper {
 	padding-top: 0;
+}
+
+#p_p_id_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_headerpages_ .portlet-content {
+	background: #f1eeed;
 }

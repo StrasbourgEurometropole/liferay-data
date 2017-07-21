@@ -901,13 +901,13 @@ display:none !important;
 }
 
 .white-popup-block .instruction h3 span
-{
-    border: 1px solid white;
+{    
+	border: 1px solid white;
     width: 20px;
-    height: 16px;
+    height: 20px;
     border-radius: 50%;
     display: inline-block;
-    padding-top: 4px;
+    padding-top: 2px;
 }
 
 .white-popup-block .instruction p
