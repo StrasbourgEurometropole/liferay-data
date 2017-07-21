@@ -207,7 +207,9 @@ public class EventImpl extends EventBaseImpl {
 
 	private Place getPlace() {
 		if (place == null && Validator.isNotNull(this.getPlaceSIGId())) {
-			place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+			try {
+				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
+			} catch (Exception ex) {}
 		}
 		return place;
 	}
