@@ -20,6 +20,9 @@ public interface FileEntryHelperService {
 
 	public String getFileEntryURL(long fileEntryId);
 
+	public String getStructureFieldValue(Long fileEntryId, String fieldName,
+		Locale locale);
+
 	public String getImageCopyright(long fileEntryId, Locale locale);
 
 	public String getImageLegend(long fileEntryId, Locale locale);

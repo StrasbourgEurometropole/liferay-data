@@ -51,4 +51,10 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 		return FileEntryHelper.getFileEntryByRelativeURL(url);
 	}
 
+	@Override
+	public String getStructureFieldValue(Long fileEntryId, String fieldName,
+		Locale locale) {
+		return FileEntryHelper.getStructureFieldValue(fileEntryId, fieldName, locale);
+	}
+
 }
