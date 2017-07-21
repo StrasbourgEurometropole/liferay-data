@@ -10,7 +10,8 @@
               <@liferay_portlet.param name="classPK" value="${image.getData()}" />
             </#if>
           </@liferay_portlet.renderURL>
-
+          <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
+          <#assign fileTitle = FileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "title", locale)!file.getTitle() />
           <li>
             <a href="${viewURL}">
               <#if image.getAttribute('alt')?has_content>
@@ -20,11 +21,9 @@
               </#if>
             </a>
             <div class="headband">
-              <#if image.getAttribute('title')?has_content>
-                <span>
-                    <a href="${viewURL}">${image.getAttribute('title')}</a>
-                </span>
-              </#if>
+              <span>
+                  <a href="${viewURL}">${fileTitle}</a>
+              </span>
               <#if image.getAttribute('alt')?has_content>
                 <span class="copyright">
                     Copyright : ${image.getAttribute('alt')}

@@ -8,10 +8,11 @@
         <#list entries as curEntry>
             <#if curEntry?has_content>
                 <#assign file = curEntry.getAssetRenderer().getAssetObject() />
+                <#assign fileTitle = FileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "title", locale)!file.getTitle() />
                 <div class="doc">
                     <div class="desc">
                         <div class="name">
-                            <a target="_blank" href="${FileEntryHelper.getFileEntryURL(file.getFileEntryId())}" title="${file.getTitle()} (<@liferay_ui.message key='new-window' />)">${file.getTitle()}</a>
+                            <a target="_blank" href="${FileEntryHelper.getFileEntryURL(file.getFileEntryId())}" title="${fileTitle} (<@liferay_ui.message key='new-window' />)">${fileTitle}</a>
                         </div>
                         <div class="size">${file.getExtension()?upper_case} — ${FileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)}</div>
                     </div>
