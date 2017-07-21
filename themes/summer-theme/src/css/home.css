@@ -637,7 +637,7 @@ body {
 .agenda .event .entry-header {
     padding: 0 15px;
     padding-bottom: 5px;
-    height: 160px;
+    in-height: 160px;
 }
 .agenda .event .entry-header img {
     display: block;
@@ -657,6 +657,16 @@ body {
     text-transform: none;
     text-align: left;
 }
+
+.agenda .event .entry-header .category { 
+    color: #333333;
+}
+
+.agenda .event .entry-header .place { 
+    margin-top: 10px;
+    line-height : 1.1em;
+}
+
 .agenda .event .entry-header h2 a, .portlet-asset-publisher .entry-content a {
     color: #e6617c;
     text-decoration: none;
