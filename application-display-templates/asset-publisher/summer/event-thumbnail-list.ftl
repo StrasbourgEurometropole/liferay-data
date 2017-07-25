@@ -5,15 +5,11 @@
     <div class="list-evt">
       <#list entries as curEntry>
         <#assign entry = curEntry.getAssetRenderer().getEvent() />
-        <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-          <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
-          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-        </@liferay_portlet.renderURL>
 
         <!-- Event : ${entry.getTitle(locale)} -->
        <div class="event portlet-event-item" headers="ishh_col-1">
         <div class="entry-image"> 
-          <a href="${detailURL}" title="${entry.getTitle(locale)}">
+          <a href="/web/ete/detail-agenda/-/entity/id/${entry.getEventId()}" title="${entry.getTitle(locale)}">
             <img src="${entry.getImageURL()}" alt="">
           </a>
         </div>
@@ -27,7 +23,7 @@
             </#if>
             </span>
           <h2>
-            <a href="${detailURL}" title="${entry.getTitle(locale)}">
+            <a href="/web/ete/detail-agenda/-/entity/id/${entry.getEventId()}" title="${entry.getTitle(locale)}">
               ${entry.getTitle(locale)}
             </a>
           </h2>
@@ -36,7 +32,7 @@
         </div>
         <footer class="entry-meta"> 
           <time></time>
-          <a href="${detailURL}" title="<@liferay_ui.message key="read-more" />" class="btn-more">
+          <a href="/web/ete/detail-agenda/-/entity/id/${entry.getEventId()}" title="<@liferay_ui.message key="read-more" />" class="btn-more">
             <@liferay_ui.message key="read-more" />
           </a>
           <div class="clearfix"></div>
