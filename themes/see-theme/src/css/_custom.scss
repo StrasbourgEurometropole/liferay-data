@@ -3280,8 +3280,10 @@ body >  .container {
     padding-left: 10px;
   }
 }
+.see #schedule, .see .schedule-section {
+  padding: 0;
+}
 .see .schedule {
-  margin-bottom: 50px;
   text-align: left;
 }
 .see .schedule .tab-content .nav-current {
@@ -3376,9 +3378,6 @@ body >  .container {
 }
 .see .schedule .tab-content {
   padding: 0;
-  border-width: 0 1px 1px;
-  border-style: solid;
-  border-color: transparent #e9e9e9 #e9e9e9;
 }
 .see .schedule .tab-content .img-responsive {
   margin: 0;
@@ -3411,9 +3410,23 @@ body >  .container {
   background-color: transparent;
 }
 .see .schedule .tab-content-schedule {
+  height: 0;
+  padding: 0;
+  overflow: hidden;
   position: relative;
-  padding: 90px 100px 80px 80px;
   border: none;
+  opacity: 0;
+  -webkit-transition: opacity .15s linear;
+  transition: opacity .15s linear;
+  &.active {
+    height: auto;
+    padding: 90px 100px 80px 80px;
+    margin-bottom: 90px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e9e9e9;
+    opacity: 1;
+  }
 }
 .see .schedule .tab-content-schedule:before {
   position: absolute;
@@ -3617,7 +3630,7 @@ body >  .container {
     border: none;
   }
   .see .schedule .tab-content-schedule {
-    padding: 35px 20px;
+    padding: 0 20px;
   }
   .see .schedule .tab-content-schedule:before {
     display: none;
@@ -3665,7 +3678,7 @@ body >  .container {
 }
 @media (max-width: 480px) {
   .see .schedule .tab-content-schedule {
-    padding: 35px 0;
+    padding: 0;
   }
   .see .schedule .tab-content-schedule .schedule-item {
     margin-bottom: 30px;
@@ -6771,12 +6784,6 @@ body >  .container {
 .see .bg3 {
   background-image: url(../images/backgrounds/bg3.jpg);
 }
-.see .bg4 {
-  background-image: url(../images/backgrounds/bg4.jpg);
-}
-.see .bg5 {
-  background-image: url(../images/backgrounds/bg5.jpg);
-}
 .see .gradient-overlay:before {
   opacity: .7;
   background: #9001a5;
@@ -6983,6 +6990,31 @@ body >  .container {
 .portlet {
   margin-bottom: 0;
 }
+.portlet-topper {
+  z-index: 1001;
+}
+.has-control-menu .header.fixed {
+  z-index: 1002;
+}
+.has-control-menu .header.fixed .header-wrapper {
+    top: 66px;
+}
+.portlet-content .portlet-body > div > div.h2 {
+  display: none;
+}
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
 @media (min-width: 1200px) {
   .see .venue-section .left-col {
@@ -7051,7 +7083,7 @@ body >  .container {
 }
 @media (max-width: 480px) {
   .see .extra-heading {
-    font-size: 50px;
+    font-size: 40px;
   }
   .see .line-heading {
     white-space: normal;
@@ -7075,5 +7107,25 @@ body >  .container {
   .see .signup-section .form .form-group {
     width: 100%;
     margin-bottom: 0;
+  }
+}
+
+
+// Personnalisation responsive
+@media (max-width: 767px) {
+  .nav-lang {
+    display: none;
+  }
+  .see .header-wrapper {
+    min-height: 0;
+  }
+  .see .navigation-header {
+    padding: 13px 15px 0 35px;
+  }
+  .see .navigation-header .logo img {
+    width: 80px;
+  }
+  body {
+    padding-top: 75px;
   }
 }
