@@ -637,7 +637,7 @@ body {
 .agenda .event .entry-header {
     padding: 0 15px;
     padding-bottom: 5px;
-    in-height: 160px;
+    height: 200px;
 }
 .agenda .event .entry-header img {
     display: block;
@@ -703,7 +703,7 @@ body {
     text-decoration: underline;
 }
 .agenda .event .entry-header .category {
-    color: #e6617c;
+    color: #333333;
     font-size: 14px;
     line-height: 1.1em;
     font-weight: bold;
