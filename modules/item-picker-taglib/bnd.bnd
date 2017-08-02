@@ -1,6 +1,6 @@
 Bundle-Name: Item Picker Taglib
 Bundle-SymbolicName: eu.strasbourg.taglib.item.picker
-Bundle-Version: 1.17.0
+Bundle-Version: 1.18.0
 Export-Package: \
 	eu.strasbourg.picker.taglib.image.servlet.taglib,\
 	eu.strasbourg.picker.taglib.entity.servlet.taglib,\
