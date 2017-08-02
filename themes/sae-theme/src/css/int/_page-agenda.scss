@@ -104,3 +104,24 @@
 		}
 	}
 }
+
+// Spécifique LR7
+.search-asset-results {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content : space-between;
+	& > div {
+		display: inline-block;
+		flex-basis: 32.5%;
+		@include RWD(tablet_only){
+		   flex-basis: 48.5%;
+		}
+		@include RWD(mobile){
+			flex-basis: 100%;
+		}
+	}
+}
+.portlet-event-item {
+	width: 100% !important;
+	margin-right: 0 !important;
+}

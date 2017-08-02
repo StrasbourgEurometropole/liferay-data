@@ -16,8 +16,10 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -208,8 +210,10 @@ public class EventImpl extends EventBaseImpl {
 	private Place getPlace() {
 		if (place == null && Validator.isNotNull(this.getPlaceSIGId())) {
 			try {
-				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
-			} catch (Exception ex) {}
+				place = PlaceLocalServiceUtil
+					.getPlaceBySIGId(this.getPlaceSIGId());
+			} catch (Exception ex) {
+			}
 		}
 		return place;
 	}
@@ -442,8 +446,17 @@ public class EventImpl extends EventBaseImpl {
 				JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
 		}
 
+		Map<Locale, String> descriptionMap = this.getDescriptionMap();
+		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
+		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap
+			.entrySet()) {
+			String description = descriptionEntry.getValue().replace(
+				"\"/documents/", "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			descriptionWithNewURLsMap.put(descriptionEntry.getKey(),
+				description);
+		}
 		jsonEvent.put("description",
-			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
+			JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
 		String imageURL = this.getImageURL();
 		if (!imageURL.startsWith("http")) {

@@ -1,5 +1,5 @@
 Bundle-SymbolicName: strasbourg-api
-Bundle-Version: 1.17.0
+Bundle-Version: 1.18.0
 Export-Package:\
 	eu.strasbourg.service.strasbourg.exception,\
 	eu.strasbourg.service.strasbourg.model,\
