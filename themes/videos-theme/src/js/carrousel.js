@@ -49,7 +49,7 @@ jQuery(function () {
 			});
 		}
 
-		if (videos.length > 1) {
+		if (videos.length >= 1) {
 			playVideo(videos, 0);
 		}
 	}

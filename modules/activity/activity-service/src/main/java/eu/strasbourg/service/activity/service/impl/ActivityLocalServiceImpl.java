@@ -257,12 +257,6 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		// Supprime l'index
 		this.reindex(activity, true);
 
-		// S'il existe une version live de l'édition, on la supprime
-		Activity liveActivity = activity.getLiveVersion();
-		if (liveActivity != null) {
-			this.removeActivity(liveActivity.getActivityId());
-		}
-
 		return activity;
 	}
 

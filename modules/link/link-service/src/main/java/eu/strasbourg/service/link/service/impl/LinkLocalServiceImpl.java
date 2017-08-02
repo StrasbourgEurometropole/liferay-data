@@ -261,12 +261,6 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			link.getCompanyId(), link.getGroupId(), Link.class.getName(),
 			link.getLinkId());
 
-		// S'il existe une version live du lien, on la supprime
-		Link liveLink = link.getLiveVersion();
-		if (liveLink != null) {
-			this.removeLink(liveLink.getLinkId());
-		}
-
 		return link;
 	}
 

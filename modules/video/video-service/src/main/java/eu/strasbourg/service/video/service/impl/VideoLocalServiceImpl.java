@@ -296,12 +296,6 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			video.getCompanyId(), video.getGroupId(), Video.class.getName(),
 			video.getVideoId());
 
-		// S'il existe une version live de la vidéo, on la supprime
-		Video liveVideo = video.getLiveVersion();
-		if (liveVideo != null) {
-			this.removeVideo(liveVideo.getVideoId());
-		}
-
 		return video;
 	}
 

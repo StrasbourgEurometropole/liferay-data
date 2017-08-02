@@ -102,11 +102,6 @@
 }
 
 
-#main-content .portlet-link-viewer {
-    padding: 12px 10px 10px;
-}
-
-
 
 #main-content .portlet-cus-document-asset .portlet-body, #main-content .portlet-link-viewer .portlet-body, #main-content .portlet-agenda .portlet-body {
     border: 1px solid #e6f4ec;
@@ -438,11 +433,6 @@ div.titre-portlet-europtimist {
     display: none;
 }
 
-
-
-.portlet-link-viewer {
-    padding: 12px 10px 10px;
-}
 
 .portlet-agenda .agenda-body.agenda-carousel .event-image {
     display: block;

@@ -251,12 +251,6 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		// Delete the index
 		this.reindex(official, true);
 
-		// S'il existe une version live de l'edition, on la supprime
-		Official liveOfficial = official.getLiveVersion();
-		if (liveOfficial != null) {
-			this.removeOfficial(liveOfficial.getOfficialId());
-		}
-
 		return official;
 	}
 

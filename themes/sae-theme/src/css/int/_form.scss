@@ -1,8 +1,9 @@
 // form general
-.aui-form{
+.search-asset-portlet form {
 	.block-filter{
 		background-color:#f2f2f2;
 		padding:40px 80px;
+		margin-bottom: 30px;
 		@include RWD(tablet_only){
 			padding:40px 2.9%;
 		}
@@ -11,79 +12,78 @@
 		}
 	}	
 	.col-filter{
-		width:50%;
-		float: left;
-		#public-field, #territory-field{
-			display: none;
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		
+		.date-selection .input-checkbox-wrapper {
+		  display: none;
 		}
-		&:nth-of-type(1){
-			padding-right:3.33%;
-			@include RWD(mobile){
-				padding-right:0px;
-			}
+		
+		.date-selection label {
+		  display: inline-block !important;
+		  float: none !important;
 		}
-		&:nth-of-type(2), &:nth-of-type(3){
-			padding-left: 3.33%;
-			@include RWD(mobile){
-				padding-left:0px;
-			}
+		
+		.date-selection > label {
+		  width: auto !important;
 		}
-		@include RWD(mobile){
-			width:100%;
+		
+		.date-selection .date-selector {
+		  display: inline-block;
+		  min-width: 210px;
+		  margin-left: 10px;
 		}
+		.date-selection-control > div {
+		    width: 45%;
+		    display: inline-block;
+		}
+		
+		.date-selection-control input {
+		    width: 115px;
+		}
+		
+		.date-selection-control label {
+		    font-size: 28px !important;
+		    text-transform: capitalize !important;
+		    color: black !important;
+		    display: inline-block;
+		    width: 30px !important;
+		}
+		
+		.date-selector {
+		    min-width: 0 !important;
+		}
+		
+		
+		.form-control {
+		    border-width: 1px 1px 1px 1px;
+		    border-radius: 0;
+		    box-shadow: none;
+		    border: 0px;
+		}
+		
+		
+		& > * {
+		  width: 400px;
+		  display: inline-block;
+		  margin-right: 41px;
+		  margin-bottom: 20px;
+		}
+
 	}
-	.field{
-		margin-bottom:30px;
-		label{
-			font-family: $font-title;
-			font-size:32px;
-			font-size:3.2rem;
-			font-weight: normal;
-			line-height: normal;
-			color:#008ce7;
-			text-transform: uppercase;
-			margin-bottom:10px;
-			width:100%;
-		}
-		input{
-			width:100%;
-			height: 38px;
-			line-height: 38px;
-			padding: 0px 10px;
-		}
-		.sd-block{
-			width:50%;
-			&:nth-of-type(1){
-				float:left;
-				input{
-					width: calc(100% - 50px);
-				}
-			}
-			&:nth-of-type(2){
-				float: right;
-				input{
-					width: calc(100% - 35px);
-				}
-			}
-			label{
-				display: inline-block;
-				vertical-align: middle;
-				width:auto;
-				color:$color-text;
-				font-size:28px;
-				font-size:2.8rem;
-				text-transform: none;
-				margin:0px;
-			}
-			input{
-				display: inline-block;
-				vertical-align: middle;
-				width:calc(100% - 34px);
-				@include RWD(tablet){
-					//width:20%;
-				}
-			}
-		}
+	
+	label{
+		font-family: $font-title;
+		font-size:32px;
+		font-size:3.2rem;
+		font-weight: normal;
+		line-height: normal;
+		color:#008ce7;
+		text-transform: uppercase;
+		margin-bottom:10px;
+		width:100%;
 	}
 }
 

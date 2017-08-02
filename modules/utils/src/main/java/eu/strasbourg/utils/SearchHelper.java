@@ -319,14 +319,9 @@ public class SearchHelper {
 				titleWildcardQuery.setBoost(30);
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
-				// Fuzzy sur description (tous les champs indexables de nos
-				// entités
-				// sont dans ce champ)
+				// Description
 				MatchQuery descriptionQuery = new MatchQuery(
 					Field.DESCRIPTION + "_" + locale, keywords);
-				//descriptionQuery.setFuzziness(new Float(1));
-				descriptionQuery.setAnalyzer("strasbourg_analyzer");
-				descriptionQuery.setBoost(new Float(1.5));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				// Pour les fichiers on recherche dans le champ "title" sans la

@@ -1,5 +1,6 @@
 package eu.strasbourg.utils.editor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +19,13 @@ import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriteri
 import com.liferay.portal.kernel.editor.configuration.BaseEditorConfigContributor;
 import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -53,14 +56,26 @@ public class GlobalBOEditorConfigContributor
 		RequestBackedPortletURLFactory requestBackedPortletURLFactory) {
 
 		// Barres d'outil
-		JSONArray toolbarConfiguration = jsonObject
-			.getJSONArray("toolbar_liferay");
-		JSONArray toolbarExtension = JSONFactoryUtil.createJSONArray();
-		toolbarExtension.put("Copyright");
-		toolbarExtension.put("FileSelector");
-		toolbarConfiguration.put(toolbarExtension);
-		jsonObject.put("toolbar_phone", toolbarConfiguration);
-		jsonObject.put("toolbar_simple", toolbarConfiguration);
+		String editorConfigurationString = "[]";
+		try {
+			editorConfigurationString = StringUtil.read(
+				this.getClass().getClassLoader(),
+				"editor-toolbar-configuration.json");
+			System.out.println("");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JSONArray toolbarConfiguration;
+		try {
+			toolbarConfiguration = JSONFactoryUtil
+				.createJSONArray(editorConfigurationString);
+			jsonObject.put("toolbar_phone", toolbarConfiguration);
+			jsonObject.put("toolbar_simple", toolbarConfiguration);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		jsonObject.put("allowedContent", true);
 
 		// Plugins

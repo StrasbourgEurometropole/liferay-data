@@ -363,13 +363,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 			event.getCompanyId(), event.getGroupId(), Event.class.getName(),
 			event.getEventId());
-
-		// S'il existe une version live de l'édition, on la supprime
-		Event liveEvent = event.getLiveVersion();
-		if (liveEvent != null) {
-			this.removeEvent(liveEvent.getEventId());
-		}
-
+		
 		return event;
 	}
 

@@ -14,28 +14,12 @@ import com.liferay.portal.kernel.model.ModelListener;
 
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
-import eu.strasbourg.service.activity.service.ActivityLocalService;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 
 @Component(immediate = true, service = ModelListener.class)
 public class ActivityGroupModelListener extends BaseModelListener<Group> {
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-	private ActivityLocalService activityLocalService;
-
-	private ActivityCourseLocalService activityCourseLocalService;
-
-	public void setActivityLocalService(
-		ActivityLocalService activityLocalService) {
-		this.activityLocalService = activityLocalService;
-	}
-
-	public void setActivityCourseLocalService(
-		ActivityCourseLocalService activityCourseLocalService) {
-		this.activityCourseLocalService = activityCourseLocalService;
-	}
 
 	/**
 	 * A la suppression d'un groupe, on supprime les entités rattachées à ce
@@ -49,7 +33,7 @@ public class ActivityGroupModelListener extends BaseModelListener<Group> {
 			.getByGroupId(model.getGroupId());
 		for (Activity activity : activitys) {
 			try {
-				this.activityLocalService
+				ActivityLocalServiceUtil
 					.removeActivity(activity.getPrimaryKey());
 			} catch (PortalException e) {
 				_log.error(e);
@@ -61,7 +45,7 @@ public class ActivityGroupModelListener extends BaseModelListener<Group> {
 			.getByGroupId(model.getGroupId());
 		for (ActivityCourse activityCourse : activityCourses) {
 			try {
-				this.activityCourseLocalService
+				ActivityCourseLocalServiceUtil
 					.removeActivityCourse(activityCourse.getPrimaryKey());
 			} catch (PortalException e) {
 				_log.error(e);

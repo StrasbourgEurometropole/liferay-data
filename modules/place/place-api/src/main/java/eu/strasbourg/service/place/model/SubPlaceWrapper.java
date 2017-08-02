@@ -512,6 +512,10 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	/**
 	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	* de la semaine en cours
+	*
+	* @param surPériode
+	(false = horaires d'une journée uniquement , true = horaires
+	sur une semaine)
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceScheduleException(

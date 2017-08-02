@@ -243,14 +243,6 @@ public class ActivityOrganizerLocalServiceImpl
 		// Supprime l'index
 		this.reindex(activityOrganizer, true);
 
-		// S'il existe une version live de l'édition, on la supprime
-		ActivityOrganizer liveActivityOrganizer = activityOrganizer
-			.getLiveVersion();
-		if (liveActivityOrganizer != null) {
-			this.removeActivityOrganizer(
-				liveActivityOrganizer.getActivityOrganizerId());
-		}
-
 		return activityOrganizer;
 	}
 

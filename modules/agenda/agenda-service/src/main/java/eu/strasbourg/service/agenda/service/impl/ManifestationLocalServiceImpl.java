@@ -356,12 +356,6 @@ public class ManifestationLocalServiceImpl
 			manifestation.getCompanyId(), manifestation.getGroupId(),
 			Event.class.getName(), manifestation.getManifestationId());
 
-		// S'il existe une version live de la galerie, on la supprime
-		Manifestation liveManifestation = manifestation.getLiveVersion();
-		if (liveManifestation != null) {
-			this.removeManifestation(liveManifestation.getManifestationId());
-		}
-
 		return manifestation;
 	}
 

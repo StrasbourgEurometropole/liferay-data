@@ -256,12 +256,6 @@ public class ActivityCourseLocalServiceImpl
 		// Supprime l'index
 		this.reindex(activityCourse, true);
 
-		// S'il existe une version live de l'édition, on la supprime
-		ActivityCourse liveActivityCourse = activityCourse.getLiveVersion();
-		if (liveActivityCourse != null) {
-			this.removeActivityCourse(liveActivityCourse.getActivityCourseId());
-		}
-
 		return activityCourse;
 	}
 

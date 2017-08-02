@@ -51,10 +51,6 @@ a:hover {
     margin: 0;
 }
 
-.breadcrumb > li + li:before {
-  content: '>';
-}
-
 .breadcrumb > li:last-child {
   font-weight: bold;
 }

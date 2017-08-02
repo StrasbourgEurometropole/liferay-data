@@ -314,12 +314,6 @@ public class EditionGalleryLocalServiceImpl
 			gallery.getCompanyId(), gallery.getGroupId(),
 			Edition.class.getName(), gallery.getGalleryId());
 
-		// S'il existe une version live de la galerie, on la supprime
-		EditionGallery liveGallery = gallery.getLiveVersion();
-		if (liveGallery != null) {
-			this.removeGallery(liveGallery.getGalleryId());
-		}
-
 		return gallery;
 	}
 

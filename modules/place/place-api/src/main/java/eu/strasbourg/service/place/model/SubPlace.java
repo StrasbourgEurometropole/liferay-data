@@ -91,6 +91,10 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	/**
 	* Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	* de la semaine en cours
+	*
+	* @param surPériode
+	(false = horaires d'une journée uniquement , true = horaires
+	sur une semaine)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceScheduleException(
 		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,

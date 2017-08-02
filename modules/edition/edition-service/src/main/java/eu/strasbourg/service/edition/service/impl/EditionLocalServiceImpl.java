@@ -300,12 +300,6 @@ public class EditionLocalServiceImpl extends EditionLocalServiceBaseImpl {
 			edition.getCompanyId(), edition.getGroupId(),
 			Edition.class.getName(), edition.getEditionId());
 
-		// S'il existe une version live de l'edition, on la supprime
-		Edition liveEdition = edition.getLiveVersion();
-		if (liveEdition != null) {
-			this.removeEdition(liveEdition.getEditionId());
-		}
-
 		return edition;
 	}
 

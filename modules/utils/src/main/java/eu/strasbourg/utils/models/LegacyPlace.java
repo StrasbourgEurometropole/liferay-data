@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.JSONHelper;
 
 public class LegacyPlace {
-	
+
 	private String SIGId;
 
 	private String alias;
@@ -39,7 +39,7 @@ public class LegacyPlace {
 	private String moreInformation; // infosComplementaires
 
 	private String access; // modeAcces
-	
+
 	private String price; // tarifs
 
 	private String accessForDisabled; // descriptionAccesHandicap
@@ -61,9 +61,11 @@ public class LegacyPlace {
 	private List<String> nextDays;
 	private List<String> nextSchedules;
 	private String exceptionalSchedule; // horaireExceptionnel
-	private Map<String, String> exceptionalOpenings; // ouvertureExceptionnelle > map
-	private Map<String, String> exceptionalClosings; // fermetureExceptionnelle > map
-	
+	private Map<String, String> exceptionalOpenings; // ouvertureExceptionnelle
+													 // > map
+	private Map<String, String> exceptionalClosings; // fermetureExceptionnelle
+													 // > map
+
 	/**
 	 * Retourne un nouvel objet "LegacyPlace" à partir de l'id SIG du lieu
 	 */
@@ -80,7 +82,7 @@ public class LegacyPlace {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retourne un nouvel objet "LegacyPlace" à partir du JSON du lieu
 	 */
@@ -106,17 +108,27 @@ public class LegacyPlace {
 
 			JSONObject accessForDisabledMap = json
 				.getJSONObject("accesHandicap").getJSONObject("map");
-			legacyPlace.setAccessForBlind(
-				accessForDisabledMap.getBoolean("Visual impairment"));
-			legacyPlace.setAccessForWheelchair(
-				accessForDisabledMap.getBoolean("Physical disability"));
-			legacyPlace.setAccessForDeaf(
-				accessForDisabledMap.getBoolean("Hearing impairment"));
-			legacyPlace.setAccessForElder(
-				accessForDisabledMap.getBoolean("Elderly person"));
-			legacyPlace.setAccessForDeficient(
-				accessForDisabledMap.getBoolean("Intellectual disability"));
-			
+			Iterator<String> keysIterator = accessForDisabledMap.keys();
+			while (keysIterator.hasNext()) {
+				String key = keysIterator.next();
+				if (key.contains("auditif")) {
+					legacyPlace
+						.setAccessForDeaf(accessForDisabledMap.getBoolean(key));
+				} else if (key.contains("visuels")) {
+					legacyPlace.setAccessForBlind(
+						accessForDisabledMap.getBoolean(key));
+				} else if (key.contains("cognitif")) {
+					legacyPlace.setAccessForDeficient(
+						accessForDisabledMap.getBoolean(key));
+				} else if (key.contains("moteur")) {
+					legacyPlace.setAccessForWheelchair(
+						accessForDisabledMap.getBoolean(key));
+				} else {
+					legacyPlace.setAccessForElder(
+						accessForDisabledMap.getBoolean(key));
+				}
+			}
+
 			legacyPlace.setPrice(json.getString("tarifs"));
 
 			legacyPlace.setWebsiteName(json.getString("nomSiteInternet"));
@@ -142,9 +154,12 @@ public class LegacyPlace {
 						String schedule = nextDaysScheduleMap
 							.getString(dtfFrom.format(date));
 						nextDays.add(dtfTo.format(date));
-						if (Validator.isNull(schedule) || schedule.contains("Closed*")) {
-							nextDaysSchedule.put(dtfTo.format(date), LanguageUtil.get(locale, "eu.closed"));
-							nextSchedules.add(LanguageUtil.get(locale, "eu.closed"));
+						if (Validator.isNull(schedule)
+							|| schedule.contains("Closed*")) {
+							nextDaysSchedule.put(dtfTo.format(date),
+								LanguageUtil.get(locale, "eu.closed"));
+							nextSchedules
+								.add(LanguageUtil.get(locale, "eu.closed"));
 						} else {
 							nextDaysSchedule.put(dtfTo.format(date), schedule);
 							nextSchedules.add(schedule);
@@ -156,37 +171,42 @@ public class LegacyPlace {
 					legacyPlace.setNextSchedules(nextSchedules);
 				}
 			}
-			
+
 			// Ouvertures exceptionnelles
-			JSONObject exceptionalOpeningsMapWrapper = json.getJSONObject("ouvertureExceptionnelle");
+			JSONObject exceptionalOpeningsMapWrapper = json
+				.getJSONObject("ouvertureExceptionnelle");
 			if (exceptionalOpeningsMapWrapper != null) {
-				JSONObject exceptionalOpeningsMap = exceptionalOpeningsMapWrapper.getJSONObject("map");
+				JSONObject exceptionalOpeningsMap = exceptionalOpeningsMapWrapper
+					.getJSONObject("map");
 				Iterator<String> iterator = exceptionalOpeningsMap.keys();
 				Map<String, String> exceptionalOpenings = new HashMap<String, String>();
 				while (iterator.hasNext()) {
 					String key = iterator.next();
-					exceptionalOpenings.put(key, (String) exceptionalOpeningsMap.get(key));
+					exceptionalOpenings.put(key,
+						(String) exceptionalOpeningsMap.get(key));
 				}
 				legacyPlace.setExceptionalOpenings(exceptionalOpenings);
 			}
-			
-			
-			
+
 			// Fermetures exceptionnelles
-			JSONObject exceptionalClosingsMapWrapper = json.getJSONObject("fermetureExceptionnelle");
+			JSONObject exceptionalClosingsMapWrapper = json
+				.getJSONObject("fermetureExceptionnelle");
 			if (exceptionalClosingsMapWrapper != null) {
-				JSONObject exceptionalClosingsMap = exceptionalClosingsMapWrapper.getJSONObject("map");
+				JSONObject exceptionalClosingsMap = exceptionalClosingsMapWrapper
+					.getJSONObject("map");
 				Iterator<String> iterator = exceptionalClosingsMap.keys();
 				Map<String, String> exceptionalClosings = new HashMap<String, String>();
 				while (iterator.hasNext()) {
 					String key = iterator.next();
-					exceptionalClosings.put(key, (String) exceptionalClosingsMap.get(key));
+					exceptionalClosings.put(key,
+						(String) exceptionalClosingsMap.get(key));
 				}
 				legacyPlace.setExceptionalClosings(exceptionalClosings);
 			}
-			
-			legacyPlace.setExceptionalSchedule(json.getString("horaireExceptionnel"));
-			
+
+			legacyPlace
+				.setExceptionalSchedule(json.getString("horaireExceptionnel"));
+
 			return legacyPlace;
 		} catch (Exception ex) {
 			return null;
@@ -403,7 +423,8 @@ public class LegacyPlace {
 		return exceptionalOpenings;
 	}
 
-	public void setExceptionalOpenings(Map<String, String> exceptionalOpenings) {
+	public void setExceptionalOpenings(
+		Map<String, String> exceptionalOpenings) {
 		this.exceptionalOpenings = exceptionalOpenings;
 	}
 
@@ -411,7 +432,8 @@ public class LegacyPlace {
 		return exceptionalClosings;
 	}
 
-	public void setExceptionalClosings(Map<String, String> exceptionalClosings) {
+	public void setExceptionalClosings(
+		Map<String, String> exceptionalClosings) {
 		this.exceptionalClosings = exceptionalClosings;
 	}
 
@@ -439,5 +461,6 @@ public class LegacyPlace {
 		this.nextSchedules = nextSchedules;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LegacyPlace.class.getName());
+	private static final Log _log = LogFactoryUtil
+		.getLog(LegacyPlace.class.getName());
 }

@@ -71,11 +71,16 @@
           <a href="//www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
             <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Strasbourg.eu" />
           </a>
-          <ul style="display: none;"> 
-            <li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="${portalUtil.getLayoutURL(themeDisplay.getLayout(),themeDisplay)}?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;_82_struts_action=%2Flanguage%2Fview&amp;languageId=fr_FR" title="Français">FR</a></li>
-            <li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="${portalUtil.getLayoutURL(themeDisplay.getLayout(),themeDisplay)}?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;_82_struts_action=%2Flanguage%2Fview&amp;languageId=en_US" title="English">EN</a></li>
-            <li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="${portalUtil.getLayoutURL(themeDisplay.getLayout(),themeDisplay)}?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;_82_struts_action=%2Flanguage%2Fview&amp;languageId=de_DE" title="Deutsch">DE</a></li>
-          </ul>
+          <ul>
+	      	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+				<#assign currURL = "/web${layout.group.friendlyURL}" />
+			<#else>
+				<#assign currURL = "" />
+			</#if>
+			<li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr${currURL}${layout.friendlyURL}" title="Français">FR</a></li>
+			<li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de${currURL}${layout.friendlyURL}" title="Deutsch">DE</a></li>
+			<li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en${currURL}${layout.friendlyURL}" title="English">EN</a></li>
+		  </ul>
           <div class="clearfix"></div> 
         </div> 
       </nav>
