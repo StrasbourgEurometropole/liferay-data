@@ -43,7 +43,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "Texte82qp",
+            "name": "subtitle",
             "readOnly": false,
             "repeatable": false,
             "required": false,
