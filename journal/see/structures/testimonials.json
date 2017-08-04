@@ -53,7 +53,7 @@
         },
         {
             "label": {
-                "fr_FR": "Citation"
+                "fr_FR": "Nom"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -64,20 +64,19 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "testimonial",
+            "name": "name",
             "readOnly": false,
             "repeatable": true,
             "required": false,
             "showLabel": true,
-            "type": "ddm-text-html",
+            "type": "text",
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Nom"
+                        "fr_FR": "Citation"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -88,15 +87,16 @@
                     "tip": {
                         "fr_FR": ""
                     },
-                    "dataType": "string",
+                    "dataType": "html",
+                    "fieldNamespace": "ddm",
                     "indexType": "",
                     "localizable": true,
-                    "name": "name",
+                    "name": "testimonials",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text"
+                    "type": "ddm-text-html"
                 },
                 {
                     "label": {
