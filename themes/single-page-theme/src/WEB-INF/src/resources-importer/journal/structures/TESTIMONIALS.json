@@ -1,0 +1,121 @@
+{
+  "availableLanguageIds": [
+    "fr_FR", "en_US"
+  ],
+  "defaultLanguageId": "en_US",
+  "fields": [
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre",
+        "en_US": "Title"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "title",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "html",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Sous-titre",
+        "en_US": "Subtitle"
+      },
+      "type": "ddm-text-html",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "subtitle",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Nom",
+        "en_US": "Name"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "nestedFields": [
+        {
+          "dataType": "html",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Citation",
+            "en_US": "Quote"
+          },
+          "type": "ddm-text-html",
+          "required": false,
+          "showLabel": true,
+          "visibilityExpression": "",
+          "indexType": "",
+          "fieldNamespace": "ddm",
+          "repeatable": false,
+          "name": "testimonials",
+          "localizable": true,
+          "validation": {}
+        },
+        {
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Poste",
+            "en_US": "Position"
+          },
+          "type": "text",
+          "required": false,
+          "showLabel": true,
+          "displayStyle": "",
+          "visibilityExpression": "",
+          "indexType": "",
+          "fieldNamespace": "",
+          "repeatable": false,
+          "name": "position",
+          "localizable": true,
+          "validation": {}
+        },
+        {
+          "dataType": "image",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Photo",
+            "en_US": "Picture"
+          },
+          "type": "ddm-image",
+          "required": false,
+          "showLabel": true,
+          "visibilityExpression": "",
+          "indexType": "",
+          "fieldNamespace": "ddm",
+          "repeatable": false,
+          "name": "picture",
+          "localizable": true,
+          "validation": {}
+        }
+      ],
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "",
+      "repeatable": true,
+      "name": "name",
+      "localizable": true,
+      "validation": {}
+    }
+  ]
+}

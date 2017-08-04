@@ -7016,9 +7016,42 @@ body >  .container {
   height: 100%;
 }
 .dialog-with-footer .button-holder.dialog-footer {
-    position: static;
-    background: white;
+  position: static;
+  background: white;
 }
+.search-asset-portlet .lfr-pagination-config {
+  display: none;
+}
+.search-asset-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.search-asset-results > div {
+    flex-basis: 31.5%;
+}
+.search-asset-results .entry-header h2 {
+    font-size: 22px;
+}
+
+.search-asset-results .entry-header .place {
+    display: inline;
+}
+.search-asset-results .event {
+    margin-bottom: 40px;
+}
+
+@media(max-width: 991px) {
+    .search-asset-results > div {
+        flex-basis: 48.5%   ;
+    }
+}
+@media(max-width: 460px) {
+    .search-asset-results > div {
+        flex-basis: 100%   ;
+    }
+}
+
 
 @media (min-width: 1200px) {
   .see .venue-section .left-col {

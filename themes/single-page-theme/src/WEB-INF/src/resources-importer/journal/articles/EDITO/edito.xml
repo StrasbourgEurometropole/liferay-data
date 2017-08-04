@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="title" type="text" index-type="keyword" instance-id="gmqs">
+    <dynamic-content language-id="fr_FR"><![CDATA[Présentation]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text" index-type="keyword" instance-id="kuyj">
+    <dynamic-content language-id="fr_FR"><![CDATA[La Semaine de l'entrepreneur européen, c'est une semaine pour trouver toutes les réponses à la création / reprise d'entreprises sur le territoire de Strasbourg – Ortenau.]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="leftText" type="text_area" index-type="text" instance-id="aauj">
+    <dynamic-content language-id="fr_FR"><![CDATA[<h6><span class="highlight">Regular</span> Paragraph</h6>
+
+<p class="align-left">L'axe "Entrepreneuriat" de la feuille de route Strasbourg éco 2030 couvre la promotion de l'entrepreneuriat. A ce titre, la Semaine de l'entrepreneur européen est une formidable opportunité pour fêter et promouvoir l'entrepreneuriat pour toutes les cibles d'entrepreneurs ; qu'il s'agisse de femmes, d'étudiants, de jeunes, d'entrepreneurs motivés par la création d'une entreprise sociale ou d'une start-up.</p>]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="rightText" type="text_area" index-type="text" instance-id="mnim">
+    <dynamic-content language-id="fr_FR"><![CDATA[<p class="align-left">Pour la 6ème année consécutive, la Semaine est portée par l'Eurodistrict Strasbourg-Ortenau et l'Eurométropole de Strasbourg. Adossée au mouvement mondial "Global Entrepreneurship Week", les 16 évènements de la Semaine ont pour objectifs de valoriser la création d'entreprise ; permettre l'accès à l'information et au conseil pour les créateurs / repreneurs; favoriser les contacts informels et les coopérations ; contribuer à l'innovation et à la compétitivité de notre tissu économique…</p>]]></dynamic-content>
+  </dynamic-element>
+</root>

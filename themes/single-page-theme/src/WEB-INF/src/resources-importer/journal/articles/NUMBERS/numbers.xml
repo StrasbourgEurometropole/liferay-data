@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="number" type="text" index-type="" instance-id="tftk">
+    <dynamic-element name="text" instance-id="bwge" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[Lieux]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[12]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="number" type="text" index-type="" instance-id="zdzm">
+    <dynamic-element name="text" instance-id="xmea" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[Jours]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[6]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="number" type="text" index-type="" instance-id="vpvn">
+    <dynamic-element name="text" instance-id="nxdn" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[Ateliers]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[25]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="number" type="text" index-type="" instance-id="uvwh">
+    <dynamic-element name="text" instance-id="pggn" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[Conférences]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[200]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="backgroundImage" type="image" index-type="" instance-id="qesd">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="bg2" title="bg2"><![CDATA[[$FILE=bg2.jpg$]]]></dynamic-content>
+  </dynamic-element>
+</root>

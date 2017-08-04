@@ -10,6 +10,10 @@ var Ventcamp;
 (function($) {
     $(document).on("ready", function() {
         Ventcamp.init();
+        $('img').each(function() {
+            var src = $(this).attr('src');
+            $(this).attr('src', src.split('?')[0]);
+        })
     });
 })(jQuery);
 
@@ -443,7 +447,7 @@ Ventcamp = {
                 $field.html($(this).html());
             });
 
-            $(".see body").on("click", function(event) {
+            $("body .see").on("click", function(event) {
                 $target = $(event.target);
 
                 if (!$target.closest($field).length && $this.is(".open")) {
@@ -1131,14 +1135,14 @@ Ventcamp = {
                 { offset: -100 }
             );
 
-            $("body").on("click", 'a[href*="#"]', function(event) {
+            $("body .see").on("click", 'a[href*="#"]', function(event) {
                 var href = $(this).attr("href"),
                     anchorId = href.substring(href.indexOf("#"), href.length);
 
                 if (
                     $(this).attr("data-toggle") &&
                     $(this).attr("data-toggle").length
-                ) {
+                ) {a
                     return;
                 }
 

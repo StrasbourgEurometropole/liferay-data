@@ -1,0 +1,82 @@
+{
+  "availableLanguageIds": [
+    "fr_FR", "en_US"
+  ],
+  "defaultLanguageId": "en_US",
+  "fields": [
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre",
+        "en_US": "Title"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "title",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Sous-titre",
+        "en_US": "Subtitle"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "subtitle",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "html",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Texte gauche",
+        "en_US": "Left text"
+      },
+      "type": "ddm-text-html",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "text",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "leftText",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "html",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Texte droite",
+        "en_US": "Right text"
+      },
+      "type": "ddm-text-html",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "text",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "rightText",
+      "localizable": true,
+      "validation": {}
+    }
+  ]
+}

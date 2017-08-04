@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="title" type="text" index-type="keyword" instance-id="kjza">
+    <dynamic-content language-id="fr_FR"><![CDATA[Actualité 3]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text" index-type="keyword" instance-id="beao">
+    <dynamic-content language-id="fr_FR"><![CDATA[Actu]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="image" type="image" index-type="" instance-id="mvfo">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="news" title="news"><![CDATA[[$FILE=news.jpg$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="videoURL" type="text" index-type="" instance-id="agrl">
+  </dynamic-element>
+  <dynamic-element name="catcher" type="text_area" index-type="text" instance-id="lgsu">
+    <dynamic-content language-id="fr_FR"><![CDATA[Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="text" type="text_area" index-type="text" instance-id="dolb">
+    <dynamic-content language-id="fr_FR"><![CDATA[<section class="section align-center">
+<div class="container">
+<div class="col-sm-6">
+<article>
+<h6><span class="highlight">Regular</span> Paragraph</h6>
+
+<p class="align-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.</p>
+
+<p class="align-left">Lorem Ipsum is <span class="highlight">simply dummy</span> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum is simply dummy text of the printing and <strong>typesetting industry</strong>.<br />
+Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.</p>
+</article>
+</div>
+
+<div class="col-sm-6">
+<article>
+<p class="align-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.</p>
+
+<h6><span class="highlight">Regular</span> Paragraph</h6>
+
+<p class="align-left">Lorem Ipsum is <span class="highlight">simply dummy</span> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum is simply dummy text of the printing and <strong>typesetting industry</strong>.<br />
+Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.</p>
+</article>
+</div>
+</div>
+</section>]]></dynamic-content>
+  </dynamic-element>
+</root>
