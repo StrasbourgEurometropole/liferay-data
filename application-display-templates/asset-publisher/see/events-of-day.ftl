@@ -19,7 +19,7 @@
                   <div id="${entry.eventId}" class="panel-collapse collapse <#if curEntry?index == 0> in </#if> schedule-item-body">
                     <article>
                       <p class="description">${entry.getDescription(locale)}</p>
-                      <strong class="highlight speaker-name">Je met quoi là ?</strong>
+                      <strong class="highlight speaker-name"></strong>
                     </article>
                   </div>
                 </div>
