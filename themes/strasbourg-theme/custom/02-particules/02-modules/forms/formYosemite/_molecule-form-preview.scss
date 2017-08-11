@@ -1,0 +1,31 @@
+%molecule-form-preview{
+    label{
+        padding: 0 !important;
+    }
+    h2.webform-page{
+        @extend %text-h2;
+        margin-bottom: 30px;
+    }
+    .webform-grid{
+        .form-field{
+            overflow: auto; 
+        }
+    }
+    table.webform-grid{
+        td.webform-grid-option{
+            padding: 0;
+            strong{
+                background-color: $core-color;
+                height: 45px;
+                width: 27px;
+                font-size: 0; 
+                display: inline-block;
+                vertical-align: top;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 17px auto;
+                background-image: url('data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE1NCAxMjAuNjciPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO3N0cm9rZTojRkZGRkZGO3N0cm9rZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDoxM3B4O308L3N0eWxlPjwvZGVmcz48dGl0bGU+UGxhbiBkZSB0cmF2YWlsIDE8L3RpdGxlPjxwb2x5bGluZSBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTQ5LjUgNS4zMyA0NSAxMTAuNzMgNSA3Mi4yMyIvPjwvc3ZnPg==');
+            }
+        }
+    }
+}

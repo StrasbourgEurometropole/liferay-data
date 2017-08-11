@@ -1,0 +1,121 @@
+%organism-map-ui{
+    
+    %head-map-module{
+        color: #595959;
+        font-weight: 600;
+    }
+    %icon-map-button{
+        height: 50px;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFFFFF;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px;
+    }
+
+    display: block; 
+    &.active{
+        height: calc( 100% - 40px );
+        max-width: calc(100% - 20px);
+    }
+
+    & > div{
+        height: 100%; 
+    }
+
+    // Boutons
+    .map-main-buttons{
+        display: flex;
+        align-items: center;
+        
+        button{
+            background-color: #FFFFFF;
+
+            & + button{
+                margin-left: 10px;
+            }
+        }
+        #form-maps-button-categories{ 
+            @extend %icon-map-button;
+            background-image: url( svg-bg-uri($svg-map-menu, $icon-color) );
+
+            &:hover, &:focus, &.active{
+                background-image: url( svg-bg-uri($svg-map-menu, $icon-color-active) );
+            }
+        }
+        #form-maps-button-search{
+            @extend %icon-map-button;
+            background-image: url( svg-bg-uri($svg-map-search, $icon-color) );
+
+            &:hover, &:focus, &.active{
+                background-image: url( svg-bg-uri($svg-map-search, $icon-color-active) );                
+            }
+        }
+    }
+
+    .line{
+        display: flex;
+        align-items: flex-start;
+        margin-top: 10px;
+        height: calc( 100% - 80px );
+    }
+    .map-zoom-buttons{
+        margin-right: 10px;
+        @include RWD(mobile){
+            display: none;
+        }
+    }
+
+    #map-zoom-in{
+        @extend %icon-map-button;
+        background-image: url( svg-bg-uri($svg-map-plus, $icon-color) );
+
+        &:hover, &:focus, &.active{
+            background-image: url( svg-bg-uri($svg-map-plus, $icon-color-active) );
+        } 
+    }
+    #map-zoom-out{
+        @extend %icon-map-button;
+        margin-top: 10px;
+        background-image: url( svg-bg-uri($svg-map-minus, $icon-color) );
+
+        &:hover, &:focus, &.active{
+            background-image: url( svg-bg-uri($svg-map-minus, $icon-color-active) );
+        }
+    }
+    
+    // Catégories
+    #form-maps-categories{
+        @extend %molecule-map-categories;
+
+        @include RWD(mobile){
+            display: none;
+        }
+    }
+ 
+    // Search + Proximité
+    #form-maps-searchbox{
+        @extend %molecule-map-searchbox;
+    }
+
+    // Itinéraire 
+    #form-maps-itinerary{
+        max-width: 400px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        transform: translateX(100%);
+        transition: all, 0.5s;
+        @extend %molecule-map-itinerary; 
+
+        &.opened{
+            transform: translateX(0);
+        }
+    }
+}

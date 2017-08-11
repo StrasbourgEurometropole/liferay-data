@@ -1,0 +1,25 @@
+%molecule-inlines-rte{
+    @extend %text-basis-rte;
+
+    strong{
+        font-weight: 600;
+        color: #505050;
+    }
+    em{
+        font-style: italic;
+        color: #505050;
+    }
+    sup{
+        vertical-align: super;
+        font-size: smaller;
+        line-height: normal; 
+    }
+    sub{
+        vertical-align: sub;
+        font-size: smaller;
+        line-height: normal;
+    }
+    a{
+        @extend %atom-link-rte;
+    }
+}

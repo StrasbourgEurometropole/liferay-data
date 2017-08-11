@@ -1,0 +1,75 @@
+%molecule-search-filters{
+     display: block;
+     margin-bottom: 40px;
+ 
+     @extend %bone-form-structure;
+     @extend %molecule-form-components;
+
+    //  Agenda
+     &--agenda{
+         @extend %molecule-search-filters;
+         form > div{
+             display: flex;
+             flex-wrap: wrap;
+         }
+
+         .form-group{
+
+             &:nth-child(n+1){
+                width: 50%;
+                padding-right: 38px;
+
+                @include RWD(mobile){
+                    width: 100%;
+                    padding-right: 0;
+                }
+             }
+             &:nth-child(2n+1){
+                width: 50%;
+                padding-left: 38px;
+                @include RWD(mobile){
+                    width: 100%;
+                    padding-left: 0;
+                }
+             }
+             &.views-widget-filter-field_date_value2{
+                 width: calc(25% - 19px);
+                padding-right: 26px; 
+
+                @include RWD(mobile){
+                    width: 50%;
+                    padding-right: 15px;
+                }
+             }
+             &.views-widget-filter-field_date_value{
+                 width: calc(25% - 19px);
+                padding-left: 26px;
+
+                @include RWD(mobile){
+                    width: 50%;
+                    padding-left: 15px;
+                }
+             }
+         }
+         .form-label{
+             width: 100%;
+             justify-content: flex-start;
+             margin: 0;
+             margin-bottom: 10px;
+         } 
+         .form-field{
+             width: 100%;
+             margin: 0;
+
+             input{
+                 width: 100%;
+             }
+         }
+         .form-infos{
+             margin-left: 0;
+         }
+         .form-actions{
+             width: 100%;
+         }
+     }
+}

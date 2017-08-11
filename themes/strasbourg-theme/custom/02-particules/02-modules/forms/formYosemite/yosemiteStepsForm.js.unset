@@ -1,0 +1,218 @@
+(function ($) {
+    
+    // Requis: structure + classe .form-control
+    var $form = $('#multipleStepsForm'),
+        $formContent = $form.find('.formContent'),
+        $btnPrevious = $( '#formPager .formPreviousStep' ),
+        $btnNext = $('#formPager .formNextStep'),
+        $btnSend = $('#formPager .formSendStep'),
+        $overview = $('#formOverview'),
+        $tabs = $form.find('a[data-toggle="tab"]'),
+        formControlClass = 'form-control',
+        formLabelClass = 'form-label',
+        formGroupClass = 'form-group',
+        formCurrentStep = 1,
+        formStepsCount = $form.attr('data-step-count'),
+        updateStep = true;
+    
+    function displayStep(step){ // Affiche la step + toggle les éléments graphiques, n'effectue aucune vérif
+        $('div[data-step]').hide();
+        $('div[data-step="'+step+'"]').show();
+
+        // Affichage des tab completed
+        $tabs.removeClass('completed current');
+        $tabs.each(function(element, index){
+            if($(this).attr('data-step') <= (step- 1) ){
+                $(this).addClass('completed');
+            }
+            if($(this).attr('data-step') == step ){
+                $(this).addClass('current');
+            }
+        });
+
+        // Maj du %age
+        var purcentage = Math.floor(step / formStepsCount*100);
+        $('.webform-progressbar-number .flexbox').html(purcentage + '%');
+
+        
+        if( step == 1 ){
+            $btnPrevious.hide();
+            $btnSend.hide();
+        }else{
+            $btnPrevious.show();
+        }
+        if( step == formStepsCount ){
+            formGenerateOverview();
+            $btnNext.hide();
+            $btnSend.show();
+            $form.addClass('preview');
+        }else{
+            $btnNext.show();
+            $btnSend.hide();
+            $form.removeClass('preview');
+        }
+    }
+
+    function formNextStep(){ // Navigation via boutons next
+        if( setStep( formCurrentStep + 1 ) ){
+            formCurrentStep++;
+            updateStep = false;
+            displayStep(formCurrentStep);
+            updateStep = true;
+        }
+    }
+    
+    function formPreviousStep(){ // Navigation via boutons prev
+        if( setStep( formCurrentStep - 1 ) ){
+            formCurrentStep--;
+            updateStep = false;
+            displayStep(formCurrentStep);
+            updateStep = true;
+        }
+    }
+
+    function formAnyStep(step){ // Navigation via tunnel de conversion
+        if(updateStep){ // Evite la multiplication du script si on est déjà en train de valider
+            if(step > formCurrentStep){ // Si on va vers l'avant on boucle sur toutes les étapes intermédiaire, on test la validation
+                for(var i=formCurrentStep+1; i <= step; i++){
+                    if(setStep(i)){
+                        formCurrentStep = i;
+                        if(formCurrentStep == step){ // Pour la dernière occurence, on test la validation + on display
+                            displayStep(formCurrentStep);
+                        }
+                    }else{
+                        displayStep(formCurrentStep);  // Si erreur, on display l'étape avec l'erreur
+                        break;
+                    }
+                }
+            }else if(step < formCurrentStep){ // Si on retourne en arriere, pas de validation on go direct
+                formCurrentStep = step;
+                displayStep(formCurrentStep);
+            }
+        }
+    }
+    
+    function formGenerateOverview() // Génère le récapitulatif
+    {
+        
+        $overview.html( 'Génération en cours...' );
+        var overviewHtml = '';
+        var currentStep = 0;
+        var toDisplay = {};
+
+        // Création de l'objet toDisplay regroupant les éléments à afficher en preview
+        $('.tab-pane').each(function(index, element){ // Ajout des étapes comme des objets
+            if(index < ($('.tab-pane').length -1) ){
+                var current_step = $(element).attr('data-step');
+                current_step = $( '#formSteps a[data-step="' + current_step + '"]' ).data( 'step-name' );
+                toDisplay[current_step] = {};
+
+                var labels = $(element).find('.'+formLabelClass);
+                labels.each(function(index, label){ // Ajout des labels comme un tableau de values (pour les checkboxes notamment)
+                    var name, value;
+                    name = $(label).text();
+                    name = name.replace( '*', '' );
+                    var $inputs = $(label).parents('.'+formGroupClass).find('input[type!="hidden"], textarea, select');
+                    toDisplay[current_step][name] = [];
+
+                    $inputs.each(function(index, input){ // Ajout des Inputs avec exception pour radio/checkbox/select
+                        var inputCompleted = false;
+                        if( $(input).attr('type') == 'radio' | $(input).attr('type') == 'checkbox'){
+                            if( input.checked ){
+                                value = $(input).next('label.option').text();
+                                inputCompleted = true;                                
+                            }
+                        }else if( $(input).attr('type') == 'select' ){
+                            if( $(input).val() ){
+                                value = $(input).find('option:selected').text();
+                                inputCompleted = true; 
+                            }
+                        }else if( $(input).attr('type') == 'file' ){
+                            if( $(input).val() ){
+                                value = $(input).val();
+                                value = value.replace(/^.*[\\\/]/, '');
+                                inputCompleted = true; 
+                            }
+                        }else if( $(input).val() ){
+                            value = $(input).val();
+                            inputCompleted = true; 
+                        }
+                        if( inputCompleted ){ // Si l'input est rempli on ajoute sa value au tableau labels
+                            toDisplay[current_step][name].push(value);
+                        }
+                    });
+                });
+            }
+        });
+        
+        // Génération de l'html à partir de l'objet toDisplay
+        for(var display_step in toDisplay){ // Boucle sur les étapes
+            var labels = toDisplay[display_step];
+            var fieldHtml = '';
+                for(var display_label in labels){ // Boucle sur les labels
+                    var inputs = labels[display_label];
+                    if(inputs.length > 0){ // S'il y a des valeurs d'input, on génère le label et ses values
+                        fieldHtml += '<div class="form-group"><div class="form-label"><label>'+ display_label +'</label></div>';
+                        for(var key in inputs){ // Boucle sur les inputs
+                            value = inputs[key];
+                            fieldHtml += '<div class="form-field">'+ value +'</div>';
+                        }
+                        fieldHtml += '</div>';                  
+                    }
+                }
+                if(fieldHtml != ''){ // Si un couple de label/values est présent, on génère le titre de section + les couples label/values
+                    overviewHtml += '<h2 class="webform-page">'+ display_step +'</h2>' + fieldHtml;
+                }
+        }
+        $overview.html( overviewHtml);
+        
+    }
+    
+
+    function setStep( step ) // Test la validation de (step -1) pour pouvoir aller à (step), return boolean
+    {
+        var stepToValidate = step - 1;
+        stepContainer = $('div.tab-pane[data-step="' + stepToValidate + '"]');
+        stepInputs = $(stepContainer).find('.'+formControlClass);
+        if( step > formCurrentStep ){
+            isStepValid = true;
+            stepInputs.each( function( index, input ) {
+                try{
+                    if(!$(input).valid()){
+                        isStepValid = false;
+                    }
+                }
+                catch( err ) { }
+            });
+            
+            if( !isStepValid ){
+                return false;
+            }
+        }       
+        return true;
+    }
+    
+    
+    $(document).ready( function() {
+        if($form.length){
+            $('div[data-step]').hide();
+            $('div[data-step=1]').show();
+
+            $btnPrevious.find('button').on( 'click', function( e ) { // Etape précédente
+                e.preventDefault();
+                formPreviousStep();
+            });
+            $btnNext.find('button').on( 'click', function( e ) { // Etape suivante
+                e.preventDefault();
+                formNextStep();
+            });
+            
+            $tabs.on( 'click', function (e) { // Navigation via tunnel de conversion
+                e.preventDefault();
+                step = $(this).data( 'step' );
+                formAnyStep(step);
+            });
+        }
+    });
+
+}(jQuery));

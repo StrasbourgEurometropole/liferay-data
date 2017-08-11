@@ -1,0 +1,23 @@
+.seu-not-front{
+    .view-maps{
+        .markerLabel{ 
+            color: #FFFFFF; 
+        }
+        // Map Engine
+            // UI
+            #views-exposed-form-maps-page{
+                @extend %molecule-form-components;
+                @extend %organism-map-ui;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+            // InfoBox
+            .infoBox{
+                width: 260px;
+                max-height: 300px;
+                overflow: auto;
+                @extend %molecule-map-infobox;
+            }
+    }
+}

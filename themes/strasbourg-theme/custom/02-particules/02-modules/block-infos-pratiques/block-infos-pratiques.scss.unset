@@ -1,0 +1,8 @@
+.node-event,
+.node-fiche-annuaire {
+    .event-block{
+        @extend %organism-block-infos-pratiques;
+        margin-bottom: 40px;
+        clear: both;
+    }
+}

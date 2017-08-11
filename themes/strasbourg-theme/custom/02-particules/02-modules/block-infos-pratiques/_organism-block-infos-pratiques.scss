@@ -1,0 +1,192 @@
+%organism-block-infos-pratiques{
+    display: flex;
+    flex-wrap: wrap;
+    @include RWD(mobile) {
+        margin-bottom: 20px;
+    }
+    .event-block-title {
+        background-color: $core-color;
+        color: #FFFFFF;
+        font-size: 20px;
+        font-size: 2.0rem;
+        font-weight: 500;
+        width: 100%;
+        padding: 30px 20px;
+        margin-bottom: 0;
+        @include RWD(mobile) {
+            padding: 20px 15px;
+        }
+    }
+    .event-block-content {
+        padding: 30px 40px 10px;
+        background-color: #f7f7f7;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        @include RWD(mobile) {
+            padding: 20px 20px 0px;
+        }
+    }
+    .field {
+        margin-bottom: 20px;
+        .field-label {
+            @extend %text-form-label;
+            margin-bottom: 20px;
+        }
+    }
+    // Dates
+    &.event-block-dates {
+        width: #{$break-large / 2}px;
+        max-width: 100%;
+        .field {
+            width: 100%;
+            min-width: 100%;
+        }
+        .field-items {
+            padding-left: 50px;
+            @include RWD(mobile) {
+                padding-left: 0px;
+            }
+            &>div {
+                margin-bottom: $margin-p;
+                position: relative;
+                &:before {
+                    content: '';
+                    height: 7px;
+                    width: 7px;
+                    background-color: $second-color;
+                    border-radius: 500px;
+                    margin-right: 6px;
+                    display: block;
+                    position: absolute;
+                    left: -15px;
+                    top: 7px;
+                    @include RWD(mobile) {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .field-item {
+            display: flex;
+            @include RWD(mobile) {
+                flex-wrap: wrap;
+            }
+        }
+        // AddToCal
+        .flexbox {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .add-cal-module {
+            margin-top: 5px;
+            position: relative;
+            // position: absolute;
+            // right: 0;
+            // top: 100%;
+            // &:hover{
+            //     .addtocal_menu{
+            //         display: block;
+            //     }
+            // }
+            .addtocal_menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background-color: #FFFFFF;
+                width: 100%;
+                padding: 5px 10px;
+                z-index: 10;
+                border: solid 1px $core-color;
+                border-top: none;
+                li {
+                    margin-bottom: 5px;
+                }
+                a {
+                    color: $core-color-access;
+                    text-decoration: none;
+                    display: flex;
+                    &:hover,
+                    &:focus {
+                        color: #595959;
+                    }
+                    &:before {
+                        content: '>';
+                        margin-right: 5px;
+                    }
+                }
+            }
+            .addtocal {
+                background-color: $core-color;
+                color: #FFFFFF;
+                font-weight: 600;
+                padding: 10px;
+                transition: all, 0.5s;
+                &:hover {
+                    background-color: $second-color;
+                }
+                &:focus {
+                    &+.addtocal_menu {
+                        display: block;
+                    }
+                }
+            }
+        }
+        .date-display-range {
+            .date-display-start {
+                &:before {
+                    content: 'Du ';
+                }
+            }
+            .date-display-end {
+                &:before {
+                    content: 'Au '
+                }
+            }
+            span {
+                line-height: normal;
+            }
+        }
+    }
+    // Infos Pratiques
+    &.event-block-infos {
+        .btn-event-map {
+            .flexbox {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .btn-arrow {
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMzMuMjA1IDMzLjIwNSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzMuMjA1IDMzLjIwNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCglwYXRoe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPGc+DQoJPHBhdGggZD0iTTE2LjYwMywxNy45MDhjLTMuMTMxLDAtNS42NzktMi41NDgtNS42NzktNS42OHMyLjU0Ny01LjY4LDUuNjc5LTUuNjhzNS42NzksMi41NDgsNS42NzksNS42OA0KCQlTMTkuNzM0LDE3LjkwOCwxNi42MDMsMTcuOTA4eiBNMTYuNjAzLDcuNTQ5Yy0yLjU4LDAtNC42NzksMi4wOTktNC42NzksNC42OHMyLjA5OSw0LjY4LDQuNjc5LDQuNjhzNC42NzktMi4wOTksNC42NzktNC42OA0KCQlTMTkuMTgzLDcuNTQ5LDE2LjYwMyw3LjU0OXoiLz4NCgk8Zz4NCgkJPHBhdGggZD0iTTE2LjYwMywzMy4yMDVjLTAuMTQ4LDAtMC4yODgtMC4wNjUtMC4zODMtMC4xNzlDMTUuNzM2LDMyLjQ0OSw0LjM3NiwxOC44MTEsNC4zNzYsMTIuMjI5QzQuMzc2LDUuNDg2LDkuODYxLDAsMTYuNjAzLDANCgkJCXMxMi4yMjcsNS40ODYsMTIuMjI3LDEyLjIyOWMwLDYuNTgzLTExLjM2LDIwLjIyLTExLjg0MywyMC43OThDMTYuODkxLDMzLjE0LDE2Ljc1LDMzLjIwNSwxNi42MDMsMzMuMjA1eiBNMTYuNjAzLDENCgkJCUMxMC40MTIsMSw1LjM3Niw2LjAzNyw1LjM3NiwxMi4yMjljMCw1LjU3MSw5LjIxNiwxNy4yMTUsMTEuMjI3LDE5LjY4OGMyLjAxLTIuNDc0LDExLjIyNy0xNC4xMTgsMTEuMjI3LTE5LjY4OA0KCQkJQzI3LjgyOSw2LjAzNywyMi43OTMsMSwxNi42MDMsMXoiLz4NCgk8L2c+DQo8L2c+DQo8L3N2Zz4=');
+                background-size: 30px auto;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 48px;
+                width: 50px;
+                background-color: $second-color;
+                transition: all, 0.5s;
+            }
+            &:hover,
+            &:focus {
+                .btn-arrow {
+                    background-color: $core-color;
+                }
+            }
+        }
+        .field {
+            width: 50%;
+            min-width: 50%;
+            @include RWD(mobile) {
+                width: 100%;
+                min-width: 100%;
+            }
+        }
+        .event-gmap {
+            width: 100%;
+            .field {
+                width: 100%;
+            }
+        }
+    }
+}

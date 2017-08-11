@@ -1,0 +1,34 @@
+.seu-wi-duo{
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    display: flex;
+    justify-content: center;
+    @include RWD(mobile){
+        display: block;
+    }
+
+    .seu-wi{
+        @extend %molecule-wi-section;
+        @extend %organism-wi-duo;
+    }
+
+    .seu-wi-crossreading{
+    }
+    .seu-wi-contact{
+        .seu-wi-text{
+            margin-bottom: 40px;
+        }
+    }
+
+    // Solo
+    &.seu-wi-solo{
+        .seu-wi{
+            @extend %wi-centered-text;
+            .seu-container{
+                @include RWD(desktop){
+                    padding-right: 0 !important;                
+                }
+            }
+        }
+    }
+}

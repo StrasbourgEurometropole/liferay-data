@@ -1,0 +1,159 @@
+/* Welcome to Compass. Use this file to define print styles.
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+.print-only{
+  display: none;
+}
+@media print {
+  
+  *:not(svg):not(h2):not(h1):not(h3):not(h4) {
+    position: static !important;
+    transform: none !important;
+    height: auto !important;
+    min-height: auto !important;
+    width: auto !important; 
+    text-align: left !important;
+    transform: none !important;
+    // padding: 0 !important;
+    // margin: 0 !important;  
+    // display: block !important;
+  }
+  h1{
+    position: static !important;
+    transform: none !important;
+  }
+  div{
+    margin: 0!important;
+  }
+  *:not(svg){
+    padding: 0 !important;
+    margin-left: 0!important;
+    margin-right: 0!important;
+    line-height: normal !important; 
+    width: 100% !important;
+  }
+  li{
+    display: block !important;
+  }
+  body {
+    width: auto!important;
+    margin: auto!important;
+    font-family: serif;
+    font-size: 12pt;
+    background-color: #fff!important;
+    color: #000!important;
+  }
+  h1, h2, h3, h4, h5, h6, blockquote, ul, ol {
+    color: #000!important;
+    margin: auto!important;
+  }
+  .printable {
+    display: block; /* affichage des elements de classe printable */
+  }
+  .print-only{
+    display: block;
+  }
+  p, blockquote {
+    orphans: 3; /* pas de ligne seule en bas */ 
+    widows: 3; /* pas de ligne seule en haut */
+  }
+  blockquote, ul, ol {
+    page-break-inside: always; /* pas de coupure dans ces elements */
+    page-break-after: avoid; /* pas de saut aprÃ¨s ces elements */
+    page-break-before: avoid; /* pas de saut aprÃ¨s ces elements */
+  }
+  h1 {
+    /*page-break-before: always;  chaque titre commence sur une nouvelle page */
+  }
+  h1, h2, h3, caption {
+    page-break-after: avoid; /* pas de saut aprÃ¨s ces elements */
+    margin: 0;
+  }
+  a {
+    color: #000!important;
+    text-decoration: underline!important;
+  }
+  /*Affichage des URL des liens*/
+  a[href]:after {
+    content: " (" attr(href) ")";
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+    float: none !important;
+    display: none !important; 
+  }
+
+  nav, menu, form, aside, button, audio, video, #menu, #main-menu{
+    display: none !important;
+  }  
+  header{
+    display: block !important;
+  }
+  section{
+    page-break-before: always !important;
+  }
+  #skipnavigation{
+    display: none !important;
+  }
+  #debug-master{
+    display: none !important;
+  }
+
+
+
+  //  Smurf
+  // Post Header
+  .region-post-header{
+    margin-bottom: 20px !important;
+    .region-banner:before{
+      display: none !important;
+    }
+  }
+  .region-nav-tools{
+    display: none !important;
+  }
+  // RTE
+      // HAT
+        .hat{
+          margin-bottom: 20px !important;
+        }
+        p{
+          margin-bottom: 20px !important;
+        }
+  // Grids
+  .view-grid{
+    display: block !important;
+    list-style-type: disc !important;
+    padding-left: 20px !important;
+    a{
+      flex-direction: row !important;
+      text-decoration: none !important; 
+    }
+  }
+  .grid-item{
+    background: none !important;
+    margin-bottom: 10px !important;
+  }
+  .grid-item-background{
+    height: 100px !important;
+    width: 100px !important;
+  }
+  .grid-item-visu{
+    margin-right: 10px !important; 
+    &:before{
+      display: none !important;
+    }
+  }
+  .grid-item-date{
+    max-width: 150px !important;
+  }
+  .pagination{
+    display: none !important;
+  }
+  .view-maps .map{
+    width: 500px !important;
+    height: 500px !important;
+  }
+
+
+}  
