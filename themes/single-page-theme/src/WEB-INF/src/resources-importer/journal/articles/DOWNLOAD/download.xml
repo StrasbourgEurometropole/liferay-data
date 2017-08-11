@@ -4,8 +4,9 @@
   <dynamic-element name="downloadLabel" type="text" index-type="" instance-id="ryog">
     <dynamic-content language-id="fr_FR"><![CDATA[Téléchargez le programme]]></dynamic-content>
   </dynamic-element>
-  <dynamic-element name="file" type="document_library" index-type="" instance-id="ijdo">
-    <dynamic-content language-id="fr_FR"><![CDATA[/documents/200719/0/favicon.ico/cb95c91d-75c2-534a-c469-9550fbe5e4f4]]></dynamic-content>
+  <dynamic-element name="linkURL" type="text" index-type="" instance-id="hhiy">
+    <dynamic-content language-id="fr_FR"><![CDATA[http://bini.io]]></dynamic-content>
+    <dynamic-content language-id="en_US"><![CDATA[http://bini.io]]></dynamic-content>
   </dynamic-element>
   <dynamic-element name="backgroundImage" type="image" index-type="" instance-id="wuez">
     <dynamic-content language-id="fr_FR" type="document" alt="" name="bg2" title="bg2"><![CDATA[[$FILE=bg2.jpg$]]]></dynamic-content>

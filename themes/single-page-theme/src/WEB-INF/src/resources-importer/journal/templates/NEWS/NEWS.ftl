@@ -14,6 +14,7 @@
       </div>
     </#if>
   </div>
+
+  ${text.getData()}
 </section>
 
-${text.getData()}

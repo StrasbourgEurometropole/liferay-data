@@ -1,63 +1,91 @@
 {
-  "availableLanguageIds": [
-    "fr_FR", "en_US"
-  ],
-  "defaultLanguageId": "en_US",
-  "fields": [
-    {
-      "dataType": "string",
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Label du lien de téléchargement",
-        "en_US": "Download label"
-      },
-      "type": "text",
-      "required": false,
-      "showLabel": true,
-      "displayStyle": "",
-      "visibilityExpression": "",
-      "indexType": "",
-      "fieldNamespace": "",
-      "repeatable": false,
-      "name": "downloadLabel",
-      "localizable": true,
-      "validation": {}
-    },
-    {
-      "dataType": "document-library",
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Programme",
-        "en_US": "Schedule"
-      },
-      "type": "ddm-documentlibrary",
-      "required": false,
-      "showLabel": true,
-      "visibilityExpression": "",
-      "indexType": "",
-      "fieldNamespace": "ddm",
-      "repeatable": false,
-      "name": "file",
-      "localizable": true,
-      "validation": {}
-    },
-    {
-      "dataType": "image",
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Image de fond",
-        "en_US": "Background image"
-      },
-      "type": "ddm-image",
-      "required": false,
-      "showLabel": true,
-      "visibilityExpression": "",
-      "indexType": "",
-      "fieldNamespace": "ddm",
-      "repeatable": false,
-      "name": "backgroundImage",
-      "localizable": true,
-      "validation": {}
-    }
-  ]
+    "availableLanguageIds": [
+        "fr_FR",
+        "en_US"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Label du lien",
+                "en_US": "Link label"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "downloadLabel",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "URL du lien",
+                "en_US": "Link"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "linkURL",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Image de fond",
+                "en_US": "Background image"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "backgroundImage",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        }
+    ]
 }

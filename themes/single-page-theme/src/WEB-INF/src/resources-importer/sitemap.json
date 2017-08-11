@@ -63,13 +63,6 @@
                     {
                         "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
                         "portletPreferences": {
-                            "articleId": "GALLERY",
-                            "groupId": "${groupId}"
-                        }
-                    },
-                    {
-                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
-                        "portletPreferences": {
                             "articleId": "SPONSORS",
                             "groupId": "${groupId}"
                         }
@@ -108,8 +101,6 @@
                     {
                         "portletId": "eu_strasbourg_portlet_search_asset_SearchAssetPortlet",
                         "portletPreferences": {
-                            "articleId": "MENU",
-                            "groupId": "${groupId}"
                         }
                     },
                     {
@@ -146,8 +137,6 @@
                     {
                         "portletId": "eu_strasbourg_portlet_entity_detail_EntityDetailPortlet",
                         "portletPreferences": {
-                            "articleId": "MENU",
-                            "groupId": "${groupId}"
                         }
                     },
                     {
@@ -164,6 +153,68 @@
                 "fr_FR": "Evénement"
             },
             "title": "Evénement"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/actualites",
+            "nameMap": {
+                "fr_FR": "Actualités"
+            },
+            "title": "Actualités"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/galerie",
+            "nameMap": {
+                "fr_FR": "Galerie"
+            },
+            "title": "Galerie"
         }
     ]
 }

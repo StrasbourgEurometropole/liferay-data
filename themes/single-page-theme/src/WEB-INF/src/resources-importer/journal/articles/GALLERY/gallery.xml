@@ -7,6 +7,12 @@
   <dynamic-element name="subtitle" type="text_area" index-type="" instance-id="ehad">
     <dynamic-content language-id="fr_FR"><![CDATA[see what we did <span class="highlight">lately</span>]]></dynamic-content>
   </dynamic-element>
+  <dynamic-element name="description" type="text_area" index-type="" instance-id="fdss">
+    <dynamic-content language-id="fr_FR"><![CDATA[This is a great gallery]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="mainImage" type="image" index-type="" instance-id="gred">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="gallery2" title="gallery2"><![CDATA[[$FILE=gallery2.jpg$]]]></dynamic-content>
+  </dynamic-element>
   <dynamic-element name="image" type="image" index-type="" instance-id="ufff">
     <dynamic-element name="legend" instance-id="zsxl" type="text" index-type="">
       <dynamic-content language-id="fr_FR"><![CDATA[Super image 1]]></dynamic-content>

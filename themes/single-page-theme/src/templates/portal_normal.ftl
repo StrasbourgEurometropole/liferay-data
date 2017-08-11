@@ -5,13 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>Accueil - Semaine de l'Entrepreneur Européen</title>
-  <link rel="shortcut icon" href="/o/single-page-theme/images/favicon.ico">
-  <link rel="apple-touch-icon" href="/o/single-page-theme/images/apple-touch-icon.jpg">
-  <link rel="apple-touch-icon" sizes="72x72" href="/o/single-page-theme/images/apple-touch-icon-72x72.jpg">
-  <link rel="apple-touch-icon" sizes="114x114" href="/o/single-page-theme/images/apple-touch-icon-114x114.jpg">
+
   <link rel="stylesheet" type="text/css" href="/o/single-page-theme/css/custom-animations.css" />
 
   <@liferay_util["include"] page=top_head_include />
+  
+  <link rel="icon" type="image/png" href="/image/layout_set_logo?img_id=${layout.layoutSet.logoId}" data-bini="bini-test" />
 </head>
 <body class="${css_class}">
   <@liferay_ui["quick-access"] contentId="#main-content" />

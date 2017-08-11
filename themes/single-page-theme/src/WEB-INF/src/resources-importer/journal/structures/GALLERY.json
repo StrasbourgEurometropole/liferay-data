@@ -2,7 +2,7 @@
   "availableLanguageIds": [
     "en_US", "fr_FR"
   ],
-  "defaultLanguageId": "en_US",
+  "defaultLanguageId": "fr_FR",
   "fields": [
     {
       "dataType": "string",
@@ -40,6 +40,38 @@
       "name": "subtitle",
       "localizable": true,
       "validation": {}
+    },
+    {
+      "label": {
+          "fr_FR": "Image principale",
+          "en_US": "Image principale"
+      },
+      "dataType": "image",
+      "fieldNamespace": "ddm",
+      "indexType": "",
+      "localizable": true,
+      "name": "mainImage",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-image"
+    },
+    {
+      "dataType": "html",
+      "label": {
+          "fr_FR": "Description",
+          "en_US": "Description"
+      },
+      "fieldNamespace": "ddm",
+      "indexType": "",
+      "localizable": true,
+      "name": "description",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-text-html"
     },
     {
       "dataType": "image",

@@ -1,11 +1,15 @@
  <!-- Galerie -->
 <#setting locale = locale />
-<section id="gallery" class="section align-center">
+<section class="section align-center">
   <div class="container">
-    <span class="icon section-icon icon-badges-votes-01"></span>
+    <span class="icon section-icon icon-multimedia-08"></span>
     <h3>${title.getData()}</h3>
     <p class="text-alt">${subtitle.getData()}</p>
     <br/>
+    <img src="${mainImage.getData()}">
+    <p>
+      ${description.getData()}
+    </p>
     <div class="gallery masonry">
       <#if image.getSiblings()?has_content>
         <#list image.getSiblings() as cur_image>

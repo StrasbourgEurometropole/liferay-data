@@ -3,7 +3,7 @@
     "en_US",
     "fr_FR"
   ],
-  "defaultLanguageId": "en_US",
+  "defaultLanguageId": "fr_FR",
   "fields": [
     {
       "dataType": "string",

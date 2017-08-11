@@ -1385,7 +1385,7 @@ Ventcamp = {
 
         if (this.options.smoothScroll) this.smoothScrollInit();
 
-        if (this.options.ajaxedForm) this.formInit();
+        // if (this.options.ajaxedForm) this.formInit();
 
         if (this.options.pseudoSelect) this.initPseudoSelect();
 
