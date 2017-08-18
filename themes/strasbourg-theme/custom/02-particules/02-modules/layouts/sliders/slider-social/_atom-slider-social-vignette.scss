@@ -159,6 +159,10 @@
                 color: #0b97bf;
             }
         }
+        .emoji {
+            width: 18px;
+            display: inline;
+        }
     }
     // Facebook
     &.seu-facebook{
@@ -182,6 +186,10 @@
             .seu-date{
                 color: #818181;
             }
+        }
+        .emoji {
+            width: 18px;
+            display: inline;
         }
         // &:not(.seu-has-picture){ 
             .seu-picto-category{
