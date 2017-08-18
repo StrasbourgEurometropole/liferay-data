@@ -18,7 +18,8 @@
 							language : 'fr_FR'
 						}, function(response) {
 							var mainDiv = jQuery(element.$).wrap('<div class="image-with-copyright"></div>');
-							mainDiv.parent().append('<div class="copyright">' + response.copyright + '</div>');
+							var copyright = response.copyright ? response.copyright : 'Ville et Eurom&eacute;tropole de Strasbourg';
+							mainDiv.parent().append('<div class="copyright">' + copyright + '</div>');
 						});
 					}
 				}
