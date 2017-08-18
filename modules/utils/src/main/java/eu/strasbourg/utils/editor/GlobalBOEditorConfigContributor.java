@@ -71,6 +71,7 @@ public class GlobalBOEditorConfigContributor
 		try {
 			toolbarConfiguration = JSONFactoryUtil
 				.createJSONArray(editorConfigurationString);
+			jsonObject.put("toolbar_liferay", toolbarConfiguration);
 			jsonObject.put("toolbar_phone", toolbarConfiguration);
 			jsonObject.put("toolbar_simple", toolbarConfiguration);
 		} catch (JSONException e) {
