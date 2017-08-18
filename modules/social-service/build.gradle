@@ -1,0 +1,14 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.0.0"
+	compileOnly group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
+	
+	compile group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.twitter4j', version: '4.0.6_1'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3'
+	
+	compile group: 'com.sachinhandiekar', name: 'jInstagram', version: '1.2.2'
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+	
+	compile project (':modules:utils')
+}
