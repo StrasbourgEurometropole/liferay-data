@@ -32,7 +32,7 @@
             category: 'mag',
             title: '${edition.getTitle(locale)?js_string}',
             lead: '${edition.getDescription(locale)?js_string}',
-            link: 'http://google.fr',
+            link: window.homeURL + '/edition/-/entity/id/${edition.editionId}',
             picture: '${edition.imageURL}'
             <#if curEntry.tagNames?seq_contains('focus')>
               ,is_Big: true
@@ -41,20 +41,27 @@
         <#elseif curEntry.className == 'eu.strasbourg.service.agenda.model.Event'>
           <#assign eventCount = eventCount + 1 />
           <#assign event = curEntry.getAssetRenderer().getEvent() />
-            {
-              category: 'agenda',
-              title: '${event.getTitle(locale)?js_string}',
-              lead: '${event.getDescription(locale)?js_string}',
-              link: '#',
-              ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)}',
-              date_start: '11.06',
-              date_end: '24.06',
-              date_prefix: 'Du',
-              date_suffix: 'Au'
-              <#if curEntry.tagNames?seq_contains('focus')>
-                ,is_Big: true
-              </#if>
-            }
+          {
+            category: 'agenda',
+            title: '${event.getTitle(locale)?js_string}',
+            lead: '${event.getDescription(locale)?js_string}',
+            link: window.homeURL + '/event/-/entity/id/${event.eventId}',
+            ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)}',
+            <#if event.firstStartDate?date == event.lastEndDate?date>
+              date_start: '',
+              date_end: '${event.firstStartDate?string["dd.MM"]}',
+              date_prefix: '<@liferay_ui.message key='eu.event.the' />',
+              date_suffix: ''
+            <#else>
+              date_start: '${event.firstStartDate?string["dd.MM"]}',
+              date_end: '${event.lastEndDate?string["dd.MM"]}',
+              date_prefix: '<@liferay_ui.message key='eu.event.from-date' />',
+              date_suffix: '<@liferay_ui.message key='eu.event.to' />'
+            </#if>
+            <#if curEntry.tagNames?seq_contains('focus')>
+              ,is_Big: true
+            </#if>
+          }
         </#if>
         <#sep>, </#sep>
       </#list>
