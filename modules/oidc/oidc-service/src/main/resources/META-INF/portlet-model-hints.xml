@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.oidc.model.PublikUser">
+		<field name="uuid" type="String" />
+		<field name="publikUserId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="publikInternalId" type="String" />
+		<field name="accessToken" type="String" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+	</model>
+</model-hints>

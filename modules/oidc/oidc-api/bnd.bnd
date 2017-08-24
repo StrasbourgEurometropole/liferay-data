@@ -1,0 +1,9 @@
+Bundle-Name: oidc-api
+Bundle-SymbolicName: eu.strasbourg.service.oidc.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.oidc.exception,\
+	eu.strasbourg.service.oidc.model,\
+	eu.strasbourg.service.oidc.service,\
+	eu.strasbourg.service.oidc.service.persistence
+-includeresource: META-INF/service.xml=../oidc-service/service.xml
