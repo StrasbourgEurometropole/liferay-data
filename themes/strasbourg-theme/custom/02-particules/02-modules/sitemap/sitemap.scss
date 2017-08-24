@@ -1,0 +1,16 @@
+// Yosemite
+.class_identifier_sitemap{
+    &.seu-not-front .rte a{
+        color: inherit;
+        text-decoration: none;
+
+        &:hover, &:focus{
+            text-decoration: underline;
+        }
+    }
+}
+
+// Drupal
+.page-sitemap #site-map{
+    @extend %organism-sitemap-drupal;
+}

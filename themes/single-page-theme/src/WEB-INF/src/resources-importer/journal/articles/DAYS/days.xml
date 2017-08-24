@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="title" type="text" index-type="" instance-id="ypxi">
+    <dynamic-content language-id="fr_FR"><![CDATA[Programme]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text_area" index-type="" instance-id="kkzu">
+    <dynamic-content language-id="fr_FR"><![CDATA[Une semaine dédiée aux entrepreneurs]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="lilh">
+    <dynamic-element name="date" instance-id="cael" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[13/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Lundi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="zkna">
+    <dynamic-element name="date" instance-id="mhuq" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[14/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Mardi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="igpg">
+    <dynamic-element name="date" instance-id="hejx" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[15/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Mercredi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="rptl">
+    <dynamic-element name="date" instance-id="upik" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[16/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Jeudi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="dpdb">
+    <dynamic-element name="date" instance-id="muav" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[17/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Vendredi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="dipy">
+    <dynamic-element name="date" instance-id="npvh" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[18/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Samedi]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="day" type="text" index-type="" instance-id="hnsw">
+    <dynamic-element name="date" instance-id="kxcd" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[19/11/2017]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Dimanche]]></dynamic-content>
+  </dynamic-element>
+</root>

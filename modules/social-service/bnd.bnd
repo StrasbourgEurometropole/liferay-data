@@ -1,0 +1,25 @@
+Bundle-Name: social-service
+Bundle-SymbolicName: eu.strasbourg.service.social
+Bundle-Version: 1.18.0
+Bundle-ClassPath:\
+  .,\
+ lib/twitter4j.jar,\
+ lib/commons-lang3.jar,\
+ lib/jInstagram.jar,\
+ lib/gson.jar,\
+ lib/commons-codec.jar,\
+ lib/slf4j-api.jar
+ 
+-includeresource:\
+ lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.6_1.jar,\
+ lib/commons-lang3.jar=commons-lang3-3.3.jar,\
+ lib/jInstagram.jar=jInstagram-1.2.2.jar,\
+ lib/gson.jar=gson-2.7.jar,\
+ lib/commons-codec.jar=commons-codec-1.10.jar,\
+ lib/slf4j.jar=slf4j-api-1.7.21.jar
+ 
+ 
+Export-Package: \
+	eu.strasbourg.service.social,\
+	eu.strasbourg.service.social.instagram,\
+	eu.strasbourg.service.social.twitter

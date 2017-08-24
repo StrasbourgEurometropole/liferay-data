@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="logo" type="image" index-type="" instance-id="fhgp">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="eurometropole" title="eurometropole"><![CDATA[[$FILE=eurometropole.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="logoLink" type="text" index-type="" instance-id="frmz">
+    <dynamic-content language-id="fr_FR"><![CDATA[http://strasbourg.eu]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="logoLinkTitle" type="text" index-type="" instance-id="rgbx">
+    <dynamic-content language-id="fr_FR"><![CDATA[Super titre]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="languageLink" type="text" index-type="" instance-id="kntq">
+    <dynamic-element name="languageLinkLabel" instance-id="easq" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[FR]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[/fr]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="languageLink" type="text" index-type="" instance-id="xhkv">
+    <dynamic-element name="languageLinkLabel" instance-id="trjh" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[DE]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[/de]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="languageLink" type="text" index-type="" instance-id="ouaa">
+    <dynamic-element name="languageLinkLabel" instance-id="ozgn" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[EN]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[/en]]></dynamic-content>
+  </dynamic-element>
+</root>

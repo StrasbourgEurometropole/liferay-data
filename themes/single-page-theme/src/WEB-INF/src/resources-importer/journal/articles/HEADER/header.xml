@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="twitterLink" type="text" index-type="keyword" instance-id="yxtz">
+    <dynamic-content language-id="fr_FR"><![CDATA[https://twitter.com]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="facebookLink" type="text" index-type="" instance-id="kgbd">
+    <dynamic-content language-id="fr_FR"><![CDATA[https://facebook.com]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="date" type="text" index-type="" instance-id="tzds">
+    <dynamic-content language-id="fr_FR"><![CDATA[13 - 19 Novembre 2017]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="place" type="text" index-type="" instance-id="ddzl">
+    <dynamic-content language-id="fr_FR"><![CDATA[Strasbourg - Ortenau]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="title" type="text" index-type="keyword" instance-id="zlcc">
+    <dynamic-content language-id="fr_FR"><![CDATA[Semaine de l'entrepreneur Européen]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text" index-type="keyword" instance-id="znoz">
+    <dynamic-content language-id="fr_FR"><![CDATA[Rencontres, Ateliers, Conférences]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="backgroundImage" type="image" index-type="" instance-id="dljp">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="bg1" title="bg1"><![CDATA[[$FILE=bg1.jpg$]]]></dynamic-content>
+  </dynamic-element>
+</root>

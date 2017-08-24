@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="image" type="image" index-type="" instance-id="tcvv">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="see" title="see"><![CDATA[[$FILE=see.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="retinaImage" type="image" index-type="" instance-id="kzvk">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="see" title="see"><![CDATA[[$FILE=see.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="yxsu">
+    <dynamic-element name="anchorId" instance-id="nkpm" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[presentation]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Présentation]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="obkq">
+    <dynamic-element name="anchorId" instance-id="kpyf" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[schedule]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Programme]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="cllz">
+    <dynamic-element name="anchorId" instance-id="jxho" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[testimonials]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Testimoniaux]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="jsxf">
+    <dynamic-element name="anchorId" instance-id="wifs" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[gallery]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Galerie]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="ljmj">
+    <dynamic-element name="anchorId" instance-id="twet" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[sponsors]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Partenaires]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="label" type="text" index-type="" instance-id="uwzz">
+    <dynamic-element name="anchorId" instance-id="oaiv" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[medias]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Médias]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="file" type="document_library" index-type="" instance-id="sbtg">
+    <dynamic-content language-id="fr_FR"><![CDATA[[$FILE=sample.pdf$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="downloadLabel" type="text" index-type="" instance-id="gqrc">
+    <dynamic-content language-id="fr_FR"><![CDATA[Programme PDF]]></dynamic-content>
+  </dynamic-element>
+</root>

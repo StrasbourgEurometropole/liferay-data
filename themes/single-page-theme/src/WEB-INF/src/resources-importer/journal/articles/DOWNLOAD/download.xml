@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="downloadLabel" type="text" index-type="" instance-id="ryog">
+    <dynamic-content language-id="fr_FR"><![CDATA[Téléchargez le programme]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="linkURL" type="text" index-type="" instance-id="hhiy">
+    <dynamic-content language-id="fr_FR"><![CDATA[http://bini.io]]></dynamic-content>
+    <dynamic-content language-id="en_US"><![CDATA[http://bini.io]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="backgroundImage" type="image" index-type="" instance-id="wuez">
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="bg2" title="bg2"><![CDATA[[$FILE=bg2.jpg$]]]></dynamic-content>
+  </dynamic-element>
+</root>

@@ -1,0 +1,119 @@
+{
+  "availableLanguageIds": [
+    "fr_FR", "en_US"
+  ],
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre",
+        "en_US": "Title"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "title",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Sous-titre",
+        "en_US": "Subtitle"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "subtitle",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "image",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Image",
+        "en_US": "Image"
+      },
+      "type": "ddm-image",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "image",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "URL embed de la vidéo",
+        "en_US": "Video URL"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "name": "videoURL",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "html",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Catcher",
+        "en_US": "Catcher"
+      },
+      "type": "ddm-text-html",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "text",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "catcher",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "html",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Contenu",
+        "en_US": "Content"
+      },
+      "type": "ddm-text-html",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "text",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "text",
+      "localizable": true,
+      "validation": {}
+    }
+  ]
+}

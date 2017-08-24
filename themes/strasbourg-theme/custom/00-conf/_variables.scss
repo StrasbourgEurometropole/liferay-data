@@ -1,0 +1,43 @@
+// BreakPoints
+$break-small: 767;
+$break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
+$container-width: 1200;
+
+// COLORS
+	$core-color: #31455d;
+	$core-color-access: $core-color;
+	$core-color-light: lighten($core-color,65);
+	$second-color: #46cfc0;
+	$third-color: #fbb52d;
+	$text-basis-color: #5c5c5c;
+	$success: $core-color;   
+	$error: #ff1818;
+ 
+// Fonts  
+$montserrat: 'MontSerrat', arial;
+$opensans: 'OpenSans', arial;
+$site-font: $montserrat; 
+$main-font: $opensans; 
+
+/*IMAGES RTE*/
+$image-xs: 240px;
+$image-sm: 400px;
+$image-md: 675px;
+
+// Margin RTE
+$margin-item-rte: 40px;
+$margin-p: 20px;
+
+$margin-h2: 35px;
+$margin-h3: 20px;
+$margin-h4: 25px;
+$margin-h5: 15px;
+
+$margin-h2-mobile: 20px;
+$margin-h3-mobile: 20px;
+$margin-h4-mobile: 15px;
+$margin-h5-mobile: 10px;
+
+// Map engine
+$icon-color: #595959;
+$icon-color-active: $second-color;

@@ -1,0 +1,44 @@
+%atom-vignette-trombinoscope{
+    display: flex;
+    align-items: flex-start;
+    background-color: #f4f4f4;
+    padding: 30px;
+
+    @include RWD(tablet){
+        display: block;
+        padding: 20px;
+    }
+    .profil-visu{
+        margin-right: 20px;
+        position: relative;
+        width: 115px;
+        height: 115px;
+        overflow: hidden;
+        min-width: 115px;
+
+        & > * {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .profil-name{
+        @extend %atom-h3-rte;
+        padding: 0 !important;
+        margin-bottom: 30px;
+    }
+    .profil-role{
+        margin-bottom: 0;
+    }
+    .profil-mail{
+        margin-bottom: 0;
+    }
+    .profil-description{
+        margin-top: 8px;
+        margin-bottom: 0;
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+    }
+}

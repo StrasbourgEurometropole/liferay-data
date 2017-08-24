@@ -1,0 +1,77 @@
+%organism-sitemap-drupal{
+    @extend %container;
+    @extend %organism-rte;
+
+    h2.title{
+        @extend %text-h1;
+        margin-bottom: 40px;
+        margin-top: 50px;
+        color: #2D2D2D;
+
+        @include RWD(mobile){
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+    }
+    a{
+        line-height: normal !important;
+        display: block;
+
+        &:hover, &:focus{
+            color: $second-color !important;
+        }
+    }
+    .site-map-front-page{
+        .content{
+            a{
+                @extend %atom-h2-rte;
+                padding-left: 50px;
+
+                @include RWD(mobile){
+                    padding-left: 20px;
+                }
+            }
+        }
+    }
+    .site-map-menu{
+        li{
+            &:before{
+                display: none !important;
+            }
+        }
+    }
+
+    .content > .site-map-menu{
+        // lvl 1
+        & > li{
+            & > a{
+                @extend %atom-h2-rte;
+                margin-bottom: $margin-h2;
+                @include RWD(mobile){
+                    margin-bottom: $margin-h2-mobile;
+                }
+            }
+            // lvl 2
+            & > ul > li{
+                a{
+                    @extend %text-h3;
+                    margin-bottom: $margin-h3;
+                    @include RWD(mobile){
+                        margin-bottom: $margin-h3-mobile;
+                    }
+                }
+                // lvl 3
+                & > ul > li{
+                    a{
+                        @extend %atom-h4-rte;
+                        padding: 0;
+                        margin-bottom: $margin-h4;
+                        @include RWD(mobile){
+                            margin-bottom: $margin-h4-mobile; 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

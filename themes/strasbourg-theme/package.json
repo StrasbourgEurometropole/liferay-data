@@ -1,0 +1,50 @@
+{
+  "name": "strasbourg-theme",
+  "version": "1.0.0",
+  "main": "package.json",
+  "keywords": [
+    "liferay-theme"
+  ],
+  "liferayTheme": {
+    "baseTheme": "styled",
+    "screenshot": "",
+    "rubySass": false,
+    "templateLanguage": "ftl",
+    "version": "7.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.15.0",
+    "colors": "^1.1.2",
+    "del": "^2.2.1",
+    "fs-utilities": "^1.1.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-clean-css": "^2.0.11",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-exec": "^2.1.2",
+    "gulp-ext-replace": "^0.3.0",
+    "gulp-flatten": "^0.3.0",
+    "gulp-ignore": "^2.0.1",
+    "gulp-imagemin": "^3.0.1",
+    "gulp-include": "^2.3.1",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-mustache": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-prompt": "^0.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-require-tasks": "^1.0.5",
+    "gulp-ruby-sass": "^2.0.6",
+    "gulp-sass": "^2.3.2",
+    "gulp-sass-glob-import": "^0.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^3.0.0",
+    "liferay-theme-deps-7.0": "~1.0.0",
+    "liferay-theme-tasks": "*",
+    "node-sass": "^3.8.0",
+    "vinyl-ftp": "^0.5.0"
+  },
+  "publishConfig": {
+    "tag": "7_0_x"
+  }
+}

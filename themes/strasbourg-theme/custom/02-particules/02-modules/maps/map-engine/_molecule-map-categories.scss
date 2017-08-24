@@ -1,0 +1,131 @@
+%molecule-map-categories{
+    background-color: #FFFFFF;
+    height: 100%;
+    overflow: auto; 
+    padding: 0 20px;
+    position: relative;
+    overflow-x: hidden;
+
+    &.child-deployed{
+        overflow: hidden;
+    }
+
+    label:not(.option){
+        @extend %head-map-module;
+        padding: 20px 0px 10px;
+        display: block;
+        text-align: left;
+    }
+    ul{
+        padding-left: 0;
+    }
+
+    //  UL des catégories lvl 1
+    .bef-tree{
+        padding-left: 0;
+        li{
+            display: flex;
+            align-items: center;
+            border-bottom: solid 1px #ebedf0;
+            &:last-child{
+                border: none;
+            }
+            &:before{
+                display: none;
+            }
+            padding: 10px 0;
+            margin: 0;
+            position: static;
+
+
+            .form-group{
+                flex: 1;
+            }
+            .form-field{
+                display: flex;
+
+                label{
+                    margin-left: 5px;
+                    position: relative;
+                    flex: 1;
+                }
+                // Etat checked
+                input:checked{
+                    + label{
+                        &:after{
+                            background-image: url( svg-bg-uri($svg-map-chevron, $core-color) );
+                        }
+                    }
+                }
+            }
+            // Li avec enfant
+            &.bef-all-none-nested-processed{
+                cursor: pointer;
+                &:hover, &:focus{
+                    &:after{
+                        background-image: url( svg-bg-uri($svg-map-chevron, $core-color) );
+                    }
+                }
+            }
+        }
+        label{
+            @extend %text-form-label;
+        }
+        // Icon Chevron
+        .icon-chevron{
+            content: '';
+            background-image: url( svg-bg-uri($svg-map-chevron, $icon-color-active) );
+            top: 0;
+            right: 0; 
+            height: 20px;
+            width: 30px;
+            background-position: right center; 
+            background-repeat: no-repeat; 
+            background-size: auto 13px;
+        }
+    }
+
+    // UL lvl 2
+    .bef-tree-child{
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        z-index: 2; 
+        padding: 0 20px;
+        transform: translateX(100%);
+        transition: all, 0.5s;
+        overflow: auto;
+
+        // Entête
+        .child-head{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            // Retour aux catégories
+            button{
+                @extend %text-form-label;
+                @extend %head-map-module;
+                font-family: $site-font;
+                padding: 20px 0px 10px 50px;
+                display: block;
+                position: relative;
+                text-align: left;
+                width: 100%;
+                @extend %icon-back-map;
+            }
+        }
+
+        // Labels
+        .option{
+            text-transform: none;
+        }
+
+        &.opened{
+            display: block;
+            transform: translateX(0);
+        }
+    }
+}

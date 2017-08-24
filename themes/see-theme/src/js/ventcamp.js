@@ -443,7 +443,7 @@ Ventcamp = {
                 $field.html($(this).html());
             });
 
-            $("body").on("click", function(event) {
+            $(".see body").on("click", function(event) {
                 $target = $(event.target);
 
                 if (!$target.closest($field).length && $this.is(".open")) {
@@ -1385,7 +1385,7 @@ Ventcamp = {
 
         if (this.options.smoothScroll) this.smoothScrollInit();
 
-        if (this.options.ajaxedForm) this.formInit();
+        // if (this.options.ajaxedForm) this.formInit();
 
         if (this.options.pseudoSelect) this.initPseudoSelect();
 

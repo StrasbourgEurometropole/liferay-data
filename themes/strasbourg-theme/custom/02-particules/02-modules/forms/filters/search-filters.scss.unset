@@ -1,0 +1,26 @@
+.seu-not-front{
+
+    // Filtres des pages listes
+    .view-list:not(.view-maps){
+        .view-filters{
+            @extend %molecule-search-filters--agenda;
+        }
+    }
+
+    // Page liste Geoloc Yosemite
+    .view-maps{
+        .view-filters{
+            @extend %molecule-search-filters;
+        }
+    }
+
+    // Page recherche
+    &.page-search-site, .view-recherche{
+        #search-form{
+            @extend %molecule-search-filters--agenda;
+        }        
+        #facets{
+            @extend %molecule-search-facets;
+        }
+    }
+}

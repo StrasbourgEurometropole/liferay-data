@@ -1,0 +1,66 @@
+{
+  "availableLanguageIds": [
+    "fr_FR", "en_US"
+  ],
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Chiffre",
+        "en_US": "Number"
+      },
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "nestedFields": [
+        {
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Texte",
+            "en_US": "Text"
+          },
+          "type": "text",
+          "required": false,
+          "showLabel": true,
+          "displayStyle": "",
+          "visibilityExpression": "",
+          "indexType": "",
+          "fieldNamespace": "",
+          "repeatable": false,
+          "name": "text",
+          "localizable": true,
+          "validation": {}
+        }
+      ],
+      "displayStyle": "",
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "",
+      "repeatable": true,
+      "name": "number",
+      "localizable": true,
+      "validation": {}
+    },
+    {
+      "dataType": "image",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Image de fond",
+        "en_US": "Background image"
+      },
+      "type": "ddm-image",
+      "required": false,
+      "showLabel": true,
+      "visibilityExpression": "",
+      "indexType": "",
+      "fieldNamespace": "ddm",
+      "repeatable": false,
+      "name": "backgroundImage",
+      "localizable": true,
+      "validation": {}
+    }
+  ]
+}

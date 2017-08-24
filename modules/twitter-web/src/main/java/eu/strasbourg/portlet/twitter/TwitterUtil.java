@@ -13,7 +13,6 @@ import javax.net.ssl.X509TrustManager;
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

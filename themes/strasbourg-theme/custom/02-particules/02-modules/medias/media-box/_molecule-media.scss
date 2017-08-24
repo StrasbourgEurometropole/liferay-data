@@ -1,0 +1,36 @@
+%molecule-media{
+    .media-body{
+        padding: 20px;
+        background-color: #f7f7f7;
+    }
+    .media-content{
+        display: block;
+    }
+    .media-ratio{
+        margin-bottom: 40px;
+        width: 100%;
+    }
+    .media-actions{
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+    .media-heading{
+        padding-left: 0;
+        // Extend text media heading
+    }
+    .media-description{
+        @extend %text-basis-rte;
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+        padding: 0 20px;
+    }
+
+    .media-transcription-button{
+        @extend %atom-btn-int--inverted;
+    }
+    .media-transcription{
+        @extend %molecule-transcription-general;
+    }
+}

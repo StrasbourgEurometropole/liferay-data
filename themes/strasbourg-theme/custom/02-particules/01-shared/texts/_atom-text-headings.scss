@@ -1,0 +1,20 @@
+%atom-main-title{
+    @extend %text-h1;
+    @extend %container;
+    text-align: center;
+}
+
+%atom-h2-rte{
+    @extend %text-h2;
+}
+%atom-h3-rte{
+    @extend %text-h3;
+    // padding-left: 20px;
+}
+%atom-h4-rte{
+    @extend %text-h4; 
+    // padding-left: 40px;
+}
+%atom-h5-rte{
+    @extend %text-h5;
+}

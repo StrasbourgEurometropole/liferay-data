@@ -1,0 +1,58 @@
+%organism-slider-int{
+    @extend %molecule-home-slider;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    min-height: unset;
+
+    // Override sizing et centrage 
+    width: 1600px;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    @include RWD(tablet){
+        max-width: 100%;
+    }
+    @include RWD(mobile){
+        margin-bottom: 10px;
+    }
+    .seu-slider{
+        margin: 0 auto;
+    }
+    .owl-nav{
+        .seu-owl-prev{
+            left: -100px;
+            @include RWD(mobile){
+                left: 0;
+            }
+        }
+        .seu-picto{            
+            background-image: url( svg-bg-uri($svg-arrow1, $core-color) ) !important;
+        }
+    }
+    .seu-caption{
+        @extend %atom-caption-rte;
+        position: absolute;
+        bottom: 0; right: 0; max-width: 100%;
+    }
+    .seu-slider{
+        // Taille et design des slides
+        .owl-item{
+            .seu-item{
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+                opacity: 0.2;
+                height: 620px;
+                content: '';
+                display: block;
+                transition: opacity 1s;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                @extend %atom-slider-une-vignette;
+                @include RWD(mobile){
+                    height: unset;
+                    padding-bottom: 57%;
+                }
+            }
+        }
+    }
+}

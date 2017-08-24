@@ -71,6 +71,18 @@ public class StrasbourgPropsUtil {
 	public static String getTwitterTokenSecret() {
 		return PropsUtil.get("eu.strasbourg.twitter.token.secret");
 	}
+	
+	public static String getInstagramClientId() {
+		return PropsUtil.get("eu.strasbourg.instagram.client");
+	}
+	
+	public static String getInstagramClientSecret() {
+		return PropsUtil.get("eu.strasbourg.instagram.secret");
+	}
+	
+	public static String getInstagramAccessToken() {
+		return PropsUtil.get("eu.strasbourg.instagram.token");
+	}
 
 	public static String getTipiURL() {
 		return PropsUtil.get("eu.strasbourg.tipi.url");

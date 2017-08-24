@@ -1,0 +1,8 @@
+(function ($) {
+    if ($('.media-transcription-button').length){
+        $('.media-transcription-button').on('click', function(){
+            $(this).toggleClass('opened');
+            $(this).parents('.media').find('.media-transcription').slideToggle();
+        });
+    }
+}(jQuery));

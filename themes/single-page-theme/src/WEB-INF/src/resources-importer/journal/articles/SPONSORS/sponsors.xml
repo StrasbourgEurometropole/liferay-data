@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="title" type="text" index-type="" instance-id="gtog">
+    <dynamic-content language-id="fr_FR"><![CDATA[Partenaires]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text_area" index-type="" instance-id="fcpb">
+    <dynamic-content language-id="fr_FR"><![CDATA[companies that <span class="highlight">support</span> us]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="sponsors" type="image" index-type="" instance-id="devo">
+    <dynamic-element name="link" instance-id="xote" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[https://bini.io]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="sponsor1" title="sponsor1"><![CDATA[[$FILE=sponsor1.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="sponsors" type="image" index-type="" instance-id="bilk">
+    <dynamic-element name="link" instance-id="pcnj" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[https://bini.io]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR" type="document" alt="" name="sponsor2" title="sponsor2"><![CDATA[[$FILE=sponsor2.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="sponsors" type="image" index-type="" instance-id="dbkf">
+    <dynamic-element name="link" instance-id="osnx" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[https://bini.io]]></dynamic-content>
+    </dynamic-element>
+      <dynamic-content language-id="fr_FR" type="document" alt="" name="sponsor3" title="sponsor3"><![CDATA[[$FILE=sponsor3.png$]]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="sponsors" type="image" index-type="" instance-id="ktju">
+    <dynamic-element name="link" instance-id="oavm" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[https://bini.io]]></dynamic-content>
+    </dynamic-element>
+      <dynamic-content language-id="fr_FR" type="document" alt="" name="sponsor4" title="sponsor4"><![CDATA[[$FILE=sponsor4.png$]]]></dynamic-content>
+  </dynamic-element>
+</root>

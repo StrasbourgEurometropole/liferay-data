@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<root available-locales="fr_FR" default-locale="fr_FR">
+  <dynamic-element name="title" type="text" index-type="" instance-id="saqc">
+    <dynamic-content language-id="fr_FR"><![CDATA[Testimoniaux]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="subtitle" type="text_area" index-type="" instance-id="yacj">
+    <dynamic-content language-id="fr_FR"><![CDATA[Ils parlent <span class="highlight">de nous</span>]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="name" type="text" index-type="" instance-id="azdi">
+    <dynamic-element name="testimonials" instance-id="ufda" type="text_area" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[<article>Esse maxime tempore maiores laboriosam nobis, aut cum quidem est ab ipsam soluta voluptate totam quibusdam quo neque doloremque, provident asperiores error pariatur.</article>]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="position" instance-id="jlnm" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[Designer @ Baffle]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="picture" instance-id="rwof" type="image" index-type="">
+      <dynamic-content language-id="fr_FR" type="document" alt="" name="robert" title="robert"><![CDATA[[$FILE=robert.jpg$]]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Jean Meyer]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="name" type="text" index-type="" instance-id="eemo">
+    <dynamic-element name="testimonials" instance-id="mkee" type="text_area" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[<article>Illo repellat dolores laudantium quos, velit, reprehenderit veniam accusamus neque laboriosam tenetur aut quaerat, doloribus autem, facere molestiae? Quisquam ducimus, nesciunt mollitia.</article>]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="position" instance-id="ykoz" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[CTO @ FlobPox]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="picture" instance-id="yzjy" type="image" index-type="">
+      <dynamic-content language-id="fr_FR" type="document" alt="" name="gwendoline" title="gwendoline"><![CDATA[[$FILE=gwendoline.jpg$]]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Sabine Klein]]></dynamic-content>
+  </dynamic-element>
+  <dynamic-element name="name" type="text" index-type="" instance-id="oaet">
+    <dynamic-element name="testimonials" instance-id="ajcv" type="text_area" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[<article>Recusandae minima similique rem. Neque quisquam, blanditiis cum, ex ullam obcaecati beatae nobis quos, officia rerum, exercitationem ducimus totam quibusdam! Quia, illum.</article>]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="position" instance-id="nqkp" type="text" index-type="">
+      <dynamic-content language-id="fr_FR"><![CDATA[VP Sales @ Pell Inc.]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element name="picture" instance-id="iujv" type="image" index-type="">
+      <dynamic-content language-id="fr_FR" type="document" alt="" name="cynthia" title="cynthia"><![CDATA[[$FILE=cynthia.jpg$]]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-content language-id="fr_FR"><![CDATA[Julie Muller]]></dynamic-content>
+  </dynamic-element>
+</root>

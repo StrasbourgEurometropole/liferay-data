@@ -1,0 +1,50 @@
+.seu{
+    font-size: 10px;
+    font-family: $site-font;
+    line-height: 1.2;
+    @include RWD(tablet){
+        padding: 0;
+    }
+    @include RWD(mobile){
+        padding: 0;
+    }
+
+    .seu-container{
+        @extend %container;
+    }
+    ::selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-moz-selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-webkit-input-placeholder {
+        opacity: 1 !important;
+    }
+    :-moz-placeholder{ 
+        opacity: 1 !important;
+    } 
+    ::-moz-placeholder { 
+        opacity: 1 !important;
+    }
+    :-ms-input-placeholder {  
+    opacity: 1 !important;
+    }
+    .element-invisible, .hidden{
+        display: none;
+    }
+
+}
+
+.seu-no-scroll,
+.seu-no-scroll .seu-body{
+    height: 100%;
+    overflow: hidden;
+}
+
+.seu-body{
+    overflow-x: hidden;
+    position: relative;
+}

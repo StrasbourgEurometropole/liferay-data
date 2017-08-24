@@ -1,0 +1,35 @@
+%molecule-grid-comarquage{
+    clear: both;
+    @include RWD(desktop){
+        @include grid-distribution(3, 20, 'grid-item');                
+    }
+    @include RWD(tablet){
+        @include grid-distribution(2, 20, 'grid-item');                
+    }
+    @include RWD(mobile){
+        @include grid-distribution(1, 0, 'grid-item');                
+    }
+
+    /* Vignettes */
+    .grid-item{
+        margin-bottom: 30px;
+        display: flex;
+
+        & > div{
+            flex: 1;
+            @extend %atom-vignette;
+            
+            .grid-item-title{
+                color: #2D2D2D !important;
+            }
+            a{
+                &:hover, &:focus{
+                    text-decoration: underline;
+                }
+            }
+            .grid-item-text{
+                padding: 20px !important;
+            }
+        }
+    }
+}

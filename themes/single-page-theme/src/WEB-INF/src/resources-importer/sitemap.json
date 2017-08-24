@@ -1,0 +1,220 @@
+{
+    "layoutTemplateId": "1_column",
+    "publicPages": [
+        {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "HEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "EDITO",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "NUMBERS",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "DAYS",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "DOWNLOAD",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "TESTIMONIALS",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "SPONSORS",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/accueil",
+            "nameMap": {
+                "fr_FR": "Accueil"
+            },
+            "title": "Accueil"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "eu_strasbourg_portlet_search_asset_SearchAssetPortlet",
+                        "portletPreferences": {
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/agenda",
+            "nameMap": {
+                "fr_FR": "Agenda"
+            },
+            "title": "Agenda"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "eu_strasbourg_portlet_entity_detail_EntityDetailPortlet",
+                        "portletPreferences": {
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/evenement",
+            "nameMap": {
+                "fr_FR": "Evénement"
+            },
+            "title": "Evénement"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/actualites",
+            "nameMap": {
+                "fr_FR": "Actualités"
+            },
+            "title": "Actualités"
+        }, {
+            "columns": [
+                [
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "PREHEADER",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "MENU",
+                            "groupId": "${groupId}"
+                        }
+                    },
+                    {
+                        "portletId": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+                        "portletPreferences": {
+                            "articleId": "FOOTER",
+                            "groupId": "${groupId}"
+                        }
+                    }
+                ]
+            ],
+            "friendlyURL": "/galerie",
+            "nameMap": {
+                "fr_FR": "Galerie"
+            },
+            "title": "Galerie"
+        }
+    ]
+}

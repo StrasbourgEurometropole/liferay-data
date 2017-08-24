@@ -1,0 +1,6 @@
+
+.link-group{
+    @extend %molecule-link-group;
+    width: 600px;
+    max-width: 100%;
+}

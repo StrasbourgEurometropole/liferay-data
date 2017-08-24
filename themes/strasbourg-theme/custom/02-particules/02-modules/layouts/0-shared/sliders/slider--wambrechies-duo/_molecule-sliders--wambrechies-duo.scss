@@ -1,0 +1,120 @@
+%molecule-slider--wambrechies-duo{
+    clear: both;
+    position: relative;
+
+
+    // Mode Slider
+        // Activation du mode background-cover
+        @extend %bones-slider-cover-ratio--wambrechies-duo;
+        // Animation arrow prev next
+        //@include animationArrowSliderMoveIn(-20%, 40px);
+        // FULL HEIGHT => .owl-item: 100vh + le slider en position absolute, top/bottom/left/right 0 + pager en position absolute;
+
+        // Vignette
+        .owl-item{
+            height: 290px;
+            @include RWD(tablet){
+                height: 500px;
+            }
+            @include RWD(mobile){
+                height: 250px;
+            }
+            background-color: #d4d4d4;
+
+            .grid-item > a{
+                @extend %atom-slide--wambrechies-duo; 
+            }
+        }
+        .owl-carousel{
+            margin: 0 35px;
+            width: auto;
+
+            @include RWD(mobile){
+                margin: 0;
+            }
+
+            // NEXT/PREV ARROWS
+            & + .owl-nav{
+                justify-content: center;
+                display: flex;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+
+                @include RWD(mobile){
+                    height: 50px;
+                }
+
+                .owl-prev{
+                    @extend %atom-slider-arrow--wambrechies-duo--grey;
+                    @extend %atom-slider-arrow-paged--wambrechies-duo--grey;
+                    // @extend %animation-slider-arrow-fade;
+                    // transform: translateY(-50%);
+                    background-color: $core-color;
+                    left: 0;
+                    transition: all, 0.5s;
+                    .owl-prev-icon{
+                        transform: rotate(-180deg);
+                    }
+                }
+                .owl-next{
+                    @extend %atom-slider-arrow--wambrechies-duo--grey;
+                    @extend %atom-slider-arrow-paged--wambrechies-duo--grey;
+                    // @extend %animation-slider-arrow-fade;
+                    // transform: translateY(-50%);
+                    background-color: $core-color;
+                    transition: all, 0.5s;
+                    right: 0;
+                } 
+
+                &.disabled{
+                    display: none;
+                }
+            }
+
+            // PAGERS
+            .owl-dots{
+                margin-top: 40px;
+                justify-content: center;
+                display: flex;
+                display: none;
+
+                .owl-dot{
+                    @extend %atom-sliders-dot--wambrechies-duo;
+                }
+            }
+        }
+
+    // Mode Vignette (si pas de slider)
+    .slider:not(.owl-carousel){ 
+        // Distribution
+        display: flex;
+        flex-wrap: wrap;
+        
+        // Vignette
+        .grid-item{
+            flex: 1;
+            @include RWD(tablet){
+                flex: unset;
+                width: 100%;
+            }
+            height: 290px;
+            @include RWD(tablet){
+                height: 500px;
+            }
+            @include RWD(mobile){
+                height: 250px;
+            }
+            background-color: #d4d4d4;
+
+            & > a{
+                @extend %atom-slide--wambrechies-duo; 
+            }
+        }
+
+        + .owl-nav{
+            display: none;
+        }
+    }
+}

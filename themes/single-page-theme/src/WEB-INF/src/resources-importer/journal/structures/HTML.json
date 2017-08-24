@@ -1,0 +1,27 @@
+{
+  "availableLanguageIds": [
+    "en_US",
+    "fr_FR"
+  ],
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "en_US": "Content",
+        "fr_FR": "Contenu"
+      },
+      "type": "textarea",
+      "required": false,
+      "showLabel": true,
+      "indexType": "",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "repeatable": false,
+      "name": "content",
+      "localizable": true,
+      "validation": {}
+    }
+  ]
+}

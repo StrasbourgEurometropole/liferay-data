@@ -1,0 +1,104 @@
+%molecule-search-facets{
+    h2{
+        @extend %text-form-label;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .facets-list{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .block-facetapi{
+        flex: 0 0 50%;
+        margin-bottom: 30px;
+
+        &:nth-child(2n+1){
+            padding-right: 40px;
+        }
+        &:nth-child(2n){
+            padding-left: 40px;
+        }
+
+        @include RWD(mobile){
+            flex: 0 0 100%;
+            padding: 0 !important;
+            margin-bottom: 20px;
+        }
+    }
+
+    .toggle-facets{
+        display: flex;
+        align-items: center;
+        position: relative;
+        @extend %atom-form-input;
+
+        &:after{
+            @extend %icon-arrow-select;
+            margin-top: -4px;
+        }
+    }
+    ul{
+        padding-left: 20px;
+    }
+    
+    .facetapi-facetapi-links{ 
+        border: 1px solid #d0d0d0;
+        border-top: none;
+        padding: 20px;
+        display: none;
+        list-style: none;
+
+        li{
+            &:before{
+                display: none;
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+        a{
+            text-decoration: none;
+            &:hover, &:focus{
+                text-decoration: underline;
+            }
+        }
+
+        // Niveau 1
+        & > li {
+            font-weight: 600;
+        }
+
+        // Niveau 2
+        .item-list{
+            margin-top: 5px;
+            li{
+                font-weight: 400;
+            }
+        }
+
+        // Li actives
+        .facetapi-active{
+            color: $second-color;
+        }
+
+        // Li inactives
+        .facetapi-inactive{
+            color: #333333;
+        }
+    }
+
+    // Style actif
+    .block-facetapi.active{
+        .toggle-facets{
+            border-color: $second-color;
+            color: $second-color;
+            &:after{
+                border-color: $second-color;
+            }
+        }
+        .facetapi-facetapi-links{
+            border-color: $second-color;
+        }
+    }
+}
