@@ -3,7 +3,7 @@ var canScrollMagic = true;
 
 (function ($) {
     breakpoint_small = 767;
-    breakpoint_large = 1280;
+    breakpoint_large = 1279;
     jqueryValidateConf = {
         highlight: function(element, errorClass, validClass){
             $(element).parents('.form-entry').addClass(errorClass).removeClass(validClass); 
