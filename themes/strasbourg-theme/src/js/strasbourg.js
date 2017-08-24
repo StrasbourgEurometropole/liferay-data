@@ -11,7 +11,7 @@ var canScrollMagic = true;
 
     breakpoint_small = 767;
 
-    breakpoint_large = 1280;
+    breakpoint_large = 1279;
 
     jqueryValidateConf = {
 
