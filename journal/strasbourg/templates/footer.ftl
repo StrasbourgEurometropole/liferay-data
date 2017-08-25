@@ -42,7 +42,7 @@
                 <div class="seu-social-list">
                     <#if socialNetwork.getSiblings()?has_content>
                         <#list socialNetwork.getSiblings() as cur_socialNetwork>
-                            <a href="${cur_socialNetwork.getChildren()[0].getData()}" class="seu-social" title="${cur_socialNetwork.getData()}">
+                            <a href="${cur_socialNetwork.getChildren()[0].getData()}" class="seu-social" title="${cur_socialNetwork.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                                ${cur_socialNetwork.getChildren()[1].getData()}
                             </a>
                        </#list>
