@@ -8,7 +8,7 @@
         <#list entries as curEntry>
             <#if curEntry?has_content>
                 <#assign file = curEntry.getAssetRenderer().getAssetObject() />
-                <#assign fileTitle = FileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "title", locale)!file.getTitle() />
+                <#assign fileTitle = FileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "Titre", locale)!file.getTitle() />
                 <div class="doc">
                     <div class="desc">
                         <div class="name">
