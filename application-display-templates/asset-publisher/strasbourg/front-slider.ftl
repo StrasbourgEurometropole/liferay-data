@@ -7,7 +7,6 @@
     <#if entries?has_content>
       <#list entries as curEntry>
         <#if curEntry.className == 'com.liferay.journal.model.JournalArticle'>
-          <#assign newsCount = newsCount + 1 />
           <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
           <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
           <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
@@ -15,7 +14,13 @@
           <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
           <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
           {
-            category: 'actu',
+            <#if curEntry.tagNames?seq_contains('euromag') || curEntry.tagNames?seq_contains('villemag')>
+              <#assign editionCount = editionCount + 1 />
+              category: 'mag',
+            <#else>
+              <#assign newsCount = newsCount + 1 />
+              category: 'actu',
+            </#if>
             title: '${title?js_string}',
             lead: '${chapo?js_string}',
             picture: '${image}',
@@ -25,19 +30,6 @@
             </#if>
           }
 
-        <#elseif curEntry.className == 'eu.strasbourg.service.edition.model.Edition'>
-          <#assign editionCount = editionCount + 1 />
-          <#assign edition = curEntry.getAssetRenderer().getEdition() />
-          {
-            category: 'mag',
-            title: '${edition.getTitle(locale)?js_string}',
-            lead: '${edition.getDescription(locale)?js_string}',
-            link: window.homeURL + '/edition/-/entity/id/${edition.editionId}',
-            picture: '${edition.imageURL}'
-            <#if curEntry.tagNames?seq_contains('focus')>
-              ,is_Big: true
-            </#if>
-          }
         <#elseif curEntry.className == 'eu.strasbourg.service.agenda.model.Event'>
           <#assign eventCount = eventCount + 1 />
           <#assign event = curEntry.getAssetRenderer().getEvent() />
