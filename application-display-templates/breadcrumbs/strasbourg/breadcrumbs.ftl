@@ -13,7 +13,7 @@
             </li>
             <#if entries?has_content>
                 <#list entries as curEntry>
-                    <#if curEntry.baseModel.friendlyURL != '/accueil'>
+                    <#if !curEntry.baseModel?has_content || curEntry.baseModel.friendlyURL != '/accueil'>
                         <li>
                             <#if curEntry?is_last>
                                 <div class="page active">${curEntry.getTitle()}</div>
