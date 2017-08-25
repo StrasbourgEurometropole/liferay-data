@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import javax.portlet.PortletSession;
-
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
 
 /**
@@ -39,7 +37,4 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil} to access the publik user local service.
 	 */
 	
-	public void logUserIn(PortletSession session, String internalPublikId) {
-		
-	}
 }

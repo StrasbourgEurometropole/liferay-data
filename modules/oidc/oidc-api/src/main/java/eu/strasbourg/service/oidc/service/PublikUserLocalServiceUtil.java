@@ -251,11 +251,6 @@ public class PublikUserLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static void logUserIn(javax.portlet.PortletSession session,
-		java.lang.String internalPublikId) {
-		getService().logUserIn(session, internalPublikId);
-	}
-
 	public static PublikUserLocalService getService() {
 		return _serviceTracker.getService();
 	}

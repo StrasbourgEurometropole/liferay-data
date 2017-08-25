@@ -265,12 +265,6 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	}
 
 	@Override
-	public void logUserIn(javax.portlet.PortletSession session,
-		java.lang.String internalPublikId) {
-		_publikUserLocalService.logUserIn(session, internalPublikId);
-	}
-
-	@Override
 	public PublikUserLocalService getWrappedService() {
 		return _publikUserLocalService;
 	}

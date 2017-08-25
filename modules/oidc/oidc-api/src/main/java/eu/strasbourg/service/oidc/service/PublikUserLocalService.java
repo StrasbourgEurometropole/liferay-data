@@ -38,8 +38,6 @@ import java.io.Serializable;
 
 import java.util.List;
 
-import javax.portlet.PortletSession;
-
 /**
  * Provides the local service interface for PublikUser. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -227,7 +225,4 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
-
-	public void logUserIn(PortletSession session,
-		java.lang.String internalPublikId);
 }
