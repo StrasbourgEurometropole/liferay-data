@@ -6767,8 +6767,9 @@ a {
     height: 425px;
     content: '';
     display: block;
-    transition: opacity 1s; }
-    /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_organism-slider-une.scss */
+    transition: opacity 1s;
+    overflow: hidden; }
+    /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_organism-slider-une.scss */
     #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item:first-child {
       margin-bottom: 20px; }
     @media only screen and (max-width: 767px) {
