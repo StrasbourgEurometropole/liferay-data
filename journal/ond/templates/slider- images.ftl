@@ -1,3 +1,4 @@
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <div class="images">
   <h2 class="title"><@liferay_ui["message"] key="eu.last-image" /></h2>
   <div class="diapo">
@@ -5,24 +6,17 @@
 
       <#if images?has_content && images.getSiblings()?has_content>
         <#list images.getSiblings() as image>
-          <@liferay_portlet.renderURL var="viewURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-            <#if image.getData()?has_content>
-              <@liferay_portlet.param name="classPK" value="${image.getData()}" />
-            </#if>
-          </@liferay_portlet.renderURL>
           <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
-          <#assign fileTitle = FileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "title", locale)!file.getTitle() />
-          <li>
-            <a href="${viewURL}">
+          <#assign fileTitle = fileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "Titre", locale)!file.getTitle(locale) />
+          <li class="${file.getFileEntryId()} ${fileTitle}">
               <#if image.getAttribute('alt')?has_content>
                 <img src="${image.getData()}" alt="© ${image.getAttribute('alt')} " />
               <#else>
                 <img src="${image.getData()}" />
               </#if>
-            </a>
             <div class="headband">
               <span>
-                  <a href="${viewURL}">${fileTitle}</a>
+                ${fileTitle}
               </span>
               <#if image.getAttribute('alt')?has_content>
                 <span class="copyright">
