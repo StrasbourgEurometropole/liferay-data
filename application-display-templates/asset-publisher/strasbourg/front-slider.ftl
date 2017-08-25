@@ -46,7 +46,7 @@
             title: '${event.getTitle(locale)?js_string}',
             lead: '${event.getDescription(locale)?js_string}',
             link: window.homeURL + '/event/-/entity/id/${event.eventId}',
-            ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)}',
+            ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)?js_string}',
             <#if event.firstStartDate?date == event.lastEndDate?date>
               date_start: '',
               date_end: '${event.firstStartDate?string["dd.MM"]}',
