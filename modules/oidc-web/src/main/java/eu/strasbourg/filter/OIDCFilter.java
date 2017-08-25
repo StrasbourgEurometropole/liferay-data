@@ -110,8 +110,7 @@ public class OIDCFilter extends BaseFilter {
 		HttpServletResponse response) throws IOException {
 		request.getSession().setAttribute(lastVisitedAttribute,
 			request.getRequestURL().toString());
-		response.sendRedirect(
-			"https://connexion-strasbourg.test.entrouvert.org/idp/oidc/authorize/?scope=openid%20profile&response_type=code&client_id=05f5f6a1-1e99-4909-8ac7-3fb41e606b08&redirect_uri=http://localhost:8080");
+		response.sendRedirect(StrasbourgPropsUtil.getPublikAuthorizeURL());
 	}
 
 	/**
