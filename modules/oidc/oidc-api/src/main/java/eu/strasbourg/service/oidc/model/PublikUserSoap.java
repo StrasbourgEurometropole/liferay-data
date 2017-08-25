@@ -41,6 +41,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setAccessToken(model.getAccessToken());
 		soapModel.setFirstName(model.getFirstName());
 		soapModel.setLastName(model.getLastName());
+		soapModel.setEmail(model.getEmail());
 
 		return soapModel;
 	}
@@ -157,6 +158,14 @@ public class PublikUserSoap implements Serializable {
 		_lastName = lastName;
 	}
 
+	public String getEmail() {
+		return _email;
+	}
+
+	public void setEmail(String email) {
+		_email = email;
+	}
+
 	private String _uuid;
 	private long _publikUserId;
 	private Date _createDate;
@@ -165,4 +174,5 @@ public class PublikUserSoap implements Serializable {
 	private String _accessToken;
 	private String _firstName;
 	private String _lastName;
+	private String _email;
 }

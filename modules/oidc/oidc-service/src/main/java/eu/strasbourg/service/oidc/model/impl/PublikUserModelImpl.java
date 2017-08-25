@@ -72,7 +72,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			{ "publikInternalId", Types.VARCHAR },
 			{ "accessToken", Types.VARCHAR },
 			{ "firstName", Types.VARCHAR },
-			{ "lastName", Types.VARCHAR }
+			{ "lastName", Types.VARCHAR },
+			{ "email", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -85,9 +86,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("accessToken", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikInternalId VARCHAR(75) null,accessToken VARCHAR(75) null,firstName VARCHAR(75) null,lastName VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikInternalId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserId ASC";
@@ -103,8 +105,9 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.oidc.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.oidc.model.PublikUser"),
 			true);
-	public static final long UUID_COLUMN_BITMASK = 1L;
-	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
+	public static final long PUBLIKINTERNALID_COLUMN_BITMASK = 1L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.oidc.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.oidc.model.PublikUser"));
 
@@ -153,6 +156,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
+		attributes.put("email", getEmail());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -208,6 +212,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		if (lastName != null) {
 			setLastName(lastName);
+		}
+
+		String email = (String)attributes.get("email");
+
+		if (email != null) {
+			setEmail(email);
 		}
 	}
 
@@ -298,7 +308,17 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public void setPublikInternalId(String publikInternalId) {
+		_columnBitmask |= PUBLIKINTERNALID_COLUMN_BITMASK;
+
+		if (_originalPublikInternalId == null) {
+			_originalPublikInternalId = _publikInternalId;
+		}
+
 		_publikInternalId = publikInternalId;
+	}
+
+	public String getOriginalPublikInternalId() {
+		return GetterUtil.getString(_originalPublikInternalId);
 	}
 
 	@Override
@@ -346,6 +366,21 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		_lastName = lastName;
 	}
 
+	@Override
+	public String getEmail() {
+		if (_email == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _email;
+		}
+	}
+
+	@Override
+	public void setEmail(String email) {
+		_email = email;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -385,6 +420,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserImpl.setAccessToken(getAccessToken());
 		publikUserImpl.setFirstName(getFirstName());
 		publikUserImpl.setLastName(getLastName());
+		publikUserImpl.setEmail(getEmail());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -450,6 +486,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserModelImpl._originalUuid = publikUserModelImpl._uuid;
 
 		publikUserModelImpl._setModifiedDate = false;
+
+		publikUserModelImpl._originalPublikInternalId = publikUserModelImpl._publikInternalId;
 
 		publikUserModelImpl._columnBitmask = 0;
 	}
@@ -518,12 +556,20 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.lastName = null;
 		}
 
+		publikUserCacheModel.email = getEmail();
+
+		String email = publikUserCacheModel.email;
+
+		if ((email != null) && (email.length() == 0)) {
+			publikUserCacheModel.email = null;
+		}
+
 		return publikUserCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -541,6 +587,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getFirstName());
 		sb.append(", lastName=");
 		sb.append(getLastName());
+		sb.append(", email=");
+		sb.append(getEmail());
 		sb.append("}");
 
 		return sb.toString();
@@ -548,7 +596,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.PublikUser");
@@ -586,6 +634,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			"<column><column-name>lastName</column-name><column-value><![CDATA[");
 		sb.append(getLastName());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>email</column-name><column-value><![CDATA[");
+		sb.append(getEmail());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -603,9 +655,11 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _publikInternalId;
+	private String _originalPublikInternalId;
 	private String _accessToken;
 	private String _firstName;
 	private String _lastName;
+	private String _email;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 }

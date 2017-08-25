@@ -79,6 +79,10 @@ public class PublikUserLocalServiceUtil {
 		return getService().addPublikUser(publikUser);
 	}
 
+	public static eu.strasbourg.service.oidc.model.PublikUser createPublikUser() {
+		return getService().createPublikUser();
+	}
+
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
@@ -130,6 +134,11 @@ public class PublikUserLocalServiceUtil {
 		long publikUserId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPublikUser(publikUserId);
+	}
+
+	public static eu.strasbourg.service.oidc.model.PublikUser getPublikUserByInternalId(
+		java.lang.String internalId) {
+		return getService().getPublikUserByInternalId(internalId);
 	}
 
 	/**

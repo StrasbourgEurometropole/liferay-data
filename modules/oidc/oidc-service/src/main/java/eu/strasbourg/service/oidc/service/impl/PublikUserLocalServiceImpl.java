@@ -14,16 +14,21 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
+import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
 
 /**
  * The implementation of the publik user local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.oidc.service.PublikUserLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link eu.strasbourg.service.oidc.service.PublikUserLocalService} interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
@@ -34,7 +39,20 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil} to access the publik user local service.
+	 * Never reference this class directly. Always use {@link
+	 * eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil} to access
+	 * the publik user local service.
 	 */
 	
+	@Override
+	public PublikUser createPublikUser() {
+		long pk = this.counterLocalService.increment();
+		return this.createPublikUser(pk);
+	}
+
+	@Override
+	public PublikUser getPublikUserByInternalId(String internalId) {
+		return this.publikUserPersistence.fetchByPublikInternalId(internalId);
+	}
+
 }

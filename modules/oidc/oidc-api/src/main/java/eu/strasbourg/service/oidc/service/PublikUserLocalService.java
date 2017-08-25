@@ -89,6 +89,8 @@ public interface PublikUserLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public PublikUser addPublikUser(PublikUser publikUser);
 
+	public PublikUser createPublikUser();
+
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
@@ -130,6 +132,9 @@ public interface PublikUserLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PublikUser getPublikUser(long publikUserId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PublikUser getPublikUserByInternalId(java.lang.String internalId);
 
 	/**
 	* Updates the publik user in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

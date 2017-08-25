@@ -25,11 +25,14 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BaseFilter;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(
@@ -45,7 +48,13 @@ public class OIDCFilter extends BaseFilter {
 	private String accessTokenAttribute = "publik_access_token";
 	private String givenNameAttribute = "publik_given_name";
 	private String familyNameAttribute = "publik_family_name";
+	private String emailAttribute = "publik_email";
 	private String lastVisitedAttribute = "last_visited";
+	String familyName;
+	String givenName;
+	String internalId;
+	String accessToken;
+	String email;
 
 	@Override
 	protected Log getLog() {
@@ -56,28 +65,48 @@ public class OIDCFilter extends BaseFilter {
 	protected void processFilter(HttpServletRequest request,
 		HttpServletResponse response, FilterChain filterChain)
 		throws Exception {
+		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request,
+			loggedInAttribute);
 		String auth = ParamUtil.getString(request, "auth");
 		String code = ParamUtil.getString(request, "code");
 		String lastVisited = SessionParamUtil.getString(request,
 			lastVisitedAttribute);
 
-		// Auth dans la requête mais pas code : on redirige l'utilisateur vers
-		// publik
-		if (code.length() == 0 && auth.equals("publik")) {
+		// Auth dans la requête mais pas code et utilisateur non connecté : on
+		// redirige l'utilisateur vers publik
+		if (!isAlreadyLoggedIn && auth.equals("publik") && code.length() == 0) {
+			// On enregistre la page actuelle dans la session comme dernière
+			// page visitée
+			saveLastVisitedPage(request);
+			// On renvoie l'utilisateur vers la page de connexion de publik
 			redirectToLogin(request, response);
 			return;
 		}
 
 		// "code" dans la requête ?
 		if (code.length() > 0) {
-			saveUserInfoInSession(request, response, filterChain, code);
+			// Si l'utilisateur n'est pas déjà connecté
+			if (!isAlreadyLoggedIn) {
+				// On récupère ses informations
+				boolean isLoggedIn = getUserInfo(request, response, filterChain,
+					code);
+				if (isLoggedIn) {
+					// Si on a réussi on les met dans la session
+					putUserInfoInSession(request);
 
-			// Si on a "last_visited" dans la session, on redirige l'utilisateur
-			// vers cette page
-			if (lastVisited.length() > 0) {
-				request.getSession().setAttribute(lastVisitedAttribute, null);
-				response.sendRedirect(lastVisited);
-				return;
+					// Et on update la base
+					updateUserInfoInDatabase();
+
+					// Si on a "last_visited" dans la session, on redirige
+					// l'utilisateur
+					// vers cette page
+					if (lastVisited.length() > 0) {
+						request.getSession().setAttribute(lastVisitedAttribute,
+							null);
+						response.sendRedirect(lastVisited);
+						return;
+					}
+				}
 			}
 
 		}
@@ -88,18 +117,15 @@ public class OIDCFilter extends BaseFilter {
 			request.getSession().setAttribute(lastVisitedAttribute, null);
 		}
 
-		System.out.println("Publik user info");
-		System.out.println("Token : "
-			+ request.getSession().getAttribute(accessTokenAttribute));
-		System.out
-			.println(request.getSession().getAttribute(familyNameAttribute));
-		System.out
-			.println(request.getSession().getAttribute(givenNameAttribute));
-		System.out
-			.println(request.getSession().getAttribute(internalIdAttribute));
-		System.out.println();
-
 		super.processFilter(request, response, filterChain);
+	}
+
+	/**
+	 * Enregistre dans la session la page actuelle comme dernière page visitée
+	 */
+	private void saveLastVisitedPage(HttpServletRequest request) {
+		request.getSession().setAttribute(lastVisitedAttribute,
+			request.getRequestURL().toString());
 	}
 
 	/**
@@ -108,8 +134,6 @@ public class OIDCFilter extends BaseFilter {
 	 */
 	private void redirectToLogin(HttpServletRequest request,
 		HttpServletResponse response) throws IOException {
-		request.getSession().setAttribute(lastVisitedAttribute,
-			request.getRequestURL().toString());
 		response.sendRedirect(StrasbourgPropsUtil.getPublikAuthorizeURL());
 	}
 
@@ -117,9 +141,9 @@ public class OIDCFilter extends BaseFilter {
 	 * Essaye de récupérer les infos utilisateurs, si cela fonctionne,
 	 * enregistre les attributs suivants dans la session : publik_access_token,
 	 * publik_logged_in (true), publik_internal_id, publik_family_name,
-	 * publik_given_name
+	 * publik_given_name. Retourne true si succès, false si échec
 	 */
-	private void saveUserInfoInSession(HttpServletRequest request,
+	private boolean getUserInfo(HttpServletRequest request,
 		HttpServletResponse response, FilterChain filterChain, String code)
 		throws Exception {
 
@@ -147,8 +171,9 @@ public class OIDCFilter extends BaseFilter {
 		connection.setInstanceFollowRedirects(false);
 		connection.setUseCaches(false);
 		connection.setRequestMethod("POST");
+
 		connection.setRequestProperty("Content-Type",
-			"application/x-www-form-urlencoded");
+			ContentTypes.APPLICATION_X_WWW_FORM_URLENCODED);
 		connection.setRequestProperty("charset", "utf-8");
 		connection.setRequestProperty("Content-Length",
 			Integer.toString(postDataLength));
@@ -158,16 +183,14 @@ public class OIDCFilter extends BaseFilter {
 		}
 
 		// Résultat
-		String accessToken = "";
 		try {
 			InputStream is = connection.getInputStream();
 			JSONObject tokenJson = readJsonFromInputStream(is);
 			accessToken = tokenJson.getString("access_token");
-			request.getSession().setAttribute(accessTokenAttribute,
-				accessToken);
+
 		} catch (Exception exception) {
 			super.processFilter(request, response, filterChain);
-			return;
+			return false;
 		}
 
 		if (Validator.isNotNull(accessToken)) {
@@ -182,18 +205,45 @@ public class OIDCFilter extends BaseFilter {
 			try {
 				InputStream userInfoIs = userInfoConnection.getInputStream();
 				JSONObject userInfoJson = readJsonFromInputStream(userInfoIs);
-				String familyName = userInfoJson.getString("family_name");
-				String givenName = userInfoJson.getString("given_name");
-				String publikInternalId = userInfoJson.getString("sub");
-				request.getSession().setAttribute(familyNameAttribute,
-					familyName);
-				request.getSession().setAttribute(givenNameAttribute,
-					givenName);
-				request.getSession().setAttribute(internalIdAttribute,
-					publikInternalId);
-				request.getSession().setAttribute(loggedInAttribute, true);
+				familyName = userInfoJson.getString("family_name");
+				givenName = userInfoJson.getString("given_name");
+				internalId = userInfoJson.getString("sub");
+				email = userInfoJson.getString("email");
+				return true;
 			} catch (Exception ex) {
 			}
+		}
+		return false;
+	}
+
+	/**
+	 * Enregistrement dans la session de toutes les infos sur l'utilisateur
+	 */
+	private void putUserInfoInSession(HttpServletRequest request) {
+		request.getSession().setAttribute(loggedInAttribute, true);
+		request.getSession().setAttribute(accessTokenAttribute, accessToken);
+		request.getSession().setAttribute(familyNameAttribute, familyName);
+		request.getSession().setAttribute(givenNameAttribute, givenName);
+		request.getSession().setAttribute(internalIdAttribute, internalId);
+		request.getSession().setAttribute(emailAttribute, email);
+	}
+
+	/**
+	 * Enregistre ou update l'utilisateur en base
+	 */
+	private void updateUserInfoInDatabase() {
+		if (internalId != null && internalId.length() > 0) {
+			PublikUser user = PublikUserLocalServiceUtil
+				.getPublikUserByInternalId(this.internalId);
+			if (user == null) {
+				user = PublikUserLocalServiceUtil.createPublikUser();
+				user.setPublikInternalId(internalId);
+			}
+			user.setAccessToken(accessToken);
+			user.setFirstName(givenName);
+			user.setLastName(familyName);
+			user.setEmail(email);
+			PublikUserLocalServiceUtil.updatePublikUser(user);
 		}
 	}
 

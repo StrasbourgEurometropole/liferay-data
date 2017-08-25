@@ -174,6 +174,51 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	public int countByUuid(java.lang.String uuid);
 
 	/**
+	* Returns the publik user where publikInternalId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
+	*
+	* @param publikInternalId the publik internal ID
+	* @return the matching publik user
+	* @throws NoSuchPublikUserException if a matching publik user could not be found
+	*/
+	public PublikUser findByPublikInternalId(java.lang.String publikInternalId)
+		throws NoSuchPublikUserException;
+
+	/**
+	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param publikInternalId the publik internal ID
+	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
+	*/
+	public PublikUser fetchByPublikInternalId(java.lang.String publikInternalId);
+
+	/**
+	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param publikInternalId the publik internal ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
+	*/
+	public PublikUser fetchByPublikInternalId(
+		java.lang.String publikInternalId, boolean retrieveFromCache);
+
+	/**
+	* Removes the publik user where publikInternalId = &#63; from the database.
+	*
+	* @param publikInternalId the publik internal ID
+	* @return the publik user that was removed
+	*/
+	public PublikUser removeByPublikInternalId(
+		java.lang.String publikInternalId) throws NoSuchPublikUserException;
+
+	/**
+	* Returns the number of publik users where publikInternalId = &#63;.
+	*
+	* @param publikInternalId the publik internal ID
+	* @return the number of matching publik users
+	*/
+	public int countByPublikInternalId(java.lang.String publikInternalId);
+
+	/**
 	* Caches the publik user in the entity cache if it is enabled.
 	*
 	* @param publikUser the publik user

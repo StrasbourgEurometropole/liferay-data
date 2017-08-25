@@ -65,6 +65,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
+		attributes.put("email", getEmail());
 
 		return attributes;
 	}
@@ -117,6 +118,12 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (lastName != null) {
 			setLastName(lastName);
+		}
+
+		String email = (String)attributes.get("email");
+
+		if (email != null) {
+			setEmail(email);
 		}
 	}
 
@@ -183,6 +190,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String getAccessToken() {
 		return _publikUser.getAccessToken();
+	}
+
+	/**
+	* Returns the email of this publik user.
+	*
+	* @return the email of this publik user
+	*/
+	@Override
+	public java.lang.String getEmail() {
+		return _publikUser.getEmail();
 	}
 
 	/**
@@ -313,6 +330,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setCreateDate(Date createDate) {
 		_publikUser.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the email of this publik user.
+	*
+	* @param email the email of this publik user
+	*/
+	@Override
+	public void setEmail(java.lang.String email) {
+		_publikUser.setEmail(email);
 	}
 
 	@Override

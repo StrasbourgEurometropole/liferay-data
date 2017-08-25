@@ -77,6 +77,11 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		return _publikUserLocalService.addPublikUser(publikUser);
 	}
 
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser createPublikUser() {
+		return _publikUserLocalService.createPublikUser();
+	}
+
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
@@ -133,6 +138,12 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		long publikUserId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _publikUserLocalService.getPublikUser(publikUserId);
+	}
+
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getPublikUserByInternalId(
+		java.lang.String internalId) {
+		return _publikUserLocalService.getPublikUserByInternalId(internalId);
 	}
 
 	/**

@@ -16,6 +16,10 @@
 		<column name="accessToken" type="String" />
 		<column name="firstName" type="String" />
 		<column name="lastName" type="String" />
+		<column name="email" type="String" />
 
+	    <finder name="PublikInternalId" return-type="PublikUser" unique="true" db-index="true">
+	      <finder-column name="publikInternalId" />
+	    </finder>
 	</entity>
 </service-builder>

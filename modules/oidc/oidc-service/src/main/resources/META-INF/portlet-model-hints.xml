@@ -6,9 +6,18 @@
 		<field name="publikUserId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="publikInternalId" type="String" />
-		<field name="accessToken" type="String" />
-		<field name="firstName" type="String" />
-		<field name="lastName" type="String" />
+		<field name="publikInternalId" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="accessToken" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="firstName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="lastName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="email" type="String" />
 	</model>
 </model-hints>

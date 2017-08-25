@@ -193,6 +193,21 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setLastName(String lastName);
 
+	/**
+	 * Returns the email of this publik user.
+	 *
+	 * @return the email of this publik user
+	 */
+	@AutoEscape
+	public String getEmail();
+
+	/**
+	 * Sets the email of this publik user.
+	 *
+	 * @param email the email of this publik user
+	 */
+	public void setEmail(String email);
+
 	@Override
 	public boolean isNew();
 
