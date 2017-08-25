@@ -5,6 +5,11 @@
     @include RWD(tablet){
         padding-top: 45px;
     }
+    .seu-published{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
     h1{
         @extend %atom-main-title;
         &:before{ 

@@ -1,5 +1,10 @@
 %organism-wi-embed{
     background-color: #f6f6f6;
+    .seu-media-container{
+        @include RWD(mobile){
+            display: block;
+        }
+    }
     .seu-media-picto{
         background-color: #FFFFFF;
         background-image: url( svg-bg-uri($svg-movie, $core-color) );
