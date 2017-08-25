@@ -67,7 +67,7 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "Imagearvn",
+            "name": "image",
             "readOnly": false,
             "repeatable": false,
             "required": false,
