@@ -9,7 +9,7 @@
         <div class="seu-left seu-text">
             <div class="seu-suptitle">${sublabelAssociation.getData()}</div>
             <div class="seu-title">${associationLabel.getData()}</div>
-            <a href="${associationLink.getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-core" title="${associationLinkLabel.getData()}">
+            <a href="${associationLink.getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-core" title="Association : ${associationLinkLabel.getData()}">
             <span class="seu-flexbox">
             <span class="seu-btn-text">${associationLinkLabel.getData()}</span>
             <span class="seu-btn-arrow"></span>
@@ -19,7 +19,7 @@
         <div class="seu-right  seu-text">
             <div class="seu-suptitle">${sublabelPro.getData()}</div>
             <div class="seu-title">${proLabel.getData()}</div>
-            <a href="${proLink.getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-core" title="${proLinkLabel.getData()}">
+            <a href="${proLink.getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-core" title="Professionnel : ${proLinkLabel.getData()}">
             <span class="seu-flexbox">
             <span class="seu-btn-text">${proLinkLabel.getData()}</span>
             <span class="seu-btn-arrow"></span>
