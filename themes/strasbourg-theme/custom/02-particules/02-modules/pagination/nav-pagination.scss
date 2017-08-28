@@ -1,13 +1,5 @@
 .seu-not-front{
-    // Présente dans toutes les vues listes
-    .view-list{
-        .seu-pagination{
-            @extend %molecule-pagination;
-        }
-    }
-    .seu-wi{
-        .seu-pagination{
-            @extend %molecule-pagination;
-        }
+    .seu-pagination{
+        @extend %molecule-pagination;
     }
 }

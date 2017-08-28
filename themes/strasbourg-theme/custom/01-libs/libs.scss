@@ -1,9 +1,7 @@
 @import 'only-sass/_reset';
 @import 'customSelect/_customSelect';
 @import 'only-sass/_print'; 
-@import 'tablesaw/_tablesaw'; 
 @import 'jqueryUi/_jquery-ui';
 @import 'only-sass/_fonts';
-// @import 'only-sass/_animate';
-@import 'owlCarousel/owl_carousel'; 
-// @import 'fontawesome/_font-awesome'; 
+@import 'owlCarousel/owl_carousel';  
+@import 'select2/core.scss';  
