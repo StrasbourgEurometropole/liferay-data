@@ -1,9 +1,0 @@
-.page-user{
-    #user-login{        
-        margin-bottom: 40px;
-        // Structure/Distribution
-        @extend %bone-form-structure;
-        // Design des champs
-        @extend %molecule-form-components;
-    }
-}

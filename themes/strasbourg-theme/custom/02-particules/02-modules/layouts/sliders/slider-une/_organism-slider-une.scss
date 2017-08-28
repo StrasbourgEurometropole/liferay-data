@@ -16,6 +16,7 @@
                 content: '';
                 display: block;
                 transition: opacity 1s;
+                overflow: hidden;
                 &:first-child{
                     margin-bottom: 20px;
                 }

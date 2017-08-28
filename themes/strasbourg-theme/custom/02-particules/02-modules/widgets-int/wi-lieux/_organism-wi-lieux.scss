@@ -1,5 +1,10 @@
 %organism-wi-lieux{
     background-color: $core-color;
+    .seu-media-container{
+        @include RWD(mobile){
+            display: block;
+        }
+    }
     .seu-media-picto{
         background-color: #FFFFFF;
         background-image: url( svg-bg-uri($svg-marker, $core-color) );
@@ -39,6 +44,9 @@
             }
             display: flex;
             align-items: center;
+            a{
+                font-weight: 400;
+            }
             &:nth-child(2n){
                 padding-left: 20px;
                 @include RWD(mobile){
@@ -74,29 +82,12 @@
         @include RWD(desktop){
             padding: 0 180px;            
         }
-
-        .seu-is-active{
-            .seu-btn-text{
-                color: $third-color !important;
-            }
-        }
         .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) .seu-btn-text{
             padding: 10px;
             color: #FFFFFF;
         }
         .seu-disabled{
             opacity: 0 !important;
-        }
-        .seu-pagin-prev{
-            .seu-btn-text{
-                order: 2;
-                margin-left: 20px !important;
-                margin-right: 0 !important;
-            }
-            .seu-btn-arrow{
-                transform: rotate(-180deg);
-                order: 1;
-            }
         }
     }
 }

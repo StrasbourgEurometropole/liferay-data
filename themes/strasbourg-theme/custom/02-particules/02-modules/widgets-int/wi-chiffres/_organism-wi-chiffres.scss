@@ -15,7 +15,7 @@
     }
     // Contenu
     .seu-wi-content{
-        text-align: center;
+        text-align: left;
         margin-bottom: 40px;
 
         @include RWD(mobile){
@@ -38,7 +38,7 @@
     .seu-wi-chiffres-item{
         &:before{
             content: '';
-            display: block;
+            display: none;
             height: 100%; width: 1px;
             position: absolute;
             top: 0;
@@ -94,11 +94,25 @@
     .seu-wi-text{
         .seu-wi-title{
             color: $core-color;
-            text-align: center;
+            text-align: left;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-top: 5px;
+            font-size: 1.8rem;
+            text-transform: none;
         }
         p{
             color: #FFFFFF;
         }
+    }
+    .seu-section-title{
+        &:before{
+            background-position: left center;
+            background-image: url( svg-bg-uri($svg-wave, #5bdfd1) );
+        }
+        .seu-title{
+            text-align: left;
+        } 
     }
     .seu-subtitle{
         color: $core-color;
@@ -107,7 +121,7 @@
         font-size: 1.4rem;
         text-transform: uppercase;
         color: $core-color;
-        text-align: center;
+        text-align: left;
         display: block;
     }
 }

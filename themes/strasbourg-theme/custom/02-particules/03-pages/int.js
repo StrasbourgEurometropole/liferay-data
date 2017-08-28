@@ -47,6 +47,14 @@ function dot(){
 	$(document).ready(function() {
 		// INIT
 		$('.seu-toCustomSelect, .SingleSelectHintWidget select').customSelect();
+		$('select[multiple="multiple"]').each(function(index, element){
+			var placeholder = $(element).find('option[disabled]').text();
+			$(element).select2({
+				placeholder: placeholder,
+				closeOnSelect: false
+			});
+		})
+		
 		dot();
 		// Moteur de recherche dépliant
 		$('#seu-search-trigger').on('click', function(){

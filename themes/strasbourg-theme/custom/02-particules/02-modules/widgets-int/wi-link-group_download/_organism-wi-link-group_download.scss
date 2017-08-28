@@ -2,7 +2,8 @@
     background-color: #ffffff;
     padding-bottom: 20px;
     @include RWD(mobile){
-        padding: 10px 0;
+        // padding: 10px 0;
+        padding-top: 20px;
     }
 
     &.seu-external{
