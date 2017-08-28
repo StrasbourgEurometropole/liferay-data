@@ -289,5 +289,6 @@
 	    dotdotdot();
 	  }
 	}); // End resize
+	ratioYoutube('header', '.parameter-video');
 	
 })(jQuery)
