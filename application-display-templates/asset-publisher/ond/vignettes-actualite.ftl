@@ -40,11 +40,6 @@
             <script>
             /*<![CDATA[*/
             $(function(){
-                $(".entry-header h2 a").each(
-                    function(){
-                        $(this).text(add3Dots($(this).text(),37));
-                    }
-                );
                 $(".entry-content a").each(
                     function(){
                         $(this).text(add3Dots($(this).text(), 85));
