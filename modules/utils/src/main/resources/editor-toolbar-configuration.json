@@ -43,7 +43,7 @@
     'ImageSelector',
     'Copyright',
     'FileSelector',
-    'Flash',
+    'SimpleBox',
     '-',
     'Smiley',
     'SpecialChar'
@@ -71,5 +71,12 @@
   ],
   [
     'Source'
+  ],
+  '/',
+  [
+  	'KeyNumbers',
+  	'LinkBlock',
+  	'BlockFileSelector',
+  	'Quote'
   ]
 ]

@@ -83,13 +83,28 @@ public class GlobalBOEditorConfigContributor
 		String extraPlugins = jsonObject.getString("extraPlugins");
 
 		if (Validator.isNull(extraPlugins)) {
-			extraPlugins = "copyright,fileselector";
+			extraPlugins = "copyright,fileselector,simplebox,keynumbers,linkblock,blockfileselector,quote";
 		} else {
 			if (!extraPlugins.contains("copyright")) {
 				extraPlugins = extraPlugins + ",copyright";
 			}
 			if (!extraPlugins.contains("fileselector")) {
 				extraPlugins = extraPlugins + ",fileselector";
+			}
+			if (!extraPlugins.contains("simplebox")) {
+				extraPlugins = extraPlugins + ",simplebox";
+			}
+			if (!extraPlugins.contains("keynumbers")) {
+				extraPlugins = extraPlugins + ",keynumbers";
+			}
+			if (!extraPlugins.contains("linkblock")) {
+				extraPlugins = extraPlugins + ",linkblock";
+			}
+			if (!extraPlugins.contains("blockfileselector")) {
+				extraPlugins = extraPlugins + ",blockfileselector";
+			}
+			if (!extraPlugins.contains("quote")) {
+				extraPlugins = extraPlugins + ",quote";
 			}
 		}
 		jsonObject.put("extraPlugins", extraPlugins);
