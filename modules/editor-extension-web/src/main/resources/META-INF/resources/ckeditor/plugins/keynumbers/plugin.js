@@ -112,7 +112,7 @@ CKEDITOR.plugins.add('keynumbers', {
 
     // Bouton pour la commande
     editor.ui.addButton('KeyNumbers', {
-      label: 'Ajouter des chiffres clés',
+      label: 'Insérer un bloc "chiffres clés"',
       command: 'insertKeyNumbers',
       icon: instance.path + 'assets/keynumbers.png'
     });

@@ -83,7 +83,7 @@ public class GlobalBOEditorConfigContributor
 		String extraPlugins = jsonObject.getString("extraPlugins");
 
 		if (Validator.isNull(extraPlugins)) {
-			extraPlugins = "copyright,fileselector,simplebox,keynumbers,linkblock,blockfileselector,quote";
+			extraPlugins = "copyright,fileselector,simplebox,keynumbers,linkblock,blockfileselector,quote,videoselector";
 		} else {
 			if (!extraPlugins.contains("copyright")) {
 				extraPlugins = extraPlugins + ",copyright";
@@ -106,10 +106,13 @@ public class GlobalBOEditorConfigContributor
 			if (!extraPlugins.contains("quote")) {
 				extraPlugins = extraPlugins + ",quote";
 			}
+			if (!extraPlugins.contains("videoselector")) {
+				extraPlugins = extraPlugins + ",videoselector";
+			}
 		}
 		jsonObject.put("extraPlugins", extraPlugins);
 
-		// Configuration ItemSelector
+		// Configuration ItemSelector pour fichiers
 		List<ItemSelectorCriterion> itemSelectorCriteria = new ArrayList<>();
 
 		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
@@ -131,6 +134,16 @@ public class GlobalBOEditorConfigContributor
 				itemSelectorURL.toString());
 			jsonObject.put("filebrowserFileBrowseUrl",
 				itemSelectorURL.toString());
+		}
+
+		// Configuration ItemSelector pour vidéos
+		// On reprend juste l'URL précédente en remplaçant le criterion
+		String videoSelectorURL = itemSelectorURL.toString().replace(
+			"com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion",
+			"eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion");
+		if (videoSelectorURL != null) {
+			jsonObject.put("videobrowserVideoBrowseLinkUrl", videoSelectorURL);
+			jsonObject.put("videobrowserVideoBrowseUrl", videoSelectorURL);
 		}
 
 	}

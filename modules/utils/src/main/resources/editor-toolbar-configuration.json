@@ -75,8 +75,9 @@
   '/',
   [
   	'KeyNumbers',
+  	'Quote',
   	'LinkBlock',
   	'BlockFileSelector',
-  	'Quote'
+  	'VideoSelector'
   ]
 ]

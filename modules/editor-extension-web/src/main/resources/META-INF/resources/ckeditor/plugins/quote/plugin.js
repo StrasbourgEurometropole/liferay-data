@@ -18,8 +18,6 @@ CKEDITOR.plugins.add('quote', {
     editor.widgets.add('quote', {
       // Contenu minimum du widget
       requiredContent: 'div(seu-wi-quote)',
-      // Dialog à afficher
-      dialog: 'linkblock',
       // Champs du widget
       editables: {
         link: {
@@ -43,7 +41,7 @@ CKEDITOR.plugins.add('quote', {
 
     // Bouton pour la commande
     editor.ui.addButton('Quote', {
-      label: 'Ajouter une citation',
+      label: 'Insérer une citation',
       command: 'insertQuote',
       icon: instance.path + 'assets/quote.png'
     });

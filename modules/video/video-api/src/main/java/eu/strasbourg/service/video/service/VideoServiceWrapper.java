@@ -32,6 +32,11 @@ public class VideoServiceWrapper implements VideoService,
 		_videoService = videoService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getVideo(long id) {
+		return _videoService.getVideo(id);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

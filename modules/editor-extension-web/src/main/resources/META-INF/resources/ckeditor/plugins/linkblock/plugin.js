@@ -73,7 +73,7 @@ CKEDITOR.plugins.add('linkblock', {
 
     // Bouton pour la commande
     editor.ui.addButton('LinkBlock', {
-      label: 'Ajouter un bloc lien',
+      label: 'Insérer un bloc lien',
       command: 'insertLinkBlock',
       icon: instance.path + 'assets/linkblock.png'
     });
