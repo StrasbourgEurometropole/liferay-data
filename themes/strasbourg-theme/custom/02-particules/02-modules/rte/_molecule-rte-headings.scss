@@ -3,6 +3,7 @@
         @extend %atom-h2-rte;
         // clear: both;
         margin-bottom: $margin-h2;
+        margin-top: 30px;
 
         @include RWD(mobile){
             margin-bottom: $margin-h2-mobile;            
@@ -12,6 +13,7 @@
         @extend %atom-h3-rte; 
         // clear: both;
         margin-bottom: $margin-h3;
+        margin-top: 30px;
 
         @include RWD(mobile){
             margin-bottom: $margin-h3-mobile;            
@@ -21,6 +23,7 @@
         @extend %atom-h4-rte;
         // clear: both;
         margin-bottom: $margin-h4;
+        margin-top: 30px;
 
         @include RWD(mobile){
             margin-bottom: $margin-h4-mobile;            

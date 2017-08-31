@@ -16,9 +16,16 @@ package eu.strasbourg.service.video.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.video.service.VideoServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.video.service.VideoServiceUtil} service utility. The
+ * {@link VideoServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,23 @@ import aQute.bnd.annotation.ProviderType;
  * @author BenjaminBini
  * @see VideoServiceHttp
  * @see eu.strasbourg.service.video.model.VideoSoap
- * @see eu.strasbourg.service.video.service.VideoServiceUtil
+ * @see VideoServiceUtil
  * @generated
  */
 @ProviderType
 public class VideoServiceSoap {
+	public static java.lang.String getVideo(long id) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = VideoServiceUtil.getVideo(id);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(VideoServiceSoap.class);
 }

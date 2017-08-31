@@ -2,7 +2,8 @@
     background-color: #ffffff;
     padding-bottom: 20px;
     @include RWD(mobile){
-        padding: 10px 0;
+        // padding: 10px 0;
+        padding-top: 20px;
     }
 
     &.seu-external{
@@ -88,7 +89,7 @@
             }
         }
     }
-    &:hover, &:focus{
+    &:hover, &:focus, & > a:hover, & > a:focus {
         text-decoration: none;
         .seu-link-group-arrow{
             background-color: $core-color;

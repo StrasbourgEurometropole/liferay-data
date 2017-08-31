@@ -41,9 +41,14 @@
 
     &--grey{
         @extend %atom-customSelect;
+        
+    }
+    &--custom{
+        @extend %atom-customSelect;
+        height: 50px;
         .customSelect{
-            background-color: #fff;
-            border-color: #d0d0d0;
+            background-color: #F6F6F6;
+            border: solid 2px transparent;
             border-radius: 0;
 
             &.arrowed:after{
@@ -59,6 +64,11 @@
         .customSelectContain select{
             background-color: #FFFFFF;
             color: #000000;
+        }
+        &.focused{
+            .customSelect{
+                border-color: $core-color;
+            }
         }
     }
 } 

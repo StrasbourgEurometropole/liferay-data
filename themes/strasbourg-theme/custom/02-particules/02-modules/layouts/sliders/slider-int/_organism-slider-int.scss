@@ -14,6 +14,12 @@
     }
     @include RWD(mobile){
         margin-bottom: 10px;
+        width: calc(100% + 40px);
+        max-width: unset;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        left: 0;
+        transform: none;
     }
     .seu-slider{
         margin: 0 auto;
@@ -21,8 +27,16 @@
     .owl-nav{
         .seu-owl-prev{
             left: -100px;
-            @include RWD(mobile){
+            @include RWD(tablet){
                 left: 0;
+            }
+            @include RWD(mobile){
+                // left: -20px;
+            }
+        }
+        .seu-owl-next{
+            @include RWD(mobile){
+                // right: -20px;
             }
         }
         .seu-picto{            
@@ -48,7 +62,7 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 @extend %atom-slider-une-vignette;
-                @include RWD(mobile){
+                @include RWD(tablet){
                     height: unset;
                     padding-bottom: 57%;
                 }

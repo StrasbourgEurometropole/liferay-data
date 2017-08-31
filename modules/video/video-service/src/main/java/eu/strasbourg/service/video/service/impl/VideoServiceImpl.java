@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.video.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.base.VideoServiceBaseImpl;
 
 /**
@@ -39,4 +42,12 @@ public class VideoServiceImpl extends VideoServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.video.service.VideoServiceUtil} to access the video remote service.
 	 */
+	@Override
+	public JSONObject getVideo(long id) {
+		Video video = this.videoLocalService.fetchVideo(id);
+		if (video == null || !video.isApproved()) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+		return video.toJSON();
+	}
 }

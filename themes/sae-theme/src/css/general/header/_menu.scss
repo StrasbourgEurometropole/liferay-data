@@ -6,6 +6,7 @@
 		@extend %container;
 	}
 	.logo{
+		width: 195px;
 		margin:0px;
 		display: inline-block;
 		@include RWD(mobile){

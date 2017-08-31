@@ -1,3 +1,7 @@
+/**
+ * Initialisation de variables de configuration transverses au site
+ */
+
 var breakpoint_small, breakpoint_large, jqueryValidateConf, owl_options_int;
 var canScrollMagic = true;
 

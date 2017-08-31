@@ -66,7 +66,7 @@ $(document).ready(function(){
                     megaSlider(une, category);
                     une.$slider.removeClass('animate-out');
                     une.can_animate = true;
-                }, 400);
+                }, 800);
             }
         });
 

@@ -41,6 +41,9 @@ public class VideoServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.video.service.impl.VideoServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONObject getVideo(long id) {
+		return getService().getVideo(id);
+	}
 
 	/**
 	* Returns the OSGi service identifier.

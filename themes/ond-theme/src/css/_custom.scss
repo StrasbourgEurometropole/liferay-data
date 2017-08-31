@@ -735,7 +735,7 @@
 									text-transform: none;
 									font-size: 0.6em;
 									line-height: 1.2em;
-									text-decoration: none;
+									text-decoration: underline;
 									color: black;
 								}
 							}
@@ -1000,7 +1000,7 @@
 
 							    	img{
 								    	width: 100%;
-										min-height: 224px;
+										min-height: 203px;
 								    }
 						    	}
 
@@ -1038,11 +1038,14 @@
 									height: 66px;
 									padding: 0px;
 									margin: 0px;
+									line-height: 1.3em;
+									min-height: 3.5em;
 								}
 							}
 
 							.entry-meta{
-								padding: 0px 15px;
+								padding: 0px 15px
+    line-height: 1.2em;;
 
 								time{
 									font-family: Arial;
@@ -1943,4 +1946,16 @@
 
 #p_p_id_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_headerpages_ .portlet-content {
 	background: #f1eeed;
+}
+
+.ond .wrapper .header:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.portlet-cus-image-fo .button-gray:after {
+	display: block;
+	content: "";
+	clear: both;
 }

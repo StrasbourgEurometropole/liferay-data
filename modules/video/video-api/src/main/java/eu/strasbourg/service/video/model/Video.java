@@ -141,4 +141,9 @@ public interface Video extends VideoModel, PersistedModel {
 	* Retourne les thèmes de la vidéo
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+
+	/**
+	* Retourne la vidéo au format JSON
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

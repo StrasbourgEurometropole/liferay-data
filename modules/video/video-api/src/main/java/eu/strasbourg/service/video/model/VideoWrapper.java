@@ -314,6 +314,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getExpandoBridge();
 	}
 
+	/**
+	* Retourne la vidéo au format JSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _video.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.video.model.Video> toCacheModel() {
 		return _video.toCacheModel();

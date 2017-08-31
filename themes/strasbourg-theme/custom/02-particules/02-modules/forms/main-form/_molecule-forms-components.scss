@@ -97,68 +97,17 @@
         @extend %text-form-input;
         padding: 15px;
         height: auto; 
+        line-height: 1.2;
         display: block;
         resize: vertical;
     }
     //  SELECTS
-     .customSelectContain{
-         @extend %atom-customSelect--grey;
-         height: 50px;
-         &.focused{
-             .customSelect{
-                 border-color: $core-color;
-             }
-         }
-         .customSelect{
-             background-color: #F6F6F6;
-             border: solid 2px transparent;
-         }
-     }   
-
-    // Date picker
-    #ui-datepicker-div{
-        @extend %atom-datepicker;
-    }  
-
-     
- 
-    //  FILES
-     .form-managed-file{
-         display: flex;
-         align-items: center;
-         @extend %atom-form-file;
-
-         button{
-             height: 35px;
-         }
-     }
- 
-    //  Indications sous le field
-     .form-infos{
-         @extend %text-form-input;
-         margin-top: 5px;
-         font-size: small;
-     }
-
-    //  Grille de notation
-     .type-webform-grid{
-        & > .form-field{
-            overflow: auto;
-        }
-     } 
-    .webform-grid{
-        @extend %molecule-table;
-        @extend %molecule-form-table;
-        width: 100%;
-        border-spacing: 0;
-        @include RWD(tablet){
-            width: auto;
-            max-width: 100%;
-        }
-
+    .customSelectContain{
+        @extend %atom-customSelect--custom;
+        
+    }   
+    // Multiple
+    .select2{
+        @extend %atom-select2--custom;
     }
-
-    .form-submit, [type="submit"]{
-        @extend %atom-btn-int--core;
-    } 
-}
+} 
