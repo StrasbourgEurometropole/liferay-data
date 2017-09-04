@@ -22,29 +22,6 @@
     margin-top: 30px;
 }
 
-.portlet a {
-    display: block;
-    float: right;
-    line-height: 2em;
-    text-decoration: none;
-    color: #ad3939;
-    border: 1px solid #ad3939;
-    font-family: Arial;
-    font-size: 1.25em;
-    font-weight: bold;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    padding: 0 10px;
-    margin-right: 0;
-    margin-bottom: 40px;
-}
-.portlet a span {
-	display: block;
-    font-size: 0.78em;
-}
 .portlet-asset-header .last-images,
 .portlet-asset-header .last-videos,
 .portlet .title-read-further,

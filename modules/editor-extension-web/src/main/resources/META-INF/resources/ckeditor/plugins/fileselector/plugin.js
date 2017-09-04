@@ -39,7 +39,7 @@
 						'FileSelector',
 						{
 							command: 'fileselector',
-							icon: instance.path + 'assets/file.png',
+							icon: instance.path + 'assets/fileselector.png',
 							label: 'Insérer un lien vers un fichier'
 						}
 					);

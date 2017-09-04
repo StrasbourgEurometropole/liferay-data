@@ -89,7 +89,7 @@
             }
         }
     }
-    &:hover, &:focus{
+    &:hover, &:focus, & > a:hover, & > a:focus {
         text-decoration: none;
         .seu-link-group-arrow{
             background-color: $core-color;
