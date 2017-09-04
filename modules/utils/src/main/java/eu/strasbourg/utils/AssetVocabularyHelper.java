@@ -32,16 +32,13 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la liste des vocabulaires rattachés à un type d'entité
 	 */
-	public static List<AssetVocabulary> getVocabulariesForAssetType(
-		long groupId, long classNameId) {
-		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
+	public static List<AssetVocabulary> getVocabulariesForAssetType(long groupId, long classNameId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
 		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
 		if (classNameId > 0) {
 			for (AssetVocabulary vocabulary : vocabularies) {
 				if (vocabulary.getGroupId() == groupId
-					&& LongStream.of(vocabulary.getSelectedClassNameIds())
-						.anyMatch(c -> c == classNameId)) {
+						&& LongStream.of(vocabulary.getSelectedClassNameIds()).anyMatch(c -> c == classNameId)) {
 					attachedVocabularies.add(vocabulary);
 				}
 			}
@@ -52,16 +49,13 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la liste des vocabulaires obligatoires pour un type d'entité
 	 */
-	public static List<AssetVocabulary> getRequiredVocabulariesForAssetType(
-		long groupId, long classNameId) {
-		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
+	public static List<AssetVocabulary> getRequiredVocabulariesForAssetType(long groupId, long classNameId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
 		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
 		if (classNameId > 0) {
 			for (AssetVocabulary vocabulary : vocabularies) {
 				if (vocabulary.getGroupId() == groupId
-					&& LongStream.of(vocabulary.getRequiredClassNameIds())
-						.anyMatch(c -> c == classNameId)) {
+						&& LongStream.of(vocabulary.getRequiredClassNameIds()).anyMatch(c -> c == classNameId)) {
 					attachedVocabularies.add(vocabulary);
 				}
 			}
@@ -70,18 +64,14 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne le vocabulary rattaché à la classe donnée et qui possède le nom
-	 * donné
+	 * Retourne le vocabulary rattaché à la classe donnée et qui posséde le
+	 * nom donné
 	 */
-	public static AssetVocabulary getEntityVocabulary(String className,
-		String vocabularyName, long groupId) {
-		long classNameId = ClassNameLocalServiceUtil.getClassName(className)
-			.getClassNameId();
-		List<AssetVocabulary> vocabularies = AssetVocabularyHelper
-			.getVocabulariesForAssetType(groupId, classNameId);
+	public static AssetVocabulary getEntityVocabulary(String className, String vocabularyName, long groupId) {
+		long classNameId = ClassNameLocalServiceUtil.getClassName(className).getClassNameId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyHelper.getVocabulariesForAssetType(groupId, classNameId);
 		for (AssetVocabulary vocabulary : vocabularies) {
-			if (StringHelper.compareIgnoringAccentuation(
-				vocabulary.getName().toLowerCase(), vocabularyName)) {
+			if (StringHelper.compareIgnoringAccentuation(vocabulary.getName().toLowerCase(), vocabularyName)) {
 				return vocabulary;
 			}
 		}
@@ -92,14 +82,11 @@ public class AssetVocabularyHelper {
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
 	 * donné
 	 */
-	public static AssetVocabulary getVocabulary(String vocabularyName,
-		long groupId) {
-		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
+	public static AssetVocabulary getVocabulary(String vocabularyName, long groupId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
 		for (AssetVocabulary vocabulary : vocabularies) {
-			if (StringHelper.compareIgnoringAccentuation(
-				vocabulary.getName().toLowerCase(), vocabularyName)
-				&& vocabulary.getGroupId() == groupId) {
+			if (StringHelper.compareIgnoringAccentuation(vocabulary.getName().toLowerCase(), vocabularyName)
+					&& vocabulary.getGroupId() == groupId) {
 				return vocabulary;
 			}
 		}
@@ -112,17 +99,13 @@ public class AssetVocabularyHelper {
 	 * 
 	 * @throws PortalException
 	 */
-	public static AssetVocabulary getGlobalVocabulary(String vocabularyName)
-		throws PortalException {
+	public static AssetVocabulary getGlobalVocabulary(String vocabularyName) throws PortalException {
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-			.getGroupId();
-		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
+		long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1);
 		for (AssetVocabulary vocabulary : vocabularies) {
-			if (StringHelper.compareIgnoringAccentuation(
-				vocabulary.getName().toLowerCase(), vocabularyName)
-				&& vocabulary.getGroupId() == companyGroupId) {
+			if (StringHelper.compareIgnoringAccentuation(vocabulary.getName().toLowerCase(), vocabularyName)
+					&& vocabulary.getGroupId() == companyGroupId) {
 				return vocabulary;
 			}
 		}
@@ -132,13 +115,11 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la liste des catégories rattachées à un AssetEntry
 	 */
-	public static List<AssetCategory> getAssetEntryCategories(
-		AssetEntry entry) {
+	public static List<AssetCategory> getAssetEntryCategories(AssetEntry entry) {
 		long[] categoryIds = entry.getCategoryIds();
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		for (long categoryId : categoryIds) {
-			AssetCategory category = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(categoryId);
+			AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
 			if (category != null) {
 				categories.add(category);
 			}
@@ -147,20 +128,18 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne la liste des catégories d'un vocabulaire spécifique rattachées à
-	 * un AssetEntry
+	 * Retourne la liste des catégories d'un vocabulaire spécifique rattachées
+	 * à un AssetEntry
 	 * 
 	 */
-	static public List<AssetCategory> getAssetEntryCategoriesByVocabulary(
-		AssetEntry entry, String vocabularyName) {
+	static public List<AssetCategory> getAssetEntryCategoriesByVocabulary(AssetEntry entry, String vocabularyName) {
 		List<AssetCategory> results = new ArrayList<AssetCategory>();
-		List<AssetCategory> categories = AssetVocabularyHelper
-			.getAssetEntryCategories(entry);
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategories(entry);
 		for (AssetCategory category : categories) {
 			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
-				.fetchAssetVocabulary(category.getVocabularyId());
-			if (vocabulary != null && StringHelper.compareIgnoringAccentuation(
-				vocabulary.getName().toLowerCase(), vocabularyName)) {
+					.fetchAssetVocabulary(category.getVocabularyId());
+			if (vocabulary != null
+					&& StringHelper.compareIgnoringAccentuation(vocabulary.getName().toLowerCase(), vocabularyName)) {
 				results.add(category);
 			}
 		}
@@ -173,8 +152,7 @@ public class AssetVocabularyHelper {
 	 */
 	static public String getCategoryProperty(long categoryId, String key) {
 		try {
-			return AssetCategoryPropertyLocalServiceUtil
-				.getCategoryProperty(categoryId, key).getValue();
+			return AssetCategoryPropertyLocalServiceUtil.getCategoryProperty(categoryId, key).getValue();
 		} catch (Exception e) {
 			return "";
 		}
@@ -191,12 +169,10 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la catégorie passée en paramètre avec ses parents
 	 */
-	public static List<AssetCategory> getCategoryWithAncestors(
-		long categoryId) {
+	public static List<AssetCategory> getCategoryWithAncestors(long categoryId) {
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		try {
-			categories
-				.add(AssetCategoryLocalServiceUtil.getCategory(categoryId));
+			categories.add(AssetCategoryLocalServiceUtil.getCategory(categoryId));
 		} catch (PortalException e) {
 			return new ArrayList<AssetCategory>();
 		}
@@ -206,8 +182,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la catégorie passée en paramètre avec ses parents
 	 */
-	public static List<AssetCategory> getCategoryWithAncestors(
-		AssetCategory category) {
+	public static List<AssetCategory> getCategoryWithAncestors(AssetCategory category) {
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		categories.add(category);
 		return getCategoriesWithAncestors(categories);
@@ -216,8 +191,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne les catégories passées en paramètre avec leurs parents
 	 */
-	public static List<AssetCategory> getCategoriesWithAncestors(
-		List<AssetCategory> categories) {
+	public static List<AssetCategory> getCategoriesWithAncestors(List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
 			List<AssetCategory> ancestors;
@@ -238,8 +212,7 @@ public class AssetVocabularyHelper {
 	public static List<AssetCategory> getCategoryWithChild(long categoryId) {
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		try {
-			categories
-				.add(AssetCategoryLocalServiceUtil.getCategory(categoryId));
+			categories.add(AssetCategoryLocalServiceUtil.getCategory(categoryId));
 		} catch (PortalException e) {
 			return new ArrayList<AssetCategory>();
 		}
@@ -249,8 +222,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la catégorie passée en paramètre avec ses enfants
 	 */
-	public static List<AssetCategory> getCategoriesWithChild(
-		AssetCategory category) {
+	public static List<AssetCategory> getCategoriesWithChild(AssetCategory category) {
 		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		categories.add(category);
 		return getCategoriesWithChild(categories);
@@ -259,8 +231,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne les catégorie passée en paramètre avec leurs enfants
 	 */
-	public static List<AssetCategory> getCategoriesWithChild(
-		List<AssetCategory> categories) {
+	public static List<AssetCategory> getCategoriesWithChild(List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
 			allCategories.add(category);
@@ -273,8 +244,7 @@ public class AssetVocabularyHelper {
 	 * Retourne l'ensemble des catégories passées en paramètre et leur parents.
 	 * Si la catégorie est "live", on ajoute également les versions staging
 	 */
-	public static List<AssetCategory> getFullHierarchyCategories(
-		List<AssetCategory> categories) {
+	public static List<AssetCategory> getFullHierarchyCategories(List<AssetCategory> categories) {
 		List<AssetCategory> allCategories = new ArrayList<AssetCategory>();
 		for (AssetCategory category : categories) {
 			List<AssetCategory> ancestors;
@@ -287,19 +257,16 @@ public class AssetVocabularyHelper {
 			allCategories.addAll(ancestors);
 
 			// Ajout des catégories staging
-			Group group = GroupLocalServiceUtil
-				.fetchGroup(category.getGroupId());
+			Group group = GroupLocalServiceUtil.fetchGroup(category.getGroupId());
 			if (group != null && group.getStagingGroup() != null) {
 				AssetCategory stagingCategory = AssetCategoryLocalServiceUtil
-					.fetchAssetCategoryByUuidAndGroupId(category.getUuid(),
-						group.getStagingGroup().getGroupId());
+						.fetchAssetCategoryByUuidAndGroupId(category.getUuid(), group.getStagingGroup().getGroupId());
 				if (stagingCategory != null) {
 					allCategories.add(stagingCategory);
 				}
 				for (AssetCategory ancestor : ancestors) {
-					AssetCategory stagingAncestor = AssetCategoryLocalServiceUtil
-						.fetchAssetCategoryByUuidAndGroupId(ancestor.getUuid(),
-							group.getStagingGroup().getGroupId());
+					AssetCategory stagingAncestor = AssetCategoryLocalServiceUtil.fetchAssetCategoryByUuidAndGroupId(
+							ancestor.getUuid(), group.getStagingGroup().getGroupId());
 					if (stagingAncestor != null) {
 						allCategories.add(stagingAncestor);
 					}
@@ -310,28 +277,23 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Renvoie l'ensemble des catégories parentes, les catégorie passée en
-	 * paramètre et leurs enfants sous forme d'array d'ids. Si la catégorie est
-	 * "live", on ajoute également les versions staging
+	 * Renvoie l'ensemble des catégories passées en paramètres et leur parents
+	 * sous forme d'array d'ids. Si la catégorie est "live", on ajoute également
+	 * les versions staging
 	 */
-	public static long[] getFullHierarchyCategoriesIds(
-		List<AssetCategory> categories) {
-		List<AssetCategory> allCategories = getFullHierarchyCategories(
-			categories);
-		return ListUtil.toLongArray(allCategories,
-			AssetCategory.CATEGORY_ID_ACCESSOR);
+	public static long[] getFullHierarchyCategoriesIds(List<AssetCategory> categories) {
+		List<AssetCategory> allCategories = getFullHierarchyCategories(categories);
+		return ListUtil.toLongArray(allCategories, AssetCategory.CATEGORY_ID_ACCESSOR);
 	}
 
 	/**
 	 * Retourne la catégorie avec le nom donné et faisant parti du groupe donné
 	 */
 	public static AssetCategory getCategory(String categoryName, long groupId) {
-		List<AssetCategory> categories = AssetCategoryLocalServiceUtil
-			.getAssetCategories(-1, -1);
+		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
 		for (AssetCategory category : categories) {
-			if (StringHelper.compareIgnoringAccentuation(
-				category.getName().toLowerCase(), categoryName)
-				&& category.getGroupId() == groupId) {
+			if (StringHelper.compareIgnoringAccentuation(category.getName().toLowerCase(), categoryName)
+					&& category.getGroupId() == groupId) {
 				return category;
 			}
 		}
@@ -341,20 +303,18 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la category ayant le vocabulaire "vocabulary" et une propriété
 	 * "externalId" ou "SIGId" ayant pour valeur "externalId". Retourne null si
-	 * aucune catégorie ne correspond à ces critères.
+	 * aucune catégorie ne correspond à ces critéres.
 	 */
-	public static AssetCategory getCategoryByExternalId(
-		AssetVocabulary vocabulary, String externalId) {
+	public static AssetCategory getCategoryByExternalId(AssetVocabulary vocabulary, String externalId) {
 		List<AssetCategory> categories = vocabulary.getCategories();
 		for (AssetCategory category : categories) {
 
-			String SIGIdProperty = AssetVocabularyHelper
-				.getCategoryProperty(category.getCategoryId(), "SIG");
+			String SIGIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
 			if (SIGIdProperty.equals(externalId)) {
 				return category;
 			}
-			String externalIdProperty = AssetVocabularyHelper
-				.getCategoryProperty(category.getCategoryId(), "externalId");
+			String externalIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),
+					"externalId");
 			if (externalIdProperty.equals(externalId)) {
 				return category;
 			}
@@ -367,8 +327,7 @@ public class AssetVocabularyHelper {
 	 * 
 	 * @throws PortalException
 	 */
-	public static Boolean isSwimmingPool(AssetCategory category)
-		throws PortalException {
+	public static Boolean isSwimmingPool(AssetCategory category) throws PortalException {
 		if (category.getName().equals("Piscines")) {
 			return true;
 		}
@@ -386,8 +345,7 @@ public class AssetVocabularyHelper {
 	 * 
 	 * @throws PortalException
 	 */
-	public static Boolean isParking(AssetCategory category)
-		throws PortalException {
+	public static Boolean isParking(AssetCategory category) throws PortalException {
 		if (category.getName().equals("Parkings")) {
 			return true;
 		}
@@ -407,8 +365,7 @@ public class AssetVocabularyHelper {
 		List<AssetCategory> categories = vocabulary.getCategories();
 		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory category : categories) {
-			JSONObject jsonCategory = AssetVocabularyHelper
-				.categotyToJSON(category);
+			JSONObject jsonCategory = AssetVocabularyHelper.categotyToJSON(category);
 			if (jsonCategory.length() > 0) {
 				jsonCategories.put(jsonCategory);
 			}
@@ -422,11 +379,9 @@ public class AssetVocabularyHelper {
 	static public String getExternalId(AssetCategory category) {
 		String externalId = "";
 		if (category != null) {
-			externalId = AssetVocabularyHelper
-				.getCategoryProperty(category.getCategoryId(), "externalId");
+			externalId = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "externalId");
 			if (Validator.isNull(externalId)) {
-				externalId = AssetVocabularyHelper
-					.getCategoryProperty(category.getCategoryId(), "SIG");
+				externalId = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
 			}
 		}
 		return externalId;
@@ -445,14 +400,12 @@ public class AssetVocabularyHelper {
 				return jsonCategory;
 			}
 			jsonCategory.put("id", externalId);
-			jsonCategory.put("name",
-				JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
+			jsonCategory.put("name", JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
 			try {
 				int level = category.getAncestors().size();
 				if (level > 0) {
 					jsonCategory.put("level", level);
-					String parentExternalId = AssetVocabularyHelper
-						.getExternalId(category.getParentCategory());
+					String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
 					if (Validator.isNotNull(parentExternalId)) {
 						jsonCategory.put("parentId", parentExternalId);
 					}
@@ -467,12 +420,10 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne un JSONArray de String des externalIds d'une liste de catégories
 	 */
-	static public JSONArray getExternalIdsJSONArray(
-		List<AssetCategory> categories) {
+	static public JSONArray getExternalIdsJSONArray(List<AssetCategory> categories) {
 		JSONArray json = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory category : categories) {
-			String categoryExternalId = AssetVocabularyHelper
-				.getExternalId(category);
+			String categoryExternalId = AssetVocabularyHelper.getExternalId(category);
 			if (Validator.isNotNull(categoryExternalId)) {
 				json.put(categoryExternalId);
 			}

@@ -1,6 +1,5 @@
-package eu.strasbourg.service.agenda.search;
+package eu.strasbourg.service.interest.search;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,17 +23,16 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 
-import eu.strasbourg.service.agenda.model.Manifestation;
-import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
+import eu.strasbourg.service.interest.model.Interest;
+import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
-public class ManifestationIndexer extends BaseIndexer<Manifestation> {
+public class InterestIndexer extends BaseIndexer<Interest> {
 
-	public static final String CLASS_NAME = Manifestation.class.getName();
+	public static final String CLASS_NAME = Interest.class.getName();
 
-	public ManifestationIndexer() {
+	public InterestIndexer() {
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -45,38 +43,33 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 	}
 
 	@Override
-	protected void doDelete(Manifestation manifestation) throws Exception {
-		deleteDocument(manifestation.getCompanyId(),
-			manifestation.getManifestationId());
+	protected void doDelete(Interest Interest) throws Exception {
+		deleteDocument(Interest.getCompanyId(),
+			Interest.getInterestId());
 	}
 
 	/**
-	 * Fonction appelÃ©e lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs Ã  indexer
+	 * Fonction appelée lors de l'indexation de l'item
+	 * C'est ici qu'on choisi les champs à  indexer
 	 */
 	@Override
-	protected Document doGetDocument(Manifestation manifestation)
+	protected Document doGetDocument(Interest Interest)
 		throws Exception {
-		Document document = getBaseModelDocument(CLASS_NAME, manifestation);
+		Document document = getBaseModelDocument(CLASS_NAME, Interest);
 		
 		long[] assetCategoryIds = AssetVocabularyHelper
-			.getFullHierarchyCategoriesIds(manifestation.getCategories());
+			.getFullHierarchyCategoriesIds(Interest.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
-			.getFullHierarchyCategories(manifestation.getCategories());
+			.getFullHierarchyCategories(Interest.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
-		document.addLocalizedText(Field.TITLE, manifestation.getTitleMap());
+		document.addLocalizedText(Field.TITLE, Interest.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
-			manifestation.getDescriptionMap());
-		document.addNumber(Field.STATUS, manifestation.getStatus());
+			Interest.getDescriptionMap());
+		document.addNumber(Field.STATUS, Interest.getStatus());
 		
-		Date endDate = manifestation.getEndDate();
-		List<Date> dates = DateHelper.getDaysBetweenDates(new Date(), endDate);
-		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
-		document.addDateSortable("startDate", manifestation.getStartDate());
-		document.addDateSortable("endDate", manifestation.getEndDate());
 		return document;
 	}
 
@@ -90,8 +83,8 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		Manifestation entry = ManifestationLocalServiceUtil
-			.getManifestation(classPK);
+		Interest entry = InterestLocalServiceUtil
+			.getInterest(classPK);
 		doReindex(entry);
 	}
 
@@ -102,16 +95,16 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 	}
 
 	@Override
-	protected void doReindex(Manifestation manifestation) throws Exception {
-		Document document = getDocument(manifestation);
+	protected void doReindex(Interest Interest) throws Exception {
+		Document document = getDocument(Interest);
 
 		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			manifestation.getCompanyId(), document, isCommitImmediately());
+			Interest.getCompanyId(), document, isCommitImmediately());
 
 	}
 
 	protected void reindexEntries(long companyId) throws PortalException {
-		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = ManifestationLocalServiceUtil
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = InterestLocalServiceUtil
 			.getIndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setAddCriteriaMethod(
@@ -123,17 +116,17 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 			});
 		indexableActionableDynamicQuery.setCompanyId(companyId);
 		indexableActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<Manifestation>() {
+			new ActionableDynamicQuery.PerformActionMethod<Interest>() {
 
 				@Override
-				public void performAction(Manifestation entry) {
+				public void performAction(Interest entry) {
 					try {
 						Document document = getDocument(entry);
 
 						indexableActionableDynamicQuery.addDocuments(document);
 					} catch (PortalException pe) {
-						_log.error("Unable to index manifestation entry "
-							+ entry.getManifestationId());
+						_log.error("Unable to index Interest entry "
+							+ entry.getInterestId());
 					}
 				}
 

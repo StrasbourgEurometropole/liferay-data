@@ -1,0 +1,9 @@
+Bundle-Name: interest-api
+Bundle-SymbolicName: eu.strasbourg.service.interest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.interest.exception,\
+	eu.strasbourg.service.interest.model,\
+	eu.strasbourg.service.interest.service,\
+	eu.strasbourg.service.interest.service.persistence
+-includeresource: META-INF/service.xml=../interest-service/service.xml

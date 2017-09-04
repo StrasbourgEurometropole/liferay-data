@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.interest">
+    <author>BenjaminBini</author>
+	<namespace>interest</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="Interest" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="interestId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields --> 
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Champs généraux -->
+        <column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        
+        <!-- Links with other entities -->
+        <column name="typeId" type="long" />
+        
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="UserInterest" remote-service="false" uuid="false" >
+		<column name="interestId" primary="true" type="long" />
+		<column name="publikUserId" primary="true" type="long" />
+		
+		<finder name="InterestId" return-type="Collection" db-index="true" >
+			<finder-column name="interestId" />
+		</finder>
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+	</entity>
+	
+</service-builder>
