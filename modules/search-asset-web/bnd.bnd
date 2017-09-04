@@ -1,5 +1,5 @@
 Bundle-SymbolicName: search.asset.web
-Bundle-Version: 1.20.0
+Bundle-Version: 1.21.0
 Web-ContextPath: /searchassetweb
 Bundle-ClassPath:\
   .,\
