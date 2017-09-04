@@ -1233,13 +1233,13 @@ display:none !important;
 .article-detail .article-texte p a,
 .article-detail .article-texte li a
 {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .article-detail .article-texte p a:hover,
 .article-detail .article-texte li a:hover
 {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .article-detail .article-texte ul,
