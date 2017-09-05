@@ -16,9 +16,16 @@ package eu.strasbourg.service.interest.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.interest.service.InterestServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.interest.service.InterestServiceUtil} service utility. The
+ * {@link InterestServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,55 @@ import aQute.bnd.annotation.ProviderType;
  * @author BenjaminBini
  * @see InterestServiceHttp
  * @see eu.strasbourg.service.interest.model.InterestSoap
- * @see eu.strasbourg.service.interest.service.InterestServiceUtil
+ * @see InterestServiceUtil
  * @generated
  */
 @ProviderType
 public class InterestServiceSoap {
+	/**
+	* Retourne la liste de tous les centres d'intérêt
+	*/
+	public static java.lang.String getInterests() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = InterestServiceUtil.getInterests();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String setUserInterests(java.lang.String userId,
+		java.lang.String interestIds) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = InterestServiceUtil.setUserInterests(userId,
+					interestIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getUserInterests(java.lang.String userId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = InterestServiceUtil.getUserInterests(userId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(InterestServiceSoap.class);
 }

@@ -71,10 +71,6 @@
 					<portlet:param name="mvcPath" value="/interest-bo-edit-interest.jsp" />
 				</liferay-portlet:renderURL>
 
-				<liferay-ui:search-container-column-text>
-					<img src="${interest.imageURL}" style="max-height:120px;"/>
-				</liferay-ui:search-container-column-text>
-
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editInterestURL}" name="title" truncate="true"
 					orderable="true" value="${interest.titleCurrentValue}" />
@@ -122,7 +118,7 @@
 
 <c:if test="${dc.hasPermission('ADD_INTEREST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une interest"
+		<liferay-frontend:add-menu-item title="Ajouter un centre d'interet"
 			url="${addInterestURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

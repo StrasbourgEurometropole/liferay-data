@@ -11,7 +11,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
     immediate = true,
     property = {
-        "panel.app.order:Integer=300",
+        "panel.app.order:Integer=290",
     	"panel.category.key=" + PanelCategoryKeys.SITE_ADMINISTRATION_CONTENT
     },
     service = PanelApp.class

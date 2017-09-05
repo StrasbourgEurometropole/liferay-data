@@ -21,6 +21,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
@@ -91,5 +92,11 @@ public class InterestImpl extends InterestBaseImpl {
 		}
 		jsonInterest.put("type", type);
 		jsonInterest.put("typeId", this.getTypeId());
+		JSONArray categories = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : this.getCategories()) {
+			categories.put(category.getCategoryId());
+		}
+		jsonInterest.put("categories", categories);
+		return jsonInterest;
 	}
 }

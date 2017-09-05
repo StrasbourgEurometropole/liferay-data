@@ -53,6 +53,15 @@
 					</aui:input>
 				</div>
 				
+				<aui:select name="typeId" label="type" required="true">
+					<aui:option value="" label="" />
+					<c:forEach items="${dc.types}" var="category">
+						<aui:option value="${category.categoryId}" selected="${dc.interest.typeId eq  category.categoryId}">
+							${category.getTitle(locale)}
+						</aui:option>
+					</c:forEach>
+				</aui:select>
+				
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"

@@ -33,6 +33,26 @@ public class InterestServiceWrapper implements InterestService,
 	}
 
 	/**
+	* Retourne la liste de tous les centres d'intérêt
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getInterests() {
+		return _interestService.getInterests();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getUserInterests(
+		java.lang.String userId) {
+		return _interestService.getUserInterests(userId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject setUserInterests(
+		java.lang.String userId, java.lang.String interestIds) {
+		return _interestService.setUserInterests(userId, interestIds);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

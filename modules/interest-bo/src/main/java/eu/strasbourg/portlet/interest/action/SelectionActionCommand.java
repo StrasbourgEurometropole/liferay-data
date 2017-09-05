@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.interest.action;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -10,9 +12,12 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.interest.model.Interest;
@@ -55,6 +60,18 @@ public class SelectionActionCommand implements MVCActionCommand {
 			} catch (PortalException e) {
 				_log.error(e);
 			}
+		}
+
+		// Redirection (évite double
+		// requête POST si l'utilisateur actualise sa page)
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		String portletName = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
+		PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest, portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+		try {
+			actionResponse.sendRedirect(renderUrl.toString());
+		} catch (Exception ex) {
+			_log.error(ex);
 		}
 		return false;
 	}

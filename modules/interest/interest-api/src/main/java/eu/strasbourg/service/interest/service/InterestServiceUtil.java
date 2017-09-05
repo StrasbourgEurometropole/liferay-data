@@ -43,6 +43,23 @@ public class InterestServiceUtil {
 	 */
 
 	/**
+	* Retourne la liste de tous les centres d'intérêt
+	*/
+	public static com.liferay.portal.kernel.json.JSONArray getInterests() {
+		return getService().getInterests();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getUserInterests(
+		java.lang.String userId) {
+		return getService().getUserInterests(userId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject setUserInterests(
+		java.lang.String userId, java.lang.String interestIds) {
+		return getService().setUserInterests(userId, interestIds);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

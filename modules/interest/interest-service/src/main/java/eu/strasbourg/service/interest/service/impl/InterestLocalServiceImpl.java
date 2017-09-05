@@ -282,8 +282,7 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 		for (long interestId : interestIds) {
 			Interest interest = this.fetchInterest(interestId);
 			if (interest != null && interest.isApproved()) {
-				UserInterest userInterest;
-				userInterest = this.userInterestLocalService
+				UserInterest userInterest = this.userInterestLocalService
 						.createUserInterest(new UserInterestPK(interestId, publikUserId));
 				this.userInterestLocalService.updateUserInterest(userInterest);
 			}

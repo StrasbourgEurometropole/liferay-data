@@ -12,6 +12,7 @@
 				<action-key>ADD_INTEREST</action-key>
 				<action-key>DELETE_INTEREST</action-key>
 				<action-key>EDIT_INTEREST</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -20,10 +21,11 @@
 				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
 				<action-key>CONFIGURATION</action-key>
-				<action-key>VIEW</action-key>			
-				<action-key>ADD_INTEREST</action-key>
+				<action-key>VIEW</action-key>				
+				<action-key>ADD_INTEREST</action-key>		
 				<action-key>DELETE_INTEREST</action-key>
 				<action-key>EDIT_INTEREST</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

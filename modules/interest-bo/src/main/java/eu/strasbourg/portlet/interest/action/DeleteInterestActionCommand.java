@@ -18,6 +18,8 @@ package eu.strasbourg.portlet.interest.action;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -25,8 +27,11 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.interest.service.InterestLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -47,7 +52,18 @@ public class DeleteInterestActionCommand
 		try {
 			long interestId = ParamUtil.getLong(request, "interestId");
 			_interestInterestLocalService.removeInterest(interestId);
-		} catch (PortalException e) {
+			
+			// Redirection (évite double
+			// requête POST si l'utilisateur actualise sa page)
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			response.sendRedirect(renderUrl.toString());
+		} catch (Exception e) {
 			_log.error(e);
 		}
 		return true;
