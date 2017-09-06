@@ -23,11 +23,11 @@
     /* Listes */
     ul:not(.unstyled){ 
         @extend %atom-ul-rte;
-        clear: both;
+        // clear: both;
     }
     ol:not(.unstyled){
         @extend %atom-ol-rte;
-        clear: both;
+        // clear: both;
     }
     // Table
     .table-content{

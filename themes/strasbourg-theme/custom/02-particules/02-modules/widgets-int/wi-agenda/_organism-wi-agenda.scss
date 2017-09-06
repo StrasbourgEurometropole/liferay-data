@@ -34,4 +34,17 @@
     .seu-wi-item{
         @extend %atom-wi-agenda-vignette;
     }
+
+
+    // Modificateur actualité
+    &.seu-type--actu{
+        background-color: $second-color;
+        .seu-wi-item{
+            min-height: 425px;
+        }
+
+        .seu-section-title:before{
+            background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
+        }
+    }
 }

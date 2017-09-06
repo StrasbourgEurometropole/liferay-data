@@ -21,4 +21,14 @@ _:-ms-fullscreen, :root{
         flex: 1 0 auto;
         width: 600px;
     }
+    .seu-view-filters .select2 .select2-selection, .page-demarches #rub_service .select2 .select2-selection, .seu-main-form .select2 .select2-selection{
+        padding: 0;
+        padding-right: 40px;
+    }
+    .seu-view-filters .select2 .select2-selection__rendered li, .page-demarches #rub_service .select2 .select2-selection__rendered li, .seu-main-form .select2 .select2-selection__rendered li{
+        height: 40px;
+        input{
+            line-height: 32px !important;
+        }
+    }
 }
