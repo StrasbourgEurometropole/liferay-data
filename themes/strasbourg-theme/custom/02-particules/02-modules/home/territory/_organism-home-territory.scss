@@ -129,7 +129,7 @@
                 max-width: 100%;
             }
             .customSelectContain{
-                @extend %atom-customSelect--grey; 
+                @extend %atom-customSelect--white; 
 
                 @include RWD(mobile){
                     .customSelectInner{

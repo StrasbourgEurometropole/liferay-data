@@ -14,7 +14,7 @@
                   <#list nav_item.getChildren() as nav_child>
                     <#if nav_child.getName() != 'Raccourcis'>
                       <div class="seu-submenu-item">
-                        <div class="seu-title">${nav_child.getName()}</div>
+                        <a href="${nav_child.getURL()}" class="seu-title">${nav_child.getName()}</a>
 
                         <!-- Sous menu niveau 2 -->
                         <#if nav_child.hasChildren()>

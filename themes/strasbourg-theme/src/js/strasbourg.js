@@ -15319,6 +15319,14 @@ $(document).ready(function(){
     });
 });
 (function ($) {
+    $('#seu-grid-carrefour').masonry({
+        itemSelector: '.seu-grid-item',
+        gutter: 20,
+        percentPosition: true,
+        transitionDuration: '0.6s'
+    });
+ }(jQuery));
+(function ($) {
     $(document).ready(function(){
         if($('.seu-slider-int-container').length){
             $('.seu-slider-int-container .seu-slider').addClass('owl-carousel');
