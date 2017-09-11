@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.notification">
+    <author>BenjaminBini</author>
+	<namespace>notification</namespace>
+	
+	<!-- Notification -->
+	<entity local-service="true" cache-enabled="true" name="Notification" remote-service="true" uuid="false" >
+
+		<column name="notificationId" primary="true" type="long" />
+        <column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="url" type="String" localized="false" />
+        <column name="automatic" type="boolean" />
+        <column name="singleUser" type="boolean" />
+        <column name="singleUserId" type="long" />
+		<column name="publicationDate" type="Date" />
+        <column name="expirationDate" type="Date" />
+		<column name="status" type="int" />
+        <column name="typeId" type="long" />
+        		
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="ExpirationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="expirationDate" />
+			<finder-column name="status" />
+		</finder>
+	</entity>
+	
+	<!-- Statut de la notification pour un utilisateur -->
+	<entity local-service="true" cache-enabled="true" name="UserNotificationStatus" remote-service="false" uuid="false" >
+		<column name="notificationId" primary="true" type="long" />
+		<column name="publikUserId" primary="true" type="long" />
+        <column name="read" type="boolean" />
+		
+		<finder name="NotificationId" return-type="Collection" db-index="true" >
+			<finder-column name="notificationId" />
+		</finder>
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+	</entity>
+	
+	<!-- Type de notifications auxquelles un utilisateur est abonné -->
+	<entity local-service="true" cache-enabled="true" name="UserNotificationType" remote-service="false" uuid="false" >
+		<column name="publikUserId" type="long" primary="true"/>
+		<column name="typeId" type="long" primary="true"/>
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="TypeId" return-type="Collection" db-index="true" >
+			<finder-column name="typeId" />
+		</finder>
+	</entity>
+	
+	<!-- Canaux de communications des notifications d'un utilisateur -->
+	<entity local-service="true" cache-enabled="true" name="UserNotificationChannel" remote-service="false" uuid="false" >
+		<column name="publikUserId" type="long" primary="true"/>
+		<column name="channelId" type="long" primary="true"/>
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="ChannelId" return-type="Collection" db-index="true" >
+			<finder-column name="channelId" />
+		</finder>
+	</entity>
+	
+</service-builder>

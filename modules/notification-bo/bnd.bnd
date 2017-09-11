@@ -1,0 +1,4 @@
+Bundle-Name: notification-bo
+Bundle-SymbolicName: eu.strasbourg.portlet.notification
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.notification.constants

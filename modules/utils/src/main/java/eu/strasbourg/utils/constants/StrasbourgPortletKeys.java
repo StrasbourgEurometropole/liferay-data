@@ -29,6 +29,8 @@ public class StrasbourgPortletKeys {
 
 	public static final String INTEREST_BO = "eu_strasbourg_portlet_interest_InterestBOPortlet";
 	
+	public static final String NOTIFICATION_BO = "eu_strasbourg_portlet_notification_NotificationBOPortlet";
+	
 	public static final String RUBRIC_WEB = "eu_strasbourg_portlet_rubric_RubricPortlet";
 	
 	public static final String PAGE_HEADER_WEB = "eu_strasbourg_portlet_page_header_PageHeaderPortlet";

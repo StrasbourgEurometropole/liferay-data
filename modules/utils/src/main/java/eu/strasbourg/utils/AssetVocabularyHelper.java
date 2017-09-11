@@ -361,16 +361,22 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la version JSON d'une liste de catégories
 	 */
-	static public JSONArray toJSON(AssetVocabulary vocabulary) {
-		List<AssetCategory> categories = vocabulary.getCategories();
+	static public JSONArray toJSON(List<AssetCategory> categories) {
 		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory category : categories) {
-			JSONObject jsonCategory = AssetVocabularyHelper.categotyToJSON(category);
+			JSONObject jsonCategory = AssetVocabularyHelper.categoryToJSON(category);
 			if (jsonCategory.length() > 0) {
 				jsonCategories.put(jsonCategory);
 			}
 		}
 		return jsonCategories;
+	}
+
+	/**
+	 * Retourne la version JSON d'une liste d'un vocabulaire
+	 */
+	static public JSONArray toJSON(AssetVocabulary vocabulary) {
+		return toJSON(vocabulary.getCategories());
 	}
 
 	/**
@@ -390,7 +396,7 @@ public class AssetVocabularyHelper {
 	/**
 	 * Retourne la version JSON d'une catégorie
 	 */
-	static public JSONObject categotyToJSON(AssetCategory category) {
+	static public JSONObject categoryToJSON(AssetCategory category) {
 		JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
 		if (category != null) {
 			// On exporte la propriété "externalId" de la catégorie, si elle

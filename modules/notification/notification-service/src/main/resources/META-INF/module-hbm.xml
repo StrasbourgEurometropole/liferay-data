@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.notification.model.Notification" />
+	<import class="eu.strasbourg.service.notification.model.UserNotificationChannel" />
+	<import class="eu.strasbourg.service.notification.model.UserNotificationStatus" />
+	<import class="eu.strasbourg.service.notification.model.UserNotificationType" />
+	<class name="eu.strasbourg.service.notification.model.impl.NotificationImpl" table="notification_Notification">
+		<id name="notificationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="singleUser" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="singleUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl" table="notification_UserNotificationChannel">
+		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK" name="primaryKey">
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="channelId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+	</class>
+	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl" table="notification_UserNotificationStatus">
+		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK" name="primaryKey">
+			<key-property name="notificationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+		<property column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl" table="notification_UserNotificationType">
+		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK" name="primaryKey">
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+	</class>
+</hibernate-mapping>
