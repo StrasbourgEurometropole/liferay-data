@@ -67,11 +67,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONObject getFileDetails(long groupId, String uuid, String language) {
 		DLFileEntry file = DLFileEntryLocalServiceUtil
 			.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
+		
 		Locale locale = Locale.forLanguageTag(language);
 		
 		JSONObject jsonDetail = JSONFactoryUtil.createJSONObject();
 		jsonDetail.put("name", file.getName());
-		jsonDetail.put("title", file.getTitle());
+		jsonDetail.put("title", FileEntryHelper.getFileTitle(file, locale));
 		jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
 		jsonDetail.put("type", file.getExtension());
 		

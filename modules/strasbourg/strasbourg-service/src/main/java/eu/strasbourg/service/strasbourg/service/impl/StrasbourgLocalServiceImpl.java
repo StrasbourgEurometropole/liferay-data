@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
-
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgLocalServiceBaseImpl;
 
 /**
