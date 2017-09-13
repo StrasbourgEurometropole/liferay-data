@@ -27,7 +27,7 @@
 
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>${the_title} - ${company_name}</title>
+		<title>${the_title} | ${languageUtil.get(locale, "site.title.ond")}</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=0.8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
