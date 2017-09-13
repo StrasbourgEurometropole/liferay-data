@@ -109,7 +109,7 @@ div.selector.hover.active span, div.selector.focus.active span {
 , .button-gray .middle
 , .previous-link-div
 {
-    background: transparent url(../../img/btn/back_arrow.png) 11px 10px no-repeat;
+    background: transparent url(../../img/btn/back_arrow.png) 11px 5px no-repeat;
     height: 30px;
     width: 112px;
     transition: all 0.25s linear;
