@@ -5,16 +5,13 @@
 <#assign currentGroup = layout.getGroup() />
 <#assign currentGroupName = currentGroup.getName() />
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
+<#assign websiteUrl = "//www.strasbourg.eu" />
 <#if locale.language == "en">
   <#assign websiteUrl = "//www.en.strasbourg.eu" />
 <#else>
-  <#if locale.language == "fr">
-    <#assign websiteUrl = "//www.strasbourg.eu" />
-  <#else>
-    <#if locale.language == "de">
+	<#if locale.language == "de">
       <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
-  </#if>
 </#if>
 
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}" class="no-js">
@@ -30,14 +27,14 @@
 
     <link rel="Shortcut icon" href="${images_folder}/favicon/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="57x57" href="${images_folder}/favicon/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="${images_folder}/images/favicon/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="${images_folder}/images/favicon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="${images_folder}/images/favicon/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="${images_folder}/images/favicon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="${images_folder}/images/favicon/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="${images_folder}/images/favicon/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="${images_folder}/images/favicon/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="${images_folder}/images/favicon/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="${images_folder}/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="${images_folder}/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="${images_folder}/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="${images_folder}/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="${images_folder}/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="${images_folder}/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="${images_folder}/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="${images_folder}/favicon/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="${images_folder}/favicon/android-chrome-192x192.png" sizes="192x192">
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-96x96.png" sizes="96x96">
@@ -68,8 +65,8 @@
       <!-- pre-header -->
       <nav class="nav-lang"> 
         <div class="center"> 
-          <a href="//www.europtimist.eu/" title="Strasbourg.eu (<@liferay.language key="new-window" />" class="logo-strasbourg" target="_blank">
-            <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Strasbourg.eu" />
+          <a href="//www.europtimist.eu/" title="Europtimist.eu (<@liferay.language key="new-window" />)" class="logo-strasbourg" target="_blank">
+            <img src="${images_folder}/pre-header/logo_strasbourg.png" alt="Europtimist.eu" />
           </a>
           <ul>
 	      	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>

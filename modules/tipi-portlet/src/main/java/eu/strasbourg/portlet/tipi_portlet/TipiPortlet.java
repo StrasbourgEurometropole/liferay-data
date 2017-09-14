@@ -56,7 +56,7 @@ public class TipiPortlet extends MVCPortlet {
 			} else if (form.equals("afterSchool")) {
 				appCode = "GA";
 				clientNumber = "000696";
-				formTitle = "Facturation accueil p&eacute;riscolaire";
+				formTitle = "Facturation services p&eacute;riscolaires (APM-ALM)";
 			} else if (form.equals("water")) {
 				appCode = "EA";
 				clientNumber = "007964";
@@ -72,7 +72,7 @@ public class TipiPortlet extends MVCPortlet {
 		String callbackURL = "";
 		billingURL = StrasbourgPropsUtil.getTipiURL();
 		callbackURL = StrasbourgPropsUtil.getTipiCallbackURL();
-		callbackURL = "http://ldkimmwffo.localtunnel.me/web/tipi/accueil";
+		//callbackURL = "http://ldkimmwffo.localtunnel.me/web/tipi/accueil";
 		request.setAttribute("billingURL", billingURL);
 		request.setAttribute("callbackURL", callbackURL);
 
