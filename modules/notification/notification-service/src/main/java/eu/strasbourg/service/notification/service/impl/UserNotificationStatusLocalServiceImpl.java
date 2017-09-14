@@ -60,7 +60,7 @@ public class UserNotificationStatusLocalServiceImpl extends UserNotificationStat
 	 * Retourne la liste des statuts de notification pour un utilisateur
 	 */
 	@Override
-	public List<UserNotificationStatus> getByUserId(long publikUserId) {
+	public List<UserNotificationStatus> getByPublikUserId(String publikUserId) {
 		return this.userNotificationStatusPersistence.findByPublikUserId(publikUserId);
 	}
 }

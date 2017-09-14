@@ -235,9 +235,9 @@ public class UserNotificationStatusLocalServiceWrapper
 	* Retourne la liste des statuts de notification pour un utilisateur
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.notification.model.UserNotificationStatus> getByUserId(
-		long publikUserId) {
-		return _userNotificationStatusLocalService.getByUserId(publikUserId);
+	public java.util.List<eu.strasbourg.service.notification.model.UserNotificationStatus> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return _userNotificationStatusLocalService.getByPublikUserId(publikUserId);
 	}
 
 	/**

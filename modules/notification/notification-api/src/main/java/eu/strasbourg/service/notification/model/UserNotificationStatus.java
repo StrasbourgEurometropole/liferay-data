@@ -56,16 +56,16 @@ public interface UserNotificationStatus extends UserNotificationStatusModel,
 			}
 		};
 
-	public static final Accessor<UserNotificationStatus, Long> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationStatus, Long>() {
+	public static final Accessor<UserNotificationStatus, String> PUBLIK_USER_ID_ACCESSOR =
+		new Accessor<UserNotificationStatus, String>() {
 			@Override
-			public Long get(UserNotificationStatus userNotificationStatus) {
+			public String get(UserNotificationStatus userNotificationStatus) {
 				return userNotificationStatus.getPublikUserId();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

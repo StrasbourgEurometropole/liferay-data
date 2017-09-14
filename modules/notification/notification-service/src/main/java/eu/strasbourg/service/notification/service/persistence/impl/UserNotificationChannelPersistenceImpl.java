@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -88,7 +89,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
-				Long.class.getName(),
+				String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -98,12 +99,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { Long.class.getName() },
+			new String[] { String.class.getName() },
 			UserNotificationChannelModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { Long.class.getName() });
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the user notification channels where publikUserId = &#63;.
@@ -112,7 +113,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByPublikUserId(long publikUserId) {
+	public List<UserNotificationChannel> findByPublikUserId(String publikUserId) {
 		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
@@ -130,8 +131,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByPublikUserId(long publikUserId,
-		int start, int end) {
+	public List<UserNotificationChannel> findByPublikUserId(
+		String publikUserId, int start, int end) {
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -149,8 +150,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByPublikUserId(long publikUserId,
-		int start, int end,
+	public List<UserNotificationChannel> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		return findByPublikUserId(publikUserId, start, end, orderByComparator,
 			true);
@@ -171,8 +172,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByPublikUserId(long publikUserId,
-		int start, int end,
+	public List<UserNotificationChannel> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
@@ -202,7 +203,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 			if ((list != null) && !list.isEmpty()) {
 				for (UserNotificationChannel userNotificationChannel : list) {
-					if ((publikUserId != userNotificationChannel.getPublikUserId())) {
+					if (!Objects.equals(publikUserId,
+								userNotificationChannel.getPublikUserId())) {
 						list = null;
 
 						break;
@@ -224,7 +226,19 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONCHANNEL_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -246,7 +260,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				if (!pagination) {
 					list = (List<UserNotificationChannel>)QueryUtil.list(q,
@@ -287,7 +303,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel findByPublikUserId_First(long publikUserId,
+	public UserNotificationChannel findByPublikUserId_First(
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
 		UserNotificationChannel userNotificationChannel = fetchByPublikUserId_First(publikUserId,
@@ -318,7 +335,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel fetchByPublikUserId_First(
-		long publikUserId,
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		List<UserNotificationChannel> list = findByPublikUserId(publikUserId,
 				0, 1, orderByComparator);
@@ -339,7 +356,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel findByPublikUserId_Last(long publikUserId,
+	public UserNotificationChannel findByPublikUserId_Last(
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
 		UserNotificationChannel userNotificationChannel = fetchByPublikUserId_Last(publikUserId,
@@ -369,7 +387,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the last matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel fetchByPublikUserId_Last(long publikUserId,
+	public UserNotificationChannel fetchByPublikUserId_Last(
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		int count = countByPublikUserId(publikUserId);
 
@@ -398,7 +417,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel[] findByPublikUserId_PrevAndNext(
-		UserNotificationChannelPK userNotificationChannelPK, long publikUserId,
+		UserNotificationChannelPK userNotificationChannelPK,
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
 		UserNotificationChannel userNotificationChannel = findByPrimaryKey(userNotificationChannelPK);
@@ -432,7 +452,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 	protected UserNotificationChannel getByPublikUserId_PrevAndNext(
 		Session session, UserNotificationChannel userNotificationChannel,
-		long publikUserId,
+		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean previous) {
 		StringBundler query = null;
@@ -448,7 +468,19 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONCHANNEL_WHERE);
 
-		query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		boolean bindPublikUserId = false;
+
+		if (publikUserId == null) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+		}
+		else if (publikUserId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -518,7 +550,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(publikUserId);
+		if (bindPublikUserId) {
+			qPos.add(publikUserId);
+		}
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(userNotificationChannel);
@@ -544,7 +578,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @param publikUserId the publik user ID
 	 */
 	@Override
-	public void removeByPublikUserId(long publikUserId) {
+	public void removeByPublikUserId(String publikUserId) {
 		for (UserNotificationChannel userNotificationChannel : findByPublikUserId(
 				publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(userNotificationChannel);
@@ -558,7 +592,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the number of matching user notification channels
 	 */
 	@Override
-	public int countByPublikUserId(long publikUserId) {
+	public int countByPublikUserId(String publikUserId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
 
 		Object[] finderArgs = new Object[] { publikUserId };
@@ -570,7 +604,19 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONCHANNEL_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			String sql = query.toString();
 
@@ -583,7 +629,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -602,7 +650,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "userNotificationChannel.id.publikUserId IS NULL";
 	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "userNotificationChannel.id.publikUserId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(userNotificationChannel.id.publikUserId IS NULL OR userNotificationChannel.id.publikUserId = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CHANNELID =
 		new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,

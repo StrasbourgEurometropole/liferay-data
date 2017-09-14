@@ -56,7 +56,7 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 	}
 
 	/**
-	 * Fonction appelze lors de l'indexation de l'item C'est ici qu'on choisi
+	 * Fonction appelée lors de l'indexation de l'item, c'est ici qu'on choisi
 	 * les champs à indexer
 	 */
 	@Override
@@ -92,9 +92,12 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 	}
 
 	@Override
-	protected void doReindex(Notification Notification) throws Exception {
-		Document document = getDocument(Notification);
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(), companyId, document, isCommitImmediately());
+	protected void doReindex(Notification notification) throws Exception {
+		// On indexe pas les notifications venant du WS
+		if (!notification.isAutomatic()) {
+			Document document = getDocument(notification);
+			IndexWriterHelperUtil.updateDocument(getSearchEngineId(), companyId, document, isCommitImmediately());
+		}
 	}
 
 	protected void reindexEntries(long companyId) throws PortalException {
@@ -114,9 +117,12 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 					@Override
 					public void performAction(Notification entry) {
 						try {
-							Document document = getDocument(entry);
+							// On indexe pas les notifications venant du WS
+							if (!entry.isAutomatic()) {
+								Document document = getDocument(entry);
 
-							indexableActionableDynamicQuery.addDocuments(document);
+								indexableActionableDynamicQuery.addDocuments(document);
+							}
 						} catch (PortalException pe) {
 							_log.error("Unable to index Notification entry " + entry.getNotificationId());
 						}

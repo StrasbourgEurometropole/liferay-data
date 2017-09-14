@@ -20,12 +20,9 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,10 +63,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	public static final String TABLE_NAME = "publik_PublikUser";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
-			{ "publikUserId", Types.BIGINT },
+			{ "publikUserLiferayId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
-			{ "publikInternalId", Types.VARCHAR },
+			{ "publikId", Types.VARCHAR },
 			{ "accessToken", Types.VARCHAR },
 			{ "firstName", Types.VARCHAR },
 			{ "lastName", Types.VARCHAR },
@@ -79,20 +76,20 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("publikUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikUserLiferayId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("publikInternalId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("accessToken", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikInternalId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
-	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserLiferayId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserLiferayId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -105,9 +102,9 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.oidc.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.oidc.model.PublikUser"),
 			true);
-	public static final long PUBLIKINTERNALID_COLUMN_BITMASK = 1L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 1L;
 	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
+	public static final long PUBLIKUSERLIFERAYID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.oidc.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.oidc.model.PublikUser"));
 
@@ -116,17 +113,17 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public long getPrimaryKey() {
-		return _publikUserId;
+		return _publikUserLiferayId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setPublikUserId(primaryKey);
+		setPublikUserLiferayId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _publikUserId;
+		return _publikUserLiferayId;
 	}
 
 	@Override
@@ -149,10 +146,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("publikUserId", getPublikUserId());
+		attributes.put("publikUserLiferayId", getPublikUserLiferayId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("publikInternalId", getPublikInternalId());
+		attributes.put("publikId", getPublikId());
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
@@ -172,10 +169,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			setUuid(uuid);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		Long publikUserLiferayId = (Long)attributes.get("publikUserLiferayId");
 
-		if (publikUserId != null) {
-			setPublikUserId(publikUserId);
+		if (publikUserLiferayId != null) {
+			setPublikUserLiferayId(publikUserLiferayId);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -190,10 +187,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			setModifiedDate(modifiedDate);
 		}
 
-		String publikInternalId = (String)attributes.get("publikInternalId");
+		String publikId = (String)attributes.get("publikId");
 
-		if (publikInternalId != null) {
-			setPublikInternalId(publikInternalId);
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 
 		String accessToken = (String)attributes.get("accessToken");
@@ -245,29 +242,13 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	}
 
 	@Override
-	public long getPublikUserId() {
-		return _publikUserId;
+	public long getPublikUserLiferayId() {
+		return _publikUserLiferayId;
 	}
 
 	@Override
-	public void setPublikUserId(long publikUserId) {
-		_publikUserId = publikUserId;
-	}
-
-	@Override
-	public String getPublikUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getPublikUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setPublikUserUuid(String publikUserUuid) {
+	public void setPublikUserLiferayId(long publikUserLiferayId) {
+		_publikUserLiferayId = publikUserLiferayId;
 	}
 
 	@Override
@@ -297,28 +278,28 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	}
 
 	@Override
-	public String getPublikInternalId() {
-		if (_publikInternalId == null) {
+	public String getPublikId() {
+		if (_publikId == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _publikInternalId;
+			return _publikId;
 		}
 	}
 
 	@Override
-	public void setPublikInternalId(String publikInternalId) {
-		_columnBitmask |= PUBLIKINTERNALID_COLUMN_BITMASK;
+	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
 
-		if (_originalPublikInternalId == null) {
-			_originalPublikInternalId = _publikInternalId;
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
 		}
 
-		_publikInternalId = publikInternalId;
+		_publikId = publikId;
 	}
 
-	public String getOriginalPublikInternalId() {
-		return GetterUtil.getString(_originalPublikInternalId);
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@Override
@@ -413,10 +394,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		PublikUserImpl publikUserImpl = new PublikUserImpl();
 
 		publikUserImpl.setUuid(getUuid());
-		publikUserImpl.setPublikUserId(getPublikUserId());
+		publikUserImpl.setPublikUserLiferayId(getPublikUserLiferayId());
 		publikUserImpl.setCreateDate(getCreateDate());
 		publikUserImpl.setModifiedDate(getModifiedDate());
-		publikUserImpl.setPublikInternalId(getPublikInternalId());
+		publikUserImpl.setPublikId(getPublikId());
 		publikUserImpl.setAccessToken(getAccessToken());
 		publikUserImpl.setFirstName(getFirstName());
 		publikUserImpl.setLastName(getLastName());
@@ -487,7 +468,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		publikUserModelImpl._setModifiedDate = false;
 
-		publikUserModelImpl._originalPublikInternalId = publikUserModelImpl._publikInternalId;
+		publikUserModelImpl._originalPublikId = publikUserModelImpl._publikId;
 
 		publikUserModelImpl._columnBitmask = 0;
 	}
@@ -504,7 +485,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.uuid = null;
 		}
 
-		publikUserCacheModel.publikUserId = getPublikUserId();
+		publikUserCacheModel.publikUserLiferayId = getPublikUserLiferayId();
 
 		Date createDate = getCreateDate();
 
@@ -524,12 +505,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
-		publikUserCacheModel.publikInternalId = getPublikInternalId();
+		publikUserCacheModel.publikId = getPublikId();
 
-		String publikInternalId = publikUserCacheModel.publikInternalId;
+		String publikId = publikUserCacheModel.publikId;
 
-		if ((publikInternalId != null) && (publikInternalId.length() == 0)) {
-			publikUserCacheModel.publikInternalId = null;
+		if ((publikId != null) && (publikId.length() == 0)) {
+			publikUserCacheModel.publikId = null;
 		}
 
 		publikUserCacheModel.accessToken = getAccessToken();
@@ -573,14 +554,14 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
-		sb.append(", publikUserId=");
-		sb.append(getPublikUserId());
+		sb.append(", publikUserLiferayId=");
+		sb.append(getPublikUserLiferayId());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
-		sb.append(", publikInternalId=");
-		sb.append(getPublikInternalId());
+		sb.append(", publikId=");
+		sb.append(getPublikId());
 		sb.append(", accessToken=");
 		sb.append(getAccessToken());
 		sb.append(", firstName=");
@@ -607,8 +588,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getUuid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>publikUserId</column-name><column-value><![CDATA[");
-		sb.append(getPublikUserId());
+			"<column><column-name>publikUserLiferayId</column-name><column-value><![CDATA[");
+		sb.append(getPublikUserLiferayId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
@@ -619,8 +600,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>publikInternalId</column-name><column-value><![CDATA[");
-		sb.append(getPublikInternalId());
+			"<column><column-name>publikId</column-name><column-value><![CDATA[");
+		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>accessToken</column-name><column-value><![CDATA[");
@@ -650,12 +631,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		};
 	private String _uuid;
 	private String _originalUuid;
-	private long _publikUserId;
+	private long _publikUserLiferayId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
-	private String _publikInternalId;
-	private String _originalPublikInternalId;
+	private String _publikId;
+	private String _originalPublikId;
 	private String _accessToken;
 	private String _firstName;
 	private String _lastName;

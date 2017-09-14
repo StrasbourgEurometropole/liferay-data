@@ -15,7 +15,7 @@
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="singleUser" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="singleUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="singleUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
@@ -23,20 +23,20 @@
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl" table="notification_UserNotificationChannel">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK" name="primaryKey">
-			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="channelId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl" table="notification_UserNotificationStatus">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK" name="primaryKey">
 			<key-property name="notificationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		</composite-id>
 		<property column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl" table="notification_UserNotificationType">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK" name="primaryKey">
-			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 	</class>

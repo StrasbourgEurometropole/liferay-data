@@ -52,28 +52,46 @@ public interface NotificationService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link NotificationServiceUtil} to access the notification remote service. Add custom service methods to {@link eu.strasbourg.service.notification.service.impl.NotificationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getChannels();
 
+	/**
+	* Retourne la liste des types de notifications
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getTypes() throws PortalException;
 
-	public JSONObject addNotification(long userId, java.lang.String title,
-		java.lang.String description, java.lang.String url,
-		java.lang.String startDate, java.lang.String endDate, long typeId);
+	/**
+	* Envoie une notification à un utilisateur
+	*/
+	public JSONObject addNotification(java.lang.String userId,
+		boolean isGlobal, java.lang.String title, java.lang.String description,
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId);
 
+	/**
+	* Retourne la liste des notifications d'un utilisateur
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserNotifications(long userId);
+	public JSONObject getUserNotifications(java.lang.String userId);
 
+	/**
+	* Retourne la liste des types et des canaux de communication d'un
+	* utilisateur
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserSettings(long userId);
+	public JSONObject getUserSettings(java.lang.String userId);
 
 	/**
 	* Modification des abonnements et des canaux de communication d'un
 	* utilisateur
 	*/
-	public JSONObject setUserSettings(long userId, java.lang.String typeIds,
-		java.lang.String channelIds);
+	public JSONObject setUserSettings(java.lang.String userId,
+		java.lang.String typeIds, java.lang.String channelIds);
 
 	/**
 	* Returns the OSGi service identifier.

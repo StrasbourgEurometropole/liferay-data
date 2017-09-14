@@ -124,7 +124,13 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 
 		notificationImpl.setAutomatic(automatic);
 		notificationImpl.setSingleUser(singleUser);
-		notificationImpl.setSingleUserId(singleUserId);
+
+		if (singleUserId == null) {
+			notificationImpl.setSingleUserId(StringPool.BLANK);
+		}
+		else {
+			notificationImpl.setSingleUserId(singleUserId);
+		}
 
 		if (publicationDate == Long.MIN_VALUE) {
 			notificationImpl.setPublicationDate(null);
@@ -158,8 +164,7 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		automatic = objectInput.readBoolean();
 
 		singleUser = objectInput.readBoolean();
-
-		singleUserId = objectInput.readLong();
+		singleUserId = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 
@@ -198,7 +203,13 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 
 		objectOutput.writeBoolean(singleUser);
 
-		objectOutput.writeLong(singleUserId);
+		if (singleUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(singleUserId);
+		}
+
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 
@@ -213,7 +224,7 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 	public String url;
 	public boolean automatic;
 	public boolean singleUser;
-	public long singleUserId;
+	public String singleUserId;
 	public long publicationDate;
 	public long expirationDate;
 	public int status;

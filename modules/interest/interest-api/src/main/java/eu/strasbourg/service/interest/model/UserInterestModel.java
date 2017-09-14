@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
+import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -80,28 +81,15 @@ public interface UserInterestModel extends BaseModel<UserInterest> {
 	 *
 	 * @return the publik user ID of this user interest
 	 */
-	public long getPublikUserId();
+	@AutoEscape
+	public String getPublikUserId();
 
 	/**
 	 * Sets the publik user ID of this user interest.
 	 *
 	 * @param publikUserId the publik user ID of this user interest
 	 */
-	public void setPublikUserId(long publikUserId);
-
-	/**
-	 * Returns the publik user uuid of this user interest.
-	 *
-	 * @return the publik user uuid of this user interest
-	 */
-	public String getPublikUserUuid();
-
-	/**
-	 * Sets the publik user uuid of this user interest.
-	 *
-	 * @param publikUserUuid the publik user uuid of this user interest
-	 */
-	public void setPublikUserUuid(String publikUserUuid);
+	public void setPublikUserId(String publikUserId);
 
 	@Override
 	public boolean isNew();

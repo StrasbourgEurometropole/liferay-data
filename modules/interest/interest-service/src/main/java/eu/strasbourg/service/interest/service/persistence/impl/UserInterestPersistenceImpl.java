@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -592,7 +593,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
-				Long.class.getName(),
+				String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -601,12 +602,12 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 		new FinderPath(UserInterestModelImpl.ENTITY_CACHE_ENABLED,
 			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { Long.class.getName() },
+			new String[] { String.class.getName() },
 			UserInterestModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(UserInterestModelImpl.ENTITY_CACHE_ENABLED,
 			UserInterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { Long.class.getName() });
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the user interests where publikUserId = &#63;.
@@ -615,7 +616,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the matching user interests
 	 */
 	@Override
-	public List<UserInterest> findByPublikUserId(long publikUserId) {
+	public List<UserInterest> findByPublikUserId(String publikUserId) {
 		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
@@ -633,8 +634,8 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the range of matching user interests
 	 */
 	@Override
-	public List<UserInterest> findByPublikUserId(long publikUserId, int start,
-		int end) {
+	public List<UserInterest> findByPublikUserId(String publikUserId,
+		int start, int end) {
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -652,8 +653,8 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the ordered range of matching user interests
 	 */
 	@Override
-	public List<UserInterest> findByPublikUserId(long publikUserId, int start,
-		int end, OrderByComparator<UserInterest> orderByComparator) {
+	public List<UserInterest> findByPublikUserId(String publikUserId,
+		int start, int end, OrderByComparator<UserInterest> orderByComparator) {
 		return findByPublikUserId(publikUserId, start, end, orderByComparator,
 			true);
 	}
@@ -673,8 +674,8 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the ordered range of matching user interests
 	 */
 	@Override
-	public List<UserInterest> findByPublikUserId(long publikUserId, int start,
-		int end, OrderByComparator<UserInterest> orderByComparator,
+	public List<UserInterest> findByPublikUserId(String publikUserId,
+		int start, int end, OrderByComparator<UserInterest> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -703,7 +704,8 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 			if ((list != null) && !list.isEmpty()) {
 				for (UserInterest userInterest : list) {
-					if ((publikUserId != userInterest.getPublikUserId())) {
+					if (!Objects.equals(publikUserId,
+								userInterest.getPublikUserId())) {
 						list = null;
 
 						break;
@@ -725,7 +727,19 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 			query.append(_SQL_SELECT_USERINTEREST_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -747,7 +761,9 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				if (!pagination) {
 					list = (List<UserInterest>)QueryUtil.list(q, getDialect(),
@@ -788,7 +804,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @throws NoSuchUserInterestException if a matching user interest could not be found
 	 */
 	@Override
-	public UserInterest findByPublikUserId_First(long publikUserId,
+	public UserInterest findByPublikUserId_First(String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException {
 		UserInterest userInterest = fetchByPublikUserId_First(publikUserId,
@@ -818,7 +834,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the first matching user interest, or <code>null</code> if a matching user interest could not be found
 	 */
 	@Override
-	public UserInterest fetchByPublikUserId_First(long publikUserId,
+	public UserInterest fetchByPublikUserId_First(String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator) {
 		List<UserInterest> list = findByPublikUserId(publikUserId, 0, 1,
 				orderByComparator);
@@ -839,7 +855,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @throws NoSuchUserInterestException if a matching user interest could not be found
 	 */
 	@Override
-	public UserInterest findByPublikUserId_Last(long publikUserId,
+	public UserInterest findByPublikUserId_Last(String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException {
 		UserInterest userInterest = fetchByPublikUserId_Last(publikUserId,
@@ -869,7 +885,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the last matching user interest, or <code>null</code> if a matching user interest could not be found
 	 */
 	@Override
-	public UserInterest fetchByPublikUserId_Last(long publikUserId,
+	public UserInterest fetchByPublikUserId_Last(String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator) {
 		int count = countByPublikUserId(publikUserId);
 
@@ -898,7 +914,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 */
 	@Override
 	public UserInterest[] findByPublikUserId_PrevAndNext(
-		UserInterestPK userInterestPK, long publikUserId,
+		UserInterestPK userInterestPK, String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException {
 		UserInterest userInterest = findByPrimaryKey(userInterestPK);
@@ -929,7 +945,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	}
 
 	protected UserInterest getByPublikUserId_PrevAndNext(Session session,
-		UserInterest userInterest, long publikUserId,
+		UserInterest userInterest, String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -944,7 +960,19 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 		query.append(_SQL_SELECT_USERINTEREST_WHERE);
 
-		query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		boolean bindPublikUserId = false;
+
+		if (publikUserId == null) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+		}
+		else if (publikUserId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1014,7 +1042,9 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(publikUserId);
+		if (bindPublikUserId) {
+			qPos.add(publikUserId);
+		}
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(userInterest);
@@ -1040,7 +1070,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @param publikUserId the publik user ID
 	 */
 	@Override
-	public void removeByPublikUserId(long publikUserId) {
+	public void removeByPublikUserId(String publikUserId) {
 		for (UserInterest userInterest : findByPublikUserId(publikUserId,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(userInterest);
@@ -1054,7 +1084,7 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 	 * @return the number of matching user interests
 	 */
 	@Override
-	public int countByPublikUserId(long publikUserId) {
+	public int countByPublikUserId(String publikUserId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
 
 		Object[] finderArgs = new Object[] { publikUserId };
@@ -1066,7 +1096,19 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 			query.append(_SQL_COUNT_USERINTEREST_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			String sql = query.toString();
 
@@ -1079,7 +1121,9 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -1098,7 +1142,9 @@ public class UserInterestPersistenceImpl extends BasePersistenceImpl<UserInteres
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "userInterest.id.publikUserId IS NULL";
 	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "userInterest.id.publikUserId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(userInterest.id.publikUserId IS NULL OR userInterest.id.publikUserId = '')";
 
 	public UserInterestPersistenceImpl() {
 		setModelClass(UserInterest.class);

@@ -49,7 +49,7 @@ public class UserInterestLocalServiceImpl
 	 */
 
 	@Override
-	public List<UserInterest> getByPublikUserId(long publikUserId) {
+	public List<UserInterest> getByPublikUserId(String publikUserId) {
 		return this.userInterestPersistence.findByPublikUserId(publikUserId);
 	}
 	

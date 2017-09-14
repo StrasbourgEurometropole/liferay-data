@@ -66,7 +66,7 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -146,13 +146,13 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	}
 
 	/**
-	* Returns the publik user uuid of this user notification channel.
+	* Returns the publik user ID of this user notification channel.
 	*
-	* @return the publik user uuid of this user notification channel
+	* @return the publik user ID of this user notification channel
 	*/
 	@Override
-	public java.lang.String getPublikUserUuid() {
-		return _userNotificationChannel.getPublikUserUuid();
+	public java.lang.String getPublikUserId() {
+		return _userNotificationChannel.getPublikUserId();
 	}
 
 	@Override
@@ -173,16 +173,6 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	@Override
 	public long getChannelId() {
 		return _userNotificationChannel.getChannelId();
-	}
-
-	/**
-	* Returns the publik user ID of this user notification channel.
-	*
-	* @return the publik user ID of this user notification channel
-	*/
-	@Override
-	public long getPublikUserId() {
-		return _userNotificationChannel.getPublikUserId();
 	}
 
 	@Override
@@ -248,18 +238,8 @@ public class UserNotificationChannelWrapper implements UserNotificationChannel,
 	* @param publikUserId the publik user ID of this user notification channel
 	*/
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(java.lang.String publikUserId) {
 		_userNotificationChannel.setPublikUserId(publikUserId);
-	}
-
-	/**
-	* Sets the publik user uuid of this user notification channel.
-	*
-	* @param publikUserUuid the publik user uuid of this user notification channel
-	*/
-	@Override
-	public void setPublikUserUuid(java.lang.String publikUserUuid) {
-		_userNotificationChannel.setPublikUserUuid(publikUserUuid);
 	}
 
 	@Override

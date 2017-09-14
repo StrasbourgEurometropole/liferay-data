@@ -212,7 +212,8 @@ public interface UserNotificationStatusLocalService extends BaseLocalService,
 	* Retourne la liste des statuts de notification pour un utilisateur
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<UserNotificationStatus> getByUserId(long publikUserId);
+	public List<UserNotificationStatus> getByPublikUserId(
+		java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user notification statuses.

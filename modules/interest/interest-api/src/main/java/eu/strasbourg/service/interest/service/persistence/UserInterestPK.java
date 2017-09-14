@@ -29,12 +29,12 @@ import java.io.Serializable;
 @ProviderType
 public class UserInterestPK implements Comparable<UserInterestPK>, Serializable {
 	public long interestId;
-	public long publikUserId;
+	public String publikUserId;
 
 	public UserInterestPK() {
 	}
 
-	public UserInterestPK(long interestId, long publikUserId) {
+	public UserInterestPK(long interestId, String publikUserId) {
 		this.interestId = interestId;
 		this.publikUserId = publikUserId;
 	}
@@ -47,11 +47,11 @@ public class UserInterestPK implements Comparable<UserInterestPK>, Serializable 
 		this.interestId = interestId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		this.publikUserId = publikUserId;
 	}
 
@@ -77,15 +77,7 @@ public class UserInterestPK implements Comparable<UserInterestPK>, Serializable 
 			return value;
 		}
 
-		if (publikUserId < pk.publikUserId) {
-			value = -1;
-		}
-		else if (publikUserId > pk.publikUserId) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = publikUserId.compareTo(pk.publikUserId);
 
 		if (value != 0) {
 			return value;
@@ -106,7 +98,8 @@ public class UserInterestPK implements Comparable<UserInterestPK>, Serializable 
 
 		UserInterestPK pk = (UserInterestPK)obj;
 
-		if ((interestId == pk.interestId) && (publikUserId == pk.publikUserId)) {
+		if ((interestId == pk.interestId) &&
+				(publikUserId.equals(pk.publikUserId))) {
 			return true;
 		}
 		else {

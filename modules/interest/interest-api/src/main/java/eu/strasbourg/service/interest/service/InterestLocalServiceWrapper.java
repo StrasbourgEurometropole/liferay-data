@@ -337,7 +337,7 @@ public class InterestLocalServiceWrapper implements InterestLocalService,
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.interest.model.Interest> getByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return _interestLocalService.getByPublikUserId(publikUserId);
 	}
 
@@ -428,7 +428,8 @@ public class InterestLocalServiceWrapper implements InterestLocalService,
 	* Met à jour la relation entre un utilisateur et ses centres d'intérêts
 	*/
 	@Override
-	public void setUserInterests(long publikUserId, long[] interestIds) {
+	public void setUserInterests(java.lang.String publikUserId,
+		long[] interestIds) {
 		_interestLocalService.setUserInterests(publikUserId, interestIds);
 	}
 

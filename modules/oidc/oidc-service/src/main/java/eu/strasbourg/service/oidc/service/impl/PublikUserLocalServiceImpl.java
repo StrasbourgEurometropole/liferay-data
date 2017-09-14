@@ -14,6 +14,12 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
+import java.util.List;
+
+import eu.strasbourg.service.interest.model.UserInterest;
+import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
+import eu.strasbourg.service.notification.model.UserNotificationStatus;
+import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
 
@@ -43,7 +49,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil} to access
 	 * the publik user local service.
 	 */
-	
+
 	@Override
 	public PublikUser createPublikUser() {
 		long pk = this.counterLocalService.increment();
@@ -51,8 +57,34 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	}
 
 	@Override
-	public PublikUser getPublikUserByInternalId(String internalId) {
-		return this.publikUserPersistence.fetchByPublikInternalId(internalId);
+	public PublikUser getByPublikUserId(String publikUserId) {
+		return this.publikUserPersistence.fetchByPublikId(publikUserId);
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	@Override
+	public PublikUser removePublikUser(String publikUserId) {
+
+		// Supprime le lien avec les intérêts
+		List<UserInterest> userInterests = UserInterestLocalServiceUtil.getByPublikUserId(publikUserId);
+		for (UserInterest userInterest : userInterests) {
+			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+		}
+
+		// Supprime le lien avec les notifications
+		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
+		for (UserNotificationStatus notification : notifications) {
+			UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(notification);
+		}
+
+		// Supprimé l'entité
+		PublikUser user = this.getByPublikUserId(publikUserId);
+		this.publikUserPersistence.remove(user);
+
+
+		return user;
 	}
 
 }

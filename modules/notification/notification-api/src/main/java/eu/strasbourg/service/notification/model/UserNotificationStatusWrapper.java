@@ -73,7 +73,7 @@ public class UserNotificationStatusWrapper implements UserNotificationStatus,
 			setNotificationId(notificationId);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -181,13 +181,13 @@ public class UserNotificationStatusWrapper implements UserNotificationStatus,
 	}
 
 	/**
-	* Returns the publik user uuid of this user notification status.
+	* Returns the publik user ID of this user notification status.
 	*
-	* @return the publik user uuid of this user notification status
+	* @return the publik user ID of this user notification status
 	*/
 	@Override
-	public java.lang.String getPublikUserUuid() {
-		return _userNotificationStatus.getPublikUserUuid();
+	public java.lang.String getPublikUserId() {
+		return _userNotificationStatus.getPublikUserId();
 	}
 
 	@Override
@@ -208,16 +208,6 @@ public class UserNotificationStatusWrapper implements UserNotificationStatus,
 	@Override
 	public long getNotificationId() {
 		return _userNotificationStatus.getNotificationId();
-	}
-
-	/**
-	* Returns the publik user ID of this user notification status.
-	*
-	* @return the publik user ID of this user notification status
-	*/
-	@Override
-	public long getPublikUserId() {
-		return _userNotificationStatus.getPublikUserId();
 	}
 
 	@Override
@@ -283,18 +273,8 @@ public class UserNotificationStatusWrapper implements UserNotificationStatus,
 	* @param publikUserId the publik user ID of this user notification status
 	*/
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(java.lang.String publikUserId) {
 		_userNotificationStatus.setPublikUserId(publikUserId);
-	}
-
-	/**
-	* Sets the publik user uuid of this user notification status.
-	*
-	* @param publikUserUuid the publik user uuid of this user notification status
-	*/
-	@Override
-	public void setPublikUserUuid(java.lang.String publikUserUuid) {
-		_userNotificationStatus.setPublikUserUuid(publikUserUuid);
 	}
 
 	/**

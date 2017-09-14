@@ -233,17 +233,19 @@ public class PublikUserUtil {
 	/**
 	* Returns the publik users before and after the current publik user in the ordered set where uuid = &#63;.
 	*
-	* @param publikUserId the primary key of the current publik user
+	* @param publikUserLiferayId the primary key of the current publik user
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next publik user
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public static PublikUser[] findByUuid_PrevAndNext(long publikUserId,
-		java.lang.String uuid, OrderByComparator<PublikUser> orderByComparator)
+	public static PublikUser[] findByUuid_PrevAndNext(
+		long publikUserLiferayId, java.lang.String uuid,
+		OrderByComparator<PublikUser> orderByComparator)
 		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 		return getPersistence()
-				   .findByUuid_PrevAndNext(publikUserId, uuid, orderByComparator);
+				   .findByUuid_PrevAndNext(publikUserLiferayId, uuid,
+			orderByComparator);
 	}
 
 	/**
@@ -266,62 +268,58 @@ public class PublikUserUtil {
 	}
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
+	* Returns the publik user where publikId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the matching publik user
 	* @throws NoSuchPublikUserException if a matching publik user could not be found
 	*/
-	public static PublikUser findByPublikInternalId(
-		java.lang.String publikInternalId)
+	public static PublikUser findByPublikId(java.lang.String publikId)
 		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
-		return getPersistence().findByPublikInternalId(publikInternalId);
+		return getPersistence().findByPublikId(publikId);
 	}
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	*/
-	public static PublikUser fetchByPublikInternalId(
-		java.lang.String publikInternalId) {
-		return getPersistence().fetchByPublikInternalId(publikInternalId);
+	public static PublikUser fetchByPublikId(java.lang.String publikId) {
+		return getPersistence().fetchByPublikId(publikId);
 	}
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	*/
-	public static PublikUser fetchByPublikInternalId(
-		java.lang.String publikInternalId, boolean retrieveFromCache) {
-		return getPersistence()
-				   .fetchByPublikInternalId(publikInternalId, retrieveFromCache);
+	public static PublikUser fetchByPublikId(java.lang.String publikId,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByPublikId(publikId, retrieveFromCache);
 	}
 
 	/**
-	* Removes the publik user where publikInternalId = &#63; from the database.
+	* Removes the publik user where publikId = &#63; from the database.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the publik user that was removed
 	*/
-	public static PublikUser removeByPublikInternalId(
-		java.lang.String publikInternalId)
+	public static PublikUser removeByPublikId(java.lang.String publikId)
 		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
-		return getPersistence().removeByPublikInternalId(publikInternalId);
+		return getPersistence().removeByPublikId(publikId);
 	}
 
 	/**
-	* Returns the number of publik users where publikInternalId = &#63;.
+	* Returns the number of publik users where publikId = &#63;.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the number of matching publik users
 	*/
-	public static int countByPublikInternalId(java.lang.String publikInternalId) {
-		return getPersistence().countByPublikInternalId(publikInternalId);
+	public static int countByPublikId(java.lang.String publikId) {
+		return getPersistence().countByPublikId(publikId);
 	}
 
 	/**
@@ -345,23 +343,23 @@ public class PublikUserUtil {
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
-	* @param publikUserId the primary key for the new publik user
+	* @param publikUserLiferayId the primary key for the new publik user
 	* @return the new publik user
 	*/
-	public static PublikUser create(long publikUserId) {
-		return getPersistence().create(publikUserId);
+	public static PublikUser create(long publikUserLiferayId) {
+		return getPersistence().create(publikUserLiferayId);
 	}
 
 	/**
 	* Removes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user that was removed
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public static PublikUser remove(long publikUserId)
+	public static PublikUser remove(long publikUserLiferayId)
 		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
-		return getPersistence().remove(publikUserId);
+		return getPersistence().remove(publikUserLiferayId);
 	}
 
 	public static PublikUser updateImpl(PublikUser publikUser) {
@@ -371,23 +369,23 @@ public class PublikUserUtil {
 	/**
 	* Returns the publik user with the primary key or throws a {@link NoSuchPublikUserException} if it could not be found.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public static PublikUser findByPrimaryKey(long publikUserId)
+	public static PublikUser findByPrimaryKey(long publikUserLiferayId)
 		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
-		return getPersistence().findByPrimaryKey(publikUserId);
+		return getPersistence().findByPrimaryKey(publikUserLiferayId);
 	}
 
 	/**
 	* Returns the publik user with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user, or <code>null</code> if a publik user with the primary key could not be found
 	*/
-	public static PublikUser fetchByPrimaryKey(long publikUserId) {
-		return getPersistence().fetchByPrimaryKey(publikUserId);
+	public static PublikUser fetchByPrimaryKey(long publikUserLiferayId) {
+		return getPersistence().fetchByPrimaryKey(publikUserLiferayId);
 	}
 
 	public static java.util.Map<java.io.Serializable, PublikUser> fetchByPrimaryKeys(

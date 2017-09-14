@@ -22,6 +22,6 @@
 
 <liferay-util:html-bottom>
 	<script
-		src="/o/notificationbo/js/notification-bo-main.js"
+		src="/o/notification-bo/js/notification-bo-main.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>

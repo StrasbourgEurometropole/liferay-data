@@ -52,7 +52,7 @@
 	
 	<entity local-service="true" cache-enabled="true" name="UserInterest" remote-service="false" uuid="false" >
 		<column name="interestId" primary="true" type="long" />
-		<column name="publikUserId" primary="true" type="long" />
+		<column name="publikUserId" primary="true" type="String" />
 		
 		<finder name="InterestId" return-type="Collection" db-index="true" >
 			<finder-column name="interestId" />

@@ -121,7 +121,7 @@ public class UserNotificationChannelUtil {
 	* @return the matching user notification channels
 	*/
 	public static List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return getPersistence().findByPublikUserId(publikUserId);
 	}
 
@@ -138,7 +138,7 @@ public class UserNotificationChannelUtil {
 	* @return the range of matching user notification channels
 	*/
 	public static List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end) {
+		java.lang.String publikUserId, int start, int end) {
 		return getPersistence().findByPublikUserId(publikUserId, start, end);
 	}
 
@@ -156,7 +156,7 @@ public class UserNotificationChannelUtil {
 	* @return the ordered range of matching user notification channels
 	*/
 	public static List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		return getPersistence()
 				   .findByPublikUserId(publikUserId, start, end,
@@ -178,7 +178,7 @@ public class UserNotificationChannelUtil {
 	* @return the ordered range of matching user notification channels
 	*/
 	public static List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
@@ -195,7 +195,7 @@ public class UserNotificationChannelUtil {
 	* @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	*/
 	public static UserNotificationChannel findByPublikUserId_First(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException {
 		return getPersistence()
@@ -210,7 +210,7 @@ public class UserNotificationChannelUtil {
 	* @return the first matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	*/
 	public static UserNotificationChannel fetchByPublikUserId_First(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_First(publikUserId, orderByComparator);
@@ -225,7 +225,7 @@ public class UserNotificationChannelUtil {
 	* @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	*/
 	public static UserNotificationChannel findByPublikUserId_Last(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException {
 		return getPersistence()
@@ -240,7 +240,7 @@ public class UserNotificationChannelUtil {
 	* @return the last matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	*/
 	public static UserNotificationChannel fetchByPublikUserId_Last(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_Last(publikUserId, orderByComparator);
@@ -257,7 +257,7 @@ public class UserNotificationChannelUtil {
 	*/
 	public static UserNotificationChannel[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK userNotificationChannelPK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException {
 		return getPersistence()
@@ -270,7 +270,7 @@ public class UserNotificationChannelUtil {
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public static void removeByPublikUserId(long publikUserId) {
+	public static void removeByPublikUserId(java.lang.String publikUserId) {
 		getPersistence().removeByPublikUserId(publikUserId);
 	}
 
@@ -280,7 +280,7 @@ public class UserNotificationChannelUtil {
 	* @param publikUserId the publik user ID
 	* @return the number of matching user notification channels
 	*/
-	public static int countByPublikUserId(long publikUserId) {
+	public static int countByPublikUserId(java.lang.String publikUserId) {
 		return getPersistence().countByPublikUserId(publikUserId);
 	}
 

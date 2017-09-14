@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
+import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -66,28 +67,15 @@ public interface UserNotificationChannelModel extends BaseModel<UserNotification
 	 *
 	 * @return the publik user ID of this user notification channel
 	 */
-	public long getPublikUserId();
+	@AutoEscape
+	public String getPublikUserId();
 
 	/**
 	 * Sets the publik user ID of this user notification channel.
 	 *
 	 * @param publikUserId the publik user ID of this user notification channel
 	 */
-	public void setPublikUserId(long publikUserId);
-
-	/**
-	 * Returns the publik user uuid of this user notification channel.
-	 *
-	 * @return the publik user uuid of this user notification channel
-	 */
-	public String getPublikUserUuid();
-
-	/**
-	 * Sets the publik user uuid of this user notification channel.
-	 *
-	 * @param publikUserUuid the publik user uuid of this user notification channel
-	 */
-	public void setPublikUserUuid(String publikUserUuid);
+	public void setPublikUserId(String publikUserId);
 
 	/**
 	 * Returns the channel ID of this user notification channel.

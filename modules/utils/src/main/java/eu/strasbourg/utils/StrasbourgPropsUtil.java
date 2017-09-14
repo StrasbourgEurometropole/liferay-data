@@ -115,4 +115,9 @@ public class StrasbourgPropsUtil {
 	public static String getPublikUserInfoURL() {
 		return PropsUtil.get("eu.strasbourg.publik.url.userinfo");
 	}
+	
+	public static long getDaysBeforeSuppression() {
+		String daysBeforeSuppression = PropsUtil.get("eu.strasbourg.privacy.days-before-suppression");
+		return Long.parseLong(daysBeforeSuppression);
+	}
 }

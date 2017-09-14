@@ -111,7 +111,7 @@ public class NotificationWrapper implements Notification,
 			setSingleUser(singleUser);
 		}
 
-		Long singleUserId = (Long)attributes.get("singleUserId");
+		String singleUserId = (String)attributes.get("singleUserId");
 
 		if (singleUserId != null) {
 			setSingleUserId(singleUserId);
@@ -330,13 +330,13 @@ public class NotificationWrapper implements Notification,
 	}
 
 	/**
-	* Returns the single user uuid of this notification.
+	* Returns the single user ID of this notification.
 	*
-	* @return the single user uuid of this notification
+	* @return the single user ID of this notification
 	*/
 	@Override
-	public java.lang.String getSingleUserUuid() {
-		return _notification.getSingleUserUuid();
+	public java.lang.String getSingleUserId() {
+		return _notification.getSingleUserId();
 	}
 
 	/**
@@ -497,16 +497,6 @@ public class NotificationWrapper implements Notification,
 	@Override
 	public long getPrimaryKey() {
 		return _notification.getPrimaryKey();
-	}
-
-	/**
-	* Returns the single user ID of this notification.
-	*
-	* @return the single user ID of this notification
-	*/
-	@Override
-	public long getSingleUserId() {
-		return _notification.getSingleUserId();
 	}
 
 	/**
@@ -698,18 +688,8 @@ public class NotificationWrapper implements Notification,
 	* @param singleUserId the single user ID of this notification
 	*/
 	@Override
-	public void setSingleUserId(long singleUserId) {
+	public void setSingleUserId(java.lang.String singleUserId) {
 		_notification.setSingleUserId(singleUserId);
-	}
-
-	/**
-	* Sets the single user uuid of this notification.
-	*
-	* @param singleUserUuid the single user uuid of this notification
-	*/
-	@Override
-	public void setSingleUserUuid(java.lang.String singleUserUuid) {
-		_notification.setSingleUserUuid(singleUserUuid);
 	}
 
 	/**

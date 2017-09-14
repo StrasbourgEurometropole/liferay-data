@@ -86,12 +86,12 @@ public class PublikUserLocalServiceUtil {
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
-	* @param publikUserId the primary key for the new publik user
+	* @param publikUserLiferayId the primary key for the new publik user
 	* @return the new publik user
 	*/
 	public static eu.strasbourg.service.oidc.model.PublikUser createPublikUser(
-		long publikUserId) {
-		return getService().createPublikUser(publikUserId);
+		long publikUserLiferayId) {
+		return getService().createPublikUser(publikUserLiferayId);
 	}
 
 	/**
@@ -108,37 +108,45 @@ public class PublikUserLocalServiceUtil {
 	/**
 	* Deletes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user that was removed
 	* @throws PortalException if a publik user with the primary key could not be found
 	*/
 	public static eu.strasbourg.service.oidc.model.PublikUser deletePublikUser(
-		long publikUserId)
+		long publikUserLiferayId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().deletePublikUser(publikUserId);
+		return getService().deletePublikUser(publikUserLiferayId);
 	}
 
 	public static eu.strasbourg.service.oidc.model.PublikUser fetchPublikUser(
-		long publikUserId) {
-		return getService().fetchPublikUser(publikUserId);
+		long publikUserLiferayId) {
+		return getService().fetchPublikUser(publikUserLiferayId);
+	}
+
+	public static eu.strasbourg.service.oidc.model.PublikUser getByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().getByPublikUserId(publikUserId);
 	}
 
 	/**
 	* Returns the publik user with the primary key.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user
 	* @throws PortalException if a publik user with the primary key could not be found
 	*/
 	public static eu.strasbourg.service.oidc.model.PublikUser getPublikUser(
-		long publikUserId)
+		long publikUserLiferayId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getPublikUser(publikUserId);
+		return getService().getPublikUser(publikUserLiferayId);
 	}
 
-	public static eu.strasbourg.service.oidc.model.PublikUser getPublikUserByInternalId(
-		java.lang.String internalId) {
-		return getService().getPublikUserByInternalId(internalId);
+	/**
+	* Supprime une entité
+	*/
+	public static eu.strasbourg.service.oidc.model.PublikUser removePublikUser(
+		java.lang.String publikUserId) {
+		return getService().removePublikUser(publikUserId);
 	}
 
 	/**

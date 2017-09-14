@@ -29,22 +29,22 @@ import java.io.Serializable;
 @ProviderType
 public class UserNotificationChannelPK implements Comparable<UserNotificationChannelPK>,
 	Serializable {
-	public long publikUserId;
+	public String publikUserId;
 	public long channelId;
 
 	public UserNotificationChannelPK() {
 	}
 
-	public UserNotificationChannelPK(long publikUserId, long channelId) {
+	public UserNotificationChannelPK(String publikUserId, long channelId) {
 		this.publikUserId = publikUserId;
 		this.channelId = channelId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		this.publikUserId = publikUserId;
 	}
 
@@ -64,15 +64,7 @@ public class UserNotificationChannelPK implements Comparable<UserNotificationCha
 
 		int value = 0;
 
-		if (publikUserId < pk.publikUserId) {
-			value = -1;
-		}
-		else if (publikUserId > pk.publikUserId) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = publikUserId.compareTo(pk.publikUserId);
 
 		if (value != 0) {
 			return value;
@@ -107,7 +99,8 @@ public class UserNotificationChannelPK implements Comparable<UserNotificationCha
 
 		UserNotificationChannelPK pk = (UserNotificationChannelPK)obj;
 
-		if ((publikUserId == pk.publikUserId) && (channelId == pk.channelId)) {
+		if ((publikUserId.equals(pk.publikUserId)) &&
+				(channelId == pk.channelId)) {
 			return true;
 		}
 		else {

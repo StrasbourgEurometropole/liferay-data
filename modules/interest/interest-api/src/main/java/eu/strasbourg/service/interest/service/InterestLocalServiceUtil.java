@@ -316,7 +316,7 @@ public class InterestLocalServiceUtil {
 	* Retourne tous les centres d'intérêts (publiées) d'un utilisateur
 	*/
 	public static java.util.List<eu.strasbourg.service.interest.model.Interest> getByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return getService().getByPublikUserId(publikUserId);
 	}
 
@@ -400,7 +400,8 @@ public class InterestLocalServiceUtil {
 	/**
 	* Met à jour la relation entre un utilisateur et ses centres d'intérêts
 	*/
-	public static void setUserInterests(long publikUserId, long[] interestIds) {
+	public static void setUserInterests(java.lang.String publikUserId,
+		long[] interestIds) {
 		getService().setUserInterests(publikUserId, interestIds);
 	}
 

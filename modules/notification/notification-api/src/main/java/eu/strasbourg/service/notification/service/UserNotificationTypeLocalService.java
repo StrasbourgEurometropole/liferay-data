@@ -18,9 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -69,15 +67,10 @@ public interface UserNotificationTypeLocalService extends BaseLocalService,
 	* Retourne true si l'utilisateur est abonné au type passé en paramètre
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isUserSubscribedToType(long publikUserId, long typeId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
+	public boolean isUserSubscribedToType(java.lang.String publikUserId,
+		long typeId);
 
 	public DynamicQuery dynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
 	* @throws PortalException
@@ -232,7 +225,8 @@ public interface UserNotificationTypeLocalService extends BaseLocalService,
 	* abonné
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<AssetCategory> getUserNotificationTypes(long publikUserId);
+	public List<AssetCategory> getUserNotificationTypes(
+		java.lang.String publikUserId);
 
 	/**
 	* Retourne la liste des utilisateurs abonnés à un type de notification
@@ -261,6 +255,6 @@ public interface UserNotificationTypeLocalService extends BaseLocalService,
 	/**
 	* Remplace les abonnement existant de l'utilisateur par des nouveaux
 	*/
-	public void replaceUserSubscriptions(long publikUserId,
+	public void replaceUserSubscriptions(java.lang.String publikUserId,
 		List<AssetCategory> types);
 }

@@ -343,28 +343,15 @@ public interface NotificationModel extends BaseModel<Notification>,
 	 *
 	 * @return the single user ID of this notification
 	 */
-	public long getSingleUserId();
+	@AutoEscape
+	public String getSingleUserId();
 
 	/**
 	 * Sets the single user ID of this notification.
 	 *
 	 * @param singleUserId the single user ID of this notification
 	 */
-	public void setSingleUserId(long singleUserId);
-
-	/**
-	 * Returns the single user uuid of this notification.
-	 *
-	 * @return the single user uuid of this notification
-	 */
-	public String getSingleUserUuid();
-
-	/**
-	 * Sets the single user uuid of this notification.
-	 *
-	 * @param singleUserUuid the single user uuid of this notification
-	 */
-	public void setSingleUserUuid(String singleUserUuid);
+	public void setSingleUserId(String singleUserId);
 
 	/**
 	 * Returns the publication date of this notification.

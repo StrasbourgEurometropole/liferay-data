@@ -17,11 +17,8 @@ package eu.strasbourg.service.notification.model.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -62,18 +59,18 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 	public static final String TABLE_NAME = "notification_UserNotificationStatus";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "notificationId", Types.BIGINT },
-			{ "publikUserId", Types.BIGINT },
+			{ "publikUserId", Types.VARCHAR },
 			{ "read_", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
 		TABLE_COLUMNS_MAP.put("notificationId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("publikUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("read_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table notification_UserNotificationStatus (notificationId LONG not null,publikUserId LONG not null,read_ BOOLEAN,primary key (notificationId, publikUserId))";
+	public static final String TABLE_SQL_CREATE = "create table notification_UserNotificationStatus (notificationId LONG not null,publikUserId VARCHAR(75) not null,read_ BOOLEAN,primary key (notificationId, publikUserId))";
 	public static final String TABLE_SQL_DROP = "drop table notification_UserNotificationStatus";
 	public static final String ORDER_BY_JPQL = " ORDER BY userNotificationStatus.id.notificationId ASC, userNotificationStatus.id.publikUserId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY notification_UserNotificationStatus.notificationId ASC, notification_UserNotificationStatus.publikUserId ASC";
@@ -150,7 +147,7 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 			setNotificationId(notificationId);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -186,41 +183,28 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 	}
 
 	@Override
-	public long getPublikUserId() {
-		return _publikUserId;
+	public String getPublikUserId() {
+		if (_publikUserId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikUserId;
+		}
 	}
 
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalPublikUserId) {
-			_setOriginalPublikUserId = true;
-
+		if (_originalPublikUserId == null) {
 			_originalPublikUserId = _publikUserId;
 		}
 
 		_publikUserId = publikUserId;
 	}
 
-	@Override
-	public String getPublikUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getPublikUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setPublikUserUuid(String publikUserUuid) {
-	}
-
-	public long getOriginalPublikUserId() {
-		return _originalPublikUserId;
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
 	}
 
 	@Override
@@ -319,8 +303,6 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 
 		userNotificationStatusModelImpl._originalPublikUserId = userNotificationStatusModelImpl._publikUserId;
 
-		userNotificationStatusModelImpl._setOriginalPublikUserId = false;
-
 		userNotificationStatusModelImpl._columnBitmask = 0;
 	}
 
@@ -333,6 +315,12 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 		userNotificationStatusCacheModel.notificationId = getNotificationId();
 
 		userNotificationStatusCacheModel.publikUserId = getPublikUserId();
+
+		String publikUserId = userNotificationStatusCacheModel.publikUserId;
+
+		if ((publikUserId != null) && (publikUserId.length() == 0)) {
+			userNotificationStatusCacheModel.publikUserId = null;
+		}
 
 		userNotificationStatusCacheModel.read = getRead();
 
@@ -388,9 +376,8 @@ public class UserNotificationStatusModelImpl extends BaseModelImpl<UserNotificat
 	private long _notificationId;
 	private long _originalNotificationId;
 	private boolean _setOriginalNotificationId;
-	private long _publikUserId;
-	private long _originalPublikUserId;
-	private boolean _setOriginalPublikUserId;
+	private String _publikUserId;
+	private String _originalPublikUserId;
 	private boolean _read;
 	private long _columnBitmask;
 	private UserNotificationStatus _escapedModel;

@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
@@ -80,7 +81,13 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 		UserInterestImpl userInterestImpl = new UserInterestImpl();
 
 		userInterestImpl.setInterestId(interestId);
-		userInterestImpl.setPublikUserId(publikUserId);
+
+		if (publikUserId == null) {
+			userInterestImpl.setPublikUserId(StringPool.BLANK);
+		}
+		else {
+			userInterestImpl.setPublikUserId(publikUserId);
+		}
 
 		userInterestImpl.resetOriginalValues();
 
@@ -90,8 +97,7 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		interestId = objectInput.readLong();
-
-		publikUserId = objectInput.readLong();
+		publikUserId = objectInput.readUTF();
 
 		userInterestPK = new UserInterestPK(interestId, publikUserId);
 	}
@@ -101,10 +107,15 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 		throws IOException {
 		objectOutput.writeLong(interestId);
 
-		objectOutput.writeLong(publikUserId);
+		if (publikUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 	}
 
 	public long interestId;
-	public long publikUserId;
+	public String publikUserId;
 	public transient UserInterestPK userInterestPK;
 }

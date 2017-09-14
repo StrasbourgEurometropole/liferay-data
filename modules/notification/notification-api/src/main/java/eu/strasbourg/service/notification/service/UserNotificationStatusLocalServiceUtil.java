@@ -224,9 +224,9 @@ public class UserNotificationStatusLocalServiceUtil {
 	/**
 	* Retourne la liste des statuts de notification pour un utilisateur
 	*/
-	public static java.util.List<eu.strasbourg.service.notification.model.UserNotificationStatus> getByUserId(
-		long publikUserId) {
-		return getService().getByUserId(publikUserId);
+	public static java.util.List<eu.strasbourg.service.notification.model.UserNotificationStatus> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return getService().getByPublikUserId(publikUserId);
 	}
 
 	/**

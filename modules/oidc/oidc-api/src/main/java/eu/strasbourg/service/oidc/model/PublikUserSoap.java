@@ -34,10 +34,10 @@ public class PublikUserSoap implements Serializable {
 		PublikUserSoap soapModel = new PublikUserSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setPublikUserId(model.getPublikUserId());
+		soapModel.setPublikUserLiferayId(model.getPublikUserLiferayId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
-		soapModel.setPublikInternalId(model.getPublikInternalId());
+		soapModel.setPublikId(model.getPublikId());
 		soapModel.setAccessToken(model.getAccessToken());
 		soapModel.setFirstName(model.getFirstName());
 		soapModel.setLastName(model.getLastName());
@@ -87,11 +87,11 @@ public class PublikUserSoap implements Serializable {
 	}
 
 	public long getPrimaryKey() {
-		return _publikUserId;
+		return _publikUserLiferayId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setPublikUserId(pk);
+		setPublikUserLiferayId(pk);
 	}
 
 	public String getUuid() {
@@ -102,12 +102,12 @@ public class PublikUserSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getPublikUserId() {
-		return _publikUserId;
+	public long getPublikUserLiferayId() {
+		return _publikUserLiferayId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
-		_publikUserId = publikUserId;
+	public void setPublikUserLiferayId(long publikUserLiferayId) {
+		_publikUserLiferayId = publikUserLiferayId;
 	}
 
 	public Date getCreateDate() {
@@ -126,12 +126,12 @@ public class PublikUserSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
-	public String getPublikInternalId() {
-		return _publikInternalId;
+	public String getPublikId() {
+		return _publikId;
 	}
 
-	public void setPublikInternalId(String publikInternalId) {
-		_publikInternalId = publikInternalId;
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
 	}
 
 	public String getAccessToken() {
@@ -167,10 +167,10 @@ public class PublikUserSoap implements Serializable {
 	}
 
 	private String _uuid;
-	private long _publikUserId;
+	private long _publikUserLiferayId;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private String _publikInternalId;
+	private String _publikId;
 	private String _accessToken;
 	private String _firstName;
 	private String _lastName;

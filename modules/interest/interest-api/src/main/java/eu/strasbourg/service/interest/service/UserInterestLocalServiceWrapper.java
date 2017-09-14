@@ -228,7 +228,7 @@ public class UserInterestLocalServiceWrapper implements UserInterestLocalService
 
 	@Override
 	public java.util.List<eu.strasbourg.service.interest.model.UserInterest> getByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return _userInterestLocalService.getByPublikUserId(publikUserId);
 	}
 

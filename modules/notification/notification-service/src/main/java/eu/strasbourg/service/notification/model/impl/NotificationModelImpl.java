@@ -21,13 +21,10 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -83,7 +80,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 			{ "url", Types.VARCHAR },
 			{ "automatic", Types.BOOLEAN },
 			{ "singleUser", Types.BOOLEAN },
-			{ "singleUserId", Types.BIGINT },
+			{ "singleUserId", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP },
 			{ "status", Types.INTEGER },
@@ -98,14 +95,14 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 		TABLE_COLUMNS_MAP.put("url", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("automatic", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("singleUser", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("singleUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("singleUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,description TEXT null,url VARCHAR(75) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId LONG,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table notification_Notification (notificationId LONG not null primary key,title STRING null,description TEXT null,url VARCHAR(75) null,automatic BOOLEAN,singleUser BOOLEAN,singleUserId VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null,status INTEGER,typeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table notification_Notification";
 	public static final String ORDER_BY_JPQL = " ORDER BY notification.notificationId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY notification_Notification.notificationId ASC";
@@ -270,7 +267,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 			setSingleUser(singleUser);
 		}
 
-		Long singleUserId = (Long)attributes.get("singleUserId");
+		String singleUserId = (String)attributes.get("singleUserId");
 
 		if (singleUserId != null) {
 			setSingleUserId(singleUserId);
@@ -566,29 +563,18 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 	@JSON
 	@Override
-	public long getSingleUserId() {
-		return _singleUserId;
-	}
-
-	@Override
-	public void setSingleUserId(long singleUserId) {
-		_singleUserId = singleUserId;
-	}
-
-	@Override
-	public String getSingleUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getSingleUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
+	public String getSingleUserId() {
+		if (_singleUserId == null) {
 			return StringPool.BLANK;
 		}
+		else {
+			return _singleUserId;
+		}
 	}
 
 	@Override
-	public void setSingleUserUuid(String singleUserUuid) {
+	public void setSingleUserId(String singleUserId) {
+		_singleUserId = singleUserId;
 	}
 
 	@JSON
@@ -900,6 +886,12 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 
 		notificationCacheModel.singleUserId = getSingleUserId();
 
+		String singleUserId = notificationCacheModel.singleUserId;
+
+		if ((singleUserId != null) && (singleUserId.length() == 0)) {
+			notificationCacheModel.singleUserId = null;
+		}
+
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -1026,7 +1018,7 @@ public class NotificationModelImpl extends BaseModelImpl<Notification>
 	private String _url;
 	private boolean _automatic;
 	private boolean _singleUser;
-	private long _singleUserId;
+	private String _singleUserId;
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
 	private Date _expirationDate;

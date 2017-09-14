@@ -119,7 +119,7 @@ public class UserNotificationTypeUtil {
 	* @return the matching user notification types
 	*/
 	public static List<UserNotificationType> findByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return getPersistence().findByPublikUserId(publikUserId);
 	}
 
@@ -136,7 +136,7 @@ public class UserNotificationTypeUtil {
 	* @return the range of matching user notification types
 	*/
 	public static List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end) {
+		java.lang.String publikUserId, int start, int end) {
 		return getPersistence().findByPublikUserId(publikUserId, start, end);
 	}
 
@@ -154,7 +154,7 @@ public class UserNotificationTypeUtil {
 	* @return the ordered range of matching user notification types
 	*/
 	public static List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		return getPersistence()
 				   .findByPublikUserId(publikUserId, start, end,
@@ -176,7 +176,7 @@ public class UserNotificationTypeUtil {
 	* @return the ordered range of matching user notification types
 	*/
 	public static List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationType> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
@@ -193,7 +193,7 @@ public class UserNotificationTypeUtil {
 	* @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	*/
 	public static UserNotificationType findByPublikUserId_First(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationTypeException {
 		return getPersistence()
@@ -208,7 +208,7 @@ public class UserNotificationTypeUtil {
 	* @return the first matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	*/
 	public static UserNotificationType fetchByPublikUserId_First(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_First(publikUserId, orderByComparator);
@@ -223,7 +223,7 @@ public class UserNotificationTypeUtil {
 	* @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	*/
 	public static UserNotificationType findByPublikUserId_Last(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationTypeException {
 		return getPersistence()
@@ -238,7 +238,7 @@ public class UserNotificationTypeUtil {
 	* @return the last matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	*/
 	public static UserNotificationType fetchByPublikUserId_Last(
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_Last(publikUserId, orderByComparator);
@@ -255,7 +255,7 @@ public class UserNotificationTypeUtil {
 	*/
 	public static UserNotificationType[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK userNotificationTypePK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.NoSuchUserNotificationTypeException {
 		return getPersistence()
@@ -268,7 +268,7 @@ public class UserNotificationTypeUtil {
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public static void removeByPublikUserId(long publikUserId) {
+	public static void removeByPublikUserId(java.lang.String publikUserId) {
 		getPersistence().removeByPublikUserId(publikUserId);
 	}
 
@@ -278,7 +278,7 @@ public class UserNotificationTypeUtil {
 	* @param publikUserId the publik user ID
 	* @return the number of matching user notification types
 	*/
-	public static int countByPublikUserId(long publikUserId) {
+	public static int countByPublikUserId(java.lang.String publikUserId) {
 		return getPersistence().countByPublikUserId(publikUserId);
 	}
 

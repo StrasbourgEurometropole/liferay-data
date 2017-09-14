@@ -153,11 +153,11 @@ public class NotificationSoap implements Serializable {
 		_singleUser = singleUser;
 	}
 
-	public long getSingleUserId() {
+	public String getSingleUserId() {
 		return _singleUserId;
 	}
 
-	public void setSingleUserId(long singleUserId) {
+	public void setSingleUserId(String singleUserId) {
 		_singleUserId = singleUserId;
 	}
 
@@ -199,7 +199,7 @@ public class NotificationSoap implements Serializable {
 	private String _url;
 	private boolean _automatic;
 	private boolean _singleUser;
-	private long _singleUserId;
+	private String _singleUserId;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private int _status;

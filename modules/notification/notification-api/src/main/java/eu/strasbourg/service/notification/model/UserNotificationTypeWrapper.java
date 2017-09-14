@@ -66,7 +66,7 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -146,13 +146,13 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	/**
-	* Returns the publik user uuid of this user notification type.
+	* Returns the publik user ID of this user notification type.
 	*
-	* @return the publik user uuid of this user notification type
+	* @return the publik user ID of this user notification type
 	*/
 	@Override
-	public java.lang.String getPublikUserUuid() {
-		return _userNotificationType.getPublikUserUuid();
+	public java.lang.String getPublikUserId() {
+		return _userNotificationType.getPublikUserId();
 	}
 
 	@Override
@@ -163,16 +163,6 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	@Override
 	public java.lang.String toXmlString() {
 		return _userNotificationType.toXmlString();
-	}
-
-	/**
-	* Returns the publik user ID of this user notification type.
-	*
-	* @return the publik user ID of this user notification type
-	*/
-	@Override
-	public long getPublikUserId() {
-		return _userNotificationType.getPublikUserId();
 	}
 
 	/**
@@ -238,18 +228,8 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	* @param publikUserId the publik user ID of this user notification type
 	*/
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(java.lang.String publikUserId) {
 		_userNotificationType.setPublikUserId(publikUserId);
-	}
-
-	/**
-	* Sets the publik user uuid of this user notification type.
-	*
-	* @param publikUserUuid the publik user uuid of this user notification type
-	*/
-	@Override
-	public void setPublikUserUuid(java.lang.String publikUserUuid) {
-		_userNotificationType.setPublikUserUuid(publikUserUuid);
 	}
 
 	/**

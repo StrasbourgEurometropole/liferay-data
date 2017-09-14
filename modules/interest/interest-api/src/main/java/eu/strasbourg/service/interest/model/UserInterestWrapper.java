@@ -71,7 +71,7 @@ public class UserInterestWrapper implements UserInterest,
 			setInterestId(interestId);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -150,13 +150,13 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	/**
-	* Returns the publik user uuid of this user interest.
+	* Returns the publik user ID of this user interest.
 	*
-	* @return the publik user uuid of this user interest
+	* @return the publik user ID of this user interest
 	*/
 	@Override
-	public java.lang.String getPublikUserUuid() {
-		return _userInterest.getPublikUserUuid();
+	public java.lang.String getPublikUserId() {
+		return _userInterest.getPublikUserId();
 	}
 
 	@Override
@@ -177,16 +177,6 @@ public class UserInterestWrapper implements UserInterest,
 	@Override
 	public long getInterestId() {
 		return _userInterest.getInterestId();
-	}
-
-	/**
-	* Returns the publik user ID of this user interest.
-	*
-	* @return the publik user ID of this user interest
-	*/
-	@Override
-	public long getPublikUserId() {
-		return _userInterest.getPublikUserId();
 	}
 
 	@Override
@@ -252,18 +242,8 @@ public class UserInterestWrapper implements UserInterest,
 	* @param publikUserId the publik user ID of this user interest
 	*/
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(java.lang.String publikUserId) {
 		_userInterest.setPublikUserId(publikUserId);
-	}
-
-	/**
-	* Sets the publik user uuid of this user interest.
-	*
-	* @param publikUserUuid the publik user uuid of this user interest
-	*/
-	@Override
-	public void setPublikUserUuid(java.lang.String publikUserUuid) {
-		_userInterest.setPublikUserUuid(publikUserUuid);
 	}
 
 	@Override

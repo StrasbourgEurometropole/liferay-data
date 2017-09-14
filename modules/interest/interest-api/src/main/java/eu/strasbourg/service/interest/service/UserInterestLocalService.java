@@ -199,7 +199,7 @@ public interface UserInterestLocalService extends BaseLocalService,
 	public List<UserInterest> getByInterestId(long interestId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<UserInterest> getByPublikUserId(long publikUserId);
+	public List<UserInterest> getByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user interests.

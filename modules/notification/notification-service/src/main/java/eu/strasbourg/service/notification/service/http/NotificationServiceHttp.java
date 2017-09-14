@@ -113,7 +113,7 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserSettings(
-		HttpPrincipal httpPrincipal, long userId) {
+		HttpPrincipal httpPrincipal, java.lang.String userId) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
 					"getUserSettings", _getUserSettingsParameterTypes2);
@@ -139,7 +139,7 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserNotifications(
-		HttpPrincipal httpPrincipal, long userId) {
+		HttpPrincipal httpPrincipal, java.lang.String userId) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
 					"getUserNotifications", _getUserNotificationsParameterTypes3);
@@ -165,8 +165,8 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject setUserSettings(
-		HttpPrincipal httpPrincipal, long userId, java.lang.String typeIds,
-		java.lang.String channelIds) {
+		HttpPrincipal httpPrincipal, java.lang.String userId,
+		java.lang.String typeIds, java.lang.String channelIds) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
 					"setUserSettings", _setUserSettingsParameterTypes4);
@@ -193,15 +193,17 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
-		HttpPrincipal httpPrincipal, long userId, java.lang.String title,
-		java.lang.String description, java.lang.String url,
-		java.lang.String startDate, java.lang.String endDate, long typeId) {
+		HttpPrincipal httpPrincipal, java.lang.String userId, boolean isGlobal,
+		java.lang.String title, java.lang.String description,
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
 					"addNotification", _addNotificationParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					title, description, url, startDate, endDate, typeId);
+					isGlobal, title, description, url, publicationDate,
+					expirationDate, typeId);
 
 			Object returnObj = null;
 
@@ -225,17 +227,19 @@ public class NotificationServiceHttp {
 	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {  };
 	private static final Class<?>[] _getChannelsParameterTypes1 = new Class[] {  };
 	private static final Class<?>[] _getUserSettingsParameterTypes2 = new Class[] {
-			long.class
+			java.lang.String.class
 		};
 	private static final Class<?>[] _getUserNotificationsParameterTypes3 = new Class[] {
-			long.class
+			java.lang.String.class
 		};
 	private static final Class<?>[] _setUserSettingsParameterTypes4 = new Class[] {
-			long.class, java.lang.String.class, java.lang.String.class
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class
 		};
 	private static final Class<?>[] _addNotificationParameterTypes5 = new Class[] {
-			long.class, java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, boolean.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, long.class
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class
 		};
 }

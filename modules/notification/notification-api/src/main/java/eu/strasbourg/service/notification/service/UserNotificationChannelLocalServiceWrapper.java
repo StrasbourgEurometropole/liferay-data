@@ -35,18 +35,8 @@ public class UserNotificationChannelLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _userNotificationChannelLocalService.getActionableDynamicQuery();
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _userNotificationChannelLocalService.dynamicQuery();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _userNotificationChannelLocalService.getIndexableActionableDynamicQuery();
 	}
 
 	/**
@@ -241,6 +231,16 @@ public class UserNotificationChannelLocalServiceWrapper
 	}
 
 	/**
+	* Retourne la liste des types de notifications auxquels l'utilisateur est
+	* abonné
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.notification.model.NotificationChannel> getUserNotificationChannels(
+		java.lang.String publikUserId) {
+		return _userNotificationChannelLocalService.getUserNotificationChannels(publikUserId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -265,6 +265,16 @@ public class UserNotificationChannelLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _userNotificationChannelLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Remplace les abonnement existant de l'utilisateur par des nouveaux
+	*/
+	@Override
+	public void replaceUserChannels(java.lang.String publikUserId,
+		java.util.List<eu.strasbourg.service.notification.model.NotificationChannel> channels) {
+		_userNotificationChannelLocalService.replaceUserChannels(publikUserId,
+			channels);
 	}
 
 	@Override

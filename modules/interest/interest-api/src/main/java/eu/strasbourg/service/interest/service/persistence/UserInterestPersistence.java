@@ -180,7 +180,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param publikUserId the publik user ID
 	* @return the matching user interests
 	*/
-	public java.util.List<UserInterest> findByPublikUserId(long publikUserId);
+	public java.util.List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user interests where publikUserId = &#63;.
@@ -194,8 +195,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param end the upper bound of the range of user interests (not inclusive)
 	* @return the range of matching user interests
 	*/
-	public java.util.List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end);
+	public java.util.List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end);
 
 	/**
 	* Returns an ordered range of all the user interests where publikUserId = &#63;.
@@ -210,8 +211,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching user interests
 	*/
-	public java.util.List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end,
+	public java.util.List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator);
 
 	/**
@@ -228,8 +229,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching user interests
 	*/
-	public java.util.List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end,
+	public java.util.List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator,
 		boolean retrieveFromCache);
 
@@ -241,7 +242,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @return the first matching user interest
 	* @throws NoSuchUserInterestException if a matching user interest could not be found
 	*/
-	public UserInterest findByPublikUserId_First(long publikUserId,
+	public UserInterest findByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException;
 
@@ -252,7 +254,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching user interest, or <code>null</code> if a matching user interest could not be found
 	*/
-	public UserInterest fetchByPublikUserId_First(long publikUserId,
+	public UserInterest fetchByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator);
 
 	/**
@@ -263,7 +266,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @return the last matching user interest
 	* @throws NoSuchUserInterestException if a matching user interest could not be found
 	*/
-	public UserInterest findByPublikUserId_Last(long publikUserId,
+	public UserInterest findByPublikUserId_Last(java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException;
 
@@ -274,7 +277,8 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user interest, or <code>null</code> if a matching user interest could not be found
 	*/
-	public UserInterest fetchByPublikUserId_Last(long publikUserId,
+	public UserInterest fetchByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator);
 
 	/**
@@ -288,7 +292,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	*/
 	public UserInterest[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.interest.service.persistence.UserInterestPK userInterestPK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInterest> orderByComparator)
 		throws NoSuchUserInterestException;
 
@@ -297,7 +301,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public void removeByPublikUserId(long publikUserId);
+	public void removeByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns the number of user interests where publikUserId = &#63;.
@@ -305,7 +309,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	* @param publikUserId the publik user ID
 	* @return the number of matching user interests
 	*/
-	public int countByPublikUserId(long publikUserId);
+	public int countByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Caches the user interest in the entity cache if it is enabled.

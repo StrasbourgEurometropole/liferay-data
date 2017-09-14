@@ -29,22 +29,22 @@ import java.io.Serializable;
 @ProviderType
 public class UserNotificationTypePK implements Comparable<UserNotificationTypePK>,
 	Serializable {
-	public long publikUserId;
+	public String publikUserId;
 	public long typeId;
 
 	public UserNotificationTypePK() {
 	}
 
-	public UserNotificationTypePK(long publikUserId, long typeId) {
+	public UserNotificationTypePK(String publikUserId, long typeId) {
 		this.publikUserId = publikUserId;
 		this.typeId = typeId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		this.publikUserId = publikUserId;
 	}
 
@@ -64,15 +64,7 @@ public class UserNotificationTypePK implements Comparable<UserNotificationTypePK
 
 		int value = 0;
 
-		if (publikUserId < pk.publikUserId) {
-			value = -1;
-		}
-		else if (publikUserId > pk.publikUserId) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = publikUserId.compareTo(pk.publikUserId);
 
 		if (value != 0) {
 			return value;
@@ -107,7 +99,7 @@ public class UserNotificationTypePK implements Comparable<UserNotificationTypePK
 
 		UserNotificationTypePK pk = (UserNotificationTypePK)obj;
 
-		if ((publikUserId == pk.publikUserId) && (typeId == pk.typeId)) {
+		if ((publikUserId.equals(pk.publikUserId)) && (typeId == pk.typeId)) {
 			return true;
 		}
 		else {

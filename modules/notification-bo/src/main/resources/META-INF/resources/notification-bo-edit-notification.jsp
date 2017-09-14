@@ -43,9 +43,9 @@
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-description-error">
 							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_notification_AgendaBOPortlet_description_fr_FR').val().length > 0;
+								var validate = $('#_eu_strasbourg_portlet_notification_NotificationBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_notification_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_notification_NotificationBOPortlet_descriptionContainer").get(0).scrollIntoView();
 								}
 								return validate;
 							}
@@ -97,7 +97,7 @@
 </div>
 <liferay-util:html-bottom>
 	<script
-		src="/o/notificationbo/js/notification-bo-edit-manif.js"
+		src="/o/notification-bo/js/notification-bo-edit-notification.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
 <aui:script>

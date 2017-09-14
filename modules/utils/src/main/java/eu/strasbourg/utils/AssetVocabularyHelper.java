@@ -394,7 +394,7 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne la version JSON d'une catégorie
+	 * Retourne la version JSON d'une catégorie, ignore les catégories n'ayant pas d'externalId
 	 */
 	static public JSONObject categoryToJSON(AssetCategory category) {
 		JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
@@ -424,7 +424,7 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne un JSONArray de String des externalIds d'une liste de catégories
+	 * Retourne un JSONArray des externalIds d'une liste de catégories
 	 */
 	static public JSONArray getExternalIdsJSONArray(List<AssetCategory> categories) {
 		JSONArray json = JSONFactoryUtil.createJSONArray();

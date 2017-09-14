@@ -58,10 +58,10 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("publikUserId", getPublikUserId());
+		attributes.put("publikUserLiferayId", getPublikUserLiferayId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("publikInternalId", getPublikInternalId());
+		attributes.put("publikId", getPublikId());
 		attributes.put("accessToken", getAccessToken());
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
@@ -78,10 +78,10 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 			setUuid(uuid);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		Long publikUserLiferayId = (Long)attributes.get("publikUserLiferayId");
 
-		if (publikUserId != null) {
-			setPublikUserId(publikUserId);
+		if (publikUserLiferayId != null) {
+			setPublikUserLiferayId(publikUserLiferayId);
 		}
 
 		Date createDate = (Date)attributes.get("createDate");
@@ -96,10 +96,10 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 			setModifiedDate(modifiedDate);
 		}
 
-		String publikInternalId = (String)attributes.get("publikInternalId");
+		String publikId = (String)attributes.get("publikId");
 
-		if (publikInternalId != null) {
-			setPublikInternalId(publikInternalId);
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 
 		String accessToken = (String)attributes.get("accessToken");
@@ -223,23 +223,13 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Returns the publik internal ID of this publik user.
+	* Returns the publik ID of this publik user.
 	*
-	* @return the publik internal ID of this publik user
+	* @return the publik ID of this publik user
 	*/
 	@Override
-	public java.lang.String getPublikInternalId() {
-		return _publikUser.getPublikInternalId();
-	}
-
-	/**
-	* Returns the publik user uuid of this publik user.
-	*
-	* @return the publik user uuid of this publik user
-	*/
-	@Override
-	public java.lang.String getPublikUserUuid() {
-		return _publikUser.getPublikUserUuid();
+	public java.lang.String getPublikId() {
+		return _publikUser.getPublikId();
 	}
 
 	/**
@@ -293,13 +283,13 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Returns the publik user ID of this publik user.
+	* Returns the publik user liferay ID of this publik user.
 	*
-	* @return the publik user ID of this publik user
+	* @return the publik user liferay ID of this publik user
 	*/
 	@Override
-	public long getPublikUserId() {
-		return _publikUser.getPublikUserId();
+	public long getPublikUserLiferayId() {
+		return _publikUser.getPublikUserLiferayId();
 	}
 
 	@Override
@@ -409,33 +399,23 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
-	* Sets the publik internal ID of this publik user.
+	* Sets the publik ID of this publik user.
 	*
-	* @param publikInternalId the publik internal ID of this publik user
+	* @param publikId the publik ID of this publik user
 	*/
 	@Override
-	public void setPublikInternalId(java.lang.String publikInternalId) {
-		_publikUser.setPublikInternalId(publikInternalId);
+	public void setPublikId(java.lang.String publikId) {
+		_publikUser.setPublikId(publikId);
 	}
 
 	/**
-	* Sets the publik user ID of this publik user.
+	* Sets the publik user liferay ID of this publik user.
 	*
-	* @param publikUserId the publik user ID of this publik user
+	* @param publikUserLiferayId the publik user liferay ID of this publik user
 	*/
 	@Override
-	public void setPublikUserId(long publikUserId) {
-		_publikUser.setPublikUserId(publikUserId);
-	}
-
-	/**
-	* Sets the publik user uuid of this publik user.
-	*
-	* @param publikUserUuid the publik user uuid of this publik user
-	*/
-	@Override
-	public void setPublikUserUuid(java.lang.String publikUserUuid) {
-		_publikUser.setPublikUserUuid(publikUserUuid);
+	public void setPublikUserLiferayId(long publikUserLiferayId) {
+		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
 	}
 
 	/**

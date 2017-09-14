@@ -38,16 +38,16 @@ public interface UserNotificationChannel extends UserNotificationChannelModel,
 	 *
 	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserNotificationChannel, Long> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationChannel, Long>() {
+	public static final Accessor<UserNotificationChannel, String> PUBLIK_USER_ID_ACCESSOR =
+		new Accessor<UserNotificationChannel, String>() {
 			@Override
-			public Long get(UserNotificationChannel userNotificationChannel) {
+			public String get(UserNotificationChannel userNotificationChannel) {
 				return userNotificationChannel.getPublikUserId();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

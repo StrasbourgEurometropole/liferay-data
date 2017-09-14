@@ -90,26 +90,26 @@ public abstract class PublikUserLocalServiceBaseImpl
 	/**
 	 * Creates a new publik user with the primary key. Does not add the publik user to the database.
 	 *
-	 * @param publikUserId the primary key for the new publik user
+	 * @param publikUserLiferayId the primary key for the new publik user
 	 * @return the new publik user
 	 */
 	@Override
-	public PublikUser createPublikUser(long publikUserId) {
-		return publikUserPersistence.create(publikUserId);
+	public PublikUser createPublikUser(long publikUserLiferayId) {
+		return publikUserPersistence.create(publikUserLiferayId);
 	}
 
 	/**
 	 * Deletes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param publikUserId the primary key of the publik user
+	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user that was removed
 	 * @throws PortalException if a publik user with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public PublikUser deletePublikUser(long publikUserId)
+	public PublikUser deletePublikUser(long publikUserLiferayId)
 		throws PortalException {
-		return publikUserPersistence.remove(publikUserId);
+		return publikUserPersistence.remove(publikUserLiferayId);
 	}
 
 	/**
@@ -208,21 +208,21 @@ public abstract class PublikUserLocalServiceBaseImpl
 	}
 
 	@Override
-	public PublikUser fetchPublikUser(long publikUserId) {
-		return publikUserPersistence.fetchByPrimaryKey(publikUserId);
+	public PublikUser fetchPublikUser(long publikUserLiferayId) {
+		return publikUserPersistence.fetchByPrimaryKey(publikUserLiferayId);
 	}
 
 	/**
 	 * Returns the publik user with the primary key.
 	 *
-	 * @param publikUserId the primary key of the publik user
+	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user
 	 * @throws PortalException if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser getPublikUser(long publikUserId)
+	public PublikUser getPublikUser(long publikUserLiferayId)
 		throws PortalException {
-		return publikUserPersistence.findByPrimaryKey(publikUserId);
+		return publikUserPersistence.findByPrimaryKey(publikUserLiferayId);
 	}
 
 	@Override
@@ -233,7 +233,7 @@ public abstract class PublikUserLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(PublikUser.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("publikUserId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("publikUserLiferayId");
 
 		return actionableDynamicQuery;
 	}
@@ -247,7 +247,7 @@ public abstract class PublikUserLocalServiceBaseImpl
 		indexableActionableDynamicQuery.setModelClass(PublikUser.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"publikUserId");
+			"publikUserLiferayId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -258,7 +258,7 @@ public abstract class PublikUserLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(PublikUser.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("publikUserId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("publikUserLiferayId");
 	}
 
 	/**

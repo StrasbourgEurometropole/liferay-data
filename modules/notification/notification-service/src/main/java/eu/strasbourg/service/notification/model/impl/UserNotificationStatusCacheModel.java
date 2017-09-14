@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
@@ -83,7 +84,14 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 		UserNotificationStatusImpl userNotificationStatusImpl = new UserNotificationStatusImpl();
 
 		userNotificationStatusImpl.setNotificationId(notificationId);
-		userNotificationStatusImpl.setPublikUserId(publikUserId);
+
+		if (publikUserId == null) {
+			userNotificationStatusImpl.setPublikUserId(StringPool.BLANK);
+		}
+		else {
+			userNotificationStatusImpl.setPublikUserId(publikUserId);
+		}
+
 		userNotificationStatusImpl.setRead(read);
 
 		userNotificationStatusImpl.resetOriginalValues();
@@ -94,8 +102,7 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		notificationId = objectInput.readLong();
-
-		publikUserId = objectInput.readLong();
+		publikUserId = objectInput.readUTF();
 
 		read = objectInput.readBoolean();
 
@@ -108,13 +115,18 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 		throws IOException {
 		objectOutput.writeLong(notificationId);
 
-		objectOutput.writeLong(publikUserId);
+		if (publikUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 
 		objectOutput.writeBoolean(read);
 	}
 
 	public long notificationId;
-	public long publikUserId;
+	public String publikUserId;
 	public boolean read;
 	public transient UserNotificationStatusPK userNotificationStatusPK;
 }

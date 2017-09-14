@@ -4,13 +4,13 @@
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.oidc.model.PublikUser" />
 	<class name="eu.strasbourg.service.oidc.model.impl.PublikUserImpl" table="publik_PublikUser">
-		<id name="publikUserId" type="long">
+		<id name="publikUserLiferayId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
-		<property name="publikInternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="accessToken" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="firstName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="lastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />

@@ -48,7 +48,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the matching user notification types
 	*/
 	public java.util.List<UserNotificationType> findByPublikUserId(
-		long publikUserId);
+		java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user notification types where publikUserId = &#63;.
@@ -63,7 +63,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the range of matching user notification types
 	*/
 	public java.util.List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end);
+		java.lang.String publikUserId, int start, int end);
 
 	/**
 	* Returns an ordered range of all the user notification types where publikUserId = &#63;.
@@ -79,7 +79,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the ordered range of matching user notification types
 	*/
 	public java.util.List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator);
 
 	/**
@@ -97,7 +97,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the ordered range of matching user notification types
 	*/
 	public java.util.List<UserNotificationType> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator,
 		boolean retrieveFromCache);
 
@@ -109,7 +109,8 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the first matching user notification type
 	* @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	*/
-	public UserNotificationType findByPublikUserId_First(long publikUserId,
+	public UserNotificationType findByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException;
 
@@ -120,7 +121,8 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	*/
-	public UserNotificationType fetchByPublikUserId_First(long publikUserId,
+	public UserNotificationType fetchByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator);
 
 	/**
@@ -131,7 +133,8 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @return the last matching user notification type
 	* @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	*/
-	public UserNotificationType findByPublikUserId_Last(long publikUserId,
+	public UserNotificationType findByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException;
 
@@ -142,7 +145,8 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	*/
-	public UserNotificationType fetchByPublikUserId_Last(long publikUserId,
+	public UserNotificationType fetchByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator);
 
 	/**
@@ -156,7 +160,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	*/
 	public UserNotificationType[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK userNotificationTypePK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException;
 
@@ -165,7 +169,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public void removeByPublikUserId(long publikUserId);
+	public void removeByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns the number of user notification types where publikUserId = &#63;.
@@ -173,7 +177,7 @@ public interface UserNotificationTypePersistence extends BasePersistence<UserNot
 	* @param publikUserId the publik user ID
 	* @return the number of matching user notification types
 	*/
-	public int countByPublikUserId(long publikUserId);
+	public int countByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns all the user notification types where typeId = &#63;.

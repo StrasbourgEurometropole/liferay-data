@@ -38,24 +38,15 @@ public class UserNotificationTypeLocalServiceWrapper
 	* Retourne true si l'utilisateur est abonné au type passé en paramètre
 	*/
 	@Override
-	public boolean isUserSubscribedToType(long publikUserId, long typeId) {
+	public boolean isUserSubscribedToType(java.lang.String publikUserId,
+		long typeId) {
 		return _userNotificationTypeLocalService.isUserSubscribedToType(publikUserId,
 			typeId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _userNotificationTypeLocalService.getActionableDynamicQuery();
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _userNotificationTypeLocalService.dynamicQuery();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _userNotificationTypeLocalService.getIndexableActionableDynamicQuery();
 	}
 
 	/**
@@ -255,7 +246,7 @@ public class UserNotificationTypeLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getUserNotificationTypes(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return _userNotificationTypeLocalService.getUserNotificationTypes(publikUserId);
 	}
 
@@ -299,7 +290,7 @@ public class UserNotificationTypeLocalServiceWrapper
 	* Remplace les abonnement existant de l'utilisateur par des nouveaux
 	*/
 	@Override
-	public void replaceUserSubscriptions(long publikUserId,
+	public void replaceUserSubscriptions(java.lang.String publikUserId,
 		java.util.List<com.liferay.asset.kernel.model.AssetCategory> types) {
 		_userNotificationTypeLocalService.replaceUserSubscriptions(publikUserId,
 			types);

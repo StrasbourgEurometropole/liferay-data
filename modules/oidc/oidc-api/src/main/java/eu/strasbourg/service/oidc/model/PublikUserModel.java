@@ -78,32 +78,18 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	public void setUuid(String uuid);
 
 	/**
-	 * Returns the publik user ID of this publik user.
+	 * Returns the publik user liferay ID of this publik user.
 	 *
-	 * @return the publik user ID of this publik user
+	 * @return the publik user liferay ID of this publik user
 	 */
-	public long getPublikUserId();
+	public long getPublikUserLiferayId();
 
 	/**
-	 * Sets the publik user ID of this publik user.
+	 * Sets the publik user liferay ID of this publik user.
 	 *
-	 * @param publikUserId the publik user ID of this publik user
+	 * @param publikUserLiferayId the publik user liferay ID of this publik user
 	 */
-	public void setPublikUserId(long publikUserId);
-
-	/**
-	 * Returns the publik user uuid of this publik user.
-	 *
-	 * @return the publik user uuid of this publik user
-	 */
-	public String getPublikUserUuid();
-
-	/**
-	 * Sets the publik user uuid of this publik user.
-	 *
-	 * @param publikUserUuid the publik user uuid of this publik user
-	 */
-	public void setPublikUserUuid(String publikUserUuid);
+	public void setPublikUserLiferayId(long publikUserLiferayId);
 
 	/**
 	 * Returns the create date of this publik user.
@@ -134,19 +120,19 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
-	 * Returns the publik internal ID of this publik user.
+	 * Returns the publik ID of this publik user.
 	 *
-	 * @return the publik internal ID of this publik user
+	 * @return the publik ID of this publik user
 	 */
 	@AutoEscape
-	public String getPublikInternalId();
+	public String getPublikId();
 
 	/**
-	 * Sets the publik internal ID of this publik user.
+	 * Sets the publik ID of this publik user.
 	 *
-	 * @param publikInternalId the publik internal ID of this publik user
+	 * @param publikId the publik ID of this publik user
 	 */
-	public void setPublikInternalId(String publikInternalId);
+	public void setPublikId(String publikId);
 
 	/**
 	 * Returns the access token of this publik user.

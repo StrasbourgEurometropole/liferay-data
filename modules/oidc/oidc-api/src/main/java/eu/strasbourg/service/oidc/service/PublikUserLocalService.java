@@ -94,10 +94,10 @@ public interface PublikUserLocalService extends BaseLocalService,
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
-	* @param publikUserId the primary key for the new publik user
+	* @param publikUserLiferayId the primary key for the new publik user
 	* @return the new publik user
 	*/
-	public PublikUser createPublikUser(long publikUserId);
+	public PublikUser createPublikUser(long publikUserLiferayId);
 
 	/**
 	* Deletes the publik user from the database. Also notifies the appropriate model listeners.
@@ -111,30 +111,35 @@ public interface PublikUserLocalService extends BaseLocalService,
 	/**
 	* Deletes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user that was removed
 	* @throws PortalException if a publik user with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public PublikUser deletePublikUser(long publikUserId)
+	public PublikUser deletePublikUser(long publikUserLiferayId)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PublikUser fetchPublikUser(long publikUserId);
+	public PublikUser fetchPublikUser(long publikUserLiferayId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PublikUser getByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns the publik user with the primary key.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user
 	* @throws PortalException if a publik user with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PublikUser getPublikUser(long publikUserId)
+	public PublikUser getPublikUser(long publikUserLiferayId)
 		throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PublikUser getPublikUserByInternalId(java.lang.String internalId);
+	/**
+	* Supprime une entité
+	*/
+	public PublikUser removePublikUser(java.lang.String publikUserId);
 
 	/**
 	* Updates the publik user in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

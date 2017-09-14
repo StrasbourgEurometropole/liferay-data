@@ -102,11 +102,11 @@ public class UserNotificationStatusSoap implements Serializable {
 		_notificationId = notificationId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return _publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_publikUserId = publikUserId;
 	}
 
@@ -123,6 +123,6 @@ public class UserNotificationStatusSoap implements Serializable {
 	}
 
 	private long _notificationId;
-	private long _publikUserId;
+	private String _publikUserId;
 	private boolean _read;
 }

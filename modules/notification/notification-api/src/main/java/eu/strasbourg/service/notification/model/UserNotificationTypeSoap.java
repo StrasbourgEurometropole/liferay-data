@@ -93,11 +93,11 @@ public class UserNotificationTypeSoap implements Serializable {
 		setTypeId(pk.typeId);
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return _publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_publikUserId = publikUserId;
 	}
 
@@ -109,6 +109,6 @@ public class UserNotificationTypeSoap implements Serializable {
 		_typeId = typeId;
 	}
 
-	private long _publikUserId;
+	private String _publikUserId;
 	private long _typeId;
 }

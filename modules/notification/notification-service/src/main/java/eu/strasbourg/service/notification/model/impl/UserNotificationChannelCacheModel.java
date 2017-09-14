@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
@@ -80,7 +81,13 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 	public UserNotificationChannel toEntityModel() {
 		UserNotificationChannelImpl userNotificationChannelImpl = new UserNotificationChannelImpl();
 
-		userNotificationChannelImpl.setPublikUserId(publikUserId);
+		if (publikUserId == null) {
+			userNotificationChannelImpl.setPublikUserId(StringPool.BLANK);
+		}
+		else {
+			userNotificationChannelImpl.setPublikUserId(publikUserId);
+		}
+
 		userNotificationChannelImpl.setChannelId(channelId);
 
 		userNotificationChannelImpl.resetOriginalValues();
@@ -90,7 +97,7 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		publikUserId = objectInput.readLong();
+		publikUserId = objectInput.readUTF();
 
 		channelId = objectInput.readLong();
 
@@ -101,12 +108,17 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
-		objectOutput.writeLong(publikUserId);
+		if (publikUserId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 
 		objectOutput.writeLong(channelId);
 	}
 
-	public long publikUserId;
+	public String publikUserId;
 	public long channelId;
 	public transient UserNotificationChannelPK userNotificationChannelPK;
 }

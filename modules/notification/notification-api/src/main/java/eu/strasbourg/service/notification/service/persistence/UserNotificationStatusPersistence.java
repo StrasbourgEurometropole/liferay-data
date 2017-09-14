@@ -186,7 +186,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the matching user notification statuses
 	*/
 	public java.util.List<UserNotificationStatus> findByPublikUserId(
-		long publikUserId);
+		java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user notification statuses where publikUserId = &#63;.
@@ -201,7 +201,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the range of matching user notification statuses
 	*/
 	public java.util.List<UserNotificationStatus> findByPublikUserId(
-		long publikUserId, int start, int end);
+		java.lang.String publikUserId, int start, int end);
 
 	/**
 	* Returns an ordered range of all the user notification statuses where publikUserId = &#63;.
@@ -217,7 +217,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the ordered range of matching user notification statuses
 	*/
 	public java.util.List<UserNotificationStatus> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator);
 
 	/**
@@ -235,7 +235,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the ordered range of matching user notification statuses
 	*/
 	public java.util.List<UserNotificationStatus> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator,
 		boolean retrieveFromCache);
 
@@ -247,7 +247,8 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the first matching user notification status
 	* @throws NoSuchUserNotificationStatusException if a matching user notification status could not be found
 	*/
-	public UserNotificationStatus findByPublikUserId_First(long publikUserId,
+	public UserNotificationStatus findByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator)
 		throws NoSuchUserNotificationStatusException;
 
@@ -258,7 +259,8 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching user notification status, or <code>null</code> if a matching user notification status could not be found
 	*/
-	public UserNotificationStatus fetchByPublikUserId_First(long publikUserId,
+	public UserNotificationStatus fetchByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator);
 
 	/**
@@ -269,7 +271,8 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @return the last matching user notification status
 	* @throws NoSuchUserNotificationStatusException if a matching user notification status could not be found
 	*/
-	public UserNotificationStatus findByPublikUserId_Last(long publikUserId,
+	public UserNotificationStatus findByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator)
 		throws NoSuchUserNotificationStatusException;
 
@@ -280,7 +283,8 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user notification status, or <code>null</code> if a matching user notification status could not be found
 	*/
-	public UserNotificationStatus fetchByPublikUserId_Last(long publikUserId,
+	public UserNotificationStatus fetchByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator);
 
 	/**
@@ -294,7 +298,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	*/
 	public UserNotificationStatus[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK userNotificationStatusPK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationStatus> orderByComparator)
 		throws NoSuchUserNotificationStatusException;
 
@@ -303,7 +307,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public void removeByPublikUserId(long publikUserId);
+	public void removeByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns the number of user notification statuses where publikUserId = &#63;.
@@ -311,7 +315,7 @@ public interface UserNotificationStatusPersistence extends BasePersistence<UserN
 	* @param publikUserId the publik user ID
 	* @return the number of matching user notification statuses
 	*/
-	public int countByPublikUserId(long publikUserId);
+	public int countByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Caches the user notification status in the entity cache if it is enabled.

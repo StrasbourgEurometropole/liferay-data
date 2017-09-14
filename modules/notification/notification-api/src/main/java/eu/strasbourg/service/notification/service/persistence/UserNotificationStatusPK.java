@@ -30,12 +30,12 @@ import java.io.Serializable;
 public class UserNotificationStatusPK implements Comparable<UserNotificationStatusPK>,
 	Serializable {
 	public long notificationId;
-	public long publikUserId;
+	public String publikUserId;
 
 	public UserNotificationStatusPK() {
 	}
 
-	public UserNotificationStatusPK(long notificationId, long publikUserId) {
+	public UserNotificationStatusPK(long notificationId, String publikUserId) {
 		this.notificationId = notificationId;
 		this.publikUserId = publikUserId;
 	}
@@ -48,11 +48,11 @@ public class UserNotificationStatusPK implements Comparable<UserNotificationStat
 		this.notificationId = notificationId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		this.publikUserId = publikUserId;
 	}
 
@@ -78,15 +78,7 @@ public class UserNotificationStatusPK implements Comparable<UserNotificationStat
 			return value;
 		}
 
-		if (publikUserId < pk.publikUserId) {
-			value = -1;
-		}
-		else if (publikUserId > pk.publikUserId) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = publikUserId.compareTo(pk.publikUserId);
 
 		if (value != 0) {
 			return value;
@@ -108,7 +100,7 @@ public class UserNotificationStatusPK implements Comparable<UserNotificationStat
 		UserNotificationStatusPK pk = (UserNotificationStatusPK)obj;
 
 		if ((notificationId == pk.notificationId) &&
-				(publikUserId == pk.publikUserId)) {
+				(publikUserId.equals(pk.publikUserId))) {
 			return true;
 		}
 		else {

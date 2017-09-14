@@ -54,15 +54,15 @@ public interface UserInterest extends UserInterestModel, PersistedModel {
 			}
 		};
 
-	public static final Accessor<UserInterest, Long> PUBLIK_USER_ID_ACCESSOR = new Accessor<UserInterest, Long>() {
+	public static final Accessor<UserInterest, String> PUBLIK_USER_ID_ACCESSOR = new Accessor<UserInterest, String>() {
 			@Override
-			public Long get(UserInterest userInterest) {
+			public String get(UserInterest userInterest) {
 				return userInterest.getPublikUserId();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

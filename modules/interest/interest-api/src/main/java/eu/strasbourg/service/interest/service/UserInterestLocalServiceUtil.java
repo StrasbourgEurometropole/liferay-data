@@ -217,7 +217,7 @@ public class UserInterestLocalServiceUtil {
 	}
 
 	public static java.util.List<eu.strasbourg.service.interest.model.UserInterest> getByPublikUserId(
-		long publikUserId) {
+		java.lang.String publikUserId) {
 		return getService().getByPublikUserId(publikUserId);
 	}
 

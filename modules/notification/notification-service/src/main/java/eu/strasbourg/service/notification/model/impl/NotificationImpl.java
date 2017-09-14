@@ -69,11 +69,10 @@ public class NotificationImpl extends NotificationBaseImpl {
 		// Si la notification ne concerne qu'un seul utilisateur
 		if (this.isSingleUser()) {
 			// On récupère l'utilisateur concerné
-			long singleUserId = this.getSingleUserId();
-			PublikUser user = PublikUserLocalServiceUtil.fetchPublikUser(singleUserId);
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.getSingleUserId());
 			if (user != null) {
 				// On vérifie qu'il est abonné au type
-				if (UserNotificationTypeLocalServiceUtil.isUserSubscribedToType(singleUserId, this.getTypeId())) {
+				if (UserNotificationTypeLocalServiceUtil.isUserSubscribedToType(this.getSingleUserId(), this.getTypeId())) {
 					users.add(user);
 				}
 			}

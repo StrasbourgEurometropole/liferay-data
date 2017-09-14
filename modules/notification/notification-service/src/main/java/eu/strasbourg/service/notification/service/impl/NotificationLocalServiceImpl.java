@@ -40,6 +40,8 @@ import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.base.NotificationLocalServiceBaseImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * The implementation of the notification local service.
@@ -75,8 +77,6 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 	 */
 	@Override
 	public Notification createNotification(ServiceContext sc) throws PortalException {
-		User user = UserLocalServiceUtil.getUser(sc.getUserId());
-
 		long pk = counterLocalService.increment();
 
 		Notification notification = this.notificationLocalService.createNotification(pk);
@@ -119,10 +119,11 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 		List<PublikUser> usersToNotify = notification.getUsersToNotify();
 		for (PublikUser user : usersToNotify) {
 			UserNotificationStatus status = this.userNotificationStatusLocalService.createUserNotificationStatus(
-					new UserNotificationStatusPK(notification.getNotificationId(), user.getPublikUserId()));
+					new UserNotificationStatusPK(notification.getNotificationId(), user.getPublikId()));
 			this.userNotificationStatusLocalService.updateUserNotificationStatus(status);
 		}
 	}
+
 	/**
 	 * Création des UserNotificationStatus pour les utilisateurs concernés par
 	 * une notification
@@ -157,7 +158,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 			sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 		}
 
-		this.updateStatus(notification, status);
+		this.updateNotification(notification, sc);
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 	 */
 	@Override
 	public void deleteOldUnpublishedNotifications() throws PortalException {
-		LocalDate oneMonthAgoLocalDate = LocalDate.now().minusMonths(1);
+		LocalDate oneMonthAgoLocalDate = LocalDate.now().minusDays(StrasbourgPropsUtil.getDaysBeforeSuppression());
 		Date oneMonthAgo = Date.from(oneMonthAgoLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		List<Notification> notifications = this.notificationPersistence.findByExpirationDateAndStatus(oneMonthAgo,
 				WorkflowConstants.STATUS_DRAFT);
@@ -217,7 +218,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 
 		// Suppression des UsersNotificationStatus
 		this.deleteUserNotificationStatusesForNotification(notification);
-		
+
 		// Supprime l'index
 		this.reindex(notification, true);
 
@@ -235,7 +236,6 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 			indexer.reindex(notification);
 		}
 	}
-
 
 	/**
 	 * Lance une recherche selon le searchContext

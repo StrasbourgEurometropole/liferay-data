@@ -25,6 +25,6 @@
 	</model>
 	<model name="eu.strasbourg.service.interest.model.UserInterest">
 		<field name="interestId" type="long" />
-		<field name="publikUserId" type="long" />
+		<field name="publikUserId" type="String" />
 	</model>
 </model-hints>

@@ -65,6 +65,9 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class NotificationServiceSoap {
+	/**
+	* Retourne la liste des types de notifications
+	*/
 	public static java.lang.String getTypes() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue = NotificationServiceUtil.getTypes();
@@ -78,6 +81,9 @@ public class NotificationServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
 	public static java.lang.String getChannels() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue = NotificationServiceUtil.getChannels();
@@ -91,7 +97,11 @@ public class NotificationServiceSoap {
 		}
 	}
 
-	public static java.lang.String getUserSettings(long userId)
+	/**
+	* Retourne la liste des types et des canaux de communication d'un
+	* utilisateur
+	*/
+	public static java.lang.String getUserSettings(java.lang.String userId)
 		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getUserSettings(userId);
@@ -105,7 +115,10 @@ public class NotificationServiceSoap {
 		}
 	}
 
-	public static java.lang.String getUserNotifications(long userId)
+	/**
+	* Retourne la liste des notifications d'un utilisateur
+	*/
+	public static java.lang.String getUserNotifications(java.lang.String userId)
 		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getUserNotifications(userId);
@@ -123,7 +136,7 @@ public class NotificationServiceSoap {
 	* Modification des abonnements et des canaux de communication d'un
 	* utilisateur
 	*/
-	public static java.lang.String setUserSettings(long userId,
+	public static java.lang.String setUserSettings(java.lang.String userId,
 		java.lang.String typeIds, java.lang.String channelIds)
 		throws RemoteException {
 		try {
@@ -139,13 +152,18 @@ public class NotificationServiceSoap {
 		}
 	}
 
-	public static java.lang.String addNotification(long userId,
-		java.lang.String title, java.lang.String description,
-		java.lang.String url, java.lang.String startDate,
-		java.lang.String endDate, long typeId) throws RemoteException {
+	/**
+	* Envoie une notification à un utilisateur
+	*/
+	public static java.lang.String addNotification(java.lang.String userId,
+		boolean isGlobal, java.lang.String title, java.lang.String description,
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId)
+		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.addNotification(userId,
-					title, description, url, startDate, endDate, typeId);
+					isGlobal, title, description, url, publicationDate,
+					expirationDate, typeId);
 
 			return returnValue.toString();
 		}

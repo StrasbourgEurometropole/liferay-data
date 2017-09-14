@@ -63,7 +63,7 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 		List<PublikUser> users = new ArrayList<PublikUser>();
 		List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence.findByTypeId(typeId);
 		for (UserNotificationType userNotificationType : userNotificationTypes) {
-			PublikUser user = PublikUserLocalServiceUtil.fetchPublikUser(userNotificationType.getPublikUserId());
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userNotificationType.getPublikUserId());
 			if (user != null) {
 				users.add(user);
 			}
@@ -76,7 +76,7 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 	 * abonné
 	 */
 	@Override
-	public List<AssetCategory> getUserNotificationTypes(long publikUserId) {
+	public List<AssetCategory> getUserNotificationTypes(String publikUserId) {
 		List<AssetCategory> types = new ArrayList<AssetCategory>();
 		List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence
 				.findByPublikUserId(publikUserId);
@@ -93,7 +93,7 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 	 * Retourne true si l'utilisateur est abonné au type passé en paramètre
 	 */
 	@Override
-	public boolean isUserSubscribedToType(long publikUserId, long typeId) {
+	public boolean isUserSubscribedToType(String publikUserId, long typeId) {
 		UserNotificationType userNotificationType = this.userNotificationTypeLocalService
 				.fetchUserNotificationType(new UserNotificationTypePK(publikUserId, typeId));
 		return userNotificationType != null;
@@ -103,7 +103,7 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 	 * Remplace les abonnement existant de l'utilisateur par des nouveaux
 	 */
 	@Override
-	public void replaceUserSubscriptions(long publikUserId, List<AssetCategory> types) {
+	public void replaceUserSubscriptions(String publikUserId, List<AssetCategory> types) {
 		// On supprime les anciens
 		List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence
 				.findByPublikUserId(publikUserId);

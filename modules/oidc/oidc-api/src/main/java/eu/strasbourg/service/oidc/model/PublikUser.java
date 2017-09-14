@@ -37,10 +37,11 @@ public interface PublikUser extends PublikUserModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.oidc.model.impl.PublikUserImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<PublikUser, Long> PUBLIK_USER_ID_ACCESSOR = new Accessor<PublikUser, Long>() {
+	public static final Accessor<PublikUser, Long> PUBLIK_USER_LIFERAY_ID_ACCESSOR =
+		new Accessor<PublikUser, Long>() {
 			@Override
 			public Long get(PublikUser publikUser) {
-				return publikUser.getPublikUserId();
+				return publikUser.getPublikUserLiferayId();
 			}
 
 			@Override

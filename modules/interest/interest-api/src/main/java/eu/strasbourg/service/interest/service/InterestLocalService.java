@@ -278,7 +278,7 @@ public interface InterestLocalService extends BaseLocalService,
 	* Retourne tous les centres d'intérêts (publiées) d'un utilisateur
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Interest> getByPublikUserId(long publikUserId);
+	public List<Interest> getByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the interests.
@@ -346,5 +346,6 @@ public interface InterestLocalService extends BaseLocalService,
 	/**
 	* Met à jour la relation entre un utilisateur et ses centres d'intérêts
 	*/
-	public void setUserInterests(long publikUserId, long[] interestIds);
+	public void setUserInterests(java.lang.String publikUserId,
+		long[] interestIds);
 }

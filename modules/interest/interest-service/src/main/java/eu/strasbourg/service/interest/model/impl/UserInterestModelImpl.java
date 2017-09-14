@@ -17,11 +17,8 @@ package eu.strasbourg.service.interest.model.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -62,16 +59,16 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 	public static final String TABLE_NAME = "interest_UserInterest";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "interestId", Types.BIGINT },
-			{ "publikUserId", Types.BIGINT }
+			{ "publikUserId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
 		TABLE_COLUMNS_MAP.put("interestId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("publikUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table interest_UserInterest (interestId LONG not null,publikUserId LONG not null,primary key (interestId, publikUserId))";
+	public static final String TABLE_SQL_CREATE = "create table interest_UserInterest (interestId LONG not null,publikUserId VARCHAR(75) not null,primary key (interestId, publikUserId))";
 	public static final String TABLE_SQL_DROP = "drop table interest_UserInterest";
 	public static final String ORDER_BY_JPQL = " ORDER BY userInterest.id.interestId ASC, userInterest.id.publikUserId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY interest_UserInterest.interestId ASC, interest_UserInterest.publikUserId ASC";
@@ -147,7 +144,7 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 			setInterestId(interestId);
 		}
 
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -177,41 +174,28 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 	}
 
 	@Override
-	public long getPublikUserId() {
-		return _publikUserId;
+	public String getPublikUserId() {
+		if (_publikUserId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikUserId;
+		}
 	}
 
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalPublikUserId) {
-			_setOriginalPublikUserId = true;
-
+		if (_originalPublikUserId == null) {
 			_originalPublikUserId = _publikUserId;
 		}
 
 		_publikUserId = publikUserId;
 	}
 
-	@Override
-	public String getPublikUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getPublikUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setPublikUserUuid(String publikUserUuid) {
-	}
-
-	public long getOriginalPublikUserId() {
-		return _originalPublikUserId;
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
 	}
 
 	public long getColumnBitmask() {
@@ -294,8 +278,6 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 
 		userInterestModelImpl._originalPublikUserId = userInterestModelImpl._publikUserId;
 
-		userInterestModelImpl._setOriginalPublikUserId = false;
-
 		userInterestModelImpl._columnBitmask = 0;
 	}
 
@@ -308,6 +290,12 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 		userInterestCacheModel.interestId = getInterestId();
 
 		userInterestCacheModel.publikUserId = getPublikUserId();
+
+		String publikUserId = userInterestCacheModel.publikUserId;
+
+		if ((publikUserId != null) && (publikUserId.length() == 0)) {
+			userInterestCacheModel.publikUserId = null;
+		}
 
 		return userInterestCacheModel;
 	}
@@ -354,9 +342,8 @@ public class UserInterestModelImpl extends BaseModelImpl<UserInterest>
 	private long _interestId;
 	private long _originalInterestId;
 	private boolean _setOriginalInterestId;
-	private long _publikUserId;
-	private long _originalPublikUserId;
-	private boolean _setOriginalPublikUserId;
+	private String _publikUserId;
+	private String _originalPublikUserId;
 	private long _columnBitmask;
 	private UserInterest _escapedModel;
 }

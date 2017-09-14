@@ -147,13 +147,13 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	/**
 	* Returns the publik users before and after the current publik user in the ordered set where uuid = &#63;.
 	*
-	* @param publikUserId the primary key of the current publik user
+	* @param publikUserLiferayId the primary key of the current publik user
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next publik user
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public PublikUser[] findByUuid_PrevAndNext(long publikUserId,
+	public PublikUser[] findByUuid_PrevAndNext(long publikUserLiferayId,
 		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<PublikUser> orderByComparator)
 		throws NoSuchPublikUserException;
@@ -174,49 +174,49 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	public int countByUuid(java.lang.String uuid);
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
+	* Returns the publik user where publikId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the matching publik user
 	* @throws NoSuchPublikUserException if a matching publik user could not be found
 	*/
-	public PublikUser findByPublikInternalId(java.lang.String publikInternalId)
+	public PublikUser findByPublikId(java.lang.String publikId)
 		throws NoSuchPublikUserException;
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	*/
-	public PublikUser fetchByPublikInternalId(java.lang.String publikInternalId);
+	public PublikUser fetchByPublikId(java.lang.String publikId);
 
 	/**
-	* Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	*/
-	public PublikUser fetchByPublikInternalId(
-		java.lang.String publikInternalId, boolean retrieveFromCache);
+	public PublikUser fetchByPublikId(java.lang.String publikId,
+		boolean retrieveFromCache);
 
 	/**
-	* Removes the publik user where publikInternalId = &#63; from the database.
+	* Removes the publik user where publikId = &#63; from the database.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the publik user that was removed
 	*/
-	public PublikUser removeByPublikInternalId(
-		java.lang.String publikInternalId) throws NoSuchPublikUserException;
+	public PublikUser removeByPublikId(java.lang.String publikId)
+		throws NoSuchPublikUserException;
 
 	/**
-	* Returns the number of publik users where publikInternalId = &#63;.
+	* Returns the number of publik users where publikId = &#63;.
 	*
-	* @param publikInternalId the publik internal ID
+	* @param publikId the publik ID
 	* @return the number of matching publik users
 	*/
-	public int countByPublikInternalId(java.lang.String publikInternalId);
+	public int countByPublikId(java.lang.String publikId);
 
 	/**
 	* Caches the publik user in the entity cache if it is enabled.
@@ -235,19 +235,19 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	/**
 	* Creates a new publik user with the primary key. Does not add the publik user to the database.
 	*
-	* @param publikUserId the primary key for the new publik user
+	* @param publikUserLiferayId the primary key for the new publik user
 	* @return the new publik user
 	*/
-	public PublikUser create(long publikUserId);
+	public PublikUser create(long publikUserLiferayId);
 
 	/**
 	* Removes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user that was removed
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public PublikUser remove(long publikUserId)
+	public PublikUser remove(long publikUserLiferayId)
 		throws NoSuchPublikUserException;
 
 	public PublikUser updateImpl(PublikUser publikUser);
@@ -255,20 +255,20 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	/**
 	* Returns the publik user with the primary key or throws a {@link NoSuchPublikUserException} if it could not be found.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user
 	* @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	*/
-	public PublikUser findByPrimaryKey(long publikUserId)
+	public PublikUser findByPrimaryKey(long publikUserLiferayId)
 		throws NoSuchPublikUserException;
 
 	/**
 	* Returns the publik user with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param publikUserId the primary key of the publik user
+	* @param publikUserLiferayId the primary key of the publik user
 	* @return the publik user, or <code>null</code> if a publik user with the primary key could not be found
 	*/
-	public PublikUser fetchByPrimaryKey(long publikUserId);
+	public PublikUser fetchByPrimaryKey(long publikUserLiferayId);
 
 	@Override
 	public java.util.Map<java.io.Serializable, PublikUser> fetchByPrimaryKeys(

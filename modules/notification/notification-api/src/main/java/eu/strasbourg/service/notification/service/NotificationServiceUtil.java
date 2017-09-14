@@ -41,31 +41,49 @@ public class NotificationServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.notification.service.impl.NotificationServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
 	public static com.liferay.portal.kernel.json.JSONArray getChannels() {
 		return getService().getChannels();
 	}
 
+	/**
+	* Retourne la liste des types de notifications
+	*/
 	public static com.liferay.portal.kernel.json.JSONArray getTypes()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getTypes();
 	}
 
+	/**
+	* Envoie une notification à un utilisateur
+	*/
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
-		long userId, java.lang.String title, java.lang.String description,
-		java.lang.String url, java.lang.String startDate,
-		java.lang.String endDate, long typeId) {
+		java.lang.String userId, boolean isGlobal, java.lang.String title,
+		java.lang.String description, java.lang.String url,
+		java.lang.String publicationDate, java.lang.String expirationDate,
+		java.lang.String typeId) {
 		return getService()
-				   .addNotification(userId, title, description, url, startDate,
-			endDate, typeId);
+				   .addNotification(userId, isGlobal, title, description, url,
+			publicationDate, expirationDate, typeId);
 	}
 
+	/**
+	* Retourne la liste des notifications d'un utilisateur
+	*/
 	public static com.liferay.portal.kernel.json.JSONObject getUserNotifications(
-		long userId) {
+		java.lang.String userId) {
 		return getService().getUserNotifications(userId);
 	}
 
+	/**
+	* Retourne la liste des types et des canaux de communication d'un
+	* utilisateur
+	*/
 	public static com.liferay.portal.kernel.json.JSONObject getUserSettings(
-		long userId) {
+		java.lang.String userId) {
 		return getService().getUserSettings(userId);
 	}
 
@@ -74,7 +92,8 @@ public class NotificationServiceUtil {
 	* utilisateur
 	*/
 	public static com.liferay.portal.kernel.json.JSONObject setUserSettings(
-		long userId, java.lang.String typeIds, java.lang.String channelIds) {
+		java.lang.String userId, java.lang.String typeIds,
+		java.lang.String channelIds) {
 		return getService().setUserSettings(userId, typeIds, channelIds);
 	}
 

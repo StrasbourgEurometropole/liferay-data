@@ -17,11 +17,8 @@ package eu.strasbourg.service.notification.model.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -61,17 +58,17 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 	 */
 	public static final String TABLE_NAME = "notification_UserNotificationChannel";
 	public static final Object[][] TABLE_COLUMNS = {
-			{ "publikUserId", Types.BIGINT },
+			{ "publikUserId", Types.VARCHAR },
 			{ "channelId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("publikUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("channelId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table notification_UserNotificationChannel (publikUserId LONG not null,channelId LONG not null,primary key (publikUserId, channelId))";
+	public static final String TABLE_SQL_CREATE = "create table notification_UserNotificationChannel (publikUserId VARCHAR(75) not null,channelId LONG not null,primary key (publikUserId, channelId))";
 	public static final String TABLE_SQL_DROP = "drop table notification_UserNotificationChannel";
 	public static final String ORDER_BY_JPQL = " ORDER BY userNotificationChannel.id.publikUserId ASC, userNotificationChannel.id.channelId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY notification_UserNotificationChannel.publikUserId ASC, notification_UserNotificationChannel.channelId ASC";
@@ -141,7 +138,7 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long publikUserId = (Long)attributes.get("publikUserId");
+		String publikUserId = (String)attributes.get("publikUserId");
 
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
@@ -155,41 +152,28 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 	}
 
 	@Override
-	public long getPublikUserId() {
-		return _publikUserId;
+	public String getPublikUserId() {
+		if (_publikUserId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikUserId;
+		}
 	}
 
 	@Override
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
 
-		if (!_setOriginalPublikUserId) {
-			_setOriginalPublikUserId = true;
-
+		if (_originalPublikUserId == null) {
 			_originalPublikUserId = _publikUserId;
 		}
 
 		_publikUserId = publikUserId;
 	}
 
-	@Override
-	public String getPublikUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getPublikUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return StringPool.BLANK;
-		}
-	}
-
-	@Override
-	public void setPublikUserUuid(String publikUserUuid) {
-	}
-
-	public long getOriginalPublikUserId() {
-		return _originalPublikUserId;
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
 	}
 
 	@Override
@@ -290,8 +274,6 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 
 		userNotificationChannelModelImpl._originalPublikUserId = userNotificationChannelModelImpl._publikUserId;
 
-		userNotificationChannelModelImpl._setOriginalPublikUserId = false;
-
 		userNotificationChannelModelImpl._originalChannelId = userNotificationChannelModelImpl._channelId;
 
 		userNotificationChannelModelImpl._setOriginalChannelId = false;
@@ -306,6 +288,12 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 		userNotificationChannelCacheModel.userNotificationChannelPK = getPrimaryKey();
 
 		userNotificationChannelCacheModel.publikUserId = getPublikUserId();
+
+		String publikUserId = userNotificationChannelCacheModel.publikUserId;
+
+		if ((publikUserId != null) && (publikUserId.length() == 0)) {
+			userNotificationChannelCacheModel.publikUserId = null;
+		}
 
 		userNotificationChannelCacheModel.channelId = getChannelId();
 
@@ -352,9 +340,8 @@ public class UserNotificationChannelModelImpl extends BaseModelImpl<UserNotifica
 	private static final Class<?>[] _escapedModelInterfaces = new Class[] {
 			UserNotificationChannel.class
 		};
-	private long _publikUserId;
-	private long _originalPublikUserId;
-	private boolean _setOriginalPublikUserId;
+	private String _publikUserId;
+	private String _originalPublikUserId;
 	private long _channelId;
 	private long _originalChannelId;
 	private boolean _setOriginalChannelId;

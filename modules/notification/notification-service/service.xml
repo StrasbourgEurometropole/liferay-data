@@ -14,7 +14,7 @@
         <column name="url" type="String" localized="false" />
         <column name="automatic" type="boolean" />
         <column name="singleUser" type="boolean" />
-        <column name="singleUserId" type="long" />
+        <column name="singleUserId" type="String" />
 		<column name="publicationDate" type="Date" />
         <column name="expirationDate" type="Date" />
 		<column name="status" type="int" />
@@ -33,7 +33,7 @@
 	<!-- Statut de la notification pour un utilisateur -->
 	<entity local-service="true" cache-enabled="true" name="UserNotificationStatus" remote-service="false" uuid="false" >
 		<column name="notificationId" primary="true" type="long" />
-		<column name="publikUserId" primary="true" type="long" />
+		<column name="publikUserId" primary="true" type="String" />
         <column name="read" type="boolean" />
 		
 		<finder name="NotificationId" return-type="Collection" db-index="true" >
@@ -46,7 +46,7 @@
 	
 	<!-- Type de notifications auxquelles un utilisateur est abonné -->
 	<entity local-service="true" cache-enabled="true" name="UserNotificationType" remote-service="false" uuid="false" >
-		<column name="publikUserId" type="long" primary="true"/>
+		<column name="publikUserId" type="String" primary="true"/>
 		<column name="typeId" type="long" primary="true"/>
 		<finder name="PublikUserId" return-type="Collection" db-index="true" >
 			<finder-column name="publikUserId" />
@@ -58,7 +58,7 @@
 	
 	<!-- Canaux de communications des notifications d'un utilisateur -->
 	<entity local-service="true" cache-enabled="true" name="UserNotificationChannel" remote-service="false" uuid="false" >
-		<column name="publikUserId" type="long" primary="true"/>
+		<column name="publikUserId" type="String" primary="true"/>
 		<column name="channelId" type="long" primary="true"/>
 		<finder name="PublikUserId" return-type="Collection" db-index="true" >
 			<finder-column name="publikUserId" />

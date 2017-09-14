@@ -6,20 +6,20 @@
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 	<entity local-service="true" name="PublikUser" remote-service="false" uuid="true">
 
-		<column name="publikUserId" primary="true" type="long" />
+		<column name="publikUserLiferayId" primary="true" type="long" />
 
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 
 		<!-- Other fields -->
-		<column name="publikInternalId" type="String" />
+		<column name="publikId" type="String" />
 		<column name="accessToken" type="String" />
 		<column name="firstName" type="String" />
 		<column name="lastName" type="String" />
 		<column name="email" type="String" />
 
-	    <finder name="PublikInternalId" return-type="PublikUser" unique="true" db-index="true">
-	      <finder-column name="publikInternalId" />
+	    <finder name="PublikId" return-type="PublikUser" unique="true" db-index="true">
+	      <finder-column name="publikId" />
 	    </finder>
 	</entity>
 </service-builder>

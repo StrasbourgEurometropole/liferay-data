@@ -16,9 +16,7 @@ package eu.strasbourg.service.notification.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -32,6 +30,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.notification.model.NotificationChannel;
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
 
@@ -61,13 +60,7 @@ public interface UserNotificationChannelLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link UserNotificationChannelLocalServiceUtil} to access the user notification channel local service. Add custom service methods to {@link eu.strasbourg.service.notification.service.impl.UserNotificationChannelLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
-
 	public DynamicQuery dynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
 	* @throws PortalException
@@ -218,6 +211,14 @@ public interface UserNotificationChannelLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
+	* Retourne la liste des types de notifications auxquels l'utilisateur est
+	* abonné
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<NotificationChannel> getUserNotificationChannels(
+		java.lang.String publikUserId);
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -234,4 +235,10 @@ public interface UserNotificationChannelLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Remplace les abonnement existant de l'utilisateur par des nouveaux
+	*/
+	public void replaceUserChannels(java.lang.String publikUserId,
+		List<NotificationChannel> channels);
 }

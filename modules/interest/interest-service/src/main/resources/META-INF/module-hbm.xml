@@ -27,7 +27,7 @@
 	<class name="eu.strasbourg.service.interest.model.impl.UserInterestImpl" table="interest_UserInterest">
 		<composite-id class="eu.strasbourg.service.interest.service.persistence.UserInterestPK" name="primaryKey">
 			<key-property name="interestId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		</composite-id>
 	</class>
 </hibernate-mapping>

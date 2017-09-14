@@ -43,9 +43,9 @@
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-description-error">
 							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_interest_AgendaBOPortlet_description_fr_FR').val().length > 0;
+								var validate = $('#_eu_strasbourg_portlet_interest_InterestBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_interest_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_interest_InterestBOPortlet_descriptionContainer").get(0).scrollIntoView();
 								}
 								return validate;
 							}

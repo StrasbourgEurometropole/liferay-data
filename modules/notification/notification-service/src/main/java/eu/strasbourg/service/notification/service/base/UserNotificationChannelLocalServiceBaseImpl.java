@@ -21,11 +21,8 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -233,44 +230,6 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 		UserNotificationChannelPK userNotificationChannelPK)
 		throws PortalException {
 		return userNotificationChannelPersistence.findByPrimaryKey(userNotificationChannelPK);
-	}
-
-	@Override
-	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
-
-		actionableDynamicQuery.setBaseLocalService(userNotificationChannelLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(UserNotificationChannel.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName(
-			"primaryKey.publikUserId");
-
-		return actionableDynamicQuery;
-	}
-
-	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(userNotificationChannelLocalService);
-		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(UserNotificationChannel.class);
-
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"primaryKey.publikUserId");
-
-		return indexableActionableDynamicQuery;
-	}
-
-	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
-		actionableDynamicQuery.setBaseLocalService(userNotificationChannelLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(UserNotificationChannel.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName(
-			"primaryKey.publikUserId");
 	}
 
 	/**

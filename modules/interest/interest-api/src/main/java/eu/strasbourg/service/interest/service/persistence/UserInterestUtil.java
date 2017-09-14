@@ -278,7 +278,8 @@ public class UserInterestUtil {
 	* @param publikUserId the publik user ID
 	* @return the matching user interests
 	*/
-	public static List<UserInterest> findByPublikUserId(long publikUserId) {
+	public static List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId) {
 		return getPersistence().findByPublikUserId(publikUserId);
 	}
 
@@ -294,8 +295,8 @@ public class UserInterestUtil {
 	* @param end the upper bound of the range of user interests (not inclusive)
 	* @return the range of matching user interests
 	*/
-	public static List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end) {
+	public static List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end) {
 		return getPersistence().findByPublikUserId(publikUserId, start, end);
 	}
 
@@ -312,8 +313,9 @@ public class UserInterestUtil {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching user interests
 	*/
-	public static List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end, OrderByComparator<UserInterest> orderByComparator) {
+	public static List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end,
+		OrderByComparator<UserInterest> orderByComparator) {
 		return getPersistence()
 				   .findByPublikUserId(publikUserId, start, end,
 			orderByComparator);
@@ -333,8 +335,9 @@ public class UserInterestUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching user interests
 	*/
-	public static List<UserInterest> findByPublikUserId(long publikUserId,
-		int start, int end, OrderByComparator<UserInterest> orderByComparator,
+	public static List<UserInterest> findByPublikUserId(
+		java.lang.String publikUserId, int start, int end,
+		OrderByComparator<UserInterest> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
 				   .findByPublikUserId(publikUserId, start, end,
@@ -349,7 +352,8 @@ public class UserInterestUtil {
 	* @return the first matching user interest
 	* @throws NoSuchUserInterestException if a matching user interest could not be found
 	*/
-	public static UserInterest findByPublikUserId_First(long publikUserId,
+	public static UserInterest findByPublikUserId_First(
+		java.lang.String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator)
 		throws eu.strasbourg.service.interest.exception.NoSuchUserInterestException {
 		return getPersistence()
@@ -363,7 +367,8 @@ public class UserInterestUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching user interest, or <code>null</code> if a matching user interest could not be found
 	*/
-	public static UserInterest fetchByPublikUserId_First(long publikUserId,
+	public static UserInterest fetchByPublikUserId_First(
+		java.lang.String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_First(publikUserId, orderByComparator);
@@ -377,7 +382,8 @@ public class UserInterestUtil {
 	* @return the last matching user interest
 	* @throws NoSuchUserInterestException if a matching user interest could not be found
 	*/
-	public static UserInterest findByPublikUserId_Last(long publikUserId,
+	public static UserInterest findByPublikUserId_Last(
+		java.lang.String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator)
 		throws eu.strasbourg.service.interest.exception.NoSuchUserInterestException {
 		return getPersistence()
@@ -391,7 +397,8 @@ public class UserInterestUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user interest, or <code>null</code> if a matching user interest could not be found
 	*/
-	public static UserInterest fetchByPublikUserId_Last(long publikUserId,
+	public static UserInterest fetchByPublikUserId_Last(
+		java.lang.String publikUserId,
 		OrderByComparator<UserInterest> orderByComparator) {
 		return getPersistence()
 				   .fetchByPublikUserId_Last(publikUserId, orderByComparator);
@@ -408,7 +415,8 @@ public class UserInterestUtil {
 	*/
 	public static UserInterest[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.interest.service.persistence.UserInterestPK userInterestPK,
-		long publikUserId, OrderByComparator<UserInterest> orderByComparator)
+		java.lang.String publikUserId,
+		OrderByComparator<UserInterest> orderByComparator)
 		throws eu.strasbourg.service.interest.exception.NoSuchUserInterestException {
 		return getPersistence()
 				   .findByPublikUserId_PrevAndNext(userInterestPK,
@@ -420,7 +428,7 @@ public class UserInterestUtil {
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public static void removeByPublikUserId(long publikUserId) {
+	public static void removeByPublikUserId(java.lang.String publikUserId) {
 		getPersistence().removeByPublikUserId(publikUserId);
 	}
 
@@ -430,7 +438,7 @@ public class UserInterestUtil {
 	* @param publikUserId the publik user ID
 	* @return the number of matching user interests
 	*/
-	public static int countByPublikUserId(long publikUserId) {
+	public static int countByPublikUserId(java.lang.String publikUserId) {
 		return getPersistence().countByPublikUserId(publikUserId);
 	}
 

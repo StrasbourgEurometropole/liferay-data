@@ -72,6 +72,10 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 		return this.getApprovedJSONInterests(interests);
 	}
 
+	/**
+	 * Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	 * paramètre
+	 */
 	@Override
 	public JSONObject setUserInterests(String userId, String interestIds) {
 		if (!isAuthorized()) {
@@ -80,10 +84,6 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 		try {
 			if (Validator.isNull(userId)) {
 				return error("wrong parameters");
-			}
-			PublikUser user = PublikUserLocalServiceUtil.getPublikUserByInternalId(userId);
-			if (user == null) {
-				return error("user does not exist");
 			}
 			List<Long> interestIdsList = new ArrayList<Long>();
 			for (String interestIdStr : interestIds.split(",")) {
@@ -102,7 +102,7 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 				}
 				interestIdsList.add(interestId);
 			}
-			this.interestLocalService.setUserInterests(user.getPublikUserId(),
+			this.interestLocalService.setUserInterests(userId,
 					Arrays.stream(interestIdsList.toArray(new Long[0])).mapToLong(Long::longValue).toArray());
 			return this.getUserInterests(userId);
 		} catch (Exception ex) {
@@ -111,6 +111,10 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 		}
 	}
 
+	/**
+	 * Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	 * en paramètre
+	 */
 	@Override
 	public JSONObject getUserInterests(String userId) {
 		if (!isAuthorized()) {
@@ -119,13 +123,9 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 		if (Validator.isNull(userId)) {
 			return error("wrong parameters");
 		}
-		PublikUser user = PublikUserLocalServiceUtil.getPublikUserByInternalId(userId);
-		if (user == null) {
-			return error("user does not exist");
-		}
-		List<UserInterest> userInterests = this.userInterestLocalService.getByPublikUserId(user.getPublikUserId());
+		List<UserInterest> userInterests = this.userInterestLocalService.getByPublikUserId(userId);
 		JSONObject json = JSONFactoryUtil.createJSONObject();
-		json.put("userId", user.getPublikInternalId());
+		json.put("userId", userId);
 		JSONArray interestsArray = JSONFactoryUtil.createJSONArray();
 		for (UserInterest userInterest : userInterests) {
 			interestsArray.put(userInterest.getInterestId());

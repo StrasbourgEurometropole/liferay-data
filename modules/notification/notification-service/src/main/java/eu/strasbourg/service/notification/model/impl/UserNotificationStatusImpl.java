@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.service.NotificationLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the UserNotificationStatus service.
@@ -66,6 +67,7 @@ public class UserNotificationStatusImpl extends UserNotificationStatusBaseImpl {
 			result.put("url", notification.getUrl());
 			if (notification.getType() != null) {
 				result.put("type", notification.getType().getTitle(Locale.FRANCE));
+				result.put("typeId", AssetVocabularyHelper.getExternalId(notification.getType()));
 			}
 			result.put("publicationDate", notification.getPublicationDate().toString());
 			result.put("expirationDate", notification.getExpirationDate().toString());

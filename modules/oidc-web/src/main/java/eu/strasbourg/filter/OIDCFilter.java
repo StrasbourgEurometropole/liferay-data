@@ -234,10 +234,10 @@ public class OIDCFilter extends BaseFilter {
 	private void updateUserInfoInDatabase() {
 		if (internalId != null && internalId.length() > 0) {
 			PublikUser user = PublikUserLocalServiceUtil
-				.getPublikUserByInternalId(this.internalId);
+				.getByPublikUserId(this.internalId);
 			if (user == null) {
 				user = PublikUserLocalServiceUtil.createPublikUser();
-				user.setPublikInternalId(internalId);
+				user.setPublikId(internalId);
 			}
 			user.setAccessToken(accessToken);
 			user.setFirstName(givenName);

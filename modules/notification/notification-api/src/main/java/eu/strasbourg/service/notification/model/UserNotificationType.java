@@ -38,16 +38,16 @@ public interface UserNotificationType extends UserNotificationTypeModel,
 	 *
 	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserNotificationType, Long> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationType, Long>() {
+	public static final Accessor<UserNotificationType, String> PUBLIK_USER_ID_ACCESSOR =
+		new Accessor<UserNotificationType, String>() {
 			@Override
-			public Long get(UserNotificationType userNotificationType) {
+			public String get(UserNotificationType userNotificationType) {
 				return userNotificationType.getPublikUserId();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

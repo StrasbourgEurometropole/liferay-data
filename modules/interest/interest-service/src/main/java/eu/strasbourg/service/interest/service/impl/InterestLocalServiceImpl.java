@@ -262,7 +262,7 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 	 * Retourne tous les centres d'intérêts (publiées) d'un utilisateur
 	 */
 	@Override
-	public List<Interest> getByPublikUserId(long publikUserId) {
+	public List<Interest> getByPublikUserId(String publikUserId) {
 		List<UserInterest> userInterests = this.userInterestLocalService.getByPublikUserId(publikUserId);
 		return userInterests.stream().map(UserInterest::getInterest).filter(i -> i.isApproved())
 				.collect(Collectors.toList());
@@ -272,7 +272,7 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 	 * Met à jour la relation entre un utilisateur et ses centres d'intérêts
 	 */
 	@Override
-	public void setUserInterests(long publikUserId, long[] interestIds) {
+	public void setUserInterests(String publikUserId, long[] interestIds) {
 		// On supprime d'abord les existants
 		List<UserInterest> userInterests = this.userInterestLocalService.getByPublikUserId(publikUserId);
 		for (UserInterest userInterest : userInterests) {

@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -88,7 +89,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 			UserNotificationTypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
-				Long.class.getName(),
+				String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -98,12 +99,12 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 			UserNotificationTypeModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationTypeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { Long.class.getName() },
+			new String[] { String.class.getName() },
 			UserNotificationTypeModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(UserNotificationTypeModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationTypeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { Long.class.getName() });
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the user notification types where publikUserId = &#63;.
@@ -112,7 +113,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the matching user notification types
 	 */
 	@Override
-	public List<UserNotificationType> findByPublikUserId(long publikUserId) {
+	public List<UserNotificationType> findByPublikUserId(String publikUserId) {
 		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
@@ -130,7 +131,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the range of matching user notification types
 	 */
 	@Override
-	public List<UserNotificationType> findByPublikUserId(long publikUserId,
+	public List<UserNotificationType> findByPublikUserId(String publikUserId,
 		int start, int end) {
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
@@ -149,7 +150,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the ordered range of matching user notification types
 	 */
 	@Override
-	public List<UserNotificationType> findByPublikUserId(long publikUserId,
+	public List<UserNotificationType> findByPublikUserId(String publikUserId,
 		int start, int end,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		return findByPublikUserId(publikUserId, start, end, orderByComparator,
@@ -171,7 +172,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the ordered range of matching user notification types
 	 */
 	@Override
-	public List<UserNotificationType> findByPublikUserId(long publikUserId,
+	public List<UserNotificationType> findByPublikUserId(String publikUserId,
 		int start, int end,
 		OrderByComparator<UserNotificationType> orderByComparator,
 		boolean retrieveFromCache) {
@@ -202,7 +203,8 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 			if ((list != null) && !list.isEmpty()) {
 				for (UserNotificationType userNotificationType : list) {
-					if ((publikUserId != userNotificationType.getPublikUserId())) {
+					if (!Objects.equals(publikUserId,
+								userNotificationType.getPublikUserId())) {
 						list = null;
 
 						break;
@@ -224,7 +226,19 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 			query.append(_SQL_SELECT_USERNOTIFICATIONTYPE_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -246,7 +260,9 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				if (!pagination) {
 					list = (List<UserNotificationType>)QueryUtil.list(q,
@@ -287,7 +303,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	 */
 	@Override
-	public UserNotificationType findByPublikUserId_First(long publikUserId,
+	public UserNotificationType findByPublikUserId_First(String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException {
 		UserNotificationType userNotificationType = fetchByPublikUserId_First(publikUserId,
@@ -317,7 +333,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the first matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	 */
 	@Override
-	public UserNotificationType fetchByPublikUserId_First(long publikUserId,
+	public UserNotificationType fetchByPublikUserId_First(String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		List<UserNotificationType> list = findByPublikUserId(publikUserId, 0,
 				1, orderByComparator);
@@ -338,7 +354,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @throws NoSuchUserNotificationTypeException if a matching user notification type could not be found
 	 */
 	@Override
-	public UserNotificationType findByPublikUserId_Last(long publikUserId,
+	public UserNotificationType findByPublikUserId_Last(String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException {
 		UserNotificationType userNotificationType = fetchByPublikUserId_Last(publikUserId,
@@ -368,7 +384,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the last matching user notification type, or <code>null</code> if a matching user notification type could not be found
 	 */
 	@Override
-	public UserNotificationType fetchByPublikUserId_Last(long publikUserId,
+	public UserNotificationType fetchByPublikUserId_Last(String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator) {
 		int count = countByPublikUserId(publikUserId);
 
@@ -397,7 +413,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 */
 	@Override
 	public UserNotificationType[] findByPublikUserId_PrevAndNext(
-		UserNotificationTypePK userNotificationTypePK, long publikUserId,
+		UserNotificationTypePK userNotificationTypePK, String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException {
 		UserNotificationType userNotificationType = findByPrimaryKey(userNotificationTypePK);
@@ -429,7 +445,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 	protected UserNotificationType getByPublikUserId_PrevAndNext(
 		Session session, UserNotificationType userNotificationType,
-		long publikUserId,
+		String publikUserId,
 		OrderByComparator<UserNotificationType> orderByComparator,
 		boolean previous) {
 		StringBundler query = null;
@@ -445,7 +461,19 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 		query.append(_SQL_SELECT_USERNOTIFICATIONTYPE_WHERE);
 
-		query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		boolean bindPublikUserId = false;
+
+		if (publikUserId == null) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+		}
+		else if (publikUserId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -515,7 +543,9 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(publikUserId);
+		if (bindPublikUserId) {
+			qPos.add(publikUserId);
+		}
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(userNotificationType);
@@ -541,7 +571,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @param publikUserId the publik user ID
 	 */
 	@Override
-	public void removeByPublikUserId(long publikUserId) {
+	public void removeByPublikUserId(String publikUserId) {
 		for (UserNotificationType userNotificationType : findByPublikUserId(
 				publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(userNotificationType);
@@ -555,7 +585,7 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 	 * @return the number of matching user notification types
 	 */
 	@Override
-	public int countByPublikUserId(long publikUserId) {
+	public int countByPublikUserId(String publikUserId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
 
 		Object[] finderArgs = new Object[] { publikUserId };
@@ -567,7 +597,19 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 			query.append(_SQL_COUNT_USERNOTIFICATIONTYPE_WHERE);
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			boolean bindPublikUserId = false;
+
+			if (publikUserId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
+			}
+			else if (publikUserId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
 
 			String sql = query.toString();
 
@@ -580,7 +622,9 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(publikUserId);
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -599,7 +643,9 @@ public class UserNotificationTypePersistenceImpl extends BasePersistenceImpl<Use
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "userNotificationType.id.publikUserId IS NULL";
 	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "userNotificationType.id.publikUserId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(userNotificationType.id.publikUserId IS NULL OR userNotificationType.id.publikUserId = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TYPEID = new FinderPath(UserNotificationTypeModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationTypeModelImpl.FINDER_CACHE_ENABLED,
 			UserNotificationTypeImpl.class,

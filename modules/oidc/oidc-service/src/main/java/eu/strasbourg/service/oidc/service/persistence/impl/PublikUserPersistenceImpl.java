@@ -396,17 +396,17 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	/**
 	 * Returns the publik users before and after the current publik user in the ordered set where uuid = &#63;.
 	 *
-	 * @param publikUserId the primary key of the current publik user
+	 * @param publikUserLiferayId the primary key of the current publik user
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next publik user
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser[] findByUuid_PrevAndNext(long publikUserId, String uuid,
-		OrderByComparator<PublikUser> orderByComparator)
+	public PublikUser[] findByUuid_PrevAndNext(long publikUserLiferayId,
+		String uuid, OrderByComparator<PublikUser> orderByComparator)
 		throws NoSuchPublikUserException {
-		PublikUser publikUser = findByPrimaryKey(publikUserId);
+		PublikUser publikUser = findByPrimaryKey(publikUserLiferayId);
 
 		Session session = null;
 
@@ -634,35 +634,35 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "publikUser.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "publikUser.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(publikUser.uuid IS NULL OR publikUser.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKINTERNALID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByPublikInternalId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikId",
 			new String[] { String.class.getName() },
-			PublikUserModelImpl.PUBLIKINTERNALID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKINTERNALID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.PUBLIKID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikInternalId", new String[] { String.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] { String.class.getName() });
 
 	/**
-	 * Returns the publik user where publikInternalId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
+	 * Returns the publik user where publikId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
 	 *
-	 * @param publikInternalId the publik internal ID
+	 * @param publikId the publik ID
 	 * @return the matching publik user
 	 * @throws NoSuchPublikUserException if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser findByPublikInternalId(String publikInternalId)
+	public PublikUser findByPublikId(String publikId)
 		throws NoSuchPublikUserException {
-		PublikUser publikUser = fetchByPublikInternalId(publikInternalId);
+		PublikUser publikUser = fetchByPublikId(publikId);
 
 		if (publikUser == null) {
 			StringBundler msg = new StringBundler(4);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("publikInternalId=");
-			msg.append(publikInternalId);
+			msg.append("publikId=");
+			msg.append(publikId);
 
 			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -677,40 +677,38 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	}
 
 	/**
-	 * Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param publikInternalId the publik internal ID
+	 * @param publikId the publik ID
 	 * @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser fetchByPublikInternalId(String publikInternalId) {
-		return fetchByPublikInternalId(publikInternalId, true);
+	public PublikUser fetchByPublikId(String publikId) {
+		return fetchByPublikId(publikId, true);
 	}
 
 	/**
-	 * Returns the publik user where publikInternalId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the publik user where publikId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param publikInternalId the publik internal ID
+	 * @param publikId the publik ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser fetchByPublikInternalId(String publikInternalId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { publikInternalId };
+	public PublikUser fetchByPublikId(String publikId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { publikId };
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKID,
 					finderArgs, this);
 		}
 
 		if (result instanceof PublikUser) {
 			PublikUser publikUser = (PublikUser)result;
 
-			if (!Objects.equals(publikInternalId,
-						publikUser.getPublikInternalId())) {
+			if (!Objects.equals(publikId, publikUser.getPublikId())) {
 				result = null;
 			}
 		}
@@ -720,18 +718,18 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			query.append(_SQL_SELECT_PUBLIKUSER_WHERE);
 
-			boolean bindPublikInternalId = false;
+			boolean bindPublikId = false;
 
-			if (publikInternalId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_1);
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
 			}
-			else if (publikInternalId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_3);
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
-				bindPublikInternalId = true;
+				bindPublikId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_2);
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
 			}
 
 			String sql = query.toString();
@@ -745,14 +743,14 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindPublikInternalId) {
-					qPos.add(publikInternalId);
+				if (bindPublikId) {
+					qPos.add(publikId);
 				}
 
 				List<PublikUser> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID,
+					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
 						finderArgs, list);
 				}
 				else {
@@ -762,16 +760,15 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 					cacheResult(publikUser);
 
-					if ((publikUser.getPublikInternalId() == null) ||
-							!publikUser.getPublikInternalId()
-										   .equals(publikInternalId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID,
+					if ((publikUser.getPublikId() == null) ||
+							!publikUser.getPublikId().equals(publikId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
 							finderArgs, publikUser);
 					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID,
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID,
 					finderArgs);
 
 				throw processException(e);
@@ -790,30 +787,30 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	}
 
 	/**
-	 * Removes the publik user where publikInternalId = &#63; from the database.
+	 * Removes the publik user where publikId = &#63; from the database.
 	 *
-	 * @param publikInternalId the publik internal ID
+	 * @param publikId the publik ID
 	 * @return the publik user that was removed
 	 */
 	@Override
-	public PublikUser removeByPublikInternalId(String publikInternalId)
+	public PublikUser removeByPublikId(String publikId)
 		throws NoSuchPublikUserException {
-		PublikUser publikUser = findByPublikInternalId(publikInternalId);
+		PublikUser publikUser = findByPublikId(publikId);
 
 		return remove(publikUser);
 	}
 
 	/**
-	 * Returns the number of publik users where publikInternalId = &#63;.
+	 * Returns the number of publik users where publikId = &#63;.
 	 *
-	 * @param publikInternalId the publik internal ID
+	 * @param publikId the publik ID
 	 * @return the number of matching publik users
 	 */
 	@Override
-	public int countByPublikInternalId(String publikInternalId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKINTERNALID;
+	public int countByPublikId(String publikId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
 
-		Object[] finderArgs = new Object[] { publikInternalId };
+		Object[] finderArgs = new Object[] { publikId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -822,18 +819,18 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			query.append(_SQL_COUNT_PUBLIKUSER_WHERE);
 
-			boolean bindPublikInternalId = false;
+			boolean bindPublikId = false;
 
-			if (publikInternalId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_1);
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
 			}
-			else if (publikInternalId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_3);
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
-				bindPublikInternalId = true;
+				bindPublikId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_2);
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
 			}
 
 			String sql = query.toString();
@@ -847,8 +844,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindPublikInternalId) {
-					qPos.add(publikInternalId);
+				if (bindPublikId) {
+					qPos.add(publikId);
 				}
 
 				count = (Long)q.uniqueResult();
@@ -868,12 +865,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_1 =
-		"publikUser.publikInternalId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_2 =
-		"publikUser.publikInternalId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKINTERNALID_PUBLIKINTERNALID_3 =
-		"(publikUser.publikInternalId IS NULL OR publikUser.publikInternalId = '')";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "publikUser.publikId IS NULL";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "publikUser.publikId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(publikUser.publikId IS NULL OR publikUser.publikId = '')";
 
 	public PublikUserPersistenceImpl() {
 		setModelClass(PublikUser.class);
@@ -905,8 +899,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		entityCache.putResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 			PublikUserImpl.class, publikUser.getPrimaryKey(), publikUser);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID,
-			new Object[] { publikUser.getPublikInternalId() }, publikUser);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
+			new Object[] { publikUser.getPublikId() }, publikUser);
 
 		publikUser.resetOriginalValues();
 	}
@@ -979,48 +973,46 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 	protected void cacheUniqueFindersCache(
 		PublikUserModelImpl publikUserModelImpl) {
-		Object[] args = new Object[] { publikUserModelImpl.getPublikInternalId() };
+		Object[] args = new Object[] { publikUserModelImpl.getPublikId() };
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKINTERNALID, args,
+		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKID, args,
 			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID, args,
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID, args,
 			publikUserModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		PublikUserModelImpl publikUserModelImpl, boolean clearCurrent) {
 		if (clearCurrent) {
-			Object[] args = new Object[] {
-					publikUserModelImpl.getPublikInternalId()
-				};
+			Object[] args = new Object[] { publikUserModelImpl.getPublikId() };
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKINTERNALID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID, args);
 		}
 
 		if ((publikUserModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_PUBLIKINTERNALID.getColumnBitmask()) != 0) {
+				FINDER_PATH_FETCH_BY_PUBLIKID.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] {
-					publikUserModelImpl.getOriginalPublikInternalId()
+					publikUserModelImpl.getOriginalPublikId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKINTERNALID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKINTERNALID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID, args);
 		}
 	}
 
 	/**
 	 * Creates a new publik user with the primary key. Does not add the publik user to the database.
 	 *
-	 * @param publikUserId the primary key for the new publik user
+	 * @param publikUserLiferayId the primary key for the new publik user
 	 * @return the new publik user
 	 */
 	@Override
-	public PublikUser create(long publikUserId) {
+	public PublikUser create(long publikUserLiferayId) {
 		PublikUser publikUser = new PublikUserImpl();
 
 		publikUser.setNew(true);
-		publikUser.setPrimaryKey(publikUserId);
+		publikUser.setPrimaryKey(publikUserLiferayId);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -1032,14 +1024,14 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	/**
 	 * Removes the publik user with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param publikUserId the primary key of the publik user
+	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user that was removed
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser remove(long publikUserId)
+	public PublikUser remove(long publikUserLiferayId)
 		throws NoSuchPublikUserException {
-		return remove((Serializable)publikUserId);
+		return remove((Serializable)publikUserLiferayId);
 	}
 
 	/**
@@ -1230,10 +1222,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		publikUserImpl.setPrimaryKey(publikUser.getPrimaryKey());
 
 		publikUserImpl.setUuid(publikUser.getUuid());
-		publikUserImpl.setPublikUserId(publikUser.getPublikUserId());
+		publikUserImpl.setPublikUserLiferayId(publikUser.getPublikUserLiferayId());
 		publikUserImpl.setCreateDate(publikUser.getCreateDate());
 		publikUserImpl.setModifiedDate(publikUser.getModifiedDate());
-		publikUserImpl.setPublikInternalId(publikUser.getPublikInternalId());
+		publikUserImpl.setPublikId(publikUser.getPublikId());
 		publikUserImpl.setAccessToken(publikUser.getAccessToken());
 		publikUserImpl.setFirstName(publikUser.getFirstName());
 		publikUserImpl.setLastName(publikUser.getLastName());
@@ -1269,14 +1261,14 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	/**
 	 * Returns the publik user with the primary key or throws a {@link NoSuchPublikUserException} if it could not be found.
 	 *
-	 * @param publikUserId the primary key of the publik user
+	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser findByPrimaryKey(long publikUserId)
+	public PublikUser findByPrimaryKey(long publikUserLiferayId)
 		throws NoSuchPublikUserException {
-		return findByPrimaryKey((Serializable)publikUserId);
+		return findByPrimaryKey((Serializable)publikUserLiferayId);
 	}
 
 	/**
@@ -1330,12 +1322,12 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	/**
 	 * Returns the publik user with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param publikUserId the primary key of the publik user
+	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user, or <code>null</code> if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser fetchByPrimaryKey(long publikUserId) {
-		return fetchByPrimaryKey((Serializable)publikUserId);
+	public PublikUser fetchByPrimaryKey(long publikUserLiferayId) {
+		return fetchByPrimaryKey((Serializable)publikUserLiferayId);
 	}
 
 	@Override
@@ -1651,7 +1643,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_PUBLIKUSER = "SELECT publikUser FROM PublikUser publikUser";
-	private static final String _SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN = "SELECT publikUser FROM PublikUser publikUser WHERE publikUserId IN (";
+	private static final String _SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN = "SELECT publikUser FROM PublikUser publikUser WHERE publikUserLiferayId IN (";
 	private static final String _SQL_SELECT_PUBLIKUSER_WHERE = "SELECT publikUser FROM PublikUser publikUser WHERE ";
 	private static final String _SQL_COUNT_PUBLIKUSER = "SELECT COUNT(publikUser) FROM PublikUser publikUser";
 	private static final String _SQL_COUNT_PUBLIKUSER_WHERE = "SELECT COUNT(publikUser) FROM PublikUser publikUser WHERE ";

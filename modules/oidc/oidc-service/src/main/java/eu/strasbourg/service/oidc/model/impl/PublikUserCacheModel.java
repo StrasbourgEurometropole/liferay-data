@@ -52,7 +52,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 		PublikUserCacheModel publikUserCacheModel = (PublikUserCacheModel)obj;
 
-		if (publikUserId == publikUserCacheModel.publikUserId) {
+		if (publikUserLiferayId == publikUserCacheModel.publikUserLiferayId) {
 			return true;
 		}
 
@@ -61,7 +61,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, publikUserId);
+		return HashUtil.hash(0, publikUserLiferayId);
 	}
 
 	@Override
@@ -70,14 +70,14 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", publikUserId=");
-		sb.append(publikUserId);
+		sb.append(", publikUserLiferayId=");
+		sb.append(publikUserLiferayId);
 		sb.append(", createDate=");
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
-		sb.append(", publikInternalId=");
-		sb.append(publikInternalId);
+		sb.append(", publikId=");
+		sb.append(publikId);
 		sb.append(", accessToken=");
 		sb.append(accessToken);
 		sb.append(", firstName=");
@@ -102,7 +102,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setUuid(uuid);
 		}
 
-		publikUserImpl.setPublikUserId(publikUserId);
+		publikUserImpl.setPublikUserLiferayId(publikUserLiferayId);
 
 		if (createDate == Long.MIN_VALUE) {
 			publikUserImpl.setCreateDate(null);
@@ -118,11 +118,11 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		if (publikInternalId == null) {
-			publikUserImpl.setPublikInternalId(StringPool.BLANK);
+		if (publikId == null) {
+			publikUserImpl.setPublikId(StringPool.BLANK);
 		}
 		else {
-			publikUserImpl.setPublikInternalId(publikInternalId);
+			publikUserImpl.setPublikId(publikId);
 		}
 
 		if (accessToken == null) {
@@ -162,10 +162,10 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		publikUserId = objectInput.readLong();
+		publikUserLiferayId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-		publikInternalId = objectInput.readUTF();
+		publikId = objectInput.readUTF();
 		accessToken = objectInput.readUTF();
 		firstName = objectInput.readUTF();
 		lastName = objectInput.readUTF();
@@ -182,15 +182,15 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(publikUserId);
+		objectOutput.writeLong(publikUserLiferayId);
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
-		if (publikInternalId == null) {
+		if (publikId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(publikInternalId);
+			objectOutput.writeUTF(publikId);
 		}
 
 		if (accessToken == null) {
@@ -223,10 +223,10 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	}
 
 	public String uuid;
-	public long publikUserId;
+	public long publikUserLiferayId;
 	public long createDate;
 	public long modifiedDate;
-	public String publikInternalId;
+	public String publikId;
 	public String accessToken;
 	public String firstName;
 	public String lastName;

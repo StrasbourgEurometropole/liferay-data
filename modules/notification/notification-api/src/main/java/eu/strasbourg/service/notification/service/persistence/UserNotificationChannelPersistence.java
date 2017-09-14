@@ -48,7 +48,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the matching user notification channels
 	*/
 	public java.util.List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId);
+		java.lang.String publikUserId);
 
 	/**
 	* Returns a range of all the user notification channels where publikUserId = &#63;.
@@ -63,7 +63,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the range of matching user notification channels
 	*/
 	public java.util.List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end);
+		java.lang.String publikUserId, int start, int end);
 
 	/**
 	* Returns an ordered range of all the user notification channels where publikUserId = &#63;.
@@ -79,7 +79,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the ordered range of matching user notification channels
 	*/
 	public java.util.List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator);
 
 	/**
@@ -97,7 +97,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the ordered range of matching user notification channels
 	*/
 	public java.util.List<UserNotificationChannel> findByPublikUserId(
-		long publikUserId, int start, int end,
+		java.lang.String publikUserId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache);
 
@@ -109,7 +109,8 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the first matching user notification channel
 	* @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	*/
-	public UserNotificationChannel findByPublikUserId_First(long publikUserId,
+	public UserNotificationChannel findByPublikUserId_First(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException;
 
@@ -121,7 +122,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the first matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	*/
 	public UserNotificationChannel fetchByPublikUserId_First(
-		long publikUserId,
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator);
 
 	/**
@@ -132,7 +133,8 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @return the last matching user notification channel
 	* @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	*/
-	public UserNotificationChannel findByPublikUserId_Last(long publikUserId,
+	public UserNotificationChannel findByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException;
 
@@ -143,7 +145,8 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	*/
-	public UserNotificationChannel fetchByPublikUserId_Last(long publikUserId,
+	public UserNotificationChannel fetchByPublikUserId_Last(
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator);
 
 	/**
@@ -157,7 +160,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	*/
 	public UserNotificationChannel[] findByPublikUserId_PrevAndNext(
 		eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK userNotificationChannelPK,
-		long publikUserId,
+		java.lang.String publikUserId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException;
 
@@ -166,7 +169,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	*
 	* @param publikUserId the publik user ID
 	*/
-	public void removeByPublikUserId(long publikUserId);
+	public void removeByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns the number of user notification channels where publikUserId = &#63;.
@@ -174,7 +177,7 @@ public interface UserNotificationChannelPersistence extends BasePersistence<User
 	* @param publikUserId the publik user ID
 	* @return the number of matching user notification channels
 	*/
-	public int countByPublikUserId(long publikUserId);
+	public int countByPublikUserId(java.lang.String publikUserId);
 
 	/**
 	* Returns all the user notification channels where channelId = &#63;.

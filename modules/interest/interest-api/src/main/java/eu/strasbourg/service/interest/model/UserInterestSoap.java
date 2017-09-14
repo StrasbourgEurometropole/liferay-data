@@ -97,14 +97,14 @@ public class UserInterestSoap implements Serializable {
 		_interestId = interestId;
 	}
 
-	public long getPublikUserId() {
+	public String getPublikUserId() {
 		return _publikUserId;
 	}
 
-	public void setPublikUserId(long publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_publikUserId = publikUserId;
 	}
 
 	private long _interestId;
-	private long _publikUserId;
+	private String _publikUserId;
 }
