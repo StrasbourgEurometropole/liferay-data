@@ -24,6 +24,7 @@
     }
     .seu-wi-chiffres-list{
         position: relative;
+        justify-content: center;
         @include RWD(desktop){
             @include grid-distribution(4, 50, 'seu-wi-chiffres-item');            
         }
