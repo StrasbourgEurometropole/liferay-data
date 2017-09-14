@@ -1,0 +1,512 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+#mns-global{
+
+	/* Top Header Strasbourg.eu */ 
+	.mns-top-header{
+		background-color: $c_grey;
+		font-size: 0;
+		position: relative;
+		z-index: 900;
+		
+		.ipad & {
+			position: fixed;
+			top: 0;
+			z-index: 999;
+			width: 100%;
+			left: 0;
+			right: 0;
+		}
+
+		@include mobile{
+			display: none;
+		}
+		img{
+			float: left;
+			padding: 10px 20px;
+		}
+		> div{
+			text-align: right;
+			display: inline-block;
+			vertical-align: middle;
+			width: 20%;
+			&:nth-child(2){
+				text-align: right;
+				width: 80%;
+			}
+			a{
+				color: $c_white;
+				font-size: $s_p;
+				font-weight: 400;
+				padding: 13px 15px;
+				border-left: 1px solid #7C7C7C;
+				@include ft($f_arial, 12px, 400, $c_white, normal);
+				@include an(all,0.3);
+				&:hover, &.active{
+					font-weight: 700;
+				}
+
+				&.mns-w-fixe-1{
+					width: 130px;
+					display: inline-block;
+					text-align: center;
+				}
+				&.mns-w-fixe-2{
+					width: 110px;
+					display: inline-block;
+					text-align: center;
+				}
+			}
+		}
+
+		&.mns-top-header-mobile{
+			display: none;
+			left: -20px;
+			position: relative;
+			width: calc(100% + 40px);
+			@include mobile{
+				display: block;
+			}
+			> div{
+				width: 100%;
+				a{
+					width: 20%;
+					float: left;
+					text-align: center;
+					&.mns-w-fixe-2{
+						width: 40%;
+					}
+				}
+			}
+		}
+	}
+
+	/* HEADER Page d'accueil */
+	.mns-header{
+		height: calc(100vh - 80px);
+		text-align: center;
+		position: relative;
+		transform: translate3d(0,0,0);
+		@include tablet_portrait{
+			height: calc(100vh - 250px);
+		}
+		@include mobile {
+			height: calc(100vh - 50px);
+		}
+		&:after{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: rgba($c_txt,0.4);
+			height: 100%;
+			width: 100%;
+		}
+		> div{
+			z-index: 10;
+
+			&.mns-center{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				width: 100%;
+			}
+			h2{
+				@include ft($f_txt, 34px, 400, $c_white, 42px);
+				margin: 0;
+				&.mns-surtitre{
+					line-height: 26px;
+					@include mobile{
+						line-height: normal;
+						font-size: 26px;
+					}
+				}
+			}
+			h1{
+				@include ft($f_hx, 70px, 700, $c_white, 76px);
+				margin: 0 auto;
+				width: 50%;
+				@include tablet_portrait{
+					width: 75%;
+				}
+				@include mobile {
+					width: 90%;
+					font-size: 36px;
+					line-height: normal;
+				}
+			}
+			span{
+				@include ft($f_hx, 50px, 700, $c_white, 52px);
+				margin: 0;
+			}
+		}
+	}
+
+	/* Header Page List Agenda */
+	.mns-header-agenda{
+		height: calc(100vh - 80px);
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+		@include desktop {
+			height: calc(100vh - 100px);
+		}
+		@include tablet_portrait{
+			height: 50vh;
+		}
+		@include mobile {
+			height: 80vh;
+		}
+
+		.owl-carousel{
+			@include mobile{
+				height: 80vh;
+				.owl-stage-outer{
+					height: 80vh;
+					.owl-stage{
+						height: 80vh;
+					}
+				}
+			}
+			.caption{
+				top: 40%;
+				left: 9%;
+				transform: translateY(-50%);
+				bottom: initial;
+				text-align: left;
+				width: 45%;
+				z-index: 10;
+				@include desktop{
+					width: 55%;
+				}
+				@include tablet_portrait {
+					width: 75%;
+					top: 55%;
+					left: 30px;
+				}
+				@include mobile {
+					width: 90%;
+					top: 115%;
+					left: 15px;
+				}
+
+				.mns-slider-date-event{
+					@include ft($f_txt, 20px, 700, $c_white, 42px);
+					text-transform: uppercase;
+					@include mobile{
+						font-size: 12px;
+						line-height: normal;
+					}
+				}
+				h2{
+					@include ft($f_hx, 48px, 700, $c_white, 62px);
+					@include tablet_portrait{
+						font-size: 36px;
+						line-height: normal;
+						margin-bottom: 5px;
+
+					}
+					@include mobile {
+						font-size: 22px;
+						line-height: normal;
+					}
+				}
+
+				p{
+					@include mobile{
+						color: $c_txt;
+						margin-top: 40px;
+					}
+				}
+			}
+		}
+
+		#owl-full .owl-nav{
+			left: 9%;
+			bottom: 260px;
+			right: inherit;
+			@include desktop{
+				bottom: 50px;
+			}
+			@include tablet_portrait {
+				bottom: 20px;
+				left: 30px;
+			}
+			@include mobile {
+				left: 15px;
+				bottom: 5px;
+				> div{
+					border-color: #ebded3;
+					span{
+						color: $c_txt;
+					}
+				}
+			}
+		}
+
+		.mns-breadcrumbs{
+			left: 8%;
+			top: -325px;
+			z-index: 300;
+			@include desktop{
+				top: -115px;
+				left: 16%;
+			}
+			@include tablet_portrait {
+				top: -85px;
+				left: 100px;
+			}
+		}
+	}
+
+	/* Header page résultats */ 
+	.mns-header-standard{
+		height: 275px;
+		@include mobile{
+			padding: 0 15px;
+			height: 200px;
+		}
+		.container{
+			position: relative;
+			top: 115px;
+			padding: 0;
+			@include mobile{
+				top: 60px;
+			}
+		}
+
+		h1{
+			@include ft($f_hx, 88px, 700, $c_main, 108px);
+			@include mobile{
+				font-size: 36px;
+			}
+		}
+
+		.mns-breadcrumbs{
+			left: 119px;
+			top: -40px;
+			@include mobile{
+				left: 0;
+				top: -64px;
+				padding: 20px 0;
+			}
+		}
+	}
+
+	.mns-header-single{
+		height: 180px;
+		@include mobile{
+			padding: 0 15px;
+			height: 175px;
+		}
+		.container{
+			position: relative;
+			top: 140px;
+			padding: 0;
+		}
+
+		.mns-breadcrumbs{
+			left: 119px;
+			top: -40px;
+			@include desktop{
+				left: 7px;
+				top: -25px;
+			}
+			@include tablet_portrait {
+				padding-left: 0;
+			}
+			@include mobile {
+				left: 0;
+				top: -64px;
+				padding: 20px 0;
+			}
+		}
+	}
+
+
+
+	/* STYLE FOOTER */
+	.mns-footer{
+		background: #3a3a3a;
+
+		.mns-nav-footer{
+			border-bottom: 1px solid #838383;
+			@include mobile{
+				padding: 20px 0;
+			}
+			ul{
+				padding: 0;
+				margin: 0;
+				li{
+					display: inline-block;
+					padding: 0;
+					margin: 0;
+					@include mobile{
+						display: block;
+					}
+					a{
+						@include ft($f_txt, 15px, 700, #b3b3b3, 26px);
+						text-transform: uppercase;
+						padding: 25px 15px;
+						display: inline-block;
+						@include an(all,0.3);
+						&:hover{
+							color: $c_main;
+						}
+						@include desktop{
+							padding: 25px 8px;
+						}
+						@include mobile{
+							padding: 7px 15px 7px 0;
+						}
+					}
+					&:first-child{
+						a{
+							padding-left: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.mns-title{
+			border-bottom: 1px solid #838383;
+			span{
+				@include ft($f_txt, 15px, 700, #b3b3b3, 26px);
+				text-transform: uppercase;
+				padding: 25px 15px 25px 0;
+				display: inline-block;
+			}
+		}
+
+		.mns-first-column{
+			margin-top: 40px;
+			margin-bottom: 30px;
+			@include mobile{
+				margin-top: 25px;
+				margin-bottom: 25px;
+			}
+			ul{
+				padding: 0;
+				margin: 0;
+				li{
+					display: block;
+					padding: 0;
+					margin: 0;
+					a{
+						@include ft($f_txt, 15px, 400, #b3b3b3, normal);
+						padding: 5px 0;
+						display: inline-block;
+						@include an(all,0.3);
+						&:hover{
+							color: $c_main;
+						}
+					}
+				}
+			}
+			p{
+				margin-top: 40px;
+				@include ft($f_txt, 15px, 400, #b3b3b3, normal);
+				@include mobile{
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.mns-second-column{
+			margin: 30px 0;
+			border-left: 1px solid #838383;
+			padding-left: 30px;
+			@include mobile{
+				border-left: 0;
+				padding: 0;
+				border-top: 1px solid #d8dae4;
+				padding-top: 20px;
+				margin-top: 10px;
+				margin-bottom: 0;
+			}
+			h5{
+				@include ft($f_txt, 15px, 700, $c_white, normal);
+				text-transform: uppercase;
+				padding: 15px 0;
+				margin: 0;
+			}
+			span{
+				@include ft($f_txt, 15px, 400, $c_white, normal);
+				display: block;
+				margin-bottom: 10px;
+			}
+
+			a{
+				@include ft($f_txt, 15px, 400, $c_white, normal);
+				display: block;
+				@include an(all,0.3);
+				&:hover{
+					color: $c_main;
+				}
+			}
+
+			.info-contact{
+				padding: 15px 0 35px 0;
+				span:nth-child(2){
+					margin: 0;
+				}
+			}
+		}
+
+		.mns-third-column{
+			margin-top: 20px;
+			@include tablet_portrait{
+				margin-top: 35px;
+			}
+			@include mobile {
+				margin: 0 0 30px 0;
+			}
+			ul{
+				padding: 0;
+				margin: 0;
+				@include tablet_portrait{
+					text-align: right;
+				}
+				@include mobile {
+					text-align: left;
+				}
+				li{
+					padding: 0;
+					margin: 0;
+					display: inline-block;
+					a{
+						margin: 0 5px;
+						display: inline-block;
+
+						span{
+							color: $c_white;
+							font-size: 40px;
+							@include an(all,0.3);
+							&:hover{
+								color: $c_main;
+							}
+						}
+					}
+					&:first-child{
+						a{
+							margin-left: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.mns-footer-bottom{
+			background: #2d2d2d;
+			display: block;
+			img{
+				left: -20px;
+			}
+		}
+	}
+}

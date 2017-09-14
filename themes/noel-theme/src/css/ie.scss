@@ -1,0 +1,14 @@
+#mns-global .large-link{ 
+	margin-top: 30px;
+}
+
+#mns-global .mns-nav{
+	background: none;
+	box-shadow: none;
+	filter: none;
+}
+
+#mns-global .mns-nav.mns-nav-scroll{
+	background: $c_white;
+	filter: none;
+}
