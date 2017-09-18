@@ -12,7 +12,7 @@
  * details.
  */
 
-package eu.strasbourg.service.interest.service;
+package eu.strasbourg.service.favorite.service;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -28,49 +28,52 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
 /**
- * Provides the remote service interface for Interest. Methods of this
+ * Provides the remote service interface for Favorite. Methods of this
  * service are expected to have security checks based on the propagated JAAS
  * credentials because this service can be accessed remotely.
  *
  * @author BenjaminBini
- * @see InterestServiceUtil
- * @see eu.strasbourg.service.interest.service.base.InterestServiceBaseImpl
- * @see eu.strasbourg.service.interest.service.impl.InterestServiceImpl
+ * @see FavoriteServiceUtil
+ * @see eu.strasbourg.service.favorite.service.base.FavoriteServiceBaseImpl
+ * @see eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
 @OSGiBeanProperties(property =  {
-	"json.web.service.context.name=interest", "json.web.service.context.path=Interest"}, service = InterestService.class)
+	"json.web.service.context.name=favorite", "json.web.service.context.path=Favorite"}, service = FavoriteService.class)
 @ProviderType
 @Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
 	PortalException.class, SystemException.class})
-public interface InterestService extends BaseService {
+public interface FavoriteService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link InterestServiceUtil} to access the interest remote service. Add custom service methods to {@link eu.strasbourg.service.interest.service.impl.InterestServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link FavoriteServiceUtil} to access the favorite remote service. Add custom service methods to {@link eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Retourne la liste de tous les centres d'intérêt
+	* Ajoute un favoris à un utilisateur
 	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getInterests();
+	public JSONObject addFavorite(java.lang.String title, java.lang.String url,
+		long typeId, java.lang.String userId, long entityId);
 
 	/**
-	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
-	* en paramètre
+	* Supprime un favoris d'un utilisateur
 	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserInterests(java.lang.String userId);
+	public JSONObject deleteFavorite(java.lang.String userId, long favoriteId);
 
 	/**
-	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
-	* paramètre
+	* Retourne la liste des types de favoris
 	*/
-	public JSONObject setUserInterests(java.lang.String userId,
-		java.lang.String interestIds);
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getTypes();
+
+	/**
+	* Retourne les favoris d'un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getUserFavorites(java.lang.String userId);
 
 	/**
 	* Returns the OSGi service identifier.

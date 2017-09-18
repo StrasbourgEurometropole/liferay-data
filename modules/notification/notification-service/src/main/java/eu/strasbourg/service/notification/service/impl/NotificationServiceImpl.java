@@ -81,17 +81,21 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	 * Retourne la liste des types de notifications
 	 */
 	@Override
-	public JSONArray getTypes() throws PortalException {
+	public JSONObject getTypes() throws PortalException {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
 		AssetVocabulary notificationTypes = AssetVocabularyHelper
 				.getGlobalVocabulary(VocabularyNames.NOTIFICATION_TYPE);
-		return AssetVocabularyHelper.toJSON(notificationTypes);
+		JSONArray jsonTypes = AssetVocabularyHelper.toJSON(notificationTypes);
+		result.put("types", jsonTypes);
+		return result;
 	}
 
 	/**
 	 * Retourne la liste des canaux de notifications
 	 */
 	@Override
-	public JSONArray getChannels() {
+	public JSONObject getChannels() {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonChannels = JSONFactoryUtil.createJSONArray();
 		for (NotificationChannel channel : NotificationChannel.values()) {
 			JSONObject jsonChannel = JSONFactoryUtil.createJSONObject();
@@ -99,7 +103,8 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 			jsonChannel.put("name", channel.getName());
 			jsonChannels.put(jsonChannel);
 		}
-		return jsonChannels;
+		result.put("channels", jsonChannels);
+		return result;
 	}
 
 	/**
@@ -113,8 +118,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 		}
 
 		// Types
-		List<AssetCategory> types = this.userNotificationTypeLocalService
-				.getUserNotificationTypes(userId);
+		List<AssetCategory> types = this.userNotificationTypeLocalService.getUserNotificationTypes(userId);
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		result.put("userId", userId);
 		result.put("types", AssetVocabularyHelper.toJSON(types));
@@ -140,8 +144,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 		}
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		JSONArray notificationArray = JSONFactoryUtil.createJSONArray();
-		List<UserNotificationStatus> statuses = UserNotificationStatusLocalServiceUtil
-				.getByPublikUserId(userId);
+		List<UserNotificationStatus> statuses = UserNotificationStatusLocalServiceUtil.getByPublikUserId(userId);
 		for (UserNotificationStatus status : statuses) {
 			notificationArray.put(status.toJSON());
 		}

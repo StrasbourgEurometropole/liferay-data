@@ -43,21 +43,6 @@ public class NotificationServiceUtil {
 	 */
 
 	/**
-	* Retourne la liste des canaux de notifications
-	*/
-	public static com.liferay.portal.kernel.json.JSONArray getChannels() {
-		return getService().getChannels();
-	}
-
-	/**
-	* Retourne la liste des types de notifications
-	*/
-	public static com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTypes();
-	}
-
-	/**
 	* Envoie une notification à un utilisateur
 	*/
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
@@ -68,6 +53,21 @@ public class NotificationServiceUtil {
 		return getService()
 				   .addNotification(userId, isGlobal, title, description, url,
 			publicationDate, expirationDate, typeId);
+	}
+
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getChannels() {
+		return getService().getChannels();
+	}
+
+	/**
+	* Retourne la liste des types de notifications
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTypes();
 	}
 
 	/**

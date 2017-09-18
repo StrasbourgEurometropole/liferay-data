@@ -33,23 +33,6 @@ public class NotificationServiceWrapper implements NotificationService,
 	}
 
 	/**
-	* Retourne la liste des canaux de notifications
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getChannels() {
-		return _notificationService.getChannels();
-	}
-
-	/**
-	* Retourne la liste des types de notifications
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _notificationService.getTypes();
-	}
-
-	/**
 	* Envoie une notification à un utilisateur
 	*/
 	@Override
@@ -60,6 +43,23 @@ public class NotificationServiceWrapper implements NotificationService,
 		java.lang.String typeId) {
 		return _notificationService.addNotification(userId, isGlobal, title,
 			description, url, publicationDate, expirationDate, typeId);
+	}
+
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getChannels() {
+		return _notificationService.getChannels();
+	}
+
+	/**
+	* Retourne la liste des types de notifications
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _notificationService.getTypes();
 	}
 
 	/**

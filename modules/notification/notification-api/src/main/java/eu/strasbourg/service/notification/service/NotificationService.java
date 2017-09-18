@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
@@ -54,24 +53,24 @@ public interface NotificationService extends BaseService {
 	 */
 
 	/**
-	* Retourne la liste des canaux de notifications
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getChannels();
-
-	/**
-	* Retourne la liste des types de notifications
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getTypes() throws PortalException;
-
-	/**
 	* Envoie une notification à un utilisateur
 	*/
 	public JSONObject addNotification(java.lang.String userId,
 		boolean isGlobal, java.lang.String title, java.lang.String description,
 		java.lang.String url, java.lang.String publicationDate,
 		java.lang.String expirationDate, java.lang.String typeId);
+
+	/**
+	* Retourne la liste des canaux de notifications
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getChannels();
+
+	/**
+	* Retourne la liste des types de notifications
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getTypes() throws PortalException;
 
 	/**
 	* Retourne la liste des notifications d'un utilisateur

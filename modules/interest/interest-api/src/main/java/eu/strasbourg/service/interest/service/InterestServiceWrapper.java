@@ -36,16 +36,24 @@ public class InterestServiceWrapper implements InterestService,
 	* Retourne la liste de tous les centres d'intérêt
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getInterests() {
+	public com.liferay.portal.kernel.json.JSONObject getInterests() {
 		return _interestService.getInterests();
 	}
 
+	/**
+	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	* en paramètre
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserInterests(
 		java.lang.String userId) {
 		return _interestService.getUserInterests(userId);
 	}
 
+	/**
+	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	* paramètre
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject setUserInterests(
 		java.lang.String userId, java.lang.String interestIds) {

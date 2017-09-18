@@ -12,7 +12,7 @@
  * details.
  */
 
-package eu.strasbourg.service.interest.service.http;
+package eu.strasbourg.service.favorite.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -23,11 +23,11 @@ import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 
-import eu.strasbourg.service.interest.service.InterestServiceUtil;
+import eu.strasbourg.service.favorite.service.FavoriteServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link InterestServiceUtil} service utility. The
+ * {@link FavoriteServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
  * {@link HttpPrincipal} parameter.
@@ -48,18 +48,18 @@ import eu.strasbourg.service.interest.service.InterestServiceUtil;
  * </p>
  *
  * @author BenjaminBini
- * @see InterestServiceSoap
+ * @see FavoriteServiceSoap
  * @see HttpPrincipal
- * @see InterestServiceUtil
+ * @see FavoriteServiceUtil
  * @generated
  */
 @ProviderType
-public class InterestServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONObject getInterests(
+public class FavoriteServiceHttp {
+	public static com.liferay.portal.kernel.json.JSONObject getTypes(
 		HttpPrincipal httpPrincipal) {
 		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"getInterests", _getInterestsParameterTypes0);
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"getTypes", _getTypesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -81,39 +81,11 @@ public class InterestServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject setUserInterests(
-		HttpPrincipal httpPrincipal, java.lang.String userId,
-		java.lang.String interestIds) {
-		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"setUserInterests", _setUserInterestsParameterTypes1);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					interestIds);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getUserInterests(
+	public static com.liferay.portal.kernel.json.JSONObject getUserFavorites(
 		HttpPrincipal httpPrincipal, java.lang.String userId) {
 		try {
-			MethodKey methodKey = new MethodKey(InterestServiceUtil.class,
-					"getUserInterests", _getUserInterestsParameterTypes2);
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"getUserFavorites", _getUserFavoritesParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
@@ -135,12 +107,72 @@ public class InterestServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(InterestServiceHttp.class);
-	private static final Class<?>[] _getInterestsParameterTypes0 = new Class[] {  };
-	private static final Class<?>[] _setUserInterestsParameterTypes1 = new Class[] {
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _getUserInterestsParameterTypes2 = new Class[] {
+	public static com.liferay.portal.kernel.json.JSONObject addFavorite(
+		HttpPrincipal httpPrincipal, java.lang.String title,
+		java.lang.String url, long typeId, java.lang.String userId,
+		long entityId) {
+		try {
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"addFavorite", _addFavoriteParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, title,
+					url, typeId, userId, entityId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject deleteFavorite(
+		HttpPrincipal httpPrincipal, java.lang.String userId, long favoriteId) {
+		try {
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"deleteFavorite", _deleteFavoriteParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					favoriteId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(FavoriteServiceHttp.class);
+	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {  };
+	private static final Class<?>[] _getUserFavoritesParameterTypes1 = new Class[] {
 			java.lang.String.class
+		};
+	private static final Class<?>[] _addFavoriteParameterTypes2 = new Class[] {
+			java.lang.String.class, java.lang.String.class, long.class,
+			java.lang.String.class, long.class
+		};
+	private static final Class<?>[] _deleteFavoriteParameterTypes3 = new Class[] {
+			java.lang.String.class, long.class
 		};
 }

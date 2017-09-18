@@ -55,7 +55,7 @@ import eu.strasbourg.service.notification.service.NotificationServiceUtil;
  */
 @ProviderType
 public class NotificationServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONArray getTypes(
+	public static com.liferay.portal.kernel.json.JSONObject getTypes(
 		HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -77,7 +77,7 @@ public class NotificationServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -86,7 +86,7 @@ public class NotificationServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getChannels(
+	public static com.liferay.portal.kernel.json.JSONObject getChannels(
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
@@ -103,7 +103,7 @@ public class NotificationServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);

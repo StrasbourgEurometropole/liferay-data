@@ -67,9 +67,12 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 	 * Retourne la liste de tous les centres d'intérêt
 	 */
 	@Override
-	public JSONArray getInterests() {
+	public JSONObject getInterests() {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
 		List<Interest> interests = this.interestLocalService.getInterests(-1, -1);
-		return this.getApprovedJSONInterests(interests);
+		JSONArray jsonInterests = this.getApprovedJSONInterests(interests);
+		result.put("interests", jsonInterests);
+		return result;
 	}
 
 	/**

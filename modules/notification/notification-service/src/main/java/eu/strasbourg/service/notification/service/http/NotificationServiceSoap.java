@@ -70,7 +70,7 @@ public class NotificationServiceSoap {
 	*/
 	public static java.lang.String getTypes() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = NotificationServiceUtil.getTypes();
+			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getTypes();
 
 			return returnValue.toString();
 		}
@@ -86,7 +86,7 @@ public class NotificationServiceSoap {
 	*/
 	public static java.lang.String getChannels() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = NotificationServiceUtil.getChannels();
+			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getChannels();
 
 			return returnValue.toString();
 		}
