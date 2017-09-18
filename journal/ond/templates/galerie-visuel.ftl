@@ -56,7 +56,7 @@
                             <div class="entry-header">
                                 <h2>
                                     <a class="scriptLink openImageLightboxGallery" href="#image${index}">
-                                        ${file.getTitle()}
+                                        ${fileEntryHelper.getStructureFieldValue(file.fileEntryId, 'Titre', locale)}
                                     </a>
                                 </h2>
                             </div>
@@ -71,7 +71,7 @@
                                 <div class="mfp-counter"></div>
                                 <div class="image-informations">
                                     <h2 class="gallery-title">
-                                        ${file.getTitle()}
+                                        ${fileEntryHelper.getStructureFieldValue(file.fileEntryId, 'Titre', locale)}
                                     </h2>
                                     <img src="${image.getData()}"
                                         alt="${file.getTitle()}" />
