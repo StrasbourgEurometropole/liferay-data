@@ -1,0 +1,147 @@
+{
+    "availableLanguageIds": [
+        "en_US"
+    ],
+    "defaultLanguageId": "en_US",
+    "fields": [
+        {
+            "label": {
+                "en_US": "Image"
+            },
+            "predefinedValue": {
+                "en_US": ""
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "en_US": "Titre non-gras"
+            },
+            "predefinedValue": {
+                "en_US": "Besoin d’un hotel, "
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "title1",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "en_US": "Titre gras"
+            },
+            "predefinedValue": {
+                "en_US": "d’un resto ?"
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "title2",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "en_US": "Texte"
+            },
+            "predefinedValue": {
+                "en_US": "In condimentum facilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper."
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "text",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "en_US": "Label bouton"
+            },
+            "predefinedValue": {
+                "en_US": "Préparez votre séjour"
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "buttonLabel",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "en_US": "URL bouton"
+            },
+            "predefinedValue": {
+                "en_US": ""
+            },
+            "style": {
+                "en_US": ""
+            },
+            "tip": {
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "buttonURL",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        }
+    ]
+}
