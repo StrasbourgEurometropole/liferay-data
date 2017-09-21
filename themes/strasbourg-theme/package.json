@@ -8,7 +8,7 @@
   "liferayTheme": {
     "baseTheme": "styled",
     "screenshot": "",
-    "rubySass": false,
+    "rubySass": true,
     "templateLanguage": "ftl",
     "version": "7.0"
   },
