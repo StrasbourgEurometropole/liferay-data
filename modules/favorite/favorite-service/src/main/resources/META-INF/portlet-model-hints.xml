@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.favorite.model.Favorite">
+		<field name="favoriteId" type="long" />
+		<field name="publikUserId" type="String" />
+		<field name="title" type="String" />
+		<field name="url" type="String" />
+		<field name="typeId" type="long" />
+		<field name="entityId" type="long" />
+	</model>
+</model-hints>

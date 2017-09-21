@@ -41,6 +41,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.OFFICIAL_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_BO,
+		"javax.portlet.name=" + StrasbourgPortletKeys.INTEREST_BO,
+		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB },
 	service = EditorConfigContributor.class)
