@@ -39,7 +39,8 @@ public class InstagramClient {
 				return (List<SocialPost>) timelineFromCache;
 			}
 		}
-		
+		System.out.println("YOOOOO");
+		System.out.println(StrasbourgPropsUtil.getInstagramAccessToken());
 		Token accessToken = new Token(
 			StrasbourgPropsUtil.getInstagramAccessToken(),
 			StrasbourgPropsUtil.getInstagramClientSecret());

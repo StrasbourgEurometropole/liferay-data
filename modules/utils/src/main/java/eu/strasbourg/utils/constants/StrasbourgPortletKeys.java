@@ -27,6 +27,10 @@ public class StrasbourgPortletKeys {
 	public static final String OFFICIAL_BO = "eu_strasbourg_portlet_official_OfficialBOPortlet";
 	public static final String OFFICIAL_WEB = "eu_strasbourg_portlet_official_OfficialPortlet";
 
+	public static final String INTEREST_BO = "eu_strasbourg_portlet_interest_InterestBOPortlet";
+	
+	public static final String NOTIFICATION_BO = "eu_strasbourg_portlet_notification_NotificationBOPortlet";
+	
 	public static final String RUBRIC_WEB = "eu_strasbourg_portlet_rubric_RubricPortlet";
 	
 	public static final String PAGE_HEADER_WEB = "eu_strasbourg_portlet_page_header_PageHeaderPortlet";
@@ -51,4 +55,6 @@ public class StrasbourgPortletKeys {
 	public static final String TIPI_PORTLET_WEB = "eu_strasbourg_portlet_tipi_portlet_TipiPortlet";
 	public static final String TIPI_STATS_PORTLET_WEB = "eu_strasbourg_portlet_tipi_stats_portlet_TipiStatsPortlet";
 	public static final String TIPI_CALLBACK_WEB = "eu_strasbourg_portlet_tipi_TipiCallbackPortlet";
+	
+	public static final String OIDC_WEB = "eu_strasbourg_portlet_oidc_OIDCPortlet";
 }

@@ -1233,13 +1233,13 @@ display:none !important;
 .article-detail .article-texte p a,
 .article-detail .article-texte li a
 {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .article-detail .article-texte p a:hover,
 .article-detail .article-texte li a:hover
 {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .article-detail .article-texte ul,
@@ -1578,6 +1578,7 @@ display:none !important;
     font-size: 1.2em;
     font-weight: normal;
     font-weight: 700;
+    word-wrap:break-word;
 }
 .list-evt .event .entry-header h2 a:hover {
     text-decoration: underline;

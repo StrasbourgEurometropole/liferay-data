@@ -95,4 +95,29 @@ public class StrasbourgPropsUtil {
 	public static String getFelecURL() {
 		return PropsUtil.get("eu.strasbourg.felec.url");
 	}
+
+	public static String getPublikClientId() {
+		return PropsUtil.get("eu.strasbourg.publik.id");
+	}
+
+	public static String getPublikClientSecret() {
+		return PropsUtil.get("eu.strasbourg.publik.secret");
+	}
+
+	public static String getPublikAuthorizeURL() {
+		return PropsUtil.get("eu.strasbourg.publik.url.authorize");
+	}
+
+	public static String getPublikTokenURL() {
+		return PropsUtil.get("eu.strasbourg.publik.url.token");
+	}
+
+	public static String getPublikUserInfoURL() {
+		return PropsUtil.get("eu.strasbourg.publik.url.userinfo");
+	}
+	
+	public static long getDaysBeforeSuppression() {
+		String daysBeforeSuppression = PropsUtil.get("eu.strasbourg.privacy.days-before-suppression");
+		return Long.parseLong(daysBeforeSuppression);
+	}
 }

@@ -24,4 +24,6 @@ public class VocabularyNames {
 	public static final String ACTIVITY_SERVICE = "service gestionnaire des activites";
 	public static final String ACTIVITY_PERIOD = "periode des activites";
 	public static final String ACTIVITY_COURSE_TYPE = "type de cours";
+	public static final String INTEREST_TYPE = "type de centre d'interet";
+	public static final String NOTIFICATION_TYPE = "type de notification";
 }

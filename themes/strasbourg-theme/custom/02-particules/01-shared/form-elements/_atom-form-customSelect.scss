@@ -41,7 +41,17 @@
 
     &--grey{
         @extend %atom-customSelect;
-        
+    }
+    &--white{
+        @extend %atom-customSelect;
+        .customSelect{
+            background-color: #FFFFFF;
+            border: none;
+            border-radius: 0;
+            &.arrowed:after{
+                background-image: url( svg-bg-uri($svg-arrow1, #7e7e7e) );
+            }
+        }
     }
     &--custom{
         @extend %atom-customSelect;

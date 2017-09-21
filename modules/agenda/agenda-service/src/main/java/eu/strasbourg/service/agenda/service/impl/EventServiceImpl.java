@@ -142,7 +142,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	public JSONObject getCategory(long id) throws PortalException {
 		AssetCategory category = AssetCategoryLocalServiceUtil
 			.fetchAssetCategory(id);
-		return AssetVocabularyHelper.categotyToJSON(category);
+		return AssetVocabularyHelper.categoryToJSON(category);
 	}
 
 	@Override

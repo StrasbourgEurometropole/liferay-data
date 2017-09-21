@@ -28,9 +28,24 @@ import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
  *
  */
 public class FileEntryHelper {
+	public static String getFileTitle(DLFileEntry file, Locale locale) {
+		String titleFromStructure = getStructureFieldValue(file.getFileEntryId(), "Titre", locale);
+		if (Validator.isNotNull(titleFromStructure)) {
+			return titleFromStructure;
+		}
+		String titleFromAnotherStricture = getStructureFieldValue(file.getFileEntryId(), "title", locale);
+		if (Validator.isNotNull(titleFromAnotherStricture)) {
+			return titleFromAnotherStricture;
+		}
+		String titleFromFile = file.getTitle();
+		if (Validator.isNotNull(titleFromFile)) {
+			return titleFromFile;
+		}
+		return "";
+	}
+
 	public static String getFileEntryURL(long fileEntryId) {
-		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(fileEntryId);
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if (fileEntry != null) {
 			return getFileEntryURL(fileEntry);
 		} else {
@@ -42,16 +57,13 @@ public class FileEntryHelper {
 		String url = "";
 		FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
 		if (fileEntry != null) {
-			url = "/documents/" + fileEntry.getGroupId() + "/"
-				+ fileEntry.getFolderId() + "/0/" + fileEntry.getUuid();
+			url = "/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/0/" + fileEntry.getUuid();
 		}
 		return url;
 	}
 
-	public static String getReadableFileEntrySize(long fileEntryId,
-		Locale locale) {
-		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(fileEntryId);
+	public static String getReadableFileEntrySize(long fileEntryId, Locale locale) {
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if (fileEntry != null) {
 			return getReadableFileEntrySize(fileEntry, locale);
 		} else {
@@ -59,8 +71,7 @@ public class FileEntryHelper {
 		}
 	}
 
-	public static String getReadableFileEntrySize(DLFileEntry fileEntry,
-		Locale locale) {
+	public static String getReadableFileEntrySize(DLFileEntry fileEntry, Locale locale) {
 		return TextFormatter.formatStorageSize(fileEntry.getSize(), locale);
 	}
 
@@ -79,16 +90,14 @@ public class FileEntryHelper {
 	 * @return Map avec comme clé les locales et comme valeurs les ids des
 	 *         fichiers live s'ils existent, staging sinon
 	 */
-	public static Map<Locale, String> getLiveFileEntryIdMap(
-		Map<Locale, String> locale_fileId, Map<Long, Long> previousId_newId) {
+	public static Map<Locale, String> getLiveFileEntryIdMap(Map<Locale, String> locale_fileId,
+			Map<Long, Long> previousId_newId) {
 		// On initialize la map de résultat en recopiant la map passée en
 		// paramètre
-		Map<Locale, String> live_locale_fileId = new HashMap<Locale, String>(
-			locale_fileId);
+		Map<Locale, String> live_locale_fileId = new HashMap<Locale, String>(locale_fileId);
 		// Pour chaque entrée de la map, on modifie la valeur avec la nouvelle
 		// valeur
-		for (Map.Entry<Locale, String> locale_fileIdEntry : live_locale_fileId
-			.entrySet()) {
+		for (Map.Entry<Locale, String> locale_fileIdEntry : live_locale_fileId.entrySet()) {
 			try {
 				Long fileId = Long.parseLong(locale_fileIdEntry.getValue());
 				Long liveFileId = previousId_newId.get(fileId);
@@ -110,8 +119,7 @@ public class FileEntryHelper {
 	 * @return L'id live correspondant à l'id passé en paramètre - si il
 	 *         n'existe pas, retourne l'id staging
 	 */
-	public static Long getLiveFileEntryId(Long stagingFileEntryId,
-		Map<Long, Long> previousId_newId) {
+	public static Long getLiveFileEntryId(Long stagingFileEntryId, Map<Long, Long> previousId_newId) {
 		Long newImageId = previousId_newId.get(stagingFileEntryId);
 		if (Validator.isNotNull(newImageId)) {
 			return newImageId;
@@ -128,8 +136,7 @@ public class FileEntryHelper {
 	 * @return Copyright de l'image dans la langue désirée
 	 */
 	public static String getImageCopyright(Long fileEntryId, Locale locale) {
-		return FileEntryHelper.getStructureFieldValue(fileEntryId, "copyright",
-			locale);
+		return FileEntryHelper.getStructureFieldValue(fileEntryId, "copyright", locale);
 	}
 
 	/**
@@ -140,8 +147,7 @@ public class FileEntryHelper {
 	 * @return Légende de l'image dans la langue désirée
 	 */
 	public static String getImageLegend(Long fileEntryId, Locale locale) {
-		return FileEntryHelper.getStructureFieldValue(fileEntryId, "legend",
-			locale);
+		return FileEntryHelper.getStructureFieldValue(fileEntryId, "legend", locale);
 	}
 
 	/**
@@ -153,19 +159,16 @@ public class FileEntryHelper {
 	 *            Locale
 	 * @return La valeur du champ personnalisé dans la langue désirée
 	 */
-	public static String getStructureFieldValue(Long fileEntryId,
-		String fieldName, Locale locale) {
+	public static String getStructureFieldValue(Long fileEntryId, String fieldName, Locale locale) {
 		String fieldValue = "";
-		DLFileEntry file = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntry(fileEntryId);
+		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if (file != null) {
 			try {
-				Map<String, DDMFormValues> map = file.getDDMFormValuesMap(
-					file.getLatestFileVersion(true).getFileVersionId());
+				Map<String, DDMFormValues> map = file
+						.getDDMFormValuesMap(file.getLatestFileVersion(true).getFileVersionId());
 				Collection<DDMFormValues> formValuesList = map.values();
 				for (DDMFormValues formValues : formValuesList) {
-					List<DDMFormFieldValue> formFieldValues = formValues
-						.getDDMFormFieldValues();
+					List<DDMFormFieldValue> formFieldValues = formValues.getDDMFormFieldValues();
 					for (DDMFormFieldValue formFieldValue : formFieldValues) {
 						if (formFieldValue.getName().equals(fieldName)) {
 							Value value = formFieldValue.getValue();
@@ -185,8 +188,7 @@ public class FileEntryHelper {
 		return fieldValue;
 	}
 
-	public static String getFileThumbnail(Long fileEntryId,
-		ThemeDisplay themeDisplay) {
+	public static String getFileThumbnail(Long fileEntryId, ThemeDisplay themeDisplay) {
 		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
 		try {
 			return DLUtil.getThumbnailSrc(fileEntry, themeDisplay);
@@ -206,8 +208,7 @@ public class FileEntryHelper {
 			String groupIdString = urlInterstingPart.split("/")[0];
 			String[] urlParts = urlInterstingPart.split("/");
 			String uuid = urlParts[urlParts.length - 1].substring(0, 36);
-			DLFileEntry file = DLFileEntryLocalServiceUtil
-				.fetchDLFileEntryByUuidAndGroupId(uuid,
+			DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid,
 					Long.parseLong(groupIdString));
 			return file;
 		} catch (Exception ex) {
@@ -215,6 +216,5 @@ public class FileEntryHelper {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil
-		.getLog(FileEntryHelper.class.getName());
+	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());
 }

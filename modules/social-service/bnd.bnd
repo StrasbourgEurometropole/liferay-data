@@ -1,6 +1,6 @@
 Bundle-Name: social-service
 Bundle-SymbolicName: eu.strasbourg.service.social
-Bundle-Version: 1.21.0
+Bundle-Version: 1.22.0
 Bundle-ClassPath:\
   .,\
  lib/twitter4j.jar,\

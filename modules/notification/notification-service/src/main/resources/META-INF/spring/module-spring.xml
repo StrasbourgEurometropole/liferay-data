@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.notification.service.impl.NotificationLocalServiceImpl" id="eu.strasbourg.service.notification.service.NotificationLocalService" />
+	<bean class="eu.strasbourg.service.notification.service.impl.NotificationServiceImpl" id="eu.strasbourg.service.notification.service.NotificationService" />
+	<bean class="eu.strasbourg.service.notification.service.persistence.impl.NotificationPersistenceImpl" id="eu.strasbourg.service.notification.service.persistence.NotificationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notification.service.impl.UserNotificationChannelLocalServiceImpl" id="eu.strasbourg.service.notification.service.UserNotificationChannelLocalService" />
+	<bean class="eu.strasbourg.service.notification.service.persistence.impl.UserNotificationChannelPersistenceImpl" id="eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notification.service.impl.UserNotificationStatusLocalServiceImpl" id="eu.strasbourg.service.notification.service.UserNotificationStatusLocalService" />
+	<bean class="eu.strasbourg.service.notification.service.persistence.impl.UserNotificationStatusPersistenceImpl" id="eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notification.service.impl.UserNotificationTypeLocalServiceImpl" id="eu.strasbourg.service.notification.service.UserNotificationTypeLocalService" />
+	<bean class="eu.strasbourg.service.notification.service.persistence.impl.UserNotificationTypePersistenceImpl" id="eu.strasbourg.service.notification.service.persistence.UserNotificationTypePersistence" parent="basePersistence" />
+</beans>

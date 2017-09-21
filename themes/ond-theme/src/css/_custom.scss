@@ -94,7 +94,7 @@
 				float:left;
 
 				.portlet-breadcrumb{
-					margin-top: -6px;
+					margin-top: 0px;
 
 					.portlet{
 						display: inline;
@@ -229,8 +229,7 @@
 								font-family: 'Lato', sans-serif;
 								font-size: 12px;
 								font-weight: normal;
-								float: left;
-								margin-top: -5px;
+								float: left;								
 							}
 						}
 					}
@@ -1011,7 +1010,7 @@
 								    overflow:hidden !important;
 								    text-overflow: ellipsis;
 									height: 65px;
-
+									line-height: 10px;
 						    		a{
 								    	color: white;
 								    	float: none;
@@ -1027,6 +1026,7 @@
 							    overflow:hidden !important;
 							    text-overflow: ellipsis;
 							    padding: 0px 15px;
+							    height: 50px;
 
 							    a{
 									float: none;
@@ -1044,8 +1044,8 @@
 							}
 
 							.entry-meta{
-								padding: 0px 15px
-    line-height: 1.2em;;
+								padding: 0px 15px;
+								line-height: 1.2em;
 
 								time{
 									font-family: Arial;
