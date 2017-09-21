@@ -59,8 +59,6 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 		throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, manifestation);
 		
-		// On indexe toute la hiérarchie de catégories (parents et enfants des
-		// catégories de l'entité)
 		long[] assetCategoryIds = AssetVocabularyHelper
 			.getFullHierarchyCategoriesIds(manifestation.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper

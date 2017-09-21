@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.notification.model.Notification">
+		<field name="notificationId" type="long" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="description" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="url" type="String" />
+		<field name="automatic" type="boolean" />
+		<field name="singleUser" type="boolean" />
+		<field name="singleUserId" type="String" />
+		<field name="publicationDate" type="Date" />
+		<field name="expirationDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="typeId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.notification.model.UserNotificationChannel">
+		<field name="publikUserId" type="String" />
+		<field name="channelId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.notification.model.UserNotificationStatus">
+		<field name="notificationId" type="long" />
+		<field name="publikUserId" type="String" />
+		<field name="read" type="boolean" />
+	</model>
+	<model name="eu.strasbourg.service.notification.model.UserNotificationType">
+		<field name="publikUserId" type="String" />
+		<field name="typeId" type="long" />
+	</model>
+</model-hints>

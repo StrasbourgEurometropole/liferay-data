@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.interest.service.impl.InterestLocalServiceImpl" id="eu.strasbourg.service.interest.service.InterestLocalService" />
+	<bean class="eu.strasbourg.service.interest.service.impl.InterestServiceImpl" id="eu.strasbourg.service.interest.service.InterestService" />
+	<bean class="eu.strasbourg.service.interest.service.persistence.impl.InterestPersistenceImpl" id="eu.strasbourg.service.interest.service.persistence.InterestPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.interest.service.impl.UserInterestLocalServiceImpl" id="eu.strasbourg.service.interest.service.UserInterestLocalService" />
+	<bean class="eu.strasbourg.service.interest.service.persistence.impl.UserInterestPersistenceImpl" id="eu.strasbourg.service.interest.service.persistence.UserInterestPersistence" parent="basePersistence" />
+</beans>

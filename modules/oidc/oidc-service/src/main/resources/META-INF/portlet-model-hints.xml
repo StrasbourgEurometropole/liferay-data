@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.oidc.model.PublikUser">
+		<field name="uuid" type="String" />
+		<field name="publikUserLiferayId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="publikId" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="accessToken" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="firstName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="lastName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="email" type="String" />
+	</model>
+</model-hints>

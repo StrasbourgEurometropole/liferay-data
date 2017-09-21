@@ -1,0 +1,10 @@
+Bundle-Name: favorite-api
+Bundle-SymbolicName: eu.strasbourg.service.favorite.api
+Bundle-Version: 1.0.0
+Export-Package: \
+	eu.strasbourg.service.favorite.exception,\
+	eu.strasbourg.service.favorite.model,\
+	eu.strasbourg.service.favorite.service,\
+	eu.strasbourg.service.favorite.service.persistence,\
+	eu.strasbourg.service.favorite.factory
+-includeresource: META-INF/service.xml=../favorite-service/service.xml
