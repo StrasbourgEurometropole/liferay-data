@@ -1578,6 +1578,7 @@ display:none !important;
     font-size: 1.2em;
     font-weight: normal;
     font-weight: 700;
+    word-wrap:break-word;
 }
 .list-evt .event .entry-header h2 a:hover {
     text-decoration: underline;
