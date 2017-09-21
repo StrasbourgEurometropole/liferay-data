@@ -54,6 +54,9 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		String postCount = ParamUtil.getString(actionRequest, "postCount");
 		setPreference(actionRequest, "postCount", postCount);
 		
+		String template = ParamUtil.getString(actionRequest,  "template");
+		setPreference(actionRequest, "template", template);
+		
 		MultiVMPoolUtil.getPortalCache("twitter_cache").remove(twitterAccount);
 		MultiVMPoolUtil.getPortalCache("twitter_cache")
 			.remove(twitterAccount + "_last_update");
@@ -90,6 +93,7 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("dailymotionAccountId", configuration.dailymotionAccountId());
 			request.setAttribute("facebookToken", configuration.facebookToken());
 			request.setAttribute("postCount", configuration.postCount());
+			request.setAttribute("template", configuration.template());
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

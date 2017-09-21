@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+/***************************/
+/***************************/
+
+   /* -- PAGE AGENDA LIST -- */
+
+/***************************/
+/***************************/
+
+#mns-global{
+
+	.mns-p-list-agenda{
+		padding: 35px 0;
+		@include mobile {
+			padding: 25px 15px;
+		}
+		.mns-z-filtres-search{
+			@include mobile{
+				display: none;
+			}
+			.mns-affiner{
+				text-align: left;
+				border-bottom: 0;
+				padding-top: 0;
+				padding-left: 0;
+				> .mns-more{
+					width: 100%;
+				}
+			}
+
+			.mns-label-top{
+				padding-bottom: 5px;
+				border-bottom: 1px solid $c_filet;
+				margin-bottom: 15px;
+				label{
+					@include ft($f_hx, 18px, 700, $c_txt, 26px);
+				}
+				span{
+					position: absolute;
+					right: 15px;
+					@include ft($f_txt, 12px, 400, $c_txt, 26px);
+				}
+			}
+
+			input[type="text"]{
+				width: 40%;
+				margin: 0;
+				height: 38px;
+				padding-left: 10px;
+				text-overflow: ellipsis;
+				@include desktop{
+					width: 100%;
+				}
+			}
+			.between-form{
+				margin: 0 11px;
+				@include desktop{
+					margin: 10px 10px 10px 0;
+					display: block;
+				}
+			}
+
+			.form-group{
+				margin-bottom: 30px;
+			}
+
+			.checkbox{
+				> label{
+					display: block;
+					margin-bottom: 5px;
+					input[type="checkbox"]:checked{
+						font-weight: 700;
+					}
+				}
+			}
+
+			.mns-submit{
+				input{
+					width: 230px;
+					font-size: 16px;
+					@include tablet_portrait{
+						width: 100%;
+						font-size: 12px;
+					}
+				}
+			}
+
+			.mns-ico-date{
+				position: relative;
+				&:after{
+					content: "\e910";
+					font-family: 'icomoon' !important;
+					speak: none;
+					font-style: normal;
+					font-weight: normal;
+					font-variant: normal;
+					text-transform: none;
+					line-height: 1;
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+					position: absolute;
+					top: 0;
+					color: $c_main;
+					right: 10px;
+					font-size: 18px;
+				}
+			}
+		}
+
+		.mns-z-list-agenda{
+			> div > div{
+				margin-bottom: 0;
+				&:nth-child(-n+3){
+					margin-top: 10px;
+				}
+
+				.cover{
+					max-width: 100%;
+				}
+			}
+			> div{
+				@include mobile{
+					padding: 0;
+				}
+			}
+		}
+	}
+
+}

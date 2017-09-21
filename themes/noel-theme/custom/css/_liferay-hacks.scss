@@ -1,0 +1,32 @@
+.portlet {
+  margin-bottom: 0;
+}
+
+.portlet-topper {
+  height: 30px;
+  .dropdown-menu {
+    display: none !important;
+  }
+}
+
+.has-control-menu #mns-global {
+  margin-top: 65px;
+}
+
+.has-control-menu #mns-global .mns-nav.mns-nav-scroll {
+  margin-top: 65px;
+}
+
+#mns-global h2.portlet-title-text {
+  display: none;
+}
+
+#mns-global .page-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 0;
+}
+
+.page-header-portlet .portlet-topper {
+  z-index: 5000;
+}

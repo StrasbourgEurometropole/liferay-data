@@ -14,6 +14,14 @@
   },
   "devDependencies": {
     "gulp": "^3.8.10",
+    "gulp-load-plugins": "latest",
+    "gulp-rename": "latest",
+    "gulp-uglify": "latest",
+    "gulp-sass": "latest",
+    "gulp-concat": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-tinypng": "latest",
+    "gulp-notify": "latest",
     "liferay-theme-tasks": "^1.4.2",
     "liferay-theme-deps-7.0": "~1.0.0"
   },

@@ -1,0 +1,21 @@
+#mns-global .search-asset-portlet-page {
+  .date-selection .input-checkbox-wrapper {
+    display: none;
+  }
+  .date-selection input[type=text] {
+    display: inline-block;
+    width: 43%;
+  }
+  .date-selection .between-form {
+    margin: 0 5px;
+  }
+  .lfr-pagination-config {
+    display: none !important;
+  }
+  .taglib-page-iterator {
+    padding-top: 50px;
+  }
+  .search-asset-results > * {
+    height: 580px;
+  }
+}

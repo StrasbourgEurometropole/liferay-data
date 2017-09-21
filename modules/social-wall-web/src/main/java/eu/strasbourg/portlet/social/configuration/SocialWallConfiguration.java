@@ -28,4 +28,6 @@ public interface SocialWallConfiguration {
 	@Meta.AD(name="postCount", required = false)
 	public int postCount();
 	
+	@Meta.AD(name="template", deflt="default", required= false)
+	public String template();
 }

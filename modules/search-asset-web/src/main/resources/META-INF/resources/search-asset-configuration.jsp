@@ -247,6 +247,9 @@
 					<aui:option value="videos" selected="${searchForm eq 'videos'}">
 						<liferay-ui:message key="videos" />
 					</aui:option>
+					<aui:option value="christmas" selected="${searchForm eq 'christmas'}">
+						<liferay-ui:message key="christmas" />
+					</aui:option>
 				</aui:select>
 				
 				<!-- Bouton exporter -->

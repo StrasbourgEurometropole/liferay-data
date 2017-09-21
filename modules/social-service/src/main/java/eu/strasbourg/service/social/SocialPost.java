@@ -15,6 +15,9 @@ public class SocialPost {
 	protected SocialMedia socialMedia;
 	protected String imageURL;
 	protected String url;
+	protected String username;
+	protected Date date;
+	
 	
 	public Date getDate() {
 		return date;
@@ -25,8 +28,6 @@ public class SocialPost {
 	public void setJsonEscapedContent(String jsonEscapedContent) {
 		this.jsonEscapedContent = jsonEscapedContent;
 	}
-	protected String username;
-	protected Date date;
 	
 	public String getContent() {
 		return content;
