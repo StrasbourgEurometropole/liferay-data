@@ -6629,7 +6629,7 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 	$('.mns-affiner-m').click(function(){
 		$('.mns-z-filtres-search').slideToggle('500');
 		$('.mns-z-filtres-search').addClass('row');
-		$(this).parent().parent().toggleClass('hide-button');
+		//$(this).parent().parent().toggleClass('hide-button');
 	});
 
 	// Dectect if scroll 

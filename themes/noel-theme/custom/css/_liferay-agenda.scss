@@ -2,12 +2,15 @@
   .date-selection .input-checkbox-wrapper {
     display: none;
   }
-  .date-selection input[type=text] {
+  .date-selection input[type=text], .date-selection input[type=date] {
     display: inline-block;
     width: 43%;
+    @media(max-width: 1199px) {
+      width: 100%;
+    }
   }
   .date-selection .between-form {
-    margin: 0 5px;
+    margin: 10px 5px;
   }
   .lfr-pagination-config {
     display: none !important;
