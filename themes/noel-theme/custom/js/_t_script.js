@@ -120,8 +120,11 @@
 	});
 	
 	// Changement de comportement de la NavBar si nous sommes sur un iPad ou une tablette Android en mode portrait
-	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Android/i) && height > width)){
+	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i) && height > width)) {
 		$('nav').addClass('mns-nav-scroll','mns-nav-ipad');
+	}
+	else if ((navigator.userAgent).match(/Android/i)){
+		$('nav').removeClass('mns-nav-scroll','mns-nav-ipad');
 	}
 	if ($(window).width() > 1200){
 		$('.navbar-nav > li.dropdown').mouseenter(function(){
@@ -132,6 +135,7 @@
 			$(this).removeClass('open');
 		});
 	}
+
 
 	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Android/i))){
 		$('.mns-header > video').css('display', 'none');
@@ -166,7 +170,7 @@
 	var height = $(window).height();
 	var width = $(window).width();
 
-	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Android/i)) && height > width){
+	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
 		$('body').addClass('ipad');
 		$('.mns-nav').addClass("mns-nav-scroll");
 		$('.mns-nav').addClass("mns-nav-ipad");

@@ -37,7 +37,7 @@
 				<label>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
 			</div>
 			<div class="checkbox">
-				<c:forEach items="${vocabulary.categories}" var="category"
+				<c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category"
 					varStatus="catStatus">
 					<aui:input type="checkbox" name="vocabulary_${vocStatus.index}"
 						value="${category.categoryId}"
@@ -51,5 +51,8 @@
 	
 	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
 		
-	<aui:button type="submit" value="search" />
+	<div class="mns-submit">
+		<span></span>
+		<input type="submit" id="submit" value="<liferay-ui:message key="refresh-search" />">
+	</div>
 </div>

@@ -71,7 +71,8 @@
 			.checkbox{
 				> label{
 					display: block;
-					margin-bottom: 5px;
+					padding: 5px 0;
+					overflow: hidden;
 					input[type="checkbox"]:checked{
 						font-weight: 700;
 					}

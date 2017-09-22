@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,minimal-ui">
     <meta name="author" content="Agence Thuria">
     <title>${the_title} - ${company_name}</title>
 
@@ -45,59 +45,6 @@
             <#include "${full_templates_path}/navigation.ftl" />
         </header>
         <main>
-            <!-- header full -->
-            <header class="mns-header" style="background: url(/o/noel-theme/images/bg-homepage.jpg) no-repeat center center /cover;">
-                <div class="container mns-center">
-                    <h2>La magie de noël à Strasbourg</h2>
-                    <span>Du 04  au 26 décembre 2017</span>
-                </div>
-            </header>
-            <!-- filtres de recherches -->
-            <div class="small-container mns-filtres row">
-                <span class="icon-cross" id="cross-mobile"></span>
-                <form action="index.html" method="get">
-                    <div class="col-sm-4 col-xs-12">
-                        <label>Je viens...</label>
-                        <select name="venir" id="venir">
-                            <option>En couple</option>
-                            <option>En célibataire</option>
-                            <option>En famille</option>
-                            <option>Entre amis</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <label>Pendant...</label>
-                        <select name="periode" id="periode">
-                            <option>Ce week-end</option>
-                            <option>Ce jour-ci</option>
-                            <option>Ce mois</option>
-                            <option>Cette année</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <label>Pour un(e)...</label>
-                        <select name="evenement" id="evenement">
-                            <option>Noël authentique</option>
-                            <option>Noël venu d'ailleurs</option>
-                            <option>Noël artistique et culturel</option>
-                            <option>Noël spirituel et de partage</option>
-                            <option>Découvertte de la ville</option>
-                            <option>Noël nocturne</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <input type="submit" class="btn-filtre" value="Trouver" />
-                    </div>
-                </form>
-            </div>
-            <div class="small-container mns-m-filtres-search row">
-                <div class="col-xs-12">
-                    <span class="label">Je viens...,Pendant...,Pour un(e)... ?</span>
-                    <span id="search-mobile-filtres" class="btn-filtre">Recherchez</span>
-                </div>
-            </div>
-            
-            
             <#if selectable>
                 <@liferay_util["include"] page=content_include />
             <#else>

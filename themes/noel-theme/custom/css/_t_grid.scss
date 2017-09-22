@@ -83,14 +83,20 @@
 			> div{
 				width: 100%;
 				a{
-					width: 20%;
+					width: 40px;
+					padding: 0;
 					float: left;
 					text-align: center;
 					color: $c_white !important;
 					font-weight: 400;
 					text-transform: none;
 					&.mns-w-fixe-2{
-						width: 40%;
+						width: calc(100% - 150px);
+						text-align: left;
+						padding-left: 30px;
+					}
+					&.active-lang{
+						font-weight: 700;
 					}
 				}
 			}

@@ -130,12 +130,17 @@
 		}
 
 		@include tablet_portrait {
-			top: 0;
 			transform: none;
 		}
 
 		@include mobile {
 			position: fixed;
+		}
+
+		&.mns-nav-ipad{
+			@include tablet_portrait{
+				top: 40px;
+			}
 		}
 
 		.mns-navbar-wrapper{
@@ -374,8 +379,11 @@
 				top: 80%;
 				left: 35px;
 				position: absolute;
-				width: 80%;
+				width: 90%;
 
+				@include desktop{
+					padding: 30px 20px;
+				}
 				@include tablet_portrait{
 					top: 0;
 					left: 0;
@@ -506,11 +514,11 @@
 			@include an(all,0.3);
 
 			@include desktop{
-				top: -35px;
+				top: 0;
 			}
 			@include tablet_portrait {
 				height: 76px;
-				top: 40px;
+				top: 0;
 			}
 			@include mobile {
 				top: 0;
@@ -528,6 +536,13 @@
 				transform: translate3d(0,0,0);
 				position: fixed;
 				@include an(all,0.3);
+
+				@include desktop{
+					top: -35px;
+				}
+				@include tablet_portrait {
+					top: 40px;
+				}
 				&.mns-top{
 					transform: translate3d(0,0,0);
 				}
