@@ -32,7 +32,7 @@ public class CheckNotificationMessageListener extends BaseSchedulerEntryMessageL
 	@Modified
 	protected void activate() {
 		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(getEventListenerClass(), getEventListenerClass(),
-				15, TimeUnit.MINUTE));
+				5, TimeUnit.MINUTE));
 
 		schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
 	}

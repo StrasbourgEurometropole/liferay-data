@@ -130,7 +130,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 	 */
 	private void sendNotificationToUserChannels(Notification notification) {
 		// TODO : envoi sur les canaux
-		System.out.println("TODO : envoi sur les canaux");
+		// System.out.println("TODO : envoi sur les canaux");
 	}
 
 	/**
