@@ -1,5 +1,10 @@
 <!-- Slider événements -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 <div class="mns-section-agenda">
     <div class="container">
         <div class="col-xs-12 mns-right">
@@ -11,7 +16,7 @@
                 <#assign event = curEntry.getAssetRenderer().getEvent() />
                 <div class="item">
                     <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                        <a href="/event/-/entity/id/${event.eventId}">
+                        <a href="${homeURL}/event/-/entity/id/${event.eventId}">
                             <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                             <figure>
                                 <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />

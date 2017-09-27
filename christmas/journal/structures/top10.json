@@ -6,10 +6,10 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Titre non-gras"
+                "fr_FR": "Entête gras"
             },
             "predefinedValue": {
-                "fr_FR": "Vivez un noël unique"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
@@ -20,7 +20,7 @@
             "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "title1",
+            "name": "boldHeader",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -29,10 +29,10 @@
         },
         {
             "label": {
-                "fr_FR": "Titre gras"
+                "fr_FR": "Entête"
             },
             "predefinedValue": {
-                "fr_FR": "à Strasbourg"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
@@ -43,7 +43,7 @@
             "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "title2",
+            "name": "header",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -52,10 +52,10 @@
         },
         {
             "label": {
-                "fr_FR": "Titre bulle"
+                "fr_FR": "Surtitre"
             },
             "predefinedValue": {
-                "fr_FR": "Les illuminations"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
@@ -66,7 +66,7 @@
             "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "bubbleTitle",
+            "name": "subtitle",
             "readOnly": false,
             "repeatable": true,
             "required": false,
@@ -75,10 +75,10 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Texte bulle"
+                        "fr_FR": "Titre"
                     },
                     "predefinedValue": {
-                        "fr_FR": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et doloreLorem ipsum dolor sit amet, consectetur adipisicing elit."
+                        "fr_FR": ""
                     },
                     "style": {
                         "fr_FR": ""
@@ -89,7 +89,7 @@
                     "dataType": "string",
                     "indexType": "",
                     "localizable": true,
-                    "name": "TexteBulle",
+                    "name": "title",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
@@ -98,7 +98,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "Lien bulle"
+                        "fr_FR": "Texte gras"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -112,12 +112,82 @@
                     "dataType": "string",
                     "indexType": "",
                     "localizable": true,
-                    "name": "bubbleLink",
+                    "name": "boldText",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Texte"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "text",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                },
+                {
+                    "label": {
+                        "fr_FR": "URL"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "url",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
                     "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Image"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "image",
+                    "fieldNamespace": "ddm",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "image",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-image"
                 }
             ]
         }

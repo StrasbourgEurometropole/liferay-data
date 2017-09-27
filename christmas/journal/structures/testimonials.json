@@ -1,21 +1,21 @@
 {
     "availableLanguageIds": [
-        "en_US"
+        "fr_FR"
     ],
-    "defaultLanguageId": "en_US",
+    "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "en_US": "Photo"
+                "fr_FR": "Photo"
             },
             "predefinedValue": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
@@ -30,16 +30,16 @@
             "nestedFields": [
                 {
                     "label": {
-                        "en_US": "Titre"
+                        "fr_FR": "Titre"
                     },
                     "predefinedValue": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "style": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "tip": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "dataType": "string",
                     "indexType": "",
@@ -53,16 +53,16 @@
                 },
                 {
                     "label": {
-                        "en_US": "Contenu"
+                        "fr_FR": "Contenu"
                     },
                     "predefinedValue": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "style": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "tip": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "dataType": "string",
                     "indexType": "keyword",
@@ -76,16 +76,16 @@
                 },
                 {
                     "label": {
-                        "en_US": "Auteur"
+                        "fr_FR": "Auteur"
                     },
                     "predefinedValue": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "style": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "tip": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "dataType": "string",
                     "indexType": "",
@@ -99,16 +99,16 @@
                 },
                 {
                     "label": {
-                        "en_US": "Label lien"
+                        "fr_FR": "Label lien"
                     },
                     "predefinedValue": {
-                        "en_US": "En savoir plus"
+                        "fr_FR": "En savoir plus"
                     },
                     "style": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "tip": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "dataType": "string",
                     "indexType": "",
@@ -122,16 +122,16 @@
                 },
                 {
                     "label": {
-                        "en_US": "URL lien"
+                        "fr_FR": "URL lien"
                     },
                     "predefinedValue": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "style": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "tip": {
-                        "en_US": ""
+                        "fr_FR": ""
                     },
                     "dataType": "string",
                     "indexType": "keyword",

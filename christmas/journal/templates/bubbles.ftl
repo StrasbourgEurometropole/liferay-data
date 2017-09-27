@@ -15,7 +15,7 @@
                     <div class="mns-elipse-${cur_bubble?counter}">
                         <a href="${cur_bubble.children[1].data}">
                             <figure>
-                                <img src="/o/noel-theme/images/home-elipse-${cur_bubble?counter}.jpeg" width="400" height="400" alt="${bubbleTitle.data}" class="mns-image" />
+                                <img src="/o/noel-theme/images/home-elipse-${cur_bubble?counter}.jpeg" width="400" height="400" alt="${cur_bubble.data}" class="mns-image" />
                             </figure>
                             <div class="caption">
                                 <div>

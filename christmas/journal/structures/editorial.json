@@ -1,21 +1,21 @@
 {
     "availableLanguageIds": [
-        "en_US"
+        "fr_FR"
     ],
-    "defaultLanguageId": "en_US",
+    "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "en_US": "Titre"
+                "fr_FR": "Titre"
             },
             "predefinedValue": {
-                "en_US": "L’histoire du marché de Noël"
+                "fr_FR": "L’histoire du marché de Noël"
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -29,16 +29,16 @@
         },
         {
             "label": {
-                "en_US": "Texte gras"
+                "fr_FR": "Texte gras"
             },
             "predefinedValue": {
-                "en_US": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
+                "fr_FR": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -52,16 +52,16 @@
         },
         {
             "label": {
-                "en_US": "Texte non-gras"
+                "fr_FR": "Texte non-gras"
             },
             "predefinedValue": {
-                "en_US": "incididunt ut labore et dolore magna aliqua. Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lore magna aliqua."
+                "fr_FR": "incididunt ut labore et dolore magna aliqua. Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lore magna aliqua."
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -75,16 +75,16 @@
         },
         {
             "label": {
-                "en_US": "URL du lien"
+                "fr_FR": "URL du lien"
             },
             "predefinedValue": {
-                "en_US": "#"
+                "fr_FR": "#"
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",

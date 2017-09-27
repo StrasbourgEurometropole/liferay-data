@@ -1,4 +1,4 @@
-<!-- Vignette événement -->
+<!-- Vignette manifestation -->
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}" />
@@ -6,17 +6,13 @@
     <#assign homeURL = "/" />
 </#if>
 <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-    <a href="${homeURL}/event/-/entity/id/${entry.eventId}">
-        <span class="date">${entry.getEventScheduleDisplay(locale)}</span>
+    <a href="${homeURL}/manifestation/-/entity/id/${entry.manifestationId}">
+        <span class="date">${entry.getManifestationScheduleDisplay(locale)}</span>
         <figure>
             <img src='${entry.getImageURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />
         </figure>
         <div>
-            <div class="col-xs-6 mns-indic">
-                <span class="icon-ico-map-marker"></span>
-                <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${entry.getPlaceAlias(locale)}</span></span>
-            </div>
-            <div class="col-xs-6 mns-indic">
+            <div class="mns-indic" style="text-align: center">
                 <span class="icon-ico-type"></span>
                 <span>${entry.getTypeLabel(locale)}</span>
             </div>

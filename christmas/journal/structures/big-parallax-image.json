@@ -1,21 +1,21 @@
 {
     "availableLanguageIds": [
-        "en_US"
+        "fr_FR"
     ],
-    "defaultLanguageId": "en_US",
+    "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "en_US": "Image"
+                "fr_FR": "Image"
             },
             "predefinedValue": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
@@ -30,16 +30,16 @@
         },
         {
             "label": {
-                "en_US": "Titre non-gras"
+                "fr_FR": "Titre non-gras"
             },
             "predefinedValue": {
-                "en_US": "Besoin d’un hotel, "
+                "fr_FR": "Besoin d’un hotel, "
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -53,16 +53,16 @@
         },
         {
             "label": {
-                "en_US": "Titre gras"
+                "fr_FR": "Titre gras"
             },
             "predefinedValue": {
-                "en_US": "d’un resto ?"
+                "fr_FR": "d’un resto ?"
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -76,16 +76,16 @@
         },
         {
             "label": {
-                "en_US": "Texte"
+                "fr_FR": "Texte"
             },
             "predefinedValue": {
-                "en_US": "In condimentum facilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper."
+                "fr_FR": "In condimentum facilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper."
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -99,16 +99,16 @@
         },
         {
             "label": {
-                "en_US": "Label bouton"
+                "fr_FR": "Label bouton"
             },
             "predefinedValue": {
-                "en_US": "Préparez votre séjour"
+                "fr_FR": "Préparez votre séjour"
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
@@ -122,16 +122,16 @@
         },
         {
             "label": {
-                "en_US": "URL bouton"
+                "fr_FR": "URL bouton"
             },
             "predefinedValue": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "style": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "tip": {
-                "en_US": ""
+                "fr_FR": ""
             },
             "dataType": "string",
             "indexType": "",
