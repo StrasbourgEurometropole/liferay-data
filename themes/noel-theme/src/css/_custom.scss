@@ -1,0 +1,11 @@
+.page-header-portlet .portlet-topper {
+  z-index: 5000;
+}
+
+.portlet-configuration-setup form.form {
+  margin-bottom: 100px;
+  .button-holder.dialog-footer {
+    position: fixed;
+    background: white;
+  }
+}

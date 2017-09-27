@@ -32,7 +32,7 @@ public class ManifestationDisplayTemplateHandler
 
 	@Override
 	public String getName(Locale locale) {
-		return "Template Galerie d'Events";
+		return "Template Manifestation";
 	}
 
 	@Override
