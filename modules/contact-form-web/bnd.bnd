@@ -2,3 +2,4 @@ Bundle-Name: contact-form-web
 Bundle-SymbolicName: eu.strasbourg.portlet.contact
 Bundle-Version: 1.0.0
 Export-Package: eu.strasbourg.portlet.contact.constants
+Javac-Encoding=UTF-8

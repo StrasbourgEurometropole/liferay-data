@@ -26,9 +26,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
 	immediate = true,
 	property = { "javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
-		"mvc.command.name=export" },
+		"mvc.command.name=exportJson" },
 	service = MVCResourceCommand.class)
-public class ExportCampaignResourceCommand implements MVCResourceCommand {
+public class ExportCampaignToJsonResourceCommand implements MVCResourceCommand {
 
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest,
