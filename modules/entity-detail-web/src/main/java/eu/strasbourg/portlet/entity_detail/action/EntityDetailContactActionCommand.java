@@ -104,7 +104,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				if (Validator.isUrl(footerImage)) {
 					body = body + "<p><img src='" + footerImage + "' /></p>";
 				}
-				MailHelper.sendMailWithHTML("no-reply@strasbourg.eu", email,
+				MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email,
 					notificationSubject, body);
 			}
 			return success;
