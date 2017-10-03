@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.social.configuration.SocialWallConfiguration;
@@ -26,68 +27,69 @@ import eu.strasbourg.service.social.SocialService;
 import eu.strasbourg.service.social.instagram.DailymotionThumbnailRatio;
 import eu.strasbourg.service.social.twitter.Tweet;
 
-@Component(
-	immediate = true,
-	configurationPid = "eu.strasbourg.portlet.social.configuration.SocialWallConfiguration",
-	property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=true",
+@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.social.configuration.SocialWallConfiguration", property = {
+		"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.requires-namespaced-parameters=false",
-		"com.liferay.portlet.css-class-wrapper=social-wall-portlet",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/social-view.jsp",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
-	service = Portlet.class)
+		"com.liferay.portlet.css-class-wrapper=social-wall-portlet", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/social-view.jsp", "javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class SocialWallPortlet extends MVCPortlet {
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 	@Override
-	public void render(RenderRequest renderRequest,
-		RenderResponse renderResponse) throws IOException, PortletException {
-		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
-			.getAttribute(WebKeys.THEME_DISPLAY);
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+			throws IOException, PortletException {
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			SocialWallConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
+			SocialWallConfiguration configuration = themeDisplay.getPortletDisplay()
+					.getPortletInstanceConfiguration(SocialWallConfiguration.class);
 
 			// Nombre de posts à afficher
 			int postCount = configuration.postCount();
 
+			List<SocialPost> allPosts = new ArrayList<SocialPost>();
+
 			// Facebook posts
 			String facebookToken = configuration.facebookToken();
-			List<SocialPost> facebookPosts = socialService
-				.getFacebookPosts(facebookToken, postCount);
-			
+			if (Validator.isNotNull(facebookToken)) {
+				List<SocialPost> facebookPosts = socialService.getFacebookPosts(facebookToken, postCount);
+				allPosts.addAll(facebookPosts);
+			}
+
 			// Tweets
 			String twitterAccount = configuration.twitterAccount();
-			List<Tweet> tweets = socialService.getUserTweets(twitterAccount,
-				postCount);
-
+			if (Validator.isNotNull(twitterAccount)) {
+				List<Tweet> tweets = socialService.getUserTweets(twitterAccount, postCount);
+				allPosts.addAll(tweets);
+			}
 			// Instagram posts
-			String instagramAccount = configuration.twitterAccount();
-			List<SocialPost> instagramPosts = socialService
-				.getInstagramPosts(instagramAccount, postCount);
+			String instagramAccount = configuration.instagramAccount();
+			if (Validator.isNotNull(instagramAccount)) {
+				List<SocialPost> instagramPosts = socialService.getInstagramPosts(instagramAccount, postCount);
+				allPosts.addAll(instagramPosts);
+			}
 
 			// Dailymotion videos
 			String dailymotionAccountId = configuration.dailymotionAccountId();
-			List<SocialPost> videos = socialService.getDailymotionVideos(
-				dailymotionAccountId, postCount,
-				DailymotionThumbnailRatio.SQUARE);
+			if (Validator.isNotNull(dailymotionAccountId)) {
+				List<SocialPost> videos = socialService.getDailymotionVideos(dailymotionAccountId, postCount,
+						DailymotionThumbnailRatio.SQUARE);
+				allPosts.addAll(videos);
+			}
 
-			List<SocialPost> allPosts = new ArrayList<SocialPost>();
-			allPosts.addAll(facebookPosts);
-			allPosts.addAll(tweets);
-			allPosts.addAll(instagramPosts);
-			allPosts.addAll(videos);
-
-			allPosts = allPosts.stream()
-				.sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
-				.collect(Collectors.toList());
-
+			// Tri
+			allPosts = allPosts.stream().sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
+					.collect(Collectors.toList());
 			renderRequest.setAttribute("posts", allPosts);
+
+			// Template
+			String template = configuration.template();
+			if (Validator.isNull(template)) {
+				template = "default";
+			}
+			renderRequest.setAttribute("template", template);
 
 		} catch (ConfigurationException e) {
 			log.error(e);

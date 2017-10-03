@@ -37,6 +37,11 @@
 		
 		<aui:fieldset id="general" label="general">
 			<aui:input type="number" name="postCount" value="${postCount}" label="post-count" />
+			
+			<aui:select name="template" label="display">
+				<aui:option value="default" label="Strasbourg.eu" />
+				<aui:option value="christmas" label="christmas" selected="${template eq 'christmas'}"/>
+			</aui:select>
 		</aui:fieldset>
 		
 		<aui:button-row>

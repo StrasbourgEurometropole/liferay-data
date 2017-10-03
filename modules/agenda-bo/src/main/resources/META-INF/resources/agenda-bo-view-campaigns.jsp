@@ -120,11 +120,17 @@
 							<liferay-ui:icon message="delete" url="${deleteCampaignURL}" />
 						</c:if>
 						
-						<liferay-portlet:resourceURL id="export"
-							var="exportURL">
+						<liferay-portlet:resourceURL id="exportJson"
+							var="exportJsonURL">
 							<portlet:param name="campaignId" value="${campaign.campaignId}" />
 						</liferay-portlet:resourceURL>
-						<liferay-ui:icon message="export" url="${exportURL}" />
+						<liferay-ui:icon message="export-json" url="${exportJsonURL}" />
+						
+						<liferay-portlet:resourceURL id="exportDocx"
+							var="exportDocxURL">
+							<portlet:param name="campaignId" value="${campaign.campaignId}" />
+						</liferay-portlet:resourceURL>
+						<liferay-ui:icon message="export-docx" url="${exportDocxURL}" />
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

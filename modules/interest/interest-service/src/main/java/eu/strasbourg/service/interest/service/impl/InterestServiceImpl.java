@@ -68,6 +68,10 @@ public class InterestServiceImpl extends InterestServiceBaseImpl {
 	 */
 	@Override
 	public JSONObject getInterests() {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		List<Interest> interests = this.interestLocalService.getInterests(-1, -1);
 		JSONArray jsonInterests = this.getApprovedJSONInterests(interests);

@@ -76,6 +76,32 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	}
 
 	/**
+	 * Retourne les Hits de recherche en ignorant la pagination
+	 */
+	protected Hits getAllHits(long groupId) throws PortalException {
+		HttpServletRequest servletRequest = PortalUtil
+			.getHttpServletRequest(_request);
+		SearchContext searchContext = SearchContextFactory
+			.getInstance(servletRequest);
+
+		// Recherche des hits
+		String keywords = ParamUtil.getString(servletRequest, "keywords");
+		Hits hits = SearchHelper.getBOSearchHits(searchContext,
+			-1, -1, tClass.getName(), groupId,
+			this.getFilterCategoriesIds(), keywords,
+			this.getOrderByColSearchField(),
+			"desc".equals(this.getOrderByType()));
+
+		// Total
+		int count = (int) SearchHelper.getBOSearchCount(searchContext,
+			tClass.getName(), groupId,
+			this.getFilterCategoriesIds(), keywords);
+		this.getSearchContainer().setTotal(count);
+
+		return hits;
+	}
+	
+	/**
 	 * Retourne les Hits de recherche
 	 */
 	protected Hits getHits(long groupId) throws PortalException {

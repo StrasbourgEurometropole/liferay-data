@@ -16,6 +16,7 @@ package eu.strasbourg.service.notification.service.impl;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -82,6 +83,10 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	 */
 	@Override
 	public JSONObject getTypes() throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		AssetVocabulary notificationTypes = AssetVocabularyHelper
 				.getGlobalVocabulary(VocabularyNames.NOTIFICATION_TYPE);
@@ -95,6 +100,10 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	 */
 	@Override
 	public JSONObject getChannels() {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonChannels = JSONFactoryUtil.createJSONArray();
 		for (NotificationChannel channel : NotificationChannel.values()) {
@@ -233,6 +242,9 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 			if (Validator.isNull(description)) {
 				return error("description is empty");
 			}
+			if (Validator.isNotNull(url) && !Validator.isUrl(url)) {
+				return error("url is not valid");
+			}
 			try {
 				LocalDateTime publicationDateTime = LocalDateTime.parse(publicationDate);
 				LocalDateTime expirationDateTime = LocalDateTime.parse(expirationDate);
@@ -253,14 +265,10 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 			ServiceContext sc = new ServiceContext();
 
 			LocalDateTime publicationDateTime = LocalDateTime.parse(publicationDate);
-			Instant publicationInstant = publicationDateTime.toInstant(ZoneOffset.UTC);
+			Instant publicationInstant = publicationDateTime.atZone(ZoneId.systemDefault()).toInstant();
 			LocalDateTime expirationDateTime = LocalDateTime.parse(expirationDate);
-			Instant expirationInstant = expirationDateTime.toInstant(ZoneOffset.UTC);
-			if (LocalDateTime.now().isAfter(publicationDateTime)) {
-				sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-			} else {
-				sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-			}
+			Instant expirationInstant = expirationDateTime.atZone(ZoneId.systemDefault()).toInstant();
+			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
 			Notification notification = this.notificationLocalService.createNotification(sc);
 			notification.setTitle(title, Locale.FRANCE);

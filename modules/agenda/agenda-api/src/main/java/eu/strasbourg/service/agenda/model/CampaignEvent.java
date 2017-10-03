@@ -85,9 +85,29 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
 
 	/**
-	* Retourne les thèmes
+	* Retourne le label des thèles de l'événement
+	*/
+	public java.lang.String getThemeLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les types
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	public java.lang.String getTypeLabel(java.util.Locale locale);
+
+	/**
+	* Retourne les publics
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne le label des publics de l'événement
+	*/
+	public java.lang.String getPublicLabel(java.util.Locale locale);
 
 	/**
 	* Retourne le nom du service
@@ -129,6 +149,11 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	* Retourne le territoire (la ville) de l'événement (si lieu manuel)
 	*/
 	public java.lang.String getCity();
+
+	/**
+	* Retourne le label des manifestations de l'événement
+	*/
+	public java.lang.String getManifestationLabel(java.util.Locale locale);
 
 	/**
 	* Retourne la version JSON de l'object

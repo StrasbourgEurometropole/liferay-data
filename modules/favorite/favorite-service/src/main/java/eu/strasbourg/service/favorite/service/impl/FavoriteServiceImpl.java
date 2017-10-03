@@ -56,6 +56,10 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 	 */
 	@Override
 	public JSONObject getTypes() {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
 		
@@ -108,6 +112,9 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 		// Validations d'autres champs
 		if (Validator.isNull(title)) {
 			return error("title is empty");
+		}
+		if (Validator.isNotNull(url) && !Validator.isUrl(url)) {
+			return error("url is not valid");
 		}
 
 		// Création de l'objet

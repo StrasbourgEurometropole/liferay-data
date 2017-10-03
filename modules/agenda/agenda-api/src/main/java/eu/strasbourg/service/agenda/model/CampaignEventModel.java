@@ -736,17 +736,17 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	public void setManifestationsIds(String manifestationsIds);
 
 	/**
-	 * Returns the place s i g ID of this campaign event.
+	 * Returns the place sig ID of this campaign event.
 	 *
-	 * @return the place s i g ID of this campaign event
+	 * @return the place sig ID of this campaign event
 	 */
 	@AutoEscape
 	public String getPlaceSIGId();
 
 	/**
-	 * Sets the place s i g ID of this campaign event.
+	 * Sets the place sig ID of this campaign event.
 	 *
-	 * @param placeSIGId the place s i g ID of this campaign event
+	 * @param placeSIGId the place sig ID of this campaign event
 	 */
 	public void setPlaceSIGId(String placeSIGId);
 
@@ -971,46 +971,46 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	public void setPublicEmail(String publicEmail);
 
 	/**
-	 * Returns the website u r l of this campaign event.
+	 * Returns the website url of this campaign event.
 	 *
-	 * @return the website u r l of this campaign event
+	 * @return the website url of this campaign event
 	 */
 	public String getWebsiteURL();
 
 	/**
-	 * Returns the localized website u r l of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this campaign event in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized website u r l of this campaign event
+	 * @return the localized website url of this campaign event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(Locale locale);
 
 	/**
-	 * Returns the localized website u r l of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized website u r l of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized website url of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getWebsiteURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized website u r l of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this campaign event in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized website u r l of this campaign event
+	 * @return the localized website url of this campaign event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(String languageId);
 
 	/**
-	 * Returns the localized website u r l of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized website u r l of this campaign event
+	 * @return the localized website url of this campaign event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(String languageId, boolean useDefault);
@@ -1022,31 +1022,31 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	public String getWebsiteURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized website u r ls of this campaign event.
+	 * Returns a map of the locales and localized website urls of this campaign event.
 	 *
-	 * @return the locales and localized website u r ls of this campaign event
+	 * @return the locales and localized website urls of this campaign event
 	 */
 	public Map<Locale, String> getWebsiteURLMap();
 
 	/**
-	 * Sets the website u r l of this campaign event.
+	 * Sets the website url of this campaign event.
 	 *
-	 * @param websiteURL the website u r l of this campaign event
+	 * @param websiteURL the website url of this campaign event
 	 */
 	public void setWebsiteURL(String websiteURL);
 
 	/**
-	 * Sets the localized website u r l of this campaign event in the language.
+	 * Sets the localized website url of this campaign event in the language.
 	 *
-	 * @param websiteURL the localized website u r l of this campaign event
+	 * @param websiteURL the localized website url of this campaign event
 	 * @param locale the locale of the language
 	 */
 	public void setWebsiteURL(String websiteURL, Locale locale);
 
 	/**
-	 * Sets the localized website u r l of this campaign event in the language, and sets the default locale.
+	 * Sets the localized website url of this campaign event in the language, and sets the default locale.
 	 *
-	 * @param websiteURL the localized website u r l of this campaign event
+	 * @param websiteURL the localized website url of this campaign event
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -1056,16 +1056,16 @@ public interface CampaignEventModel extends BaseModel<CampaignEvent>,
 	public void setWebsiteURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized website u r ls of this campaign event from the map of locales and localized website u r ls.
+	 * Sets the localized website urls of this campaign event from the map of locales and localized website urls.
 	 *
-	 * @param websiteURLMap the locales and localized website u r ls of this campaign event
+	 * @param websiteURLMap the locales and localized website urls of this campaign event
 	 */
 	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap);
 
 	/**
-	 * Sets the localized website u r ls of this campaign event from the map of locales and localized website u r ls, and sets the default locale.
+	 * Sets the localized website urls of this campaign event from the map of locales and localized website urls, and sets the default locale.
 	 *
-	 * @param websiteURLMap the locales and localized website u r ls of this campaign event
+	 * @param websiteURLMap the locales and localized website urls of this campaign event
 	 * @param defaultLocale the default locale
 	 */
 	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap,

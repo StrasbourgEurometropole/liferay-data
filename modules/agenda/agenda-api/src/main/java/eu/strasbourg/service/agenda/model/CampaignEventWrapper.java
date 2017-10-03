@@ -679,6 +679,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Retourne le label des manifestations de l'événement
+	*/
+	@Override
+	public java.lang.String getManifestationLabel(java.util.Locale locale) {
+		return _campaignEvent.getManifestationLabel(locale);
+	}
+
+	/**
 	* Returns the manifestations IDs of this campaign event.
 	*
 	* @return the manifestations IDs of this campaign event
@@ -815,9 +823,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the place s i g ID of this campaign event.
+	* Returns the place sig ID of this campaign event.
 	*
-	* @return the place s i g ID of this campaign event
+	* @return the place sig ID of this campaign event
 	*/
 	@Override
 	public java.lang.String getPlaceSIGId() {
@@ -942,6 +950,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Retourne le label des publics de l'événement
+	*/
+	@Override
+	public java.lang.String getPublicLabel(java.util.Locale locale) {
+		return _campaignEvent.getPublicLabel(locale);
+	}
+
+	/**
 	* Returns the public phone of this campaign event.
 	*
 	* @return the public phone of this campaign event
@@ -1048,6 +1064,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Retourne le label des thèles de l'événement
+	*/
+	@Override
+	public java.lang.String getThemeLabel(java.util.Locale locale) {
+		return _campaignEvent.getThemeLabel(locale);
+	}
+
+	/**
 	* Returns the themes IDs of this campaign event.
 	*
 	* @return the themes IDs of this campaign event
@@ -1122,6 +1146,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	@Override
 	public java.lang.String getTitleCurrentValue() {
 		return _campaignEvent.getTitleCurrentValue();
+	}
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	@Override
+	public java.lang.String getTypeLabel(java.util.Locale locale) {
+		return _campaignEvent.getTypeLabel(locale);
 	}
 
 	/**
@@ -1241,9 +1273,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the website u r l of this campaign event.
+	* Returns the website url of this campaign event.
 	*
-	* @return the website u r l of this campaign event
+	* @return the website url of this campaign event
 	*/
 	@Override
 	public java.lang.String getWebsiteURL() {
@@ -1251,10 +1283,10 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the localized website u r l of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized website url of this campaign event in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized website u r l of this campaign event
+	* @return the localized website url of this campaign event
 	*/
 	@Override
 	public java.lang.String getWebsiteURL(java.lang.String languageId) {
@@ -1262,11 +1294,11 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the localized website u r l of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized website url of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized website u r l of this campaign event
+	* @return the localized website url of this campaign event
 	*/
 	@Override
 	public java.lang.String getWebsiteURL(java.lang.String languageId,
@@ -1275,10 +1307,10 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the localized website u r l of this campaign event in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized website url of this campaign event in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized website u r l of this campaign event
+	* @return the localized website url of this campaign event
 	*/
 	@Override
 	public java.lang.String getWebsiteURL(java.util.Locale locale) {
@@ -1286,11 +1318,11 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns the localized website u r l of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized website url of this campaign event in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized website u r l of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized website url of this campaign event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getWebsiteURL(java.util.Locale locale,
@@ -1362,6 +1394,14 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
+	* Retourne les publics
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _campaignEvent.getPublics();
+	}
+
+	/**
 	* Retourne la liste de CampaignEventStatus, correspondant à l'historique
 	* des statuts de l'événement classé par ordre chronologique
 	*/
@@ -1379,7 +1419,7 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Retourne les thèmes
+	* Retourne les types
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
@@ -1447,9 +1487,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Returns a map of the locales and localized website u r ls of this campaign event.
+	* Returns a map of the locales and localized website urls of this campaign event.
 	*
-	* @return the locales and localized website u r ls of this campaign event
+	* @return the locales and localized website urls of this campaign event
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getWebsiteURLMap() {
@@ -1896,9 +1936,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the place s i g ID of this campaign event.
+	* Sets the place sig ID of this campaign event.
 	*
-	* @param placeSIGId the place s i g ID of this campaign event
+	* @param placeSIGId the place sig ID of this campaign event
 	*/
 	@Override
 	public void setPlaceSIGId(java.lang.String placeSIGId) {
@@ -2340,9 +2380,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the website u r l of this campaign event.
+	* Sets the website url of this campaign event.
 	*
-	* @param websiteURL the website u r l of this campaign event
+	* @param websiteURL the website url of this campaign event
 	*/
 	@Override
 	public void setWebsiteURL(java.lang.String websiteURL) {
@@ -2350,9 +2390,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the localized website u r l of this campaign event in the language.
+	* Sets the localized website url of this campaign event in the language.
 	*
-	* @param websiteURL the localized website u r l of this campaign event
+	* @param websiteURL the localized website url of this campaign event
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -2362,9 +2402,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the localized website u r l of this campaign event in the language, and sets the default locale.
+	* Sets the localized website url of this campaign event in the language, and sets the default locale.
 	*
-	* @param websiteURL the localized website u r l of this campaign event
+	* @param websiteURL the localized website url of this campaign event
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -2380,9 +2420,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the localized website u r ls of this campaign event from the map of locales and localized website u r ls.
+	* Sets the localized website urls of this campaign event from the map of locales and localized website urls.
 	*
-	* @param websiteURLMap the locales and localized website u r ls of this campaign event
+	* @param websiteURLMap the locales and localized website urls of this campaign event
 	*/
 	@Override
 	public void setWebsiteURLMap(
@@ -2391,9 +2431,9 @@ public class CampaignEventWrapper implements CampaignEvent,
 	}
 
 	/**
-	* Sets the localized website u r ls of this campaign event from the map of locales and localized website u r ls, and sets the default locale.
+	* Sets the localized website urls of this campaign event from the map of locales and localized website urls, and sets the default locale.
 	*
-	* @param websiteURLMap the locales and localized website u r ls of this campaign event
+	* @param websiteURLMap the locales and localized website urls of this campaign event
 	* @param defaultLocale the default locale
 	*/
 	@Override

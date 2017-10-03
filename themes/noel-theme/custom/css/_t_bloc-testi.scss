@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+/***************************/
+/***************************/
+
+   /* -- BLOC TESTIMONIAL -- */
+
+/***************************/
+/***************************/
+
+#mns-global{
+	
+	.mns-testimonial{
+		padding: 100px 0 0 0;
+		position: relative;
+		transform: translate3d(0,0,0);
+		@include mobile{
+			padding: 100px 0 0 0;
+		}
+		.img-cote-left{
+			position: absolute;
+			top: 40px;
+			left: -90px;
+		}
+
+		.img-cote-right{
+			position: absolute;
+			bottom: 85px;
+			right: 20px;
+			width: 130px;
+			transform: rotate(180deg);
+		}
+
+		.owl-nav{
+			margin-top: 0;
+		}
+	}
+
+	.mns-bloc-testi{
+		@include mobile{
+			text-align: center;
+		}
+		.title{
+			@include ft($f_hx, 22px, 700, $c_txt, 30px);	
+			margin-bottom: 20px;
+		}
+		p{
+			font-size: 15px;
+		}
+		.info-testi{
+			font-weight: 700;
+		}
+
+		.text-content{
+			padding-top: 20px;
+		}
+		img{
+			border-radius: 50%;
+			@include mobile{
+				width: 70%;
+				margin: auto;
+			}
+		}
+		a{
+			font-size: 14px;
+		}
+	}
+
+}

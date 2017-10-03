@@ -526,17 +526,17 @@ public interface ManifestationModel extends BaseModel<Manifestation>,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the external image u r l of this manifestation.
+	 * Returns the external image url of this manifestation.
 	 *
-	 * @return the external image u r l of this manifestation
+	 * @return the external image url of this manifestation
 	 */
 	@AutoEscape
 	public String getExternalImageURL();
 
 	/**
-	 * Sets the external image u r l of this manifestation.
+	 * Sets the external image url of this manifestation.
 	 *
-	 * @param externalImageURL the external image u r l of this manifestation
+	 * @param externalImageURL the external image url of this manifestation
 	 */
 	public void setExternalImageURL(String externalImageURL);
 
