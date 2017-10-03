@@ -51,7 +51,7 @@ public class EventsXlsxExporter {
 				LanguageUtil.get(bundle, "address"), LanguageUtil.get(bundle, "organizer"),
 				LanguageUtil.get(bundle, "phone"), LanguageUtil.get(bundle, "email"),
 				LanguageUtil.get(bundle, "website-name"), LanguageUtil.get(bundle, "website"),
-				LanguageUtil.get(bundle, "schedules"), LanguageUtil.get(bundle, "free"),
+				LanguageUtil.get(bundle, "schedule"), LanguageUtil.get(bundle, "free"),
 				LanguageUtil.get(bundle, "price"), LanguageUtil.get(bundle, "types"),
 				LanguageUtil.get(bundle, "themes"), LanguageUtil.get(bundle, "publics") } };
 
