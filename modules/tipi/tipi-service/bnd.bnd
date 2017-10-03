@@ -1,5 +1,5 @@
 Bundle-Name: tipi-service
 Bundle-SymbolicName: tipi.service
-Bundle-Version: 1.22.0
+Bundle-Version: 1.23.0
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
