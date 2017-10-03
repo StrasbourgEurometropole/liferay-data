@@ -91,6 +91,8 @@
 			}
 
 			.mns-ico-date{
+				display: inline-block;
+				width: 106px;
 				position: relative;
 				&:after{
 					content: "\e910";
@@ -104,9 +106,9 @@
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
 					position: absolute;
-					top: 0;
+					top: 10px;
 					color: $c_main;
-					right: 10px;
+					right: 5px;
 					font-size: 18px;
 				}
 			}
