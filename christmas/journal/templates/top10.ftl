@@ -15,7 +15,7 @@
                 <h2>${subtitle.siblings[0].children[0].data}</h2>
                 <strong>${subtitle.siblings[0].children[1].data}</strong>
                 <p>${subtitle.siblings[0].children[2].data}</p>
-                <a href="${subtitle.siblings[0].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[0].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <img src="/o/noel-theme/images/deco-elipse-or.png" alt="deco elipse" width="232" height="232" class="deco-elipse-top-1" />
@@ -43,7 +43,7 @@
                 <h2>${subtitle.siblings[1].children[0].data}</h2>
                 <strong>${subtitle.siblings[1].children[1].data}</strong>
                 <p>${subtitle.siblings[1].children[2].data}</p>
-                <a href="${subtitle.siblings[1].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[1].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
         </div>
     </#if>
@@ -55,7 +55,7 @@
                 <h2>${subtitle.siblings[2].children[0].data}</h2>
                 <strong>${subtitle.siblings[2].children[1].data}</strong>
                 <p>${subtitle.siblings[2].children[2].data}</p>
-                <a href="${subtitle.siblings[2].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[2].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="#">
@@ -82,7 +82,7 @@
                 <h2>${subtitle.siblings[3].children[0].data}</h2>
                 <strong>${subtitle.siblings[3].children[1].data}</strong>
                 <p>${subtitle.siblings[3].children[2].data}</p>
-                <a href="${subtitle.siblings[3].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[3].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
         </div>
     </#if>
@@ -93,7 +93,7 @@
                 <h2>${subtitle.siblings[4].children[0].data}</h2>
                 <strong>${subtitle.siblings[4].children[1].data}</strong>
                 <p>${subtitle.siblings[4].children[2].data}</p>
-                <a href="${subtitle.siblings[4].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[4].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="#">
@@ -120,7 +120,7 @@
                 <h2>${subtitle.siblings[5].children[0].data}</h2>
                 <strong>${subtitle.siblings[5].children[1].data}</strong>
                 <p>${subtitle.siblings[5].children[2].data}</p>
-                <a href="${subtitle.siblings[5].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[5].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
         </div>
     </#if>
@@ -132,7 +132,7 @@
                 <h2>${subtitle.siblings[6].children[0].data}</h2>
                 <strong>${subtitle.siblings[6].children[1].data}</strong>
                 <p>${subtitle.siblings[6].children[2].data}</p>
-                <a href="${subtitle.siblings[6].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[6].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="#">
@@ -160,7 +160,7 @@
                 <h2>${subtitle.siblings[7].children[0].data}</h2>
                 <strong>${subtitle.siblings[7].children[1].data}</strong>
                 <p>${subtitle.siblings[7].children[2].data}</p>
-                <a href="${subtitle.siblings[7].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[7].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
         </div>
     </#if>
@@ -171,7 +171,7 @@
                 <h2>${subtitle.siblings[8].children[0].data}</h2>
                 <strong>${subtitle.siblings[8].children[1].data}</strong>
                 <p>${subtitle.siblings[8].children[2].data}</p>
-                <a href="${subtitle.siblings[8].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[8].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="#">
@@ -200,7 +200,7 @@
                 <h2>${subtitle.siblings[9].children[0].data}</h2>
                 <strong>${subtitle.siblings[9].children[1].data}</strong>
                 <p>${subtitle.siblings[9].children[2].data}</p>
-                <a href="${subtitle.siblings[9].children[3].data}" class="link">Découvrir</a>
+                <a href="${subtitle.siblings[9].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
         </div>
     </#if>

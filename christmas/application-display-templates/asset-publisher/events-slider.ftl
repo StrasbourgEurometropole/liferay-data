@@ -8,8 +8,8 @@
 <div class="mns-section-agenda">
     <div class="container">
         <div class="col-xs-12 mns-right">
-            <h2>L'agenda</h2>
-            <a href="/agenda" class="link">Voir tout l'agenda</a>
+            <h2><@liferay_ui.message key="eu.the-agenda" /></h2>
+            <a href="/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
         </div>
         <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
             <#list entries as curEntry>
@@ -31,7 +31,7 @@
                                     <span>${event.getTypeLabel(locale)}</span>
                                 </div>
                                 <h3 itemprop="name">${event.getTitle(locale)}</h3>
-                                <span class="basic-link">Découvrir</span>
+                                <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
                             </div>
                         </a>
                     </div>

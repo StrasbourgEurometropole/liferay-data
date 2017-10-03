@@ -21,7 +21,7 @@
                                 <div>
                                     <h3>${cur_bubble.data}</h3>
                                     <p>${cur_bubble.children[0].data}</p>
-                                    <span>Découvrir</span>
+                                    <span><@liferay_ui.message key="eu.discover" /></span>
                                 </div>
                             </div>
                         </a>

@@ -12,7 +12,7 @@
     </div>
     <div class="mns-detail-actu-content col-sm-9 col-sm-offset-3 col-xs-12">
         <h1>${title.data}</h1>
-        <span class="publication">Publiée le ${displaydate}</span>
+        <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${displaydate}</span>
         <span class="mns-line"></span>
         ${text.data}
     </div>

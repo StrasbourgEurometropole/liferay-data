@@ -25,6 +25,6 @@
         <#else>
             <p>${text?replace("<[^>]*>", "", "r")[0..*400]}...</p>
         </#if>
-        <span class="basic-link">Découvrir</span>
+        <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
     </a>
 </div>

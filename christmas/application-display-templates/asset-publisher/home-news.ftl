@@ -8,7 +8,7 @@
 </#if>
 <div class="container mns-section-actualites">
     <div class="col-xs-12">
-        <h2>L'actualité</h2>
+        <h2><@liferay_ui.message key="eu.the-news" /></h2>
     </div>
     <div class="small-container">
         <div class="row" data-egalize=".mns-bloc-actu > a">
@@ -28,10 +28,10 @@
                                     <img src="${image}" alt="${title}" width="450" height="300" />
                                 </figure>
                                 <div class="mns-bloc-content-actu">
-                                    <span class="publication">Publiée le ${publishDate?date}</span>
+                                    <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
                                     <h1>${title}</h1>
                                     <p>${text?replace("<[^>]*>", "", "r")[0..*100]}...</p>
-                                    <span class="basic-link">Lire la suite</span>
+                                    <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
                                 </div>
                             </a>
                         </article>
@@ -39,7 +39,7 @@
                 </#list>
             </#if>
             <div class="col-xs-12 mns-right">
-                <span><a href="${homeURL}/news" class="link align-right">Voir toute l’actualité</a></span>
+                <span><a href="${homeURL}/news" class="link align-right"><@liferay_ui.message key="eu.see-all-news" /></a></span>
             </div>
         </div>
     </div>

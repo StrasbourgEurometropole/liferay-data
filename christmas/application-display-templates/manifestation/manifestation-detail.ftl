@@ -35,8 +35,8 @@
         <div class="mns-section-agenda">
             <div class="small-container">
                 <div class="col-xs-12">
-                    <h2>Evénements de la manifestation</h2>
-                    <a href="${homeURL}/agenda" class="link">Voir tout l'agenda</a>
+                    <h2><@liferay_ui.message key="eu.manifestation-events" /></h2>
+                    <a href="${homeURL}/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
                 </div>
                 <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
                     <#list entry.getPublishedEvents() as event>
@@ -57,7 +57,7 @@
                                             <span>${event.getTypeLabel(locale)}</span>
                                         </div>
                                         <h3 itemprop="name">${event.getTitle(locale)}</h3>
-                                        <span class="basic-link">Découvrir</span>
+                                        <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
                                     </div>
                                 </a>
                             </div>

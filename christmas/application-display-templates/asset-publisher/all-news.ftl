@@ -22,7 +22,7 @@
                                     <span class="publication">Publiée le ${publishDate?date}</span>
                                     <h1>${title}</h1>
                                     <p>${text?replace("<[^>]*>", "", "r")[0..*100]}...</p>
-                                    <span class="basic-link">Lire la suite</span>
+                                    <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
                                 </div>
                             </a>
                         </article>

@@ -21,7 +21,7 @@
                 <span>${entry.getTypeLabel(locale)}</span>
             </div>
             <h3 itemprop="name">${entry.getTitle(locale)}</h3>
-            <span class="basic-link">Découvrir</span>
+            <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
         </div>
     </a>
 </div>
