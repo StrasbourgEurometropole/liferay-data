@@ -501,9 +501,9 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Returns the external image u r l of this manifestation.
+	* Returns the external image url of this manifestation.
 	*
-	* @return the external image u r l of this manifestation
+	* @return the external image url of this manifestation
 	*/
 	@Override
 	public java.lang.String getExternalImageURL() {
@@ -1064,9 +1064,9 @@ public class ManifestationWrapper implements Manifestation,
 	}
 
 	/**
-	* Sets the external image u r l of this manifestation.
+	* Sets the external image url of this manifestation.
 	*
-	* @param externalImageURL the external image u r l of this manifestation
+	* @param externalImageURL the external image url of this manifestation
 	*/
 	@Override
 	public void setExternalImageURL(java.lang.String externalImageURL) {

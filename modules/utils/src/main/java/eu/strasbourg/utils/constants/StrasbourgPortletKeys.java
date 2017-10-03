@@ -46,6 +46,7 @@ public class StrasbourgPortletKeys {
 	public static final String PLACE_SCHEDULE_WEB = "eu_strasbourg_portlet_place_schedule_PlaceSchedulePortlet";
 	
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
+	public static final String EXPERIMENTAL_SEARCH_WEB = "eu_strasbourg_portlet_search_ExperimentalSearchPortlet";
 	
 	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
 	
@@ -57,4 +58,6 @@ public class StrasbourgPortletKeys {
 	public static final String TIPI_CALLBACK_WEB = "eu_strasbourg_portlet_tipi_TipiCallbackPortlet";
 	
 	public static final String OIDC_WEB = "eu_strasbourg_portlet_oidc_OIDCPortlet";
+	
+	public static final String CONTACT_FORM_WEB = "eu_strasbourg_portlet_contact_ContactFormPortlet";
 }

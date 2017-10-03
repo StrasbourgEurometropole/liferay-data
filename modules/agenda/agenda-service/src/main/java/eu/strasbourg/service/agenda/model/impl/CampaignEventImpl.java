@@ -44,9 +44,11 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -103,10 +105,9 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	@Override
 	public List<CampaignEventStatus> getStatusHistory() {
 		List<CampaignEventStatus> statusHistory = CampaignEventStatusLocalServiceUtil
-			.getByCampaignEvent(this.getCampaignEventId());
-		return statusHistory.stream()
-			.sorted((s1, s2) -> s1.getDate().compareTo(s2.getDate()))
-			.collect(Collectors.toList());
+				.getByCampaignEvent(this.getCampaignEventId());
+		return statusHistory.stream().sorted((s1, s2) -> s1.getDate().compareTo(s2.getDate()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -123,8 +124,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	@Override
-	public CampaignEventStatus updateStatus(int newStatus, String comment,
-		User user) throws PortalException {
+	public CampaignEventStatus updateStatus(int newStatus, String comment, User user) throws PortalException {
 		CampaignEventStatus status;
 		switch (newStatus) {
 		case WorkflowConstants.STATUS_DRAFT:
@@ -160,18 +160,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 * Set le statut de l'événement au précédent statut qu'il avait (utilisé
 	 * dans le cas où l'événement est au statut "suppression demandée")
 	 */
-	private CampaignEventStatus setToPreviousStatus(User user, String comment)
-		throws PortalException {
+	private CampaignEventStatus setToPreviousStatus(User user, String comment) throws PortalException {
 		List<CampaignEventStatus> statusHistory = this.getStatusHistory();
-		if (this.getStatus() != WorkflowConstants.STATUS_IN_TRASH
-			|| !isUserManagerOfTheEvent(user.getUserId())
-			|| statusHistory.size() < 2) {
+		if (this.getStatus() != WorkflowConstants.STATUS_IN_TRASH || !isUserManagerOfTheEvent(user.getUserId())
+				|| statusHistory.size() < 2) {
 			return null;
 		}
 		int newStatus = statusHistory.get(statusHistory.size() - 2).getStatus();
 		this.setStatus(newStatus);
-		CampaignEventStatus status = this.initNewStatus(newStatus, comment,
-			user);
+		CampaignEventStatus status = this.initNewStatus(newStatus, comment, user);
 		status.setDeletionDenied(true);
 		return status;
 	}
@@ -179,8 +176,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	/**
 	 * Set le statut de l'événement à "brouillon" (DRAFT)
 	 */
-	private CampaignEventStatus setToDraft(User user, String comment)
-		throws PortalException {
+	private CampaignEventStatus setToDraft(User user, String comment) throws PortalException {
 		this.setStatus(WorkflowConstants.STATUS_DRAFT);
 		return initNewStatus(WorkflowConstants.STATUS_DRAFT, comment, user);
 	}
@@ -188,8 +184,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	/**
 	 * Set le statut de l'événement à "suppression demandée" (IN_TRASH)
 	 */
-	private CampaignEventStatus askForDeletion(User user, String comment)
-		throws PortalException {
+	private CampaignEventStatus askForDeletion(User user, String comment) throws PortalException {
 		this.setStatus(WorkflowConstants.STATUS_IN_TRASH);
 		return initNewStatus(WorkflowConstants.STATUS_IN_TRASH, comment, user);
 	}
@@ -197,8 +192,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	/**
 	 * Set le statut de l'événement à "validation demandée" (PENDING)
 	 */
-	private CampaignEventStatus submitForValidation(User user, String comment)
-		throws PortalException {
+	private CampaignEventStatus submitForValidation(User user, String comment) throws PortalException {
 		this.setStatus(WorkflowConstants.STATUS_PENDING);
 		return initNewStatus(WorkflowConstants.STATUS_PENDING, comment, user);
 	}
@@ -206,10 +200,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	/**
 	 * Set le statut de l'événement à "refusé" (DENIED)
 	 */
-	private CampaignEventStatus deny(User user, String comment)
-		throws PortalException {
-		if (this.getStatus() != WorkflowConstants.STATUS_PENDING
-			|| !this.isUserManagerOfTheEvent(user.getUserId())) {
+	private CampaignEventStatus deny(User user, String comment) throws PortalException {
+		if (this.getStatus() != WorkflowConstants.STATUS_PENDING || !this.isUserManagerOfTheEvent(user.getUserId())) {
 			return null;
 		}
 		this.setStatus(WorkflowConstants.STATUS_DENIED);
@@ -219,10 +211,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	/**
 	 * Set le statut de l'événement à "validé" (APPROVED)
 	 */
-	private CampaignEventStatus validate(User user, String comment)
-		throws PortalException {
-		if (this.getStatus() != WorkflowConstants.STATUS_PENDING
-			|| !this.isUserManagerOfTheEvent(user.getUserId())) {
+	private CampaignEventStatus validate(User user, String comment) throws PortalException {
+		if (this.getStatus() != WorkflowConstants.STATUS_PENDING || !this.isUserManagerOfTheEvent(user.getUserId())) {
 			return null;
 		}
 		this.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -233,10 +223,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 * Init un nouvel objet CampaignEventStatus, lié à l'événement en cours et
 	 * au précédent statut
 	 */
-	private CampaignEventStatus initNewStatus(int newStatus, String comment,
-		User user) throws PortalException {
-		CampaignEventStatus status = CampaignEventStatusLocalServiceUtil
-			.createCampaignEventStatus();
+	private CampaignEventStatus initNewStatus(int newStatus, String comment, User user) throws PortalException {
+		CampaignEventStatus status = CampaignEventStatusLocalServiceUtil.createCampaignEventStatus();
 		status.setDate(new Date());
 		status.setUserId(user.getUserId());
 		status.setUserName(user.getFullName());
@@ -276,8 +264,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			for (String themeIdString : themesIds.split(",")) {
 				long themeId = GetterUtil.getLong(themeIdString);
 				if (themeId > 0) {
-					AssetCategory theme = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(themeId);
+					AssetCategory theme = AssetCategoryLocalServiceUtil.fetchAssetCategory(themeId);
 					if (theme != null) {
 						themes.add(theme);
 					}
@@ -288,7 +275,22 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	/**
-	 * Retourne les thèmes
+	 * Retourne le label des thèles de l'événement
+	 */
+	@Override
+	public String getThemeLabel(Locale locale) {
+		String themes = "";
+		for (AssetCategory theme : this.getThemes()) {
+			if (themes.length() > 0) {
+				themes += " - ";
+			}
+			themes += theme.getTitle(locale);
+		}
+		return themes;
+	}
+
+	/**
+	 * Retourne les types
 	 */
 	@Override
 	public List<AssetCategory> getTypes() {
@@ -298,8 +300,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			for (String typeIdString : typesIds.split(",")) {
 				long typeId = GetterUtil.getLong(typeIdString);
 				if (typeId > 0) {
-					AssetCategory type = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(typeId);
+					AssetCategory type = AssetCategoryLocalServiceUtil.fetchAssetCategory(typeId);
 					if (type != null) {
 						types.add(type);
 					}
@@ -310,13 +311,63 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	/**
+	 * Retourne le label des types de l'événement
+	 */
+	@Override
+	public String getTypeLabel(Locale locale) {
+		String types = "";
+		for (AssetCategory type : this.getTypes()) {
+			if (types.length() > 0) {
+				types += " - ";
+			}
+			types += type.getTitle(locale);
+		}
+		return types;
+	}
+
+	/**
+	 * Retourne les publics
+	 */
+	@Override
+	public List<AssetCategory> getPublics() {
+		List<AssetCategory> publics = new ArrayList<AssetCategory>();
+		String publicsIds = this.getPublicsIds();
+		if (Validator.isNotNull(publicsIds)) {
+			for (String publicIdString : publicsIds.split(",")) {
+				long publicId = GetterUtil.getLong(publicIdString);
+				if (publicId > 0) {
+					AssetCategory publicCat = AssetCategoryLocalServiceUtil.fetchAssetCategory(publicId);
+					if (publicCat != null) {
+						publics.add(publicCat);
+					}
+				}
+			}
+		}
+		return publics;
+	}
+
+	/**
+	 * Retourne le label des publics de l'événement
+	 */
+	@Override
+	public String getPublicLabel(Locale locale) {
+		String publics = "";
+		for (AssetCategory publicCat : this.getPublics()) {
+			if (publics.length() > 0) {
+				publics += " - ";
+			}
+			publics += publicCat.getTitle(locale);
+		}
+		return publics;
+	}
+
+	/**
 	 * Retourne le nom du service
 	 */
 	@Override
 	public String getServiceName(Locale locale) {
 		if (this.getServiceId() > 0) {
-			AssetCategory service = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(this.getServiceId());
+			AssetCategory service = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getServiceId());
 			if (service != null) {
 				return service.getTitle(locale);
 			}
@@ -342,8 +393,8 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("deletion-approved-subject-template.ftl",
-				"deletion-approved-template.ftl", context, userMailAddress);
+			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl", context,
+					userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
@@ -367,8 +418,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("deletion-denied-subject-template.ftl",
-				"deletion-denied-template.ftl", context, userMailAddress);
+			sendMail("deletion-denied-subject-template.ftl", "deletion-denied-template.ftl", context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
@@ -404,31 +454,25 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			switch (this.getStatus()) {
 			case WorkflowConstants.STATUS_PENDING:
 				// Mail au manager
-				sendMail("submit-subject-template.ftl", "submit-template.ftl",
-					context, managersMailAddresses);
+				sendMail("submit-subject-template.ftl", "submit-template.ftl", context, managersMailAddresses);
 				// Mail à l'utilisateur
-				sendMail("submit-user-subject-template.ftl",
-					"submit-user-template.ftl", context, userMailAddress);
+				sendMail("submit-user-subject-template.ftl", "submit-user-template.ftl", context, userMailAddress);
 				break;
 			case WorkflowConstants.STATUS_IN_TRASH:
 				// Mail au manager
-				sendMail("deletion-request-subject-template.ftl",
-					"deletion-request-template.ftl", context,
-					managersMailAddresses);
+				sendMail("deletion-request-subject-template.ftl", "deletion-request-template.ftl", context,
+						managersMailAddresses);
 				// Mail à l'utilisateur
-				sendMail("deletion-request-user-subject-template.ftl",
-					"deletion-request-user-template.ftl", context,
-					userMailAddress);
+				sendMail("deletion-request-user-subject-template.ftl", "deletion-request-user-template.ftl", context,
+						userMailAddress);
 				break;
 			case WorkflowConstants.STATUS_APPROVED:
 				// Mail à l'utilisater
-				sendMail("approved-subject-template.ftl",
-					"approved-template.ftl", context, userMailAddress);
+				sendMail("approved-subject-template.ftl", "approved-template.ftl", context, userMailAddress);
 				break;
 			case WorkflowConstants.STATUS_DENIED:
 				// Mail à l'utilisater
-				sendMail("denied-subject-template.ftl", "denied-template.ftl",
-					context, userMailAddress);
+				sendMail("denied-subject-template.ftl", "denied-template.ftl", context, userMailAddress);
 				break;
 			}
 		} catch (Exception e) {
@@ -437,24 +481,20 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 	}
 
-	private void sendMail(String subjectTemplatePath, String bodyTemplatePath,
-		Map<String, Object> context, String mail)
-		throws TemplateNotFoundException, MalformedTemplateNameException,
-		ParseException, IOException, TemplateException {
-		Configuration configuration = new Configuration(
-			Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),
-			"/templates/campaign");
+	private void sendMail(String subjectTemplatePath, String bodyTemplatePath, Map<String, Object> context, String mail)
+			throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException,
+			TemplateException {
+		Configuration configuration = new Configuration(Configuration.getVersion());
+		configuration.setClassForTemplateLoading(this.getClass(), "/templates/campaign");
 		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-		Template subjectTemplate = configuration
-			.getTemplate(subjectTemplatePath);
+		Template subjectTemplate = configuration.getTemplate(subjectTemplatePath);
 		Template bodyTemplate = configuration.getTemplate(bodyTemplatePath);
 		StringWriter subjectWriter = new StringWriter();
 		StringWriter bodyWriter = new StringWriter();
 		subjectTemplate.process(context, subjectWriter);
 		bodyTemplate.process(context, bodyWriter);
-		MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mail,
-			subjectWriter.toString(), bodyWriter.toString());
+		MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mail, subjectWriter.toString(),
+				bodyWriter.toString());
 	}
 
 	/**
@@ -483,8 +523,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			locale_legacyPlace = new HashMap<Locale, LegacyPlace>();
 		}
 		if (locale_legacyPlace.get(locale) == null) {
-			LegacyPlace legacyPlace = LegacyPlace
-				.fromSIGId(this.getPlaceSIGId(), locale);
+			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(this.getPlaceSIGId(), locale);
 			if (legacyPlace != null) {
 				locale_legacyPlace.put(locale, legacyPlace);
 			}
@@ -497,8 +536,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 */
 	@Override
 	public List<EventPeriod> getPeriods() {
-		return EventPeriodLocalServiceUtil
-			.getByCampaignEventId(this.getCampaignEventId());
+		return EventPeriodLocalServiceUtil.getByCampaignEventId(this.getCampaignEventId());
 	}
 
 	/**
@@ -506,12 +544,32 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 */
 	@Override
 	public String getCity() {
-		AssetCategory cityCategory = AssetCategoryLocalServiceUtil
-			.fetchAssetCategory(this.getPlaceCityId());
+		AssetCategory cityCategory = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getPlaceCityId());
 		if (cityCategory != null) {
 			return cityCategory.getTitleCurrentValue();
 		}
 		return "";
+	}
+
+	/**
+	 * Retourne le label des manifestations de l'événement
+	 */
+	@Override
+	public String getManifestationLabel(Locale locale) {
+		String manifestations = "";
+		for (String manifestationIdStr : this.getManifestationsIds().split(",")) {
+			if (Validator.isNotNull(manifestationIdStr)) {
+				long manifestationId = Long.valueOf(manifestationIdStr);
+				Manifestation manifestation = ManifestationLocalServiceUtil.fetchManifestation(manifestationId);
+				if (manifestation != null && manifestation != null) {
+					if (manifestations.length() > 0) {
+						manifestations += " - ";
+					}
+					manifestations += manifestation.getTitle(locale);
+				}
+			}
+		}
+		return manifestations;
 	}
 
 	/**
@@ -523,37 +581,29 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Id externe
 		jsonEvent.put("externalId",
-			this.getCampaign().getTitleCurrentValue().substring(0, 3) + "_"
-				+ this.getCampaignEventId());
+				this.getCampaign().getTitleCurrentValue().substring(0, 3) + "_" + this.getCampaignEventId());
 
 		// Titre, sous-titre, description
-		jsonEvent.put("title",
-			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 		if (Validator.isNotNull(this.getSubtitle())) {
-			jsonEvent.put("subtitle",
-				JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
 		}
-		jsonEvent.put("description",
-			JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
+		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(this.getDescriptionMap()));
 
 		// Image et copyright
 		if (Validator.isNotNull(this.getWebImageURL())) {
-			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL()
-				+ this.getWebImageURL());
+			jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + this.getWebImageURL());
 		} else {
 			String defaultImageURL = this.getCampaign().getDefaultImageURL();
 			if (Validator.isNotNull(defaultImageURL)) {
-				jsonEvent.put("imageURL",
-					StrasbourgPropsUtil.getAgendaPlatformURL()
-						+ defaultImageURL);
+				jsonEvent.put("imageURL", StrasbourgPropsUtil.getAgendaPlatformURL() + defaultImageURL);
 			}
 		}
 		if (Validator.isNotNull(this.getImageOwner())) {
 			jsonEvent.put("imageCopyright", this.getImageOwner());
-		} else if (Validator
-			.isNotNull(this.getCampaign().getDefaultImageCopyright())) {
-			jsonEvent.put("imageCopyright", JSONHelper.getJSONFromI18nMap(
-				this.getCampaign().getDefaultImageCopyrightMap()));
+		} else if (Validator.isNotNull(this.getCampaign().getDefaultImageCopyright())) {
+			jsonEvent.put("imageCopyright",
+					JSONHelper.getJSONFromI18nMap(this.getCampaign().getDefaultImageCopyrightMap()));
 		}
 
 		// Lieu
@@ -563,8 +613,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		} else {
 			// Lieu manuel
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name",
-				JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			if (Validator.isNotNull(this.getPlaceStreetNumber())) {
 				jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			}
@@ -590,19 +639,16 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			jsonEvent.put("phone", this.getPublicPhone());
 		}
 		if (Validator.isNotNull(this.getWebsiteURL())) {
-			jsonEvent.put("websiteURL",
-				JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+			jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
 		}
 		if (Validator.isNotNull(this.getWebsiteName())) {
-			jsonEvent.put("websiteName",
-				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
 		}
 
 		// Tarifs
 		jsonEvent.put("freeEntry", this.getFree());
 		if (Validator.isNotNull(this.getPrice())) {
-			jsonEvent.put("price",
-				JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
 		}
 
 		// Horaires
@@ -610,15 +656,12 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		for (EventPeriod period : this.getPeriods()) {
 			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
-			DateFormat dateFormat = DateFormatFactoryUtil
-				.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate",
-				dateFormat.format(period.getStartDate()));
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
 			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
 
 			if (Validator.isNotNull(period.getTimeDetail())) {
-				periodJSON.put("timeDetail",
-					JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
 			}
 			periodsJSON.put(periodJSON);
 		}
@@ -663,8 +706,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Territoire
 		JSONArray jsonTerritories = JSONFactoryUtil.createJSONArray();
-		AssetCategory territory = AssetCategoryLocalServiceUtil
-			.fetchAssetCategory(this.getPlaceCityId());
+		AssetCategory territory = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getPlaceCityId());
 		if (territory != null) {
 			String externalId = AssetVocabularyHelper.getExternalId(territory);
 			if (Validator.isNotNull(externalId)) {
@@ -679,11 +721,9 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		JSONArray jsonPublics = JSONFactoryUtil.createJSONArray();
 		for (String publicIdStr : this.getPublicsIds().split(",")) {
 			Long publicId = GetterUtil.getLong(publicIdStr);
-			AssetCategory eventPublic = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(publicId);
+			AssetCategory eventPublic = AssetCategoryLocalServiceUtil.fetchAssetCategory(publicId);
 			if (eventPublic != null) {
-				String externalId = AssetVocabularyHelper
-					.getExternalId(eventPublic);
+				String externalId = AssetVocabularyHelper.getExternalId(eventPublic);
 				if (Validator.isNotNull(externalId)) {
 					jsonPublics.put(externalId);
 				}
@@ -695,8 +735,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		// Services
 		JSONArray jsonServices = JSONFactoryUtil.createJSONArray();
-		AssetCategory service = AssetCategoryLocalServiceUtil
-			.fetchAssetCategory(this.getServiceId());
+		AssetCategory service = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getServiceId());
 		if (service != null) {
 			String externalId = AssetVocabularyHelper.getExternalId(service);
 			if (Validator.isNotNull(externalId)) {
@@ -714,8 +753,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 * Retourne le nom lieu rattaché à l'événement
 	 */
 	public String getPlaceAlias(Locale locale) {
-		Place place = PlaceLocalServiceUtil
-			.getPlaceBySIGId(this.getPlaceSIGId());
+		Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 		if (place != null) {
 			return place.getAlias(locale);
 		} else {

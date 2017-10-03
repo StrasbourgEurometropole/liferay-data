@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -45,6 +46,8 @@ import eu.strasbourg.service.agenda.model.impl.CampaignEventModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -1989,6 +1992,22 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 
 	public CampaignEventPersistenceImpl() {
 		setModelClass(CampaignEvent.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -2059,7 +2078,7 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((CampaignEventModelImpl)campaignEvent);
+		clearUniqueFindersCache((CampaignEventModelImpl)campaignEvent, true);
 	}
 
 	@Override
@@ -2071,52 +2090,38 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 			entityCache.removeResult(CampaignEventModelImpl.ENTITY_CACHE_ENABLED,
 				CampaignEventImpl.class, campaignEvent.getPrimaryKey());
 
-			clearUniqueFindersCache((CampaignEventModelImpl)campaignEvent);
+			clearUniqueFindersCache((CampaignEventModelImpl)campaignEvent, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		CampaignEventModelImpl campaignEventModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					campaignEventModelImpl.getUuid(),
-					campaignEventModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				campaignEventModelImpl);
-		}
-		else {
-			if ((campaignEventModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						campaignEventModelImpl.getUuid(),
-						campaignEventModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					campaignEventModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		CampaignEventModelImpl campaignEventModelImpl) {
 		Object[] args = new Object[] {
 				campaignEventModelImpl.getUuid(),
 				campaignEventModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			campaignEventModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		CampaignEventModelImpl campaignEventModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					campaignEventModelImpl.getUuid(),
+					campaignEventModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((campaignEventModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					campaignEventModelImpl.getOriginalUuid(),
 					campaignEventModelImpl.getOriginalGroupId()
 				};
@@ -2293,8 +2298,35 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !CampaignEventModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!CampaignEventModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { campaignEventModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					campaignEventModelImpl.getUuid(),
+					campaignEventModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { campaignEventModelImpl.getCampaignId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2358,8 +2390,8 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 			CampaignEventImpl.class, campaignEvent.getPrimaryKey(),
 			campaignEvent, false);
 
-		clearUniqueFindersCache(campaignEventModelImpl);
-		cacheUniqueFindersCache(campaignEventModelImpl, isNew);
+		clearUniqueFindersCache(campaignEventModelImpl, false);
+		cacheUniqueFindersCache(campaignEventModelImpl);
 
 		campaignEvent.resetOriginalValues();
 
@@ -2573,7 +2605,7 @@ public class CampaignEventPersistenceImpl extends BasePersistenceImpl<CampaignEv
 		query.append(_SQL_SELECT_CAMPAIGNEVENT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

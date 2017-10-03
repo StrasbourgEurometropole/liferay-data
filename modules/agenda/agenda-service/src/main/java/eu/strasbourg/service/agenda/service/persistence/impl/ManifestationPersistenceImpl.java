@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -52,6 +53,8 @@ import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.sql.Timestamp;
 
@@ -4367,11 +4370,15 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"ManifestationPersistenceImpl.fetchBySourceAndIdSource(String, String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ManifestationPersistenceImpl.fetchBySourceAndIdSource(String, String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Manifestation manifestation = list.get(0);
@@ -4634,11 +4641,15 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"ManifestationPersistenceImpl.fetchByIdSource(String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ManifestationPersistenceImpl.fetchByIdSource(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Manifestation manifestation = list.get(0);
@@ -4758,6 +4769,22 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 
 	public ManifestationPersistenceImpl() {
 		setModelClass(Manifestation.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -4835,7 +4862,7 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ManifestationModelImpl)manifestation);
+		clearUniqueFindersCache((ManifestationModelImpl)manifestation, true);
 	}
 
 	@Override
@@ -4847,94 +4874,55 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 			entityCache.removeResult(ManifestationModelImpl.ENTITY_CACHE_ENABLED,
 				ManifestationImpl.class, manifestation.getPrimaryKey());
 
-			clearUniqueFindersCache((ManifestationModelImpl)manifestation);
+			clearUniqueFindersCache((ManifestationModelImpl)manifestation, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ManifestationModelImpl manifestationModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					manifestationModelImpl.getUuid(),
-					manifestationModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				manifestationModelImpl);
-
-			args = new Object[] {
-					manifestationModelImpl.getSource(),
-					manifestationModelImpl.getIdSource()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
-				manifestationModelImpl);
-
-			args = new Object[] { manifestationModelImpl.getIdSource() };
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
-				manifestationModelImpl);
-		}
-		else {
-			if ((manifestationModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						manifestationModelImpl.getUuid(),
-						manifestationModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					manifestationModelImpl);
-			}
-
-			if ((manifestationModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						manifestationModelImpl.getSource(),
-						manifestationModelImpl.getIdSource()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
-					args, Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
-					args, manifestationModelImpl);
-			}
-
-			if ((manifestationModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						manifestationModelImpl.getIdSource()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
-					manifestationModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ManifestationModelImpl manifestationModelImpl) {
 		Object[] args = new Object[] {
 				manifestationModelImpl.getUuid(),
 				manifestationModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			manifestationModelImpl, false);
+
+		args = new Object[] {
+				manifestationModelImpl.getSource(),
+				manifestationModelImpl.getIdSource()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
+			manifestationModelImpl, false);
+
+		args = new Object[] { manifestationModelImpl.getIdSource() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
+			manifestationModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ManifestationModelImpl manifestationModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					manifestationModelImpl.getUuid(),
+					manifestationModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((manifestationModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					manifestationModelImpl.getOriginalUuid(),
 					manifestationModelImpl.getOriginalGroupId()
 				};
@@ -4943,17 +4931,21 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 
-		args = new Object[] {
-				manifestationModelImpl.getSource(),
-				manifestationModelImpl.getIdSource()
-			};
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					manifestationModelImpl.getSource(),
+					manifestationModelImpl.getIdSource()
+				};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+				args);
+		}
 
 		if ((manifestationModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					manifestationModelImpl.getOriginalSource(),
 					manifestationModelImpl.getOriginalIdSource()
 				};
@@ -4964,14 +4956,18 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 				args);
 		}
 
-		args = new Object[] { manifestationModelImpl.getIdSource() };
+		if (clearCurrent) {
+			Object[] args = new Object[] { manifestationModelImpl.getIdSource() };
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
+		}
 
 		if ((manifestationModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
-			args = new Object[] { manifestationModelImpl.getOriginalIdSource() };
+			Object[] args = new Object[] {
+					manifestationModelImpl.getOriginalIdSource()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
@@ -5147,8 +5143,41 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ManifestationModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ManifestationModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { manifestationModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					manifestationModelImpl.getUuid(),
+					manifestationModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { manifestationModelImpl.getTitle() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
+				args);
+
+			args = new Object[] { manifestationModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -5229,8 +5258,8 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 			ManifestationImpl.class, manifestation.getPrimaryKey(),
 			manifestation, false);
 
-		clearUniqueFindersCache(manifestationModelImpl);
-		cacheUniqueFindersCache(manifestationModelImpl, isNew);
+		clearUniqueFindersCache(manifestationModelImpl, false);
+		cacheUniqueFindersCache(manifestationModelImpl);
 
 		manifestation.resetOriginalValues();
 
@@ -5423,7 +5452,7 @@ public class ManifestationPersistenceImpl extends BasePersistenceImpl<Manifestat
 		query.append(_SQL_SELECT_MANIFESTATION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

@@ -1,0 +1,29 @@
+#mns-global .mns-p-list-agenda .search-asset-portlet-page {
+  .date-selection .input-checkbox-wrapper {
+    display: none;
+  }
+  .date-selection input[type=text], .date-selection input[type=date] {
+    display: inline-block;
+    width: 43%;
+    @media(max-width: 1199px) {
+      width: 100%;
+    }
+  }
+  .date-selection .between-form {
+    margin: 10px 5px;
+  }
+  .lfr-pagination-config {
+    display: none !important;
+  }
+  .taglib-page-iterator {
+    padding-top: 50px;
+  }
+  .search-asset-results > * {
+    height: 580px;
+  }
+  .checkbox .form-group.form-inline {
+    margin-bottom: 0;
+    padding: 5px 0;    
+    overflow: hidden;
+  }
+}
