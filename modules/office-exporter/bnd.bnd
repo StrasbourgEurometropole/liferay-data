@@ -5,6 +5,7 @@ Bundle-ClassPath:\
   .,\
  lib/poi.jar,\
  lib/commons-codec.jar,\
+ lib/commons-lang3.jar,\
  lib/commons-collections4.jar,\
  lib/poi-ooxml.jar,\
  lib/curvesapi.jar,\
@@ -14,6 +15,7 @@ Bundle-ClassPath:\
 -includeresource:\
  lib/poi.jar=poi-3.17.jar,\
  lib/commons-codec.jar=commons-codec-1.10.jar,\
+ lib/commons-lang3.jar=commons-lang3-3.4.jar,\
  lib/commons-collections4.jar=commons-collections4-4.1.jar,\
  lib/poi-ooxml.jar=poi-ooxml-3.17.jar,\
  lib/curvesapi.jar=curvesapi-1.04.jar,\

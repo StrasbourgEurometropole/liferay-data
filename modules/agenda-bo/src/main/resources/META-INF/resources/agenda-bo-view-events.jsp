@@ -133,6 +133,14 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+	
+	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+		<liferay-portlet:param name="eventIds" value="${dc.allEventIds}" />
+	</liferay-portlet:resourceURL>
+	<aui:button-row>
+		<aui:button cssClass="btn-lg" href="${exportXlsxURL}" type="submit"
+			value="export-xlsx" />
+	</aui:button-row>
 </div>
 
 <c:if

@@ -55,7 +55,7 @@ public class ExportCampaignToJsonResourceCommand implements MVCResourceCommand {
 	private CampaignLocalService campaignLocalService;
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(
+	protected void setCampaignLocalService(
 		CampaignLocalService campaignLocalService) {
 		this.campaignLocalService = campaignLocalService;
 	}

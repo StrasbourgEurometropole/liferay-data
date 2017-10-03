@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 
 <#include init />
-
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}" />
+<#else>
+  <#assign homeURL = "/" />
+</#if>
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
   <head>
@@ -37,9 +41,9 @@
                 <div>
                     <!--  <a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a> -->
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
-                    <a href="#" class="active">FR</a>
-                    <a href="#">EN</a>
-                    <a href="#">DE</a>
+                    <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
+                    <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
+                    <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
                 </div>
             </div>
             <#include "${full_templates_path}/navigation.ftl" />

@@ -30,9 +30,9 @@
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
                         <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
-                        <a href="#" class="active-lang">FR</a>
-                        <a href="#">EN</a>
-                        <a href="#">DE</a>
+                        <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
+                        <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
+                        <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
                     </div>
                 </li>
                 <li class="mns-search-bar mns-search-bar-mobile">

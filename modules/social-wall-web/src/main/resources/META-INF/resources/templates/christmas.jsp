@@ -5,13 +5,9 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 mns-top-social-wall">
-                <ul>
-                    <li><a href="https://www.facebook.com/Marche.Noel.Strasbourg/" target="_blank"><span class="icon-facebook-with-circle"></span></a></li>
-                    <li><a href="https://www.instagram.com/" target="_blank"><span class="icon-instagram-with-circle"></span></a></li>
-                    <li><a href="https://twitter.com/strasbourg?lang=fr" target="_blank"><span class="icon-twitter-with-circle"></span></a></li>
-                </ul>
-                <h2><span>#Noel</span>Strasbourg</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et doloremagna aliqua. Ut enim ad minim</p>
+            	<liferay-portlet:runtime
+		            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+		            instanceId="social-wall-christmas-top" />
             </div>
             <div class="mns-list-social-wall mns-p50" data-egalize=".mns-bloc-social-wall > a">
             
@@ -33,7 +29,9 @@
                 </c:forEach>
 
                 <div class="col-xs-12 text-center">
-                    <a href="https://www.instagram.com/" class="large-link" target="_blank">Retrouvez-nous sur instagram</a>
+	            	<liferay-portlet:runtime
+			            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+			            instanceId="social-wall-christmas-bottom" />
                 </div>
             </div>
         </div>

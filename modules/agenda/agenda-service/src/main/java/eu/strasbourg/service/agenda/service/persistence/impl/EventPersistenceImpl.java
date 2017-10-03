@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -52,6 +53,8 @@ import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.sql.Timestamp;
 
@@ -4904,11 +4907,15 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"EventPersistenceImpl.fetchBySourceAndIdSource(String, String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"EventPersistenceImpl.fetchBySourceAndIdSource(String, String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Event event = list.get(0);
@@ -5169,11 +5176,15 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"EventPersistenceImpl.fetchByIdSource(String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"EventPersistenceImpl.fetchByIdSource(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Event event = list.get(0);
@@ -5314,7 +5325,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns all the events where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @return the matching events
 	 */
 	@Override
@@ -5330,7 +5341,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @return the range of matching events
@@ -5347,7 +5358,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -5366,7 +5377,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -5492,7 +5503,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns the first event in the ordered set where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event
 	 * @throws NoSuchEventException if a matching event could not be found
@@ -5521,7 +5532,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns the first event in the ordered set where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event, or <code>null</code> if a matching event could not be found
 	 */
@@ -5540,7 +5551,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns the last event in the ordered set where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event
 	 * @throws NoSuchEventException if a matching event could not be found
@@ -5569,7 +5580,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns the last event in the ordered set where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event, or <code>null</code> if a matching event could not be found
 	 */
@@ -5596,7 +5607,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	 * Returns the events before and after the current event in the ordered set where placeSIGId = &#63;.
 	 *
 	 * @param eventId the primary key of the current event
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event
 	 * @throws NoSuchEventException if a event with the primary key could not be found
@@ -5755,7 +5766,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Removes all the events where placeSIGId = &#63; from the database.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 */
 	@Override
 	public void removeByPlaceSIGId(String placeSIGId) {
@@ -5768,7 +5779,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 	/**
 	 * Returns the number of events where placeSIGId = &#63;.
 	 *
-	 * @param placeSIGId the place s i g ID
+	 * @param placeSIGId the place sig ID
 	 * @return the number of matching events
 	 */
 	@Override
@@ -5836,6 +5847,23 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 
 	public EventPersistenceImpl() {
 		setModelClass(Event.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("access", "access_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -5909,7 +5937,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((EventModelImpl)event);
+		clearUniqueFindersCache((EventModelImpl)event, true);
 	}
 
 	@Override
@@ -5921,86 +5949,51 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 			entityCache.removeResult(EventModelImpl.ENTITY_CACHE_ENABLED,
 				EventImpl.class, event.getPrimaryKey());
 
-			clearUniqueFindersCache((EventModelImpl)event);
+			clearUniqueFindersCache((EventModelImpl)event, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(EventModelImpl eventModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					eventModelImpl.getUuid(), eventModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				eventModelImpl);
-
-			args = new Object[] {
-					eventModelImpl.getSource(), eventModelImpl.getIdSource()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
-				eventModelImpl);
-
-			args = new Object[] { eventModelImpl.getIdSource() };
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
-				eventModelImpl);
-		}
-		else {
-			if ((eventModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						eventModelImpl.getUuid(), eventModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					eventModelImpl);
-			}
-
-			if ((eventModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						eventModelImpl.getSource(), eventModelImpl.getIdSource()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
-					args, Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
-					args, eventModelImpl);
-			}
-
-			if ((eventModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { eventModelImpl.getIdSource() };
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
-					eventModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(EventModelImpl eventModelImpl) {
+	protected void cacheUniqueFindersCache(EventModelImpl eventModelImpl) {
 		Object[] args = new Object[] {
 				eventModelImpl.getUuid(), eventModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			eventModelImpl, false);
+
+		args = new Object[] {
+				eventModelImpl.getSource(), eventModelImpl.getIdSource()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args,
+			eventModelImpl, false);
+
+		args = new Object[] { eventModelImpl.getIdSource() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_IDSOURCE, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_IDSOURCE, args,
+			eventModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(EventModelImpl eventModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					eventModelImpl.getUuid(), eventModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((eventModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					eventModelImpl.getOriginalUuid(),
 					eventModelImpl.getOriginalGroupId()
 				};
@@ -6009,16 +6002,20 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 
-		args = new Object[] {
-				eventModelImpl.getSource(), eventModelImpl.getIdSource()
-			};
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					eventModelImpl.getSource(), eventModelImpl.getIdSource()
+				};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SOURCEANDIDSOURCE,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE,
+				args);
+		}
 
 		if ((eventModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_SOURCEANDIDSOURCE.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					eventModelImpl.getOriginalSource(),
 					eventModelImpl.getOriginalIdSource()
 				};
@@ -6029,14 +6026,16 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 				args);
 		}
 
-		args = new Object[] { eventModelImpl.getIdSource() };
+		if (clearCurrent) {
+			Object[] args = new Object[] { eventModelImpl.getIdSource() };
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
+		}
 
 		if ((eventModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_IDSOURCE.getColumnBitmask()) != 0) {
-			args = new Object[] { eventModelImpl.getOriginalIdSource() };
+			Object[] args = new Object[] { eventModelImpl.getOriginalIdSource() };
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_IDSOURCE, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_IDSOURCE, args);
@@ -6208,8 +6207,54 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !EventModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!EventModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { eventModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					eventModelImpl.getUuid(), eventModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { eventModelImpl.getTitle() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
+				args);
+
+			args = new Object[] { eventModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] {
+					eventModelImpl.getGroupId(), eventModelImpl.getTitle()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDTITLE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE,
+				args);
+
+			args = new Object[] { eventModelImpl.getPlaceSIGId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACESIGID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACESIGID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -6321,8 +6366,8 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		entityCache.putResult(EventModelImpl.ENTITY_CACHE_ENABLED,
 			EventImpl.class, event.getPrimaryKey(), event, false);
 
-		clearUniqueFindersCache(eventModelImpl);
-		cacheUniqueFindersCache(eventModelImpl, isNew);
+		clearUniqueFindersCache(eventModelImpl, false);
+		cacheUniqueFindersCache(eventModelImpl);
 
 		event.resetOriginalValues();
 
@@ -6535,7 +6580,7 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		query.append(_SQL_SELECT_EVENT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

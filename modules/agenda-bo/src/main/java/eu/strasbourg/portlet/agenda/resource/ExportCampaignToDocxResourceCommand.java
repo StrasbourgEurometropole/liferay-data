@@ -9,14 +9,12 @@ import javax.portlet.ResourceResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
-import eu.strasbourg.service.office.exporter.OfficeExporterService;
+import eu.strasbourg.service.office.exporter.CampaignDocxExporter;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -34,14 +32,9 @@ public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
 		resourceResponse.setContentType("application/force-download");
 		resourceResponse.setProperty("content-disposition",
 				"attachment; filename=" + campaign.getTitle(resourceRequest.getLocale()) + ".docx");
-		/*
-		 * if (campaign != null) { JSONObject json = campaign.generateExport();
-		 * String jsonString = json.toJSONString(); try { PrintWriter writer =
-		 * resourceResponse.getWriter(); writer.write(jsonString);
-		 * writer.close(); } catch (IOException e) { log.error(e); } }
-		 */
+
 		try {
-			OfficeExporterService.exportCampaign(resourceResponse.getPortletOutputStream(), campaign);
+			CampaignDocxExporter.exportCampaign(resourceResponse.getPortletOutputStream(), campaign);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -54,7 +47,7 @@ public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
 	private CampaignLocalService campaignLocalService;
 
 	@Reference(unbind = "-")
-	protected void setEventLocalService(CampaignLocalService campaignLocalService) {
+	protected void setCampaignLocalService(CampaignLocalService campaignLocalService) {
 		this.campaignLocalService = campaignLocalService;
 	}
 

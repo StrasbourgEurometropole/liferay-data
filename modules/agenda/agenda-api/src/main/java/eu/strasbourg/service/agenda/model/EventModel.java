@@ -612,17 +612,17 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the external image u r l of this event.
+	 * Returns the external image url of this event.
 	 *
-	 * @return the external image u r l of this event
+	 * @return the external image url of this event
 	 */
 	@AutoEscape
 	public String getExternalImageURL();
 
 	/**
-	 * Sets the external image u r l of this event.
+	 * Sets the external image url of this event.
 	 *
-	 * @param externalImageURL the external image u r l of this event
+	 * @param externalImageURL the external image url of this event
 	 */
 	public void setExternalImageURL(String externalImageURL);
 
@@ -642,17 +642,17 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setExternalImageCopyright(String externalImageCopyright);
 
 	/**
-	 * Returns the place s i g ID of this event.
+	 * Returns the place sig ID of this event.
 	 *
-	 * @return the place s i g ID of this event
+	 * @return the place sig ID of this event
 	 */
 	@AutoEscape
 	public String getPlaceSIGId();
 
 	/**
-	 * Sets the place s i g ID of this event.
+	 * Sets the place sig ID of this event.
 	 *
-	 * @param placeSIGId the place s i g ID of this event
+	 * @param placeSIGId the place sig ID of this event
 	 */
 	public void setPlaceSIGId(String placeSIGId);
 
@@ -1149,46 +1149,46 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setEmail(String email);
 
 	/**
-	 * Returns the website u r l of this event.
+	 * Returns the website url of this event.
 	 *
-	 * @return the website u r l of this event
+	 * @return the website url of this event
 	 */
 	public String getWebsiteURL();
 
 	/**
-	 * Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this event in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized website u r l of this event
+	 * @return the localized website url of this event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(Locale locale);
 
 	/**
-	 * Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this event in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized website u r l of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized website url of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getWebsiteURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized website u r l of this event in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this event in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized website u r l of this event
+	 * @return the localized website url of this event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(String languageId);
 
 	/**
-	 * Returns the localized website u r l of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized website url of this event in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized website u r l of this event
+	 * @return the localized website url of this event
 	 */
 	@AutoEscape
 	public String getWebsiteURL(String languageId, boolean useDefault);
@@ -1200,31 +1200,31 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public String getWebsiteURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized website u r ls of this event.
+	 * Returns a map of the locales and localized website urls of this event.
 	 *
-	 * @return the locales and localized website u r ls of this event
+	 * @return the locales and localized website urls of this event
 	 */
 	public Map<Locale, String> getWebsiteURLMap();
 
 	/**
-	 * Sets the website u r l of this event.
+	 * Sets the website url of this event.
 	 *
-	 * @param websiteURL the website u r l of this event
+	 * @param websiteURL the website url of this event
 	 */
 	public void setWebsiteURL(String websiteURL);
 
 	/**
-	 * Sets the localized website u r l of this event in the language.
+	 * Sets the localized website url of this event in the language.
 	 *
-	 * @param websiteURL the localized website u r l of this event
+	 * @param websiteURL the localized website url of this event
 	 * @param locale the locale of the language
 	 */
 	public void setWebsiteURL(String websiteURL, Locale locale);
 
 	/**
-	 * Sets the localized website u r l of this event in the language, and sets the default locale.
+	 * Sets the localized website url of this event in the language, and sets the default locale.
 	 *
-	 * @param websiteURL the localized website u r l of this event
+	 * @param websiteURL the localized website url of this event
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -1234,16 +1234,16 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setWebsiteURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized website u r ls of this event from the map of locales and localized website u r ls.
+	 * Sets the localized website urls of this event from the map of locales and localized website urls.
 	 *
-	 * @param websiteURLMap the locales and localized website u r ls of this event
+	 * @param websiteURLMap the locales and localized website urls of this event
 	 */
 	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap);
 
 	/**
-	 * Sets the localized website u r ls of this event from the map of locales and localized website u r ls, and sets the default locale.
+	 * Sets the localized website urls of this event from the map of locales and localized website urls, and sets the default locale.
 	 *
-	 * @param websiteURLMap the locales and localized website u r ls of this event
+	 * @param websiteURLMap the locales and localized website urls of this event
 	 * @param defaultLocale the default locale
 	 */
 	public void setWebsiteURLMap(Map<Locale, String> websiteURLMap,

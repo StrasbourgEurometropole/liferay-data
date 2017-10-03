@@ -19,8 +19,7 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> {
 
-	public ViewEventsDisplayContext(RenderRequest request,
-		RenderResponse response) {
+	public ViewEventsDisplayContext(RenderRequest request, RenderResponse response) {
 		super(Event.class, request, response);
 	}
 
@@ -32,8 +31,8 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 			List<Event> results = new ArrayList<Event>();
 			if (hits != null) {
 				for (Document document : hits.getDocs()) {
-					Event event = EventLocalServiceUtil.fetchEvent(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					Event event = EventLocalServiceUtil
+							.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 					if (event != null) {
 						results.add(event);
 					}
@@ -45,15 +44,42 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 	}
 
 	/**
+	 * Retourne la liste des événements correspondant à la recherche lancée en ignorant la pagination
+	 */
+	private List<Event> getAllEvents() throws PortalException {
+		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
+
+		// Création de la liste d'objet
+		List<Event> results = new ArrayList<Event>();
+		if (hits != null) {
+			for (Document document : hits.getDocs()) {
+				Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				if (event != null) {
+					results.add(event);
+				}
+			}
+		}
+		return results;
+	}
+
+	public String getAllEventIds() throws PortalException {
+		String eventIds = "";
+		for (Event event : this.getAllEvents()) {
+			if (eventIds.length() > 0) {
+				eventIds += ",";
+			}
+			eventIds += event.getEventId();
+		}
+		return eventIds;
+	}
+
+	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
 	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getScopeGroupId(),
-			StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO,
-			actionId);
+		return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+				StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, actionId);
 	}
-
 
 	private List<Event> _events;
 
