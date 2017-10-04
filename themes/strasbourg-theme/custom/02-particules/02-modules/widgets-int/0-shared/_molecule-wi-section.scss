@@ -1,9 +1,11 @@
 %molecule-wi-section{
-    padding-top: 60px;
-    padding-bottom: 80px;
-    @include RWD(mobile){
-        padding-top: 30px;
-        padding-bottom: 50px;
+    &.seu-wi {
+        padding-top: 60px;
+        padding-bottom: 80px;
+        @include RWD(mobile){
+            padding-top: 30px;
+            padding-bottom: 50px;
+        }
     }
     // Titre de sections
     .seu-section-title{

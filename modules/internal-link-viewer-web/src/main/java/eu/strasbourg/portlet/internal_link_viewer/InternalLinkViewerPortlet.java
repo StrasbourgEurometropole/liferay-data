@@ -66,6 +66,13 @@ public class InternalLinkViewerPortlet extends MVCPortlet {
 				}
 			}
 			renderRequest.setAttribute("selectedLayouts", layouts);
+			
+			// Template
+			String template = configuration.template();
+			if (Validator.isNull(template)) {
+				template = "default";
+			}
+			renderRequest.setAttribute("template", template);
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}

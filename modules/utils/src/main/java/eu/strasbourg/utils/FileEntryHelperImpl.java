@@ -21,6 +21,11 @@ import eu.strasbourg.utils.api.FileEntryHelperService;
 public class FileEntryHelperImpl implements FileEntryHelperService {
 
 	@Override
+	public String getFileTitle(long fileEntryId, Locale locale) {
+		return FileEntryHelper.getFileTitle(fileEntryId, locale);
+	}
+	
+	@Override
 	public String getReadableFileEntrySize(long fileEntryId, Locale locale) {
 		return FileEntryHelper.getReadableFileEntrySize(fileEntryId, locale);
 	}

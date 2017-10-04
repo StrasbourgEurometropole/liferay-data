@@ -15,5 +15,7 @@ public interface InternalLinkViewerConfiguration {
 
 	@Meta.AD(name="linksUuids", deflt = "", required = false)
 	public String linksUuids();
-	
+
+	@Meta.AD(name="template", deflt="default", required= false)
+	public String template();
 }

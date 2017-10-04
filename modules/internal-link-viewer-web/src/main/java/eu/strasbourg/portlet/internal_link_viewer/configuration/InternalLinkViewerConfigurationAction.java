@@ -45,6 +45,10 @@ public class InternalLinkViewerConfigurationAction
 			// Type d'entité
 			String linksUuids = ParamUtil.getString(request, "linksUuids");
 			setPreference(request, "linksUuids", linksUuids);
+			
+			// Template
+			String template = ParamUtil.getString(request,  "template");
+			setPreference(request, "template", template);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -64,6 +68,9 @@ public class InternalLinkViewerConfigurationAction
 				.getPortletDisplay().getPortletInstanceConfiguration(
 					InternalLinkViewerConfiguration.class);
 			request.setAttribute("linksUuids", configuration.linksUuids());
+			
+			// Template
+			request.setAttribute("template", configuration.template());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

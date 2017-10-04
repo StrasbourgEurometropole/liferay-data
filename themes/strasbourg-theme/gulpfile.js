@@ -20,8 +20,7 @@ liferayThemeTasks.registerTasks({
 });
 
 
-// Compilation rapide
-gulp.task('build-strasbourg-css', function() {
+gulp.task('css', function() {
   return gulp.src('./custom/strasbourg.scss')
     .pipe(plugins.sourcemaps.init())
     .pipe(globSass())
@@ -39,7 +38,7 @@ gulp.task('build-strasbourg-css', function() {
     .pipe(gulp.dest('./src/css/'))
 });
 
-gulp.task('build-strasbourg-js', function(){
+gulp.task('js', function(){
     return gulp.src('./custom/strasbourg.js')
         //.pipe(plugins.sourcemaps.init())
         .pipe(plugins.plumber())
