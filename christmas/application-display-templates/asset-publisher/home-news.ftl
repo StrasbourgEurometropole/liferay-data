@@ -2,7 +2,7 @@
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}" />
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
   <#assign homeURL = "/" />
 </#if>
@@ -39,7 +39,7 @@
                 </#list>
             </#if>
             <div class="col-xs-12 mns-right">
-                <span><a href="${homeURL}/news" class="link align-right"><@liferay_ui.message key="eu.see-all-news" /></a></span>
+                <span><a href="${homeURL}news" class="link align-right"><@liferay_ui.message key="eu.see-all-news" /></a></span>
             </div>
         </div>
     </div>

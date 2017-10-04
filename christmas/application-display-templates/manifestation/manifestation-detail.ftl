@@ -27,7 +27,7 @@
 
 <#if entry.getPublishedEvents()?has_content>
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}" />
+        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
         <#assign homeURL = "/" />
     </#if>
@@ -36,13 +36,13 @@
             <div class="small-container">
                 <div class="col-xs-12">
                     <h2><@liferay_ui.message key="eu.manifestation-events" /></h2>
-                    <a href="${homeURL}/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
+                    <a href="${homeURL}agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
                 </div>
                 <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
                     <#list entry.getPublishedEvents() as event>
                         <div class="item">
                             <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                <a href="${homeURL}/event/-/entity/id/${event.eventId}">
+                                <a href="${homeURL}event/-/entity/id/${event.eventId}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
                                         <img src='${event.imageURL}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />

@@ -2,7 +2,7 @@
 
 <!-- Rubrique -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
@@ -15,11 +15,11 @@
                         <a href="${homeURL}${currentPage.friendlyURL}">
                             <figure class="mns-bloc-top-img">
                                 <#if currentPage.expandoBridge.getAttribute('image')?has_content>
-                                    <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getTitle(locale)}" width="370" height="250" />
+                                    <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getName(locale)}" width="370" height="250" />
                                 </#if>
                             </figure>
                             <div class="mns-bloc-content-actu">
-                                <h4>${currentPage.getTitle(locale)}</h4>
+                                <h4>${currentPage.getName(locale)}</h4>
                                 <p>${currentPage.expandoBridge.getAttribute('introduction')}</p>
                                 <span class="link">En savoir plus</span>
                             </div>
