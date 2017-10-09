@@ -18,6 +18,17 @@
 
 <portlet:defineObjects />
 
+<liferay-frontend:management-bar includeCheckBox="false"
+	searchContainerId="videosSearchContainer">
+
+	<liferay-frontend:management-bar-filters>
+		<liferay-frontend:management-bar-filter 
+			managementBarFilterItems="${groupFilterItems}"
+			value="${filterGroupName}"
+		/>
+	</liferay-frontend:management-bar-filters>
+</liferay-frontend:management-bar>
+
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
 
 	<liferay-ui:search-container
