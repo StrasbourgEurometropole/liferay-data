@@ -5213,8 +5213,10 @@ a {
       width: 40%;
       text-align: center;
       margin-top: 25px;
-      transition: all, 0.3s; }
-      /* line 167, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+      transition: all, 0.3s;
+      -ms-flex-item-align: start;
+          align-self: flex-start; }
+      /* line 168, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
       .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-item.seu-external .seu-title:after {
         content: '';
         display: inline-block;
@@ -5225,22 +5227,22 @@ a {
         background-repeat: no-repeat;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF'   viewBox='-49 141 512 512'%3E%3Cpath d='M439.7 141H253.5c-12.9 0-23.3 10.4-23.3 23.3 0 12.9 10.4 23.3 23.3 23.3h130L144 427.1c-9.1 9.1-9.1 23.8 0 32.9 4.5 4.5 10.5 6.8 16.5 6.8 6 0 11.9-2.3 16.5-6.8l239.5-239.5v130c0 12.9 10.4 23.3 23.3 23.3S463 363.3 463 350.5V164.3C463 151.4 452.6 141 439.7 141z'/%3E%3Cpath d='M346.6 373.7c-12.9 0-23.3 10.4-23.3 23.3v209.5H-2.5V280.6H207c12.9 0 23.3-10.4 23.3-23.3s-10.4-23.3-23.3-23.3H-25.7c-12.9 0-23.3 10.4-23.3 23.3v372.4C-49 642.6-38.6 653-25.7 653h372.4c12.9 0 23.3-10.4 23.3-23.3V397C369.9 384.1 359.5 373.7 346.6 373.7z'/%3E%3C/svg%3E");
         margin-left: 5px; }
-      /* line 181, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+      /* line 182, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
       .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-item:nth-child(1), .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-item:nth-child(2) {
         margin-top: 0; }
-      /* line 186, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+      /* line 187, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
       .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-item:hover, .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-item:focus {
         text-decoration: none;
         -webkit-transform: scale(1.1);
                 transform: scale(1.1); }
-    /* line 191, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+    /* line 192, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
     .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-title {
       color: #FFFFFF;
       font-family: "OpenSans", arial;
       font-weight: 500;
       font-size: 1.4rem;
       text-transform: uppercase; }
-    /* line 198, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+    /* line 199, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
     .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-visu {
       background-color: #FFFFFF;
       height: 70px;
@@ -5257,7 +5259,7 @@ a {
               justify-content: center;
       margin: 0 auto;
       margin-bottom: 10px; }
-      /* line 208, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
+      /* line 209, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/_molecule-main-menu.scss */
       .seu header .seu-nav-bottom .seu-container .seu-submenu-quicklinks .seu-visu img {
         width: 50px;
         height: auto; }
