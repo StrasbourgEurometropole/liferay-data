@@ -7,11 +7,12 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import eu.strasbourg.service.office.exporter.EventsXlsxExporter;
+import eu.strasbourg.service.office.exporter.api.EventsXlsxExporter;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -20,6 +21,13 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"mvc.command.name=exportXlsx" }, service = MVCResourceCommand.class)
 public class ExportEventsToXlsxResourceCommand implements MVCResourceCommand {
+	
+	private EventsXlsxExporter eventsXlsExporter;
+	
+	@Reference(unbind = "-")
+	public void setEventsXlsExporter(EventsXlsxExporter eventsXlsExporter) {
+		this.eventsXlsExporter = eventsXlsExporter;
+	}
 
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
@@ -29,7 +37,7 @@ public class ExportEventsToXlsxResourceCommand implements MVCResourceCommand {
 		String eventIds = ParamUtil.getString(resourceRequest, "eventIds");
 
 		try {
-			EventsXlsxExporter.exportEvents(resourceResponse.getPortletOutputStream(), eventIds);
+			eventsXlsExporter.exportEvents(resourceResponse.getPortletOutputStream(), eventIds);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

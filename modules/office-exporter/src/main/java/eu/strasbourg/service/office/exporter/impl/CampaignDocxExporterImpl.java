@@ -1,4 +1,4 @@
-package eu.strasbourg.service.office.exporter;
+package eu.strasbourg.service.office.exporter.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,9 +14,11 @@ import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -26,18 +28,38 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.office.exporter.api.CampaignDocxExporter;
 import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 
 /**
  * @author 01i345
  */
-public class CampaignDocxExporter {
+@Component(
+		immediate = true,
+		property = {},
+		service = CampaignDocxExporter.class)
+public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 
-	private static ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
-			CampaignDocxExporter.class.getClassLoader());
+	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+			this.getClass().getClassLoader());
+	
+	
+	private PlaceLocalService placeLocalService;
+	
+	@Reference(unbind = "-")
+	public void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		this.placeLocalService = placeLocalService;
+	}
 
-	public static void exportCampaign(OutputStream stream, Campaign campaign) {
+	private AssetCategoryLocalService assetCategoryLocalService;
+
+	@Reference(unbind = "-")
+	public void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
+		this.assetCategoryLocalService = assetCategoryLocalService;
+	}
+	
+	public void exportCampaign(OutputStream stream, Campaign campaign) {
 		try {
 			XWPFDocument document = new XWPFDocument();
 
@@ -72,7 +94,7 @@ public class CampaignDocxExporter {
 
 					addSectionTitleParagraph("place-and-contact", document);
 					if (Validator.isNotNull(event.getPlaceSIGId())) {
-						Place place = PlaceLocalServiceUtil.getPlaceBySIGId(event.getPlaceSIGId());
+						Place place = placeLocalService.getPlaceBySIGId(event.getPlaceSIGId());
 						if (place != null) {
 							addI18nFieldParagaph("place-name", place.getAliasMap(), document);
 							String address = place.getAddressStreet() + " " + place.getAddressZipCode() + " "
@@ -86,7 +108,7 @@ public class CampaignDocxExporter {
 						addFieldParagraph("address", address, document);
 					}
 					if (Validator.isNotNull(event.getServiceId())) {
-						AssetCategory service = AssetCategoryLocalServiceUtil.fetchAssetCategory(event.getServiceId());
+						AssetCategory service = assetCategoryLocalService.fetchAssetCategory(event.getServiceId());
 						if (service != null) {
 							addFieldParagraph("organizer", service.getTitle(Locale.FRANCE), document);
 						}
@@ -148,7 +170,7 @@ public class CampaignDocxExporter {
 
 	}
 
-	private static void addSectionTitleParagraph(String title, XWPFDocument document) {
+	private void addSectionTitleParagraph(String title, XWPFDocument document) {
 		XWPFParagraph sectionTitleParagraph = document.createParagraph();
 		sectionTitleParagraph.setSpacingBefore(150);
 		XWPFRun run = sectionTitleParagraph.createRun();
@@ -158,7 +180,7 @@ public class CampaignDocxExporter {
 		run.setText(LanguageUtil.get(bundle, title));
 	}
 
-	private static void addFieldParagraph(String fieldName, String fieldValue, XWPFDocument document) {
+	private void addFieldParagraph(String fieldName, String fieldValue, XWPFDocument document) {
 		if (Validator.isNotNull(fieldName)) {
 			XWPFParagraph fieldNameParagraph = document.createParagraph();
 			fieldNameParagraph.setSpacingBefore(150);
@@ -183,7 +205,7 @@ public class CampaignDocxExporter {
 
 	}
 
-	private static void addI18nFieldParagaph(String fieldName, Map<Locale, String> fieldValue, XWPFDocument document) {
+	private void addI18nFieldParagaph(String fieldName, Map<Locale, String> fieldValue, XWPFDocument document) {
 		if (fieldName != null) {
 			XWPFParagraph fieldNameParagraph = document.createParagraph();
 			fieldNameParagraph.setSpacingBefore(150);

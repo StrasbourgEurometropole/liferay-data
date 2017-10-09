@@ -827,7 +827,7 @@ public class AgendaImporter {
 				if (Validator.isNotNull(jsonPrice)) {
 					String price = jsonPrice.getString(locale.toString());
 					if (Validator.isNotNull(price)) {
-						event.setWebsiteName(price, locale);
+						event.setPrice(price, locale);
 					}
 				}
 

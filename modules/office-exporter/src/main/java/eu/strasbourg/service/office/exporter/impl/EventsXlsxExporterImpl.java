@@ -1,4 +1,4 @@
-package eu.strasbourg.service.office.exporter;
+package eu.strasbourg.service.office.exporter.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -22,18 +24,31 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.office.exporter.api.EventsXlsxExporter;
 
-public class EventsXlsxExporter {
 
-	private static ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
-			CampaignDocxExporter.class.getClassLoader());
+@Component(
+	immediate = true,
+	property = {},
+	service = EventsXlsxExporter.class)
+public class EventsXlsxExporterImpl implements EventsXlsxExporter {
 
-	public static void exportEvents(OutputStream stream, String eventIdsStr) {
+	private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+			this.getClass().getClassLoader());
+	
+	private EventLocalService eventLocalService;
+
+	@Reference(unbind = "-")
+	protected void setEventLocalService(EventLocalService eventLocalService) {
+		this.eventLocalService = eventLocalService;
+	}
+
+	public void exportEvents(OutputStream stream, String eventIdsStr) {
 		List<Event> events = new ArrayList<Event>();
 		for (String eventIdStr : eventIdsStr.split(",")) {
 			if (Validator.isNotNull(eventIdStr)) {
-				Event event = EventLocalServiceUtil.fetchEvent(Long.valueOf(eventIdStr));
+				Event event = eventLocalService.fetchEvent(Long.valueOf(eventIdStr));
 				if (event != null) {
 					events.add(event);
 				}
@@ -42,7 +57,7 @@ public class EventsXlsxExporter {
 		exportEvents(stream, events);
 	}
 
-	public static void exportEvents(OutputStream stream, List<Event> events) {
+	public void exportEvents(OutputStream stream, List<Event> events) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("events");
 
