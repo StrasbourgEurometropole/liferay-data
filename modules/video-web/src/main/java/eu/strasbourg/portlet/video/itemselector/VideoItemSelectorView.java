@@ -26,9 +26,9 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.comparator.GroupTypeComparator;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
@@ -131,7 +131,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		for (Group group : groups) {
 			boolean isActive = group.getGroupId() == filterGroupId;
 			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
-			if (Validator.isNotNull(group.getName(Locale.FRANCE))) {
+			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
 				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
 						portletURL.toString());
 				items.add(item);
