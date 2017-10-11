@@ -5,7 +5,7 @@
       <span class="sr-only">Eurométropole de Strasbourg</span>
     </h1> 
     <div class="seu-banner-form">
-      <form action="${homeURL}recherche" method="get" class="seu-search">
+      <form action="${homeURL}search" method="get" class="seu-search">
         <button type="submit"></button>
         <label for="main_search_banner" class="sr-only">Recherche</label>
         <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Votre recherche concerne ?" id="main_search_banner">

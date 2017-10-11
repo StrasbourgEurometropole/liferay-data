@@ -75,4 +75,8 @@
         clear: both;
         margin-bottom: $margin-item-rte;
     }
+    // Pas de marge sur le dernier élément
+    & > *:last-child{
+        // margin-bottom: 0;
+    }
 }

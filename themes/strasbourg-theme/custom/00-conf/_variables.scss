@@ -3,7 +3,7 @@ $break-small: 767;
 $break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
 $container-width: 1200;
 
-// COLORS
+//~#COLORS
 	$core-color: #31455d;
 	$core-color-access: $core-color;
 	$core-color-light: lighten($core-color,65);
@@ -12,7 +12,8 @@ $container-width: 1200;
 	$text-basis-color: #5c5c5c;
 	$success: $core-color;   
 	$error: #ff1818;
- 
+//#COLORS
+
 // Fonts  
 $montserrat: 'MontSerrat', arial;
 $opensans: 'OpenSans', arial;

@@ -1,8 +1,7 @@
 %atom-ul-rte{
     padding-left: 60px;
-    // list-style: none;
     margin-bottom: $margin-p;
-    list-style: disc;
+    list-style: none;
 
     @include RWD(mobile){
         padding-left: 20px;
@@ -10,44 +9,32 @@
     li{
         margin-bottom: 0px;
         position: relative;
-        color: $core-color;
-        font-weight: 700;
-        span{
-            color: $text-basis-color;
-            font-weight: 400;
+        font-weight: 400;
+        &:before{
+            content: '';
+            height: 5px;
+            width: 5px;
+            background-color: $core-color;
+            border-radius: 500px;
+            margin-right: 6px;
+            display: block;
+            position: absolute;
+            left: -15px;
+            top: 14px;
         }
-        // &:before{
-        //     content: '';
-        //     height: 5px;
-        //     width: 5px;
-        //     background-color: $core-color;
-        //     border-radius: 500px;
-        //     margin-right: 6px;
-        //     display: block;
-        //     position: absolute;
-        //     left: -15px;
-        //     top: 14px;
-        // }
     }
     ul{        
         padding-left: 90px;
-        // list-style: circle;
         @include RWD(mobile){
             padding-left: 40px;
-        }
-    }
-    ul > li {
-        &:before{
-            // background-color: $second-color;
         }
     }
 }
 
 %atom-ol-rte{
     padding-left: 50px;
-    // list-style: none;
-    // counter-reset: item;
-    list-style: decimal;
+    list-style: none;
+    counter-reset: item;
     margin-bottom: $margin-p;
 
     @include RWD(mobile){
@@ -56,33 +43,23 @@
     li{
         margin-bottom: 0;
         position: relative;
-        color: $core-color;
-        font-weight: 700;
-        span{
-            color: $text-basis-color;
-            font-weight: 400;
+        display: flex;
+        align-items: flex-start;
+        &:before{
+            counter-increment: item;
+            content: counters(item, '.') ". ";
+            color: $core-color;
+            display: block;
+            top: 0px;
+            font-weight: 700;
+            margin-right: 5px;
+            margin-top: 1px;
         }
-        // &:before{
-        //     content: counter(item) ". ";
-        //     counter-increment: item;
-        //     color: $core-color;
-        //     display: block;
-        //     position: absolute;
-        //     left: -20px;
-        //     top: 0px;
-        //     font-weight: 600;
-        // }
     }
     ol{
         padding-left: 90px;
-        list-style: lower-alpha;
         @include RWD(mobile){
             padding-left: 40px;
-        }
-    }
-    ol > li {
-        &:before{
-            // color: $second-color;
         }
     }
 }

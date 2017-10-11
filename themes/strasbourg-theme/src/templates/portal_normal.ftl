@@ -40,7 +40,7 @@
   <div class="seu">
     <header class="seu-header">
       <div class="seu-scrolled-search-engine">
-        <form action="${homeURL}recherche" method="get" class="seu-search">
+        <form action="${homeURL}search" method="get" class="seu-search">
           <button type="submit"></button>
           <label for="main_search_banner" class="sr-only">Rechercher</label>
           <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher ..." id="main_search_banner">

@@ -21,6 +21,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -70,6 +71,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			XWPFRun run = campaignTitleParagraph.createRun();
 			run.setFontSize(24);
 			run.setText(campaign.getTitle(Locale.FRANCE));
+			
 
 			// Evénements
 			List<CampaignEvent> events = campaign.getEvents().stream()
@@ -121,6 +123,17 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 					addI18nFieldParagaph("website-name", event.getWebsiteNameMap(), document);
 					addI18nFieldParagaph("website", event.getWebsiteURLMap(), document);
 
+					if (event.getPeriods().size() > 0) {
+						addSectionTitleParagraph("schedule", document);
+					}
+					for (EventPeriod period : event.getPeriods()) {
+						DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+						String periodString = dateFormat.format(period.getStartDate()) + " - "
+								+ dateFormat.format(period.getEndDate());
+						addFieldParagraph("opening", periodString, document);
+						addI18nFieldParagaph(null, period.getTimeDetailMap(), document);
+					}
+					
 					addSectionTitleParagraph("price", document);
 					String isFreeLabel = "";
 					switch (event.getFree()) {
@@ -136,17 +149,6 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 					}
 					addFieldParagraph("free", isFreeLabel, document);
 					addI18nFieldParagaph("price", event.getPriceMap(), document);
-
-					if (event.getPeriods().size() > 0) {
-						addSectionTitleParagraph("schedule", document);
-					}
-					for (EventPeriod period : event.getPeriods()) {
-						DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-						String periodString = dateFormat.format(period.getStartDate()) + " - "
-								+ dateFormat.format(period.getEndDate());
-						addFieldParagraph("opening", periodString, document);
-						addI18nFieldParagaph(null, period.getTimeDetailMap(), document);
-					}
 
 					addSectionTitleParagraph("categories", document);
 					addFieldParagraph("types", event.getTypeLabel(Locale.FRANCE), document);
@@ -219,7 +221,8 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			paragraph.setIndentationLeft(200);
 			XWPFRun fieldRun = paragraph.createRun();
 			fieldRun.setFontSize(12);
-			fieldRun.setText(entry.getKey().getLanguage() + " : " + entry.getValue());
+			String text  = HtmlUtil.render(entry.getValue());
+			fieldRun.setText(entry.getKey().getLanguage() + " : " + text);
 		}
 		if (fieldValue.size() == 0) {
 			XWPFParagraph emptyFieldParagraph = document.createParagraph();

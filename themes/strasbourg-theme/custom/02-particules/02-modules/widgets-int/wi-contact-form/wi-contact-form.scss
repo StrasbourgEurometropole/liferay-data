@@ -1,0 +1,10 @@
+.seu-wi-contact-form{
+    @extend %organism-wi-contact-form;
+    @extend %container-form;
+    @extend %molecule-inlines-rte;
+    @extend %molecule-headings-rte;
+    // Structure/Distribution
+    @extend %bone-form-structure;
+    // Design des champs
+    @extend %molecule-form-components;
+}
