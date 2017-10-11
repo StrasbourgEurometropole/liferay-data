@@ -274,6 +274,10 @@
 		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
 	})
 
+	$('#owl-full .owl-item').each(function() {
+		$(this).css('width', $(this).width() + 1);
+	});
+
 	// Page d'accueil - Comportement en hover sur les grandes bulles
 	if ($(window).width() >= 1025){
 		$('.mns-bloc-entry > div').mouseenter(function(){
