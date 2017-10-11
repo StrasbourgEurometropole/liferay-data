@@ -328,8 +328,9 @@ public class AgendaImporter {
 		if (!JSONHelper.validateI18nField(jsonTitle, locales)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-title"));
 		} else {
+			String title = jsonTitle.getString("fr_FR", "[no-french-title]");
 			reportLine.setEntityName(
-				jsonTitle.getString("fr_FR", "[no-french-title]"));
+				title.substring(0, title.length() > 200 ? 200 : title.length() - 1));
 		}
 		JSONObject jsonDescription = jsonManifestation
 			.getJSONObject("description");
