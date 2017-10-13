@@ -16,8 +16,9 @@
                     </figure>
                     <div class="caption">
                         <span class="mns-slider-date-event">${event.getEventScheduleDisplay(locale)}</span>
-                        <h2>${event.getTitle(locale)}</h2>
-                        <p>${event.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*100]}...</p>
+                        <h2 class="visible-xs-block">${event.getTitle(locale)[0..*50]}<#if (event.getTitle(locale)?length > 50)>...</#if></h2>
+                        <h2 class="hidden-xs">${event.getTitle(locale)}</h2>
+                        <p>${event.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*200]}...</p>
                         <span class="basic-link">Découvrir</span>
                     </div>
                 </a>

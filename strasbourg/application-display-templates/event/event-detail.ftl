@@ -1,4 +1,9 @@
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 
 <!-- Détail événement -->
 <main class="seu-container">
@@ -41,7 +46,14 @@
             <div class="item-infos">
                 <div class="item-geoloc">
                     <span class="text">
-                        <strong>${entry.getPlaceAlias(locale)}</strong> <br>
+                        <#if (entry.placeId > 0)>
+                            <a href="${homeURL}place/-/entity/id/${entry.placeId}">
+                                <strong>${entry.getPlaceAlias(locale)}</strong> 
+                            </a>
+                        <#else>
+                            <strong>${entry.getPlaceAlias(locale)}</strong> 
+                        </#if>
+                        <br>
                         <#if entry.getPlaceAddress(locale)?has_content>
                             ${entry.getPlaceAddress(locale)} <br> 
                           </#if>
