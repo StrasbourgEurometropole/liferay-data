@@ -148,6 +148,9 @@
             height: 50%;
             display: flex;
             align-items: center;
+            a {
+                color: $core-color;
+            }
             &:before{
                 content: '';
                 display: inline-block;

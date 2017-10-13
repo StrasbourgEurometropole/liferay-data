@@ -16,6 +16,9 @@
         @extend %molecule-wi-section;
         @extend %organism-wi-duo;
     }
+    section.portlet {
+        padding: 0 !important;
+    }
 
     .seu-wi-crossreading{
     }
