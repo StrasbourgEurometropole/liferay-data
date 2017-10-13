@@ -217,6 +217,15 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return place;
 	}
+	
+	/**
+	 * Retourne l'id du lieu de l'événement s'il existe, 0 sinon
+	 */
+	@Override
+	public long getPlaceId() {
+		Place place = this.getPlace();
+		return place == null ? 0 : place.getPlaceId();
+	}
 
 	/**
 	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du
