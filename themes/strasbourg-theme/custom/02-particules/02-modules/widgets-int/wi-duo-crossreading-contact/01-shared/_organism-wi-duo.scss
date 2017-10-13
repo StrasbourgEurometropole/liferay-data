@@ -1,7 +1,6 @@
 %organism-wi-duo{
     @extend %wi-lefted-text;
     flex: 1;
-    max-width: 600px;
     position: relative;
     @include RWD(tablet){
         max-width: unset;
@@ -10,7 +9,10 @@
         width: 100%;
         max-width: 100%;
     }
-    &:nth-child(1){
+    .portlet-layout.row {
+        display: flex;
+    }
+    .portlet-layout.row .portlet-column:nth-child(1) {
         .seu-container{
             padding-right: 60px;
             @include RWD(tablet){
@@ -27,7 +29,7 @@
             background-color: $second-color;         
         }
     }
-    &:nth-child(2){
+    .portlet-layout.row .portlet-column:nth-child(2){
         .seu-container{
             @include RWD(desktop){
                 padding-left: 60px;                    
@@ -48,7 +50,7 @@
             background-color: #5ddfd1;            
         }
     }
-    &:before{
+    .portlet-layout.row .portlet-column:before{
         content: '';
         display: block;
         position: absolute;
@@ -84,6 +86,16 @@
     .seu-wi-content{
         .seu-wi-title{
             color: $core-color;
+        }
+        // Item
+        .seu-core {
+            display: table;
+            @include RWD(mobile){
+                margin: auto;
+            }
+            & + .seu-core {
+                margin-top: 10px;
+            }
         }
         p{
             color: $core-color;

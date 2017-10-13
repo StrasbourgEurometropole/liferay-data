@@ -10,6 +10,7 @@ function dot(){
 			}else{
 				var height = $(this).css('line-height');
 				height = lines * parseInt(height);
+				height += 1;
 				$(this).dotdotdot({wrap: 'word', watch: true, height: height});
 			}
 		});

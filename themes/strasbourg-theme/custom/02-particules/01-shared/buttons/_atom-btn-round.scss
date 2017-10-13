@@ -72,7 +72,6 @@
     }
 }
 
-// Déclarations pour des classes transverse au site
 .seu-btn-round{
     &.seu-core{
         @extend %atom-btn-round--core;
@@ -84,3 +83,14 @@
         @extend %atom-btn-round--grey;
     }
 }
+//~#BUTTONS
+.seu-btn-round--core{
+    @extend %atom-btn-round--core;
+}
+.seu-btn-round--inverted{
+    @extend %atom-btn-round--inverted;
+}
+.seu-btn-round--grey{
+    @extend %atom-btn-round--grey;
+}
+//#BUTTONS

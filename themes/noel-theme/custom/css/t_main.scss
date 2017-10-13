@@ -784,6 +784,9 @@
 	height: 615px;
 	text-align: center;
 	transform: translate3d(0,0,0);
+	@include mobile {
+		background-attachment: scroll !important;
+	}
 	&:after{
 		content: '';
 		position: absolute;

@@ -223,3 +223,21 @@
         }
     }
 }
+
+//~#BUTTONS
+.seu-btn-square--filled--core{
+    @extend %atom-btn-square--filled--core;
+}
+.seu-btn-square--filled--second{
+    @extend %atom-btn-square--filled--second;
+}
+.seu-btn-square--bordered--core{
+    @extend %atom-btn-square--bordered--core;
+}
+.seu-btn-square--bordered--white{
+    @extend %atom-btn-square--bordered--white;
+}
+.seu-btn-square--bordered--grey{
+    @extend %atom-btn-square--bordered--grey;
+}
+//#BUTTONS

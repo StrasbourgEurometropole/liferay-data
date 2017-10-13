@@ -135,12 +135,14 @@
 	</aui:form>
 	
 	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
-		<liferay-portlet:param name="eventIds" value="${dc.allEventIds}" />
 	</liferay-portlet:resourceURL>
-	<aui:button-row>
-		<aui:button cssClass="btn-lg" href="${exportXlsxURL}" type="submit"
-			value="export-xlsx" />
-	</aui:button-row>
+	<form method="POST" action="${exportXlsxURL}">
+		<aui:input type="hidden" name="eventIds" value="${dc.allEventIds}" />
+		<aui:button-row>
+			<aui:button cssClass="btn-lg" type="submit"
+				value="export-xlsx" />
+		</aui:button-row>
+	</form>
 </div>
 
 <c:if

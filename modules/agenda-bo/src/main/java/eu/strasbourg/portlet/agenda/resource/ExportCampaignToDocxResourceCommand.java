@@ -14,7 +14,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
-import eu.strasbourg.service.office.exporter.CampaignDocxExporter;
+import eu.strasbourg.service.office.exporter.api.CampaignDocxExporter;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -23,6 +23,13 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"mvc.command.name=exportDocx" }, service = MVCResourceCommand.class)
 public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
+
+	private CampaignDocxExporter campaignDocxExporter;
+
+	@Reference (unbind = "-")
+	protected void setCampaignDocxExporter(CampaignDocxExporter campaignDocxExporter) {
+		this.campaignDocxExporter = campaignDocxExporter;
+	}
 
 	@Override
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
@@ -34,7 +41,7 @@ public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
 				"attachment; filename=" + campaign.getTitle(resourceRequest.getLocale()) + ".docx");
 
 		try {
-			CampaignDocxExporter.exportCampaign(resourceResponse.getPortletOutputStream(), campaign);
+			campaignDocxExporter.exportCampaign(resourceResponse.getPortletOutputStream(), campaign);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

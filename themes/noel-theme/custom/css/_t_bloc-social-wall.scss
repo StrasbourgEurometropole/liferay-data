@@ -18,6 +18,9 @@
 		@include mobile{
 			padding: 0;
 			width: 100%;
+			.mns-list-social-wall > div:nth-child(3) ~ div {
+				display: none;
+			}
 		}
 		ul{
 			text-align: center;

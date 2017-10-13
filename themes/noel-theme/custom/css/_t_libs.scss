@@ -22,6 +22,21 @@
 		}
 	}
 
+	@include mobile {
+		#owl-full {
+			.item img {
+				height: 300px; 
+				object-fit: cover;
+			}
+			h2 {
+				height: 60px;
+			}
+			p {
+				height: 104px;
+			}
+		}
+	}
+
 	#owl-full .owl-nav{
 		position: absolute;
 		bottom: 35px;

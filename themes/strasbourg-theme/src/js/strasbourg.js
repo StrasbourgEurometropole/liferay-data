@@ -15295,6 +15295,67 @@ function megaSlider(slider, category){
     });
 }(jQuery));
 
+(function ($) { 
+    if($('.seu-dates-list').length){
+
+        var lessHeight, moreHeight;
+        var $dates_list = $('.seu-dates-list'),
+            $dates_toggle = $('.seu-see-more');
+
+        function getDatesHeights(){
+            lessHeight = 0;
+            moreHeight = 0;
+            $dates_list.find('li').each(function(index, element){
+                if(index <= 4){ // Incrémente les 5 premieres hauteurs
+                    lessHeight += $(element).outerHeight();
+                    moreHeight += $(element).outerHeight();
+                }else{
+                    moreHeight += $(element).outerHeight();
+                }
+            });
+        }
+        
+        function attachDatesEvents(lessHeight, moreHeight){
+            $dates_toggle
+            .off('click')
+            .on('click', function(){
+                $dates_list.toggleClass('opened');
+                $dates_toggle.toggleClass('opened');
+                if($dates_list.hasClass('opened')){
+                    moreDates(moreHeight);
+                }else{
+                    lessDates(lessHeight);
+                }
+            });
+        }
+
+        function moreDates(moreHeight){
+            $dates_toggle.find('.seu-less').show();
+            $dates_toggle.find('.seu-more').hide();
+            $dates_list.height(moreHeight);
+        }
+
+        function lessDates(lessHeight){
+            $dates_toggle.find('.seu-less').hide();
+            $dates_toggle.find('.seu-more').show();
+            $dates_list.height(lessHeight);
+        }
+
+        $(window).load(function(){
+            getDatesHeights();
+            lessDates(lessHeight);
+            attachDatesEvents(lessHeight, moreHeight);
+        });
+
+        $(window).resize(function(){
+            if(environmentChanged){
+                getDatesHeights();
+                lessDates(lessHeight);
+                attachDatesEvents(lessHeight, moreHeight);
+            }
+        });
+    }
+}(jQuery));
 $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();
 }); 
@@ -15706,6 +15767,27 @@ $(document).ready(function(){
 }(jQuery));
 
 
+(function ($) {
+    $(document).ready(function(){
+        if($('.seu-toggle-collapse').length){
+            $('.seu-toggle-collapse').on('click', function(){
+                $(this).toggleClass('seu-opened')
+                .parent('.seu-wi--collapsing').toggleClass('seu-opened')
+                .find('.seu-collapsing-box').slideToggle();
+            });
+            $('.seu-wi--collapsing.seu-first-opened .seu-toggle-collapse').click();
+        }
+    });
+ }(jQuery));
+(function ($) { }(jQuery));
+$('.seu-wi-crossreading, .seu-wi-contact').each(function() {
+  if ($(this).parents('.portlet-nested-portlets').length) {
+    $(this).parents('.portlet-nested-portlets').addClass('seu-container seu-wi-duo');
+  } else {
+    $(this).parents('.portlet-boundary').addClass('seu-container seu-wi-duo seu-wi-solo');
+    $(this).parents('.portlet-boundary').css('position', 'relative');
+  }
+});
 var page_limit = 12;
 /**
  * @description Construction de la division en page du widget lieu
@@ -15805,6 +15887,186 @@ if($('.seu-wi-lieux').length){
         });
     });
 }
+(function ($) { 
+    $(document).ready(function(){
+        if($('.seu-wi-schedules').length){
+
+            $('.seu-wi-schedules').each(function(index, element){
+
+                var $wi = $(this),
+                    $tab_list= $(this).find('.tab-list'),
+                    $tabs= $(this).find('.tab-content'),
+                    tab_list_html= '<div class="tab-menu-rwd"></div>';
+
+                $tabs.each(function(index, element){
+                    var _this = $(this),
+                        name = _this.find('h3.hidden').html();
+                    $(this).attr('data-tab-index', index);
+
+                    if($tabs.length > 1){ // Si plus d'un tab on crée la liste de tabs
+                        if(index ==0){
+                            tab_list_html += '<button class="tab-toggle current" data-tab-target="'+index+'">'+name+'</button>';
+                        }else{
+                            tab_list_html += '<button class="tab-toggle" data-tab-target="'+index+'">'+name+'</button>';
+                        }
+                    }
+
+                });
+
+                // Créé la liste des tab
+                $tab_list.html(tab_list_html);
+                // Duplique dans RWD
+                $wi.find('.tab-toggle').clone().appendTo($wi.find('.tab-menu-rwd'));
+
+                // Store les tab-toggles
+                var $tab_toggles = $(this).find('.tab-toggle');
+
+                // Events
+                $tab_list.find('.tab-toggle').on('click', function(){
+                    if(!$(this).hasClass('current')){
+                        var index = $(this).attr('data-tab-target');
+                        $tab_toggles.removeClass('current');
+                        $tab_toggles.filter('[data-tab-target="'+index+'"]').addClass('current');
+                        $tabs
+                            .removeClass('tabbed')
+                            .filter('[data-tab-index="'+index+'"]').addClass('tabbed');
+                        $wi.find('.tab-menu-rwd').removeClass('opened');
+                    }else if(environment == "mobile"){
+                        $wi.find('.tab-menu-rwd').toggleClass('opened');
+                    }
+                });
+
+                // $(document).on('click', function(e){
+                //     if(!$(e.target).hasClass('tab-toggle') && !$(e.target).parents('.tab-toggle').length){
+                //         $wi.find('.tab-menu-rwd').stop().slideUp();
+                //     }
+                // })
+
+                // Ouvre le premier tab de base
+                $tabs.eq(0).addClass('tabbed');
+                
+                // Manage RWD
+                // function buildRwd(){
+                //     if(environment == 'mobile'){
+                //         $wi.find('.tab-toggle:not(.current)').appendTo($wi.find('.tab-menu-rwd'));
+                //     }else{
+                //         var current_index = $wi.find('.tab-toggle.current').attr('data-tab-index'); 
+                //         // Insert Current at the right place
+                //         $wi.find('.tab-toggle.current').insertAfter($wi.find('.tab-toggle[data-tab-index="'+(current_index-1)+'"]'));
+                //         // Get back all tabs inside the tab-list
+                //         $wi.find('.tab-toggle').appendTo($tab_list);
+                //     }
+                // }
+                // buildRwd();
+                // $(window).resize(function(){
+                //     if(environmentChanged){
+                //         buildRwd();
+                //     }
+                // });
+
+            });
+        }
+    })
+}(jQuery));
+(function ($) {
+    $(document).ready(function(){
+        if($('.seu-wi-slideNpop').length){
+
+            $('.seu-wi-slideNpop').each(function(index, element){        
+                $(this).find('.slide .slider').clone().appendTo($(this).find('.pop-area')); // Duplique le slider pour le slider full "pop"
+
+                var snp = {
+                    $slide: $(this).find('.slide'),
+                    $pop: $(this).find('.pop'),
+
+                    $slide_slider: $(this).find('.slide .slider'),
+                    $slide_prev: $(this).find('.slide .seu-owl-prev'),
+                    $slide_next: $(this).find('.slide .seu-owl-next'),
+
+                    $pop_slider: $(this).find('.pop .slider'),
+                    $pop_prev: $(this).find('.pop .seu-owl-prev'),
+                    $pop_next: $(this).find('.pop .seu-owl-next'),
+                    $pop_current_count: $(element).find('.pop-current'),
+                    $pop_total_count: $(element).find('.pop-total'),
+                    $pop_title: $(element).find('.pop-title'),
+                    $pop_description: $(element).find('.pop-description'),
+                    
+                    majPopInfos: function(index, count, snp){ // Maj le titre/description/compteur
+                        snp.$pop_title.text(snp.$pop_slider.find('.owl-item:eq('+index+') li').attr('data-title'));
+                        snp.$pop_description.text(snp.$pop_slider.find('.owl-item:eq('+index+') li').attr('data-description'));
+                        snp.$pop_current_count.text(index+1);
+                        snp.$pop_total_count.text(count);
+                    },
+
+                    slide_config: {
+                        items: 1,
+                        nav: false,
+                        smartSpeed: 1000,
+                        mouseDrag: false,
+                        onInitialized: function(e){ 
+                            manageNavigationDisplay(e, snp.$slide_prev, snp.$slide_next);
+                            attachCustomNavEvents(snp.$slide_slider, snp.$slide_prev, snp.$slide_next);
+                            // Attach pop event
+                            snp.$slide_slider.find('.owl-item li').on('click', function(){
+                                var index = $(this).parent().index();
+                                snp.$pop_slider.trigger('to.owl.carousel', [index, 0]);
+                                var fake_event = {
+                                    "item": {
+                                        "index": index,
+                                        "count": snp.$pop_slider.find('.owl-item').length
+                                    }
+                                };
+                                manageNavigationDisplay(fake_event, snp.$pop_prev, snp.$pop_next);
+                                setTimeout(function(){
+                                    snp.$pop.addClass('opened');
+                                    snp.$pop_slider.trigger('refresh.owl.carousel'); // Force le resize d'une façon bizarre pour la maj des dimensions
+                                    $('html').addClass('no-scroll');
+                                }, 20);
+                            });
+                        },
+                        onTranslate : function(e){
+                            manageNavigationDisplay(e, snp.$slide_prev, snp.$slide_next);
+                        }
+                    },
+
+                    pop_config: {
+                        items: 1,
+                        smartSpeed: 1,
+                        nav: false,
+                        mouseDrag: false,
+                        onInitialized: function(e){
+                            manageNavigationDisplay(e, snp.$pop_prev, snp.$pop_next);
+                            attachCustomNavEvents(snp.$pop_slider, snp.$pop_prev, snp.$pop_next);
+                        },
+                        onTranslated: function(e){
+                            snp.majPopInfos(e.item.index, snp.$pop_slider.find('.owl-item').length, snp);
+                        },
+                        onTranslate : function(e){
+                            manageNavigationDisplay(e, snp.$pop_prev, snp.$pop_next);
+                        },
+                        onRefresh: function(e){
+                            manageNavigationDisplay(e, snp.$pop_prev, snp.$pop_next);
+                        }
+                    }
+                };
+
+                
+                // Gestion de la partie "slide"
+                    snp.$slide_slider.addClass('owl-carousel').owlCarousel(snp.slide_config);
+
+                // Gestion de la partie "pop"
+                    snp.$pop_slider.addClass('owl-carousel').owlCarousel(snp.pop_config);
+                    snp.majPopInfos(0, snp.$pop_slider.find('.owl-item').length, snp);
+                    snp.$pop.find('.pop-close').on('click', function(){ // Fermeture du pop
+                        $('html').removeClass('seu-no-scroll');
+                        snp.$pop.removeClass('opened');
+                    });
+            });
+
+        }
+    })
+
+ }(jQuery));
 (function ($) {
 	if ($('.seu-front').length) {
 		$(document).ready(function() {
@@ -15842,6 +16104,7 @@ function dot(){
 			}else{
 				var height = $(this).css('line-height');
 				height = lines * parseInt(height);
+				height += 1;
 				$(this).dotdotdot({wrap: 'word', watch: true, height: height});
 			}
 		});

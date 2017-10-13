@@ -43,10 +43,40 @@
             background-image: url( svg-bg-uri($svg-arrow1, $core-color) ) !important;
         }
     }
-    .seu-caption{
-        @extend %atom-caption-rte;
+    .seu-text{
         position: absolute;
-        bottom: 0; right: 0; max-width: 100%;
+        bottom: 0; right: 0; width: 100%;
+        @extend %atom-caption-rte;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        .seu-img-title{
+            font-family: "MontSerrat", arial;
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            width: 100%;
+            flex-shrink: 0;
+            padding-right: 200px;
+            @include RWD(mobile){
+                padding-right: 0;
+            }
+        }
+        .seu-description{
+            flex: 1 1 auto;
+            @include RWD(mobile){
+                display: none;
+            }
+        }
+        .seu-caption{
+            flex: 1 0 auto;
+            text-align: right;
+            @include RWD(mobile){
+                width: 100%;
+                text-align: left;
+            }
+        }
     }
     .seu-slider{
         // Taille et design des slides

@@ -16,12 +16,14 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface FileEntryHelperService {
+
+	public String getFileTitle(long fileEntryId, Locale locale);
+
 	public String getReadableFileEntrySize(long fileEntryId, Locale locale);
 
 	public String getFileEntryURL(long fileEntryId);
 
-	public String getStructureFieldValue(Long fileEntryId, String fieldName,
-		Locale locale);
+	public String getStructureFieldValue(Long fileEntryId, String fieldName, Locale locale);
 
 	public String getImageCopyright(long fileEntryId, Locale locale);
 
@@ -30,4 +32,5 @@ public interface FileEntryHelperService {
 	public String getFileThumbnail(long fileEntryId, ThemeDisplay themeDisplay);
 
 	public DLFileEntry getFileEntryByRelativeURL(String url);
+
 }

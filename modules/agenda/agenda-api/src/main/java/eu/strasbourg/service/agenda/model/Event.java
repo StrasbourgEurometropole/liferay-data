@@ -110,6 +110,11 @@ public interface Event extends EventModel, PersistedModel {
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
 
 	/**
+	* Retourne l'id du lieu de l'événement s'il existe, 0 sinon
+	*/
+	public long getPlaceId();
+
+	/**
 	* Retourne le nom de la ville, provenant du lieu interne s'il existe, du
 	* lieu lié sinon
 	*/

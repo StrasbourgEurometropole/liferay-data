@@ -21,5 +21,22 @@
     }
     a{
         @extend %atom-link-rte;
+
+        &.seu-btn-square--filled--second{
+            text-decoration: none;
+        }
+        &.seu-external:not(.seu-wi-link-group){
+            &:after{
+                content: '';
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background-size: 10px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-external, $core-color) );
+                margin-left: 5px;
+            }
+        }
     }
 }

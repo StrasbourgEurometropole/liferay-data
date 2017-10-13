@@ -72,7 +72,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		
 		JSONObject jsonDetail = JSONFactoryUtil.createJSONObject();
 		jsonDetail.put("name", file.getName());
-		jsonDetail.put("title", FileEntryHelper.getFileTitle(file, locale));
+		jsonDetail.put("title", FileEntryHelper.getFileTitle(file.getFileEntryId(), locale));
 		jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
 		jsonDetail.put("type", file.getExtension());
 		

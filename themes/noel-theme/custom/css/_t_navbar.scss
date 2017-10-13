@@ -688,4 +688,19 @@
 			display:block !important;
 		}
 	}
+
+	@include mobile {
+		.navbar-header {
+			background: white;
+		}
+		.navbar-brand.navbar-brand {
+			color: black;
+			span {
+				color: black;
+			}
+		}
+		.mns-nav .navbar-toggle .icon-bar {
+			background: black;
+		}
+	}
 }

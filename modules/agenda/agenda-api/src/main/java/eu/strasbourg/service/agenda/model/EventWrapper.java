@@ -1809,6 +1809,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne l'id du lieu de l'événement s'il existe, 0 sinon
+	*/
+	@Override
+	public long getPlaceId() {
+		return _event.getPlaceId();
+	}
+
+	/**
 	* Returns the primary key of this event.
 	*
 	* @return the primary key of this event

@@ -1,0 +1,10 @@
+%organism-wi-slideNpop{
+    display: block;
+
+    .slide{
+        @extend %molecule-slider--slide;
+    }
+    .pop{
+        @extend %molecule-slider--pop;
+    }
+}

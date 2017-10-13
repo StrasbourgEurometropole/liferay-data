@@ -17,6 +17,11 @@
 	
 		<aui:fieldset>
 			<strasbourg-picker:layout name="linksUuids" label="pages" multiple="true" required="true" value="${linksUuids}" />
+			
+			<aui:select name="template" label="display">
+				<aui:option value="default" label="default" />
+				<aui:option value="strasbourg" label="strasbourg" selected="${template eq 'strasbourg'}"/>
+			</aui:select>
 		</aui:fieldset>
 		
 		<aui:button-row>

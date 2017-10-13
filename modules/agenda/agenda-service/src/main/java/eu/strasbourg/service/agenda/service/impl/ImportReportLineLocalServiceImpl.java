@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.service.base.ImportReportLineLocalServiceBaseImpl;
-import eu.strasbourg.service.agenda.utils.ImportReportStatus;
 
 /**
  * The implementation of the import report line local service.

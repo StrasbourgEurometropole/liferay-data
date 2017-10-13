@@ -602,8 +602,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		if (Validator.isNotNull(this.getImageOwner())) {
 			jsonEvent.put("imageCopyright", this.getImageOwner());
 		} else if (Validator.isNotNull(this.getCampaign().getDefaultImageCopyright())) {
-			jsonEvent.put("imageCopyright",
-					JSONHelper.getJSONFromI18nMap(this.getCampaign().getDefaultImageCopyrightMap()));
+			jsonEvent.put("imageCopyright", this.getCampaign().getDefaultImageCopyright(Locale.FRANCE));
 		}
 
 		// Lieu

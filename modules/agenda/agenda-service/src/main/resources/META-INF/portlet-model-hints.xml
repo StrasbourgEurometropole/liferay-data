@@ -189,7 +189,9 @@
 		<field name="type" type="String" />
 		<field name="status" type="long" />
 		<field name="log" type="String" />
-		<field name="entityName" type="String" />
+		<field name="entityName" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 		<field name="entityExternalId" type="String" />
 		<field name="entityId" type="long" />
 		<field name="reportId" type="long" />
