@@ -3,10 +3,13 @@
 <div class="small-container mns-page-contact">
     <div class="row">
         <div class="col-sm-8">
-        	<liferay-ui:error key="unknown-error" message="eu.unknown-error" />
-        	<liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" />
-        	<liferay-ui:error key="required-fields-error" message="eu.all-fields-required" />
-        	<liferay-ui:error key="invalid-mail-error" message="eu.invalid-mail-error" />
+        	<liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="email-error" message="email-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="lastname-error" message="lastname-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="content-error" message="content-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="invalid-mail-error" message="eu.invalid-mail-error" targetNode=".mns-page-contact .col-sm-8" />
             <c:if test="${not param.mailSent}">
 	        	<c:if test="${not empty descriptionText}">
 		            <p class="mns-intro-form">
@@ -53,7 +56,7 @@
 	            </form>
 	            <c:if test="${not empty privacyText}">
 		            <p class="mns-outro-form">
-		            	${privacyText} -- ${param.mailSent}
+		            	${privacyText}
 		            </p>
 	            </c:if>
 	    	</c:if>
@@ -70,3 +73,30 @@
         </aside>
     </div>
 </div>
+<style>
+	.lfr-alert-container {
+	    position: static;
+	    border: 1px solid #EF5350;
+	    padding: 5px 0;
+	    margin-bottom: 25px;
+	    border-radius: 5px;
+	}
+	.lfr-alert-container .lfr-alert-wrapper {
+	    margin: 0;
+	    height: auto !important;
+	}
+	
+	.lfr-alert-container .alert-danger {
+	    background: none;
+	    border: none;
+	    margin: 0;
+	    padding: 0;
+	    color: #EF5350;
+	    line-height: 25px
+	}
+	
+	.lfr-alert-container .alert-danger button,
+	.lfr-alert-container .alert-danger .lead {
+	    display: none;
+	}
+</style>

@@ -2,9 +2,13 @@ package eu.strasbourg.portlet.contact.action;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -22,6 +26,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -69,10 +74,24 @@ public class ContactFormContactAction implements MVCActionCommand {
 			SessionErrors.add(request, "recaptcha-error");
 			hasError = true;
 		}
-		if (Validator.isNull(emailFrom) || Validator.isNull(firstName) || Validator.isNull(lastName)
-				|| Validator.isNull(content)) {
-			// Champs obligatoires
-			SessionErrors.add(request, "required-fields-error");
+		if (Validator.isNull(emailFrom)) {
+			// Email obligatoires
+			SessionErrors.add(request, "email-error");
+			hasError = true;
+		}
+		if (Validator.isNull(firstName)) {
+			// Prénom obligatoires
+			SessionErrors.add(request, "firstname-error");
+			hasError = true;
+		}
+		if (Validator.isNull(lastName)) {
+			// Nom obligatoires
+			SessionErrors.add(request, "lastname-error");
+			hasError = true;
+		}
+		if (Validator.isNull(content)) {
+			// Message obligatoires
+			SessionErrors.add(request, "content-error");
 			hasError = true;
 		}
 		if (!Validator.isEmailAddress(emailFrom)) {
@@ -94,6 +113,13 @@ public class ContactFormContactAction implements MVCActionCommand {
 		context.put("lastName", lastName);
 		context.put("content", content);
 		context.put("emailFrom", emailFrom);
+
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+		context.put("date", date);
+		context.put("time", time);
+
 		Configuration configuration = new Configuration(Configuration.getVersion());
 		configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
 		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
@@ -105,7 +131,20 @@ public class ContactFormContactAction implements MVCActionCommand {
 			StringWriter bodyWriter = new StringWriter();
 			subjectTemplate.process(context, subjectWriter);
 			bodyTemplate.process(context, bodyWriter);
-			success = MailHelper.sendMailWithHTML(emailFrom, emailTo, subjectWriter.toString(), bodyWriter.toString());
+
+			InternetAddress fromAddress = new InternetAddress("no-reploy@no-reply.strasbourg.eu",
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
+
+			InternetAddress[] toAddresses = new InternetAddress[0];
+			for (String toAddress : emailTo.split(",")) {
+				try {
+					InternetAddress address = new InternetAddress(toAddress);
+					toAddresses = ArrayUtil.append(toAddresses, address);
+				} catch (AddressException ex) {
+					log.error(ex);
+				}
+			}
+			success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -142,8 +181,12 @@ public class ContactFormContactAction implements MVCActionCommand {
 				StringWriter bodyWriter = new StringWriter();
 				subjectTemplate.process(context, subjectWriter);
 				bodyTemplate.process(context, bodyWriter);
-				MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", emailFrom, subjectWriter.toString(),
-						bodyWriter.toString());
+				InternetAddress fromAddress = new InternetAddress("no-reploy@no-reply.strasbourg.eu",
+						themeDisplay.getScopeGroup().getName(request.getLocale()));
+				InternetAddress to = new InternetAddress(emailFrom);
+				InternetAddress[] toAddresses = new InternetAddress[] { to };
+				MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
+
 			} catch (Exception e) {
 				log.error(e);
 			}

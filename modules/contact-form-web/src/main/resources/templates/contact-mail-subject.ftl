@@ -1,1 +1,1 @@
-[${website}] Une nouvelle demande a été reçue sur le formulaire "${formName}"
+${website} - Nouvel enregistrement pour le formulaire "${formName}

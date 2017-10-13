@@ -1,1 +1,1 @@
-[${website}] Votre demande a bien été envoyée au service concerné
+${website} - Récapitulatif de votre demande via le formulaire "${formName}"

@@ -1,1 +1,1 @@
-[${website}] Votre demande a bien été reçue
+${website} - R�capitulatif de votre demande via le formulaire "${formName}"

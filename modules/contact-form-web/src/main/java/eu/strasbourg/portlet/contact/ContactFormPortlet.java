@@ -54,6 +54,9 @@ public class ContactFormPortlet extends MVCPortlet {
 
 			// Email du destinataire
 			String email = configuration.email();
+			if (Validator.isNull(email)) {
+				email = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), "contact.default-recipient");
+			}
 
 			// Texte de descriptipon
 			String descriptionText = LocalizationUtil.getLocalization(configuration.descriptionText(),

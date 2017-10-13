@@ -2,16 +2,27 @@
 	<img src="${headerImage}">
 </#if>
 
+
+
+<p>Bonjour,<br><br>
+
+Vous venez de soumettre des informations sur le formulaire "${formName}". Vous trouverez ci-dessous la liste des informations saisies.</p>
+<br>
+<p><strong>Nom</strong> : ${lastName}</p>
+<p><strong>Pr�nom</strong> : ${firstName}</p>
+<p><strong>Mail</strong> : ${emailFrom}</p>
+<p><strong>Message</strong> :</p>
+<p>${content}</p>
+
+<p>Date et heure de soumission du formulaire : ${date} ${time}</p>
+
+<p>Votre demande sera trait�e dans les meilleurs d�lais.</p>
+
 <p>
-	Madame, Monsieur,<br><br>
+	Cordialement,<br><br>
+	La Ville et l'Eurom�tropole de Strasbourg<br>
 	
-	Votre envoi sur le formulaire "${formName}" a bien été reçu, vous receverez une réponse dès que le service concerné aura traité votre demande.
-	<br><br>
-	Pour rappel, voici le message que vous nous avez envoyé :
-	<br><br>
-	<ul>
-		<li style="font-style: italic;">${content}</li>
-	</ul>
+	<a href="http://www.strasbourg.eu">www.strasbourg.eu</a>
 </p>
 
 <#if footerImage?has_content>
