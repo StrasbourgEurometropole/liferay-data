@@ -23,3 +23,4 @@
 <portlet:defineObjects />
 
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
+<jsp:useBean id="vocabularyAccessor" class="eu.strasbourg.utils.AssetVocabularyAccessor" />

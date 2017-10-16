@@ -1,4 +1,8 @@
-.seu-not-front{
+.seu-not-front {
+    @extend %text-basis-rte;
+}
+
+.seu-not-front .seu{
     @extend %text-basis-rte;
     padding-top: 105px;
     

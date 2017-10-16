@@ -1482,20 +1482,20 @@ a {
   border-color: #5897fb; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
-.seu-not-front h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .region-post-header .region-nav-tools {
+.seu-not-front .seu h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .seu .region-post-header .region-nav-tools {
   width: 1200px;
   display: block;
   margin-left: auto;
   margin-right: auto; }
   @media only screen and (max-width: 1279px) {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
-    .seu-not-front h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .region-post-header .region-nav-tools {
+    .seu-not-front .seu h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .seu .region-post-header .region-nav-tools {
       width: 100%;
       padding-left: 40px;
       padding-right: 40px; } }
   @media only screen and (max-width: 767px) {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
-    .seu-not-front h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .region-post-header .region-nav-tools {
+    .seu-not-front .seu h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .seu .region-post-header .region-nav-tools {
       width: 100%;
       padding-left: 20px;
       padding-right: 20px; } }
@@ -1596,7 +1596,7 @@ a {
   font-size: 1.8rem; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.seu-not-front h1 {
+.seu-not-front .seu h1 {
   font-size: 50px;
   font-size: 5.0rem;
   font-weight: 700;
@@ -1606,7 +1606,7 @@ a {
   line-height: 1.2; }
   @media only screen and (max-width: 767px) {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-    .seu-not-front h1 {
+    .seu-not-front .seu h1 {
       font-size: 2.5rem; } }
 
 /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
@@ -1678,7 +1678,7 @@ a {
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
 .seu-not-front .hat, .seu-not-front .rte, .page-demarches #rub_service,
-.seu-main-form, .seu-wi-contact-form, .seu-not-front {
+.seu-main-form, .seu-wi-contact-form, .seu-not-front, .seu-not-front .seu {
   font-family: "OpenSans", arial;
   font-size: 1.8rem;
   line-height: 1.66666666;
@@ -1687,7 +1687,7 @@ a {
   @media only screen and (max-width: 767px) {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
     .seu-not-front .hat, .seu-not-front .rte, .page-demarches #rub_service,
-    .seu-main-form, .seu-wi-contact-form, .seu-not-front {
+    .seu-main-form, .seu-wi-contact-form, .seu-not-front, .seu-not-front .seu {
       font-size: 1.4rem; } }
 
 /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
@@ -2274,7 +2274,7 @@ a {
     display: none; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/_atom-text-headings.scss */
-.seu-not-front h1 {
+.seu-not-front .seu h1 {
   text-align: center; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/_atom-text-links.scss */
@@ -2828,16 +2828,22 @@ a {
       #seu-grid--list01 .grid-item .item-right, .event-highlight .item-right {
         display: -webkit-box;
         display: -ms-flexbox;
-        display: flex; } }
-  /* line 54, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+        display: flex;
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; } }
+  /* line 55, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
   #seu-grid--list01 .grid-item .item-content, .event-highlight .item-content {
     display: block;
     padding-right: 35px;
-    text-decoration: none; }
-    /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    text-decoration: none;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+    /* line 61, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content:hover .item-title, .event-highlight .item-content:hover .item-title, #seu-grid--list01 .grid-item .item-content:focus .item-title, .event-highlight .item-content:focus .item-title {
       text-decoration: underline; }
-    /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 65, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content .item-coup-de-coeur, .event-highlight .item-content .item-coup-de-coeur {
       font-family: "MontSerrat", arial;
       color: #2da192;
@@ -2846,7 +2852,7 @@ a {
       text-transform: uppercase;
       line-height: 1.2;
       margin-bottom: 15px; }
-    /* line 72, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 74, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content .item-date, .event-highlight .item-content .item-date {
       font-family: "MontSerrat", arial;
       color: #2da192;
@@ -2855,11 +2861,11 @@ a {
       text-transform: uppercase;
       line-height: 1.2;
       margin-bottom: 3px; }
-      /* line 80, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 82, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-content .item-date strong, .event-highlight .item-content .item-date strong {
         font-size: 2.4rem;
         font-weight: 700; }
-    /* line 85, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 87, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content .item-title, .event-highlight .item-content .item-title {
       font: 400 3rem "MontSerrat", arial;
       text-transform: uppercase;
@@ -2867,7 +2873,7 @@ a {
       margin-bottom: 25px;
       line-height: 1.2;
       position: relative; }
-    /* line 93, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 95, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content .item-categories, .event-highlight .item-content .item-categories {
       font: 400 1.8rem "OpenSans", arial;
       color: #5c5c5c;
@@ -2878,7 +2884,7 @@ a {
           -ms-flex-align: center;
               align-items: center;
       line-height: 1.2; }
-      /* line 99, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 101, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-content .item-categories:before, .event-highlight .item-content .item-categories:before {
         content: '';
         display: inline-block;
@@ -2892,20 +2898,20 @@ a {
         -webkit-transform: rotate(90deg);
                 transform: rotate(90deg); }
   @media only screen and (max-width: 1279px) {
-    /* line 115, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 117, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-content + .item-infos, .event-highlight .item-content + .item-infos {
       margin-top: 15px; } }
-  /* line 120, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+  /* line 122, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
   #seu-grid--list01 .grid-item .item-infos, .event-highlight .item-infos {
     position: relative;
     padding-left: 40px; }
     @media only screen and (min-width: 1280px) {
-      /* line 120, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 122, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos, .event-highlight .item-infos {
         width: 280px;
         -ms-flex-negative: 0;
             flex-shrink: 0; } }
-    /* line 127, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 129, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-infos:before, .event-highlight .item-infos:before {
       content: '';
       position: absolute;
@@ -2915,14 +2921,14 @@ a {
       width: 1px;
       background-color: #f6f6f6; }
       @media only screen and (max-width: 1279px) {
-        /* line 127, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+        /* line 129, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
         #seu-grid--list01 .grid-item .item-infos:before, .event-highlight .item-infos:before {
           display: none; } }
     @media only screen and (max-width: 1279px) {
-      /* line 120, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 122, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos, .event-highlight .item-infos {
         padding-left: 0; } }
-    /* line 141, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 143, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-infos .item-geoloc, .event-highlight .item-infos .item-geoloc {
       font-family: "MontSerrat", arial;
       font-size: 1.4rem;
@@ -2937,10 +2943,10 @@ a {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
-      /* line 151, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 153, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-geoloc a, .event-highlight .item-infos .item-geoloc a {
         color: #31455d; }
-      /* line 154, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 156, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-geoloc:before, .event-highlight .item-infos .item-geoloc:before {
         content: '';
         display: inline-block;
@@ -2953,7 +2959,7 @@ a {
         margin-right: 12px;
         -ms-flex-negative: 0;
             flex-shrink: 0; }
-      /* line 166, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 168, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-geoloc:after, .event-highlight .item-infos .item-geoloc:after {
         content: '';
         display: block;
@@ -2966,13 +2972,13 @@ a {
         width: 80%;
         background-color: #f6f6f6; }
         @media only screen and (max-width: 1279px) {
-          /* line 166, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+          /* line 168, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
           #seu-grid--list01 .grid-item .item-infos .item-geoloc:after, .event-highlight .item-infos .item-geoloc:after {
             display: none; } }
-      /* line 179, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 181, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-geoloc + .item-misc, .event-highlight .item-infos .item-geoloc + .item-misc {
         margin-top: 15px; }
-    /* line 183, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+    /* line 185, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
     #seu-grid--list01 .grid-item .item-infos .item-misc, .event-highlight .item-infos .item-misc {
       font-family: "MontSerrat", arial;
       font-size: 1.4rem;
@@ -2987,7 +2993,7 @@ a {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
-      /* line 193, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 195, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-misc:before, .event-highlight .item-infos .item-misc:before {
         content: '';
         display: inline-block;
@@ -3000,13 +3006,13 @@ a {
         margin-right: 12px;
         -ms-flex-negative: 0;
             flex-shrink: 0; }
-      /* line 205, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 207, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-misc span, .event-highlight .item-infos .item-misc span {
         position: relative; }
-      /* line 208, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 210, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-misc span:after, .event-highlight .item-infos .item-misc span:after {
         background-color: #31455d; }
-      /* line 212, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
+      /* line 214, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/grids/grid--list01/_atom-grid--list01.scss */
       #seu-grid--list01 .grid-item .item-infos .item-misc:hover, .event-highlight .item-infos .item-misc:hover, #seu-grid--list01 .grid-item .item-infos .item-misc:focus, .event-highlight .item-infos .item-misc:focus {
         text-decoration: none; }
 
@@ -4995,9 +5001,6 @@ a {
       font-size: 1.5rem;
       font-weight: 600;
       padding: 3px; }
-    /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/pagination/_molecule-nav-pagination.scss */
-    .seu-not-front .seu-pagination .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last).seu-is-active {
-      text-decoration: underline; }
     /* line 60, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/pagination/_molecule-nav-pagination.scss */
     .seu-not-front .seu-pagination .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) a:hover, .seu-not-front .seu-pagination .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) a:focus {
       background-color: #31455d; }
@@ -9582,23 +9585,23 @@ a {
   overflow-x: hidden;
   position: relative; }
 
-/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-.seu-not-front {
+/* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+.seu-not-front .seu {
   padding-top: 105px; }
   @media only screen and (max-width: 1279px) {
-    /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-    .seu-not-front {
+    /* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+    .seu-not-front .seu {
       padding-top: 45px; } }
-  /* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .seu-published {
+  /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .seu-published {
     text-align: center;
     font-size: 1.5rem;
     margin-bottom: 20px; }
-  /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front h1 {
+  /* line 17, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu h1 {
     margin-bottom: 50px; }
-    /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-    .seu-not-front h1:before {
+    /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+    .seu-not-front .seu h1:before {
       content: '';
       display: block;
       height: 15px;
@@ -9608,23 +9611,23 @@ a {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E");
       margin-bottom: 25px; }
       @media only screen and (max-width: 767px) {
-        /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-        .seu-not-front h1:before {
+        /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+        .seu-not-front .seu h1:before {
           margin-bottom: 10px;
           background-size: 35px; } }
     @media only screen and (max-width: 767px) {
-      /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-      .seu-not-front h1 {
+      /* line 17, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+      .seu-not-front .seu h1 {
         margin-bottom: 30px; } }
-  /* line 35, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .hat {
+  /* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .hat {
     margin-bottom: 50px; }
     @media only screen and (max-width: 767px) {
-      /* line 35, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-      .seu-not-front .hat {
+      /* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+      .seu-not-front .seu .hat {
         margin-bottom: 30px; } }
-  /* line 42, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .region-post-header .region-nav-tools {
+  /* line 46, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .region-post-header .region-nav-tools {
     position: relative;
     z-index: 10;
     padding-top: 5px;
@@ -9637,27 +9640,27 @@ a {
             align-items: center;
     margin-bottom: 50px;
     margin-top: 40px; }
-  /* line 53, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .region-post-header .block-container-breadcrumb {
+  /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .region-post-header .block-container-breadcrumb {
     margin-right: auto;
     padding-left: 0; }
-  /* line 58, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .region-post-header.has-banner .region-nav-tools {
+  /* line 62, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .region-post-header.has-banner .region-nav-tools {
     margin-top: 0;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
     margin-bottom: 5px; }
-  /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .region-post-header.has-banner .block-container-breadcrumb {
+  /* line 67, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .region-post-header.has-banner .block-container-breadcrumb {
     background-color: #f6f6f6;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
     padding: 20px 30px; }
     @media only screen and (max-width: 767px) {
-      /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-      .seu-not-front .region-post-header.has-banner .block-container-breadcrumb {
+      /* line 67, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+      .seu-not-front .seu .region-post-header.has-banner .block-container-breadcrumb {
         padding: 10px 15px; } }
-  /* line 75, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-  .seu-not-front .actu-published {
+  /* line 79, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
+  .seu-not-front .seu .actu-published {
     text-align: right;
     font-style: italic;
     color: #31455d;

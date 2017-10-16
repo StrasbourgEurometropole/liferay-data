@@ -49,6 +49,7 @@ import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -56,8 +57,8 @@ public class SearchAssetDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
-		this._request = request;
 		this._response = response;
+		this._request = request;
 		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		this._configuration = this._themeDisplay.getPortletDisplay()
 				.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
@@ -105,9 +106,51 @@ public class SearchAssetDisplayContext {
 		if (this._searchContainer == null) {
 			this._searchContainer = new SearchContainer<AssetEntry>(this._request, iteratorURL, null,
 					"no-entries-were-found");
+			this._searchContainer.getIteratorURL().setParameter("delta", String.valueOf(this.getDelta()));
 
-			this._searchContainer.setDelta((int) (this._configuration.delta() > 0 ? this._configuration.delta() : 12));
+			this._searchContainer.setDelta((int) this.getDelta());
 		}
+	}
+	
+	/**
+	 * Retourne le nombre d'items par page à afficher
+	 */
+	public long getDelta() {
+		long deltaFromParam = ParamUtil.getLong(this._request, "delta");
+		if (deltaFromParam > 0) {
+			return deltaFromParam;
+		}
+		if (this._configuration.delta() > 0) {
+			return this._configuration.delta();
+		}
+		return 12;
+	}
+	
+	public Pager getPager() {
+		return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(), this.getSearchContainer().getCur());
+	}
+	
+	/**
+	 * Retourne l'URL sur laquelle aller pour avoir X items par page
+	 */
+	public String getURLForDelta(long delta) {
+		PortletURL url = this.getSearchContainer().getIteratorURL();
+		url.setParameter("delta", String.valueOf(delta));
+		String valueToReturn = url.toString();
+		url.setParameter("delta", String.valueOf(this.getDelta()));
+		return valueToReturn;
+	}
+
+	
+	/**
+	 * Retourne l'URL sur laquelle aller pour accéder à la Xième page
+	 */
+	public String getURLForPage(long pageIndex) {
+		PortletURL url = this.getSearchContainer().getIteratorURL();
+		url.setParameter("cur", String.valueOf(pageIndex));
+		String valueToReturn = url.toString();
+		url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
+		return valueToReturn;
 	}
 
 	/**
@@ -191,13 +234,13 @@ public class SearchAssetDisplayContext {
 
 	/**
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
-	 * entries
+	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET" 
 	 */
 	private List<Long[]> getFilterCategoriesIds() {
 		if (_filterCategoriesIds == null) {
 			List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
 
-			// Soit depuis un paramètre "categories" "manuel"
+			// Soit depuis un paramètre "categoriesIds" de l'URL
 			String categoriesIdsString = ParamUtil.getString(this._request, "categoriesIds");
 			if (Validator.isNotNull(categoriesIdsString)) {
 				for (String prefilterCategoriesIdsAnd : categoriesIdsString.split(";")) {
@@ -526,6 +569,12 @@ public class SearchAssetDisplayContext {
 		return this._configuration.dateField();
 	}
 
+	/**
+	 * Retourne la jour du mois de la date de début de la recherche. Soit depuis
+	 * les paramètres de la requête soit le réglage par défaut via la
+	 * configuration (date du jour, ou si la période de recherche par défaut par
+	 * défaut est négative, X jour dans le passé)
+	 */
 	public int getFromDay() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromDay");
 		if (fromParam > 0) {
@@ -540,10 +589,20 @@ public class SearchAssetDisplayContext {
 
 	}
 
+	/**
+	 * Retourne le mois de la date de début de la recherche depuis les
+	 * paramètres de la requête ou depuis la configuration, dans l'interval
+	 * [0;11]
+	 */
 	public int getFromMonthIndex() {
 		return getFromMonthValue() - 1;
 	}
 
+	/**
+	 * Retourne le mois de la date de début de la recherche depuis les
+	 * paramètres de la requête ou depuis la configuration, dans l'interval
+	 * [1;12]
+	 */
 	public int getFromMonthValue() {
 		String fromMonthString = ParamUtil.getString(this._request, "fromMonth");
 		if (Validator.isNull(fromMonthString)) {
@@ -557,6 +616,10 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne l'année de la date de début de la recherche depuis les
+	 * paramètres de la requête ou depuis la configuration
+	 */
 	public int getFromYear() {
 		int fromParam = ParamUtil.getInteger(this._request, "fromYear");
 		if (fromParam > 0) {
@@ -570,6 +633,12 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne la jour du mois de la date de fin de la recherche. Soit depuis
+	 * les paramètres de la requête soit le réglage par défaut via la
+	 * configuration (date du jour + config, ou si la période de recherche par
+	 * défaut par défaut est négative, date du jour)
+	 */
 	public int getToDay() {
 		int toParam = ParamUtil.getInteger(this._request, "toDay");
 		if (toParam > 0) {
@@ -583,10 +652,18 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne le mois de la date de fin de la recherche depuis les paramètres
+	 * de la requête ou depuis la configuration, dans l'interval [0;11]
+	 */
 	public int getToMonthIndex() {
 		return getToMonthValue() - 1;
 	}
 
+	/**
+	 * Retourne le mois de la date de fin de la recherche depuis les paramètres
+	 * de la requête ou depuis la configuration, dans l'interval [1;12]
+	 */
 	public int getToMonthValue() {
 		String toMonthString = ParamUtil.getString(this._request, "toMonth");
 		if (Validator.isNull(toMonthString)) {
@@ -600,6 +677,10 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne l'année de la date de fin de la recherche depuis les paramètres
+	 * de la requête ou depuis la configuration
+	 */
 	public int getToYear() {
 		int toParam = ParamUtil.getInteger(this._request, "toYear");
 		if (toParam > 0) {
@@ -613,6 +694,10 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Retourne true si les résultats doivent être masqués lors de l'affichage
+	 * du formulaire (avant qu'une recherche soit lancée par l'utilisateur)
+	 */
 	public boolean getHideResultsBeforeSearch() {
 		return this._configuration.hideResultsBeforeSearch();
 	}
