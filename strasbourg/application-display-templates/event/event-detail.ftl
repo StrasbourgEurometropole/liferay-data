@@ -20,7 +20,11 @@
     <div class="event-highlight">
         <div class="item-right">
             <div class="item-content">
-                <div class="item-date">${entry.getEventScheduleDisplay(locale)}</div>
+                <#if entry.firstStartDate?date == entry.lastEndDate?date>
+                    <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
+                <#else>
+                    <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
+                </#if>
                 <div class="item-dates rte">
                     <h3 class="item-title"><@liferay_ui.message key="eu.next-dates" /></h3>
                     <ul class="seu-dates-list">
@@ -60,9 +64,11 @@
                           ${entry.placeZipCode} ${entry.getPlaceCity(locale)}
                     </span>
                 </div>
+                <!--
                 <a href="" class="item-misc">
                     <span><@liferay_ui.message key="eu.add-to-calendar" /></span>
                 </a>
+                -->
             </div>
         </div>
     </div>
@@ -89,7 +95,7 @@
                                 <#if entry.free == 1>
                                     <div class="free-event"><@liferay_ui.message key="eu.free-event" /></div>
                                 </#if>
-                                ${event.getPrice(locale)}
+                                ${entry.getPrice(locale)}
                             </div>
                         </#if>
                     </div>
