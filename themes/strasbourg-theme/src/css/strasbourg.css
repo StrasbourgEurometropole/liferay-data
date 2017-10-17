@@ -10677,6 +10677,32 @@ _:-ms-fullscreen .seu-view-filters .select2 .select2-selection__rendered li, _:-
 .portlet-body > div > div.h2 {
   display: none; }
 
+/* Formulaire de connexion */
+/* line 10, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.portlet-login {
+  margin: 100px auto 200px auto;
+  max-width: 500px;
+  font-size: 1.5em;
+  font-family: Arial, sans-serif; }
+
+/* Décallage lorsqu'un utilisateur est connecté */
+/* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.has-control-menu .seu-header {
+  top: 66px; }
+
+/* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.has-control-menu {
+  margin-top: 66px; }
+
+/* Barre de boutons dans la configuration */
+/* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.portlet-configuration-setup form.form {
+  margin-bottom: 100px; }
+  /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+  .portlet-configuration-setup form.form .button-holder.dialog-footer {
+    position: fixed;
+    background: white; }
+
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {
   height: calc(100% - 140px); }
@@ -10825,5 +10851,31 @@ _:-ms-fullscreen .seu-view-filters .select2 .select2-selection__rendered li, _:-
 /* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
 .portlet-body > div > div.h2 {
   display: none; }
+
+/* Formulaire de connexion */
+/* line 10, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.portlet-login {
+  margin: 100px auto 200px auto;
+  max-width: 500px;
+  font-size: 1.5em;
+  font-family: Arial, sans-serif; }
+
+/* Décallage lorsqu'un utilisateur est connecté */
+/* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.has-control-menu .seu-header {
+  top: 66px; }
+
+/* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.has-control-menu {
+  margin-top: 66px; }
+
+/* Barre de boutons dans la configuration */
+/* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+.portlet-configuration-setup form.form {
+  margin-bottom: 100px; }
+  /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
+  .portlet-configuration-setup form.form .button-holder.dialog-footer {
+    position: fixed;
+    background: white; }
 
 /*# sourceMappingURL=strasbourg.css.map */
