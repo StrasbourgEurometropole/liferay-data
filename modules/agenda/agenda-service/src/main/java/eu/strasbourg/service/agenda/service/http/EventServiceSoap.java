@@ -172,7 +172,7 @@ public class EventServiceSoap {
 
 	public static java.lang.String getEvents() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEvents();
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEvents();
 
 			return returnValue.toString();
 		}
@@ -186,7 +186,7 @@ public class EventServiceSoap {
 	public static java.lang.String getEventsByDate(java.lang.String date)
 		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByDate(date);
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEventsByDate(date);
 
 			return returnValue.toString();
 		}
@@ -200,7 +200,7 @@ public class EventServiceSoap {
 	public static java.lang.String getEventsByCategory(long categoryId)
 		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByCategory(categoryId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEventsByCategory(categoryId);
 
 			return returnValue.toString();
 		}
@@ -214,7 +214,7 @@ public class EventServiceSoap {
 	public static java.lang.String getEventsByPlace(java.lang.String placeSIGId)
 		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByPlace(placeSIGId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEventsByPlace(placeSIGId);
 
 			return returnValue.toString();
 		}
@@ -228,7 +228,7 @@ public class EventServiceSoap {
 	public static java.lang.String getEventsByLanguage(
 		java.lang.String language) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getEventsByLanguage(language);
+			com.liferay.portal.kernel.json.JSONObject returnValue = EventServiceUtil.getEventsByLanguage(language);
 
 			return returnValue.toString();
 		}

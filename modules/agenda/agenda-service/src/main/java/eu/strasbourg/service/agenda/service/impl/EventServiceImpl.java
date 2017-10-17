@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -44,6 +45,7 @@ import eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * The implementation of the event remote service.
@@ -147,6 +149,10 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 
 	@Override
 	public JSONObject getEvent(long id) throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		Event event = this.eventLocalService.fetchEvent(id);
 		if (event == null || !event.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
@@ -155,13 +161,21 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getEvents() throws PortalException {
+	public JSONObject getEvents() throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		List<Event> events = this.eventLocalService.getEvents(-1, -1);
 		return this.getApprovedJSONEvents(events);
 	}
 
 	@Override
-	public JSONArray getEventsByDate(String date) throws PortalException {
+	public JSONObject getEventsByDate(String date) throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		LocalDate localDate = LocalDate.parse(date,
 			DateTimeFormatter.ofPattern("ddMMyyyy"));
 		Hits hits = SearchHelper.getEventWebServiceSearchHits(
@@ -176,8 +190,12 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getEventsByCategory(long categoryId)
+	public JSONObject getEventsByCategory(long categoryId)
 		throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		Hits hits = SearchHelper.getEventWebServiceSearchHits(
 			Event.class.getName(), null, categoryId, null);
 		List<Event> events = new ArrayList<Event>();
@@ -190,8 +208,12 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getEventsByPlace(String placeSIGId)
+	public JSONObject getEventsByPlace(String placeSIGId)
 		throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		Hits hits = SearchHelper.getEventWebServiceSearchHits(
 			Event.class.getName(), null, (long) 0, null);
 		List<Event> events = new ArrayList<Event>();
@@ -206,8 +228,12 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getEventsByLanguage(String language)
+	public JSONObject getEventsByLanguage(String language)
 		throws PortalException {
+		if (!isAuthorized()) {
+			return error("not authorized");
+		}
+		
 		Locale locale = LocaleUtil.fromLanguageId(language);
 		Hits hits = SearchHelper.getEventWebServiceSearchHits(
 			Event.class.getName(), null, (long) 0, locale);
@@ -220,13 +246,30 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 		return this.getApprovedJSONEvents(events);
 	}
 
-	private JSONArray getApprovedJSONEvents(List<Event> events) {
+	private JSONObject getApprovedJSONEvents(List<Event> events) {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 		for (Event event : events) {
 			if (event.isApproved()) {
 				jsonEvents.put(event.toJSON());
 			}
 		}
-		return jsonEvents;
+		result.put("events", jsonEvents);
+		return result;
+	}
+
+	private JSONObject error(String message) {
+		return JSONFactoryUtil.createJSONObject().put("error", message);
+	}
+	
+	private boolean isAuthorized() {
+		try {
+			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+			long globalGroupId = defaultCompany.getGroup().getGroupId();
+			return this.getPermissionChecker().hasPermission(globalGroupId, StrasbourgPortletKeys.AGENDA_BO,
+					StrasbourgPortletKeys.AGENDA_BO, "CONTRIBUTE");
+		} catch (PortalException e) {
+			return false;
+		}
 	}
 }
