@@ -97,6 +97,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		if (filterGroupId == 0) {
 			filterGroupId = themeDisplay.getScopeGroupId();
 		}
+		portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 
 		List<Video> videos = VideoLocalServiceUtil.findByKeyword(keywords, filterGroupId, (delta * cur) - delta,
 				((delta * cur) + delta));
