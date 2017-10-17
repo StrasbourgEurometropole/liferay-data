@@ -10691,17 +10691,8 @@ _:-ms-fullscreen .seu-view-filters .select2 .select2-selection__rendered li, _:-
   top: 66px; }
 
 /* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.has-control-menu {
+.seu-not-front.has-control-menu {
   margin-top: 66px; }
-
-/* Barre de boutons dans la configuration */
-/* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.portlet-configuration-setup form.form {
-  margin-bottom: 100px; }
-  /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-  .portlet-configuration-setup form.form .button-holder.dialog-footer {
-    position: fixed;
-    background: white; }
 
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {
@@ -10866,16 +10857,7 @@ _:-ms-fullscreen .seu-view-filters .select2 .select2-selection__rendered li, _:-
   top: 66px; }
 
 /* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.has-control-menu {
+.seu-not-front.has-control-menu {
   margin-top: 66px; }
-
-/* Barre de boutons dans la configuration */
-/* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.portlet-configuration-setup form.form {
-  margin-bottom: 100px; }
-  /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-  .portlet-configuration-setup form.form .button-holder.dialog-footer {
-    position: fixed;
-    background: white; }
 
 /*# sourceMappingURL=strasbourg.css.map */
