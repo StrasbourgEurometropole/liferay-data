@@ -10006,9 +10006,10 @@ a {
     .seu-main-form fieldset > *:last-child {
       margin-bottom: 0; }
     /* line 37, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/main-form/main-form.scss */
-    .page-demarches #rub_service fieldset input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .page-demarches #rub_service fieldset select,
+    .page-demarches #rub_service fieldset input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .page-demarches #rub_service fieldset select, .page-demarches #rub_service fieldset textarea,
     .seu-main-form fieldset input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
-    .seu-main-form fieldset select {
+    .seu-main-form fieldset select,
+    .seu-main-form fieldset textarea {
       background-color: #FFFFFF; }
     @media only screen and (max-width: 767px) {
       /* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/main-form/main-form.scss */
