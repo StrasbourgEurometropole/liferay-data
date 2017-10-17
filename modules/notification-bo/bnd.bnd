@@ -1,5 +1,5 @@
 Bundle-Name: notification-bo
 Bundle-SymbolicName: eu.strasbourg.portlet.notification
-Bundle-Version: 1.0.0
+Bundle-Version: 1.24.0
 Export-Package: eu.strasbourg.portlet.notification.constants
 Web-ContextPath: /notification-bo

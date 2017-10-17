@@ -34,7 +34,7 @@
         & > *:last-child{
             margin-bottom: 0;
         }
-        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), select{ 
+        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), select, textarea{ 
             background-color: #FFFFFF;
         }
         @include RWD(mobile){

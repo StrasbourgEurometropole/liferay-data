@@ -1,6 +1,6 @@
 Bundle-Name: notification-api
 Bundle-SymbolicName: eu.strasbourg.service.notification.api
-Bundle-Version: 1.0.0
+Bundle-Version: 1.24.0
 Export-Package:\
 	eu.strasbourg.service.notification.exception,\
 	eu.strasbourg.service.notification.model,\
