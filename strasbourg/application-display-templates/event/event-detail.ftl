@@ -6,7 +6,7 @@
 </#if>
 
 <!-- Détail événement -->
-<main class="seu-container">
+<div class="seu-container">
     <h1>${entry.getTitle(locale)}</h1>
     <div class="hat">
         <p>${entry.getSubtitle(locale)}</p>
@@ -75,11 +75,28 @@
     <div class="rte">
         <h2><@liferay_ui.message key="eu.presentation" /></h2>
         ${entry.getDescription(locale)}
-        <p>
-            <#if entry.promoter?has_content>
+        <#if entry.promoter?has_content>
+            <p>
                 <strong><@liferay_ui.message key="eu.organized-by" /> : ${entry.promoter}</strong>
-            </#if>
-        </p>
+            </p>
+        </#if>
+        <#if entry.promoter?has_content>
+            <p>
+                <strong><@liferay_ui.message key="eu.organized-by" /> : ${entry.promoter}</strong>
+            </p>
+        </#if>
+        <#if entry.publishedManifestations?has_content>
+            <p>
+                <strong><@liferay_ui.message key="eu.this-event-is-part-of" /> 
+                    <#list entry.getPublishedManifestations() as manifestation>
+                        <#if (manifestation?index > 0)>
+                            - 
+                        </#if>
+                        <a href="${homeURL}manifestation/-/entity/id/${manifestation.manifestationId}">${manifestation.getTitle(locale)}</a>
+                    </#list>
+                </strong>
+            </p>
+        </#if>
     </div>
     <div class="seu-wi seu-wi-infos">
         <div class="seu-container">
@@ -154,4 +171,4 @@
             </div>
         </div>
     </div>
-</main>
+</div>
