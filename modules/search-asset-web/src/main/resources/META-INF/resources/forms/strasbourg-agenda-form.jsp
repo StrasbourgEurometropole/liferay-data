@@ -35,15 +35,20 @@
         </div>
     </div>
 </div>
+<c:set var="showAdvancedSearch" value="${not empty dc.filterCategoriesIdsString}" />
+<c:if test="${showAdvancedSearch}">
+	<c:set var="displayBlockIfAdvancedSearch" value="style=\"display: block;\"" />
+	<c:set var="openIfAdvancedSearch" value="opened" />
+</c:if>
 <div class="seu-btn-line advanced">
-    <button type="button" class="seu-btn-square seu-filled seu-second seu-trigger-advanced-search">
+    <button type="button" class="seu-btn-square seu-filled seu-second seu-trigger-advanced-search ${openIfAdvancedSearch}">
         <span class="seu-flexbox">
             <span class="seu-btn-text"><liferay-ui:message key="advanced-search" /></span>
             <span class="seu-btn-arrow"></span>
         </span>
     </button>
 </div>
-<div class="seu-filter-advanced-search">
+<div class="seu-filter-advanced-search" ${displayBlockIfAdvancedSearch}>
     <div class="seu-filter-line">
         <div class="widget">
             <div class="title">
@@ -119,6 +124,13 @@
 <aui:input type="hidden" name="vocabulariesCount" value="4" />
 
 <div class="seu-btn-line">
+	<liferay-portlet:renderURL var="agendaURL" />
+	<button type="button" onclick="window.location.href = '${agendaURL}'" class="seu-btn-square seu-bordered seu-core"> 
+	    <span class="seu-flexbox">            
+	        <span class="seu-btn-text" style="margin-right: 0"><liferay-ui:message key="cancel" /></span>
+	    </span>
+	</button>
+
     <button type="submit" class="seu-btn-square seu-filled seu-core">
         <span class="seu-flexbox">
             <span class="seu-btn-text"><liferay-ui:message key="search" /></span>
