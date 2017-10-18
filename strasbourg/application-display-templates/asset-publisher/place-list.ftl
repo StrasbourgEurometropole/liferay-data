@@ -47,7 +47,7 @@
                     <li class="seu-pagin-next seu-pagin-item">
                         <button class="seu-btn-square seu-bordered seu-white" title="<@liferay_ui.message key="next" />" data-action="next">
                             <span class="seu-flexbox">
-                                <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
+                                <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
                                 <span class="seu-btn-arrow"></span>
                             </span>
                         </button>
