@@ -6,3 +6,9 @@ $('.seu-wi-crossreading, .seu-wi-contact').each(function() {
     $(this).parents('.portlet-boundary').css('position', 'relative');
   }
 });
+
+$('.seu-wi-trombinoscope').each(function() {
+  if ($(this).parents('.portlet-nested-portlets').length) {
+    $(this).parents('.portlet-nested-portlets').addClass('seu-container seu-wi-duo');
+  }
+});

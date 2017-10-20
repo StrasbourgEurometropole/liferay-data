@@ -10503,6 +10503,15 @@ a {
 .seu-wi-quote {
   margin-bottom: 40px; }
 
+/* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-trombinoscope/wi-trombinoscope.scss */
+.portlet-nested-portlets .seu-wi-trombinoscope {
+  margin: 0; }
+  /* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-trombinoscope/wi-trombinoscope.scss */
+  .portlet-nested-portlets .seu-wi-trombinoscope .seu-btn-line {
+    -webkit-box-pack: left !important;
+        -ms-flex-pack: left !important;
+            justify-content: left !important; }
+
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {
   height: calc(100% - 140px); }

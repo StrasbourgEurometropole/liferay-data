@@ -15393,14 +15393,15 @@ $(document).ready(function(){
         }
     });
 });
-(function ($) {
+$(window).load(function() {
     $('#seu-grid-carrefour').masonry({
         itemSelector: '.seu-grid-item',
         gutter: 20,
         percentPosition: true,
         transitionDuration: '0.6s'
     });
- }(jQuery));
+});
+
 (function ($) {
     $(document).ready(function(){
         if($('.seu-slider-int-container').length){
@@ -15800,6 +15801,12 @@ $('.seu-wi-crossreading, .seu-wi-contact').each(function() {
   } else {
     $(this).parents('.portlet-boundary').addClass('seu-container seu-wi-duo seu-wi-solo');
     $(this).parents('.portlet-boundary').css('position', 'relative');
+  }
+});
+
+$('.seu-wi-trombinoscope').each(function() {
+  if ($(this).parents('.portlet-nested-portlets').length) {
+    $(this).parents('.portlet-nested-portlets').addClass('seu-container seu-wi-duo');
   }
 });
 var page_limit = 12;
