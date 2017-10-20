@@ -56,25 +56,6 @@ public interface EventService extends BaseService {
 	public JSONArray getCategories() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEvents() throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEventsByCategory(long categoryId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEventsByDate(java.lang.String date)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEventsByLanguage(java.lang.String language)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEventsByPlace(java.lang.String placeSIGId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getPublics() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -94,6 +75,25 @@ public interface EventService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getEvent(long id) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEvents() throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEventsByCategory(long categoryId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEventsByDate(java.lang.String date)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEventsByLanguage(java.lang.String language)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEventsByPlace(java.lang.String placeSIGId)
+		throws PortalException;
 
 	/**
 	* Returns the OSGi service identifier.

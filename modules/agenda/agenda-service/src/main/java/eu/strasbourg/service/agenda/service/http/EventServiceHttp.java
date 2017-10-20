@@ -303,7 +303,7 @@ public class EventServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEvents(
+	public static com.liferay.portal.kernel.json.JSONObject getEvents(
 		HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -325,7 +325,7 @@ public class EventServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -334,7 +334,7 @@ public class EventServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByDate(
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByDate(
 		HttpPrincipal httpPrincipal, java.lang.String date)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -356,7 +356,7 @@ public class EventServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -365,7 +365,7 @@ public class EventServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByCategory(
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
 		HttpPrincipal httpPrincipal, long categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -388,7 +388,7 @@ public class EventServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -397,7 +397,7 @@ public class EventServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByPlace(
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 		HttpPrincipal httpPrincipal, java.lang.String placeSIGId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -420,7 +420,7 @@ public class EventServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -429,7 +429,7 @@ public class EventServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByLanguage(
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
 		HttpPrincipal httpPrincipal, java.lang.String language)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
@@ -451,7 +451,7 @@ public class EventServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);

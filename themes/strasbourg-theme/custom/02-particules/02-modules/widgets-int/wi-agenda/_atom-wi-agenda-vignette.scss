@@ -1,5 +1,9 @@
 %atom-wi-agenda-vignette{
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    &:nth-child(n + 5) {
+        margin-top: 20px;
+    }
+
     @include RWD(tablet){
         &:nth-child(1),
         &:nth-child(2){

@@ -34,17 +34,15 @@ public class SearchHelper {
 	/**
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
-	public static Hits getBOSearchHits(SearchContext searchContext, int start,
-		int end, String className, long groupId, String categoriesIds,
-		String keywords, String sortField, boolean isSortDesc) {
+	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
+			String categoriesIds, String keywords, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
 			searchContext.setEnd(end);
 
 			// Query
-			Query query = SearchHelper.getBOSearchQuery(className, groupId,
-				categoriesIds, keywords);
+			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords);
 
 			// Ordre
 			// Si il y a une recherche par mot clé on trie par pertinence
@@ -69,11 +67,11 @@ public class SearchHelper {
 	 * Retourne le nombre de résultats correspondant aux paramètres pour les
 	 * portlets du BO
 	 */
-	public static long getBOSearchCount(SearchContext searchContext,
-		String className, long groupId, String categoriesIds, String keywords) {
+	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
+			String categoriesIds, String keywords) {
 		try {
-			Query query = SearchHelper.getBOSearchQuery(className, groupId,
-				categoriesIds, keywords);
+			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords);
+
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
 			_log.error(e);
@@ -85,25 +83,26 @@ public class SearchHelper {
 	 * Retourne la requête à exécuter correspondant aux paramètres pour les
 	 * portlets du BO
 	 */
-	private static Query getBOSearchQuery(String className, long groupId,
-		String categoriesIds, String keywords) {
+	private static Query getBOSearchQuery(String className, long groupId, String categoriesIds, String keywords) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
 
 			// ClassName
-			query.addTerm(Field.ENTRY_CLASS_NAME, className, false,
-				BooleanClauseOccur.MUST);
+			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
+			query.add(classNameQuery, BooleanClauseOccur.MUST);
 
 			// Group
-			query.addRequiredTerm(Field.GROUP_ID, groupId);
+			BooleanQuery groupIdQuery = new BooleanQueryImpl();
+			groupIdQuery.addExactTerm(Field.GROUP_ID, groupId);
+			query.add(groupIdQuery, BooleanClauseOccur.MUST);
 
 			// Categories
 			for (String categoryId : categoriesIds.split(",")) {
 				if (Validator.isNotNull(categoryId)) {
 					BooleanQuery categoryQuery = new BooleanQueryImpl();
-					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-						categoryId);
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
 					query.add(categoryQuery, BooleanClauseOccur.MUST);
 				}
 			}
@@ -115,12 +114,10 @@ public class SearchHelper {
 				titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
-				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
-					Field.TITLE, "*" + keywords + "*");
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
-				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION,
-					keywords);
+				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION, keywords);
 				descriptionQuery.setFuzziness(new Float(10));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
@@ -177,23 +174,19 @@ public class SearchHelper {
 	 *            Classement descendant par défaut, ascendant si "true"
 	 * @return Les hits renvoyés par le moteur de recherche
 	 */
-	public static Hits getGlobalSearchHits(SearchContext searchContext,
-		String[] classNames, long groupId, long globalGroupId,
-		boolean globalScope, String keywords, boolean dateField,
-		String dateFieldName, LocalDate fromDate, LocalDate toDate,
-		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-		String[] prefilterTagsNames, Locale locale, int start, int end,
-		String sortField, boolean isSortDesc) {
+	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
 			searchContext.setEnd(end);
 
 			// Query
-			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
-				globalGroupId, globalScope, keywords, dateField, dateFieldName,
-				fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames, locale);
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames, locale);
 
 			// Ordre
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
@@ -202,8 +195,7 @@ public class SearchHelper {
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
-			_log.info(
-				"Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
+			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
 			return hits;
 		} catch (SearchException e) {
 			_log.error(e);
@@ -215,18 +207,15 @@ public class SearchHelper {
 	 * Retourne le nombre de résultats correspondant aux paramètres pour les
 	 * moteurs de recherche globaux
 	 */
-	public static long getGlobalSearchCount(SearchContext searchContext,
-		String[] classNames, long groupId, long globalGroupId,
-		boolean globalScope, String keywords, boolean dateField,
-		String dateFieldName, LocalDate fromDate, LocalDate toDate,
-		List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-		String[] prefilterTagsNames, Locale locale) {
+	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, Locale locale) {
 		try {
 			// Query
-			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId,
-				globalGroupId, globalScope, keywords, dateField, dateFieldName,
-				fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames, locale);
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames, locale);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
 			_log.error(e);
@@ -238,12 +227,10 @@ public class SearchHelper {
 	 * Retourne la requête à exécuter correspondant aux paramètres pour les
 	 * moteurs de recherche globaux
 	 */
-	private static Query getGlobalSearchQuery(String[] classNames, long groupId,
-		long globalGroupId, boolean globalScope, String keywords,
-		boolean dateField, String dateFieldName, LocalDate fromDate,
-		LocalDate toDate, List<Long[]> categoriesIds,
-		List<Long[]> prefilterCategoriesIds, String[] prefilterTagsNames,
-		Locale locale) {
+	private static Query getGlobalSearchQuery(String[] classNames, long groupId, long globalGroupId,
+			boolean globalScope, String keywords, boolean dateField, String dateFieldName, LocalDate fromDate,
+			LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, Locale locale) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -254,18 +241,15 @@ public class SearchHelper {
 				if (Validator.isNotNull(className)) {
 					// Cas général
 					if (!className.contains("JournalArticle")) {
-						classNameQuery.addTerm(Field.ENTRY_CLASS_NAME,
-							className, false, BooleanClauseOccur.SHOULD);
+						classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.SHOULD);
 					}
 					// Cas où on a un journalArticle (on vérifie que c'est la
 					// dernière version)
 					else {
 						BooleanQuery journalArticleQuery = new BooleanQueryImpl();
-						journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME,
-							className, false, BooleanClauseOccur.MUST);
+						journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.MUST);
 						journalArticleQuery.addRequiredTerm("head", true);
-						classNameQuery.add(journalArticleQuery,
-							BooleanClauseOccur.SHOULD);
+						classNameQuery.add(journalArticleQuery, BooleanClauseOccur.SHOULD);
 					}
 				}
 			}
@@ -291,14 +275,12 @@ public class SearchHelper {
 			}
 
 			// Statut et visibilité
-			query.addRequiredTerm(Field.STATUS,
-				WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
 
 			BooleanQuery publicationDateQuery = new BooleanQueryImpl();
-			publicationDateQuery.addRangeTerm(Field.PUBLISH_DATE + "_sortable",
-				0, Timestamp.valueOf(LocalDateTime.now()).toInstant()
-					.toEpochMilli());
+			publicationDateQuery.addRangeTerm(Field.PUBLISH_DATE + "_sortable", 0,
+					Timestamp.valueOf(LocalDateTime.now()).toInstant().toEpochMilli());
 			query.add(publicationDateQuery, BooleanClauseOccur.MUST);
 
 			// Mots-clés
@@ -306,55 +288,46 @@ public class SearchHelper {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
 
 				// Fuzzy sur titre
-				MatchQuery titleQuery = new MatchQuery(
-					Field.TITLE + '_' + locale, keywords);
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_' + locale, keywords);
 				titleQuery.setFuzziness(new Float(2));
 				titleQuery.setAnalyzer("strasbourg_analyzer");
 				titleQuery.setBoost(3);
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
 				// Wildcard sur titre
-				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
-					Field.TITLE + "_" + locale, "*" + keywords + "*");
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE + "_" + locale,
+						"*" + keywords + "*");
 				titleWildcardQuery.setBoost(30);
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				// Description
-				MatchQuery descriptionQuery = new MatchQuery(
-					Field.DESCRIPTION + "_" + locale, keywords);
+				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION + "_" + locale, keywords);
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				// Pour les fichiers on recherche dans le champ "title" sans la
 				// locale car il est indexé uniquement comme cela
 				BooleanQuery fileQuery = new BooleanQueryImpl();
-				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE,
-					keywords);
-				//fileTitleQuery.setFuzziness(new Float(10));
+				MatchQuery fileTitleQuery = new MatchQuery(Field.TITLE, keywords);
+				// fileTitleQuery.setFuzziness(new Float(10));
 				fileQuery.add(fileTitleQuery, BooleanClauseOccur.MUST);
-				fileQuery.addTerm(Field.ENTRY_CLASS_NAME,
-					DLFileEntry.class.getName(), false,
-					BooleanClauseOccur.MUST);
+				fileQuery.addTerm(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName(), false, BooleanClauseOccur.MUST);
 				keywordQuery.add(fileQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur content (tous les champs indexables des structures
 				// de
 				// CW et de D&M sont dans ce champ)
-				MatchQuery contentQuery = new MatchQuery(
-					Field.CONTENT + "_" + locale, keywords);
-				//contentQuery.setFuzziness(new Float(1));
+				MatchQuery contentQuery = new MatchQuery(Field.CONTENT + "_" + locale, keywords);
+				// contentQuery.setFuzziness(new Float(1));
 				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur catégorie
-				MatchQuery categoryKeywordQuery = new MatchQuery(
-					Field.ASSET_CATEGORY_TITLES, keywords);
-				//titleQuery.setFuzziness(new Float(10));
-				keywordQuery.add(categoryKeywordQuery,
-					BooleanClauseOccur.SHOULD);
+				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);
+				// titleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(categoryKeywordQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur tags
-				MatchQuery tagKeywordQuery = new MatchQuery(
-					Field.ASSET_TAG_NAMES, keywords);
-				//titleQuery.setFuzziness(new Float(10));
+				MatchQuery tagKeywordQuery = new MatchQuery(Field.ASSET_TAG_NAMES, keywords);
+				// titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(tagKeywordQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);
@@ -368,14 +341,11 @@ public class SearchHelper {
 				// titre traduit
 				BooleanQuery anyKeywordQuery = new BooleanQueryImpl();
 
-				WildcardQuery anyKeywordWildcardQuery = new WildcardQueryImpl(
-					"title_" + locale, "*");
+				WildcardQuery anyKeywordWildcardQuery = new WildcardQueryImpl("title_" + locale, "*");
 
-				anyKeywordQuery.addTerm(Field.ENTRY_CLASS_NAME,
-					DLFileEntry.class.getName(), false,
-					BooleanClauseOccur.SHOULD);
-				anyKeywordQuery.add(anyKeywordWildcardQuery,
-					BooleanClauseOccur.SHOULD);
+				anyKeywordQuery.addTerm(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName(), false,
+						BooleanClauseOccur.SHOULD);
+				anyKeywordQuery.add(anyKeywordWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
 			}
@@ -387,10 +357,8 @@ public class SearchHelper {
 				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
 				for (long categoryId : categoriesIdsGroupByVocabulary) {
 					BooleanQuery categoryQuery = new BooleanQueryImpl();
-					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-						String.valueOf(categoryId));
-					vocabularyQuery.add(categoryQuery,
-						BooleanClauseOccur.SHOULD);
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+					vocabularyQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
 				}
 				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
 			}
@@ -403,23 +371,19 @@ public class SearchHelper {
 				for (long categoryId : categoriesIdsGroupByVocabulary) {
 					if (Validator.isNotNull(categoryId)) {
 						BooleanQuery categoryQuery = new BooleanQueryImpl();
-						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-							String.valueOf(categoryId));
-						vocabularyQuery.add(categoryQuery,
-							BooleanClauseOccur.SHOULD);
+						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+						vocabularyQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
 					}
 				}
 				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
 			}
 
 			// Préfiltre tags
-			if (Validator.isNotNull(prefilterTagsNames)
-				&& prefilterTagsNames.length > 0) {
+			if (Validator.isNotNull(prefilterTagsNames) && prefilterTagsNames.length > 0) {
 				BooleanQuery tagsQuery = new BooleanQueryImpl();
 				for (String tagName : prefilterTagsNames) {
 					BooleanQuery tagQuery = new BooleanQueryImpl();
-					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES,
-						String.valueOf(tagName));
+					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf(tagName));
 					tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
 				}
 				query.add(tagsQuery, BooleanClauseOccur.MUST);
@@ -430,28 +394,20 @@ public class SearchHelper {
 				if (dateFieldName.equals("dates_Number_sortable")) {
 					BooleanQuery datesQuery = new BooleanQueryImpl();
 
-					String fromDateString = String.format("%04d",
-						fromDate.getYear())
-						+ String.format("%02d", fromDate.getMonth().getValue())
-						+ String.format("%02d", fromDate.getDayOfMonth())
-						+ "000000";
-					String toDateString = String.format("%04d",
-						toDate.getYear())
-						+ String.format("%02d", toDate.getMonth().getValue())
-						+ String.format("%02d", toDate.getDayOfMonth())
-						+ "000000";
+					String fromDateString = String.format("%04d", fromDate.getYear())
+							+ String.format("%02d", fromDate.getMonth().getValue())
+							+ String.format("%02d", fromDate.getDayOfMonth()) + "000000";
+					String toDateString = String.format("%04d", toDate.getYear())
+							+ String.format("%02d", toDate.getMonth().getValue())
+							+ String.format("%02d", toDate.getDayOfMonth()) + "000000";
 
-					datesQuery.addRangeTerm("dates", fromDateString,
-						toDateString);
+					datesQuery.addRangeTerm("dates", fromDateString, toDateString);
 					query.add(datesQuery, BooleanClauseOccur.MUST);
 				} else {
 					BooleanQuery datesQuery = new BooleanQueryImpl();
-					long fromDateEpoch = fromDate.atStartOfDay()
-						.toEpochSecond(ZoneOffset.UTC) * 1000;
-					long toDateEpoch = toDate.plusDays(1).atStartOfDay()
-						.toEpochSecond(ZoneOffset.UTC) * 1000;
-					datesQuery.addRangeTerm(dateFieldName, fromDateEpoch,
-						toDateEpoch);
+					long fromDateEpoch = fromDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
+					long toDateEpoch = toDate.plusDays(1).atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
+					datesQuery.addRangeTerm(dateFieldName, fromDateEpoch, toDateEpoch);
 					query.add(datesQuery, BooleanClauseOccur.MUST);
 				}
 
@@ -468,14 +424,12 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * événements
 	 */
-	public static Hits getEventWebServiceSearchHits(String className,
-		LocalDate date, long categoryId, Locale locale) {
+	public static Hits getEventWebServiceSearchHits(String className, LocalDate date, long categoryId, Locale locale) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 			// Query
-			Query query = SearchHelper.getEventWebServiceQuery(className, date,
-				categoryId, locale);
+			Query query = SearchHelper.getEventWebServiceQuery(className, date, categoryId, locale);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -490,36 +444,32 @@ public class SearchHelper {
 	/**
 	 * Retourne la requête pour le webservice des événements
 	 */
-	private static Query getEventWebServiceQuery(String className,
-		LocalDate date, long categoryId, Locale locale) {
+	private static Query getEventWebServiceQuery(String className, LocalDate date, long categoryId, Locale locale) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
 
 			query.addRequiredTerm(Field.ENTRY_CLASS_NAME, className, false);
-			query.addRequiredTerm(Field.STATUS,
-				WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 
 			// Dates
 			if (date != null) {
 				BooleanQuery datesQuery = new BooleanQueryImpl();
 				String dateString = String.format("%04d", date.getYear())
-					+ String.format("%02d", date.getMonth().getValue())
-					+ String.format("%02d", date.getDayOfMonth()) + "000000";
+						+ String.format("%02d", date.getMonth().getValue())
+						+ String.format("%02d", date.getDayOfMonth()) + "000000";
 				datesQuery.addTerm("dates", dateString);
 				query.add(datesQuery, BooleanClauseOccur.MUST);
 			}
 
 			// Catégorie
 			if (categoryId > 0) {
-				query.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-					String.valueOf(categoryId));
+				query.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
 			}
 
 			// Locale
 			if (locale != null) {
-				WildcardQuery anyKeywordQuery = new WildcardQueryImpl(
-					"title_" + locale, "*");
+				WildcardQuery anyKeywordQuery = new WildcardQueryImpl("title_" + locale, "*");
 				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
 			}
 
@@ -534,15 +484,14 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * lieux
 	 */
-	public static Hits getPlaceWebServiceSearchHits(String className,
-		long[] categoriesIds, String keywords, Locale locale) {
+	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
+			Locale locale) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 
 			// Query
-			Query query = SearchHelper.getPlaceWebServiceQuery(className,
-				categoriesIds, keywords, locale);
+			Query query = SearchHelper.getPlaceWebServiceQuery(className, categoriesIds, keywords, locale);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -557,15 +506,14 @@ public class SearchHelper {
 	/**
 	 * Retourne la requête pour le webservice des lieux
 	 */
-	private static Query getPlaceWebServiceQuery(String className,
-		long[] categoriesIds, String keywords, Locale locale) {
+	private static Query getPlaceWebServiceQuery(String className, long[] categoriesIds, String keywords,
+			Locale locale) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
 
 			query.addRequiredTerm(Field.ENTRY_CLASS_NAME, className, false);
-			query.addRequiredTerm(Field.STATUS,
-				WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
@@ -574,20 +522,18 @@ public class SearchHelper {
 				titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
-				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(
-					Field.TITLE, "*" + keywords + "*");
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);
 			}
-			
+
 			// Catégories
 			if (categoriesIds != null) {
 				for (long categoryId : categoriesIds) {
 					if (Validator.isNotNull(categoryId)) {
 						BooleanQuery categoryQuery = new BooleanQueryImpl();
-						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS,
-							categoryId);
+						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
 						query.add(categoryQuery, BooleanClauseOccur.MUST);
 					}
 				}
@@ -602,6 +548,5 @@ public class SearchHelper {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil
-		.getLog(SearchHelper.class.getName());
+	private static final Log _log = LogFactoryUtil.getLog(SearchHelper.class.getName());
 }

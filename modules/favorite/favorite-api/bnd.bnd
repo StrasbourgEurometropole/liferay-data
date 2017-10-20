@@ -1,6 +1,6 @@
 Bundle-Name: favorite-api
 Bundle-SymbolicName: eu.strasbourg.service.favorite.api
-Bundle-Version: 1.0.0
+Bundle-Version: 1.25.0
 Export-Package: \
 	eu.strasbourg.service.favorite.exception,\
 	eu.strasbourg.service.favorite.model,\

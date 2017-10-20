@@ -1,6 +1,6 @@
 Bundle-Name: office-exporter
 Bundle-SymbolicName: eu.strasbourg.service.office.exporter
-Bundle-Version: 1.24.0
+Bundle-Version: 1.25.0
 Bundle-ClassPath:\
   .,\
  lib/poi.jar,\
@@ -22,7 +22,7 @@ Bundle-ClassPath:\
  lib/poi-ooxml-schemas.jar=poi-ooxml-schemas-3.17.jar,\
  lib/xmlbeans.jar=xmlbeans-2.6.0.jar,\
 
-Import-Package:*;resolution:=optional
+Import-Package:eu.strasbourg.*,*;resolution:=optional
  
 Export-Package: eu.strasbourg.service.office.exporter.api
 Javac-Encoding: UTF-8

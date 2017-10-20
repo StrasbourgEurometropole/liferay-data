@@ -1,6 +1,6 @@
 Bundle-Name: interest-api
 Bundle-SymbolicName: eu.strasbourg.service.interest.api
-Bundle-Version: 1.24.0
+Bundle-Version: 1.25.0
 Export-Package:\
 	eu.strasbourg.service.interest.exception,\
 	eu.strasbourg.service.interest.model,\

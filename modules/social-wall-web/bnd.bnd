@@ -1,4 +1,4 @@
 Bundle-Name: social-wall-web
 Bundle-SymbolicName: eu.strasbourg.portlet.social
-Bundle-Version: 1.24.0
+Bundle-Version: 1.25.0
 Export-Package: eu.strasbourg.portlet.social.constants

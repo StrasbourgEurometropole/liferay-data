@@ -18,6 +18,7 @@
 				<action-key>EDIT_EVENT</action-key>
 				<action-key>EDIT_CAMPAIGN</action-key>
 				<action-key>EDIT_EVENT_GALLERY</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -36,6 +37,7 @@
 				<action-key>EDIT_EVENT</action-key>
 				<action-key>EDIT_CAMPAIGN</action-key>
 				<action-key>EDIT_EVENT_GALLERY</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

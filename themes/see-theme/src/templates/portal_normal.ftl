@@ -67,6 +67,7 @@
   <script type="text/javascript" src="/o/see-theme/js/jquery.validate.min.js"></script>
   <script type="text/javascript" src="/o/see-theme/js/toastr.min.js"></script>
   <script type="text/javascript" src="/o/see-theme/js/jquery.waypoints.min.js"></script>
+  <script type="text/javascript" src="/o/see-theme/js/jquery.appear.js"></script>
   <script type="text/javascript" src="/o/see-theme/js/jquery.plugin.js"></script>
   <script type="text/javascript" src="/o/see-theme/js/jquery.countTo.js"></script>
   <script type="text/javascript" src="/o/see-theme/js/masonry.pkgd.min.js"></script>

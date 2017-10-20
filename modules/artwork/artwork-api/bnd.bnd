@@ -1,5 +1,5 @@
 Bundle-SymbolicName: artwork-api
-Bundle-Version: 1.24.0
+Bundle-Version: 1.25.0
 Export-Package:\
 	eu.strasbourg.service.artwork.exception,\
 	eu.strasbourg.service.artwork.model,\

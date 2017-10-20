@@ -46,35 +46,6 @@ public class EventServiceUtil {
 		return getService().getCategories();
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEvents()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getEvents();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByCategory(
-		long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getEventsByCategory(categoryId);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByDate(
-		java.lang.String date)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getEventsByDate(date);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByLanguage(
-		java.lang.String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getEventsByLanguage(language);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getEventsByPlace(
-		java.lang.String placeSIGId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getEventsByPlace(placeSIGId);
-	}
-
 	public static com.liferay.portal.kernel.json.JSONArray getPublics()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPublics();
@@ -108,6 +79,35 @@ public class EventServiceUtil {
 	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getEvent(id);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEvents()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEvents();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
+		long categoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByCategory(categoryId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByDate(
+		java.lang.String date)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByDate(date);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
+		java.lang.String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByLanguage(language);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
+		java.lang.String placeSIGId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getEventsByPlace(placeSIGId);
 	}
 
 	/**
