@@ -38,6 +38,8 @@ public class ViewActivitiesDisplayContext
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 					if (activity != null) {
 						results.add(activity);
+					} else {
+						System.out.println("ERREUR, type = " + GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)));
 					}
 				}
 			}

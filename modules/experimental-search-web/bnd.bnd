@@ -1,4 +1,4 @@
 Bundle-Name: experimental-search-web
 Bundle-SymbolicName: eu.strasbourg.portlet.search
-Bundle-Version: 1.24.0
+Bundle-Version: 1.25.0
 Export-Package: eu.strasbourg.portlet.search.constants
