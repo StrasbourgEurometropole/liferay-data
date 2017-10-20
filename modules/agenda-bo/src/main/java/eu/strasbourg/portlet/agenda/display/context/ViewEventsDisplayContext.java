@@ -56,8 +56,6 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 				Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 				if (event != null) {
 					results.add(event);
-				} else {
-					System.out.println("ERREUR, type = " + GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)));
 				}
 			}
 		}
