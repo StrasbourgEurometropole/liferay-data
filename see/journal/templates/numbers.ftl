@@ -9,7 +9,7 @@
             <div class="counter-block counter-block-no-border">
               <div class="counter-box">
                 <div class="counter-content">
-                  <span class="count" data-from="0" data-to="${cur_number.getData()}">${cur_number.getData()}</span>
+                  <span class="count" data-from="0" data-to="${cur_number.getData()}">0</span>
                   <p class="title">${cur_number.getChildren()[0].getData()}</p>
                 </div>
               </div>
