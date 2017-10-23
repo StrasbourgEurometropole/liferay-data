@@ -15809,6 +15809,9 @@ $('.seu-wi-trombinoscope').each(function() {
     $(this).parents('.portlet-nested-portlets').addClass('seu-container seu-wi-duo');
   }
 });
+
+$('.seu-wi-trombinoscope').parents('.col-md-6').addClass('seu-wi-trombinoscope-container');
+
 var page_limit = 12;
 /**
  * @description Construction de la division en page du widget lieu
@@ -15849,6 +15852,10 @@ function buildLieux(widget){
     // Placement du node et supression de la liste originale
     wi.$list.after(wi.node);
     wi.$list.remove();
+    // Si une seule page : on masque la pagination
+    if (wi.page_count == 1) {
+        $('.seu-media-bottom', wi.$widget).hide();
+    }
 
     return wi;
 }
@@ -15895,6 +15902,7 @@ if($('.seu-wi-lieux').length){
     $(document).ready(function(){
         $('.seu-wi-lieux').each(function(index, widget){
             var wi = buildLieux(widget);
+            lieuxGoToPage(wi, 1);
             wi.$widget.find('[data-action="next"]').on('click', function(){
                 lieuxGoToPage(wi, lieuxGetCurrentPage(wi) + 1);
             });

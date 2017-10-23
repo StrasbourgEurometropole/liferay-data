@@ -9,8 +9,15 @@
         width: 100%;
         max-width: 100%;
     }
-    .portlet-layout.row {
-        display: flex;
+    @include RWD(only-tablet){
+        .portlet-layout.row {
+            display: flex;
+        }
+    }
+    @include RWD(desktop){
+        .portlet-layout.row {
+            display: flex;
+        }
     }
     .portlet-layout.row .portlet-column:nth-child(1) {
         .seu-container{
@@ -25,8 +32,15 @@
         &:before{
             background-color: $second-color;
         }
+        &.seu-wi-trombinoscope-container:before {
+            background-color: $third-color;
+        }
         @include RWD(tablet){
             background-color: $second-color;         
+
+            &.seu-wi-trombinoscope-container {
+                background-color: $third-color;
+            }
         }
     }
     .portlet-layout.row .portlet-column:nth-child(2){
