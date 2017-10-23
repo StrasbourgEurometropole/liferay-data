@@ -22,6 +22,7 @@ import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -29,6 +30,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.util.comparator.GroupTypeComparator;
+import com.liferay.portlet.PortletURLImpl;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
@@ -137,6 +139,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 						portletURL.toString());
 				items.add(item);
 			}
+			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
 		return items;
 	}
