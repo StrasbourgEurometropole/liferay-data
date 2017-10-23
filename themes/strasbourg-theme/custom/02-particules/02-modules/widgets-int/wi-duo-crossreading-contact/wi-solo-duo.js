@@ -12,3 +12,5 @@ $('.seu-wi-trombinoscope').each(function() {
     $(this).parents('.portlet-nested-portlets').addClass('seu-container seu-wi-duo');
   }
 });
+
+$('.seu-wi-trombinoscope').parents('.col-md-6').addClass('seu-wi-trombinoscope-container');

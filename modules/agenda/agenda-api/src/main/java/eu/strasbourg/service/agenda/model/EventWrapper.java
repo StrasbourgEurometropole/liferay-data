@@ -1624,6 +1624,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne la liste des périodes courantes et futures auxuqlles l'événement
+	* à lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods() {
+		return _event.getCurrentAndFuturePeriods();
+	}
+
+	/**
 	* Retourne la liste des périodes auxquelles l'événement à lieu (classées
 	* par date de début croissante)
 	*/
