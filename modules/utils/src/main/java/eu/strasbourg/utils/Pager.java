@@ -47,15 +47,14 @@ public class Pager {
 	}
 	
 	/**
-	 * Retourne true si on est sur la première page
+	 * Retourne true si la page courante est la première page
 	 */
 	public boolean isOnFirstPage() {
 		return this.currentPage == 1;
 	}
 
-	
 	/**
-	 * Retourne true si on est sur la dernière page
+	 * Retourne true si la page courante est la dernière page
 	 */
 	public boolean isOnLastPage() {
 		return this.lastPage == this.currentPage;
@@ -93,12 +92,38 @@ public class Pager {
 		this.lastPage = lastPage;
 	}
 	
+	/**
+	 * Retourne la liste des PagerItem à afficher, soit des chiffres correspondant à des numéros de pages, soit des séparateurs "..."
+	 */
 	public List<PagerItem> getPages() {
 		List<PagerItem> pagerItems = new ArrayList<PagerItem>();
+		List<Integer> pages = new ArrayList<Integer>();
+		
 		for (int i = 1; i <= this.lastPage; i++) {
-			pagerItems.add(new PagerItem(i, String.valueOf(i)));
+			if (i == 1 || i == this.lastPage || isPageCloseToCurrentPage(i)) {
+				pages.add(i);
+			}
+		}
+		
+		int previousPage = -1;
+		for (int i = 0; i < pages.size(); i++) {
+			int page = pages.get(i);
+			if (previousPage > 0) {
+				if (page - previousPage == 2) {
+					pagerItems.add(new PagerItem(page - 1, String.valueOf(page - 1)));
+				} else if (page - previousPage > 2) {
+					pagerItems.add(new PagerItem(0, "..."));
+				}
+			}
+			
+			pagerItems.add(new PagerItem(page, String.valueOf(page)));
+			previousPage = page;
 		}
 		return pagerItems;
+	}
+	
+	private boolean isPageCloseToCurrentPage(int pageIndex) {
+		return Math.abs(pageIndex - this.currentPage) <= 2;
 	}
 	
 	public class PagerItem {
