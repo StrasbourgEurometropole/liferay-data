@@ -20,21 +20,23 @@
     <div class="event-highlight">
         <div class="item-right">
             <div class="item-content">
-                <#if entry.firstStartDate?date == entry.lastEndDate?date>
-                    <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
-                <#else>
-                    <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
+                <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                    <#if entry.firstStartDate?date == entry.lastEndDate?date>
+                        <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
+                    <#else>
+                        <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
+                    </#if>
                 </#if>
                 <div class="item-dates rte">
                     <h3 class="item-title"><@liferay_ui.message key="eu.next-dates" /></h3>
                     <ul class="seu-dates-list">
-                        <#list entry.eventPeriods as period>
+                        <#list entry.currentAndFuturePeriods as period>
                             <li>
                                 ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
                             </li>
                         </#list>
                     </ul>
-                    <#if (entry.eventPeriods?size > 5)>
+                    <#if (entry.currentAndFuturePeriods?size > 5)>
                         <div class="seu-line-left">
                             <button class="seu-see-more seu-btn-square seu-bordered seu-core">
                                 <span class="seu-flexbox">
@@ -75,11 +77,6 @@
     <div class="rte">
         <h2><@liferay_ui.message key="eu.presentation" /></h2>
         ${entry.getDescription(locale)}
-        <#if entry.promoter?has_content>
-            <p>
-                <strong><@liferay_ui.message key="eu.organized-by" /> : ${entry.promoter}</strong>
-            </p>
-        </#if>
         <#if entry.promoter?has_content>
             <p>
                 <strong><@liferay_ui.message key="eu.organized-by" /> : ${entry.promoter}</strong>
