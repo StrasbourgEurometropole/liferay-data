@@ -834,6 +834,16 @@ public class AgendaImporter {
 
 			}
 
+			// On enregistre les périodes de l'événement
+			List<EventPeriod> oldPeriods = event.getEventPeriods();
+			for (EventPeriod eventPeriod : oldPeriods) {
+				EventPeriodLocalServiceUtil.deleteEventPeriod(eventPeriod);
+			}
+			for (EventPeriod period : periods) {
+				period.setEventId(event.getEventId());
+				EventPeriodLocalServiceUtil.updateEventPeriod(period);
+			}
+
 			// On enregistre l'événement
 			try {
 				EventLocalServiceUtil.updateEvent(event, sc);
@@ -859,16 +869,6 @@ public class AgendaImporter {
 							manifestation.getManifestationId(), event);
 					}
 				}
-			}
-
-			// Et le lien avec les périodes
-			List<EventPeriod> oldPeriods = event.getEventPeriods();
-			for (EventPeriod eventPeriod : oldPeriods) {
-				EventPeriodLocalServiceUtil.deleteEventPeriod(eventPeriod);
-			}
-			for (EventPeriod period : periods) {
-				period.setEventId(event.getEventId());
-				EventPeriodLocalServiceUtil.updateEventPeriod(period);
 			}
 		}
 
