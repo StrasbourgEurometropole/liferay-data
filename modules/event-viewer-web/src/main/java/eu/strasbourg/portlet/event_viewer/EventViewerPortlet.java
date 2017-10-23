@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -202,19 +203,17 @@ public class EventViewerPortlet extends MVCPortlet {
 				}
 			}
 		}
+		
 		eventsOfTheDay = eventsOfTheDay.stream().sorted((e1, e2) -> {
-			if (e1.getLastEndDate() == null || e2.getLastEndDate() == null) {
-				return 0;
-			}
-			return e1.getLastEndDate().compareTo(e2.getLastEndDate());
+			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
+			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
+			return e1EndDate.compareTo(e2EndDate);
 		}).collect(Collectors.toList());
 
 		otherEvents = otherEvents.stream().sorted((e1, e2) -> {
-			if (e1.getFirstStartDate() == null
-				|| e2.getFirstStartDate() == null) {
-				return 0;
-			}
-			return e1.getLastEndDate().compareTo(e2.getLastEndDate());
+			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
+			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
+			return e1EndDate.compareTo(e2EndDate);
 		}).collect(Collectors.toList());
 
 		for (Event event : eventsOfTheDay) {
