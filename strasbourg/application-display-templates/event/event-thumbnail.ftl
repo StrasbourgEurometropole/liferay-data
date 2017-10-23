@@ -27,10 +27,12 @@
     </div>
     <div class="item-right">
         <a href="${detailURLFilter}" class="item-content">
-            <#if entry.firstStartDate?date == entry.lastEndDate?date>
-                <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
-            <#else>
-                <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
+            <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                <#if entry.firstStartDate?date == entry.lastEndDate?date>
+                    <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
+                <#else>
+                    <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
+                </#if>
             </#if>
             <h3 class="item-title" data-dot="2">${entry.getTitle(locale)}</h3>
             <div class="item-categories" data-dot="1">${entry.getTypeLabel(locale)}</div>
