@@ -2,8 +2,11 @@ package eu.strasbourg.service.agenda.search;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -69,10 +72,19 @@ public class EventIndexer extends BaseIndexer<Event> {
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 
-		document.addLocalizedText(Field.TITLE, event.getTitleMap());
+		
+		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
+		for (Entry<Locale, String> titleEntry : event.getTitleMap().entrySet()) {
+			Locale locale = titleEntry.getKey();
+			String eventTitle = titleEntry.getValue();
+			String eventPlaceAlias = event.getPlaceAlias(locale);
+			titleFieldMap.put(locale, eventTitle + " " + eventPlaceAlias);
+		}
+		document.addLocalizedText(Field.TITLE, titleFieldMap);
+		
 		document.addLocalizedText(Field.DESCRIPTION, event.getDescriptionMap());
 		document.addNumber(Field.STATUS, event.getStatus());
-
+		
 		List<Date> dates = new ArrayList<Date>();
 		Date now = new Date();
 		for (EventPeriod period : event.getEventPeriods()) {
