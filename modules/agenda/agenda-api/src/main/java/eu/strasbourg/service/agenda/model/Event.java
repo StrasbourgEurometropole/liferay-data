@@ -98,6 +98,12 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getEventPeriods();
 
 	/**
+	* Retourne la liste des périodes courantes et futures auxuqlles l'événement
+	* à lieu
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods();
+
+	/**
 	* Retourne la période principale de l'événement (de la première date de
 	* début à la dernière date de fin) sous forme de String dans la locale
 	* passée en paramètre

@@ -16,10 +16,13 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -81,8 +84,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-			this.getEventId());
+		return AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), this.getEventId());
 	}
 
 	/**
@@ -91,8 +93,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 
 	/**
@@ -124,8 +125,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<Manifestation> getManifestations() {
-		return ManifestationLocalServiceUtil
-			.getEventManifestations(this.getEventId());
+		return ManifestationLocalServiceUtil.getEventManifestations(this.getEventId());
 	}
 
 	/**
@@ -166,12 +166,28 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<EventPeriod> getEventPeriods() {
-		List<EventPeriod> periods = EventPeriodLocalServiceUtil
-			.getByEventId(this.getEventId());
+		List<EventPeriod> periods = EventPeriodLocalServiceUtil.getByEventId(this.getEventId());
 		List<EventPeriod> sortedPeriods = new ArrayList<EventPeriod>(periods);
-		sortedPeriods
-			.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+		sortedPeriods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
 		return sortedPeriods;
+	}
+
+	/**
+	 * Retourne la liste des périodes courantes et futures auxuqlles l'événement
+	 * à lieu
+	 */
+	@Override
+	public List<EventPeriod> getCurrentAndFuturePeriods() {
+		List<EventPeriod> allPeriods = this.getEventPeriods();
+		
+		Calendar todayAtMidnight = new GregorianCalendar();
+		todayAtMidnight.set(Calendar.HOUR_OF_DAY, 0);
+		todayAtMidnight.set(Calendar.MINUTE, 0);
+		todayAtMidnight.set(Calendar.SECOND, 0);
+		todayAtMidnight.set(Calendar.MILLISECOND, 0);
+
+		return allPeriods.stream().filter(p -> p.getEndDate().after(todayAtMidnight.getTime())
+				|| p.getEndDate().equals(todayAtMidnight.getTime())).collect(Collectors.toList());
 	}
 
 	/**
@@ -181,8 +197,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getFirstStartDate(),
-			this.getLastEndDate(), locale);
+		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale);
 	}
 
 	/**
@@ -196,8 +211,7 @@ public class EventImpl extends EventBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		Event liveEvent = EventLocalServiceUtil
-			.fetchEventByUuidAndGroupId(this.getUuid(), liveGroupId);
+		Event liveEvent = EventLocalServiceUtil.fetchEventByUuidAndGroupId(this.getUuid(), liveGroupId);
 		return liveEvent;
 	}
 
@@ -210,14 +224,13 @@ public class EventImpl extends EventBaseImpl {
 	private Place getPlace() {
 		if (place == null && Validator.isNotNull(this.getPlaceSIGId())) {
 			try {
-				place = PlaceLocalServiceUtil
-					.getPlaceBySIGId(this.getPlaceSIGId());
+				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			} catch (Exception ex) {
 			}
 		}
 		return place;
 	}
-	
+
 	/**
 	 * Retourne l'id du lieu de l'événement s'il existe, 0 sinon
 	 */
@@ -233,8 +246,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getCity(Locale locale) {
-		return this.getPlace() == null ? super.getPlaceCity()
-			: this.getPlace().getCity(locale);
+		return this.getPlace() == null ? super.getPlaceCity() : this.getPlace().getCity(locale);
 	}
 
 	/**
@@ -243,8 +255,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getPlaceAlias(Locale locale) {
-		return this.getPlace() == null ? super.getPlaceName(locale)
-			: this.getPlace().getAlias(locale);
+		return this.getPlace() == null ? super.getPlaceName(locale) : this.getPlace().getAlias(locale);
 	}
 
 	/**
@@ -253,11 +264,9 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public String getPlaceAddress(Locale locale) {
 		if (this.getPlace() == null) {
-			return this.getPlaceStreetNumber() + " "
-				+ this.getPlaceStreetName();
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
 		} else {
-			return this.getPlace().getAddressStreet() + " "
-				+ this.getPlace().getAddressComplement();
+			return this.getPlace().getAddressStreet() + " " + this.getPlace().getAddressComplement();
 		}
 	}
 
@@ -266,8 +275,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getPlaceCity(Locale locale) {
-		return this.getPlace() == null ? super.getPlaceCity()
-			: this.getPlace().getCity(locale);
+		return this.getPlace() == null ? super.getPlaceCity() : this.getPlace().getCity(locale);
 	}
 
 	/**
@@ -275,8 +283,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getPlaceZipCode() {
-		return this.getPlace() == null ? super.getPlaceZipCode()
-			: this.getPlace().getAddressZipCode();
+		return this.getPlace() == null ? super.getPlaceZipCode() : this.getPlace().getAddressZipCode();
 	}
 
 	/**
@@ -284,38 +291,32 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getAccess(Locale locale) {
-		return this.getPlace() == null ? super.getAccess(locale)
-			: this.getPlace().getAccess(locale);
+		return this.getPlace() == null ? super.getAccess(locale) : this.getPlace().getAccess(locale);
 	}
 
 	@Override
 	public Boolean getAccessForBlind() {
-		return this.getPlace() == null ? super.getAccessForBlind()
-			: this.getPlace().getAccessForBlind();
+		return this.getPlace() == null ? super.getAccessForBlind() : this.getPlace().getAccessForBlind();
 	}
 
 	@Override
 	public Boolean getAccessForDeaf() {
-		return this.getPlace() == null ? super.getAccessForDeaf()
-			: this.getPlace().getAccessForDeaf();
+		return this.getPlace() == null ? super.getAccessForDeaf() : this.getPlace().getAccessForDeaf();
 	}
 
 	@Override
 	public Boolean getAccessForDeficient() {
-		return this.getPlace() == null ? super.getAccessForDeficient()
-			: this.getPlace().getAccessForDeficient();
+		return this.getPlace() == null ? super.getAccessForDeficient() : this.getPlace().getAccessForDeficient();
 	}
 
 	@Override
 	public Boolean getAccessForElder() {
-		return this.getPlace() == null ? super.getAccessForElder()
-			: this.getPlace().getAccessForElder();
+		return this.getPlace() == null ? super.getAccessForElder() : this.getPlace().getAccessForElder();
 	}
 
 	@Override
 	public Boolean getAccessForWheelchair() {
-		return this.getPlace() == null ? super.getAccessForWheelchair()
-			: this.getPlace().getAccessForWheelchair();
+		return this.getPlace() == null ? super.getAccessForWheelchair() : this.getPlace().getAccessForWheelchair();
 	}
 
 	/**
@@ -324,9 +325,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
-		return (this.getAccessForBlind() || this.getAccessForDeaf()
-			|| this.getAccessForWheelchair() || this.getAccessForDeficient()
-			|| this.getAccessForElder());
+		return (this.getAccessForBlind() || this.getAccessForDeaf() || this.getAccessForWheelchair()
+				|| this.getAccessForDeficient() || this.getAccessForElder());
 	}
 
 	/**
@@ -336,12 +336,11 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public String getPlaceAddressHTML(Locale locale) {
 		if (Validator.isNotNull(this.getPlaceName())) {
-			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName()
-				+ "<br>" + this.getPlaceZipCode() + " " + this.getCity(locale);
+			return this.getPlaceStreetNumber() + " " + this.getPlaceStreetName() + "<br>" + this.getPlaceZipCode() + " "
+					+ this.getCity(locale);
 		} else if (Validator.isNotNull(this.getPlace())) {
 			Place place = this.getPlace();
-			return place.getAddressStreet() + "<br>" + place.getAddressZipCode()
-				+ " " + place.getCity(locale);
+			return place.getAddressStreet() + "<br>" + place.getAddressZipCode() + " " + place.getCity(locale);
 		} else {
 			return "";
 		}
@@ -352,8 +351,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getTypes() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.EVENT_TYPE);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EVENT_TYPE);
 	}
 
 	/**
@@ -376,8 +375,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getThemes() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EVENT_THEME);
 	}
 
 	/**
@@ -400,8 +399,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getPublics() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.EVENT_PUBLIC);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EVENT_PUBLIC);
 	}
 
 	/**
@@ -424,8 +423,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getTerritories() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.TERRITORY);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.TERRITORY);
 	}
 
 	/**
@@ -433,8 +432,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getServices() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.EVENT_SERVICE);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EVENT_SERVICE);
 	}
 
 	/**
@@ -447,25 +446,20 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("id", this.getEventId());
 		jsonEvent.put("externalId", this.getIdSource());
 
-		jsonEvent.put("title",
-			JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
 
 		if (Validator.isNotNull(this.getSubtitle())) {
-			jsonEvent.put("subtitle",
-				JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
+			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
 		}
 
 		Map<Locale, String> descriptionMap = this.getDescriptionMap();
 		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
-		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap
-			.entrySet()) {
-			String description = descriptionEntry.getValue().replace(
-				"\"/documents/", "\"" + StrasbourgPropsUtil.getURL() + "/documents/");
-			descriptionWithNewURLsMap.put(descriptionEntry.getKey(),
-				description);
+		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+			String description = descriptionEntry.getValue().replace("\"/documents/",
+					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
+			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
 		}
-		jsonEvent.put("description",
-			JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
+		jsonEvent.put("description", JSONHelper.getJSONFromI18nMap(descriptionWithNewURLsMap));
 
 		String imageURL = this.getImageURL();
 		if (!imageURL.startsWith("http")) {
@@ -473,23 +467,19 @@ public class EventImpl extends EventBaseImpl {
 		}
 		jsonEvent.put("imageURL", imageURL);
 
-		jsonEvent.put("imageCopyright",
-			this.getImageCopyright(Locale.getDefault()));
+		jsonEvent.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
 
 		if (Validator.isNotNull(this.getPlaceSIGId())) {
 			jsonEvent.put("placeSIGId", this.getPlaceSIGId());
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name",
-				JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			jsonPlace.put("streetNumber", this.getPlaceStreetNumber());
 			jsonPlace.put("streetName", this.getPlaceStreetName());
 			jsonPlace.put("zipCode", this.getPlaceZipCode());
 			jsonPlace.put("city", this.getPlaceCity());
-			jsonPlace.put("access",
-				JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
-			jsonPlace.put("accessForDisabled",
-				JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
 			jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
 			jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -511,35 +501,29 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getWebsiteURL())) {
-			jsonEvent.put("websiteURL",
-				JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
+			jsonEvent.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getWebsiteURLMap()));
 		}
 
 		if (Validator.isNotNull(this.getWebsiteName())) {
-			jsonEvent.put("websiteName",
-				JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
+			jsonEvent.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getWebsiteNameMap()));
 		}
 
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			jsonEvent.put("price",
-				JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
+			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
 		}
 
 		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
 		for (EventPeriod period : this.getEventPeriods()) {
 			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
-			DateFormat dateFormat = DateFormatFactoryUtil
-				.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate",
-				dateFormat.format(period.getStartDate()));
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
 			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
 
 			if (Validator.isNotNull(period.getTimeDetail())) {
-				periodJSON.put("timeDetail",
-					JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
 			}
 			periodsJSON.put(periodJSON);
 		}
@@ -554,44 +538,37 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("manifestations", jsonManifestations);
 		}
 
-		JSONArray jsonCategories = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getCategories());
+		JSONArray jsonCategories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getCategories());
 		if (jsonCategories.length() > 0) {
 			jsonEvent.put("categories", jsonCategories);
 		}
 
-		JSONArray jsonThemes = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getThemes());
+		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
 		if (jsonThemes.length() > 0) {
 			jsonEvent.put("themes", jsonThemes);
 		}
 
-		JSONArray jsonTypes = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getTypes());
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
 		if (jsonTypes.length() > 0) {
 			jsonEvent.put("types", jsonTypes);
 		}
 
-		JSONArray jsonTerritories = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getTerritories());
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
 		if (jsonTerritories.length() > 0) {
 			jsonEvent.put("territories", jsonTerritories);
 		}
 
-		JSONArray jsonPublics = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getPublics());
+		JSONArray jsonPublics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getPublics());
 		if (jsonPublics.length() > 0) {
 			jsonEvent.put("publics", jsonPublics);
 		}
 
-		JSONArray jsonServices = AssetVocabularyHelper
-			.getExternalIdsJSONArray(this.getServices());
+		JSONArray jsonServices = AssetVocabularyHelper.getExternalIdsJSONArray(this.getServices());
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL()
-			+ "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		return jsonEvent;
 	}
