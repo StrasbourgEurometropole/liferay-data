@@ -8,6 +8,9 @@
 <header class="mns-header-agenda">
     <div class="owl-carousel owl-theme" id="owl-full">
         <#list entries as curEntry>
+            <#if (curEntry?index == 20)>
+                <#break>
+            </#if>
             <#assign event = curEntry.getAssetRenderer().getEvent() />
             <div class="item">
                 <a href="${homeURL}event/-/entity/id/${event.eventId}">

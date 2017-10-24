@@ -13,6 +13,9 @@
         </div>
         <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
             <#list entries as curEntry>
+                <#if (curEntry?index == 20)>
+                    <#break>
+                </#if>
                 <#assign event = curEntry.getAssetRenderer().getEvent() />
                 <div class="item">
                     <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
