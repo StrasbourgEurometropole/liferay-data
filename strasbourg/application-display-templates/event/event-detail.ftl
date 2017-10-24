@@ -168,4 +168,126 @@
             </div>
         </div>
     </div>
+
+
+    <#if entry.email?has_content>
+        <div class="rte row">
+            <h2><@liferay_ui.message key="contact" /></h2>
+
+            <@liferay_portlet.actionURL var="contactURL" name="contact">
+                <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
+                <@liferay_portlet.param name="to" value="${entry.email}" />
+                <@liferay_portlet.param name="subject" value="Formulaire de contact - Agenda - ${entry.getTitle(locale)}" />
+            </@liferay_portlet.actionURL>
+            
+            <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="seu-wi seu-wi-contact-form col-md-8">
+
+                <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" targetNode="#contactForm" />
+                <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
+                <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" targetNode="#contactForm" />
+
+                <#if renderRequest.getAttribute("mailSent")?has_content && renderRequest.getAttribute("mailSent")>
+                    <p class="mail-success">
+                       <@liferay_ui.message key="eu.mail-success" />
+                    </p>
+                </#if>
+                <div class="inline-group">
+                    <div class="widget widget-required">
+                        <div class="title">
+                            <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"><@liferay_ui.message key="contact.lastname" /></label>
+                        </div>
+                        <div class="content">
+                            <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" aria-required="true" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" type="text" placeholder="<@liferay_ui.message key="contact.your-lastname" />" value="${renderRequest.getAttribute("lastName")!""}">
+                        </div>
+                    </div>
+                    <div class="widget widget-required">
+                        <div class="title">
+                            <label for="prenom"><@liferay_ui.message key="contact.firstname" /></label>
+                        </div>
+                        <div class="content">
+                            <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" aria-required="true" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" type="text" placeholder="<@liferay_ui.message key="contact.your-firstname" />" value="${renderRequest.getAttribute("firstName")!""}">
+                        </div>
+                    </div>
+                </div>
+                <div class="widget widget-required">
+                    <div class="title">
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"><@liferay_ui.message key="contact.mail" /></label>
+                    </div>
+                    <div class="content">
+                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" aria-required="true" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" type="text" placeholder="<@liferay_ui.message key="contact.your-mail" />" value="${renderRequest.getAttribute("email")!""}">
+                    </div>
+                </div>
+                <div class="widget widget-required">
+                    <div class="title">
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"><@liferay_ui.message key="contact.request" /></label>
+                    </div>
+                    <div class="content">
+                        <textarea name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" placeholder="<@liferay_ui.message key="contact.your-message" />" rows="5">${renderRequest.getAttribute("message")!""}</textarea>
+                    </div>
+                </div>
+                <div>
+                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
+
+                    <input type="checkbox" class="notification-email"
+                        name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
+                    </label>
+                </div>
+                <div style="margin: 20px 0;" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+                <div style="padding-top: 20px">
+                    <@liferay_ui.message key="contact.default-privacy" />
+                </div>
+                <div class="buttons submit">
+                    <div class="SubmitWidget widget submit-button">
+                        <div class="content"><button name="submit" value="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></button></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </#if>  
 </div>
+
+<style>
+    .lfr-alert-container {
+        position: static;
+        padding: 40px;
+        margin-bottom: 25px;
+        background: #EF5350;
+    }
+    
+    .lfr-alert-container .lfr-alert-wrapper {
+        margin-bottom: 0;
+        padding: 0;
+        height: auto !important;
+    }
+    
+    .lfr-alert-container .lfr-alert-wrapper + .lfr-alert-wrapper {
+        margin-top: 15px;
+    }
+    
+    .lfr-alert-container .alert-danger {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        color: white;
+        line-height: 25px
+    }
+    
+    .lfr-alert-container .alert-danger button,
+    .lfr-alert-container .alert-danger .lead {
+        display: none;
+    }
+    
+    .mail-success {
+        background: #4CAF50;
+        color: white;
+        padding: 40px;
+    }
+    .previous-button {
+        margin-top: 40px;
+    }
+    .previous-button button {
+        margin-top: 40px;
+        font-weight: normal;
+    }
+</style>
