@@ -31,7 +31,7 @@
     <#if (subtitle.siblings?size > 1)>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="#">
+                <a href="${subtitle.siblings[1].children[3].data}">
                     <span class="mns-badge badge-right">2</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top2">
                         <img src="${subtitle.siblings[1].children[4].data}" alt="${subtitle.siblings[1].children[0].data}" width="570" height="570" class="fit-cover" />
@@ -58,7 +58,7 @@
                 <a href="${subtitle.siblings[2].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
-                <a href="#">
+                <a href="${subtitle.siblings[2].children[3].data}">
                     <span class="mns-badge badge-left">3</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top1">
                         <img src="${subtitle.siblings[2].children[4].data}" alt="${subtitle.siblings[2].children[0].data}" class="fit-cover"/>
@@ -70,7 +70,7 @@
     <#if (subtitle.siblings?size > 3)>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="#">
+                <a href="${subtitle.siblings[3].children[3].data}">
                     <span class="mns-badge badge-right">4</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top2">
                         <img src="${subtitle.siblings[3].children[4].data}" alt="${subtitle.siblings[3].children[0].data}" class="fit-cover" />
@@ -96,7 +96,7 @@
                 <a href="${subtitle.siblings[4].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
-                <a href="#">
+                <a href="${subtitle.siblings[4].children[3].data}">
                     <span class="mns-badge badge-left">5</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top1">
                         <img src="${subtitle.siblings[4].children[4].data}" alt="${subtitle.siblings[4].children[0].data}" class="fit-cover" />
@@ -108,7 +108,7 @@
     <#if (subtitle.siblings?size > 5)>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="#">
+                <a href="${subtitle.siblings[5].children[4].data}">
                     <span class="mns-badge badge-right mns-medium">6</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top2">
                         <img src="${subtitle.siblings[5].children[4].data}" alt="${subtitle.siblings[5].children[0].data}" class="fit-cover" />
@@ -135,7 +135,7 @@
                 <a href="${subtitle.siblings[6].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
-                <a href="#">
+                <a href="${subtitle.siblings[6].children[3].data}">
                     <span class="mns-badge badge-left-top">7</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top2">
                         <img src="${subtitle.siblings[6].children[4].data}" alt="${subtitle.siblings[6].children[0].data}" class="fit-cover" />
@@ -148,7 +148,7 @@
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                 <img src="/o/noel-theme/images/deco-elipse-grey.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-8" />
-                <a href="#">
+                <a href="${subtitle.siblings[7].children[3].data}">
                     <span class="mns-badge badge-right-top-small mns-medium">8</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
                         <img src="${subtitle.siblings[7].children[4].data}" alt="${subtitle.siblings[7].children[0].data}" class="fit-cover" />
@@ -174,7 +174,7 @@
                 <a href="${subtitle.siblings[8].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 pull-right order-1">
-                <a href="#">
+                <a href="${subtitle.siblings[8].children[3].data}">
                     <span class="mns-badge badge-left-top-small">9</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
                         <img src="${subtitle.siblings[8].children[4].data}" alt="${subtitle.siblings[8].children[0].data}" class="fit-cover"/>
@@ -188,7 +188,7 @@
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                 <img src="/o/noel-theme/images/deco-elipse-beige.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-10" />
-                <a href="#">
+                <a href="${subtitle.siblings[9].children[3].data}">
                     <span class="mns-badge badge-right-top-small mns-medium">10</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
                         <img src="${subtitle.siblings[9].children[4].data}" alt="${subtitle.siblings[9].children[0].data}" class="fit-cover" />
