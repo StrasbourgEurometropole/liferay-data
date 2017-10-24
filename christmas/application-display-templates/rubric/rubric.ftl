@@ -12,7 +12,7 @@
             <#list entries as currentPage>
                 <div class="col-sm-4">
                     <div class="mns-bloc-actu">
-                        <a href="${homeURL}${currentPage.friendlyURL}">
+                        <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}">
                             <figure class="mns-bloc-top-img">
                                 <#if currentPage.expandoBridge.getAttribute('image')?has_content>
                                     <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getName(locale)}" width="370" height="250" />
