@@ -37,7 +37,7 @@
 </div>
 <div class="small-container mns-m-filtres-search row">
     <div class="col-xs-12">
-        <span class="label">${criteria1}...,<liferay-ui:message key="when" />,${criteria2}... ?</span>
+        <span class="label">${criteria1} <liferay-ui:message key="when" /> ${criteria2} ?</span>
         <span id="search-mobile-filtres" class="btn-filtre"><liferay-ui:message key="search" /></span>
     </div>
 </div>
