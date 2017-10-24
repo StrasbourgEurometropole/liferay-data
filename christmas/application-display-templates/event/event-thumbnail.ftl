@@ -14,13 +14,13 @@
         <div>
             <div class="col-xs-6 mns-indic">
                 <span class="icon-ico-map-marker"></span>
-                <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${entry.getPlaceAlias(locale)}</span></span>
+                <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${entry.getPlaceAlias(locale)[0..*45]}<#if (entry.getPlaceAlias(locale)?length > 45)>...</#if></span></span>
             </div>
             <div class="col-xs-6 mns-indic">
                 <span class="icon-ico-type"></span>
-                <span>${entry.getTypeLabel(locale)}</span>
+                <span>${entry.getTypeLabel(locale)[0..*45]}<#if (entry.getTypeLabel(locale)?length > 45)>...</#if></span>
             </div>
-            <h3 itemprop="name">${entry.getTitle(locale)}</h3>
+            <h3 itemprop="name">${entry.getTitle(locale)[0..*55]}<#if (entry.getTitle(locale)?length > 55)>...</#if></h3>
             <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
         </div>
     </a>
