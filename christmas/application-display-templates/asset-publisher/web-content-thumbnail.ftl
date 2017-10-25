@@ -2,7 +2,8 @@
 
 <!-- Vignette contenu web -->
 <#assign docXml = saxReaderUtil.read(entry.getContentByLocale(locale)) />
-<#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
+<#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
+<#if !title?has_content><#assign title = entry.getTitle(locale) /></#if>
 <#assign catcher = docXml.valueOf("//dynamic-element[@name='catcher']/dynamic-content/text()") />
 <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
 
