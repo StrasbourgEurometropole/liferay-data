@@ -8,11 +8,30 @@
     @include RWD(mobile){
         padding: 15px;
     }
+    
+    //  SELECTS
+    .customSelectContain{
+        @extend %atom-customSelect--custom;  
+    } 
+    .type-heure{
+        .content{
+            display: flex;
+            & > * {
+                flex: 1;
+            }
+            & > * + *{
+                margin-left: 10px;
+            }
+        }
+    }
     .seu-filter-line{
         display: flex;
         align-items: flex-start;
         @include RWD(mobile){
             flex-wrap: wrap;
+        }
+        & + .seu-filter-line{
+            margin-top: 20px;
         }
 
         // Structure des champs

@@ -68,8 +68,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: solid 2px #FFFFFF;
-            padding: 10px;
             margin-bottom: 10px;
         }
         .crowded-date{
@@ -89,6 +87,7 @@
             margin: 5px 0;
             flex-shrink: 0;
             margin-left: 10px;
+            border: solid 2px #FFFFFF;
             &.green{background-color: #40A040}
             &.orange{background-color: #FF470F}
             &.red{background-color: #FF0F0F}
@@ -125,5 +124,35 @@
                 padding-right: 20px;
             }
         }
+    }
+    .seu-svg-list{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: -20px !important;
+
+        svg{
+            fill: $core-color;
+            height: 35px;
+            width: 35px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        .seu-picto{
+            content: '';
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background-size: 33px;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }        
+        .seu-picto-deaf{background-image: url( svg-bg-uri($svg-deaf, $core-color) );}
+        .seu-picto-mental{background-image: url( svg-bg-uri($svg-tabou, $core-color) );}
+        .seu-picto-pmr{background-image: url( svg-bg-uri($svg-pmr, $core-color) );}
+        .seu-picto-blind{background-image: url( svg-bg-uri($svg-blind, $core-color) );}
+        .seu-picto-wheelchair{background-image: url( svg-bg-uri($svg-wheelchair, $core-color) );}
     }
 }

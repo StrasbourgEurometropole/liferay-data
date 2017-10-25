@@ -31,4 +31,7 @@ _:-ms-fullscreen, :root{
             line-height: 32px !important;
         }
     }
+    #seu-grid--list01 .grid-item .item-content, .event-highlight .item-content{
+        width: 100%;
+    }
 }
