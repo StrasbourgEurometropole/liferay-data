@@ -7,7 +7,7 @@
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
-                <form action="${homeURL}/recherche" method="get">
+                <form action="${homeURL}recherche" method="get">
                     <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                     <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                 </form>
@@ -37,7 +37,7 @@
                 </li>
                 <li class="mns-search-bar mns-search-bar-mobile">
                     <div class="row">
-                        <form action="${homeURL}/recherche" method="get">
+                        <form action="${homeURL}recherche" method="get">
                             <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                             <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                         </form>
