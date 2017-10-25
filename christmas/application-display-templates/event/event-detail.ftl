@@ -44,7 +44,7 @@
                 <p>${entry.getDescription(locale)}</p>
             </div>
             <div class="mns-info-more col-sm-6">
-                <span class="mns-title-detail-actu">Dates & horraires</span>
+                <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
                 <#list entry.eventPeriods as period>
                     <p>
                     ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
