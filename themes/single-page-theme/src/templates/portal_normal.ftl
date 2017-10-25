@@ -56,6 +56,7 @@
   <script type="text/javascript" src="/o/single-page-theme/js/jquery.waypoints.min.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/jquery.plugin.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/jquery.countTo.js"></script>
+  <script type="text/javascript" src="/o/single-page-theme/js/jquery.appear.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/masonry.pkgd.min.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/modal-box.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/ventcamp.js"></script>
