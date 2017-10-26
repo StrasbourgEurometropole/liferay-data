@@ -25,6 +25,7 @@
             <div class="btn-line">
                 <#-- Si la recherche a renvoyé des cours pour l'activité, on affiche ceux-ci -->
                 <#-- Sinon on affiche l'ensemble des cours de ladite activité -->
+                <#-- Car si la recherche a renvoyé des activités sans ses cours, c'est certainement que ce sont des cours qui n'ont pas d'horaires mais qui doivent tout de même être affichés -->
                 <#if courses?has_content>
                     <#assign activityCourses = courses />
                 <#else>
@@ -59,10 +60,10 @@
                 <span>
                     <strong>
                         <#if (entry.getPublics()?size == 1)>
-                            <liferay-ui:message key="public" />
+                            <@liferay_ui.message key="public" />
                         </#if>
                         <#if (entry.getPublics()?size > 1)>
-                            <liferay-ui:message key="publics" />
+                            <@liferay_ui.message key="publics" />
                         </#if>
                     </strong>
                     ${entry.getPublicsLabel(locale)}
