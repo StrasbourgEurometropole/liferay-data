@@ -88,4 +88,9 @@ public interface ActivityCourseSchedule extends ActivityCourseScheduleModel,
 	* 0 et 6)
 	*/
 	public boolean hasScheduleOnDay(int day);
+
+	/**
+	* Retourne les périodes du schedule
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPeriods();
 }

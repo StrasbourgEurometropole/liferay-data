@@ -184,6 +184,9 @@ public class SearchActivityDisplayContext {
 				endTime = endTimeHour + ":" + endTimeMinute;
 			}
 
+			// Mots clés
+			String keywords = ParamUtil.getString(request, "keywords");
+
 			// Paramètres du lieu
 			long territoryId = ParamUtil.getLong(request, "territoryId");
 			String sigId = ParamUtil.getString(request, "placeSIGId");
@@ -291,6 +294,11 @@ public class SearchActivityDisplayContext {
 			// On filtre ces activités par statut, typeId, publicId et
 			// activityId
 			activities = this.filterActivitiesByTypeAndId(activities, activityTypeIds, activityId);
+			// Filtre par mots-clés
+			if (Validator.isNotNull(keywords)) {
+				activities = activities.stream().filter(a -> a.getTitle(request.getLocale()).contains(keywords))
+						.collect(Collectors.toList());
+			}
 
 			// On rempli maintenant la map pour l'affichage
 			// On souhaite afficher les activites et les cours correspondant aux
@@ -345,7 +353,7 @@ public class SearchActivityDisplayContext {
 		}
 		return searchContainer;
 	}
-	
+
 	/**
 	 * Retourne le nombre d'items par page à afficher
 	 */
@@ -356,12 +364,13 @@ public class SearchActivityDisplayContext {
 		}
 		return 10;
 	}
-	
+
 	/**
 	 * Retourne le pager de la page
 	 */
 	public Pager getPager() {
-		return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(), this.getSearchContainer().getCur());
+		return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(),
+				this.getSearchContainer().getCur());
 	}
 
 	/**
@@ -375,7 +384,6 @@ public class SearchActivityDisplayContext {
 		return valueToReturn;
 	}
 
-	
 	/**
 	 * Retourne l'URL sur laquelle aller pour accéder à la Xième page
 	 */
@@ -386,7 +394,7 @@ public class SearchActivityDisplayContext {
 		url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
 		return valueToReturn;
 	}
-	
+
 	/**
 	 * Filtre les lieux par sigId, territoryId et si territoryId est vide par le
 	 * préfiltre territoryIds (s'il existe)

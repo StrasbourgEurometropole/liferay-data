@@ -9567,6 +9567,7 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
 .seu-event-categories {
   font: 400 1.8rem "OpenSans", arial;
+  text-transform: none;
   color: #5c5c5c;
   line-height: 1.2;
   margin-bottom: 20px;
@@ -9579,7 +9580,7 @@ a {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
-  /* line 9, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
+  /* line 10, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
   .seu-event-categories:before {
     content: '';
     display: inline-block;
@@ -9593,10 +9594,10 @@ a {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg); }
 
-/* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
+/* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
 .seu-event-visu {
   text-align: center; }
-  /* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
+  /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-event.scss */
   .seu-event-visu img {
     max-width: 100%; }
 

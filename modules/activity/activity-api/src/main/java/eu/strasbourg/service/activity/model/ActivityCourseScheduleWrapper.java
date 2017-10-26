@@ -626,6 +626,14 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
+	* Retourne les périodes du schedule
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPeriods() {
+		return _activityCourseSchedule.getPeriods();
+	}
+
+	/**
 	* Returns a map of the locales and localized commentses of this activity course schedule.
 	*
 	* @return the locales and localized commentses of this activity course schedule
