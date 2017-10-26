@@ -13,8 +13,14 @@ import aQute.bnd.annotation.metatype.Meta;
 	name = "portlet.activity.configuration.name")
 public interface SearchActivityConfiguration {
 
+	@Meta.AD(name="template", deflt = "", required = false)
+	public String template();
+	
 	@Meta.AD(name = "detailPageUuid", deflt = "", required = false)
 	public String detailPageUuid();
+	
+	@Meta.AD(name = "courseDetailPageUuid", deflt = "", required = false)
+	public String courseDetailPageUuid();
 
 	@Meta.AD(name = "activityTypeIds", deflt = "", required = false)
 	public String activityTypeIds();

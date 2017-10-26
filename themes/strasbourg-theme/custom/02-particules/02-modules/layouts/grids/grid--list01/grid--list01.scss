@@ -1,5 +1,8 @@
 #seu-grid--list01{
     @extend %molecule-grid--list01;
+    .seu-btn-arrow {
+        transform: none !important;
+    }
 }  
 .seu-view-activity{
     #seu-grid--list01{
