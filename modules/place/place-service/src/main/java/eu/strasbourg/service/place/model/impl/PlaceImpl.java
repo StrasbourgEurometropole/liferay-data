@@ -102,8 +102,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Place.class.getName(),
-			this.getPlaceId());
+		return AssetEntryLocalServiceUtil.fetchEntry(Place.class.getName(), this.getPlaceId());
 	}
 
 	/**
@@ -112,8 +111,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 
 	/**
@@ -145,8 +143,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public List<ScheduleException> getScheduleExceptions() {
-		return ScheduleExceptionLocalServiceUtil
-			.getByPlaceId(this.getPlaceId());
+		return ScheduleExceptionLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
 
 	/**
@@ -163,8 +160,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public String getScheduleExceptionsIds() {
-		List<ScheduleException> scheduleExceptions = this
-			.getScheduleExceptions();
+		List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
 		String ids = "";
 		for (ScheduleException scheduleException : scheduleExceptions) {
 			if (ids.length() > 0) {
@@ -181,6 +177,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 	@Override
 	public List<SubPlace> getSubPlaces() {
 		return SubPlaceLocalServiceUtil.getByPlaceId(this.getPlaceId());
+	}
+
+	/**
+	 * Retourne les sous lieux publiés du lieu
+	 */
+	@Override
+	public List<SubPlace> getPublishedSubPlaces() {
+		return SubPlaceLocalServiceUtil.getByPlaceId(this.getPlaceId()).stream().filter(s -> s.isApproved())
+				.collect(Collectors.toList());
 	}
 
 	// /**
@@ -207,14 +212,35 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public List<Period> getPeriods() {
 		return PeriodLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
+	
+	/**
+	 * Retourne les périodes qui ne sont pas par défaut
+	 */
+	@Override 
+	public List<Period> getNonDefaultPeriods() {
+		return this.getPeriods().stream().filter(p -> !p.getDefaultPeriod()).collect(Collectors.toList());
+	}
+	
+	/**
+	 * Retourne la période par défaut
+	 */
+	@Override 
+	public Period getDefaultPeriod() {
+		for (Period period : this.getPeriods()) {
+			if (period.getDefaultPeriod()) {
+				return period;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Retourne les territoire du lieu
 	 */
 	@Override
 	public List<AssetCategory> getTerritories() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.TERRITORY);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.TERRITORY);
 	}
 
 	/**
@@ -222,8 +248,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getTypes() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.PLACE_TYPE);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PLACE_TYPE);
 	}
 
 	/**
@@ -247,15 +273,13 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public Boolean isEnabled() throws PortalException {
 		List<AssetCategory> types = this.getTypes();
 		for (AssetCategory type : types) {
-			if (Validator.isNotNull(AssetVocabularyHelper
-				.getCategoryProperty(type.getCategoryId(), "realtime"))) {
+			if (Validator.isNotNull(AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "realtime"))) {
 				return true;
 			}
 			// vérification des parents
 			for (AssetCategory ancestor : type.getAncestors()) {
 				if (Validator
-					.isNotNull(AssetVocabularyHelper.getCategoryProperty(
-						ancestor.getCategoryId(), "realtime"))) {
+						.isNotNull(AssetVocabularyHelper.getCategoryProperty(ancestor.getCategoryId(), "realtime"))) {
 					return true;
 				}
 			}
@@ -340,8 +364,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		for (String imageIdStr : this.getImageIds().split(",")) {
 			Long imageId = GetterUtil.getLong(imageIdStr);
 			if (Validator.isNotNull(imageId)) {
-				AssetEntry imageEntry = AssetEntryLocalServiceUtil
-					.getEntry(DLFileEntry.class.getName(), imageId);
+				AssetEntry imageEntry = AssetEntryLocalServiceUtil.getEntry(DLFileEntry.class.getName(), imageId);
 				contenus.add(imageEntry);
 			}
 		}
@@ -405,8 +428,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		for (String documentIdStr : this.getDocumentsIds().split(",")) {
 			Long documentId = GetterUtil.getLong(documentIdStr);
 			if (Validator.isNotNull(documentId)) {
-				String documentURL = FileEntryHelper
-					.getFileEntryURL(documentId);
+				String documentURL = FileEntryHelper.getFileEntryURL(documentId);
 				URLs.add(documentURL);
 			}
 		}
@@ -422,10 +444,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 		for (String documentIdStr : this.getDocumentsIds().split(",")) {
 			Long documentId = GetterUtil.getLong(documentIdStr);
 			if (Validator.isNotNull(documentId)) {
-				String documentURL = FileEntryHelper
-					.getFileEntryURL(documentId);
-				DLFileEntry document = FileEntryHelper
-					.getFileEntryByRelativeURL(documentURL);
+				String documentURL = FileEntryHelper.getFileEntryURL(documentId);
+				DLFileEntry document = FileEntryHelper.getFileEntryByRelativeURL(documentURL);
 				String documentTitle = document.getTitle();
 				documents.put(documentTitle, documentURL);
 			}
@@ -434,12 +454,28 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne la liste des vidéos de ce lieu
+	 */
+
+	@Override
+	public List<Video> getVideos() {
+		List<Video> videos = new ArrayList<Video>();
+		for (String videoIdsStr : this.getVideosIds().split(",")) {
+			Long videoId = GetterUtil.getLong(videoIdsStr);
+			Video aa = VideoLocalServiceUtil.fetchVideo(videoId);
+			if (aa != null) {
+				videos.add(aa);
+			}
+		}
+		return videos;
+	}
+
+	/**
 	 * Retourne une list d'évènements lié à ce lieu
 	 */
 	@Override
 	public List<Event> getEvents() {
-		List<Event> events = EventLocalServiceUtil
-			.findByPlaceSIGId(this.getSIGid());
+		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
 		return events;
 	}
 
@@ -449,9 +485,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
-		return this.getAccessForBlind() || this.getAccessForDeaf()
-			|| this.getAccessForWheelchair() || this.getAccessForDeficient()
-			|| this.getAccessForElder();
+		return this.getAccessForBlind() || this.getAccessForDeaf() || this.getAccessForWheelchair()
+				|| this.getAccessForDeficient() || this.getAccessForElder();
 	}
 
 	/**
@@ -462,14 +497,10 @@ public class PlaceImpl extends PlaceBaseImpl {
 		Boolean closed = true;
 
 		// vérifie si cette date n'est pas dans les horaires d'exception
-		for (ScheduleException scheduleException : this
-			.getScheduleExceptions()) {
-			if (scheduleException.getStartDate() != null
-				&& scheduleException.getEndDate() != null
-				&& scheduleException.getStartDate()
-					.compareTo(jourSemaine.getTime()) <= 0
-				&& scheduleException.getEndDate()
-					.compareTo(jourSemaine.getTime()) >= 0) {
+		for (ScheduleException scheduleException : this.getScheduleExceptions()) {
+			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
+					&& scheduleException.getStartDate().compareTo(jourSemaine.getTime()) <= 0
+					&& scheduleException.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 				if (scheduleException.isClosed())
 					return true;
 				else
@@ -483,8 +514,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 				if (publicHoliday.getDate() != null) {
 					GregorianCalendar publicHolidayYear = new GregorianCalendar();
 					publicHolidayYear.setTime(publicHoliday.getDate());
-					publicHolidayYear.set(Calendar.YEAR,
-						jourSemaine.get(Calendar.YEAR));
+					publicHolidayYear.set(Calendar.YEAR, jourSemaine.get(Calendar.YEAR));
 					if (publicHolidayYear.compareTo(jourSemaine) == 0) {
 						return true;
 					}
@@ -497,29 +527,22 @@ public class PlaceImpl extends PlaceBaseImpl {
 		for (Period period : this.getPeriods()) {
 			if (!period.getDefaultPeriod()) {
 				if (period.getStartDate() != null && period.getEndDate() != null
-					&& period.getStartDate()
-						.compareTo(jourSemaine.getTime()) <= 0
-					&& period.getEndDate()
-						.compareTo(jourSemaine.getTime()) >= 0) {
+						&& period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
+						&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 					if (period.getAlwaysOpen()) {
 						return false;
 					} else {
 						// on vérifie qu'il n'y a pas de créneau pour ce jour
 						for (Slot slot : period.getSlots()) {
-							if (slot.getDayOfWeek() == (jourSemaine
-								.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-									: jourSemaine.get(Calendar.DAY_OF_WEEK)
-										- 2)) {
+							if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+									: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
 								String[] heure = slot.getStartHour().split(":");
-								LocalTime startHour = LocalTime.of(
-									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]), 0, 0);
+								LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
+										Integer.parseInt(heure[1]), 0, 0);
 								heure = slot.getEndHour().split(":");
-								LocalTime endHour = LocalTime.of(
-									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]), 59, 999);
-								if (heureActuelle.isAfter(startHour)
-									&& heureActuelle.isBefore(endHour)) {
+								LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]),
+										59, 999);
+								if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
 									return false;
 								}
 							}
@@ -533,19 +556,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 					closed = false;
 				} else {
 					for (Slot slot : period.getSlots()) {
-						if (slot.getDayOfWeek() == (jourSemaine
-							.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+						if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 								: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
 							String[] heure = slot.getStartHour().split(":");
-							LocalTime startHour = LocalTime.of(
-								Integer.parseInt(heure[0]),
-								Integer.parseInt(heure[1]), 0, 0);
+							LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]),
+									0, 0);
 							heure = slot.getEndHour().split(":");
-							LocalTime endHour = LocalTime.of(
-								Integer.parseInt(heure[0]),
-								Integer.parseInt(heure[1]), 59, 999);
-							if (heureActuelle.isAfter(startHour)
-								&& heureActuelle.isBefore(endHour)) {
+							LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]), 59,
+									999);
+							if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
 								closed = false;
 								break;
 							}
@@ -588,11 +607,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 			Period periodEnCours = null;
 			for (Period period : this.getPeriods()) {
 				if (!period.getDefaultPeriod()) {
-					if (period.getStartDate() != null
-						&& period.getEndDate() != null
-						&& period.getStartDate().compareTo(today.getTime()) <= 0
-						&& period.getEndDate()
-							.compareTo(today.getTime()) >= 0) {
+					if (period.getStartDate() != null && period.getEndDate() != null
+							&& period.getStartDate().compareTo(today.getTime()) <= 0
+							&& period.getEndDate().compareTo(today.getTime()) >= 0) {
 						periodEnCours = period;
 						break;
 					}
@@ -634,8 +651,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * semaine en cours
 	 */
 	@Override
-	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour,
-		Locale locale) {
+	public Map<String, List<PlaceSchedule>> getHoraire(Date dateJour, Locale locale) {
 		Map<String, List<PlaceSchedule>> listHoraires = new LinkedHashMap<String, List<PlaceSchedule>>();
 
 		// réupère le jour voulu de la semaine
@@ -656,12 +672,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 		return listHoraires;
 	}
 
+
 	/**
 	 * Retourne les horaires d'ouverture du jour
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine,
-		Locale locale) {
+	public List<PlaceSchedule> getPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
 		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
 
 		// vérifie si cette date n'est pas dans les horaires d'exception ni dans
@@ -673,52 +689,37 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (listHoraires.isEmpty()) {
 			for (Period period : this.getPeriods()) {
 				if (!period.getDefaultPeriod()) {
-					if (period.getStartDate() != null
-						&& period.getEndDate() != null
-						&& period.getStartDate()
-							.compareTo(jourSemaine.getTime()) <= 0
-						&& period.getEndDate()
-							.compareTo(jourSemaine.getTime()) >= 0) {
+					if (period.getStartDate() != null && period.getEndDate() != null
+							&& period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
+							&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 						listHoraires.clear();
 						// on vérifie si le lieu n'est pas ouvert 24h/24
 						// 7j/7
 						if (period.getAlwaysOpen()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(
-								period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getName(locale),
-								locale);
+							PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
+									period.getEndDate(), period.getName(locale), locale);
 							placeSchedule.setAlwaysOpen(true);
 							listHoraires.add(placeSchedule);
 						} else {
 							for (Slot slot : period.getSlots()) {
-								if (slot.getDayOfWeek() == (jourSemaine
-									.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-										: jourSemaine.get(Calendar.DAY_OF_WEEK)
-											- 2)) {
-									PlaceSchedule placeSchedule = new PlaceSchedule(
-										period.getPeriodId(),
-										period.getStartDate(),
-										period.getEndDate(),
-										period.getName(locale), locale);
-									String[] heure = slot.getStartHour()
-										.split(":");
-									LocalTime startHour = LocalTime.of(
-										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
+								if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+										: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
+									PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
+											period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
+									String[] heure = slot.getStartHour().split(":");
+									LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
+											Integer.parseInt(heure[1]));
 									heure = slot.getEndHour().split(":");
-									LocalTime endHour = LocalTime.of(
-										Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
+									LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
+											Integer.parseInt(heure[1]));
 									placeSchedule.setStartTime(startHour);
 									placeSchedule.setEndTime(endHour);
 									listHoraires.add(placeSchedule);
 								}
 							}
 							if (listHoraires.isEmpty()) {
-								PlaceSchedule placeSchedule = new PlaceSchedule(
-									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale),
-									locale);
+								PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
+										period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
 								placeSchedule.setClosed(true);
 								listHoraires.add(placeSchedule);
 							}
@@ -729,40 +730,30 @@ public class PlaceImpl extends PlaceBaseImpl {
 					// on vérifie si le lieu n'est pas ouvert 24h/24
 					// 7j/7
 					if (period.getAlwaysOpen()) {
-						PlaceSchedule placeSchedule = new PlaceSchedule(
-							period.getPeriodId(), period.getStartDate(),
-							period.getEndDate(), period.getName(locale),
-							locale);
+						PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
+								period.getEndDate(), period.getName(locale), locale);
 						placeSchedule.setAlwaysOpen(true);
 						listHoraires.add(placeSchedule);
 					} else {
 						for (Slot slot : period.getSlots()) {
-							if (slot.getDayOfWeek() == (jourSemaine
-								.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-									: jourSemaine.get(Calendar.DAY_OF_WEEK)
-										- 2)) {
-								PlaceSchedule placeSchedule = new PlaceSchedule(
-									period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale),
-									locale);
+							if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+									: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
+								PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
+										period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
 								String[] heure = slot.getStartHour().split(":");
-								LocalTime startHour = LocalTime.of(
-									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]));
+								LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
+										Integer.parseInt(heure[1]));
 								heure = slot.getEndHour().split(":");
-								LocalTime endHour = LocalTime.of(
-									Integer.parseInt(heure[0]),
-									Integer.parseInt(heure[1]));
+								LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
+										Integer.parseInt(heure[1]));
 								placeSchedule.setStartTime(startHour);
 								placeSchedule.setEndTime(endHour);
 								listHoraires.add(placeSchedule);
 							}
 						}
 						if (listHoraires.isEmpty()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(
-								period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getName(locale),
-								locale);
+							PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
+									period.getEndDate(), period.getName(locale), locale);
 							placeSchedule.setClosed(true);
 							listHoraires.add(placeSchedule);
 						}
@@ -782,8 +773,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 *            sur une semaine)
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceScheduleException(
-		GregorianCalendar premierJour, Boolean surPeriode, Locale locale) {
+	public List<PlaceSchedule> getPlaceScheduleException(GregorianCalendar premierJour, Boolean surPeriode,
+			Locale locale) {
 		List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
 		GregorianCalendar dernierJour = new GregorianCalendar();
 		dernierJour.setTime(premierJour.getTime());
@@ -793,30 +784,21 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 
 		// vérifie s'il y a des horaires d'exception
-		for (ScheduleException scheduleException : this
-			.getScheduleExceptions()) {
-			if (scheduleException.getStartDate() != null
-				&& scheduleException.getEndDate() != null
-				&& scheduleException.getStartDate()
-					.compareTo(dernierJour.getTime()) <= 0
-				&& scheduleException.getEndDate()
-					.compareTo(premierJour.getTime()) >= 0) {
-				PlaceSchedule placeSchedule = new PlaceSchedule(
-					scheduleException.getExceptionId(),
-					scheduleException.getStartDate(),
-					scheduleException.getEndDate(),
-					scheduleException.getComment(locale), locale);
+		for (ScheduleException scheduleException : this.getScheduleExceptions()) {
+			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
+					&& scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
+					&& scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+				PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
+						scheduleException.getStartDate(), scheduleException.getEndDate(),
+						scheduleException.getComment(locale), locale);
 				placeSchedule.setException(true);
 				if (scheduleException.isClosed()) {
 					placeSchedule.setClosed(true);
 				} else {
-					String[] heure = scheduleException.getStartHour()
-						.split(":");
-					LocalTime startHour = LocalTime.of(
-						Integer.parseInt(heure[0]), Integer.parseInt(heure[1]));
+					String[] heure = scheduleException.getStartHour().split(":");
+					LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]));
 					heure = scheduleException.getEndHour().split(":");
-					LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
-						Integer.parseInt(heure[1]));
+					LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]));
 					placeSchedule.setStartTime(startHour);
 					placeSchedule.setEndTime(endHour);
 				}
@@ -824,8 +806,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 
-		if (premierJour.compareTo(dernierJour) == 0
-			&& !listPlaceSchedules.isEmpty()) {
+		if (premierJour.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 
@@ -836,15 +817,13 @@ public class PlaceImpl extends PlaceBaseImpl {
 					GregorianCalendar publicHolidayYear = new GregorianCalendar();
 					publicHolidayYear.setTime(publicHoliday.getDate());
 					if (publicHoliday.isRecurrent()) {
-						publicHolidayYear.set(Calendar.YEAR,
-							premierJour.get(Calendar.YEAR));
+						publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
 					}
 					if (publicHolidayYear.compareTo(premierJour) >= 0
-						&& publicHolidayYear.compareTo(dernierJour) <= 0) {
-						PlaceSchedule placeSchedule = new PlaceSchedule(
-							publicHoliday.getPublicHolidayId(),
-							publicHoliday.getDate(), publicHoliday.getDate(),
-							publicHoliday.getName(locale), locale);
+							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
+						PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
+								publicHoliday.getDate(), publicHoliday.getDate(), publicHoliday.getName(locale),
+								locale);
 						placeSchedule.setPublicHoliday(true);
 						placeSchedule.setClosed(true);
 						listPlaceSchedules.add(placeSchedule);
@@ -853,8 +832,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 		listPlaceSchedules = listPlaceSchedules.stream()
-			.sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate()))
-			.collect(Collectors.toList());
+				.sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
 		return listPlaceSchedules;
 	}
 
@@ -863,8 +841,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
 	 */
 	@Override
-	public List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(Date dateDeb,
-		Boolean surPeriode, Locale locale) {
+	public List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode, Locale locale) {
 		GregorianCalendar premierJour = new GregorianCalendar();
 		premierJour.setTime(dateDeb);
 		return getPlaceScheduleException(premierJour, surPeriode, locale);
@@ -878,12 +855,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 		JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
 		jsonPlace.put("idSurfs", this.getSIGid());
-		jsonPlace.put("name",
-			JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
-		jsonPlace.put("address",
-			this.getAddressStreet() + " " + this.getAddressZipCode() + " "
-				+ this.getCity(Locale.getDefault()) + " "
-				+ this.getAddressCountry());
+		jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
+		jsonPlace.put("address", this.getAddressStreet() + " " + this.getAddressZipCode() + " "
+				+ this.getCity(Locale.getDefault()) + " " + this.getAddressCountry());
 		if (Validator.isNotNull(this.getAddressDistribution())) {
 			jsonPlace.put("distribution", this.getAddressDistribution());
 		}
@@ -898,16 +872,14 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// Quartier
 		AssetCategory districtCategory = this.getDistrictCategory();
 		if (districtCategory != null) {
-			String SIGId = AssetVocabularyHelper
-				.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
+			String SIGId = AssetVocabularyHelper.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
 			jsonPlace.put("districtCode", SIGId);
 		}
 
 		// Ville
 		AssetCategory cityCategory = this.getCityCategory();
 		if (cityCategory != null) {
-			String SIGId = AssetVocabularyHelper
-				.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
+			String SIGId = AssetVocabularyHelper.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
 			jsonPlace.put("cityCode", SIGId);
 		}
 
@@ -925,34 +897,28 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// Types
 		JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory assetCategory : this.getTypes()) {
-			jsonTypes.put(AssetVocabularyHelper
-				.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
+			jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
 		}
 		if (jsonTypes.length() > 0) {
 			jsonPlace.put("types", jsonTypes);
 		}
 
 		// Description
-		jsonPlace.put("description",
-			JSONHelper.getJSONFromI18nMap(this.getPresentationMap()));
+		jsonPlace.put("description", JSONHelper.getJSONFromI18nMap(this.getPresentationMap()));
 
 		// Services et activités
 		if (Validator.isNotNull(this.getServiceAndActivities())) {
-			jsonPlace.put("serviceAndActivities", JSONHelper
-				.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
+			jsonPlace.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
 		}
 
 		// Caractéristiques
 		if (Validator.isNotNull(this.getCharacteristics())) {
-			jsonPlace.put("characteristics",
-				JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
+			jsonPlace.put("characteristics", JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
 		}
 
 		// Tarifs
-		if (Validator.isNotNull(this.getPrice())
-			&& Validator.isNotNull(this.getPrice().getPrice())) {
-			jsonPlace.put("price",
-				JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+		if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
+			jsonPlace.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
 		}
 
 		// Mail
@@ -965,28 +931,22 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 		// Facebook
 		if (Validator.isNotNull(this.getFacebookLabel())) {
-			jsonPlace.put("facebookName",
-				JSONHelper.getJSONFromI18nMap(this.getFacebookLabelMap()));
-			jsonPlace.put("facebookURL",
-				JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
+			jsonPlace.put("facebookName", JSONHelper.getJSONFromI18nMap(this.getFacebookLabelMap()));
+			jsonPlace.put("facebookURL", JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
 		}
 
 		// Site
 		if (Validator.isNotNull(this.getSiteLabel())) {
-			jsonPlace.put("websiteName",
-				JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
-			jsonPlace.put("websiteURL",
-				JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
+			jsonPlace.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
+			jsonPlace.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
 		}
 
 		// Accès
 		if (Validator.isNotNull(this.getAccess())) {
-			jsonPlace.put("access",
-				JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
+			jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
 		}
 		if (Validator.isNotNull(this.getAccessForDisabled())) {
-			jsonPlace.put("accessForDisabled",
-				JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
+			jsonPlace.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
 		}
 		jsonPlace.put("accessForBlind", this.getAccessForBlind());
 		jsonPlace.put("accessForWheelchair", this.getAccessForWheelchair());
@@ -1004,8 +964,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 
 		JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
-		for (ScheduleException scheduleException : this
-			.getScheduleExceptions()) {
+		for (ScheduleException scheduleException : this.getScheduleExceptions()) {
 			scheduleExceptionsJSON.put(scheduleException.toJSON());
 		}
 		if (scheduleExceptionsJSON.length() > 0) {
@@ -1013,27 +972,23 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 
 		if (Validator.isNotNull(this.getExceptionalSchedule())) {
-			jsonPlace.put("exceptionalSchedule", JSONHelper
-				.getJSONFromI18nMap(this.getExceptionalScheduleMap()));
+			jsonPlace.put("exceptionalSchedule", JSONHelper.getJSONFromI18nMap(this.getExceptionalScheduleMap()));
 		}
 
 		// Information complémentaire
 		if (Validator.isNotNull(this.getAdditionalInformation())) {
-			jsonPlace.put("additionalInformation", JSONHelper
-				.getJSONFromI18nMap(this.getAdditionalInformationMap()));
+			jsonPlace.put("additionalInformation", JSONHelper.getJSONFromI18nMap(this.getAdditionalInformationMap()));
 		}
 
 		// URL du lieu
-		jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL()
-			+ "/-/entity/id/" + this.getPlaceId());
+		jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId());
 
 		// Image principale
 		if (Validator.isNotNull(this.getImageURL())) {
 			String imageURL = this.getImageURL();
 			imageURL = StrasbourgPropsUtil.getURL() + imageURL;
 			jsonPlace.put("imageURL", imageURL);
-			jsonPlace.put("imageCopyright",
-				this.getImageCopyright(Locale.getDefault()));
+			jsonPlace.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
 		}
 
 		// Images secondaires
@@ -1044,8 +999,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			if (imageId > 0) {
 				String imageURL = FileEntryHelper.getFileEntryURL(imageId);
 				imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-				String imageCopyright = FileEntryHelper
-					.getImageCopyright(imageId, LocaleUtil.FRENCH);
+				String imageCopyright = FileEntryHelper.getImageCopyright(imageId, LocaleUtil.FRENCH);
 				imageJSON.put("imageURL", imageURL);
 				imageJSON.put("imageCopyright", imageCopyright);
 				imagesJSON.put(imageJSON);

@@ -102,9 +102,24 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getSubPlaces();
 
 	/**
+	* Retourne les sous lieux publiés du lieu
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getPublishedSubPlaces();
+
+	/**
 	* Retourne les Periods du lieux
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
+
+	/**
+	* Retourne les périodes qui ne sont pas par défaut
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriods();
+
+	/**
+	* Retourne la période par défaut
+	*/
+	public eu.strasbourg.service.place.model.Period getDefaultPeriod();
 
 	/**
 	* Retourne les territoire du lieu
@@ -184,6 +199,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne une map de titre et d'URL des documents de ce lieu
 	*/
 	public java.util.Map<java.lang.String, java.lang.String> getDocuments();
+
+	/**
+	* Retourne la liste des vidéos de ce lieu
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos();
 
 	/**
 	* Retourne une list d'évènements lié à ce lieu

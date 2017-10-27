@@ -312,17 +312,17 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setStatusDate(Date statusDate);
 
 	/**
-	 * Returns the s i gid of this place.
+	 * Returns the si gid of this place.
 	 *
-	 * @return the s i gid of this place
+	 * @return the si gid of this place
 	 */
 	@AutoEscape
 	public String getSIGid();
 
 	/**
-	 * Sets the s i gid of this place.
+	 * Sets the si gid of this place.
 	 *
-	 * @param SIGid the s i gid of this place
+	 * @param SIGid the si gid of this place
 	 */
 	public void setSIGid(String SIGid);
 
@@ -447,32 +447,32 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setMercatorY(String mercatorY);
 
 	/**
-	 * Returns the r g f93 x of this place.
+	 * Returns the rgf93x of this place.
 	 *
-	 * @return the r g f93 x of this place
+	 * @return the rgf93x of this place
 	 */
 	@AutoEscape
 	public String getRGF93X();
 
 	/**
-	 * Sets the r g f93 x of this place.
+	 * Sets the rgf93x of this place.
 	 *
-	 * @param RGF93X the r g f93 x of this place
+	 * @param RGF93X the rgf93x of this place
 	 */
 	public void setRGF93X(String RGF93X);
 
 	/**
-	 * Returns the r g f93 y of this place.
+	 * Returns the rgf93y of this place.
 	 *
-	 * @return the r g f93 y of this place
+	 * @return the rgf93y of this place
 	 */
 	@AutoEscape
 	public String getRGF93Y();
 
 	/**
-	 * Sets the r g f93 y of this place.
+	 * Sets the rgf93y of this place.
 	 *
-	 * @param RGF93Y the r g f93 y of this place
+	 * @param RGF93Y the rgf93y of this place
 	 */
 	public void setRGF93Y(String RGF93Y);
 
@@ -1158,46 +1158,46 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setMail(String mail);
 
 	/**
-	 * Returns the site u r l of this place.
+	 * Returns the site url of this place.
 	 *
-	 * @return the site u r l of this place
+	 * @return the site url of this place
 	 */
 	public String getSiteURL();
 
 	/**
-	 * Returns the localized site u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized site url of this place in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized site u r l of this place
+	 * @return the localized site url of this place
 	 */
 	@AutoEscape
 	public String getSiteURL(Locale locale);
 
 	/**
-	 * Returns the localized site u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized site url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized site u r l of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized site url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getSiteURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized site u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized site url of this place in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized site u r l of this place
+	 * @return the localized site url of this place
 	 */
 	@AutoEscape
 	public String getSiteURL(String languageId);
 
 	/**
-	 * Returns the localized site u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized site url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized site u r l of this place
+	 * @return the localized site url of this place
 	 */
 	@AutoEscape
 	public String getSiteURL(String languageId, boolean useDefault);
@@ -1209,31 +1209,31 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public String getSiteURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized site u r ls of this place.
+	 * Returns a map of the locales and localized site urls of this place.
 	 *
-	 * @return the locales and localized site u r ls of this place
+	 * @return the locales and localized site urls of this place
 	 */
 	public Map<Locale, String> getSiteURLMap();
 
 	/**
-	 * Sets the site u r l of this place.
+	 * Sets the site url of this place.
 	 *
-	 * @param siteURL the site u r l of this place
+	 * @param siteURL the site url of this place
 	 */
 	public void setSiteURL(String siteURL);
 
 	/**
-	 * Sets the localized site u r l of this place in the language.
+	 * Sets the localized site url of this place in the language.
 	 *
-	 * @param siteURL the localized site u r l of this place
+	 * @param siteURL the localized site url of this place
 	 * @param locale the locale of the language
 	 */
 	public void setSiteURL(String siteURL, Locale locale);
 
 	/**
-	 * Sets the localized site u r l of this place in the language, and sets the default locale.
+	 * Sets the localized site url of this place in the language, and sets the default locale.
 	 *
-	 * @param siteURL the localized site u r l of this place
+	 * @param siteURL the localized site url of this place
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -1242,16 +1242,16 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setSiteURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized site u r ls of this place from the map of locales and localized site u r ls.
+	 * Sets the localized site urls of this place from the map of locales and localized site urls.
 	 *
-	 * @param siteURLMap the locales and localized site u r ls of this place
+	 * @param siteURLMap the locales and localized site urls of this place
 	 */
 	public void setSiteURLMap(Map<Locale, String> siteURLMap);
 
 	/**
-	 * Sets the localized site u r ls of this place from the map of locales and localized site u r ls, and sets the default locale.
+	 * Sets the localized site urls of this place from the map of locales and localized site urls, and sets the default locale.
 	 *
-	 * @param siteURLMap the locales and localized site u r ls of this place
+	 * @param siteURLMap the locales and localized site urls of this place
 	 * @param defaultLocale the default locale
 	 */
 	public void setSiteURLMap(Map<Locale, String> siteURLMap,
@@ -1359,46 +1359,46 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the facebook u r l of this place.
+	 * Returns the facebook url of this place.
 	 *
-	 * @return the facebook u r l of this place
+	 * @return the facebook url of this place
 	 */
 	public String getFacebookURL();
 
 	/**
-	 * Returns the localized facebook u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized facebook url of this place in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized facebook u r l of this place
+	 * @return the localized facebook url of this place
 	 */
 	@AutoEscape
 	public String getFacebookURL(Locale locale);
 
 	/**
-	 * Returns the localized facebook u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized facebook url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized facebook u r l of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized facebook url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getFacebookURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized facebook u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized facebook url of this place in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized facebook u r l of this place
+	 * @return the localized facebook url of this place
 	 */
 	@AutoEscape
 	public String getFacebookURL(String languageId);
 
 	/**
-	 * Returns the localized facebook u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized facebook url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized facebook u r l of this place
+	 * @return the localized facebook url of this place
 	 */
 	@AutoEscape
 	public String getFacebookURL(String languageId, boolean useDefault);
@@ -1410,31 +1410,31 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public String getFacebookURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized facebook u r ls of this place.
+	 * Returns a map of the locales and localized facebook urls of this place.
 	 *
-	 * @return the locales and localized facebook u r ls of this place
+	 * @return the locales and localized facebook urls of this place
 	 */
 	public Map<Locale, String> getFacebookURLMap();
 
 	/**
-	 * Sets the facebook u r l of this place.
+	 * Sets the facebook url of this place.
 	 *
-	 * @param facebookURL the facebook u r l of this place
+	 * @param facebookURL the facebook url of this place
 	 */
 	public void setFacebookURL(String facebookURL);
 
 	/**
-	 * Sets the localized facebook u r l of this place in the language.
+	 * Sets the localized facebook url of this place in the language.
 	 *
-	 * @param facebookURL the localized facebook u r l of this place
+	 * @param facebookURL the localized facebook url of this place
 	 * @param locale the locale of the language
 	 */
 	public void setFacebookURL(String facebookURL, Locale locale);
 
 	/**
-	 * Sets the localized facebook u r l of this place in the language, and sets the default locale.
+	 * Sets the localized facebook url of this place in the language, and sets the default locale.
 	 *
-	 * @param facebookURL the localized facebook u r l of this place
+	 * @param facebookURL the localized facebook url of this place
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -1444,16 +1444,16 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setFacebookURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized facebook u r ls of this place from the map of locales and localized facebook u r ls.
+	 * Sets the localized facebook urls of this place from the map of locales and localized facebook urls.
 	 *
-	 * @param facebookURLMap the locales and localized facebook u r ls of this place
+	 * @param facebookURLMap the locales and localized facebook urls of this place
 	 */
 	public void setFacebookURLMap(Map<Locale, String> facebookURLMap);
 
 	/**
-	 * Sets the localized facebook u r ls of this place from the map of locales and localized facebook u r ls, and sets the default locale.
+	 * Sets the localized facebook urls of this place from the map of locales and localized facebook urls, and sets the default locale.
 	 *
-	 * @param facebookURLMap the locales and localized facebook u r ls of this place
+	 * @param facebookURLMap the locales and localized facebook urls of this place
 	 * @param defaultLocale the default locale
 	 */
 	public void setFacebookURLMap(Map<Locale, String> facebookURLMap,
@@ -1932,17 +1932,17 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setAccessForDeficient(Boolean accessForDeficient);
 
 	/**
-	 * Returns the r t external ID of this place.
+	 * Returns the rt external ID of this place.
 	 *
-	 * @return the r t external ID of this place
+	 * @return the rt external ID of this place
 	 */
 	@AutoEscape
 	public String getRTExternalId();
 
 	/**
-	 * Sets the r t external ID of this place.
+	 * Sets the rt external ID of this place.
 	 *
-	 * @param RTExternalId the r t external ID of this place
+	 * @param RTExternalId the rt external ID of this place
 	 */
 	public void setRTExternalId(String RTExternalId);
 

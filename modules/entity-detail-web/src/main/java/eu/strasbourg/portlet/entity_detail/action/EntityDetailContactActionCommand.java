@@ -43,6 +43,8 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
+		request.setAttribute("fromContactForm", true);
+		
 		String email = ParamUtil.getString(request, "email");
 		String to = ParamUtil.getString(request, "to");
 		String subject = ParamUtil.getString(request, "subject");

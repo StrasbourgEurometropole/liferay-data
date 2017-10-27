@@ -806,7 +806,7 @@ public class PlaceUtil {
 	/**
 	* Returns the place where SIGid = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
 	*
-	* @param SIGid the s i gid
+	* @param SIGid the si gid
 	* @return the matching place
 	* @throws NoSuchPlaceException if a matching place could not be found
 	*/
@@ -818,7 +818,7 @@ public class PlaceUtil {
 	/**
 	* Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* @param SIGid the s i gid
+	* @param SIGid the si gid
 	* @return the matching place, or <code>null</code> if a matching place could not be found
 	*/
 	public static Place fetchBySIGId(java.lang.String SIGid) {
@@ -828,7 +828,7 @@ public class PlaceUtil {
 	/**
 	* Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* @param SIGid the s i gid
+	* @param SIGid the si gid
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching place, or <code>null</code> if a matching place could not be found
 	*/
@@ -840,7 +840,7 @@ public class PlaceUtil {
 	/**
 	* Removes the place where SIGid = &#63; from the database.
 	*
-	* @param SIGid the s i gid
+	* @param SIGid the si gid
 	* @return the place that was removed
 	*/
 	public static Place removeBySIGId(java.lang.String SIGid)
@@ -851,7 +851,7 @@ public class PlaceUtil {
 	/**
 	* Returns the number of places where SIGid = &#63;.
 	*
-	* @param SIGid the s i gid
+	* @param SIGid the si gid
 	* @return the number of matching places
 	*/
 	public static int countBySIGId(java.lang.String SIGid) {

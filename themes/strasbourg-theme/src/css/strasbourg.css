@@ -9870,35 +9870,42 @@ a {
     /* line 94, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
     .seu-page-lieu .seu-location-infos .crowded-amount.black {
       background-color: #272222; }
-  /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+    /* line 95, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+    .seu-page-lieu .seu-location-infos .crowded-amount.white {
+      background-color: #FFFFFF;
+      color: #000000; }
+    /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+    .seu-page-lieu .seu-location-infos .crowded-amount.grey {
+      background-color: #9E9E9E; }
+  /* line 98, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-location-infos .crowded-caption {
     font-size: 1.5rem;
     font-weight: 700; }
-  /* line 100, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 102, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-location-infos .crowded-fyi {
     font-size: 1.5rem;
     margin-bottom: 25px; }
-  /* line 104, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 106, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-location-infos .rte {
     color: #31455d; }
-    /* line 107, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+    /* line 109, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
     .seu-page-lieu .seu-location-infos .rte a:hover, .seu-page-lieu .seu-location-infos .rte:focus {
       color: #545454; }
 
-/* line 114, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+/* line 116, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
 .seu-page-lieu .seu-wi--collapsing {
   margin-bottom: 45px; }
   @media only screen and (max-width: 767px) {
-    /* line 114, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+    /* line 116, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
     .seu-page-lieu .seu-wi--collapsing {
       margin-left: -20px;
       margin-right: -20px; }
-      /* line 122, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+      /* line 124, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
       .seu-page-lieu .seu-wi--collapsing .seu-toggle-collapse {
         padding-left: 20px;
         padding-right: 20px; } }
 
-/* line 128, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+/* line 130, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
 .seu-page-lieu .seu-svg-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9907,16 +9914,15 @@ a {
       -ms-flex-align: center;
           align-items: center;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  margin-bottom: -20px !important; }
-  /* line 134, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+      flex-wrap: wrap; }
+  /* line 136, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list svg {
     fill: #31455d;
     height: 35px;
     width: 35px;
     margin-right: 20px;
     margin-bottom: 20px; }
-  /* line 141, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 143, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto {
     content: '';
     display: inline-block;
@@ -9927,19 +9933,19 @@ a {
     background-repeat: no-repeat;
     margin-right: 20px;
     margin-bottom: 20px; }
-  /* line 152, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 154, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto-deaf {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  id='Calque_1' data-name='Calque 1' viewBox='0 0 50 50'%3E%3Cpath d='M28.35 16.68s2.54-1.68 4.52.32.19 4.45.19 4.45l-1.26-1.24s1-1.34.13-2.17-2.19.23-2.19.23zM10.63 39.31l15.78-15.78 1.4 1.4L12 40.68a16.24 16.24 0 0 1-1.37-1.37z' class='cls-1'/%3E%3Cpath d='M44.75 8l-1.4-1.4-7.22 7.2-.13-.1a8 8 0 0 0-10.75-.9A8 8 0 0 0 23 22l2-1.92s-.26-3.7 2.26-5.39a5 5 0 0 1 6.71.3 4.47 4.47 0 0 1 .51.51 5.08 5.08 0 0 1 1 1.79 5.87 5.87 0 0 1 .12 3.32c-.34.94-3.85 5.69-4.86 7.09A8.73 8.73 0 0 0 29 32.33c0 1.4-.57 3.39-2.38 3.54S24 34.93 24 34.07h-2.45s.11 4.26 5.17 4.26 4.75-5.62 4.86-6.45S34.95 26 35.66 25s4.24-5.26 1.68-9.6z' class='cls-1'/%3E%3C/svg%3E"); }
-  /* line 153, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 155, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto-mental {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 29.1 30.8'%3E%3Ctitle%3E  Handicap mental%3C/title%3E%3Cpath class='st0' d='M9 30.8c-0.3 0-0.5 0-0.8 0 -3.4-0.3-7.9-4.4-8-4.6 -0.3-0.3-0.2-0.8 0.1-1 0.3-0.2 0.7-0.2 0.9 0 0 0 4.3 3.9 7.2 4.2 2.7 0.3 3.5-1 3.8-1.6 0.1-0.7 0-1.4-0.4-2 -0.3-0.6-0.3-1.3 0-1.9 -1.6-0.5-4.1-1.5-4.6-2.9C7 20.5 7.1 20 7.5 19.6c0.4-0.6 1-0.4 3.3 0.4 1 0.4 2.1 0.7 3.1 0.9 0-0.1 0-0.3 0-0.4 -0.1-0.5-0.1-1.1 0.1-1.6 0.3-0.7 1.1-0.8 1.8-0.9l0.5-0.1c0-0.1 0-0.2-0.1-0.2 -1.1-3.1-2-6.3-2.5-9.5 -0.3-2.3-1.1-4.5-2.3-6.4 -0.2-0.4-0.1-0.8 0.3-1 0.3-0.2 0.7-0.1 0.9 0.2 1.3 2.2 2.2 4.5 2.5 7 0.5 3.1 1.3 6.2 2.4 9.2 0.2 0.5 0.2 1 0 1.5 -0.2 0.3-0.5 0.6-0.8 0.6 -0.3 0.1-0.6 0.1-0.9 0.2 -0.2 0-0.4 0.1-0.6 0.1 0 0.2 0 0.6 0 0.8 0.1 1 0.1 1.7-0.5 1.9s-2-0.1-4.5-1c-0.5-0.2-1-0.3-1.5-0.5 1.3 0.9 2.8 1.6 4.4 1.9 0.4 0.1 0.6 0.5 0.5 0.9 0 0.1 0 0.1-0.1 0.2 -0.2 0.4-0.4 0.7-0.5 1.1 0.6 1 0.7 2.2 0.5 3.4C13.1 29.1 12.1 30.8 9 30.8z'/%3E%3Cpath class='st0' d='M9.4 9.8c0.3 0.2 0.4 0.5 0.5 0.9 -0.3 0.1-0.7 0.1-1 0.1 -0.3 0-0.7 0-1-0.1C8.4 10.3 8.9 10 9.4 9.8M9.5 8.9c-1.1 0-3 1.8-3 1.8 0.1 0.7 1.3 1 2.4 1 0.7 0.1 1.3-0.1 1.9-0.4 0.1-0.9-0.2-1.7-0.9-2.2C9.8 9 9.6 8.9 9.5 8.9L9.5 8.9z'/%3E%3Cpath class='st0' d='M20.4 9.8c0.3 0.2 0.4 0.5 0.5 0.9 -0.3 0.1-0.7 0.1-1 0.1 -0.3 0-0.7 0-1-0.1C19.3 10.3 19.9 10 20.4 9.8M20.5 8.9c-1.1 0-3 1.8-3 1.8 0.1 0.7 1.3 1 2.4 1 0.7 0.1 1.3-0.1 1.9-0.4 0.1-0.9-0.2-1.7-0.9-2.2C20.8 9 20.6 8.9 20.5 8.9L20.5 8.9z'/%3E%3Cpath class='st0' d='M16.4 30.8c-0.7 0.1-1.4-0.1-2-0.4l0.8-1.3 0 0c0 0 1.2 0.6 4.8-0.4 3.4-0.9 4.9-5.9 5.4-8 0.1-0.6 0.1-1.1 0.1-1.7 0-0.9 0-1.6 0.5-2 0.2-0.2 0.5-0.3 0.7-0.3l0 0c0.1 0 0.3-0.3 0.4-0.6 0-0.7 0-1.4 0-2.1 0-0.6 0-1.3 0-1.7 0-0.4 0.2-0.9 0.3-1.3 0.1-0.3 0.4-1.1 0.3-1.2s-0.2-0.2-1.2-0.1c-0.4 0-0.8-0.3-0.8-0.7 0 0 0 0 0 0 -0.2-2.7-0.7-5.5-1.5-8.1 -0.1-0.4 0.1-0.8 0.5-0.9 0.3-0.1 0.7 0.1 0.9 0.4 0.8 2.5 1.4 5.1 1.6 7.8 0.6 0 1.3 0.2 1.7 0.7 0.6 0.8 0.3 1.8 0 2.6 -0.1 0.3-0.2 0.6-0.2 0.9 0 0.4 0 1.1 0 1.7 0.1 0.8 0 1.7-0.1 2.5 -0.2 0.8-0.7 1.4-1.5 1.7 0 0.2 0 0.5 0 0.8 0 0.7-0.1 1.3-0.2 2 -0.5 2.4-2.3 8-6.4 9.1C19.1 30.5 17.8 30.7 16.4 30.8z'/%3E%3Cpath class='st0' d='M17.4 24c-0.6 0-1.2 0-1.9-0.1 -0.3-0.1-0.5-0.4-0.5-0.7 0-0.3 0.3-0.5 0.6-0.5 1.3 0.2 2.6 0.1 3.8-0.2 0.3-0.1 0.6 0 0.8 0.4s0 0.6-0.4 0.8c0 0 0 0 0 0C19.1 23.9 18.2 24 17.4 24z'/%3E%3C/svg%3E"); }
-  /* line 154, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 156, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto-pmr {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 43.8 41.2'%3E%3Ctitle%3E  Personnes à mobilité réduite%3C/title%3E%3Ccircle class='st0' cx='12.6' cy='4.4' r='4.1'/%3E%3Ccircle class='st0' cx='32.3' cy='4.1' r='4.1'/%3E%3Cpath class='st0' d='M42.5 17.6c0 0-5.8-2-6.6-2.3s-2.6-2.8-4.2-4.9c-1.5-2.1-2.1-2-3.5-2.1s-5.7 3.8-6.9 4.7 -1.1 1.7-1.1 1.7V16h-2.9c0 0-6.2-6.9-7.3-6.9C9.5 9 9 9.1 8.5 9.3c-0.1 0-0.2 0.1-0.3 0.2l-5.6 3.3c-0.7 0.4-1.1 1.1-1.2 1.8C1 17.9 0 26.9 0 28.3c-0.1 0.9 0.5 1.7 1.3 2v8.3c0 0 0.5 2.3 2.3 2.3s2.6-2.3 2.6-2.3v-7.2h1.9c0 0 0.2 6.7 0.2 7.7s0.6 2 2.3 2c1.1-0.2 2-0.9 2.4-2 0 0 0.2-5.6 0.1-7.7 0.7-0.1 1.2-0.8 1.2-1.6v-9.7c0.6 0.5 1.3 0.8 2.1 1.1 0.9 0 1.9-0.2 2.8-0.4 0 0-1.6 8.3-1.5 9s1 1.5 1 1.5 -0.4 6.3-0.5 7c-0.1 1.3 0.8 2.4 2.1 2.5 0 0 0.1 0 0.1 0 1.9 0 2.7-2.3 2.7-2.3l0.3-7 1.9 0.1c0 0-0.3 5.9-0.3 7 -0.1 1.3 0.8 2.5 2.1 2.6 0.1 0 0.2 0 0.3 0 1.9 0.1 2.5-2.3 2.5-2.3l1.4-19.2h2.2l6.1 2 -4.8 17.8c0 0-0.4 1.5 0.6 1.8s1.4-1.6 1.4-1.6l5-17.6c0.8-0.2 1.5-0.7 1.8-1.5C44.3 18.9 42.5 17.6 42.5 17.6z'/%3E%3C/svg%3E"); }
-  /* line 155, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 157, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto-blind {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 32.9 28.7'%3E%3Ctitle%3E  Handicap visuel%3C/title%3E%3Cpath class='st0' d='M32.9 14.5c0 0-4.6-9.1-16.8-9.3L14.8 0l-1.6 0.4 1.1 4.9c-0.5 0-1.1 0-1.6 0.1 -0.6 0.1-1.1 0.2-1.6 0.3s-1 0.2-1.5 0.4S8.6 6.5 8.1 6.7s-1 0.4-1.5 0.7c-0.5 0.3-1 0.6-1.5 0.9 -0.5 0.3-0.9 0.6-1.4 1 -0.5 0.4-0.9 0.9-1.4 1.3 -0.5 0.5-0.9 1-1.3 1.6 -0.4 0.6-0.8 1.3-1.1 2 0.6 1.4 1.4 2.7 2.5 3.9 0.6 0.7 1.3 1.4 2.1 2 0.6 0.5 1.3 1 2 1.4 0.6 0.3 1.2 0.6 1.8 0.9 0.6 0.2 1.2 0.5 1.8 0.6 0.5 0.2 1.1 0.3 1.7 0.4 0.6 0.1 1.1 0.2 1.8 0.2s1.1 0.1 1.6 0.1h0.4c0.4 0 0.9 0 1.3 0 0.4 0 1.1-0.1 1.6-0.1l1.2 5.2 1.6-0.3 -1.2-5.2C25.5 22.2 30 19 32.9 14.5zM1.5 14.1c0.3-0.6 0.7-1.2 1.2-1.8l1.2 5.2C3 16.5 2.2 15.4 1.5 14.1zM6.1 19.3l-2-8.5c0.4-0.4 0.9-0.8 1.4-1.1L8 20.4C7.3 20.1 6.7 19.7 6.1 19.3L6.1 19.3zM9.8 21.3L6.9 8.8c0.5-0.3 1-0.5 1.5-0.7l3.2 13.7C11 21.6 10.4 21.4 9.8 21.3L9.8 21.3zM10.9 11.9l-1-4.4c0.5-0.1 1-0.3 1.5-0.4l0.7 3.2C11.7 10.8 11.3 11.3 10.9 11.9L10.9 11.9zM13.3 22l-0.7-3c0.6 0.4 1.2 0.7 1.8 0.9l0.5 2.2C14.4 22.1 13.9 22.1 13.3 22L13.3 22zM13.7 9.4l-0.6-2.5c0.5-0.1 1-0.1 1.6-0.1l0.5 2.2C14.7 9 14.2 9.1 13.7 9.4L13.7 9.4zM16.7 22.1l-0.5-2c0.5 0 1.1-0.1 1.6-0.3l0.5 2.1C17.8 22.1 17.3 22.1 16.7 22.1L16.7 22.1zM16.9 8.9l-0.5-2.2c0.6 0 1.2 0.1 1.8 0.1 3.1 1.3 5.1 4.2 5.1 7.5 0 2.6-2.2 5.2-3.6 6.6l-0.4-1.9c2.5-1.8 3.1-5.3 1.3-7.9C19.7 10 18.4 9.2 16.9 8.9L16.9 8.9zM22.1 21.2c3.6-3.8 3.6-9.7 0-13.6 3.7 1.2 7 3.6 9.1 6.9C29 17.6 25.8 20 22.1 21.2L22.1 21.2z'/%3E%3Cpath class='st0' d='M14.8 22.2h0.4H14.8z'/%3E%3C/svg%3E"); }
-  /* line 156, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
+  /* line 158, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-lieu.scss */
   .seu-page-lieu .seu-svg-list .seu-picto-wheelchair {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d'  viewBox='0 0 491.975 491.975'%3E%3Cpath d='M225.315 96.963c26.748 0 48.48-21.706 48.48-48.48C273.794 21.698 252.062 0 225.314 0c-26.78 0-48.492 21.7-48.492 48.482 0 26.775 21.713 48.48 48.492 48.48zM300.233 371.688c-12.883 44.732-54.12 77.583-102.946 77.583-59.126 0-107.21-48.084-107.21-107.192 0-43.754 26.397-81.413 64.067-98.054V198.58C92.454 217.16 47.38 274.427 47.38 342.078c0 82.65 67.247 149.897 149.906 149.897 60.238 0 112.16-35.8 135.966-87.17l-16.926-33.254c-4.75.04-10.255.09-16.093.138z'/%3E%3Cpath d='M441.48 429.237l-64.94-127.672C371.695 292.012 361.897 286 351.18 286h-83.173v-18.967h71.582c7.148 0 13.156-3.736 17.037-9.118 2.522-3.506 4.316-7.58 4.316-12.236 0-11.79-9.55-21.352-21.353-21.352h-71.582V160c0-17.692-13.118-42.704-42.69-42.704-23.583 0-42.702 19.122-42.702 42.704v139.372c0 24.058 19.503 43.56 43.562 43.56h107.549l57.024 112.118c5.01 9.875 15.01 15.573 25.39 15.573 4.35 0 8.76-.994 12.882-3.104 14.034-7.12 19.608-24.27 12.46-38.283z'/%3E%3C/svg%3E"); }
 

@@ -338,46 +338,46 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 		Locale defaultLocale);
 
 	/**
-	 * Returns the link u r l of this period.
+	 * Returns the link url of this period.
 	 *
-	 * @return the link u r l of this period
+	 * @return the link url of this period
 	 */
 	public String getLinkURL();
 
 	/**
-	 * Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized link u r l of this period
+	 * @return the localized link url of this period
 	 */
 	@AutoEscape
 	public String getLinkURL(Locale locale);
 
 	/**
-	 * Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized link u r l of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized link url of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getLinkURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized link u r l of this period
+	 * @return the localized link url of this period
 	 */
 	@AutoEscape
 	public String getLinkURL(String languageId);
 
 	/**
-	 * Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized link u r l of this period
+	 * @return the localized link url of this period
 	 */
 	@AutoEscape
 	public String getLinkURL(String languageId, boolean useDefault);
@@ -389,31 +389,31 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	public String getLinkURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized link u r ls of this period.
+	 * Returns a map of the locales and localized link urls of this period.
 	 *
-	 * @return the locales and localized link u r ls of this period
+	 * @return the locales and localized link urls of this period
 	 */
 	public Map<Locale, String> getLinkURLMap();
 
 	/**
-	 * Sets the link u r l of this period.
+	 * Sets the link url of this period.
 	 *
-	 * @param linkURL the link u r l of this period
+	 * @param linkURL the link url of this period
 	 */
 	public void setLinkURL(String linkURL);
 
 	/**
-	 * Sets the localized link u r l of this period in the language.
+	 * Sets the localized link url of this period in the language.
 	 *
-	 * @param linkURL the localized link u r l of this period
+	 * @param linkURL the localized link url of this period
 	 * @param locale the locale of the language
 	 */
 	public void setLinkURL(String linkURL, Locale locale);
 
 	/**
-	 * Sets the localized link u r l of this period in the language, and sets the default locale.
+	 * Sets the localized link url of this period in the language, and sets the default locale.
 	 *
-	 * @param linkURL the localized link u r l of this period
+	 * @param linkURL the localized link url of this period
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -422,16 +422,16 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	public void setLinkURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized link u r ls of this period from the map of locales and localized link u r ls.
+	 * Sets the localized link urls of this period from the map of locales and localized link urls.
 	 *
-	 * @param linkURLMap the locales and localized link u r ls of this period
+	 * @param linkURLMap the locales and localized link urls of this period
 	 */
 	public void setLinkURLMap(Map<Locale, String> linkURLMap);
 
 	/**
-	 * Sets the localized link u r ls of this period from the map of locales and localized link u r ls, and sets the default locale.
+	 * Sets the localized link urls of this period from the map of locales and localized link urls, and sets the default locale.
 	 *
-	 * @param linkURLMap the locales and localized link u r ls of this period
+	 * @param linkURLMap the locales and localized link urls of this period
 	 * @param defaultLocale the default locale
 	 */
 	public void setLinkURLMap(Map<Locale, String> linkURLMap,
@@ -452,58 +452,58 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	public void setAlwaysOpen(Boolean alwaysOpen);
 
 	/**
-	 * Returns the r t green threshold of this period.
+	 * Returns the rt green threshold of this period.
 	 *
-	 * @return the r t green threshold of this period
+	 * @return the rt green threshold of this period
 	 */
 	public long getRTGreenThreshold();
 
 	/**
-	 * Sets the r t green threshold of this period.
+	 * Sets the rt green threshold of this period.
 	 *
-	 * @param RTGreenThreshold the r t green threshold of this period
+	 * @param RTGreenThreshold the rt green threshold of this period
 	 */
 	public void setRTGreenThreshold(long RTGreenThreshold);
 
 	/**
-	 * Returns the r t orange threshold of this period.
+	 * Returns the rt orange threshold of this period.
 	 *
-	 * @return the r t orange threshold of this period
+	 * @return the rt orange threshold of this period
 	 */
 	public long getRTOrangeThreshold();
 
 	/**
-	 * Sets the r t orange threshold of this period.
+	 * Sets the rt orange threshold of this period.
 	 *
-	 * @param RTOrangeThreshold the r t orange threshold of this period
+	 * @param RTOrangeThreshold the rt orange threshold of this period
 	 */
 	public void setRTOrangeThreshold(long RTOrangeThreshold);
 
 	/**
-	 * Returns the r t red threshold of this period.
+	 * Returns the rt red threshold of this period.
 	 *
-	 * @return the r t red threshold of this period
+	 * @return the rt red threshold of this period
 	 */
 	public long getRTRedThreshold();
 
 	/**
-	 * Sets the r t red threshold of this period.
+	 * Sets the rt red threshold of this period.
 	 *
-	 * @param RTRedThreshold the r t red threshold of this period
+	 * @param RTRedThreshold the rt red threshold of this period
 	 */
 	public void setRTRedThreshold(long RTRedThreshold);
 
 	/**
-	 * Returns the r t max threshold of this period.
+	 * Returns the rt max threshold of this period.
 	 *
-	 * @return the r t max threshold of this period
+	 * @return the rt max threshold of this period
 	 */
 	public long getRTMaxThreshold();
 
 	/**
-	 * Sets the r t max threshold of this period.
+	 * Sets the rt max threshold of this period.
 	 *
-	 * @param RTMaxThreshold the r t max threshold of this period
+	 * @param RTMaxThreshold the rt max threshold of this period
 	 */
 	public void setRTMaxThreshold(long RTMaxThreshold);
 

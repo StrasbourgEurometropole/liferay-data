@@ -15,7 +15,9 @@
 package eu.strasbourg.service.place.model;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import aQute.bnd.annotation.ProviderType;
@@ -65,6 +67,42 @@ public class PlaceSchedule {
 		this.setEndDate(endDate);
 		this.setPeriod(DateHelper.displayPeriod(startDate, endDate, locale));
 		this.setDescription(description);
+	}
+	
+	public static List<PlaceSchedule> fromSlots(List<Slot> slots, boolean alwaysOpen) {
+		List<PlaceSchedule> schedules = new ArrayList<PlaceSchedule>();
+		
+		if (alwaysOpen) {
+			PlaceSchedule placeSchedule = new PlaceSchedule();
+			placeSchedule.setAlwaysOpen(true);
+			schedules.add(placeSchedule);
+		} else if (slots.isEmpty()) {
+			PlaceSchedule placeSchedule = new PlaceSchedule();
+			placeSchedule.setClosed(true);
+			schedules.add(placeSchedule);
+		} else {
+			for (Slot slot : slots) {
+				PlaceSchedule schedule = new PlaceSchedule();
+				
+				String[] startTimeParts = slot.getStartHour().split(":");
+				LocalTime startTime = LocalTime.of(Integer.parseInt(startTimeParts[0]),
+						Integer.parseInt(startTimeParts[1]));
+				
+				String[] endTimeParts= slot.getEndHour().split(":");
+				LocalTime endTime = LocalTime.of(Integer.parseInt(endTimeParts[0]),
+						Integer.parseInt(endTimeParts[1]));
+				schedule.setStartTime(startTime);
+				schedule.setEndTime(endTime);
+				
+				schedules.add(schedule);
+			}
+		}
+		
+		return schedules;
+	}
+	
+	public String getPeriodDisplay(Locale locale) {
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
 	}
 
 	public long getIdSchedule() {

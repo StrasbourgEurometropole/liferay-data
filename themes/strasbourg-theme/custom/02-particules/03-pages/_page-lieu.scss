@@ -92,6 +92,8 @@
             &.orange{background-color: #FF470F}
             &.red{background-color: #FF0F0F}
             &.black{background-color: #272222}
+            &.white{background-color: #FFFFFF; color: #000000;}
+            &.grey{background-color: #9E9E9E}
         }
         .crowded-caption{
             font-size: 1.5rem;
@@ -129,7 +131,7 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        margin-bottom: -20px !important;
+        //margin-bottom: -20px !important;
 
         svg{
             fill: $core-color;
