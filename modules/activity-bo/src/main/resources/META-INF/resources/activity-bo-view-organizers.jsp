@@ -99,7 +99,7 @@
 						<liferay-portlet:actionURL name="deleteActivityOrganizer"
 							var="deleteActivityOrganizerURL">
 							<portlet:param name="cmd" value="deleteActivityOrganizer" />
-							<portlet:param name="tab" value="activities" />
+							<portlet:param name="tab" value="activityOrganizers" />
 							<portlet:param name="activityOrganizerId" value="${activityOrganizer.activityOrganizerId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_ACTIVITY_ORGANIZER') and empty themeDisplay.scopeGroup.getStagingGroup()}">

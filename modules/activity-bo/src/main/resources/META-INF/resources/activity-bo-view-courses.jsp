@@ -112,7 +112,7 @@
 						<liferay-portlet:actionURL name="deleteActivityCourse"
 							var="deleteActivityCourseURL">
 							<portlet:param name="cmd" value="deleteActivityCourse" />
-							<portlet:param name="tab" value="activities" />
+							<portlet:param name="tab" value="activityCourses" />
 							<portlet:param name="activityCourseId" value="${activityCourse.activityCourseId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_ACTIVITY_COURSE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
