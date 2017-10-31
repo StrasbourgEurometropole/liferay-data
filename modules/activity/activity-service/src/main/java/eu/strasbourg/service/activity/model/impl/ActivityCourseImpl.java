@@ -16,6 +16,12 @@ package eu.strasbourg.service.activity.model.impl;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -23,13 +29,16 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
+import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
+import eu.strasbourg.service.activity.model.CourseAgenda;
+import eu.strasbourg.service.activity.model.CourseAgenda.CoursePeriodAgenda;
+import eu.strasbourg.service.activity.model.CourseAgenda.CoursePlaceAgenda;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
@@ -64,14 +73,28 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	public ActivityCourseImpl() {
 	}
+	
+	/**
+	 * Retourne le nom de l'organisateur du cours : 
+	 * soit via le service, soit l'organisateur d'activité
+	 */
+	@Override
+	public String getOrganizerName(Locale locale) {
+		if (this.getService() != null) {
+			return this.getService().getTitle(locale);
+		}
+		if (this.getActivityOrganizer() != null) {
+			return this.getActivityOrganizer().getName(locale);
+		}
+		return "";
+	}
 
 	/**
 	 * Retourne l'organisateur du cours
 	 */
 	@Override
 	public ActivityOrganizer getActivityOrganizer() {
-		return ActivityOrganizerLocalServiceUtil
-			.fetchActivityOrganizer(this.getOrganizerId());
+		return ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(this.getOrganizerId());
 	}
 
 	/**
@@ -81,8 +104,7 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	public AssetCategory getService() {
 		AssetCategory service = null;
 		if (this.getServiceId() > 0) {
-			service = AssetCategoryLocalServiceUtil
-				.fetchAssetCategory(this.getServiceId());
+			service = AssetCategoryLocalServiceUtil.fetchAssetCategory(this.getServiceId());
 		}
 		return service;
 	}
@@ -100,8 +122,7 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	@Override
 	public List<ActivityCoursePlace> getActivityCoursePlaces() {
-		return ActivityCoursePlaceLocalServiceUtil
-			.getByActivityCourse(this.getActivityCourseId());
+		return ActivityCoursePlaceLocalServiceUtil.getByActivityCourse(this.getActivityCourseId());
 	}
 
 	/**
@@ -109,8 +130,8 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getPublics() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.ACTIVITY_COURSE_PUBLIC);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.ACTIVITY_COURSE_PUBLIC);
 	}
 
 	/**
@@ -134,8 +155,8 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getTypes() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.ACTIVITY_COURSE_TYPE);
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.ACTIVITY_COURSE_TYPE);
 	}
 
 	/**
@@ -165,8 +186,8 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 			return null;
 		}
 		long liveGroupId = group.getLiveGroupId();
-		ActivityCourse liveActivity = ActivityCourseLocalServiceUtil
-			.fetchActivityCourseByUuidAndGroupId(this.getUuid(), liveGroupId);
+		ActivityCourse liveActivity = ActivityCourseLocalServiceUtil.fetchActivityCourseByUuidAndGroupId(this.getUuid(),
+				liveGroupId);
 		return liveActivity;
 	}
 
@@ -175,8 +196,7 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil
-			.fetchEntry(ActivityCourse.class.getName(), this.getPrimaryKey());
+		return AssetEntryLocalServiceUtil.fetchEntry(ActivityCourse.class.getName(), this.getPrimaryKey());
 	}
 
 	/**
@@ -185,7 +205,60 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getCategories() {
-		return AssetVocabularyHelper
-			.getAssetEntryCategories(this.getAssetEntry());
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
+
+	@Override
+	public CourseAgenda getCourseAgenda(long groupId, Locale locale) {
+		CourseAgenda courseAgenda = new CourseAgenda();
+
+		// Liste de tous les lieux dans lesquelles se déroulent le cours
+		List<ActivityCoursePlace> coursePlaces = this.getActivityCoursePlaces();
+
+		// Liste de tous les schedules du cours
+		List<ActivityCourseSchedule> courseSchedules = coursePlaces.stream()
+				.map(ActivityCoursePlace::getActivityCourseSchedules)
+				.flatMap(List::stream)
+				.collect(Collectors.toList());
+
+		// On récupère les différentes périodes concernées par le cours
+		List<AssetCategory> periods = courseSchedules.stream()
+				.map(ActivityCourseSchedule::getPeriods)
+				.flatMap(List::stream)
+				.filter(distinctByKey(p -> p.getCategoryId()))
+				.collect(Collectors.toList());
+
+		// On crée les objets agenda pour ces périodes
+		List<CoursePeriodAgenda> periodAgendas = periods.stream().map(p -> new CoursePeriodAgenda(p.getCategoryId(), p.getTitle(locale)))
+				.collect(Collectors.toList());
+		courseAgenda.setPeriods(periodAgendas);
+
+		// On assigne à chaque période ses lieux
+		for (CoursePeriodAgenda period : periodAgendas) {
+			List<ActivityCourseSchedule> courseSchedulesForPeriod = courseSchedules.stream()
+					.filter(s -> s.getPeriods().stream().anyMatch(p -> period.getPeriodId() == p.getCategoryId())).collect(Collectors.toList());
+			Stream<ActivityCoursePlace> coursePlacesForPeriod = coursePlaces.stream()
+					.filter(p -> courseSchedulesForPeriod.stream().anyMatch(s -> s.getActivityCoursePlaceId() == p.getActivityCoursePlaceId()));
+			List<CoursePlaceAgenda> placeAgendasForPeriod = coursePlacesForPeriod
+					.map(p -> new CoursePlaceAgenda(p.getActivityCoursePlaceId(), p.getPlaceSIGId(), p.getPlaceAlias(locale))).collect(Collectors.toList());
+			
+			// On assigne aux lieux les horaires
+			placeAgendasForPeriod.stream()
+				.forEach(p -> p.setSchedules(
+						courseSchedulesForPeriod.stream()
+							.filter(s -> s.getActivityCoursePlaceId() == p.getCoursePlaceId())
+							.collect(Collectors.toList())));
+			
+			// On assigne les lieux aux périodes
+			period.setPlaces(placeAgendasForPeriod);
+		}
+	
+		return courseAgenda;
+	}
+	
+	private static <T> Predicate<T> distinctByKey(Function<? super T,Object> keyExtractor) {
+	    Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+	    return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
+
 }

@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,minimal-ui">
     <meta name="author" content="Agence Thuria">
-    <title>${the_title} - ${company_name}</title>
+    <title>${the_title}</title>
 
     <@liferay_util["include"] page=top_head_include />
     

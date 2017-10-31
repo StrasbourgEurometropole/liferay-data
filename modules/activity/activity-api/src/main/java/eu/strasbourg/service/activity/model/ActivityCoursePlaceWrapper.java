@@ -343,9 +343,9 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 	}
 
 	/**
-	* Returns the place s i g ID of this activity course place.
+	* Returns the place sig ID of this activity course place.
 	*
-	* @return the place s i g ID of this activity course place
+	* @return the place sig ID of this activity course place
 	*/
 	@Override
 	public java.lang.String getPlaceSIGId() {
@@ -740,9 +740,9 @@ public class ActivityCoursePlaceWrapper implements ActivityCoursePlace,
 	}
 
 	/**
-	* Sets the place s i g ID of this activity course place.
+	* Sets the place sig ID of this activity course place.
 	*
-	* @param placeSIGId the place s i g ID of this activity course place
+	* @param placeSIGId the place sig ID of this activity course place
 	*/
 	@Override
 	public void setPlaceSIGId(java.lang.String placeSIGId) {

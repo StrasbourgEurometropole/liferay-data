@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -45,6 +46,8 @@ import eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -2524,6 +2527,22 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 
 	public ActivityCoursePlacePersistenceImpl() {
 		setModelClass(ActivityCoursePlace.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -2596,7 +2615,8 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ActivityCoursePlaceModelImpl)activityCoursePlace);
+		clearUniqueFindersCache((ActivityCoursePlaceModelImpl)activityCoursePlace,
+			true);
 	}
 
 	@Override
@@ -2609,52 +2629,40 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 				ActivityCoursePlaceImpl.class,
 				activityCoursePlace.getPrimaryKey());
 
-			clearUniqueFindersCache((ActivityCoursePlaceModelImpl)activityCoursePlace);
+			clearUniqueFindersCache((ActivityCoursePlaceModelImpl)activityCoursePlace,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		ActivityCoursePlaceModelImpl activityCoursePlaceModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					activityCoursePlaceModelImpl.getUuid(),
-					activityCoursePlaceModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				activityCoursePlaceModelImpl);
-		}
-		else {
-			if ((activityCoursePlaceModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						activityCoursePlaceModelImpl.getUuid(),
-						activityCoursePlaceModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					activityCoursePlaceModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		ActivityCoursePlaceModelImpl activityCoursePlaceModelImpl) {
 		Object[] args = new Object[] {
 				activityCoursePlaceModelImpl.getUuid(),
 				activityCoursePlaceModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			activityCoursePlaceModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ActivityCoursePlaceModelImpl activityCoursePlaceModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					activityCoursePlaceModelImpl.getUuid(),
+					activityCoursePlaceModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((activityCoursePlaceModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					activityCoursePlaceModelImpl.getOriginalUuid(),
 					activityCoursePlaceModelImpl.getOriginalGroupId()
 				};
@@ -2834,8 +2842,43 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !ActivityCoursePlaceModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!ActivityCoursePlaceModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { activityCoursePlaceModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					activityCoursePlaceModelImpl.getUuid(),
+					activityCoursePlaceModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { activityCoursePlaceModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] {
+					activityCoursePlaceModelImpl.getActivityCourseId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYCOURSE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYCOURSE,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -2920,8 +2963,8 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 			ActivityCoursePlaceImpl.class, activityCoursePlace.getPrimaryKey(),
 			activityCoursePlace, false);
 
-		clearUniqueFindersCache(activityCoursePlaceModelImpl);
-		cacheUniqueFindersCache(activityCoursePlaceModelImpl, isNew);
+		clearUniqueFindersCache(activityCoursePlaceModelImpl, false);
+		cacheUniqueFindersCache(activityCoursePlaceModelImpl);
 
 		activityCoursePlace.resetOriginalValues();
 
@@ -3107,7 +3150,7 @@ public class ActivityCoursePlacePersistenceImpl extends BasePersistenceImpl<Acti
 		query.append(_SQL_SELECT_ACTIVITYCOURSEPLACE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

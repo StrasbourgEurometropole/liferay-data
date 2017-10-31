@@ -229,17 +229,17 @@ public interface ActivityCoursePlaceModel extends BaseModel<ActivityCoursePlace>
 	public void setActivityCourseId(long activityCourseId);
 
 	/**
-	 * Returns the place s i g ID of this activity course place.
+	 * Returns the place sig ID of this activity course place.
 	 *
-	 * @return the place s i g ID of this activity course place
+	 * @return the place sig ID of this activity course place
 	 */
 	@AutoEscape
 	public String getPlaceSIGId();
 
 	/**
-	 * Sets the place s i g ID of this activity course place.
+	 * Sets the place sig ID of this activity course place.
 	 *
-	 * @param placeSIGId the place s i g ID of this activity course place
+	 * @param placeSIGId the place sig ID of this activity course place
 	 */
 	public void setPlaceSIGId(String placeSIGId);
 

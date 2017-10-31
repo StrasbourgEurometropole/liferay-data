@@ -233,6 +233,14 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
+	* Retourne la période par défaut
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Period getDefaultPeriod() {
+		return _subPlace.getDefaultPeriod();
+	}
+
+	/**
 	* Retourne le lieu parent du sous-lieu
 	*/
 	@Override
@@ -474,6 +482,14 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	@Override
 	public Date getStatusDate() {
 		return _subPlace.getStatusDate();
+	}
+
+	/**
+	* Retourne les périodes qui ne sont pas par défaut
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriod() {
+		return _subPlace.getNonDefaultPeriod();
 	}
 
 	/**

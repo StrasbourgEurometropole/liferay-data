@@ -59,10 +59,20 @@ public class SearchActivityConfigurationAction
 		throws Exception {
 
 		if (ParamUtil.getString(actionRequest, "cmd").equals("update")) {
+
+			// Affichage
+			String template = ParamUtil.getString(actionRequest, "template");
+			setPreference(actionRequest, "template", template);
+			
 			// Page de détail
 			String detailPageUuid = ParamUtil.getString(actionRequest,
 				"detailPageUuid");
 			setPreference(actionRequest, "detailPageUuid", detailPageUuid);
+
+			// Page de détail des cours
+			String courseDetailPageUuid = ParamUtil.getString(actionRequest,
+				"courseDetailPageUuid");
+			setPreference(actionRequest, "courseDetailPageUuid", courseDetailPageUuid);
 
 			// Types d'activités
 			saveVocabularyPreference("activityType", actionRequest);
@@ -130,6 +140,10 @@ public class SearchActivityConfigurationAction
 			// Page de détail
 			request.setAttribute("detailPageUuid",
 				configuration.detailPageUuid());
+			
+			// Page de détail des cours
+			request.setAttribute("courseDetailPageUuid",
+				configuration.courseDetailPageUuid());
 
 			// Type d'activité
 			setVocabularyAttributes("activityType",
@@ -154,6 +168,9 @@ public class SearchActivityConfigurationAction
 			// Texte
 			request.setAttribute("textXML", configuration.textXML());
 
+			// Affichage
+			request.setAttribute("template", configuration.template());
+			
 			// Tout ce qui est Application Display Template
 			String portletResource = ParamUtil.getString(request,
 				"portletResource");

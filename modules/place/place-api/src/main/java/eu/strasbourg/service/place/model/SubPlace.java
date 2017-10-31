@@ -65,6 +65,16 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
 
 	/**
+	* Retourne les périodes qui ne sont pas par défaut
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriod();
+
+	/**
+	* Retourne la période par défaut
+	*/
+	public eu.strasbourg.service.place.model.Period getDefaultPeriod();
+
+	/**
 	* Retourne le lieu parent du sous-lieu
 	*/
 	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(

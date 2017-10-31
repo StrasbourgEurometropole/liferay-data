@@ -349,6 +349,12 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	@Override
+	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
+		long groupId, java.util.Locale locale) {
+		return _activityCourse.getCourseAgenda(groupId, locale);
+	}
+
+	@Override
 	public int compareTo(
 		eu.strasbourg.service.activity.model.ActivityCourse activityCourse) {
 		return _activityCourse.compareTo(activityCourse);
@@ -517,6 +523,15 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public java.lang.String getNameCurrentValue() {
 		return _activityCourse.getNameCurrentValue();
+	}
+
+	/**
+	* Retourne le nom de l'organisateur du cours :
+	* soit via le service, soit l'organisateur d'activité
+	*/
+	@Override
+	public java.lang.String getOrganizerName(java.util.Locale locale) {
+		return _activityCourse.getOrganizerName(locale);
 	}
 
 	/**

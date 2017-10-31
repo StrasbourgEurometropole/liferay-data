@@ -16,13 +16,16 @@ package eu.strasbourg.service.activity.model.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
@@ -115,7 +118,7 @@ public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 		days[6] = this.getSunday();
 		return days;
 	}
-
+	
 	/**
 	 * Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
 	 * 0 et 6)
@@ -123,5 +126,19 @@ public class ActivityCourseScheduleImpl extends ActivityCourseScheduleBaseImpl {
 	@Override
 	public boolean hasScheduleOnDay(int day) {
 		return this.getWeekDays()[day];
+	}
+
+	/**
+	 * Retourne les périodes du schedule
+	 */
+	@Override
+	public List<AssetCategory> getPeriods() {
+		return ListUtil.fromArray(this.getPeriodsIds().split(","))
+			.stream()
+			.filter(s -> Validator.isNotNull(s))
+			.mapToLong(Long::valueOf)
+			.mapToObj(l -> AssetCategoryLocalServiceUtil.fetchAssetCategory(l))
+			.filter(c -> c != null)
+			.collect(Collectors.toList());
 	}
 }

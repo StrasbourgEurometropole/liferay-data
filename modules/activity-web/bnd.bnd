@@ -1,5 +1,5 @@
 Bundle-SymbolicName: activity.web
-Bundle-Version: 1.25.0
+Bundle-Version: 1.26.0
 Export-Package: eu.strasbourg.portlet.activity.itemselector
 Include-Resource:\
         META-INF/resources=src/main/resources/META-INF/resources

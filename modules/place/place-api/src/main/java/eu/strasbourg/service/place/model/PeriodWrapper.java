@@ -257,6 +257,11 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		return _period.getDefaultLanguageId();
 	}
 
+	@Override
+	public java.lang.String getDisplay(java.util.Locale locale) {
+		return _period.getDisplay(locale);
+	}
+
 	/**
 	* Returns the link label of this period.
 	*
@@ -326,9 +331,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the link u r l of this period.
+	* Returns the link url of this period.
 	*
-	* @return the link u r l of this period
+	* @return the link url of this period
 	*/
 	@Override
 	public java.lang.String getLinkURL() {
@@ -336,10 +341,10 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized link u r l of this period
+	* @return the localized link url of this period
 	*/
 	@Override
 	public java.lang.String getLinkURL(java.lang.String languageId) {
@@ -347,11 +352,11 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link u r l of this period
+	* @return the localized link url of this period
 	*/
 	@Override
 	public java.lang.String getLinkURL(java.lang.String languageId,
@@ -360,10 +365,10 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the localized link u r l of this period in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized link u r l of this period
+	* @return the localized link url of this period
 	*/
 	@Override
 	public java.lang.String getLinkURL(java.util.Locale locale) {
@@ -371,11 +376,11 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the localized link u r l of this period in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link u r l of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized link url of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getLinkURL(java.util.Locale locale,
@@ -514,6 +519,14 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
+	* Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
+	*/
+	@Override
+	public java.util.List<java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getWeekSchedule() {
+		return _period.getWeekSchedule();
+	}
+
+	/**
 	* Returns a map of the locales and localized link labels of this period.
 	*
 	* @return the locales and localized link labels of this period
@@ -524,9 +537,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns a map of the locales and localized link u r ls of this period.
+	* Returns a map of the locales and localized link urls of this period.
 	*
-	* @return the locales and localized link u r ls of this period
+	* @return the locales and localized link urls of this period
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getLinkURLMap() {
@@ -574,9 +587,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the r t green threshold of this period.
+	* Returns the rt green threshold of this period.
 	*
-	* @return the r t green threshold of this period
+	* @return the rt green threshold of this period
 	*/
 	@Override
 	public long getRTGreenThreshold() {
@@ -584,9 +597,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the r t max threshold of this period.
+	* Returns the rt max threshold of this period.
 	*
-	* @return the r t max threshold of this period
+	* @return the rt max threshold of this period
 	*/
 	@Override
 	public long getRTMaxThreshold() {
@@ -594,9 +607,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the r t orange threshold of this period.
+	* Returns the rt orange threshold of this period.
 	*
-	* @return the r t orange threshold of this period
+	* @return the rt orange threshold of this period
 	*/
 	@Override
 	public long getRTOrangeThreshold() {
@@ -604,9 +617,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns the r t red threshold of this period.
+	* Returns the rt red threshold of this period.
 	*
-	* @return the r t red threshold of this period
+	* @return the rt red threshold of this period
 	*/
 	@Override
 	public long getRTRedThreshold() {
@@ -756,9 +769,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the link u r l of this period.
+	* Sets the link url of this period.
 	*
-	* @param linkURL the link u r l of this period
+	* @param linkURL the link url of this period
 	*/
 	@Override
 	public void setLinkURL(java.lang.String linkURL) {
@@ -766,9 +779,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the localized link u r l of this period in the language.
+	* Sets the localized link url of this period in the language.
 	*
-	* @param linkURL the localized link u r l of this period
+	* @param linkURL the localized link url of this period
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -777,9 +790,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the localized link u r l of this period in the language, and sets the default locale.
+	* Sets the localized link url of this period in the language, and sets the default locale.
 	*
-	* @param linkURL the localized link u r l of this period
+	* @param linkURL the localized link url of this period
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -795,9 +808,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the localized link u r ls of this period from the map of locales and localized link u r ls.
+	* Sets the localized link urls of this period from the map of locales and localized link urls.
 	*
-	* @param linkURLMap the locales and localized link u r ls of this period
+	* @param linkURLMap the locales and localized link urls of this period
 	*/
 	@Override
 	public void setLinkURLMap(
@@ -806,9 +819,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the localized link u r ls of this period from the map of locales and localized link u r ls, and sets the default locale.
+	* Sets the localized link urls of this period from the map of locales and localized link urls, and sets the default locale.
 	*
-	* @param linkURLMap the locales and localized link u r ls of this period
+	* @param linkURLMap the locales and localized link urls of this period
 	* @param defaultLocale the default locale
 	*/
 	@Override
@@ -920,9 +933,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the r t green threshold of this period.
+	* Sets the rt green threshold of this period.
 	*
-	* @param RTGreenThreshold the r t green threshold of this period
+	* @param RTGreenThreshold the rt green threshold of this period
 	*/
 	@Override
 	public void setRTGreenThreshold(long RTGreenThreshold) {
@@ -930,9 +943,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the r t max threshold of this period.
+	* Sets the rt max threshold of this period.
 	*
-	* @param RTMaxThreshold the r t max threshold of this period
+	* @param RTMaxThreshold the rt max threshold of this period
 	*/
 	@Override
 	public void setRTMaxThreshold(long RTMaxThreshold) {
@@ -940,9 +953,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the r t orange threshold of this period.
+	* Sets the rt orange threshold of this period.
 	*
-	* @param RTOrangeThreshold the r t orange threshold of this period
+	* @param RTOrangeThreshold the rt orange threshold of this period
 	*/
 	@Override
 	public void setRTOrangeThreshold(long RTOrangeThreshold) {
@@ -950,9 +963,9 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Sets the r t red threshold of this period.
+	* Sets the rt red threshold of this period.
 	*
-	* @param RTRedThreshold the r t red threshold of this period
+	* @param RTRedThreshold the rt red threshold of this period
 	*/
 	@Override
 	public void setRTRedThreshold(long RTRedThreshold) {

@@ -637,6 +637,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.toCacheModel();
 	}
 
+	/**
+	* Retourne la période par défaut
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.Period getDefaultPeriod() {
+		return _place.getDefaultPeriod();
+	}
+
 	@Override
 	public eu.strasbourg.service.place.model.Place toEscapedModel() {
 		return new PlaceWrapper(_place.toEscapedModel());
@@ -1392,9 +1400,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the facebook u r l of this place.
+	* Returns the facebook url of this place.
 	*
-	* @return the facebook u r l of this place
+	* @return the facebook url of this place
 	*/
 	@Override
 	public java.lang.String getFacebookURL() {
@@ -1402,10 +1410,10 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized facebook u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized facebook url of this place in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized facebook u r l of this place
+	* @return the localized facebook url of this place
 	*/
 	@Override
 	public java.lang.String getFacebookURL(java.lang.String languageId) {
@@ -1413,11 +1421,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized facebook u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized facebook url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized facebook u r l of this place
+	* @return the localized facebook url of this place
 	*/
 	@Override
 	public java.lang.String getFacebookURL(java.lang.String languageId,
@@ -1426,10 +1434,10 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized facebook u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized facebook url of this place in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized facebook u r l of this place
+	* @return the localized facebook url of this place
 	*/
 	@Override
 	public java.lang.String getFacebookURL(java.util.Locale locale) {
@@ -1437,11 +1445,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized facebook u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized facebook url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized facebook u r l of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized facebook url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getFacebookURL(java.util.Locale locale,
@@ -1640,9 +1648,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the r g f93 x of this place.
+	* Returns the rgf93x of this place.
 	*
-	* @return the r g f93 x of this place
+	* @return the rgf93x of this place
 	*/
 	@Override
 	public java.lang.String getRGF93X() {
@@ -1650,9 +1658,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the r g f93 y of this place.
+	* Returns the rgf93y of this place.
 	*
-	* @return the r g f93 y of this place
+	* @return the rgf93y of this place
 	*/
 	@Override
 	public java.lang.String getRGF93Y() {
@@ -1660,9 +1668,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the r t external ID of this place.
+	* Returns the rt external ID of this place.
 	*
-	* @return the r t external ID of this place
+	* @return the rt external ID of this place
 	*/
 	@Override
 	public java.lang.String getRTExternalId() {
@@ -1670,9 +1678,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the s i gid of this place.
+	* Returns the si gid of this place.
 	*
-	* @return the s i gid of this place
+	* @return the si gid of this place
 	*/
 	@Override
 	public java.lang.String getSIGid() {
@@ -1825,9 +1833,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the site u r l of this place.
+	* Returns the site url of this place.
 	*
-	* @return the site u r l of this place
+	* @return the site url of this place
 	*/
 	@Override
 	public java.lang.String getSiteURL() {
@@ -1835,10 +1843,10 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized site u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized site url of this place in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized site u r l of this place
+	* @return the localized site url of this place
 	*/
 	@Override
 	public java.lang.String getSiteURL(java.lang.String languageId) {
@@ -1846,11 +1854,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized site u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized site url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized site u r l of this place
+	* @return the localized site url of this place
 	*/
 	@Override
 	public java.lang.String getSiteURL(java.lang.String languageId,
@@ -1859,10 +1867,10 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized site u r l of this place in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized site url of this place in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized site u r l of this place
+	* @return the localized site url of this place
 	*/
 	@Override
 	public java.lang.String getSiteURL(java.util.Locale locale) {
@@ -1870,11 +1878,11 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the localized site u r l of this place in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized site url of this place in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized site u r l of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized site url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getSiteURL(java.util.Locale locale,
@@ -1910,6 +1918,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _place.getStatusByUserUuid();
+	}
+
+	/**
+	* Retourne le label des types de l'événement
+	*/
+	@Override
+	public java.lang.String getTypeLabel(java.util.Locale locale) {
+		return _place.getTypeLabel(locale);
 	}
 
 	/**
@@ -2051,6 +2067,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne les périodes qui ne sont pas par défaut
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriods() {
+		return _place.getNonDefaultPeriods();
+	}
+
+	/**
 	* Retourne les Periods du lieux
 	*/
 	@Override
@@ -2102,6 +2126,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne les sous lieux publiés du lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getPublishedSubPlaces() {
+		return _place.getPublishedSubPlaces();
+	}
+
+	/**
 	* Retourne une map d'URL et de titre des images additionnelles et des
 	* vidéos
 	*
@@ -2143,6 +2175,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
 		return _place.getTypes();
+	}
+
+	/**
+	* Retourne la liste des vidéos de ce lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
+		return _place.getVideos();
 	}
 
 	/**
@@ -2234,9 +2274,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns a map of the locales and localized facebook u r ls of this place.
+	* Returns a map of the locales and localized facebook urls of this place.
 	*
-	* @return the locales and localized facebook u r ls of this place
+	* @return the locales and localized facebook urls of this place
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getFacebookURLMap() {
@@ -2284,9 +2324,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns a map of the locales and localized site u r ls of this place.
+	* Returns a map of the locales and localized site urls of this place.
 	*
-	* @return the locales and localized site u r ls of this place
+	* @return the locales and localized site urls of this place
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getSiteURLMap() {
@@ -3065,9 +3105,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the facebook u r l of this place.
+	* Sets the facebook url of this place.
 	*
-	* @param facebookURL the facebook u r l of this place
+	* @param facebookURL the facebook url of this place
 	*/
 	@Override
 	public void setFacebookURL(java.lang.String facebookURL) {
@@ -3075,9 +3115,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized facebook u r l of this place in the language.
+	* Sets the localized facebook url of this place in the language.
 	*
-	* @param facebookURL the localized facebook u r l of this place
+	* @param facebookURL the localized facebook url of this place
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -3087,9 +3127,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized facebook u r l of this place in the language, and sets the default locale.
+	* Sets the localized facebook url of this place in the language, and sets the default locale.
 	*
-	* @param facebookURL the localized facebook u r l of this place
+	* @param facebookURL the localized facebook url of this place
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -3105,9 +3145,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized facebook u r ls of this place from the map of locales and localized facebook u r ls.
+	* Sets the localized facebook urls of this place from the map of locales and localized facebook urls.
 	*
-	* @param facebookURLMap the locales and localized facebook u r ls of this place
+	* @param facebookURLMap the locales and localized facebook urls of this place
 	*/
 	@Override
 	public void setFacebookURLMap(
@@ -3116,9 +3156,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized facebook u r ls of this place from the map of locales and localized facebook u r ls, and sets the default locale.
+	* Sets the localized facebook urls of this place from the map of locales and localized facebook urls, and sets the default locale.
 	*
-	* @param facebookURLMap the locales and localized facebook u r ls of this place
+	* @param facebookURLMap the locales and localized facebook urls of this place
 	* @param defaultLocale the default locale
 	*/
 	@Override
@@ -3353,9 +3393,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the r g f93 x of this place.
+	* Sets the rgf93x of this place.
 	*
-	* @param RGF93X the r g f93 x of this place
+	* @param RGF93X the rgf93x of this place
 	*/
 	@Override
 	public void setRGF93X(java.lang.String RGF93X) {
@@ -3363,9 +3403,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the r g f93 y of this place.
+	* Sets the rgf93y of this place.
 	*
-	* @param RGF93Y the r g f93 y of this place
+	* @param RGF93Y the rgf93y of this place
 	*/
 	@Override
 	public void setRGF93Y(java.lang.String RGF93Y) {
@@ -3373,9 +3413,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the r t external ID of this place.
+	* Sets the rt external ID of this place.
 	*
-	* @param RTExternalId the r t external ID of this place
+	* @param RTExternalId the rt external ID of this place
 	*/
 	@Override
 	public void setRTExternalId(java.lang.String RTExternalId) {
@@ -3383,9 +3423,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the s i gid of this place.
+	* Sets the si gid of this place.
 	*
-	* @param SIGid the s i gid of this place
+	* @param SIGid the si gid of this place
 	*/
 	@Override
 	public void setSIGid(java.lang.String SIGid) {
@@ -3522,9 +3562,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the site u r l of this place.
+	* Sets the site url of this place.
 	*
-	* @param siteURL the site u r l of this place
+	* @param siteURL the site url of this place
 	*/
 	@Override
 	public void setSiteURL(java.lang.String siteURL) {
@@ -3532,9 +3572,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized site u r l of this place in the language.
+	* Sets the localized site url of this place in the language.
 	*
-	* @param siteURL the localized site u r l of this place
+	* @param siteURL the localized site url of this place
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -3543,9 +3583,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized site u r l of this place in the language, and sets the default locale.
+	* Sets the localized site url of this place in the language, and sets the default locale.
 	*
-	* @param siteURL the localized site u r l of this place
+	* @param siteURL the localized site url of this place
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -3561,9 +3601,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized site u r ls of this place from the map of locales and localized site u r ls.
+	* Sets the localized site urls of this place from the map of locales and localized site urls.
 	*
-	* @param siteURLMap the locales and localized site u r ls of this place
+	* @param siteURLMap the locales and localized site urls of this place
 	*/
 	@Override
 	public void setSiteURLMap(
@@ -3572,9 +3612,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the localized site u r ls of this place from the map of locales and localized site u r ls, and sets the default locale.
+	* Sets the localized site urls of this place from the map of locales and localized site urls, and sets the default locale.
 	*
-	* @param siteURLMap the locales and localized site u r ls of this place
+	* @param siteURLMap the locales and localized site urls of this place
 	* @param defaultLocale the default locale
 	*/
 	@Override

@@ -28,6 +28,17 @@
 		<aui:fieldset>
 			<strasbourg-picker:layout name="linksUuids" label="detail-page" multiple="false" required="true" value="${linksUuids}" />
 		</aui:fieldset>
+		<aui:fieldset>
+			<!-- Mode d'affichage -->
+			<aui:select name="template">
+				<aui:option value="default" selected="${template eq 'default'}">
+					<liferay-ui:message key="default" />
+				</aui:option>
+				<aui:option value="strasbourg" selected="${template eq 'strasbourg'}">
+					<liferay-ui:message key="strasbourg.eu" />
+				</aui:option>
+			</aui:select>
+		</aui:fieldset>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

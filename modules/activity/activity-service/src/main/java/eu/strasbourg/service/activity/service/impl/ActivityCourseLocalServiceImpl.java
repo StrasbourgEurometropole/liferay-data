@@ -245,7 +245,7 @@ public class ActivityCourseLocalServiceImpl
 				.getByActivityCourse(activityCourseId);
 			for (ActivityCoursePlace activityCoursePlace : activityCoursePlaces) {
 				this.activityCoursePlaceLocalService.removeActivityCoursePlace(
-					activityCoursePlace.getActivityCourseId());
+					activityCoursePlace.getActivityCoursePlaceId());
 			}
 		}
 

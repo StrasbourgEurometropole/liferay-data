@@ -15,7 +15,10 @@
 package eu.strasbourg.service.place.model.impl;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -24,8 +27,10 @@ import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
+import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JSONHelper;
 
 /**
@@ -67,33 +72,49 @@ public class PeriodImpl extends PeriodBaseImpl {
 	}
 
 	/**
+	 * Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
+	 */
+	@Override
+	public List<List<PlaceSchedule>> getWeekSchedule() {
+		List<List<PlaceSchedule>> weekSchedule = new ArrayList<List<PlaceSchedule>>();
+		List<Slot> slots = this.getSlots();
+		for (int i = 0; i < 7; i++) {
+			int day = i;
+			List<Slot> slotsOfDay = slots.stream()
+					.filter(s -> s.getDayOfWeek() == day).collect(Collectors.toList());
+			weekSchedule.add(PlaceSchedule.fromSlots(slotsOfDay, this.getAlwaysOpen()));
+		}
+		return weekSchedule;
+	}
+	
+	@Override
+	public String getDisplay(Locale locale) {
+		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
+	}
+
+	/**
 	 * Retourne la version JSON de la période
 	 */
 	@Override
 	public JSONObject toJSON() {
 		JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
-		periodJSON.put("periodName",
-				JSONHelper.getJSONFromI18nMap(this.getNameMap()));
+		periodJSON.put("periodName", JSONHelper.getJSONFromI18nMap(this.getNameMap()));
 		// TODO périod par défaut ?
 		if (!this.getDefaultPeriod()) {
-			DateFormat dateFormat = DateFormatFactoryUtil
-					.getSimpleDateFormat("yyyy-MM-dd");
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 			if (Validator.isNotNull(this.getStartDate())) {
-				periodJSON.put("startDate",
-						dateFormat.format(this.getStartDate()));
+				periodJSON.put("startDate", dateFormat.format(this.getStartDate()));
 			}
 			if (Validator.isNotNull(this.getEndDate())) {
 				periodJSON.put("endDate", dateFormat.format(this.getEndDate()));
 			}
 		}
 		if (Validator.isNotNull(this.getLinkLabelMap())) {
-			periodJSON.put("scheduleLinkName",
-					JSONHelper.getJSONFromI18nMap(this.getLinkLabelMap()));
+			periodJSON.put("scheduleLinkName", JSONHelper.getJSONFromI18nMap(this.getLinkLabelMap()));
 		}
 		if (Validator.isNotNull(this.getLinkURLMap())) {
-			periodJSON.put("scheduleLinkURL",
-					JSONHelper.getJSONFromI18nMap(this.getLinkURLMap()));
+			periodJSON.put("scheduleLinkURL", JSONHelper.getJSONFromI18nMap(this.getLinkURLMap()));
 		}
 		periodJSON.put("alwaysOpen", this.getAlwaysOpen() ? 1 : 0);
 

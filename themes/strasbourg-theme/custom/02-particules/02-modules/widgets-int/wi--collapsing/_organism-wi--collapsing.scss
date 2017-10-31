@@ -88,6 +88,37 @@
                     background-image: url( svg-bg-uri($svg-contact, $core-color) );
                 }
             }
+            &.services{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-services, $core-color) );
+                }
+            }
+            &.activites{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-activites, $core-color) );
+                }
+            }
+            &.agenda{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-calendar, $core-color) );
+                }
+            }
+            &.caracteristiques{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-caracteristiques, $core-color) );
+                }
+            }
+            &.handicap{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-handicap, $core-color) );
+                }
+            }
+            &.more{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-more, $core-color) );
+                }
+            }
+
         }
         &.seu-opened{
             h2:after{

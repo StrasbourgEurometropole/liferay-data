@@ -17,6 +17,12 @@
 			value="<%=configurationRenderURL%>" />
 			
 		<aui:fieldset>
+			<!-- Affichage -->
+			<aui:select name="template" label="display">
+				<aui:option value="default" label="default" />
+				<aui:option value="strasbourg" label="strasbourg" selected="${template eq 'strasbourg'}" />
+			</aui:select>
+		
 			<!-- ADT vignette -->
 		    <div class="display-template">
 		        <liferay-ddm:template-selector
@@ -28,9 +34,13 @@
 		        />
 		    </div>
 		    
-		    <!-- Page de détail -->
+		    <!-- Page de détail d'activité -->
 			<strasbourg-picker:layout name="detailPageUuid" label="detail-page" 
 				multiple="false" required="false" value="${detailPageUuid}" />
+				
+		    <!-- Page de détail de cours -->
+			<strasbourg-picker:layout name="courseDetailPageUuid" label="course-detail-page" 
+				multiple="false" required="false" value="${courseDetailPageUuid}" />
 				
 			<!-- Type d'activité -->
 			<div class="categorySelector">

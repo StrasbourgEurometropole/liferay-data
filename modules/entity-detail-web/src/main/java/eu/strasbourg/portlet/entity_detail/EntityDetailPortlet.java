@@ -22,59 +22,58 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
-@Component(
-	immediate = true,
-	property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.requires-namespaced-parameters=false",
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.requires-namespaced-parameters=false",
 		"com.liferay.portlet.css-class-wrapper=entity-detail-portlet",
 		"com.liferay.portlet.footer-portlet-javascript=/js/entity-detail-main.js",
 		"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/entity-detail-view.jsp",
+		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/entity-detail-view.jsp",
 		"javax.portlet.init-param.config-template=/entity-detail-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
-	service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class EntityDetailPortlet extends MVCPortlet {
 
 	@Override
-	public void render(RenderRequest request, RenderResponse response)
-		throws IOException, PortletException {
+	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 		try {
-			
-			// Récupération de l'entité
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
+
+			// Récupération de l'entité : soit via le paramètre classPk, soit le sigId (dans le cas d'un lieu)
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			EntityDetailConfiguration configuration;
 			configuration = themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					EntityDetailConfiguration.class);
-			
+					.getPortletInstanceConfiguration(EntityDetailConfiguration.class);
+
 			Long entryId = ParamUtil.getLong(request, "classPK");
+			String sigId = ParamUtil.getString(request, "sigId");
 			String className = configuration.className();
 			if (entryId <= 0) {
 				entryId = configuration.classPK();
-			}	
+			}
 			AssetEntry entry = null;
 			if (entryId > 0) {
 				entry = AssetEntryLocalServiceUtil.fetchEntry(className, entryId);
-				if (entry.getVisible()) {
-					request.setAttribute("entry", entry);
+			}
+			if (entry == null && Validator.isNotNull(sigId)) {
+				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
+				if (place != null) {
+					entry = place.getAssetEntry();
 				}
 			}
-			
+			if (entry != null && entry.getVisible()) {
+				request.setAttribute("entry", entry);
+			}
 
 			// Application display templates stuff
 			PortletPreferences preferences = request.getPreferences();
-			String displayStyle = GetterUtil.getString(
-				preferences.getValue("displayStyle", StringPool.BLANK));
-			long displayStyleGroupId = GetterUtil
-				.getLong(preferences.getValue("displayStyleGroupId", null), 0);
+			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
+			long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
 			Map<String, Object> contextObjects = new HashMap<String, Object>();
 			contextObjects.put("entry", entry != null ? entry.getAssetRenderer().getAssetObject() : null);
 			request.setAttribute("entries", new ArrayList<AssetEntry>());

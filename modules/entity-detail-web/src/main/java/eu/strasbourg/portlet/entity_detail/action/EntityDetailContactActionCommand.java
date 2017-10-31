@@ -37,17 +37,14 @@ import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-@Component(
-	immediate = true,
-	property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
-		"mvc.command.name=contact" },
-	service = MVCActionCommand.class)
+@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
+		"mvc.command.name=contact" }, service = MVCActionCommand.class)
 public class EntityDetailContactActionCommand implements MVCActionCommand {
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response)
-		throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
+		request.setAttribute("fromContactForm", true);
+		
 		String email = ParamUtil.getString(request, "email");
 		String to = ParamUtil.getString(request, "to");
 		String subject = ParamUtil.getString(request, "subject");
@@ -61,22 +58,28 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		body += "Message : " + message;
 
 		// Validation
-		String gRecaptchaResponse = ParamUtil.getString(request,
-			"g-recaptcha-response");
+		String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+		boolean hasError = false;
 		if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
 			SessionErrors.add(request, "recaptcha-error");
-		} else if (Validator.isNull(email) || Validator.isNull(to)
-			|| Validator.isNull(subject) || Validator.isNull(firstName)
-			|| Validator.isNull(lastName) || Validator.isNull(message)) { // Champs
-																		  // vides
+			hasError = true;
+		}
+		// Champs vides
+		if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(subject) || Validator.isNull(firstName)
+				|| Validator.isNull(lastName) || Validator.isNull(message)) { 
 			SessionErrors.add(request, "all-fields-required");
-		} else if (!Validator.isEmailAddress(email)) { // Mail
+			hasError = true;
+		}
+		// Mail invalide
+		if (!Validator.isEmailAddress(email)) {
 			SessionErrors.add(request, "invalid-mail");
-		} else { // Envoi !
+			hasError = true;
+		}
+		// Pas d'erreur
+		if (!hasError) {
 			SessionMessages.add(request, "mail-success");
 			request.setAttribute("mailSent", true);
-			boolean success = MailHelper.sendMailWithPlainText(email, to,
-				subject, body);
+			boolean success = MailHelper.sendMailWithPlainText(email, to, subject, body);
 
 			// Envoi du mail à l'utilisateur
 			if (success && notificationEmail) {
@@ -88,24 +91,23 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				String footerText = "";
 				String footerImage = "";
 				try {
-    				notificationSubject = GetterUtil.getString(ed.getAttribute("subject_mail_contact"));
-    				headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
-    				headerText = GetterUtil.getString(ed.getAttribute("text_header_mail_contact"));
-    				footerText = GetterUtil.getString(ed.getAttribute("text_footer_mail_contact"));
-    				footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
+					notificationSubject = GetterUtil.getString(ed.getAttribute("subject_mail_contact"));
+					headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+					headerText = GetterUtil.getString(ed.getAttribute("text_header_mail_contact"));
+					footerText = GetterUtil.getString(ed.getAttribute("text_footer_mail_contact"));
+					footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
 				} catch (Exception ex) {
 					_log.error("Missing expando field");
 				}
 
-				body = "<p>" + headerText + "</p>" + body + "<p>" + footerText + "</p>";
+				body = "<p>" + headerText + "</p>" + body.replace("\n", "<br>") + "<p>" + footerText + "</p>";
 				if (Validator.isUrl(headerImage)) {
 					body = "<p><img src='" + headerImage + "' /></p>" + body;
 				}
 				if (Validator.isUrl(footerImage)) {
 					body = body + "<p><img src='" + footerImage + "' /></p>";
 				}
-				MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email,
-					notificationSubject, body);
+				MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email, notificationSubject, body);
 			}
 			return success;
 		}

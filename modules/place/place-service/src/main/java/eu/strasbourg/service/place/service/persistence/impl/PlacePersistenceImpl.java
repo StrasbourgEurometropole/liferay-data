@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -46,6 +47,8 @@ import eu.strasbourg.service.place.model.impl.PlaceModelImpl;
 import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.Date;
@@ -2468,7 +2471,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	/**
 	 * Returns the place where SIGid = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
 	 *
-	 * @param SIGid the s i gid
+	 * @param SIGid the si gid
 	 * @return the matching place
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
@@ -2499,7 +2502,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	/**
 	 * Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param SIGid the s i gid
+	 * @param SIGid the si gid
 	 * @return the matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
@@ -2510,7 +2513,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	/**
 	 * Returns the place where SIGid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param SIGid the s i gid
+	 * @param SIGid the si gid
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the matching place, or <code>null</code> if a matching place could not be found
 	 */
@@ -2574,11 +2577,15 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 						finderArgs, list);
 				}
 				else {
-					if ((list.size() > 1) && _log.isWarnEnabled()) {
-						_log.warn(
-							"PlacePersistenceImpl.fetchBySIGId(String, boolean) with parameters (" +
-							StringUtil.merge(finderArgs) +
-							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"PlacePersistenceImpl.fetchBySIGId(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
 					}
 
 					Place place = list.get(0);
@@ -2615,7 +2622,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	/**
 	 * Removes the place where SIGid = &#63; from the database.
 	 *
-	 * @param SIGid the s i gid
+	 * @param SIGid the si gid
 	 * @return the place that was removed
 	 */
 	@Override
@@ -2628,7 +2635,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	/**
 	 * Returns the number of places where SIGid = &#63;.
 	 *
-	 * @param SIGid the s i gid
+	 * @param SIGid the si gid
 	 * @return the number of matching places
 	 */
 	@Override
@@ -2696,6 +2703,24 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 	public PlacePersistenceImpl() {
 		setModelClass(Place.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("alias", "alias_");
+			dbColumnNames.put("access", "access_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -2766,7 +2791,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((PlaceModelImpl)place);
+		clearUniqueFindersCache((PlaceModelImpl)place, true);
 	}
 
 	@Override
@@ -2778,65 +2803,42 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 			entityCache.removeResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
 				PlaceImpl.class, place.getPrimaryKey());
 
-			clearUniqueFindersCache((PlaceModelImpl)place);
+			clearUniqueFindersCache((PlaceModelImpl)place, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(PlaceModelImpl placeModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					placeModelImpl.getUuid(), placeModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				placeModelImpl);
-
-			args = new Object[] { placeModelImpl.getSIGid() };
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args,
-				placeModelImpl);
-		}
-		else {
-			if ((placeModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						placeModelImpl.getUuid(), placeModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					placeModelImpl);
-			}
-
-			if ((placeModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_SIGID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { placeModelImpl.getSIGid() };
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args,
-					placeModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(PlaceModelImpl placeModelImpl) {
+	protected void cacheUniqueFindersCache(PlaceModelImpl placeModelImpl) {
 		Object[] args = new Object[] {
 				placeModelImpl.getUuid(), placeModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			placeModelImpl, false);
+
+		args = new Object[] { placeModelImpl.getSIGid() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args, placeModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(PlaceModelImpl placeModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					placeModelImpl.getUuid(), placeModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((placeModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					placeModelImpl.getOriginalUuid(),
 					placeModelImpl.getOriginalGroupId()
 				};
@@ -2845,14 +2847,16 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 
-		args = new Object[] { placeModelImpl.getSIGid() };
+		if (clearCurrent) {
+			Object[] args = new Object[] { placeModelImpl.getSIGid() };
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
+		}
 
 		if ((placeModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_SIGID.getColumnBitmask()) != 0) {
-			args = new Object[] { placeModelImpl.getOriginalSIGid() };
+			Object[] args = new Object[] { placeModelImpl.getOriginalSIGid() };
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
@@ -3022,8 +3026,40 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !PlaceModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!PlaceModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { placeModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { placeModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] { placeModelImpl.getPriceId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PRICEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -3096,8 +3132,8 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		entityCache.putResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
 			PlaceImpl.class, place.getPrimaryKey(), place, false);
 
-		clearUniqueFindersCache(placeModelImpl);
-		cacheUniqueFindersCache(placeModelImpl, isNew);
+		clearUniqueFindersCache(placeModelImpl, false);
+		cacheUniqueFindersCache(placeModelImpl);
 
 		place.resetOriginalValues();
 
@@ -3319,7 +3355,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		query.append(_SQL_SELECT_PLACE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

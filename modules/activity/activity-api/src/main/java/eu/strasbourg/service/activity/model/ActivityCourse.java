@@ -56,6 +56,12 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 		};
 
 	/**
+	* Retourne le nom de l'organisateur du cours :
+	* soit via le service, soit l'organisateur d'activité
+	*/
+	public java.lang.String getOrganizerName(java.util.Locale locale);
+
+	/**
 	* Retourne l'organisateur du cours
 	*/
 	public eu.strasbourg.service.activity.model.ActivityOrganizer getActivityOrganizer();
@@ -110,4 +116,7 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
+		long groupId, java.util.Locale locale);
 }

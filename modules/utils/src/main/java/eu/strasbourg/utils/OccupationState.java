@@ -11,33 +11,36 @@ public enum OccupationState {
     FULL("full-period", "black"),
     CLOSED("closed-period", "grey"),
     OPEN("open-period", "green");
-    
-    String label;
-    String cssClass;
-    String occupation;
-    String available;
-    String capacity;
-    
-    OccupationState(String label, String cssClass) {
-	this.label = label;
-	this.cssClass = cssClass;
-    }
 
-    public String getLabel() {
-        return label;
-    }
+	String label;
+	String cssClass;
+	String occupation;
+	String available;
+	String capacity;
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	OccupationState(String label, String cssClass) {
+		this.label = label;
+		this.cssClass = cssClass;
+		this.occupation = "N/A";
+		this.available = "N/A";
+		this.capacity = "N/A";
+	}
 
-    public String getCssClass() {
-        return cssClass;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setCssClass(String cssClass) {
-        this.cssClass = cssClass;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getCssClass() {
+		return cssClass;
+	}
+
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
+	}
 
 	public String getOccupation() {
 		return occupation;

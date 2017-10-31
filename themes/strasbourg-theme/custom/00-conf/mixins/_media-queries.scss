@@ -4,6 +4,11 @@
             @content;
         }
     }
+    @if $media == not-mobile {
+        @media only screen and (min-width: $break-small + 1 + "px") {
+            @content;
+        }
+    }
     @else if $media == tablet_only {
         @media only screen and (min-width: $break-small + "px") and (max-width: $break-large - 1 + "px") {
             @content;
