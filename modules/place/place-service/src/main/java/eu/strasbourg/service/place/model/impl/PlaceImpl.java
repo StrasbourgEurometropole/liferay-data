@@ -253,6 +253,21 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne le label des types de l'événement
+	 */
+	@Override
+	public String getTypeLabel(Locale locale) {
+		String types = "";
+		for (AssetCategory type : this.getTypes()) {
+			if (types.length() > 0) {
+				types += " - ";
+			}
+			types += type.getTitle(locale);
+		}
+		return types;
+	}
+
+	/**
 	 * Retourne la ville
 	 */
 	@Override

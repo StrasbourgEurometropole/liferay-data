@@ -31,7 +31,9 @@
 				
 					<div class="col-md-3" >
 						<fmt:formatDate value="${jourChoisi}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
-						<aui:input type="date" name="date" value="${formattedDate}" inlineField="true" inlineLabel="left" label="date" style="margin-left: 10px;" />
+						<aui:input type="date" name="date" value="${formattedDate}" inlineField="true" inlineLabel="left" label="date" style="margin-left: 10px;" 
+						dayParam="day" dayValue="${selectedDay}" monthParam="month" monthValue="${selectedMonth}"
+								yearParam="year" yearValue="${selectedYear}" />
 					</div>
 					
 					<div class="col-md-6" >
@@ -310,3 +312,6 @@
 		</c:otherwise>
 	</c:choose>	
 </div>
+<liferay-util:html-top>
+	<link href="/o/placescheduleweb/css/style.css" rel="stylesheet" type="text/css">
+</liferay-util:html-top>

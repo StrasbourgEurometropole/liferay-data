@@ -2,11 +2,13 @@
   margin-bottom: 0;
 }
 
-.portlet-body > div > div.h2 {
+.portlet-body>div>div.h2 {
   display: none;
 }
 
+
 /* Formulaire de connexion */
+
 .portlet-login {
   margin: 100px auto 200px auto;
   max-width: 500px;
@@ -14,11 +16,17 @@
   font-family: Arial, sans-serif;
 }
 
+
 /* Décallage lorsqu'un utilisateur est connecté */
+
 .has-control-menu .seu-header {
   top: 66px;
 }
 
 .seu-not-front.has-control-menu {
   margin-top: 66px;
+}
+
+.page-header {
+  border-bottom: none;
 }

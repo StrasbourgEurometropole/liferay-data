@@ -1921,6 +1921,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne le label des types de l'événement
+	*/
+	@Override
+	public java.lang.String getTypeLabel(java.util.Locale locale) {
+		return _place.getTypeLabel(locale);
+	}
+
+	/**
 	* Returns the user name of this place.
 	*
 	* @return the user name of this place

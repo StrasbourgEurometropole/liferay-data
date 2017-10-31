@@ -82,9 +82,13 @@ public class PlaceScheduleConfigurationAction
 			String textXML = LocalizationUtil.getXml(map, "TextSchedule");
 			setPreference(request, "textScheduleXML", textXML);
 
-			// Type d'entité
+			// Page détail
 			String linksUuids = ParamUtil.getString(request, "linksUuids");
 			setPreference(request, "linksUuids", linksUuids);
+			
+			// Mode d'affichage
+			String template = ParamUtil.getString(request, "template");
+			setPreference(request, "template", template);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -117,6 +121,10 @@ public class PlaceScheduleConfigurationAction
 			request.setAttribute("textSchedule",
 				configuration.textScheduleXML());
 			request.setAttribute("linksUuids", configuration.linksUuids());
+			
+			// Template
+			request.setAttribute("template", configuration.template());
+			
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

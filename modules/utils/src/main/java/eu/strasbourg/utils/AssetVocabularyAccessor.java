@@ -38,5 +38,13 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+	
+	public AssetVocabulary getPlaceTypes() {
+		try {
+			return AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+		} catch (PortalException e) {
+			return null;
+		}		
+	}
 
 }

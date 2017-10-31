@@ -132,6 +132,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
+	* Retourne le label des types de l'événement
+	*/
+	public java.lang.String getTypeLabel(java.util.Locale locale);
+
+	/**
 	* Retourne la ville
 	*/
 	public java.lang.String getCity(java.util.Locale locale);

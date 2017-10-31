@@ -16038,6 +16038,7 @@ if($('.seu-wi-lieux').length){
                             // Attach pop event
                             snp.$slide_slider.find('.owl-item li').on('click', function(){
                                 var index = $(this).parent().index();
+                                snp.majPopInfos(index, snp.$pop_slider.find('.owl-item').length, snp);
                                 snp.$pop_slider.trigger('to.owl.carousel', [index, 0]);
                                 var fake_event = {
                                     "item": {

@@ -256,6 +256,9 @@
 					<aui:option value="strasbourg-agenda" selected="${searchForm eq 'strasbourg-agenda'}">
 						<liferay-ui:message key="strasbourg-agenda" />
 					</aui:option>
+					<aui:option value="strasbourg-generic" selected="${searchForm eq 'strasbourg-generic'}">
+						<liferay-ui:message key="strasbourg-generic" />
+					</aui:option>
 				</aui:select>
 				
 				<!-- Bouton exporter -->
