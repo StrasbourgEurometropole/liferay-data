@@ -413,7 +413,7 @@
                                         <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
 
                                         <input type="checkbox" class="notification-email"
-                                            name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
+                                            name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
                                         </label>
                                     </div>
                                     <div style="margin: 20px 0;" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
@@ -518,7 +518,7 @@
                             ${entry.addressZipCode} ${entry.getCity(locale)}
                         </p>
                         <p>
-                            <@liferay_ui.message key="phone" /> ${entry.phone}
+                            <@liferay_ui.message key="phone" /> : ${entry.phone}
                         </p>
                         <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
                             <p>
