@@ -1,7 +1,7 @@
 <!-- Liste de documents - bleus -->
 <#setting locale = locale />
-<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.fileEntryHelperService") />
-<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.portletHelperService") />
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <div class="seu-container">
     <div class="rte">
         <h2>
@@ -21,6 +21,7 @@
             </span>
             <span class="seu-btn-arrow"></span>
         </a>
+        <#sep><br></#sep>
     </#list>
 </div>
 
