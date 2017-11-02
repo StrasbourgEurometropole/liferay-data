@@ -6624,7 +6624,7 @@ a {
   background-attachment: fixed;
   background-repeat: no-repeat;
   height: calc(100vh - 50px);
-  max-height: 1000px;
+  max-height: none;
   min-height: 720px;
   overflow: hidden; }
   @media only screen and (max-width: 767px) {
@@ -11322,7 +11322,7 @@ _:-ms-fullscreen #seu-grid--list01 .grid-item .item-content, _:-ms-fullscreen .e
   top: 66px; }
 
 /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.has-control-menu .seu-nav-bottom {
+.has-control-menu .seu-nav-bottom.seu-nav-bottom {
   top: calc(100vh - 120px); }
 
 /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
@@ -11500,7 +11500,7 @@ _:-ms-fullscreen #seu-grid--list01 .grid-item .item-content, _:-ms-fullscreen .e
   top: 66px; }
 
 /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
-.has-control-menu .seu-nav-bottom {
+.has-control-menu .seu-nav-bottom.seu-nav-bottom {
   top: calc(100vh - 120px); }
 
 /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
