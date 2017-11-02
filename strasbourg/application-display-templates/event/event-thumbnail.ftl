@@ -27,6 +27,9 @@
     </div>
     <div class="item-right">
         <a href="${detailURLFilter}" class="item-content">
+            <#if isFeatured>
+                <div class="item-coup-de-coeur">Coup de coeur de strasbourg.eu</div>
+            </#if>
             <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
                 <#if entry.firstStartDate?date == entry.lastEndDate?date>
                     <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
