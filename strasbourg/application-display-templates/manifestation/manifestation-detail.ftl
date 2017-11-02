@@ -41,7 +41,7 @@
                 <div class="seu-wi-grid">
                     <#list entry.publishedEvents as event>
                         <div class="seu-wi-item seu-has-ville">
-                            <a href="${homeURL}event/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
+                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
                                 <div class="seu-date">
                                     <div class="seu-date-sup">
                                         <#if event.firstStartDate?date == event.lastEndDate?date>

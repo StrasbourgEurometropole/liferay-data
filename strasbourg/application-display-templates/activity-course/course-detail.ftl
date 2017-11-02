@@ -19,7 +19,7 @@
         <h2><@liferay_ui.message key="eu.presentation" /></h2>
             
         <strong>
-            <@liferay_ui.message key="eu.activity.part-of-activity" /> <a href="${homeURL}activity/-/entity/id/${entry.activityId}" title="${entry.activity.getTitle(locale)}">${entry.activity.getTitle(locale)}</a>
+            <@liferay_ui.message key="eu.activity.part-of-activity" /> <a href="${homeURL}activite/-/entity/id/${entry.activityId}" title="${entry.activity.getTitle(locale)}">${entry.activity.getTitle(locale)}</a>
         </strong>
 
         <#if entry.publics?has_content>
@@ -91,7 +91,7 @@
                                     </#list>
                                 </ul>
                                 <#if periodPlace.placeSigId?has_content>
-                                    <a href="${homeURL}place/-/entity/sig/${periodPlace.placeSigId}" class="seu-btn-square seu-bordered seu-core" style="margin-bottom: 10px;"><span class="seu-btn-text"><@liferay_ui.message key="eu.activity.see-place-detail" /></span><span class="seu-btn-arrow"></span></a>
+                                    <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}" class="seu-btn-square seu-bordered seu-core" style="margin-bottom: 10px;"><span class="seu-btn-text"><@liferay_ui.message key="eu.activity.see-place-detail" /></span><span class="seu-btn-arrow"></span></a>
                                 </#if>
                             </div>
                         </#list>

@@ -23,7 +23,7 @@
             <h2><@liferay_ui.message key="eu.activity.courses" /></h2>
             <#list entry.publishedActivityCourses as course>
                 <p>
-                    <a href="${homeURL}course/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
+                    <a href="${homeURL}cours/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
                         <button type="button" class="seu-btn-square--filled--second">
                             <span class="seu-flexbox">
                                 <span class="seu-btn-text">${course.getName(locale)}</span>

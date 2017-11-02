@@ -53,7 +53,7 @@
                 <div class="item-geoloc">
                     <span class="text">
                         <#if (entry.placeId > 0)>
-                            <a href="${homeURL}place/-/entity/id/${entry.placeId}">
+                            <a href="${homeURL}lieu/-/entity/id/${entry.placeId}">
                                 <strong>${entry.getPlaceAlias(locale)}</strong> 
                             </a>
                         <#else>

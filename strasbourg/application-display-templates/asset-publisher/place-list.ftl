@@ -20,7 +20,7 @@
                         <ul class="seu-wi-lieux-list unstyled" data-page="1">
                             <#list entries as curEntry>
                                 <#assign place = curEntry.assetRenderer.place />
-                                <li class="seu-wi-lieux-item"><a href="${homeURL}place/-/entity/id/${place.placeId}">${place.getAlias(locale)}</a></li>
+                                <li class="seu-wi-lieux-item"><a href="${homeURL}lieu/-/entity/id/${place.placeId}">${place.getAlias(locale)}</a></li>
                             </#list>
                         </ul>
                     </#if>

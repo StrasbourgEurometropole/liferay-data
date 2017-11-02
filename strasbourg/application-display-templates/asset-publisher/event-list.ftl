@@ -17,7 +17,7 @@
                 <#list entries as curEntry>
                     <#assign entry = curEntry.getAssetRenderer().getEvent() />
                     <div class="seu-wi-item seu-has-ville">
-                        <a href="${homeURL}event/-/entity/id/${entry.eventId}" class="seu-link" title="${entry.getTitle(locale)}">
+                        <a href="${homeURL}evenement/-/entity/id/${entry.eventId}" class="seu-link" title="${entry.getTitle(locale)}">
                             <div class="seu-date">
                                 <div class="seu-date-sup">
                                     <#if entry.firstStartDate?date == entry.lastEndDate?date>
