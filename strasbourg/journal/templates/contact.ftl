@@ -1,9 +1,10 @@
 <!-- Contact -->
 <#setting locale = locale />
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <div class="seu-wi seu-wi-contact">
     <div class="seu-container">
         <h2 class="seu-section-title">
-            <span class="seu-title"><@liferay_ui.message key="contact" /></span>
+            <span class="seu-title">${portletHelper.getPortletTitle('contact', renderRequest)}</span>
         </h2>
         <div class="seu-wi-content">
             <div class="seu-wi-text">

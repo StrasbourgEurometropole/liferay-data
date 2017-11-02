@@ -1,9 +1,10 @@
 <!-- Liens utiles (externes) -->
 <#setting locale = locale />
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <div class="seu-wi seu-wi-crossreading">
     <div class="seu-container">
         <h2 class="seu-section-title">
-            <span class="seu-title"><@liferay_ui.message key="eu.useful-links" /></span>
+            <span class="seu-title">${portletHelper.getPortletTitle('eu.useful-links', renderRequest)}</span>
         </h2>
         <div class="seu-wi-content">
             <#if entries?has_content>

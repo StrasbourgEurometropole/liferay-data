@@ -4,12 +4,13 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
-
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+            
 <!-- Liste d'événements -->
 <div class="seu-wi seu-wi-agenda">
     <div class="seu-container">
         <h2 class="seu-section-title">
-            <span class="seu-title"><@liferay_ui.message key="agenda" /></span>
+            <span class="seu-title">${portletHelper.getPortletTitle('agenda', renderRequest)}</span>
         </h2>
         <div class="seu-wi-content">
             <div class="seu-wi-grid">
