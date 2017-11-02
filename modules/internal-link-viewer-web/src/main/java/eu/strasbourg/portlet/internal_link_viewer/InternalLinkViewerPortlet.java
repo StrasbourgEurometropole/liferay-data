@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.internal_link_viewer.configuration.InternalLinkViewerConfiguration;
+import eu.strasbourg.utils.PortletHelper;
 
 @Component(
 	immediate = true,
@@ -47,6 +48,10 @@ public class InternalLinkViewerPortlet extends MVCPortlet {
 		// Titre
 		String customPortletTitle = preferences.getValue("portletSetupTitle_" + themeDisplay.getLocale(), "Liens internes");
 		renderRequest.setAttribute("customPortletTitle", customPortletTitle);
+		
+		// Titre spécifique à Strasbourg.eu
+		String strasbourgPortletTitle = PortletHelper.getPortletTitle("eu.read-also", renderRequest);
+		renderRequest.setAttribute("strasbourgPortletTitle", strasbourgPortletTitle);
 		
 		try {
 			InternalLinkViewerConfiguration configuration = themeDisplay
