@@ -26,6 +26,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
@@ -151,10 +152,25 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
-	 * Renovie la taille du fichier sous forme de String
+	 * Retourne le nom du fichier si un fichier uploadé est lié à l'édition, le titre de l'édition sinon
+	 */
+	@Override
+	public String getFileTitle(Locale locale) {
+		long fileEntryId = GetterUtil.getLong(this.getFileId(locale));
+		if (fileEntryId > 0) {
+			return FileEntryHelper.getFileTitle(fileEntryId, locale); 
+		}
+		return this.getTitle(locale);
+	}
+	
+	/**
+	 * Renvoie la taille du fichier sous forme de String
 	 */
 	@Override
 	public String getFileSize(Locale locale) {
+		if (Validator.isNull(this.getFileId(locale))) {
+			return "";
+		}
 		return FileEntryHelper.getReadableFileEntrySize(
 			GetterUtil.getLong(this.getFileId(locale)), locale);
 	}

@@ -612,46 +612,46 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
-	 * Returns the u r l of this edition.
+	 * Returns the url of this edition.
 	 *
-	 * @return the u r l of this edition
+	 * @return the url of this edition
 	 */
 	public String getURL();
 
 	/**
-	 * Returns the localized u r l of this edition in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized url of this edition in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized u r l of this edition
+	 * @return the localized url of this edition
 	 */
 	@AutoEscape
 	public String getURL(Locale locale);
 
 	/**
-	 * Returns the localized u r l of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized url of this edition in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized u r l of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized url of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
 	public String getURL(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized u r l of this edition in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized url of this edition in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized u r l of this edition
+	 * @return the localized url of this edition
 	 */
 	@AutoEscape
 	public String getURL(String languageId);
 
 	/**
-	 * Returns the localized u r l of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized url of this edition in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized u r l of this edition
+	 * @return the localized url of this edition
 	 */
 	@AutoEscape
 	public String getURL(String languageId, boolean useDefault);
@@ -663,31 +663,31 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	public String getURLCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized u r ls of this edition.
+	 * Returns a map of the locales and localized urls of this edition.
 	 *
-	 * @return the locales and localized u r ls of this edition
+	 * @return the locales and localized urls of this edition
 	 */
 	public Map<Locale, String> getURLMap();
 
 	/**
-	 * Sets the u r l of this edition.
+	 * Sets the url of this edition.
 	 *
-	 * @param URL the u r l of this edition
+	 * @param URL the url of this edition
 	 */
 	public void setURL(String URL);
 
 	/**
-	 * Sets the localized u r l of this edition in the language.
+	 * Sets the localized url of this edition in the language.
 	 *
-	 * @param URL the localized u r l of this edition
+	 * @param URL the localized url of this edition
 	 * @param locale the locale of the language
 	 */
 	public void setURL(String URL, Locale locale);
 
 	/**
-	 * Sets the localized u r l of this edition in the language, and sets the default locale.
+	 * Sets the localized url of this edition in the language, and sets the default locale.
 	 *
-	 * @param URL the localized u r l of this edition
+	 * @param URL the localized url of this edition
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
@@ -696,16 +696,16 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	public void setURLCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized u r ls of this edition from the map of locales and localized u r ls.
+	 * Sets the localized urls of this edition from the map of locales and localized urls.
 	 *
-	 * @param URLMap the locales and localized u r ls of this edition
+	 * @param URLMap the locales and localized urls of this edition
 	 */
 	public void setURLMap(Map<Locale, String> URLMap);
 
 	/**
-	 * Sets the localized u r ls of this edition from the map of locales and localized u r ls, and sets the default locale.
+	 * Sets the localized urls of this edition from the map of locales and localized urls, and sets the default locale.
 	 *
-	 * @param URLMap the locales and localized u r ls of this edition
+	 * @param URLMap the locales and localized urls of this edition
 	 * @param defaultLocale the default locale
 	 */
 	public void setURLMap(Map<Locale, String> URLMap, Locale defaultLocale);
@@ -924,17 +924,17 @@ public interface EditionModel extends BaseModel<Edition>, LocalizedModel,
 	public void setDistribution(String distribution);
 
 	/**
-	 * Returns the i s b n of this edition.
+	 * Returns the isbn of this edition.
 	 *
-	 * @return the i s b n of this edition
+	 * @return the isbn of this edition
 	 */
 	@AutoEscape
 	public String getISBN();
 
 	/**
-	 * Sets the i s b n of this edition.
+	 * Sets the isbn of this edition.
 	 *
-	 * @param ISBN the i s b n of this edition
+	 * @param ISBN the isbn of this edition
 	 */
 	public void setISBN(String ISBN);
 
