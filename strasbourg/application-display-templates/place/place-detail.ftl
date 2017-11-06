@@ -184,9 +184,9 @@
                 </#if>
         
 
-                <!-- Description -->
+                <!-- Présentation -->
                 <#if entry.getPresentation(locale)?has_content>
-                    <div class="seu-wi--collapsing">
+                    <div class="seu-wi--collapsing <#if !entry.periods?has_content && !renderRequest.getAttribute("fromContactForm")?has_content>seu-first-opened</#if>">
                         <button class="seu-toggle-collapse">
                             <h2 class="description"><span><@liferay_ui.message key="eu.presentation" /></span></h2>
                         </button>
