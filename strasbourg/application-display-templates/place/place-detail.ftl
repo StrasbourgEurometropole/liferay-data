@@ -340,7 +340,7 @@
                 <#if entry.getCharacteristics(locale)?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
-                            <h2 class="caracteristiques"><span><@liferay_ui.message key="eu.confort-and-equipment" /></span></h2>
+                            <h2 class="caracteristiques"><span><@liferay_ui.message key="eu.features" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box">
                             <div class="rte">
