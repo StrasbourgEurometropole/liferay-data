@@ -24,17 +24,14 @@
     <div class="seu-result-right">
         <a class="seu-result-content" href="${detailURLFilter}">
             <h2 class="seu-result-title">${entry.getAlias(locale)}</h2>
-            <div class="seu-result-category">${entry.getTypeLabel(locale)}</div>
+            <div class="seu-result-catcher">${entry.getTypeLabel(locale)}</div>
         </a>
         <div class="seu-result-infos">
             <div class="seu-result-infos-top">
                 ${entry.getCity(locale)}
             </div>
-            <!--
-                <div class="seu-result-infos-bottom">
-                    Test 2
-                </div>
-            -->
+            <div class="seu-result-infos-bottom"> 
+            </div>
         </div>
     </div>
 
