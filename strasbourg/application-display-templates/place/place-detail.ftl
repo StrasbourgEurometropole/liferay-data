@@ -29,10 +29,10 @@
                                 <div class="tab-list">
                                 </div>
                                 <div class="tab-content">
-                                    <h3 class="hidden"><@liferay_ui.message key="eu.place.this-week" /></h3>
+                                    <h3 class="hidden"><@liferay_ui.message key="eu.place.next-days" /></h3>
                                     <div class="tab-title">${entry.getAlias(locale)}</div>
                                     <ul class="schedule-list">
-                                        <#assign daySchedulesMap = entry.getHoraire(.now, locale) />
+                                        <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
                                         <#list daySchedulesMap?keys as day>
                                             <li>
                                                 <span>${day}</span>
@@ -51,7 +51,7 @@
                                     <#list entry.publishedSubPlaces as subPlace>
                                         <div class="tab-title">${subPlace.getName(locale)}</div>
                                         <ul class="schedule-list">
-                                            <#assign daySchedulesMap = subPlace.getHoraire(.now, locale) />
+                                            <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
                                             <#list daySchedulesMap?keys as day>
                                                 <li>
                                                     <span>${day}</span>
@@ -488,19 +488,42 @@
                 </#if>
                 <div class="seu-location-infos">
                     <#if entry.isEnabled()>
-                        <#assign occupationState = entry.getRealTime('1') />
+                        <#assign occupationState = entry.getRealTime() />
                         <div class="seu-crowded-flexbox">
                             <div class="flex-left">
-                                <h3><@liferay_ui.message key="live-frequentation" /></h3>
+                                <#assign isSwimmingPool = entry.isSwimmingPool() />
+                                <#if isSwimmingPool>
+                                    <h3><@liferay_ui.message key="live-frequentation" /></h3>
+                                <#else>
+                                    <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                </#if>
                                 <div class="crowded-date"><span class="wroded-day-month">${.now?date?string.long}</span><span> - </span><span class="crowded-time">${.now?time?string.short}</span></div>
                             </div>
                             <div class="flex-right">
                                 <!-- green orange red black -->
-                                <div class="crowded-amount ${occupationState.cssClass}">${occupationState.occupation}</div>
+                                <div class="crowded-amount ${occupationState.cssClass}">
+                                    <#if isSwimmingPool>
+                                        ${occupationState.occupation}
+                                    <#else>
+                                        ${occupationState.available}
+                                    </#if>
+                                </div>
                             </div>
                         </div>
-                        <div class="crowded-caption"><@liferay_ui.message key="${occupationState.label}" /></div>
-                        <div class="crowded-fyi"><@liferay_ui.message key="live-occupation-explanation" /></div>
+                        <div class="crowded-caption">
+                            <#if isSwimmingPool>
+                                <@liferay_ui.message key="${occupationState.label}" />
+                            <#else>
+                                <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                            </#if>
+                        </div>
+                        <div class="crowded-fyi">    
+                            <#if isSwimmingPool>
+                                <@liferay_ui.message key="live-occupation-explanation" />
+                            <#else>
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            </#if>
+                        </div>
                     </#if>
 
                     <h3><@liferay_ui.message key="eu.place.address-details" /></h3>
@@ -517,12 +540,14 @@
                             </#if>
                             ${entry.addressZipCode} ${entry.getCity(locale)}
                         </p>
-                        <p>
-                            <@liferay_ui.message key="phone" /> : ${entry.phone}
-                        </p>
+                        <#if entry.phone?has_content>
+                            <p>
+                                <@liferay_ui.message key="phone" /> : ${entry.phone}
+                            </p>
+                        </#if>
                         <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
                             <p>
-                                <a href="${entry.getSiteURL(locale)}" class="seu-external" title="${entry.getSiteLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)">${entry.getSiteLabel(locale)}</a>
+                                <a href="${entry.getSiteURL(locale)}" class="seu-external" title="${entry.getSiteLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getSiteLabel(locale)}</a>
                             </p>
                         </#if>
                     </div>
