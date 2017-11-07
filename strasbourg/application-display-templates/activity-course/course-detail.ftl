@@ -78,21 +78,26 @@
                         <#list period.places as periodPlace>
                             <div style="margin-bottom: 20px">
                                 <div class="tab-title">${periodPlace.placeName}</div>
+                                <#if periodPlace.placeSigId?has_content>
+                                    <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
+                                        <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}"><@liferay_ui.message key="eu.activity.see-place-detail" /></a>
+                                    </div>
+                                </#if>
                                 <ul class="schedule-list" style="margin-bottom: 10px;">
                                     <#list 0..6 as day>
-                                        <li>
-                                            <span><@liferay_ui.message key="${periodPlace.getDayName(day)}" /></span>
-                                            <span>
-                                                <#list periodPlace.getSchedulesForDay(day) as schedule>
-                                                    ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
-                                                </#list>
-                                            </span>
-                                        </li>
+                                        <#assign schedules = periodPlace.getSchedulesForDay(day) />
+                                        <#if schedules?has_content>
+                                            <li>
+                                                <span><@liferay_ui.message key="${periodPlace.getDayName(day)}" /></span>
+                                                <span>
+                                                    <#list schedules as schedule>
+                                                        ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
+                                                    </#list>
+                                                </span>
+                                            </li>
+                                        </#if>
                                     </#list>
                                 </ul>
-                                <#if periodPlace.placeSigId?has_content>
-                                    <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}" class="seu-btn-square seu-bordered seu-core" style="margin-bottom: 10px;"><span class="seu-btn-text"><@liferay_ui.message key="eu.activity.see-place-detail" /></span><span class="seu-btn-arrow"></span></a>
-                                </#if>
                             </div>
                         </#list>
                     </div>
