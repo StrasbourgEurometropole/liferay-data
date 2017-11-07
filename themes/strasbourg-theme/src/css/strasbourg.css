@@ -9469,6 +9469,13 @@ a {
           /* line 139, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-schedules/_organism-wi-schedules.scss */
           .seu-wi-schedules .schedule-list li span + span {
             padding-left: 50px; } }
+      /* line 148, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-schedules/_organism-wi-schedules.scss */
+      .seu-wi-schedules .schedule-list li .exception {
+        color: #F44336; }
+        /* line 150, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-schedules/_organism-wi-schedules.scss */
+        .seu-wi-schedules .schedule-list li .exception:after {
+          content: "*";
+          display: inline; }
     @media only screen and (max-width: 767px) {
       /* line 121, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-schedules/_organism-wi-schedules.scss */
       .seu-wi-schedules .schedule-list {
