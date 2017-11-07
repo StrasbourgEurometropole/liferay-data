@@ -15,7 +15,12 @@
 package eu.strasbourg.service.place.model.impl;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +30,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
@@ -122,6 +129,26 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	 */
+	@Override
+	public Map<String, List<PlaceSchedule>> getFollowingWeekSchedules(Date startDate, Locale locale) {
+		Map<String, List<PlaceSchedule>> schedules = new LinkedHashMap<String, List<PlaceSchedule>>();
+		LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale).withZone(ZoneId.systemDefault());
+		for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
+			List<PlaceSchedule> liste = getSubPlaceSchedule(localDate, locale);
+			String dateString = localDate.atStartOfDay().format(dtf);
+			dateString = localDate.format(DateTimeFormatter.ofPattern("EEEE", locale)) + " " + dateString;
+			dateString = StringUtil.upperCaseFirstLetter(dateString);
+			schedules.put(dateString, liste);
+			localDate = localDate.plusDays(1);
+		}
+		return schedules;
+	}
+
+	/**
 	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	 * semaine en cours
 	 */
@@ -145,6 +172,15 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 			listHoraires.put(df.format(jourSemaine.getTime()), liste);
 		}
 		return listHoraires;
+	}
+
+
+	/**
+	 * Retourne les horaires d'ouverture du jour voulu
+	 */
+	private List<PlaceSchedule> getSubPlaceSchedule(LocalDate localDate, Locale locale) {
+		GregorianCalendar gregorianCalendar = GregorianCalendar.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+		return this.getSubPlaceSchedule(gregorianCalendar, locale);
 	}
 
 	/**
