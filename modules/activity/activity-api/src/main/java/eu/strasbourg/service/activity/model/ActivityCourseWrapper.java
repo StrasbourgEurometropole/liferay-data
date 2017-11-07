@@ -713,7 +713,7 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
-	* Retourne les lieux du cours
+	* Retourne les horaires par lieu du cours
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> getActivityCoursePlaces() {
@@ -727,6 +727,24 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _activityCourse.getCategories();
+	}
+
+	/**
+	* Retourne les noms des lieux du cours
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale) {
+		return _activityCourse.getPlaceNames(locale);
+	}
+
+	/**
+	* Retourne les ids SIG des lieux duc ours
+	*/
+	@Override
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale) {
+		return _activityCourse.getPlaceSIGIds(locale);
 	}
 
 	/**

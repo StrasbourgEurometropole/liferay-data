@@ -77,9 +77,21 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	public eu.strasbourg.service.activity.model.Activity getActivity();
 
 	/**
-	* Retourne les lieux du cours
+	* Retourne les horaires par lieu du cours
 	*/
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> getActivityCoursePlaces();
+
+	/**
+	* Retourne les noms des lieux du cours
+	*/
+	public java.util.List<java.lang.String> getPlaceNames(
+		java.util.Locale locale);
+
+	/**
+	* Retourne les ids SIG des lieux duc ours
+	*/
+	public java.util.List<java.lang.String> getPlaceSIGIds(
+		java.util.Locale locale);
 
 	/**
 	* Retourne les publics dui cours

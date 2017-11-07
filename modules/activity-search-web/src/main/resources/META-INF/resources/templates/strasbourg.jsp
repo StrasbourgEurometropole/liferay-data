@@ -138,6 +138,12 @@
                 </div>
             </div>
             <div class="seu-btn-line">
+				<liferay-portlet:renderURL var="cancelURL" />
+				<button type="button" onclick="window.location.href = '${cancelURL}'" class="seu-btn-square seu-bordered seu-core"> 
+				    <span class="seu-flexbox">            
+				        <span class="seu-btn-text" style="margin-right: 0"><liferay-ui:message key="cancel" /></span>
+				    </span>
+				</button>
                 <button class="seu-btn-square seu-filled seu-core" type="submit"><span class="seu-flexbox"><span class="seu-btn-text"><liferay-ui:message key="search" /></span> <span class="seu-btn-arrow"></span></span></button>
             </div>
         </form>
