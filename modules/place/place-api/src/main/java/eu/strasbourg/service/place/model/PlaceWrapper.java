@@ -596,6 +596,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne true si le lieu est une piscine
+	*
+	* @return
+	*/
+	@Override
+	public boolean isSwimmingPool() {
+		return _place.isSwimmingPool();
+	}
+
+	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu
 	*/
 	@Override
@@ -661,6 +671,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public eu.strasbourg.service.place.model.Price getPrice() {
 		return _place.getPrice();
+	}
+
+	/**
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	*/
+	@Override
+	public eu.strasbourg.utils.OccupationState getRealTime() {
+		return _place.getRealTime();
 	}
 
 	/**

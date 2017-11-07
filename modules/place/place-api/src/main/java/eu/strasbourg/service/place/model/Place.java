@@ -227,6 +227,18 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine);
 
 	/**
+	* Retourne true si le lieu est une piscine
+	*
+	* @return
+	*/
+	public boolean isSwimmingPool();
+
+	/**
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	*/
+	public eu.strasbourg.utils.OccupationState getRealTime();
+
+	/**
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type

@@ -34,7 +34,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -596,6 +599,29 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return closed;
 	}
+
+	/**
+	 * Retourne true si le lieu est une piscine
+	 * @return
+	 */
+	@Override
+	public boolean isSwimmingPool() {
+		for (AssetCategory type : this.getTypes()) {
+			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
+			if (typeSigId.toLowerCase().equals("cat_06_05")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	 */
+	@Override
+	public OccupationState getRealTime() {
+		return isSwimmingPool() ? getRealTime("1") : getRealTime("2");
+	}	
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)

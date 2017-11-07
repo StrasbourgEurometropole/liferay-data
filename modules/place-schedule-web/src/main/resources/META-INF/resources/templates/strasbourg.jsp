@@ -70,64 +70,92 @@
 				<div class="item-info">
 					<c:if test="${place.isEnabled()}">
 						<div class="item-real-time">
-							<c:set var="occupationState" value="${place.getRealTime('1')}" />
-							<div class="crowded-amount ${occupationState.cssClass}">${occupationState.occupation}</div>
+							<c:set var="occupationState" value="${place.getRealTime()}" />
+							<c:set var="isSwimmingPool" value="${place.isSwimmingPool()}" />
+							<div class="crowded-amount ${occupationState.cssClass}">
+								<c:choose>
+									<c:when test="${isSwimmingPool}">
+										${occupationState.occupation}
+									</c:when>
+									<c:otherwise>
+											${occupationState.available}
+									</c:otherwise>
+								</c:choose>
+							</div>
 							<div class="real-time-info">
 								<span class="real-time-title">
-									<liferay-ui:message key="live-frequentation" />
+									<c:choose>
+										<c:when test="${isSwimmingPool}">
+											<liferay-ui:message key="live-frequentation" />
+										</c:when>
+										<c:otherwise>
+											<liferay-ui:message key="live-occupation" />
+										</c:otherwise>
+									</c:choose>
 								</span>
-								<span class="real-time-detail"><liferay-ui:message key="${occupationState.label}" /></span>
+								<span class="real-time-detail">
+									<c:choose>
+										<c:when test="${isSwimmingPool}">
+											<liferay-ui:message key="${occupationState.label}" />
+										</c:when>
+										<c:otherwise>
+											<liferay-ui:message key="eu.place.available-spots" /> ${occupationState.available} - <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity} 
+										</c:otherwise>
+									</c:choose>
+								</span>
 							</div>
 						</div>
 					</c:if>
 					<div class="item-geoloc"><span>${place.getCity(locale)}</span></div>
 				</div>
-				<div class="item-schedule">
-					<span class="schedule-title">
-						<div>
-							<liferay-ui:message key="eu.place.schedule-for-day" /> ${selectedDay}/${selectedMonth + 1}/${selectedYear}
-						</div>
-						<div class="schedule">
-							<c:forEach items="${place.getPlaceSchedule(selectedCalendar, locale)}" var="schedule" varStatus="loopStatus">
-								<c:choose>
-									<c:when test="${schedule.isClosed()}">
-										<liferay-ui:message key="eu.closed" />
-									</c:when>
-									<c:when test="${schedule.isAlwaysOpen()}">
-										<liferay-ui:message key="always-open" />
-									</c:when>
-									<c:otherwise>
-										${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</div>
-					</span>
-					<c:if test="${not empty place.publishedSubPlaces}">
-						<div class="subplace-schedule-list">
-							<c:forEach items="${place.publishedSubPlaces}" var="subPlace">
-								<div class="subplace-schedule">
-									<div class="subplace-title">${subPlace.getName(locale)}</div>
-									<div class="schedule">
-										<c:forEach items="${subPlace.getSubPlaceSchedule(selectedCalendar, locale)}" var="schedule" varStatus="loopStatus">
-											<c:choose>
-												<c:when test="${schedule.isClosed()}">
-													<liferay-ui:message key="eu.closed" />
-												</c:when>
-												<c:when test="${schedule.isAlwaysOpen()}">
-													<liferay-ui:message key="always-open" />
-												</c:when>
-												<c:otherwise>
-													${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
+				<c:if test="${not empty place.periods}">
+					<div class="item-schedule">
+						<span class="schedule-title">
+							<div>
+								<liferay-ui:message key="eu.place.schedule-for-day" /> ${selectedDay}/${selectedMonth + 1}/${selectedYear}
+							</div>
+							<div class="schedule">
+								<c:forEach items="${place.getPlaceSchedule(selectedCalendar, locale)}" var="schedule" varStatus="loopStatus">
+									<c:choose>
+										<c:when test="${schedule.isClosed()}">
+											<liferay-ui:message key="eu.closed" />
+										</c:when>
+										<c:when test="${schedule.isAlwaysOpen()}">
+											<liferay-ui:message key="always-open" />
+										</c:when>
+										<c:otherwise>
+											${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</div>
+						</span>
+						<c:if test="${not empty place.publishedSubPlaces}">
+							<div class="subplace-schedule-list">
+								<c:forEach items="${place.publishedSubPlaces}" var="subPlace">
+									<div class="subplace-schedule">
+										<div class="subplace-title">${subPlace.getName(locale)}</div>
+										<div class="schedule">
+											<c:forEach items="${subPlace.getSubPlaceSchedule(selectedCalendar, locale)}" var="schedule" varStatus="loopStatus">
+												<c:choose>
+													<c:when test="${schedule.isClosed()}">
+														<liferay-ui:message key="eu.closed" />
+													</c:when>
+													<c:when test="${schedule.isAlwaysOpen()}">
+														<liferay-ui:message key="always-open" />
+													</c:when>
+													<c:otherwise>
+														${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</div>
 									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</c:if>
-				</div>
+								</c:forEach>
+							</div>
+						</c:if>
+					</div>
+				</c:if>
 				<div class="btn-line">
 					<a href="${detailURL}" title="${place.getAlias(locale)}">
 						<button type="button" class="seu-btn-square--filled--second">
