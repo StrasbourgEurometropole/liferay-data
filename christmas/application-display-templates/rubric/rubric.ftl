@@ -20,7 +20,20 @@
                             </figure>
                             <div class="mns-bloc-content-actu">
                                 <h4>${currentPage.getName(locale)}</h4>
-                                <p>${currentPage.expandoBridge.getAttribute('introduction')}</p>
+                                <p>
+                                    <#if currentPage.expandoBridge.getAttribute('introduction')?has_content>
+                                    <#assign introductionAttribute = currentPage.expandoBridge.getAttribute('introduction') />
+                                        <#list introductionAttribute?keys as key> 
+                                            <#if key == locale>
+                                                <#assign introduction = introductionAttribute?values[key_index] />
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                    <#if introduction?has_content>
+                                        ${introduction}
+                                    </#if>
+                                    <#assign introduction = '' />
+                                </p>
                                 <span class="link">En savoir plus</span>
                             </div>
                         </a>
