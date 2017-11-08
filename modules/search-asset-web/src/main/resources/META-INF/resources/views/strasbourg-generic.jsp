@@ -12,7 +12,16 @@
 		
 		<!-- Nombre de résultats et items par page -->
         <div class="seu-view-results">
-            <div class="seu-result-count">${dc.searchContainer.total} <liferay-ui:message key="results" /></div>
+            <div class="seu-result-count">${dc.searchContainer.total} 
+            	<c:choose>
+            		<c:when test="${dc.searchContainer.total gt 1}">
+            			<liferay-ui:message key="results" />
+            		</c:when>
+            		<c:otherwise>
+            			<liferay-ui:message key="result" />
+            		</c:otherwise>
+            	</c:choose>
+            </div>
             <div class="seu-filler"></div>
             <div class="seu-result-filter">
                 <span><liferay-ui:message key="results-per-page" /></span>
