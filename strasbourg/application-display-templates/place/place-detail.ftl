@@ -33,12 +33,14 @@
                                     <div class="tab-title">${entry.getAlias(locale)}</div>
                                     <ul class="schedule-list">
                                         <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
+                                        <#assign hasException = false />
                                         <#list daySchedulesMap?keys as day>
                                             <li>
                                                 <span>${day}</span>
                                                 <span>
                                                     <#list daySchedulesMap[day] as schedule>
                                                         <#if schedule.isException()>
+                                                            <#assign hasException = true />
                                                             <span class="exception">
                                                         </#if>
                                                         <#if schedule.isClosed()>
@@ -67,6 +69,7 @@
                                                     <span>
                                                         <#list daySchedulesMap[day] as schedule>
                                                             <#if schedule.isException()>
+                                                                <#assign hasException = true />
                                                                 <span class="exception">
                                                             </#if>
                                                            <#if schedule.isClosed()>
@@ -83,6 +86,9 @@
                                             </#list>
                                         </ul>
                                     </#list>
+                                    <#if hasException>
+                                        <span style="color: #F44336; font-weight: bold; font-size: 1.6rem;"><@liferay_ui.message key="eu.place.look-at-exceptionnal-schedule" /></span>
+                                    </#if>
                                 </div>
                                 <#if entry.defaultPeriod?has_content>
                                     <div class="tab-content">
