@@ -168,7 +168,7 @@ public class SearchActivityDisplayContext {
 			boolean sunday = isDaySelected("sunday");
 			boolean[] days = { monday, tuesday, wednesday, thursday, friday, saturday, sunday };
 
-			// Heure de début : soit paramètre "startTime" au format "hh:mm"
+			// Heure de début : soit paramètre "startTime" au format "hh:mm" soit paramètres "startTimeHour" et "startTimeMinute"
 			String startTime = ParamUtil.getString(request, "startTime");
 			String startTimeHour = ParamUtil.getString(request, "startTimeHour");
 			String startTimeMinute = ParamUtil.getString(request, "startTimeMinute");
@@ -183,6 +183,12 @@ public class SearchActivityDisplayContext {
 			if (Validator.isNull(endTime) && !Validator.isNull(endTimeHour) && !Validator.isNull(endTimeMinute)) {
 				endTime = endTimeHour + ":" + endTimeMinute;
 			}
+			// On considère que minuit et 23:45 sont les heures par défaut affichées par le moteur
+			// On les ignore donc et on ne set pas d'heure de début et de fin pour ces horaires là
+			if (startTime.equals("00:00") && endTime.equals("23:45")) {
+				startTime = "";
+				endTime = "";
+			}
 
 			// Mots clés
 			String keywords = ParamUtil.getString(request, "keywords");
@@ -196,7 +202,7 @@ public class SearchActivityDisplayContext {
 
 			// Paramètre de l'activité
 			long activityId = ParamUtil.getLong(request, "activityId");
-			long activityTypeId = ParamUtil.getLong(request, "activityTypeId");
+			long activityTypeId = ParamUtil.getLong(request, "typeId");
 
 			/**
 			 * Listes de catégories sur lesquels filtrer (via paramètres de
