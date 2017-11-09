@@ -34,7 +34,7 @@
                                     </#if>
                                     <#assign introduction = '' />
                                 </p>
-                                <span class="link">En savoir plus</span>
+                                <span class="link"><@liferay_ui.message key="read-more" /></span>
                             </div>
                         </a>
                     </div>
