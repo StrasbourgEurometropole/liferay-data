@@ -368,11 +368,19 @@ public class ActivityCoursePlaceLocalServiceUtil {
 	}
 
 	/**
-	* Retourne toutes les éditions d'un groupe
+	* Retourne tous les lieux de cours d'un groupe
 	*/
 	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> getByGroupId(
 		long groupId) {
 		return getService().getByGroupId(groupId);
+	}
+
+	/**
+	* Retourne toutes les lieux de cours d'un lieu
+	*/
+	public static java.util.List<eu.strasbourg.service.activity.model.ActivityCoursePlace> getBySigId(
+		java.lang.String sigId) {
+		return getService().getBySigId(sigId);
 	}
 
 	/**

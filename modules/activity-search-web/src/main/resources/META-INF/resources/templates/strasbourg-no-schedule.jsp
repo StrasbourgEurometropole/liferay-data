@@ -70,68 +70,6 @@
 	            </c:if>
             </div>
             
-            <div class="seu-filter-line">
-            
-            	<!-- Heure de début -->
-                <div class="widget type-heure">
-                    <div class="title">
-                        <label for="hour_start"><liferay-ui:message key="start-time" /></label>
-                    </div>
-                    <div class="content">
-                        <select class="toCustomSelect" id="hour_start" name="startTimeHour">
-                            <c:forEach var="hour" begin="0" end="23">
-                            	<fmt:formatNumber minIntegerDigits="2" value="${hour}" var="twoDigitsHour" />
-                                <aui:option value="${twoDigitsHour}" label="${twoDigitsHour}" selected="${twoDigitsHour eq param.startTimeHour}" />
-                            </c:forEach>
-                        </select>
-                        <select class="toCustomSelect" id="minute_start" name="startTimeMinute">
-                            <aui:option value="00" label=":00" selected="${param.startTimeMinute eq '00'}" />
-                            <aui:option value="15" label=":15" selected="${param.startTimeMinute eq '15'}" />
-                            <aui:option value="30" label=":30" selected="${param.startTimeMinute eq '30'}" />
-                            <aui:option value="45" label=":45" selected="${param.startTimeMinute eq '45'}" />
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Heure de fin -->
-                <div class="widget type-heure">
-                    <div class="title">
-                        <label for="hour_end"><liferay-ui:message key="end-time" /></label>
-                    </div>
-                    <div class="content">
-                        <select class="toCustomSelect" id="hour_end" name="endTimeHour">
-                            <c:forEach var="hour" begin="0" end="23">
-                            	<fmt:formatNumber minIntegerDigits="2" value="${hour}" var="twoDigitsHour" />
-                                <aui:option value="${twoDigitsHour}" label="${twoDigitsHour}"
-                                	selected="${twoDigitsHour eq param.endTimeHour or (empty param.endTimeHour and twoDigitsHour eq '23')}" />
-                            </c:forEach>
-                        </select>
-                        <select class="toCustomSelect" id="minute_end" name="endTimeMinute">
-                            <aui:option value="00" label=":00" selected="${param.endTimeMinute eq '00'}" />
-                            <aui:option value="15" label=":15" selected="${param.endTimeMinute eq '15'}" />
-                            <aui:option value="30" label=":30" selected="${param.endTimeMinute eq '30'}" />
-                            <aui:option value="45" label=":45" selected="${param.endTimeMinute eq '45' or empty param.endTimeMinute}" />
-                        </select>
-                    </div>
-                </div>
-
-                <div class="widget">
-                    <div class="title">
-                        <label for="days"><liferay-ui:message key="days" /></label>
-                    </div>
-                    <div class="content">
-                        <select id="days" multiple="multiple" name="days">
-                            <aui:option value="monday" label="monday" selected="${dc.isDaySelected('monday')}" />
-                            <aui:option value="tuesday" label="tuesday" selected="${dc.isDaySelected('tuesday')}" />
-                            <aui:option value="wednesday" label="wednesday" selected="${dc.isDaySelected('wednesday')}" />
-                            <aui:option value="thursday" label="thursday" selected="${dc.isDaySelected('thursday')}" />
-                            <aui:option value="friday" label="friday" selected="${dc.isDaySelected('friday')}" />
-                            <aui:option value="saturday" label="saturday" selected="${dc.isDaySelected('saturday')}" />
-                            <aui:option value="sunday" label="sunday" selected="${dc.isDaySelected('sunday')}" />
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="seu-btn-line">
 				<liferay-portlet:renderURL var="cancelURL" />
 				<button type="button" onclick="window.location.href = '${cancelURL}'" class="seu-btn-square seu-bordered seu-core"> 
@@ -145,16 +83,7 @@
         
         <!-- Nombre de résultats et items par page -->
         <div class="seu-view-results">
-            <div class="seu-result-count">${dc.searchContainer.total} 
-            	<c:choose>
-            		<c:when test="${dc.searchContainer.total gt 1}">
-            			<liferay-ui:message key="results" />
-            		</c:when>
-            		<c:otherwise>
-            			<liferay-ui:message key="result" />
-            		</c:otherwise>
-            	</c:choose>
-           	</div>
+            <div class="seu-result-count">${dc.searchContainer.total} <liferay-ui:message key="results" /></div>
             <div class="seu-filler"></div>
             <div class="seu-result-filter">
                 <span><liferay-ui:message key="results-per-page" /></span>

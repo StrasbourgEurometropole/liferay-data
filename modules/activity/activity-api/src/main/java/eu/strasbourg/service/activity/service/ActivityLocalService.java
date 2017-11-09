@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.PlaceAgenda;
 
 import java.io.Serializable;
 
@@ -202,6 +203,9 @@ public interface ActivityLocalService extends BaseLocalService,
 	*/
 	public Activity updateStatus(long userId, long entryId, int status)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PlaceAgenda getPlaceAgenda(java.lang.String sigId, Locale locale);
 
 	/**
 	* Returns the number of activities.

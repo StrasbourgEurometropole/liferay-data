@@ -98,7 +98,12 @@ public interface Edition extends EditionModel, PersistedModel {
 	public java.lang.String getFileDownloadURL(java.util.Locale locale);
 
 	/**
-	* Renovie la taille du fichier sous forme de String
+	* Retourne le nom du fichier si un fichier uploadé est lié à l'édition, le titre de l'édition sinon
+	*/
+	public java.lang.String getFileTitle(java.util.Locale locale);
+
+	/**
+	* Renvoie la taille du fichier sous forme de String
 	*/
 	public java.lang.String getFileSize(java.util.Locale locale);
 

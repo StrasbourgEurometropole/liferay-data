@@ -596,6 +596,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne true si le lieu est une piscine
+	*
+	* @return
+	*/
+	@Override
+	public boolean isSwimmingPool() {
+		return _place.isSwimmingPool();
+	}
+
+	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu
 	*/
 	@Override
@@ -661,6 +671,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public eu.strasbourg.service.place.model.Price getPrice() {
 		return _place.getPrice();
+	}
+
+	/**
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	*/
+	@Override
+	public eu.strasbourg.utils.OccupationState getRealTime() {
+		return _place.getRealTime();
 	}
 
 	/**
@@ -2126,6 +2144,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents() {
+		return _place.getPublishedEvents();
+	}
+
+	/**
 	* Retourne les sous lieux publiés du lieu
 	*/
 	@Override
@@ -2281,6 +2307,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getFacebookURLMap() {
 		return _place.getFacebookURLMap();
+	}
+
+	/**
+	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
+		Date startDate, java.util.Locale locale) {
+		return _place.getFollowingWeekSchedules(startDate, locale);
 	}
 
 	/**

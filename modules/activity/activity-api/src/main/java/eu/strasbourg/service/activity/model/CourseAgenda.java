@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+/**
+ * Classe facilitant l'affichage des horaires d'un cours
+ * Cours > Périodes > Lieux > Horaires
+ */
 public class CourseAgenda {
 	private List<CoursePeriodAgenda> periods;
 

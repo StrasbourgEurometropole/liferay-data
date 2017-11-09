@@ -216,6 +216,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents();
+
+	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
 	* handicap
 	*/
@@ -227,6 +232,18 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine);
 
 	/**
+	* Retourne true si le lieu est une piscine
+	*
+	* @return
+	*/
+	public boolean isSwimmingPool();
+
+	/**
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	*/
+	public eu.strasbourg.utils.OccupationState getRealTime();
+
+	/**
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type
@@ -234,6 +251,12 @@ public interface Place extends PlaceModel, PersistedModel {
 	*/
 	public eu.strasbourg.utils.OccupationState getRealTime(
 		java.lang.String type);
+
+	/**
+	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	*/
+	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
+		java.util.Date startDate, java.util.Locale locale);
 
 	/**
 	* Retourne une map contennant le jour et une liste de PlaceSchedule de la

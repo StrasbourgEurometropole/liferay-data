@@ -641,6 +641,139 @@ public interface ActivityCoursePlacePersistence extends BasePersistence<Activity
 	public int countByActivityCourse(long activityCourseId);
 
 	/**
+	* Returns all the activity course places where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @return the matching activity course places
+	*/
+	public java.util.List<ActivityCoursePlace> findBySigId(
+		java.lang.String placeSIGId);
+
+	/**
+	* Returns a range of all the activity course places where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place sig ID
+	* @param start the lower bound of the range of activity course places
+	* @param end the upper bound of the range of activity course places (not inclusive)
+	* @return the range of matching activity course places
+	*/
+	public java.util.List<ActivityCoursePlace> findBySigId(
+		java.lang.String placeSIGId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the activity course places where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place sig ID
+	* @param start the lower bound of the range of activity course places
+	* @param end the upper bound of the range of activity course places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching activity course places
+	*/
+	public java.util.List<ActivityCoursePlace> findBySigId(
+		java.lang.String placeSIGId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the activity course places where placeSIGId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param placeSIGId the place sig ID
+	* @param start the lower bound of the range of activity course places
+	* @param end the upper bound of the range of activity course places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching activity course places
+	*/
+	public java.util.List<ActivityCoursePlace> findBySigId(
+		java.lang.String placeSIGId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first activity course place in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching activity course place
+	* @throws NoSuchActivityCoursePlaceException if a matching activity course place could not be found
+	*/
+	public ActivityCoursePlace findBySigId_First(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator)
+		throws NoSuchActivityCoursePlaceException;
+
+	/**
+	* Returns the first activity course place in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching activity course place, or <code>null</code> if a matching activity course place could not be found
+	*/
+	public ActivityCoursePlace fetchBySigId_First(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator);
+
+	/**
+	* Returns the last activity course place in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching activity course place
+	* @throws NoSuchActivityCoursePlaceException if a matching activity course place could not be found
+	*/
+	public ActivityCoursePlace findBySigId_Last(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator)
+		throws NoSuchActivityCoursePlaceException;
+
+	/**
+	* Returns the last activity course place in the ordered set where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching activity course place, or <code>null</code> if a matching activity course place could not be found
+	*/
+	public ActivityCoursePlace fetchBySigId_Last(java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator);
+
+	/**
+	* Returns the activity course places before and after the current activity course place in the ordered set where placeSIGId = &#63;.
+	*
+	* @param activityCoursePlaceId the primary key of the current activity course place
+	* @param placeSIGId the place sig ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next activity course place
+	* @throws NoSuchActivityCoursePlaceException if a activity course place with the primary key could not be found
+	*/
+	public ActivityCoursePlace[] findBySigId_PrevAndNext(
+		long activityCoursePlaceId, java.lang.String placeSIGId,
+		com.liferay.portal.kernel.util.OrderByComparator<ActivityCoursePlace> orderByComparator)
+		throws NoSuchActivityCoursePlaceException;
+
+	/**
+	* Removes all the activity course places where placeSIGId = &#63; from the database.
+	*
+	* @param placeSIGId the place sig ID
+	*/
+	public void removeBySigId(java.lang.String placeSIGId);
+
+	/**
+	* Returns the number of activity course places where placeSIGId = &#63;.
+	*
+	* @param placeSIGId the place sig ID
+	* @return the number of matching activity course places
+	*/
+	public int countBySigId(java.lang.String placeSIGId);
+
+	/**
 	* Caches the activity course place in the entity cache if it is enabled.
 	*
 	* @param activityCoursePlace the activity course place

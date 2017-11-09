@@ -220,6 +220,11 @@ public class ActivityLocalServiceUtil {
 		return getService().updateStatus(userId, entryId, status);
 	}
 
+	public static eu.strasbourg.service.activity.model.PlaceAgenda getPlaceAgenda(
+		java.lang.String sigId, java.util.Locale locale) {
+		return getService().getPlaceAgenda(sigId, locale);
+	}
+
 	/**
 	* Returns the number of activities.
 	*

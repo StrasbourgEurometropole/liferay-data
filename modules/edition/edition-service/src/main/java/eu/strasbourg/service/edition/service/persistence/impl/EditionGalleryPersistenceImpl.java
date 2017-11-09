@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -51,6 +52,8 @@ import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersisten
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.sql.Timestamp;
 
@@ -3131,6 +3134,22 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 
 	public EditionGalleryPersistenceImpl() {
 		setModelClass(EditionGallery.class);
+
+		try {
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
+
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+
+			field.set(this, dbColumnNames);
+		}
+		catch (Exception e) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(e, e);
+			}
+		}
 	}
 
 	/**
@@ -3201,7 +3220,7 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((EditionGalleryModelImpl)editionGallery);
+		clearUniqueFindersCache((EditionGalleryModelImpl)editionGallery, true);
 	}
 
 	@Override
@@ -3213,52 +3232,39 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 			entityCache.removeResult(EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
 				EditionGalleryImpl.class, editionGallery.getPrimaryKey());
 
-			clearUniqueFindersCache((EditionGalleryModelImpl)editionGallery);
+			clearUniqueFindersCache((EditionGalleryModelImpl)editionGallery,
+				true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		EditionGalleryModelImpl editionGalleryModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					editionGalleryModelImpl.getUuid(),
-					editionGalleryModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				editionGalleryModelImpl);
-		}
-		else {
-			if ((editionGalleryModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						editionGalleryModelImpl.getUuid(),
-						editionGalleryModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					editionGalleryModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		EditionGalleryModelImpl editionGalleryModelImpl) {
 		Object[] args = new Object[] {
 				editionGalleryModelImpl.getUuid(),
 				editionGalleryModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			editionGalleryModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		EditionGalleryModelImpl editionGalleryModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					editionGalleryModelImpl.getUuid(),
+					editionGalleryModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((editionGalleryModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					editionGalleryModelImpl.getOriginalUuid(),
 					editionGalleryModelImpl.getOriginalGroupId()
 				};
@@ -3437,8 +3443,41 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew || !EditionGalleryModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!EditionGalleryModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { editionGalleryModelImpl.getUuid() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
+
+			args = new Object[] {
+					editionGalleryModelImpl.getUuid(),
+					editionGalleryModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { editionGalleryModelImpl.getTitle() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
+				args);
+
+			args = new Object[] { editionGalleryModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		else {
@@ -3519,8 +3558,8 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 			EditionGalleryImpl.class, editionGallery.getPrimaryKey(),
 			editionGallery, false);
 
-		clearUniqueFindersCache(editionGalleryModelImpl);
-		cacheUniqueFindersCache(editionGalleryModelImpl, isNew);
+		clearUniqueFindersCache(editionGalleryModelImpl, false);
+		cacheUniqueFindersCache(editionGalleryModelImpl);
 
 		editionGallery.resetOriginalValues();
 
@@ -3707,7 +3746,7 @@ public class EditionGalleryPersistenceImpl extends BasePersistenceImpl<EditionGa
 		query.append(_SQL_SELECT_EDITIONGALLERY_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

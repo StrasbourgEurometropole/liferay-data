@@ -145,6 +145,13 @@
                     padding-left: 50px;
                 }
             }
+            .exception {
+                color: #F44336;
+                &:after {
+                    content: "*";
+                    display: inline;
+                }
+            }
         }
         @include RWD(mobile){
             padding: 0;

@@ -118,11 +118,29 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 	}
 
 	/**
-	 * Retourne les lieux du cours
+	 * Retourne les horaires par lieu du cours
 	 */
 	@Override
 	public List<ActivityCoursePlace> getActivityCoursePlaces() {
 		return ActivityCoursePlaceLocalServiceUtil.getByActivityCourse(this.getActivityCourseId());
+	}
+	
+	/**
+	 * Retourne les noms des lieux du cours
+	 */
+	@Override
+	public List<String> getPlaceNames(Locale locale) {
+		List<ActivityCoursePlace> coursePlaces = this.getActivityCoursePlaces();
+		return coursePlaces.stream().map(c -> c.getPlaceAlias(locale)).distinct().collect(Collectors.toList());
+	}
+	
+	/**
+	 * Retourne les ids SIG des lieux duc ours 
+	 */
+	@Override
+	public List<String> getPlaceSIGIds(Locale locale) {
+		List<ActivityCoursePlace> coursePlaces = this.getActivityCoursePlaces();
+		return coursePlaces.stream().map(c -> c.getPlaceSIGId()).distinct().collect(Collectors.toList());
 	}
 
 	/**
@@ -208,6 +226,17 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 
+	/**
+	 * Retourne l'affichage de l'agenda d'un cours
+	 * Transformation de :
+	 * ActivityCourse -> ActivityCoursePlace -> ActivityCourseSchedule
+	 *						   ^                        ^
+	 * 			               |                        |
+	 * 			  			 Place                   Period
+	 * 
+	 * En :
+	 * Period -> Place -> Schedule
+	 */
 	@Override
 	public CourseAgenda getCourseAgenda(long groupId, Locale locale) {
 		CourseAgenda courseAgenda = new CourseAgenda();

@@ -232,6 +232,12 @@ public class ActivityLocalServiceWrapper implements ActivityLocalService,
 		return _activityLocalService.updateStatus(userId, entryId, status);
 	}
 
+	@Override
+	public eu.strasbourg.service.activity.model.PlaceAgenda getPlaceAgenda(
+		java.lang.String sigId, java.util.Locale locale) {
+		return _activityLocalService.getPlaceAgenda(sigId, locale);
+	}
+
 	/**
 	* Returns the number of activities.
 	*

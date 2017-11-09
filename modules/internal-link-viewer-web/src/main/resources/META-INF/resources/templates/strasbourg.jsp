@@ -3,7 +3,7 @@
 <div class="seu-wi seu-wi-crossreading">
     <div class="seu-container">
         <h2 class="seu-section-title">
-            <span class="seu-title"><liferay-ui:message key="eu.read-also" /></span>
+            <span class="seu-title"><liferay-ui:message key="${strasbourgPortletTitle}" /></span>
         </h2>
         <div class="seu-wi-content">
 			<c:forEach items="${selectedLayouts}" var="layout">

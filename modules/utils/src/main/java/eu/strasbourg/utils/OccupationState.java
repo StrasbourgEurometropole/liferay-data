@@ -21,9 +21,9 @@ public enum OccupationState {
 	OccupationState(String label, String cssClass) {
 		this.label = label;
 		this.cssClass = cssClass;
-		this.occupation = "N/A";
-		this.available = "N/A";
-		this.capacity = "N/A";
+		this.occupation = "-";
+		this.available = "-";
+		this.capacity = "-";
 	}
 
 	public String getLabel() {

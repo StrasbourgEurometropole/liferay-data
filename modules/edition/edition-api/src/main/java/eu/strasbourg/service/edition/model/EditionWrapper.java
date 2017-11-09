@@ -821,11 +821,19 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Renovie la taille du fichier sous forme de String
+	* Renvoie la taille du fichier sous forme de String
 	*/
 	@Override
 	public java.lang.String getFileSize(java.util.Locale locale) {
 		return _edition.getFileSize(locale);
+	}
+
+	/**
+	* Retourne le nom du fichier si un fichier uploadé est lié à l'édition, le titre de l'édition sinon
+	*/
+	@Override
+	public java.lang.String getFileTitle(java.util.Locale locale) {
+		return _edition.getFileTitle(locale);
 	}
 
 	/**
@@ -838,9 +846,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the i s b n of this edition.
+	* Returns the isbn of this edition.
 	*
-	* @return the i s b n of this edition
+	* @return the isbn of this edition
 	*/
 	@Override
 	public java.lang.String getISBN() {
@@ -1049,9 +1057,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the u r l of this edition.
+	* Returns the url of this edition.
 	*
-	* @return the u r l of this edition
+	* @return the url of this edition
 	*/
 	@Override
 	public java.lang.String getURL() {
@@ -1059,10 +1067,10 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the localized u r l of this edition in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized url of this edition in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized u r l of this edition
+	* @return the localized url of this edition
 	*/
 	@Override
 	public java.lang.String getURL(java.lang.String languageId) {
@@ -1070,11 +1078,11 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the localized u r l of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized url of this edition in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized u r l of this edition
+	* @return the localized url of this edition
 	*/
 	@Override
 	public java.lang.String getURL(java.lang.String languageId,
@@ -1083,10 +1091,10 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the localized u r l of this edition in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized url of this edition in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized u r l of this edition
+	* @return the localized url of this edition
 	*/
 	@Override
 	public java.lang.String getURL(java.util.Locale locale) {
@@ -1094,11 +1102,11 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns the localized u r l of this edition in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized url of this edition in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized u r l of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized url of this edition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
 	public java.lang.String getURL(java.util.Locale locale, boolean useDefault) {
@@ -1312,9 +1320,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Returns a map of the locales and localized u r ls of this edition.
+	* Returns a map of the locales and localized urls of this edition.
 	*
-	* @return the locales and localized u r ls of this edition
+	* @return the locales and localized urls of this edition
 	*/
 	@Override
 	public Map<java.util.Locale, java.lang.String> getURLMap() {
@@ -1751,9 +1759,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the i s b n of this edition.
+	* Sets the isbn of this edition.
 	*
-	* @param ISBN the i s b n of this edition
+	* @param ISBN the isbn of this edition
 	*/
 	@Override
 	public void setISBN(java.lang.String ISBN) {
@@ -2035,9 +2043,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the u r l of this edition.
+	* Sets the url of this edition.
 	*
-	* @param URL the u r l of this edition
+	* @param URL the url of this edition
 	*/
 	@Override
 	public void setURL(java.lang.String URL) {
@@ -2045,9 +2053,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the localized u r l of this edition in the language.
+	* Sets the localized url of this edition in the language.
 	*
-	* @param URL the localized u r l of this edition
+	* @param URL the localized url of this edition
 	* @param locale the locale of the language
 	*/
 	@Override
@@ -2056,9 +2064,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the localized u r l of this edition in the language, and sets the default locale.
+	* Sets the localized url of this edition in the language, and sets the default locale.
 	*
-	* @param URL the localized u r l of this edition
+	* @param URL the localized url of this edition
 	* @param locale the locale of the language
 	* @param defaultLocale the default locale
 	*/
@@ -2074,9 +2082,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the localized u r ls of this edition from the map of locales and localized u r ls.
+	* Sets the localized urls of this edition from the map of locales and localized urls.
 	*
-	* @param URLMap the locales and localized u r ls of this edition
+	* @param URLMap the locales and localized urls of this edition
 	*/
 	@Override
 	public void setURLMap(Map<java.util.Locale, java.lang.String> URLMap) {
@@ -2084,9 +2092,9 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
-	* Sets the localized u r ls of this edition from the map of locales and localized u r ls, and sets the default locale.
+	* Sets the localized urls of this edition from the map of locales and localized urls, and sets the default locale.
 	*
-	* @param URLMap the locales and localized u r ls of this edition
+	* @param URLMap the locales and localized urls of this edition
 	* @param defaultLocale the default locale
 	*/
 	@Override

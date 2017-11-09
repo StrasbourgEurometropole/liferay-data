@@ -563,6 +563,15 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
+	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
+		Date startDate, java.util.Locale locale) {
+		return _subPlace.getFollowingWeekSchedules(startDate, locale);
+	}
+
+	/**
 	* Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	* semaine en cours
 	*/

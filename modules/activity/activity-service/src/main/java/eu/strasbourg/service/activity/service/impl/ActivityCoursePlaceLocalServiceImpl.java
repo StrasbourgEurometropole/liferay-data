@@ -24,8 +24,6 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactory;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -39,12 +37,10 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
-import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalServiceUtil;
 import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServiceBaseImpl;
 
 /**
@@ -240,11 +236,19 @@ public class ActivityCoursePlaceLocalServiceImpl
 	}
 
 	/**
-	 * Retourne toutes les éditions d'un groupe
+	 * Retourne tous les lieux de cours d'un groupe
 	 */
 	@Override
 	public List<ActivityCoursePlace> getByGroupId(long groupId) {
 		return this.activityCoursePlacePersistence.findByGroupId(groupId);
+	}
+
+	/**
+	 * Retourne toutes les lieux de cours d'un lieu
+	 */
+	@Override
+	public List<ActivityCoursePlace> getBySigId(String sigId) {
+		return this.activityCoursePlacePersistence.findBySigId(sigId);
 	}
 
 	/**

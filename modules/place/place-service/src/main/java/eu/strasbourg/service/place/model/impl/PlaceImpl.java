@@ -1,21 +1,12 @@
-/**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- */
 
 package eu.strasbourg.service.place.model.impl;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -38,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
@@ -495,6 +487,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public List<Event> getPublishedEvents() {
+		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+		return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
+	}
+
+	/**
 	 * Retourne true si l'événement est accessible pour au moins un type de
 	 * handicap
 	 */
@@ -592,6 +593,29 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne true si le lieu est une piscine
+	 * @return
+	 */
+	@Override
+	public boolean isSwimmingPool() {
+		for (AssetCategory type : this.getTypes()) {
+			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
+			if (typeSigId.toLowerCase().equals("cat_06_05")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	 */
+	@Override
+	public OccupationState getRealTime() {
+		return isSwimmingPool() ? getRealTime("1") : getRealTime("2");
+	}	
+
+	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 * 
 	 * @param type
@@ -662,6 +686,26 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	 */
+	@Override
+	public Map<String, List<PlaceSchedule>> getFollowingWeekSchedules(Date startDate, Locale locale) {
+		Map<String, List<PlaceSchedule>> schedules = new LinkedHashMap<String, List<PlaceSchedule>>();
+		LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale).withZone(ZoneId.systemDefault());
+		for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
+			List<PlaceSchedule> liste = getPlaceSchedule(localDate, locale);
+			String dateString = localDate.atStartOfDay().format(dtf);
+			dateString = localDate.format(DateTimeFormatter.ofPattern("EEEE", locale)) + " " + dateString;
+			dateString = StringUtil.upperCaseFirstLetter(dateString);
+			schedules.put(dateString, liste);
+			localDate = localDate.plusDays(1);
+		}
+		return schedules;
+	}
+
+	/**
 	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	 * semaine en cours
 	 */
@@ -685,6 +729,14 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jourSemaine.add(Calendar.DAY_OF_MONTH, 1);
 		}
 		return listHoraires;
+	}
+
+	/**
+	 * Retourne les horaires d'ouverture du jour
+	 */
+	private List<PlaceSchedule> getPlaceSchedule(LocalDate localDate, Locale locale) {
+		GregorianCalendar gregorianCalendar = GregorianCalendar.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+		return this.getPlaceSchedule(gregorianCalendar, locale);
 	}
 
 
