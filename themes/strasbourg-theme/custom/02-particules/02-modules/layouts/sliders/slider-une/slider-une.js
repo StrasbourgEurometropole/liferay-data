@@ -48,7 +48,7 @@ var une = {
 
 
 $(document).ready(function(){
-    if($('.seu-front').length && typeof une_source !== "undefined"){
+    if(typeof une_source !== "undefined"){
         // Initialisation slider Une
         getSources(une_source, une);
         megaSlider(une, 'tous');

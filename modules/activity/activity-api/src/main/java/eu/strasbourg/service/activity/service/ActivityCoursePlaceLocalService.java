@@ -330,10 +330,16 @@ public interface ActivityCoursePlaceLocalService extends BaseLocalService,
 	public List<ActivityCoursePlace> getByActivityCourse(long activityCourseId);
 
 	/**
-	* Retourne toutes les éditions d'un groupe
+	* Retourne tous les lieux de cours d'un groupe
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ActivityCoursePlace> getByGroupId(long groupId);
+
+	/**
+	* Retourne toutes les lieux de cours d'un lieu
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ActivityCoursePlace> getBySigId(java.lang.String sigId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

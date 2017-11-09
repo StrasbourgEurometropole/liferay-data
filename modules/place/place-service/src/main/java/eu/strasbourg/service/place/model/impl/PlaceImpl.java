@@ -1,22 +1,8 @@
-/**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- */
 
 package eu.strasbourg.service.place.model.impl;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -34,10 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -501,6 +484,15 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public List<Event> getEvents() {
 		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
 		return events;
+	}
+
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public List<Event> getPublishedEvents() {
+		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+		return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
 	}
 
 	/**

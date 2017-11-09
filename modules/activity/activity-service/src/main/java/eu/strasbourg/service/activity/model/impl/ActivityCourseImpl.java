@@ -226,6 +226,17 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
 
+	/**
+	 * Retourne l'affichage de l'agenda d'un cours
+	 * Transformation de :
+	 * ActivityCourse -> ActivityCoursePlace -> ActivityCourseSchedule
+	 *						   ^                        ^
+	 * 			               |                        |
+	 * 			  			 Place                   Period
+	 * 
+	 * En :
+	 * Period -> Place -> Schedule
+	 */
 	@Override
 	public CourseAgenda getCourseAgenda(long groupId, Locale locale) {
 		CourseAgenda courseAgenda = new CourseAgenda();

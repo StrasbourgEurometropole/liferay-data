@@ -135,8 +135,9 @@ public class ActivityCoursePlaceModelImpl extends BaseModelImpl<ActivityCoursePl
 	public static final long ACTIVITYCOURSEID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long ACTIVITYCOURSEPLACEID_COLUMN_BITMASK = 16L;
+	public static final long PLACESIGID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long ACTIVITYCOURSEPLACEID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -535,7 +536,17 @@ public class ActivityCoursePlaceModelImpl extends BaseModelImpl<ActivityCoursePl
 
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
+		_columnBitmask |= PLACESIGID_COLUMN_BITMASK;
+
+		if (_originalPlaceSIGId == null) {
+			_originalPlaceSIGId = _placeSIGId;
+		}
+
 		_placeSIGId = placeSIGId;
+	}
+
+	public String getOriginalPlaceSIGId() {
+		return GetterUtil.getString(_originalPlaceSIGId);
 	}
 
 	@JSON
@@ -891,6 +902,8 @@ public class ActivityCoursePlaceModelImpl extends BaseModelImpl<ActivityCoursePl
 
 		activityCoursePlaceModelImpl._setOriginalActivityCourseId = false;
 
+		activityCoursePlaceModelImpl._originalPlaceSIGId = activityCoursePlaceModelImpl._placeSIGId;
+
 		activityCoursePlaceModelImpl._columnBitmask = 0;
 	}
 
@@ -1122,6 +1135,7 @@ public class ActivityCoursePlaceModelImpl extends BaseModelImpl<ActivityCoursePl
 	private long _originalActivityCourseId;
 	private boolean _setOriginalActivityCourseId;
 	private String _placeSIGId;
+	private String _originalPlaceSIGId;
 	private String _placeName;
 	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;

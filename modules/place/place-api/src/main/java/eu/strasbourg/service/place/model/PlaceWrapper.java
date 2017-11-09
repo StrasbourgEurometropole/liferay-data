@@ -2144,6 +2144,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne une list d'évènements lié à ce lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getPublishedEvents() {
+		return _place.getPublishedEvents();
+	}
+
+	/**
 	* Retourne les sous lieux publiés du lieu
 	*/
 	@Override

@@ -2677,7 +2677,7 @@ a {
       margin-left: 0; } }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-.seu-slider-int-container .owl-nav .seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev, .seu-slider-int-container .owl-nav .seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next, .seu-wi-slideNpop .pop .seu-owl-prev, .seu-wi-slideNpop .pop .seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next {
+.seu-slider-int-container .owl-nav .seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev, .seu-slider-int-container .owl-nav .seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next, .seu-wi-slideNpop .pop .seu-owl-prev, .seu-wi-slideNpop .pop .seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next, .seu-agenda-slider-container .owl-nav .seu-owl-prev, .seu-agenda-slider-container .owl-nav .seu-owl-next {
   position: absolute;
   top: 0;
   transition: all, 0.5s;
@@ -2693,7 +2693,7 @@ a {
   height: 100%;
   z-index: 100; }
   /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-  .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto {
+  .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-prev .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-next .seu-picto {
     background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
@@ -2707,19 +2707,19 @@ a {
     left: 30px; }
     @media only screen and (max-width: 1279px) {
       /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-      .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto {
+      .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-prev .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-next .seu-picto {
         width: 35px;
         height: 35px;
         background-size: 20px; } }
     @media only screen and (max-width: 767px) {
       /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-      .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto {
+      .seu-slider-int-container .owl-nav .seu-owl-prev .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .seu-picto, .seu-slider-int-container .owl-nav .seu-owl-next .seu-picto, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .seu-picto, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .seu-picto, .seu-wi-slideNpop .pop .seu-owl-prev .seu-picto, .seu-wi-slideNpop .pop .seu-owl-next .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .seu-picto, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-prev .seu-picto, .seu-agenda-slider-container .owl-nav .seu-owl-next .seu-picto {
         left: 35px;
         width: 40px;
         height: 40px;
         background-size: 18px; } }
   /* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-  .seu-slider-int-container .owl-nav .seu-owl-prev .flexbox, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .flexbox, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .flexbox, .seu-slider-int-container .owl-nav .seu-owl-next .flexbox, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .flexbox, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .flexbox, .seu-wi-slideNpop .pop .seu-owl-prev .flexbox, .seu-wi-slideNpop .pop .seu-owl-next .flexbox, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .flexbox, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .flexbox {
+  .seu-slider-int-container .owl-nav .seu-owl-prev .flexbox, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-prev .flexbox, #seu-une .seu-slider-une-container .owl-nav .seu-owl-prev .flexbox, .seu-slider-int-container .owl-nav .seu-owl-next .flexbox, #seu-socials .seu-slider-social-container .owl-nav .seu-owl-next .flexbox, #seu-une .seu-slider-une-container .owl-nav .seu-owl-next .flexbox, .seu-wi-slideNpop .pop .seu-owl-prev .flexbox, .seu-wi-slideNpop .pop .seu-owl-next .flexbox, .seu-wi-slideNpop .slide .owl-nav .seu-owl-prev .flexbox, .seu-wi-slideNpop .slide .owl-nav .seu-owl-next .flexbox, .seu-agenda-slider-container .owl-nav .seu-owl-prev .flexbox, .seu-agenda-slider-container .owl-nav .seu-owl-next .flexbox {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2730,16 +2730,16 @@ a {
         -ms-flex-pack: center;
             justify-content: center; }
   /* line 45, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-  .seu-slider-int-container .owl-nav .owl-prev.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .owl-prev.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .owl-prev.seu-owl-prev, .seu-slider-int-container .owl-nav .owl-prev.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .owl-prev.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .owl-prev.seu-owl-next, .seu-wi-slideNpop .pop .owl-prev.seu-owl-prev, .seu-wi-slideNpop .pop .owl-prev.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .owl-prev.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .owl-prev.seu-owl-next {
+  .seu-slider-int-container .owl-nav .owl-prev.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .owl-prev.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .owl-prev.seu-owl-prev, .seu-slider-int-container .owl-nav .owl-prev.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .owl-prev.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .owl-prev.seu-owl-next, .seu-wi-slideNpop .pop .owl-prev.seu-owl-prev, .seu-wi-slideNpop .pop .owl-prev.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .owl-prev.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .owl-prev.seu-owl-next, .seu-agenda-slider-container .owl-nav .owl-prev.seu-owl-prev, .seu-agenda-slider-container .owl-nav .owl-prev.seu-owl-next {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg); }
   /* line 49, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-  .seu-slider-int-container .owl-nav .disabled.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-prev, .seu-slider-int-container .owl-nav .disabled.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-next, .seu-wi-slideNpop .pop .disabled.seu-owl-prev, .seu-wi-slideNpop .pop .disabled.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-next {
+  .seu-slider-int-container .owl-nav .disabled.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-prev, .seu-slider-int-container .owl-nav .disabled.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-next, .seu-wi-slideNpop .pop .disabled.seu-owl-prev, .seu-wi-slideNpop .pop .disabled.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-next, .seu-agenda-slider-container .owl-nav .disabled.seu-owl-prev, .seu-agenda-slider-container .owl-nav .disabled.seu-owl-next {
     pointer-events: none;
     opacity: 0 !important; }
     @media only screen and (max-width: 767px) {
       /* line 49, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_atom-home-slider-arrow.scss */
-      .seu-slider-int-container .owl-nav .disabled.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-prev, .seu-slider-int-container .owl-nav .disabled.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-next, .seu-wi-slideNpop .pop .disabled.seu-owl-prev, .seu-wi-slideNpop .pop .disabled.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-next {
+      .seu-slider-int-container .owl-nav .disabled.seu-owl-prev, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-prev, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-prev, .seu-slider-int-container .owl-nav .disabled.seu-owl-next, #seu-socials .seu-slider-social-container .owl-nav .disabled.seu-owl-next, #seu-une .seu-slider-une-container .owl-nav .disabled.seu-owl-next, .seu-wi-slideNpop .pop .disabled.seu-owl-prev, .seu-wi-slideNpop .pop .disabled.seu-owl-next, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-prev, .seu-wi-slideNpop .slide .owl-nav .disabled.seu-owl-next, .seu-agenda-slider-container .owl-nav .disabled.seu-owl-prev, .seu-agenda-slider-container .owl-nav .disabled.seu-owl-next {
         display: none; } }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/0-shared/teasers/_atom-slides--cms.scss */
@@ -3828,21 +3828,21 @@ a {
         padding-left: 40px; } }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-.seu-wi-agenda .seu-wi-item {
+.seu-wi-agenda .seu-wi-item, .seu-agenda-slider-container .seu-agenda-slider-item {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2); }
   /* line 3, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item:nth-child(n + 5) {
+  .seu-wi-agenda .seu-wi-item:nth-child(n + 5), .seu-agenda-slider-container .seu-agenda-slider-item:nth-child(n + 5) {
     margin-top: 20px; }
   @media only screen and (max-width: 1279px) {
     /* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-wi-item:nth-child(1), .seu-wi-agenda .seu-wi-item:nth-child(2) {
+    .seu-wi-agenda .seu-wi-item:nth-child(1), .seu-agenda-slider-container .seu-agenda-slider-item:nth-child(1), .seu-wi-agenda .seu-wi-item:nth-child(2), .seu-agenda-slider-container .seu-agenda-slider-item:nth-child(2) {
       margin-bottom: 20px; } }
   @media only screen and (max-width: 767px) {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-wi-item {
+    .seu-wi-agenda .seu-wi-item, .seu-agenda-slider-container .seu-agenda-slider-item {
       margin-bottom: 20px; } }
   /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-link {
+  .seu-wi-agenda .seu-wi-item .seu-link, .seu-agenda-slider-container .seu-agenda-slider-item .seu-link {
     text-align: left;
     padding: 40px;
     height: 100%;
@@ -3854,15 +3854,15 @@ a {
     position: relative;
     text-decoration: none; }
     /* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-wi-item .seu-link:hover, .seu-wi-agenda .seu-wi-item .seu-link:focus {
+    .seu-wi-agenda .seu-wi-item .seu-link:hover, .seu-agenda-slider-container .seu-agenda-slider-item .seu-link:hover, .seu-wi-agenda .seu-wi-item .seu-link:focus, .seu-agenda-slider-container .seu-agenda-slider-item .seu-link:focus {
       text-decoration: none;
       background-color: #E3E3E3; }
     @media only screen and (max-width: 767px) {
       /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-wi-item .seu-link {
+      .seu-wi-agenda .seu-wi-item .seu-link, .seu-agenda-slider-container .seu-agenda-slider-item .seu-link {
         padding: 20px; } }
   /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-title {
+  .seu-wi-agenda .seu-wi-item .seu-title, .seu-agenda-slider-container .seu-agenda-slider-item .seu-title {
     font-family: "MontSerrat", arial;
     font-weight: 700;
     font-size: 1.7rem;
@@ -3871,10 +3871,10 @@ a {
     text-transform: uppercase; }
     @media only screen and (max-width: 767px) {
       /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-wi-item .seu-title {
+      .seu-wi-agenda .seu-wi-item .seu-title, .seu-agenda-slider-container .seu-agenda-slider-item .seu-title {
         font-size: 1.5rem; } }
   /* line 48, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-lead {
+  .seu-wi-agenda .seu-wi-item .seu-lead, .seu-agenda-slider-container .seu-agenda-slider-item .seu-lead {
     font-family: "OpenSans", arial;
     font-weight: 600;
     font-size: 1.4rem;
@@ -3882,17 +3882,17 @@ a {
     line-height: 1.8; }
     @media only screen and (max-width: 767px) {
       /* line 48, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-wi-item .seu-lead {
+      .seu-wi-agenda .seu-wi-item .seu-lead, .seu-agenda-slider-container .seu-agenda-slider-item .seu-lead {
         font-size: 1.2rem; } }
   /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-picture {
+  .seu-wi-agenda .seu-wi-item .seu-picture, .seu-agenda-slider-container .seu-agenda-slider-item .seu-picture {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;
     position: relative; }
     /* line 65, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-wi-item .seu-picture:before {
+    .seu-wi-agenda .seu-wi-item .seu-picture:before, .seu-agenda-slider-container .seu-agenda-slider-item .seu-picture:before {
       opacity: 0;
       position: absolute;
       content: '';
@@ -3904,10 +3904,10 @@ a {
       background: rgba(0, 0, 0, 0.4);
       transition: all, 0.5s; }
   /* line 76, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-date-start {
+  .seu-wi-agenda .seu-wi-item .seu-date-start, .seu-agenda-slider-container .seu-agenda-slider-item .seu-date-start {
     font-size: 2.4rem; }
   /* line 79, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-date-end {
+  .seu-wi-agenda .seu-wi-item .seu-date-end, .seu-agenda-slider-container .seu-agenda-slider-item .seu-date-end {
     font-family: "MontSerrat", arial;
     font-weight: 700;
     font-size: 5.0rem;
@@ -3918,10 +3918,10 @@ a {
     color: #2da192; }
     @media only screen and (max-width: 767px) {
       /* line 79, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-wi-item .seu-date-end {
+      .seu-wi-agenda .seu-wi-item .seu-date-end, .seu-agenda-slider-container .seu-agenda-slider-item .seu-date-end {
         font-size: 4.0rem; } }
   /* line 94, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-wi-item .seu-date-sup {
+  .seu-wi-agenda .seu-wi-item .seu-date-sup, .seu-agenda-slider-container .seu-agenda-slider-item .seu-date-sup {
     font-family: "MontSerrat", arial;
     font-weight: 700;
     font-size: 1.7rem;
@@ -3930,10 +3930,10 @@ a {
     color: #2da192; }
     @media only screen and (max-width: 767px) {
       /* line 94, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-wi-item .seu-date-sup {
+      .seu-wi-agenda .seu-wi-item .seu-date-sup, .seu-agenda-slider-container .seu-agenda-slider-item .seu-date-sup {
         font-size: 1.2rem; } }
   /* line 107, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-actu.seu-wi-item .seu-link {
+  .seu-wi-agenda .seu-actu.seu-wi-item .seu-link, .seu-agenda-slider-container .seu-actu.seu-agenda-slider-item .seu-link {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3945,19 +3945,19 @@ a {
         -ms-flex-pack: justify;
             justify-content: space-between; }
   /* line 112, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-actu.seu-wi-item .seu-picture {
+  .seu-wi-agenda .seu-actu.seu-wi-item .seu-picture, .seu-agenda-slider-container .seu-actu.seu-agenda-slider-item .seu-picture {
     padding-bottom: 75%;
     margin-top: 30px; }
     @media only screen and (max-width: 767px) {
       /* line 112, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-      .seu-wi-agenda .seu-actu.seu-wi-item .seu-picture {
+      .seu-wi-agenda .seu-actu.seu-wi-item .seu-picture, .seu-agenda-slider-container .seu-actu.seu-agenda-slider-item .seu-picture {
         padding-bottom: 0;
         -webkit-box-flex: 1;
             -ms-flex: 1;
                 flex: 1; } }
   @media only screen and (min-width: 1280px) {
     /* line 122, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-actu.seu-big.seu-wi-item .seu-picture {
+    .seu-wi-agenda .seu-actu.seu-big.seu-wi-item .seu-picture, .seu-agenda-slider-container .seu-actu.seu-big.seu-agenda-slider-item .seu-picture {
       position: absolute;
       top: 0;
       left: 0;
@@ -3965,7 +3965,7 @@ a {
       width: 100%;
       margin: 0; }
     /* line 128, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-actu.seu-big.seu-wi-item .seu-text {
+    .seu-wi-agenda .seu-actu.seu-big.seu-wi-item .seu-text, .seu-agenda-slider-container .seu-actu.seu-big.seu-agenda-slider-item .seu-text {
       height: 50%;
       width: 50%;
       position: absolute;
@@ -3975,7 +3975,7 @@ a {
       background-color: #FFFFFF;
       padding: 35px; } }
   /* line 140, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-  .seu-wi-agenda .seu-has-ville.seu-wi-item .seu-ville {
+  .seu-wi-agenda .seu-has-ville.seu-wi-item .seu-ville, .seu-agenda-slider-container .seu-has-ville.seu-agenda-slider-item .seu-ville {
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
     color: #2da192;
@@ -3985,7 +3985,7 @@ a {
     padding-left: 30px;
     position: relative; }
     /* line 150, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
-    .seu-wi-agenda .seu-has-ville.seu-wi-item .seu-ville:before {
+    .seu-wi-agenda .seu-has-ville.seu-wi-item .seu-ville:before, .seu-agenda-slider-container .seu-has-ville.seu-agenda-slider-item .seu-ville:before {
       content: '';
       display: inline-block;
       width: 20px;
@@ -10435,6 +10435,85 @@ a {
     height: 25px;
     background-size: 15px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 328.8 387.8'%3E%3Cpath d='M162.9 208.7h2.6c23.4-0.4 42.4-8.6 56.4-24.4 30.8-34.7 25.7-94.2 25.1-99.9 -2-42.6-22.2-63-38.8-72.6C195.8 4.7 181.3 0.9 165.1 0.6h-1.4c-8.9 0-26.3 1.4-43 11C103.9 21 83.5 41.4 81.5 84.4c-0.6 5.7-5.7 65.2 25.1 99.9C120.5 200.1 139.5 208.3 162.9 208.7L162.9 208.7zM102.8 86.4c0-0.2 0.1-0.5 0.1-0.6 2.6-57.4 43.4-63.5 60.8-63.5h1c21.6 0.5 58.3 9.3 60.8 63.5 0 0.2 0 0.5 0.1 0.6 0.1 0.6 5.7 55-19.8 83.6 -10.1 11.4-23.5 17-41.2 17.1h-0.8c-17.6-0.2-31.1-5.8-41.1-17.1C97.3 141.5 102.7 86.9 102.8 86.4L102.8 86.4zM102.8 86.4'/%3E%3Cpath d='M328.6 307.4v-0.2c0-0.6-0.1-1.3-0.1-2 -0.5-15.8-1.5-52.9-36.2-64.7 -0.2-0.1-0.6-0.2-0.8-0.2 -36.1-9.2-66.1-30-66.4-30.2 -4.9-3.4-11.6-2.2-15 2.6 -3.4 4.9-2.2 11.6 2.6 15 1.4 1 33.2 23.1 73 33.4 18.6 6.6 20.7 26.6 21.3 44.8 0 0.7 0 1.4 0.1 2 0.1 7.2-0.4 18.3-1.7 24.7 -13 7.4-63.8 32.8-141 32.8 -77 0-128.1-25.5-141.1-32.9 -1.3-6.4-1.8-17.5-1.7-24.7 0-0.6 0.1-1.3 0.1-2 0.6-18.2 2.6-38.2 21.3-44.8 39.8-10.2 71.7-32.5 73-33.4 4.9-3.4 6.1-10.2 2.6-15 -3.4-4.9-10.2-6.1-15-2.6 -0.3 0.2-30.2 21-66.4 30.2 -0.3 0.1-0.6 0.2-0.8 0.2C1.6 252.3 0.6 289.4 0.1 305.1c0 0.7 0 1.4-0.1 2v0.2c-0.1 4.2-0.2 25.5 4.1 36.2 0.8 2.1 2.2 3.8 4.2 5 2.4 1.6 59.9 38.2 156.2 38.2s153.8-36.7 156.2-38.2c1.8-1.2 3.4-3 4.2-5C328.7 333 328.7 311.6 328.6 307.4L328.6 307.4zM328.6 307.4'/%3E%3C/svg%3E"); }
+
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+.seu-agenda-slider-container {
+  position: relative; }
+  @media only screen and (min-width: 1280px) {
+    /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container {
+      width: 840px;
+      margin-left: -30px;
+      margin-right: -30px; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container {
+      margin-left: -30px;
+      margin-right: -30px; } }
+  @media only screen and (max-width: 767px) {
+    /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container {
+      margin-left: -20px;
+      margin-right: -20px; } }
+  /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+  .seu-agenda-slider-container .seu-agenda-slider-item {
+    box-shadow: none; }
+  /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+  .seu-agenda-slider-container .seu-link:hover, .seu-agenda-slider-container .seu-link:focus {
+    background-color: white !important; }
+  /* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+  .seu-agenda-slider-container .seu-btn-line {
+    text-align: center;
+    margin-top: 50px; }
+  /* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+  .seu-agenda-slider-container .owl-item {
+    opacity: 0.2; }
+    /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container .owl-item.active {
+      opacity: 1; }
+  /* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+  .seu-agenda-slider-container .owl-nav {
+    z-index: 10; }
+    /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container .owl-nav .seu-owl-prev {
+      -webkit-transform: rotate(180deg);
+              transform: rotate(180deg);
+      left: -200px;
+      width: 300px;
+      outline: none; }
+      /* line 42, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+      .seu-agenda-slider-container .owl-nav .seu-owl-prev .seu-picto {
+        width: 60px;
+        height: 60px; }
+      @media only screen and (max-width: 767px) {
+        /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+        .seu-agenda-slider-container .owl-nav .seu-owl-prev {
+          width: 80px;
+          left: 12px; }
+          /* line 49, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+          .seu-agenda-slider-container .owl-nav .seu-owl-prev .seu-picto {
+            width: 30px;
+            height: 30px; } }
+    /* line 55, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container .owl-nav .seu-owl-next {
+      right: 0;
+      width: 100px;
+      outline: none; }
+      /* line 60, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+      .seu-agenda-slider-container .owl-nav .seu-owl-next .seu-picto {
+        width: 60px;
+        height: 60px; }
+      @media only screen and (max-width: 767px) {
+        /* line 55, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+        .seu-agenda-slider-container .owl-nav .seu-owl-next {
+          width: 80px; }
+          /* line 66, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+          .seu-agenda-slider-container .owl-nav .seu-owl-next .seu-picto {
+            width: 30px;
+            height: 30px; } }
+    /* line 73, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-agenda/slider-agenda.scss */
+    .seu-agenda-slider-container .owl-nav.disabled {
+      display: none; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-int/slider-int.scss */
 .seu-slider-int-container {

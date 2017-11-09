@@ -146,6 +146,9 @@
     <finder name="ActivityCourse" return-type="Collection">
       <finder-column name="activityCourseId" />
     </finder>
+    <finder name="SigId" return-type="Collection">
+      <finder-column name="placeSIGId" />
+    </finder>
     
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
