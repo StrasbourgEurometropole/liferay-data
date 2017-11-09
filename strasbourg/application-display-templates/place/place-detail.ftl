@@ -219,6 +219,121 @@
                     </div>
                 </#if>
 
+                <!-- Agenda -->
+                <#if entry.displayEvents && entry.publishedEvents?has_content>
+                    <div class="seu-wi--collapsing">
+                        <button class="seu-toggle-collapse">
+                            <h2 class="description"><span style="text-transform: uppercase;"><@liferay_ui.message key="agenda" /></span></h2>
+                        </button>
+                        <div class="seu-collapsing-box">
+                            <div class="seu-agenda-slider-container">
+                                <div class="seu-slider">
+                                    <#list entry.publishedEvents as event>
+                                        <div class="seu-agenda-slider-item seu-has-ville">
+                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
+                                                <div class="seu-date">
+                                                    <div class="seu-date-sup">
+                                                        <#if event.firstStartDate?date == event.lastEndDate?date>
+                                                            <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.the" /></span>
+                                                        <#else>
+                                                            <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.from-the" /></span>
+                                                        </#if>
+                                                        <span class="seu-date-start"></span>
+                                                        <span class="seu-date-suffix"></span>
+                                                    </div>
+                                                    <div class="seu-date-end">${event.firstStartDate?date?string['dd.MM']}</div>
+                                                </div>
+                                                <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div>
+                                                <div class="seu-ville">
+                                                    ${event.getPlaceAlias(locale)} 
+                                                    <#if event.getPlaceAddress(locale)?has_content>
+                                                        - ${event.getPlaceAddress(locale)}
+                                                    </#if>
+                                                    - ${event.placeZipCode} ${event.getPlaceCity(locale)}
+                                                </div>
+                                                <div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${event.getDescription(locale)?replace("<[^>]*>", "", "r")}</div>
+                                            </a>
+                                        </div>
+                                    </#list>
+                                </div>
+                                <div class="owl-nav">
+                                    <button class="seu-owl-prev">
+                                        <span class="seu-picto"></span>
+                                    </button>
+                                    <button class="seu-owl-next">
+                                        <span class="seu-picto"></span>
+                                    </button>
+                                </div>
+                                <div class="seu-btn-line">
+                                    <a href="${homeURL}agenda" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
+                                        <span class="seu-flexbox">
+                                            <span class="seu-btn-text"><@liferay_ui.message key="eu.all-events" /></span>
+                                            <span class="seu-btn-arrow"></span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </#if>
+
+                <!-- Activités -->
+                <#assign activityLocalService = serviceLocator.findService("eu.strasbourg.service.activity.service.ActivityLocalService") />
+                <#assign placeActivityAgenda = activityLocalService.getPlaceAgenda(entry.getSIGid(), locale) />
+                <#if placeActivityAgenda.periods?has_content>
+                    <div class="seu-wi--collapsing">
+                        <button class="seu-toggle-collapse">
+                            <h2 class="more"><span><@liferay_ui.message key="eu.activity.activities" /></span></h2>
+                        </button>
+                        <div class="seu-collapsing-box">
+                            <div class="seu-wi seu-wi-schedules">
+                                <div class="tab-list">
+                                    <div class="tab-menu-rwd">
+                                        <#list placeActivityAgenda.periods as period>
+                                            <button class="tab-toggle <#if period?is_first>current</#if>" data-tab-target="${period?index}">
+                                                ${period.periodName}
+                                            </button>
+                                        </#list>
+                                    </div>
+                                    <#list placeActivityAgenda.periods as period>
+                                        <button class="tab-toggle <#if period?is_first>current</#if>" data-tab-target="${period?index}">
+                                            ${period.periodName}
+                                        </button>
+                                    </#list>
+                                </div>
+                                <#list placeActivityAgenda.periods as period>
+                                    <div class="tab-content <#if period?is_first>tabbed</#if>" data-tab-index="${period?index}">
+                                        <h3 class="hidden">${period.periodName}</h3>
+                                        <#list period.courses as course>
+                                            <div style="margin-bottom: 20px">
+                                                <div class="tab-title">${course.courseName}</div>
+                                                <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
+                                                    <a href="${homeURL}cours/-/entity/id/${course.courseId}"><@liferay_ui.message key="eu.see-detail" /></a>
+                                                </div>
+                                                <ul class="schedule-list" style="margin-bottom: 10px;">
+                                                    <#list 0..6 as day>
+                                                        <#assign schedules = course.getSchedulesForDay(day) />
+                                                        <#if schedules?has_content>
+                                                            <li>
+                                                                <span><@liferay_ui.message key="${course.getDayName(day)}" /></span>
+                                                                <span>
+                                                                    <#list schedules as schedule>
+                                                                        ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
+                                                                    </#list>
+                                                                </span>
+                                                            </li>
+                                                        </#if>
+                                                    </#list>
+                                                </ul>
+                                            </div>
+                                        </#list>
+                                    </div>
+                                </#list>
+                            </div>
+                        </div>
+                    </div>
+                </#if>
+
                 <!-- Informations complémentaires -->
                 <#if entry.getAdditionalInformation(locale)?has_content>
                     <div class="seu-wi--collapsing">
@@ -354,8 +469,6 @@
                         </div>
                     </div>
                 </#if>
-
-                <!-- TODO : Agenda -->
 
                 <!-- Caractéristiques -->
                 <#if entry.getCharacteristics(locale)?has_content>
