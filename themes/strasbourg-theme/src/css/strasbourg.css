@@ -9959,6 +9959,37 @@ a {
   .seu-page-lieu .seu-svg-list .seu-picto-wheelchair {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d'  viewBox='0 0 491.975 491.975'%3E%3Cpath d='M225.315 96.963c26.748 0 48.48-21.706 48.48-48.48C273.794 21.698 252.062 0 225.314 0c-26.78 0-48.492 21.7-48.492 48.482 0 26.775 21.713 48.48 48.492 48.48zM300.233 371.688c-12.883 44.732-54.12 77.583-102.946 77.583-59.126 0-107.21-48.084-107.21-107.192 0-43.754 26.397-81.413 64.067-98.054V198.58C92.454 217.16 47.38 274.427 47.38 342.078c0 82.65 67.247 149.897 149.906 149.897 60.238 0 112.16-35.8 135.966-87.17l-16.926-33.254c-4.75.04-10.255.09-16.093.138z'/%3E%3Cpath d='M441.48 429.237l-64.94-127.672C371.695 292.012 361.897 286 351.18 286h-83.173v-18.967h71.582c7.148 0 13.156-3.736 17.037-9.118 2.522-3.506 4.316-7.58 4.316-12.236 0-11.79-9.55-21.352-21.353-21.352h-71.582V160c0-17.692-13.118-42.704-42.69-42.704-23.583 0-42.702 19.122-42.702 42.704v139.372c0 24.058 19.503 43.56 43.562 43.56h107.549l57.024 112.118c5.01 9.875 15.01 15.573 25.39 15.573 4.35 0 8.76-.994 12.882-3.104 14.034-7.12 19.608-24.27 12.46-38.283z'/%3E%3C/svg%3E"); }
 
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container {
+  position: static;
+  padding: 40px;
+  margin-bottom: 25px;
+  background: #EF5350; }
+
+/* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .lfr-alert-wrapper {
+  margin-bottom: 0;
+  padding: 0;
+  height: auto !important; }
+
+/* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .lfr-alert-wrapper + .lfr-alert-wrapper {
+  margin-top: 15px; }
+
+/* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .alert-danger {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: white;
+  line-height: 25px; }
+
+/* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .alert-danger button,
+.seu-error-messages .lfr-alert-container .alert-danger .lead {
+  display: none; }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/loader/loader.scss */
 #seu-loader {
   display: -webkit-box;
@@ -10840,6 +10871,36 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-embed/wi-embed.scss */
 .seu-wi-embed {
   margin-bottom: 40px; }
+
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .felec-response {
+  background-color: #fbb52d;
+  margin: 40px 0;
+  padding: 40px 30px;
+  text-align: center; }
+
+/* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .main-response {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-family: "MontSerrat", arial; }
+
+/* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .poll-address {
+  margin: 20px 0; }
+
+/* line 17, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .poll-number {
+  font-weight: bold; }
+
+/* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .warning {
+  margin-top: 20px; }
+
+/* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .seu-error-messages {
+  margin-top: 40px; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-lieux.scss */
 .seu-wi-lieux {

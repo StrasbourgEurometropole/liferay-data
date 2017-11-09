@@ -1,0 +1,26 @@
+.felec-web {
+    .felec-response {
+        background-color: $third-color;
+        margin: 40px 0;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    .main-response {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-family: $site-font;
+    }
+    .poll-address {
+        margin: 20px 0;
+    }
+    .poll-number {
+        font-weight: bold;
+    }
+    .warning {
+        margin-top: 20px;
+    }
+    .seu-error-messages {
+        margin-top: 40px;
+    }
+}
