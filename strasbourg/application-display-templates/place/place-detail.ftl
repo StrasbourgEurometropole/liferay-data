@@ -39,21 +39,22 @@
                                                 <span>${day}</span>
                                                 <span>
                                                     <#list daySchedulesMap[day] as schedule>
-                                                        <#if schedule.isException()>
-                                                            <#assign hasException = true />
-                                                            <span class="exception">
-                                                        </#if>
-                                                        <#if schedule.isClosed()>
-                                                            <@liferay_ui.message key="eu.closed" />
-                                                        <#elseif schedule.isAlwaysOpen()>
-                                                            <@liferay_ui.message key="always-open" />
-                                                        <#else>
-                                                            ${schedule.startTime?string} - ${schedule.endTime}
-                                                        </#if>
-                                                        <#if schedule.isException()>
-                                                            </span>
-                                                        </#if>
-                                                        <#sep><br></#sep>
+                                                        <div>
+                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                <#assign hasException = true />
+                                                                <span class="exception">
+                                                            </#if>
+                                                            <#if schedule.isClosed()>
+                                                                <@liferay_ui.message key="eu.closed" />
+                                                            <#elseif schedule.isAlwaysOpen()>
+                                                                <@liferay_ui.message key="always-open" />
+                                                            <#else>
+                                                                ${schedule.startTime?string} - ${schedule.endTime}
+                                                            </#if>
+                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                </span>
+                                                            </#if>
+                                                        </div>
                                                     </#list>
                                                 </span>
                                             </li>
@@ -68,18 +69,22 @@
                                                     <span>${day}</span>
                                                     <span>
                                                         <#list daySchedulesMap[day] as schedule>
-                                                            <#if schedule.isException()>
-                                                                <#assign hasException = true />
-                                                                <span class="exception">
-                                                            </#if>
-                                                           <#if schedule.isClosed()>
-                                                                <@liferay_ui.message key="eu.closed" />
-                                                            <#elseif schedule.isAlwaysOpen()>
-                                                                <@liferay_ui.message key="always-open" />
-                                                            <#else>${schedule.startTime?string} - ${schedule.endTime}</#if><#sep><br></#sep>
-                                                            <#if schedule.isException()>
-                                                                </span>
-                                                            </#if>
+                                                            <div>
+                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                    <#assign hasException = true />
+                                                                    <span class="exception">
+                                                                </#if>
+                                                            <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    ${schedule.startTime?string} - ${schedule.endTime}
+                                                                </#if>
+                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                    </span>
+                                                                </#if>
+                                                            </div>
                                                         </#list>
                                                     </span>
                                                 </li>
@@ -127,11 +132,15 @@
                                                     <span><@liferay_ui.message key="jour-semaine${day}" /></span>
                                                     <span>
                                                         <#list daySchedules as schedule>
-                                                           <#if schedule.isClosed()>
-                                                                <@liferay_ui.message key="eu.closed" />
-                                                            <#elseif schedule.isAlwaysOpen()>
-                                                                <@liferay_ui.message key="always-open" />
-                                                            <#else>${schedule.startTime?string} - ${schedule.endTime}</#if><#sep><br></#sep>
+                                                            <div>
+                                                                <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    ${schedule.startTime?string} - ${schedule.endTime}
+                                                                </#if>
+                                                            </div>
                                                         </#list>
                                                     </span>
                                                 </li>
