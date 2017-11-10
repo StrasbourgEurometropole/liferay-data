@@ -1,6 +1,34 @@
 <%@ include file="/search-asset-init.jsp"%>
 
 <div class="seu-filter-line">
+
+	<c:if test="${dc.dateField}">
+	    <div class="widget">
+	        <div class="title">
+	            <label for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
+	        </div>
+	        <div class="content">
+	            <input name="from" data-type="date" type="text" id="date-start" placeholder="JJ/MM/AAAA" 
+	            	value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">
+	            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
+	            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
+	            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
+	        </div>
+	    </div>
+	    <div class="widget">
+	        <div class="title">
+	            <label for="date-end"><liferay-ui:message key="eu.event.to" /></label>
+	        </div>
+	        <div class="content">
+	            <input name="to" data-type="date" type="text" id="date-end" placeholder="JJ/MM/AAAA" 
+	            	value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">
+	            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
+	            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
+	            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
+	        </div>
+	    </div>
+	</c:if>
+	
     <div class="widget widget-big">
         <div class="title">
             <label for="name">

@@ -3,6 +3,9 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <main class="seu-container">
+	<c:if test="${not empty dc.getPortletTitle('')}">
+		<h1>${dc.getPortletTitle('')}</h1>
+	</c:if>
 	<div class="seu-view-agenda">
 		<!-- Formulaire -->
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
