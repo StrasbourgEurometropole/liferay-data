@@ -92,7 +92,7 @@
                                                     <span><@liferay_ui.message key="${periodPlace.getDayName(day)}" /></span>
                                                     <span>
                                                         <#list schedules as schedule>
-                                                            ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
+                                                            <div>${schedule.startTime} - ${schedule.endTime}</div>
                                                         </#list>
                                                     </span>
                                                 </li>
