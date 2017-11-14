@@ -29,7 +29,14 @@
 	    </div>
 	</c:if>
 	
-    <div class="widget widget-big">
+	<c:choose>
+		<c:when test="${fn:length(dc.vocabularies) > 2}">
+	    	<div class="widget widget">
+		</c:when>
+		<c:otherwise>
+			<div class="widget widget-big">
+		</c:otherwise>
+	</c:choose>
         <div class="title">
             <label for="name">
                 <liferay-ui:message key="keywords" />
@@ -51,7 +58,7 @@
 	        <div class="content">
 	            <select class="" id="vocabulary_${vocStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${vocStatus.index}">
 	                <option value="" disabled></option>
-	                <c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
+	                <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
 	                    <c:set var="category" value="${category}" scope="request"/>
 	                    <c:set var="dc" value="${dc}" scope="request"/>
 	                    <c:set var="level" value="0" scope="request" />

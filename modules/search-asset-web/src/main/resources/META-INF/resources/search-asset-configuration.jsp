@@ -262,7 +262,18 @@
 				</aui:select>
 				
 				<!-- Bouton exporter -->
-					<aui:input type="checkbox" name="displayExport" value="${displayExport}" label="display-export" inlineField="true" />
+				<aui:input type="checkbox" name="displayExport" value="${displayExport}" 
+					label="display-export" inlineField="true" />
+				
+				<!-- Type d'export -->
+				<aui:select name="exportType" showEmptyOption="true">
+					<aui:option value="city" selected="${exportType eq 'city'}">
+						<liferay-ui:message key="city" />
+					</aui:option>
+					<aui:option value="ems" selected="${exportType eq 'ems'}">
+						<liferay-ui:message key="ems" />
+					</aui:option>
+				</aui:select>
 			</aui:fieldset>
 
 		</aui:fieldset-group>

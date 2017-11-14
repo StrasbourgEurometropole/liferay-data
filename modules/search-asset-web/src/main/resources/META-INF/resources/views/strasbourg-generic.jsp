@@ -42,7 +42,6 @@
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
 				<ul id="seu-grid--list01">
-		       		<h2 class="hidden">Liste de sous-éléments</h2>
 		        	
 		        	<liferay-ui:search-container-results results="${dc.entries}" />
 		        	<liferay-ui:search-container-row
@@ -73,6 +72,20 @@
 							</liferay-ddm:template-renderer>
 					</liferay-ui:search-container-row>
 				</ul>
+							
+				<!-- Export -->
+				<c:if test="${dc.displayExport}">
+					<div class="btn-line">
+						<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank">
+							<button type="button" class="seu-btn-square--filled--second">
+								<span class="seu-flexbox">
+									<span class="seu-btn-text"><liferay-ui:message key="print" /></span>
+									<span class="seu-btn-arrow"></span>
+								</span> 
+							</button>
+						</a>
+					</div>
+				</c:if>
 				
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">

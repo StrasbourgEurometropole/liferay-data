@@ -3422,7 +3422,7 @@ a {
     bottom: 0; }
 
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link, .search-asset-portlet.officials .official-thumbnail .seu-link {
   padding: 40px;
   height: 100%;
   width: 100%;
@@ -3432,16 +3432,16 @@ a {
   background-color: #FFFFFF;
   position: relative; }
   /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:focus {
+  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:hover, .search-asset-portlet.officials .official-thumbnail .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:focus, .search-asset-portlet.officials .official-thumbnail .seu-link:focus {
     text-decoration: none;
     background-color: #E3E3E3; }
   @media only screen and (max-width: 767px) {
     /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link, .search-asset-portlet.officials .official-thumbnail .seu-link {
       padding: 20px; } }
 
 /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title, .search-asset-portlet.officials .official-thumbnail .seu-title {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 1.7rem;
@@ -3450,11 +3450,11 @@ a {
   text-transform: uppercase; }
   @media only screen and (max-width: 767px) {
     /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title, .search-asset-portlet.officials .official-thumbnail .seu-title {
       font-size: 1.5rem; } }
 
 /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead, .search-asset-portlet.officials .official-thumbnail .seu-lead {
   font-family: "OpenSans", arial;
   font-weight: 600;
   font-size: 1.4rem;
@@ -3462,18 +3462,18 @@ a {
   line-height: 1.8; }
   @media only screen and (max-width: 767px) {
     /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead, .search-asset-portlet.officials .official-thumbnail .seu-lead {
       font-size: 1.2rem; } }
 
 /* line 43, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture, .search-asset-portlet.officials .official-thumbnail .seu-picture {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
   position: relative; }
   /* line 49, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture:before {
+  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture:before, .search-asset-portlet.officials .official-thumbnail .seu-picture:before {
     opacity: 0;
     position: absolute;
     content: '';
@@ -3486,11 +3486,11 @@ a {
     transition: all, 0.5s; }
 
 /* line 60, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-start, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-start {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-start, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-start, .search-asset-portlet.officials .official-thumbnail .seu-date-start {
   font-size: 2.4rem; }
 
 /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end, .search-asset-portlet.officials .official-thumbnail .seu-date-end {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 5.0rem;
@@ -3501,11 +3501,11 @@ a {
   color: #2da192; }
   @media only screen and (max-width: 767px) {
     /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end, .search-asset-portlet.officials .official-thumbnail .seu-date-end {
       font-size: 4.0rem; } }
 
 /* line 78, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup, .search-asset-portlet.officials .official-thumbnail .seu-date-sup {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 1.7rem;
@@ -3514,11 +3514,11 @@ a {
   color: #2da192; }
   @media only screen and (max-width: 767px) {
     /* line 78, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup, .search-asset-portlet.officials .official-thumbnail .seu-date-sup {
       font-size: 1.2rem; } }
 
 /* line 91, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-link {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3531,12 +3531,12 @@ a {
           justify-content: space-between; }
 
 /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-picture {
   padding-bottom: 75%;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
     /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+    .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-picture {
       padding-bottom: 0;
       -webkit-box-flex: 1;
           -ms-flex: 1;
@@ -3544,7 +3544,7 @@ a {
 
 @media only screen and (min-width: 1280px) {
   /* line 106, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture {
+  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.seu-big.official-thumbnail .seu-picture {
     position: absolute;
     top: 0;
     left: 0;
@@ -3552,7 +3552,7 @@ a {
     width: 100%;
     margin: 0; }
   /* line 112, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, .search-asset-portlet.officials .seu-actu.seu-big.official-thumbnail .seu-text {
     height: 50%;
     width: 50%;
     position: absolute;
@@ -3563,20 +3563,20 @@ a {
     padding: 35px; } }
 
 /* line 124, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link {
   padding: 0;
   background-color: #46cfc0;
   transition: all, 0.5s; }
   /* line 129, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link:focus {
     background: #3CB0A4; }
 
 /* line 133, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-picture {
   height: 50%;
   position: relative; }
   /* line 136, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-picture:after {
     content: '';
     display: block;
     position: absolute;
@@ -3588,19 +3588,19 @@ a {
     z-index: 1; }
 
 /* line 146, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-text {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-text {
   padding: 30px; }
 
 /* line 149, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-title {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-title {
   color: #31455d; }
 
 /* line 152, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-lead {
   color: #31455d; }
 
 /* line 155, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3609,14 +3609,14 @@ a {
   text-align: center;
   z-index: 10; }
   /* line 162, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo .seu-mag-text {
     font-family: "MontSerrat", arial;
     font-size: 4.5rem;
     font-weight: 700;
     color: #FFFFFF;
     text-transform: uppercase; }
   /* line 169, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo .seu-mag-picto {
     content: '';
     display: inline-block;
     width: 60px;
@@ -3628,7 +3628,7 @@ a {
 
 @media only screen and (min-width: 1280px) {
   /* line 182, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-picture {
     position: absolute;
     top: 0;
     left: 0;
@@ -3636,11 +3636,11 @@ a {
     width: 100%;
     margin: 0; }
   /* line 188, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-mag-logo {
     z-index: 20;
     left: 75%; }
   /* line 192, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-text {
     height: 50%;
     width: 50%;
     position: absolute;
@@ -3651,15 +3651,15 @@ a {
     background-color: #46cfc0; } }
 
 /* line 203, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-link:hover .seu-text, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-link:focus .seu-text {
   background-color: #3CB0A4; }
 
 /* line 214, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, .seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before {
+.seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, .search-asset-portlet.officials .seu-has-picture.official-thumbnail .seu-link:hover .seu-picture:before, .seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, .search-asset-portlet.officials .seu-has-picture.official-thumbnail .seu-link:focus .seu-picture:before {
   opacity: 1; }
 
 /* line 222, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville {
+.seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, .search-asset-portlet.officials .seu-has-ville.official-thumbnail .seu-ville {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   color: #2da192;
@@ -3669,7 +3669,7 @@ a {
   padding-left: 30px;
   position: relative; }
   /* line 232, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before {
+  .seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, .search-asset-portlet.officials .seu-has-ville.official-thumbnail .seu-ville:before {
     content: '';
     display: inline-block;
     width: 20px;
@@ -9514,7 +9514,7 @@ a {
   .seu-wi-trombinoscope .seu-wi-content p {
     color: #31455d; }
 
-/* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 4, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-view-results,
 .seu-view-activity .seu-view-results {
   display: -webkit-box;
@@ -9526,17 +9526,17 @@ a {
   margin-top: 40px;
   margin-bottom: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 4, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results,
     .seu-view-activity .seu-view-results {
       display: block; } }
-  /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-filler,
   .seu-view-activity .seu-view-results .seu-filler {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
-  /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-result-filter,
   .seu-view-activity .seu-view-results .seu-result-filter {
     display: -webkit-box;
@@ -9545,28 +9545,26 @@ a {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-    /* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
     .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
       width: 85px;
       margin-left: 20px; }
 
-/* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda #seu-grid--list01,
 .seu-view-activity #seu-grid--list01 {
   margin-bottom: 45px; }
 
-/* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-pagination,
 .seu-view-activity .seu-pagination {
   position: relative;
   padding-top: 45px;
   margin-bottom: 60px; }
-  /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 31, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-pagination:before,
   .seu-view-activity .seu-pagination:before {
-    display: block;
-    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -10867,6 +10865,101 @@ a {
     margin-right: 12px;
     margin-top: -3px;
     background-size: 19px !important; }
+
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials .btn-line {
+  width: 100%;
+  text-align: center; }
+
+/* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials #seu-grid--list01 {
+  padding: 0; }
+  @media only screen and (min-width: 1280px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(25% - ( ((4px - 1px) * 20) / 4)); }
+        /* line 52, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+1) {
+          margin-right: 15px;
+          margin-left: 0; }
+        /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+2) {
+          margin-left: 5px;
+          margin-right: 10px; }
+        /* line 62, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+3) {
+          margin-left: 10px;
+          margin-right: 5px; }
+        /* line 67, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n) {
+          margin-left: 15px;
+          margin-right: 0; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(50% - ( ((2px - 1px) * 20) / 2)); }
+        /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(2n+1) {
+          margin-right: 10px;
+          margin-left: 0; }
+        /* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(2n) {
+          margin-left: 10px;
+          margin-right: 0; } }
+  @media only screen and (max-width: 767px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(100% - ( ((1px - 1px) * 0) / 1));
+        margin-left: 0 !important;
+        margin-right: 0 !important; } }
+
+/* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials .official-thumbnail {
+  height: 425px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; }
+  /* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .search-asset-portlet.officials .official-thumbnail.seu-mag .seu-link {
+    background-color: white; }
+    /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials .official-thumbnail.seu-mag .seu-link:hover {
+      background-color: #E3E3E3; }
+
+/* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.official-detail .official-portrait {
+  text-align: center; }
+  /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .official-detail .official-portrait img {
+    max-width: 100%; }
+
+/* line 38, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.official-detail .official-contact {
+  margin-top: 50px;
+  margin-bottom: -50px; }
+  /* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .official-detail .official-contact .seu-container:before, .official-detail .official-contact .seu-container:after {
+    display: none; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-embed/wi-embed.scss */
 .seu-wi-embed {
