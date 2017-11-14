@@ -1,0 +1,4 @@
+Bundle-SymbolicName: editor.ga4.fix
+Bundle-Version: 1.26.0
+Liferay-JS-Config: /META-INF/resources/js/config.js
+Web-ContextPath: /editorga4fix
