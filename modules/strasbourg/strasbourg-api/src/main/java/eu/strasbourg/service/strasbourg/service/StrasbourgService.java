@@ -59,6 +59,13 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
 		java.lang.String language);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject searchStreets(java.lang.String query);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject searchStreets(java.lang.String query,
+		java.lang.String city);
+
 	/**
 	* Returns the OSGi service identifier.
 	*

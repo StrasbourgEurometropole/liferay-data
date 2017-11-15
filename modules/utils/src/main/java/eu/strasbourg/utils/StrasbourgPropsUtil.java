@@ -120,4 +120,17 @@ public class StrasbourgPropsUtil {
 		String daysBeforeSuppression = PropsUtil.get("eu.strasbourg.privacy.days-before-suppression");
 		return Long.parseLong(daysBeforeSuppression);
 	}
+
+	public static String getAdictBaseURL() {
+		return PropsUtil.get("eu.strasbourg.adict.url");
+	}
+
+	public static String getAdictSectorBaseURL() {
+		return PropsUtil.get("eu.strasbourg.adict.sector.url");
+	}
+	
+	public static String getAdictSectorTypesBaseURL() {
+		return PropsUtil.get("eu.strasbourg.adict.sector.types.url");
+	}
+		
 }

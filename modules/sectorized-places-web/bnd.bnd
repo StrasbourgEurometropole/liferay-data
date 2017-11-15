@@ -1,0 +1,4 @@
+Bundle-Name: sectorized-places-web
+Bundle-SymbolicName: eu.strasbourg.portlet.sectorized
+Bundle-Version: 1.26.0
+Web-ContextPath: /sectorized

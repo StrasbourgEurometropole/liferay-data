@@ -60,7 +60,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String language) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getCopyright", _getCopyrightParameterTypes0);
+					"getCopyright", _getCopyrightParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					uuid, language);
@@ -88,7 +88,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String language) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getFileDetails", _getFileDetailsParameterTypes1);
+					"getFileDetails", _getFileDetailsParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					uuid, language);
@@ -111,11 +111,71 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
+		HttpPrincipal httpPrincipal, java.lang.String query) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"searchStreets", _searchStreetsParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, query);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
+		HttpPrincipal httpPrincipal, java.lang.String query,
+		java.lang.String city) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"searchStreets", _searchStreetsParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, query,
+					city);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
-	private static final Class<?>[] _getCopyrightParameterTypes0 = new Class[] {
+	private static final Class<?>[] _getCopyrightParameterTypes1 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getFileDetailsParameterTypes1 = new Class[] {
+	private static final Class<?>[] _getFileDetailsParameterTypes2 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
+		};
+	private static final Class<?>[] _searchStreetsParameterTypes3 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _searchStreetsParameterTypes4 = new Class[] {
+			java.lang.String.class, java.lang.String.class
 		};
 }

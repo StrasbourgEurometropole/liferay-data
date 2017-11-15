@@ -44,6 +44,18 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 		return _strasbourgService.getFileDetails(groupId, uuid, language);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject searchStreets(
+		java.lang.String query) {
+		return _strasbourgService.searchStreets(query);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject searchStreets(
+		java.lang.String query, java.lang.String city) {
+		return _strasbourgService.searchStreets(query, city);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

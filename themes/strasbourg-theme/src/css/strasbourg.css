@@ -2038,12 +2038,14 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
 #seu-territory .seu-territory .seu-text .customSelectContain, .seu-view-filters .customSelectContain, .page-demarches #rub_service .customSelectContain,
 .seu-main-form .customSelectContain, .seu-wi-contact-form .customSelectContain, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-.seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+.seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+.seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
   height: 42px; }
   /* line 3, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain .customSelect, .seu-view-filters .customSelectContain .customSelect, .page-demarches #rub_service .customSelectContain .customSelect,
   .seu-main-form .customSelectContain .customSelect, .seu-wi-contact-form .customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect {
     padding: 7.5px 50px 7.5px 20px;
     border-style: solid;
     border-width: 1px;
@@ -2057,7 +2059,8 @@ a {
     /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     #seu-territory .seu-territory .seu-text .customSelectContain .customSelect.arrowed:after, .seu-view-filters .customSelectContain .customSelect.arrowed:after, .page-demarches #rub_service .customSelectContain .customSelect.arrowed:after,
     .seu-main-form .customSelectContain .customSelect.arrowed:after, .seu-wi-contact-form .customSelectContain .customSelect.arrowed:after, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
       position: absolute;
       top: 50%;
       right: 15px;
@@ -2073,7 +2076,8 @@ a {
   /* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain option, .seu-view-filters .customSelectContain option, .page-demarches #rub_service .customSelectContain option,
   .seu-main-form .customSelectContain option, .seu-wi-contact-form .customSelectContain option, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain option,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain option {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain option,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain option {
     padding: 10px;
     font-family: "MontSerrat", arial;
     font-weight: 400;
@@ -2082,7 +2086,8 @@ a {
   /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain .customSelectInner, .seu-view-filters .customSelectContain .customSelectInner, .page-demarches #rub_service .customSelectContain .customSelectInner,
   .seu-main-form .customSelectContain .customSelectInner, .seu-wi-contact-form .customSelectContain .customSelectInner, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
     font-family: "MontSerrat", arial;
     font-weight: 400;
     font-size: 1.4rem;
@@ -2099,40 +2104,47 @@ a {
   /* line 56, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   .seu-view-filters .customSelectContain, .page-demarches #rub_service .customSelectContain,
   .seu-main-form .customSelectContain, .seu-wi-contact-form .customSelectContain, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
     height: 50px; }
     /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelect, .page-demarches #rub_service .customSelectContain .customSelect,
     .seu-main-form .customSelectContain .customSelect, .seu-wi-contact-form .customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect {
       background-color: #F6F6F6;
       border: solid 2px transparent;
       border-radius: 0; }
       /* line 64, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
       .seu-view-filters .customSelectContain .customSelect.arrowed:after, .page-demarches #rub_service .customSelectContain .customSelect.arrowed:after,
       .seu-main-form .customSelectContain .customSelect.arrowed:after, .seu-wi-contact-form .customSelectContain .customSelect.arrowed:after, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
-      .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
+      .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
+      .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%237e7e7e' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
     /* line 68, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectInner, .page-demarches #rub_service .customSelectContain .customSelectInner,
     .seu-main-form .customSelectContain .customSelectInner, .seu-wi-contact-form .customSelectContain .customSelectInner, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
       color: #7e7e7e; }
     /* line 71, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectContain.focused .customSelect, .page-demarches #rub_service .customSelectContain .customSelectContain.focused .customSelect,
     .seu-main-form .customSelectContain .customSelectContain.focused .customSelect, .seu-wi-contact-form .customSelectContain .customSelectContain.focused .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect {
       border: solid 1px #31455d; }
     /* line 74, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectContain select, .page-demarches #rub_service .customSelectContain .customSelectContain select,
     .seu-main-form .customSelectContain .customSelectContain select, .seu-wi-contact-form .customSelectContain .customSelectContain select, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select {
       background-color: #FFFFFF;
       color: #000000; }
     /* line 79, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .focused.customSelectContain .customSelect, .page-demarches #rub_service .focused.customSelectContain .customSelect,
     .seu-main-form .focused.customSelectContain .customSelect, .seu-wi-contact-form .focused.customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect {
       border-color: #31455d; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
@@ -9514,9 +9526,10 @@ a {
   .seu-wi-trombinoscope .seu-wi-content p {
     color: #31455d; }
 
-/* line 4, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-view-results,
-.seu-view-activity .seu-view-results {
+.seu-view-activity .seu-view-results,
+.seu-view-places .seu-view-results {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9526,45 +9539,52 @@ a {
   margin-top: 40px;
   margin-bottom: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 4, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results,
-    .seu-view-activity .seu-view-results {
+    .seu-view-activity .seu-view-results,
+    .seu-view-places .seu-view-results {
       display: block; } }
-  /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-filler,
-  .seu-view-activity .seu-view-results .seu-filler {
+  .seu-view-activity .seu-view-results .seu-filler,
+  .seu-view-places .seu-view-results .seu-filler {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
-  /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-result-filter,
-  .seu-view-activity .seu-view-results .seu-result-filter {
+  .seu-view-activity .seu-view-results .seu-result-filter,
+  .seu-view-places .seu-view-results .seu-result-filter {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-    /* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
       width: 85px;
       margin-left: 20px; }
 
-/* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda #seu-grid--list01,
-.seu-view-activity #seu-grid--list01 {
+.seu-view-activity #seu-grid--list01,
+.seu-view-places #seu-grid--list01 {
   margin-bottom: 45px; }
 
-/* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-pagination,
-.seu-view-activity .seu-pagination {
+.seu-view-activity .seu-pagination,
+.seu-view-places .seu-pagination {
   position: relative;
   padding-top: 45px;
   margin-bottom: 60px; }
-  /* line 31, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-pagination:before,
-  .seu-view-activity .seu-pagination:before {
+  .seu-view-activity .seu-pagination:before,
+  .seu-view-places .seu-pagination:before {
     position: absolute;
     top: 0;
     left: 0;
@@ -10130,6 +10150,34 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/event-highlight/event-highlight.scss */
 .event-highlight {
   margin-bottom: 80px; }
+
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestions {
+  position: absolute;
+  z-index: 1051;
+  left: -100000px;
+  display: block;
+  overflow: auto;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 0 0 4px 4px;
+  background-color: white; }
+
+/* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion {
+  padding: 6px; }
+
+/* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion:hover {
+  color: white;
+  background-color: #5897fb; }
+
+/* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion strong {
+  font-weight: bold;
+  color: #31455d; }
 
 /* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/filters.scss */
 .seu-view-activity .seu-view-filters .seu-btn-line {
