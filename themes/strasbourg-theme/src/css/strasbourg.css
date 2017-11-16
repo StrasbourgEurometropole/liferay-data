@@ -4142,7 +4142,9 @@ a {
         margin-right: 0; }
       /* line 44, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/_molecule-filters.scss */
       .seu-view-filters .seu-filter-line .widget.widget-big {
-        width: calc(50% - 10px); }
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
       @media only screen and (max-width: 767px) {
         /* line 38, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/_molecule-filters.scss */
         .seu-view-filters .seu-filter-line .widget {

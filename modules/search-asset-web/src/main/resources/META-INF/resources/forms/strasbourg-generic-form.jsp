@@ -29,14 +29,7 @@
 	    </div>
 	</c:if>
 	
-	<c:choose>
-		<c:when test="${fn:length(dc.vocabularies) > 2}">
-	    	<div class="widget widget">
-		</c:when>
-		<c:otherwise>
-			<div class="widget widget-big">
-		</c:otherwise>
-	</c:choose>
+	<div class="widget widget-big">
         <div class="title">
             <label for="name">
                 <liferay-ui:message key="keywords" />
