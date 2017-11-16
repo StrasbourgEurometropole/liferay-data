@@ -60,4 +60,6 @@ public class StrasbourgPortletKeys {
 	public static final String OIDC_WEB = "eu_strasbourg_portlet_oidc_OIDCPortlet";
 	
 	public static final String CONTACT_FORM_WEB = "eu_strasbourg_portlet_contact_ContactFormPortlet";
+	
+	public static final String SECTORIZED_PLACES_WEB = "eu_strasbourg_portlet_sectorized_SectorizedPlacesPortlet";
 }

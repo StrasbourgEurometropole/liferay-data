@@ -51,6 +51,16 @@ public class StrasbourgServiceUtil {
 		return getService().getFileDetails(groupId, uuid, language);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
+		java.lang.String query) {
+		return getService().searchStreets(query);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
+		java.lang.String query, java.lang.String city) {
+		return getService().searchStreets(query, city);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

@@ -38,7 +38,12 @@
     window.homeURL = '${homeURL}';
   </script>
   <div class="seu">
-    <header class="seu-header">
+  
+    <#if isHome>
+      <header class="seu-header">
+    <#else>
+      <header class="seu-header scrolled scrolled-hp">
+    </#if>
       <div class="seu-scrolled-search-engine">
         <form action="${homeURL}recherche" method="get" class="seu-search">
           <button type="submit"></button>

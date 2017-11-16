@@ -1,0 +1,31 @@
+.seu-error-messages {
+    .lfr-alert-container {
+        position: static;
+        padding: 40px;
+        margin-bottom: 25px;
+        background: #EF5350;
+    }
+    .lfr-alert-container .lfr-alert-wrapper {
+        margin-bottom: 0;
+        padding: 0;
+        height: auto !important;
+    }
+    .lfr-alert-container .lfr-alert-wrapper+.lfr-alert-wrapper {
+        margin-top: 15px;
+    }
+    .lfr-alert-container .alert-danger {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        color: white;
+        line-height: 25px
+    }
+    .lfr-alert-container .alert-danger button,
+    .lfr-alert-container .alert-danger .lead {
+        display: none;
+    }
+}
+form+.seu-error-messages {
+    margin-top: 40px;
+}

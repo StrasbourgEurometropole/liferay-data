@@ -42,7 +42,7 @@
                 margin-right: 0;
             }
             &.widget-big{
-                width: calc(50% - 10px);
+                flex-grow: 1;
             }
             @include RWD(mobile){
                 width: 100% !important;

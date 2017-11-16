@@ -236,12 +236,16 @@ public class SearchHelper {
 			BooleanQuery query = new BooleanQueryImpl();
 
 			// ClassNames
-			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			BooleanQuery classNamesQuery = new BooleanQueryImpl();
 			for (String className : classNames) {
 				if (Validator.isNotNull(className)) {
 					// Cas général
 					if (!className.contains("JournalArticle")) {
-						classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.SHOULD);
+						BooleanQuery classNameQuery = new BooleanQueryImpl();
+						//classNameQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, className);
+						//classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.MUST);
+						classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
+						classNamesQuery.add(classNameQuery, BooleanClauseOccur.SHOULD);
 					}
 					// Cas où on a un journalArticle (on vérifie que c'est la
 					// dernière version)
@@ -249,11 +253,11 @@ public class SearchHelper {
 						BooleanQuery journalArticleQuery = new BooleanQueryImpl();
 						journalArticleQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.MUST);
 						journalArticleQuery.addRequiredTerm("head", true);
-						classNameQuery.add(journalArticleQuery, BooleanClauseOccur.SHOULD);
+						classNamesQuery.add(journalArticleQuery, BooleanClauseOccur.SHOULD);
 					}
 				}
 			}
-			query.add(classNameQuery, BooleanClauseOccur.MUST);
+			query.add(classNamesQuery, BooleanClauseOccur.MUST);
 
 			// Group
 			if (globalScope) {

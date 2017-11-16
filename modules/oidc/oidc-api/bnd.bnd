@@ -1,6 +1,6 @@
 Bundle-Name: oidc-api
 Bundle-SymbolicName: eu.strasbourg.service.oidc.api
-Bundle-Version: 1.26.0
+Bundle-Version: 1.27.0
 Export-Package:\
 	eu.strasbourg.service.oidc.exception,\
 	eu.strasbourg.service.oidc.model,\

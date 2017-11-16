@@ -1,0 +1,4 @@
+Bundle-Name: adict
+Bundle-SymbolicName: eu.strasbourg.service.adict
+Bundle-Version: 1.27.0
+Export-Package: eu.strasbourg.service.adict

@@ -1,44 +1,42 @@
 .seu-view-agenda,
-.seu-view-activity{
-    .seu-vie-filters{
-        
-    }
-
-    .seu-view-results{
+.seu-view-activity,
+.seu-view-places {
+    .seu-vie-filters {}
+    .seu-view-results {
         display: flex;
         align-items: center;
         margin-top: 40px;
         margin-bottom: 30px;
-        @include RWD(mobile){
+        @include RWD(mobile) {
             display: block;
         }
-
-        .seu-filler{
+        .seu-filler {
             flex: 1;
         }
-        .seu-result-filter{
+        .seu-result-filter {
             display: flex;
             align-items: center;
-
-            .customSelectContain{
+            .customSelectContain {
                 width: 85px;
                 margin-left: 20px;
                 @extend %atom-customSelect--custom;
             }
         }
     }
-    #seu-grid--list01{
+    #seu-grid--list01 {
         margin-bottom: 45px;
     }
-    .seu-pagination{
+    .seu-pagination {
         position: relative;
         padding-top: 45px;
-        &:before{
-            display: block;
-            content: '';
+        &:before {
+            //display: block;
+            //content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 1px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
             background-color: #f6f6f6;
         }
         margin-bottom: 60px;

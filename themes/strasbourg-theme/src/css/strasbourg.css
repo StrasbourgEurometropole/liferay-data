@@ -2038,12 +2038,14 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
 #seu-territory .seu-territory .seu-text .customSelectContain, .seu-view-filters .customSelectContain, .page-demarches #rub_service .customSelectContain,
 .seu-main-form .customSelectContain, .seu-wi-contact-form .customSelectContain, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-.seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+.seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+.seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
   height: 42px; }
   /* line 3, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain .customSelect, .seu-view-filters .customSelectContain .customSelect, .page-demarches #rub_service .customSelectContain .customSelect,
   .seu-main-form .customSelectContain .customSelect, .seu-wi-contact-form .customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect {
     padding: 7.5px 50px 7.5px 20px;
     border-style: solid;
     border-width: 1px;
@@ -2057,7 +2059,8 @@ a {
     /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     #seu-territory .seu-territory .seu-text .customSelectContain .customSelect.arrowed:after, .seu-view-filters .customSelectContain .customSelect.arrowed:after, .page-demarches #rub_service .customSelectContain .customSelect.arrowed:after,
     .seu-main-form .customSelectContain .customSelect.arrowed:after, .seu-wi-contact-form .customSelectContain .customSelect.arrowed:after, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
       position: absolute;
       top: 50%;
       right: 15px;
@@ -2073,7 +2076,8 @@ a {
   /* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain option, .seu-view-filters .customSelectContain option, .page-demarches #rub_service .customSelectContain option,
   .seu-main-form .customSelectContain option, .seu-wi-contact-form .customSelectContain option, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain option,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain option {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain option,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain option {
     padding: 10px;
     font-family: "MontSerrat", arial;
     font-weight: 400;
@@ -2082,7 +2086,8 @@ a {
   /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   #seu-territory .seu-territory .seu-text .customSelectContain .customSelectInner, .seu-view-filters .customSelectContain .customSelectInner, .page-demarches #rub_service .customSelectContain .customSelectInner,
   .seu-main-form .customSelectContain .customSelectInner, .seu-wi-contact-form .customSelectContain .customSelectInner, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
     font-family: "MontSerrat", arial;
     font-weight: 400;
     font-size: 1.4rem;
@@ -2099,40 +2104,47 @@ a {
   /* line 56, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
   .seu-view-filters .customSelectContain, .page-demarches #rub_service .customSelectContain,
   .seu-main-form .customSelectContain, .seu-wi-contact-form .customSelectContain, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+  .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+  .seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
     height: 50px; }
     /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelect, .page-demarches #rub_service .customSelectContain .customSelect,
     .seu-main-form .customSelectContain .customSelect, .seu-wi-contact-form .customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect {
       background-color: #F6F6F6;
       border: solid 2px transparent;
       border-radius: 0; }
       /* line 64, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
       .seu-view-filters .customSelectContain .customSelect.arrowed:after, .page-demarches #rub_service .customSelectContain .customSelect.arrowed:after,
       .seu-main-form .customSelectContain .customSelect.arrowed:after, .seu-wi-contact-form .customSelectContain .customSelect.arrowed:after, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
-      .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
+      .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after,
+      .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelect.arrowed:after {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%237e7e7e' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E"); }
     /* line 68, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectInner, .page-demarches #rub_service .customSelectContain .customSelectInner,
     .seu-main-form .customSelectContain .customSelectInner, .seu-wi-contact-form .customSelectContain .customSelectInner, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectInner,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectInner {
       color: #7e7e7e; }
     /* line 71, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectContain.focused .customSelect, .page-demarches #rub_service .customSelectContain .customSelectContain.focused .customSelect,
     .seu-main-form .customSelectContain .customSelectContain.focused .customSelect, .seu-wi-contact-form .customSelectContain .customSelectContain.focused .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectContain.focused .customSelect {
       border: solid 1px #31455d; }
     /* line 74, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .customSelectContain .customSelectContain select, .page-demarches #rub_service .customSelectContain .customSelectContain select,
     .seu-main-form .customSelectContain .customSelectContain select, .seu-wi-contact-form .customSelectContain .customSelectContain select, .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain .customSelectContain select {
       background-color: #FFFFFF;
       color: #000000; }
     /* line 79, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-customSelect.scss */
     .seu-view-filters .focused.customSelectContain .customSelect, .page-demarches #rub_service .focused.customSelectContain .customSelect,
     .seu-main-form .focused.customSelectContain .customSelect, .seu-wi-contact-form .focused.customSelectContain .customSelect, .seu-view-agenda .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect,
-    .seu-view-activity .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect {
+    .seu-view-activity .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect,
+    .seu-view-places .seu-view-results .seu-result-filter .focused.customSelectContain .customSelect {
       border-color: #31455d; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/form-elements/_atom-form-inputs.scss */
@@ -3422,7 +3434,7 @@ a {
     bottom: 0; }
 
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link, .search-asset-portlet.officials .official-thumbnail .seu-link {
   padding: 40px;
   height: 100%;
   width: 100%;
@@ -3432,16 +3444,16 @@ a {
   background-color: #FFFFFF;
   position: relative; }
   /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:focus {
+  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:hover, .search-asset-portlet.officials .official-thumbnail .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link:focus, .search-asset-portlet.officials .official-thumbnail .seu-link:focus {
     text-decoration: none;
     background-color: #E3E3E3; }
   @media only screen and (max-width: 767px) {
     /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-link, .search-asset-portlet.officials .official-thumbnail .seu-link {
       padding: 20px; } }
 
 /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title, .search-asset-portlet.officials .official-thumbnail .seu-title {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 1.7rem;
@@ -3450,11 +3462,11 @@ a {
   text-transform: uppercase; }
   @media only screen and (max-width: 767px) {
     /* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-title, .search-asset-portlet.officials .official-thumbnail .seu-title {
       font-size: 1.5rem; } }
 
 /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead, .search-asset-portlet.officials .official-thumbnail .seu-lead {
   font-family: "OpenSans", arial;
   font-weight: 600;
   font-size: 1.4rem;
@@ -3462,18 +3474,18 @@ a {
   line-height: 1.8; }
   @media only screen and (max-width: 767px) {
     /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-lead, .search-asset-portlet.officials .official-thumbnail .seu-lead {
       font-size: 1.2rem; } }
 
 /* line 43, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture, .search-asset-portlet.officials .official-thumbnail .seu-picture {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
   position: relative; }
   /* line 49, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture:before {
+  .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-picture:before, .search-asset-portlet.officials .official-thumbnail .seu-picture:before {
     opacity: 0;
     position: absolute;
     content: '';
@@ -3486,11 +3498,11 @@ a {
     transition: all, 0.5s; }
 
 /* line 60, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-start, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-start {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-start, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-start, .search-asset-portlet.officials .official-thumbnail .seu-date-start {
   font-size: 2.4rem; }
 
 /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end, .search-asset-portlet.officials .official-thumbnail .seu-date-end {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 5.0rem;
@@ -3501,11 +3513,11 @@ a {
   color: #2da192; }
   @media only screen and (max-width: 767px) {
     /* line 63, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-end, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-end, .search-asset-portlet.officials .official-thumbnail .seu-date-end {
       font-size: 4.0rem; } }
 
 /* line 78, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup {
+.seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup, .search-asset-portlet.officials .official-thumbnail .seu-date-sup {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 1.7rem;
@@ -3514,11 +3526,11 @@ a {
   color: #2da192; }
   @media only screen and (max-width: 767px) {
     /* line 78, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup {
+    .seu-slider-int-container .seu-slider .owl-item .seu-item .seu-date-sup, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-item .seu-date-sup, .search-asset-portlet.officials .official-thumbnail .seu-date-sup {
       font-size: 1.2rem; } }
 
 /* line 91, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-link, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-link {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3531,12 +3543,12 @@ a {
           justify-content: space-between; }
 
 /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-picture {
   padding-bottom: 75%;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
     /* line 96, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-    .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+    .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.official-thumbnail .seu-picture {
       padding-bottom: 0;
       -webkit-box-flex: 1;
           -ms-flex: 1;
@@ -3544,7 +3556,7 @@ a {
 
 @media only screen and (min-width: 1280px) {
   /* line 106, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture {
+  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-picture, .search-asset-portlet.officials .seu-actu.seu-big.official-thumbnail .seu-picture {
     position: absolute;
     top: 0;
     left: 0;
@@ -3552,7 +3564,7 @@ a {
     width: 100%;
     margin: 0; }
   /* line 112, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-big.seu-item .seu-text, .search-asset-portlet.officials .seu-actu.seu-big.official-thumbnail .seu-text {
     height: 50%;
     width: 50%;
     position: absolute;
@@ -3563,20 +3575,20 @@ a {
     padding: 35px; } }
 
 /* line 124, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link {
   padding: 0;
   background-color: #46cfc0;
   transition: all, 0.5s; }
   /* line 129, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:hover, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link:hover, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-link:focus, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-link:focus {
     background: #3CB0A4; }
 
 /* line 133, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-picture {
   height: 50%;
   position: relative; }
   /* line 136, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-picture:after, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-picture:after {
     content: '';
     display: block;
     position: absolute;
@@ -3588,19 +3600,19 @@ a {
     z-index: 1; }
 
 /* line 146, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-text {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-text, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-text {
   padding: 30px; }
 
 /* line 149, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-title {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-title, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-title {
   color: #31455d; }
 
 /* line 152, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-lead, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-lead {
   color: #31455d; }
 
 /* line 155, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3609,14 +3621,14 @@ a {
   text-align: center;
   z-index: 10; }
   /* line 162, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-text, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo .seu-mag-text {
     font-family: "MontSerrat", arial;
     font-size: 4.5rem;
     font-weight: 700;
     color: #FFFFFF;
     text-transform: uppercase; }
   /* line 169, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-item .seu-mag-logo .seu-mag-picto, .search-asset-portlet.officials .seu-mag.official-thumbnail .seu-mag-logo .seu-mag-picto {
     content: '';
     display: inline-block;
     width: 60px;
@@ -3628,7 +3640,7 @@ a {
 
 @media only screen and (min-width: 1280px) {
   /* line 182, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-picture, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-picture {
     position: absolute;
     top: 0;
     left: 0;
@@ -3636,11 +3648,11 @@ a {
     width: 100%;
     margin: 0; }
   /* line 188, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-mag-logo, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-mag-logo {
     z-index: 20;
     left: 75%; }
   /* line 192, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text {
+  .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-text {
     height: 50%;
     width: 50%;
     position: absolute;
@@ -3651,15 +3663,15 @@ a {
     background-color: #46cfc0; } }
 
 /* line 203, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text {
+.seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:hover .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-link:hover .seu-text, .seu-slider-int-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-mag.seu-big.seu-item .seu-link:focus .seu-text, .search-asset-portlet.officials .seu-mag.seu-big.official-thumbnail .seu-link:focus .seu-text {
   background-color: #3CB0A4; }
 
 /* line 214, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, .seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before {
+.seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:hover .seu-picture:before, .search-asset-portlet.officials .seu-has-picture.official-thumbnail .seu-link:hover .seu-picture:before, .seu-slider-int-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-picture.seu-item .seu-link:focus .seu-picture:before, .search-asset-portlet.officials .seu-has-picture.official-thumbnail .seu-link:focus .seu-picture:before {
   opacity: 1; }
 
 /* line 222, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-.seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville {
+.seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville, .search-asset-portlet.officials .seu-has-ville.official-thumbnail .seu-ville {
   font-family: "MontSerrat", arial;
   font-size: 1.4rem;
   color: #2da192;
@@ -3669,7 +3681,7 @@ a {
   padding-left: 30px;
   position: relative; }
   /* line 232, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/layouts/sliders/slider-une/_atom-slider-une-vignette.scss */
-  .seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before {
+  .seu-slider-int-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-has-ville.seu-item .seu-ville:before, .search-asset-portlet.officials .seu-has-ville.official-thumbnail .seu-ville:before {
     content: '';
     display: inline-block;
     width: 20px;
@@ -4130,7 +4142,9 @@ a {
         margin-right: 0; }
       /* line 44, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/_molecule-filters.scss */
       .seu-view-filters .seu-filter-line .widget.widget-big {
-        width: calc(50% - 10px); }
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
       @media only screen and (max-width: 767px) {
         /* line 38, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/_molecule-filters.scss */
         .seu-view-filters .seu-filter-line .widget {
@@ -9514,9 +9528,10 @@ a {
   .seu-wi-trombinoscope .seu-wi-content p {
     color: #31455d; }
 
-/* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-view-results,
-.seu-view-activity .seu-view-results {
+.seu-view-activity .seu-view-results,
+.seu-view-places .seu-view-results {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9526,47 +9541,52 @@ a {
   margin-top: 40px;
   margin-bottom: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 5, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results,
-    .seu-view-activity .seu-view-results {
+    .seu-view-activity .seu-view-results,
+    .seu-view-places .seu-view-results {
       display: block; } }
-  /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-filler,
-  .seu-view-activity .seu-view-results .seu-filler {
+  .seu-view-activity .seu-view-results .seu-filler,
+  .seu-view-places .seu-view-results .seu-filler {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
-  /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-view-results .seu-result-filter,
-  .seu-view-activity .seu-view-results .seu-result-filter {
+  .seu-view-activity .seu-view-results .seu-result-filter,
+  .seu-view-places .seu-view-results .seu-result-filter {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-    /* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+    /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
     .seu-view-agenda .seu-view-results .seu-result-filter .customSelectContain,
-    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain {
+    .seu-view-activity .seu-view-results .seu-result-filter .customSelectContain,
+    .seu-view-places .seu-view-results .seu-result-filter .customSelectContain {
       width: 85px;
       margin-left: 20px; }
 
-/* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda #seu-grid--list01,
-.seu-view-activity #seu-grid--list01 {
+.seu-view-activity #seu-grid--list01,
+.seu-view-places #seu-grid--list01 {
   margin-bottom: 45px; }
 
-/* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+/* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
 .seu-view-agenda .seu-pagination,
-.seu-view-activity .seu-pagination {
+.seu-view-activity .seu-pagination,
+.seu-view-places .seu-pagination {
   position: relative;
   padding-top: 45px;
   margin-bottom: 60px; }
-  /* line 36, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
+  /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-agenda.scss */
   .seu-view-agenda .seu-pagination:before,
-  .seu-view-activity .seu-pagination:before {
-    display: block;
-    content: '';
+  .seu-view-activity .seu-pagination:before,
+  .seu-view-places .seu-pagination:before {
     position: absolute;
     top: 0;
     left: 0;
@@ -9959,6 +9979,41 @@ a {
   .seu-page-lieu .seu-svg-list .seu-picto-wheelchair {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d'  viewBox='0 0 491.975 491.975'%3E%3Cpath d='M225.315 96.963c26.748 0 48.48-21.706 48.48-48.48C273.794 21.698 252.062 0 225.314 0c-26.78 0-48.492 21.7-48.492 48.482 0 26.775 21.713 48.48 48.492 48.48zM300.233 371.688c-12.883 44.732-54.12 77.583-102.946 77.583-59.126 0-107.21-48.084-107.21-107.192 0-43.754 26.397-81.413 64.067-98.054V198.58C92.454 217.16 47.38 274.427 47.38 342.078c0 82.65 67.247 149.897 149.906 149.897 60.238 0 112.16-35.8 135.966-87.17l-16.926-33.254c-4.75.04-10.255.09-16.093.138z'/%3E%3Cpath d='M441.48 429.237l-64.94-127.672C371.695 292.012 361.897 286 351.18 286h-83.173v-18.967h71.582c7.148 0 13.156-3.736 17.037-9.118 2.522-3.506 4.316-7.58 4.316-12.236 0-11.79-9.55-21.352-21.353-21.352h-71.582V160c0-17.692-13.118-42.704-42.69-42.704-23.583 0-42.702 19.122-42.702 42.704v139.372c0 24.058 19.503 43.56 43.562 43.56h107.549l57.024 112.118c5.01 9.875 15.01 15.573 25.39 15.573 4.35 0 8.76-.994 12.882-3.104 14.034-7.12 19.608-24.27 12.46-38.283z'/%3E%3C/svg%3E"); }
 
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container {
+  position: static;
+  padding: 40px;
+  margin-bottom: 25px;
+  background: #EF5350; }
+
+/* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .lfr-alert-wrapper {
+  margin-bottom: 0;
+  padding: 0;
+  height: auto !important; }
+
+/* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .lfr-alert-wrapper + .lfr-alert-wrapper {
+  margin-top: 15px; }
+
+/* line 16, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .alert-danger {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: white;
+  line-height: 25px; }
+
+/* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+.seu-error-messages .lfr-alert-container .alert-danger button,
+.seu-error-messages .lfr-alert-container .alert-danger .lead {
+  display: none; }
+
+/* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+form + .seu-error-messages {
+  margin-top: 40px; }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/loader/loader.scss */
 #seu-loader {
   display: -webkit-box;
@@ -10101,6 +10156,34 @@ a {
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/event-highlight/event-highlight.scss */
 .event-highlight {
   margin-bottom: 80px; }
+
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestions {
+  position: absolute;
+  z-index: 1051;
+  left: -100000px;
+  display: block;
+  overflow: auto;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 0 0 4px 4px;
+  background-color: white; }
+
+/* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion {
+  padding: 6px; }
+
+/* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion:hover {
+  color: white;
+  background-color: #5897fb; }
+
+/* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/autocomplete/autocomplete.scss */
+.autocomplete-suggestion strong {
+  font-weight: bold;
+  color: #31455d; }
 
 /* line 7, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/forms/filters/filters.scss */
 .seu-view-activity .seu-view-filters .seu-btn-line {
@@ -10837,9 +10920,134 @@ a {
     margin-top: -3px;
     background-size: 19px !important; }
 
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials .btn-line {
+  width: 100%;
+  text-align: center; }
+
+/* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials #seu-grid--list01 {
+  padding: 0; }
+  @media only screen and (min-width: 1280px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(25% - ( ((4px - 1px) * 20) / 4)); }
+        /* line 52, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+1) {
+          margin-right: 15px;
+          margin-left: 0; }
+        /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+2) {
+          margin-left: 5px;
+          margin-right: 10px; }
+        /* line 62, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n+3) {
+          margin-left: 10px;
+          margin-right: 5px; }
+        /* line 67, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(4n) {
+          margin-left: 15px;
+          margin-right: 0; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(50% - ( ((2px - 1px) * 20) / 2)); }
+        /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(2n+1) {
+          margin-right: 10px;
+          margin-left: 0; }
+        /* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+        .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail:nth-child(2n) {
+          margin-left: 10px;
+          margin-right: 0; } }
+  @media only screen and (max-width: 767px) {
+    /* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials #seu-grid--list01 {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/mixins/_grids-distribution.scss */
+      .search-asset-portlet.officials #seu-grid--list01 .official-thumbnail {
+        width: calc(100% - ( ((1px - 1px) * 0) / 1));
+        margin-left: 0 !important;
+        margin-right: 0 !important; } }
+
+/* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.search-asset-portlet.officials .official-thumbnail {
+  height: 425px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; }
+  /* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .search-asset-portlet.officials .official-thumbnail.seu-mag .seu-link {
+    background-color: white; }
+    /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+    .search-asset-portlet.officials .official-thumbnail.seu-mag .seu-link:hover {
+      background-color: #E3E3E3; }
+
+/* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.official-detail .official-portrait {
+  text-align: center; }
+  /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .official-detail .official-portrait img {
+    max-width: 100%; }
+
+/* line 38, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+.official-detail .official-contact {
+  margin-top: 50px;
+  margin-bottom: -50px; }
+  /* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-elus/wi-elu.scss */
+  .official-detail .official-contact .seu-container:before, .official-detail .official-contact .seu-container:after {
+    display: none; }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-embed/wi-embed.scss */
 .seu-wi-embed {
   margin-bottom: 40px; }
+
+/* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .felec-response {
+  background-color: #fbb52d;
+  margin: 40px 0;
+  padding: 40px 30px;
+  text-align: center; }
+
+/* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .main-response {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-family: "MontSerrat", arial; }
+
+/* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .poll-address {
+  margin: 20px 0; }
+
+/* line 17, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .poll-number {
+  font-weight: bold; }
+
+/* line 20, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .warning {
+  margin-top: 20px; }
+
+/* line 23, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-felec/felec.scss */
+.felec-web .seu-error-messages {
+  margin-top: 40px; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-lieux.scss */
 .seu-wi-lieux {

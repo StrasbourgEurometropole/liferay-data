@@ -287,6 +287,11 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 				"displayExport");
 			setPreference(actionRequest, "displayExport",
 				String.valueOf(displayExport));
+			
+			// Type d'export
+			String exportType = ParamUtil.getString(actionRequest, "exportType",
+				"");
+			setPreference(actionRequest, "exportType", exportType);
 		}
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -497,6 +502,10 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			boolean displayExport = ParamUtil.getBoolean(request,
 				"displayExport", configuration.displayExport());
 			request.setAttribute("displayExport", displayExport);
+			
+			// Type d'export
+			String exportType = ParamUtil.getString(request, "exportType", configuration.exportType());
+			request.setAttribute("exportType", exportType);
 
 			super.include(portletConfig, request, response);
 		} catch (ConfigurationException e) {

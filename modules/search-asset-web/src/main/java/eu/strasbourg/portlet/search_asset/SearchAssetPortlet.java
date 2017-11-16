@@ -57,7 +57,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 
 			// Boolean pour dire qu'on vient du portlet de recherche et non d'un
-			// asset publisher
+			// asset publisher (pour être utilisé dans les ADT si besoin
 			renderRequest.setAttribute("fromSearchPortlet", true);
 
 			// On envoie a la jsp la map className / layout qui fait
@@ -104,7 +104,13 @@ public class SearchAssetPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 
 		try {
-			ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse);
+			ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			SearchAssetConfiguration configuration = themeDisplay
+					.getPortletDisplay().getPortletInstanceConfiguration(
+							SearchAssetConfiguration.class);
+			String exportType = configuration.exportType();
+			ExportPDF.printPDFWithXMLWorker(resourceRequest, resourceResponse, exportType);
 		} catch (Exception e2) {
 			_log.error(e2);
 		}

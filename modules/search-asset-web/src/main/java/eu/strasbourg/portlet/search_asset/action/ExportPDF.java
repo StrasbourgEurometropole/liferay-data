@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.search_asset.action;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -33,7 +32,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -45,7 +43,7 @@ import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 
-public class ExportPDF extends MVCPortlet {
+public class ExportPDF {
 
 	public static String domaine;
 	public static Font font = new Font(FontFamily.TIMES_ROMAN, 12);
@@ -56,11 +54,8 @@ public class ExportPDF extends MVCPortlet {
 	public static Font fontName = new Font(FontFamily.TIMES_ROMAN, 16,
 			Font.BOLD);
 
-	public static void export(String[] officialsIds) {
-	}
-
 	public static void printPDFWithXMLWorker(ResourceRequest req,
-			ResourceResponse res) throws PortletException, IOException,
+			ResourceResponse res, String exportType) throws PortletException, IOException,
 			DocumentException, SystemException, PortalException {
 
 		// récupération du domaine
@@ -74,7 +69,7 @@ public class ExportPDF extends MVCPortlet {
 		docWriter = PdfWriter.getInstance(doc, baos);
 		doc.open();
 
-		printPDFPeople(doc, req);
+		printPDFPeople(doc, req, exportType);
 
 		res.setContentType("application/pdf");
 		res.setContentLength(baos.size());
@@ -94,7 +89,7 @@ public class ExportPDF extends MVCPortlet {
 		}
 	}
 
-	public static void printPDFPeople(Document document, ResourceRequest req)
+	public static void printPDFPeople(Document document, ResourceRequest req, String exportType)
 			throws SystemException, PortalException, DocumentException,
 			MalformedURLException, IOException {
 
@@ -112,18 +107,18 @@ public class ExportPDF extends MVCPortlet {
 
 		// titre du PDF
 		String titrePortlet = null;
-		String officialType = ParamUtil.getString(req, "officialType");
-		if (Validator.isNotNull(officialType)) {
-			switch (officialType) {
-			case OfficialsConstants.MUNICIPAL:
-				titrePortlet = LanguageUtil.get(themeDisplay.getLocale(),
-						"entete-annuaire-elus-communautaires-print");
-				break;
-			case OfficialsConstants.EUROMETROPOLE:
-				titrePortlet = LanguageUtil.get(themeDisplay.getLocale(),
-						"entete-annuaire-elus-municipaux-print");
-				break;
-			}
+		if (Validator.isNull(exportType)) {
+			exportType = OfficialsConstants.MUNICIPAL;
+		}
+		switch (exportType) {
+		case OfficialsConstants.MUNICIPAL:
+			titrePortlet = LanguageUtil.get(themeDisplay.getLocale(),
+					"entete-annuaire-elus-communautaires-print");
+			break;
+		case OfficialsConstants.EUROMETROPOLE:
+			titrePortlet = LanguageUtil.get(themeDisplay.getLocale(),
+					"entete-annuaire-elus-municipaux-print");
+			break;
 		}
 		document.addTitle(titrePortlet + ".pdf");
 		insertCell(table, "title",
@@ -135,14 +130,14 @@ public class ExportPDF extends MVCPortlet {
 		for (Official elu : elus) {
 			insertCell(table, "image", null, domaine + elu.getImageURL(), 1);
 
-			if (Validator.isNotNull(officialType)) {
+			if (Validator.isNotNull(exportType)) {
 				Phrase phrase = new Phrase();
 				Chunk chunckName = new Chunk(
 						elu.getFirstName() + " "
 								+ elu.getLastName().toUpperCase() + "\n\n",
 						fontName);
 				phrase.add(chunckName);
-				switch (officialType) {
+				switch (exportType) {
 				case OfficialsConstants.MUNICIPAL:
 					phrase.add(
 							printPDFMunicipal(elu, themeDisplay.getLocale()));

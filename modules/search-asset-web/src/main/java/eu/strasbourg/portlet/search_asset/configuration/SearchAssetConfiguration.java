@@ -80,4 +80,7 @@ public interface SearchAssetConfiguration {
 	
 	@Meta.AD(name = "displayExport", required = false)
 	public boolean displayExport();
+	
+	@Meta.AD(name = "exportType", required = false)
+	public String exportType();
 }

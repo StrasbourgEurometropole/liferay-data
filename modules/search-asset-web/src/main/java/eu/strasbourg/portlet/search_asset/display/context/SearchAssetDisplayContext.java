@@ -353,29 +353,7 @@ public class SearchAssetDisplayContext {
 	 * chaque catégorie
 	 */
 	public List<AssetCategory> getSortedCategories(AssetVocabulary vocabulary) {
-		// Toutes les catégories du vocabulaire
-		List<AssetCategory> categories = vocabulary.getCategories();
-
-		// String contenant les IDs des catégories des préfiltres, séparés par
-		// des "," et des ";"
-		String prefilterCategoriesIdsString = this.getConfiguration().prefilterCategoriesIds();
-		// Si ce préfiltre a du contenu
-		if (prefilterCategoriesIdsString.length() > 0) {
-			// On récupère un array de long
-			long[] prefilterCategoriesIds = Arrays.stream(prefilterCategoriesIdsString.split("(,)|(;)"))
-					.mapToLong(Long::valueOf).toArray();
-
-			// Et on fait l'interersection avec la liste de toutes les
-			// catégories du vocabulaire
-			List<AssetCategory> prefilteredCategoriesForVocabulary = categories.stream()
-					.filter(c -> LongStream.of(prefilterCategoriesIds).anyMatch(x -> x == c.getCategoryId()))
-					.collect(Collectors.toList());
-
-			// Si cette intersection a du contenu on la renvoie
-			if (prefilteredCategoriesForVocabulary.size() > 0) {
-				categories = prefilteredCategoriesForVocabulary;
-			}
-		}
+		List<AssetCategory> categories = this.getDropdownRootCategories(vocabulary);
 
 		// trie des catégories par la propriété order si elle existe
 		Map<String, AssetCategory> order_category = new HashMap<String, AssetCategory>();
@@ -446,7 +424,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne les mots-clés de recherche
+	 * Retourne true si l'export est activé
 	 */
 	public boolean getDisplayExport() {
 

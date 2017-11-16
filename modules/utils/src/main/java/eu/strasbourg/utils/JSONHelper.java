@@ -46,6 +46,20 @@ public class JSONHelper {
 		}
 	}
 
+	public static JSONArray readJsonArrayFromURL(String URL)
+		throws IOException, JSONException {
+		InputStream is = new URL(URL).openStream();
+		try {
+			BufferedReader rd = new BufferedReader(
+				new InputStreamReader(is, Charset.forName("UTF-8")));
+			String jsonText = readAll(rd);
+			JSONArray json = JSONFactoryUtil.createJSONArray(jsonText);
+			return json;
+		} finally {
+			is.close();
+		}
+	}
+
 	public static JSONObject getJSONFromI18nMap(Map<Locale, String> map) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 		for (Map.Entry<Locale, String> entry : map.entrySet()) {

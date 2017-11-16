@@ -14,15 +14,20 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
+import java.util.List;
 import java.util.Locale;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.TextFormatter;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.service.adict.AdictServiceTracker;
+import eu.strasbourg.service.adict.Street;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -53,29 +58,63 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	 * eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil} to access
 	 * the strasbourg remote service.
 	 */
-	@Override
-	public JSONObject getCopyright(long groupId, String uuid, String language) {
-		DLFileEntry file = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
-		Locale locale = Locale.forLanguageTag(language);
-		String copyright = FileEntryHelper
-			.getImageCopyright(file.getFileEntryId(), locale);
-		return JSONFactoryUtil.createJSONObject().put("copyright", copyright);
+
+	private AdictService adictService;
+	private AdictServiceTracker adictServiceTracker;
+	
+	private AdictService getAdictService() {
+		if (adictService == null) {
+			adictServiceTracker = new AdictServiceTracker(this);
+			adictServiceTracker.open();
+			adictService = adictServiceTracker.getService();
+		}
+		return adictService;
 	}
 	
 	@Override
-	public JSONObject getFileDetails(long groupId, String uuid, String language) {
-		DLFileEntry file = DLFileEntryLocalServiceUtil
-			.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
-		
+	public JSONObject getCopyright(long groupId, String uuid, String language) {
+		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
 		Locale locale = Locale.forLanguageTag(language);
-		
+		String copyright = FileEntryHelper.getImageCopyright(file.getFileEntryId(), locale);
+		return JSONFactoryUtil.createJSONObject().put("copyright", copyright);
+	}
+
+	@Override
+	public JSONObject getFileDetails(long groupId, String uuid, String language) {
+		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
+
+		Locale locale = Locale.forLanguageTag(language);
+
 		JSONObject jsonDetail = JSONFactoryUtil.createJSONObject();
 		jsonDetail.put("name", file.getName());
 		jsonDetail.put("title", FileEntryHelper.getFileTitle(file.getFileEntryId(), locale));
 		jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
 		jsonDetail.put("type", file.getExtension());
-		
+
 		return jsonDetail;
+	}
+
+	@Override
+	public JSONObject searchStreets(String query) {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
+ 		List<Street> streets = getAdictService().searchStreetNumbers(query);
+		JSONArray jsonStreets = JSONFactoryUtil.createJSONArray();
+		for (Street street : streets) {
+			jsonStreets.put(street.toJSON());
+		}
+		result.put("streets", jsonStreets);
+		return result;
+	}
+
+	@Override
+	public JSONObject searchStreets(String query, String city) {
+		JSONObject result = JSONFactoryUtil.createJSONObject();
+ 		List<Street> streets = getAdictService().searchStreetNumbers(query, city);
+		JSONArray jsonStreets = JSONFactoryUtil.createJSONArray();
+		for (Street street : streets) {
+			jsonStreets.put(street.toJSON());
+		}
+		result.put("streets", jsonStreets);
+		return result;
 	}
 }

@@ -37,7 +37,7 @@ public class FelecWebPortlet extends MVCPortlet {
 		Date birthDate = ParamUtil.getDate(actionRequest, "birthdate",
 			new SimpleDateFormat("dd/MM/yyyy"));
 		String birthPlace = ParamUtil.getString(actionRequest, "birthplace");
-		if (Validator.isNull(name) || Validator.isNull(birthPlace)
+		if (Validator.isNull(name) || Validator.isNull(firstName) || Validator.isNull(birthPlace)
 			|| Validator.isNull(ParamUtil.getString(actionRequest, "birthdate"))) {
 			SessionErrors.add(actionRequest, "all-fields-required");
 		} else if (name.contains("<") || firstName.contains("<")

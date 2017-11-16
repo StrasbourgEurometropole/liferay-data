@@ -1,4 +1,4 @@
 Bundle-SymbolicName: agenda.web
-Bundle-Version: 1.26.0
+Bundle-Version: 1.27.0
 Export-Package: eu.strasbourg.portlet.agenda.itemselector
 Web-ContextPath: /agendaweb

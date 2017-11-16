@@ -97,5 +97,34 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String searchStreets(java.lang.String query)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.searchStreets(query);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String searchStreets(java.lang.String query,
+		java.lang.String city) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.searchStreets(query,
+					city);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

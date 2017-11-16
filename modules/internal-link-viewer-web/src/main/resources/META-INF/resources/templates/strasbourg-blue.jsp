@@ -6,6 +6,7 @@
         </h2>
     </div>
     <c:forEach items="${selectedLayouts}" var="layout" varStatus="loopStatus">
+		<liferay-portlet:renderURL plid="${layout.plid}" var="layoutURL" />
         <a href="${layoutURL}" 
             title="${layout.getName(locale)}"
             class="seu-btn-square seu-bordered seu-core" >

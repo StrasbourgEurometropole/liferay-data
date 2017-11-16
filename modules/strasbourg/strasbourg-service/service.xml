@@ -4,6 +4,7 @@
 <service-builder package-path="eu.strasbourg.service.strasbourg">
 	<namespace>strasbourg</namespace>
 	<entity local-service="true" name="Strasbourg" remote-service="true" uuid="true">
-	 <column name="id" type="long" primary="true"></column>
+		<column name="id" type="long" primary="true"></column>
 	</entity>
+
 </service-builder>
