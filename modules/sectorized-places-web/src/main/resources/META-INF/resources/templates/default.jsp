@@ -13,7 +13,7 @@
 				</div>
 				<div class="content">
 					<input type="text" id="query" name="query" 
-						placeholder="<liferay-ui:message key="sect.address-placeholder" />" value="${streetName}">
+						placeholder="<liferay-ui:message key="sect.address-placeholder" />" value="${not empty streetName ? streetName : query}">
 				</div>
 			</div>
 			<!-- Validation -->

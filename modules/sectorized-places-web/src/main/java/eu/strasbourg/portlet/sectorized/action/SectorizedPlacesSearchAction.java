@@ -46,6 +46,9 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 		this.placeLocalService = placeLocalService;
 	}
 
+	/**
+	 * Fonction appelée lors du clic sur le bouton rechercher
+	 */
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -62,6 +65,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 
 		// Requête de recherche
 		String query = ParamUtil.getString(request, "query");
+		request.setAttribute("query", query);
 
 		// Requête vide
 		if (Validator.isNull(query)) {
@@ -96,6 +100,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 				places.add(place);
 			}
 		}
+		request.setAttribute("streetName", street.getLabel());
 		request.setAttribute("places", places);
 		
 		if (places.size() == 0) {

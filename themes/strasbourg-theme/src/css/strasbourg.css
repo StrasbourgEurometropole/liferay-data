@@ -10008,6 +10008,10 @@ a {
 .seu-error-messages .lfr-alert-container .alert-danger .lead {
   display: none; }
 
+/* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/texts/error-messages.scss */
+form + .seu-error-messages {
+  margin-top: 40px; }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/loader/loader.scss */
 #seu-loader {
   display: -webkit-box;
