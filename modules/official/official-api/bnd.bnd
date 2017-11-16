@@ -1,6 +1,6 @@
 Bundle-Name: official-api
 Bundle-SymbolicName: official.api
-Bundle-Version: 1.26.0
+Bundle-Version: 1.27.0
 Export-Package:\
 	eu.strasbourg.service.official.exception,\
 	eu.strasbourg.service.official.model,\
