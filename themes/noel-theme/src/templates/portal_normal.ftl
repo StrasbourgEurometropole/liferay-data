@@ -39,11 +39,11 @@
                     <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/noel-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
                 </div>
                 <div>
-                    <!--  <a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
-                    <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
+                    <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
+                    <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
                     <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
                     <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
-                    <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a> -->
+                    <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
                 </div>
             </div>
             <#include "${full_templates_path}/navigation.ftl" />
