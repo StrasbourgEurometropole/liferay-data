@@ -43,7 +43,7 @@
         fridayAfternoon.data?has_content ||
 
         
-        saturdayMorningt.data?has_content ||
+        saturdayMorning.data?has_content ||
         saturdayAfternoon.data?has_content ||
 
         
