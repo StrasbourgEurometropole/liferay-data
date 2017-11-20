@@ -122,11 +122,13 @@
 										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
 										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
 										<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
+										<c:set var="slotComment" value="${slotComment},${slot.comment}" />
 									</c:if>
 									<c:if test="${empty slotJour}">
 										<c:set var="slotJour" value="${slot.dayOfWeek}" />
 										<c:set var="slotStartHour" value="${slot.startHour}" />
 										<c:set var="slotEndHour" value="${slot.endHour}" />
+										<c:set var="slotComment" value="${slot.comment}" />
 									</c:if>
 								</c:forEach>
 								<liferay-util:param name="slotJours" value="${slotJour}" />
