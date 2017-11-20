@@ -332,11 +332,13 @@
 	                                                    <#if placeSchedule.isAlwaysOpen() >
 	                                                        <@liferay_ui.message key="always-open" />    
 	                                                    <#else>
-	                                                        <#if placeSchedule?counter gt 1 >
-	                                                            <br>
-	                                                        </#if> 
-	                                                        <@liferay_ui.message key="eu.from" /> ${placeSchedule.getStartTime().toString()} 
-	                                                        <@liferay_ui.message key="eu.to" /> ${placeSchedule.getEndTime().toString()}
+                                                            <#list placeSchedule.openingTimes as openingTime>
+                                                                <#if openingTime?counter gt 1 >
+                                                                <br>
+                                                                </#if> 
+                                                                <@liferay_ui.message key="eu.from" /> ${openingTime.first} 
+                                                                <@liferay_ui.message key="eu.to" /> ${openingTime.second}
+                                                            </#list>
 	                                                    </#if> 
 	                                                </#if> 
 	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
@@ -355,7 +357,9 @@
 										                            <#if placeSchedule.isClosed() >
 										                                <@liferay_ui.message key="closed" />
 										                            <#else> 
-										                                ${placeSchedule.startTime} - ${placeSchedule.endTime}
+                                                                        <#list placeSchedule.openingTimes as openingTime>
+                                                                            ${openingTime.first} - ${openingTime.second}
+                                                                        </#list>
 										                            </#if> 
 											                    	 - ${placeSchedule.getDescription()}
 										                        </p>
