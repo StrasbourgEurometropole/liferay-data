@@ -1,5 +1,5 @@
 Bundle-SymbolicName: agenda-api
-Bundle-Version: 1.27.0
+Bundle-Version: 1.28.0
 Export-Package:\
 	eu.strasbourg.service.agenda.exception,\
 	eu.strasbourg.service.agenda.model,\
