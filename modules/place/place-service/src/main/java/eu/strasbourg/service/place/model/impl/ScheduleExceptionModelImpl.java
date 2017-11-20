@@ -74,8 +74,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			{ "exceptionId", Types.BIGINT },
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
-			{ "startHour", Types.VARCHAR },
-			{ "endHour", Types.VARCHAR },
+			{ "openingTimes", Types.VARCHAR },
 			{ "comment_", Types.VARCHAR },
 			{ "closed", Types.BOOLEAN },
 			{ "placeId", Types.BIGINT },
@@ -88,15 +87,14 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		TABLE_COLUMNS_MAP.put("exceptionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("startHour", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("openingTimes", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("closed", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ STRING null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,openingTimes VARCHAR(75) null,comment_ STRING null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_ScheduleException";
 	public static final String ORDER_BY_JPQL = " ORDER BY scheduleException.exceptionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_ScheduleException.exceptionId ASC";
@@ -160,8 +158,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		attributes.put("exceptionId", getExceptionId());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("startHour", getStartHour());
-		attributes.put("endHour", getEndHour());
+		attributes.put("openingTimes", getOpeningTimes());
 		attributes.put("comment", getComment());
 		attributes.put("closed", getClosed());
 		attributes.put("placeId", getPlaceId());
@@ -199,16 +196,10 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			setEndDate(endDate);
 		}
 
-		String startHour = (String)attributes.get("startHour");
+		String openingTimes = (String)attributes.get("openingTimes");
 
-		if (startHour != null) {
-			setStartHour(startHour);
-		}
-
-		String endHour = (String)attributes.get("endHour");
-
-		if (endHour != null) {
-			setEndHour(endHour);
+		if (openingTimes != null) {
+			setOpeningTimes(openingTimes);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -290,33 +281,18 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	}
 
 	@Override
-	public String getStartHour() {
-		if (_startHour == null) {
+	public String getOpeningTimes() {
+		if (_openingTimes == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _startHour;
+			return _openingTimes;
 		}
 	}
 
 	@Override
-	public void setStartHour(String startHour) {
-		_startHour = startHour;
-	}
-
-	@Override
-	public String getEndHour() {
-		if (_endHour == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _endHour;
-		}
-	}
-
-	@Override
-	public void setEndHour(String endHour) {
-		_endHour = endHour;
+	public void setOpeningTimes(String openingTimes) {
+		_openingTimes = openingTimes;
 	}
 
 	@Override
@@ -573,8 +549,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		scheduleExceptionImpl.setExceptionId(getExceptionId());
 		scheduleExceptionImpl.setStartDate(getStartDate());
 		scheduleExceptionImpl.setEndDate(getEndDate());
-		scheduleExceptionImpl.setStartHour(getStartHour());
-		scheduleExceptionImpl.setEndHour(getEndHour());
+		scheduleExceptionImpl.setOpeningTimes(getOpeningTimes());
 		scheduleExceptionImpl.setComment(getComment());
 		scheduleExceptionImpl.setClosed(getClosed());
 		scheduleExceptionImpl.setPlaceId(getPlaceId());
@@ -686,20 +661,12 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			scheduleExceptionCacheModel.endDate = Long.MIN_VALUE;
 		}
 
-		scheduleExceptionCacheModel.startHour = getStartHour();
+		scheduleExceptionCacheModel.openingTimes = getOpeningTimes();
 
-		String startHour = scheduleExceptionCacheModel.startHour;
+		String openingTimes = scheduleExceptionCacheModel.openingTimes;
 
-		if ((startHour != null) && (startHour.length() == 0)) {
-			scheduleExceptionCacheModel.startHour = null;
-		}
-
-		scheduleExceptionCacheModel.endHour = getEndHour();
-
-		String endHour = scheduleExceptionCacheModel.endHour;
-
-		if ((endHour != null) && (endHour.length() == 0)) {
-			scheduleExceptionCacheModel.endHour = null;
+		if ((openingTimes != null) && (openingTimes.length() == 0)) {
+			scheduleExceptionCacheModel.openingTimes = null;
 		}
 
 		scheduleExceptionCacheModel.comment = getComment();
@@ -721,7 +688,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -731,10 +698,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		sb.append(getStartDate());
 		sb.append(", endDate=");
 		sb.append(getEndDate());
-		sb.append(", startHour=");
-		sb.append(getStartHour());
-		sb.append(", endHour=");
-		sb.append(getEndHour());
+		sb.append(", openingTimes=");
+		sb.append(getOpeningTimes());
 		sb.append(", comment=");
 		sb.append(getComment());
 		sb.append(", closed=");
@@ -750,7 +715,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.ScheduleException");
@@ -773,12 +738,8 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		sb.append(getEndDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>startHour</column-name><column-value><![CDATA[");
-		sb.append(getStartHour());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>endHour</column-name><column-value><![CDATA[");
-		sb.append(getEndHour());
+			"<column><column-name>openingTimes</column-name><column-value><![CDATA[");
+		sb.append(getOpeningTimes());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>comment</column-name><column-value><![CDATA[");
@@ -811,8 +772,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	private long _exceptionId;
 	private Date _startDate;
 	private Date _endDate;
-	private String _startHour;
-	private String _endHour;
+	private String _openingTimes;
 	private String _comment;
 	private String _commentCurrentLanguageId;
 	private boolean _closed;

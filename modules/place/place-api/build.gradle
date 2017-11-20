@@ -3,6 +3,7 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
 	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
 	compile group: "org.osgi", name: "org.osgi.core", version: "5.0.0"
+	compile project(":modules:utils")
 	compile project(":modules:agenda:agenda-api")
 	compile project(":modules:video:video-api")
 }

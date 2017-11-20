@@ -58,4 +58,19 @@ public interface ScheduleException extends ScheduleExceptionModel, PersistedMode
 	* Retourne la version JSON des exceptions
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Retourne la liste des horaires d'ouvertures d'une exception
+	*/
+	public java.util.List<eu.strasbourg.utils.models.Pair<java.time.LocalTime, java.time.LocalTime>> getOpeningLocalTimes();
+
+	/**
+	* Retourne la Nème heure de début
+	*/
+	public java.time.LocalTime getStartHour(int index);
+
+	/**
+	* Retourne la Nème heure de début
+	*/
+	public java.time.LocalTime getEndHour(int index);
 }

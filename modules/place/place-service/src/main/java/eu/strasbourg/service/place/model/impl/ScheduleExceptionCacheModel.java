@@ -66,7 +66,7 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -76,10 +76,8 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
-		sb.append(", startHour=");
-		sb.append(startHour);
-		sb.append(", endHour=");
-		sb.append(endHour);
+		sb.append(", openingTimes=");
+		sb.append(openingTimes);
 		sb.append(", comment=");
 		sb.append(comment);
 		sb.append(", closed=");
@@ -120,18 +118,11 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 			scheduleExceptionImpl.setEndDate(new Date(endDate));
 		}
 
-		if (startHour == null) {
-			scheduleExceptionImpl.setStartHour(StringPool.BLANK);
+		if (openingTimes == null) {
+			scheduleExceptionImpl.setOpeningTimes(StringPool.BLANK);
 		}
 		else {
-			scheduleExceptionImpl.setStartHour(startHour);
-		}
-
-		if (endHour == null) {
-			scheduleExceptionImpl.setEndHour(StringPool.BLANK);
-		}
-		else {
-			scheduleExceptionImpl.setEndHour(endHour);
+			scheduleExceptionImpl.setOpeningTimes(openingTimes);
 		}
 
 		if (comment == null) {
@@ -157,8 +148,7 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		exceptionId = objectInput.readLong();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
-		startHour = objectInput.readUTF();
-		endHour = objectInput.readUTF();
+		openingTimes = objectInput.readUTF();
 		comment = objectInput.readUTF();
 
 		closed = objectInput.readBoolean();
@@ -182,18 +172,11 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 
-		if (startHour == null) {
+		if (openingTimes == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(startHour);
-		}
-
-		if (endHour == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(endHour);
+			objectOutput.writeUTF(openingTimes);
 		}
 
 		if (comment == null) {
@@ -214,8 +197,7 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 	public long exceptionId;
 	public long startDate;
 	public long endDate;
-	public String startHour;
-	public String endHour;
+	public String openingTimes;
 	public String comment;
 	public boolean closed;
 	public long placeId;

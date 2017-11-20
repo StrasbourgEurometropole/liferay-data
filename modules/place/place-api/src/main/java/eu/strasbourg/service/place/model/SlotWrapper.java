@@ -61,6 +61,7 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 		attributes.put("dayOfWeek", getDayOfWeek());
 		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
+		attributes.put("comment", getComment());
 		attributes.put("periodId", getPeriodId());
 
 		return attributes;
@@ -96,6 +97,12 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 
 		if (endHour != null) {
 			setEndHour(endHour);
+		}
+
+		String comment = (String)attributes.get("comment");
+
+		if (comment != null) {
+			setComment(comment);
 		}
 
 		Long periodId = (Long)attributes.get("periodId");
@@ -169,6 +176,79 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	}
 
 	/**
+	* Returns the comment of this slot.
+	*
+	* @return the comment of this slot
+	*/
+	@Override
+	public java.lang.String getComment() {
+		return _slot.getComment();
+	}
+
+	/**
+	* Returns the localized comment of this slot in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized comment of this slot
+	*/
+	@Override
+	public java.lang.String getComment(java.lang.String languageId) {
+		return _slot.getComment(languageId);
+	}
+
+	/**
+	* Returns the localized comment of this slot in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized comment of this slot
+	*/
+	@Override
+	public java.lang.String getComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _slot.getComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized comment of this slot in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized comment of this slot
+	*/
+	@Override
+	public java.lang.String getComment(java.util.Locale locale) {
+		return _slot.getComment(locale);
+	}
+
+	/**
+	* Returns the localized comment of this slot in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized comment of this slot. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _slot.getComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getCommentCurrentLanguageId() {
+		return _slot.getCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getCommentCurrentValue() {
+		return _slot.getCommentCurrentValue();
+	}
+
+	@Override
+	public java.lang.String getDefaultLanguageId() {
+		return _slot.getDefaultLanguageId();
+	}
+
+	/**
 	* Returns the end hour of this slot.
 	*
 	* @return the end hour of this slot
@@ -206,6 +286,21 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _slot.toXmlString();
+	}
+
+	@Override
+	public java.lang.String[] getAvailableLanguageIds() {
+		return _slot.getAvailableLanguageIds();
+	}
+
+	/**
+	* Returns a map of the locales and localized comments of this slot.
+	*
+	* @return the locales and localized comments of this slot
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getCommentMap() {
+		return _slot.getCommentMap();
 	}
 
 	/**
@@ -254,8 +349,84 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	}
 
 	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_slot.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+		java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+		_slot.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_slot.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the comment of this slot.
+	*
+	* @param comment the comment of this slot
+	*/
+	@Override
+	public void setComment(java.lang.String comment) {
+		_slot.setComment(comment);
+	}
+
+	/**
+	* Sets the localized comment of this slot in the language.
+	*
+	* @param comment the localized comment of this slot
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setComment(java.lang.String comment, java.util.Locale locale) {
+		_slot.setComment(comment, locale);
+	}
+
+	/**
+	* Sets the localized comment of this slot in the language, and sets the default locale.
+	*
+	* @param comment the localized comment of this slot
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setComment(java.lang.String comment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_slot.setComment(comment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(java.lang.String languageId) {
+		_slot.setCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized comments of this slot from the map of locales and localized comments.
+	*
+	* @param commentMap the locales and localized comments of this slot
+	*/
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, java.lang.String> commentMap) {
+		_slot.setCommentMap(commentMap);
+	}
+
+	/**
+	* Sets the localized comments of this slot from the map of locales and localized comments, and sets the default locale.
+	*
+	* @param commentMap the locales and localized comments of this slot
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setCommentMap(
+		Map<java.util.Locale, java.lang.String> commentMap,
+		java.util.Locale defaultLocale) {
+		_slot.setCommentMap(commentMap, defaultLocale);
 	}
 
 	/**

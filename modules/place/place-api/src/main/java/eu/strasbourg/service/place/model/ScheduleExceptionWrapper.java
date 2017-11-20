@@ -62,8 +62,7 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		attributes.put("exceptionId", getExceptionId());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("startHour", getStartHour());
-		attributes.put("endHour", getEndHour());
+		attributes.put("openingTimes", getOpeningTimes());
 		attributes.put("comment", getComment());
 		attributes.put("closed", getClosed());
 		attributes.put("placeId", getPlaceId());
@@ -98,16 +97,10 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 			setEndDate(endDate);
 		}
 
-		String startHour = (String)attributes.get("startHour");
+		String openingTimes = (String)attributes.get("openingTimes");
 
-		if (startHour != null) {
-			setStartHour(startHour);
-		}
-
-		String endHour = (String)attributes.get("endHour");
-
-		if (endHour != null) {
-			setEndHour(endHour);
+		if (openingTimes != null) {
+			setOpeningTimes(openingTimes);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -293,23 +286,13 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
-	* Returns the end hour of this schedule exception.
+	* Returns the opening times of this schedule exception.
 	*
-	* @return the end hour of this schedule exception
+	* @return the opening times of this schedule exception
 	*/
 	@Override
-	public java.lang.String getEndHour() {
-		return _scheduleException.getEndHour();
-	}
-
-	/**
-	* Returns the start hour of this schedule exception.
-	*
-	* @return the start hour of this schedule exception
-	*/
-	@Override
-	public java.lang.String getStartHour() {
-		return _scheduleException.getStartHour();
+	public java.lang.String getOpeningTimes() {
+		return _scheduleException.getOpeningTimes();
 	}
 
 	/**
@@ -338,6 +321,22 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
+	* Retourne la Nème heure de début
+	*/
+	@Override
+	public java.time.LocalTime getEndHour(int index) {
+		return _scheduleException.getEndHour(index);
+	}
+
+	/**
+	* Retourne la Nème heure de début
+	*/
+	@Override
+	public java.time.LocalTime getStartHour(int index) {
+		return _scheduleException.getStartHour(index);
+	}
+
+	/**
 	* Returns the end date of this schedule exception.
 	*
 	* @return the end date of this schedule exception
@@ -355,6 +354,14 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public Date getStartDate() {
 		return _scheduleException.getStartDate();
+	}
+
+	/**
+	* Retourne la liste des horaires d'ouvertures d'une exception
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.utils.models.Pair<java.time.LocalTime, java.time.LocalTime>> getOpeningLocalTimes() {
+		return _scheduleException.getOpeningLocalTimes();
 	}
 
 	/**
@@ -514,16 +521,6 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
-	* Sets the end hour of this schedule exception.
-	*
-	* @param endHour the end hour of this schedule exception
-	*/
-	@Override
-	public void setEndHour(java.lang.String endHour) {
-		_scheduleException.setEndHour(endHour);
-	}
-
-	/**
 	* Sets the exception ID of this schedule exception.
 	*
 	* @param exceptionId the exception ID of this schedule exception
@@ -552,6 +549,16 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public void setNew(boolean n) {
 		_scheduleException.setNew(n);
+	}
+
+	/**
+	* Sets the opening times of this schedule exception.
+	*
+	* @param openingTimes the opening times of this schedule exception
+	*/
+	@Override
+	public void setOpeningTimes(java.lang.String openingTimes) {
+		_scheduleException.setOpeningTimes(openingTimes);
 	}
 
 	/**
@@ -587,16 +594,6 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public void setStartDate(Date startDate) {
 		_scheduleException.setStartDate(startDate);
-	}
-
-	/**
-	* Sets the start hour of this schedule exception.
-	*
-	* @param startHour the start hour of this schedule exception
-	*/
-	@Override
-	public void setStartHour(java.lang.String startHour) {
-		_scheduleException.setStartHour(startHour);
 	}
 
 	/**

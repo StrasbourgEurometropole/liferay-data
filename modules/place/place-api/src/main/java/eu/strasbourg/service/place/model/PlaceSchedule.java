@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.models.Pair;
 
 /**
  * The extended model implementation for the Place service. Represents a row in
@@ -43,13 +44,13 @@ public class PlaceSchedule {
 	private String period;
 	private Date startDate;
 	private Date endDate;
-	private LocalTime startTime = LocalTime.of(0, 0);
-	private LocalTime endTime = LocalTime.of(0, 0);
+	private List<Pair<LocalTime, LocalTime>> openingTimes;
 	private Boolean closed = false;
 	private Boolean alwaysOpen = false;
 	private Boolean publicHoliday = false;
 	private Boolean exception = false;
 	private String description;
+	private String comment;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -69,20 +70,15 @@ public class PlaceSchedule {
 		this.setDescription(description);
 	}
 	
-	public static List<PlaceSchedule> fromSlots(List<Slot> slots, boolean alwaysOpen) {
-		List<PlaceSchedule> schedules = new ArrayList<PlaceSchedule>();
-		
+	public static PlaceSchedule fromSlots(List<Slot> slots, boolean alwaysOpen) {
+		PlaceSchedule placeSchedule = new PlaceSchedule();
 		if (alwaysOpen) {
-			PlaceSchedule placeSchedule = new PlaceSchedule();
 			placeSchedule.setAlwaysOpen(true);
-			schedules.add(placeSchedule);
 		} else if (slots.isEmpty()) {
-			PlaceSchedule placeSchedule = new PlaceSchedule();
 			placeSchedule.setClosed(true);
-			schedules.add(placeSchedule);
 		} else {
+			List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<Pair<LocalTime, LocalTime>>();
 			for (Slot slot : slots) {
-				PlaceSchedule schedule = new PlaceSchedule();
 				
 				String[] startTimeParts = slot.getStartHour().split(":");
 				LocalTime startTime = LocalTime.of(Integer.parseInt(startTimeParts[0]),
@@ -91,14 +87,20 @@ public class PlaceSchedule {
 				String[] endTimeParts= slot.getEndHour().split(":");
 				LocalTime endTime = LocalTime.of(Integer.parseInt(endTimeParts[0]),
 						Integer.parseInt(endTimeParts[1]));
-				schedule.setStartTime(startTime);
-				schedule.setEndTime(endTime);
 				
-				schedules.add(schedule);
+				openingTimes.add(Pair.of(startTime, endTime));	
 			}
+			placeSchedule.setOpeningTimes(openingTimes);
 		}
-		
-		return schedules;
+		String fullComment = "";
+		for (Slot slot : slots) {
+			if (fullComment.length() > 0) {
+				fullComment += ", ";
+			}
+			fullComment += slot.getComment(Locale.FRANCE);
+		}
+		placeSchedule.setComment(fullComment);
+		return placeSchedule;
 	}
 	
 	public String getPeriodDisplay(Locale locale) {
@@ -135,22 +137,6 @@ public class PlaceSchedule {
 
 	public void setPeriod(String period) {
 		this.period = period;
-	}
-
-	public LocalTime getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(LocalTime startTime) {
-		this.startTime = startTime;
-	}
-
-	public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
 	}
 
 	public Boolean isClosed() {
@@ -191,5 +177,21 @@ public class PlaceSchedule {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<Pair<LocalTime, LocalTime>> getOpeningTimes() {
+		return openingTimes;
+	}
+
+	public void setOpeningTimes(List<Pair<LocalTime, LocalTime>> openingTimes) {
+		this.openingTimes = openingTimes;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

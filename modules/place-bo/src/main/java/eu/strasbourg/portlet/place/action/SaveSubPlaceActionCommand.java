@@ -34,8 +34,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.Period;
@@ -48,14 +50,12 @@ import eu.strasbourg.service.place.service.SlotLocalService;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-@Component(immediate = true, property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
+@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=saveSubPlace" }, service = MVCActionCommand.class)
 public class SaveSubPlaceActionCommand implements MVCActionCommand {
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response)
-			throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
@@ -72,12 +72,10 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			// -------------------- INFORMATIONS GENERALES --------------------
 			// ----------------------------------------------------------------
 
-			Map<Locale, String> name = LocalizationUtil
-					.getLocalizationMap(request, "name");
+			Map<Locale, String> name = LocalizationUtil.getLocalizationMap(request, "name");
 			subPlace.setNameMap(name);
 
-			Map<Locale, String> description = LocalizationUtil
-					.getLocalizationMap(request, "description");
+			Map<Locale, String> description = LocalizationUtil.getLocalizationMap(request, "description");
 			subPlace.setDescriptionMap(description);
 
 			long placeId = ParamUtil.getLong(request, "placeId");
@@ -96,32 +94,23 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			}
 
 			// Ajout des période liées au sous lieu
-			String periodsIndexes = ParamUtil.getString(request,
-					"periodsIndexes");
+			String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
 			for (String periodIndex : periodsIndexes.split(",")) {
 				if (Validator.isNotNull(periodIndex)
-						&& Validator.isNotNull(ParamUtil.getString(request,
-								"namePeriod" + periodIndex))) {
+						&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
 
-					Map<Locale, String> namePeriod = LocalizationUtil
-							.getLocalizationMap(request,
-									"namePeriod" + periodIndex);
-					Map<Locale, String> periodLabel = LocalizationUtil
-							.getLocalizationMap(request,
-									"periodLabel" + periodIndex);
-					Map<Locale, String> periodURL = LocalizationUtil
-							.getLocalizationMap(request,
-									"periodURL" + periodIndex);
-					boolean defaultPeriod = ParamUtil.getBoolean(request,
-							"defaultPeriod" + periodIndex);
-					Date startDatePeriod = ParamUtil.getDate(request,
-							"startDatePeriod" + periodIndex,
+					Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
+							"namePeriod" + periodIndex);
+					Map<Locale, String> periodLabel = LocalizationUtil.getLocalizationMap(request,
+							"periodLabel" + periodIndex);
+					Map<Locale, String> periodURL = LocalizationUtil.getLocalizationMap(request,
+							"periodURL" + periodIndex);
+					boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
+					Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
-					Date endDatePeriod = ParamUtil.getDate(request,
-							"endDatePeriod" + periodIndex,
+					Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
-					boolean alwaysOpen = ParamUtil.getBoolean(request,
-							"alwaysOpen" + periodIndex);
+					boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
 
 					Period period = _periodLocalService.createPeriod(sc);
 					period.setNameMap(namePeriod);
@@ -144,30 +133,21 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 							for (String slotIndex : slotsIndexes.split(",")) {
 								if (Validator
 										.isNotNull(ParamUtil.getString(request,
-												"startHour" + periodIndex + "-"
-														+ jour + "-" + slotIndex))
-										&& Validator.isNotNull(
-												ParamUtil.getString(request,
-														"endHour" + periodIndex
-																+ "-" + jour
-																+ "-"
-																+ slotIndex))) {
-									String startHour = ParamUtil
-											.getString(request,
-													"startHour" + periodIndex
-															+ "-" + jour + "-"
-															+ slotIndex);
-									String endHour = ParamUtil
-											.getString(request,
-													"endHour" + periodIndex
-															+ "-" + jour + "-"
-															+ slotIndex);
+												"startHour" + periodIndex + "-" + jour + "-" + slotIndex))
+										&& Validator.isNotNull(ParamUtil.getString(request,
+												"endHour" + periodIndex + "-" + jour + "-" + slotIndex))) {
+									String startHour = ParamUtil.getString(request,
+											"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
+									String endHour = ParamUtil.getString(request,
+											"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
+									Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+											"comment" + periodIndex + "-" + jour + "-" + slotIndex);
 
-									Slot slot = _slotLocalService
-											.createSlot(sc);
+									Slot slot = _slotLocalService.createSlot(sc);
 									slot.setDayOfWeek(jour);
 									slot.setStartHour(startHour);
 									slot.setEndHour(endHour);
+									slot.setCommentMap(comment);
 									slot.setPeriodId(period.getPeriodId());
 									this._slotLocalService.updateSlot(slot);
 								}
@@ -182,60 +162,66 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			// ----------------- Fermetures exceptionnelles ------------------
 
 			// Suppression des fermetures exceptionnelles liées au sous lieu
-			List<ScheduleException> oldSchedulesExceptions = subPlace
-					.getScheduleExceptions();
+			List<ScheduleException> oldSchedulesExceptions = subPlace.getScheduleExceptions();
 			for (ScheduleException scheduleException : oldSchedulesExceptions) {
-				_scheduleExceptionLocalService
-						.deleteScheduleException(scheduleException);
+				_scheduleExceptionLocalService.deleteScheduleException(scheduleException);
 			}
 
 			// Ajout des fermetures exceptionnelles liées au sous lieu
-			String shedulesExceptionsIndexes = ParamUtil.getString(request,
-					"shedulesExceptionsIndexes");
-			for (String shedulesExceptionsIndex : shedulesExceptionsIndexes
-					.split(",")) {
+			String shedulesExceptionsIndexes = ParamUtil.getString(request, "shedulesExceptionsIndexes");
+			for (String shedulesExceptionsIndex : shedulesExceptionsIndexes.split(",")) {
 				if (Validator.isNotNull(shedulesExceptionsIndex)
-						&& Validator.isNotNull(ParamUtil.getString(request,
-								"scheduleExceptionDescription"
-										+ shedulesExceptionsIndex))
-						&& Validator.isNotNull(ParamUtil.getString(request,
-								"startDateScheduleException"
-										+ shedulesExceptionsIndex))
-						&& Validator.isNotNull(ParamUtil.getString(request,
-								"endDateScheduleException"
-										+ shedulesExceptionsIndex))) {
-					String startHour = ParamUtil.getString(request,
-							"startHour" + shedulesExceptionsIndex);
-					String endHour = ParamUtil.getString(request,
-							"endHour" + shedulesExceptionsIndex);
-					Map<Locale, String> comment = LocalizationUtil
-							.getLocalizationMap(request,
-									"scheduleExceptionDescription"
-											+ shedulesExceptionsIndex);
-					Date startDate = ParamUtil.getDate(request,
-							"startDateScheduleException"
-									+ shedulesExceptionsIndex,
+						&& Validator.isNotNull(
+								ParamUtil.getString(request, "scheduleExceptionDescription" + shedulesExceptionsIndex))
+						&& Validator.isNotNull(
+								ParamUtil.getString(request, "startDateScheduleException" + shedulesExceptionsIndex))
+						&& Validator.isNotNull(
+								ParamUtil.getString(request, "endDateScheduleException" + shedulesExceptionsIndex))) {
+					String startTime1 = ParamUtil.getString(request, "startHour1" + shedulesExceptionsIndex);
+					String endTime1 = ParamUtil.getString(request, "endHour1" + shedulesExceptionsIndex);
+					String startTime2 = ParamUtil.getString(request, "startHour2" + shedulesExceptionsIndex);
+					String endTime2 = ParamUtil.getString(request, "endHour2" + shedulesExceptionsIndex);
+					String startTime3 = ParamUtil.getString(request, "startHour3" + shedulesExceptionsIndex);
+					String endTime3 = ParamUtil.getString(request, "endHour3" + shedulesExceptionsIndex);
+					String startTime4 = ParamUtil.getString(request, "startHour4" + shedulesExceptionsIndex);
+					String endTime4 = ParamUtil.getString(request, "endHour4" + shedulesExceptionsIndex);
+					String startTime5 = ParamUtil.getString(request, "startHour5" + shedulesExceptionsIndex);
+					String endTime5 = ParamUtil.getString(request, "endHour5" + shedulesExceptionsIndex);
+					Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+							"scheduleExceptionDescription" + shedulesExceptionsIndex);
+					Date startDate = ParamUtil.getDate(request, "startDateScheduleException" + shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
-					Date endDate = ParamUtil.getDate(request,
-							"endDateScheduleException"
-									+ shedulesExceptionsIndex,
+					Date endDate = ParamUtil.getDate(request, "endDateScheduleException" + shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
-					boolean closed = ParamUtil.getBoolean(request,
-							"closed" + shedulesExceptionsIndex);
+					boolean closed = ParamUtil.getBoolean(request, "closed" + shedulesExceptionsIndex);
 
-					ScheduleException scheduleException = _scheduleExceptionLocalService
-							.createScheduleException(sc);
+					ScheduleException scheduleException = _scheduleExceptionLocalService.createScheduleException(sc);
 					scheduleException.setCommentMap(comment);
 					scheduleException.setStartDate(startDate);
 					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);
 					if (!scheduleException.getClosed()) {
-						scheduleException.setStartHour(startHour);
-						scheduleException.setEndHour(endHour);
+						String[] openingTimes = new String[0];
+						if (startTime1.length() == 5 || endTime1.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime1 + "-" + endTime1);
+						}
+						if (startTime2.length() == 5 || endTime2.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime2 + "-" + endTime2);
+						}
+						if (startTime3.length() == 5 || endTime3.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime3 + "-" + endTime3);
+						}
+						if (startTime4.length() == 5 || endTime4.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime4 + "-" + endTime4);
+						}
+						if (startTime5.length() == 5 || endTime5.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime5 + "-" + endTime5);
+						}
+						String openingTimesString = StringUtil.merge(openingTimes, ";");
+						scheduleException.setOpeningTimes(openingTimesString);
 					}
 					scheduleException.setSubPlaceId(subPlace.getSubPlaceId());
-					this._scheduleExceptionLocalService
-							.updateScheduleException(scheduleException);
+					this._scheduleExceptionLocalService.updateScheduleException(scheduleException);
 				}
 
 			}
@@ -251,8 +237,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 	private SubPlaceLocalService _subPlaceLocalService;
 
 	@Reference(unbind = "-")
-	protected void setSubPlaceLocalService(
-			SubPlaceLocalService subPlaceLocalService) {
+	protected void setSubPlaceLocalService(SubPlaceLocalService subPlaceLocalService) {
 
 		_subPlaceLocalService = subPlaceLocalService;
 	}
@@ -260,8 +245,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 	private ScheduleExceptionLocalService _scheduleExceptionLocalService;
 
 	@Reference(unbind = "-")
-	protected void setScheduleExceptionLocalService(
-			ScheduleExceptionLocalService scheduleExceptionLocalService) {
+	protected void setScheduleExceptionLocalService(ScheduleExceptionLocalService scheduleExceptionLocalService) {
 
 		_scheduleExceptionLocalService = scheduleExceptionLocalService;
 	}
@@ -269,8 +253,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 	private PeriodLocalService _periodLocalService;
 
 	@Reference(unbind = "-")
-	protected void setPeriodLocalService(
-			PeriodLocalService periodLocalService) {
+	protected void setPeriodLocalService(PeriodLocalService periodLocalService) {
 
 		_periodLocalService = periodLocalService;
 	}

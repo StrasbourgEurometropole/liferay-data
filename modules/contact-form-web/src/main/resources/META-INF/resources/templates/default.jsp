@@ -22,13 +22,13 @@
 		      
 		    <fieldset>
 		        <div class="widget">
-		            <div class="title"><label for="name"><liferay-ui:message key="contact.lastname" /></label></div>
+		            <div class="title"><label for="lastName"><liferay-ui:message key="contact.lastname" /></label></div>
 		            <div class="content">
 		            	<input type="text" id="lastName" name="lastName" value="${param.lastName}">
 		            </div>
 		        </div>                
 		        <div class="widget">
-		            <div class="title"><label for="name"><liferay-ui:message key="contact.firstname" /></label></div>
+		            <div class="title"><label for="firstName"><liferay-ui:message key="contact.firstname" /></label></div>
 		            <div class="content">
 		            	<input type="text" id="firstName" name="firstName" value="${param.firstName}">
 		            </div>
@@ -40,7 +40,7 @@
 		            </div>
 		        </div>          
 			    <div class="widget">
-			        <div class="title"><label for="request"><liferay-ui:message key="contact.request" /></label></div>
+			        <div class="title"><label for="demande"><liferay-ui:message key="contact.request" /></label></div>
 			        <div class="content">
 			            <textarea rows="8" id="demande" name="content">${param.content}</textarea>
 			        </div>

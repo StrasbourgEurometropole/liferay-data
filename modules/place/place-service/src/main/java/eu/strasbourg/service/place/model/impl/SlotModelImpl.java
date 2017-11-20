@@ -20,13 +20,18 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.model.SlotModel;
@@ -36,7 +41,10 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The base model implementation for the Slot service. Represents a row in the &quot;place_Slot&quot; database table, with each column mapped to a property of this class.
@@ -65,6 +73,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			{ "dayOfWeek", Types.BIGINT },
 			{ "startHour", Types.VARCHAR },
 			{ "endHour", Types.VARCHAR },
+			{ "comment_", Types.VARCHAR },
 			{ "periodId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -75,10 +84,11 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		TABLE_COLUMNS_MAP.put("dayOfWeek", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("startHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("periodId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHour VARCHAR(75) null,endHour VARCHAR(75) null,periodId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ STRING null,periodId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Slot";
 	public static final String ORDER_BY_JPQL = " ORDER BY slot.slotId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Slot.slotId ASC";
@@ -142,6 +152,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		attributes.put("dayOfWeek", getDayOfWeek());
 		attributes.put("startHour", getStartHour());
 		attributes.put("endHour", getEndHour());
+		attributes.put("comment", getComment());
 		attributes.put("periodId", getPeriodId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -180,6 +191,12 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 		if (endHour != null) {
 			setEndHour(endHour);
+		}
+
+		String comment = (String)attributes.get("comment");
+
+		if (comment != null) {
+			setComment(comment);
 		}
 
 		Long periodId = (Long)attributes.get("periodId");
@@ -263,6 +280,105 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	@Override
+	public String getComment() {
+		if (_comment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _comment;
+		}
+	}
+
+	@Override
+	public String getComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId);
+	}
+
+	@Override
+	public String getComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getComment(String languageId) {
+		return LocalizationUtil.getLocalization(getComment(), languageId);
+	}
+
+	@Override
+	public String getComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getCommentCurrentLanguageId() {
+		return _commentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCommentCurrentValue() {
+		Locale locale = getLocale(_commentCurrentLanguageId);
+
+		return getComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getComment());
+	}
+
+	@Override
+	public void setComment(String comment) {
+		_comment = comment;
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale) {
+		setComment(comment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setComment(String comment, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(comment)) {
+			setComment(LocalizationUtil.updateLocalization(getComment(),
+					"Comment", comment, languageId, defaultLanguageId));
+		}
+		else {
+			setComment(LocalizationUtil.removeLocalization(getComment(),
+					"Comment", languageId));
+		}
+	}
+
+	@Override
+	public void setCommentCurrentLanguageId(String languageId) {
+		_commentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap) {
+		setCommentMap(commentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setCommentMap(Map<Locale, String> commentMap,
+		Locale defaultLocale) {
+		if (commentMap == null) {
+			return;
+		}
+
+		setComment(LocalizationUtil.updateLocalization(commentMap,
+				getComment(), "Comment", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
 	public long getPeriodId() {
 		return _periodId;
 	}
@@ -302,6 +418,67 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> commentMap = getCommentMap();
+
+		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getComment();
+
+		if (xml == null) {
+			return StringPool.BLANK;
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(Slot.class.getName(),
+				getPrimaryKey(), defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String comment = getComment(defaultLocale);
+
+		if (Validator.isNull(comment)) {
+			setComment(getComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setComment(getComment(defaultLocale), defaultLocale, defaultLocale);
+		}
+	}
+
+	@Override
 	public Slot toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = (Slot)ProxyUtil.newProxyInstance(_classLoader,
@@ -320,6 +497,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		slotImpl.setDayOfWeek(getDayOfWeek());
 		slotImpl.setStartHour(getStartHour());
 		slotImpl.setEndHour(getEndHour());
+		slotImpl.setComment(getComment());
 		slotImpl.setPeriodId(getPeriodId());
 
 		slotImpl.resetOriginalValues();
@@ -424,6 +602,14 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			slotCacheModel.endHour = null;
 		}
 
+		slotCacheModel.comment = getComment();
+
+		String comment = slotCacheModel.comment;
+
+		if ((comment != null) && (comment.length() == 0)) {
+			slotCacheModel.comment = null;
+		}
+
 		slotCacheModel.periodId = getPeriodId();
 
 		return slotCacheModel;
@@ -431,7 +617,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -443,6 +629,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		sb.append(getStartHour());
 		sb.append(", endHour=");
 		sb.append(getEndHour());
+		sb.append(", comment=");
+		sb.append(getComment());
 		sb.append(", periodId=");
 		sb.append(getPeriodId());
 		sb.append("}");
@@ -452,7 +640,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Slot");
@@ -479,6 +667,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		sb.append(getEndHour());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>comment</column-name><column-value><![CDATA[");
+		sb.append(getComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>periodId</column-name><column-value><![CDATA[");
 		sb.append(getPeriodId());
 		sb.append("]]></column-value></column>");
@@ -498,6 +690,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	private long _dayOfWeek;
 	private String _startHour;
 	private String _endHour;
+	private String _comment;
+	private String _commentCurrentLanguageId;
 	private long _periodId;
 	private long _originalPeriodId;
 	private boolean _setOriginalPeriodId;

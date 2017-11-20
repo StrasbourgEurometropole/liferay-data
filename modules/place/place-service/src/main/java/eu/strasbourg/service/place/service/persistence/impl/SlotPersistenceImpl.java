@@ -1133,6 +1133,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("comment", "comment_");
 
 			field.set(this, dbColumnNames);
 		}
@@ -1432,6 +1433,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		slotImpl.setDayOfWeek(slot.getDayOfWeek());
 		slotImpl.setStartHour(slot.getStartHour());
 		slotImpl.setEndHour(slot.getEndHour());
+		slotImpl.setComment(slot.getComment());
 		slotImpl.setPeriodId(slot.getPeriodId());
 
 		return slotImpl;
@@ -1852,6 +1854,6 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Slot exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(SlotPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
+				"uuid", "comment"
 			});
 }

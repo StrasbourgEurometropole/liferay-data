@@ -170,8 +170,16 @@
 									<fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="${status.count}" />
-										<liferay-util:param name="startHour" value="${scheduleException.startHour}" />
-										<liferay-util:param name="endHour" value="${scheduleException.endHour}" />
+										<liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
+										<liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
+										<liferay-util:param name="startHour2" value="${scheduleException.getStartHour(1)}" />
+										<liferay-util:param name="endHour2" value="${scheduleException.getEndHour(1)}" />
+										<liferay-util:param name="startHour3" value="${scheduleException.getStartHour(2)}" />
+										<liferay-util:param name="endHour3" value="${scheduleException.getEndHour(2)}" />
+										<liferay-util:param name="startHour4" value="${scheduleException.getStartHour(3)}" />
+										<liferay-util:param name="endHour4" value="${scheduleException.getEndHour(3)}" />
+										<liferay-util:param name="startHour5" value="${scheduleException.getStartHour(4)}" />
+										<liferay-util:param name="endHour5" value="${scheduleException.getEndHour(4)}" />
 										<liferay-util:param name="comment" value="${scheduleException.comment}" />
 										<liferay-util:param name="startDate" value="${formattedStartDate}" />
 										<liferay-util:param name="endDate" value="${formattedEndDate}" />

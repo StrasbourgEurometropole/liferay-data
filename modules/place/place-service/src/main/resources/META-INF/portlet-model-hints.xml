@@ -126,8 +126,7 @@
 		<field name="endDate" type="Date">
 			<hint name="show-time">false</hint>
 		</field>
-		<field name="startHour" type="String" />
-		<field name="endHour" type="String" />
+		<field name="openingTimes" type="String" />
 		<field localized="true" name="comment" type="String" />
 		<field name="closed" type="boolean" />
 		<field name="placeId" type="long" />
@@ -139,6 +138,7 @@
 		<field name="dayOfWeek" type="long" />
 		<field name="startHour" type="String" />
 		<field name="endHour" type="String" />
+		<field localized="true" name="comment" type="String" />
 		<field name="periodId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.SubPlace">
