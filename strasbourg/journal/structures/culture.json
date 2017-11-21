@@ -75,7 +75,7 @@
         },
         {
             "label": {
-                "fr_FR": "Label lien 1"
+                "fr_FR": "Nom du lien Calendrier"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -98,7 +98,7 @@
         },
         {
             "label": {
-                "fr_FR": "URL lien 1"
+                "fr_FR": "URL du calendrier"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -121,7 +121,7 @@
         },
         {
             "label": {
-                "fr_FR": "Label lien 2"
+                "fr_FR": "Nom du lien vers la fiche lieu"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -144,7 +144,7 @@
         },
         {
             "label": {
-                "fr_FR": "URL lien 2"
+                "fr_FR": "URL vers la fiche lieu"
             },
             "predefinedValue": {
                 "fr_FR": ""
