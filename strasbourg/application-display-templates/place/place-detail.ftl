@@ -120,7 +120,7 @@
                                             </#list>
                                         </ul>
                                     </#list>
-                                    <#if hasAnyException>
+                                    <#if hasAnyException?has_content && hasAnyException>
                                         <!-- Message pour exceptions -->
                                         <span style="color: #F44336; font-weight: bold; font-size: 1.6rem;"><@liferay_ui.message key="eu.place.look-at-exceptionnal-schedule" /></span>
                                     </#if>
@@ -206,7 +206,7 @@
                                 </#if>
                                 <!-- Liste des exceptions -->
                                 <#assign exceptions = entry.getPlaceScheduleExceptionFreeMarker(.now, true, locale) />
-                                <#if exceptions?has_content || hasAnyException>
+                                <#if exceptions?has_content || (hasAnyException?has_content && hasAnyException)>
                                     <#assign totalExceptionsCount = 0 />
                                     <h3><@liferay_ui.message key="eu.exceptional-closings-openings" /></h3>
                                     <ul class="seu-dates-list">
