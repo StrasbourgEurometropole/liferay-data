@@ -50,11 +50,11 @@
                 </div>
             </div>
             <div class="seu-mail">
-                <a href="#" class="seu-presse" title="${mediaLinkLabel.getData()}">
+                <a href="${mediaLinkLabel.getChildren()[0].getData()}" class="seu-presse" title="${mediaLinkLabel.getData()}">
                 <span class="seu-picto"></span>
                 <span class="seu-text">${mediaLinkLabel.getData()}</span>
                 </a>
-                <a href="#" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
+                <a href="${newsletterLinkLabel.getChildren()[0].getData()}" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
                 <span class="seu-picto"></span>
                 <span class="seu-text">${newsletterLinkLabel.getData()}</span>
                 </a>
