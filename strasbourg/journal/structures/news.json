@@ -69,13 +69,13 @@
             "name": "thumbnail",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "ddm-image"
         },
         {
             "label": {
-                "fr_FR": "Image"
+                "fr_FR": "Image panoramique"
             },
             "predefinedValue": {
                 "fr_FR": ""
