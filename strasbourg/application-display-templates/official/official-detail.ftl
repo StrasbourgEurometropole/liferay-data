@@ -31,6 +31,7 @@
                 <h4><@liferay_ui.message key="eu.official.political-group" /></h4>
                 ${entry.getPoliticalGroupCity().getTitle(locale)}
             </#if>
+            <br>
         </#if>
         <#if entry.fonctionEurometropole?has_content>
             <h2><@liferay_ui.message key="eu.official.eurometropole-of-strasbourg" /></h2>
