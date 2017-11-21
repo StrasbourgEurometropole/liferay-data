@@ -769,6 +769,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne true si le type du lieu doit avoir un calendrier d'horaires
+	*/
+	@Override
+	public java.lang.Boolean hasScheduleTable() {
+		return _place.hasScheduleTable();
+	}
+
+	/**
 	* Vérifie si le lieu est fermé
 	*/
 	@Override
