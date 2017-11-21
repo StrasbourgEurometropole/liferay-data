@@ -155,8 +155,8 @@ jQuery(function() {
 						.val();
 				var endDateSchedule = $(namespaceAUI + "endDateScheduleException" + index).val();
 				if(startDateSchedule == ""){
-					var startHour = $(namespaceAUI + "startHour" + index).val();
-					var endHour = $(namespaceAUI + "endHour" + index).val();
+					var startHour = $(namespaceAUI + "startHour1_" + index).val();
+					var endHour = $(namespaceAUI + "endHour1_" + index).val();
 					if (endDateSchedule || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
 						allValidated = false;
@@ -186,8 +186,8 @@ jQuery(function() {
 					}
 					var fermeture = $(namespaceAUI + "closed" + index).get(0).checked;
 					if (!fermeture) {
-						var startHour = $(namespaceAUI + "startHour" + index).val();
-						var endHour = $(namespaceAUI + "endHour" + index).val();
+						var startHour = $(namespaceAUI + "startHour1_" + index).val();
+						var endHour = $(namespaceAUI + "endHour1_" + index).val();
 						if(startHour == "") {
 							$('.place-schedule-start-hour', $(scheduleLabel).parent()).show();
 							allValidated = false;

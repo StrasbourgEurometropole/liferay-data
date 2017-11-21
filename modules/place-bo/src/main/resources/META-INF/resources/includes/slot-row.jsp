@@ -32,5 +32,8 @@
 	<div class="place-slot-end-hour" style="display: none" id="slotEndHour${param.indexPeriod}-${param.jour}-${param.indexSlot}" >
 		<liferay-ui:message key="this-field-is-required" />
 	</div>
+	
+	<aui:input name="comment${param.indexPeriod}-${param.jour}-${param.indexSlot}" label="comment" value="${param.comment}" localized="true" type="text"  />
+	
 	<aui:button cssClass="btn-icon icon icon-trash icon-2x" type="button" onClick="deleteSlot(${param.indexPeriod}, ${param.jour}, ${param.indexSlot}); return false;" />
 </div> 

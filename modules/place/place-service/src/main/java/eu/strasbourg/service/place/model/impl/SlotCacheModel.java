@@ -63,7 +63,7 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -75,6 +75,8 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		sb.append(startHour);
 		sb.append(", endHour=");
 		sb.append(endHour);
+		sb.append(", comment=");
+		sb.append(comment);
 		sb.append(", periodId=");
 		sb.append(periodId);
 		sb.append("}");
@@ -110,6 +112,13 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 			slotImpl.setEndHour(endHour);
 		}
 
+		if (comment == null) {
+			slotImpl.setComment(StringPool.BLANK);
+		}
+		else {
+			slotImpl.setComment(comment);
+		}
+
 		slotImpl.setPeriodId(periodId);
 
 		slotImpl.resetOriginalValues();
@@ -126,6 +135,7 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		dayOfWeek = objectInput.readLong();
 		startHour = objectInput.readUTF();
 		endHour = objectInput.readUTF();
+		comment = objectInput.readUTF();
 
 		periodId = objectInput.readLong();
 	}
@@ -158,6 +168,13 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 			objectOutput.writeUTF(endHour);
 		}
 
+		if (comment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(comment);
+		}
+
 		objectOutput.writeLong(periodId);
 	}
 
@@ -166,5 +183,6 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 	public long dayOfWeek;
 	public String startHour;
 	public String endHour;
+	public String comment;
 	public long periodId;
 }

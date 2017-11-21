@@ -754,78 +754,29 @@ public class PlaceImpl extends PlaceBaseImpl {
 		// s'il n'y a pas d'exception, on récupère les horaires de la
 		// période concernée
 		if (listHoraires.isEmpty()) {
+			Period defaultPeriod = null;
 			for (Period period : this.getPeriods()) {
-				if (!period.getDefaultPeriod()) {
-					if (period.getStartDate() != null && period.getEndDate() != null
-							&& period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
-							&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
-						listHoraires.clear();
-						// on vérifie si le lieu n'est pas ouvert 24h/24
-						// 7j/7
-						if (period.getAlwaysOpen()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
-							placeSchedule.setAlwaysOpen(true);
-							listHoraires.add(placeSchedule);
-						} else {
-							for (Slot slot : period.getSlots()) {
-								if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-										: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
-									PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
-											period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
-									String[] heure = slot.getStartHour().split(":");
-									LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
-											Integer.parseInt(heure[1]));
-									heure = slot.getEndHour().split(":");
-									LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
-											Integer.parseInt(heure[1]));
-									placeSchedule.setStartTime(startHour);
-									placeSchedule.setEndTime(endHour);
-									listHoraires.add(placeSchedule);
-								}
-							}
-							if (listHoraires.isEmpty()) {
-								PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
-										period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
-								placeSchedule.setClosed(true);
-								listHoraires.add(placeSchedule);
-							}
-						}
-						return listHoraires;
-					}
-				} else {
-					// on vérifie si le lieu n'est pas ouvert 24h/24
-					// 7j/7
-					if (period.getAlwaysOpen()) {
-						PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
-								period.getEndDate(), period.getName(locale), locale);
-						placeSchedule.setAlwaysOpen(true);
-						listHoraires.add(placeSchedule);
-					} else {
-						for (Slot slot : period.getSlots()) {
-							if (slot.getDayOfWeek() == (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-									: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2)) {
-								PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(),
-										period.getStartDate(), period.getEndDate(), period.getName(locale), locale);
-								String[] heure = slot.getStartHour().split(":");
-								LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
-								heure = slot.getEndHour().split(":");
-								LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]),
-										Integer.parseInt(heure[1]));
-								placeSchedule.setStartTime(startHour);
-								placeSchedule.setEndTime(endHour);
-								listHoraires.add(placeSchedule);
-							}
-						}
-						if (listHoraires.isEmpty()) {
-							PlaceSchedule placeSchedule = new PlaceSchedule(period.getPeriodId(), period.getStartDate(),
-									period.getEndDate(), period.getName(locale), locale);
-							placeSchedule.setClosed(true);
-							listHoraires.add(placeSchedule);
-						}
-					}
+				// Soit la période en cours
+				if (period.getStartDate() != null && period.getEndDate() != null
+						&& period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
+						&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
+					int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+							: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
+					List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+					listHoraires.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
+					return listHoraires;
 				}
+				// On met au cas où la période par défaut de côté
+				if (period.getDefaultPeriod()) {
+					defaultPeriod = period;
+				}
+			}
+			// S'il n'y a aucune période en cours, la période par défaut
+			if (defaultPeriod != null) {
+				int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+						: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
+				List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+				listHoraires.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
 			}
 		}
 		return listHoraires;
@@ -845,6 +796,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 		List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
 		GregorianCalendar dernierJour = new GregorianCalendar();
 		dernierJour.setTime(premierJour.getTime());
+		premierJour.set(Calendar.HOUR_OF_DAY, 0);
+		premierJour.set(Calendar.MINUTE, 0);
+		premierJour.set(Calendar.SECOND, 0);
+		premierJour.set(Calendar.MILLISECOND, 0);
+		dernierJour.setTime(premierJour.getTime());
+		dernierJour.add(Calendar.DAY_OF_YEAR, 1);
 		if (surPeriode) {
 			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			dernierJour.add(Calendar.MONTH, 2);
@@ -855,21 +812,22 @@ public class PlaceImpl extends PlaceBaseImpl {
 			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
 					&& scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
 					&& scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
-				PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
-						scheduleException.getStartDate(), scheduleException.getEndDate(),
-						scheduleException.getComment(locale), locale);
-				placeSchedule.setException(true);
+				
 				if (scheduleException.isClosed()) {
+					PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
+							scheduleException.getStartDate(), scheduleException.getEndDate(),
+							scheduleException.getComment(locale), locale);
+					placeSchedule.setException(true);
 					placeSchedule.setClosed(true);
+					listPlaceSchedules.add(placeSchedule);
 				} else {
-					String[] heure = scheduleException.getStartHour().split(":");
-					LocalTime startHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]));
-					heure = scheduleException.getEndHour().split(":");
-					LocalTime endHour = LocalTime.of(Integer.parseInt(heure[0]), Integer.parseInt(heure[1]));
-					placeSchedule.setStartTime(startHour);
-					placeSchedule.setEndTime(endHour);
+					PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
+							scheduleException.getStartDate(), scheduleException.getEndDate(),
+							scheduleException.getComment(locale), locale);
+					placeSchedule.setException(true);
+					placeSchedule.setOpeningTimes(scheduleException.getOpeningLocalTimes());
+					listPlaceSchedules.add(placeSchedule);
 				}
-				listPlaceSchedules.add(placeSchedule);
 			}
 		}
 

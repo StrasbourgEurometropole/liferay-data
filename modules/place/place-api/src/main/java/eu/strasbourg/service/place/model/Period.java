@@ -62,7 +62,7 @@ public interface Period extends PeriodModel, PersistedModel {
 	/**
 	* Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
 	*/
-	public java.util.List<java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getWeekSchedule();
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule();
 
 	public java.lang.String getDisplay(java.util.Locale locale);
 

@@ -23,10 +23,10 @@
 			</aui:select>
 			
 			<!-- Titre -->
-			<aui:input type="text" name="title" value="${title}" label="form-name" localized="true"/>
+			<aui:input required="true" type="text" name="title" value="${title}" label="form-name" localized="true"/>
 			
 			<!-- Email -->
-			<aui:input type="text" name="email" value="${email}" label="email" />
+			<aui:input required="true" type="text" name="email" value="${email}" label="email" />
 			
 			<!-- Texte de description -->
 			<aui:input name="descriptionText" value="${descriptionText}" localized="true" type="editor" label="description-text" />

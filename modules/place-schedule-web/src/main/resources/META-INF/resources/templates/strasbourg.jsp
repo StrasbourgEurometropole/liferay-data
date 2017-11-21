@@ -124,7 +124,9 @@
 											<liferay-ui:message key="always-open" />
 										</c:when>
 										<c:otherwise>
-											${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
+											<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
+												<div>${openingTime.first} - ${openingTime.second}</div>
+											</c:forEach>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
@@ -145,7 +147,9 @@
 														<liferay-ui:message key="always-open" />
 													</c:when>
 													<c:otherwise>
-														${schedule.startTime} - ${schedule.endTime}<c:if test="${loopStatus.index eq 0}"><br></c:if>
+														<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
+															<div>${openingTime.first} - ${openingTime.second}</div>
+														</c:forEach>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>

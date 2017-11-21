@@ -522,7 +522,7 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	* Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
 	*/
 	@Override
-	public java.util.List<java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getWeekSchedule() {
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule() {
 		return _period.getWeekSchedule();
 	}
 

@@ -62,6 +62,7 @@ id="period${param.index}">
 				<c:set var="jourSlot" value="${fn:split(param.slotJours, ',')}" />
 				<c:set var="startHourSlot" value="${fn:split(param.slotStartHours, ',')}" />
 				<c:set var="endHourSlot" value="${fn:split(param.slotEndHours, ',')}" />
+				<c:set var="commentSlot" value="${fn:split(param.slotComment, '|')}" />
 				<c:forEach var="slot" begin="0" end="${param.nbSlot}">
 					<c:if test="${jourSlot[slot] == jour}">
 						<liferay-util:include page="/includes/slot-row.jsp" servletContext="<%=application %>">
@@ -70,6 +71,7 @@ id="period${param.index}">
 							<liferay-util:param name="indexSlot" value="${nbSlot}" />
 							<liferay-util:param name="startHour" value="${startHourSlot[slot]}" />
 							<liferay-util:param name="endHour" value="${endHourSlot[slot]}" />
+							<liferay-util:param name="comment" value="${commentSlot[slot]}" />
 						</liferay-util:include>
 						<c:set var="nbSlot" value="${nbSlot + 1}"/>
 					</c:if>  

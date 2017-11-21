@@ -26,34 +26,177 @@
 	value="${not empty param ? param.closed : false}" onClick="affichageHeures(this, ${param.index})" />
 	
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
-	<aui:input type="time" value="${param.startHour}" name="startHour${param.index}" label="start-hour" placeholder="HH:MM" >
-		<aui:validator errorMessage="hour-format" 
-		name="custom">
-	        function(val, fieldNode, ruleValue) {
-		        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
-		        return regex.test(val);
-	        }
-		</aui:validator>
-	</aui:input>
-	<div class="place-schedule-start-hour" style="display: none">
-		<liferay-ui:message key="this-field-is-required" />
-	</div>
-	
-	<div class="place-schedule-incorrect-hour" style="display: none">
-		<liferay-ui:message key="incorrect-hour" />
-	</div>
-
-	<aui:input type="time" value="${param.endHour}" name="endHour${param.index}" label="end-hour" placeholder="HH:MM" >
-		<aui:validator errorMessage="hour-format" 
-		name="custom">
-	        function(val, fieldNode, ruleValue) {
-		        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
-		        return regex.test(val);
-	        }
-		</aui:validator>
-	</aui:input>
-	<div class="place-schedule-end-hour" style="display: none">
-		<liferay-ui:message key="this-field-is-required" />
+	<div class="row">
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.startHour1}" name="startHour1_${param.index}" label="start-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-start-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+			
+			<div class="place-schedule-incorrect-hour" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.endHour1}" name="endHour1_${param.index}" label="end-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-end-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+		</div>	
 	</div>
 </div>
+
+
+<div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
+	<div class="row">
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.startHour2}" name="startHour2_${param.index}" label="start-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-start-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+			
+			<div class="place-schedule-incorrect-hour" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.endHour2}" name="endHour2_${param.index}" label="end-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+		</div>
+	</div>
+</div>
+
+<div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
+	<div class="row">
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.startHour3}" name="startHour3_${param.index}" label="start-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-start-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+			
+			<div class="place-schedule-incorrect-hour" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.endHour3}" name="endHour3_${param.index}" label="end-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+		</div>
+	</div>
+</div>
+
+<div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
+	<div class="row">
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.startHour4}" name="startHour4_${param.index}" label="start-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-start-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+			
+			<div class="place-schedule-incorrect-hour" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.endHour4}" name="endHour4_${param.index}" label="end-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+		</div>
+	</div>
+</div>
+
+<div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
+	<div class="row">
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.startHour5}" name="startHour5_${param.index}" label="start-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+			<div class="place-schedule-start-hour" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+			
+			<div class="place-schedule-incorrect-hour" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<aui:input type="time" value="${param.endHour5}" name="endHour5_${param.index}" label="end-hour" placeholder="HH:MM" >
+				<aui:validator errorMessage="hour-format" 
+				name="custom">
+			        function(val, fieldNode, ruleValue) {
+				        var regex = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/i);
+				        return regex.test(val);
+			        }
+				</aui:validator>
+			</aui:input>
+		</div>
+	</div>
+</div>
+
 

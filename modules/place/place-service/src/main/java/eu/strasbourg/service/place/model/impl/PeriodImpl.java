@@ -75,8 +75,8 @@ public class PeriodImpl extends PeriodBaseImpl {
 	 * Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
 	 */
 	@Override
-	public List<List<PlaceSchedule>> getWeekSchedule() {
-		List<List<PlaceSchedule>> weekSchedule = new ArrayList<List<PlaceSchedule>>();
+	public List<PlaceSchedule> getWeekSchedule() {
+		List<PlaceSchedule> weekSchedule = new ArrayList<PlaceSchedule>();
 		List<Slot> slots = this.getSlots();
 		for (int i = 0; i < 7; i++) {
 			int day = i;

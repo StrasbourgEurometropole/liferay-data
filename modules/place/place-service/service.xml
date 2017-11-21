@@ -153,8 +153,10 @@
 		<!-- Informations générales -->
 		<column name="startDate" type="Date" />
 		<column name="endDate" type="Date" />
-		<column name="startHour" type="String" />
-		<column name="endHour" type="String" />
+		
+		<!-- Pour chaque exception il peut y avoir un ou plusieurs horaires -->
+		<column name="openingTimes" type="String" />
+		
 		<column name="comment" type="String" localized="true" />
 		<column name="closed" type="boolean" />
 		
@@ -217,6 +219,7 @@
 		<column name="dayOfWeek" type="long" />
 		<column name="startHour" type="String" />
 		<column name="endHour" type="String" />
+		<column name="comment" type="String" localized="true" />
 		
 		<!-- Links with other entities -->
 		<column name="periodId" type="long" />

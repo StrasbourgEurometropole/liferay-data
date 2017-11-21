@@ -35,8 +35,10 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -261,11 +263,13 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 											"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
 									String endHour = ParamUtil.getString(request,
 											"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
-
+									Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+											"comment" + periodIndex + "-" + jour + "-" + slotIndex);
 									Slot slot = _slotLocalService.createSlot(sc);
 									slot.setDayOfWeek(jour);
 									slot.setStartHour(startHour);
 									slot.setEndHour(endHour);
+									slot.setCommentMap(comment);
 									slot.setPeriodId(period.getPeriodId());
 									this._slotLocalService.updateSlot(slot);
 
@@ -301,8 +305,16 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 								ParamUtil.getString(request, "startDateScheduleException" + shedulesExceptionsIndex))
 						&& Validator.isNotNull(
 								ParamUtil.getString(request, "endDateScheduleException" + shedulesExceptionsIndex))) {
-					String startHour = ParamUtil.getString(request, "startHour" + shedulesExceptionsIndex);
-					String endHour = ParamUtil.getString(request, "endHour" + shedulesExceptionsIndex);
+					String startTime1 = ParamUtil.getString(request, "startHour1_" + shedulesExceptionsIndex);
+					String endTime1 = ParamUtil.getString(request, "endHour1_" + shedulesExceptionsIndex);
+					String startTime2 = ParamUtil.getString(request, "startHour2_" + shedulesExceptionsIndex);
+					String endTime2 = ParamUtil.getString(request, "endHour2_" + shedulesExceptionsIndex);
+					String startTime3 = ParamUtil.getString(request, "startHour3_" + shedulesExceptionsIndex);
+					String endTime3 = ParamUtil.getString(request, "endHour3_" + shedulesExceptionsIndex);
+					String startTime4 = ParamUtil.getString(request, "startHour4_" + shedulesExceptionsIndex);
+					String endTime4 = ParamUtil.getString(request, "endHour4_" + shedulesExceptionsIndex);
+					String startTime5 = ParamUtil.getString(request, "startHour5_" + shedulesExceptionsIndex);
+					String endTime5 = ParamUtil.getString(request, "endHour5_" + shedulesExceptionsIndex);
 					Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
 							"scheduleExceptionDescription" + shedulesExceptionsIndex);
 					Date startDate = ParamUtil.getDate(request, "startDateScheduleException" + shedulesExceptionsIndex,
@@ -317,8 +329,24 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);
 					if (!scheduleException.getClosed()) {
-						scheduleException.setStartHour(startHour);
-						scheduleException.setEndHour(endHour);
+						String[] openingTimes = new String[0];
+						if (startTime1.length() == 5 || endTime1.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime1 + "-" + endTime1);
+						}
+						if (startTime2.length() == 5 || endTime2.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime2 + "-" + endTime2);
+						}
+						if (startTime3.length() == 5 || endTime3.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime3 + "-" + endTime3);
+						}
+						if (startTime4.length() == 5 || endTime4.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime4 + "-" + endTime4);
+						}
+						if (startTime5.length() == 5 || endTime5.length() == 5) {
+							openingTimes = ArrayUtil.append(openingTimes, startTime5 + "-" + endTime5);
+						}
+						String openingTimesString = StringUtil.merge(openingTimes, ";");
+						scheduleException.setOpeningTimes(openingTimesString);
 					}
 					scheduleException.setPlaceId(place.getPlaceId());
 					this._scheduleExceptionLocalService.updateScheduleException(scheduleException);
