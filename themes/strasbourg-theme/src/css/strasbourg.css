@@ -3776,12 +3776,12 @@ a {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) {
       padding-left: 20px; } }
-  /* line 9, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) li {
     margin-bottom: 0px;
     position: relative;
     font-weight: 400; }
-    /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) li:before {
       content: '';
       height: 5px;
@@ -3793,25 +3793,25 @@ a {
       position: absolute;
       left: -15px;
       top: 14px; }
-  /* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) ul {
-    padding-left: 90px; }
+    padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ul:not(.unstyled) ul {
         padding-left: 40px; } }
 
-/* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+/* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
 .seu-not-front .rte ol:not(.unstyled) {
   padding-left: 50px;
   list-style: none;
   counter-reset: item;
   margin-bottom: 10px; }
   @media only screen and (max-width: 767px) {
-    /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) {
       padding-left: 30px; } }
-  /* line 43, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 41, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) li {
     margin-bottom: 0;
     position: relative;
@@ -3821,7 +3821,7 @@ a {
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start; }
-    /* line 48, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 46, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) li:before {
       counter-increment: item;
       content: counters(item, ".") ". ";
@@ -3831,11 +3831,11 @@ a {
       font-weight: 700;
       margin-right: 5px;
       margin-top: 1px; }
-  /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) ol {
-    padding-left: 90px; }
+    padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ol:not(.unstyled) ol {
         padding-left: 40px; } }
 
