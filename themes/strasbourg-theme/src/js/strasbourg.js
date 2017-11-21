@@ -15725,7 +15725,7 @@ $(document).ready(function(){
             if ($('#' + id).length) {
                 // cl("Scroll to Element in page");
                 $('body, html').animate({
-                    scrollTop: $('#' + id).offset().top - 66
+                    scrollTop: $('#' + id).offset().top - 110
                 }, 800);
             } else {
                 window.location.replace(href);
