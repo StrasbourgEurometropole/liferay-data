@@ -1,5 +1,5 @@
 Bundle-Name: interest-bo
 Bundle-SymbolicName: eu.strasbourg.portlet.interest
-Bundle-Version: 1.28.0
+Bundle-Version: 1.29.0
 Export-Package: eu.strasbourg.portlet.interest.constants
 Web-ContextPath: /interestbo
