@@ -27,7 +27,9 @@
                                     <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${title}</div>
                                     <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${chapo}</div>
                                 </div>
-                                <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
+                                <div>
+                                    <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
+                                </div>
                             </a>
                         </div>
                     </#list>
