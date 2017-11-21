@@ -285,29 +285,6 @@
         },
         {
             "label": {
-                "fr_FR": "Mercredi matin"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "wednesdayMorning",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
                 "fr_FR": "Mardi après-midi"
             },
             "predefinedValue": {
@@ -323,6 +300,29 @@
             "indexType": "",
             "localizable": true,
             "name": "tuesdayAfternoon",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Mercredi matin"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "wednesdayMorning",
             "readOnly": false,
             "repeatable": false,
             "required": false,
