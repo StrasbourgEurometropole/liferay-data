@@ -8,12 +8,11 @@
         <div class="seu-wi-content">
             <div class="seu-wi-text">
                 <div class="seu-wi-title">${name.getData()}</div>
-                <p>${address.getData()}</p>
                 <p>Tél. ${phone.getData()}</p>
             </div>
             <a href="${detailLink.getData()}" class="seu-btn-square seu-bordered seu-core" title="Contacter">
                 <span class="seu-flexbox">
-                    <span class="seu-btn-text"><@liferay_ui.message key="to-contact" /></span>
+                    <span class="seu-btn-text"><@liferay_ui.message key="see-contact-information" /></span>
                     <span class="seu-btn-arrow"></span>
                 </span>
             </a>
