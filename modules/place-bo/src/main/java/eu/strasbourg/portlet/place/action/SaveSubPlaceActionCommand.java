@@ -177,16 +177,16 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 								ParamUtil.getString(request, "startDateScheduleException" + shedulesExceptionsIndex))
 						&& Validator.isNotNull(
 								ParamUtil.getString(request, "endDateScheduleException" + shedulesExceptionsIndex))) {
-					String startTime1 = ParamUtil.getString(request, "startHour1" + shedulesExceptionsIndex);
-					String endTime1 = ParamUtil.getString(request, "endHour1" + shedulesExceptionsIndex);
-					String startTime2 = ParamUtil.getString(request, "startHour2" + shedulesExceptionsIndex);
-					String endTime2 = ParamUtil.getString(request, "endHour2" + shedulesExceptionsIndex);
-					String startTime3 = ParamUtil.getString(request, "startHour3" + shedulesExceptionsIndex);
-					String endTime3 = ParamUtil.getString(request, "endHour3" + shedulesExceptionsIndex);
-					String startTime4 = ParamUtil.getString(request, "startHour4" + shedulesExceptionsIndex);
-					String endTime4 = ParamUtil.getString(request, "endHour4" + shedulesExceptionsIndex);
-					String startTime5 = ParamUtil.getString(request, "startHour5" + shedulesExceptionsIndex);
-					String endTime5 = ParamUtil.getString(request, "endHour5" + shedulesExceptionsIndex);
+					String startTime1 = ParamUtil.getString(request, "startHour1_" + shedulesExceptionsIndex);
+					String endTime1 = ParamUtil.getString(request, "endHour1_" + shedulesExceptionsIndex);
+					String startTime2 = ParamUtil.getString(request, "startHour2_" + shedulesExceptionsIndex);
+					String endTime2 = ParamUtil.getString(request, "endHour2_" + shedulesExceptionsIndex);
+					String startTime3 = ParamUtil.getString(request, "startHour3_" + shedulesExceptionsIndex);
+					String endTime3 = ParamUtil.getString(request, "endHour3_" + shedulesExceptionsIndex);
+					String startTime4 = ParamUtil.getString(request, "startHour4_" + shedulesExceptionsIndex);
+					String endTime4 = ParamUtil.getString(request, "endHour4_" + shedulesExceptionsIndex);
+					String startTime5 = ParamUtil.getString(request, "startHour5_" + shedulesExceptionsIndex);
+					String endTime5 = ParamUtil.getString(request, "endHour5_" + shedulesExceptionsIndex);
 					Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
 							"scheduleExceptionDescription" + shedulesExceptionsIndex);
 					Date startDate = ParamUtil.getDate(request, "startDateScheduleException" + shedulesExceptionsIndex,

@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.liferay.portal.kernel.util.Validator;
+
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.models.Pair;
@@ -94,10 +96,13 @@ public class PlaceSchedule {
 		}
 		String fullComment = "";
 		for (Slot slot : slots) {
-			if (fullComment.length() > 0) {
-				fullComment += ", ";
+			String slotComment = slot.getComment(Locale.FRANCE);
+			if (Validator.isNotNull(slotComment)) {
+				if (fullComment.length() > 0) {
+					fullComment += ", ";
+				}
+				fullComment += slot.getComment(Locale.FRANCE);
 			}
-			fullComment += slot.getComment(Locale.FRANCE);
 		}
 		placeSchedule.setComment(fullComment);
 		return placeSchedule;
