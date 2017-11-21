@@ -184,7 +184,7 @@
 								<aui:validator name="required" errorMessage="this-field-is-required" />
 							</aui:input>
 							
-							<aui:input name="siteURL" >
+							<aui:input name="siteURL" helpMessage="url-help-message">
 							 	<aui:validator name="url"/>
 								<aui:validator name="required" errorMessage="this-field-is-required" />
 							</aui:input>
@@ -288,12 +288,13 @@
 								<c:set var="slotJour" value="" />
 								<c:set var="slotStartHour" value="" />
 								<c:set var="slotEndHour" value="" />
+								<c:set var="slotComment" value="" />
 								<c:forEach items="${period.slots}" var="slot">
 									<c:if test="${not empty slotJour}">
 										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
 										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
 										<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
-										<c:set var="slotComment" value="${slotComment}|${slot.comment}" />
+										<c:set var="slotComment" value="${slotComment}| ${slot.comment}" />
 									</c:if>
 									<c:if test="${empty slotJour}">
 										<c:set var="slotJour" value="${slot.dayOfWeek}" />

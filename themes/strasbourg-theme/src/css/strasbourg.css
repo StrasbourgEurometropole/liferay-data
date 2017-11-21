@@ -1609,7 +1609,7 @@ a {
     .seu-not-front .seu h1 {
       font-size: 2.5rem; } }
 
-/* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+/* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
 .seu-not-front .rte h2, .page-demarches #rub_service h2,
 .seu-main-form h2, .seu-wi-contact-form h2, .seu-wi--collapsing .seu-toggle-collapse h2, .seu-place-schedule-thumbnail h2 {
   font-family: "MontSerrat", arial;
@@ -1623,27 +1623,27 @@ a {
       -ms-hyphens: auto;
           hyphens: auto; }
   @media only screen and (max-width: 767px) {
-    /* line 15, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+    /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
     .seu-not-front .rte h2, .page-demarches #rub_service h2,
     .seu-main-form h2, .seu-wi-contact-form h2, .seu-wi--collapsing .seu-toggle-collapse h2, .seu-place-schedule-thumbnail h2 {
       font-size: 2.5rem; } }
 
-/* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+/* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
 .seu-not-front .rte h3, .page-demarches #rub_service h3,
 .seu-main-form h3, .seu-wi-contact-form h3 {
   font-family: "MontSerrat", arial;
-  font-weight: 400;
-  font-size: 3.0rem;
+  font-weight: 600;
+  font-size: 2.4rem;
   color: #505050;
   line-height: 1.2;
   text-transform: uppercase; }
   @media only screen and (max-width: 767px) {
-    /* line 29, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+    /* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
     .seu-not-front .rte h3, .page-demarches #rub_service h3,
     .seu-main-form h3, .seu-wi-contact-form h3 {
       font-size: 1.7rem; } }
 
-/* line 41, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+/* line 40, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
 .seu-not-front .rte h4, .page-demarches #rub_service h4,
 .seu-main-form h4, .seu-wi-contact-form h4 {
   font-family: "MontSerrat", arial;
@@ -1653,12 +1653,12 @@ a {
   line-height: 1.2;
   text-transform: uppercase; }
   @media only screen and (max-width: 767px) {
-    /* line 41, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+    /* line 40, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
     .seu-not-front .rte h4, .page-demarches #rub_service h4,
     .seu-main-form h4, .seu-wi-contact-form h4 {
       font-size: 1.4rem; } }
 
-/* line 53, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
+/* line 52, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
 .seu-not-front .rte h5, .page-demarches #rub_service h5,
 .seu-main-form h5, .seu-wi-contact-form h5 {
   font-size: 14px;
@@ -3776,12 +3776,12 @@ a {
     /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) {
       padding-left: 20px; } }
-  /* line 9, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 8, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) li {
     margin-bottom: 0px;
     position: relative;
     font-weight: 400; }
-    /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) li:before {
       content: '';
       height: 5px;
@@ -3793,25 +3793,25 @@ a {
       position: absolute;
       left: -15px;
       top: 14px; }
-  /* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) ul {
-    padding-left: 90px; }
+    padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 26, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 25, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ul:not(.unstyled) ul {
         padding-left: 40px; } }
 
-/* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+/* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
 .seu-not-front .rte ol:not(.unstyled) {
   padding-left: 50px;
   list-style: none;
   counter-reset: item;
   margin-bottom: 10px; }
   @media only screen and (max-width: 767px) {
-    /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) {
       padding-left: 30px; } }
-  /* line 43, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 41, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) li {
     margin-bottom: 0;
     position: relative;
@@ -3821,7 +3821,7 @@ a {
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start; }
-    /* line 48, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 46, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) li:before {
       counter-increment: item;
       content: counters(item, ".") ". ";
@@ -3831,11 +3831,11 @@ a {
       font-weight: 700;
       margin-right: 5px;
       margin-top: 1px; }
-  /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) ol {
-    padding-left: 90px; }
+    padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 59, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 57, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ol:not(.unstyled) ol {
         padding-left: 40px; } }
 
@@ -5863,41 +5863,42 @@ a {
 .seu-not-front .rte h2, .page-demarches #rub_service h2,
 .seu-main-form h2, .seu-wi-contact-form h2 {
   margin-bottom: 20px;
-  margin-top: 30px; }
+  margin-top: 30px;
+  z-index: 1; }
   @media only screen and (max-width: 767px) {
     /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
     .seu-not-front .rte h2, .page-demarches #rub_service h2,
     .seu-main-form h2, .seu-wi-contact-form h2 {
       margin-bottom: 20px; } }
 
-/* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+/* line 11, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
 .seu-not-front .rte h3, .page-demarches #rub_service h3,
 .seu-main-form h3, .seu-wi-contact-form h3 {
   margin-bottom: 20px;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 12, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+    /* line 11, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
     .seu-not-front .rte h3, .page-demarches #rub_service h3,
     .seu-main-form h3, .seu-wi-contact-form h3 {
       margin-bottom: 20px; } }
 
-/* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+/* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
 .seu-not-front .rte h4, .page-demarches #rub_service h4,
 .seu-main-form h4, .seu-wi-contact-form h4 {
   margin-bottom: 20px;
   margin-top: 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+    /* line 19, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
     .seu-not-front .rte h4, .page-demarches #rub_service h4,
     .seu-main-form h4, .seu-wi-contact-form h4 {
       margin-bottom: 15px; } }
 
-/* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+/* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
 .seu-not-front .rte h5, .page-demarches #rub_service h5,
 .seu-main-form h5, .seu-wi-contact-form h5 {
   margin-bottom: 20px; }
   @media only screen and (max-width: 767px) {
-    /* line 32, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
+    /* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_molecule-rte-headings.scss */
     .seu-not-front .rte h5, .page-demarches #rub_service h5,
     .seu-main-form h5, .seu-wi-contact-form h5 {
       margin-bottom: 10px; } }

@@ -150,6 +150,11 @@ public interface Place extends PlaceModel, PersistedModel {
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
+	* Retourne true si le type du lieu doit avoir un calendrier d'horaires
+	*/
+	public java.lang.Boolean hasScheduleTable();
+
+	/**
 	* Retourne la catégorie Territoire correspondant à la ville du lieu
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();

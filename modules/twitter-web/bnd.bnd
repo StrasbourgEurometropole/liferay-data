@@ -1,5 +1,5 @@
 Bundle-SymbolicName: twitter.web
-Bundle-Version: 1.28.0
+Bundle-Version: 1.29.0
 Web-ContextPath: /twitterweb
 Bundle-ClassPath:\
   .,\

@@ -1,5 +1,5 @@
 Bundle-SymbolicName: video-api
-Bundle-Version: 1.28.0
+Bundle-Version: 1.29.0
 Export-Package:\
 	eu.strasbourg.service.video.exception,\
 	eu.strasbourg.service.video.model,\

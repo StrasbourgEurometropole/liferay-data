@@ -1,16 +1,15 @@
-%atom-ul-rte{
+%atom-ul-rte {
     padding-left: 60px;
     margin-bottom: $margin-p;
     list-style: none;
-
-    @include RWD(mobile){
+    @include RWD(mobile) {
         padding-left: 20px;
     }
-    li{
+    li {
         margin-bottom: 0px;
         position: relative;
         font-weight: 400;
-        &:before{
+        &:before {
             content: '';
             height: 5px;
             width: 5px;
@@ -23,29 +22,28 @@
             top: 14px;
         }
     }
-    ul{        
-        padding-left: 90px;
-        @include RWD(mobile){
+    ul {
+        padding-left: 45px;
+        @include RWD(mobile) {
             padding-left: 40px;
         }
     }
 }
 
-%atom-ol-rte{
+%atom-ol-rte {
     padding-left: 50px;
     list-style: none;
     counter-reset: item;
     margin-bottom: $margin-p;
-
-    @include RWD(mobile){
+    @include RWD(mobile) {
         padding-left: 30px;
     }
-    li{
+    li {
         margin-bottom: 0;
         position: relative;
         display: flex;
         align-items: flex-start;
-        &:before{
+        &:before {
             counter-increment: item;
             content: counters(item, '.') ". ";
             color: $core-color;
@@ -56,9 +54,9 @@
             margin-top: 1px;
         }
     }
-    ol{
-        padding-left: 90px;
-        @include RWD(mobile){
+    ol {
+        padding-left: 45px;
+        @include RWD(mobile) {
             padding-left: 40px;
         }
     }

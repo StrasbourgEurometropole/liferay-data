@@ -293,6 +293,21 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return false;
 	}
+	
+	/**
+	 * Retourne true si le type du lieu doit avoir un calendrier d'horaires
+	 */
+	@Override
+	public Boolean hasScheduleTable() {
+		List<AssetCategory> types = this.getTypes();
+		for (AssetCategory type : types) {
+			String hasSchedule = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "schedule");
+			if (Validator.isNotNull(hasSchedule) && hasSchedule.equals("true")) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu

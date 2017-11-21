@@ -81,13 +81,17 @@
 		<div class="felec-response rte">
 			<c:if test="${felecResponse.responseCode eq 1 or felecResponse.responseCode eq 0}">
 				<!-- Electeur inconnu -->
-				Nous n'avons pas trouv&eacute; d'&eacute;lecteur pour les crit&egrave;res suivants :
-				${firstname} ${name}, n&eacute;(e) le ${birthdate} &agrave; ${birthplace}.
-				<br>
-				<br>
-				<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
-				<br><br>
-				<strong>Attention</strong> : vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
+				<div class="main-response">
+					Nous n'avons pas trouv&eacute; d'&eacute;lecteur pour les crit&egrave;res suivants
+				</div>
+				<div>
+					<strong>${firstname} ${name}, n&eacute;(e) le ${birthdate} &agrave; ${birthplace}.</strong>
+				</div>
+				<div>
+					<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
+					<br><br>
+					<strong>Attention</strong> : vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
+				</div>
 			</c:if>
 			<c:if test="${felecResponse.responseCode eq 2}">
 				<!-- Electeur connu -->
