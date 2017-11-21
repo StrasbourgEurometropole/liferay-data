@@ -189,9 +189,21 @@
                                 </#list>
                             </div>
                             <div class="rte">
-                                <!-- TODO : lien vers le tableau
-                                <p><a href="#" class="seu-btn-square--filled--second"><span class="seu-btn-text">Voir tous les horaires de la piscine</span></a></p>
-                            -->
+                                <#if entry.hasScheduleTable()>
+                                    <p>
+                                        <#assign categoriesIds="" />
+                                        <#list entry.types as type>
+                                            <#if type?counter==1>
+                                                <#assign categoriesIds= type.categoryId />
+                                                <#else>
+                                                    <#assign categoriesIds= categoriesIds + "," + type.categoryId />
+                                            </#if>
+                                        </#list>
+                                        <a href="${homeURL}horaires-lieux/-/schedules/category/${categoriesIds}" class="seu-btn-square--filled--second">
+                                            <span class="seu-btn-text">Voir tous les horaires des ${entry.getTypeLabel(locale)?lower_case}</span>
+                                        </a>
+                                    </p>
+                                </#if>
                                 <!-- Liste des exceptions -->
                                 <#assign exceptions = entry.getPlaceScheduleExceptionFreeMarker(.now, true, locale) />
                                 <#if exceptions?has_content || hasAnyException>
