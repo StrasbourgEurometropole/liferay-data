@@ -184,7 +184,7 @@
 								<aui:validator name="required" errorMessage="this-field-is-required" />
 							</aui:input>
 							
-							<aui:input name="siteURL" >
+							<aui:input name="siteURL" helpMessage="url-help-message">
 							 	<aui:validator name="url"/>
 								<aui:validator name="required" errorMessage="this-field-is-required" />
 							</aui:input>
