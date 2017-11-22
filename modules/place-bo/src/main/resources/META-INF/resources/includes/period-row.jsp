@@ -76,13 +76,13 @@ id="period${param.index}">
 						<c:set var="nbSlot" value="${nbSlot + 1}"/>
 					</c:if>  
 				</c:forEach>
-				<div id="${param.index}-${jour}">
+				<section id="${param.index}-${jour}">
 					<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addSlot(${param.index}, ${jour}); return false;"/>
 					<liferay-ui:message key="new-slot" /><br>
 					<c:if test="${jour == 0}">
 						<a onclick="copyHoraire(${param.index}); return false;" style="cursor:pointer;" ><span class="btn-icon icon icon-copy"></span>  <liferay-ui:message key="copie-horaire" /></a>
 					</c:if> 
-				</div>
+				</section>
 				<aui:input name="nbSlot${param.index}-${jour}" type="hidden" value="${nbSlot}" />
 			</div>
 		</c:forEach>

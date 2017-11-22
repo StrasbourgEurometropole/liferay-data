@@ -129,6 +129,9 @@
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
+									<c:if test="${not empty schedule.comment}">
+										<div>(${schedule.comment})</div>
+									</c:if>
 								</c:forEach>
 							</div>
 						</span>
@@ -152,6 +155,9 @@
 														</c:forEach>
 													</c:otherwise>
 												</c:choose>
+												<c:if test="${not empty schedule.comment}">
+													<div>(${schedule.comment})</div>
+												</c:if>
 											</c:forEach>
 										</div>
 									</div>

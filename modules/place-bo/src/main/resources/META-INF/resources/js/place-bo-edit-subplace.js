@@ -100,9 +100,9 @@ jQuery(function() {
 					+ '-' + jour).val();
 			for (var indexSlot = 0; indexSlot < nbSlot; indexSlot++) {
 				slotsIndexes += indexSlot + ",";
-				var startHour = $(namespaceAUI + 'startHour1_' + indexPeriod
+				var startHour = $(namespaceAUI + 'startHour' + indexPeriod
 						+ '-' + jour + '-' + indexSlot).val();
-				var endHour = $(namespaceAUI + 'endHour1_' + indexPeriod
+				var endHour = $(namespaceAUI + 'endHour' + indexPeriod
 						+ '-' + jour + '-' + indexSlot).val();
 				if(startHour == "") {
 					$('#slotStartHour' + indexPeriod
