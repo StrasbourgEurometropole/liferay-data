@@ -10015,6 +10015,391 @@ a {
 form + .seu-error-messages {
   margin-top: 40px; }
 
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent-custom.scss */
+.cc-window.cc-banner.cc-type-info.cc-theme-block.cc-bottom {
+  position: fixed;
+  z-index: 1000;
+  bottom: 80px;
+  top: auto;
+  left: auto;
+  right: 40px;
+  width: 600px;
+  max-width: 80%;
+  font-size: 1.5rem;
+  padding: 10px 20px; }
+
+/* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent-custom.scss */
+.cc-banner a.cc-dismiss {
+  font-family: "MontSerrat", arial;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 40px;
+  margin-left: 20px; }
+  /* line 21, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent-custom.scss */
+  .cc-banner a.cc-dismiss:hover {
+    color: #46cfc0;
+    background: #31455d; }
+  @media screen and (max-width: 414px) and (orientation: portrait), screen and (max-width: 736px) and (orientation: landscape) {
+    /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent-custom.scss */
+    .cc-banner a.cc-dismiss {
+      margin-left: 0;
+      line-height: 40px; } }
+
+@media screen and (max-width: 414px) and (orientation: portrait), screen and (max-width: 736px) and (orientation: landscape) {
+  /* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent-custom.scss */
+  .cc-window.cc-bottom {
+    bottom: 0;
+    padding: 10px 20px !important;
+    font-size: 1.4rem; } }
+
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window {
+  opacity: 1;
+  transition: opacity 1s ease; }
+
+/* line 6, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-invisible {
+  opacity: 0; }
+
+/* line 10, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-animate.cc-revoke {
+  transition: -webkit-transform 1s ease;
+  transition: transform 1s ease;
+  transition: transform 1s ease, -webkit-transform 1s ease; }
+
+/* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-animate.cc-revoke.cc-top {
+  -webkit-transform: translateY(-2em);
+          transform: translateY(-2em); }
+
+/* line 18, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-animate.cc-revoke.cc-bottom {
+  -webkit-transform: translateY(2em);
+          transform: translateY(2em); }
+
+/* line 22, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-animate.cc-revoke.cc-active.cc-bottom,
+.cc-animate.cc-revoke.cc-active.cc-top,
+.cc-revoke:hover {
+  -webkit-transform: translateY(0);
+          transform: translateY(0); }
+
+/* line 28, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-grower {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s; }
+
+/* line 34, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-link,
+.cc-revoke:hover {
+  text-decoration: underline; }
+
+/* line 39, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke,
+.cc-window {
+  position: fixed;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: Helvetica, Calibri, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  z-index: 9999; }
+
+/* line 54, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-static {
+  position: static; }
+
+/* line 58, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-floating {
+  padding: 2em;
+  max-width: 24em;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column; }
+
+/* line 65, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-banner {
+  padding: 1em 1.8em;
+  width: 100%;
+  -ms-flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row; }
+
+/* line 72, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke {
+  padding: .5em; }
+
+/* line 76, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-header {
+  font-size: 18px;
+  font-weight: 700; }
+
+/* line 81, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-btn,
+.cc-close,
+.cc-link,
+.cc-revoke {
+  cursor: pointer; }
+
+/* line 88, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-link {
+  opacity: .8;
+  display: inline-block;
+  padding: .2em; }
+
+/* line 94, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-link:hover {
+  opacity: 1; }
+
+/* line 98, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-link:active,
+.cc-link:visited {
+  color: initial; }
+
+/* line 103, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-btn {
+  display: block;
+  padding: .4em .8em;
+  font-size: .9em;
+  font-weight: 700;
+  border-width: 2px;
+  border-style: solid;
+  text-align: center;
+  white-space: nowrap; }
+
+/* line 114, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner .cc-btn:last-child {
+  min-width: 140px; }
+
+/* line 118, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-highlight .cc-btn:first-child {
+  background-color: transparent;
+  border-color: transparent; }
+
+/* line 123, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-highlight .cc-btn:first-child:focus,
+.cc-highlight .cc-btn:first-child:hover {
+  background-color: transparent;
+  text-decoration: underline; }
+
+/* line 129, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-close {
+  display: block;
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  font-size: 1.6em;
+  opacity: .9;
+  line-height: .75; }
+
+/* line 139, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-close:focus,
+.cc-close:hover {
+  opacity: 1; }
+
+/* line 144, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke.cc-top {
+  top: 0;
+  left: 3em;
+  border-bottom-left-radius: .5em;
+  border-bottom-right-radius: .5em; }
+
+/* line 151, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke.cc-bottom {
+  bottom: 0;
+  left: 3em;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em; }
+
+/* line 158, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke.cc-left {
+  left: 3em;
+  right: unset; }
+
+/* line 163, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-revoke.cc-right {
+  right: 3em;
+  left: unset; }
+
+/* line 168, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-top {
+  top: 1em; }
+
+/* line 172, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-left {
+  left: 1em; }
+
+/* line 176, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-right {
+  right: 1em; }
+
+/* line 180, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-bottom {
+  bottom: 1em; }
+
+/* line 184, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating > .cc-link {
+  margin-bottom: 1em; }
+
+/* line 188, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating .cc-message {
+  display: block;
+  margin-bottom: 1em; }
+
+/* line 193, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-floating .cc-compliance {
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+          flex: 1; }
+
+/* line 198, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-window.cc-banner {
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+          align-items: center; }
+
+/* line 203, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner.cc-top {
+  left: 0;
+  right: 0;
+  top: 0; }
+
+/* line 209, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner.cc-bottom {
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+/* line 215, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner .cc-message {
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+          flex: 1; }
+
+/* line 220, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-compliance {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+          align-items: center;
+  -ms-flex-line-pack: justify;
+  align-content: space-between; }
+
+/* line 229, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-compliance > .cc-btn {
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+          flex: 1; }
+
+/* line 234, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-btn + .cc-btn {
+  margin-left: .5em; }
+
+@media print {
+  /* line 239, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-revoke,
+  .cc-window {
+    display: none; } }
+
+@media screen and (max-width: 900px) {
+  /* line 246, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-btn {
+    white-space: normal; } }
+
+@media screen and (max-width: 414px) and (orientation: portrait), screen and (max-width: 736px) and (orientation: landscape) {
+  /* line 253, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-top {
+    top: 0; }
+  /* line 256, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-bottom {
+    bottom: 0; }
+  /* line 259, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-banner,
+  .cc-window.cc-left,
+  .cc-window.cc-right {
+    left: 0;
+    right: 0; }
+  /* line 265, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-banner {
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column; }
+  /* line 269, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-banner .cc-compliance {
+    -ms-flex: 1;
+    -webkit-box-flex: 1;
+            flex: 1; }
+  /* line 273, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-floating {
+    max-width: none; }
+  /* line 276, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window .cc-message {
+    margin-bottom: 1em; }
+  /* line 279, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+  .cc-window.cc-banner {
+    -ms-flex-align: unset;
+    -webkit-box-align: unset;
+            align-items: unset; } }
+
+/* line 285, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating.cc-theme-classic {
+  padding: 1.2em;
+  border-radius: 5px; }
+
+/* line 290, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating.cc-type-info.cc-theme-classic .cc-compliance {
+  text-align: center;
+  display: inline;
+  -ms-flex: none;
+  -webkit-box-flex: 0;
+          flex: none; }
+
+/* line 297, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-theme-classic .cc-btn {
+  border-radius: 5px; }
+
+/* line 301, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-theme-classic .cc-btn:last-child {
+  min-width: 140px; }
+
+/* line 305, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating.cc-type-info.cc-theme-classic .cc-btn {
+  display: inline-block; }
+
+/* line 309, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-theme-edgeless.cc-window {
+  padding: 0; }
+
+/* line 313, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating.cc-theme-edgeless .cc-message {
+  margin: 2em 2em 1.5em; }
+
+/* line 317, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner.cc-theme-edgeless .cc-btn {
+  margin: 0;
+  padding: .8em 1.8em;
+  height: 100%; }
+
+/* line 323, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-banner.cc-theme-edgeless .cc-message {
+  margin-left: 1em; }
+
+/* line 327, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/cookie-consent/cookie-consent.scss */
+.cc-floating.cc-theme-edgeless .cc-btn + .cc-btn {
+  margin-left: 0; }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/loader/loader.scss */
 #seu-loader {
   display: -webkit-box;
