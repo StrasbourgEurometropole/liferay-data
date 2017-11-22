@@ -148,6 +148,9 @@
                                                                 </div>
                                                             </#list>
                                                         </#if>
+                                                        <#if schedule.comment?has_content>
+                                                            <div>(${schedule.comment})</div>
+                                                        </#if>
                                                     </span>
                                                 </li>
                                                 <#assign day = day + 1 />
@@ -178,6 +181,9 @@
                                                                         ${openingTime.first} - ${openingTime.second}
                                                                     </div>
                                                                 </#list>
+                                                            </#if>
+                                                            <#if schedule.comment?has_content>
+                                                                <div>(${schedule.comment})</div>
                                                             </#if>
                                                         </div>
                                                     </span>
