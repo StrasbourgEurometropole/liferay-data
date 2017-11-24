@@ -12,7 +12,7 @@
         <div class="seu-result-icon"></div>
     </div>
     <div class="seu-result-right">
-        <a class="seu-result-content" href="${homeURL}lieu/-/entity/id/${entry.placeId}">
+        <a class="seu-result-content" href="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}">
             <h2 class="seu-result-title">${entry.getAlias(locale)}</h2>
             <div class="seu-result-catcher">${entry.getTypeLabel(locale)}</div>
         </a>
