@@ -44,8 +44,8 @@
     <button class="seu-search-trigger"></button>
     <div class="seu-lang-list">
       <div class="seu-lang seu-fr actif">fr</div>
-      <a href="http://de.strasbourg.eu" title="Deutsch" class="seu-lang seu-de">de</a>
-      <a href="http://en.strasbourg.eu" title="English" class="seu-lang seu-en">en</a>
+      <a href="http://de.strasbourg.eu" title="Deutsch" class="seu-lang seu-de" target="_blank">de</a>
+      <a href="http://en.strasbourg.eu" title="English" class="seu-lang seu-en" target="_blank">en</a>
     </div>
   </div>
 </nav>

@@ -12,6 +12,20 @@
   - max: 8 vignettes par ligne
 */
 /*IMAGES RTE*/
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/svgs/testsvg.scss */
+.svg-test {
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: 100px;
+  background-position: center;
+  border: 1px solid black;
+  padding: 20px; }
+
+/* line 11, D:/liferay-7/workspace/themes/strasbourg-theme/custom/00-conf/svgs/testsvg.scss */
+.svg-museum {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 42.83 59.39'%3E%3Ctitle%3EOffre emploi%3C/title%3E%3Cpath class='cls-1' fill='none' stroke-width='1.83' stroke='%2331455d' d='M19.77,38.28l-8.12,16h0a2.95,2.95,0,1,0,5.26,2.67L25,41' transform='translate(-10.26 -0.08)'/%3E%3Ccircle class='cls-1' fill='none' stroke-width='1.83' stroke='%2331455d' cx='31.67' cy='21.5' r='20.49' transform='translate(-15.36 10.78) rotate(-18.04)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M22.62,36.7a1.44,1.44,0,0,1-1.44-1.44V7.73a1.44,1.44,0,0,1,1.44-1.44H37.83a0.64,0.64,0,0,1,.46.19L43.77,12a0.64,0.64,0,0,1,.19.45V35.27a1.44,1.44,0,0,1-1.44,1.44H22.62Zm0-29.12a0.14,0.14,0,0,0-.14.14V35.27a0.14,0.14,0,0,0,.14.14h19.9a0.15,0.15,0,0,0,.14-0.14V13.06h-4a1.44,1.44,0,0,1-1.44-1.44v-4H22.62Zm15.86,4a0.15,0.15,0,0,0,.14.14h3.13L38.48,8.5v3.13Z' transform='translate(-10.26 -0.08)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M26.24,23.77a0.65,0.65,0,0,1,0-1.29H38.9a0.65,0.65,0,0,1,0,1.29H26.24Z' transform='translate(-10.26 -0.08)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M26.24,28.09a0.65,0.65,0,0,1,0-1.29H38.9a0.65,0.65,0,0,1,0,1.29H26.24Z' transform='translate(-10.26 -0.08)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M26.24,32.4a0.65,0.65,0,0,1,0-1.29h6.33a0.65,0.65,0,1,1,0,1.29H26.24Z' transform='translate(-10.26 -0.08)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M28.75,18.18V15a1.43,1.43,0,0,1,2.66-.71,0.31,0.31,0,0,1-.11.41,0.31,0.31,0,0,1-.41-0.11A0.81,0.81,0,0,0,30,14.19a0.82,0.82,0,0,0-.61.8v3.19A0.82,0.82,0,0,0,30,19a0.81,0.81,0,0,0,.93-0.38,0.3,0.3,0,0,1,.53.3A1.43,1.43,0,0,1,28.75,18.18Z' transform='translate(-10.26 -0.08)'/%3E%3Cpath class='cls-2' fill='%2331455d' stroke-width='0.6' d='M33.4,13.57a0.3,0.3,0,0,1,.37.22l0.47,1.68c0.25,0.93.54,2,.75,2.71,0.18-.68.49-1.79,0.74-2.71l0.47-1.68a0.3,0.3,0,1,1,.57.16l-1.5,5.44a0.29,0.29,0,0,1-.28.22,0.31,0.31,0,0,1-.29-0.22l-1.5-5.44A0.31,0.31,0,0,1,33.4,13.57Z' transform='translate(-10.26 -0.08)'/%3E%3C/svg%3E"); }
+
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/01-libs/only-sass/_reset.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
