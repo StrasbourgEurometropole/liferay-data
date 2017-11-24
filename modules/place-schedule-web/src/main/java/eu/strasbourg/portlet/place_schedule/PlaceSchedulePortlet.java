@@ -99,7 +99,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			jourChoisi.clear(Calendar.MILLISECOND);
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
 			request.setAttribute("selectedDate", jourChoisi.getTime());
-			request.setAttribute("selectedCalendar", jourChoisi);
+			GregorianCalendar selectedCalendar = new GregorianCalendar();
+			selectedCalendar.setTime(jourChoisi.getTime());
+			request.setAttribute("selectedCalendar", selectedCalendar);
 			request.setAttribute("selectedDay", jourChoisi.get(Calendar.DAY_OF_MONTH));
 			request.setAttribute("selectedMonth", jourChoisi.get(Calendar.MONTH));
 			request.setAttribute("selectedYear", jourChoisi.get(Calendar.YEAR));

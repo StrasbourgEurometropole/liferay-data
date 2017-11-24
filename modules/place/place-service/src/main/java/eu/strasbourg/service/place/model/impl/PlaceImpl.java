@@ -817,6 +817,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		premierJour.set(Calendar.MILLISECOND, 0);
 		dernierJour.setTime(premierJour.getTime());
 		dernierJour.add(Calendar.DAY_OF_YEAR, 1);
+		dernierJour.add(Calendar.MINUTE, -1);
 		if (surPeriode) {
 			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			dernierJour.add(Calendar.MONTH, 2);
@@ -1072,6 +1073,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 			jsonPlace.put("documents", documentsJSON);
 		}
 
+		return jsonPlace;
+	}
+	
+	public JSONObject getLegacyJSON() {
+		JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 		return jsonPlace;
 	}
 }
