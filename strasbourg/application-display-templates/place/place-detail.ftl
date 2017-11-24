@@ -62,10 +62,10 @@
                                                                         ${openingTime.first} - ${openingTime.second}
                                                                         <#if hasException></span></#if>
                                                                     </div>
+                                                                    <#if schedule.comments[openingTime?index]?has_content>
+                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                    </#if>
                                                                 </#list>
-                                                            </#if>
-                                                            <#if schedule.comment?has_content>
-                                                                <div>(${schedule.comment})</div>
                                                             </#if>
                                                         </div>
                                                         <#if schedule.isException() || schedule.isPublicHoliday()>
@@ -108,10 +108,10 @@
                                                                             ${openingTime.first} - ${openingTime.second}
                                                                             <#if hasException></span></#if>
                                                                         </div>
+                                                                        <#if schedule.comments[openingTime?index]?has_content>
+                                                                            <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                        </#if>
                                                                     </#list>
-                                                                </#if>
-                                                                <#if schedule.comment?has_content>
-                                                                    <div>(${schedule.comment})</div>
                                                                 </#if>
                                                             </div>
                                                         </#list>
@@ -146,10 +146,10 @@
                                                                 <div>
                                                                     ${openingTime.first} - ${openingTime.second}
                                                                 </div>
+                                                                <#if schedule.comments[openingTime?index]?has_content>
+                                                                    <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                </#if>
                                                             </#list>
-                                                        </#if>
-                                                        <#if schedule.comment?has_content>
-                                                            <div>(${schedule.comment})</div>
                                                         </#if>
                                                     </span>
                                                 </li>
@@ -180,10 +180,10 @@
                                                                     <div>
                                                                         ${openingTime.first} - ${openingTime.second}
                                                                     </div>
+                                                                    <#if schedule.comments[openingTime?index]?has_content>
+                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                    </#if>
                                                                 </#list>
-                                                            </#if>
-                                                            <#if schedule.comment?has_content>
-                                                                <div>(${schedule.comment})</div>
                                                             </#if>
                                                         </div>
                                                     </span>
