@@ -42,11 +42,7 @@
         </a>
         <div class="item-infos">
             <div class="item-geoloc">
-                <span class="text">${entry.getPlaceAlias(locale)} 
-                    <#if entry.getPlaceAddress(locale)?has_content>
-                        - ${entry.getPlaceAddress(locale)}
-                    </#if>
-                    - ${entry.placeZipCode} ${entry.getPlaceCity(locale)}</span>
+                <span class="text">${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</span>
             </div>
             <!--
             <a href="" class="item-misc">

@@ -1,5 +1,5 @@
 <#setting locale = locale />
-<main class="seu-container">
+<main class="seu-container" style="margin-bottom: 50px">
     <p class="seu-published">
        <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
        - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
@@ -24,6 +24,9 @@
     <style>
         .region-banner {
             background-image: url(${image.getData()}) !important;
+        }
+        .search-asset-portlet {
+            display: none;
         }
     </style>
 </#if>

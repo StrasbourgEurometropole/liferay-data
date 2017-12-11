@@ -9,11 +9,16 @@
             ${presentation.data}
         </div>
     </#if>
-    <#if office.data?has_content>
+    <#if office.data?has_content || phone.data?has_content>
         <h3><@liferay_ui.message key="eu.place.public-reception" /></h3>
         <div>
             ${office.data}
         </div>
+        <#if phone.data?has_content>
+            <div>
+                Tél. ${phone.data}
+            </div>
+        </#if>
     </#if>
     <#if address.data?has_content>
         <h3><@liferay_ui.message key="address" /></h3>

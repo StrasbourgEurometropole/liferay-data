@@ -11,11 +11,11 @@
           <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
           <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
           <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
-          <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+          <#assign image = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
           <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
           <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
           {
-            <#if curEntry.tagNames?seq_contains('euromag') || curEntry.tagNames?seq_contains('villemag')>
+            <#if curEntry.tagNames?seq_contains('euromag') || curEntry.tagNames?seq_contains('villemag') || curEntry.tagNames?seq_contains('webmag')>
               <#assign editionCount = editionCount + 1 />
               category: 'mag',
             <#else>

@@ -19,9 +19,10 @@
                         <#assign fileTitle = file.getTitle() />
                     </#if>
                     <a  class="seu-btn-square seu-bordered seu-core" 
-                        href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}"target="_blank"
+                        href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}"
+                        target="_blank"
                         title="${fileTitle}" 
-                        download>
+                    >
                         <span class="seu-flexbox">
                             <span class="seu-btn-text">
                                 ${fileTitle} (${file.getExtension()?upper_case} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})

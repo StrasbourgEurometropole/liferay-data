@@ -117,7 +117,7 @@
                         <div class="seu-wi-text">
                             <div class="seu-wi-title"><@liferay_ui.message key="eu.see-also" /></div>
                             <div class="rte">
-                                <a href="entry.getWebsiteURL(locale)">${entry.getWebsiteName(locale)}</a>
+                                <a href="${entry.getWebsiteURL(locale)}" target="_blank">${entry.getWebsiteName(locale)}</a>
                             </div>
                         </div>
                     </#if>
@@ -144,19 +144,23 @@
                             <div class="seu-wi-title"><@liferay_ui.message key="eu.access-for-disabled" /></div>
                             <div class="seu-pictos">
                                 <#if entry.accessForWheelchair>
-                                    <div class="seu-picto seu-picto-wheelchair"></div>
+                                    <div class="seu-picto seu-picto-wheelchair" title="<@liferay_ui.message key='eu.access-for-wheelchair' />"></div>
                                 </#if>
-                                <#if entry.accessForBlind>
-                                    <div class="seu-picto seu-picto-wheelchair"></div>
-                                </#if>
+
                                 <#if entry.accessForDeaf>
-                                    <div class="seu-picto seu-picto-wheelchair"></div>
+                                    <div class="seu-picto seu-picto-deaf" title="<@liferay_ui.message key='eu.access-for-deaf' />"></div>
                                 </#if>
-                                <#if entry.accessForElder>
-                                    <div class="seu-picto seu-picto-wheelchair"></div>
+                                
+                                <#if entry.accessForBlind>
+                                    <div class="seu-picto seu-picto-blind" title="<@liferay_ui.message key='eu.access-for-blind' />"></div>
                                 </#if>
+
                                 <#if entry.accessForDeficient>
-                                    <div class="seu-picto seu-picto-wheelchair"></div>
+                                    <div class="seu-picto seu-picto-deficient" title="<@liferay_ui.message key='eu.access-for-blind' />"></div>
+                                </#if>
+                                
+                                <#if entry.accessForElder>
+                                    <div class="seu-picto seu-picto-elder" title="<@liferay_ui.message key='eu.access-for-elder' />"></div>
                                 </#if>
                             </div>
                             <div class="rte">

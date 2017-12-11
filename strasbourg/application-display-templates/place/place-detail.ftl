@@ -197,16 +197,14 @@
                             <div class="rte">
                                 <#if entry.hasScheduleTable()>
                                     <p>
-                                        <#assign categoriesIds="" />
+                                        <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
                                         <#list entry.types as type>
-                                            <#if type?counter==1>
-                                                <#assign categoriesIds= type.categoryId />
-                                                <#else>
-                                                    <#assign categoriesIds= categoriesIds + "," + type.categoryId />
+                                            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'schedule') == 'true')>
+                                                <#assign category = type />
                                             </#if>
                                         </#list>
-                                        <a href="${homeURL}horaires-lieux/-/schedules/category/${categoriesIds}" class="seu-btn-square--filled--second">
-                                            <span class="seu-btn-text">Voir tous les horaires des ${entry.getTypeLabel(locale)?lower_case}</span>
+                                        <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}" class="seu-btn-square--filled--second">
+                                            <span class="seu-btn-text">Voir tous les horaires des ${category.getTitle(locale)?lower_case}</span>
                                         </a>
                                     </p>
                                 </#if>
@@ -753,6 +751,11 @@
                                 <a href="${entry.getSiteURL(locale)}" class="seu-external" title="${entry.getSiteLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getSiteLabel(locale)}</a>
                             </p>
                         </#if>
+                        <#if entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content>
+                            <p>
+                                <a href="${entry.getFacebookURL(locale)}" class="seu-external" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getFacebookLabel(locale)}</a>
+                            </p>
+                        </#if>
                     </div>
                 </div>
             </div>
@@ -798,3 +801,16 @@
         padding: 40px;
     }
 </style>
+<#if entry.imageURL?has_content>
+    <script>
+        if ($('.region-banner').length == 0) {
+            var bannerHtml = '<div class="region-banner"></div>';
+            $('.region-post-header').addClass('has-banner').prepend(bannerHtml);
+        }
+    </script>
+    <style>
+        .region-banner {
+            background-image: url(${entry.imageURL}) !important;
+        }
+    </style>
+</#if>

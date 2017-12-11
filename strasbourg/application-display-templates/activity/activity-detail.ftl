@@ -24,12 +24,12 @@
             <#list entry.publishedActivityCourses as course>
                 <p>
                     <a href="${homeURL}cours/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
-                        <button type="button" class="seu-btn-square--filled--second">
+                        <div class="seu-btn-square--filled--second">
                             <span class="seu-flexbox">
                                 <span class="seu-btn-text">${course.getName(locale)}</span>
                                 <span class="seu-btn-arrow"></span>
                             </span>
-                        </button>
+                        </div>
                     </a>
                 </p>
             </#list>
@@ -128,12 +128,3 @@
         </#if>
     </div>
 </div>
-
-<#if entry.imageURL?has_content>
-    <script>
-        if ($('.region-banner').length == 0) {
-            var bannerHtml = '<div class="region-banner" style="background-image: url(${entry.imageURL});"></div>';
-            $('.region-post-header').addClass('has-banner').prepend(bannerHtml);
-        }
-    </script>
-</#if>

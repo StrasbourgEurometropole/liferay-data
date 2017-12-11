@@ -33,12 +33,12 @@
                 </#if>
                 <#list activityCourses as course>
                     <a href="${homeURL}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}">
-                        <button type="button" class="seu-btn-square--filled--second">
+                        <div class="seu-btn-square--filled--second">
                             <span class="seu-flexbox">
                                 <span class="seu-btn-text">${course.getName(locale)}</span>
                                 <span class="seu-btn-arrow"></span>
                             </span>
-                        </button>
+                        </div>
                     </a>
                 </#list>
             </div>

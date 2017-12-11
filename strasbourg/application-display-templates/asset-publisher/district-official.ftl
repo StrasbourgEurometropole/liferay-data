@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="seu-btn-line">
-                <a href="${homeURL}city-official/-/entity/id/${official.officialId}" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="learn-more" />">
+                <a href="${homeURL}elu/-/entity/id/${official.officialId}" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="learn-more" />">
                     <span class="seu-flexbox">
                         <span class="seu-btn-text"><@liferay_ui.message key="learn-more" /></span>
                         <span class="seu-btn-arrow"></span>

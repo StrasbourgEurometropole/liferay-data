@@ -8,7 +8,7 @@
 <div class="region-nav-tools">
     <div class="block-container-breadcrumb">
         <h2 class="hidden">Vous êtes ici</h2>
-        <a href="../" class="back">Précédent</a>
+        <!-- <a href="../" class="back">Précédent</a> -->
         <ul class="page-depth">
             <li>
                 <a href="${homeURL}"><@liferay_ui.message key="home" /></a>

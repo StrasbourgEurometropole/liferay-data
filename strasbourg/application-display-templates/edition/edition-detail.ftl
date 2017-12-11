@@ -1,6 +1,12 @@
 <!-- Détail édition -->
 
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+  <#assign homeURL = "/" />
+</#if>
+
 <div class="seu-container wi-edition-detail">
     <h1>${entry.getTitle(locale)}</h1>
     <div class="rte">
@@ -57,6 +63,25 @@
                     </div>
                 </a>
             </div>
+        </#if>
+        <#if entry.getPublishedEditionGalleries()?has_content>
+            <#list entry.getPublishedEditionGalleries() as gallery>
+                <div class="seu-wi-link-group">
+                    <a class="seu-wi seu-media" href="${homeURL}galerie-editions/-/entity/id/${gallery.galleryId}" title="Lien vers la galerie">
+                        <div class="seu-media-container">
+                            <div class="seu-media-left">   
+                                <div class="seu-media-picto"></div>
+                            </div>
+                            <div class="seu-media-right">
+                                <div class="seu-media-text"> 
+                                    <div class="seu-media-title">Lien vers la galerie</div>
+                                </div> 
+                                <div class="seu-link-group-arrow"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </#list>
         </#if>
     </div>
 </div>
