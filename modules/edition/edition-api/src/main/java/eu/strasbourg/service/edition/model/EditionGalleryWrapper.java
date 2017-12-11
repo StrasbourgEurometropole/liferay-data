@@ -663,6 +663,14 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
+	* Retourne les types de la galerie d'éditions
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _editionGallery.getTypes();
+	}
+
+	/**
 	* Returns a map of the locales and localized descriptions of this edition gallery.
 	*
 	* @return the locales and localized descriptions of this edition gallery

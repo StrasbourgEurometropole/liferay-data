@@ -54,14 +54,14 @@
                     @include RWD(mobile){
                         display: block;
                     }
-                    button{
+                    .seu-btn-square--filled--second{
                         margin-bottom: 10px;
                         @include RWD(mobile){
                             margin-bottom: 0;
                         }
                         margin-right: 10px;
                     }
-                    button + button{
+                   .seu-btn-square--filled--second + .seu-btn-square--filled--second{
                         // margin-left: 10px;
                         @include RWD(mobile){
                             margin: 0;
@@ -71,7 +71,7 @@
                     .seu-btn-arrow{
                         transform: rotate(90deg);
                     }
-                    button.opened{
+                    .seu-btn-square--filled--second.opened{
                         .seu-btn-arrow{
                             transform: rotate(-90deg);
                         }

@@ -69,6 +69,20 @@
         .seu-picto-wheelchair{
             background-image: url( svg-bg-uri($svg-wheelchair, $core-color) );
         }
+        .seu-picto-blind{
+            background-image: url( svg-bg-uri($svg-blind, $core-color) );
+        }
+        .seu-picto-deaf{
+            background-image: url( svg-bg-uri($svg-deaf, $core-color) );
+            background-size: 39px;
+        }
+        .seu-picto-deficient{
+            background-image: url( svg-bg-uri($svg-tabou, $core-color) );
+            background-size: 29px;
+        }
+        .seu-picto-elder{
+            background-image: url( svg-bg-uri($svg-pmr, $core-color) );
+        }
         .rte{
             & > * {
                 color: $core-color;

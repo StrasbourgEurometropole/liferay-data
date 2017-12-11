@@ -73,7 +73,7 @@
         <div id="seu-social-templates">
             <!--Template Social-->
             <div class="seu-item seu-__category__">
-                <a href="__link__" class="seu-link" title="__category__">
+                <a href="__link__" class="seu-link" title="__category__" target="_blank">
                     <div class="seu-picture" style="background-image: url(__picture__)">
                     </div>
                     <div class="seu-text">

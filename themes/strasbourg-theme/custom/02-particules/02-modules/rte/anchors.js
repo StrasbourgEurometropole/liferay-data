@@ -8,9 +8,15 @@
     // Au chargement, si hash, on récup son offset - un eventuel header fixed
     $(window).load(function () {
         if (window.location.hash) {
-            $('body, html').animate({
-                scrollTop: $('#' + id).offset().top - 66
-            });
+            var element = $('#' + id);
+            if (element.length == 0) {
+                element = $('[name=' + id + ']');
+            }
+            if (element.length !== 0) {
+                $('body, html').animate({
+                    scrollTop: element.offset().top - 110
+                });
+            }
         }
     });
 
@@ -22,11 +28,14 @@
             e.preventDefault();
             var pos = href.search('#') + 1;
             id = href.slice(pos);
-
-            if ($('#' + id).length) {
+            var element = $('#' + id);
+            if (element.length == 0) {
+                element = $('[name=' + id + ']');
+            }
+            if (element.length) {
                 // cl("Scroll to Element in page");
                 $('body, html').animate({
-                    scrollTop: $('#' + id).offset().top - 110
+                    scrollTop: element.offset().top - 110
                 }, 800);
             } else {
                 window.location.replace(href);

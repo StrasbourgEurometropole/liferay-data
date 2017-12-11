@@ -67,6 +67,7 @@ import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.PlaceAgenda;
+import eu.strasbourg.service.activity.model.CourseAgenda.CoursePeriodAgenda;
 import eu.strasbourg.service.activity.service.base.ActivityLocalServiceBaseImpl;
 
 /**
@@ -441,6 +442,15 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		// On ajoute ces périodes à l'agenda
 		List<PlaceAgenda.Period> periods = activityPeriods.stream()
 				.map(p -> new PlaceAgenda.Period(p.getCategoryId(), p.getTitle(locale))).collect(Collectors.toList());
+		
+		// La période "période scolaire" doit être en premier
+		for (int i = 0; i < periods.size(); i++) {
+			if (periods.get(i).getPeriodName().endsWith("scolaire")) {
+				PlaceAgenda.Period temp = periods.get(0);
+				periods.set(0, periods.get(i));
+				periods.set(i, temp);
+			}
+		}
 		placeAgenda.setPeriods(periods);
 
 		// On assigne à chaque période ses cours
@@ -465,13 +475,13 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 					.collect(Collectors.toList());
 
 			// On assigne à ces cours leurs horaires
-			for (ActivityCoursePlace coursePlace : coursePlacesForPeriod) {
-				coursesForPeriod.stream()
-						.forEach(c -> c.setSchedules(courseSchedulesForPeriod.stream()
-								.filter(s -> s.getActivityCoursePlaceId() == coursePlace.getActivityCoursePlaceId())
-								.collect(Collectors.toList())));
+			for (PlaceAgenda.Course courseForPeriod : coursesForPeriod) {
+				// Schedules du cours pour la périod
+				List<ActivityCourseSchedule> schedules = courseSchedulesForPeriod.stream()
+						.filter(s -> courseForPeriod.getCourseId() == s.getActivityCoursePlace().getActivityCourseId())
+						.collect(Collectors.toList()); 
+				courseForPeriod.setSchedules(schedules);
 			}
-
 			// Et on ajoute les cours à la période
 			period.setCourses(coursesForPeriod);
 		}

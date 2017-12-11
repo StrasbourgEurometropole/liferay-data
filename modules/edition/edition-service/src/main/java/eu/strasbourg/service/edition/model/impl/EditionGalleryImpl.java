@@ -31,6 +31,7 @@ import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the EditionGallery service. Represents
@@ -119,6 +120,15 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 			ids += edition.getEditionId();
 		}
 		return ids;
+	}
+
+	/**
+	 * Retourne les types de la galerie d'éditions
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+			this.getAssetEntry(), VocabularyNames.EDITION_TYPE);
 	}
 
 	/**

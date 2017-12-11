@@ -72,7 +72,7 @@ public class EventPeriodLocalServiceImpl
 	 */
 	@Override
 	public List<EventPeriod> getByEventId(long eventId) {
-		return this.eventPeriodPersistence.findByEventId(eventId);
+		return this.eventPeriodPersistence.findByEventId(eventId, -1, -1, null, false);
 	}
 
 	/**

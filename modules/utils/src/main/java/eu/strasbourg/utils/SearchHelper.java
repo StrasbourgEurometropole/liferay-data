@@ -293,10 +293,15 @@ public class SearchHelper {
 
 				// Fuzzy sur titre
 				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_' + locale, keywords);
-				titleQuery.setFuzziness(new Float(2));
 				titleQuery.setAnalyzer("strasbourg_analyzer");
-				titleQuery.setBoost(3);
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+				
+				// Titre sans analyzer
+                MatchQuery titleQueryWithoutAnalyzer = new MatchQuery(Field.TITLE + "_" + locale, keywords);
+                titleQueryWithoutAnalyzer.setFuzziness(new Float(2));
+                titleQueryWithoutAnalyzer.setBoost(3);
+                keywordQuery.add(titleQueryWithoutAnalyzer, BooleanClauseOccur.SHOULD);
+
 
 				// Wildcard sur titre
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE + "_" + locale,

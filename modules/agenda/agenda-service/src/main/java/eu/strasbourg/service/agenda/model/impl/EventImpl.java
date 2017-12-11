@@ -179,15 +179,16 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public List<EventPeriod> getCurrentAndFuturePeriods() {
 		List<EventPeriod> allPeriods = this.getEventPeriods();
-		
+
 		Calendar todayAtMidnight = new GregorianCalendar();
 		todayAtMidnight.set(Calendar.HOUR_OF_DAY, 0);
 		todayAtMidnight.set(Calendar.MINUTE, 0);
 		todayAtMidnight.set(Calendar.SECOND, 0);
 		todayAtMidnight.set(Calendar.MILLISECOND, 0);
 
-		return allPeriods.stream().filter(p -> p.getEndDate().after(todayAtMidnight.getTime())
-				|| p.getEndDate().equals(todayAtMidnight.getTime())).collect(Collectors.toList());
+		List<EventPeriod> currentAndFuturePeriods = allPeriods.stream()
+				.filter(p -> p.getEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
+		return currentAndFuturePeriods;
 	}
 
 	/**

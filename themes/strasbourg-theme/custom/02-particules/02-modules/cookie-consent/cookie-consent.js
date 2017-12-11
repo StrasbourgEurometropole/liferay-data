@@ -983,14 +983,14 @@
             // The default timeout is 5 seconds. This is mainly needed to catch JSONP requests that error.
             // Otherwise there is no easy way to catch JSONP errors. That means that if a JSONP fails, the
             // app will take `timeout` milliseconds to react to a JSONP network error.
-            timeout: 5000,
+            timeout: 1,
 
             // the order that services will be attempted in
             services: [
-                'freegeoip',
+            /*
                 'ipinfo',
                 'maxmind'
-
+            */
                 /*
   
           // 'ipinfodb' requires some options, so we define it using an object

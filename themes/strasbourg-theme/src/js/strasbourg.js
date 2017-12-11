@@ -16141,14 +16141,14 @@ function megaSlider(slider, category){
             // The default timeout is 5 seconds. This is mainly needed to catch JSONP requests that error.
             // Otherwise there is no easy way to catch JSONP errors. That means that if a JSONP fails, the
             // app will take `timeout` milliseconds to react to a JSONP network error.
-            timeout: 5000,
+            timeout: 1,
 
             // the order that services will be attempted in
             services: [
-                'freegeoip',
+            /*
                 'ipinfo',
                 'maxmind'
-
+            */
                 /*
   
           // 'ipinfodb' requires some options, so we define it using an object
@@ -16682,7 +16682,7 @@ window.cookieconsent.initialise({
         allow: 'Autoriser',
         deny: 'Refuser',
         link: 'En savoir plus',
-        href: 'http://cookiesandyou.com',
+        href: 'https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser',
         close: '&#x274c;',
     },
     revokable: false,
@@ -17242,9 +17242,15 @@ $(document).ready(function(){
     // Au chargement, si hash, on récup son offset - un eventuel header fixed
     $(window).load(function () {
         if (window.location.hash) {
-            $('body, html').animate({
-                scrollTop: $('#' + id).offset().top - 66
-            });
+            var element = $('#' + id);
+            if (element.length == 0) {
+                element = $('[name=' + id + ']');
+            }
+            if (element.length !== 0) {
+                $('body, html').animate({
+                    scrollTop: element.offset().top - 110
+                });
+            }
         }
     });
 
@@ -17256,11 +17262,14 @@ $(document).ready(function(){
             e.preventDefault();
             var pos = href.search('#') + 1;
             id = href.slice(pos);
-
-            if ($('#' + id).length) {
+            var element = $('#' + id);
+            if (element.length == 0) {
+                element = $('[name=' + id + ']');
+            }
+            if (element.length) {
                 // cl("Scroll to Element in page");
                 $('body, html').animate({
-                    scrollTop: $('#' + id).offset().top - 110
+                    scrollTop: element.offset().top - 110
                 }, 800);
             } else {
                 window.location.replace(href);

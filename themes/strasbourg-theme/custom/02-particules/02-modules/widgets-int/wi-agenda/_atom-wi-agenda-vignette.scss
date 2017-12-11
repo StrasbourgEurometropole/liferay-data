@@ -113,7 +113,6 @@
             padding-bottom: 75%;
             margin-top: 30px;
             @include RWD(mobile){
-                padding-bottom: 0;
                 flex: 1;
             }
         }

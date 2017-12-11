@@ -222,7 +222,7 @@ jQuery(function() {
 				if(startDateSchedule == ""){
 					var startHour = $(namespaceAUI + "startHour1_" + index).val();
 					var endHour = $(namespaceAUI + "endHour1_" + index).val();
-					if (endDateSchedule || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
+					if (endDateSchedule != "" || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
 						allValidated = false;
 					}else{

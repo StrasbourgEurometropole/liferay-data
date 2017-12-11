@@ -642,6 +642,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.toJSON();
 	}
 
+	/**
+	* Reprise de l'horriblissime webservice des lieux de LR6
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toLegacyJSON() {
+		return _place.toLegacyJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.place.model.Place> toCacheModel() {
 		return _place.toCacheModel();
@@ -674,7 +682,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une
+	* piscine ou un parking)
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime() {
@@ -2318,7 +2327,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	* Retourne une map contennant les horaires de chaque jour des 7 jours
+	* suivants "startDate" (inclus)
 	*/
 	@Override
 	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
