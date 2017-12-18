@@ -114,6 +114,14 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * Retourne le lieu parent du sous-lieu
 	 */
 	@Override
+	public Place getParentPlace() {
+		return PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
+	}
+
+	/**
+	 * Retourne le lieu parent du sous-lieu
+	 */
+	@Override
 	public Place getPlaceByPlaceId(long placeId) {
 		return PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
 	}
@@ -186,15 +194,23 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 */
 	@Override
 	public List<PlaceSchedule> getSubPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
-		List<PlaceSchedule> listHoraires = new ArrayList<PlaceSchedule>();
+		List<PlaceSchedule> scheduleList = new ArrayList<PlaceSchedule>();
+		
+		// Si le lieu parent est fermé à cette date, le sous-lieu est fermé
+		List<PlaceSchedule> parentPlaceSchedules = this.getParentPlace().getPlaceSchedule(jourSemaine, locale);
+		boolean parentPlaceIsClosed = parentPlaceSchedules.stream().anyMatch(s -> s.isClosed());
+		if (parentPlaceIsClosed) {
+			scheduleList.add(PlaceSchedule.createClosedSchedule());
+			return scheduleList;
+		}
 
 		// vérifie si cette date n'est pas dans les horaires d'exception ni dans
 		// les jours fériés
-		listHoraires = getSubPlaceScheduleException(jourSemaine, false, locale);
+		scheduleList = getSubPlaceScheduleException(jourSemaine, false, locale);
 
 		// s'il n'y a pas d'exception, on récupère les horaires de la
 		// période concernée
-		if (listHoraires.isEmpty()) {
+		if (scheduleList.isEmpty()) {
 			Period defaultPeriod = null;
 			for (Period period : this.getPeriods()) {
 				// Soit la période en cours
@@ -204,8 +220,8 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 					int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 							: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
 					List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
-					listHoraires.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
-					return listHoraires;
+					scheduleList.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
+					return scheduleList;
 				}
 				// On met au cas où la période par défaut de côté
 				if (period.getDefaultPeriod()) {
@@ -217,10 +233,10 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 				int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 						: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
 				List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
-				listHoraires.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
+				scheduleList.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
 			}
 		}
-		return listHoraires;
+		return scheduleList;
 	}
 
 	/**

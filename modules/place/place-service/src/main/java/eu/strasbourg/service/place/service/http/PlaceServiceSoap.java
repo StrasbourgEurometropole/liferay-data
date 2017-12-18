@@ -166,6 +166,9 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne l'horrible ancien web service LR6
+	*/
 	public static java.lang.String getLegacyJSON() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getLegacyJSON();

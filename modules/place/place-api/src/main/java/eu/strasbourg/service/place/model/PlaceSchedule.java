@@ -105,6 +105,12 @@ public class PlaceSchedule {
 		return placeSchedule;
 	}
 	
+	public static PlaceSchedule createClosedSchedule() {
+		PlaceSchedule placeSchedule = new PlaceSchedule();
+		placeSchedule.setClosed(true);
+		return placeSchedule;
+	}
+	
 	public String getPeriodDisplay(Locale locale) {
 		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale);
 	}

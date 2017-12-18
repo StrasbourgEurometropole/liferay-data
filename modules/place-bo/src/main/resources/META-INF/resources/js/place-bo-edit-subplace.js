@@ -4,11 +4,11 @@ jQuery(function() {
 	var namespaceAUI = "#" + namespace;
 
 	$(":submit").on('click', function(e) {
-		setScheduleExceptionValidators();
-		setPeriodValidators();
+		setScheduleExceptionValidators(e);
+		setPeriodValidators(e);
 	});	
 
-	function setPeriodValidators() {
+	function setPeriodValidators(event) {
 		var allValidated = true;
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
@@ -137,7 +137,7 @@ jQuery(function() {
 		return allValidated;
 	}
 
-	function setScheduleExceptionValidators() {
+	function setScheduleExceptionValidators(event) {
 		var allValidated = true;
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');

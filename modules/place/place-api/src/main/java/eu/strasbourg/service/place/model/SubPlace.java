@@ -77,6 +77,11 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	/**
 	* Retourne le lieu parent du sous-lieu
 	*/
+	public eu.strasbourg.service.place.model.Place getParentPlace();
+
+	/**
+	* Retourne le lieu parent du sous-lieu
+	*/
 	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
 		long placeId);
 
