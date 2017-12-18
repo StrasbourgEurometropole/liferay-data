@@ -200,7 +200,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		List<PlaceSchedule> parentPlaceSchedules = this.getParentPlace().getPlaceSchedule(jourSemaine, locale);
 		boolean parentPlaceIsClosed = parentPlaceSchedules.stream().anyMatch(s -> s.isClosed());
 		if (parentPlaceIsClosed) {
-			scheduleList.add(PlaceSchedule.createClosedSchedule());
+			scheduleList.add(PlaceSchedule.createClosedSchedule(true));
 			return scheduleList;
 		}
 

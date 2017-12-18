@@ -106,8 +106,12 @@ public class PlaceSchedule {
 	}
 	
 	public static PlaceSchedule createClosedSchedule() {
+		return PlaceSchedule.createClosedSchedule(false);
+	}
+	public static PlaceSchedule createClosedSchedule(boolean isExceptional) {
 		PlaceSchedule placeSchedule = new PlaceSchedule();
 		placeSchedule.setClosed(true);
+		placeSchedule.setException(isExceptional);
 		return placeSchedule;
 	}
 	
