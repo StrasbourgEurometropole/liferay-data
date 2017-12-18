@@ -1705,7 +1705,7 @@ a {
       font-size: 1.4rem; } }
 
 /* line 13, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
-.seu-not-front .rte .type-image figure figcaption, .seu-not-front .rte .type-image figure .image-copyright, .seu-slider-int-container .seu-text {
+.seu-not-front .rte .type-image figure figcaption, .seu-not-front .rte .type-image figure .image-copyright, .seu-slider-int-container .seu-text, .seu-not-front .rte .image-with-copyright .copyright {
   font-family: "OpenSans", arial;
   color: #ffffff;
   font-size: 1.2rem;
@@ -3721,7 +3721,7 @@ a {
   transition: all, 0.3s; }
 
 /* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-image-captions.scss */
-.seu-not-front .rte .type-image figure figcaption, .seu-not-front .rte .type-image figure .image-copyright, .seu-slider-int-container .seu-text {
+.seu-not-front .rte .type-image figure figcaption, .seu-not-front .rte .type-image figure .image-copyright, .seu-slider-int-container .seu-text, .seu-not-front .rte .image-with-copyright .copyright {
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0.6); }
 
@@ -8181,6 +8181,7 @@ a {
   /* Headings */
   /* Inlines */
   /* Images */
+  /* Images CUS */
   /* Listes */
   /* MEDIAS */ }
   /* line 3, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
@@ -8189,34 +8190,47 @@ a {
   /* line 14, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte p {
     margin-bottom: 10px; }
-  /* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 24, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  .seu-not-front .rte .image-with-copyright {
+    position: relative;
+    display: inline-block; }
+    /* line 27, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+    .seu-not-front .rte .image-with-copyright img {
+      display: block; }
+    /* line 30, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+    .seu-not-front .rte .image-with-copyright .copyright {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      max-width: 100%; }
+  /* line 47, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .table-content {
     clear: both;
     margin-bottom: 40px; }
-  /* line 40, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 54, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .media {
     clear: both;
     margin-bottom: 40px; }
-  /* line 46, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 60, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .quote {
     clear: both;
     margin-bottom: 40px; }
-    /* line 48, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+    /* line 62, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
     .seu-not-front .rte .quote > *:last-child {
       margin-bottom: 0; }
-  /* line 55, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 69, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .highlight-content {
     clear: both;
     margin-bottom: 40px; }
-  /* line 61, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 75, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .slider-int {
     clear: both;
     margin-bottom: 40px; }
-  /* line 68, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 82, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .grid-trombinoscope {
     clear: both;
     margin-bottom: 40px; }
-  /* line 74, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
+  /* line 88, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_organism-rte.scss */
   .seu-not-front .rte .link-group {
     clear: both;
     margin-bottom: 40px; }
@@ -12175,6 +12189,10 @@ _:-ms-fullscreen #seu-grid--list01 .grid-item .item-content, _:-ms-fullscreen .e
 .page-header {
   border-bottom: none; }
 
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_ff.scss */
+.firefox #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+  padding-bottom: 45% !important; }
+
 /* line 2, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {
   height: calc(100% - 140px); }
@@ -12352,5 +12370,9 @@ _:-ms-fullscreen #seu-grid--list01 .grid-item .item-content, _:-ms-fullscreen .e
 /* line 33, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_liferay.scss */
 .page-header {
   border-bottom: none; }
+
+/* line 1, D:/liferay-7/workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_ff.scss */
+.firefox #seu-une .seu-slider-une-container .seu-slider .owl-item .seu-actu.seu-item .seu-picture {
+  padding-bottom: 45% !important; }
 
 /*# sourceMappingURL=strasbourg.css.map */
