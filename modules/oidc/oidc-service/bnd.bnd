@@ -1,5 +1,5 @@
 Bundle-Name: oidc-service
 Bundle-SymbolicName: eu.strasbourg.service.oidc.service
-Bundle-Version: 1.29.0
+Bundle-Version: 1.31.0
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true

@@ -1,3 +1,3 @@
 Bundle-SymbolicName: link.web
-Bundle-Version: 1.29.0
+Bundle-Version: 1.31.0
 Export-Package: eu.strasbourg.portlet.link.itemselector
