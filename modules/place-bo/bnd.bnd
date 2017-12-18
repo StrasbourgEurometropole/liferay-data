@@ -1,4 +1,4 @@
 Bundle-Name: place-bo
 Bundle-SymbolicName: place.bo
-Bundle-Version: 1.29.0
+Bundle-Version: 1.31.0
 Web-ContextPath: /placebo
