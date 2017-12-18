@@ -66,6 +66,14 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getPlacesByType(typeId);
 	}
 
+	/**
+	* Retourne l'horrible ancien web service LR6
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
+		return _placeService.getLegacyJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {

@@ -244,6 +244,14 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	* Retourne le lieu parent du sous-lieu
 	*/
 	@Override
+	public eu.strasbourg.service.place.model.Place getParentPlace() {
+		return _subPlace.getParentPlace();
+	}
+
+	/**
+	* Retourne le lieu parent du sous-lieu
+	*/
+	@Override
 	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
 		long placeId) {
 		return _subPlace.getPlaceByPlaceId(placeId);

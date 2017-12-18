@@ -119,3 +119,7 @@
 .attendance-label label {
 	cursor: pointer;
 }
+
+.slot-content:not(:last-of-type) .icon-trash {
+    visibility: hidden;
+}

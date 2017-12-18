@@ -2,6 +2,7 @@
     font-size: 10px;
     font-family: $site-font;
     line-height: 1.2;
+    overflow-x: hidden;
     @include RWD(tablet){
         padding: 0;
     }

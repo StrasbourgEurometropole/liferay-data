@@ -126,6 +126,9 @@
 										<c:otherwise>
 											<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
 												<div>${openingTime.first} - ${openingTime.second}</div>
+												<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
+													<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
+												</c:if>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
@@ -149,6 +152,9 @@
 													<c:otherwise>
 														<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
 															<div>${openingTime.first} - ${openingTime.second}</div>
+															<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
+																<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
+															</c:if>
 														</c:forEach>
 													</c:otherwise>
 												</c:choose>

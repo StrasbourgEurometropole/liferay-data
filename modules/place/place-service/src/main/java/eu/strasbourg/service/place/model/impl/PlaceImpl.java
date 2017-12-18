@@ -58,6 +58,7 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.models.Pair;
 
 /**
  * The extended model implementation for the Place service. Represents a row in
@@ -204,19 +205,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public List<Period> getPeriods() {
 		return PeriodLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
-	
+
 	/**
 	 * Retourne les périodes qui ne sont pas par défaut
 	 */
-	@Override 
+	@Override
 	public List<Period> getNonDefaultPeriods() {
 		return this.getPeriods().stream().filter(p -> !p.getDefaultPeriod()).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Retourne la période par défaut
 	 */
-	@Override 
+	@Override
 	public Period getDefaultPeriod() {
 		for (Period period : this.getPeriods()) {
 			if (period.getDefaultPeriod()) {
@@ -293,7 +294,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Retourne true si le type du lieu doit avoir un calendrier d'horaires
 	 */
@@ -609,6 +610,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
 	/**
 	 * Retourne true si le lieu est une piscine
+	 * 
 	 * @return
 	 */
 	@Override
@@ -623,12 +625,13 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
+	 * piscine ou un parking)
 	 */
 	@Override
 	public OccupationState getRealTime() {
 		return isSwimmingPool() ? getRealTime("1") : getRealTime("2");
-	}	
+	}
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
@@ -701,14 +704,16 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	 * Retourne une map contennant les horaires de chaque jour des 7 jours
+	 * suivants "startDate" (inclus)
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getFollowingWeekSchedules(Date startDate, Locale locale) {
 		Map<String, List<PlaceSchedule>> schedules = new LinkedHashMap<String, List<PlaceSchedule>>();
 		LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale).withZone(ZoneId.systemDefault());
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale)
+				.withZone(ZoneId.systemDefault());
 		for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
 			List<PlaceSchedule> liste = getPlaceSchedule(localDate, locale);
 			String dateString = localDate.atStartOfDay().format(dtf);
@@ -754,7 +759,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		return this.getPlaceSchedule(gregorianCalendar, locale);
 	}
 
-
 	/**
 	 * Retourne les horaires d'ouverture du jour
 	 */
@@ -777,7 +781,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 						&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 					int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 							: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-					List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+					List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
+							.collect(Collectors.toList());
 					listHoraires.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
 					return listHoraires;
 				}
@@ -790,7 +795,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 			if (defaultPeriod != null) {
 				int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 						: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-				List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+				List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
+						.collect(Collectors.toList());
 				listHoraires.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
 			}
 		}
@@ -817,6 +823,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		premierJour.set(Calendar.MILLISECOND, 0);
 		dernierJour.setTime(premierJour.getTime());
 		dernierJour.add(Calendar.DAY_OF_YEAR, 1);
+		dernierJour.add(Calendar.MINUTE, -1);
 		if (surPeriode) {
 			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			dernierJour.add(Calendar.MONTH, 2);
@@ -827,7 +834,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
 					&& scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
 					&& scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
-				
+
 				if (scheduleException.isClosed()) {
 					PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
 							scheduleException.getStartDate(), scheduleException.getEndDate(),
@@ -1071,6 +1078,154 @@ public class PlaceImpl extends PlaceBaseImpl {
 		if (documentsJSON.length() > 0) {
 			jsonPlace.put("documents", documentsJSON);
 		}
+
+		return jsonPlace;
+	}
+
+	/**
+	 * Reprise de l'horriblissime webservice des lieux de LR6
+	 */
+	@Override
+	public JSONObject toLegacyJSON() {
+		JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
+
+		JSONObject accessForDisabled = JSONFactoryUtil.createJSONObject();
+		accessForDisabled.put("javaClass", "java.util.HashMap");
+		JSONObject accessForDisabledMap = JSONFactoryUtil.createJSONObject();
+		accessForDisabledMap.put("Personnes agees", this.getAccessForElder());
+		accessForDisabledMap.put("Deficients auditif", this.getAccessForDeaf());
+		accessForDisabledMap.put("Deficients visuel", this.getAccessForBlind());
+		accessForDisabledMap.put("Deficients cognitif", this.getAccessForDeficient());
+		accessForDisabledMap.put("Handicap moteur", this.getAccessForWheelchair());
+		accessForDisabled.put("map", accessForDisabledMap);
+		jsonPlace.put("accessHandicap", accessForDisabled);
+
+		jsonPlace.put("urlSiteInternet", this.getSiteURL(Locale.FRANCE));
+		jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPrice(Locale.FRANCE) : "");
+		jsonPlace.put("adresse", this.getAddressStreet() + " " + this.getAddressComplement() + "<br />"
+				+ this.getAddressZipCode() + " " + this.getCity(Locale.FRANCE) + "<br />" + this.getAddressCountry());
+		jsonPlace.put("rue", this.getAddressStreet());
+		jsonPlace.put("illustration", this.getImageURL());
+		jsonPlace.put("urlFacebook", this.getFacebookURL(Locale.FRANCE));
+		jsonPlace.put("ville", this.getCity(Locale.FRANCE));
+
+		JSONObject coordinates = JSONFactoryUtil.createJSONObject();
+		coordinates.put("javaClass", "java.util.HashMap");
+		JSONObject coordinatesMap = JSONFactoryUtil.createJSONObject();
+		coordinatesMap.put("X", this.getRGF93X());
+		coordinatesMap.put("Y", this.getRGF93Y());
+		coordinates.put("map", coordinatesMap);
+		jsonPlace.put("coordonneesRGF93", coordinates);
+
+		jsonPlace.put("nomSiteInternet", this.getSiteLabel(Locale.FRANCE));
+		jsonPlace.put("urlVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getPlayer(Locale.FRANCE) : "");
+
+		JSONObject schedule = JSONFactoryUtil.createJSONObject();
+		schedule.put("javaClass", "java.util.TreeMap");
+		JSONObject scheduleMap = JSONFactoryUtil.createJSONObject();
+		LocalDate date = LocalDate.now();
+		for (int i = 0; i < 7; i++) {
+			String dateString = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+			List<PlaceSchedule> placeSchedules = this.getPlaceSchedule(date, Locale.FRANCE);
+			String scheduleString = "";
+			for (PlaceSchedule placeSchedule : placeSchedules) {
+				if (placeSchedule.isClosed()) {
+					scheduleString = "Ferme";
+				} else if (placeSchedule.isAlwaysOpen()) {
+					scheduleString = "24h/24";
+				} else if (placeSchedule.getOpeningTimes() != null) {
+					for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
+						if (scheduleString.length() > 0) {
+							scheduleString += ",";
+						}
+						scheduleString += openingTime.getFirst() + "-" + openingTime.getSecond();
+					}
+				}
+			}
+			scheduleMap.put(dateString, scheduleString);
+			date = date.plusDays(1);
+		}
+		schedule.put("map", scheduleMap);
+		jsonPlace.put("horaires", schedule);
+
+
+		jsonPlace.put("descriptionAccesHandicap", this.getAccessForDisabled(Locale.FRANCE));
+
+		JSONObject categories = JSONFactoryUtil.createJSONObject();
+		categories.put("javaClass", "java.util.ArrayList");
+		JSONArray categoriesArray = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory type : this.getTypes()) {
+			String sigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
+			if (Validator.isNotNull(sigId)) {
+				categoriesArray.put(sigId);
+			}
+		}
+		categories.put("list", categoriesArray);
+		jsonPlace.put("categorie", categories);
+
+
+		jsonPlace.put("horaireExceptionnel", this.getExceptionalSchedule(Locale.FRANCE));
+		jsonPlace.put("nomFacebook", this.getFacebookLabel(Locale.FRANCE));
+
+		// "urlGalerie" n'existe plus
+		// "nomPeriode" ???
+		// "urlLienHoraires" pas possible car par période
+		// "nomLienHoraires" pas possible : par période
+		// "nomGalerie" : n'existe plus
+		// ouvertures exceptionnelles ???
+		// Fermetures exceptionnelles
+		// TOUT VIDE DU COUP
+		jsonPlace.put("urlGalerie", "");
+		jsonPlace.put("nomPeriode", "");
+		jsonPlace.put("urlLienHoraires", "");
+		jsonPlace.put("nomLienHoraires", "");
+		jsonPlace.put("nomGalerie", "");
+		jsonPlace.put("ouvertures exceptionnelles", "");
+		jsonPlace.put("Fermetures exceptionnelles", "");
+		
+
+		jsonPlace.put("services", this.getServiceAndActivities(Locale.FRANCE));
+		jsonPlace.put("document1", this.getDocumentURLs().size() > 0 ? this.getDocumentURLs().get(0) : "");
+		jsonPlace.put("document2", this.getDocumentURLs().size() > 1 ? this.getDocumentURLs().get(1) : "");
+		jsonPlace.put("modeAcces", this.getAccess(Locale.FRANCE));
+		jsonPlace.put("caracteristiques", this.getCharacteristics(Locale.FRANCE));
+		jsonPlace.put("idSurfs", this.getSIGid());
+		jsonPlace.put("nomLieu", this.getAlias(Locale.FRANCE));
+		jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid());
+		jsonPlace.put("infosComplementaires", this.getAdditionalInformation(Locale.FRANCE));
+
+		JSONObject territory = JSONFactoryUtil.createJSONObject();
+		territory.put("javaClass", "java.util.HashMap");
+		JSONObject territoryMap = JSONFactoryUtil.createJSONObject();
+		AssetCategory district = this.getDistrictCategory();
+		String districtCode = AssetVocabularyHelper.getCategoryProperty(district.getCategoryId(), "SIG");
+		if (Validator.isNotNull(districtCode)) {
+			territoryMap.put("Quartier", districtCode);	 
+		}
+		AssetCategory city = this.getCityCategory();
+		territoryMap.put("Commune",
+				city != null ? AssetVocabularyHelper.getCategoryProperty(city.getCategoryId(), "SIG") : "");
+		territory.put("map", territoryMap);
+		jsonPlace.put("territoire", territory);
+
+		jsonPlace.put("presentation", this.getPresentation(Locale.FRANCE));
+		jsonPlace.put("email", this.getMail());
+		jsonPlace.put("mentionDistribution", this.getAddressDistribution());
+
+		JSONObject mercator = JSONFactoryUtil.createJSONObject();
+		mercator.put("javaClass", "java.util.HashMap");
+		JSONObject mercatorMap = JSONFactoryUtil.createJSONObject();
+		mercatorMap.put("X", this.getMercatorX());
+		mercatorMap.put("Y", this.getMercatorY());
+		mercator.put("map", mercatorMap);
+		jsonPlace.put("coordonneesMercator", mercator);
+		
+		jsonPlace.put("javaClass", "com.cus.surfs.service.cusplaceasset.batch.CusPlaceAssetWithSchedule");
+		jsonPlace.put("pays", this.getAddressCountry());
+		jsonPlace.put("nomVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getTitle(Locale.FRANCE) : "");
+		jsonPlace.put("complementAdresse", this.getAddressComplement());
+		jsonPlace.put("telephone", this.getPhone());
+		jsonPlace.put("codePostal", this.getAddressZipCode());
 
 		return jsonPlace;
 	}

@@ -11,7 +11,7 @@ public interface SocialService {
 	
 	List<Tweet> getUserTweets(String username, int count);
 	
-	List<SocialPost> getInstagramPosts(String username, int count);
+	List<SocialPost> getInstagramPosts(String clientId, String clientSecret, String token, int count);
 	
 	List<SocialPost> getDailymotionVideos(String accountId, int count, DailymotionThumbnailRatio ratio);
 }

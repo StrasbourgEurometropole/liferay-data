@@ -1,5 +1,5 @@
 Bundle-SymbolicName: activity-api
-Bundle-Version: 1.29.0
+Bundle-Version: 1.31.0
 Export-Package:\
 	eu.strasbourg.service.activity.exception,\
 	eu.strasbourg.service.activity.model,\

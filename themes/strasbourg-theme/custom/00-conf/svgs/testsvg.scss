@@ -1,0 +1,13 @@
+.svg-test {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: center;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.svg-museum {
+    background-image: url(svg-bg-uri($svg-job, $core-color));
+}

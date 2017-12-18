@@ -4,11 +4,11 @@ jQuery(function() {
 	var namespaceAUI = "#" + namespace;
 
 	$(":submit").on('click', function(e) {
-		setScheduleExceptionValidators();
-		setPeriodValidators();
+		setScheduleExceptionValidators(e);
+		setPeriodValidators(e);
 	});	
 
-	function setPeriodValidators() {
+	function setPeriodValidators(event) {
 		var allValidated = true;
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
@@ -100,9 +100,9 @@ jQuery(function() {
 					+ '-' + jour).val();
 			for (var indexSlot = 0; indexSlot < nbSlot; indexSlot++) {
 				slotsIndexes += indexSlot + ",";
-				var startHour = $(namespaceAUI + 'startHour1_' + indexPeriod
+				var startHour = $(namespaceAUI + 'startHour' + indexPeriod
 						+ '-' + jour + '-' + indexSlot).val();
-				var endHour = $(namespaceAUI + 'endHour1_' + indexPeriod
+				var endHour = $(namespaceAUI + 'endHour' + indexPeriod
 						+ '-' + jour + '-' + indexSlot).val();
 				if(startHour == "") {
 					$('#slotStartHour' + indexPeriod
@@ -137,7 +137,7 @@ jQuery(function() {
 		return allValidated;
 	}
 
-	function setScheduleExceptionValidators() {
+	function setScheduleExceptionValidators(event) {
 		var allValidated = true;
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');
@@ -157,7 +157,7 @@ jQuery(function() {
 				if(startDateSchedule == ""){
 					var startHour = $(namespaceAUI + "startHour1_" + index).val();
 					var endHour = $(namespaceAUI + "endHour1_" + index).val();
-					if (endDateSchedule || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
+					if (endDateSchedule != "" || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
 						allValidated = false;
 					}else{

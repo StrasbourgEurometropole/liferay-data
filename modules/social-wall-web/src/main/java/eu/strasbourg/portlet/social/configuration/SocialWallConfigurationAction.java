@@ -42,8 +42,14 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		String twitterAccount = ParamUtil.getString(actionRequest, "twitterAccount");
 		setPreference(actionRequest, "twitterAccount", twitterAccount);
 
-		String instagramAccount = ParamUtil.getString(actionRequest, "instagramAccount");
-		setPreference(actionRequest, "instagramAccount", instagramAccount);
+		String instagramClientId = ParamUtil.getString(actionRequest, "instagramClientId");
+		setPreference(actionRequest, "instagramClientId", instagramClientId);
+		
+		String instagramClientSecret = ParamUtil.getString(actionRequest, "instagramClientSecret");
+		setPreference(actionRequest, "instagramClientSecret", instagramClientSecret);
+		
+		String instagramToken = ParamUtil.getString(actionRequest, "instagramToken");
+		setPreference(actionRequest, "instagramToken", instagramToken);
 
 		String dailymotionAccountId = ParamUtil.getString(actionRequest, "dailymotionAccountId");
 		setPreference(actionRequest, "dailymotionAccountId", dailymotionAccountId);
@@ -65,9 +71,9 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		MultiVMPoolUtil.getPortalCache("dailymotion_cache")
 			.remove(dailymotionAccountId + "_last_update");
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramAccount);
+		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramClientId);
 		MultiVMPoolUtil.getPortalCache("instagram_cache")
-			.remove(instagramAccount + "_last_update");
+			.remove(instagramClientId + "_last_update");
 
 		MultiVMPoolUtil.getPortalCache("facebook_cache").remove(facebookToken);
 		MultiVMPoolUtil.getPortalCache("facebook_cache")
@@ -89,7 +95,9 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
-			request.setAttribute("instagramAccount", configuration.instagramAccount());
+			request.setAttribute("instagramClientId", configuration.instagramClientId());
+			request.setAttribute("instagramClientSecret", configuration.instagramClientSecret());
+			request.setAttribute("instagramToken", configuration.instagramToken());
 			request.setAttribute("dailymotionAccountId", configuration.dailymotionAccountId());
 			request.setAttribute("facebookToken", configuration.facebookToken());
 			request.setAttribute("postCount", configuration.postCount());

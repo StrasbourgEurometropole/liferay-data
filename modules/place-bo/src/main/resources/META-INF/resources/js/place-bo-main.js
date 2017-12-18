@@ -172,8 +172,7 @@ function addSlot(idPeriod, jour) {
 	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val();
 	var lastSlot = 0;
 	if (nbSlot > 0) {
-		lastSlot = parseInt($('input[name*=numSlot]')[nbSlot - 1].id
-				.split(namespace + 'numSlot')[1]) + 1;
+		lastSlot = nbSlot;
 	}
 	$.ajax({
 		url : getslotRowJSPURL + '&' + namespace + 'indexPeriod=' + idPeriod
@@ -225,8 +224,7 @@ function addSlot(idPeriod, jour, indexSlot, heureDebutLundi, heureFinLundi) {
 	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val();
 	var lastSlot = 0;
 	if (nbSlot > 0) {
-		lastSlot = parseInt($('input[name*=numSlot]')[nbSlot - 1].id
-				.split(namespace + 'numSlot')[1]) + 1;
+		lastSlot = nbSlot;
 	}
 	$.ajax({
 		url : getslotRowJSPURL + '&' + namespace + 'indexPeriod=' + idPeriod

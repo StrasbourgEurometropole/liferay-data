@@ -260,6 +260,15 @@ public class ActivityCourseImpl extends ActivityCourseBaseImpl {
 		// On crée les objets agenda pour ces périodes
 		List<CoursePeriodAgenda> periodAgendas = periods.stream().map(p -> new CoursePeriodAgenda(p.getCategoryId(), p.getTitle(locale)))
 				.collect(Collectors.toList());
+		
+		// La période "période scolaire" doit être en premier
+		for (int i = 0; i < periodAgendas.size(); i++) {
+			if (periodAgendas.get(i).getPeriodName().endsWith("scolaire")) {
+				CoursePeriodAgenda temp = periodAgendas.get(0);
+				periodAgendas.set(0, periodAgendas.get(i));
+				periodAgendas.set(i, temp);
+			}
+		}
 		courseAgenda.setPeriods(periodAgendas);
 
 		// On assigne à chaque période ses lieux

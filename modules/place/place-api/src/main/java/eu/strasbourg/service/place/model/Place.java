@@ -244,7 +244,8 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean isSwimmingPool();
 
 	/**
-	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une piscine ou un parking)
+	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une
+	* piscine ou un parking)
 	*/
 	public eu.strasbourg.utils.OccupationState getRealTime();
 
@@ -258,7 +259,8 @@ public interface Place extends PlaceModel, PersistedModel {
 		java.lang.String type);
 
 	/**
-	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	* Retourne une map contennant les horaires de chaque jour des 7 jours
+	* suivants "startDate" (inclus)
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
 		java.util.Date startDate, java.util.Locale locale);
@@ -300,4 +302,9 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne la version JSON du lieu
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Reprise de l'horriblissime webservice des lieux de LR6
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toLegacyJSON();
 }

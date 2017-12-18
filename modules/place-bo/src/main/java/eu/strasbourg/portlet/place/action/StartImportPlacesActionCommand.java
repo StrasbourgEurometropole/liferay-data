@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -276,6 +277,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							}
 							place.setSIGid(idSIG);
 							place.setName(alias);
+							place.setAlias(alias, Locale.FRANCE );
 							place.setAddressComplement(complement);
 							place.setAddressStreet(voie);
 							place.setAddressDistribution(distribution);

@@ -70,6 +70,13 @@ public class PlaceServiceUtil {
 		return getService().getPlacesByType(typeId);
 	}
 
+	/**
+	* Retourne l'horrible ancien web service LR6
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
+		return getService().getLegacyJSON();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceById(
 		long id) throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPlaceById(id);

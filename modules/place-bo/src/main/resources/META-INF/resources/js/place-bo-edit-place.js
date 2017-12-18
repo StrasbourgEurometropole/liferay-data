@@ -20,13 +20,13 @@ jQuery(function() {
 	});
 
 	$(":submit").on('click', function(e) {
-		setSiteConditionalValidators();
-		setFacebookConditionalValidators();
-		setScheduleExceptionValidators();
-		setPeriodValidators();
+		setSiteConditionalValidators(e);
+		setFacebookConditionalValidators(e);
+		setScheduleExceptionValidators(e);
+		setPeriodValidators(e);
 	});
 
-	function setSiteConditionalValidators() {
+	function setSiteConditionalValidators(event) {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form',function() {
 			var rules = Liferay.Form.get(namespace + 'fm').formValidator
@@ -49,7 +49,7 @@ jQuery(function() {
 		});
 	}
 
-	function setFacebookConditionalValidators() {
+	function setFacebookConditionalValidators(event) {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form',function() {
 			var rules = Liferay.Form.get(namespace + 'fm').formValidator
@@ -73,7 +73,7 @@ jQuery(function() {
 		});
 	}
 
-	function setPeriodValidators() {
+	function setPeriodValidators(event) {
 		var allValidated = true;
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
@@ -202,7 +202,7 @@ jQuery(function() {
 		return allValidated;
 	}
 
-	function setScheduleExceptionValidators() {
+	function setScheduleExceptionValidators(event) {
 		var allValidated = true;
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');
@@ -222,7 +222,7 @@ jQuery(function() {
 				if(startDateSchedule == ""){
 					var startHour = $(namespaceAUI + "startHour1_" + index).val();
 					var endHour = $(namespaceAUI + "endHour1_" + index).val();
-					if (endDateSchedule || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
+					if (endDateSchedule != "" || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
 						allValidated = false;
 					}else{

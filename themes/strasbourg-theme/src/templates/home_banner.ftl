@@ -10,7 +10,8 @@
         <label for="main_search_banner" class="sr-only">Recherche</label>
         <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Votre recherche concerne ?" id="main_search_banner">
         <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-        <button type="button" class="seu-search-close"></button>
+        <input type="hidden" name="p_p_lifecycle" value="1" />
+        <button type="submit" class="seu-search-close"></button>
       </form>
     </div>
     <@liferay_portlet["runtime"]

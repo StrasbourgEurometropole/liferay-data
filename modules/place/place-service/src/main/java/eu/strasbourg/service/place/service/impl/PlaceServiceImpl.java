@@ -184,13 +184,34 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
+	
+	/**
+	 * Retourne l'horrible ancien web service LR6
+	 */
+	@Override
+	public JSONObject getLegacyJSON() {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		json.put("javaClass", "java.util.ArrayList");
+
+		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
+		json.put("list", this.getApprovedJSONPlaces(places, true));
+		return json;		
+	}
 
 	private JSONArray getApprovedJSONPlaces(List<Place> places) {
+		return getApprovedJSONPlaces(places, false);
+	}
+	
+	private JSONArray getApprovedJSONPlaces(List<Place> places, boolean legacy) {
 		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
 		for (Place place : places) {
 			try {
 				if (place.isApproved()) {
-					jsonPlaces.put(place.toJSON());
+					if (legacy) {
+						jsonPlaces.put(place.toLegacyJSON());
+					} else {
+						jsonPlaces.put(place.toJSON());
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

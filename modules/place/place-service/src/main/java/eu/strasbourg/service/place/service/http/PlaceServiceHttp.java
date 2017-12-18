@@ -279,6 +279,32 @@ public class PlaceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getLegacyJSON(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
+					"getLegacyJSON", _getLegacyJSONParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(PlaceServiceHttp.class);
 	private static final Class<?>[] _getPlacesParameterTypes0 = new Class[] {  };
 	private static final Class<?>[] _getPlaceByIdParameterTypes1 = new Class[] {
@@ -299,4 +325,5 @@ public class PlaceServiceHttp {
 	private static final Class<?>[] _getPlacesByTerritoryAndTypeParameterTypes6 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
+	private static final Class<?>[] _getLegacyJSONParameterTypes7 = new Class[] {  };
 }

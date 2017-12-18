@@ -79,7 +79,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		if (!hasError) {
 			SessionMessages.add(request, "mail-success");
 			request.setAttribute("mailSent", true);
-			boolean success = MailHelper.sendMailWithPlainText(email, to, subject, body);
+			boolean success = MailHelper.sendMailWithPlainText("no-reply@no-reply.strasbourg.eu", to, subject, body);
 
 			// Envoi du mail à l'utilisateur
 			if (success && notificationEmail) {

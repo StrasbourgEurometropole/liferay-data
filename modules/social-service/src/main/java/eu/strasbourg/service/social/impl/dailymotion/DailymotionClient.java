@@ -56,6 +56,9 @@ public class DailymotionClient {
 				JSONObject jsonVideo = jsonVideoList.getJSONObject(i);
 
 				String imageURL = jsonVideo.getString("thumbnail_360_url");
+				if (!imageURL.startsWith("https")) {
+					imageURL = imageURL.replace("http", "https");
+				}
 				video.setImageURL(imageURL);
 
 				String url = jsonVideo.getString("url");

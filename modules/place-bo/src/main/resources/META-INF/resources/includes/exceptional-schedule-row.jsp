@@ -109,13 +109,6 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-start-hour" style="display: none">
-				<liferay-ui:message key="this-field-is-required" />
-			</div>
-			
-			<div class="place-schedule-incorrect-hour" style="display: none">
-				<liferay-ui:message key="incorrect-hour" />
-			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour3}" name="endHour3_${param.index}" label="end-hour" placeholder="HH:MM" >
@@ -143,13 +136,6 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-start-hour" style="display: none">
-				<liferay-ui:message key="this-field-is-required" />
-			</div>
-			
-			<div class="place-schedule-incorrect-hour" style="display: none">
-				<liferay-ui:message key="incorrect-hour" />
-			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour4}" name="endHour4_${param.index}" label="end-hour" placeholder="HH:MM" >
@@ -177,13 +163,6 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-start-hour" style="display: none">
-				<liferay-ui:message key="this-field-is-required" />
-			</div>
-			
-			<div class="place-schedule-incorrect-hour" style="display: none">
-				<liferay-ui:message key="incorrect-hour" />
-			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour5}" name="endHour5_${param.index}" label="end-hour" placeholder="HH:MM" >

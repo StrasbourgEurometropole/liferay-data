@@ -20,6 +20,20 @@
         @extend %molecule-images-rte;        
     }
 
+    /* Images CUS */
+    .image-with-copyright {
+        position: relative;
+        display: inline-block;
+        img {
+            display: block;
+        }
+        .copyright {
+            @extend %atom-caption-rte;
+            position: absolute;
+            bottom: 0; right: 0; max-width: 100%;
+        }
+    }
+
     /* Listes */
     ul:not(.unstyled){ 
         @extend %atom-ul-rte;

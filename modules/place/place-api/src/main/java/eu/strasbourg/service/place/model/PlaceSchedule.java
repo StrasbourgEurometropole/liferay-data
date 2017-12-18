@@ -52,7 +52,7 @@ public class PlaceSchedule {
 	private Boolean publicHoliday = false;
 	private Boolean exception = false;
 	private String description;
-	private String comment;
+	private String[] comments = new String[0];
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -94,17 +94,24 @@ public class PlaceSchedule {
 			}
 			placeSchedule.setOpeningTimes(openingTimes);
 		}
-		String fullComment = "";
-		for (Slot slot : slots) {
-			String slotComment = slot.getComment(Locale.FRANCE);
+		String[] comments = new String[slots.size()];
+		for (int i = 0; i < slots.size(); i++) {
+			String slotComment = slots.get(i).getComment(Locale.FRANCE);
 			if (Validator.isNotNull(slotComment)) {
-				if (fullComment.length() > 0) {
-					fullComment += ", ";
-				}
-				fullComment += slot.getComment(Locale.FRANCE);
+				comments[i] = slotComment;
 			}
 		}
-		placeSchedule.setComment(fullComment);
+		placeSchedule.setComments(comments);
+		return placeSchedule;
+	}
+	
+	public static PlaceSchedule createClosedSchedule() {
+		return PlaceSchedule.createClosedSchedule(false);
+	}
+	public static PlaceSchedule createClosedSchedule(boolean isExceptional) {
+		PlaceSchedule placeSchedule = new PlaceSchedule();
+		placeSchedule.setClosed(true);
+		placeSchedule.setException(isExceptional);
 		return placeSchedule;
 	}
 	
@@ -192,11 +199,11 @@ public class PlaceSchedule {
 		this.openingTimes = openingTimes;
 	}
 
-	public String getComment() {
-		return comment;
+	public String[] getComments() {
+		return comments;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setComments(String[] comments) {
+		this.comments = comments;
 	}
 }

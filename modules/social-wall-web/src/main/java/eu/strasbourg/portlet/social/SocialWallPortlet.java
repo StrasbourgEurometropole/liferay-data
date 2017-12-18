@@ -65,9 +65,11 @@ public class SocialWallPortlet extends MVCPortlet {
 				allPosts.addAll(tweets);
 			}
 			// Instagram posts
-			String instagramAccount = configuration.instagramAccount();
-			if (Validator.isNotNull(instagramAccount)) {
-				List<SocialPost> instagramPosts = socialService.getInstagramPosts(instagramAccount, postCount);
+			String instagramClientId = configuration.instagramClientId();
+			String instagramClientSecret = configuration.instagramClientSecret();
+			String instagramToken = configuration.instagramToken();
+			if (Validator.isNotNull(instagramClientId) && Validator.isNotNull(instagramClientSecret) && Validator.isNotNull(instagramToken)) {
+				List<SocialPost> instagramPosts = socialService.getInstagramPosts(instagramClientId, instagramClientSecret, instagramToken, postCount);
 				allPosts.addAll(instagramPosts);
 			}
 

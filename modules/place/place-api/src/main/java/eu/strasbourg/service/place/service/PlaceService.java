@@ -71,6 +71,12 @@ public interface PlaceService extends BaseService {
 	public JSONArray getPlacesByType(java.lang.String typeId)
 		throws PortalException;
 
+	/**
+	* Retourne l'horrible ancien web service LR6
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getLegacyJSON();
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPlaceById(long id) throws PortalException;
 
