@@ -56,7 +56,7 @@
                         </div>
                         <div class="seu-media-right">
                             <div class="seu-media-text"> 
-                                <div class="seu-media-title"><@liferay_ui.message key="eu.edition.read-interractive-version" /></div>
+                                <div class="seu-media-title"><@liferay_ui.message key="eu.edition.interactive-version-link" /></div>
                             </div> 
                             <div class="seu-link-group-arrow"></div>
                         </div>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="seu-media-right">
                                 <div class="seu-media-text"> 
-                                    <div class="seu-media-title">Lien vers la galerie</div>
+                                    <div class="seu-media-title">Voir la galerie ${gallery.getTitle(locale)}</div>
                                 </div> 
                                 <div class="seu-link-group-arrow"></div>
                             </div>
