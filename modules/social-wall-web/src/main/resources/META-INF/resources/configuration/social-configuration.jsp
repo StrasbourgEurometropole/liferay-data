@@ -24,7 +24,9 @@
 		</aui:fieldset>
 		
 		<aui:fieldset id="instagram" label="instagram">
-			<aui:input type="text" name="instagramAccount" value="${instagramAccount}" label="instagram-account" />
+			<aui:input type="text" name="instagramClientId" value="${instagramClientId}" label="instagram-client-id" />
+			<aui:input type="text" name="instagramClientSecret" value="${instagramClientSecret}" label="instagram-client-secret" />
+			<aui:input type="text" name="instagramToken" value="${instagramToken}" label="instagram-token" />
 		</aui:fieldset>
 		
 		<aui:fieldset id="dailymotion" label="dailymotion">

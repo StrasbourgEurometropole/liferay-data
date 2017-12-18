@@ -19,16 +19,15 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.impl.SocialMedia;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class InstagramClient {
 
 	private static Log log = LogFactoryUtil.getLog(InstagramClient.class);
 
-	public static List<SocialPost> getInstagramPosts(String username, int count) {
+	public static List<SocialPost> getInstagramPosts(String clientId, String clientSecret, String token, int count) {
 
-		Object timelineFromCache = MultiVMPoolUtil.getPortalCache("instagram_cache").get(username);
-		Object lastTimelineUpdate = MultiVMPoolUtil.getPortalCache("instagram_cache").get(username + "_last_update");
+		Object timelineFromCache = MultiVMPoolUtil.getPortalCache("instagram_cache").get(clientId);
+		Object lastTimelineUpdate = MultiVMPoolUtil.getPortalCache("instagram_cache").get(clientId + "_last_update");
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
 			long timeBeforeNextUpdate = 100 - (now - ((Long) lastTimelineUpdate)) / 1000;
@@ -37,8 +36,7 @@ public class InstagramClient {
 			}
 		}
 
-		Token accessToken = new Token(StrasbourgPropsUtil.getInstagramAccessToken(),
-				StrasbourgPropsUtil.getInstagramClientSecret());
+		Token accessToken = new Token(token, clientSecret);
 		Instagram instagram = new Instagram(accessToken);
 		List<SocialPost> posts = new ArrayList<SocialPost>();
 
@@ -60,7 +58,7 @@ public class InstagramClient {
 				socialPost.setSocialMedia(SocialMedia.INSTAGRAM);
 
 				// Username
-				socialPost.setUsername(username);
+				socialPost.setUsername(mediaData.getUser().getUserName());
 
 				// Image
 				Images images = mediaData.getImages();
@@ -90,10 +88,10 @@ public class InstagramClient {
 			log.error(e);
 		}
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(username);
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(username + "_last_update");
-		MultiVMPoolUtil.getPortalCache("instagram_cache").put(username, (Serializable) posts);
-		MultiVMPoolUtil.getPortalCache("instagram_cache").put(username + "_last_update", new Date().getTime());
+		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(clientId);
+		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(clientId + "_last_update");
+		MultiVMPoolUtil.getPortalCache("instagram_cache").put(clientId, (Serializable) posts);
+		MultiVMPoolUtil.getPortalCache("instagram_cache").put(clientId + "_last_update", new Date().getTime());
 		return posts;
 	}
 
