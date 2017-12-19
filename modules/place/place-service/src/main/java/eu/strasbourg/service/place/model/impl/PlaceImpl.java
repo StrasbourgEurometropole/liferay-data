@@ -750,6 +750,30 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return listHoraires;
 	}
+	
+	/**
+	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount" 
+	 */
+	@Override
+	public Map<String, List<PlaceSchedule>> getPlaceSchedule(Date date, int daysCount, Locale locale) {
+
+		Map<String, List<PlaceSchedule>> listHoraires = new LinkedHashMap<String, List<PlaceSchedule>>();
+
+		// réupère le jour voulu de la semaine
+		GregorianCalendar jourSemaine = new GregorianCalendar();
+		jourSemaine.setTime(date);
+		jourSemaine.set(Calendar.HOUR_OF_DAY, 0);
+		jourSemaine.clear(Calendar.MINUTE);
+		jourSemaine.clear(Calendar.SECOND);
+		jourSemaine.clear(Calendar.MILLISECOND);
+		for (int jour = 0; jour < daysCount; jour++) {
+			List<PlaceSchedule> liste = getPlaceSchedule(jourSemaine, locale);
+			DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
+			listHoraires.put(df.format(jourSemaine.getTime()), liste);
+			jourSemaine.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		return listHoraires;
+	}
 
 	/**
 	 * Retourne les horaires d'ouverture du jour

@@ -89,14 +89,18 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			request.setAttribute("plId", plId);
 
 			// réupère le jour voulu
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			GregorianCalendar jourChoisi = new GregorianCalendar();
-				jourChoisi.set(this.getSelectedYear(request),
-						this.getSelectedMonthIndex(request),
-						this.getSelectedDay(request));
+			jourChoisi.set(this.getSelectedYear(request), this.getSelectedMonthIndex(request),
+					this.getSelectedDay(request));
 			jourChoisi.set(Calendar.HOUR_OF_DAY, 0);
 			jourChoisi.clear(Calendar.MINUTE);
 			jourChoisi.clear(Calendar.SECOND);
 			jourChoisi.clear(Calendar.MILLISECOND);
+			String dateFromParam = ParamUtil.getString(request, "date");
+			if (Validator.isNotNull(dateFromParam)) {
+				jourChoisi.setTime(sf.parse(dateFromParam));
+			}
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
 			request.setAttribute("selectedDate", jourChoisi.getTime());
 			GregorianCalendar selectedCalendar = new GregorianCalendar();
@@ -107,15 +111,17 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			request.setAttribute("selectedYear", jourChoisi.get(Calendar.YEAR));
 
 			// récupère la semaine passée et future
+
 			GregorianCalendar jourSemaine = new GregorianCalendar();
 			jourSemaine.setTime(jourChoisi.getTime());
 			GregorianCalendar previous = new GregorianCalendar();
 			GregorianCalendar next = new GregorianCalendar();
 			previous.setTime(jourSemaine.getTime());
 			next.setTime(jourSemaine.getTime());
-			previous.add(Calendar.DAY_OF_YEAR, -7);
-			next.add(Calendar.DAY_OF_YEAR, 7);
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			int lengthOfWeek = configuration.template() != null && configuration.template().equals("strasbourg-table")
+					? 5 : 7;
+			previous.add(Calendar.DAY_OF_YEAR, -lengthOfWeek);
+			next.add(Calendar.DAY_OF_YEAR, lengthOfWeek);
 			request.setAttribute("previous", sf.format(previous.getTime()));
 			request.setAttribute("next", sf.format(next.getTime()));
 
@@ -123,9 +129,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
 			DateFormat df2 = DateFormat.getDateInstance(DateFormat.SHORT, locale);
 			List<String[]> week = new ArrayList<String[]>();
-			int delta = -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
+					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
-			for (int jour = 0; jour < 7; jour++) {
+			for (int jour = 0; jour < lengthOfWeek; jour++) {
 				StringBuilder date = new StringBuilder(df.format(jourSemaine.getTime()));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
 				String[] dates = { date.toString(), df2.format(jourSemaine.getTime()) };
