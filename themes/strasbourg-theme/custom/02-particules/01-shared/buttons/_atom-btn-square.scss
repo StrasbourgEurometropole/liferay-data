@@ -24,6 +24,11 @@
         margin-right: 20px;
     }
 
+    &.seu-prev .seu-btn-text {
+        margin-right: 0;
+        margin-left: 20px;
+    }
+
     .seu-btn-arrow{
         content: '';
         display: inline-block;
@@ -32,6 +37,10 @@
         background-size: 14px;
         background-position: center;
         background-repeat: no-repeat;
+    }
+
+    &.seu-prev .seu-btn-arrow {
+        transform: rotateZ(180deg);
     }
 
     &:hover, &:focus{

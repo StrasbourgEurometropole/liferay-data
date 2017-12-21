@@ -897,7 +897,9 @@ public class PlaceImpl extends PlaceBaseImpl {
 								locale);
 						placeSchedule.setPublicHoliday(true);
 						placeSchedule.setClosed(true);
+						listPlaceSchedules.clear();
 						listPlaceSchedules.add(placeSchedule);
+						break;
 					}
 				}
 			}

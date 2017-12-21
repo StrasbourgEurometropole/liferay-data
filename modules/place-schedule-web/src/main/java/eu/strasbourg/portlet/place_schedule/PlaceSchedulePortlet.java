@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -132,14 +133,17 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
 					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
+			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {
 				StringBuilder date = new StringBuilder(df.format(jourSemaine.getTime()));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
 				String[] dates = { date.toString(), df2.format(jourSemaine.getTime()) };
 				week.add(dates);
+				weekDates.add(jourSemaine.getTime());
 				jourSemaine.add(Calendar.DAY_OF_MONTH, 1);
 			}
 			request.setAttribute("semaine", week);
+			request.setAttribute("weekDates", weekDates);
 
 			// récupère la catégorie
 			long categoryIdFromConfiguration = configuration.categoryId();

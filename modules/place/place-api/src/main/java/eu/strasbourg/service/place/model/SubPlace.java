@@ -104,6 +104,12 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
+	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount"
+	*/
+	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getSubPlaceSchedule(
+		java.util.Date date, int daysCount, java.util.Locale locale);
+
+	/**
 	* Retourne les horaires d'ouverture du jour voulu
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getSubPlaceSchedule(
