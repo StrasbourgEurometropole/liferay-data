@@ -45,6 +45,7 @@
                     <#if image.getData()?? && image.getData() != "">
                         <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
                         <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
+                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
                         <#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
                         <#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />
                         <div class="event portlet-visuel-item">
@@ -56,7 +57,7 @@
                             <div class="entry-header">
                                 <h2>
                                     <a class="scriptLink openImageLightboxGallery" href="#image${index}">
-                                        ${fileEntryHelper.getStructureFieldValue(file.fileEntryId, 'Titre', locale)}
+                                        ${title}
                                     </a>
                                 </h2>
                             </div>
@@ -71,10 +72,10 @@
                                 <div class="mfp-counter"></div>
                                 <div class="image-informations">
                                     <h2 class="gallery-title">
-                                        ${fileEntryHelper.getStructureFieldValue(file.fileEntryId, 'Titre', locale)}
+                                        ${title}
                                     </h2>
                                     <img src="${image.getData()}"
-                                        alt="${file.getTitle()}" />
+                                        alt="${title}" />
                                     <div class="gray">
                                         <@liferay_ui.message key="eu.published-on" />
                                         &nbsp;${file.createDate?date}
