@@ -26,3 +26,14 @@ h3#rubricTitle a {
 .portlet-visuel-item .entry-header {
   height: 76px;
 }
+
+.ond .wrapper .header .portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+  min-height: 0 !important;
+}
+
+@media screen and (max-width: 640px) {
+  .ond .wrapper .content .fil-ariane {
+    height: auto;
+    margin-bottom: -40px;
+  }
+}
