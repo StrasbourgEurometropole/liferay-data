@@ -201,6 +201,3 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-sh.exe.stackdump
-gradlew
-gradle/wrapper/gradle-wrapper.properties
