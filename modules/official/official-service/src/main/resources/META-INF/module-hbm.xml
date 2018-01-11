@@ -26,6 +26,8 @@
 		<property name="missions" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="wasMinister" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="contact" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="orderDeputyMayor" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="orderVicePresident" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

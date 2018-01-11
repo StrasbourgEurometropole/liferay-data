@@ -65,7 +65,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -107,6 +107,10 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		sb.append(wasMinister);
 		sb.append(", contact=");
 		sb.append(contact);
+		sb.append(", orderDeputyMayor=");
+		sb.append(orderDeputyMayor);
+		sb.append(", orderVicePresident=");
+		sb.append(orderVicePresident);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -214,6 +218,8 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			officialImpl.setContact(contact);
 		}
 
+		officialImpl.setOrderDeputyMayor(orderDeputyMayor);
+		officialImpl.setOrderVicePresident(orderVicePresident);
 		officialImpl.setImageId(imageId);
 
 		officialImpl.resetOriginalValues();
@@ -251,6 +257,10 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 		wasMinister = objectInput.readBoolean();
 		contact = objectInput.readUTF();
+
+		orderDeputyMayor = objectInput.readInt();
+
+		orderVicePresident = objectInput.readInt();
 
 		imageId = objectInput.readLong();
 	}
@@ -336,6 +346,10 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			objectOutput.writeUTF(contact);
 		}
 
+		objectOutput.writeInt(orderDeputyMayor);
+
+		objectOutput.writeInt(orderVicePresident);
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -359,5 +373,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public String missions;
 	public boolean wasMinister;
 	public String contact;
+	public int orderDeputyMayor;
+	public int orderVicePresident;
 	public long imageId;
 }

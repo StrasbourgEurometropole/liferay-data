@@ -679,6 +679,34 @@ public interface OfficialModel extends BaseModel<Official>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the order deputy mayor of this official.
+	 *
+	 * @return the order deputy mayor of this official
+	 */
+	public int getOrderDeputyMayor();
+
+	/**
+	 * Sets the order deputy mayor of this official.
+	 *
+	 * @param orderDeputyMayor the order deputy mayor of this official
+	 */
+	public void setOrderDeputyMayor(int orderDeputyMayor);
+
+	/**
+	 * Returns the order vice president of this official.
+	 *
+	 * @return the order vice president of this official
+	 */
+	public int getOrderVicePresident();
+
+	/**
+	 * Sets the order vice president of this official.
+	 *
+	 * @param orderVicePresident the order vice president of this official
+	 */
+	public void setOrderVicePresident(int orderVicePresident);
+
+	/**
 	 * Returns the image ID of this official.
 	 *
 	 * @return the image ID of this official

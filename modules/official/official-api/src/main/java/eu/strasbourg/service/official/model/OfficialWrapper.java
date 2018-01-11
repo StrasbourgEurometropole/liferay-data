@@ -79,6 +79,8 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("missions", getMissions());
 		attributes.put("wasMinister", getWasMinister());
 		attributes.put("contact", getContact());
+		attributes.put("orderDeputyMayor", getOrderDeputyMayor());
+		attributes.put("orderVicePresident", getOrderVicePresident());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -204,6 +206,19 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 
 		if (contact != null) {
 			setContact(contact);
+		}
+
+		Integer orderDeputyMayor = (Integer)attributes.get("orderDeputyMayor");
+
+		if (orderDeputyMayor != null) {
+			setOrderDeputyMayor(orderDeputyMayor);
+		}
+
+		Integer orderVicePresident = (Integer)attributes.get(
+				"orderVicePresident");
+
+		if (orderVicePresident != null) {
+			setOrderVicePresident(orderVicePresident);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -478,6 +493,26 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public int getGender() {
 		return _official.getGender();
+	}
+
+	/**
+	* Returns the order deputy mayor of this official.
+	*
+	* @return the order deputy mayor of this official
+	*/
+	@Override
+	public int getOrderDeputyMayor() {
+		return _official.getOrderDeputyMayor();
+	}
+
+	/**
+	* Returns the order vice president of this official.
+	*
+	* @return the order vice president of this official
+	*/
+	@Override
+	public int getOrderVicePresident() {
+		return _official.getOrderVicePresident();
 	}
 
 	/**
@@ -1261,6 +1296,26 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setOfficialId(long officialId) {
 		_official.setOfficialId(officialId);
+	}
+
+	/**
+	* Sets the order deputy mayor of this official.
+	*
+	* @param orderDeputyMayor the order deputy mayor of this official
+	*/
+	@Override
+	public void setOrderDeputyMayor(int orderDeputyMayor) {
+		_official.setOrderDeputyMayor(orderDeputyMayor);
+	}
+
+	/**
+	* Sets the order vice president of this official.
+	*
+	* @param orderVicePresident the order vice president of this official
+	*/
+	@Override
+	public void setOrderVicePresident(int orderVicePresident) {
+		_official.setOrderVicePresident(orderVicePresident);
 	}
 
 	/**

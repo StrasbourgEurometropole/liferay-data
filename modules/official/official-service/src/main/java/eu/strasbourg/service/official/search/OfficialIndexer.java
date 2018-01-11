@@ -84,8 +84,10 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 			String orderString = AssetVocabularyHelper
 					.getCategoryProperty(emsFunction.getCategoryId(), "order");
 			long order = GetterUtil.getLong(orderString);
+			int orderVicePresident = official.getOrderVicePresident();
 			if (order > 0) {
-				document.addNumberSortable("order_ems", order);
+				long newOrder = order*100 + orderVicePresident;
+				document.addNumberSortable("order_ems", newOrder);
 			}
 		}
 
@@ -94,8 +96,10 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 			String orderString = AssetVocabularyHelper
 					.getCategoryProperty(cityFunction.getCategoryId(), "order");
 			long order = GetterUtil.getLong(orderString);
+			int orderDeputyMayor = official.getOrderDeputyMayor();
 			if (order > 0) {
-				document.addNumberSortable("order_city", order);
+				long newOrder = order*100 + orderDeputyMayor;
+				document.addNumberSortable("order_city", newOrder);
 			}
 		}
 		

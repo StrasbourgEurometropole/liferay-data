@@ -28,6 +28,12 @@
 		<field localized="true" name="contact" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="orderDeputyMayor" type="int">
+			<hint name="max-length">2</hint>
+		</field>
+		<field name="orderVicePresident" type="int">
+			<hint name="max-length">2</hint>
+		</field>
 		<field name="imageId" type="Long" />
 	</model>
 </model-hints>

@@ -102,6 +102,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			{ "missions", Types.CLOB },
 			{ "wasMinister", Types.BOOLEAN },
 			{ "contact", Types.CLOB },
+			{ "orderDeputyMayor", Types.INTEGER },
+			{ "orderVicePresident", Types.INTEGER },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -127,10 +129,12 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("missions", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("wasMinister", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("contact", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("orderDeputyMayor", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("orderVicePresident", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,orderDeputyMayor INTEGER,orderVicePresident INTEGER,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table official_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY official_Official.modifiedDate DESC";
@@ -184,6 +188,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		model.setMissions(soapModel.getMissions());
 		model.setWasMinister(soapModel.getWasMinister());
 		model.setContact(soapModel.getContact());
+		model.setOrderDeputyMayor(soapModel.getOrderDeputyMayor());
+		model.setOrderVicePresident(soapModel.getOrderVicePresident());
 		model.setImageId(soapModel.getImageId());
 
 		return model;
@@ -269,6 +275,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		attributes.put("missions", getMissions());
 		attributes.put("wasMinister", getWasMinister());
 		attributes.put("contact", getContact());
+		attributes.put("orderDeputyMayor", getOrderDeputyMayor());
+		attributes.put("orderVicePresident", getOrderVicePresident());
 		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -397,6 +405,19 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		if (contact != null) {
 			setContact(contact);
+		}
+
+		Integer orderDeputyMayor = (Integer)attributes.get("orderDeputyMayor");
+
+		if (orderDeputyMayor != null) {
+			setOrderDeputyMayor(orderDeputyMayor);
+		}
+
+		Integer orderVicePresident = (Integer)attributes.get(
+				"orderVicePresident");
+
+		if (orderVicePresident != null) {
+			setOrderVicePresident(orderVicePresident);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -1006,6 +1027,28 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@JSON
 	@Override
+	public int getOrderDeputyMayor() {
+		return _orderDeputyMayor;
+	}
+
+	@Override
+	public void setOrderDeputyMayor(int orderDeputyMayor) {
+		_orderDeputyMayor = orderDeputyMayor;
+	}
+
+	@JSON
+	@Override
+	public int getOrderVicePresident() {
+		return _orderVicePresident;
+	}
+
+	@Override
+	public void setOrderVicePresident(int orderVicePresident) {
+		_orderVicePresident = orderVicePresident;
+	}
+
+	@JSON
+	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -1255,6 +1298,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialImpl.setMissions(getMissions());
 		officialImpl.setWasMinister(getWasMinister());
 		officialImpl.setContact(getContact());
+		officialImpl.setOrderDeputyMayor(getOrderDeputyMayor());
+		officialImpl.setOrderVicePresident(getOrderVicePresident());
 		officialImpl.setImageId(getImageId());
 
 		officialImpl.resetOriginalValues();
@@ -1453,6 +1498,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			officialCacheModel.contact = null;
 		}
 
+		officialCacheModel.orderDeputyMayor = getOrderDeputyMayor();
+
+		officialCacheModel.orderVicePresident = getOrderVicePresident();
+
 		officialCacheModel.imageId = getImageId();
 
 		return officialCacheModel;
@@ -1460,7 +1509,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1502,6 +1551,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getWasMinister());
 		sb.append(", contact=");
 		sb.append(getContact());
+		sb.append(", orderDeputyMayor=");
+		sb.append(getOrderDeputyMayor());
+		sb.append(", orderVicePresident=");
+		sb.append(getOrderVicePresident());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append("}");
@@ -1511,7 +1564,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.official.model.Official");
@@ -1598,6 +1651,14 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getContact());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>orderDeputyMayor</column-name><column-value><![CDATA[");
+		sb.append(getOrderDeputyMayor());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>orderVicePresident</column-name><column-value><![CDATA[");
+		sb.append(getOrderVicePresident());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
 		sb.append(getImageId());
 		sb.append("]]></column-value></column>");
@@ -1640,6 +1701,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private boolean _wasMinister;
 	private String _contact;
 	private String _contactCurrentLanguageId;
+	private int _orderDeputyMayor;
+	private int _orderVicePresident;
 	private Long _imageId;
 	private long _columnBitmask;
 	private Official _escapedModel;
