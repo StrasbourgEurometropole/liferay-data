@@ -305,6 +305,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 				}
 				// Et on ajoute nos horaires à l'objet PlaceSchedule qui sera envoyé à la vue
 				scheduleParentException.setOpeningTimes(openingTimes);
+				scheduleParentException.setException(true);
 				scheduleList.add(scheduleParentException);
 			}
 
