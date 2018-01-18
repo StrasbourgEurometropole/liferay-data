@@ -1,7 +1,7 @@
 %molecule-inlines-rte{
     @extend %text-basis-rte;
 
-    strong{
+    strong, b{
         font-weight: 600;
         color: #505050;
     }
