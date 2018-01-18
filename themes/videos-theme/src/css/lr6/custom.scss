@@ -4,8 +4,8 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500,700,700italic,400italic,300,300italic);
 @import url(//fonts.googleapis.com/css?family=Roboto+Condensed);
-@import "../bower_components/knacss/css/knacss.css";
 
+@import "knacss/knacss";
 @import "partials/main";
 @import "partials/layout";
 @import "partials/responsive.scss";
