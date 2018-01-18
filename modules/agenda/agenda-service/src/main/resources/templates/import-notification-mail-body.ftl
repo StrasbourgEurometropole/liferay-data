@@ -11,15 +11,15 @@
 		- ${event.entityExternalId} - ${event.entityName} : ${event.log}
 	</#list>
 	
-	${report.modifiedEventsCount} événement<#if (report.modifiedEventsCount > 1)>s</#if> modifié<#if (report.modifiedEventsCount > 1)>s</#if>
-	
-	<#list report.modifiedEventsLines as event>
-		- ${event.entityExternalId} - ${event.entityName}
-	</#list>
-	
 	${report.newEventsCount} événement<#if (report.newEventsCount > 1)>s</#if> créé<#if (report.newEventsCount > 1)>s</#if>
 	
 	<#list report.newEventsLines as event>
+		- ${event.entityExternalId} - ${event.entityName}
+	</#list>
+	
+	${report.modifiedEventsCount} événement<#if (report.modifiedEventsCount > 1)>s</#if> modifié<#if (report.modifiedEventsCount > 1)>s</#if>
+	
+	<#list report.modifiedEventsLines as event>
 		- ${event.entityExternalId} - ${event.entityName}
 	</#list>
 	
@@ -29,15 +29,15 @@
 		- ${manif.entityExternalId} - ${manif.entityName} : ${manif.log}
 	</#list>
 	
-	${report.modifiedManifestationsCount} manifestation<#if (report.modifiedManifestationsCount > 1)>s</#if> modifiée<#if (report.modifiedManifestationsCount > 1)>s</#if>
-	
-	<#list report.modifiedManifestationsLines as manif>
-		- ${manif.entityExternalId} - ${manif.entityName}
-	</#list>
-	
 	${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>
+		- ${manif.entityExternalId} - ${manif.entityName}
+	</#list>
+	
+	${report.modifiedManifestationsCount} manifestation<#if (report.modifiedManifestationsCount > 1)>s</#if> modifiée<#if (report.modifiedManifestationsCount > 1)>s</#if>
+	
+	<#list report.modifiedManifestationsLines as manif>
 		- ${manif.entityExternalId} - ${manif.entityName}
 	</#list>
 </#if>
