@@ -1,0 +1,15 @@
+%organism-home-banner{
+    position: relative;
+    text-align-last: center;
+
+    & > * {
+        z-index: 2;
+        position: relative;
+    }
+    h1{
+        display: block;
+        margin: 0px auto 0px;
+        padding: 75px 0 95px 0;
+    }
+    
+}

@@ -1,0 +1,9 @@
+%organism-serial{    
+    @extend %molecule-home-section;
+    background-color: #5ddfd1;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #ffffff) );
+    }
+}

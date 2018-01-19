@@ -1,0 +1,14 @@
+{
+  "slider--mega": {
+    "category": "sliders",
+    "js_dependent": true,
+    "js_dependencies": [
+      "environment.js",
+      "megaSlider.js",
+      "dotdotdot.min.js",
+      "owlCarousel",
+      "slider--mega.js"
+    ],
+    "infos": "<p><strong>FONCTIONNEMENT DU MEGASLIDER</strong></p><p>On part d'un objet JS répertoriant tous les contenus à afficher dans le slider : <br>Exemple: <p><p>Cet objet est présent directement dans slider--mega.html (permettant au Back office de faire remonter les infos dans les template), et ensuite récupéré par megaSliderAdmin.js. Ce JS sert à initialiser le plugin, en lui passant en paramètre un objet de configuration (répertoriant principalement la structure HTML du slider), et le JS des contenus vu précédement. <br>La librairie utilisée est megaSlider.js, un script maison permettant de gérer le slider, la distribution par pages, la catégorisation des vignettes et le comportement lié aux filtres. <br>Pour construire les vignettes, il utilise des templates directement présent dans l'index.html, comportant des placeholder sous la forme '__value__'. Ces valeurs sont remplacés par les valeurs des propriétés dans l'objet JS fournit par le Back office. <br></p>"
+  }
+}

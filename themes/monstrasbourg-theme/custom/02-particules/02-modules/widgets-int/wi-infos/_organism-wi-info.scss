@@ -1,0 +1,85 @@
+%organism-wi-infos{
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: $third-color;
+    @extend %wi-centered-text;
+    // Couleurs Titre
+    .section-title{
+        .title{
+            color: $core-color;
+        }
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, #ffffff) ); 
+        }
+    }
+    // Contenu
+    .wi-content{
+        margin-bottom: 40px;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+    }
+    .wi-content{
+        display: flex;
+        text-align: left;
+        margin-bottom: 0;
+        @include RWD(mobile){
+            display: block;
+        }
+        .left{
+            padding-right: 20px;
+        }
+        .right{
+            padding-left: 20px;
+        }
+        .left, .right{
+            width: 50%;
+            @include RWD(mobile){
+                width: 100%;
+                padding: 0;
+            }
+        }
+        .wi-text{
+            margin-bottom: 20px;
+        }
+        .wi-title{
+            color: $core-color;
+        }
+        p{
+            color: $core-color;
+        }
+        .pictos{
+            display: flex;
+            align-items: center;
+        }
+        .picto{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-size: 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .picto + .picto{
+            margin-left: 10px;
+        }
+        .picto-wheelchair{
+            background-image: url( svg-bg-uri($svg-wheelchair, $core-color) );
+        }
+        .rte{
+            & > * {
+                color: $core-color;
+            }
+            & > *:last-child{
+                margin-bottom: 0;
+            }
+            a{
+                &:hover, &:focus{
+                    color: #505050;
+                }
+            }
+        }
+    }
+}

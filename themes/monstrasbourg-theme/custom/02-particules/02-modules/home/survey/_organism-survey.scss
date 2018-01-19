@@ -1,0 +1,10 @@
+%organism-survey{    
+    @extend %molecule-home-section;
+    .delete-wi{
+        background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
+    }
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #fccb6c) );
+    }
+    background-color: $third-color;
+}

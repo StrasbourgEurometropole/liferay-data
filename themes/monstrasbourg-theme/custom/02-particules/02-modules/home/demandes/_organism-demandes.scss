@@ -1,0 +1,9 @@
+%organism-demandes{    
+    @extend %molecule-home-section;
+    background-color: $second-color;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #ffffff) );
+    }
+}

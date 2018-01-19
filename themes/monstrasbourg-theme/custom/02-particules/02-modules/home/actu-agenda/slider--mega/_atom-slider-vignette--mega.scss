@@ -1,0 +1,90 @@
+%atom-slider-vignette--mega{
+    .link{
+        padding: 40px;
+        height: 100%;
+        width: 100%;
+        display: block;
+        opacity: 1;
+        transition: all, 0.5s;
+        background-color: #FFFFFF;
+        position: relative;
+
+        &:hover, &:focus{ 
+            text-decoration: none;
+            background-color: #E3E3E3;
+        }
+        @include RWD(mobile){
+            padding: 20px;
+        }
+    }
+    .title{
+        font-family: $site-font;
+        font-weight: 700;
+        font-size: 1.7rem;
+        color: #505050;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+
+        @include RWD(mobile){
+            font-size: 1.5rem;
+        }
+    }
+    .lead{
+        font-family: $main-font;
+        font-weight: 600;
+        font-size: 1.4rem;
+        color: #7e7e7e;
+        line-height: 1.8;
+
+        @include RWD(mobile){
+            font-size: 1.2rem;
+        }
+    }
+    .picture{
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        padding-bottom: 57%;
+        position: relative;
+        &:before{
+            opacity: 0;
+            position: absolute;
+            content: '';
+            display: block;
+            top: 0; left: 0;
+            height: 100%; width: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            transition: all, 0.5s;
+        }
+    }
+    .date-start{
+        font-size: 2.4rem;
+    }
+    .date-end{
+        font-family: $site-font;
+        font-weight: 700;
+        font-size: 5.0rem;
+        color: $second-color;
+        text-transform: uppercase;  
+        margin-bottom: 40px;   
+        line-height: 1;   
+        color:  #2da192;
+        @include RWD(mobile){
+            font-size: 4.0rem;
+        }
+    }
+    .date-prefix{}
+    .date-suffix{}
+    .date-sup{
+        font-family: $site-font;
+        font-weight: 700;
+        font-size: 1.7rem;
+        color: $second-color;
+        text-transform: uppercase;
+        color:  #2da192;
+        @include RWD(mobile){
+            font-size: 1.2rem;
+        }
+    }
+}
