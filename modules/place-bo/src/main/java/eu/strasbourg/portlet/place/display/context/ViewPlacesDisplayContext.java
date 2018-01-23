@@ -123,6 +123,8 @@ public class ViewPlacesDisplayContext
 				}
 			}
 		}
+		
+		
 		return categoriesIds;
 	}
 	
@@ -153,6 +155,10 @@ public class ViewPlacesDisplayContext
 			this.getFilterCategoriesIds(), keywords, BooleanClauseOccur.SHOULD);
 		this.getSearchContainer().setTotal(count);
 		
+		// Dans le cas d'un contributeur lieu n'ayant pas de catégorie (l'admin peut tjrs tous les voir, même sans catégories)
+		if(!_themeDisplay.getPermissionChecker().isOmniadmin()  && this.getCategoriesIdsPermission().isEmpty())
+			return null;
+		
 		return hits;
 	}
 
@@ -181,6 +187,10 @@ public class ViewPlacesDisplayContext
 			this.getFilterCategoriesIds(), keywords, BooleanClauseOccur.SHOULD);
 		this.getSearchContainer().setTotal(count);
 
+		// Dans le cas d'un contributeur lieu n'ayant pas de catégorie (l'admin peut tjrs tous les voir, même sans catégories)
+		if(!_themeDisplay.getPermissionChecker().isOmniadmin()  && this.getCategoriesIdsPermission().isEmpty())
+			return null;
+		
 		return hits;
 	}
 
