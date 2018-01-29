@@ -126,5 +126,20 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getArticleHTMLContent(long groupId,
+		java.lang.String articleId) throws RemoteException {
+		try {
+			java.lang.String returnValue = StrasbourgServiceUtil.getArticleHTMLContent(groupId,
+					articleId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

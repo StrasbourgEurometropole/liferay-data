@@ -61,6 +61,11 @@ public class StrasbourgServiceUtil {
 		return getService().searchStreets(query, city);
 	}
 
+	public static java.lang.String getArticleHTMLContent(long groupId,
+		java.lang.String articleId) {
+		return getService().getArticleHTMLContent(groupId, articleId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
