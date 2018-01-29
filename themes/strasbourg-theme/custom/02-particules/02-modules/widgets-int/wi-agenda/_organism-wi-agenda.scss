@@ -42,9 +42,29 @@
         .seu-wi-item{
             min-height: 425px;
         }
+        .seu-wi-grid {
+            display: none; 
+
+            &.seu-visible{
+                display: flex !important;
+            }
+        }
 
         .seu-section-title:before{
             background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
+        }
+
+        .seu-pagination{
+            @include RWD(desktop){
+                padding: 0 180px;            
+            }
+            .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) .seu-btn-text{
+                padding: 10px;
+                color: #FFFFFF;
+            }
+            .seu-disabled{
+                opacity: 0 !important;
+            }
         }
     }
 }
