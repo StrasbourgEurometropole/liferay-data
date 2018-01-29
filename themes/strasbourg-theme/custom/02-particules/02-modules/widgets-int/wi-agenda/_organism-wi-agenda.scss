@@ -46,7 +46,10 @@
             display: none; 
 
             &.seu-visible{
-                display: flex !important;
+                display: flex ;
+                @include RWD(mobile){
+                    display: block;
+                }
             }
         }
 
