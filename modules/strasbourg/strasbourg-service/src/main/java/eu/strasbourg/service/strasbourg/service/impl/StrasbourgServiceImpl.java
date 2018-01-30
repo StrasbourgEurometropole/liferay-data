@@ -17,8 +17,13 @@ package eu.strasbourg.service.strasbourg.service.impl;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.WindowConstants;
+
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalArticleDisplay;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -116,5 +121,16 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 		result.put("streets", jsonStreets);
 		return result;
+	}
+	
+	@Override
+	public String getArticleHTMLContent(long groupId, String articleId) {
+		try {
+			JournalArticleDisplay display = JournalArticleLocalServiceUtil.getArticleDisplay(groupId, articleId, "exclusive", "fr_FR", null);
+			return display.getContent();
+		} catch (Exception ex) {
+			return "";
+		}
+		
 	}
 }

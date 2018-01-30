@@ -165,6 +165,34 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static java.lang.String getArticleHTMLContent(
+		HttpPrincipal httpPrincipal, long groupId, java.lang.String articleId) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getArticleHTMLContent",
+					_getArticleHTMLContentParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
+					articleId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.lang.String)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
 	private static final Class<?>[] _getCopyrightParameterTypes1 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
@@ -177,5 +205,8 @@ public class StrasbourgServiceHttp {
 		};
 	private static final Class<?>[] _searchStreetsParameterTypes4 = new Class[] {
 			java.lang.String.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getArticleHTMLContentParameterTypes5 = new Class[] {
+			long.class, java.lang.String.class
 		};
 }

@@ -1,4 +1,6 @@
 (function ($) {
+  jQuery(".search-asset-results > div").addClass("video-thumbnail");
+
   $('.btn-more').click(function () {
     var heightTarget = $('.video-thumbnail').css('height');
     var marginTarget = $('.video-thumbnail').css('margin-bottom');

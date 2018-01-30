@@ -38,7 +38,7 @@
                       <#if nav_child.getName() == 'Raccourcis'>
                         <#if nav_child.hasChildren()>
                          <#list nav_child.getChildren() as nav_subchild>
-                            <a href="${nav_subchild.getURL()}" class="seu-item" title="${nav_subchild.getName()}" <#if nav_subchild.layout.isTypeURL()>target="_blank"</#if>>
+                            <a href="${nav_subchild.getURL()}" class="seu-item <#if nav_subchild.layout.isTypeURL()>seu-external</#if>" title="${nav_subchild.getName()}" <#if nav_subchild.layout.isTypeURL()>target="_blank"</#if>>
                               <div class="seu-visu">
                                 <@liferay_theme["layout-icon"] layout=nav_subchild.getLayout() />
                               </div>

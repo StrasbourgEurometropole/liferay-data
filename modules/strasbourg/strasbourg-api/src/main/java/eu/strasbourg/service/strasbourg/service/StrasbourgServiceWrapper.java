@@ -56,6 +56,12 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 		return _strasbourgService.searchStreets(query, city);
 	}
 
+	@Override
+	public java.lang.String getArticleHTMLContent(long groupId,
+		java.lang.String articleId) {
+		return _strasbourgService.getArticleHTMLContent(groupId, articleId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
