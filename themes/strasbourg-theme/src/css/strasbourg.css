@@ -8519,7 +8519,7 @@ a {
     /* line 64, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_organism-wi-agenda.scss */
     .seu-type--actu.seu-wi-agenda .seu-pagination .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) .seu-btn-text {
       padding: 10px;
-      color: #FFFFFF; }
+      color: #337ab7; }
     /* line 68, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_organism-wi-agenda.scss */
     .seu-type--actu.seu-wi-agenda .seu-pagination .seu-disabled {
       opacity: 0 !important; }
