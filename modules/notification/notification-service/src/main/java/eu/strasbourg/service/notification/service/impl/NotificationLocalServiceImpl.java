@@ -163,7 +163,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 
 	/**
 	 * Modifie le statut de tous les notifications au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur.
+	 * une date de publication dans le passé.
 	 */
 	@Override
 	public void publishRelevantNotifications() throws PortalException {

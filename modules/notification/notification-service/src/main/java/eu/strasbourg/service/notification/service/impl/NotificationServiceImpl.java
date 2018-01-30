@@ -302,7 +302,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	}
 
 	private JSONObject success(String message) {
-		return JSONFactoryUtil.createJSONObject().put("sucess", message);
+		return JSONFactoryUtil.createJSONObject().put("success", message);
 	}
 
 	private JSONObject error(String message) {
