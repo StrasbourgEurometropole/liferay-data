@@ -9,6 +9,7 @@
     transition: all, 0.5s;
     overflow: hidden;
 
+
     .seu-flexbox{
         display: flex;
         align-items: center;
@@ -22,6 +23,7 @@
         font-weight: 400;
         transition: all, 0.3s;
         margin-right: 20px;
+        width: 100%;
     }
 
     &.seu-prev .seu-btn-text {

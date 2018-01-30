@@ -35,6 +35,8 @@
 		<column name="missions" type="String" localized="true" />
 		<column name="wasMinister" type="boolean" />
 		<column name="contact" type="String" localized="true" />
+		<column name="orderDeputyMayor" type="int" />
+		<column name="orderVicePresident" type="int" />
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

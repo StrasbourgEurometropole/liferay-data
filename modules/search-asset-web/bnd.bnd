@@ -5,6 +5,8 @@ Bundle-ClassPath:\
   .,\
  lib/itext.jar, lib/crypto.jar, lib/jcp.jar, lib/bcprov.jar, lib/bcmail.jar, lib/junit.jar, lib/ham.jar, lib/bcprovext.jar, lib/bctsp.jar,\
  lib/commons-io.jar, lib/xmlworker.jar
+ 
+ 
 -includeresource:\
  lib/itext.jar=itextpdf-5.5.10.jar,\
  lib/xmlworker.jar=xmlworker-5.5.10.jar,\

@@ -67,6 +67,10 @@
 						</c:if>
 					</c:forEach>
 			    </aui:select>
+										
+				<aui:input  name="orderDeputyMayor">
+					<aui:validator name="number" />
+				</aui:input>
 									
 				<aui:input name="thematicDelegation" />
 				
@@ -110,6 +114,10 @@
 						</c:if>
 					</c:forEach>
 			    </aui:select>
+				
+				<aui:input name="orderVicePresident">
+					<aui:validator name="number" />
+				</aui:input>
 				
 				<aui:input name="missions" />
 				

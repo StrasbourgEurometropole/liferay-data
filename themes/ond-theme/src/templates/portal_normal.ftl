@@ -185,7 +185,7 @@
 		<script src="${javascript_folder}/vendor/jquery.uniform.js"></script>
 	    <script src="${javascript_folder}/vendor/jquery-ui-1.10.3.custom.min.js"></script>
 	    <script src="${javascript_folder}/vendor/jquery.bxslider.min.js"></script>
-		<script src="${javascript_folder}/vendor/retina-1.1.0.min.js" charset="utf-8"></script>  
+		<!-- <script src="${javascript_folder}/vendor/retina-1.1.0.min.js" charset="utf-8"></script>  -->
 	    <script src="${javascript_folder}/vendor/tooltip.js" charset="utf-8"></script>
 		<script src="${javascript_folder}/custom.js" charset="utf-8"></script>  
 
