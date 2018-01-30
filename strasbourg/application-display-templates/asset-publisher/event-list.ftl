@@ -47,7 +47,7 @@
         </div>
         <#if agendaURL?has_content && agendaURLText?has_content>
             <div class="seu-btn-line">
-                <a href="${agendaURL}" class="seu-btn-square seu-bordered seu-grey" title="${agendaURLText}">
+                <a href="${agendaURL}" class="seu-btn-square seu-bordered seu-core" title="${agendaURLText}">
                     <span class="seu-flexbox">
                         <span class="seu-btn-text">${agendaURLText}</span>
                         <span class="seu-btn-arrow"></span>
