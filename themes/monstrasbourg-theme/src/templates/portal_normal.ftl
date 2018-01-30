@@ -27,8 +27,13 @@
 
   <header class="header">
     <#include "${full_templates_path}/nav_top.ftl" />
-    <#include "${full_templates_path}/nav_side.ftl" />
 
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <@liferay_portlet["runtime"]
+        portletProviderAction=portletProviderAction.VIEW
+        portletName="NotificationViewerWeb"
+      />
+    </#if>
     
   </header>
  
