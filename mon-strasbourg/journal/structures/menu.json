@@ -29,7 +29,7 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Class"
+                        "fr_FR": "Classe CSS"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -52,7 +52,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "illustration"
+                        "fr_FR": "Illustration"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -76,7 +76,7 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "Link"
+                        "fr_FR": "URL"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -87,8 +87,7 @@
                     "tip": {
                         "fr_FR": ""
                     },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
+                    "dataType": "string",
                     "indexType": "keyword",
                     "localizable": true,
                     "name": "link",
@@ -96,13 +95,13 @@
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-link-to-page"
+                    "type": "text"
                 }
             ]
         },
         {
             "label": {
-                "fr_FR": "Title custom"
+                "fr_FR": "Label lien personnalisation"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -125,7 +124,7 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "Link"
+                        "fr_FR": "URL de personnalisation"
                     },
                     "predefinedValue": {
                         "fr_FR": ""
@@ -136,8 +135,7 @@
                     "tip": {
                         "fr_FR": ""
                     },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
+                    "dataType": "string",
                     "indexType": "keyword",
                     "localizable": true,
                     "name": "linkCustom",
@@ -145,13 +143,13 @@
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-link-to-page"
+                    "type": "text"
                 }
             ]
         },
         {
             "label": {
-                "fr_FR": "Disconnection link"
+                "fr_FR": "URL de déconnexion"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -162,8 +160,7 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "link-to-page",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
             "name": "disconnection",
@@ -171,7 +168,7 @@
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-link-to-page"
+            "type": "text"
         }
     ]
 }
