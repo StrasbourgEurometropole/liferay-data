@@ -1,14 +1,18 @@
 .mseu .not-front{
     @extend %text-basis-rte;
-    padding-top: 105px;
-    
-    @include RWD(tablet){
-        padding-top: 45px;
-    }
     .published{
         text-align: center;
         font-size: 1.5rem;
         margin-bottom: 20px;
+    }
+    .card-box{
+        padding: 25px 65px 75px 65px;
+        @include RWD(tablet){
+            padding: 25px 40px 40px 40px;
+        }
+        @include RWD(mobile){
+            padding: 25px 20px 40px 20px;
+        }
     }
     h1{
         @extend %atom-main-title;
@@ -20,7 +24,7 @@
             background-position: center;
             background-repeat: no-repeat; 
             background-image: url( svg-bg-uri($svg-wave, #dddddd) ); 
-            margin-bottom: 25px;
+            margin-bottom: 15px;
 
             @include RWD(mobile){
                 margin-bottom: 10px;

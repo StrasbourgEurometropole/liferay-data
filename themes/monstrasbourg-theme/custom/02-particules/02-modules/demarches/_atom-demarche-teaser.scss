@@ -1,0 +1,21 @@
+.demarche-teaser{
+
+    font-family: $main-font;
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: $core-color;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.2;
+    vertical-align: top;
+
+    .btn-text{
+        text-transform: none;
+        line-height: 1.0em;
+        flex: 1;
+    }
+
+    .btn-arrow{
+        flex-shrink: 0;
+    }
+}

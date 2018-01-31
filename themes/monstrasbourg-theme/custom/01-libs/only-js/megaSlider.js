@@ -84,13 +84,13 @@ function setTemplateInfos(infos, category, $template, conf){
  */
 function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
-    var itemSeparator = 8;
+    var itemSeparator = 3;
     if(elements[0].indexOf('big') != -1){
-        itemSeparator = 7;
+        itemSeparator = 3;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
-        itemSeparator = 4;
+        itemSeparator = 2;
     }else if(environment == 'mobile'){
         itemSeparator = 1;
     }

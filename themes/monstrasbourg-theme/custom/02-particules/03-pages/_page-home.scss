@@ -1,28 +1,25 @@
 .mseu .front{
     position: relative;
 
-    .bg-banner{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 755px;
-        z-index: 1;
-        background-image: url('../images/banner.jpg');
-        background-size: cover;
-        background-position: center;
-    }
-    #main-content > *:not(.bg-banner) {
-        z-index: 2;
-        position: relative;
-    }
 
     .wi-wrapper{
         display: flex;
+        box-shadow: 0 0 10px rgba(#203146, 0.15);
+        margin-bottom: 40px;
         & > * {
             width: 50%;
         }
+        @include RWD(tablet){
+            display: block;
+        }& > * {
+            width: 100%;
+        }
+    }
+    section{
+        transition: transform 0.5s $t-bam;
+    }
+    section.deleted{
+        transform: translateX(100vw);
     }
     
 }

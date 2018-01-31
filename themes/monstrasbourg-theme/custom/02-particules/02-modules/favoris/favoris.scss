@@ -1,0 +1,65 @@
+// Favoris HP
+#favoris{
+    @extend %molecule-home-section;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+    .favoris-grid{
+        @include RWD(desktop){
+           @include grid-distribution(4, 50, favoris-teaser);
+        }
+        @include RWD(tablet_only){
+           @include grid-distribution(2, 50, favoris-teaser);
+        }
+        @include RWD(mobile){
+           @include grid-distribution(1, 0, favoris-teaser);
+        }
+        margin-bottom: 50px;
+    }
+    margin-bottom: 40px;
+}
+
+// Vue "liste" uniquement en desktop/tablette
+@media (min-width: $break-small + 'px') {
+    .favoris-list{
+        .favoris-teaser{
+            display: flex;
+            align-items: center;
+            padding-bottom: 0;
+            border-bottom: solid 2px #f6f6f6;
+
+            &:after{
+                display: none;
+            }
+
+            &__link{
+                padding: 20px 20px 20px 0;
+                flex: 1;
+                // border-right: solid 2px #f6f6f6;
+            }
+            &__trash{
+                position: static;
+                flex-shrink: 0;
+                // font-size: 0;
+                transition: all, 0.5s;
+                flex-direction: column;
+                &:before{
+                    background-color: #f6f6f6;
+                    border-radius: 50%;
+                    height: 60px;
+                    width: 60px;
+                    margin: 0 40px;
+                    background-size: 30px;
+                    transition: all, 0.5s;
+                    margin-bottom: 5px;
+                }
+                &:hover, &:focus{
+                    &:before{
+                        background-color: $core-color;
+                        background-image: url( svg-bg-uri($svg-trash, #f6f6f6) );
+                    }
+                }
+            }
+        }
+    }
+}

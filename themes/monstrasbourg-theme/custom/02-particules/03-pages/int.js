@@ -37,7 +37,6 @@ function dot(){
 	}
 	$(document).ready(function() {
 		// INIT
-		$('.toCustomSelect, .SingleSelectHintWidget select').customSelect();
 		$('select[multiple="multiple"]').each(function(index, element){
 			var placeholder = $(element).find('option[disabled]').text();
 			$(element).select2({
