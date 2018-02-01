@@ -11,9 +11,10 @@
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
 </head>
+<#assign isHome = layout.getFriendlyURL() == "/accueil" />
 
 <body class="${css_class} no-js
-     class_group_home front">
+     class_group_home <#if isHome>front<#else>not-front</#if>">
 
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -29,6 +30,7 @@
     <#include "${full_templates_path}/nav_top.ftl" />
 
     <nav id="nav-side">
+      <!-- Notifications -->
       <#if request.session.getAttribute("publik_logged_in")!false>
         <@liferay_portlet["runtime"]
           portletProviderAction=portletProviderAction.VIEW
@@ -36,7 +38,7 @@
         />
       </#if>
 
-      <!-- Ici menu -->
+      <!-- Menu -->
       <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
       <@liferay_portlet["runtime"]
         defaultPreferences="${freeMarkerPortletPreferences}"
@@ -53,23 +55,25 @@
     <div class="custom-container">
       <#include "${full_templates_path}/home_banner.ftl" />
     
-
-    <h1 class="hide-accessible">${the_title}</h1>
-
-    <#if selectable>
-      <@liferay_util["include"] page=content_include />
-    <#else>
-      ${portletDisplay.recycle()}
-
-      ${portletDisplay.setTitle(the_title)}
-
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+    <#if !isHome>
+      <div class="card-box">
+    </#if>      
+      <#if selectable>
         <@liferay_util["include"] page=content_include />
-      </@>
+      <#else>
+        ${portletDisplay.recycle()}
+
+        ${portletDisplay.setTitle(the_title)}
+
+        <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+          <@liferay_util["include"] page=content_include />
+        </@>
+      </#if>
+    <#if !isHome>
+      </div>
+    <#else>
+      <#include "${full_templates_path}/content.ftl" />
     </#if>
-
-    <#include "${full_templates_path}/content.ftl" />
-
     </div>
   </main>
   <#include "${full_templates_path}/footer.ftl" />
