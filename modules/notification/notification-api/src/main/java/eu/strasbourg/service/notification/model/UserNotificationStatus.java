@@ -78,4 +78,6 @@ public interface UserNotificationStatus extends UserNotificationStatusModel,
 	* Retourne la version JSON de l'objet
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	public eu.strasbourg.service.notification.model.Notification getNotification();
 }

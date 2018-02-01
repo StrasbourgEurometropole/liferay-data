@@ -76,4 +76,8 @@ public class UserNotificationStatusImpl extends UserNotificationStatusBaseImpl {
 
 		return result;
 	}
+	
+	public Notification getNotification(){
+		return NotificationLocalServiceUtil.fetchNotification(this.getNotificationId());
+	}
 }
