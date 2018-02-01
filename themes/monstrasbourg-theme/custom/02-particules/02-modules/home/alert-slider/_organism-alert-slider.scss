@@ -3,5 +3,133 @@
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: #ff1f53;
+    display: flex;
+    align-items: center;
 
+    @include RWD(tablet){
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    @include RWD(mobile){
+        display: block;
+        padding: 20px;
+    }
+
+    h2{
+        font-size: 1.7rem;
+        color: #FFFFFF;
+        display: inline-block;
+        width: auto;
+        margin: 0;
+        margin-right: 55px;
+        flex-shrink: 0;
+        &:before{
+            display: none;
+        }
+        &:after{
+            display: block;
+            content: '';
+            width: 33px;
+            height: 7px;
+            background-size: contain;
+            background-position: left center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-wave, #ff4e77) );
+            margin-top: 12px;
+        }
+        @include RWD(tablet){
+            margin-right: 20px;
+        }
+        @include RWD(mobile){
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            margin-bottom: 20px;
+            &:after{
+                background-position: center;
+                margin: 0 auto;
+            }
+        }
+    }
+    .alert-list{
+        width: auto;
+        flex: 1;
+        overflow: hidden;
+        padding: 0 70px;
+        @include RWD(tablet){
+            padding: 0 50px;
+        }
+        @include RWD(mobile){
+            padding: 0 40px;
+        }
+    }
+    .alert-item{
+        color: #FFFFFF;
+        a{
+            color: #FFFFFF;
+            display: block;
+            text-underline-position: under;
+        }
+    }
+    .alert-title{
+        font-weight: 500;
+        font-size: 1.7rem;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-family: $fancy-font;
+    }
+    .alert-lead{
+        font-weight: 400;
+        font-size: 1.6rem;
+        font-family: $main-font;
+    }
+
+    // Slider
+    // .owl-carousel .owl-stage{ // Alignement vetical des items
+    //     display: flex;
+    //     align-items: center;
+    // }
+    .owl-nav{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        transform: translateY(-50%);
+
+        & > div{
+            position: absolute;
+            content: '';
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            background-size: 17px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-arrow1, #ff1f53) );
+            border-radius: 50%;
+            background-color: #FFFFFF;
+            font-size: 0;
+            top: 0;
+            @include RWD(tablet){
+                width: 30px;
+                height: 30px;
+                background-size: 15px;
+            }
+            &.owl-prev{
+                transform: translateY(-50%) rotate(-180deg);
+                left: 0;
+            }
+            &.owl-next{
+                transform: translateY(-50%);
+                right: 0;
+            }
+
+            @include RWD(mobile){
+                width: 26px;
+                height: 26px;
+                background-size: 10px;
+            }
+        }
+    }
 }

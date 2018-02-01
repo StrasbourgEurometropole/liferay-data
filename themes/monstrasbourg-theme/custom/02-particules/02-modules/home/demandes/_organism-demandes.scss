@@ -3,7 +3,31 @@
     background-color: $second-color;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: none;
+
+    @include RWD(tablet){            
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #ffffff) );
+    }
+    .demandes-list{
+        margin-bottom: 65px;
+        @include RWD(tablet){
+            margin-bottom: 45px;
+        }
+        @include RWD(mobile){
+            .btn-text{
+                text-transform: none !important;
+            }
+        }
     }
 }

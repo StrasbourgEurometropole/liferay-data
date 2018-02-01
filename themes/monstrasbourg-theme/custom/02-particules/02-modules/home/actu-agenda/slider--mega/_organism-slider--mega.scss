@@ -18,7 +18,7 @@
                 display: block;
                 transition: opacity 1s;
                 &:first-child{
-                    margin-bottom: 20px;
+                    // margin-bottom: 20px;
                 }
                 @extend %atom-slider-vignette--mega;
                 @include RWD(mobile){

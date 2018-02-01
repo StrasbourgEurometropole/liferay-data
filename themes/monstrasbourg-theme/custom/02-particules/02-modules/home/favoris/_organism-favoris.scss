@@ -1,6 +1,0 @@
-%organism-favoris{    
-    @extend %molecule-home-section;
-    h2:before{
-        background-image: url( svg-bg-uri($svg-wave, #ffffff) );
-    }
-}

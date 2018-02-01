@@ -1,0 +1,29 @@
+.search-infos{
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #5c5c5c;
+
+    @include RWD(mobile){
+        display: block;
+    }
+
+    .filler{
+        flex: 1;
+    }
+
+    &__amount{
+
+    }
+    &__filter{
+        display: flex;
+        align-items: center;
+        span{
+            margin-right: 25px;
+        }
+    }
+    .customSelectContain{
+        @extend %atom-customSelect--custom;   
+        min-width: 75px;     
+    }   
+}

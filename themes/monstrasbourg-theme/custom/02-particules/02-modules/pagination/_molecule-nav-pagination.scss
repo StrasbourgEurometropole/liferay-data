@@ -1,4 +1,4 @@
-%molecule-pagination{    
+.mseu-pagination{
     width: 100%;
 	text-align: center;
 	display: flex;
@@ -14,9 +14,10 @@
 			display: none !important;
 		}
 
-		a{
+		a, button{
 			position: relative; 
 			z-index: 2;
+			color: $core-color;
 		}
 
 		&.pagin-prev{
@@ -26,6 +27,7 @@
 
 		&.disabled{
 			pointer-events: none;
+			opacity: 0;
 		}
 		&.is-active{
 			pointer-events: none;
@@ -45,7 +47,7 @@
 			Pagination "chiffres"
 		*/
 		&:not(.pagin-next):not(.pagin-prev):not(.pagin-first):not(.pagin-last){
-			& > a, & > div{
+			& > a, & > div, & > button{
 				text-decoration: none;
 			}
 			.btn-text{
@@ -54,10 +56,11 @@
 				font-weight: 600;
 				padding: 3px;
 			} 
-			&.is-active{
+			&.is-active .btn-text{
 				text-decoration: underline;
 			}
-			a:hover, a:focus{
+			a:hover, a:focus,
+			button:hover, button:focus{
 				.btn-text{
 					color: #FFFFFF;
 				}

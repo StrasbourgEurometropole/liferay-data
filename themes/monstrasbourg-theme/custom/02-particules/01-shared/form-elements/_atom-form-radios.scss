@@ -2,7 +2,7 @@
     position: absolute;
     left: -99999999px;
 
-    & + span{
+    & + span, & + label{
         padding-left: 30px;
         display: block;
         &:before{
@@ -22,7 +22,7 @@
             content: '';
             height: 15px;
             width: 15px;
-            background-color: $second-color;
+            background-color: $core-color;
             position: absolute;
             top: 50%; left: 0;
             transform: translateY(-50%);
@@ -31,7 +31,7 @@
         }
     }
     &:checked{
-        & + span{
+        & + span, & + label{
             &:before{
                 opacity: 0;
             }

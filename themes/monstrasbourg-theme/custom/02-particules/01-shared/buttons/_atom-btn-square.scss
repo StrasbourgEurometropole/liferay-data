@@ -32,6 +32,7 @@
         background-size: 14px;
         background-position: center;
         background-repeat: no-repeat;
+        flex-shrink: 0;
     }
 
     &:hover, &:focus{
@@ -178,13 +179,13 @@
         &--grey{
             @extend %atom-btn-square--bordered;
             &:before{
-                background-color: #7e7e7e;
+                background-color: #5c5c5c;
             }
             .btn-text{
-                color: #7e7e7e;
+                color: #5c5c5c;
             }
             .btn-arrow{
-                background-image: url( svg-bg-uri($svg-arrow1, #7e7e7e) );
+                background-image: url( svg-bg-uri($svg-arrow1, #5c5c5c) );
             }
 
             &:hover, &:focus{

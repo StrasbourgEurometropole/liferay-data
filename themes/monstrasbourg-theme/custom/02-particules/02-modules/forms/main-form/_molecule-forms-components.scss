@@ -46,6 +46,7 @@
     }
     label:not(.option){
          @extend %text-form-label;
+         color: $core-color;
          position: relative;
 
          .required{
@@ -111,3 +112,8 @@
         @extend %atom-select2--custom;
     }
 } 
+
+.generic-form{
+    @extend %bone-form-structure;
+    @extend %molecule-form-components;
+}

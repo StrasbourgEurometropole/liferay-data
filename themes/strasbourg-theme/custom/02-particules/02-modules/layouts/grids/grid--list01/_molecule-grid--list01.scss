@@ -79,9 +79,6 @@
                 }
                 .item-misc{
                     color: $core-color;
-                    &:before{
-                        background-image: url( svg-bg-uri($svg-plus, $core-color) );
-                    }
                     span:after{
                         background-color: $core-color;
                     }
