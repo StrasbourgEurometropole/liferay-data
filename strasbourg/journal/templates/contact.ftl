@@ -12,7 +12,7 @@
             </div>
             <a href="${detailLink.getData()}" class="seu-btn-square seu-bordered seu-core" title="Contacter">
                 <span class="seu-flexbox">
-                    <span class="seu-btn-text"><@liferay_ui.message key="see-contact-information" /></span>
+                    <span class="seu-btn-text"><@liferay_ui.message key="contact.contact-us" /></span>
                     <span class="seu-btn-arrow"></span>
                 </span>
             </a>
