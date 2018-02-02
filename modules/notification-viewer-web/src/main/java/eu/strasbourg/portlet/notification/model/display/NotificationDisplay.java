@@ -1,15 +1,20 @@
 package eu.strasbourg.portlet.notification.model.display;
 
+import java.util.Date;
+
 //Simple holder de données pour l'affichage
 public class NotificationDisplay {
 	
 	private String title;
-	private String date;
+	private Date date;
 	private boolean isRead;
 	private Long notificationId;
 	
-	public String getDate() {
+	public Date getDate() {
 		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	public Long getNotificationId() {
 		return notificationId;
@@ -17,10 +22,6 @@ public class NotificationDisplay {
 	public void setNotificationId(Long notificationId) {
 		this.notificationId = notificationId;
 	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-
 	public String getTitle() {
 		return title;
 	}
