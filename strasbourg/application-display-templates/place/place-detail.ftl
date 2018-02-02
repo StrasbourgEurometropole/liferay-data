@@ -444,7 +444,7 @@
                                                 <div class="seu-media-title">${title}</div>  
                                                 <p>${file.getExtension()?upper_case} - ${size}</p>  
                                             </div>  
-                                            <a href="{url}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
+                                            <a href="${fileURL}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
                                                 <div class="seu-btn-text-editable">
                                                     <span class="seu-flexbox">  
                                                         <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>  

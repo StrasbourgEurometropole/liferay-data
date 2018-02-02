@@ -9,10 +9,16 @@
           <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
           <#assign fileTitle = fileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "Titre", locale)!file.getTitle(locale) />
           <li class="${file.getFileEntryId()} ${fileTitle}">
+              <#if file.description?has_content && file.description?starts_with("http")>
+                <a href="${file.getDescription()}">
+              </#if>
               <#if image.getAttribute('alt')?has_content>
                 <img src="${image.getData()}" alt="© ${image.getAttribute('alt')} " />
               <#else>
                 <img src="${image.getData()}" />
+              </#if>
+              <#if file.description?has_content && file.description?starts_with("http")>
+                </a>
               </#if>
             <div class="headband">
               <span>

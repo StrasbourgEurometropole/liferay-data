@@ -7,26 +7,24 @@
     <#if illustration.getData()?has_content>
         <div class="article-image">
             <div class="imgcontainer">
-                <#if illustration.getAttribute('alt')?has_content && illustration.getAttribute('title')?has_content >
-                    <a title="${illustration.getAttribute('title')} © ${illustration.getAttribute('alt')}" href="${illustration.getData()}" class="magnific-popup">
-                <#else>
-                    <a href="${illustration.getData()}" class="magnific-popup">
-                </#if>
-                <#if illustration.getAttribute('alt')?has_content && illustration.getAttribute('title')?has_content >
-                    <img src="${illustration.getData()}" alt="${illustration.getAttribute('alt')}" title="${illustration.getAttribute('title')}" />
-                <#else>
-                    <img src="${illustration.getData()}"  />
-                </#if>
-                </a>
-                            
                 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
                 <#assign file = fileEntryHelper.getFileEntryByRelativeURL(illustration.getData()) />
+                <#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />
                 <#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
+
+                <a href="${illustration.getData()}" title="${legend} © ${copyright}" class="magnific-popup">
+                    <#if illustration.getAttribute('alt')?has_content && illustration.getAttribute('title')?has_content >
+                        <img src="${illustration.getData()}" alt="${illustration.getAttribute('alt')}" title="${illustration.getAttribute('title')}" />
+                    <#else>
+                        <img src="${illustration.getData()}" />
+                    </#if>
+                </a>
+                            
                 <#if copyright?has_content>
-                <div class="copyright-caption">
-                  &copy; ${copyright}
-                </div>
-              </#if>                            
+                    <div class="copyright-caption">
+                      &copy; ${copyright}
+                    </div>
+                </#if>                            
             </div>
         </div>
     </#if>

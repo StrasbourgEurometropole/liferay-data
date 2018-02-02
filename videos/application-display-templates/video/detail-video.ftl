@@ -1,5 +1,10 @@
 <!-- Détail Vidéo -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 
 <div class="container"> 
 	<h2 class="video-title">${entry.getTitle(locale)}</h2> 
@@ -47,32 +52,14 @@
 					<div class="video-grid"> 
 						<div class="category"> 
 							<#list entry.getSuggestions(locale) as suggestion >
-								<#assign fromSearch = renderRequest.getAttribute("fromSearchPortlet")!false >
-								<#assign plId = 0 />
-								<#if fromSearch>
-								  <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
-								</#if>
-
-								<@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-								  <@liferay_portlet.param name="classPK" value="${suggestion.getVideoId()}" />
-								  <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-								</@liferay_portlet.renderURL>
-
-								<@liferay_portlet.actionURL var="detailURLFilter">
-								  <@liferay_portlet.param name="userTargetClassId" value="${suggestion.assetEntry.classNameId}" />
-								  <@liferay_portlet.param name="userTargetClassPK" value="${suggestion.assetEntry.classPK}" />
-								  <@liferay_portlet.param name="userTargetTitle" value="${suggestion.getTitle(locale)}" />
-								  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-								  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
-								</@liferay_portlet.actionURL>
  
 								<div class="video-thumbnail"> 
-									<a href="${detailURLFilter}" >
+									<a href="${homeURL}video/-/entity/id/${suggestion.videoId}">
 										<img src="${suggestion.getImageURL()}" alt="${suggestion.getTitle(locale)}">
 									</a> 
 									<div class="meta"> 
 										<div class="title"> 
-											<a href="${detailURLFilter}" >
+											<a href="${homeURL}video/-/entity/id/${suggestion.videoId}">
 												<span class="trimTo70">${suggestion.getTitle(locale)}</span> 
 											</a> 
 										</div> 
