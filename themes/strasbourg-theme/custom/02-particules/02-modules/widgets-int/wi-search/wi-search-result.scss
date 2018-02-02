@@ -158,9 +158,52 @@
             position: relative;
             min-height: 50%;
             padding: 20px 0;
+
+
+            .seu-add-favorites{
+            font-family: "MontSerrat", arial;
+            font-size: 1.4rem;
+            color: $core-color;
+            text-transform: uppercase;
+            font-weight: 700;
+            position: relative;
+            height: 50%;
+            display: flex;
+            align-items: left;
+                &:before{
+                    content: '';
+                    display: inline-block;
+                    width: 21px;
+                    height: 21px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 12px;
+                    flex-shrink: 0;
+                    background-image: url( svg-bg-uri($svg-heart, $core-color) );
+                }
+                &.liked{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+                    }
+                }
+                span{
+                    position: relative;
+                }
+                span:after{
+                    @extend %animation-hoverBar-in;
+                    background-color: $core-color;
+                }
+                &:hover, &:focus{
+                    text-decoration: none;
+                    span:after{
+                        @extend %animation-hoverBar-out;
+                    }
+                }
+            }
+
         }
-        .seu-result-infos-top,
-        .seu-result-infos-bottom {
+        .seu-result-infos-top {
             display: flex;
             height: 50%;
             align-items: center;
