@@ -9,9 +9,19 @@
 </#if>
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <div class="seu-page-lieu">
     <main class="seu-container">
+        <a href="#" class="add-favorites"
+            data-type="1" 
+            data-title="${entry.getAlias(locale)}" 
+            data-url="${strasbourgURL}lieu/-/entity/sig/${entry.getSIGid()}" 
+            data-id="${entry.placeId}">
+            <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+        </a>
         <h1>${entry.getAlias(locale)}</h1>
         
         <div class="seu-flexbox">

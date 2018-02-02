@@ -19,6 +19,9 @@
                         <#break>
                     </#if>
                     <#assign entry = curEntry.getAssetRenderer().getEvent() />
+                    <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+                    <#assign themeDisplay = serviceContext.getThemeDisplay() />
+                    <#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
                     <div class="seu-wi-item seu-has-ville">
                         <a href="${homeURL}evenement/-/entity/id/${entry.eventId}" class="seu-link" title="${entry.getTitle(locale)}">
                             <#if entry.firstStartDate?has_content>
@@ -40,6 +43,13 @@
                                 ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}
                             </div>
                             <div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${entry.getDescription(locale)?replace("<[^>]*>", "", "r")}</div>
+                        </a>
+                        <a href="#" class="seu-add-favorites" 
+                            data-type="2" 
+                            data-title="${entry.getTitle(locale)}" 
+                            data-url="${strasbourgURL}evenement/-/entity/id/${entry.eventId}" 
+                            data-id="${entry.eventId}">
+                            <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                         </a>
                     </div>
                 </#list>

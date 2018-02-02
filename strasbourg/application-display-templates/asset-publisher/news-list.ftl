@@ -21,6 +21,7 @@
                         <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+                        <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
                         <div class="seu-wi-item seu-actu seu-has-picture">
                             <a href="${viewURL}" class="seu-link" title="${title}">
                                 <div class="seu-text">
@@ -30,6 +31,13 @@
                                 <div>
                                     <div class="seu-picture" style="background-image: url(${thumbnail})"></div>
                                 </div>
+                            </a>
+                             <a href="#" class="seu-add-favorites" 
+                                 data-type="6" 
+                                 data-title="${title}"
+                                 data-url="${viewURL}" 
+                                 data-id="${id}">
+                                <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
                             </a>
                         </div>
                     </#list>

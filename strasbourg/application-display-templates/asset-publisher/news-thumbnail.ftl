@@ -53,7 +53,14 @@
             <div class="seu-result-infos-top">
                 ${entry.getModifiedDate()?datetime?string("dd/MM/yyyy")}
             </div>
-            <div class="seu-result-infos-bottom"> 
+            <div class="seu-result-infos-bottom">
+                 <a href="#" class="seu-add-favorites" 
+                    data-type="6" 
+                    data-title="${title}" 
+                    data-url="${detailURL}"
+                    data-id="${entry.getArticleId()}">
+                    <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
+                </a>
             </div>
         </div>
     </div>

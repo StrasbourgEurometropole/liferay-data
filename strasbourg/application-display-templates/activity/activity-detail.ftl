@@ -6,8 +6,18 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <div class="seu-container">
+    <a href="#" class="add-favorites"
+        data-type="10" 
+        data-title="${entry.getTitle(locale)}" 
+        data-url="${strasbourgURL}activite/-/entity/id/${entry.activityId}" 
+        data-id="${entry.activityId}">
+        <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+    </a>
     <h1>
         ${entry.getTitle(locale)}
         <div class="seu-event-categories" data-dot="1" style="word-wrap: break-word;">  

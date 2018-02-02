@@ -1,9 +1,22 @@
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <main class="seu-container" style="margin-bottom: 50px">
-    <p class="seu-published">
-       <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
-       - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
-    </p>
+    <div class="detail-line">
+        <div class="filler"></div>
+        <p class="seu-published">
+           <@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
+           - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
+        </p>
+        <a href="#" class="add-favorites"
+            data-type="6" 
+            data-title="${title.getData()}" 
+            data-url="${currentUrl}" 
+            data-id="${.vars['reserved-article-id'].data}">
+            <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+        </a>
+    </div>
     <h1>${title.getData()}</h1>
     <div class="hat">
         <div>

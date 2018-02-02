@@ -1,3 +1,4 @@
+            <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__">
 <!-- A la une -->
 <#setting locale = locale />
 <script type="text/javascript">
@@ -13,6 +14,7 @@
           <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
           <#assign image = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
           <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+          <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
           <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
           {
             <#if curEntry.tagNames?seq_contains('euromag') || curEntry.tagNames?seq_contains('villemag') || curEntry.tagNames?seq_contains('webmag')>
@@ -25,7 +27,9 @@
             title: '${title?js_string}',
             lead: '${chapo?js_string}',
             picture: '${image}',
-            link: '${viewURL}'
+            link: '${viewURL}',
+            id: '${id}',
+            favorite: '<@liferay_ui.message key='eu.add-to-favorite' />'
             <#if curEntry.tagNames?seq_contains('focus')>
               ,is_Big: true
             </#if>
@@ -40,6 +44,8 @@
             lead: '${event.getDescription(locale)?js_string}',
             link: window.homeURL + 'evenement/-/entity/id/${event.eventId}',
             ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)?js_string}',
+            id: '${event.eventId}',
+            favorite: '<@liferay_ui.message key='eu.add-to-favorite' />',
             <#if event.firstStartDate?date == event.lastEndDate?date>
               date_start: '',
               date_end: '${event.firstStartDate?string["dd.MM"]}',
@@ -127,6 +133,9 @@
                 <div class="seu-ville">__ville__</div>
                 <div class="seu-lead dotme" data-dot="7">__lead__</div>
             </a>
+            <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__">
+                <span>__favorite__</span>
+            </a>
         </div>
         <!-- Template actu-->
         <div class="seu-item seu-actu">
@@ -136,7 +145,10 @@
                     <div class="seu-lead dotme" data-dot="3">__lead__</div>
                 </div>
                 <div class="seu-picture" style="background-image: url(__picture__)">
-                </div>
+                </div>                
+            </a>
+            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__">
+                <span>__favorite__</span>
             </a>
         </div>
         <!--Template Mag-->
@@ -153,6 +165,9 @@
                     <div class="seu-lead dotme" data-dot="3">__lead__</div>
                 </div>
             </a>
+            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__">
+                <span>__favorite__</span>
+            </a>
         </div>
     </div>
     <div class="seu-btn-line">
@@ -162,5 +177,6 @@
         <span class="seu-btn-arrow"></span>
         </span>
         </a>
+        
     </div>
 </section>
