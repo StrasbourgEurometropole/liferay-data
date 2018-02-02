@@ -34,7 +34,8 @@
       <#if request.session.getAttribute("publik_logged_in")!false>
         <@liferay_portlet["runtime"]
           portletProviderAction=portletProviderAction.VIEW
-          portletName="NotificationViewerWeb"
+          portletName="eu_strasbourg_portlet_notification_NotificationViewerWebPortlet"
+          instanceId="notifications"
         />
       </#if>
 

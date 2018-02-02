@@ -10290,6 +10290,11 @@ a {
   /* line 75, custom/02-particules/03-pages/_page-general.scss */
   .mseu .element-invisible, .mseu .hidden {
     display: none; }
+  /* line 79, custom/02-particules/03-pages/_page-general.scss */
+  .mseu .seu-published {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px; }
 
 /* line 1, custom/02-particules/03-pages/_page-home.scss */
 .mseu .front {
@@ -11545,11 +11550,19 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   display: block !important; }
 
 /* line 1, custom/02-particules/04-hacks/_liferay.scss */
-.mseu .header {
+.mseu .has-control-menu .header {
   top: 66px; }
 
 /* line 5, custom/02-particules/04-hacks/_liferay.scss */
 .portlet .portlet-title-text {
+  display: none; }
+
+/* line 9, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-body > div > .h2 {
+  display: none; }
+
+/* line 13, custom/02-particules/04-hacks/_liferay.scss */
+.taglib-social-bookmarks {
   display: none; }
 
 /* line 2, custom/02-particules/04-hacks/_android.scss */
@@ -11658,11 +11671,19 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   display: block !important; }
 
 /* line 1, custom/02-particules/04-hacks/_liferay.scss */
-.mseu .header {
+.mseu .has-control-menu .header {
   top: 66px; }
 
 /* line 5, custom/02-particules/04-hacks/_liferay.scss */
 .portlet .portlet-title-text {
+  display: none; }
+
+/* line 9, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-body > div > .h2 {
+  display: none; }
+
+/* line 13, custom/02-particules/04-hacks/_liferay.scss */
+.taglib-social-bookmarks {
   display: none; }
 
 /*# sourceMappingURL=strasbourg.css.map */
