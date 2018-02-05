@@ -11,13 +11,14 @@
         .actu-filter{
             margin: 0 5px;
             &:not(.actif){
-                background-color: $second-color;
-                color: white;
                 padding: 10px 20px;
             }
             &.actif{
-                background-color: $core-color;
-                color: white;
+                background-color: $second-color;
+                color: $core-color;
+                .btn-text{
+                    color: $core-color;
+                }
                 pointer-events: none;
                 padding: 10px 20px;
             }

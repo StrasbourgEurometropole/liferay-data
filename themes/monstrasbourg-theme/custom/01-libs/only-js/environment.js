@@ -75,6 +75,7 @@ var isIE = true;
         }
         if (currentEnvironment != environment) {
             environmentChanged = true;
+            $(document).trigger( "environment:changed", [{old_environment: currentEnvironment, new_environment: environment}] );
         } else {
             environmentChanged = false;
         }

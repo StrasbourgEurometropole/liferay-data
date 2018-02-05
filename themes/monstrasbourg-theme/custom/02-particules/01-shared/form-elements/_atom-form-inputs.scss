@@ -14,4 +14,22 @@
         outline: none;
         background-color: #FFFFFF;
     }
+    &::-webkit-input-placeholder {
+        text-transform: uppercase;
+        font-family: $fancy-font;
+        font-size: 1.4rem;
+        color: #7e7e7e;
+    }
+    &::-moz-placeholder{
+        text-transform: uppercase;
+        font-family: $fancy-font;
+        font-size: 1.4rem;
+        color: #7e7e7e;
+    }
+    &::-ms-input-placeholder {
+        text-transform: uppercase;
+        font-family: $fancy-font;
+        font-size: 1.4rem;
+        color: #7e7e7e;
+    }
 } 

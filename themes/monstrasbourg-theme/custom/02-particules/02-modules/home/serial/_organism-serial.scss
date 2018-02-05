@@ -3,7 +3,32 @@
     background-color: #5ddfd1;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: none;
+    @include RWD(tablet){            
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #ffffff) );
+    }
+
+    p{
+        font-family: $main-font;
+        font-size: 2.0rem;
+        color: $core-color;
+        margin-bottom: 30px;
+    }
+    input{
+        @extend %atom-form-input;
+        margin-bottom: 65px;
+        @include RWD(tablet){
+            margin-bottom: 45px;
+        }
     }
 }

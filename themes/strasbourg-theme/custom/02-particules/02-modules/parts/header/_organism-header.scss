@@ -58,8 +58,13 @@
             height: 100%;
             padding: 0 25px;
             font-size: 1.7rem;
+            position: relative;
             @include RWD(mobile){
                 padding: 0 10px;
+            }
+
+            button{
+                height: 100%;
             }
 
             .seu-flexbox{
@@ -84,6 +89,7 @@
                 }
             }
             .seu-picto{
+                position: relative;
                 content: '';
                 display: inline-block;
                 width: 20px;
@@ -96,12 +102,55 @@
                     margin: 0;
                 } 
             }
+            .notif-amount{
+                background-color: $third-color;
+                position: absolute;
+                top: -7px;
+                right: -7px;
+                width: auto;
+                padding: 0 3px;
+                height: 18px;
+                color: #fff;
+                border-radius: 50%;
+                font-size: 1.1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: $main-font;
+                font-weight: 700;
+                font-size: 1.1rem;
+                color: $core-color;
+            }
+            .seu-arrow{
+                content: '';
+                display: inline-block;
+                width: 17px;
+                height: 17px;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin-right: 10px;
+                background-image: url( svg-bg-uri($svg-arrow1, #505050) ); 
+                transform: rotate(90deg);
+                margin-left: 20px; 
+                transition: all, 0.5s;
+                @include RWD(mobile){
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
+            }
             &:hover, &:focus{
                 text-decoration: none;
                 .seu-text{
                     &:after{
                         @extend %animation-hoverBar-out;
                     }
+                }
+                .seu-arrow{
+                    transform:  translateY(3px) rotate(90deg);
+                }
+                #account-menu{
+                    // display: block;
                 }
             }
 
@@ -114,6 +163,101 @@
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-mail, #505050) );
                 }
+            }
+            #account-menu{
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                min-width: 250px;
+                background-color: #FFFFFF;
+                padding: 15px 15px 25px 15px;
+                border-bottom-left-radius: 7px;
+                border-bottom-right-radius: 7px;
+                display: none;
+
+                .account-link{
+                    display: flex;
+                    align-items: center;
+                    font-size: 1.5rem;
+                    color: #505050;
+                    font-weight: 400;
+                    font-family: $main-font;
+                    letter-spacing: 0.03em;
+                    &:before{
+                        content: '';
+                        display: inline-block;
+                        width: 23px;
+                        height: 23px;
+                        background-size: contain;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        margin-right: 15px;
+                    }
+                    &.dashboard:before{
+                        background-image: url( svg-bg-uri($svg-dashboard, #505050) );
+                    }
+                    &.account:before{
+                        background-image: url( svg-bg-uri($svg-account, #505050) );
+                    }
+                    &.notification:before{
+                        background-image: url( svg-bg-uri($svg-notification, #505050) );
+                    }
+                    &.logout:before{
+                        background-image: url( svg-bg-uri($svg-close, #505050) );
+                    }
+                }
+                li + li{
+                    margin-top: 20px;
+                    &:first-child{
+                        margin-top: 0;
+                    }
+                }
+            }
+        }
+        // Theme dark
+        &.dark{
+            background-color: #333333;
+            .seu-nav-btn{
+                &.seu-nav-account{
+                    .seu-picto{
+                        background-image: url( svg-bg-uri($svg-account, #ffffff) );                    
+                    }
+                }
+                &.seu-nav-contact{
+                    .seu-picto{
+                        background-image: url( svg-bg-uri($svg-mail, #ffffff) );
+                    }
+                }
+                .seu-text{
+                    color: #FFFFFF;
+                    &:after{
+                        background-color: #ffffff;
+                    }
+                }
+                .seu-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #ffffff) ); 
+                }
+                #account-menu{
+                    background-color: #333333;
+                    .account-link{
+                        color: #FFFFFF;
+                        &.dashboard:before{
+                            background-image: url( svg-bg-uri($svg-dashboard, #ffffff) );
+                        }
+                        &.account:before{
+                            background-image: url( svg-bg-uri($svg-account, #ffffff) );
+                        }
+                        &.notification:before{
+                            background-image: url( svg-bg-uri($svg-notification, #ffffff) );
+                        }
+                        &.logout:before{
+                            background-image: url( svg-bg-uri($svg-close, #ffffff) );
+                        }
+                    }
+                }
+
             }
         }
         #seu-search-trigger{

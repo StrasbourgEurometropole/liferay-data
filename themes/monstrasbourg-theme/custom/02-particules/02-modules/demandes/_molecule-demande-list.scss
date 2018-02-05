@@ -1,0 +1,31 @@
+.demande-list{
+
+    &__item{
+        position: relative;
+        & > * {
+            width: 100%;
+        }
+    }
+
+    .demande-teaser{
+        padding: 10px 10px 10px 10px;
+
+        .btn-text{
+            text-transform: none;
+            line-height: 1.0em;
+            flex: 1;
+            font-size: 1.8rem;
+            font-family: $main-font;
+            font-weight: 400;
+
+            strong{
+                font-family: $fancy-font;
+                font-weight: 600;
+            }
+        }
+
+        .btn-arrow{
+            flex-shrink: 0;
+        }
+    }
+}

@@ -106,9 +106,7 @@
                 .picto{
                     background-image: url( svg-bg-uri($svg-mail, #FFFFFF) );
                 }
-                @include RWD(tablet){
-                    margin-right: 30px;
-                }
+                margin-right: 25px;
                 @include RWD(mobile){
                     margin-right: 10px;
                     .text{
@@ -120,7 +118,7 @@
                 }
             }
             &.nav-account{
-                padding-left: 45px;
+                padding-left: 50px;
                 padding-right: 10px;
                 .picto{
                     background-image: url( svg-bg-uri($svg-account, #FFFFFF) );                    

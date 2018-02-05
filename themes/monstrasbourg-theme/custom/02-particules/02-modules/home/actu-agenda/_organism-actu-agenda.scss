@@ -1,5 +1,27 @@
 %organism-actu-agenda{
     @extend %molecule-home-section;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    box-shadow: none;
+    background-color: transparent;
+
+    &:before{
+        content: '';
+        position: absolute;
+        top: 350px;
+        left: 0;
+        width: 100vw;
+        height: 572px;
+        z-index: -1;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url(../images/blurry_bg_hp.jpg);
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }

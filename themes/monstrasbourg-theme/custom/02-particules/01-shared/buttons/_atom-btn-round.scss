@@ -59,11 +59,11 @@
         background-color: #ffffff;
         border-color: #ffffff;
         .btn-text{
-            color: #7e7e7e;
+            color: #5c5c5c;
         }
         &:not(.actif){
             &:hover, &:focus{
-                background-color: #7e7e7e;
+                background-color: #5c5c5c;
                 .btn-text{ 
                     color: #ffffff;
                 }

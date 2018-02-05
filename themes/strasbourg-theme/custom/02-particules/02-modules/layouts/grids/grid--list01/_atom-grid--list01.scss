@@ -194,14 +194,19 @@
             &:before{
                 content: '';
                 display: inline-block;
-                width: 16px;
-                height: 16px;
-                background-size: 15px;
+                width: 21px;
+                height: 21px;
+                background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-image: url( svg-bg-uri($svg-plus, $core-color) );
                 margin-right: 12px;
                 flex-shrink: 0;
+                background-image: url( svg-bg-uri($svg-heart, $core-color) );
+            }
+            &.liked{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+                }
             }
             span{
                 position: relative;

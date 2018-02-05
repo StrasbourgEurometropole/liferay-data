@@ -18,7 +18,8 @@ $container-width: 1200;
 $montserrat: 'MontSerrat', arial;
 $opensans: 'OpenSans', arial;
 $site-font: $montserrat; 
-$main-font: $opensans; 
+$fancy-font: $site-font;
+$main-font: $opensans;
 
 // Transition
 $t-bam: cubic-bezier(.85,.01,0,1);
