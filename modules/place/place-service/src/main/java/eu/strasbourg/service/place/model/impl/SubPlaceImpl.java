@@ -292,7 +292,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 						for (Pair<LocalTime, LocalTime> subplaceTime : scheduleCompareList.get(0).getOpeningTimes())
 						{
 							// Si l'horaire du sous lieu chevauche celui du parent, on recrée un horaire pour le sous lieu qui est inclut dans les bornes de l'horaire parent
-							if(parentTime.getFirst().compareTo(subplaceTime.getSecond()) <= 0 && parentTime.getSecond().compareTo(subplaceTime.getFirst()) >= 0)
+							if(parentTime.getFirst().compareTo(subplaceTime.getSecond()) < 0 && parentTime.getSecond().compareTo(subplaceTime.getFirst()) > 0)
 							{
 								LocalTime startHour =  parentTime.getFirst().isAfter(subplaceTime.getFirst()) ? parentTime.getFirst():subplaceTime.getFirst();
 								LocalTime endHour = parentTime.getSecond().isBefore(subplaceTime.getSecond()) ? parentTime.getSecond():subplaceTime.getSecond();
