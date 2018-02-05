@@ -35,6 +35,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The implementation of the place remote service.
@@ -220,4 +221,52 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		return jsonPlaces;
 	}
 
+	
+	/**
+	 * Retourne l'ancien web service LR6 concernant les Types de lieu
+	 */
+	public JSONObject getLegacyCategoriesJSON() throws PortalException {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		
+		
+		List<AssetCategory> assetCategories = new ArrayList<>();
+		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+		
+		assetCategories = vocabulary.getCategories();
+		
+		for(AssetCategory asset : assetCategories)
+		{
+			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
+			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
+			jsonbis.put("nom", asset.getName());
+			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
+		}
+		
+		return json;		
+	}
+	
+	
+	/**
+	 * Retourne l'ancien web service LR6 concernant les Territoires
+	 */
+	public JSONObject getLegacyTerritoriesJSON() throws PortalException {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		
+		
+		List<AssetCategory> assetCategories = new ArrayList<>();
+		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+		
+		assetCategories = vocabulary.getCategories();
+		
+		for(AssetCategory asset : assetCategories)
+		{
+			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
+			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
+			jsonbis.put("nom", asset.getName());
+			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
+		}
+		
+		return json;		
+	}
+	
 }

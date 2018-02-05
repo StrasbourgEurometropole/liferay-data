@@ -11,7 +11,7 @@
   <@liferay_util["include"] page=top_head_include />
   <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/strasbourg.css">
 
-  <title>${layout.getName(locale)} | Strasbourg.eu</title>
+  <title>${the_title?replace('-', '|')}</title>
 </head>
 
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
@@ -38,7 +38,7 @@
     window.homeURL = '${homeURL}';
   </script>
   <div class="seu">
-  
+    
     <#if isHome>
       <header class="seu-header">
     <#else>

@@ -305,6 +305,70 @@ public class PlaceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON(
+		HttpPrincipal httpPrincipal)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
+					"getLegacyCategoriesJSON",
+					_getLegacyCategoriesJSONParameterTypes10);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON(
+		HttpPrincipal httpPrincipal)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
+					"getLegacyTerritoriesJSON",
+					_getLegacyTerritoriesJSONParameterTypes11);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(PlaceServiceHttp.class);
 	private static final Class<?>[] _getPlacesParameterTypes0 = new Class[] {  };
 	private static final Class<?>[] _getPlaceByIdParameterTypes1 = new Class[] {
@@ -326,4 +390,10 @@ public class PlaceServiceHttp {
 			java.lang.String.class, java.lang.String.class
 		};
 	private static final Class<?>[] _getLegacyJSONParameterTypes7 = new Class[] {  };
+	private static final Class<?>[] _getLegacyCategoriesJSONParameterTypes10 = new Class[] {
+			
+		};
+	private static final Class<?>[] _getLegacyTerritoriesJSONParameterTypes11 = new Class[] {
+			
+		};
 }

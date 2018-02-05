@@ -13,7 +13,6 @@ import java.util.Locale;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -22,6 +21,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -46,13 +46,12 @@ import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 public class ExportPDF {
 
 	public static String domaine;
-	public static Font font = new Font(FontFamily.TIMES_ROMAN, 12);
-	public static Font fontBold = new Font(FontFamily.TIMES_ROMAN, 12,
-			Font.BOLD);
-	public static Font fontTitle = new Font(FontFamily.TIMES_ROMAN, 20,
-			Font.BOLD);
-	public static Font fontName = new Font(FontFamily.TIMES_ROMAN, 16,
-			Font.BOLD);
+	public static Font font  = FontFactory.getFont("Helvetica", 12F,Font.NORMAL);
+	
+	public static Font fontBold  = FontFactory.getFont("Helvetica-Bold", 12F,Font.BOLD);
+	public static Font fontTitle  = FontFactory.getFont("Helvetica-Bold", 20F,Font.BOLD);
+	public static Font fontName  = FontFactory.getFont("Helvetica-Bold", 16F,Font.BOLD);
+
 
 	public static void printPDFWithXMLWorker(ResourceRequest req,
 			ResourceResponse res, String exportType) throws PortletException, IOException,
@@ -97,7 +96,7 @@ public class ExportPDF {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 		Paragraph paragraph = new Paragraph();
-		PdfPTable table = new PdfPTable(new float[] { 25f, 75f });
+		PdfPTable table = new PdfPTable(new float[] { 22f, 78f });
 		table.setWidthPercentage(100f);
 		table.setPaddingTop(1f);
 
@@ -173,7 +172,7 @@ public class ExportPDF {
 								themeDisplay.getLocale(), "footer-content")),
 						font));
 		insertCell(table, "footer", phrase, null, 1);
-
+		
 		paragraph.add(table);
 		document.add(paragraph);
 
@@ -199,26 +198,34 @@ public class ExportPDF {
 
 		Phrase phrase = new Phrase();
 
+		
+		
 		if (elu.isEluMunicipal()) {
 			phrase.add(new Chunk(elu.getName(elu.getFonctionCity(), locale),
 					fontBold));
-			if (Validator.isNotNull(elu.getPoliticalGroupCity())) {
-				phrase.add("\n");
-				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupCity(), locale),
-					font));
-			}
+			
 
 			if (Validator.isNotNull(elu.getThematicDelegation())) {
 				String cityMission = StringUtil.replaceFirst(
 						elu.getThematicDelegation(locale), "<p>", "");
 				cityMission = StringUtil.replaceFirst(cityMission, "</p>", "");
+				cityMission = StringUtil.replace(cityMission, "<li>", "<li>!ù");
 				phrase.add("\n");
+
+				
 				phrase.add(new Chunk(
+						StringUtil.replace(
+						StringUtil.replace(
 						HtmlUtil.render(LanguageUtil.get(locale, "en-charge-de")
-								+ " : " + cityMission),
-						font));
+								+ " : " + cityMission)
+						, "* !ù", "\u2022 ")
+						, "!ù", "")
+						, font));
+				
+				
 			}
 
+			
 			List<AssetCategory> quartiers = elu.getDistricts();
 			if (Validator.isNotNull(quartiers) && !quartiers.isEmpty()) {
 				phrase.add("\n");
@@ -235,6 +242,18 @@ public class ExportPDF {
 				phrase.add(new Chunk(HtmlUtil.render(strQuartiers.toString()),
 						font));
 			}
+			
+			
+			if (Validator.isNotNull(elu.getPoliticalGroupCity())) {
+				phrase.add("\n");
+				phrase.add(new Chunk(
+						HtmlUtil.render(LanguageUtil.get(locale, "groupe-politique")
+								+ " : " ),fontBold));
+				phrase.add("\n");
+				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupCity(), locale),
+					font));
+			}
+			
 		}
 
 		return phrase;
@@ -249,11 +268,7 @@ public class ExportPDF {
 			phrase.add(new Chunk(
 					elu.getName(elu.getFonctionEurometropole(), locale),
 					fontBold));
-			if (Validator.isNotNull(elu.getPoliticalGroupEurometropole())) {
-				phrase.add("\n");
-				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupEurometropole(), locale),
-					font));
-			}
+			
 
 			if (Validator.isNotNull(elu.getFonctionTown())) {
 				phrase.add(new Chunk(
@@ -273,11 +288,29 @@ public class ExportPDF {
 				String cusMission = StringUtil
 						.replaceFirst(elu.getMissions(locale), "<p>", "");
 				cusMission = StringUtil.replaceFirst(cusMission, "</p>", "");
+				cusMission = StringUtil.replace(cusMission, "<li>", "<li>!ù");
+				phrase.add("\n");
+				
+				
+				phrase.add(new Chunk(
+						StringUtil.replace(
+						StringUtil.replace(
+						HtmlUtil.render(LanguageUtil.get(locale, "en-charge-de")
+								+ " : " + cusMission)
+						, "* !ù", "\u2022 ")
+						, "!ù", "")
+						, font));
+				
+			}
+			
+			if (Validator.isNotNull(elu.getPoliticalGroupEurometropole())) {
 				phrase.add("\n");
 				phrase.add(new Chunk(
-						HtmlUtil.render(LanguageUtil.get(locale, "en-charge-de")
-								+ " : " + cusMission),
-						font));
+						HtmlUtil.render(LanguageUtil.get(locale, "groupe-politique")
+								+ " : " ),fontBold));
+				phrase.add("\n");
+				phrase.add(new Chunk(elu.getName(elu.getPoliticalGroupEurometropole(), locale),
+					font));
 			}
 		}
 
@@ -351,7 +384,7 @@ public class ExportPDF {
 		cell.setVerticalAlignment(Element.ALIGN_TOP);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (cellData.equals("header") || cellData.equals("image")) {
-			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		} else if (cellData.equals("footer")) {
 			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		}

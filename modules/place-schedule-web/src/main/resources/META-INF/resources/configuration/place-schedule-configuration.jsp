@@ -37,6 +37,9 @@
 				<aui:option value="strasbourg" selected="${template eq 'strasbourg'}">
 					<liferay-ui:message key="strasbourg.eu" />
 				</aui:option>
+				<aui:option value="strasbourg-table" selected="${template eq 'strasbourg-table'}">
+					<liferay-ui:message key="strasbourg-table" />
+				</aui:option>
 			</aui:select>
 		</aui:fieldset>
 		

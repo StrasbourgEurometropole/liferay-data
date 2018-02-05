@@ -1,0 +1,54 @@
+.produit h3 {
+  line-height: 0.5em;
+}
+
+.useful-links li {
+  margin-top: 18px !important;
+  margin-bottom: 18px !important;
+}
+
+h3#rubricTitle {
+  line-height: 12px !important;
+}
+
+h3#rubricTitle a {
+  text-decoration: none !important;
+}
+
+.ond .wrapper .content .col-md-12 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content .content.video .entry-header {
+  height: 76px;
+}
+
+.portlet-cus-image-fo .entry-header {
+  height: 76px;
+}
+
+.portlet-visuel-item .entry-header {
+  height: 76px;
+}
+
+.ond .wrapper .header .portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_.portlet-static {
+  min-height: 0 !important;
+}
+
+@media screen and (max-width: 640px) {
+  .ond .wrapper .content .fil-ariane {
+    height: auto;
+    margin-bottom: -40px;
+  }
+
+.ond .wrapper .content .col-md-8 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content article{
+  max-width: 450px;
+  }
+
+  .ond .wrapper .content .col-md-8 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content article .entry-meta {
+    position: relative;
+  }  
+}
+  .ond .wrapper .content .col-md-12 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content .content.visuel footer {
+  float:  none;
+}
+
+  .ond .wrapper .content .col-md-12 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content .content.visuel footer a{
+  width:  auto;
+}

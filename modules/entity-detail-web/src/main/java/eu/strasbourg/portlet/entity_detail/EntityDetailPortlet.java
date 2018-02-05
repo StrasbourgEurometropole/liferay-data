@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -44,7 +45,8 @@ public class EntityDetailPortlet extends MVCPortlet {
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 		try {
 
-			// Récupération de l'entité : soit via le paramètre classPk, soit le sigId (dans le cas d'un lieu)
+			// Récupération de l'entité : soit via le paramètre classPk, soit le
+			// sigId (dans le cas d'un lieu)
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			EntityDetailConfiguration configuration;
 			configuration = themeDisplay.getPortletDisplay()
@@ -80,6 +82,9 @@ public class EntityDetailPortlet extends MVCPortlet {
 			request.setAttribute("displayStyle", displayStyle);
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 			request.setAttribute("contextObjects", contextObjects);
+			
+			PortalUtil.setPageTitle(entry.getTitle(themeDisplay.getLocale()),
+					PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)));
 
 			super.render(request, response);
 		} catch (Exception e) {

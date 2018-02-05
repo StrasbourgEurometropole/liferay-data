@@ -31,7 +31,7 @@
 <@liferay.control_menu />
 
 <#include "${full_templates_path}/navigation_mobile.ftl" />
-<div id="page">
+<div id="page" class="video-site">
 	<div id="wrapper">
 		<div class="video-header">
 	       <!-- HEADEROND -->

@@ -54,6 +54,8 @@ public class OfficialSoap implements Serializable {
 		soapModel.setMissions(model.getMissions());
 		soapModel.setWasMinister(model.getWasMinister());
 		soapModel.setContact(model.getContact());
+		soapModel.setOrderDeputyMayor(model.getOrderDeputyMayor());
+		soapModel.setOrderVicePresident(model.getOrderVicePresident());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -271,6 +273,22 @@ public class OfficialSoap implements Serializable {
 		_contact = contact;
 	}
 
+	public int getOrderDeputyMayor() {
+		return _orderDeputyMayor;
+	}
+
+	public void setOrderDeputyMayor(int orderDeputyMayor) {
+		_orderDeputyMayor = orderDeputyMayor;
+	}
+
+	public int getOrderVicePresident() {
+		return _orderVicePresident;
+	}
+
+	public void setOrderVicePresident(int orderVicePresident) {
+		_orderVicePresident = orderVicePresident;
+	}
+
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -299,5 +317,7 @@ public class OfficialSoap implements Serializable {
 	private String _missions;
 	private boolean _wasMinister;
 	private String _contact;
+	private int _orderDeputyMayor;
+	private int _orderVicePresident;
 	private Long _imageId;
 }

@@ -132,7 +132,7 @@ public class ContactFormContactAction implements MVCActionCommand {
 			subjectTemplate.process(context, subjectWriter);
 			bodyTemplate.process(context, bodyWriter);
 
-			InternetAddress fromAddress = new InternetAddress("no-reploy@no-reply.strasbourg.eu",
+			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
 
 			InternetAddress[] toAddresses = new InternetAddress[0];
@@ -181,7 +181,7 @@ public class ContactFormContactAction implements MVCActionCommand {
 				StringWriter bodyWriter = new StringWriter();
 				subjectTemplate.process(context, subjectWriter);
 				bodyTemplate.process(context, bodyWriter);
-				InternetAddress fromAddress = new InternetAddress("no-reploy@no-reply.strasbourg.eu",
+				InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 						themeDisplay.getScopeGroup().getName(request.getLocale()));
 				InternetAddress to = new InternetAddress(emailFrom);
 				InternetAddress[] toAddresses = new InternetAddress[] { to };

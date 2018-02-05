@@ -116,39 +116,43 @@
         text-align: right;
     }
     .crowded-amount {
-        text-align: center;
-        width: 70px;
-        height: 70px;
-        line-height: 70px;
-        background-color: #40A040;
-        font-size: 2.8rem;
-        color: #FFFFFF;
-        font-weight: 600;
-        font-family: $site-font;
-        border-radius: 50%;
-        margin: 5px 0;
-        margin-right: 25px;
-        flex-shrink: 0;
-        margin-left: 10px;
-        border: solid 2px #FFFFFF;
-        &.green {
-            background-color: #40A040
-        }
-        &.orange {
-            background-color: #FF470F
-        }
-        &.red {
-            background-color: #FF0F0F
-        }
-        &.black {
-            background-color: #272222
-        }
-        &.white {
-            background-color: #FFFFFF;
-            color: #272222;
-        }
-        &.grey {
-            background-color: #9E9E9E
-        }
+        @extend %crowded-amount;
+    }
+}
+
+%crowded-amount {
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    background-color: #40A040;
+    font-size: 2.8rem;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-family: $site-font;
+    border-radius: 50%;
+    margin: 5px 0;
+    margin-right: 25px;
+    flex-shrink: 0;
+    margin-left: 10px;
+    border: solid 2px #FFFFFF;
+    &.green {
+        background-color: #40A040
+    }
+    &.orange {
+        background-color: #FF470F
+    }
+    &.red {
+        background-color: #FF0F0F
+    }
+    &.black {
+        background-color: #272222
+    }
+    &.white {
+        background-color: #FFFFFF;
+        color: #272222;
+    }
+    &.grey {
+        background-color: #9E9E9E
     }
 }

@@ -2347,6 +2347,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount"
+	*/
+	@Override
+	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getPlaceSchedule(
+		Date date, int daysCount, java.util.Locale locale) {
+		return _place.getPlaceSchedule(date, daysCount, locale);
+	}
+
+	/**
 	* Returns a map of the locales and localized presentations of this place.
 	*
 	* @return the locales and localized presentations of this place

@@ -244,4 +244,18 @@ function init()
     
     
     jQuery('.images .diapo ul,.images .diapo ul li').height((jQuery('.diapo').width()*4)/6);
+
+
+    var boutiqueTitle = jQuery('.produit h3 a');
+    boutiqueTitle.each(function() {
+        $(this).text(truncate($(this)));
+    });
 }
+
+function truncate(jQueryElement){
+    var stringToTruncate = jQueryElement.text();
+    if (!!stringToTruncate && stringToTruncate.length > 50)
+        return stringToTruncate.substring(0,50)+'...';
+    else
+        return stringToTruncate;
+};

@@ -36,13 +36,24 @@ public class SearchHelper {
 	 */
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
 			String categoriesIds, String keywords, String sortField, boolean isSortDesc) {
+		return SearchHelper.getBOSearchHits(searchContext, start, end, className, groupId, categoriesIds, keywords,
+				sortField, isSortDesc, BooleanClauseOccur.MUST);
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
+	 */
+	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
+			String categoriesIds, String keywords, String sortField, boolean isSortDesc,
+			BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
 			searchContext.setEnd(end);
 
 			// Query
-			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords);
+			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords,
+					categoriesBooleanClause);
 
 			// Ordre
 			// Si il y a une recherche par mot clé on trie par pertinence
@@ -69,8 +80,19 @@ public class SearchHelper {
 	 */
 	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
 			String categoriesIds, String keywords) {
+		return SearchHelper.getBOSearchCount(searchContext, className, groupId, categoriesIds, keywords,
+				BooleanClauseOccur.MUST);
+	}
+
+	/**
+	 * Retourne le nombre de résultats correspondant aux paramètres pour les
+	 * portlets du BO
+	 */
+	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
+			String categoriesIds, String keywords, BooleanClauseOccur categoriesBooleanClause) {
 		try {
-			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords);
+			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords,
+					categoriesBooleanClause);
 
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
@@ -83,7 +105,8 @@ public class SearchHelper {
 	 * Retourne la requête à exécuter correspondant aux paramètres pour les
 	 * portlets du BO
 	 */
-	private static Query getBOSearchQuery(String className, long groupId, String categoriesIds, String keywords) {
+	private static Query getBOSearchQuery(String className, long groupId, String categoriesIds, String keywords,
+			BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -99,13 +122,15 @@ public class SearchHelper {
 			query.add(groupIdQuery, BooleanClauseOccur.MUST);
 
 			// Categories
+			BooleanQuery categoriesQuery = new BooleanQueryImpl();
 			for (String categoryId : categoriesIds.split(",")) {
 				if (Validator.isNotNull(categoryId)) {
 					BooleanQuery categoryQuery = new BooleanQueryImpl();
-					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
-					query.add(categoryQuery, BooleanClauseOccur.MUST);
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId, false);
+					categoriesQuery.add(categoryQuery, categoriesBooleanClause);
 				}
 			}
+			query.add(categoriesQuery, BooleanClauseOccur.MUST);
 
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
@@ -242,8 +267,10 @@ public class SearchHelper {
 					// Cas général
 					if (!className.contains("JournalArticle")) {
 						BooleanQuery classNameQuery = new BooleanQueryImpl();
-						//classNameQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, className);
-						//classNameQuery.addTerm(Field.ENTRY_CLASS_NAME, className, false, BooleanClauseOccur.MUST);
+						// classNameQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME,
+						// className);
+						// classNameQuery.addTerm(Field.ENTRY_CLASS_NAME,
+						// className, false, BooleanClauseOccur.MUST);
 						classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
 						classNamesQuery.add(classNameQuery, BooleanClauseOccur.SHOULD);
 					}
@@ -295,13 +322,12 @@ public class SearchHelper {
 				MatchQuery titleQuery = new MatchQuery(Field.TITLE + '_' + locale, keywords);
 				titleQuery.setAnalyzer("strasbourg_analyzer");
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
-				
-				// Titre sans analyzer
-                MatchQuery titleQueryWithoutAnalyzer = new MatchQuery(Field.TITLE + "_" + locale, keywords);
-                titleQueryWithoutAnalyzer.setFuzziness(new Float(2));
-                titleQueryWithoutAnalyzer.setBoost(3);
-                keywordQuery.add(titleQueryWithoutAnalyzer, BooleanClauseOccur.SHOULD);
 
+				// Titre sans analyzer
+				MatchQuery titleQueryWithoutAnalyzer = new MatchQuery(Field.TITLE + "_" + locale, keywords);
+				titleQueryWithoutAnalyzer.setFuzziness(new Float(2));
+				titleQueryWithoutAnalyzer.setBoost(3);
+				keywordQuery.add(titleQueryWithoutAnalyzer, BooleanClauseOccur.SHOULD);
 
 				// Wildcard sur titre
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE + "_" + locale,

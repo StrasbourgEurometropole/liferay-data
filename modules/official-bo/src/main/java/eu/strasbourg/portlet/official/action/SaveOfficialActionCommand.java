@@ -83,6 +83,12 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			official.setImageId(imageId);
 
+			int orderDeputyMayor = ParamUtil.getInteger(request, "orderDeputyMayor");
+			official.setOrderDeputyMayor(orderDeputyMayor);
+			
+			int orderVicePresident = ParamUtil.getInteger(request, "orderVicePresident");
+			official.setOrderVicePresident(orderVicePresident);
+			
 			Map<Locale, String> thematicDelegation = LocalizationUtil
 					.getLocalizationMap(request, "thematicDelegation");
 			official.setThematicDelegationMap(thematicDelegation);
