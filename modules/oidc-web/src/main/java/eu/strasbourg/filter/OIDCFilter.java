@@ -286,12 +286,13 @@ public class OIDCFilter extends BaseFilter {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("jwt")) {
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-				}
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
 			}
 		}
+
 	}
 
 	/**
