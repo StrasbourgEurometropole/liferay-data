@@ -11,18 +11,26 @@
                 </span>    
             </a>
             <div class="account-wrapper">
-                <a href="#" class="nav-account nav-btn" title="Mon compte">
-                    <span class="flexbox">
-                        <span class="picto"></span>
-                        <span class="text">Marie-laure T.</span>
-                    </span>    
-                </a>
-                <!-- #dev bouton à afficher que si l'user est connecté -->
-                <button class="nav-btn nav-logout">
-                    <span class="flexbox">
-                        <span class="picto"></span>
-                    </span>  
-                </button>
+                <#if request.session.getAttribute("publik_logged_in")!false>
+                    <a href="#" class="nav-account nav-btn" title="Mon compte">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                            <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")}</span>
+                        </span>    
+                    </a>
+                    <a class="nav-btn nav-logout" href="${request.requestURL}?logout=true${request.queryString?has_content?then('&', '')}${request.queryString}">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                        </span>  
+                    </a>
+                <#else>
+                    <a href="${request.requestURL}?auth=publik${request.queryString?has_content?then('&', '')}${request.queryString}" class="nav-account nav-btn" title="Connexion">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                            <span class="text">Connexion</span>
+                        </span>    
+                    </a>
+                </#if>
             </div>
         </div>
     </nav>
