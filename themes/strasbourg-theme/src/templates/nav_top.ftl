@@ -34,11 +34,11 @@
           <li><a href="#" class="account-link dashboard">Mon tableau de bord</a></li>
           <li><a href="#" class="account-link notification">Mes notifications</a></li>
           <li><a href="#" class="account-link account">Mon compte</a></li>
-          <li><a href="${request.requestURL}?logout=true${request.queryString?has_content?then('&', '')}${request.queryString}" class="account-link logout">Se déconnecter</a></li>
+          <li><a href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" class="account-link logout">Se déconnecter</a></li>
         </ul>
       </div>
     <#else>
-      <a href="${request.requestURL}?auth=publik${request.queryString?has_content?then('&', '')}${request.queryString}" class="seu-nav-account seu-nav-btn" title="Connexion">
+      <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="seu-nav-account seu-nav-btn" title="Connexion">
         <span class="seu-flexbox">
           <span class="seu-picto"></span>
           <span class="seu-text">Connexion</span>

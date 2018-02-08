@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.JWTUtils;
-import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(immediate = true, property = { "dispatcher=FORWARD", "dispatcher=REQUEST", "url-pattern=/*",
@@ -140,7 +139,9 @@ public class OIDCFilter extends BaseFilter {
 					// Si on a "last_visited" dans la session, on redirige
 					// l'utilisateur vers cette page
 					if (lastVisited.length() > 0) {
+						lastVisited.replace("logout=true", "");
 						request.getSession().setAttribute(lastVisitedAttribute, null);
+						LOG.info("Redirecting to page : " + lastVisited);
 						response.sendRedirect(lastVisited);
 						return;
 					}
@@ -196,6 +197,7 @@ public class OIDCFilter extends BaseFilter {
 	 */
 	private void saveLastVisitedPage(HttpServletRequest request) {
 		request.getSession().setAttribute(lastVisitedAttribute, request.getRequestURL().toString());
+		LOG.info("Saving page : " + request.getRequestURL().toString());
 	}
 
 	/**
