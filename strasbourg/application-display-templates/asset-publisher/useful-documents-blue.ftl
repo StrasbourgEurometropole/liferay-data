@@ -3,7 +3,7 @@
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<#if entres?has_content>
+<#if entries?has_content>
     <div class="seu-container">
         <div class="rte">
             <h2>

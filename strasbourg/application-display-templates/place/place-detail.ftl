@@ -703,18 +703,23 @@
                         <div class="seu-crowded-flexbox">
                             <div class="flex-left">
                                 <#assign isSwimmingPool = entry.isSwimmingPool() />
+                                <#assign isMairie = entry.isMairie() />
                                 <#if isSwimmingPool>
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
                                 <#else>
-                                    <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                    <#if isMairie>
+                                        <h3><@liferay_ui.message key="estimated-time" /></h3>
+                                    <#else>
+                                        <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                    </#if>
                                 </#if>
                                 <div class="crowded-date"><span class="wroded-day-month">${.now?date?string.long}</span><span> - </span><span class="crowded-time">${.now?time?string.short}</span></div>
                             </div>
                             <div class="flex-right">
                                 <!-- green orange red black -->
-                                <div class="crowded-amount ${occupationState.cssClass}">
-                                    <#if isSwimmingPool>
-                                        ${occupationState.occupation}
+                                <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
+                                    <#if isSwimmingPool || isMairie>
+                                        ${occupationState.occupation}<#if isMairie> min</#if>
                                     <#else>
                                         ${occupationState.available}
                                     </#if>
@@ -722,7 +727,7 @@
                             </div>
                         </div>
                         <div class="crowded-caption">
-                            <#if isSwimmingPool>
+                            <#if isSwimmingPool || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
                             <#else>
                                 <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
@@ -732,7 +737,11 @@
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
                             <#else>
-                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                <#if isMairie>
+                                    <@liferay_ui.message key="estimated-time-explanation" />
+                                <#else>
+                                    <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                </#if>
                             </#if>
                         </div>
                     </#if>
