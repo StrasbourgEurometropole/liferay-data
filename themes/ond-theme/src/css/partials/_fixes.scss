@@ -44,6 +44,11 @@ h3#rubricTitle a {
   .ond .wrapper .content .col-md-8 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content article .entry-meta {
     position: relative;
   }  
+  
+  .ond .wrapper .content .col-md-8 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content article {
+    max-width: none;
+    width: 100%;
+  }
 }
   .ond .wrapper .content .col-md-12 .portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_ .portlet .portlet-content .content.visuel footer {
   float:  none;
