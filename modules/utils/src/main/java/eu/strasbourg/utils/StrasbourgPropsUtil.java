@@ -132,5 +132,21 @@ public class StrasbourgPropsUtil {
 	public static String getAdictSectorTypesBaseURL() {
 		return PropsUtil.get("eu.strasbourg.adict.sector.types.url");
 	}
+	
+	public static String getDemarcheSuiviURL(){
+		return PropsUtil.get("eu.strasbourg.demarches.suivi.url");
+	}
+
+	public static String getPublikApiBase() {
+		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
+	}
+	
+	public static String getPublikApiOrigin() {
+		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.origin");
+	}
+	
+	public static String getPublikApiKey(){
+		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.key");
+	}
 		
 }
