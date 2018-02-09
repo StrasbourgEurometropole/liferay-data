@@ -182,6 +182,9 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
 	public static java.lang.String getLegacyCategoriesJSON()
 		throws RemoteException {
 		try {
@@ -196,6 +199,9 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Territoires
+	*/
 	public static java.lang.String getLegacyTerritoriesJSON()
 		throws RemoteException {
 		try {

@@ -124,7 +124,12 @@
 								</c:when>
 								<c:when test="${parking}">
 							        <th class="occupation" >
-							        	<div>liferay-ui:message key="occupation" /></div>
+							        	<div><liferay-ui:message key="occupation" /></div>
+							        </th>
+								</c:when>
+								<c:when test="${mairie}">
+							        <th class="occupation" >
+							        	<div><liferay-ui:message key="estimated-time" /></div>
 							        </th>
 								</c:when>
 							</c:choose>
@@ -172,6 +177,17 @@
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
 			                                    ${occupationState.available}
+			                                </div>
+			                                <div class="crowded-label">
+			                                	<liferay-ui:message key="${occupationState.label}" />
+			                                </div>
+								    	</td>
+							    </c:if>
+								<c:if test="${mairie}">
+										<c:set var="occupationState" value="${place.getRealTime('3')}" />
+										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
+											<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
+			                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
 			                                </div>
 			                                <div class="crowded-label">
 			                                	<liferay-ui:message key="${occupationState.label}" />
@@ -326,6 +342,11 @@
 								<c:when test="${parking}">
 							        <th class="occupation" >
 							        	<div><liferay-ui:message key="occupation" /></div>
+							        </th>
+								</c:when>
+								<c:when test="${mairie}">
+							        <th class="occupation" >
+							        	<div><liferay-ui:message key="estimated-time" /></div>
 							        </th>
 								</c:when>
 							</c:choose>
