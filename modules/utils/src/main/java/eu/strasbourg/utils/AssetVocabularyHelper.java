@@ -359,6 +359,25 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
+	 * Vérifie si la catégorie est une mairie
+	 * 
+	 * @throws PortalException
+	 */
+	public static Boolean isMairie(AssetCategory category) throws PortalException {
+		// TODO mairie de quartier et sentre administratif uniquement ou mairie de l'eurométropole également ?
+		if (category.getName().contains("Mairies")) {
+			return true;
+		}
+		// vérification des parents
+		for (AssetCategory ancestor : category.getAncestors()) {
+			if (ancestor.getName().contains("Mairies")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Retourne la version JSON d'une liste de catégories
 	 */
 	static public JSONArray toJSON(List<AssetCategory> categories) {

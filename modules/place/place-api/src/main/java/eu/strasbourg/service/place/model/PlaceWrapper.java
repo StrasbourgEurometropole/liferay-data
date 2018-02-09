@@ -560,6 +560,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.isIncomplete();
 	}
 
+	/**
+	* Retourne true si le lieu est une mairie
+	*
+	* @return
+	*/
+	@Override
+	public boolean isMairie() {
+		return _place.isMairie();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _place.isNew();
@@ -683,7 +693,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 	/**
 	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une
-	* piscine ou un parking)
+	* piscine,une mairie ou un parking)
+	*
+	* @throws Exception
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime() {
@@ -694,7 +706,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type
-	(1 = piscine, 2 = parking)
+	(1 = piscine, 2 = parking, 3 = mairie)
+	* @throws Exception
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime(

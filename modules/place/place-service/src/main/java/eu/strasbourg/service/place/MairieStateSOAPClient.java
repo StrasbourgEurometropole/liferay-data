@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MairieStateSOAPClient {
-	
+
 	public static long getWaitingTime(String codeMairie) throws Exception {
 		SOAPMessage response = getResponse(codeMairie);
 
@@ -39,9 +39,13 @@ public class MairieStateSOAPClient {
 			switch (dataName) {
 			case "estimatedAvgWaitingTime":
 				String data = dataNode.getTextContent();
-				try {
-					waitingTime = Long.parseLong(data.split(":")[1]);
-				} catch (Exception ex) {
+				if (data.equals("-")) {
+					waitingTime = 0;
+				} else {
+					try {
+						waitingTime = Long.parseLong(data.split(":")[1]);
+					} catch (Exception ex) {
+					}
 				}
 				break;
 			}
@@ -58,12 +62,12 @@ public class MairieStateSOAPClient {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapRequest = messageFactory.createMessage();
 		SOAPPart soapPart = soapRequest.getSOAPPart();
-        String namespace = "v1";
-        String namespaceURI = "http://www.esii.com/esirius/sitewaitingindicator/v1.0";
-		
+		String namespace = "v1";
+		String namespaceURI = "http://www.esii.com/esirius/sitewaitingindicator/v1.0";
+
 		// SOAP Envelope
 		SOAPEnvelope envelope = soapPart.getEnvelope();
-        envelope.addNamespaceDeclaration(namespace, namespaceURI);
+		envelope.addNamespaceDeclaration(namespace, namespaceURI);
 
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
