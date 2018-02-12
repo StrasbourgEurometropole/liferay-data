@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.ParkingStateClient;
 import eu.strasbourg.service.place.PoolStateSOAPClient;
 import eu.strasbourg.service.place.model.Period;
@@ -625,23 +626,56 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne true si le lieu est une mairie
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isMairie() {
+		for (AssetCategory type : this.getTypes()) {
+			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
+			if (typeSigId.toLowerCase().equals("cat_12_07")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
-	 * piscine ou un parking)
+	 * piscine,une mairie ou un parking)
+	 * @throws Exception 
 	 */
 	@Override
 	public OccupationState getRealTime() {
-		return isSwimmingPool() ? getRealTime("1") : getRealTime("2");
+		if (isSwimmingPool())
+			return getRealTime("1");
+		if (isMairie())
+			return getRealTime("3");
+		return getRealTime("2");
 	}
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 * 
 	 * @param type
-	 *            (1 = piscine, 2 = parking)
+	 *            (1 = piscine, 2 = parking, 3 = mairie)
+	 * @throws Exception 
 	 */
 	@Override
 	public OccupationState getRealTime(String type) {
 		OccupationState state = null;
+		
+		GregorianCalendar today = new GregorianCalendar();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		today.clear(Calendar.MINUTE);
+		today.clear(Calendar.SECOND);
+		today.clear(Calendar.MILLISECOND);
+		if (this.isClosed(today)) {
+			state = OccupationState.CLOSED;
+			return state;
+		}
+		
 		if (Validator.isNull(this.getRTExternalId())) {
 			state = OccupationState.DISABLED;
 			return state;
@@ -651,16 +685,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		switch (type) {
 		case "1":
 			// récupération de la période en cours
-			GregorianCalendar today = new GregorianCalendar();
-			today.set(Calendar.HOUR_OF_DAY, 0);
-			today.clear(Calendar.MINUTE);
-			today.clear(Calendar.SECOND);
-			today.clear(Calendar.MILLISECOND);
-			if (this.isClosed(today)) {
-				state = OccupationState.CLOSED;
-				return state;
-			}
-
 			Period periodEnCours = null;
 			for (Period period : this.getPeriods()) {
 				if (!period.getDefaultPeriod()) {
@@ -699,6 +723,52 @@ public class PlaceImpl extends PlaceBaseImpl {
 			break;
 		case "2":
 			state = ParkingStateClient.getOccupationState(this);
+			break;
+		case "3":
+			// récupération de la période en cours
+			periodEnCours = null;
+			for (Period period : this.getPeriods()) {
+				if (!period.getDefaultPeriod()) {
+					if (period.getStartDate() != null && period.getEndDate() != null
+							&& period.getStartDate().compareTo(today.getTime()) <= 0
+							&& period.getEndDate().compareTo(today.getTime()) >= 0) {
+						periodEnCours = period;
+						break;
+					}
+				} else {
+					periodEnCours = period;
+				}
+			}
+			if (Validator.isNull(periodEnCours)) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			//TODO est-ce que l'on garde cette vérification ? (de même que pour les piscines ?) 
+			// car si il n'y a pas de capacié max de renseigné il y a quand même une fréquentation
+			/*if (Validator.isNull(periodEnCours.getRTMaxThreshold())) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}*/
+			try {
+				occupation = MairieStateSOAPClient.getWaitingTime(this.getRTExternalId());
+			} catch (Exception e) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (occupation == -1) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (occupation > periodEnCours.getRTRedThreshold()) {
+				state = OccupationState.BLACK;
+			} else if (occupation > periodEnCours.getRTOrangeThreshold()) {
+				state = OccupationState.RED;
+			} else if (occupation > periodEnCours.getRTGreenThreshold()) {
+				state = OccupationState.ORANGE;
+			} else
+				state = OccupationState.GREEN;
+			state.setOccupation("" + occupation);
+			break;
 		}
 		return state;
 	}

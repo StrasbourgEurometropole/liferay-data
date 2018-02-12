@@ -30,8 +30,8 @@
     <#include "${full_templates_path}/nav_top.ftl" />
 
     <nav id="nav-side">
-      <!-- Notifications -->
       <#if request.session.getAttribute("publik_logged_in")!false>
+        <!-- Notifications -->
         <@liferay_portlet["runtime"]
           portletProviderAction=portletProviderAction.VIEW
           portletName="eu_strasbourg_portlet_notification_NotificationViewerWebPortlet"

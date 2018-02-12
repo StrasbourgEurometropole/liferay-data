@@ -247,4 +247,10 @@ public interface UserNotificationStatusLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Retourne la liste des statuts de notification pour un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getUnreadNotificationCount(java.lang.String publikUserId);
 }
