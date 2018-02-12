@@ -1,24 +1,4 @@
-<div class="wi-wrapper">
-            <section id="demandes">
-    <h2>Suivi des demandes</h2>
-    <ul class="demandes-list unstyled">
-        <li class="demandes-item">
-        <a href="#" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Nom de la démarche - Workflow lorem</span><span class="btn-arrow"></span></span></a>
-        </li>
-        <li class="demandes-item">
-        <a href="#" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Demande d'acte de naissance - Workflow 2</span><span class="btn-arrow"></span></span></a>
-        <a href="#" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Pré-inscription à une structure d'accueil "Petite enfance" - En cours</span><span class="btn-arrow"></span></span></a>
-        </li>
-    </ul>
-    <a href="#" class="btn-square--filled--core"><span class="flexbox"><span class="btn-text">Toutes les démarches</span><span class="btn-arrow"></span></span></a>
-</section>          <section id="serial">
-    <h2>Code de suivi</h2>
-    <p>raut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi </p>
-    <form action="">
-        <input type="text" placeholder="EX: CNPHNTFB" required aria-required="true">
-        <button type="submit" class="btn-square--filled--core"><span class="flexbox"><span class="btn-text">Valider</span><span class="btn-arrow"></span></span></button>
-    </form>
-</section>      </div>
+
         <section id="favoris">
     <button class="delete-wi"></button>    
     <h2>Mes derniers favoris</h2>

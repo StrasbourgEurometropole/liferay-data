@@ -1,4 +1,4 @@
-package eu.strasbourg.utils;
+package eu.strasbourg.portlet.demarches.portlet;
 
 public class Demarche {
 
