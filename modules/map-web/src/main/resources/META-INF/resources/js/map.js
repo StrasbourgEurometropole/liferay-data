@@ -1,36 +1,24 @@
-var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-	
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-	maxZoom: 18,
-	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-	id: 'mapbox.streets'
+//Création de la carte au centre de strasbourg
+var mymap = L.map('mapid', {
+	crs: L.CRS.EPSG4326,
+	center: [48.573, 7.752],
+	zoom: 13
+});	
+
+//Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
+var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
+	layers: 'gct_fond_de_carte_couleur'
 }).addTo(mymap);
 
-L.marker([51.5, -0.09]).addTo(mymap)
-	.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-L.circle([51.508, -0.11], 500, {
-	color: 'red',
-	fillColor: '#f03',
-	fillOpacity: 0.5
-}).addTo(mymap).bindPopup("I am a circle.");
-
-L.polygon([
-	[51.509, -0.08],
-	[51.503, -0.06],
-	[51.51, -0.047]
-]).addTo(mymap).bindPopup("I am a polygon.");
-
-
-var popup = L.popup();
-
-function onMapClick(e) {
-	popup
-		.setLatLng(e.latlng)
-		.setContent("You clicked the map at " + e.latlng.toString())
-		.openOn(mymap);
+function onEachFeature(feature, layer) {
+    // does this feature have a property named nom?
+    if (feature.properties && feature.properties.nom) {
+        layer.bindPopup(feature.properties.nom);
+    }
 }
 
-mymap.on('click', onMapClick);
+$.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&radius=-1&token=aa72a01e643db472f3e7843ac1f3e48c", function(data) {
+	L.geoJson(data, {
+		onEachFeature: onEachFeature
+		}).addTo(mymap);
+});
