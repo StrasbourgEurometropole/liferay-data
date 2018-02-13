@@ -1,0 +1,5 @@
+Bundle-Name: map-web
+Bundle-SymbolicName: eu.strasbourg.portlet.map
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.map.constants
+Web-ContextPath: /mapweb

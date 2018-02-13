@@ -11993,6 +11993,10 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 .taglib-social-bookmarks {
   display: none; }
 
+/* line 17, custom/02-particules/04-hacks/_liferay.scss */
+#nav-side .portlet-content {
+  padding: 0; }
+
 /* line 2, custom/02-particules/04-hacks/_android.scss */
 .mseu.android.tablet header .nav-top .menu-triggerBox .menu-panel .menu-rwd-content {
   height: calc(100% - 140px); }
@@ -12113,6 +12117,10 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 /* line 13, custom/02-particules/04-hacks/_liferay.scss */
 .taglib-social-bookmarks {
   display: none; }
+
+/* line 17, custom/02-particules/04-hacks/_liferay.scss */
+#nav-side .portlet-content {
+  padding: 0; }
 
 /* line 1, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
 .mseu .not-front h1 {
