@@ -1,5 +1,8 @@
 package eu.strasbourg.service.favorite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.model.Layout;
@@ -24,7 +27,7 @@ public enum FavoriteType {
 	PROCEDURE(8, "PROCEDURE", String.class),
 	PAGE(9, "PAGE", Layout.class),
 	ACTIVITY(10, "ACTIVITY", Activity.class),
-	ACTIVITY_COURSE(11, "ACTIVITY_COURSE", ActivityCourse.class),
+	COURSE(11, "COURSE", ActivityCourse.class),
 	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
 	GALLERY(13,"GALLERY", EditionGallery.class);
 
@@ -69,5 +72,13 @@ public enum FavoriteType {
 			}
 		}
 		return null;
+	}
+	
+	public static List<FavoriteType> getAll() {
+		List<FavoriteType> favoritesType = new ArrayList<FavoriteType>();
+		for (FavoriteType e : values()) {
+			favoritesType.add(e);
+			}		
+		return favoritesType;
 	}
 }

@@ -228,4 +228,20 @@ public class EditionImpl extends EditionBaseImpl {
 			this.getAssetEntry(), VocabularyNames.EDITION_TYPE);
 	}
 
+	
+	/**
+	 * Retourne le texte à afficher pour les types de l'édition
+	 */
+	@Override
+	public String getTypesLabels(Locale locale) {
+		List<AssetCategory> types = this.getTypes();
+		String label = "";
+		for (AssetCategory typeCategory : types) {
+			if (label.length() > 0) {
+				label += ", ";
+			}
+			label += typeCategory.getTitle(locale);
+		}
+		return label;
+	}
 }

@@ -1057,6 +1057,14 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	* Retourne le texte à afficher pour les types de l'édition
+	*/
+	@Override
+	public java.lang.String getTypesLabels(java.util.Locale locale) {
+		return _edition.getTypesLabels(locale);
+	}
+
+	/**
 	* Returns the url of this edition.
 	*
 	* @return the url of this edition

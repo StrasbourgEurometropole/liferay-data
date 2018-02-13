@@ -39,6 +39,7 @@ public class FavoriteSoap implements Serializable {
 		soapModel.setUrl(model.getUrl());
 		soapModel.setTypeId(model.getTypeId());
 		soapModel.setEntityId(model.getEntityId());
+		soapModel.setEntityGroupId(model.getEntityGroupId());
 
 		return soapModel;
 	}
@@ -139,10 +140,19 @@ public class FavoriteSoap implements Serializable {
 		_entityId = entityId;
 	}
 
+	public long getEntityGroupId() {
+		return _entityGroupId;
+	}
+
+	public void setEntityGroupId(long entityGroupId) {
+		_entityGroupId = entityGroupId;
+	}
+
 	private long _favoriteId;
 	private String _publikUserId;
 	private String _title;
 	private String _url;
 	private long _typeId;
 	private long _entityId;
+	private long _entityGroupId;
 }

@@ -54,12 +54,13 @@
         margin-bottom: 2px;  
         transform: translateX(-38px);
         display: flex;
-        align-items: center;
+        //align-items: center;
         
         &:before{
             content: '';
             display: inline-block;
             width: 13px;
+            min-width: 13px;
             height: 15px;
             background-size: contain;
             background-position: center;

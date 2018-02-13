@@ -16,15 +16,19 @@ package eu.strasbourg.service.favorite.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.json.JSONSerializable;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import eu.strasbourg.service.favorite.exception.NoSuchFavoriteException;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.base.FavoriteServiceBaseImpl;
@@ -137,6 +141,45 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 	}
 	
 	/**
+	 * Ajoute un favori à un utilisateur
+	 */
+	@Override
+	public JSONObject addFavoriteLink(String title, String url, long typeId, long entityId, long entityGroupId) {		
+		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		if (isLoggedIn) {
+		    String id = SessionParamUtil.getString(request, "publik_internal_id");
+		    
+		    Favorite favoriteExist = null;
+		    try {
+				favoriteExist = this.favoritePersistence.findByAllAttributes(id, title, url, typeId, entityId);
+			} catch (NoSuchFavoriteException e) {
+				// C'est ce qu'on espère
+			}
+		    if(favoriteExist != null) {
+		    	// Dnas le cas où plusieurs onglets ouverts et déjà ajouté sur l'un d'eux
+		    	return success("favorite added");
+		    }
+		    
+			// Création de l'objet
+			Favorite favorite = this.favoriteLocalService.createFavorite();
+			favorite.setTitle(title);
+			favorite.setUrl(url);
+			favorite.setTypeId(typeId);
+			favorite.setPublikUserId(id);
+			favorite.setEntityId(entityId);
+			favorite.setEntityGroupId(entityGroupId);
+			
+			this.favoriteLocalService.updateFavorite(favorite);
+			
+			return success("favorite added");
+		} else {
+			return error("notConnected");
+		}
+	}
+	
+	
+	/**
 	 * Supprime un favoris d'un utilisateur
 	 */
 	public JSONObject deleteFavorite(String userId, long favoriteId) {
@@ -159,6 +202,39 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 		}
 		
 	}
+	
+	
+	/**
+	 * Supprime un favoris d'un utilisateur
+	 */
+	@Override
+	public JSONObject deleteFavoriteLink(String title, String url, long typeId, long entityId) {		
+		HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		if (isLoggedIn) {
+		    String id = SessionParamUtil.getString(request, "publik_internal_id");
+		    
+		    Favorite favorite = null;
+		    
+			try {
+				favorite = this.favoritePersistence.findByAllAttributes(id, title, url, typeId, entityId);
+			} catch (NoSuchFavoriteException e) {
+				// Possiblement plusieurs onglets d'ouvert et déjà supprimé sur l'un d'eux
+				return success("favorite deleted");
+			}
+			
+			try {
+				this.favoriteLocalService.deleteFavorite(favorite.getFavoriteId());
+			} catch (PortalException e) {
+				return error("unknown error");
+			}
+			
+			return success("favorite deleted");
+		} else {
+			return error("notConnected");
+		}
+	}
+	
 
 	private boolean isAuthorized() {
 		try {
@@ -172,7 +248,7 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 	}
 	
 	private JSONObject success(String message) {
-		return JSONFactoryUtil.createJSONObject().put("sucess", message);
+		return JSONFactoryUtil.createJSONObject().put("success", message);
 	}
 
 	private JSONObject error(String message) {

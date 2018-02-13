@@ -71,7 +71,8 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 			{ "title", Types.VARCHAR },
 			{ "url", Types.VARCHAR },
 			{ "typeId", Types.BIGINT },
-			{ "entityId", Types.BIGINT }
+			{ "entityId", Types.BIGINT },
+			{ "entityGroupId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -82,9 +83,10 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		TABLE_COLUMNS_MAP.put("url", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("entityId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("entityGroupId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(75) null,url VARCHAR(75) null,typeId LONG,entityId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table favorite_Favorite";
 	public static final String ORDER_BY_JPQL = " ORDER BY favorite.favoriteId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY favorite_Favorite.favoriteId ASC";
@@ -100,8 +102,12 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.favorite.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.favorite.model.Favorite"),
 			true);
-	public static final long PUBLIKUSERID_COLUMN_BITMASK = 1L;
-	public static final long FAVORITEID_COLUMN_BITMASK = 2L;
+	public static final long ENTITYID_COLUMN_BITMASK = 1L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
+	public static final long TITLE_COLUMN_BITMASK = 4L;
+	public static final long TYPEID_COLUMN_BITMASK = 8L;
+	public static final long URL_COLUMN_BITMASK = 16L;
+	public static final long FAVORITEID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -122,6 +128,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		model.setUrl(soapModel.getUrl());
 		model.setTypeId(soapModel.getTypeId());
 		model.setEntityId(soapModel.getEntityId());
+		model.setEntityGroupId(soapModel.getEntityGroupId());
 
 		return model;
 	}
@@ -192,6 +199,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		attributes.put("url", getUrl());
 		attributes.put("typeId", getTypeId());
 		attributes.put("entityId", getEntityId());
+		attributes.put("entityGroupId", getEntityGroupId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -235,6 +243,12 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		if (entityId != null) {
 			setEntityId(entityId);
+		}
+
+		Long entityGroupId = (Long)attributes.get("entityGroupId");
+
+		if (entityGroupId != null) {
+			setEntityGroupId(entityGroupId);
 		}
 	}
 
@@ -288,7 +302,17 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public void setTitle(String title) {
+		_columnBitmask |= TITLE_COLUMN_BITMASK;
+
+		if (_originalTitle == null) {
+			_originalTitle = _title;
+		}
+
 		_title = title;
+	}
+
+	public String getOriginalTitle() {
+		return GetterUtil.getString(_originalTitle);
 	}
 
 	@JSON
@@ -304,7 +328,17 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public void setUrl(String url) {
+		_columnBitmask |= URL_COLUMN_BITMASK;
+
+		if (_originalUrl == null) {
+			_originalUrl = _url;
+		}
+
 		_url = url;
+	}
+
+	public String getOriginalUrl() {
+		return GetterUtil.getString(_originalUrl);
 	}
 
 	@JSON
@@ -315,7 +349,19 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public void setTypeId(long typeId) {
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (!_setOriginalTypeId) {
+			_setOriginalTypeId = true;
+
+			_originalTypeId = _typeId;
+		}
+
 		_typeId = typeId;
+	}
+
+	public long getOriginalTypeId() {
+		return _originalTypeId;
 	}
 
 	@JSON
@@ -326,7 +372,30 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public void setEntityId(long entityId) {
+		_columnBitmask |= ENTITYID_COLUMN_BITMASK;
+
+		if (!_setOriginalEntityId) {
+			_setOriginalEntityId = true;
+
+			_originalEntityId = _entityId;
+		}
+
 		_entityId = entityId;
+	}
+
+	public long getOriginalEntityId() {
+		return _originalEntityId;
+	}
+
+	@JSON
+	@Override
+	public long getEntityGroupId() {
+		return _entityGroupId;
+	}
+
+	@Override
+	public void setEntityGroupId(long entityGroupId) {
+		_entityGroupId = entityGroupId;
 	}
 
 	public long getColumnBitmask() {
@@ -366,6 +435,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		favoriteImpl.setUrl(getUrl());
 		favoriteImpl.setTypeId(getTypeId());
 		favoriteImpl.setEntityId(getEntityId());
+		favoriteImpl.setEntityGroupId(getEntityGroupId());
 
 		favoriteImpl.resetOriginalValues();
 
@@ -430,6 +500,18 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		favoriteModelImpl._originalPublikUserId = favoriteModelImpl._publikUserId;
 
+		favoriteModelImpl._originalTitle = favoriteModelImpl._title;
+
+		favoriteModelImpl._originalUrl = favoriteModelImpl._url;
+
+		favoriteModelImpl._originalTypeId = favoriteModelImpl._typeId;
+
+		favoriteModelImpl._setOriginalTypeId = false;
+
+		favoriteModelImpl._originalEntityId = favoriteModelImpl._entityId;
+
+		favoriteModelImpl._setOriginalEntityId = false;
+
 		favoriteModelImpl._columnBitmask = 0;
 	}
 
@@ -467,12 +549,14 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		favoriteCacheModel.entityId = getEntityId();
 
+		favoriteCacheModel.entityGroupId = getEntityGroupId();
+
 		return favoriteCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{favoriteId=");
 		sb.append(getFavoriteId());
@@ -486,6 +570,8 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		sb.append(getTypeId());
 		sb.append(", entityId=");
 		sb.append(getEntityId());
+		sb.append(", entityGroupId=");
+		sb.append(getEntityGroupId());
 		sb.append("}");
 
 		return sb.toString();
@@ -493,7 +579,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.favorite.model.Favorite");
@@ -523,6 +609,10 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 			"<column><column-name>entityId</column-name><column-value><![CDATA[");
 		sb.append(getEntityId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>entityGroupId</column-name><column-value><![CDATA[");
+		sb.append(getEntityGroupId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -537,9 +627,16 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 	private String _publikUserId;
 	private String _originalPublikUserId;
 	private String _title;
+	private String _originalTitle;
 	private String _url;
+	private String _originalUrl;
 	private long _typeId;
+	private long _originalTypeId;
+	private boolean _setOriginalTypeId;
 	private long _entityId;
+	private long _originalEntityId;
+	private boolean _setOriginalEntityId;
+	private long _entityGroupId;
 	private long _columnBitmask;
 	private Favorite _escapedModel;
 }

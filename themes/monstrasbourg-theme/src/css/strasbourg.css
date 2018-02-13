@@ -4822,15 +4822,13 @@ a {
             transform: translateX(-38px);
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; }
+    display: flex; }
     /* line 59, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__tag:before {
       content: '';
       display: inline-block;
       width: 13px;
+      min-width: 13px;
       height: 15px;
       background-size: contain;
       background-position: center;
@@ -4839,7 +4837,7 @@ a {
       margin-right: 25px;
       -webkit-transform: translateY(2px);
               transform: translateY(2px); }
-  /* line 72, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 73, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__title {
     font-family: "MontSerrat", arial;
     font-weight: 500;
@@ -4848,20 +4846,20 @@ a {
     text-transform: uppercase;
     margin-bottom: 5px;
     line-height: 1.2em; }
-  /* line 81, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 82, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__description {
     font-family: "OpenSans", arial;
     font-weight: 600;
     color: #7e7e7e;
     font-size: 1.4rem;
     margin-bottom: 3px; }
-  /* line 88, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 89, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__date {
     font-family: "MontSerrat", arial;
     font-weight: 600;
     font-size: 2.0rem;
     color: #2da192; }
-  /* line 94, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 95, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__crowding {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -4870,7 +4868,7 @@ a {
         -ms-flex-align: center;
             align-items: center;
     margin-top: 15px; }
-    /* line 99, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 100, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__crowding-amount {
       border-radius: 50%;
       display: -webkit-box;
@@ -4889,17 +4887,17 @@ a {
       width: 50px;
       -ms-flex-negative: 0;
           flex-shrink: 0; }
-      /* line 110, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 111, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--green {
         background-color: #40a040; }
-      /* line 113, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 114, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--grey {
         background-color: #9E9E9E; }
-      /* line 116, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 117, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--white {
         background-color: #FFFFFF;
         color: #272222; }
-    /* line 121, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 122, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__crowding-label {
       -ms-flex-negative: 0;
           flex-shrink: 0;
@@ -4908,10 +4906,10 @@ a {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 127, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 128, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__crowding-amount + .favoris-teaser__crowding-label {
       margin-left: 10px; }
-  /* line 131, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 132, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__trash {
     font-weight: 600;
     font-size: 1.4rem;
@@ -4925,7 +4923,7 @@ a {
     position: absolute;
     bottom: 0;
     left: 0; }
-    /* line 141, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 142, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__trash:before {
       content: '';
       display: block;
@@ -4936,7 +4934,7 @@ a {
       background-repeat: no-repeat;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 512 512'%3E%3Cpath d='M465.4 48.2h-137.6V24C327.8 10.7 317.1 0 303.9 0h-95.8c-13.2 0-23.9 10.7-23.9 24V48.2H46.6c-6.7 0-12 5.4-12 12 0 6.7 5.4 12 12 12h22.3l15.2 396.4C85.1 493 104.8 512 129.1 512h253.8c24.3 0 44-19 45-43.3l15.2-396.4h22.3c6.7 0 12-5.4 12-12C477.5 53.6 472.1 48.2 465.4 48.2zM208.3 24.1h95.4v24.1h-95.4V24.1zM403.8 467.8c-0.4 11.3-9.6 20.1-20.9 20.1H129.1c-11.3 0-20.4-8.8-20.9-20.1L93 72.3h326L403.8 467.8z'/%3E%3Cpath d='M182.6 181.6c-0.1-6.6-5.5-11.8-12-11.8 -0.1 0-0.2 0-0.2 0 -6.7 0.1-11.9 5.6-11.8 12.3l3.8 196.6c0.1 6.6 5.5 11.8 12 11.8 0.1 0 0.2 0 0.2 0 6.7-0.1 11.9-5.6 11.8-12.3L182.6 181.6z'/%3E%3Cpath d='M256 169.8c-6.7 0-12 5.4-12 12v196.6c0 6.7 5.4 12 12 12 6.7 0 12-5.4 12-12V181.8C268 175.1 262.7 169.8 256 169.8z'/%3E%3Cpath d='M341.6 169.8c-6.6-0.1-12.2 5.2-12.3 11.8l-3.8 196.6c-0.1 6.7 5.2 12.2 11.8 12.3 0.1 0 0.2 0 0.2 0 6.5 0 11.9-5.2 12-11.8l3.8-196.6C353.6 175.4 348.3 169.9 341.6 169.8z'/%3E%3C/svg%3E");
       margin-right: 10px; }
-    /* line 153, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 154, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__trash:hover, .favoris-teaser__trash:focus {
       text-decoration: underline; }
 
@@ -10290,6 +10288,11 @@ a {
   /* line 75, custom/02-particules/03-pages/_page-general.scss */
   .mseu .element-invisible, .mseu .hidden {
     display: none; }
+  /* line 79, custom/02-particules/03-pages/_page-general.scss */
+  .mseu .seu-published {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px; }
 
 /* line 1, custom/02-particules/03-pages/_page-home.scss */
 .mseu .front {
@@ -11552,6 +11555,14 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 .portlet .portlet-title-text {
   display: none; }
 
+/* line 9, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-body > div > .h2 {
+  display: none; }
+
+/* line 13, custom/02-particules/04-hacks/_liferay.scss */
+.taglib-social-bookmarks {
+  display: none; }
+
 /* line 2, custom/02-particules/04-hacks/_android.scss */
 .mseu.android.tablet header .nav-top .menu-triggerBox .menu-panel .menu-rwd-content {
   height: calc(100% - 140px); }
@@ -11663,6 +11674,14 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 
 /* line 5, custom/02-particules/04-hacks/_liferay.scss */
 .portlet .portlet-title-text {
+  display: none; }
+
+/* line 9, custom/02-particules/04-hacks/_liferay.scss */
+.portlet-body > div > .h2 {
+  display: none; }
+
+/* line 13, custom/02-particules/04-hacks/_liferay.scss */
+.taglib-social-bookmarks {
   display: none; }
 
 /*# sourceMappingURL=strasbourg.css.map */

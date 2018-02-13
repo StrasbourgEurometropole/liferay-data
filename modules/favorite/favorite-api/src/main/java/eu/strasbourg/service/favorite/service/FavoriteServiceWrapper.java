@@ -43,12 +43,32 @@ public class FavoriteServiceWrapper implements FavoriteService,
 	}
 
 	/**
+	* Ajoute un favori à un utilisateur
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject addFavoriteLink(
+		java.lang.String title, java.lang.String url, long typeId,
+		long entityId, long entityGroupId) {
+		return _favoriteService.addFavoriteLink(title, url, typeId, entityId,
+			entityGroupId);
+	}
+
+	/**
 	* Supprime un favoris d'un utilisateur
 	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject deleteFavorite(
 		java.lang.String userId, long favoriteId) {
 		return _favoriteService.deleteFavorite(userId, favoriteId);
+	}
+
+	/**
+	* Supprime un favoris d'un utilisateur
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject deleteFavoriteLink(
+		java.lang.String title, java.lang.String url, long typeId, long entityId) {
+		return _favoriteService.deleteFavoriteLink(title, url, typeId, entityId);
 	}
 
 	/**
