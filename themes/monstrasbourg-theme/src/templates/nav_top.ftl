@@ -11,18 +11,27 @@
                 </span>    
             </a>
             <div class="account-wrapper">
-                <a href="#" class="nav-account nav-btn" title="Mon compte">
-                    <span class="flexbox">
-                        <span class="picto"></span>
-                        <span class="text">Marie-laure T.</span>
-                    </span>    
-                </a>
-                <!-- #dev bouton à afficher que si l'user est connecté -->
-                <button class="nav-btn nav-logout">
-                    <span class="flexbox">
-                        <span class="picto"></span>
-                    </span>  
-                </button>
+                <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                <#if request.session.getAttribute("publik_logged_in")!false>
+                    <a href="#" class="nav-account nav-btn" title="Mon compte">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                            <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")}</span>
+                        </span>    
+                    </a>
+                    <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                        </span>  
+                    </a>
+                <#else>
+                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="nav-account nav-btn" title="Connexion">
+                        <span class="flexbox">
+                            <span class="picto"></span>
+                            <span class="text">Connexion</span>
+                        </span>    
+                    </a>
+                </#if>
             </div>
         </div>
     </nav>

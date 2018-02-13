@@ -98,6 +98,11 @@
 							        	<liferay-ui:message key="occupation" />
 							        </th>
 								</c:when>
+								<c:when test="${mairie}">
+							        <th class="occupation" >
+							        	<liferay-ui:message key="estimated-time" />
+							        </th>
+								</c:when>
 							</c:choose>
 							<fmt:formatDate value="${now}" type="date" var="formattedDateJour" dateStyle="SHORT"/>
 							<c:forEach var="jour" items="${semaine}" varStatus="status" >
@@ -127,7 +132,7 @@
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
 											<liferay-ui:message key="${occupationState.getLabel()}" />
-											<c:if test="${not empty occupationState.getOccupation()}">
+											<c:if test="${not empty occupationState.getOccupation() and occupationState.getOccupation() != '-'}">
 												<br/>${occupationState.getOccupation()} 
 												<c:if test="${occupationState.getOccupation() <= 1}">
 													<liferay-ui:message key="person" />
@@ -148,6 +153,16 @@
 												${occupationState.getAvailable()} 
 												<liferay-ui:message key="places_available" /><br/>
 												<liferay-ui:message key="capacity" /> ${occupationState.getCapacity()} 
+											</c:if>
+								    	</td>
+							    </c:if>
+								<c:if test="${mairie}">
+								
+										<c:set var="occupationState" value="${place.getRealTime('3')}" />
+										<td rowspan="${place.getSubPlaces().size() + 1}" class="${occupationState.getCssClass()}" >
+											<liferay-ui:message key="${occupationState.getLabel()}" />
+											<c:if test="${not empty occupationState.getOccupation() and occupationState.getOccupation() != '-'}">
+												<br/>${occupationState.getOccupation()} min
 											</c:if>
 								    	</td>
 							    </c:if>

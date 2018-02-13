@@ -285,6 +285,14 @@ public class UserNotificationStatusLocalServiceWrapper
 			projection);
 	}
 
+	/**
+	* Retourne la liste des statuts de notification pour un utilisateur
+	*/
+	@Override
+	public long getUnreadNotificationCount(java.lang.String publikUserId) {
+		return _userNotificationStatusLocalService.getUnreadNotificationCount(publikUserId);
+	}
+
 	@Override
 	public UserNotificationStatusLocalService getWrappedService() {
 		return _userNotificationStatusLocalService;

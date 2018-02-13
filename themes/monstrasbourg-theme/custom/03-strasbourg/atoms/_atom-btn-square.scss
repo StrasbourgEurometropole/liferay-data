@@ -1,0 +1,254 @@
+%atom-btn-square{
+    padding: 15px 20px;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    // border-style: solid;
+    // border-width: 1px;
+    border-color: transparent;
+    transition: all, 0.5s;
+    overflow: hidden;
+
+
+    .seu-flexbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .seu-btn-text{
+        font-family: $montserrat;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        font-weight: 400;
+        transition: all, 0.3s;
+        margin-right: 20px;
+        width: 100%;
+    }
+
+    &.seu-prev .seu-btn-text {
+        margin-right: 0;
+        margin-left: 20px;
+    }
+
+    .seu-btn-arrow{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &.seu-prev .seu-btn-arrow {
+        transform: rotateZ(180deg);
+    }
+
+    &:hover, &:focus{
+        text-decoration: none;
+        .seu-btn-text{
+        }
+    }
+
+    &--filled{
+        @extend %atom-btn-square;
+
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0%;
+            height: 0%;
+            width: 100%;
+            z-index: 1;
+            transition: all, 0.3s;
+        }
+        & > * {
+            position: relative;
+            z-index: 2;
+        }
+        &:hover, &:focus{
+            &:before{
+                height: 103%;
+            }
+        }
+        &--core{
+            @extend %atom-btn-square--filled;            
+            border-color: $core-color;
+            background-color: $core-color;
+            &:before{
+                background-color: #FFFFFF;
+            }
+            .seu-btn-text{
+                color: #FFFFFF;
+            }  
+            .seu-btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+            }
+            &:hover, &:focus{
+                .seu-btn-text{
+                    color: $core-color;
+                }
+                .seu-btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                }
+            }
+        }
+        &--second{
+            @extend %atom-btn-square--filled;            
+            border-color: $second-color;
+            background-color: $second-color;
+            &:before{
+                background-color: $core-color;
+            }
+            .seu-flexbox{
+                display: flex;
+                align-items: center;
+            }
+            .seu-btn-text{
+                color: $core-color;
+            }  
+            .seu-btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+            }
+            &:hover, &:focus{
+                .seu-btn-text{
+                    color: $second-color;
+                }
+                .seu-btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                }
+            }
+        }
+    }
+    &--bordered{
+        @extend %atom-btn-square;
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        &:hover, &:focus{
+            &:before{
+                height: 100%;
+            }
+        }
+        & > * {
+            z-index: 2;
+            position: relative;
+        }
+
+        &--white{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: #FFFFFF;
+            }
+            .seu-btn-text{
+                color: #FFFFFF;
+            }
+            .seu-btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+            }
+            &:hover, &:focus{
+                .seu-btn-text{
+                    color: $core-color;
+                }
+                .seu-btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                }
+            }
+        }
+        &--core{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: $core-color;
+            }
+            .seu-btn-text{
+                color: $core-color;
+            }
+            .seu-btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+            }
+            &:hover, &:focus{
+                .seu-btn-text{
+                    color: #FFFFFF;
+                }
+                .seu-btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                }
+            }
+        }
+        &--grey{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: #7e7e7e;
+            }
+            .seu-btn-text{
+                color: #7e7e7e;
+            }
+            .seu-btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #7e7e7e) );
+            }
+
+            &:hover, &:focus{
+                .seu-btn-text{
+                    color: #FFFFFF;
+                }
+                .seu-btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #ffffff) );
+                }
+            }
+        }
+    }
+}
+
+// Déclarations pour des classes transverse au site
+.seu-btn-square{
+    &.seu-filled{
+        &.seu-core{
+            @extend %atom-btn-square--filled--core;
+        } 
+        &.seu-second{
+            @extend %atom-btn-square--filled--second;
+        } 
+    }
+
+    // Boutons avec bordure
+    &.seu-bordered{ 
+        &.seu-core{ 
+            @extend %atom-btn-square--bordered--core;
+        }
+        &.seu-white{ 
+            @extend %atom-btn-square--bordered--white;
+        }
+        &.seu-grey{
+            @extend %atom-btn-square--bordered--grey;
+        }
+    }
+}
+
+//~#BUTTONS
+.seu-btn-square--filled--core{
+    @extend %atom-btn-square--filled--core;
+}
+.seu-btn-square--filled--second{
+    @extend %atom-btn-square--filled--second;
+}
+.seu-btn-square--bordered--core{
+    @extend %atom-btn-square--bordered--core;
+}
+.seu-btn-square--bordered--white{
+    @extend %atom-btn-square--bordered--white;
+}
+.seu-btn-square--bordered--grey{
+    @extend %atom-btn-square--bordered--grey;
+}
+//#BUTTONS

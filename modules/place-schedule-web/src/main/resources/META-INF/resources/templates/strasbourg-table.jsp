@@ -124,7 +124,12 @@
 								</c:when>
 								<c:when test="${parking}">
 							        <th class="occupation" >
-							        	<div>liferay-ui:message key="occupation" /></div>
+							        	<div><liferay-ui:message key="occupation" /></div>
+							        </th>
+								</c:when>
+								<c:when test="${mairie}">
+							        <th class="occupation" >
+							        	<div><liferay-ui:message key="estimated-time" /></div>
 							        </th>
 								</c:when>
 							</c:choose>
@@ -178,6 +183,17 @@
 			                                </div>
 								    	</td>
 							    </c:if>
+								<c:if test="${mairie}">
+										<c:set var="occupationState" value="${place.getRealTime('3')}" />
+										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
+											<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
+			                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
+			                                </div>
+			                                <div class="crowded-label">
+			                                	<liferay-ui:message key="${occupationState.label}" />
+			                                </div>
+								    	</td>
+							    </c:if>
 							    <c:set var="hasURL" value="0" />
 								<c:forEach var="period" items="${place.periods}" varStatus="status" >
 									<c:if test="${!empty period.linkURL && !empty period.linkLabel}">  
@@ -216,9 +232,12 @@
 												        </div>
 													</c:when>
 													<c:otherwise>
-														<c:forEach items="${placeSchedule.openingTimes}" var="openingTime">
+														<c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
 															<div class="opening-time ${isException ? 'exception' : '' }">
 															${openingTime.first} - ${openingTime.second}
+																<c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
+																	<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;">(${placeSchedule.comments[loopStatus.index]})</div>
+																</c:if>
 															</div>
 														</c:forEach> 
 													</c:otherwise>
@@ -270,9 +289,12 @@
 													        </div>
 														</c:when>
 														<c:otherwise>
-															<c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime">
+															<c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
 																<div class="opening-time ${isException ? 'exception' : '' }">
 																	${openingTime.first} - ${openingTime.second}
+																	<c:if test="${not empty subPlaceSchedule.comments[loopStatus.index]}">
+																		<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;">(${subPlaceSchedule.comments[loopStatus.index]})</div>
+																	</c:if>
 																</div>
 															</c:forEach>  
 														</c:otherwise>
@@ -326,6 +348,11 @@
 								<c:when test="${parking}">
 							        <th class="occupation" >
 							        	<div><liferay-ui:message key="occupation" /></div>
+							        </th>
+								</c:when>
+								<c:when test="${mairie}">
+							        <th class="occupation" >
+							        	<div><liferay-ui:message key="estimated-time" /></div>
 							        </th>
 								</c:when>
 							</c:choose>

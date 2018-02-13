@@ -63,4 +63,13 @@ public class UserNotificationStatusLocalServiceImpl extends UserNotificationStat
 	public List<UserNotificationStatus> getByPublikUserId(String publikUserId) {
 		return this.userNotificationStatusPersistence.findByPublikUserId(publikUserId);
 	}
+	
+	/**
+	 * Retourne la liste des statuts de notification pour un utilisateur
+	 */
+	@Override
+	public long getUnreadNotificationCount(String publikUserId) {
+		List<UserNotificationStatus> notifs = this.userNotificationStatusPersistence.findByPublikUserId(publikUserId);
+		return notifs.stream().filter(n -> !n.isRead()).count();
+	}
 }
