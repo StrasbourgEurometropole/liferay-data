@@ -1,4 +1,3 @@
-            <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__">
 <!-- A la une -->
 <#setting locale = locale />
 <script type="text/javascript">
@@ -15,6 +14,7 @@
           <#assign image = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
           <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
           <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
+          <#assign groupId = curEntry.getAssetRenderer().getArticle().getGroupId() />
           <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
           {
             <#if curEntry.tagNames?seq_contains('euromag') || curEntry.tagNames?seq_contains('villemag') || curEntry.tagNames?seq_contains('webmag')>
@@ -29,6 +29,7 @@
             picture: '${image}',
             link: '${viewURL}',
             id: '${id}',
+            groupId: '${groupId}',
             favorite: '<@liferay_ui.message key='eu.add-to-favorite' />'
             <#if curEntry.tagNames?seq_contains('focus')>
               ,is_Big: true
@@ -133,7 +134,7 @@
                 <div class="seu-ville">__ville__</div>
                 <div class="seu-lead dotme" data-dot="7">__lead__</div>
             </a>
-            <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__">
+            <a href="#" class="seu-add-favorites" data-type="2" data-title="__title__" data-url="__link__" data-id="__id__" >
                 <span>__favorite__</span>
             </a>
         </div>
@@ -147,7 +148,8 @@
                 <div class="seu-picture" style="background-image: url(__picture__)">
                 </div>                
             </a>
-            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__">
+            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__" 
+            data-group-id="__groupId__" >
                 <span>__favorite__</span>
             </a>
         </div>
@@ -165,7 +167,8 @@
                     <div class="seu-lead dotme" data-dot="3">__lead__</div>
                 </div>
             </a>
-            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__">
+            <a href="#" class="seu-add-favorites" data-type="6" data-title="__title__" data-url="__link__" data-id="__id__" 
+            data-group-id="__groupId__" >
                 <span>__favorite__</span>
             </a>
         </div>

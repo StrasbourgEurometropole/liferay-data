@@ -52,7 +52,7 @@
                 <span>Ajouter au calendrier</span>
             </a>
             -->
-            <a href="#" class="item-misc" 
+            <a href="#" class="item-misc"
             data-type="2" 
             data-title="${entry.getTitle(locale)}" 
             data-url="${strasbourgURL}evenement/-/entity/id/${entry.eventId}" 

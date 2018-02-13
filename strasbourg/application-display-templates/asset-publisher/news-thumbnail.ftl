@@ -10,7 +10,8 @@
 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
 <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#-- Récupération des catégories "Type d'actualité de l'entité -->
 <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
@@ -21,6 +22,9 @@
 <#-- Création de l'URL de détail -->
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign portalURL = themeDisplay.getPortalURL() />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
   <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
@@ -54,10 +58,11 @@
                 ${entry.getModifiedDate()?datetime?string("dd/MM/yyyy")}
             </div>
             <div class="seu-result-infos-bottom">
-                 <a href="#" class="seu-add-favorites" 
+                 <a href="#" class="seu-add-favorites"
                     data-type="6" 
                     data-title="${title}" 
-                    data-url="${detailURL}"
+                    data-url="${portalURL}${detailURL}"
+                    data-group-id=${themeDisplay.scopeGroupId}
                     data-id="${entry.getArticleId()}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

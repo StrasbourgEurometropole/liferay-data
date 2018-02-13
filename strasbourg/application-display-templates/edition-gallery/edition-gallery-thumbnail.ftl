@@ -45,7 +45,7 @@
             <div class="seu-result-infos-top">
             </div>
             <div class="seu-result-infos-bottom">
-                 <a href="#" class="seu-add-favorites" 
+                 <a href="#" class="seu-add-favorites"
                     data-type="13" 
                     data-title="${entry.getTitle(locale)}" 
                     data-url="${strasbourgURL}galerie-editions/-/entity/id/${entry.galleryId}"

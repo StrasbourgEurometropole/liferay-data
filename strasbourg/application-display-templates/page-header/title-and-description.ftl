@@ -2,7 +2,8 @@
 <#setting locale = locale />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent()?split("?")[0] />
+
 <main class="seu-container">
 	<a href="#" class="add-favorites"
         data-type="9" 

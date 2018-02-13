@@ -35,10 +35,10 @@
                 ${entry.getCity(locale)}
             </div>
             <div class="seu-result-infos-bottom">
-                <a href="#" class="seu-add-favorites" 
+                <a href="#" class="seu-add-favorites"
                 data-type="1" 
                 data-title="${entry.getAlias(locale)}" 
-                data-url="${strasbourgURL}lieu/-/entity/id/${entry.placeId}"
+                data-url="${strasbourgURL}lieu/-/entity/sig/${entry.getSIGid()}" 
                 data-id="${entry.placeId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

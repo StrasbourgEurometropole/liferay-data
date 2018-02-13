@@ -11,7 +11,7 @@
 <#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <div class="seu-container">
-    <a href="#" class="add-favorites"
+    <a href="#" class="add-favorites" 
         data-type="10" 
         data-title="${entry.getTitle(locale)}" 
         data-url="${strasbourgURL}activite/-/entity/id/${entry.activityId}" 

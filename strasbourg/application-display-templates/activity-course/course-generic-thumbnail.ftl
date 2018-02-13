@@ -36,7 +36,7 @@
             <div class="seu-result-infos-bottom"> 
                 <a href="#" class="seu-add-favorites" 
                 data-type="11" 
-                data-title="${entry.getActivity().getTitle(locale)}" 
+                data-title="${entry.getName(locale)}" 
                 data-url="${strasbourgURL}cours/-/entity/id/${entry.activityCourseId}" 
                 data-id="${entry.activityCourseId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>

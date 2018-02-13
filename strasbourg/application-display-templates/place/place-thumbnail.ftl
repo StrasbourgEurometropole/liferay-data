@@ -25,7 +25,7 @@
                 ${entry.getCity(locale)}
             </div>
             <div class="seu-result-infos-bottom">
-                <a href="#" class="seu-add-favorites" 
+                <a href="#" class="seu-add-favorites"
                     data-type="1" 
                     data-title="${entry.getAlias(locale)}" 
                     data-url="${strasbourgURL}lieu/-/entity/sig/${entry.getSIGid()}" 

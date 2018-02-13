@@ -48,7 +48,7 @@
                 </#if> ${entry.getDiffusionDateYear()}
             </div>
             <div class="seu-result-infos-bottom"> 
-                 <a href="#" class="seu-add-favorites" 
+                 <a href="#" class="seu-add-favorites"
                     data-type="4" 
                     data-title="${entry.getTitle(locale)}" 
                     data-url="${strasbourgURL}edition/-/entity/id/${entry.editionId}" 

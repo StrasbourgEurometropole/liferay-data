@@ -6,6 +6,8 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
 <div class="seu-container">
     <div class="seu-wi seu-wi-agenda seu-type--actu">
         <div class="seu-container">
@@ -35,7 +37,8 @@
                              <a href="#" class="seu-add-favorites" 
                                  data-type="6" 
                                  data-title="${title}"
-                                 data-url="${viewURL}" 
+                                 data-url="${viewURL}"
+                                 data-group-id=${themeDisplay.scopeGroupId} 
                                  data-id="${id}">
                                 <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
                             </a>

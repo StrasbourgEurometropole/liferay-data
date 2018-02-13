@@ -35,7 +35,7 @@
                 ${entry.getEventScheduleDisplay(locale)}
             </div>
             <div class="seu-result-infos-bottom"> 
-                <a href="#" class="seu-add-favorites" 
+                <a href="#" class="seu-add-favorites"
                 data-type="2" 
                 data-title="${entry.getTitle(locale)}" 
                 data-url="${strasbourgURL}evenement/-/entity/id/${entry.eventId}" 

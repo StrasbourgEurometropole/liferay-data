@@ -13,6 +13,7 @@
             data-type="6" 
             data-title="${title.getData()}" 
             data-url="${currentUrl}" 
+            data-group-id=${themeDisplay.scopeGroupId}
             data-id="${.vars['reserved-article-id'].data}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>

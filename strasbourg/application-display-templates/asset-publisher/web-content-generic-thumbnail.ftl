@@ -18,7 +18,9 @@
 
 <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
 <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
-
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign portalURL = themeDisplay.getPortalURL() />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
   <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
@@ -27,6 +29,14 @@
   <@liferay_portlet.param name="detailURL" value="${detailURL}" />
   <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
+
+
+<#if detailURL?contains("/-/")>
+    <#assign favoriteType = 6 />
+<#else>
+    <#assign favoriteType = 7 />
+</#if>
+
 
 <div class="wi-search-result wi-search-generic wi-search-cw">
     <div class="seu-result-left">
@@ -49,10 +59,11 @@
                 ${entry.getModifiedDate()?datetime?string("dd/MM/yyyy")}
             </div>
             <div class="seu-result-infos-bottom">
-                <a href="#" class="seu-add-favorites" 
-                data-type="7" 
+                <a href="#" class="seu-add-favorites"
+                data-type="${favoriteType}" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${detailURL}"
+                data-url="${portalURL}${detailURL}"
+                data-group-id=${themeDisplay.scopeGroupId}
                 data-id="${entry.getArticleId()}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>
