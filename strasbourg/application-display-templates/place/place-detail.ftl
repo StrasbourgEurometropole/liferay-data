@@ -719,7 +719,7 @@
                                 <!-- green orange red black -->
                                 <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
                                     <#if isSwimmingPool || isMairie>
-                                        ${occupationState.occupation}<#if isMairie> min</#if>
+                                        ${occupationState.occupation}<#if isMairie && occupationState.occupation != "-"> min</#if>
                                     <#else>
                                         ${occupationState.available}
                                     </#if>
