@@ -1,0 +1,4 @@
+Bundle-Name: favorites-viewer-web
+Bundle-SymbolicName: eu.strasbourg.portlet.favorites
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.favorites.constants

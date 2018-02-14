@@ -52,11 +52,29 @@ public class FavoriteServiceUtil {
 	}
 
 	/**
+	* Ajoute un favori à un utilisateur
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject addFavoriteLink(
+		java.lang.String title, java.lang.String url, long typeId,
+		long entityId, long entityGroupId) {
+		return getService()
+				   .addFavoriteLink(title, url, typeId, entityId, entityGroupId);
+	}
+
+	/**
 	* Supprime un favoris d'un utilisateur
 	*/
 	public static com.liferay.portal.kernel.json.JSONObject deleteFavorite(
 		java.lang.String userId, long favoriteId) {
 		return getService().deleteFavorite(userId, favoriteId);
+	}
+
+	/**
+	* Supprime un favoris d'un utilisateur
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject deleteFavoriteLink(
+		java.lang.String title, java.lang.String url, long typeId, long entityId) {
+		return getService().deleteFavoriteLink(title, url, typeId, entityId);
 	}
 
 	/**

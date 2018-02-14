@@ -36,6 +36,20 @@
       <#assign homeURL = "/" />
     </#if>
     window.homeURL = '${homeURL}';
+
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.userFavorites = [
+        <#list favorites as favorite>
+          {
+            entityId: ${favorite.entityId},
+            typeId: ${favorite.typeId}
+          }<#sep>,</#sep>
+        </#list>
+      ];
+    </#if>
+
   </script>
   <div class="seu">
     

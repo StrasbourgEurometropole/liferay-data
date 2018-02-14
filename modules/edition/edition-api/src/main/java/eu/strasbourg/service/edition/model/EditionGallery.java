@@ -91,6 +91,11 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
+	* Retourne le texte à afficher pour les types de la galerie d'éditions
+	*/
+	public java.lang.String getTypesLabels(java.util.Locale locale);
+
+	/**
 	* Renvoie la liste des éditions publiées de la galerie
 	*/
 	public java.util.List<eu.strasbourg.service.edition.model.Edition> getPublishedEditions();
