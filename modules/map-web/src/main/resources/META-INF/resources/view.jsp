@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="/o/mapweb/css/leaflet-list-markers.min.css" />
 
 <liferay-util:html-bottom>
 	<script>
@@ -11,6 +12,7 @@
 	</script>
 	<script	src="/o/mapweb/js/leaflet.js"></script>
 	<script	src="/o/mapweb/js/leaflet.markercluster.js"></script>
+	<script	src="/o/mapweb/js/leaflet-list-markers.min.js"></script>
 	<script src="/o/mapweb/js/map.js"></script>
 	<script>
 		define.amd = define._amd;

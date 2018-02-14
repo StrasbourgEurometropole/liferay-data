@@ -1,6 +1,6 @@
 //Création de la carte au centre de strasbourg
 var mymap = L.map('mapid', {
-	crs: L.CRS.EPSG4326,
+	//crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
 	center: [48.573, 7.752],
 	zoom: 13
 });	
@@ -27,5 +27,5 @@ $.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&
 		});
 	
 	mymap.addLayer(markers);
+	mymap.addControl(new L.Control.ListMarkers({layer: markers}));
 });
-
