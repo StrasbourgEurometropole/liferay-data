@@ -6,15 +6,12 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <div class="seu-container">
     <a href="#" class="add-favorites" 
         data-type="10" 
         data-title="${entry.getTitle(locale)}" 
-        data-url="${strasbourgURL}activite/-/entity/id/${entry.activityId}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}activite/-/entity/id/${entry.activityId}" 
         data-id="${entry.activityId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
@@ -32,7 +29,7 @@
         <#if entry.publishedActivityCourses?has_content>
             <h2><@liferay_ui.message key="eu.activity.courses" /></h2>
             <#list entry.publishedActivityCourses as course>
-                <p>
+                <div style="margin-bottom: 10px">
                     <a href="${homeURL}cours/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
                         <div class="seu-btn-square--filled--second">
                             <span class="seu-flexbox">
@@ -41,7 +38,7 @@
                             </span>
                         </div>
                     </a>
-                </p>
+                </div>
             </#list>
         </#if>
         <#if entry.filesURLs?has_content>

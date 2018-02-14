@@ -6,8 +6,6 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
 <div class="seu-container">
     <div class="seu-wi seu-wi-agenda seu-type--actu">
         <div class="seu-container">

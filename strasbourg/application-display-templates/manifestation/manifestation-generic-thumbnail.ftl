@@ -2,9 +2,6 @@
 
 <#setting locale = locale />
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
@@ -40,7 +37,7 @@
                 <a href="#" class="seu-add-favorites" 
                     data-type="12" 
                     data-title="${entry.getTitle(locale)}" 
-                    data-url="${strasbourgURL}manifestation/-/entity/id/${entry.manifestationId}"
+                    data-url="${detailURL}"
                     data-id="${entry.manifestationId}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
                 </a>

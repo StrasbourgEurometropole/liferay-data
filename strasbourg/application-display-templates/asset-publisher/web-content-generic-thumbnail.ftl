@@ -18,9 +18,6 @@
 
 <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
 <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign portalURL = themeDisplay.getPortalURL() />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
   <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
@@ -62,7 +59,7 @@
                 <a href="#" class="seu-add-favorites"
                 data-type="${favoriteType}" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${portalURL}${detailURL}"
+                data-url="${detailURL}"
                 data-group-id=${themeDisplay.scopeGroupId}
                 data-id="${entry.getArticleId()}">
                     <span><@liferay_ui.message key='eu.add-to-favorite' /></span>

@@ -4,16 +4,13 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <!-- Détail manifestation -->
 <div class="seu-container">
     <a href="#" class="add-favorites"
         data-type="12" 
         data-title="${entry.getTitle(locale)}" 
-        data-url="${strasbourgURL}manifestation/-/entity/id/${entry.manifestationId}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}manifestation/-/entity/id/${entry.manifestationId}" 
         data-id="${entry.manifestationId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>

@@ -1,12 +1,15 @@
 <#setting locale = locale />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
 <main class="seu-container" style="margin-bottom: 50px">
 	<a href="#" class="add-favorites"
             data-type="7" 
             data-title="${title.getData()}" 
-            data-url="${currentUrl}" 
+            data-url="${homeURL}${layout.friendlyURL?remove_beginning('/')}" 
             data-group-id=${themeDisplay.scopeGroupId}
             data-id="${.vars['reserved-article-id'].data}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>

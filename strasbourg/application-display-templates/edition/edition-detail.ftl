@@ -6,15 +6,12 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <div class="seu-container wi-edition-detail">
     <a href="#" class="add-favorites"
         data-type="4" 
         data-title="${entry.getTitle(locale)}" 
-        data-url="${strasbourgURL}edition/-/entity/id/${entry.editionId}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}edition/-/entity/id/${entry.editionId}" 
         data-id="${entry.editionId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>

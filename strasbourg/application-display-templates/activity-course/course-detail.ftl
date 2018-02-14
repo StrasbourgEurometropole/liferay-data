@@ -1,8 +1,5 @@
 <!-- Détail cours -->
 <#setting locale = locale />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
-<#assign strasbourgURL = themeDisplay.getPortalURL() + "/web/" + themeDisplay.getSiteGroupName() + "/"  />
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -14,7 +11,7 @@
     <a href="#" class="add-favorites"
         data-type="11" 
         data-title="${entry.getName(locale)}" 
-        data-url="${strasbourgURL}cours/-/entity/id/${entry.activityCourseId}" 
+        data-url="${themeDisplay.getPortalURL()}${homeURL}cours/-/entity/id/${entry.activityCourseId}" 
         data-id="${entry.activityCourseId}">
         <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
     </a>
