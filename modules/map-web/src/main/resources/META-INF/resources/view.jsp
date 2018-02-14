@@ -11,7 +11,7 @@
 		define.amd = false;
 	</script>
 	<script	src="/o/mapweb/js/leaflet.js"></script>
-	<script	src="/o/mapweb/js/leaflet.markercluster.js"></script>
+	<script	src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
 	<script	src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
 	<script src="/o/mapweb/js/map.js"></script>
 	<script>

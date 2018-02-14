@@ -74,8 +74,11 @@ L.Control.ListMarkers = L.Control.extend({
 		L.DomEvent
 			.disableClickPropagation(a)
 			.on(a, 'click', L.DomEvent.stop, this)
-			.on(a, 'click', function(e) {
-				this._moveTo( layer.getLatLng() );
+//			.on(a, 'click', function(e) {
+//				this._moveTo( layer.getLatLng() );
+//			}, this)
+			.on(a, 'click', function(e) {				
+				this._toggleDisplay(layer);
 			}, this)
 			.on(a, 'mouseover', function(e) {
 				that.fire('item-mouseover', {layer: layer });
@@ -171,7 +174,17 @@ L.Control.ListMarkers = L.Control.extend({
 			this._map.setView(latlng, Math.min(this._map.getZoom(), this.options.maxZoom) );
 		else
 			this._map.panTo(latlng);    
-    }
+    },
+	_toggleDisplay: function(layer)
+	{
+		if(layer.options['opacity'] == 0)
+			layer.options['opacity'] = 1;
+		else
+			layer.options['opacity'] = 0;
+		
+		this._map.removeLayer(layer);
+		this._map.addLayer(layer);
+	}
 });
 
 L.control.listMarkers = function (options) {

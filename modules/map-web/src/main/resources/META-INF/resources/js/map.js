@@ -6,7 +6,7 @@ var mymap = L.map('mapid', {
 });	
 
 //Couche gui gère le clustering des points
-var markers = L.markerClusterGroup();
+var markers = L.markerClusterGroup({showCoverageOnHover: false});
 
 //Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
 var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
