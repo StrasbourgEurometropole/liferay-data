@@ -2,7 +2,7 @@
 
 <c:set var="locale" value="${themeDisplay.getLocale() }" />
 
-	<h1> <liferay-ui:message key="my-favorites" /></h1>
+	<h1> ${dc.getPortletTitle('my-favorites')}</h1>
 	<div class="generic-form favoris__filters">
 		<div class="widget">
 			<div class="title">
@@ -159,24 +159,24 @@
 <!--  	<ul class="mseu-pagination unstyled">
 		<li class="pagin-prev disabled pagin-item"><a href="#"
 			class="btn-square bordered core" data-action="prev"
-			title="Aller à la page précédente"> <span class="flexbox">
-					<span class="btn-text">Précédent</span> <span class="btn-arrow"></span>
+			title="Aller Ã  la page prÃ©cÃ©dente"> <span class="flexbox">
+					<span class="btn-text">PrÃ©cÃ©dent</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="is-active pagin-item">
-			<div data-page="1" title="Aller à  la page 1">
+			<div data-page="1" title="Aller Ã Â  la page 1">
 				<span class="flexbox"> <span class="btn-text">1</span> <span
 					class="btn-arrow"></span>
 				</span>
 			</div>
 		</li>
 		<li class="pagin-item"><a href="#" data-page="2"
-			title="Aller à la page 2"> <span class="flexbox"> <span
+			title="Aller Ã  la page 2"> <span class="flexbox"> <span
 					class="btn-text">2</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="pagin-next pagin-item"><a href="#"
-			class="btn-square bordered core" title="Aller à la page suivante"
+			class="btn-square bordered core" title="Aller Ã  la page suivante"
 			data-action="next"> <span class="flexbox"> <span
 					class="btn-text">Suivant</span> <span class="btn-arrow"></span>
 			</span>

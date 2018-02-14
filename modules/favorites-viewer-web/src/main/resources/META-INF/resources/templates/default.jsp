@@ -4,9 +4,14 @@
 
 <section id="favoris">
    <!-- <button class="delete-wi"></button>  -->    
-    <h2><liferay-ui:message key="my-last-favorites" /></h2>
+    <h2>${dc.getPortletTitle('my-last-favorites')}</h2>
     <div class="favoris-grid">
-
+		
+		<c:if test="${empty dc.lastFavorites}">
+			<p style="font-size: 15px;">
+				<liferay-ui:message key="no-favorites" />
+			</p>
+		</c:if>
 
 		<c:forEach items="${dc.lastFavorites}" var="favorite">					
 			<div class="favoris-teaser">

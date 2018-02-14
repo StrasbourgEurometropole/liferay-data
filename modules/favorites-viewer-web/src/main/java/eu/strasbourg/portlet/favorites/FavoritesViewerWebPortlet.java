@@ -31,7 +31,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name= Favoris",
 		"javax.portlet.init-param.template-path=/",

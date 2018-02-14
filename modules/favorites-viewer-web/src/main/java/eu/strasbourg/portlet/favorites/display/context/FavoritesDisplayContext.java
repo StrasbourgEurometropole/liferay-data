@@ -21,6 +21,7 @@ import eu.strasbourg.portlet.favorites.display.FavoriteDisplay;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.utils.PortletHelper;
 
 public class FavoritesDisplayContext {
 
@@ -91,6 +92,10 @@ public class FavoritesDisplayContext {
 		selectedCalendar.setTime(jourChoisi.getTime());
 
 		return selectedCalendar;
+	}
+	
+	public String getPortletTitle(String defaultValue) {
+		return PortletHelper.getPortletTitle(defaultValue, request);
 	}
 
 	public int getCount() {
