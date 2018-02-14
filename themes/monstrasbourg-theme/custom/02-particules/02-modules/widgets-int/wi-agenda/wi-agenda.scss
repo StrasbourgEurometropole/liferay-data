@@ -2,3 +2,7 @@
 //     @extend %molecule-wi-section;
 //     @extend %organism-wi-agenda; 
 // }   
+.seu-wi-agenda .seu-wi-grid {
+    @extend %molecule-wi-section;
+    @extend %organism-wi-agenda; 
+}
