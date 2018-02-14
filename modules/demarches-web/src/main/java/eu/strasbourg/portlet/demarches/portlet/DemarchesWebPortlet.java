@@ -33,7 +33,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=demarches-web Portlet", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.display-name=Suivi des demandes", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/demarches-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/demarches-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.DEMARCHES_WEB, "javax.portlet.resource-bundle=content.Language",
