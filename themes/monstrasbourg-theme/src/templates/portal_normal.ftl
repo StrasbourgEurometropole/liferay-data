@@ -57,7 +57,8 @@
       <#include "${full_templates_path}/home_banner.ftl" />
     
     <#if !isHome>
-      <div class="card-box">
+      <div class="card-box">  
+        <@liferay.breadcrumbs />
     </#if>      
       <#if selectable>
         <@liferay_util["include"] page=content_include />
