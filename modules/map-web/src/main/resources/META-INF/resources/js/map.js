@@ -16,6 +16,7 @@ function onEachFeature(feature, layer) {
     // does this feature have a property named nom?
     if (feature.properties && feature.properties.nom) {
         layer.bindPopup(feature.properties.nom);
+        layer.options['title'] = feature.properties.nom;
         markers.addLayer(layer);
     }
 }
@@ -27,5 +28,7 @@ $.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&
 		});
 	
 	mymap.addLayer(markers);
-	mymap.addControl(new L.Control.ListMarkers({layer: markers}));
+	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null}));
+	
+	$('#map-markers').append($('ul.list-markers-ul'));
 });
