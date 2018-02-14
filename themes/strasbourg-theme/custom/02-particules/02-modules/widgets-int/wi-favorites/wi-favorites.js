@@ -1,16 +1,18 @@
 $(function() {
 	var elements = $('.seu-add-favorites, .add-favorites, .item-misc');
-	
-	elements.each(function( i ) {
-		var favorite = $(this);
-
-		$.each( window.userFavorites, function( index, value ){
-		   if(favorite.data("id") == this.entityId){
-				favorite[0].classList.add('liked'); 
-			  	favorite[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
-		    }
+	if (elements) {
+		elements.each(function( i ) {
+			var favorite = $(this);
+			if (window.userFavorites) {
+				$.each( window.userFavorites, function( index, value ){
+				   if(favorite.data("id") == this.entityId){
+						favorite[0].classList.add('liked'); 
+					  	favorite[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+				    }
+				});
+			}
 		});
-	});
+	}
 });
 
 $(function() {

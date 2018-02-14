@@ -29,7 +29,7 @@
             var pos = href.search('#') + 1;
             id = href.slice(pos);
             var element = $('#' + id);
-            if (element.length == 0) {
+            if (id.length > 0 && element.length == 0) {
                 element = $('[name=' + id + ']');
             }
             if (element.length) {
