@@ -79,6 +79,11 @@
     font-weight: 600;
     color: #505050;
     font-size: 18px;
+
+    @media(max-width: 370px) {
+      font-size: 15px;
+    }
+
     &.exception {
       color: #F44336;
       &:after {
