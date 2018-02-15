@@ -216,9 +216,12 @@
 												        </div>
 													</c:when>
 													<c:otherwise>
-														<c:forEach items="${placeSchedule.openingTimes}" var="openingTime">
+														<c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
 															<div class="opening-time ${isException ? 'exception' : '' }">
 															${openingTime.first} - ${openingTime.second}
+																<c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
+																	<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;">(${placeSchedule.comments[loopStatus.index]})</div>
+																</c:if>
 															</div>
 														</c:forEach> 
 													</c:otherwise>
@@ -270,9 +273,12 @@
 													        </div>
 														</c:when>
 														<c:otherwise>
-															<c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime">
+															<c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
 																<div class="opening-time ${isException ? 'exception' : '' }">
 																	${openingTime.first} - ${openingTime.second}
+																	<c:if test="${not empty subPlaceSchedule.comments[loopStatus.index]}">
+																		<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;">(${subPlaceSchedule.comments[loopStatus.index]})</div>
+																	</c:if>
 																</div>
 															</c:forEach>  
 														</c:otherwise>

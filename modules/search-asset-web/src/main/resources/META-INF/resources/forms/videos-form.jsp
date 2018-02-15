@@ -58,16 +58,16 @@
 	<!-- Tri -->
 	<c:if test="${dc.configuration.displayDateSorting()}">
 		<div class="field"> 
-			<label for="order"><liferay-ui:message key="order" /></label> 
+			<label for="order">Ordre</label> 
 			<div class="order-selection-control open">
 				<aui:select name="sortFieldAndType" label="" showEmptyOption="false">
 					<c:if test="${not empty dc.keywords or not empty dc.configuration.boostTagsNames()}">
 						<aui:option value="score,desc" label="score-desc" />
 					</c:if>
 					<aui:option value="${dc.configuration.defaultSortField()},asc"
-						label="eu.videos-theme.dates-asc" />
-					<aui:option value="${dc.configuration.defaultSortField()},desc"
 						label="eu.videos-theme.dates-desc" />
+					<aui:option value="${dc.configuration.defaultSortField()},desc"
+						label="eu.videos-theme.dates-asc" />
 				</aui:select>
 				<aui:input type="hidden" name="sortingChanged" value="false" />
 			</div>
