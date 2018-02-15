@@ -43,7 +43,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Notifications",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/notification-viewer-view.jsp",
