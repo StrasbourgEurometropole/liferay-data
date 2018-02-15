@@ -10,6 +10,7 @@
   <@liferay_util["include"] page=top_head_include />
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
+  <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 
@@ -74,7 +75,7 @@
     <#if !isHome>
       </div>
     <#else>
-      <#include "${full_templates_path}/content.ftl" />
+      <#--include "${full_templates_path}/content.ftl" /-->
     </#if>
     </div>
   </main>
