@@ -1,9 +1,9 @@
 package eu.strasbourg.portlet.favorites.display.context;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -30,9 +30,6 @@ public class FavoritesDisplayContext {
 
 	private List<FavoriteDisplay> favorites;
 	private List<FavoriteDisplay> lastFavorites;
-	private GregorianCalendar todayCalendar;
-	private int count;
-	private List<FavoriteType> favoritesType;
 
 	public FavoritesDisplayContext(PortletRequest request, ThemeDisplay themeDisplay) {
 		this.request = request;
@@ -61,6 +58,7 @@ public class FavoritesDisplayContext {
 				favoritesDisplay.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
 			}
 			favoritesDisplay.sort(Comparator.comparing(FavoriteDisplay::getFavoriteId));
+			Collections.reverse(favoritesDisplay);
 			favorites = favoritesDisplay;
 		}
 		return favorites;
@@ -71,7 +69,7 @@ public class FavoritesDisplayContext {
 			List<FavoriteDisplay> favoritesDisplay = getFavorites();
 
 			if (favorites.size() > 4) {
-				favoritesDisplay = favorites.subList(favorites.size() - 4, favorites.size());
+				favoritesDisplay = favorites.subList(0, 4);
 			}
 
 			lastFavorites = favoritesDisplay;
@@ -80,7 +78,6 @@ public class FavoritesDisplayContext {
 	}
 
 	public GregorianCalendar getTodayCalendar() {
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		GregorianCalendar jourChoisi = new GregorianCalendar();
 		jourChoisi.set(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue(),
 				LocalDateTime.now().getDayOfMonth());
