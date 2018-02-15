@@ -43,7 +43,7 @@
             category: 'agenda',
             title: '${event.getTitle(locale)?js_string}',
             lead: '${event.getDescription(locale)?js_string}',
-            link: window.homeURL + 'evenement/-/entity/id/${event.eventId}',
+            link: '${themeDisplay.portalURL}' + window.homeURL + 'evenement/-/entity/id/${event.eventId}',
             ville: '${event.getCity(locale)} <#if event.getCity(locale)?has_content>-</#if> ${event.getPlaceAlias(locale)?js_string}',
             id: '${event.eventId}',
             favorite: '<@liferay_ui.message key='eu.add-to-favorite' />',
