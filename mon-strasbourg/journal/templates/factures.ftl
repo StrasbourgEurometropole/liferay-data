@@ -9,16 +9,18 @@
         <p>${text.getData()}</p> 
         <p class="errors"></p>      
         <div class="webform-layout-box">
-            <div class="form-group">
+            <div class="form-group" style="width: 450px">
                 <div class="form-label"><label for="annee"><@liferay.language key="bill-type" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <select id="type_facture" required="" aria-required="true">
-                        <option value="" label='' />
-                        <option value="childhood" label='<@liferay.language key="childhood" />' />
-                        <option value="schoolRestaurant" label='<@liferay.language key="school-restaurant" />' />
-                        <option value="afterSchool" label='<@liferay.language key="after-school" />' />
-                        <option value="water" label='<@liferay.language key="water" />' />
-                    </select>
+                    <div class="customSelectContain">
+                        <select id="type_facture" class="toCustomSelect silencedSelect" required="" aria-required="true">
+                            <option value=""></option>
+                            <option value="childhood"><@liferay.language key="childhood" /></option>
+                            <option value="schoolRestaurant"><@liferay.language key="school-restaurant" /></option>
+                            <option value="afterSchool"><@liferay.language key="after-school" /></option>
+                            <option value="water"><@liferay.language key="water" /></option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
