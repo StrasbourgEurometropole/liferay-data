@@ -36,8 +36,8 @@
           </span>    
         </button>
         <ul id="account-menu" class="unstyled" style="display: none;">
-          <li><a href="#" class="account-link dashboard">Mon tableau de bord</a></li>
-          <li><a href="#" class="account-link notification">Mes notifications</a></li>
+          <li><a href="https://preprod.mon.strasbourg.eu/" class="account-link dashboard">Mon tableau de bord</a></li>
+          <li><a href="https://preprod.mon.strasbourg.eu/notifications" class="account-link notification">Mes notifications</a></li>
           <li><a href="#" class="account-link account">Mon compte</a></li>
           <li><a href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" class="account-link logout">Se déconnecter</a></li>
         </ul>
