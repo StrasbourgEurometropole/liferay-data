@@ -6,7 +6,9 @@ var mymap = L.map('mapid', {
 });	
 
 //Couche gui gère le clustering des points
-var markers = L.markerClusterGroup({showCoverageOnHover: false});
+var markers = L.markerClusterGroup({
+	showCoverageOnHover: false
+	});
 
 //Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
 var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
@@ -21,7 +23,6 @@ function onEachFeature(feature, layer) {
         layer.bindPopup(feature.properties.nom);
         //Titre dans la liste des markers
         layer.options['title'] = feature.properties.nom;
-        markers.addLayer(layer);
     }
 }
 
@@ -33,8 +34,9 @@ $.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&
 		onEachFeature: onEachFeature
 		});
 	
-	mymap.addLayer(markers);
+	markers.addLayers(geoData);
 	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null}));
+	mymap.addLayer(markers);
 	
 	//Copie la liste des markers dans la div prévue à cet effet
 	$('#map-markers').append($('ul.list-markers-ul'));

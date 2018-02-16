@@ -177,13 +177,21 @@ L.Control.ListMarkers = L.Control.extend({
     },
 	_toggleDisplay: function(layer)
 	{
-		if(layer.options['opacity'] == 0)
-			layer.options['opacity'] = 1;
-		else
-			layer.options['opacity'] = 0;
+		//this._map.removeLayer(layer);
+		//markers.removeLayer(layer);
 		
-		this._map.removeLayer(layer);
-		this._map.addLayer(layer);
+		if(layer.options.opacity == 0)
+		{
+			layer.clusterShow();
+		}
+		else
+		{
+			layer.clusterHide();
+		}
+		
+		//markers.addLayer(layer);
+		//this._map.addLayer(layer);
+		//markers.refreshClusters();
 	}
 });
 
