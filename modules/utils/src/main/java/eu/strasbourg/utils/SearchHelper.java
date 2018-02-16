@@ -291,7 +291,13 @@ public class SearchHelper {
 			// Ordre
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
 			System.out.println(sort);
-			searchContext.setSorts(sort);
+			if (sortField.startsWith("order_ems") || sortField.startsWith("order_city")) {
+				Sort alphabeticalSort = SortFactoryUtil.create("localized_title_fr_FR_sortable", Sort.STRING_TYPE, false); 
+				System.out.println(alphabeticalSort);
+				searchContext.setSorts(sort, alphabeticalSort);
+			} else {
+				searchContext.setSorts(sort);	
+			}
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);

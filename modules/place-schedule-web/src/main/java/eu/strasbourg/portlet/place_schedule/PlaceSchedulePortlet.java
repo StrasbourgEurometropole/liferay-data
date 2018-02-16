@@ -100,7 +100,11 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			jourChoisi.clear(Calendar.MILLISECOND);
 			String dateFromParam = ParamUtil.getString(request, "date");
 			if (Validator.isNotNull(dateFromParam)) {
-				jourChoisi.setTime(sf.parse(dateFromParam));
+				try {
+					jourChoisi.setTime(sf.parse(dateFromParam));
+				} catch (Exception ex) {
+
+				}
 			}
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
 			request.setAttribute("selectedDate", jourChoisi.getTime());
@@ -133,7 +137,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
 					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
-			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à afficher en front
+			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à
+															// afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {
 				StringBuilder date = new StringBuilder(df.format(jourSemaine.getTime()));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());

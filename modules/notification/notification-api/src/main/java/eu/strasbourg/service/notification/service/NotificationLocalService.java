@@ -272,7 +272,7 @@ public interface NotificationLocalService extends BaseLocalService,
 
 	/**
 	* Modifie le statut de tous les notifications au statut "SCHEDULED" qui ont
-	* une date de publication dans le futur.
+	* une date de publication dans le passé.
 	*/
 	public void publishRelevantNotifications() throws PortalException;
 

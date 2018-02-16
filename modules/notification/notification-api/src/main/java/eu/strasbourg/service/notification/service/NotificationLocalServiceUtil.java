@@ -313,7 +313,7 @@ public class NotificationLocalServiceUtil {
 
 	/**
 	* Modifie le statut de tous les notifications au statut "SCHEDULED" qui ont
-	* une date de publication dans le futur.
+	* une date de publication dans le passé.
 	*/
 	public static void publishRelevantNotifications()
 		throws com.liferay.portal.kernel.exception.PortalException {

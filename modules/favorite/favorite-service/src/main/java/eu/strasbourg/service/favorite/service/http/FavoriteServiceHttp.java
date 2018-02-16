@@ -136,14 +136,70 @@ public class FavoriteServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject addFavoriteLink(
+		HttpPrincipal httpPrincipal, java.lang.String title,
+		java.lang.String url, long typeId, long entityId, long entityGroupId) {
+		try {
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"addFavoriteLink", _addFavoriteLinkParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, title,
+					url, typeId, entityId, entityGroupId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject deleteFavorite(
 		HttpPrincipal httpPrincipal, java.lang.String userId, long favoriteId) {
 		try {
 			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
-					"deleteFavorite", _deleteFavoriteParameterTypes3);
+					"deleteFavorite", _deleteFavoriteParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
 					favoriteId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject deleteFavoriteLink(
+		HttpPrincipal httpPrincipal, java.lang.String title,
+		java.lang.String url, long typeId, long entityId) {
+		try {
+			MethodKey methodKey = new MethodKey(FavoriteServiceUtil.class,
+					"deleteFavoriteLink", _deleteFavoriteLinkParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, title,
+					url, typeId, entityId);
 
 			Object returnObj = null;
 
@@ -172,7 +228,15 @@ public class FavoriteServiceHttp {
 			java.lang.String.class, java.lang.String.class, long.class,
 			java.lang.String.class, long.class
 		};
-	private static final Class<?>[] _deleteFavoriteParameterTypes3 = new Class[] {
+	private static final Class<?>[] _addFavoriteLinkParameterTypes3 = new Class[] {
+			java.lang.String.class, java.lang.String.class, long.class,
+			long.class, long.class
+		};
+	private static final Class<?>[] _deleteFavoriteParameterTypes4 = new Class[] {
 			java.lang.String.class, long.class
+		};
+	private static final Class<?>[] _deleteFavoriteLinkParameterTypes5 = new Class[] {
+			java.lang.String.class, java.lang.String.class, long.class,
+			long.class
 		};
 }

@@ -131,6 +131,24 @@ public class EditionGalleryImpl extends EditionGalleryBaseImpl {
 			this.getAssetEntry(), VocabularyNames.EDITION_TYPE);
 	}
 
+	
+	/**
+	 * Retourne le texte à afficher pour les types de la galerie d'éditions
+	 */
+	@Override
+	public String getTypesLabels(Locale locale) {
+		List<AssetCategory> types = this.getTypes();
+		String label = "";
+		for (AssetCategory typeCategory : types) {
+			if (label.length() > 0) {
+				label += ", ";
+			}
+			label += typeCategory.getTitle(locale);
+		}
+		return label;
+	}
+	
+	
 	/**
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */

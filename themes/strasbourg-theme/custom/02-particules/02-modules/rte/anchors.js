@@ -24,12 +24,12 @@
     $('a:not(.webform-progressbar-page)').on('click', function (e) {
         var href = $(this).attr('href');
         var id;
-        if (href.indexOf('#') != -1) {
+        if (href && href.indexOf('#') != -1) {
             e.preventDefault();
             var pos = href.search('#') + 1;
             id = href.slice(pos);
             var element = $('#' + id);
-            if (element.length == 0) {
+            if (id.length > 0 && element.length == 0) {
                 element = $('[name=' + id + ']');
             }
             if (element.length) {

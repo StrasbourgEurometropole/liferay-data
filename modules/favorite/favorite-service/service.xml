@@ -14,9 +14,17 @@
         <column name="url" type="String" />
         <column name="typeId" type="long" />
         <column name="entityId" type="long" />
+        <column name="entityGroupId" type="long" />
         
 		<finder name="PublikUserId" return-type="Collection" db-index="true" >
 			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="AllAttributes" return-type="Favorite"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="title" />
+			<finder-column name="url" />
+			<finder-column name="typeId" />
+			<finder-column name="entityId" />		
 		</finder>
 	</entity>
 	

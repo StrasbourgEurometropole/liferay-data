@@ -48,7 +48,7 @@ var social = {
 
 
 $(document).ready(function(){
-    if($('.seu-front').length && typeof social_source !== "undefined"){
+    if(typeof social_source !== "undefined"){
         // Init slider Social
         getSources(social_source, social);
         megaSlider(social, 'tous');

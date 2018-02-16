@@ -10,6 +10,7 @@
   <@liferay_util["include"] page=top_head_include />
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
+  <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 
@@ -30,11 +31,12 @@
     <#include "${full_templates_path}/nav_top.ftl" />
 
     <nav id="nav-side">
-      <!-- Notifications -->
       <#if request.session.getAttribute("publik_logged_in")!false>
+        <!-- Notifications -->
         <@liferay_portlet["runtime"]
           portletProviderAction=portletProviderAction.VIEW
-          portletName="NotificationViewerWeb"
+          portletName="eu_strasbourg_portlet_notification_NotificationViewerWebPortlet"
+          instanceId="notifications"
         />
       </#if>
 
@@ -56,7 +58,8 @@
       <#include "${full_templates_path}/home_banner.ftl" />
     
     <#if !isHome>
-      <div class="card-box">
+      <div class="card-box">  
+        <@liferay.breadcrumbs />
     </#if>      
       <#if selectable>
         <@liferay_util["include"] page=content_include />
@@ -72,7 +75,7 @@
     <#if !isHome>
       </div>
     <#else>
-      <#include "${full_templates_path}/content.ftl" />
+      <#--include "${full_templates_path}/content.ftl" /-->
     </#if>
     </div>
   </main>

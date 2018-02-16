@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -32,12 +34,22 @@ public class JSONHelper {
 		return sb.toString();
 	}
 
-	public static JSONObject readJsonFromURL(String URL)
-		throws IOException, JSONException {
-		InputStream is = new URL(URL).openStream();
+	public static JSONObject readJsonFromURL(String URL) throws IOException, JSONException {
+		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
+		InputStream is;
+		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+			is = httpConn.getInputStream();
+		} else {
+			/* error from server */
+			is = httpConn.getErrorStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String errorText = readAll(rd);
+			LogFactoryUtil.getLog(JSONHelper.class).error(errorText);
+			throw new IOException();
+		}
+
 		try {
-			BufferedReader rd = new BufferedReader(
-				new InputStreamReader(is, Charset.forName("UTF-8")));
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);
 			JSONObject json = JSONFactoryUtil.createJSONObject(jsonText);
 			return json;
@@ -46,12 +58,10 @@ public class JSONHelper {
 		}
 	}
 
-	public static JSONArray readJsonArrayFromURL(String URL)
-		throws IOException, JSONException {
+	public static JSONArray readJsonArrayFromURL(String URL) throws IOException, JSONException {
 		InputStream is = new URL(URL).openStream();
 		try {
-			BufferedReader rd = new BufferedReader(
-				new InputStreamReader(is, Charset.forName("UTF-8")));
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);
 			JSONArray json = JSONFactoryUtil.createJSONArray(jsonText);
 			return json;
@@ -68,15 +78,11 @@ public class JSONHelper {
 		return json;
 	}
 
-	public static JSONArray getEntityVocabularyJSON(String className,
-		String vocabularyName, long groupId) {
-		long classNameId = ClassNameLocalServiceUtil.getClassName(className)
-			.getClassNameId();
-		List<AssetVocabulary> vocabularies = AssetVocabularyHelper
-			.getVocabulariesForAssetType(groupId, classNameId);
+	public static JSONArray getEntityVocabularyJSON(String className, String vocabularyName, long groupId) {
+		long classNameId = ClassNameLocalServiceUtil.getClassName(className).getClassNameId();
+		List<AssetVocabulary> vocabularies = AssetVocabularyHelper.getVocabulariesForAssetType(groupId, classNameId);
 		for (AssetVocabulary vocabulary : vocabularies) {
-			if (StringHelper.compareIgnoringAccentuation(
-				vocabulary.getName().toLowerCase(), vocabularyName)) {
+			if (StringHelper.compareIgnoringAccentuation(vocabulary.getName().toLowerCase(), vocabularyName)) {
 				return AssetVocabularyHelper.toJSON(vocabulary);
 			}
 		}
@@ -95,11 +101,9 @@ public class JSONHelper {
 			}
 			if (subJsonArray != null) {
 				for (int i = 0; i < subJsonArray.length(); i++) {
-					JSONObject subJsonArrayObject = subJsonArray
-						.getJSONObject(i);
+					JSONObject subJsonArrayObject = subJsonArray.getJSONObject(i);
 					if (subJsonArrayObject != null) {
-						locales.addAll(JSONHelper
-							.getLocalesUsedInJSON(subJsonArrayObject));
+						locales.addAll(JSONHelper.getLocalesUsedInJSON(subJsonArrayObject));
 					}
 				}
 			}
@@ -113,8 +117,7 @@ public class JSONHelper {
 		return locales;
 	}
 
-	public static boolean validateI18nField(JSONObject json,
-		List<Locale> locales) {
+	public static boolean validateI18nField(JSONObject json, List<Locale> locales) {
 		boolean valid = true;
 		if (json == null) {
 			return false;

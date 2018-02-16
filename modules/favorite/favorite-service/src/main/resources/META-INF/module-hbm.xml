@@ -12,5 +12,6 @@
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="entityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="entityGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

@@ -16891,6 +16891,37 @@ window.cookieconsent.initialise({
         });
     }
 }(jQuery));
+function destroyPopin(){
+    $('#favConfirm').remove().off('clickfavConfirm');
+    $('.seu').off('click.favconfirm').removeClass('overlayed');
+}
+function createPopin(message, agree, deny){
+    var template = '<div id="favConfirm"> \
+        <div class="favMessage">##favMessage##</div> \
+        <div class="favActions"> \
+            <button class="seu-btn-square--bordered--core deny"><span class="seu-flexbox"><span class="seu-btn-text">Annuler</span><span class="seu-btn-arrow"></span></span></button> \
+            <button class="seu-btn-square--filled--second confirm"><span class="seu-flexbox"><span class="seu-btn-text">Valider</span><span class="seu-btn-arrow"></span></span></button> \
+        </div> \
+    </div>';
+
+    template = template.replace('##favMessage##', message);
+    $('body').append(template);
+    $('.seu').addClass('overlayed');
+
+
+    $('#favConfirm .deny').on('click.favConfirm', function(e){
+        if(deny !== undefined){
+            deny();
+        }
+        destroyPopin();
+    });
+    $('#favConfirm .confirm').on('click.favConfirm', function(){
+        destroyPopin();
+        if(agree !== undefined){
+            agree();
+        }
+    });
+}
 $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();
 }); 
@@ -17175,6 +17206,23 @@ $(document).ready(function(){
     }
 });
 
+(function ($) {
+    
+
+    $(document).ready(function(){
+        $('#trigger-account-menu').on('click', function(){
+            $(this).next('#account-menu').toggle();
+        })
+        
+        .parents('.seu-nav-account').on('mouseenter', function(){
+            $(this).find('#account-menu').show();
+        })
+        .on('mouseleave', function(){
+            $(this).find('#account-menu').hide();
+        })
+    });
+
+}(jQuery)); 
 (function ($) {
     function openSubmenu($trigger){
         var text = $trigger.text();
@@ -17504,6 +17552,90 @@ $('.seu-wi-trombinoscope').each(function() {
 
 $('.seu-wi-trombinoscope').parents('.col-md-6').addClass('seu-wi-trombinoscope-container');
 
+$(function() {
+	var elements = $('.seu-add-favorites, .add-favorites, .item-misc');
+	
+	elements.each(function( i ) {
+		var favorite = $(this);
+
+		$.each( window.userFavorites, function( index, value ){
+		   if(favorite.data("id") == this.entityId){
+				favorite[0].classList.add('liked'); 
+			  	favorite[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+		    }
+		});
+	});
+});
+
+$(function() {
+	//.seu-add-favorites && .add-favorites && .item-misc
+	$(document).on("click",'.seu-add-favorites, .add-favorites, .item-misc', function(e) {
+		e.preventDefault();
+		//var favorite = $('.seu-add-favorites');
+		//$('.seu-add-favorites').on('click', function() {
+		var htmlA = $(this);
+		var url = $(this).data("url");
+		var id = $(this).data("id");
+		var groupId = $(this).data("groupId") ? $(this).data("groupId") : 0;
+		var type = $(this).data("type");
+		var title = $(this).data("title");		
+
+
+		if(htmlA[0].classList.contains('liked')) {
+			Liferay.Service(
+			  '/favorite.favorite/delete-favorite-link',
+			  {
+			    title: title,
+			    url: url,
+			    typeId: type,
+			    entityId: id
+			  },
+			  function(obj) {		
+			  	if(obj.hasOwnProperty('success')) {
+			  		htmlA[0].classList.remove('liked'); 
+			  		htmlA[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+			  	}
+			  	else if(obj.hasOwnProperty('error')) {
+			  		if(obj['error'] == 'notConnected')
+			  			window.createPopin('Veuillez vous connecter pour retirer un favori.');
+			  		else{
+			  			console.log(obj['error']);
+			  			window.createPopin('Une erreur est survenue.');
+			  		}
+			  	}
+			  }
+			);
+		}
+		else {
+			Liferay.Service(
+			  '/favorite.favorite/add-favorite-link',
+			  {
+			    title: title,
+			    url: url,			
+			    typeId: type,
+			    entityId: id,
+			    entityGroupId: groupId
+			  },
+			  function(obj) {	
+			  	if(obj.hasOwnProperty('success')) {
+			  		htmlA[0].classList.add('liked'); 
+			  		htmlA[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+			  	}
+			  	else if(obj.hasOwnProperty('error')) {
+			  		if(obj['error'] == 'notConnected')
+			  			window.createPopin('Veuillez vous connecter pour ajouter un favori.');
+			  		else{
+			  			console.log(obj['error']);
+			  			window.createPopin('Une erreur est survenue.');
+			  		}
+			  	}
+
+			  }
+			);
+		}
+	});	
+	
+});
 var page_limit = 12;
 /**
  * @description Construction de la division en page du widget lieu
@@ -17545,7 +17677,6 @@ function buildLieux(widget){
     wi.$list.after(wi.node);
     wi.$list.remove();
     // Si une seule page : on masque la pagination
-    alert(wi.page_count);
     if (wi.page_count == 1) {
         $('.seu-media-bottom', wi.$widget).hide();
     }
@@ -17936,5 +18067,6 @@ function dot(){
 }(jQuery));
 
 
-    
+
+
 define.amd = define._amd;

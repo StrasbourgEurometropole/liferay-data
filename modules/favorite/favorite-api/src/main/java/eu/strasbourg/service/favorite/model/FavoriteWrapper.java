@@ -62,6 +62,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 		attributes.put("url", getUrl());
 		attributes.put("typeId", getTypeId());
 		attributes.put("entityId", getEntityId());
+		attributes.put("entityGroupId", getEntityGroupId());
 
 		return attributes;
 	}
@@ -102,6 +103,12 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 
 		if (entityId != null) {
 			setEntityId(entityId);
+		}
+
+		Long entityGroupId = (Long)attributes.get("entityGroupId");
+
+		if (entityGroupId != null) {
+			setEntityGroupId(entityGroupId);
 		}
 	}
 
@@ -224,6 +231,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	/**
+	* Returns the entity group ID of this favorite.
+	*
+	* @return the entity group ID of this favorite
+	*/
+	@Override
+	public long getEntityGroupId() {
+		return _favorite.getEntityGroupId();
+	}
+
+	/**
 	* Returns the entity ID of this favorite.
 	*
 	* @return the entity ID of this favorite
@@ -271,6 +288,16 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_favorite.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the entity group ID of this favorite.
+	*
+	* @param entityGroupId the entity group ID of this favorite
+	*/
+	@Override
+	public void setEntityGroupId(long entityGroupId) {
+		_favorite.setEntityGroupId(entityGroupId);
 	}
 
 	/**
