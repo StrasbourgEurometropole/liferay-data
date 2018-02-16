@@ -43,13 +43,20 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Notifications",
+@Component(
+		immediate = true,
+		property = { 
+		"com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=true", 
+		"javax.portlet.display-name=Notifications",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/notification-viewer-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/notification-viewer-configuration.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB, 
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user"
+		}, 
+		service = Portlet.class)
 public class NotificationViewerWebPortlet extends MVCPortlet {
 
 	public void showNotification(ActionRequest actionRequest, ActionResponse actionResponse)

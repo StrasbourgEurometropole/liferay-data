@@ -38,9 +38,6 @@ public class NotificationConfigurationAction extends DefaultConfigurationAction{
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest request, ActionResponse response) throws Exception {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay) request
-			.getAttribute(WebKeys.THEME_DISPLAY);
-
 		String cmd = ParamUtil.getString(request, "cmd");
 
 		if (cmd.equals("update")) {
