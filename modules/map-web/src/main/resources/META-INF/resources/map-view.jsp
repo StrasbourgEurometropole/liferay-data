@@ -1,9 +1,8 @@
-<%@ include file="/init.jsp" %>
+<%@ include file="./map-init.jsp" %>
 
 <link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="/o/mapweb/css/leaflet-list-markers.min.css" />
 
 <liferay-util:html-bottom>
 	<script>
@@ -12,7 +11,6 @@
 	</script>
 	<script	src="/o/mapweb/js/leaflet.js"></script>
 	<script	src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
-	<script	src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
 	<script src="/o/mapweb/js/map.js"></script>
 	<script>
 		define.amd = define._amd;
@@ -20,5 +18,4 @@
 </liferay-util:html-bottom>
 	
 <div id="mapid" style="width: 600px; height: 400px; display: inline-block;"></div>
-<div id="map-markers" style="width: 200px; height: 400px; display: inline-block;">
 </div>

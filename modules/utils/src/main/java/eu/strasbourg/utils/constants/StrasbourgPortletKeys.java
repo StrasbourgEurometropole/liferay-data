@@ -66,4 +66,6 @@ public class StrasbourgPortletKeys {
 	public static final String NOTIFICATION_VIEWER_WEB = "eu_strasbourg_portlet_notification_NotificationViewerWebPortlet";
 
 	public static final String DEMARCHES_WEB = "eu_strasbourg_portlet_demarches_portlet_DemarchesWebPortlet";
+	
+	public static final String MAP_WEB = "eu_strasbourg_portlet_map_MapWebPortlet";
 }

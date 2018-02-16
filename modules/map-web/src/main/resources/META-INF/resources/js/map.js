@@ -35,9 +35,5 @@ $.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&
 		});
 	
 	markers.addLayers(geoData);
-	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null}));
 	mymap.addLayer(markers);
-	
-	//Copie la liste des markers dans la div prévue à cet effet
-	$('#map-markers').append($('ul.list-markers-ul'));
 });
