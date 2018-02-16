@@ -7,6 +7,9 @@ import aQute.bnd.annotation.metatype.Meta;
 @Meta.OCD(id = "eu.strasbourg.portlet.map.configuration.MapConfiguration", localization = "content/Language", name = "portlet.map.configuration.name")
 public interface MapConfiguration {
 	
+	@Meta.AD(name = "groupId", required = false)
+	public long groupId();
+	
 	@Meta.AD(name = "openInNewTab", required = false)
 	public boolean openInNewTab();
 

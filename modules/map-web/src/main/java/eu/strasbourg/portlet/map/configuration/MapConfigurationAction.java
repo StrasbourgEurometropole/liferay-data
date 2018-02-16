@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.map.configuration;
 
+import java.util.List;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -11,14 +13,15 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import eu.strasbourg.portlet.map.configuration.MapConfiguration;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -45,6 +48,11 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 		String cmd = ParamUtil.getString(request, "cmd");
 
 		if (cmd.equals("update")) {
+			
+			//Choix du site vers lequel les liens redirigent
+			String groupId = ParamUtil.getString(request, "groupId");
+			setPreference(request, "groupId", groupId);
+			
 			// Choix "nouvel onglet, onglet courant"
 			String openInNewTab = ParamUtil.getString(request, "openInNewTab");
 			setPreference(request, "openInNewTab", openInNewTab);
@@ -66,6 +74,11 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 			MapConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						MapConfiguration.class);
+			
+			//Choix du site vers lequel les liens redirigent
+			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
+			request.setAttribute("sites", sites);
+			request.setAttribute("selectedGroupId", configuration.groupId());
 			
 			// Choix "nouvel onglet, onglet courant"
 			request.setAttribute("openInNewTab", configuration.openInNewTab());
