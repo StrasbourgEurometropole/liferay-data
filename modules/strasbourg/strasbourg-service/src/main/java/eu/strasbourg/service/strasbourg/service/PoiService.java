@@ -6,8 +6,6 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -15,16 +13,11 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
@@ -35,16 +28,20 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 
-public class POISService {
+public class PoiService {
 
-	public static JSONObject getPois(String idInterests, HttpServletRequest request) {
+	public static JSONObject getPois(String idInterests) {
 		JSONObject geoJson = null;
-
+		
+		long globalGroupId = -1;
 		// récupère les catégories des centres d'intérêts
 		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
 		for (String idInterest : idInterests.split(",")) {
 			Interest interest = InterestLocalServiceUtil.fetchInterest(Long.parseLong(idInterest));
 			categoriesCI.addAll(interest.getCategories());
+			if (globalGroupId == -1) {
+				globalGroupId = interest.getGroupId();
+			}
 		}
 
 		// récupère les lieux des centres d'intérêt
@@ -57,7 +54,7 @@ public class POISService {
 			categoriePlaceIds.add(tabCategories);
 		}
 
-		List<Place> places = getPlaces(categoriePlaceIds, request);
+		List<Place> places = getPlaces(categoriePlaceIds, globalGroupId);
 
 		// récupère le fichier geoJson
 		try {
@@ -68,23 +65,15 @@ public class POISService {
 		return geoJson;
 	}
 
-	private static List<Place> getPlaces(List<Long[]> prefilterCategoriesIds, HttpServletRequest request) {
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	private static List<Place> getPlaces(List<Long[]> prefilterCategoriesIds, long globalGroupId) {
 		List<Place> places = new ArrayList<Place>();
 
 		// Search context
-		SearchContext searchContext = SearchContextFactory.getInstance(request);
+		SearchContext searchContext = new SearchContext();
 
 		// ClassNames
 		String[] classNames = new String[1];
 		classNames[0] = Place.class.getName();
-
-		// GroupId
-		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/strasbourg.eu");
-		long groupId = group.getGroupId();
-
-		// GlobalGroupId
-		long globalGroupId = themeDisplay.getCompanyGroupId();
 
 		// GlobalScope
 		boolean globalScope = true;
@@ -94,10 +83,10 @@ public class POISService {
 		List<Long[]> categoriesRechercheIds = new ArrayList<Long[]>();
 
 		// Locale
-		Locale locale = themeDisplay.getLocale();
+		Locale locale = Locale.FRANCE;
 
 		// Recherche
-		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope, "",
+		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, 0, globalGroupId, globalScope, "",
 				false, "", null, null, categoriesRechercheIds, prefilterCategoriesIds, null, true, locale, -1, -1, "",
 				false);
 
@@ -150,15 +139,15 @@ public class POISService {
 			// {"geometry": {"type": "Point", "coordinates": [X, Y]}
 			JSONObject point = JSONFactoryUtil.createJSONObject();
 			point.put("type", "Point");
-			// construct a JSONArray from a string
-			JSONArray coord = JSONFactoryUtil
-					.createJSONArray("[" + place.getMercatorX() + "," + place.getMercatorY() + "]");
-			point.put("coordinates", coord);
+			JSONArray coordinatesArray = JSONFactoryUtil.createJSONArray();
+			coordinatesArray.put(place.getMercatorX());
+			coordinatesArray.put(place.getMercatorY());
+			point.put("coordinates", coordinatesArray);
 			JSONObject feature = JSONFactoryUtil.createJSONObject();
 			feature.put("geometry", point);
 			featureList.put(feature);
-			featureCollection.put("features", featureList);
 		}
+		featureCollection.put("features", featureList);
 
 		return featureCollection;
 	}

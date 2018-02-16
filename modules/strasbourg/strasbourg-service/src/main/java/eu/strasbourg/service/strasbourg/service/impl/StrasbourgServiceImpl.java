@@ -17,7 +17,6 @@ package eu.strasbourg.service.strasbourg.service.impl;
 import java.util.List;
 import java.util.Locale;
 
-import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
@@ -35,7 +34,7 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
-import eu.strasbourg.service.strasbourg.service.POISService;
+import eu.strasbourg.service.strasbourg.service.PoiService;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -140,8 +139,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	@Override
 	public JSONObject getPois(String interests) {
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		return POISService.getPois(interests, request);
+		return PoiService.getPois(interests);
 	}
 
 	@Override
@@ -153,6 +151,6 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
 
-		return POISService.getFavoritesPois(userId);
+		return PoiService.getFavoritesPois(userId);
 	}
 }
