@@ -193,6 +193,58 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getPois(
+		HttpPrincipal httpPrincipal, java.lang.String interests) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getPois", _getPoisParameterTypes6);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, interests);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getFavoritesPois", _getFavoritesPoisParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
 	private static final Class<?>[] _getCopyrightParameterTypes1 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
@@ -208,5 +260,11 @@ public class StrasbourgServiceHttp {
 		};
 	private static final Class<?>[] _getArticleHTMLContentParameterTypes5 = new Class[] {
 			long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getPoisParameterTypes6 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getFavoritesPoisParameterTypes7 = new Class[] {
+			
 		};
 }
