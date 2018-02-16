@@ -1,11 +1,31 @@
 %organism-wi-agenda{
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    margin-left: -66px;
+    margin-right: -66px;
+    margin-top: 0px;                   
+    @include RWD(tablet){
+        margin-left: -41px;
+        margin-right: -41px;
+    }
+    @include RWD(mobile){
+        margin-left: -21px;
+        margin-right: -21px;
+    }
+
+    .seu-container {
+        padding: 0 65px;                
+        @include RWD(tablet){
+            padding: 0 40px;
+        }
+        @include RWD(mobile){
+            padding: 0 20px;
+        }
+    }
+
     background-color: #f6f6f6;
     @extend %wi-centered-text;
     // Couleurs Titre
-    .section-title{
-        .title{
+    .seu-section-title{
+        .seu-title{
             color: $core-color;
         }
         &:before{
@@ -13,38 +33,61 @@
         }
     }
     // Contenu
-    .wi-content{
+    .seu-wi-content{
         margin-bottom: 40px;
 
         @include RWD(mobile){
             margin-bottom: 20px;
         }
     }
-    .wi-grid{
+    .seu-wi-grid{
         @include RWD(desktop){
-            @include grid-distribution(4, 20, 'wi-item');
+            @include grid-distribution(4, 20, 'seu-wi-item');
         }                    
         @include RWD(tablet){
-            @include grid-distribution(2, 20, 'wi-item');
+            @include grid-distribution(2, 20, 'seu-wi-item');
         }
         @include RWD(mobile){
-            @include grid-distribution(1, 0, 'wi-item');
+            @include grid-distribution(1, 0, 'seu-wi-item');
         }
     }
-    .wi-item{
+    .seu-wi-item{
         @extend %atom-wi-agenda-vignette;
     }
 
 
     // Modificateur actualité
-    &.type--actu{
+    &.seu-type--actu{
         background-color: $second-color;
-        .wi-item{
+        .seu-wi-item{
             min-height: 425px;
         }
+        .seu-wi-grid {
+            display: none; 
 
-        .section-title:before{
+            &.seu-visible{
+                display: flex ;
+                @include RWD(mobile){
+                    display: block;
+                }
+            }
+        }
+
+        .seu-section-title:before{
             background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
+        }
+
+        .seu-pagination{
+            @include RWD(desktop){
+                padding: 0 180px;            
+            }
+            .seu-pagin-item:not(.seu-pagin-next):not(.seu-pagin-prev):not(.seu-pagin-first):not(.seu-pagin-last) .seu-btn-text{
+                padding: 10px;
+                color: #337ab7;
+            }
+            .seu-disabled{
+                opacity: 0 !important;
+            }
         }
     }
 }
