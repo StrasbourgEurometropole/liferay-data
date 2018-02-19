@@ -17545,7 +17545,6 @@ function buildLieux(widget){
     wi.$list.after(wi.node);
     wi.$list.remove();
     // Si une seule page : on masque la pagination
-    alert(wi.page_count);
     if (wi.page_count == 1) {
         $('.seu-media-bottom', wi.$widget).hide();
     }
