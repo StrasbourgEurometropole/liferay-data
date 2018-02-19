@@ -182,6 +182,9 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
 	public static java.lang.String getLegacyCategoriesJSON()
 		throws RemoteException {
 		try {
@@ -196,10 +199,26 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Territoires
+	*/
 	public static java.lang.String getLegacyTerritoriesJSON()
 		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = PlaceServiceUtil.getLegacyTerritoriesJSON();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getTypes() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getTypes();
 
 			return returnValue.toString();
 		}
