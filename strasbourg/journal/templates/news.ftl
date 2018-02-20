@@ -1,5 +1,5 @@
 <#setting locale = locale />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <main class="seu-container" style="margin-bottom: 50px">
