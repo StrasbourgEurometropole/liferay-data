@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -34,8 +35,12 @@ public class JSONHelper {
 		return sb.toString();
 	}
 
-	public static JSONObject readJsonFromURL(String URL) throws IOException, JSONException {
+	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword)
+			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
+		String encoded = Base64.getEncoder()
+				.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
+		httpConn.setRequestProperty("Authorization", "Basic " + encoded);
 		InputStream is;
 		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
 			is = httpConn.getInputStream();
@@ -56,6 +61,10 @@ public class JSONHelper {
 		} finally {
 			is.close();
 		}
+	}
+
+	public static JSONObject readJsonFromURL(String URL) throws IOException, JSONException {
+		return JSONHelper.readJsonFromURL(URL, null, null);
 	}
 
 	public static JSONArray readJsonArrayFromURL(String URL) throws IOException, JSONException {
