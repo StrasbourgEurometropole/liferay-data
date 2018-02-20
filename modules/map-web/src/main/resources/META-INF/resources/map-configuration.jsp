@@ -28,20 +28,12 @@
 		<aui:fieldset collapsed="false" collapsible="true"
 				label="interest-choice-filter">
 			<div>
-				<liferay-ui:message key="interest-choice-explanations" />
+				<liferay-ui:message key="interest-choice-explanations"/>
 				<aui:input type="hidden" name="interestsCount" value="${fn:length(interests)}" />
 				
-				<c:set var="i" value="${0}" />	
 				<c:forEach var="interest" items="${interests}" varStatus="intStatus">
-					<c:set var="interestIsChecked" value="${fn:contains(interestsIds, interest.interestId)}" />
-			
 					<aui:input type="checkbox" name="interestId_${intStatus.index}" label="${interest.getTitle(locale)}" 
 					value="${interest.interestId}" checked="${fn:contains(interestsIds, interest.interestId) || !hasConfig}"></aui:input>
-					
-					
-					<c:if test="${interestIsChecked}">
-						<c:set var="i" value="${i + 1}" />
-					</c:if>
 				</c:forEach>
 			</div>
 		</aui:fieldset>
@@ -60,17 +52,9 @@
 				<liferay-ui:message key="interest-choice-default-explanations" />
 				<aui:input type="hidden" name="interestsDefaultCount" value="${fn:length(interests)}" />
 				
-				<c:set var="i" value="${0}" />	
 				<c:forEach var="interest" items="${interests}" varStatus="intStatus">
-					<c:set var="interestIsChecked" value="${fn:contains(interestsDefaultsIds, interest.interestId)}" />
-			
 					<aui:input type="checkbox" name="interestDefaultId_${intStatus.index}" label="${interest.getTitle(locale)}" 
 					value="${interest.interestId}" checked="${fn:contains(interestsDefaultsIds, interest.interestId) || !hasConfig}"></aui:input>
-					
-					
-					<c:if test="${interestIsChecked}">
-						<c:set var="i" value="${i + 1}" />
-					</c:if>
 				</c:forEach>
 			</div>
 		</aui:fieldset>

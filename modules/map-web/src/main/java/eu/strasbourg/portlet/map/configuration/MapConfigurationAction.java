@@ -121,13 +121,13 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			// Pages sélectionnées
+			//Récupération de la configuration
 			MapConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						MapConfiguration.class);
 			
-			//Ce flag permet de savoir si une configuration du portler a déjà été enregistrée
-			//Util pour cocher les centres d'intéret par défaut
+			//Ce flag permet de savoir si une configuration du portlet a déjà été enregistrée
+			//Utile pour cocher les centres d'intéret par défaut
 			request.setAttribute("hasConfig", configuration.hasConfig());
 			
 			//Choix du site vers lequel les liens redirigent
