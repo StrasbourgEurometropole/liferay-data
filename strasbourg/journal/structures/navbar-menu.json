@@ -96,6 +96,29 @@
                     "required": false,
                     "showLabel": true,
                     "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Nouvelle fenêtre"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": false
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "newWindow",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox"
                 }
             ]
         }

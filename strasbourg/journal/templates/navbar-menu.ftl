@@ -5,7 +5,7 @@
     <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
     <ul id="account-menu" class="unstyled" style="display: none;">
         <#list menuNavigation.getSiblings() as menu>
-            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}">${menu.getData()}</a></li>
+            <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank" title="${menu.data} (nouvelle fenêtre)"</#if>>${menu.getData()}</a></li>
         </#list>
         <li><a href="${layoutHelper.getPublikLogoutURL(currentUrl)}" class="account-link logout">Se déconnecter</a></li>
     </ul>
