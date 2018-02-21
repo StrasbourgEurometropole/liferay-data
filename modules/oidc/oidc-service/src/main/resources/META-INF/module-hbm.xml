@@ -15,5 +15,6 @@
 		<property name="firstName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="lastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mapConfig" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

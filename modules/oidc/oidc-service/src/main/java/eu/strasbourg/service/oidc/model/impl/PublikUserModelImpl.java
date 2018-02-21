@@ -70,7 +70,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			{ "accessToken", Types.VARCHAR },
 			{ "firstName", Types.VARCHAR },
 			{ "lastName", Types.VARCHAR },
-			{ "email", Types.VARCHAR }
+			{ "email", Types.VARCHAR },
+			{ "mapConfig", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -84,9 +85,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("firstName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mapConfig", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserLiferayId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserLiferayId ASC";
@@ -154,6 +156,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
 		attributes.put("email", getEmail());
+		attributes.put("mapConfig", getMapConfig());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -215,6 +218,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		if (email != null) {
 			setEmail(email);
+		}
+
+		String mapConfig = (String)attributes.get("mapConfig");
+
+		if (mapConfig != null) {
+			setMapConfig(mapConfig);
 		}
 	}
 
@@ -362,6 +371,21 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		_email = email;
 	}
 
+	@Override
+	public String getMapConfig() {
+		if (_mapConfig == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _mapConfig;
+		}
+	}
+
+	@Override
+	public void setMapConfig(String mapConfig) {
+		_mapConfig = mapConfig;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -402,6 +426,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserImpl.setFirstName(getFirstName());
 		publikUserImpl.setLastName(getLastName());
 		publikUserImpl.setEmail(getEmail());
+		publikUserImpl.setMapConfig(getMapConfig());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -545,12 +570,20 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.email = null;
 		}
 
+		publikUserCacheModel.mapConfig = getMapConfig();
+
+		String mapConfig = publikUserCacheModel.mapConfig;
+
+		if ((mapConfig != null) && (mapConfig.length() == 0)) {
+			publikUserCacheModel.mapConfig = null;
+		}
+
 		return publikUserCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -570,6 +603,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getLastName());
 		sb.append(", email=");
 		sb.append(getEmail());
+		sb.append(", mapConfig=");
+		sb.append(getMapConfig());
 		sb.append("}");
 
 		return sb.toString();
@@ -577,7 +612,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.PublikUser");
@@ -619,6 +654,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			"<column><column-name>email</column-name><column-value><![CDATA[");
 		sb.append(getEmail());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>mapConfig</column-name><column-value><![CDATA[");
+		sb.append(getMapConfig());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -641,6 +680,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	private String _firstName;
 	private String _lastName;
 	private String _email;
+	private String _mapConfig;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 }

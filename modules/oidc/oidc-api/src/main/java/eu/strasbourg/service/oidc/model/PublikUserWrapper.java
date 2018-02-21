@@ -66,6 +66,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("firstName", getFirstName());
 		attributes.put("lastName", getLastName());
 		attributes.put("email", getEmail());
+		attributes.put("mapConfig", getMapConfig());
 
 		return attributes;
 	}
@@ -124,6 +125,12 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (email != null) {
 			setEmail(email);
+		}
+
+		String mapConfig = (String)attributes.get("mapConfig");
+
+		if (mapConfig != null) {
+			setMapConfig(mapConfig);
 		}
 	}
 
@@ -220,6 +227,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String getLastName() {
 		return _publikUser.getLastName();
+	}
+
+	/**
+	* Returns the map config of this publik user.
+	*
+	* @return the map config of this publik user
+	*/
+	@Override
+	public java.lang.String getMapConfig() {
+		return _publikUser.getMapConfig();
 	}
 
 	/**
@@ -366,6 +383,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setLastName(java.lang.String lastName) {
 		_publikUser.setLastName(lastName);
+	}
+
+	/**
+	* Sets the map config of this publik user.
+	*
+	* @param mapConfig the map config of this publik user
+	*/
+	@Override
+	public void setMapConfig(java.lang.String mapConfig) {
+		_publikUser.setMapConfig(mapConfig);
 	}
 
 	/**
