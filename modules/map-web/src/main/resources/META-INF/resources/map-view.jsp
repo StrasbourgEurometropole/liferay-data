@@ -18,14 +18,43 @@
 </liferay-util:html-bottom>
 <div id="point-of-interest" style="witdh: 600px">
 
-	<c:forEach var="interest" items="${interests}" varStatus="intStatus">
-		<aui:input type="checkbox" name="interestId_${intStatus.index}" inlineField="true"
-			checked="${fn:contains(interestsCheckedIds, interest.interestId)}"
-			label="${interest.getTitle(locale)}" value="${interest.interestId}">
+	<portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">
+			<portlet:param name="interestsCount" value="${fn:length(interests)}" />
+	</portlet:resourceURL>
+		
+	<aui:form method="POST" action="#" name="addItemForm" id="addItemForm">
+		<c:forEach var="interest" items="${interests}" varStatus="intStatus">
+			
+			<aui:input type="checkbox" name="interestPointId_${intStatus.index}"
+				inlineField="true"
+				checked="${fn:contains(interestsCheckedIds, interest.interestId) || !hasConfig}"
+				onChange="callServeResource();"
+				label="${interest.getTitle(locale)}" value="${interest.interestId}">
+			</aui:input>
+		</c:forEach>
+		
+		<aui:input type="checkbox" name="showFavorites"
+				inlineField="true"
+				checked="${showFavorites}"
+				onChange="callServeResource();"
+				label="show-favorites" value="${showFavorites}">
 		</aui:input>
-	</c:forEach>
-
+	</aui:form>
+	
 </div>
 <div id="mapid"
 	style="width: 600px; height: 400px; display: inline-block;"></div>
 </div>
+
+<aui:script>
+	function callServeResource() {
+		AUI().use('aui-io-request', function(A) {
+			A.io.request('${interestPointURL}', {
+				method : 'post',
+				form: { id: '<portlet:namespace />addItemForm' },
+			});
+		});
+	}
+
+	
+</aui:script>

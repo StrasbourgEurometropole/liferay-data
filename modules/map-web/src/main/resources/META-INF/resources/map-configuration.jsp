@@ -24,7 +24,7 @@
 			<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
 		</div>
 		
-		<!-- Centres d'intérêts actifs -->
+		<!-- Centres d'intÃ©rÃªts actifs -->
 		<aui:fieldset collapsed="false" collapsible="true"
 				label="interest-choice-filter">
 			<div>
@@ -42,10 +42,10 @@
 		<!-- Choix de l'affichage des favoris -->
 		<div>
 			<liferay-ui:message key="favorites-choice" />
-			<aui:input type="checkbox" name="showFavorites" value="${showFavorites}" label="show-favorites" />
+			<aui:input type="checkbox" name="showFavorites" value="${showFavorites || !hasConfig}" label="show-favorites" />
 		</div>
 
-		<!-- Centres d'intérêts config par défaut -->
+		<!-- Centres d'intÃ©rÃªts config par dÃ©faut -->
 		<aui:fieldset collapsed="false" collapsible="true"
 				label="interest-choice-default">
 			<div>
@@ -59,7 +59,7 @@
 			</div>
 		</aui:fieldset>
 
-		<!-- config par défaut -->
+		<!-- config par dÃ©faut -->
 		<div>
 			<liferay-ui:message key="default-configuration-explanations" />
 			<aui:input type="checkbox" name="defaultConfig" value="${defaultConfig}" label="default-configuration" />

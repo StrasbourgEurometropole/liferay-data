@@ -114,13 +114,11 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			List<NotificationDisplay> notifications = new ArrayList<NotificationDisplay>();
 
 			// Création de la liste des notifications à afficher en fonction de
-			// la
-			// notification, de son statut et de l'utilisateur
+			// la notification, de son statut et de l'utilisateur
 			for (UserNotificationStatus un : usrNotifStatus) {
 				NotificationDisplay nd = new NotificationDisplay();
 				nd.setTitle(un.getNotification().getTitle(renderRequest.getLocale()));
 				nd.setRead(un.isRead());
-				//nd.setDate(new SimpleDateFormat("dd.MM").format(un.getNotification().getPublicationDate()));
 				nd.setDate(un.getNotification().getPublicationDate());
 				nd.setNotificationId(un.getNotificationId());
 				notifications.add(nd);
