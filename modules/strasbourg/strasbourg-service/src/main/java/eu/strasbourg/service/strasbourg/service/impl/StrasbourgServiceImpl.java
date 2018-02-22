@@ -34,7 +34,8 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
-import eu.strasbourg.service.strasbourg.service.PoiService;
+import eu.strasbourg.service.poi.PoiService;
+import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -76,6 +77,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			adictService = adictServiceTracker.getService();
 		}
 		return adictService;
+	}
+
+	private PoiService poiService;
+	private PoiServiceTracker poiServiceTracker;
+
+	private PoiService getPoiService() {
+		if (poiService == null) {
+			poiServiceTracker = new PoiServiceTracker(this);
+			poiServiceTracker.open();
+			poiService = poiServiceTracker.getService();
+		}
+		return poiService;
 	}
 
 	@Override
@@ -139,7 +152,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	@Override
 	public JSONObject getPois(String interests) {
-		return PoiService.getPois(interests);
+		return getPoiService().getPois(interests);
 	}
 
 	@Override
@@ -151,6 +164,11 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
 
-		return PoiService.getFavoritesPois(userId);
+		return getPoiService().getFavoritesPois(userId);
+	}
+
+	@Override
+	public JSONArray getCoordinateForAddress(String address) {
+		return getAdictService().getCoordinateForAddress(address);
 	}
 }
