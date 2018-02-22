@@ -3,14 +3,10 @@ dependencies {
 	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
 	compile group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
 	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
-	compile project(":modules:strasbourg:strasbourg-api")
-	compile project(":modules:adict")
-	compile project(":modules:poi-service")
+	compile group: "org.osgi", name: "org.osgi.core", version: "5.0.0"
+	
 	compile project (":modules:utils")
-}
-
-buildService {
-	apiDir = "../strasbourg-api/src/main/java"
-	osgiModule = true
-	propsUtil = "eu.strasbourg.service.strasbourg.service.util.PropsUtil"
+	compile project (':modules:interest:interest-api')
+	compile project (':modules:place:place-api')
+	compile project (':modules:favorite:favorite-api')
 }
