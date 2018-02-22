@@ -56,8 +56,14 @@ public interface StrasbourgService extends BaseService {
 		java.lang.String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getFavoritesPois();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
 		java.lang.String language);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPois(java.lang.String interests);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject searchStreets(java.lang.String query);

@@ -4,9 +4,14 @@
 	<model name="eu.strasbourg.service.favorite.model.Favorite">
 		<field name="favoriteId" type="long" />
 		<field name="publikUserId" type="String" />
-		<field name="title" type="String" />
-		<field name="url" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">255</hint>
+		</field>
+		<field name="url" type="String">
+			<hint name="max-length">255</hint>
+		</field>
 		<field name="typeId" type="long" />
 		<field name="entityId" type="long" />
+		<field name="entityGroupId" type="long" />
 	</model>
 </model-hints>

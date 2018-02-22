@@ -46,9 +46,18 @@ public class StrasbourgServiceUtil {
 		return getService().getCopyright(groupId, uuid, language);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois() {
+		return getService().getFavoritesPois();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return getService().getFileDetails(groupId, uuid, language);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getPois(
+		java.lang.String interests) {
+		return getService().getPois(interests);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(

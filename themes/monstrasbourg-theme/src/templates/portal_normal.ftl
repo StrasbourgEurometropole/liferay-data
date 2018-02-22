@@ -10,6 +10,7 @@
   <@liferay_util["include"] page=top_head_include />
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
+  <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 
@@ -57,7 +58,8 @@
       <#include "${full_templates_path}/home_banner.ftl" />
     
     <#if !isHome>
-      <div class="card-box">
+      <div class="card-box">  
+        <@liferay.breadcrumbs />
     </#if>      
       <#if selectable>
         <@liferay_util["include"] page=content_include />
@@ -73,7 +75,7 @@
     <#if !isHome>
       </div>
     <#else>
-      <#include "${full_templates_path}/content.ftl" />
+      <#--include "${full_templates_path}/content.ftl" /-->
     </#if>
     </div>
   </main>

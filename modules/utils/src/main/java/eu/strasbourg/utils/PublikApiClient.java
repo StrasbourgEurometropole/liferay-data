@@ -1,5 +1,6 @@
 package eu.strasbourg.utils;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
@@ -12,6 +13,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.HttpUtil;
 
 public class PublikApiClient {
+	
 
 	/**
 	 * Retourne les demandes en cours d'un utilisateur
@@ -43,7 +45,7 @@ public class PublikApiClient {
 		String baseUrl = StrasbourgPropsUtil.getPublikApiBase();
 		String origin = StrasbourgPropsUtil.getPublikApiOrigin();
 		String key = StrasbourgPropsUtil.getPublikApiKey();
-		LocalDateTime ld = LocalDateTime.now();
+		LocalDateTime ld = LocalDateTime.now(Clock.systemUTC());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		String timestamp = formatter.format(ld);
 		if (queryString.length() > 0) {

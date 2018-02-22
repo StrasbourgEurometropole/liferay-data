@@ -15,6 +15,8 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -435,6 +437,34 @@ public class EventImpl extends EventBaseImpl {
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_SERVICE);
+	}
+	
+	@Override
+	public LocalDate getNextOpenDate() {
+		if (eventIsHappeningToday()) {
+			return LocalDate.now();
+		} else {
+			for (EventPeriod period : this.getEventPeriods()) {
+				LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				if (startDate.isAfter(LocalDate.now())) {
+					return startDate;	
+				}
+			}
+		}
+		return LocalDate.MAX;
+	}
+	
+	private boolean eventIsHappeningToday() {
+		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
+		for (EventPeriod period : this.getEventPeriods()) {
+			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			endDate = endDate.plusDays(1);
+			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

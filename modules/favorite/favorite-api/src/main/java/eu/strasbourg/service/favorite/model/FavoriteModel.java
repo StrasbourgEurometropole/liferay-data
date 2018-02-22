@@ -147,6 +147,20 @@ public interface FavoriteModel extends BaseModel<Favorite> {
 	 */
 	public void setEntityId(long entityId);
 
+	/**
+	 * Returns the entity group ID of this favorite.
+	 *
+	 * @return the entity group ID of this favorite
+	 */
+	public long getEntityGroupId();
+
+	/**
+	 * Sets the entity group ID of this favorite.
+	 *
+	 * @param entityGroupId the entity group ID of this favorite
+	 */
+	public void setEntityGroupId(long entityGroupId);
+
 	@Override
 	public boolean isNew();
 

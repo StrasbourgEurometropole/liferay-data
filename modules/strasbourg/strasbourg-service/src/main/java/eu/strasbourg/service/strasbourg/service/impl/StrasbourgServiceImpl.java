@@ -17,22 +17,24 @@ package eu.strasbourg.service.strasbourg.service.impl;
 import java.util.List;
 import java.util.Locale;
 
-import javax.swing.WindowConstants;
+import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
+import eu.strasbourg.service.strasbourg.service.PoiService;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
 
@@ -66,7 +68,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 	private AdictService adictService;
 	private AdictServiceTracker adictServiceTracker;
-	
+
 	private AdictService getAdictService() {
 		if (adictService == null) {
 			adictServiceTracker = new AdictServiceTracker(this);
@@ -75,7 +77,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 		return adictService;
 	}
-	
+
 	@Override
 	public JSONObject getCopyright(long groupId, String uuid, String language) {
 		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
@@ -102,7 +104,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public JSONObject searchStreets(String query) {
 		JSONObject result = JSONFactoryUtil.createJSONObject();
- 		List<Street> streets = getAdictService().searchStreetNumbers(query);
+		List<Street> streets = getAdictService().searchStreetNumbers(query);
 		JSONArray jsonStreets = JSONFactoryUtil.createJSONArray();
 		for (Street street : streets) {
 			jsonStreets.put(street.toJSON());
@@ -114,7 +116,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public JSONObject searchStreets(String query, String city) {
 		JSONObject result = JSONFactoryUtil.createJSONObject();
- 		List<Street> streets = getAdictService().searchStreetNumbers(query, city);
+		List<Street> streets = getAdictService().searchStreetNumbers(query, city);
 		JSONArray jsonStreets = JSONFactoryUtil.createJSONArray();
 		for (Street street : streets) {
 			jsonStreets.put(street.toJSON());
@@ -122,15 +124,33 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		result.put("streets", jsonStreets);
 		return result;
 	}
-	
+
 	@Override
 	public String getArticleHTMLContent(long groupId, String articleId) {
 		try {
-			JournalArticleDisplay display = JournalArticleLocalServiceUtil.getArticleDisplay(groupId, articleId, "exclusive", "fr_FR", null);
+			JournalArticleDisplay display = JournalArticleLocalServiceUtil.getArticleDisplay(groupId, articleId,
+					"exclusive", "fr_FR", null);
 			return display.getContent();
 		} catch (Exception ex) {
 			return "";
 		}
-		
+
+	}
+
+	@Override
+	public JSONObject getPois(String interests) {
+		return PoiService.getPois(interests);
+	}
+
+	@Override
+	public JSONObject getFavoritesPois() {
+		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		String userId = null;
+		if (isLoggedIn) {
+			userId = SessionParamUtil.getString(request, "publik_internal_id");
+		}
+
+		return PoiService.getFavoritesPois(userId);
 	}
 }
