@@ -168,5 +168,19 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getCoordinateForAddress(
+		java.lang.String address) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = StrasbourgServiceUtil.getCoordinateForAddress(address);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

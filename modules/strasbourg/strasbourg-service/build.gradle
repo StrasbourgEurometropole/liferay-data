@@ -5,10 +5,8 @@ dependencies {
 	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
 	compile project(":modules:strasbourg:strasbourg-api")
 	compile project(":modules:adict")
+	compile project(":modules:poi-service")
 	compile project (":modules:utils")
-	compile project (':modules:interest:interest-api')
-	compile project (':modules:place:place-api')
-	compile project (':modules:favorite:favorite-api')
 }
 
 buildService {

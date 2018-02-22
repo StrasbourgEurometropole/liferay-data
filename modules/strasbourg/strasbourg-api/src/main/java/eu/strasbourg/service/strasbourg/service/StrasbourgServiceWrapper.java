@@ -33,6 +33,12 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
+		java.lang.String address) {
+		return _strasbourgService.getCoordinateForAddress(address);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCopyright(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return _strasbourgService.getCopyright(groupId, uuid, language);

@@ -41,6 +41,11 @@ public class StrasbourgServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
+		java.lang.String address) {
+		return getService().getCoordinateForAddress(address);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return getService().getCopyright(groupId, uuid, language);
