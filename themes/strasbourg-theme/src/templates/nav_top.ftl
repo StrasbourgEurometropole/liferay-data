@@ -35,12 +35,12 @@
             <span class="seu-arrow"></span>
           </span>    
         </button>
-        <ul id="account-menu" class="unstyled" style="display: none;">
-          <li><a href="https://preprod.mon.strasbourg.eu/" class="account-link dashboard">Mon tableau de bord</a></li>
-          <li><a href="https://preprod.mon.strasbourg.eu/notifications" class="account-link notification">Mes notifications</a></li>
-          <li><a href="#" class="account-link account">Mon compte</a></li>
-          <li><a href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" class="account-link logout">Se déconnecter</a></li>
-        </ul>
+        <!-- Menu connecté -->
+        <@liferay_portlet["runtime"]
+          portletProviderAction=portletProviderAction.VIEW
+          portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+          instanceId="loggedinmenu"
+          settingsScope="group" />
       </div>
     <#else>
       <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="seu-nav-account seu-nav-btn" title="Connexion">
