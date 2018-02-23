@@ -22,7 +22,7 @@
 
     // Pour chaque liens, si # dans l'href => on scroll à l'élément s'il est présent sur la page, sinon on va suit le liens normalement
     $('a:not(.webform-progressbar-page)').on('click', function (e) {
-        if($(this).hasClass('seu-add-favorites')) {
+        if($(this).hasClass('seu-add-favorites') || $(this).hasClass('add-favorites') || $(this).hasClass('item-misc')) {
             return;
         }
         var href = $(this).attr('href');
