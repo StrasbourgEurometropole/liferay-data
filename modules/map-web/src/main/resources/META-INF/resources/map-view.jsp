@@ -39,6 +39,8 @@
 				onChange="callServeResource();"
 				label="show-favorites" value="${showFavorites}">
 		</aui:input>
+		<input type="button" value="Votre position" onclick="position()">
+		<input type="button" value="Votre adresse" onclick="address('${address}')">
 	</aui:form>
 	
 </div>
@@ -54,6 +56,48 @@
 				form: { id: '<portlet:namespace />addItemForm' },
 			});
 		});
+		showPois();
+	}
+
+	function address(address) {
+		Liferay.Service(
+			'/strasbourg.strasbourg/get-coordinate-for-address',
+			{
+			    address: address
+			},
+			function(data) {
+				mymap = mymap.setView([data[1],data[0]], 15);
+			}
+		);
+	}
+
+	function position() {
+		if(navigator.geolocation)
+			navigator.geolocation.getCurrentPosition(maPosition, erreurPosition);
+	}
+
+	function maPosition(position) {
+		mymap = mymap.setView([position.coords.latitude,position.coords.longitude], 15);
+	}
+
+	// Fonction de callback en cas d’erreur
+	function erreurPosition(error) {
+		var info = "Erreur lors de la géolocalisation : ";
+		switch(error.code) {
+			case error.TIMEOUT:
+				info += "Timeout !";
+				break;
+			case error.PERMISSION_DENIED:
+				info += "Vous n’avez pas donné la permission";
+				break;
+			case error.POSITION_UNAVAILABLE:
+				info += "La position n’a pu être déterminée";
+				break;
+			case error.UNKNOWN_ERROR:
+				info += "Erreur inconnue";
+				break;
+		}
+		alert(info);
 	}
 
 	
