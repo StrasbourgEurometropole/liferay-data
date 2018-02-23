@@ -1,10 +1,13 @@
 package eu.strasbourg.service.poi.impl;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,9 +28,10 @@ import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
-import eu.strasbourg.utils.OccupationState;
+import eu.strasbourg.utils.models.Pair;
 
 /**
  * @author Benjamin Bini
@@ -158,17 +162,20 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("name", place.getAlias(Locale.FRANCE));
 			properties.put("address", place.getAddressStreet());
 			properties.put("visual", place.getImageURL());
-			// properties.put("placeId", place.getPlaceId());
 			properties.put("sigId", place.getSIGid());
 			if (!place.getPeriods().isEmpty()) {
-				properties.put("isClosed", place.isClosed(new GregorianCalendar()));
-				properties.put("placeSchedules", place.getPlaceSchedule(new Date(), 7, Locale.FRENCH));
+				GregorianCalendar now = new GregorianCalendar();
+				properties.put("isClosed", place.isClosed(now));
+				// récupère les horaires en cours
+				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
+				properties.put("currentSchedule", "");
+				properties.put("nextSchedules", "");
 			}
 			try {
 				if (place.isEnabled()) {
 
-					OccupationState occupation = place.getRealTime();
-					properties.put("icone", "TODO");
+					properties.put("icon", "TODO");
+					/*OccupationState occupation = place.getRealTime();
 
 					int type = 2;
 					if (place.isSwimmingPool()){
@@ -178,7 +185,7 @@ public class PoiServiceImpl implements PoiService {
 						type = 3;
 					}
 					properties.put("typePlace", type);
-					properties.put("realTime", occupation);
+					properties.put("realTime", occupation);*/
 				} else {
 					// récupère la catégorie du lieu
 					AssetCategory category = null;
@@ -186,7 +193,7 @@ public class PoiServiceImpl implements PoiService {
 					if (!categories.isEmpty()) {
 						category = categories.get(0);
 					}
-					properties.put("icone", category.getDescription(Locale.FRANCE));
+					properties.put("icon", category.getDescription(Locale.FRANCE));
 				}
 			} catch (PortalException e) {
 				// TODO Auto-generated catch block

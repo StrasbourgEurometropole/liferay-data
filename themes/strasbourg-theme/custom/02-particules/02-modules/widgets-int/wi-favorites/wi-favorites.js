@@ -19,6 +19,7 @@ $(function() {
 	//.seu-add-favorites && .add-favorites && .item-misc
 	$(document).on("click",'.seu-add-favorites, .add-favorites, .item-misc', function(e) {
 		e.preventDefault();
+		e.stopPropagation();
 		//var favorite = $('.seu-add-favorites');
 		//$('.seu-add-favorites').on('click', function() {
 		var htmlA = $(this);

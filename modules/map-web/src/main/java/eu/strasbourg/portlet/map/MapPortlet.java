@@ -163,6 +163,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("widgetMod", widgetMod);
+			request.setAttribute("address", address);
 		} catch (Exception e) {
 			_log.error(e);
 		}

@@ -47,9 +47,16 @@
 		
 		<aui:button-row>
 			<aui:button href="${resetUserConfiguration}" value="reinit-map"></aui:button>
+			<input type="button" value="Votre position" onclick="position()">
+			<input type="button" value="Votre adresse" onclick="address('${address}')">
 		</aui:button-row>
 	</div>
 </c:if>
+		
+		
+	</aui:form>
+	
+</div>
 <div id="mapid"
 	style="width: 600px; height: 400px; display: inline-block;"></div>
 </div>

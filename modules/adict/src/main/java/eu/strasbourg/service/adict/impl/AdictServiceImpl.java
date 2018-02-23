@@ -149,7 +149,8 @@ public class AdictServiceImpl implements AdictService {
 		JSONArray coordinates = null;
 		try {
 			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
-			JSONObject addresses = JSONHelper.readJsonFromURL(urlSearch + HtmlUtil.escape(address));
+			String url = urlSearch + HtmlUtil.escapeURL(address);
+			JSONObject addresses = JSONHelper.readJsonFromURL(url);
 			JSONArray features = addresses.getJSONArray("features");
 			if (features.length() > 0) {
 				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
