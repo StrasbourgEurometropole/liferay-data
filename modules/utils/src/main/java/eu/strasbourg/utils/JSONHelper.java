@@ -38,9 +38,11 @@ public class JSONHelper {
 	public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword)
 			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
-		String encoded = Base64.getEncoder()
-				.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
-		httpConn.setRequestProperty("Authorization", "Basic " + encoded);
+		if (basicAuthUser != null && basicAuthPassword != null) {
+			String encoded = Base64.getEncoder()
+					.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
+			httpConn.setRequestProperty("Authorization", "Basic " + encoded);
+		}
 		InputStream is;
 		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
 			is = httpConn.getInputStream();
