@@ -820,6 +820,25 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return listHoraires;
 	}
+
+	/**
+	 * Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
+	 */
+	@Override
+	public PlaceSchedule getNextScheduleOpening(GregorianCalendar dateJour, Locale locale) {
+		PlaceSchedule placeSchedule = null;
+
+		for (int jour = 0; jour < 14; jour++) {
+			List<PlaceSchedule> liste = getPlaceSchedule(dateJour, locale);
+			if(!liste.isEmpty()){
+				placeSchedule = liste.get(0);
+				if(placeSchedule.isClosed()){
+					break;
+				}
+			}
+		}
+		return placeSchedule;
+	}
 	
 	/**
 	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount" 

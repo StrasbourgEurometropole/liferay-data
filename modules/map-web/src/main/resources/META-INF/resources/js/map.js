@@ -27,16 +27,22 @@ function onEachFeature(feature, layer) {
 		+ feature.properties.address + "<br>"
 		+ "<a href='' >" + feature.properties.sigId + "</a><br>"
 		+ "<input type='button' value='favoris' name='favoris'/><br>";
-		if(feature.properties.isClosed != undefined){
-			if(feature.properties.isClosed){ 
-				popup += "Fermé"; 
-			}else{ 
-				popup += "Ouvert"; 
+		if(feature.properties.schedule != undefined){
+			if(feature.properties.schedule.isClosed != undefined){
+				if(feature.properties.schedule.isClosed){ 
+					popup += "Fermé"; 
+				}else{ 
+					popup += "Ouvert"; 
+				}
+				popup += "<br>";
 			}
-			popup += "<br>";
-		}
-		if(feature.properties.placeSchedules != undefined){
-			popup += feature.properties.placeSchedules + "<br>";
+			if(feature.properties.schedule.alwaysOpen){
+				popup += "24h/24<br>";
+			}else{
+				if(feature.properties.schedule.opening != undefined){
+					popup += feature.properties.schedule.opening + "<br>";
+				}
+			}
 		}
 		if(feature.properties.icon != ""){
 			popup += feature.properties.icon + "<br>"; 

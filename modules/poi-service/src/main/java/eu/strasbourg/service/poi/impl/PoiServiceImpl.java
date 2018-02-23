@@ -2,12 +2,9 @@ package eu.strasbourg.service.poi.impl;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -163,14 +160,34 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("address", place.getAddressStreet());
 			properties.put("visual", place.getImageURL());
 			properties.put("sigId", place.getSIGid());
-			if (!place.getPeriods().isEmpty()) {
+
+			if(!place.getPeriods().isEmpty()){
+				JSONObject schedule = JSONFactoryUtil.createJSONObject();
 				GregorianCalendar now = new GregorianCalendar();
-				properties.put("isClosed", place.isClosed(now));
-				// récupère les horaires en cours
-				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
-				properties.put("currentSchedule", "");
-				properties.put("nextSchedules", "");
+				boolean isClosed = place.isClosed(now);
+				schedule.put("isClosed", isClosed);
+				if(isClosed){
+					PlaceSchedule placeSchedule = place.getNextScheduleOpening(now, Locale.FRENCH);
+					if(placeSchedule != null){
+						schedule.put("alwaysOpen", placeSchedule.isAlwaysOpen());
+						schedule.put("opening", placeSchedule.getOpeningTimes());
+					}
+				}else{
+					// récupère les horaires en cours
+					List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
+					List<Pair<LocalTime, LocalTime>> openingTime = null;
+					boolean alwaysOpen = false;
+					if(currentSchedules != null){
+						PlaceSchedule currentSchedule = currentSchedules.get(0);
+						alwaysOpen = currentSchedule.isAlwaysOpen();
+						openingTime = currentSchedule.getOpeningTimes();
+					}
+					schedule.put("alwaysOpen", alwaysOpen);
+					schedule.put("opening", openingTime);
+				}
+				properties.put("schedule", schedule);
 			}
+			
 			try {
 				if (place.isEnabled()) {
 

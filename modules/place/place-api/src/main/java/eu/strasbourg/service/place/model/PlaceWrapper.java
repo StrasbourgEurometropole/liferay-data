@@ -684,6 +684,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar dateJour, java.util.Locale locale) {
+		return _place.getNextScheduleOpening(dateJour, locale);
+	}
+
+	/**
 	* Retourne le prix rattaché au lieu
 	*/
 	@Override
