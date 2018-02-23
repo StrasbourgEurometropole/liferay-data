@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -133,6 +133,12 @@ public class MapPortlet extends MVCPortlet {
 						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId())).collect(Collectors.toList());
 				
 			}
+			
+            String address = null;
+            if(Validator.isNotNull(internalId)){
+                JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
+                address = userDetail.get("address") + " " + userDetail.get("zipcode") + " " + userDetail.get("city");
+            }
 			
 			//Si l'utilisateur est connecté et qu'il a configuré le portlet autour de moi
 			if(Validator.isNotNull(internalId) && Validator.isNotNull(PublikUserLocalServiceUtil.getByPublikUserId(internalId).getMapConfig()))
