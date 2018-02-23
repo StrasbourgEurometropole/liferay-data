@@ -31,7 +31,7 @@
                 <span class="notif-amount">${notifCount}</span>
               </span>
             </#if>
-            <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")}</span>
+            <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
             <span class="seu-arrow"></span>
           </span>    
         </button>
