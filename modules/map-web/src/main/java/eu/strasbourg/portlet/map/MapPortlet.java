@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -25,6 +29,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -44,14 +49,18 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+@Component(immediate = true,
+		property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Autour de moi",
+		"javax.portlet.init-param.add-process-action-success-action=false",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/map-view.jsp",
 		"javax.portlet.init-param.config-template=/map-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.MAP_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class MapPortlet extends MVCPortlet {
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	
 	@Override
 	public void render(RenderRequest request, RenderResponse renderResponse) throws IOException, PortletException {
 
@@ -160,6 +169,27 @@ public class MapPortlet extends MVCPortlet {
 		super.render(request, renderResponse);
 	}
 	
+	public void resetUserConfiguration(ActionRequest actionRequest, ActionResponse actionResponse)
+			throws PortalException, SystemException {
+		
+		try{
+			//Récupération du publik ID avec la session
+			String internalId = getPublikID(actionRequest);
+			
+			if(Validator.isNotNull(internalId))
+			{
+				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+    			user.setMapConfig("");
+    			PublikUserLocalServiceUtil.updatePublikUser(user);
+			}
+		}
+		catch (Exception e)
+		{
+			_log.error(e);
+		}
+
+	}
+	
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
@@ -217,5 +247,5 @@ public class MapPortlet extends MVCPortlet {
  		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
 
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	
 }

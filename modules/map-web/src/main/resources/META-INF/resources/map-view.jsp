@@ -40,7 +40,14 @@
 				label="show-favorites" value="${showFavorites}">
 			</aui:input>
 		</aui:form>
-
+		
+		<portlet:actionURL name="resetUserConfiguration" var="resetUserConfiguration">
+			<portlet:param name="mvcPath" value="/map-view.jsp"></portlet:param>
+		</portlet:actionURL>
+		
+		<aui:button-row>
+			<aui:button href="${resetUserConfiguration}" value="reinit-map"></aui:button>
+		</aui:button-row>
 	</div>
 </c:if>
 <div id="mapid"

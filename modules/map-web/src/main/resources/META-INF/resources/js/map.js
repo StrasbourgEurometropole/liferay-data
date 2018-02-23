@@ -1,39 +1,90 @@
 //Création de la carte au centre de strasbourg
 var mymap = L.map('mapid', {
 	//crs: L.CRS.EPSG4326, //Commenté car casse l'affichage de la carte
-	center: [48.573, 7.752],
-	zoom: 13
-});	
+	center : [ 48.573, 7.752 ],
+	zoom : 13
+});
 
 //Couche gui gère le clustering des points
 var markers = L.markerClusterGroup({
-	showCoverageOnHover: false
-	});
+	showCoverageOnHover : false
+});
 
 //Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
-var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?', {
-	layers: 'gct_fond_de_carte_couleur'
-}).addTo(mymap);
+var wmsLayer = L.tileLayer.wms('http://adict.strasbourg.eu/mapproxy/service?',
+		{
+			layers : 'gct_fond_de_carte_couleur'
+		}).addTo(mymap);
 
+showPois();
 
 function onEachFeature(feature, layer) {
-    // does this feature have a property named nom?
-    if (feature.properties && feature.properties.nom) {
-    	//popup du marker
-        layer.bindPopup(feature.properties.nom);
-        //Titre dans la liste des markers
-        layer.options['title'] = feature.properties.nom;
-    }
+	// does this feature have a property named name
+	if (feature.properties) {
+		//popup du marker
+		var popup = "<img src='" + feature.properties.visual
+				+ "' width='100%' /><br>" + feature.properties.name + "<br>"
+				+ feature.properties.address + "<br>" + "<a href='' >"
+				+ feature.properties.sigId + "</a><br>"
+				+ "<input type='button' value='favoris' name='favoris'/><br>";
+		if (feature.properties.isClosed != undefined) {
+			if (feature.properties.isClosed) {
+				popup += "Fermé";
+			} else {
+				popup += "Ouvert";
+			}
+			popup += "<br>";
+		}
+		if (feature.properties.placeSchedules != undefined) {
+			popup += feature.properties.placeSchedules + "<br>";
+		}
+		if (feature.properties.icon != "") {
+			popup += feature.properties.icon + "<br>";
+		}
+		layer.bindPopup(popup);
+		//Titre dans la liste des markers
+		layer.options['title'] = feature.properties.name;
+	}
 }
 
-//Récupère les données au format GeoJSON
-$.getJSON("http://adict.strasbourg.eu/api/v1.0/pois?srid=4326&poitype=Cat_06_07&radius=-1&token=aa72a01e643db472f3e7843ac1f3e48c", function(data) {
-	
-	//Convertion des données geoJSON en marker
-	var geoData = L.geoJson(data, {
-		onEachFeature: onEachFeature
+function showPois() {
+	var interests = "";
+	mymap.removeLayer(markers);
+	markers.clearLayers();
+
+	$("input[type='checkbox']:checked").each(
+			function() {
+				if (!$(this).attr('name').includes("showFavorites")) {
+					if (interests.lenght > 0) {
+						interests = interests + ",";
+					}
+					interests = interests + $(this).attr('value');
+				} else {
+					Liferay.Service(
+							'/strasbourg.strasbourg/get-favorites-pois',
+							function(data) {
+								//Convertion des données geoJSON en marker
+								var favoritesData = L.geoJson(data, {
+									onEachFeature : onEachFeature
+								});
+								markers.addLayers(favoritesData);
+								//mymap.addLayer(markers);
+							});
+				}
+			});
+
+	//Récupère les données au format GeoJSON
+	if (interests.length > 0) {
+		Liferay.Service('/strasbourg.strasbourg/get-pois', {
+			interests : interests
+		}, function(data) {
+			//Convertion des données geoJSON en marker
+			var poisData = L.geoJson(data, {
+				onEachFeature : onEachFeature
+			});
+			markers.addLayers(poisData);
 		});
-	
-	markers.addLayers(geoData);
+	}
 	mymap.addLayer(markers);
-});
+
+}
