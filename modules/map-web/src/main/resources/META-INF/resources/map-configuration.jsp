@@ -11,6 +11,12 @@
 
 		<aui:input name="cmd" type="hidden" value="update" />
 		
+		<!-- Widget mod -->
+		<div>
+			<liferay-ui:message key="widget-mod-explanations" />
+			<aui:input type="checkbox" name="widgetMod" value="${widgetMod}" label="widget-mod" />
+		</div>
+		
 		<!-- Choix du site pour la cible des lien -->
 		<aui:select name="groupId" label="detail-target-site">
 			<c:forEach var="site" items="${sites}">
@@ -24,7 +30,7 @@
 			<aui:input type="checkbox" name="openInNewTab" value="${openInNewTab}" label="new-tab" />
 		</div>
 		
-		<!-- Centres d'intÃ©rÃªts actifs -->
+		<!-- Centres d'intÃÂ©rÃÂªts actifs -->
 		<aui:fieldset collapsed="false" collapsible="true"
 				label="interest-choice-filter">
 			<div>
@@ -45,7 +51,7 @@
 			<aui:input type="checkbox" name="showFavorites" value="${showFavorites || !hasConfig}" label="show-favorites" />
 		</div>
 
-		<!-- Centres d'intÃ©rÃªts config par dÃ©faut -->
+		<!-- Centres d'intÃÂ©rÃÂªts config par dÃÂ©faut -->
 		<aui:fieldset collapsed="false" collapsible="true"
 				label="interest-choice-default">
 			<div>
@@ -59,7 +65,7 @@
 			</div>
 		</aui:fieldset>
 
-		<!-- config par dÃ©faut -->
+		<!-- config par dÃÂ©faut -->
 		<div>
 			<liferay-ui:message key="default-configuration-explanations" />
 			<aui:input type="checkbox" name="defaultConfig" value="${defaultConfig}" label="default-configuration" />

@@ -15,6 +15,10 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -58,15 +62,27 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 
 		if (cmd.equals("update")) {
 			
+			//JSON initialisation (Pour la sauvegarde de la configuration globale utilisée par le portlet en mode Widget)
+     		JSONObject json = JSONFactoryUtil.createJSONObject();
+     		JSONArray jsonArray =  JSONFactoryUtil.createJSONArray();
+     		JSONArray jsonArray2 =  JSONFactoryUtil.createJSONArray();
+			
 			setPreference(request, "hasConfig", "true");
+			
+			// Widget mod
+			String widgetMod = ParamUtil.getString(request, "widgetMod");
+			setPreference(request, "widgetMod", widgetMod);
+			json.put("widgetMod", widgetMod);
 			
 			//Choix du site vers lequel les liens redirigent
 			String groupId = ParamUtil.getString(request, "groupId");
 			setPreference(request, "groupId", groupId);
+			json.put("groupId", groupId);
 			
 			// Choix "nouvel onglet, onglet courant"
 			String openInNewTab = ParamUtil.getString(request, "openInNewTab");
 			setPreference(request, "openInNewTab", openInNewTab);
+			json.put("openInNewTab", openInNewTab);
 			
 			// Centres d'intérêts actifs
 			String interestsIdsString = "";
@@ -80,13 +96,16 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 						interestsIdsString += ",";
 					}
 					interestsIdsString += interestIdString;
+					jsonArray2.put(Long.parseLong(interestIdString));
 				}
 			}
 			setPreference(request, "interestsIds", interestsIdsString);
+			json.put("interestsIds", jsonArray2);
 			
 			// Choix afficher les favoris
 			String showFavorites = ParamUtil.getString(request, "showFavorites");
 			setPreference(request, "showFavorites", showFavorites);
+			json.put("showFavorites", showFavorites);
 			
 			// Centres d'intérêts par défaut
 			String interestsDefaultsIdsString = "";
@@ -100,13 +119,29 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 						interestsDefaultsIdsString += ",";
 					}
 					interestsDefaultsIdsString += interestIdString;
+					jsonArray.put(Long.parseLong(interestIdString));
 				}
 			}
 			setPreference(request, "interestsDefaultsIds", interestsDefaultsIdsString);
+			json.put("interestsDefaultsIds", jsonArray);
 			
 			// Config par défaut
 			String defaultConfig = ParamUtil.getString(request, "defaultConfig");
 			setPreference(request, "defaultConfig", defaultConfig);
+			
+			//Si la case est cochée on écrase (Si elle existe) la précédente configuration globale
+			if(ParamUtil.getBoolean(request, "defaultConfig"))
+			{
+				ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
+				
+				try{
+					//String globalConfig = GetterUtil.getString(ed.getAttribute("map_global_config"));
+					ed.setAttribute("map_global_config", json.toJSONString());
+				}
+				catch (Exception ex) {
+					_log.error("Missing expando field : map_global_config");
+				}
+			}
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -120,11 +155,15 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
+			
 
 			//Récupération de la configuration
 			MapConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						MapConfiguration.class);
+			
+			// Widget mod du portlet
+			request.setAttribute("widgetMod", configuration.widgetMod());
 			
 			//Ce flag permet de savoir si une configuration du portlet a déjà été enregistrée
 			//Utile pour cocher les centres d'intéret par défaut

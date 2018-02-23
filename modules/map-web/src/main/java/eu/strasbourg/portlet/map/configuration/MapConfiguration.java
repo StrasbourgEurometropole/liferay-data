@@ -28,5 +28,8 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "defaultConfig", required = false)
 	public boolean defaultConfig();
+	
+	@Meta.AD(name = "widgetMod", required = false)
+	public boolean widgetMod();
 
 }

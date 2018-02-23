@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -16,16 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -62,18 +63,52 @@ public class MapPortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(MapConfiguration.class);
 			
 			// Récupération du publik ID avec la session
-			LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
-			HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-			String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
-			boolean showFavorites = true; //Affichage des favoris par défaut
+     		String internalId = getPublikID(request);
 			
-			List<Interest> interests;
+     		boolean showFavorites = true; //Affichage des favoris par défaut
+     		String interestsIdsString = ""; //Les id des POI actifs
+     		String interestsDefaultsIds = ""; //Les POI cochés par défaut
+     		boolean hasConfig = false; //Permet de cocher tous les POI si aucune configuration
+     		List<Interest> interests = null; //Les POI actifs
+     		boolean widgetMod = false;
+     		
+     		//Chargement de la configuration globale pour le mode widget
+     		if(configuration.hasConfig() && configuration.widgetMod())
+     		{
+     			ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
+     			hasConfig = true;
+     			widgetMod = true;
+     			try{
+     				String globalConfig = GetterUtil.getString(ed.getAttribute("map_global_config"));
+     				JSONObject json = JSONFactoryUtil.createJSONObject(globalConfig);
+    				JSONArray jsonArray = json.getJSONArray("interestsIds");
+    				JSONArray jsonArray2 = json.getJSONArray("interestsDefaultsIds");
+    				
+    				interestsIdsString = jsonArray.join(",").replace("\"", "");
+    				showFavorites = json.getBoolean("showFavorites");
+    				interestsDefaultsIds = jsonArray2.join(",");
+				}
+				catch (Exception ex) {
+					_log.error("Missing expando field : map_global_config");
+				}
+     		}
+     		//Chargement de la configuration du portlet sinon
+     		else if(configuration.hasConfig())
+     		{
+     			interestsIdsString = configuration.interestsIds();
+     			showFavorites = configuration.showFavorites();
+     			interestsDefaultsIds = configuration.interestsDefaultsIds();
+				hasConfig = true;
+     		}
+     		else //Si pas de config on récupère tous les centres d'intérêt avec le statut publié
+			{	
+				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
+						.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
+			}
 			
 			//Est-ce que la config du portlet est défini ?
 			if(configuration.hasConfig())
 			{
-				//Récupération des id des centres d'intérêts actifs
-				String interestsIdsString = configuration.interestsIds();
 				List<Long> interestIds;
 				
 				if(!interestsIdsString.equals(""))
@@ -87,16 +122,8 @@ public class MapPortlet extends MVCPortlet {
 				//Récupération de tous les centres d'intérêts actifs avec le statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId())).collect(Collectors.toList());
-				showFavorites = configuration.showFavorites();
+				
 			}
-			else //Si pas de config on récupère tous les centres d'intérêt avec le statut publié
-			{	
-				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-						.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
-			}
-			
-			String interestsDefaultsIds = "";
-			boolean hasConfig = false;
 			
 			//Si l'utilisateur est connecté et qu'il a configuré le portlet autour de moi
 			if(Validator.isNotNull(internalId) && Validator.isNotNull(PublikUserLocalServiceUtil.getByPublikUserId(internalId).getMapConfig()))
@@ -110,22 +137,15 @@ public class MapPortlet extends MVCPortlet {
 				showFavorites = json.getBoolean("showFavorites");
 				hasConfig = true;
 			}
-			else //Sinon affichage par défaut du portlet
-			{
-				//On prend par defaut les POI de l'utilisateur s'il en a
+			else //Sinon on prend par defaut les POI de l'utilisateur s'il en a
+			{ 
 				if(Validator.isNotNull(internalId))
 				{
-					interestsDefaultsIds = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId).stream()
+					String userDefautPOI = StringUtil.merge(InterestLocalServiceUtil.getByPublikUserId(internalId).stream()
 							.map(i -> i.getInterestId())
 							.collect(Collectors.toList()), ",");
+					interestsDefaultsIds = Validator.isNotNull(userDefautPOI) ? userDefautPOI : interestsDefaultsIds;
 					hasConfig = true;
-				}
-				
-				//sinon ceux configurés dans le portlet.
-				if(!Validator.isNotNull(interestsDefaultsIds)) 
-				{
-					interestsDefaultsIds = configuration.interestsDefaultsIds();
-					hasConfig = configuration.hasConfig();
 				}
 			}
 			
@@ -133,6 +153,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("interestsCheckedIds", interestsDefaultsIds);
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("showFavorites", showFavorites);
+			request.setAttribute("widgetMod", widgetMod);
 		} catch (Exception e) {
 			_log.error(e);
 		}
@@ -149,10 +170,7 @@ public class MapPortlet extends MVCPortlet {
 			if (resourceID.equals("toggleInterestPoint")) {
            	 
             	// Récupération du publik ID avec la session
-         		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-         		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-         		String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
-         		
+         		String internalId = getPublikID(resourceRequest);
          		
          		if(Validator.isNotNull(internalId))
     			{
@@ -189,6 +207,14 @@ public class MapPortlet extends MVCPortlet {
 		}
 		
 		super.serveResource(resourceRequest, resourceResponse);
+	}
+	
+	private String getPublikID(PortletRequest resourceRequest){
+		
+		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+ 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+		
+ 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
