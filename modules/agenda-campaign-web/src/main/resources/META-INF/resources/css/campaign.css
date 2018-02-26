@@ -129,11 +129,6 @@
     color: white;
 }
 
-.event-price {
-	height: auto;
-	border: none;
-}
-
 img {
 	max-width: 500px;
 }
@@ -191,4 +186,9 @@ img {
 
 .panel-group fieldset fieldset {
     background: #f5f7f8;
+}
+
+.input-localized-textarea textarea {
+    resize: vertical;
+    height: 20em;
 }

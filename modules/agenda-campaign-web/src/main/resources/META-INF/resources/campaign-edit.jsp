@@ -1,6 +1,7 @@
 <%@ include file="/campaign-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.CampaignEvent"%>
 
+
 <liferay-portlet:renderURL varImpl="eventsCampaignURL">
 </liferay-portlet:renderURL>
 <liferay-portlet:actionURL name="saveCampaignEvent"
@@ -23,10 +24,10 @@
 			<aui:input name="campaignEventId" type="hidden" />
 			<aui:input name="newStatus" type="hidden" value="" />
 			
-			<!-- Informations de contact privées-->
+			<!-- Informations de contact privÃ©es-->
 			<aui:fieldset collapsed="false" collapsible="false" label="private-contact-information">
 				<div clas="row">
-					<!-- Nom, prénom, mail, téléphone -->
+					<!-- Nom, prÃ©nom, mail, tÃ©lÃ©phone -->
 					<div class="col-md-6">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
 						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.firstName}" />
@@ -71,7 +72,7 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- Informations sur l'événement -->
+			<!-- Informations sur l'Ã©vÃ©nement -->
 			<aui:fieldset collapsed="true" collapsible="false" label="event-information">
 				<!-- Titre, sous-titre, description -->
 				<div class="row">
@@ -82,7 +83,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-8">
-						<aui:input name="description" label="eu.campaign.description" helpMessage="description-help" />
+						<aui:input name="description" label="eu.campaign.description" localized="true" type="textarea" helpMessage="description-help" />
 						<!-- Hack pour ajouter une validation sur la description -->
 						<div class="has-error">
 							<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
@@ -95,7 +96,7 @@
 										return validate;
 									}
 								</aui:validator>
-							</aui:input>
+							</aui:input>							
 						</div>
 					</div>
 				</div>
@@ -240,7 +241,7 @@
 			
 			<!-- Informations de contact public -->
 			<aui:fieldset collapsed="true" collapsible="false" label="public-contact-information">
-				<!-- Organisateur, téléphone, mail, adresse du site internet -->
+				<!-- Organisateur, tÃ©lÃ©phone, mail, adresse du site internet -->
 				<div class="row">
 					<div class="col-md-4">
 						<aui:input name="promoter" />
@@ -328,7 +329,7 @@
 			
 			<!-- Tarifs -->
 			<aui:fieldset collapsed="true" collapsible="false" label="event-price">
-				<!-- Gratuité -->
+				<!-- GratuitÃ© -->
 				<div>
 					<label><liferay-ui:message key="free-event" /></label>
 					<aui:input name="free" value="1" type="radio" checked="${dc.campaignEvent.free eq 1}" label="yes" />
@@ -339,7 +340,7 @@
 				<!-- Tarifs -->
 				<div class="row">
 					<div class="col-md-8">
-						<aui:input label="event-price" name="price" cssClass="event-price"/>
+						<aui:input label="event-price" name="price" localized="true" type="textarea"/>
 					</div>
 				</div>
 			</aui:fieldset>
@@ -379,7 +380,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-7 form-group">
-						<!-- Thèmes -->
+						<!-- ThÃ¨mes -->
 						<label><liferay-ui:message key="themes" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></label>
 						<select name="<portlet:namespace />themesIds" label="themes" multiple placeholder="<liferay-ui:message key="select-themes" />">
 							<c:forEach items="${dc.themes}" var="category">
@@ -488,7 +489,7 @@
 	<script src="/o/agendacampaignweb/js/campaign-edit.js"></script>
 </liferay-util:html-bottom>
 <!-- Ajout du champ obligatoire conditionnel sur le select de la ville -->
-<!-- (obligé de passer par du JS car pas de aui:validator sur aui:select -->
+<!-- (obligÃ© de passer par du JS car pas de aui:validator sur aui:select -->
 <aui:script use="liferay-form">
 	var form = Liferay.Form.get('<portlet:namespace />fm');
     var oldFieldRules = form.get('fieldRules');

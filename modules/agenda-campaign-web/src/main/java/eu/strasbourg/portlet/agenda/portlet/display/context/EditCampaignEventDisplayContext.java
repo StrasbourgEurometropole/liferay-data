@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.agenda.portlet.display.context;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,29 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 		if (campaignEvent == null && campaignEventId > 0) {
 			campaignEvent = CampaignEventLocalServiceUtil
 				.getCampaignEvent(campaignEventId);
+			
+			if(campaignEvent != null) {
+				Map<Locale, String> mapDescription = campaignEvent.getDescriptionMap();
+				Map<Locale, String> mapPrice = campaignEvent.getPriceMap();
+				
+				for(Map.Entry<Locale, String> description : mapDescription.entrySet()) {
+					if(description.getValue() != null) {
+						String valueBr = description.getValue().replaceAll( "<br/>","\n");
+						description.setValue(valueBr);
+					}
+				}
+				
+				for(Map.Entry<Locale, String> price : mapPrice.entrySet()) {
+					if(price.getValue() != null) {
+						String valueBr = price.getValue().replaceAll( "<br/>","\n");
+						price.setValue(valueBr);
+					}
+				}
+				
+				campaignEvent.setDescriptionMap(mapDescription);
+				campaignEvent.setPriceMap(mapPrice);
+			}
+			
 		}
 
 		return campaignEvent;
