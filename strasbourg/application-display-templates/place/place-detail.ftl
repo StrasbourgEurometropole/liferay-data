@@ -10,6 +10,15 @@
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
+<@liferay_util["html-top"]>
+    <meta property="og:title" content="${entry.getAlias(locale)?html}" />
+    <meta property="og:description" content="${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"  />
+    <#if entry.imageURL?has_content>
+        <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+    </#if>
+</@>
+
 <div class="seu-page-lieu">
     <main class="seu-container">
         <a href="#" class="add-favorites"

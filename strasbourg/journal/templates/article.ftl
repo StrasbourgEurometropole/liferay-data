@@ -1,15 +1,21 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign themeDisplay = serviceContext.getThemeDisplay() />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#assign layout = themeDisplay.getLayout() />
+
+<@liferay_util["html-top"]>
+    <meta property="og:title" content="${title.getData()?html}" />
+    <meta property="og:description" content="${chapo.getData()?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${currentUrl}" />
+    <meta property="og:image" content="${themeDisplay.getPortalURL()}${layout.expandoBridge.getAttribute('image') }" />
+</@>
 
 <main class="seu-container" style="margin-bottom: 50px">
-	<a href="#" class="add-favorites"
+    <a href="#" class="add-favorites"
             data-type="7" 
             data-title="${title.getData()}" 
-            data-url="${homeURL}${layout.friendlyURL?remove_beginning('/')}" 
+            data-url="${currentUrl}" 
             data-group-id=${themeDisplay.scopeGroupId}
             data-id="${.vars['reserved-article-id'].data}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
