@@ -87,9 +87,14 @@
 		<field name="accessForWheelchair" type="Boolean" />
 		<field name="accessForElder" type="Boolean" />
 		<field name="accessForDeficient" type="Boolean" />
+		<field name="RTEnabled" type="Boolean" />
+		<field name="RTType" type="String" />
 		<field name="RTExternalId" type="String" />
-		<field name="occupation" type="String" />
-		<field name="occupationLastUpdate" type="Date" />
+		<field name="RTAvailable" type="long" />
+		<field name="RTOccupation" type="long" />
+		<field name="RTCapacity" type="long" />
+		<field name="RTStatus" type="String" />
+		<field name="RTLastUpdate" type="Date" />
 		<field name="imageId" type="long" />
 		<field name="imageIds" type="String" />
 		<field name="videosIds" type="String" />

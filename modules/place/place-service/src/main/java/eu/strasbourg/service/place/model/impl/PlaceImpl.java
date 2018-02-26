@@ -36,8 +36,6 @@ import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.MairieStateSOAPClient;
-import eu.strasbourg.service.place.ParkingStateClient;
-import eu.strasbourg.service.place.PoolStateSOAPClient;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -616,13 +614,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public boolean isSwimmingPool() {
-		for (AssetCategory type : this.getTypes()) {
-			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
-			if (typeSigId.toLowerCase().equals("cat_06_05")) {
-				return true;
-			}
-		}
-		return false;
+		return this.getRTType().equals("1");
 	}
 
 	/**
@@ -632,27 +624,18 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public boolean isMairie() {
-		for (AssetCategory type : this.getTypes()) {
-			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
-			if (typeSigId.toLowerCase().equals("cat_12_07")) {
-				return true;
-			}
-		}
-		return false;
+		return this.getRTType().equals("3");
 	}
 
 	/**
 	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
 	 * piscine,une mairie ou un parking)
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public OccupationState getRealTime() {
-		if (isSwimmingPool())
-			return getRealTime("1");
-		if (isMairie())
-			return getRealTime("3");
-		return getRealTime("2");
+		return getRealTime(this.getRTType());
 	}
 
 	/**
@@ -660,12 +643,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * 
 	 * @param type
 	 *            (1 = piscine, 2 = parking, 3 = mairie)
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
 	public OccupationState getRealTime(String type) {
 		OccupationState state = null;
-		
+
 		GregorianCalendar today = new GregorianCalendar();
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.clear(Calendar.MINUTE);
@@ -675,7 +658,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			state = OccupationState.CLOSED;
 			return state;
 		}
-		
+
 		if (Validator.isNull(this.getRTExternalId())) {
 			state = OccupationState.DISABLED;
 			return state;
@@ -706,7 +689,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 				state = OccupationState.NOT_AVAILABLE;
 				return state;
 			}
-			occupation = PoolStateSOAPClient.getOccupation(this);
+			occupation = this.getRTOccupation();
 			if (occupation == -1) {
 				state = OccupationState.NOT_AVAILABLE;
 				return state;
@@ -722,7 +705,23 @@ public class PlaceImpl extends PlaceBaseImpl {
 			state.setOccupation("" + occupation);
 			break;
 		case "2":
-			state = ParkingStateClient.getOccupationState(this);
+			state = OccupationState.NOT_AVAILABLE;
+			switch (this.getRTStatus()) {
+			case "status_1":
+				state = OccupationState.OPEN;
+				state.setAvailable("" + this.getRTAvailable());
+				state.setCapacity("" + this.getRTCapacity());
+				break;
+			case "status_2":
+				state = OccupationState.FULL;
+				break;
+			case "status_3":
+				state = OccupationState.NOT_AVAILABLE;
+				break;
+			case "status_4":
+				state = OccupationState.CLOSED;
+				break;
+			}
 			break;
 		case "3":
 			// récupération de la période en cours
@@ -743,12 +742,14 @@ public class PlaceImpl extends PlaceBaseImpl {
 				state = OccupationState.NOT_AVAILABLE;
 				return state;
 			}
-			//TODO est-ce que l'on garde cette vérification ? (de même que pour les piscines ?) 
-			// car si il n'y a pas de capacié max de renseigné il y a quand même une fréquentation
-			/*if (Validator.isNull(periodEnCours.getRTMaxThreshold())) {
-				state = OccupationState.NOT_AVAILABLE;
-				return state;
-			}*/
+			// TODO est-ce que l'on garde cette vérification ? (de même que pour
+			// les piscines ?)
+			// car si il n'y a pas de capacié max de renseigné il y a quand même
+			// une fréquentation
+			/*
+			 * if (Validator.isNull(periodEnCours.getRTMaxThreshold())) { state
+			 * = OccupationState.NOT_AVAILABLE; return state; }
+			 */
 			try {
 				occupation = MairieStateSOAPClient.getWaitingTime(this.getRTExternalId());
 			} catch (Exception e) {
@@ -771,6 +772,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			break;
 		}
 		return state;
+
 	}
 
 	/**
@@ -820,9 +822,10 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return listHoraires;
 	}
-	
+
 	/**
-	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount" 
+	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	 * "date" + "daysCount"
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getPlaceSchedule(Date date, int daysCount, Locale locale) {
@@ -1244,7 +1247,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		schedule.put("map", scheduleMap);
 		jsonPlace.put("horaires", schedule);
 
-
 		jsonPlace.put("descriptionAccesHandicap", this.getAccessForDisabled(Locale.FRANCE));
 
 		JSONObject categories = JSONFactoryUtil.createJSONObject();
@@ -1258,7 +1260,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		categories.put("list", categoriesArray);
 		jsonPlace.put("categorie", categories);
-
 
 		jsonPlace.put("horaireExceptionnel", this.getExceptionalSchedule(Locale.FRANCE));
 		jsonPlace.put("nomFacebook", this.getFacebookLabel(Locale.FRANCE));
@@ -1278,7 +1279,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		jsonPlace.put("nomGalerie", "");
 		jsonPlace.put("ouvertures exceptionnelles", "");
 		jsonPlace.put("Fermetures exceptionnelles", "");
-		
 
 		jsonPlace.put("services", this.getServiceAndActivities(Locale.FRANCE));
 		jsonPlace.put("document1", this.getDocumentURLs().size() > 0 ? this.getDocumentURLs().get(0) : "");
@@ -1296,7 +1296,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		AssetCategory district = this.getDistrictCategory();
 		String districtCode = AssetVocabularyHelper.getCategoryProperty(district.getCategoryId(), "SIG");
 		if (Validator.isNotNull(districtCode)) {
-			territoryMap.put("Quartier", districtCode);	 
+			territoryMap.put("Quartier", districtCode);
 		}
 		AssetCategory city = this.getCityCategory();
 		territoryMap.put("Commune",
@@ -1315,7 +1315,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		mercatorMap.put("Y", this.getMercatorY());
 		mercator.put("map", mercatorMap);
 		jsonPlace.put("coordonneesMercator", mercator);
-		
+
 		jsonPlace.put("javaClass", "com.cus.surfs.service.cusplaceasset.batch.CusPlaceAssetWithSchedule");
 		jsonPlace.put("pays", this.getAddressCountry());
 		jsonPlace.put("nomVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getTitle(Locale.FRANCE) : "");
