@@ -11,6 +11,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -28,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -189,6 +191,17 @@ public class MapPortlet extends MVCPortlet {
     			user.setMapConfig("");
     			PublikUserLocalServiceUtil.updatePublikUser(user);
 			}
+			
+			// Redirection (évite double
+			// requête POST si l'utilisateur actualise sa page)
+			ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) actionRequest
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+			actionResponse.sendRedirect(renderUrl.toString());
 		}
 		catch (Exception e)
 		{

@@ -11,6 +11,7 @@
 	</script>
 	<script src="/o/mapweb/js/leaflet.js"></script>
 	<script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
+	<script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
 	<script src="/o/mapweb/js/map.js"></script>
 	<script>
 		define.amd = define._amd;
@@ -54,9 +55,14 @@
 		</aui:button-row>
 	</div>
 </c:if>
-<div id="mapid"
-	style="width: 600px; height: 400px; display: inline-block;"></div>
+<div>
+	<div id="mapid"
+		style="width: 600px; height: 400px; display: inline-block;"></div>
+
+	<div id="map-markers"
+		style="width: 200px; height: 400px; display: inline-block;"></div>
 </div>
+
 
 <aui:script>
 	function callServeResource() {
@@ -90,18 +96,18 @@
 				position.coords.longitude ], 15);
 	}
 
-	// Fonction de callback en cas d’erreur
+	// Fonction de callback en cas dÃ¢ÂÂerreur
 	function erreurPosition(error) {
-		var info = "Erreur lors de la géolocalisation : ";
+		var info = "Erreur lors de la gÃÂ©olocalisation : ";
 		switch (error.code) {
 		case error.TIMEOUT:
 			info += "Timeout !";
 			break;
 		case error.PERMISSION_DENIED:
-			info += "Vous n’avez pas donné la permission";
+			info += "Vous nÃ¢ÂÂavez pas donnÃÂ© la permission";
 			break;
 		case error.POSITION_UNAVAILABLE:
-			info += "La position n’a pu être déterminée";
+			info += "La position nÃ¢ÂÂa pu ÃÂªtre dÃÂ©terminÃÂ©e";
 			break;
 		case error.UNKNOWN_ERROR:
 			info += "Erreur inconnue";

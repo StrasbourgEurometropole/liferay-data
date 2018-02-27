@@ -74,12 +74,12 @@ L.Control.ListMarkers = L.Control.extend({
 		L.DomEvent
 			.disableClickPropagation(a)
 			.on(a, 'click', L.DomEvent.stop, this)
-//			.on(a, 'click', function(e) {
-//				this._moveTo( layer.getLatLng() );
-//			}, this)
-			.on(a, 'click', function(e) {				
-				this._toggleDisplay(layer);
+			.on(a, 'click', function(e) {
+				this._moveTo( layer.getLatLng() );
 			}, this)
+//			.on(a, 'click', function(e) {				
+//				this._toggleDisplay(layer);
+//			}, this)
 			.on(a, 'mouseover', function(e) {
 				that.fire('item-mouseover', {layer: layer });
 			}, this)

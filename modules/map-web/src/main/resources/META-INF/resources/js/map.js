@@ -54,10 +54,10 @@ function showPois(){
 	mymap.removeLayer(markers);
 	markers.clearLayers();
 
-	$("input[type='checkbox']:checked").each(
+	$("#point-of-interest input[type='checkbox']:checked").each(
 		function() {
 			if(!$(this).attr('name').includes("showFavorites")){
-				if(interests.lenght > 0){
+				if(interests.length > 0){
 					interests = interests + ",";
 				}
 				interests = interests + $(this).attr('value');
@@ -66,7 +66,7 @@ function showPois(){
 					'/strasbourg.strasbourg/get-favorites-pois',
 					function(data) {
 						//Convertion des données geoJSON en marker
-						favoritesData = L.geoJson(data, {
+						favoritesData = L.geoJson(data, {							
 						  	onEachFeature: onEachFeature
 						});
 						markers.addLayers(favoritesData);
@@ -86,6 +86,19 @@ function showPois(){
 			function(data) {
 				//Convertion des données geoJSON en marker
 				var poisData = L.geoJson(data, {
+					pointToLayer: function(feature, latlng) {
+						if(feature.properties.icon){
+			                var markerIcon = new L.Icon({
+			                    iconUrl: feature.properties.icon
+			                });
+			                return L.marker(latlng, {icon: markerIcon})
+						}
+						else{
+							return L.marker(latlng);
+						}
+		                
+		                
+		            },
 					onEachFeature: onEachFeature
 				});
 				if(favoritesData != undefined){
@@ -101,6 +114,9 @@ function showPois(){
 			}
 		);
 	}
+	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null}));
 	mymap.addLayer(markers);
 
+	//Copie la liste des markers dans la div prévue à cet effet
+	$('#map-markers').append($('ul.list-markers-ul'));
 }
