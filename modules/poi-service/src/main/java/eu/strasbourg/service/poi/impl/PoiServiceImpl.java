@@ -171,33 +171,24 @@ public class PoiServiceImpl implements PoiService {
 				properties.put("currentSchedule", "");
 				properties.put("nextSchedules", "");
 			}
-			try {
-				if (place.isEnabled()) {
+			if (false) { // (place.isEnabled()) {
 
-					properties.put("icon", "TODO");
-					/*OccupationState occupation = place.getRealTime();
-
-					int type = 2;
-					if (place.isSwimmingPool()){
-						type = 1;
-					}
-					if (place.isMairie()){
-						type = 3;
-					}
-					properties.put("typePlace", type);
-					properties.put("realTime", occupation);*/
-				} else {
-					// récupère la catégorie du lieu
-					AssetCategory category = null;
-					List<AssetCategory> categories = place.getCategories();
-					if (!categories.isEmpty()) {
-						category = categories.get(0);
-					}
-					properties.put("icon", category.getDescription(Locale.FRANCE));
+				properties.put("icon", "TODO");
+				/*
+				 * OccupationState occupation = place.getRealTime();
+				 * 
+				 * int type = 2; if (place.isSwimmingPool()){ type = 1; } if
+				 * (place.isMairie()){ type = 3; } properties.put("typePlace",
+				 * type); properties.put("realTime", occupation);
+				 */
+			} else {
+				// récupère la catégorie du lieu
+				AssetCategory category = null;
+				List<AssetCategory> categories = place.getTypes();
+				if (!categories.isEmpty()) {
+					category = categories.get(0);
 				}
-			} catch (PortalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				properties.put("icon", category.getDescription(Locale.FRANCE));
 			}
 			feature.put("properties", properties);
 
