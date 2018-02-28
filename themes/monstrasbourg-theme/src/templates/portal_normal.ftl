@@ -5,6 +5,26 @@
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
+  <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay ni avec un compte Publik 
+  (et qu'il n'est pas sur la page d'infos), on le redirige vers la page d'infos -->
+  <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() != "/bienvenue">
+      <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+      <#else>
+        <#assign homeURL = "/" />
+      </#if>
+      ${themeDisplay.getResponse().sendRedirect(homeURL + 'bienvenue')} 
+  </#if>
+  <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay mais qu'il est connecté
+  avec un compte Publik et s'il est sur la page d'infos, on le redirige vers la page d'accueil -->
+  <#if !is_signed_in && (request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() == "/bienvenue">
+      <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+      <#else>
+        <#assign homeURL = "/" />
+      </#if>
+      ${themeDisplay.getResponse().sendRedirect(homeURL)}
+  </#if>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <@liferay_util["include"] page=top_head_include />
@@ -23,8 +43,11 @@
 
 <@liferay.control_menu />
 
-<script id="__bs_script__">//<![CDATA[
-    document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.23.5'><\/script>".replace("HOST", location.hostname));
+<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+<script>
+  window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
+
+  document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.23.5'><\/script>".replace("HOST", location.hostname));
 </script>
 
   <header class="header">
@@ -41,13 +64,16 @@
       </#if>
 
       <!-- Menu -->
-      <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
-      <@liferay_portlet["runtime"]
-        defaultPreferences="${freeMarkerPortletPreferences}"
-        portletProviderAction=portletProviderAction.VIEW
-        portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-        instanceId="menu"
-        settingsScope="group" />
+
+      <#if layout.getFriendlyURL() != "/bienvenue">
+        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+        <@liferay_portlet["runtime"]
+          defaultPreferences="${freeMarkerPortletPreferences}"
+          portletProviderAction=portletProviderAction.VIEW
+          portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+          instanceId="menu"
+          settingsScope="group" />
+      </#if>
     </nav>
     
   </header>
@@ -59,19 +85,21 @@
     
     <#if !isHome>
       <div class="card-box">  
-        <@liferay.breadcrumbs />
+        <#if layout.getFriendlyURL() != "/bienvenue">
+          <@liferay.breadcrumbs />
+        </#if>
     </#if>      
-      <#if selectable>
+    <#if selectable>
+      <@liferay_util["include"] page=content_include />
+    <#else>
+      ${portletDisplay.recycle()}
+
+      ${portletDisplay.setTitle(the_title)}
+
+      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
         <@liferay_util["include"] page=content_include />
-      <#else>
-        ${portletDisplay.recycle()}
-
-        ${portletDisplay.setTitle(the_title)}
-
-        <@liferay_theme["wrap-portlet"] page="portlet.ftl">
-          <@liferay_util["include"] page=content_include />
-        </@>
-      </#if>
+      </@>
+    </#if>
     <#if !isHome>
       </div>
     <#else>
