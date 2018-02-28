@@ -28,7 +28,23 @@
 		</aui:fieldset>
 		
 		<aui:fieldset>
-			<aui:input name="noInterestMap" value="${noInterest}" localized="true" type="editor" label="text" />
+			<aui:input name="noInterestMap" value="${noInterest}" localized="true" type="editor" label="no-interest-text" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="eventNumberOnListPage" value="${eventNumberOnListPage}" type="number" label="event-number"/>
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="newsNumberOnListPage" value="${newsNumberOnListPage}" type="number" label="news-number"/>
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="allEventsURL" value="${allEventsURL}" type="text" label="all-events-url"/>
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="allNewsURL" value="${allNewsURL}" type="text" label="all-news-url"/>
 		</aui:fieldset>
 		
 		<aui:button-row>

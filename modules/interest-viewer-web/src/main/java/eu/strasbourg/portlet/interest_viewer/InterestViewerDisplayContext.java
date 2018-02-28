@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -23,6 +24,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -34,12 +36,15 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
+import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -54,14 +59,37 @@ public class InterestViewerDisplayContext {
 	private List<Interest> interests;
 	private List<List<AssetEntry>> listEntries;
 	private List<AssetEntry> entries;
-	private String template;
-	private String noInterest;
+	private InterestViewerConfiguration configuration;
 
-	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request, String template, String noInterest) {
+
+	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request) {
 		this.themeDisplay = themeDisplay;
 		this.request = request;
-		this.template = template;
-		this.noInterest = noInterest;
+		try {
+			this.configuration = themeDisplay.getPortletDisplay()
+					.getPortletInstanceConfiguration(InterestViewerConfiguration.class);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public InterestViewerConfiguration getConfiguration() {
+		return configuration;
+	}
+	
+	public String getNoInterestText() {
+		String noInterest = "";
+		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.noInterestXML());
+		for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+			if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+				noInterest = HtmlUtil.unescape(map.getValue());
+				break;
+			}
+		}
+		if (Validator.isNull(noInterest)) {
+			noInterest = "No configuration";
+		}
+		return noInterest;
 	}
 
 	public List<AssetEntry> getEntries() {
@@ -121,6 +149,20 @@ public class InterestViewerDisplayContext {
 			listEntries = this.getListEntries();
 		}
 		return listEntries.get(1);
+	}
+
+	public List<AssetEntry> getActusAndWebmags() {
+		if (listEntries == null) {
+			listEntries = this.getListEntries();
+		}
+		List<AssetEntry> actus = getActus();
+		List<AssetEntry> webmags = listEntries.get(2);
+		List<AssetEntry> actusAndWebmags = new ArrayList<AssetEntry>();
+		actusAndWebmags.addAll(actus);
+		actusAndWebmags.addAll(webmags);
+		actusAndWebmags = actusAndWebmags.stream()
+				.sorted((a1, a2) -> a2.getPublishDate().compareTo(a1.getPublishDate())).collect(Collectors.toList());
+		return actusAndWebmags;
 	}
 
 	private List<List<AssetEntry>> getListEntries() {
@@ -185,14 +227,9 @@ public class InterestViewerDisplayContext {
 		}
 
 		List<List<AssetEntry>> listEntrie = new ArrayList<List<AssetEntry>>();
-		if (template.equals("widget")) {
-			listEntrie.add(this.getEvents(categorieEventIds));
-			listEntrie.add(this.getActus(categorieActuIds, "actu"));
-			listEntrie.add(this.getActus(categorieActuIds, "webmag"));
-		} else {
-			listEntrie.add(this.getEvents(categorieEventIds));
-			listEntrie.add(this.getActus(categorieActuIds, "actu"));
-		}
+		listEntrie.add(this.getEvents(categorieEventIds));
+		listEntrie.add(this.getActus(categorieActuIds, "actu"));
+		listEntrie.add(this.getActus(categorieActuIds, "webmag"));
 		return listEntrie;
 
 	}
@@ -227,8 +264,9 @@ public class InterestViewerDisplayContext {
 		String[] classNames = new String[1];
 		classNames[0] = Event.class.getName();
 
+		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds,
-				this.themeDisplay.getScopeGroupId());
+				this.themeDisplay.getScopeGroupId(), count);
 
 		// On renvoie la liste des événements :
 		// d'abord les événements du jour classés par date de fin
@@ -273,16 +311,14 @@ public class InterestViewerDisplayContext {
 
 		// Tags
 		String tagsNamesString = tag;
-		if (prefilterCategoriesIds.size() == 0) {
-			tagsNamesString += ",coupdecoeur";
-		}
 
 		// ClassNames
 		String[] classNames = new String[1];
 		classNames[0] = JournalArticle.class.getName();
 
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId());
+		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
+		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count);
 
 		// On renvoie la liste des actualités classés par date de publication
 		for (Document document : hits.getDocs()) {
@@ -298,7 +334,7 @@ public class InterestViewerDisplayContext {
 	}
 
 	private Hits getHits(String[] classNames, String tagsNamesString, List<Long[]> prefilterCategoriesIds,
-			long idGroup) {
+			long idGroup, int count) {
 
 		// Search context
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -334,8 +370,8 @@ public class InterestViewerDisplayContext {
 		Locale locale = this.themeDisplay.getLocale();
 
 		// Pagination et ordre
-		int start = -1;
-		int end = -1;
+		int start = 0;
+		int end = count - 1;
 		String sortField = dateFieldName;
 		boolean isSortDesc = false;
 
@@ -382,16 +418,12 @@ public class InterestViewerDisplayContext {
 		if (interests == null) {
 			interests = this.getInterests();
 		}
-		return interests.isEmpty();
+		return !interests.isEmpty();
 	}
 
-	public String getVirtualHostName(){
+	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
 		return group.getPublicLayoutSet().getVirtualHostname();
-	}
-	
-	public String getNoInterestText(){
-		return this.noInterest;
 	}
 	
 	private String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale) {

@@ -14,4 +14,17 @@ public interface InterestViewerConfiguration {
 
 	@Meta.AD(name = "noInterestXML", deflt = "", required = false)
 	public String noInterestXML();
+
+	@Meta.AD(name = "eventNumberOnListPage", deflt = "", required = false)
+	public int eventNumberOnListPage();
+
+	@Meta.AD(name = "newsNumberOnListPage", deflt = "", required = false)
+	public int newsNumberOnListPage();
+	
+	@Meta.AD(name="allNewsURL", deflt = "", required = false)
+	public String allNewsURL();
+
+	@Meta.AD(name="allEventsURL", deflt = "", required = false)
+	public String allEventsURL();
+
 }

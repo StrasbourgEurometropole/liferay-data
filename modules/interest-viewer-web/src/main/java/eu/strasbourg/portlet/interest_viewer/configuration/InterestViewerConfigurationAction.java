@@ -49,10 +49,15 @@ public class InterestViewerConfigurationAction
 
 		if (cmd.equals("update")) {
 			
-			// Mode d'affichage
 			String template = ParamUtil.getString(request, "template");
 			setPreference(request, "template", template);
 
+			String allNewsURL = ParamUtil.getString(request, "allNewsURL");
+			setPreference(request, "allNewsURL", allNewsURL);
+			
+			String allEventsURL = ParamUtil.getString(request, "allEventsURL");
+			setPreference(request, "allEventsURL", allEventsURL);
+			
 			// Text
 			Map<Locale, String> textMap = LocalizationUtil
 				.getLocalizationMap(request, "noInterestMap");
@@ -62,6 +67,12 @@ public class InterestViewerConfigurationAction
 			}
 			String noInterestXML = LocalizationUtil.getXml(map, "noInterest");
 			setPreference(request, "noInterestXML", noInterestXML);
+			
+			int eventNumberOnListPage = ParamUtil.getInteger(request, "eventNumberOnListPage");
+			setPreference(request, "eventNumberOnListPage", String.valueOf(eventNumberOnListPage));
+
+			int newsNumberOnListPage = ParamUtil.getInteger(request, "newsNumberOnListPage");
+			setPreference(request, "newsNumberOnListPage", String.valueOf(newsNumberOnListPage));
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -76,15 +87,16 @@ public class InterestViewerConfigurationAction
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			// Pages sélectionnées
 			InterestViewerConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						InterestViewerConfiguration.class);
 			
-			// Template
 			request.setAttribute("template", configuration.template());
+			request.setAttribute("allNewsURL", configuration.allNewsURL());
+			request.setAttribute("allEventsURL", configuration.allEventsURL());
 			request.setAttribute("noInterest", configuration.noInterestXML());
-			
+			request.setAttribute("eventNumberOnListPage", configuration.eventNumberOnListPage());
+			request.setAttribute("newsNumberOnListPage", configuration.newsNumberOnListPage());			
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}

@@ -6,6 +6,12 @@
     <c:set var="homeURL" value="${dc.getVirtualHostName()}/"/>
 </c:if>
          
+<c:if test="${not dc.hasInterest()}">
+    <section id="actu-agenda-no-interest">
+        <h2><liferay-ui:message key="actu-agenda" /></h2>
+        <p class="no-interests">${dc.getNoInterestText()}</p>
+    </section>
+</c:if>
 <c:if test="${not empty dc.entries}">
     <script type="text/javascript">
         /* Exemple de flux pour populer le slider mega (voir script slider--mega.js)
@@ -83,7 +89,7 @@
     </script>
       
     <section id="actu-agenda">
-        <button class="delete-wi"></button>    
+        <!--<button class="delete-wi"></button>-->
         <h2><liferay-ui:message key="actu-agenda" /></h2>    
         <div id="slider--mega">
             <div class="top-line"> 

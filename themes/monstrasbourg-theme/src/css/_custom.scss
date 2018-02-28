@@ -1,6 +1,8 @@
-/* These inject tags are used for dynamically creating imports for themelet styles, you can place them where ever you like in this file. */
-
-/* inject:imports */
-/* endinject */
-
-/* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
+/* Barre de boutons dans la configuration */
+.portlet-configuration-setup form.form {
+  margin-bottom: 100px;
+  .button-holder.dialog-footer {
+    position: fixed;
+    background: white;
+  }
+}
