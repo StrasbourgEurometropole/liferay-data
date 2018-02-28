@@ -16,7 +16,7 @@
 	            <input id="num_client" name="clientNumber" type="hidden" value="${clientNumber}" />
 	            <div id="tipi-page">
 	                <div style=
-	                "position:relative; background:#f2f0e3 url('/o/tipiportlet/images/${form}.jpg') top center no-repeat; background-size: contain; height:870px; z-index:1;">
+	                "position:relative; background:#f2f0e3 url('/o/tipi.portlet/images/${form}.jpg') top center no-repeat; background-size: contain; height:870px; z-index:1;">
 		                <div class="year-field">
 	                        <span class="year"><label for="year" id="field-label">(1) L'Ann&eacute;e :</label> *</span>
 	                        <span class="field-input"><input class='inputText' id='year' maxlength='4' name="year"
