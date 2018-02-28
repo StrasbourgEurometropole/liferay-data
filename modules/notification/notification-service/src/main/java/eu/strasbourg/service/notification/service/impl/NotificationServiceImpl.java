@@ -271,7 +271,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 
 			Notification notification = this.notificationLocalService.createNotification(sc);
 			notification.setTitle(title, Locale.FRANCE);
-			notification.setDescription(title, Locale.FRANCE);
+			notification.setDescription(description, Locale.FRANCE);
 			notification.setPublicationDate(Date.from(publicationInstant));
 			notification.setExpirationDate(Date.from(expirationInstant));
 			notification.setUrl(url);
