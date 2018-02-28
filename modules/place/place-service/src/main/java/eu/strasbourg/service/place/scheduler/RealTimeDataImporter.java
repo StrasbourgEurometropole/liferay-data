@@ -2,7 +2,6 @@ package eu.strasbourg.service.place.scheduler;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.osgi.service.component.annotations.Activate;
@@ -52,7 +51,7 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
-		System.out.println("Start import of places real time data");
+		//System.out.println("Start import of places real time data");
 		
 		// Récupère tous les lieux ayant un externalId
 		List<Place> places = _placeLocalService.getPlaces(-1, -1);
@@ -61,21 +60,21 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 
 		// On boucle sur les lieux ayant du temps réel configuré
 		for (Place place : placesWithRT) {
-			System.out.println("Place : " + place.getAlias(Locale.FRANCE));
+			//System.out.println("Place : " + place.getAlias(Locale.FRANCE));
 			// S'ils n'ont pas de type, on set le type correctement
 			if (Validator.isNull(place.getRTType())) {
-				System.out.println("Set of type");
+				//System.out.println("Set of type");
 				for (AssetCategory type : place.getTypes()) {
 					String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
 					if (typeSigId.toLowerCase().equals("cat_06_05")) { // Piscines
 						place.setRTType("1");
-						System.out.println("Type 1");
+						//System.out.println("Type 1");
 					} else if (typeSigId.toLowerCase().equals("cat_12_07")) { // Mairies
 						place.setRTType("3");
-						System.out.println("Type 3");
+						//System.out.println("Type 3");
 					} else { // Parkings
 						place.setRTType("2");
-						System.out.println("Type 2");
+						//System.out.println("Type 2");
 					}
 				}
 			}
@@ -107,11 +106,13 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 			place.setRTLastUpdate(new Date());
 			_placeLocalService.updatePlace(place);
 
+			/*
 			System.out.println("Enabled : " + place.getRTEnabled());
 			System.out.println("Occupation : " + place.getRTOccupation());
 			System.out.println("Available : " + place.getRTAvailable());
 			System.out.println("Capacity : " + place.getRTCapacity());
 			System.out.println("Status : " + place.getRTStatus());
+			*/
 		}
 
 	}
