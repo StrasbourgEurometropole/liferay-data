@@ -96,7 +96,7 @@ jQuery(function() {
 function calculatePrice() {
   var amount = $('input#amount').val().split('.');
   var integerPrice = amount[0];
-  var decimalPrice = amount[1];
+  var decimalPrice = amount[1] ? amount[1] : '0';
 
   while (integerPrice.length < 2) {
     integerPrice = '0' + integerPrice;
