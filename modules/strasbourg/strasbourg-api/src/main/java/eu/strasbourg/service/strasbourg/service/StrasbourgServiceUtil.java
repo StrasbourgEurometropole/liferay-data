@@ -51,8 +51,9 @@ public class StrasbourgServiceUtil {
 		return getService().getCopyright(groupId, uuid, language);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois() {
-		return getService().getFavoritesPois();
+	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		long groupId) {
+		return getService().getFavoritesPois(groupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
@@ -61,8 +62,8 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests) {
-		return getService().getPois(interests);
+		java.lang.String interests, long groupId) {
+		return getService().getPois(interests, groupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(

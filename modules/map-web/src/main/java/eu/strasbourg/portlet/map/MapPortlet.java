@@ -80,6 +80,8 @@ public class MapPortlet extends MVCPortlet {
      		boolean hasConfig = false; //Permet de cocher tous les POI si aucune configuration
      		List<Interest> interests = null; //Les POI actifs
      		boolean widgetMod = false;
+     		long groupId = -1; //Group du site dans lequel on doit afficher le détail du POI
+     		boolean newTab = false; //Ouvertures du détail des POIS dans la même fenêtre par défaut
      		
      		//Chargement de la configuration globale pour le mode widget
      		if(configuration.hasConfig() && configuration.widgetMod())
@@ -107,6 +109,8 @@ public class MapPortlet extends MVCPortlet {
      			interestsIdsString = configuration.interestsIds();
      			showFavorites = configuration.showFavorites();
      			interestsDefaultsIds = configuration.interestsDefaultsIds();
+				groupId = configuration.groupId();
+				newTab = configuration.openInNewTab();
 				hasConfig = true;
      		}
      		else //Si pas de config on récupère tous les centres d'intérêt avec le statut publié
@@ -131,6 +135,7 @@ public class MapPortlet extends MVCPortlet {
 				//Récupération de tous les centres d'intérêts actifs avec le statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId())).collect(Collectors.toList());
+				
 				
 			}
 			
@@ -170,6 +175,8 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("widgetMod", widgetMod);
 			request.setAttribute("address", address);
+			request.setAttribute("newTab", newTab);
+			request.setAttribute("groupId", groupId);
 		} catch (Exception e) {
 			_log.error(e);
 		}
@@ -218,7 +225,6 @@ public class MapPortlet extends MVCPortlet {
 	         		JSONArray jsonArray =  JSONFactoryUtil.createJSONArray();
 	         		
 	         		// Centres d'intérêts actifs
-	    			String interestsIdsString = "";
 	    			long interestsCount = ParamUtil.getLong(resourceRequest, "interestsCount");
 	    			
 	    			for (long i = 0; i < interestsCount; i++)

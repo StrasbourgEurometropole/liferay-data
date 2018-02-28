@@ -577,6 +577,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 										59, 999);
 								if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
 									return false;
+								}else{
+									closed = true;
 								}
 							}
 						}
@@ -825,16 +827,32 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	 */
 	@Override
-	public PlaceSchedule getNextScheduleOpening(GregorianCalendar dateJour, Locale locale) {
+	public PlaceSchedule getNextScheduleOpening(GregorianCalendar today, Locale locale) {
 		PlaceSchedule placeSchedule = null;
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTime(today.getTime());
 
-		for (int jour = 0; jour < 14; jour++) {
-			List<PlaceSchedule> liste = getPlaceSchedule(dateJour, locale);
-			if(!liste.isEmpty()){
-				placeSchedule = liste.get(0);
-				if(placeSchedule.isClosed()){
-					break;
+		boolean find =  false;
+		for (int nbDays = 0; nbDays < 14; nbDays++) {
+			List<PlaceSchedule> list = getPlaceSchedule(date, locale);
+			if(!list.isEmpty()){
+				placeSchedule = list.get(0);
+				placeSchedule.setStartDate(date.getTime());
+				if(!placeSchedule.isClosed()){
+					// Si le lieu est ouvert, on vérifie que l'heure d'ouverture n'est pas passée
+					LocalTime time = LocalTime.now();
+					for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
+						if(today.before(date) || time.isBefore(openingTime.getSecond())){
+							nbDays = 14;
+							find = true;
+							break;
+						}
+					}
 				}
+			}
+			date.add(GregorianCalendar.DATE, 1);
+			if (!find){
+				placeSchedule = null;
 			}
 		}
 		return placeSchedule;

@@ -151,12 +151,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
-	public JSONObject getPois(String interests) {
-		return getPoiService().getPois(interests);
+	public JSONObject getPois(String interests, long groupId) {
+		return getPoiService().getPois(interests, groupId);
 	}
 
 	@Override
-	public JSONObject getFavoritesPois() {
+	public JSONObject getFavoritesPois(long groupId) {
 		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 		String userId = null;
@@ -164,7 +164,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
 
-		return getPoiService().getFavoritesPois(userId);
+		return getPoiService().getFavoritesPois(userId, groupId);
 	}
 
 	@Override

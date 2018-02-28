@@ -8,6 +8,8 @@
 	<script>
 		define._amd = define.amd;
 		define.amd = false;
+		var groupId = ${groupId};
+		var newTab = ${newTab};
 	</script>
 	<script src="/o/mapweb/js/leaflet.js"></script>
 	<script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
@@ -90,7 +92,7 @@
 				position.coords.longitude ], 15);
 	}
 
-	// Fonction de callback en cas d’erreur
+	// Fonction de callback en cas dâerreur
 	function erreurPosition(error) {
 		var info = "Erreur lors de la géolocalisation : ";
 		switch (error.code) {
@@ -98,10 +100,10 @@
 			info += "Timeout !";
 			break;
 		case error.PERMISSION_DENIED:
-			info += "Vous n’avez pas donné la permission";
+			info += "Vous n'avez pas donné la permission";
 			break;
 		case error.POSITION_UNAVAILABLE:
-			info += "La position n’a pu être déterminée";
+			info += "La position nâa pu être déterminée";
 			break;
 		case error.UNKNOWN_ERROR:
 			info += "Erreur inconnue";

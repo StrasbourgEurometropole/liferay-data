@@ -194,12 +194,13 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		HttpPrincipal httpPrincipal, java.lang.String interests) {
+		HttpPrincipal httpPrincipal, java.lang.String interests, long groupId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPois", _getPoisParameterTypes7);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, interests);
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					interests, groupId);
 
 			Object returnObj = null;
 
@@ -220,12 +221,12 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		HttpPrincipal httpPrincipal) {
+		HttpPrincipal httpPrincipal, long groupId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getFavoritesPois", _getFavoritesPoisParameterTypes8);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey);
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
 
 			Object returnObj = null;
 
@@ -289,10 +290,10 @@ public class StrasbourgServiceHttp {
 			long.class, java.lang.String.class
 		};
 	private static final Class<?>[] _getPoisParameterTypes7 = new Class[] {
-			java.lang.String.class
+			java.lang.String.class, long.class
 		};
 	private static final Class<?>[] _getFavoritesPoisParameterTypes8 = new Class[] {
-			
+			long.class
 		};
 	private static final Class<?>[] _getCoordinateForAddressParameterTypes9 = new Class[] {
 			java.lang.String.class

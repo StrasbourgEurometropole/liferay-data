@@ -45,8 +45,9 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois() {
-		return _strasbourgService.getFavoritesPois();
+	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		long groupId) {
+		return _strasbourgService.getFavoritesPois(groupId);
 	}
 
 	@Override
@@ -57,8 +58,8 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests) {
-		return _strasbourgService.getPois(interests);
+		java.lang.String interests, long groupId) {
+		return _strasbourgService.getPois(interests, groupId);
 	}
 
 	@Override
