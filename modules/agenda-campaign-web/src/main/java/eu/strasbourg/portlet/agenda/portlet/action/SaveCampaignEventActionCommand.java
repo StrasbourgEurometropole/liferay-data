@@ -200,6 +200,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				campaignEvent.setImageId(fileEntry.getFileEntryId());
 			}
 
+			// Dans le cas où le responsable clique sur le bouton pour récupérer l'image de l'auteur
+			Long webImageId = ParamUtil.getLong(request, "webImageId");
+			
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(webImage);
@@ -211,6 +214,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					MimeTypesUtil.getContentType(webImage), webImage.getName(),
 					"", "", imageBytes, sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
+			}
+			else if(webImageId != null && webImageId != 0) {
+				campaignEvent.setWebImageId(webImageId);
 			}
 
 			String imageOwner = ParamUtil.getString(request, "imageOwner");

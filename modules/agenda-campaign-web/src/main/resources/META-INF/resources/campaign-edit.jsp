@@ -153,8 +153,12 @@
 								<aui:validator name="acceptFiles">'jpg,png'</aui:validator>
 							</aui:input>
 							<c:if test="${not empty dc.campaignEvent.webImageId}">
-								<p><img src="${dc.campaignEvent.webImageURL}"></p>
+								<p><img src="${dc.campaignEvent.webImageURL}" name="webImageUrl" ></p>
 							</c:if>
+							<!-- Permet de récupérer l'id de l'image posté par l'utilisateur -->
+							<aui:input type="hidden" name="webImageId" />
+							<aui:button cssClass="btn-image" type="button" name="use-same-picture" value="use-same-picture"/>
+
 						</c:if>
 					</div>
 				</div>
@@ -477,6 +481,16 @@
 		var themeLabels = ${dc.themeLabels};
 		var campaignThemes = ${dc.campaignThemes};
 		var eventThemes = '${dc.campaignEvent.themesIds}';
+		
+		
+		$('button[name=' + namespace + 'use-same-picture]').on('click', function(){
+
+			$('input[name=' + namespace + 'webImageId]').val('${dc.campaignEvent.imageId}');
+			$('img[name=webImageUrl]').attr('src', '${dc.campaignEvent.imageURL}');
+			//$('img[name=webImageUrl]').css("display", "block");
+		});
+		
+		
 	</aui:script>
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
@@ -490,6 +504,7 @@
 </liferay-util:html-bottom>
 <!-- Ajout du champ obligatoire conditionnel sur le select de la ville -->
 <!-- (obligÃ© de passer par du JS car pas de aui:validator sur aui:select -->
+
 <aui:script use="liferay-form">
 	var form = Liferay.Form.get('<portlet:namespace />fm');
     var oldFieldRules = form.get('fieldRules');

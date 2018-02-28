@@ -74,7 +74,7 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 			}
 			
 		}
-
+		
 		return campaignEvent;
 	}
 
