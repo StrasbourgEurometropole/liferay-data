@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -47,7 +48,6 @@ public class OIDCFilter extends BaseFilter {
 	private String givenNameAttribute = "publik_given_name";
 	private String familyNameAttribute = "publik_family_name";
 	private String emailAttribute = "publik_email";
-	private String lastVisitedAttribute = "last_visited";
 	String familyName;
 	String givenName;
 	String internalId;
@@ -62,9 +62,12 @@ public class OIDCFilter extends BaseFilter {
 	@Override
 	protected void processFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws Exception {
-		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);
-		String lastVisited = this.getCookieValue(request, lastVisitedAttribute); //SessionParamUtil.getString(request, lastVisitedAttribute);
-		String code = ParamUtil.getString(request, "code");
+		if (request.getServletPath() != null && request.getServletPath().startsWith("/o")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);		String code = ParamUtil.getString(request, "code");
 		boolean wantsToLogout = ParamUtil.getBoolean(request, "logout");
 
 		// Dans le cas où l'utilisateur est connecté
@@ -72,16 +75,19 @@ public class OIDCFilter extends BaseFilter {
 			// S'il souhaite se déconnecter, on le déconnecte
 			if (wantsToLogout) {
 				logout(request, response);
+				return;
 			}
 			// Si son jwt n'est plus valide, on le déconnecte
 			String jwtFromCookies = this.getCookieValue(request, "jwt");
 			if (jwtFromCookies == null || jwtFromCookies.equals("")) {
 				logout(request, response);
+				return;
 			} else {
 				boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
 						StrasbourgPropsUtil.getInternalIssuer());
 				if (!isJwtValid) {
 					logout(request, response);
+					return;
 				}
 			}
 		} else {
@@ -91,9 +97,6 @@ public class OIDCFilter extends BaseFilter {
 
 			// Si c'est le cas on démarre le process OIDC
 			if (auth.equals("publik") && code.length() == 0) {
-				// On enregistre la page actuelle dans la session comme dernière
-				// page visitée
-				saveLastVisitedPage(request, response);
 				// On renvoie l'utilisateur vers la page de connexion de publik
 				redirectToLogin(request, response);
 				return;
@@ -118,7 +121,6 @@ public class OIDCFilter extends BaseFilter {
 				// Ainsi que l'id token sous la forme d'un jwt
 				String jwt = json.getString("id_token");
 				LOG.info("Got JWT");
-
 
 				// On vérifie sa validité
 				boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getPublikClientSecret(),
@@ -146,46 +148,14 @@ public class OIDCFilter extends BaseFilter {
 					putUserInfoInSession(request);
 
 					// Et on update la base
-					updateUserInfoInDatabase();
-
-					// Si on a "last_visited" dans la session, on redirige
-					// l'utilisateur vers cette page
-					if (lastVisited.length() > 0) {
-						lastVisited.replace("logout=true", "");
-						//request.getSession().setAttribute(lastVisitedAttribute, null);
-						createCookie(request, response, lastVisitedAttribute, "");
-						LOG.info("Redirecting to page : " + lastVisited);
-						response.sendRedirect(lastVisited);
-						return;
-					}
-					LOG.info("No last visited page");
-				}
+					updateUserInfoInDatabase();				}
 			}
 
 		}
-
-		// Si on a ni de code ni d'auth à ce moment là c'est qu'on est pas dans
-		// le processus de connexion, on peut donc vider l'attribut de session
-		// last_visited
-		if (lastVisited.length() > 0 && code.length() == 0) {
-			createCookie(request, response, lastVisitedAttribute, "");
-			// request.getSession().setAttribute(lastVisitedAttribute, null);
-		}
-
+		
 		// Si on n'est pas connecté mais qu'on a un jwt dans les cookies, on
 		// doit le vérifier et connecter l'utilisateur s'il est valide
 		if (!isAlreadyLoggedIn && !wantsToLogout) {
-			/*
-			Cookie[] cookies = request.getCookies();
-			String jwtFromCookies = null;
-			if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("jwt")) {
-						jwtFromCookies = cookie.getValue();
-					}
-				}
-			}
-			*/
 			String jwtFromCookies = this.getCookieValue(request, "jwt");
 			if (jwtFromCookies != null && !jwtFromCookies.equals("")) {
 				boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
@@ -207,16 +177,16 @@ public class OIDCFilter extends BaseFilter {
 			}
 		}
 
-		super.processFilter(request, response, filterChain);
-	}
+		// Si un attribut "state" se trouve dans la query string, on redirige
+		// vers la page correspondante
+		String redirectURL = ParamUtil.getString(request, "state");
+		if (Validator.isUrl(redirectURL, false)) {
+			LOG.info("State parameter : redirect to " + redirectURL);
+			response.sendRedirect(redirectURL);
+			return;
+		}
 
-	/**
-	 * Enregistre dans la session la page actuelle comme dernière page visitée
-	 */
-	private void saveLastVisitedPage(HttpServletRequest request, HttpServletResponse response) {
-		createCookie(request, response, lastVisitedAttribute, request.getRequestURL().toString());
-		//request.getSession().setAttribute(lastVisitedAttribute, request.getRequestURL().toString());
-		LOG.info("Saving page : " + request.getRequestURL().toString());
+		super.processFilter(request, response, filterChain);
 	}
 
 	/**
@@ -224,7 +194,8 @@ public class OIDCFilter extends BaseFilter {
 	 * sa dernière page visitée dans la session (attribut last_visited)
 	 */
 	private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(StrasbourgPropsUtil.getPublikAuthorizeURL());
+		response.sendRedirect(
+				StrasbourgPropsUtil.getPublikAuthorizeURL() + "&state=" + request.getRequestURL().toString());
 	}
 
 	/**
@@ -304,6 +275,14 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(emailAttribute, null);
 
 		createCookie(request, response, "jwt", "");
+		try {
+			response.sendRedirect(
+					"https://connexion-strasbourg.test.entrouvert.org/idp/oidc/logout/?post_logout_redirect_uri=http://localhost:8080&state="
+							+ request.getRequestURL().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
