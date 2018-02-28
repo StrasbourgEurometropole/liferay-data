@@ -60,7 +60,7 @@
 		style="width: 600px; height: 400px; display: inline-block;"></div>
 
 	<div id="map-markers"
-		style="width: 200px; height: 400px; display: inline-block;"></div>
+		style="width: 400px; height: 400px; display: inline-block; overflow: auto;"></div>
 </div>
 
 
@@ -96,18 +96,18 @@
 				position.coords.longitude ], 15);
 	}
 
-	// Fonction de callback en cas dÃ¢ÂÂerreur
+	// Fonction de callback en cas dÃÂ¢ÃÂÃÂerreur
 	function erreurPosition(error) {
-		var info = "Erreur lors de la gÃÂ©olocalisation : ";
+		var info = "Erreur lors de la gÃÂÃÂ©olocalisation : ";
 		switch (error.code) {
 		case error.TIMEOUT:
 			info += "Timeout !";
 			break;
 		case error.PERMISSION_DENIED:
-			info += "Vous nÃ¢ÂÂavez pas donnÃÂ© la permission";
+			info += "Vous nÃÂ¢ÃÂÃÂavez pas donnÃÂÃÂ© la permission";
 			break;
 		case error.POSITION_UNAVAILABLE:
-			info += "La position nÃ¢ÂÂa pu ÃÂªtre dÃÂ©terminÃÂ©e";
+			info += "La position nÃÂ¢ÃÂÃÂa pu ÃÂÃÂªtre dÃÂÃÂ©terminÃÂÃÂ©e";
 			break;
 		case error.UNKNOWN_ERROR:
 			info += "Erreur inconnue";

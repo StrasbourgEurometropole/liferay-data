@@ -114,7 +114,7 @@ function showPois(){
 			}
 		);
 	}
-	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null}));
+	mymap.addControl(new L.Control.ListMarkers({layer: markers, itemIcon: null, maxZoom: 15}));
 	mymap.addLayer(markers);
 
 	//Copie la liste des markers dans la div prévue à cet effet
