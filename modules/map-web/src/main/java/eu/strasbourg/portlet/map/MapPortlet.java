@@ -230,9 +230,7 @@ public class MapPortlet extends MVCPortlet {
 	         		JSONObject json = JSONFactoryUtil.createJSONObject();
 	         		JSONArray jsonArray =  JSONFactoryUtil.createJSONArray();
 	         		
-	         		// Centres d'intérêts actifs
-	    			String interestsIdsString = "";
-	    			long interestsCount = ParamUtil.getLong(resourceRequest, "interestsCount");
+	         		long interestsCount = ParamUtil.getLong(resourceRequest, "interestsCount");
 	    			
 	    			for (long i = 0; i < interestsCount; i++)
 	    			{
