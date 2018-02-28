@@ -1,5 +1,9 @@
 %atom-wi-agenda-vignette{
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    &:nth-child(n + 5) {
+        margin-top: 20px;
+    }
+
     @include RWD(tablet){
         &:nth-child(1),
         &:nth-child(2){
@@ -9,7 +13,7 @@
     @include RWD(mobile){
         margin-bottom: 20px;
     }
-    .link{
+    .seu-link{
         text-align: left;
         padding: 40px;
         height: 100%;
@@ -29,7 +33,7 @@
             padding: 20px;
         }
     }
-    .title{
+    .seu-title{
         font-family: $montserrat;
         font-weight: 700;
         font-size: 1.7rem;
@@ -41,7 +45,7 @@
             font-size: 1.5rem;
         }
     }
-    .lead{
+    .seu-lead{
         font-family: $opensans;
         font-weight: 600;
         font-size: 1.4rem;
@@ -52,7 +56,7 @@
             font-size: 1.2rem;
         }
     }
-    .picture{
+    .seu-picture{
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -69,10 +73,10 @@
             transition: all, 0.5s;
         }
     }
-    .date-start{
+    .seu-date-start{
         font-size: 2.4rem;
     }
-    .date-end{
+    .seu-date-end{
         font-family: $montserrat;
         font-weight: 700;
         font-size: 5.0rem;
@@ -85,9 +89,9 @@
             font-size: 4.0rem;
         }
     }
-    .date-prefix{}
-    .date-suffix{}
-    .date-sup{
+    .seu-date-prefix{}
+    .seu-date-suffix{}
+    .seu-date-sup{
         font-family: $montserrat;
         font-weight: 700;
         font-size: 1.7rem;
@@ -98,30 +102,29 @@
             font-size: 1.2rem;
         }
     }
-    &.event{}
-    &.actu{
-        .link{
+    &.seu-event{}
+    &.seu-actu{
+        .seu-link{
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        .picture{
+        .seu-picture{
             padding-bottom: 75%;
             margin-top: 30px;
             @include RWD(mobile){
-                padding-bottom: 0;
                 flex: 1;
             }
         }
-        &.big{
+        &.seu-big{
             @include RWD(desktop){
-                .picture{
+                .seu-picture{
                     position: absolute;
                     top: 0; left: 0; 
                     height: 100%; width: 100%;
                     margin: 0;
                 }
-                .text{
+                .seu-text{
                     height: 50%; width: 50%;
                     position: absolute;
                     top: 0; right: 0;
@@ -132,8 +135,8 @@
             }
         }
     }
-    &.has-ville{
-        .ville{
+    &.seu-has-ville{
+        .seu-ville{
             font-family: $montserrat;
             font-size: 1.4rem;
             color: #2da192;
