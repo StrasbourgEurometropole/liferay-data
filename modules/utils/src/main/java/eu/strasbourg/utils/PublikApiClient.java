@@ -83,8 +83,8 @@ public class PublikApiClient {
 	 * @return Objet JSON content les informations de l'utilisateur
 	 */
 	public static JSONObject getUserDetails(String userId) {
-		String baseUrl = "https://connexion-strasbourg.test.entrouvert.org";
-		String endpoint = "/api/users/";
+		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
+		String endpoint = "api/users/";
 		try {
 			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint + userId,
 					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());

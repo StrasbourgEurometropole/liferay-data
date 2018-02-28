@@ -67,7 +67,8 @@ public class OIDCFilter extends BaseFilter {
 			return;
 		}
 
-		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);		String code = ParamUtil.getString(request, "code");
+		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);
+		String code = ParamUtil.getString(request, "code");
 		boolean wantsToLogout = ParamUtil.getBoolean(request, "logout");
 
 		// Dans le cas où l'utilisateur est connecté
@@ -148,11 +149,12 @@ public class OIDCFilter extends BaseFilter {
 					putUserInfoInSession(request);
 
 					// Et on update la base
-					updateUserInfoInDatabase();				}
+					updateUserInfoInDatabase();
+				}
 			}
 
 		}
-		
+
 		// Si on n'est pas connecté mais qu'on a un jwt dans les cookies, on
 		// doit le vérifier et connecter l'utilisateur s'il est valide
 		if (!isAlreadyLoggedIn && !wantsToLogout) {
@@ -276,9 +278,8 @@ public class OIDCFilter extends BaseFilter {
 
 		createCookie(request, response, "jwt", "");
 		try {
-			response.sendRedirect(
-					"https://connexion-strasbourg.test.entrouvert.org/idp/oidc/logout/?post_logout_redirect_uri=http://localhost:8080&state="
-							+ request.getRequestURL().toString());
+			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
+					+ "?post_logout_redirect_uri=http://localhost:8080&state=" + request.getRequestURL().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

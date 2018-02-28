@@ -120,6 +120,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.issuer");
 	}
 
+	public static String getPublikLogoutURL() {
+		return PropsUtil.get("eu.strasbourg.publik.url.logout");
+	}
+
 	public static String getPublikApiBase() {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
 	}
