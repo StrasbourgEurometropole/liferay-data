@@ -43,6 +43,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setLastName(model.getLastName());
 		soapModel.setEmail(model.getEmail());
 		soapModel.setMapConfig(model.getMapConfig());
+		soapModel.setDisplayConfig(model.getDisplayConfig());
 
 		return soapModel;
 	}
@@ -175,6 +176,14 @@ public class PublikUserSoap implements Serializable {
 		_mapConfig = mapConfig;
 	}
 
+	public String getDisplayConfig() {
+		return _displayConfig;
+	}
+
+	public void setDisplayConfig(String displayConfig) {
+		_displayConfig = displayConfig;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -185,4 +194,5 @@ public class PublikUserSoap implements Serializable {
 	private String _lastName;
 	private String _email;
 	private String _mapConfig;
+	private String _displayConfig;
 }

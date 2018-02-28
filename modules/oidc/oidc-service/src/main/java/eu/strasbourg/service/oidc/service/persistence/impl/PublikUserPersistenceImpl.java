@@ -1231,6 +1231,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		publikUserImpl.setLastName(publikUser.getLastName());
 		publikUserImpl.setEmail(publikUser.getEmail());
 		publikUserImpl.setMapConfig(publikUser.getMapConfig());
+		publikUserImpl.setDisplayConfig(publikUser.getDisplayConfig());
 
 		return publikUserImpl;
 	}

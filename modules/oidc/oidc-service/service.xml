@@ -18,6 +18,7 @@
 		<column name="lastName" type="String" />
 		<column name="email" type="String" />
 		<column name="mapConfig" type="String" />
+		<column name="displayConfig" type="String" />
 
 	    <finder name="PublikId" return-type="PublikUser" unique="true" db-index="true">
 	      <finder-column name="publikId" />

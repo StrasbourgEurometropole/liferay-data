@@ -67,6 +67,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("lastName", getLastName());
 		attributes.put("email", getEmail());
 		attributes.put("mapConfig", getMapConfig());
+		attributes.put("displayConfig", getDisplayConfig());
 
 		return attributes;
 	}
@@ -131,6 +132,12 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (mapConfig != null) {
 			setMapConfig(mapConfig);
+		}
+
+		String displayConfig = (String)attributes.get("displayConfig");
+
+		if (displayConfig != null) {
+			setDisplayConfig(displayConfig);
 		}
 	}
 
@@ -197,6 +204,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public java.lang.String getAccessToken() {
 		return _publikUser.getAccessToken();
+	}
+
+	/**
+	* Returns the display config of this publik user.
+	*
+	* @return the display config of this publik user
+	*/
+	@Override
+	public java.lang.String getDisplayConfig() {
+		return _publikUser.getDisplayConfig();
 	}
 
 	/**
@@ -337,6 +354,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setCreateDate(Date createDate) {
 		_publikUser.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the display config of this publik user.
+	*
+	* @param displayConfig the display config of this publik user
+	*/
+	@Override
+	public void setDisplayConfig(java.lang.String displayConfig) {
+		_publikUser.setDisplayConfig(displayConfig);
 	}
 
 	/**

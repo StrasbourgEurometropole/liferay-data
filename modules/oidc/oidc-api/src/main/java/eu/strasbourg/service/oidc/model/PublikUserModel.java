@@ -209,6 +209,21 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setMapConfig(String mapConfig);
 
+	/**
+	 * Returns the display config of this publik user.
+	 *
+	 * @return the display config of this publik user
+	 */
+	@AutoEscape
+	public String getDisplayConfig();
+
+	/**
+	 * Sets the display config of this publik user.
+	 *
+	 * @param displayConfig the display config of this publik user
+	 */
+	public void setDisplayConfig(String displayConfig);
+
 	@Override
 	public boolean isNew();
 

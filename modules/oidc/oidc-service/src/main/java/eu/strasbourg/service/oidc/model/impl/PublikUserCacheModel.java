@@ -66,7 +66,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -88,6 +88,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		sb.append(email);
 		sb.append(", mapConfig=");
 		sb.append(mapConfig);
+		sb.append(", displayConfig=");
+		sb.append(displayConfig);
 		sb.append("}");
 
 		return sb.toString();
@@ -162,6 +164,13 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setMapConfig(mapConfig);
 		}
 
+		if (displayConfig == null) {
+			publikUserImpl.setDisplayConfig(StringPool.BLANK);
+		}
+		else {
+			publikUserImpl.setDisplayConfig(displayConfig);
+		}
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -180,6 +189,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		lastName = objectInput.readUTF();
 		email = objectInput.readUTF();
 		mapConfig = objectInput.readUTF();
+		displayConfig = objectInput.readUTF();
 	}
 
 	@Override
@@ -237,6 +247,13 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		else {
 			objectOutput.writeUTF(mapConfig);
 		}
+
+		if (displayConfig == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(displayConfig);
+		}
 	}
 
 	public String uuid;
@@ -249,4 +266,5 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public String lastName;
 	public String email;
 	public String mapConfig;
+	public String displayConfig;
 }
