@@ -82,6 +82,8 @@ public class MapPortlet extends MVCPortlet {
      		boolean hasConfig = false; //Permet de cocher tous les POI si aucune configuration
      		List<Interest> interests = null; //Les POI actifs
      		boolean widgetMod = false;
+     		long groupId = -1; //Group du site dans lequel on doit afficher le détail du POI
+     		boolean newTab = false; //Ouvertures du détail des POIS dans la même fenêtre par défaut
      		
      		//Chargement de la configuration globale pour le mode widget
      		if(configuration.hasConfig() && configuration.widgetMod())
@@ -109,6 +111,8 @@ public class MapPortlet extends MVCPortlet {
      			interestsIdsString = configuration.interestsIds();
      			showFavorites = configuration.showFavorites();
      			interestsDefaultsIds = configuration.interestsDefaultsIds();
+     			groupId = configuration.groupId();
+				newTab = configuration.openInNewTab();
 				hasConfig = true;
      		}
      		else //Si pas de config on récupère tous les centres d'intérêt avec le statut publié
@@ -172,6 +176,8 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("widgetMod", widgetMod);
 			request.setAttribute("address", address);
+			request.setAttribute("newTab", newTab);
+			request.setAttribute("groupId", groupId);
 		} catch (Exception e) {
 			_log.error(e);
 		}
