@@ -141,10 +141,11 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getPois(java.lang.String interests)
-		throws RemoteException {
+	public static java.lang.String getPois(java.lang.String interests,
+		long groupId) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests);
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					groupId);
 
 			return returnValue.toString();
 		}
@@ -155,9 +156,10 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getFavoritesPois() throws RemoteException {
+	public static java.lang.String getFavoritesPois(long groupId)
+		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois();
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId);
 
 			return returnValue.toString();
 		}
