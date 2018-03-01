@@ -12193,6 +12193,10 @@ form + .seu-error-messages {
         -ms-flex-pack: left !important;
             justify-content: left !important; }
 
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-web-content/wi-web-content.scss */
+.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_ {
+  opacity: 1 !important; }
+
 /* line 2, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {
   height: calc(100% - 140px); }
