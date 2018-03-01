@@ -8,6 +8,8 @@
 	<script>
 		define._amd = define.amd;
 		define.amd = false;
+		var groupId = ${groupId};
+		var newTab = ${newTab};
 	</script>
 	<script src="/o/mapweb/js/leaflet.js"></script>
 	<script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
@@ -96,18 +98,18 @@
 				position.coords.longitude ], 15);
 	}
 
-	// Fonction de callback en cas dÃÂ¢ÃÂÃÂerreur
+	// Fonction de callback en cas dÃÂÃÂ¢ÃÂÃÂÃÂÃÂerreur
 	function erreurPosition(error) {
-		var info = "Erreur lors de la gÃÂÃÂ©olocalisation : ";
+		var info = "Erreur lors de la gÃÂÃÂÃÂÃÂ©olocalisation : ";
 		switch (error.code) {
 		case error.TIMEOUT:
 			info += "Timeout !";
 			break;
 		case error.PERMISSION_DENIED:
-			info += "Vous nÃÂ¢ÃÂÃÂavez pas donnÃÂÃÂ© la permission";
+			info += "Vous nÃÂÃÂ¢ÃÂÃÂÃÂÃÂavez pas donnÃÂÃÂÃÂÃÂ© la permission";
 			break;
 		case error.POSITION_UNAVAILABLE:
-			info += "La position nÃÂ¢ÃÂÃÂa pu ÃÂÃÂªtre dÃÂÃÂ©terminÃÂÃÂ©e";
+			info += "La position nÃÂÃÂ¢ÃÂÃÂÃÂÃÂa pu ÃÂÃÂÃÂÃÂªtre dÃÂÃÂÃÂÃÂ©terminÃÂÃÂÃÂÃÂ©e";
 			break;
 		case error.UNKNOWN_ERROR:
 			info += "Erreur inconnue";
