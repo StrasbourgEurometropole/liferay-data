@@ -278,8 +278,8 @@ public class OIDCFilter extends BaseFilter {
 
 		createCookie(request, response, "jwt", "");
 		try {
-			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
-					+ "?post_logout_redirect_uri=http://localhost:8080&state=" + request.getRequestURL().toString());
+			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL() + "?post_logout_redirect_uri="
+					+ StrasbourgPropsUtil.getURL() + "&state=" + request.getRequestURL().toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
