@@ -31,7 +31,16 @@
 		</div>
 	</div>
 	<div class="search-infos">
-		<div class="search-infos__amount">${dc.count } <liferay-ui:message key="favorites" /></div>
+		<div class="search-infos__amount">${dc.count }
+			<c:choose>
+				<c:when test="${dc.count gt 1}"> 
+					<liferay-ui:message key="favorites" />
+				</c:when>
+				<c:otherwise>
+					<liferay-ui:message key="favorite" />
+				</c:otherwise>
+			</c:choose>
+		</div>
 		<div class="filler"></div>
 		<!-- <div class="search-infos__filter">
 			<span><liferay-ui:message key="results-per-page" /></span>
@@ -159,24 +168,24 @@
 <!--  	<ul class="mseu-pagination unstyled">
 		<li class="pagin-prev disabled pagin-item"><a href="#"
 			class="btn-square bordered core" data-action="prev"
-			title="Aller Ã  la page prÃ©cÃ©dente"> <span class="flexbox">
-					<span class="btn-text">PrÃ©cÃ©dent</span> <span class="btn-arrow"></span>
+			title="Aller ÃÂ  la page prÃÂ©cÃÂ©dente"> <span class="flexbox">
+					<span class="btn-text">PrÃÂ©cÃÂ©dent</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="is-active pagin-item">
-			<div data-page="1" title="Aller Ã Â  la page 1">
+			<div data-page="1" title="Aller ÃÂ ÃÂ  la page 1">
 				<span class="flexbox"> <span class="btn-text">1</span> <span
 					class="btn-arrow"></span>
 				</span>
 			</div>
 		</li>
 		<li class="pagin-item"><a href="#" data-page="2"
-			title="Aller Ã  la page 2"> <span class="flexbox"> <span
+			title="Aller ÃÂ  la page 2"> <span class="flexbox"> <span
 					class="btn-text">2</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="pagin-next pagin-item"><a href="#"
-			class="btn-square bordered core" title="Aller Ã  la page suivante"
+			class="btn-square bordered core" title="Aller ÃÂ  la page suivante"
 			data-action="next"> <span class="flexbox"> <span
 					class="btn-text">Suivant</span> <span class="btn-arrow"></span>
 			</span>
