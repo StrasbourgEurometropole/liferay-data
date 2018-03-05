@@ -141,5 +141,48 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getPois(java.lang.String interests,
+		long groupId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					groupId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getFavoritesPois(long groupId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getCoordinateForAddress(
+		java.lang.String address) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = StrasbourgServiceUtil.getCoordinateForAddress(address);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

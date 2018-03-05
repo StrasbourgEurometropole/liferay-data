@@ -43,13 +43,20 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Notifications",
+@Component(
+		immediate = true,
+		property = { 
+		"com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=true", 
+		"javax.portlet.display-name=Notifications",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/notification-viewer-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/notification-viewer-configuration.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB, 
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user"
+		}, 
+		service = Portlet.class)
 public class NotificationViewerWebPortlet extends MVCPortlet {
 
 	public void showNotification(ActionRequest actionRequest, ActionResponse actionResponse)
@@ -107,13 +114,11 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			List<NotificationDisplay> notifications = new ArrayList<NotificationDisplay>();
 
 			// Création de la liste des notifications à afficher en fonction de
-			// la
-			// notification, de son statut et de l'utilisateur
+			// la notification, de son statut et de l'utilisateur
 			for (UserNotificationStatus un : usrNotifStatus) {
 				NotificationDisplay nd = new NotificationDisplay();
 				nd.setTitle(un.getNotification().getTitle(renderRequest.getLocale()));
 				nd.setRead(un.isRead());
-				//nd.setDate(new SimpleDateFormat("dd.MM").format(un.getNotification().getPublicationDate()));
 				nd.setDate(un.getNotification().getPublicationDate());
 				nd.setNotificationId(un.getNotificationId());
 				notifications.add(nd);

@@ -1,6 +1,10 @@
 package eu.strasbourg.utils.api;
 
+import java.util.List;
+
 import javax.portlet.PortletRequest;
+
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -14,4 +18,5 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface PortletHelperService {
 	public String getPortletTitle(String key, PortletRequest request);
+	public boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames);
 }
