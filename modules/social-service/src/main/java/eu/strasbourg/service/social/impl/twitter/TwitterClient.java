@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 
 import eu.strasbourg.service.social.twitter.Tweet;
@@ -32,32 +27,6 @@ public class TwitterClient {
 
 	static {
 		try {
-			// Trust all certs
-			TrustManager[] trustAllCerts = new TrustManager[] {
-				new X509TrustManager() {
-					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-						return null;
-					}
-
-					public void checkClientTrusted(
-						java.security.cert.X509Certificate[] certs,
-						String authType) {
-					}
-
-					public void checkServerTrusted(
-						java.security.cert.X509Certificate[] certs,
-						String authType) {
-					}
-				} };
-			try {
-				SSLContext sc = SSLContext.getInstance("SSL");
-				sc.init(null, trustAllCerts, new java.security.SecureRandom());
-				HttpsURLConnection
-					.setDefaultSSLSocketFactory(sc.getSocketFactory());
-			} catch (Exception e) {
-			}
-
-
 			// Initialisation du wrapper de l'API Twitter
 			twitterConsumerKey = StrasbourgPropsUtil.getTwitterConsumerKey();
 			twitterConsumerSecret = StrasbourgPropsUtil.getTwitterConsumerSecret();
