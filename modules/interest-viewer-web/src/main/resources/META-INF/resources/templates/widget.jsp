@@ -12,17 +12,8 @@
         <p class="no-interests">${dc.getNoInterestText()}</p>
     </section>
 </c:if>
-<c:if test="${not empty dc.entries}">
+<c:if test="${dc.hasInterest() and not empty dc.entries}">
     <script type="text/javascript">
-        /* Exemple de flux pour populer le slider mega (voir script slider--mega.js)
-            Chaque donnÃ©e viendra remplacer un placeholder prÃ©vu dans les templates ci dessous
-            Pour bien fonctionner le flux doit faire figurer les remontÃ©es dans l'ordre oÃ¹ elles doivent apparaÃ®tre en front
-            Pour les dates, 3 possibiliÃ© :
-                *date unique: "le 24.06", renseigner date_end + date_prefix (peut Ãªtre automatiquement "le")
-                *date "Ã   partir de": reseigner data_end + date_prefix (peut Ãªtre automatiquement "Ã   partir du")
-                *date interval "du X au X" : renseigner date_start, date_end,  date_prefix (peut Ãªtre automatiquement "du") et date_suffix (peut Ãªtre automatiquement "au")
-            Important: Laisser Ã©galement les champs vides prÃ©sent dans le json, sinon les placeholders ne seront pas remplacÃ©s
-        */
         <c:set var="newsCount" value="0"/>
         <c:set var="editionCount" value="0"/>
         <c:set var="eventCount" value="0"/>
@@ -60,7 +51,7 @@
 	                category: 'agenda',
 	                title: '${dc.getJSONEncodedString(event.getTitle(locale))}',
 	                lead: '${dc.getJSONEncodedString(event.getDescription(locale))}',
-	                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
+	                link: 'https://${homeURL}evenement/-/entity/id/${event.eventId}',
 	                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 	                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
 						<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
