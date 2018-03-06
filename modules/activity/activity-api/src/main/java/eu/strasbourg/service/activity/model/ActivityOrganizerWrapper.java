@@ -73,7 +73,11 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
-		attributes.put("contactInformation", getContactInformation());
+		attributes.put("presentation", getPresentation());
+		attributes.put("address", getAddress());
+		attributes.put("phone", getPhone());
+		attributes.put("mail", getMail());
+		attributes.put("siteURL", getSiteURL());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -159,10 +163,34 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 			setName(name);
 		}
 
-		String contactInformation = (String)attributes.get("contactInformation");
+		String presentation = (String)attributes.get("presentation");
 
-		if (contactInformation != null) {
-			setContactInformation(contactInformation);
+		if (presentation != null) {
+			setPresentation(presentation);
+		}
+
+		String address = (String)attributes.get("address");
+
+		if (address != null) {
+			setAddress(address);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String mail = (String)attributes.get("mail");
+
+		if (mail != null) {
+			setMail(mail);
+		}
+
+		String siteURL = (String)attributes.get("siteURL");
+
+		if (siteURL != null) {
+			setSiteURL(siteURL);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -335,71 +363,71 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	}
 
 	/**
-	* Returns the contact information of this activity organizer.
+	* Returns the address of this activity organizer.
 	*
-	* @return the contact information of this activity organizer
+	* @return the address of this activity organizer
 	*/
 	@Override
-	public java.lang.String getContactInformation() {
-		return _activityOrganizer.getContactInformation();
+	public java.lang.String getAddress() {
+		return _activityOrganizer.getAddress();
 	}
 
 	/**
-	* Returns the localized contact information of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized address of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
-	* @return the localized contact information of this activity organizer
+	* @return the localized address of this activity organizer
 	*/
 	@Override
-	public java.lang.String getContactInformation(java.lang.String languageId) {
-		return _activityOrganizer.getContactInformation(languageId);
+	public java.lang.String getAddress(java.lang.String languageId) {
+		return _activityOrganizer.getAddress(languageId);
 	}
 
 	/**
-	* Returns the localized contact information of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized address of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param languageId the ID of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized contact information of this activity organizer
+	* @return the localized address of this activity organizer
 	*/
 	@Override
-	public java.lang.String getContactInformation(java.lang.String languageId,
+	public java.lang.String getAddress(java.lang.String languageId,
 		boolean useDefault) {
-		return _activityOrganizer.getContactInformation(languageId, useDefault);
+		return _activityOrganizer.getAddress(languageId, useDefault);
 	}
 
 	/**
-	* Returns the localized contact information of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	* Returns the localized address of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
 	*
 	* @param locale the locale of the language
-	* @return the localized contact information of this activity organizer
+	* @return the localized address of this activity organizer
 	*/
 	@Override
-	public java.lang.String getContactInformation(java.util.Locale locale) {
-		return _activityOrganizer.getContactInformation(locale);
+	public java.lang.String getAddress(java.util.Locale locale) {
+		return _activityOrganizer.getAddress(locale);
 	}
 
 	/**
-	* Returns the localized contact information of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	* Returns the localized address of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
 	*
 	* @param locale the local of the language
 	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized contact information of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	* @return the localized address of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	*/
 	@Override
-	public java.lang.String getContactInformation(java.util.Locale locale,
+	public java.lang.String getAddress(java.util.Locale locale,
 		boolean useDefault) {
-		return _activityOrganizer.getContactInformation(locale, useDefault);
+		return _activityOrganizer.getAddress(locale, useDefault);
 	}
 
 	@Override
-	public java.lang.String getContactInformationCurrentLanguageId() {
-		return _activityOrganizer.getContactInformationCurrentLanguageId();
+	public java.lang.String getAddressCurrentLanguageId() {
+		return _activityOrganizer.getAddressCurrentLanguageId();
 	}
 
 	@Override
-	public java.lang.String getContactInformationCurrentValue() {
-		return _activityOrganizer.getContactInformationCurrentValue();
+	public java.lang.String getAddressCurrentValue() {
+		return _activityOrganizer.getAddressCurrentValue();
 	}
 
 	@Override
@@ -413,6 +441,16 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public java.lang.String getImageURL() {
 		return _activityOrganizer.getImageURL();
+	}
+
+	/**
+	* Returns the mail of this activity organizer.
+	*
+	* @return the mail of this activity organizer
+	*/
+	@Override
+	public java.lang.String getMail() {
+		return _activityOrganizer.getMail();
 	}
 
 	/**
@@ -480,6 +518,152 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public java.lang.String getNameCurrentValue() {
 		return _activityOrganizer.getNameCurrentValue();
+	}
+
+	/**
+	* Returns the phone of this activity organizer.
+	*
+	* @return the phone of this activity organizer
+	*/
+	@Override
+	public java.lang.String getPhone() {
+		return _activityOrganizer.getPhone();
+	}
+
+	/**
+	* Returns the presentation of this activity organizer.
+	*
+	* @return the presentation of this activity organizer
+	*/
+	@Override
+	public java.lang.String getPresentation() {
+		return _activityOrganizer.getPresentation();
+	}
+
+	/**
+	* Returns the localized presentation of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized presentation of this activity organizer
+	*/
+	@Override
+	public java.lang.String getPresentation(java.lang.String languageId) {
+		return _activityOrganizer.getPresentation(languageId);
+	}
+
+	/**
+	* Returns the localized presentation of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized presentation of this activity organizer
+	*/
+	@Override
+	public java.lang.String getPresentation(java.lang.String languageId,
+		boolean useDefault) {
+		return _activityOrganizer.getPresentation(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized presentation of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized presentation of this activity organizer
+	*/
+	@Override
+	public java.lang.String getPresentation(java.util.Locale locale) {
+		return _activityOrganizer.getPresentation(locale);
+	}
+
+	/**
+	* Returns the localized presentation of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized presentation of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getPresentation(java.util.Locale locale,
+		boolean useDefault) {
+		return _activityOrganizer.getPresentation(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getPresentationCurrentLanguageId() {
+		return _activityOrganizer.getPresentationCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getPresentationCurrentValue() {
+		return _activityOrganizer.getPresentationCurrentValue();
+	}
+
+	/**
+	* Returns the site url of this activity organizer.
+	*
+	* @return the site url of this activity organizer
+	*/
+	@Override
+	public java.lang.String getSiteURL() {
+		return _activityOrganizer.getSiteURL();
+	}
+
+	/**
+	* Returns the localized site url of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized site url of this activity organizer
+	*/
+	@Override
+	public java.lang.String getSiteURL(java.lang.String languageId) {
+		return _activityOrganizer.getSiteURL(languageId);
+	}
+
+	/**
+	* Returns the localized site url of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized site url of this activity organizer
+	*/
+	@Override
+	public java.lang.String getSiteURL(java.lang.String languageId,
+		boolean useDefault) {
+		return _activityOrganizer.getSiteURL(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized site url of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized site url of this activity organizer
+	*/
+	@Override
+	public java.lang.String getSiteURL(java.util.Locale locale) {
+		return _activityOrganizer.getSiteURL(locale);
+	}
+
+	/**
+	* Returns the localized site url of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized site url of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getSiteURL(java.util.Locale locale,
+		boolean useDefault) {
+		return _activityOrganizer.getSiteURL(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getSiteURLCurrentLanguageId() {
+		return _activityOrganizer.getSiteURLCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getSiteURLCurrentValue() {
+		return _activityOrganizer.getSiteURLCurrentValue();
 	}
 
 	/**
@@ -587,13 +771,13 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	}
 
 	/**
-	* Returns a map of the locales and localized contact informations of this activity organizer.
+	* Returns a map of the locales and localized addresses of this activity organizer.
 	*
-	* @return the locales and localized contact informations of this activity organizer
+	* @return the locales and localized addresses of this activity organizer
 	*/
 	@Override
-	public Map<java.util.Locale, java.lang.String> getContactInformationMap() {
-		return _activityOrganizer.getContactInformationMap();
+	public Map<java.util.Locale, java.lang.String> getAddressMap() {
+		return _activityOrganizer.getAddressMap();
 	}
 
 	/**
@@ -604,6 +788,26 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getNameMap() {
 		return _activityOrganizer.getNameMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized presentations of this activity organizer.
+	*
+	* @return the locales and localized presentations of this activity organizer
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getPresentationMap() {
+		return _activityOrganizer.getPresentationMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized site urls of this activity organizer.
+	*
+	* @return the locales and localized site urls of this activity organizer
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getSiteURLMap() {
+		return _activityOrganizer.getSiteURLMap();
 	}
 
 	/**
@@ -704,6 +908,69 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 		_activityOrganizer.setActivityOrganizerId(activityOrganizerId);
 	}
 
+	/**
+	* Sets the address of this activity organizer.
+	*
+	* @param address the address of this activity organizer
+	*/
+	@Override
+	public void setAddress(java.lang.String address) {
+		_activityOrganizer.setAddress(address);
+	}
+
+	/**
+	* Sets the localized address of this activity organizer in the language.
+	*
+	* @param address the localized address of this activity organizer
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setAddress(java.lang.String address, java.util.Locale locale) {
+		_activityOrganizer.setAddress(address, locale);
+	}
+
+	/**
+	* Sets the localized address of this activity organizer in the language, and sets the default locale.
+	*
+	* @param address the localized address of this activity organizer
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAddress(java.lang.String address, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_activityOrganizer.setAddress(address, locale, defaultLocale);
+	}
+
+	@Override
+	public void setAddressCurrentLanguageId(java.lang.String languageId) {
+		_activityOrganizer.setAddressCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized addresses of this activity organizer from the map of locales and localized addresses.
+	*
+	* @param addressMap the locales and localized addresses of this activity organizer
+	*/
+	@Override
+	public void setAddressMap(
+		Map<java.util.Locale, java.lang.String> addressMap) {
+		_activityOrganizer.setAddressMap(addressMap);
+	}
+
+	/**
+	* Sets the localized addresses of this activity organizer from the map of locales and localized addresses, and sets the default locale.
+	*
+	* @param addressMap the locales and localized addresses of this activity organizer
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setAddressMap(
+		Map<java.util.Locale, java.lang.String> addressMap,
+		java.util.Locale defaultLocale) {
+		_activityOrganizer.setAddressMap(addressMap, defaultLocale);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_activityOrganizer.setCachedModel(cachedModel);
@@ -717,73 +984,6 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public void setCompanyId(long companyId) {
 		_activityOrganizer.setCompanyId(companyId);
-	}
-
-	/**
-	* Sets the contact information of this activity organizer.
-	*
-	* @param contactInformation the contact information of this activity organizer
-	*/
-	@Override
-	public void setContactInformation(java.lang.String contactInformation) {
-		_activityOrganizer.setContactInformation(contactInformation);
-	}
-
-	/**
-	* Sets the localized contact information of this activity organizer in the language.
-	*
-	* @param contactInformation the localized contact information of this activity organizer
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setContactInformation(java.lang.String contactInformation,
-		java.util.Locale locale) {
-		_activityOrganizer.setContactInformation(contactInformation, locale);
-	}
-
-	/**
-	* Sets the localized contact information of this activity organizer in the language, and sets the default locale.
-	*
-	* @param contactInformation the localized contact information of this activity organizer
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setContactInformation(java.lang.String contactInformation,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
-		_activityOrganizer.setContactInformation(contactInformation, locale,
-			defaultLocale);
-	}
-
-	@Override
-	public void setContactInformationCurrentLanguageId(
-		java.lang.String languageId) {
-		_activityOrganizer.setContactInformationCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized contact informations of this activity organizer from the map of locales and localized contact informations.
-	*
-	* @param contactInformationMap the locales and localized contact informations of this activity organizer
-	*/
-	@Override
-	public void setContactInformationMap(
-		Map<java.util.Locale, java.lang.String> contactInformationMap) {
-		_activityOrganizer.setContactInformationMap(contactInformationMap);
-	}
-
-	/**
-	* Sets the localized contact informations of this activity organizer from the map of locales and localized contact informations, and sets the default locale.
-	*
-	* @param contactInformationMap the locales and localized contact informations of this activity organizer
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setContactInformationMap(
-		Map<java.util.Locale, java.lang.String> contactInformationMap,
-		java.util.Locale defaultLocale) {
-		_activityOrganizer.setContactInformationMap(contactInformationMap,
-			defaultLocale);
 	}
 
 	/**
@@ -830,6 +1030,16 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public void setImageId(long imageId) {
 		_activityOrganizer.setImageId(imageId);
+	}
+
+	/**
+	* Sets the mail of this activity organizer.
+	*
+	* @param mail the mail of this activity organizer
+	*/
+	@Override
+	public void setMail(java.lang.String mail) {
+		_activityOrganizer.setMail(mail);
 	}
 
 	/**
@@ -909,6 +1119,80 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	}
 
 	/**
+	* Sets the phone of this activity organizer.
+	*
+	* @param phone the phone of this activity organizer
+	*/
+	@Override
+	public void setPhone(java.lang.String phone) {
+		_activityOrganizer.setPhone(phone);
+	}
+
+	/**
+	* Sets the presentation of this activity organizer.
+	*
+	* @param presentation the presentation of this activity organizer
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation) {
+		_activityOrganizer.setPresentation(presentation);
+	}
+
+	/**
+	* Sets the localized presentation of this activity organizer in the language.
+	*
+	* @param presentation the localized presentation of this activity organizer
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation,
+		java.util.Locale locale) {
+		_activityOrganizer.setPresentation(presentation, locale);
+	}
+
+	/**
+	* Sets the localized presentation of this activity organizer in the language, and sets the default locale.
+	*
+	* @param presentation the localized presentation of this activity organizer
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_activityOrganizer.setPresentation(presentation, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPresentationCurrentLanguageId(java.lang.String languageId) {
+		_activityOrganizer.setPresentationCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized presentations of this activity organizer from the map of locales and localized presentations.
+	*
+	* @param presentationMap the locales and localized presentations of this activity organizer
+	*/
+	@Override
+	public void setPresentationMap(
+		Map<java.util.Locale, java.lang.String> presentationMap) {
+		_activityOrganizer.setPresentationMap(presentationMap);
+	}
+
+	/**
+	* Sets the localized presentations of this activity organizer from the map of locales and localized presentations, and sets the default locale.
+	*
+	* @param presentationMap the locales and localized presentations of this activity organizer
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPresentationMap(
+		Map<java.util.Locale, java.lang.String> presentationMap,
+		java.util.Locale defaultLocale) {
+		_activityOrganizer.setPresentationMap(presentationMap, defaultLocale);
+	}
+
+	/**
 	* Sets the primary key of this activity organizer.
 	*
 	* @param primaryKey the primary key of this activity organizer
@@ -921,6 +1205,69 @@ public class ActivityOrganizerWrapper implements ActivityOrganizer,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_activityOrganizer.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the site url of this activity organizer.
+	*
+	* @param siteURL the site url of this activity organizer
+	*/
+	@Override
+	public void setSiteURL(java.lang.String siteURL) {
+		_activityOrganizer.setSiteURL(siteURL);
+	}
+
+	/**
+	* Sets the localized site url of this activity organizer in the language.
+	*
+	* @param siteURL the localized site url of this activity organizer
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setSiteURL(java.lang.String siteURL, java.util.Locale locale) {
+		_activityOrganizer.setSiteURL(siteURL, locale);
+	}
+
+	/**
+	* Sets the localized site url of this activity organizer in the language, and sets the default locale.
+	*
+	* @param siteURL the localized site url of this activity organizer
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setSiteURL(java.lang.String siteURL, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_activityOrganizer.setSiteURL(siteURL, locale, defaultLocale);
+	}
+
+	@Override
+	public void setSiteURLCurrentLanguageId(java.lang.String languageId) {
+		_activityOrganizer.setSiteURLCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized site urls of this activity organizer from the map of locales and localized site urls.
+	*
+	* @param siteURLMap the locales and localized site urls of this activity organizer
+	*/
+	@Override
+	public void setSiteURLMap(
+		Map<java.util.Locale, java.lang.String> siteURLMap) {
+		_activityOrganizer.setSiteURLMap(siteURLMap);
+	}
+
+	/**
+	* Sets the localized site urls of this activity organizer from the map of locales and localized site urls, and sets the default locale.
+	*
+	* @param siteURLMap the locales and localized site urls of this activity organizer
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setSiteURLMap(
+		Map<java.util.Locale, java.lang.String> siteURLMap,
+		java.util.Locale defaultLocale) {
+		_activityOrganizer.setSiteURLMap(siteURLMap, defaultLocale);
 	}
 
 	/**

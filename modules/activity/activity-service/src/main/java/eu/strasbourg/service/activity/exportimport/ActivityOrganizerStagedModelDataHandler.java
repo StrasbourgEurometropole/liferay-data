@@ -26,44 +26,36 @@ import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
 import eu.strasbourg.utils.FileEntryHelper;
 
 @Component(immediate = true, service = StagedModelDataHandler.class)
-public class ActivityOrganizerStagedModelDataHandler
-	extends BaseStagedModelDataHandler<ActivityOrganizer> {
+public class ActivityOrganizerStagedModelDataHandler extends BaseStagedModelDataHandler<ActivityOrganizer> {
 
 	private ActivityOrganizerLocalService activityOrganizerLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	
+
 	@Reference(unbind = "-")
-	public void setActivityOrganizerLocalService(
-		ActivityOrganizerLocalService activityOrganizerLocalService) {
+	public void setActivityOrganizerLocalService(ActivityOrganizerLocalService activityOrganizerLocalService) {
 		this.activityOrganizerLocalService = activityOrganizerLocalService;
 	}
 
-	public static final String[] CLASS_NAMES = {
-		ActivityOrganizer.class.getName() };
+	public static final String[] CLASS_NAMES = { ActivityOrganizer.class.getName() };
 
 	@Override
-	public void deleteStagedModel(String uuid, long groupId, String className,
-		String extraData) throws PortalException {
-		ActivityOrganizer activityOrganizer = fetchStagedModelByUuidAndGroupId(
-			uuid, groupId);
+	public void deleteStagedModel(String uuid, long groupId, String className, String extraData)
+			throws PortalException {
+		ActivityOrganizer activityOrganizer = fetchStagedModelByUuidAndGroupId(uuid, groupId);
 		if (activityOrganizer != null) {
 			deleteStagedModel(activityOrganizer);
 		}
 	}
 
 	@Override
-	public void deleteStagedModel(ActivityOrganizer stagedModel)
-		throws PortalException {
-		activityOrganizerLocalService
-			.removeActivityOrganizer(stagedModel.getActivityOrganizerId());
+	public void deleteStagedModel(ActivityOrganizer stagedModel) throws PortalException {
+		activityOrganizerLocalService.removeActivityOrganizer(stagedModel.getActivityOrganizerId());
 	}
 
 	@Override
-	public List<ActivityOrganizer> fetchStagedModelsByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return this.activityOrganizerLocalService
-			.getActivityOrganizersByUuidAndCompanyId(uuid, companyId);
+	public List<ActivityOrganizer> fetchStagedModelsByUuidAndCompanyId(String uuid, long companyId) {
+		return this.activityOrganizerLocalService.getActivityOrganizersByUuidAndCompanyId(uuid, companyId);
 	}
 
 	@Override
@@ -72,24 +64,19 @@ public class ActivityOrganizerStagedModelDataHandler
 	}
 
 	@Override
-	protected void doExportStagedModel(PortletDataContext portletDataContext,
-		ActivityOrganizer stagedModel) throws Exception {
+	protected void doExportStagedModel(PortletDataContext portletDataContext, ActivityOrganizer stagedModel)
+			throws Exception {
 
-		Element entryElement = portletDataContext
-			.getExportDataElement(stagedModel);
+		Element entryElement = portletDataContext.getExportDataElement(stagedModel);
 
-		portletDataContext.addClassedModel(entryElement,
-			ExportImportPathUtil.getModelPath(stagedModel), stagedModel);
+		portletDataContext.addClassedModel(entryElement, ExportImportPathUtil.getModelPath(stagedModel), stagedModel);
 
 		try {
 			// Ajout référence à l'image
-			FileEntry image = DLAppLocalServiceUtil
-				.getFileEntry(stagedModel.getImageId());
-			if (GroupLocalServiceUtil.getGroup(image.getGroupId())
-				.isStagingGroup()) {
-				StagedModelDataHandlerUtil.exportReferenceStagedModel(
-					portletDataContext, stagedModel, image,
-					PortletDataContext.REFERENCE_TYPE_WEAK);
+			FileEntry image = DLAppLocalServiceUtil.getFileEntry(stagedModel.getImageId());
+			if (GroupLocalServiceUtil.getGroup(image.getGroupId()).isStagingGroup()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(portletDataContext, stagedModel, image,
+						PortletDataContext.REFERENCE_TYPE_WEAK);
 			}
 		} catch (Exception e) {
 			_log.error(e);
@@ -98,54 +85,49 @@ public class ActivityOrganizerStagedModelDataHandler
 	}
 
 	@Override
-	protected void doImportStagedModel(PortletDataContext portletDataContext,
-		ActivityOrganizer stagedModel) throws Exception {
+	protected void doImportStagedModel(PortletDataContext portletDataContext, ActivityOrganizer stagedModel)
+			throws Exception {
 		long userId = portletDataContext.getUserId(stagedModel.getUserUuid());
-		ServiceContext sc = portletDataContext
-			.createServiceContext(stagedModel);
+		ServiceContext sc = portletDataContext.createServiceContext(stagedModel);
 		sc.setUuid(stagedModel.getUuid());
 		sc.setScopeGroupId(portletDataContext.getScopeGroupId());
 		sc.setUserId(userId);
 		ActivityOrganizer importedActivityOrganizer = null;
 		if (portletDataContext.isDataStrategyMirror()) {
 			ActivityOrganizer existingActivityOrganizer = this.activityOrganizerLocalService
-				.fetchActivityOrganizerByUuidAndGroupId(stagedModel.getUuid(),
-					portletDataContext.getScopeGroupId());
+					.fetchActivityOrganizerByUuidAndGroupId(stagedModel.getUuid(),
+							portletDataContext.getScopeGroupId());
 
 			if (existingActivityOrganizer == null) {
-				importedActivityOrganizer = this.activityOrganizerLocalService
-					.createActivityOrganizer(sc);
+				importedActivityOrganizer = this.activityOrganizerLocalService.createActivityOrganizer(sc);
 			} else {
 				importedActivityOrganizer = existingActivityOrganizer;
 			}
 
 		} else {
-			importedActivityOrganizer = this.activityOrganizerLocalService
-				.createActivityOrganizer(sc);
+			importedActivityOrganizer = this.activityOrganizerLocalService.createActivityOrganizer(sc);
 		}
 
 		importedActivityOrganizer.setUuid(stagedModel.getUuid());
 		importedActivityOrganizer.setName(stagedModel.getName());
-		importedActivityOrganizer
-			.setContactInformation(stagedModel.getContactInformation());
+		importedActivityOrganizer.setPresentation(stagedModel.getPresentation());
+		importedActivityOrganizer.setAddress(stagedModel.getAddress());
+		importedActivityOrganizer.setPhone(stagedModel.getPhone());
+		importedActivityOrganizer.setMail(stagedModel.getMail());
+		importedActivityOrganizer.setSiteURL(stagedModel.getSiteURL());
 		importedActivityOrganizer.setStatus(stagedModel.getStatus());
 
 		// Import de l'asset, tags, catégories, et des élémeents liés
 		// potentiellement non publiés
-		portletDataContext.importClassedModel(stagedModel,
-			importedActivityOrganizer);
-		
-		
+		portletDataContext.importClassedModel(stagedModel, importedActivityOrganizer);
+
 		// On update l'id des images avec les nouveaux
 		@SuppressWarnings("unchecked")
-		Map<Long, Long> newIdsMap = (Map<Long, Long>) portletDataContext
-			.getNewPrimaryKeysMap(DLFileEntry.class);
-		importedActivityOrganizer.setImageId(FileEntryHelper
-			.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
+		Map<Long, Long> newIdsMap = (Map<Long, Long>) portletDataContext.getNewPrimaryKeysMap(DLFileEntry.class);
+		importedActivityOrganizer.setImageId(FileEntryHelper.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
 
 		// On update l'entité
-		this.activityOrganizerLocalService
-			.updateActivityOrganizer(importedActivityOrganizer, sc);
+		this.activityOrganizerLocalService.updateActivityOrganizer(importedActivityOrganizer, sc);
 
 	}
 }

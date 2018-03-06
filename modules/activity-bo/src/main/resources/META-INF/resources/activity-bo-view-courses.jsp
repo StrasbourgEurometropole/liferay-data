@@ -80,12 +80,7 @@
 				</liferay-ui:search-container-column-text>
 				
 				<liferay-ui:search-container-column-text name="activity-organizer">
-					<c:if test="${not empty activityCourse.organizerId}">
-						${activityCourse.activityOrganizer.nameCurrentValue}
-					</c:if>
-					<c:if test="${not empty activityCourse.serviceId}">
-						${activityCourse.service.getTitle(locale)}
-					</c:if>
+					${activityCourse.activityOrganizer.nameCurrentValue}
 				</liferay-ui:search-container-column-text>
 					
 				<fmt:formatDate value="${activityCourse.modifiedDate}"

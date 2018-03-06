@@ -4,40 +4,6 @@ var placeAutoFields;
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_activity_ActivityBOPortlet_";
 	
-	// Champs conditionnels
-	$('[name=' + namespace + 'organizerType]').on('click change', function(e) {
-		var classOfDivToShow = e.target.value;
-		var classOfDivToHide = 'emsServiceotherService'.replace(classOfDivToShow, '');
-		switchConditionalControls(classOfDivToShow, classOfDivToHide);
-	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
-	
-	function switchConditionalControls(classOfDivToShow, classOfDivToHide) {
-		$('.' + classOfDivToShow + ', .' + classOfDivToHide).hide();
-		$('.' + classOfDivToShow).show();
-		$('.' + classOfDivToHide + ' input').val('');
-		$('.' + classOfDivToHide + ' input[type=checkbox]').prop('checked', false);
-		$('.' + classOfDivToHide + ' option').prop('selected', false);
-		setConditionalValidators();
-	}
-	
-	function setConditionalValidators() {
-		// Validation des champos obligatoires conditionnels
-		AUI().use('liferay-form', function() {
-			if (!!window.editCourse) {
-				var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-				if (jQuery('.emsService').is(':visible')) {
-					rules[namespace + 'serviceId'].required = true;
-					rules[namespace + 'organizerId'].required = false;
-				} else {
-					rules[namespace + 'organizerId'].required = true;
-					rules[namespace + 'serviceId'].required = false;
-				}
-			}
-		});
-	}
-	
 	// Lieux répétables
 	AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('place-fields')) {
