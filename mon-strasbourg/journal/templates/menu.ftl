@@ -26,7 +26,7 @@
             <a href="${disconnection.getData()}">
                 <span class="flexbox">
                     <div class="item-picto"></div>
-                    <div class="item-text">Me déconnecter</div>
+                    <div class="item-text"><@liferay.language key="log-out" /></div>
                 </span>
             </a>
         </button>
