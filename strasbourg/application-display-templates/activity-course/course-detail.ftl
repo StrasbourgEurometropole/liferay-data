@@ -24,6 +24,7 @@
 
     <div class="rte">
         <h2><@liferay_ui.message key="eu.presentation" /></h2>
+        <p>${entry.getPresentation(locale)}</p>
             
         <strong>
             <@liferay_ui.message key="eu.activity.part-of-activity" /> <a href="${homeURL}activite/-/entity/id/${entry.activityId}" title="${entry.activity.getTitle(locale)}">${entry.activity.getTitle(locale)}</a>
@@ -56,9 +57,79 @@
             <h3>
                 <@liferay_ui.message key="eu.activity.manager" />
             </h3>
-            ${entry.getOrganizerName(locale)}
+            <a href="${homeURL}orgnisateur-activites/-/entity/id/${entry.organizerId}">${entry.getOrganizerName(locale)}</a>
         </#if>
     </div>
+        
+        <#if entry.getDocumentURLs()?has_content >
+            <div class="rte"><h2><@liferay_ui.message key="eu.documents" /></h2></div>
+            <div class="seu-wi-content">
+                <#assign documents = entry.getDocuments() />
+                <#list documents?keys as title>
+                    <a href="${documents[title]}" class="seu-btn-square seu-bordered seu-core" title="${title}">
+                        <span class="seu-flexbox">
+                            <span class="seu-btn-text">${title}</span>
+                            <span class="seu-btn-arrow"></span>
+                        </span>
+                    </a><br/>
+                </#list>
+            </div>
+        </#if>
+        
+        <#assign images = entry.getImageIds() />
+        <#if images?has_content>
+            <div class="rte"><h2><@liferay_ui.message key="gallery_images" /></h2></div>
+            <div class="seu-slider-int-container">
+                <div class="seu-slider-overflow">
+                    <div class="seu-slider">
+                        <#list images?split(",") as imageId>
+                            <div class="seu-item" style="background-image: url(${entry.getImageURL(imageId?number)});">
+                                <div class="seu-text">
+                                    <div class="seu-img-title" data-dot="1">${entry.getImageTitle(imageId?number, locale)}</div>
+                                    <div class="seu-description" data-dot="2">${entry.getImageLegend(imageId?number, locale)}</div>
+                                    <div class="seu-caption">${entry.getImageCopyright(imageId?number, locale)}</div>
+                                </div>
+                            </div>
+                        </#list>
+                    </div>
+                </div>
+                <div class="owl-nav">
+                    <button class="seu-owl-prev">
+                        <span class="seu-picto"></span>
+                    </button>
+                    <button class="seu-owl-next">
+                        <span class="seu-picto"></span>
+                    </button>
+                </div>
+            </div>
+        </#if>
+        
+        <#assign videos = entry.getVideos() />
+        <#if videos?has_content>
+            <div class="rte"><h2><@liferay_ui.message key="eu.video" /></h2></div>
+            <div class="seu-collapsing-box">
+                <#list videos as video>
+                    <div class="seu-wi seu-media seu-wi-embed">
+                        <div class="seu-media-container">
+                            <div class="seu-media-left">
+                                <div class="seu-media-picto"></div>
+                            </div>
+                            <div class="seu-media-right">
+                                <div class="seu-media-text">
+                                    <div class="seu-media-title">${video.getTitle(locale)}</div>
+                                    <p class="seu-media-description">${video.getDescription(locale)}</p> 
+                                </div>
+                            </div>
+                            <div class="seu-media-bottom">
+                                <div class="seu-media-ratio">
+                                    ${video.getPlayer(locale)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </#list>
+            </div>
+        </#if>
 
     <#assign agenda = entry.getCourseAgenda(themeDisplay.scopeGroupId, locale) />
     <#if agenda.periods?has_content>
@@ -127,3 +198,17 @@
         </div>
     </#if>
 </div>
+
+<#if entry.imageURL?has_content>
+    <script>
+        if ($('.region-banner').length == 0) {
+            var bannerHtml = '<div class="region-banner"></div>';
+            $('.region-post-header').addClass('has-banner').prepend(bannerHtml);
+        }
+    </script>
+    <style>
+        .region-banner {
+            background-image: url(${entry.imageURL}) !important;
+        }
+    </style>
+</#if>
