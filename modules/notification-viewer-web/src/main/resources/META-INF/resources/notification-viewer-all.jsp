@@ -4,6 +4,9 @@
 <ul class="notification-list">
 
 	<c:forEach var="notif" items="${notifications}">
+		<portlet:actionURL name="showNotification" var="showNotification">
+			<portlet:param name="notificationId" value="${notif.notificationId}"></portlet:param>
+		</portlet:actionURL>
 		<c:choose>
 			<c:when test="${notif.isRead()}">
 				<li class="notification-list__item notification-list__item--read">
@@ -13,32 +16,32 @@
 			</c:otherwise>
 		</c:choose>
 
-		<div class="notification-item">
-			<div class="notification-item__date">
-				<fmt:formatDate type="date" value="${notif.date}" pattern = "dd.MM.yyyy"/>
-			</div>
-			<div class="notification-item__lead">
-				<c:out value="${notif.title}" />
-			</div>
-		</div>
-
-		<portlet:resourceURL id="toggleNotification" var="notificationURL">
-			<portlet:param name="notificationId" value="${notif.notificationId}" />
-		</portlet:resourceURL>
-
-		<div class="notification-list__toggle">
-			<div class="flexbox">
-				<div class="notification-list__toggle-trigger">
-					<input type="checkbox" id="${notif.notificationId}"
-						onclick="callServeResource('${notificationURL}');"> <label
-						for="${notif.notificationId}"></label>
+			<a href="${showNotification}" class="notification-item" >
+				<div class="notification-item__date">
+					<fmt:formatDate type="date" value="${notif.date}" pattern = "dd.MM.yyyy"/>
 				</div>
-				<div class="notification-list__state notification-list__state--new">Non
-					lue</div>
-				<div
-					class="notification-list__state notification-list__state--read">Lue</div>
+				<div class="notification-item__lead">
+					<c:out value="${notif.title}" />
+				</div>
+			</a>
+	
+			<portlet:resourceURL id="toggleNotification" var="notificationURL">
+				<portlet:param name="notificationId" value="${notif.notificationId}" />
+			</portlet:resourceURL>
+	
+			<div class="notification-list__toggle">
+				<div class="flexbox">
+					<div class="notification-list__toggle-trigger">
+						<input type="checkbox" id="${notif.notificationId}"
+							onclick="callServeResource('${notificationURL}');"> <label
+							for="${notif.notificationId}"></label>
+					</div>
+					<div class="notification-list__state notification-list__state--new">Non
+						lue</div>
+					<div
+						class="notification-list__state notification-list__state--read">Lue</div>
+				</div>
 			</div>
-		</div>
 		</li>
 	</c:forEach>
 
