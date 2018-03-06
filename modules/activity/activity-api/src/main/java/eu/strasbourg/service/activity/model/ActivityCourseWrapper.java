@@ -73,11 +73,15 @@ public class ActivityCourseWrapper implements ActivityCourse,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
+		attributes.put("presentation", getPresentation());
 		attributes.put("arrangements", getArrangements());
 		attributes.put("price", getPrice());
 		attributes.put("activityId", getActivityId());
-		attributes.put("serviceId", getServiceId());
 		attributes.put("organizerId", getOrganizerId());
+		attributes.put("imageId", getImageId());
+		attributes.put("imageIds", getImageIds());
+		attributes.put("videosIds", getVideosIds());
+		attributes.put("documentsIds", getDocumentsIds());
 
 		return attributes;
 	}
@@ -162,6 +166,12 @@ public class ActivityCourseWrapper implements ActivityCourse,
 			setName(name);
 		}
 
+		String presentation = (String)attributes.get("presentation");
+
+		if (presentation != null) {
+			setPresentation(presentation);
+		}
+
 		String arrangements = (String)attributes.get("arrangements");
 
 		if (arrangements != null) {
@@ -180,16 +190,34 @@ public class ActivityCourseWrapper implements ActivityCourse,
 			setActivityId(activityId);
 		}
 
-		Long serviceId = (Long)attributes.get("serviceId");
-
-		if (serviceId != null) {
-			setServiceId(serviceId);
-		}
-
 		Long organizerId = (Long)attributes.get("organizerId");
 
 		if (organizerId != null) {
 			setOrganizerId(organizerId);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String imageIds = (String)attributes.get("imageIds");
+
+		if (imageIds != null) {
+			setImageIds(imageIds);
+		}
+
+		String videosIds = (String)attributes.get("videosIds");
+
+		if (videosIds != null) {
+			setVideosIds(videosIds);
+		}
+
+		String documentsIds = (String)attributes.get("documentsIds");
+
+		if (documentsIds != null) {
+			setDocumentsIds(documentsIds);
 		}
 	}
 
@@ -289,14 +317,6 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
-	* Retourne le service du cours
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getService() {
-		return _activityCourse.getService();
-	}
-
-	/**
 	* Retourne l'AssetEntry rattaché à cette entité
 	*/
 	@Override
@@ -348,6 +368,13 @@ public class ActivityCourseWrapper implements ActivityCourse,
 		return _activityCourse.getActivityOrganizer();
 	}
 
+	/**
+	* Retourne l'affichage de l'agenda d'un cours Transformation de :
+	* ActivityCourse -> ActivityCoursePlace -> ActivityCourseSchedule ^ ^ | |
+	* Place Period
+	*
+	* En : Period -> Place -> Schedule
+	*/
 	@Override
 	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
 		long groupId, java.util.Locale locale) {
@@ -459,6 +486,69 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Returns the documents IDs of this activity course.
+	*
+	* @return the documents IDs of this activity course
+	*/
+	@Override
+	public java.lang.String getDocumentsIds() {
+		return _activityCourse.getDocumentsIds();
+	}
+
+	/**
+	* Retourne le copyright publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.lang.Long imageId,
+		java.util.Locale locale) {
+		return _activityCourse.getImageCopyright(imageId, locale);
+	}
+
+	/**
+	* Returns the image IDs of this activity course.
+	*
+	* @return the image IDs of this activity course
+	*/
+	@Override
+	public java.lang.String getImageIds() {
+		return _activityCourse.getImageIds();
+	}
+
+	/**
+	* Retourne la légende publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageLegend(java.lang.Long imageId,
+		java.util.Locale locale) {
+		return _activityCourse.getImageLegend(imageId, locale);
+	}
+
+	/**
+	* Retourne le titre publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageTitle(java.lang.Long imageId,
+		java.util.Locale locale) {
+		return _activityCourse.getImageTitle(imageId, locale);
+	}
+
+	/**
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _activityCourse.getImageURL();
+	}
+
+	/**
+	* Retourne l'URL publiques de l'image
+	*/
+	@Override
+	public java.lang.String getImageURL(java.lang.Long imageId) {
+		return _activityCourse.getImageURL(imageId);
+	}
+
+	/**
 	* Returns the name of this activity course.
 	*
 	* @return the name of this activity course
@@ -526,12 +616,79 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
-	* Retourne le nom de l'organisateur du cours :
-	* soit via le service, soit l'organisateur d'activité
+	* Retourne le nom de l'organisateur du cours
 	*/
 	@Override
 	public java.lang.String getOrganizerName(java.util.Locale locale) {
 		return _activityCourse.getOrganizerName(locale);
+	}
+
+	/**
+	* Returns the presentation of this activity course.
+	*
+	* @return the presentation of this activity course
+	*/
+	@Override
+	public java.lang.String getPresentation() {
+		return _activityCourse.getPresentation();
+	}
+
+	/**
+	* Returns the localized presentation of this activity course in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized presentation of this activity course
+	*/
+	@Override
+	public java.lang.String getPresentation(java.lang.String languageId) {
+		return _activityCourse.getPresentation(languageId);
+	}
+
+	/**
+	* Returns the localized presentation of this activity course in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized presentation of this activity course
+	*/
+	@Override
+	public java.lang.String getPresentation(java.lang.String languageId,
+		boolean useDefault) {
+		return _activityCourse.getPresentation(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized presentation of this activity course in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized presentation of this activity course
+	*/
+	@Override
+	public java.lang.String getPresentation(java.util.Locale locale) {
+		return _activityCourse.getPresentation(locale);
+	}
+
+	/**
+	* Returns the localized presentation of this activity course in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized presentation of this activity course. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getPresentation(java.util.Locale locale,
+		boolean useDefault) {
+		return _activityCourse.getPresentation(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getPresentationCurrentLanguageId() {
+		return _activityCourse.getPresentationCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getPresentationCurrentValue() {
+		return _activityCourse.getPresentationCurrentValue();
 	}
 
 	/**
@@ -667,6 +824,16 @@ public class ActivityCourseWrapper implements ActivityCourse,
 		return _activityCourse.getUuid();
 	}
 
+	/**
+	* Returns the videos IDs of this activity course.
+	*
+	* @return the videos IDs of this activity course
+	*/
+	@Override
+	public java.lang.String getVideosIds() {
+		return _activityCourse.getVideosIds();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _activityCourse.toString();
@@ -730,6 +897,14 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Retourne la liste des URL des documents de ce cours
+	*/
+	@Override
+	public java.util.List<java.lang.String> getDocumentURLs() {
+		return _activityCourse.getDocumentURLs();
+	}
+
+	/**
 	* Retourne les noms des lieux du cours
 	*/
 	@Override
@@ -764,6 +939,14 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Retourne la liste des vidéos de ce lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
+		return _activityCourse.getVideos();
+	}
+
+	/**
 	* Returns a map of the locales and localized arrangementses of this activity course.
 	*
 	* @return the locales and localized arrangementses of this activity course
@@ -774,6 +957,14 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Retourne une map de titre et d'URL des documents de ce cours
+	*/
+	@Override
+	public Map<java.lang.String, java.lang.String> getDocuments() {
+		return _activityCourse.getDocuments();
+	}
+
+	/**
 	* Returns a map of the locales and localized names of this activity course.
 	*
 	* @return the locales and localized names of this activity course
@@ -781,6 +972,16 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getNameMap() {
 		return _activityCourse.getNameMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized presentations of this activity course.
+	*
+	* @return the locales and localized presentations of this activity course
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getPresentationMap() {
+		return _activityCourse.getPresentationMap();
 	}
 
 	/**
@@ -834,6 +1035,16 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Returns the image ID of this activity course.
+	*
+	* @return the image ID of this activity course
+	*/
+	@Override
+	public long getImageId() {
+		return _activityCourse.getImageId();
+	}
+
+	/**
 	* Returns the organizer ID of this activity course.
 	*
 	* @return the organizer ID of this activity course
@@ -851,16 +1062,6 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public long getPrimaryKey() {
 		return _activityCourse.getPrimaryKey();
-	}
-
-	/**
-	* Returns the service ID of this activity course.
-	*
-	* @return the service ID of this activity course
-	*/
-	@Override
-	public long getServiceId() {
-		return _activityCourse.getServiceId();
 	}
 
 	/**
@@ -1010,6 +1211,16 @@ public class ActivityCourseWrapper implements ActivityCourse,
 		_activityCourse.setCreateDate(createDate);
 	}
 
+	/**
+	* Sets the documents IDs of this activity course.
+	*
+	* @param documentsIds the documents IDs of this activity course
+	*/
+	@Override
+	public void setDocumentsIds(java.lang.String documentsIds) {
+		_activityCourse.setDocumentsIds(documentsIds);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_activityCourse.setExpandoBridgeAttributes(expandoBridge);
@@ -1034,6 +1245,26 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public void setGroupId(long groupId) {
 		_activityCourse.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the image ID of this activity course.
+	*
+	* @param imageId the image ID of this activity course
+	*/
+	@Override
+	public void setImageId(long imageId) {
+		_activityCourse.setImageId(imageId);
+	}
+
+	/**
+	* Sets the image IDs of this activity course.
+	*
+	* @param imageIds the image IDs of this activity course
+	*/
+	@Override
+	public void setImageIds(java.lang.String imageIds) {
+		_activityCourse.setImageIds(imageIds);
 	}
 
 	/**
@@ -1123,6 +1354,70 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	}
 
 	/**
+	* Sets the presentation of this activity course.
+	*
+	* @param presentation the presentation of this activity course
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation) {
+		_activityCourse.setPresentation(presentation);
+	}
+
+	/**
+	* Sets the localized presentation of this activity course in the language.
+	*
+	* @param presentation the localized presentation of this activity course
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation,
+		java.util.Locale locale) {
+		_activityCourse.setPresentation(presentation, locale);
+	}
+
+	/**
+	* Sets the localized presentation of this activity course in the language, and sets the default locale.
+	*
+	* @param presentation the localized presentation of this activity course
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPresentation(java.lang.String presentation,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_activityCourse.setPresentation(presentation, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPresentationCurrentLanguageId(java.lang.String languageId) {
+		_activityCourse.setPresentationCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized presentations of this activity course from the map of locales and localized presentations.
+	*
+	* @param presentationMap the locales and localized presentations of this activity course
+	*/
+	@Override
+	public void setPresentationMap(
+		Map<java.util.Locale, java.lang.String> presentationMap) {
+		_activityCourse.setPresentationMap(presentationMap);
+	}
+
+	/**
+	* Sets the localized presentations of this activity course from the map of locales and localized presentations, and sets the default locale.
+	*
+	* @param presentationMap the locales and localized presentations of this activity course
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setPresentationMap(
+		Map<java.util.Locale, java.lang.String> presentationMap,
+		java.util.Locale defaultLocale) {
+		_activityCourse.setPresentationMap(presentationMap, defaultLocale);
+	}
+
+	/**
 	* Sets the price of this activity course.
 	*
 	* @param price the price of this activity course
@@ -1196,16 +1491,6 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_activityCourse.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	/**
-	* Sets the service ID of this activity course.
-	*
-	* @param serviceId the service ID of this activity course
-	*/
-	@Override
-	public void setServiceId(long serviceId) {
-		_activityCourse.setServiceId(serviceId);
 	}
 
 	/**
@@ -1296,6 +1581,16 @@ public class ActivityCourseWrapper implements ActivityCourse,
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_activityCourse.setUuid(uuid);
+	}
+
+	/**
+	* Sets the videos IDs of this activity course.
+	*
+	* @param videosIds the videos IDs of this activity course
+	*/
+	@Override
+	public void setVideosIds(java.lang.String videosIds) {
+		_activityCourse.setVideosIds(videosIds);
 	}
 
 	@Override

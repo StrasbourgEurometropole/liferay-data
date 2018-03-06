@@ -220,6 +220,17 @@ public class ActivityLocalServiceUtil {
 		return getService().updateStatus(userId, entryId, status);
 	}
 
+	/**
+	* Retourne l'affichage de l'agenda des cours pour un lieu
+	* Transformation de :
+	* ActivityCourse - ActivityCoursePlace - ActivityCourseSchedule
+	*                        ^                        ^
+	*                            |                        |
+	*                            Place                   Period
+	*
+	* En :
+	* Period -> Course -> Schedule
+	*/
 	public static eu.strasbourg.service.activity.model.PlaceAgenda getPlaceAgenda(
 		java.lang.String sigId, java.util.Locale locale) {
 		return getService().getPlaceAgenda(sigId, locale);

@@ -41,6 +41,9 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
+				<!-- Présentation -->
+				<aui:input name="presentation" />
+				
 				<!-- Catégories -->
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
@@ -79,37 +82,33 @@
 				<aui:input name="price" />
 				
 			</aui:fieldset>
+				
+			<!-- Médias -->
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="medias">
+				
+				<strasbourg-picker:image label="eu.place.main-image" name="imageId"
+					required="false" value="${dc.activityCourse.imageId}" global="true" />
+				
+				<strasbourg-picker:image label="eu.place.additional-images" name="imageIds"
+					required="false" value="${dc.activityCourse.imageIds}" multiple="true" global="true" />
+					
+				<strasbourg-picker:entity label="eu.place.videos" name="videosIds"
+					value="${dc.activityCourse.videosIds}"
+					type="eu.strasbourg.service.video.model.Video"
+					multiple="true" global="true" />
+					
+				<strasbourg-picker:file label="eu.place.documents" name="documents"
+					required="false" value="${dc.activityCourse.documentsIds}" multiple="true" global="true" />
+				
+			</aui:fieldset>
 			
 			<!-- Section catégorisation -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="activity-organizer">
 				
-				<!-- Organisateur -->
-				<aui:input type="radio" value="emsService" name="organizerType"
-					checked="${(dc.activityCourse.serviceId gt 0 or param.organizerType eq 'emsService') or empty dc.activityCourse}"
-					label="Service de l'Eurom&eacutetropole" inlineLabe="right" />
-				<aui:input type="radio" value="otherService" name="organizerType"
-					checked="${dc.activityCourse.organizerId gt 0 or param.organizerType eq 'otherService'}" 
-					label="Autres organisateurs" inlineLabel="right" />
-				
-				<!-- Service EMS -->
-				<div class="emsService" <c:if test="${dc.activityCourse.organizerId gt 0 or param.organizerType eq 2}">style="display: none;"</c:if>>
-					<aui:select name="serviceId" label="service" required="true">
-						<aui:option value="" label="" />
-						<c:forEach items="${dc.services}" var="category">
-							<c:if test="${category.rootCategory}">
-								<c:set var="category" value="${category}" scope="request"/>
-								<c:set var="dc" value="${dc}" scope="request"/>
-								<c:set var="level" value="0" scope="request" />
-								<c:set var="categoryId" value="${dc.activityCourse.serviceId}" scope="request" />
-								<jsp:include page="/category-option.jsp"/>
-							</c:if>
-						</c:forEach>
-					</aui:select>
-				</div>
-
-				<!-- Autre service -->				
-				<div class="otherService" <c:if test="${(dc.activityCourse.serviceId gt 0 or param.organizerType eq 'emsService') or empty dc.activityCourse}">style="display: none;"</c:if>>
+				<!-- Organisateur -->	
+				<div class="otherService">
 					<strasbourg-picker:entity type="eu.strasbourg.service.activity.model.ActivityOrganizer" label="eu.activity.organizer" name="organizerId"
 						value="${dc.activityCourse.organizerId}" multiple="false" required="true" />
 						

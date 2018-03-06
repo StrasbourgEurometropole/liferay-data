@@ -204,6 +204,17 @@ public interface ActivityLocalService extends BaseLocalService,
 	public Activity updateStatus(long userId, long entryId, int status)
 		throws PortalException;
 
+	/**
+	* Retourne l'affichage de l'agenda des cours pour un lieu
+	* Transformation de :
+	* ActivityCourse - ActivityCoursePlace - ActivityCourseSchedule
+	*                        ^                        ^
+	*                            |                        |
+	*                            Place                   Period
+	*
+	* En :
+	* Period -> Course -> Schedule
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PlaceAgenda getPlaceAgenda(java.lang.String sigId, Locale locale);
 

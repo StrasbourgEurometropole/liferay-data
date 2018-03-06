@@ -63,7 +63,11 @@
 
     <!-- Other fields -->
     <column name="name" type="String" localized="true" />
-    <column name="contactInformation" type="String" localized="true" />
+	<column name="presentation" type="String" localized="true" />
+    <column name="address" type="String" localized="true" />
+	<column name="phone" type="String" />
+	<column name="mail" type="String" />
+	<column name="siteURL" type="String" localized="true" />
     <column name="imageId" type="long" />
 
     <!-- Finder methods -->
@@ -97,11 +101,17 @@
 
     <!-- Other fields -->
     <column name="name" type="String" localized="true" />
+	<column name="presentation" type="String" localized="true" />
     <column name="arrangements" type="String" localized="true" />
     <column name="price" type="String" localized="true" />
     <column name="activityId" type="long" />
-    <column name="serviceId" type="long" />
     <column name="organizerId" type="long" />
+    
+	<!-- Links with other entities -->
+	<column name="imageId" type="long" />
+	<column name="imageIds" type="String" />
+	<column name="videosIds" type="String" />
+	<column name="documentsIds" type="String" />
 
     <!-- Finder methods -->
     <finder name="Activity" return-type="Collection">

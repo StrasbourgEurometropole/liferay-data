@@ -56,20 +56,57 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 		};
 
 	/**
-	* Retourne le nom de l'organisateur du cours :
-	* soit via le service, soit l'organisateur d'activité
+	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Retourne le nom de l'organisateur du cours
 	*/
 	public java.lang.String getOrganizerName(java.util.Locale locale);
+
+	/**
+	* Retourne la liste des URL des documents de ce cours
+	*/
+	public java.util.List<java.lang.String> getDocumentURLs();
+
+	/**
+	* Retourne une map de titre et d'URL des documents de ce cours
+	*/
+	public java.util.Map<java.lang.String, java.lang.String> getDocuments();
+
+	/**
+	* Retourne l'URL publiques de l'image
+	*/
+	public java.lang.String getImageURL(java.lang.Long imageId);
+
+	/**
+	* Retourne le titre publiques de l'image
+	*/
+	public java.lang.String getImageTitle(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
+	* Retourne la légende publiques de l'image
+	*/
+	public java.lang.String getImageLegend(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
+	* Retourne le copyright publiques de l'image
+	*/
+	public java.lang.String getImageCopyright(java.lang.Long imageId,
+		java.util.Locale locale);
+
+	/**
+	* Retourne la liste des vidéos de ce lieu
+	*/
+	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos();
 
 	/**
 	* Retourne l'organisateur du cours
 	*/
 	public eu.strasbourg.service.activity.model.ActivityOrganizer getActivityOrganizer();
-
-	/**
-	* Retourne le service du cours
-	*/
-	public com.liferay.asset.kernel.model.AssetCategory getService();
 
 	/**
 	* Retourne l'activité du cours
@@ -129,6 +166,13 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
+	/**
+	* Retourne l'affichage de l'agenda d'un cours Transformation de :
+	* ActivityCourse -> ActivityCoursePlace -> ActivityCourseSchedule ^ ^ | |
+	* Place Period
+	*
+	* En : Period -> Place -> Schedule
+	*/
 	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
 		long groupId, java.util.Locale locale);
 }

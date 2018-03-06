@@ -2953,11 +2953,15 @@ public class ActivityCoursePersistenceImpl extends BasePersistenceImpl<ActivityC
 		activityCourseImpl.setStatusByUserName(activityCourse.getStatusByUserName());
 		activityCourseImpl.setStatusDate(activityCourse.getStatusDate());
 		activityCourseImpl.setName(activityCourse.getName());
+		activityCourseImpl.setPresentation(activityCourse.getPresentation());
 		activityCourseImpl.setArrangements(activityCourse.getArrangements());
 		activityCourseImpl.setPrice(activityCourse.getPrice());
 		activityCourseImpl.setActivityId(activityCourse.getActivityId());
-		activityCourseImpl.setServiceId(activityCourse.getServiceId());
 		activityCourseImpl.setOrganizerId(activityCourse.getOrganizerId());
+		activityCourseImpl.setImageId(activityCourse.getImageId());
+		activityCourseImpl.setImageIds(activityCourse.getImageIds());
+		activityCourseImpl.setVideosIds(activityCourse.getVideosIds());
+		activityCourseImpl.setDocumentsIds(activityCourse.getDocumentsIds());
 
 		return activityCourseImpl;
 	}

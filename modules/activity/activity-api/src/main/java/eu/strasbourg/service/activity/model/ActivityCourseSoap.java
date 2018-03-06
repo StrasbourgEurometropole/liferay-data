@@ -47,11 +47,15 @@ public class ActivityCourseSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setName(model.getName());
+		soapModel.setPresentation(model.getPresentation());
 		soapModel.setArrangements(model.getArrangements());
 		soapModel.setPrice(model.getPrice());
 		soapModel.setActivityId(model.getActivityId());
-		soapModel.setServiceId(model.getServiceId());
 		soapModel.setOrganizerId(model.getOrganizerId());
+		soapModel.setImageId(model.getImageId());
+		soapModel.setImageIds(model.getImageIds());
+		soapModel.setVideosIds(model.getVideosIds());
+		soapModel.setDocumentsIds(model.getDocumentsIds());
 
 		return soapModel;
 	}
@@ -208,6 +212,14 @@ public class ActivityCourseSoap implements Serializable {
 		_name = name;
 	}
 
+	public String getPresentation() {
+		return _presentation;
+	}
+
+	public void setPresentation(String presentation) {
+		_presentation = presentation;
+	}
+
 	public String getArrangements() {
 		return _arrangements;
 	}
@@ -232,20 +244,44 @@ public class ActivityCourseSoap implements Serializable {
 		_activityId = activityId;
 	}
 
-	public long getServiceId() {
-		return _serviceId;
-	}
-
-	public void setServiceId(long serviceId) {
-		_serviceId = serviceId;
-	}
-
 	public long getOrganizerId() {
 		return _organizerId;
 	}
 
 	public void setOrganizerId(long organizerId) {
 		_organizerId = organizerId;
+	}
+
+	public long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
+	public String getImageIds() {
+		return _imageIds;
+	}
+
+	public void setImageIds(String imageIds) {
+		_imageIds = imageIds;
+	}
+
+	public String getVideosIds() {
+		return _videosIds;
+	}
+
+	public void setVideosIds(String videosIds) {
+		_videosIds = videosIds;
+	}
+
+	public String getDocumentsIds() {
+		return _documentsIds;
+	}
+
+	public void setDocumentsIds(String documentsIds) {
+		_documentsIds = documentsIds;
 	}
 
 	private String _uuid;
@@ -261,9 +297,13 @@ public class ActivityCourseSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _name;
+	private String _presentation;
 	private String _arrangements;
 	private String _price;
 	private long _activityId;
-	private long _serviceId;
 	private long _organizerId;
+	private long _imageId;
+	private String _imageIds;
+	private String _videosIds;
+	private String _documentsIds;
 }
