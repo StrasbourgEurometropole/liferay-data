@@ -487,7 +487,6 @@
 
 			$('input[name=' + namespace + 'webImageId]').val('${dc.campaignEvent.imageId}');
 			$('img[name=webImageUrl]').attr('src', '${dc.campaignEvent.imageURL}');
-			//$('img[name=webImageUrl]').css("display", "block");
 		});
 		
 		

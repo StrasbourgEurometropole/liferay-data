@@ -1605,6 +1605,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne la date de début de la future ou courante période de l'événement
+	*/
+	@Override
+	public Date getStartDateFirstCurrentAndFuturePeriod() {
+		return _event.getStartDateFirstCurrentAndFuturePeriod();
+	}
+
+	/**
 	* Returns the status date of this event.
 	*
 	* @return the status date of this event

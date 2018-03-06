@@ -11298,6 +11298,19 @@ form + .seu-error-messages {
 .seu-not-front .hat > *:last-child {
   margin-bottom: 0; }
 
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/wi-search-agenda.scss */
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  padding: 10px;
+  font-family: "MontSerrat", arial;
+  font-weight: 400;
+  color: #7e7e7e; }
+
+/* line 9, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/wi-search-agenda.scss */
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  display: none; }
+
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-chiffres/wi-chiffres.scss */
 .seu-wi-chiffres {
   margin-bottom: 40px; }
