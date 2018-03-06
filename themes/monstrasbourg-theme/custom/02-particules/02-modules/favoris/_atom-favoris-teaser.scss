@@ -108,14 +108,17 @@
             height: 50px;
             width: 50px;
             flex-shrink: 0;
+            &--orange{
+                background-color: $crowded-orange;
+            }
             &--green{
-                background-color: #40a040;
+                background-color: $crowded-green;
             }
             &--grey{
-                background-color: #9E9E9E;
+                background-color: $crowded-grey;
             }
             &--white{
-                background-color: #FFFFFF;
+                background-color: $crowded-white;
                 color: #272222;
             }
        }

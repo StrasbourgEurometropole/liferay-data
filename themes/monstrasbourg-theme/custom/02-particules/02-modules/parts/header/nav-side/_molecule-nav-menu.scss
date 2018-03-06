@@ -34,7 +34,18 @@
         }
     }
     .menu-list{
+         
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
         
+        &::-webkit-scrollbar-track {
+            background: #666; 
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: #ddd;
+        }
     }
     .nav-item {
         padding: 10px 15px;
