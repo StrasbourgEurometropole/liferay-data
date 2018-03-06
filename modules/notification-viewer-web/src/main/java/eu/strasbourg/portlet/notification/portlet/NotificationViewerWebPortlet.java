@@ -1,8 +1,6 @@
 package eu.strasbourg.portlet.notification.portlet;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,24 +41,22 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 /**
  * @author romain.vergnais
  */
-@Component(
-		immediate = true,
-		property = { 
-		"com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=true", 
-		"javax.portlet.display-name=Notifications",
-		"javax.portlet.init-param.template-path=/",
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Notifications",
+		"javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/notification-viewer-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/notification-viewer-configuration.jsp",
-		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB, 
+		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_VIEWER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
-		}, 
-		service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class NotificationViewerWebPortlet extends MVCPortlet {
 
 	public void showNotification(ActionRequest actionRequest, ActionResponse actionResponse)
 			throws PortalException, SystemException {
+		// Supprime le message d'erreur s'il existe
+		// SessionMessages.add(actionRequest,
+		// PortalUtil.getPortletId(actionRequest) +
+		// SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE);
 
 		// Récupération du publik ID avec la session
 		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(actionRequest);
@@ -79,7 +75,9 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			}
 
 			// Redirection vers l'url de la notification
-			actionResponse.sendRedirect(notif.getNotification().getUrl());
+			if (!notif.getNotification().getUrl().isEmpty()) {
+				actionResponse.sendRedirect(notif.getNotification().getUrl());
+			}
 
 		} catch (Exception e) {
 			SessionErrors.add(actionRequest, e.getClass().getName());
@@ -94,8 +92,13 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			NotificationConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(NotificationConfiguration.class);			
-			
+					.getPortletInstanceConfiguration(NotificationConfiguration.class);
+
+			String template = configuration.template();
+			if (Validator.isNull(template)) {
+				template = "notification-viewer-view";
+			}
+
 			// Récupération du publik ID avec la session
 			LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(renderRequest);
 			HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
@@ -107,6 +110,11 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 					.filter(c -> c.getNotification() != null).sorted((f1, f2) -> f2.getNotification()
 							.getPublicationDate().compareTo(f1.getNotification().getPublicationDate()))
 					.collect(Collectors.toList());
+			
+			// Si l'on est dans le menu, il ne faut que les notifications non lues
+			if (!template.equals("notification-viewer-all")) {
+				usrNotifStatus.removeIf(c -> c.isRead());
+			}
 
 			// Le nombre de notifications non lus
 			long notifCount = usrNotifStatus.stream().filter(c -> !c.isRead()).count();
@@ -126,54 +134,47 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 
 			renderRequest.setAttribute("notifications", notifications);
 			renderRequest.setAttribute("notifCount", notifCount);
-
-			String template = configuration.template();
-			if (Validator.isNull(template)) {
-				template = "notification-viewer-view";
-			}
 			String showAllURL = configuration.showAllURL();
-			if(Validator.isNull(showAllURL)){
+			if (Validator.isNull(showAllURL)) {
 				showAllURL = "#";
 			}
 			renderRequest.setAttribute("showAllURL", showAllURL);
-			
+
 			include("/" + template + ".jsp", renderRequest, renderResponse);
-			
+
 		} catch (Exception e) {
 			_log.error(e);
 		}
 	}
-	
+
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
-	
-		try 
-		{
-             String resourceID = resourceRequest.getResourceID();
 
-             if (resourceID.equals("toggleNotification")) {
-            	 
-            	// Récupération du publik ID avec la session
-         		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-         		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-         		String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
-         		Long notificationId = ParamUtil.getLong(resourceRequest, "notificationId");
-         		
-         		// Récupération de la notification pour la passer à 'Lu'/'Non lu'
-    			UserNotificationStatus notif = UserNotificationStatusLocalServiceUtil
-    					.getUserNotificationStatus(new UserNotificationStatusPK(notificationId, internalId));
-    			
-    			//toggle read
+		try {
+			String resourceID = resourceRequest.getResourceID();
+
+			if (resourceID.equals("toggleNotification")) {
+
+				// Récupération du publik ID avec la session
+				LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+				HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+				String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
+				Long notificationId = ParamUtil.getLong(resourceRequest, "notificationId");
+
+				// Récupération de la notification pour la passer à 'Lu'/'Non
+				// lu'
+				UserNotificationStatus notif = UserNotificationStatusLocalServiceUtil
+						.getUserNotificationStatus(new UserNotificationStatusPK(notificationId, internalId));
+
+				// toggle read
 				notif.setRead(!notif.isRead());
 				UserNotificationStatusLocalServiceUtil.updateUserNotificationStatus(notif);
-             }
-		}
-		catch (Exception e)
-		{
+			}
+		} catch (Exception e) {
 			_log.error(e);
 		}
-		
+
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 

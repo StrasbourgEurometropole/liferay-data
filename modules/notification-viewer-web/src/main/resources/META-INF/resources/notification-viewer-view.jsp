@@ -26,10 +26,10 @@
 					
 					<c:choose>
 						<c:when test="${notif.isRead()}">
-							<a href="${notificationURL}" class="notif-item new">
+							<a href="${notificationURL}" class="notif-item">
 						</c:when>
 						<c:otherwise>
-							<a href="${notificationURL} " class="notif-item">
+							<a href="${notificationURL} " class="notif-item new">
 						</c:otherwise>
 					</c:choose>
 						<div class="notif-date">
