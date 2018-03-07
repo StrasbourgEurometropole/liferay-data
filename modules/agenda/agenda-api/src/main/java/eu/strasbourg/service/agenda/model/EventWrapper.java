@@ -1544,6 +1544,11 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getAvailableLanguageIds();
 	}
 
+	@Override
+	public java.time.LocalDate getNextOpenDate() {
+		return _event.getNextOpenDate();
+	}
+
 	/**
 	* Returns the create date of this event.
 	*

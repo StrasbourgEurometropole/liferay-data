@@ -1,0 +1,29 @@
+%organism-slider-une{
+    @extend %molecule-home-slider;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    @include RWD(mobile){
+        margin-bottom: 10px;
+    }
+    .slider{
+        // Taille et design des slides
+        .owl-item{
+            .item{
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+                opacity: 0.2;
+                height: 425px;
+                content: '';
+                display: block;
+                transition: opacity 1s;
+                &:first-child{
+                    margin-bottom: 20px;
+                }
+                @extend %atom-slider-une-vignette;
+                @include RWD(mobile){
+                    height: 350px;
+                }
+            }
+        }
+    }
+}

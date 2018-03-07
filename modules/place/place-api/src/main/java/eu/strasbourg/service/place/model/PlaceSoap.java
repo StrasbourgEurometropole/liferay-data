@@ -80,9 +80,14 @@ public class PlaceSoap implements Serializable {
 		soapModel.setAccessForWheelchair(model.getAccessForWheelchair());
 		soapModel.setAccessForElder(model.getAccessForElder());
 		soapModel.setAccessForDeficient(model.getAccessForDeficient());
+		soapModel.setRTEnabled(model.getRTEnabled());
+		soapModel.setRTType(model.getRTType());
 		soapModel.setRTExternalId(model.getRTExternalId());
-		soapModel.setOccupation(model.getOccupation());
-		soapModel.setOccupationLastUpdate(model.getOccupationLastUpdate());
+		soapModel.setRTAvailable(model.getRTAvailable());
+		soapModel.setRTOccupation(model.getRTOccupation());
+		soapModel.setRTCapacity(model.getRTCapacity());
+		soapModel.setRTStatus(model.getRTStatus());
+		soapModel.setRTLastUpdate(model.getRTLastUpdate());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setImageIds(model.getImageIds());
 		soapModel.setVideosIds(model.getVideosIds());
@@ -516,6 +521,22 @@ public class PlaceSoap implements Serializable {
 		_accessForDeficient = accessForDeficient;
 	}
 
+	public Boolean getRTEnabled() {
+		return _RTEnabled;
+	}
+
+	public void setRTEnabled(Boolean RTEnabled) {
+		_RTEnabled = RTEnabled;
+	}
+
+	public String getRTType() {
+		return _RTType;
+	}
+
+	public void setRTType(String RTType) {
+		_RTType = RTType;
+	}
+
 	public String getRTExternalId() {
 		return _RTExternalId;
 	}
@@ -524,20 +545,44 @@ public class PlaceSoap implements Serializable {
 		_RTExternalId = RTExternalId;
 	}
 
-	public String getOccupation() {
-		return _occupation;
+	public long getRTAvailable() {
+		return _RTAvailable;
 	}
 
-	public void setOccupation(String occupation) {
-		_occupation = occupation;
+	public void setRTAvailable(long RTAvailable) {
+		_RTAvailable = RTAvailable;
 	}
 
-	public Date getOccupationLastUpdate() {
-		return _occupationLastUpdate;
+	public long getRTOccupation() {
+		return _RTOccupation;
 	}
 
-	public void setOccupationLastUpdate(Date occupationLastUpdate) {
-		_occupationLastUpdate = occupationLastUpdate;
+	public void setRTOccupation(long RTOccupation) {
+		_RTOccupation = RTOccupation;
+	}
+
+	public long getRTCapacity() {
+		return _RTCapacity;
+	}
+
+	public void setRTCapacity(long RTCapacity) {
+		_RTCapacity = RTCapacity;
+	}
+
+	public String getRTStatus() {
+		return _RTStatus;
+	}
+
+	public void setRTStatus(String RTStatus) {
+		_RTStatus = RTStatus;
+	}
+
+	public Date getRTLastUpdate() {
+		return _RTLastUpdate;
+	}
+
+	public void setRTLastUpdate(Date RTLastUpdate) {
+		_RTLastUpdate = RTLastUpdate;
 	}
 
 	public long getImageId() {
@@ -626,9 +671,14 @@ public class PlaceSoap implements Serializable {
 	private Boolean _accessForWheelchair;
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
+	private Boolean _RTEnabled;
+	private String _RTType;
 	private String _RTExternalId;
-	private String _occupation;
-	private Date _occupationLastUpdate;
+	private long _RTAvailable;
+	private long _RTOccupation;
+	private long _RTCapacity;
+	private String _RTStatus;
+	private Date _RTLastUpdate;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

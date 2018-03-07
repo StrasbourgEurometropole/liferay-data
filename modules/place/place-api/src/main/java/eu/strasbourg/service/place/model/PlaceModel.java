@@ -1932,6 +1932,35 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setAccessForDeficient(Boolean accessForDeficient);
 
 	/**
+	 * Returns the rt enabled of this place.
+	 *
+	 * @return the rt enabled of this place
+	 */
+	public Boolean getRTEnabled();
+
+	/**
+	 * Sets the rt enabled of this place.
+	 *
+	 * @param RTEnabled the rt enabled of this place
+	 */
+	public void setRTEnabled(Boolean RTEnabled);
+
+	/**
+	 * Returns the rt type of this place.
+	 *
+	 * @return the rt type of this place
+	 */
+	@AutoEscape
+	public String getRTType();
+
+	/**
+	 * Sets the rt type of this place.
+	 *
+	 * @param RTType the rt type of this place
+	 */
+	public void setRTType(String RTType);
+
+	/**
 	 * Returns the rt external ID of this place.
 	 *
 	 * @return the rt external ID of this place
@@ -1947,33 +1976,75 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setRTExternalId(String RTExternalId);
 
 	/**
-	 * Returns the occupation of this place.
+	 * Returns the rt available of this place.
 	 *
-	 * @return the occupation of this place
+	 * @return the rt available of this place
+	 */
+	public long getRTAvailable();
+
+	/**
+	 * Sets the rt available of this place.
+	 *
+	 * @param RTAvailable the rt available of this place
+	 */
+	public void setRTAvailable(long RTAvailable);
+
+	/**
+	 * Returns the rt occupation of this place.
+	 *
+	 * @return the rt occupation of this place
+	 */
+	public long getRTOccupation();
+
+	/**
+	 * Sets the rt occupation of this place.
+	 *
+	 * @param RTOccupation the rt occupation of this place
+	 */
+	public void setRTOccupation(long RTOccupation);
+
+	/**
+	 * Returns the rt capacity of this place.
+	 *
+	 * @return the rt capacity of this place
+	 */
+	public long getRTCapacity();
+
+	/**
+	 * Sets the rt capacity of this place.
+	 *
+	 * @param RTCapacity the rt capacity of this place
+	 */
+	public void setRTCapacity(long RTCapacity);
+
+	/**
+	 * Returns the rt status of this place.
+	 *
+	 * @return the rt status of this place
 	 */
 	@AutoEscape
-	public String getOccupation();
+	public String getRTStatus();
 
 	/**
-	 * Sets the occupation of this place.
+	 * Sets the rt status of this place.
 	 *
-	 * @param occupation the occupation of this place
+	 * @param RTStatus the rt status of this place
 	 */
-	public void setOccupation(String occupation);
+	public void setRTStatus(String RTStatus);
 
 	/**
-	 * Returns the occupation last update of this place.
+	 * Returns the rt last update of this place.
 	 *
-	 * @return the occupation last update of this place
+	 * @return the rt last update of this place
 	 */
-	public Date getOccupationLastUpdate();
+	public Date getRTLastUpdate();
 
 	/**
-	 * Sets the occupation last update of this place.
+	 * Sets the rt last update of this place.
 	 *
-	 * @param occupationLastUpdate the occupation last update of this place
+	 * @param RTLastUpdate the rt last update of this place
 	 */
-	public void setOccupationLastUpdate(Date occupationLastUpdate);
+	public void setRTLastUpdate(Date RTLastUpdate);
 
 	/**
 	 * Returns the image ID of this place.

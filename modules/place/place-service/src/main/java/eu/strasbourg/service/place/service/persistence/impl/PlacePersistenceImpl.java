@@ -3196,9 +3196,14 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setAccessForWheelchair(place.getAccessForWheelchair());
 		placeImpl.setAccessForElder(place.getAccessForElder());
 		placeImpl.setAccessForDeficient(place.getAccessForDeficient());
+		placeImpl.setRTEnabled(place.getRTEnabled());
+		placeImpl.setRTType(place.getRTType());
 		placeImpl.setRTExternalId(place.getRTExternalId());
-		placeImpl.setOccupation(place.getOccupation());
-		placeImpl.setOccupationLastUpdate(place.getOccupationLastUpdate());
+		placeImpl.setRTAvailable(place.getRTAvailable());
+		placeImpl.setRTOccupation(place.getRTOccupation());
+		placeImpl.setRTCapacity(place.getRTCapacity());
+		placeImpl.setRTStatus(place.getRTStatus());
+		placeImpl.setRTLastUpdate(place.getRTLastUpdate());
 		placeImpl.setImageId(place.getImageId());
 		placeImpl.setImageIds(place.getImageIds());
 		placeImpl.setVideosIds(place.getVideosIds());

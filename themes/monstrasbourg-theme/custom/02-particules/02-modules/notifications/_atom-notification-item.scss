@@ -1,0 +1,17 @@
+.notification-item{
+    padding: 15px 40px;
+    
+    &__date{
+        font-weight: 600;
+        font-size: 2.0rem;
+        color: $core-color;
+    }
+    &__lead{
+        font-size: 1.6rem;
+        color: $core-color;
+    }
+    &__date + &__lead{
+        margin-top: 10px;
+    }
+
+}

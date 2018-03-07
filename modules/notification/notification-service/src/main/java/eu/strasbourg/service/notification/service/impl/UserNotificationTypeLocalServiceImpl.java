@@ -60,15 +60,23 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 	 */
 	@Override
 	public List<PublikUser> getUsersSubscribedToType(long typeId) {
-		List<PublikUser> users = new ArrayList<PublikUser>();
-		List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence.findByTypeId(typeId);
-		for (UserNotificationType userNotificationType : userNotificationTypes) {
-			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(userNotificationType.getPublikUserId());
-			if (user != null) {
-				users.add(user);
+		List<PublikUser> allUsers = PublikUserLocalServiceUtil.getPublikUsers(-1, -1);
+		List<PublikUser> usersSubscribedToType = new ArrayList<PublikUser>();
+		for (PublikUser user : allUsers) {
+			List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence.findByPublikUserId(user.getPublikId());
+			boolean userWantsNotification = true;
+			for (UserNotificationType userNotificationType : userNotificationTypes) {
+				if (userNotificationType.getTypeId() == typeId) {
+					userWantsNotification  = false;
+					break;
+				}
+			}
+			if (userWantsNotification) {
+				usersSubscribedToType.add(user);
 			}
 		}
-		return users;
+		
+		return usersSubscribedToType;
 	}
 
 	/**

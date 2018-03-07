@@ -1,0 +1,36 @@
+// .wi-duo{
+//     margin-left: calc(50% - 50vw);
+//     margin-right: calc(50% - 50vw);
+//     display: flex;
+//     justify-content: center;
+//     @include RWD(mobile){
+//         display: block;
+//     }
+
+//     .wi{
+//         @extend %molecule-wi-section;
+//         @extend %organism-wi-duo;
+//     }
+
+//     .wi-crossreading{
+//         margin-top: 0;
+//     }
+//     .wi-contact{
+//         margin-top: 0;
+//         .wi-text{
+//             margin-bottom: 40px;
+//         }
+//     }
+
+//     // Solo
+//     &.wi-solo{
+//         .wi{
+//             @extend %wi-centered-text;
+//             .custom-container{
+//                 @include RWD(desktop){
+//                     padding-right: 0 !important;                
+//                 }
+//             }
+//         }
+//     }
+// }

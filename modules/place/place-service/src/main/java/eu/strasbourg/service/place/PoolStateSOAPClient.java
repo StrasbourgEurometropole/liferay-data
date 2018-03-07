@@ -20,14 +20,12 @@ import javax.xml.soap.SOAPPart;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
 import eu.strasbourg.service.place.model.Place;
 
 /**
  * @author 01i454
  */
-public class PoolStateSOAPClient extends MVCPortlet {
+public class PoolStateSOAPClient {
 
 	public static long getOccupation(Place pool) {
 		long occupation = -1;

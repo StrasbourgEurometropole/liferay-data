@@ -4,17 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -25,36 +21,6 @@ public class FelecWebServiceClient {
 
 	private static String felecURL = StrasbourgPropsUtil.getFelecURL();
 	
-	static {
-		try {
-			// Trust all certs
-			TrustManager[] trustAllCerts = new TrustManager[] {
-				new X509TrustManager() {
-					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-						return null;
-					}
-
-					public void checkClientTrusted(
-						java.security.cert.X509Certificate[] certs,
-						String authType) {
-					}
-
-					public void checkServerTrusted(
-						java.security.cert.X509Certificate[] certs,
-						String authType) {
-					}
-				} };
-			try {
-				SSLContext sc = SSLContext.getInstance("SSL");
-				sc.init(null, trustAllCerts, new java.security.SecureRandom());
-				HttpsURLConnection
-					.setDefaultSSLSocketFactory(sc.getSocketFactory());
-			} catch (Exception e) {
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static FelecResponse getResponse(String name, String firstName,
 		Date birthDate, String birthPlace) {
@@ -91,7 +57,7 @@ public class FelecWebServiceClient {
 			byte[] postDataBytes = postData.toString().getBytes("UTF-8");
 
 			URL u = new URL(felecURL);
-			HttpsURLConnection conn = (HttpsURLConnection) u.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) u.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", type);

@@ -1,0 +1,74 @@
+%molecule-table{
+    clear: both;
+    width: 100%;
+    border-collapse: separate;
+    caption{
+        visibility:hidden;
+    }
+    td{ 
+        padding-top:15px;
+        padding-bottom:15px;
+        padding-left:15px;
+        padding-right:15px;
+        text-align: center;
+        font-size: 15px;
+        font-size: 1.5rem;
+        color: #595959;
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+    }
+    th{
+        padding-top:15px;
+        padding-bottom:15px;
+        padding-left:15px;
+        padding-right:15px;
+        text-align: center;
+        padding: 20px;
+        background-color:#f4f4f4;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-size: 1.6rem;
+        color: #212121;
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+    }
+    tbody > tr{
+        &:nth-child(even){
+            background-color: $core-color-light;
+        }
+    }
+
+    &--responsive{
+        @extend %molecule-table;
+        @media(max-width: 39.9375em){
+            &.tablesaw-stack td{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            &.tablesaw-stack td .tablesaw-cell-label, &.tablesaw-stack th .tablesaw-cell-label{
+                // width: auto;
+                hyphens: auto;
+                word-wrap: break-word;
+            }
+            b{
+                font-weight: 600;
+                color: #212121;
+            }
+            td, th{
+                text-align: left;
+
+                &:nth-child(even){
+                    background-color: $core-color-light;
+                }
+            }
+            tr{
+                display: block;
+                border-color: $core-color;
+                border-width: 1px;
+            }
+        }
+    }
+}
+

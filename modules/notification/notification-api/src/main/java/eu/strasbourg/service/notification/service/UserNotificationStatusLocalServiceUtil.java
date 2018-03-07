@@ -269,6 +269,13 @@ public class UserNotificationStatusLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	/**
+	* Retourne la liste des statuts de notification pour un utilisateur
+	*/
+	public static long getUnreadNotificationCount(java.lang.String publikUserId) {
+		return getService().getUnreadNotificationCount(publikUserId);
+	}
+
 	public static UserNotificationStatusLocalService getService() {
 		return _serviceTracker.getService();
 	}

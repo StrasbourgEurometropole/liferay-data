@@ -1,8 +1,12 @@
 package eu.strasbourg.utils;
 
+import java.util.List;
+
 import javax.portlet.PortletRequest;
 
 import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import eu.strasbourg.utils.api.PortletHelperService;
 
@@ -21,5 +25,16 @@ public class PortletHelperImpl implements PortletHelperService {
 	 */
 	public String getPortletTitle(String key, PortletRequest request) {
 		return PortletHelper.getPortletTitle(key, request);
+	}
+
+	/**
+	 * Retourne un boolean indiquant si le portlet doit être affiché ou non en fonction des
+	 * préférences de l'utilisateur dans le portlet user display configuration
+	 * @param themeDisplay
+	 * @param cssClassNames
+	 * @return
+	 */
+	public boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames) {
+		return PortletHelper.hiddenDashboardPortlet(themeDisplay, cssClassNames);
 	}
 }

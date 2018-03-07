@@ -83,8 +83,10 @@ public class EntityDetailPortlet extends MVCPortlet {
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 			request.setAttribute("contextObjects", contextObjects);
 			
-			PortalUtil.setPageTitle(entry.getTitle(themeDisplay.getLocale()),
-					PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)));
+			if (entry != null) {
+				PortalUtil.setPageTitle(entry.getTitle(themeDisplay.getLocale()),
+						PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)));
+			}
 
 			super.render(request, response);
 		} catch (Exception e) {

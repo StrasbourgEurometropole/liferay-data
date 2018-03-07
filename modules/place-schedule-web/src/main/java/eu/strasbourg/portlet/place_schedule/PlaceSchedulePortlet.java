@@ -185,6 +185,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			request.setAttribute("category", category);
 			request.setAttribute("piscine", AssetVocabularyHelper.isSwimmingPool(category));
 			request.setAttribute("parking", AssetVocabularyHelper.isParking(category));
+			request.setAttribute("mairie", AssetVocabularyHelper.isMairie(category));
 
 			List<Place> selectedPlaces = new ArrayList<Place>();
 

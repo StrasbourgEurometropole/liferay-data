@@ -1,0 +1,43 @@
+%atom-slide--cms{
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    iframe{
+        height: 100%;
+    }
+
+    @include RWD(mobile){
+        margin: 0;
+    }
+
+    &--video{
+        @extend %atom-slide--cms;
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+ 
+        .owl-video-play-icon{
+            background-image: url(../images/icons/player.svg);
+            margin: 0;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 114px;
+
+            @include RWD(mobile){
+                height: 50px;
+                width: 50px;
+            }
+
+            &:hover, &:focus{
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+        }
+    }
+}

@@ -1,8 +1,8 @@
 package eu.strasbourg.service.place;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.utils.JSONHelper;
@@ -11,7 +11,7 @@ import eu.strasbourg.utils.OccupationState;
 /**
  * @author 01i454
  */
-public class ParkingStateClient extends MVCPortlet {
+public class ParkingStateClient {
 
 	static public long getOccupation(Place parking) {
 		return ParkingStateClient.getOccupation(parking.getRTExternalId());
@@ -54,11 +54,20 @@ public class ParkingStateClient extends MVCPortlet {
 		return capacity;
 	}
 
-	static public OccupationState getOccupationState(Place parking) {
+	static public JSONObject getOccupationState(Place parking) {
 		return ParkingStateClient.getOccupationState(parking.getRTExternalId());
 	}
+	
+	static public JSONObject getOccupationState(String parkingCode) {
+		try {
+			return ParkingStateClient
+					.getJSONObject(parkingCode);
+		} catch (Exception e) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+	}
 
-	static public OccupationState getOccupationState(String parkingCode) {
+	static public OccupationState g(String parkingCode) {
 		OccupationState state = OccupationState.NOT_AVAILABLE;
 		try {
 			JSONObject parkingJSON = ParkingStateClient

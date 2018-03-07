@@ -66,6 +66,9 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getPlacesByType(typeId);
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getTypes()
 		throws com.liferay.portal.kernel.exception.PortalException {

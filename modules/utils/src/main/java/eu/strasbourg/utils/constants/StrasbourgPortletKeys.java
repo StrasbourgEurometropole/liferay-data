@@ -62,4 +62,16 @@ public class StrasbourgPortletKeys {
 	public static final String CONTACT_FORM_WEB = "eu_strasbourg_portlet_contact_ContactFormPortlet";
 	
 	public static final String SECTORIZED_PLACES_WEB = "eu_strasbourg_portlet_sectorized_SectorizedPlacesPortlet";
+	
+	public static final String FAVORITES_VIEWER_WEB = "eu_strasbourg_portlet_favorites_FavoritesViewerPortlet";
+	
+	public static final String NOTIFICATION_VIEWER_WEB = "eu_strasbourg_portlet_notification_NotificationViewerWebPortlet";
+
+	public static final String DEMARCHES_WEB = "eu_strasbourg_portlet_demarches_portlet_DemarchesWebPortlet";
+	
+	public static final String MAP_WEB = "eu_strasbourg_portlet_map_MapWebPortlet";
+	
+	public static final String USER_DISPLAY = "eu_strasbourg_portlet_userdisplay_UserDisplayConfigurationPortlet";
+	
+	public static final String INTEREST_VIEWER_WEB = "eu_strasbourg_portlet_interest_viewer_InterestViewerWebPortlet";
 }

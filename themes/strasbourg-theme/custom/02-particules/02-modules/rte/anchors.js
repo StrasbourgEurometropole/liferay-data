@@ -22,14 +22,17 @@
 
     // Pour chaque liens, si # dans l'href => on scroll à l'élément s'il est présent sur la page, sinon on va suit le liens normalement
     $('a:not(.webform-progressbar-page)').on('click', function (e) {
+        if($(this).hasClass('seu-add-favorites') || $(this).hasClass('add-favorites') || $(this).hasClass('item-misc')) {
+            return;
+        }
         var href = $(this).attr('href');
         var id;
-        if (href.indexOf('#') != -1) {
+        if (href && href.indexOf('#') != -1) {
             e.preventDefault();
             var pos = href.search('#') + 1;
             id = href.slice(pos);
             var element = $('#' + id);
-            if (element.length == 0) {
+            if (id.length > 0 && element.length == 0) {
                 element = $('[name=' + id + ']');
             }
             if (element.length) {

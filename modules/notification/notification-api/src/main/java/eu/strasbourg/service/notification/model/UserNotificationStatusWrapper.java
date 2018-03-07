@@ -140,6 +140,11 @@ public class UserNotificationStatusWrapper implements UserNotificationStatus,
 	}
 
 	@Override
+	public eu.strasbourg.service.notification.model.Notification getNotification() {
+		return _userNotificationStatus.getNotification();
+	}
+
+	@Override
 	public eu.strasbourg.service.notification.model.UserNotificationStatus toEscapedModel() {
 		return new UserNotificationStatusWrapper(_userNotificationStatus.toEscapedModel());
 	}

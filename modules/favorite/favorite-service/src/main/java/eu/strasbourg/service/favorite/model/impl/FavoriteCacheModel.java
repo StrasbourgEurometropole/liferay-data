@@ -63,7 +63,7 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{favoriteId=");
 		sb.append(favoriteId);
@@ -77,6 +77,8 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		sb.append(typeId);
 		sb.append(", entityId=");
 		sb.append(entityId);
+		sb.append(", entityGroupId=");
+		sb.append(entityGroupId);
 		sb.append("}");
 
 		return sb.toString();
@@ -111,6 +113,7 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 
 		favoriteImpl.setTypeId(typeId);
 		favoriteImpl.setEntityId(entityId);
+		favoriteImpl.setEntityGroupId(entityGroupId);
 
 		favoriteImpl.resetOriginalValues();
 
@@ -127,6 +130,8 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		typeId = objectInput.readLong();
 
 		entityId = objectInput.readLong();
+
+		entityGroupId = objectInput.readLong();
 	}
 
 	@Override
@@ -158,6 +163,8 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		objectOutput.writeLong(typeId);
 
 		objectOutput.writeLong(entityId);
+
+		objectOutput.writeLong(entityGroupId);
 	}
 
 	public long favoriteId;
@@ -166,4 +173,5 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 	public String url;
 	public long typeId;
 	public long entityId;
+	public long entityGroupId;
 }

@@ -1,0 +1,19 @@
+%organism-home-banner{
+    position: relative;
+    text-align-last: center;
+
+    & > * {
+        z-index: 2;
+        position: relative;
+    }
+    svg{
+        margin: 75px auto 95px auto;
+        max-width: calc(100% - 40px);
+        display: block;
+
+        @include RWD(mobile){
+            margin: 50px auto;
+        }
+    }
+    
+}

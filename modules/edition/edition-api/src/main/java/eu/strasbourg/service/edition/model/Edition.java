@@ -127,4 +127,9 @@ public interface Edition extends EditionModel, PersistedModel {
 	* Retourne les types de l'édition
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
+	* Retourne le texte à afficher pour les types de l'édition
+	*/
+	public java.lang.String getTypesLabels(java.util.Locale locale);
 }

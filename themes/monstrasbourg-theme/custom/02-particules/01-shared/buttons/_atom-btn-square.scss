@@ -1,0 +1,244 @@
+%atom-btn-square{
+    padding: 15px 20px;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    // border-style: solid;
+    // border-width: 1px;
+    border-color: transparent;
+    transition: all, 0.5s;
+    overflow: hidden;
+
+    .flexbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-text{
+        font-family: $montserrat;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        font-weight: 400;
+        transition: all, 0.3s;
+        margin-right: 20px;
+    }
+
+    .btn-arrow{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+        flex-shrink: 0;
+    }
+
+    &:hover, &:focus{
+        text-decoration: none;
+        .btn-text{
+        }
+    }
+
+    &--filled{
+        @extend %atom-btn-square;
+
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0%;
+            height: 0%;
+            width: 100%;
+            z-index: 1;
+            transition: all, 0.3s;
+        }
+        & > * {
+            position: relative;
+            z-index: 2;
+        }
+        &:hover, &:focus{
+            &:before{
+                height: 103%;
+            }
+        }
+        &--core{
+            @extend %atom-btn-square--filled;            
+            border-color: $core-color;
+            background-color: $core-color;
+            &:before{
+                background-color: #FFFFFF;
+            }
+            .btn-text{
+                color: #FFFFFF;
+            }  
+            .btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+            }
+            &:hover, &:focus{
+                .btn-text{
+                    color: $core-color;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                }
+            }
+        }
+        &--second{
+            @extend %atom-btn-square--filled;            
+            border-color: $second-color;
+            background-color: $second-color;
+            &:before{
+                background-color: $core-color;
+            }
+            .flexbox{
+                display: flex;
+                align-items: center;
+            }
+            .btn-text{
+                color: $core-color;
+            }  
+            .btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+            }
+            &:hover, &:focus{
+                .btn-text{
+                    color: $second-color;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                }
+            }
+        }
+    }
+    &--bordered{
+        @extend %atom-btn-square;
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        &:hover, &:focus{
+            &:before{
+                height: 100%;
+            }
+        }
+        & > * {
+            z-index: 2;
+            position: relative;
+        }
+
+        &--white{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: #FFFFFF;
+            }
+            .btn-text{
+                color: #FFFFFF;
+            }
+            .btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+            }
+            &:hover, &:focus{
+                .btn-text{
+                    color: $core-color;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                }
+            }
+        }
+        &--core{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: $core-color;
+            }
+            .btn-text{
+                color: $core-color;
+            }
+            .btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+            }
+            &:hover, &:focus{
+                .btn-text{
+                    color: #FFFFFF;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                }
+            }
+        }
+        &--grey{
+            @extend %atom-btn-square--bordered;
+            &:before{
+                background-color: #5c5c5c;
+            }
+            .btn-text{
+                color: #5c5c5c;
+            }
+            .btn-arrow{
+                background-image: url( svg-bg-uri($svg-arrow1, #5c5c5c) );
+            }
+
+            &:hover, &:focus{
+                .btn-text{
+                    color: #FFFFFF;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #ffffff) );
+                }
+            }
+        }
+    }
+}
+
+// Déclarations pour des classes transverse au site
+.btn-square{
+    &.filled{
+        &.core{
+            @extend %atom-btn-square--filled--core;
+        } 
+        &.second{
+            @extend %atom-btn-square--filled--second;
+        } 
+    }
+
+    // Boutons avec bordure
+    &.bordered{ 
+        &.core{ 
+            @extend %atom-btn-square--bordered--core;
+        }
+        &.white{ 
+            @extend %atom-btn-square--bordered--white;
+        }
+        &.grey{
+            @extend %atom-btn-square--bordered--grey;
+        }
+    }
+}
+
+//~#BUTTONS
+.btn-square--filled--core{
+    @extend %atom-btn-square--filled--core;
+}
+.btn-square--filled--second{
+    @extend %atom-btn-square--filled--second;
+}
+.btn-square--bordered--core{
+    @extend %atom-btn-square--bordered--core;
+}
+.btn-square--bordered--white{
+    @extend %atom-btn-square--bordered--white;
+}
+.btn-square--bordered--grey{
+    @extend %atom-btn-square--bordered--grey;
+}
+//#BUTTONS

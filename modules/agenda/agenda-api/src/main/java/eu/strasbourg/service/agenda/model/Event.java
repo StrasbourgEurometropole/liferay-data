@@ -199,6 +199,8 @@ public interface Event extends EventModel, PersistedModel {
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
 
+	public java.time.LocalDate getNextOpenDate();
+
 	/**
 	* Retourne la version JSON de l'événenement
 	*/
