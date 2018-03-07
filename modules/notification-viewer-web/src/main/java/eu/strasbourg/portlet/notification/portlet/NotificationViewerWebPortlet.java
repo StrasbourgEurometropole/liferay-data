@@ -9,6 +9,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -25,14 +26,17 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.notification.configuration.NotificationConfiguration;
 import eu.strasbourg.portlet.notification.model.display.NotificationDisplay;
+import eu.strasbourg.portlet.notification.portlet.context.NotificationViewerDisplayContext;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
@@ -87,6 +91,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
+		renderRequest.setAttribute("dc", new NotificationViewerDisplayContext(renderRequest, renderResponse));
 
 		try {
 
@@ -116,9 +121,6 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 				usrNotifStatus.removeIf(c -> c.isRead());
 			}
 
-			// Le nombre de notifications non lus
-			long notifCount = usrNotifStatus.stream().filter(c -> !c.isRead()).count();
-
 			List<NotificationDisplay> notifications = new ArrayList<NotificationDisplay>();
 
 			// Création de la liste des notifications à afficher en fonction de
@@ -131,6 +133,9 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 				nd.setNotificationId(un.getNotificationId());
 				notifications.add(nd);
 			}
+
+			// Le nombre de notifications non lus
+			long notifCount = usrNotifStatus.stream().filter(c -> !c.isRead()).count();
 
 			renderRequest.setAttribute("notifications", notifications);
 			renderRequest.setAttribute("notifCount", notifCount);
