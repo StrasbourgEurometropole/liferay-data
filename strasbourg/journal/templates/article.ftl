@@ -19,7 +19,7 @@
             data-group-id=${themeDisplay.scopeGroupId}
             data-id="${.vars['reserved-article-id'].data}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
-        </a>
+    </a>
     <h1>${title.getData()}</h1>
     <div class="hat">
         <div>
