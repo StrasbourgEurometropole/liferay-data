@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.notification.portlet.context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,6 +19,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.notification.configuration.NotificationConfiguration;
@@ -33,11 +33,12 @@ public class NotificationViewerDisplayContext {
 	private RenderRequest request;
 	private RenderResponse response;
 	private ThemeDisplay themeDisplay;
+	private List<UserNotificationStatus> usrNotifStatus;
 	private List<NotificationDisplay> results;
 	private SearchContainer<NotificationDisplay> searchContainer;
 	private NotificationConfiguration configuration;
 	private Log log = LogFactoryUtil.getLog(this.getClass());
-//
+
 	public NotificationViewerDisplayContext(RenderRequest request, RenderResponse response) {
 		this.request = request;
 		this.response = response;
@@ -50,25 +51,44 @@ public class NotificationViewerDisplayContext {
 		}
 	}
 
-	public List<NotificationDisplay> getResults() {
-		if (this.results == null) {
+	private List<UserNotificationStatus> getListNotifications(){
+		if (this.usrNotifStatus == null) {
 			// Récupération du publik ID avec la session
 			LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
 			HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 			String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
-
+			
 			// Récupération de la liste des notifications de l'utilisateur
-			List<UserNotificationStatus> usrNotifStatus = UserNotificationStatusLocalServiceUtil
+			List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil
 					.getByPublikUserId(internalId).stream()
 					.filter(c -> c.getNotification() != null).sorted((f1, f2) -> f2.getNotification()
 							.getPublicationDate().compareTo(f1.getNotification().getPublicationDate()))
 					.collect(Collectors.toList());
 
+			String template = configuration.template();
+			if (Validator.isNull(template)) {
+				template = "notification-viewer-view";
+			}
+			
+			// Si l'on est dans le menu, il ne faut que les notifications non lues
+			if (!template.equals("notification-viewer-all")) {
+				notifications.removeIf(c -> c.isRead());
+			}
+			
+			this.usrNotifStatus = notifications;
+		}
+		
+		return this.usrNotifStatus;
+	}
+	
+	
+	public List<NotificationDisplay> getResults() {
+		if (this.results == null) {
 			List<NotificationDisplay> notifications = new ArrayList<NotificationDisplay>();
 
 			// Création de la liste des notifications à afficher en fonction de
 			// la notification, de son statut et de l'utilisateur
-			for (UserNotificationStatus un : usrNotifStatus) {
+			for (UserNotificationStatus un : this.getListNotifications()) {
 				NotificationDisplay nd = new NotificationDisplay();
 				nd.setTitle(un.getNotification().getTitle(request.getLocale()));
 				nd.setRead(un.isRead());
@@ -95,6 +115,14 @@ public class NotificationViewerDisplayContext {
 	 */
 	public int getResultCount() {
 		return getResults().size();
+	}
+
+	/**
+	 * Retourne le nombre de notifications non lue
+	 */
+	public long getResultUnreadCount() {
+		long notifCount = this.getListNotifications().stream().filter(c -> !c.isRead()).count();
+		return notifCount;
 	}
 
 	/**

@@ -9,7 +9,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -22,15 +21,14 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -91,64 +89,28 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
-		renderRequest.setAttribute("dc", new NotificationViewerDisplayContext(renderRequest, renderResponse));
+		NotificationViewerDisplayContext dc = new NotificationViewerDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
 
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		NotificationConfiguration configuration;
 		try {
-
-			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			NotificationConfiguration configuration = themeDisplay.getPortletDisplay()
+			configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(NotificationConfiguration.class);
 
-			String template = configuration.template();
-			if (Validator.isNull(template)) {
-				template = "notification-viewer-view";
-			}
-
-			// Récupération du publik ID avec la session
-			LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(renderRequest);
-			HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-			String internalId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
-
-			// Récupération de la liste des notifications de l'utilisateur
-			List<UserNotificationStatus> usrNotifStatus = UserNotificationStatusLocalServiceUtil
-					.getByPublikUserId(internalId).stream()
-					.filter(c -> c.getNotification() != null).sorted((f1, f2) -> f2.getNotification()
-							.getPublicationDate().compareTo(f1.getNotification().getPublicationDate()))
-					.collect(Collectors.toList());
-			
-			// Si l'on est dans le menu, il ne faut que les notifications non lues
-			if (!template.equals("notification-viewer-all")) {
-				usrNotifStatus.removeIf(c -> c.isRead());
-			}
-
-			List<NotificationDisplay> notifications = new ArrayList<NotificationDisplay>();
-
-			// Création de la liste des notifications à afficher en fonction de
-			// la notification, de son statut et de l'utilisateur
-			for (UserNotificationStatus un : usrNotifStatus) {
-				NotificationDisplay nd = new NotificationDisplay();
-				nd.setTitle(un.getNotification().getTitle(renderRequest.getLocale()));
-				nd.setRead(un.isRead());
-				nd.setDate(un.getNotification().getPublicationDate());
-				nd.setNotificationId(un.getNotificationId());
-				notifications.add(nd);
-			}
-
-			// Le nombre de notifications non lus
-			long notifCount = usrNotifStatus.stream().filter(c -> !c.isRead()).count();
-
-			renderRequest.setAttribute("notifications", notifications);
-			renderRequest.setAttribute("notifCount", notifCount);
 			String showAllURL = configuration.showAllURL();
 			if (Validator.isNull(showAllURL)) {
 				showAllURL = "#";
 			}
 			renderRequest.setAttribute("showAllURL", showAllURL);
 
+			String template = configuration.template();
+			if (Validator.isNull(template)) {
+				template = "notification-viewer-view";
+			}
 			include("/" + template + ".jsp", renderRequest, renderResponse);
-
-		} catch (Exception e) {
-			_log.error(e);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
 		}
 	}
 

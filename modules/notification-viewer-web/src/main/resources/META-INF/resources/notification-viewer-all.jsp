@@ -56,7 +56,7 @@
 									<fmt:formatDate type="date" value="${notif.date}" pattern = "dd.MM.yyyy"/>
 								</div>
 								<div class="notification-item__lead">
-									<c:out value="${notif.title}" />
+									<p style="word-break: break-word"><c:out value="${notif.title}" /></p>
 								</div>
 							</a>
 					
@@ -85,7 +85,7 @@
 				<c:if test="${dc.pager.lastPage > 1}">
 		            <ul class="mseu-pagination unstyled">
 		            	<!-- Page précédente -->
-		                <li class="pagin-prev disabled pagin-item">
+		                <li class="pagin-prev pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
 			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
 									href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
