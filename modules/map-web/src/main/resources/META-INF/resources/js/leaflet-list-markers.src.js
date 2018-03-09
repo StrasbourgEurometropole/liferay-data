@@ -28,7 +28,7 @@ L.Control.ListMarkers = L.Control.extend({
 		label: 'title',
 		itemIcon: L.Icon.Default.imagePath+'/marker-icon.png',
 		itemArrow: '&#10148;',	//visit: http://character-code.com/arrows-html-codes.php
-		maxZoom: 9,
+		minZoom: 9,
 		position: 'bottomleft'
 		//TODO autocollapse
 	},
@@ -46,7 +46,7 @@ L.Control.ListMarkers = L.Control.extend({
 	
 		var container = this._container = L.DomUtil.create('div', 'list-markers');
 
-		this._list = L.DomUtil.create('ul', 'list-markers-ul', container);
+		this._list = L.DomUtil.create('div', 'filtres__list', container);
 
 		this._initToggle();
 
@@ -64,10 +64,9 @@ L.Control.ListMarkers = L.Control.extend({
 	},
 
 	_createItem: function(layer) {
-
-		var li = L.DomUtil.create('li', 'list-markers-li'),
-			a = L.DomUtil.create('a', '', li),
-			icon = this.options.itemIcon ? '<img src="'+this.options.itemIcon+'" />' : '',
+		var self = this;
+		var div = L.DomUtil.create('div', 'filtres__item form-group grid-item filtres__item--favorite'),
+			a = L.DomUtil.create('a', '', div),
 			that = this;
 
 		a.href = '#';
@@ -76,6 +75,22 @@ L.Control.ListMarkers = L.Control.extend({
 			.on(a, 'click', L.DomEvent.stop, this)
 			.on(a, 'click', function(e) {
 				this._moveTo( layer.getLatLng() );
+			}, this)
+			.on(a, 'click', function(e) {
+				this._moveTo( layer.getLatLng() );
+				this._map.once("moveend zoomend", function() {
+					var cluster = self._layer.getVisibleParent(layer);
+					if (cluster.spiderfy) {
+						setTimeout(function() {
+							cluster.spiderfy();
+							layer.openPopup();
+						}, 500);
+					} else {
+						setTimeout(function() {
+							layer.openPopup();
+						}, 250);
+					}
+				});
 			}, this)
 //			.on(a, 'click', function(e) {				
 //				this._toggleDisplay(layer);
@@ -93,14 +108,18 @@ L.Control.ListMarkers = L.Control.extend({
 
 		if( layer.options.hasOwnProperty(this.options.label) )
 		{
-			a.innerHTML = icon+'<span>'+layer.options[this.options.label]+'</span> <b>'+this.options.itemArrow+'</b>';
+			a.innerHTML = "";
+			if (layer.feature.properties.visual) {
+				a.innerHTML += '<div class="filtres__item__visuel" style="background-image: url(' + layer.feature.properties.visual + ');"></div>';
+			}
+			a.innerHTML += '<span>'+layer.options[this.options.label]+'</span>';
 			//TODO use related marker icon!
 			//TODO use template for item
 		}
 		else
 			console.log("propertyName '"+this.options.label+"' not found in marker");
 
-		return li;
+		return div;
 	},
 
 	_updateList: function() {
@@ -170,8 +189,8 @@ L.Control.ListMarkers = L.Control.extend({
 	},
 
     _moveTo: function(latlng) {
-		if(this.options.maxZoom)
-			this._map.setView(latlng, Math.min(this._map.getZoom(), this.options.maxZoom) );
+		if(this.options.minZoom)
+			this._map.setView(latlng, Math.max(this._map.getZoom(), this.options.minZoom) );
 		else
 			this._map.panTo(latlng);    
     },

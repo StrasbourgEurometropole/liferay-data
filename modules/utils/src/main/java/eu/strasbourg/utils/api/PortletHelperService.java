@@ -1,7 +1,5 @@
 package eu.strasbourg.utils.api;
 
-import java.util.List;
-
 import javax.portlet.PortletRequest;
 
 import com.liferay.portal.kernel.theme.ThemeDisplay;

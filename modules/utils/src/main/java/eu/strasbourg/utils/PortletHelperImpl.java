@@ -1,7 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.List;
-
 import javax.portlet.PortletRequest;
 
 import org.osgi.service.component.annotations.Component;
