@@ -109,12 +109,19 @@ aside.quick-links-medias {
 }
 
 .help ul, .help p {
-    list-style: disc outside;
+    list-style: disc outside !important;
     margin-left: 20px;
     margin-bottom: 10px;
+    padding: 0;
+}
+
+.help li {
+    margin: 0;
+    padding: 0;
 }
 
 .help h3 {
+    font-weight: bold;
     font-size: 15px;
     color: #7fa400 ;
 }

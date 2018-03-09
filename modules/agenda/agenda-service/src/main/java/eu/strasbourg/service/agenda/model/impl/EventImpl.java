@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -193,6 +194,13 @@ public class EventImpl extends EventBaseImpl {
 		return currentAndFuturePeriods;
 	}
 
+	/**
+	 * Retourne la date de début de la future ou courante période de l'événement
+	 */
+	public Date getStartDateFirstCurrentAndFuturePeriod() {		
+		return getCurrentAndFuturePeriods().isEmpty() ? null:getCurrentAndFuturePeriods().get(0).getStartDate();
+	}
+	
 	/**
 	 * Retourne la période principale de l'événement (de la première date de
 	 * début à la dernière date de fin) sous forme de String dans la locale

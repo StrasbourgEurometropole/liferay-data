@@ -206,6 +206,7 @@ jQuery(function() {
 		var allValidated = true;
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');
+		var periods = [];
 		for (var i = 0; i < scheduleLabels.length; i++) {
 			var scheduleLabel = scheduleLabels[i];
 			var index = $(scheduleLabel).attr('id');
@@ -242,6 +243,18 @@ jQuery(function() {
 						}else{
 							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).hide();
 						}
+						
+						// on vérifie que cette période ne chevauche pas une autre période
+						var nbPeriod = 0
+						$('.place-schedule-period', $(scheduleLabel).parent()).hide();
+						for (nbPeriod; nbPeriod < periods.length; nbPeriod++) {
+							if(!(!(comparDatesYMD(startDateSchedule, periods[nbPeriod][1])) || (!comparDatesYMD(periods[nbPeriod][0], endDateSchedule)))){
+								$('.place-schedule-period', $(scheduleLabel).parent()).show();
+								allValidated = false;
+								break;
+							}
+						}
+						periods[periods.length] = [startDateSchedule, endDateSchedule];
 					}
 					if (scheduleExceptionDescription == "") {
 						$('.place-schedule-description', $(scheduleLabel).parent()).show();

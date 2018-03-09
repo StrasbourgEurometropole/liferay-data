@@ -66,7 +66,7 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,8 +94,16 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		sb.append(statusDate);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", contactInformation=");
-		sb.append(contactInformation);
+		sb.append(", presentation=");
+		sb.append(presentation);
+		sb.append(", address=");
+		sb.append(address);
+		sb.append(", phone=");
+		sb.append(phone);
+		sb.append(", mail=");
+		sb.append(mail);
+		sb.append(", siteURL=");
+		sb.append(siteURL);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -164,11 +172,39 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 			activityOrganizerImpl.setName(name);
 		}
 
-		if (contactInformation == null) {
-			activityOrganizerImpl.setContactInformation(StringPool.BLANK);
+		if (presentation == null) {
+			activityOrganizerImpl.setPresentation(StringPool.BLANK);
 		}
 		else {
-			activityOrganizerImpl.setContactInformation(contactInformation);
+			activityOrganizerImpl.setPresentation(presentation);
+		}
+
+		if (address == null) {
+			activityOrganizerImpl.setAddress(StringPool.BLANK);
+		}
+		else {
+			activityOrganizerImpl.setAddress(address);
+		}
+
+		if (phone == null) {
+			activityOrganizerImpl.setPhone(StringPool.BLANK);
+		}
+		else {
+			activityOrganizerImpl.setPhone(phone);
+		}
+
+		if (mail == null) {
+			activityOrganizerImpl.setMail(StringPool.BLANK);
+		}
+		else {
+			activityOrganizerImpl.setMail(mail);
+		}
+
+		if (siteURL == null) {
+			activityOrganizerImpl.setSiteURL(StringPool.BLANK);
+		}
+		else {
+			activityOrganizerImpl.setSiteURL(siteURL);
 		}
 
 		activityOrganizerImpl.setImageId(imageId);
@@ -199,7 +235,11 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		contactInformation = objectInput.readUTF();
+		presentation = objectInput.readUTF();
+		address = objectInput.readUTF();
+		phone = objectInput.readUTF();
+		mail = objectInput.readUTF();
+		siteURL = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 	}
@@ -252,11 +292,39 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 			objectOutput.writeUTF(name);
 		}
 
-		if (contactInformation == null) {
+		if (presentation == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(contactInformation);
+			objectOutput.writeUTF(presentation);
+		}
+
+		if (address == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(address);
+		}
+
+		if (phone == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(phone);
+		}
+
+		if (mail == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(mail);
+		}
+
+		if (siteURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(siteURL);
 		}
 
 		objectOutput.writeLong(imageId);
@@ -275,6 +343,10 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 	public String statusByUserName;
 	public long statusDate;
 	public String name;
-	public String contactInformation;
+	public String presentation;
+	public String address;
+	public String phone;
+	public String mail;
+	public String siteURL;
 	public long imageId;
 }

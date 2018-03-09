@@ -118,9 +118,9 @@
             align-items: center;     
             margin-bottom: 50px;
             margin-top: 40px;
-            @include RWD(mobile){
+       /*     @include RWD(mobile){
                 display: none;
-            }
+            }*/
 
         }
         .block-container-breadcrumb{

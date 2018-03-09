@@ -4,6 +4,10 @@
     margin-left: auto;
     margin-right: auto;
 
+    .seu-btn-square.seu-bordered.seu-core a:last-child {
+        margin-bottom: 60px;
+    }
+
     @include RWD(tablet){
         width: 100%;
         padding-left: 40px;

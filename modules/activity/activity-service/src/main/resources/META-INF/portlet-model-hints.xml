@@ -41,6 +41,9 @@
 		<field localized="true" name="name" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field localized="true" name="presentation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field localized="true" name="arrangements" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -48,8 +51,11 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="activityId" type="long" />
-		<field name="serviceId" type="long" />
 		<field name="organizerId" type="long" />
+		<field name="imageId" type="long" />
+		<field name="imageIds" type="String" />
+		<field name="videosIds" type="String" />
+		<field name="documentsIds" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.activity.model.ActivityCoursePlace">
 		<field name="uuid" type="String" />
@@ -110,9 +116,15 @@
 		<field localized="true" name="name" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field localized="true" name="contactInformation" type="String">
+		<field localized="true" name="presentation" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field localized="true" name="address" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="phone" type="String" />
+		<field name="mail" type="String" />
+		<field localized="true" name="siteURL" type="String" />
 		<field name="imageId" type="long" />
 	</model>
 </model-hints>

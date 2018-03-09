@@ -1,6 +1,9 @@
 <%@ include file="/place-bo-init.jsp"%>
 						
 <div class="schedule-label" id="${param.index}"><label><liferay-ui:message key="date-exception" /> ${param.index}</label></div>
+<div class="place-schedule-period" style="display: none">
+	<liferay-ui:message key="period-overlap" />
+</div>
 			
 <aui:input name="scheduleExceptionDescription${param.index}" label="description-schedule" value="${param.comment}" localized="true" type="text"  /> 
 <div class="place-schedule-description" style="display: none">

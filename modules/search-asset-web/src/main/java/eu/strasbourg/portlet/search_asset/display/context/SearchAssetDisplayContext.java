@@ -200,10 +200,15 @@ public class SearchAssetDisplayContext {
 		String sortField = this.getSortField();
 		boolean isSortDesc = "desc".equals(this.getSortType());
 
+		// Permet de remonter la hiérarchie des Request
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+		// Lieu (pour la recherche agenda)
+		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		
 		// Recherche
 		this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
 				keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-				prefilterTagsNames, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
+				prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (this._hits != null) {
@@ -225,7 +230,7 @@ public class SearchAssetDisplayContext {
 			}
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
-					prefilterCategoriesIds, prefilterTagsNames, this._themeDisplay.getLocale());
+					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, this._themeDisplay.getLocale());
 			this.getSearchContainer().setTotal((int) count);
 		}
 
@@ -837,6 +842,15 @@ public class SearchAssetDisplayContext {
 			return titleFromLanguageKey;
 		}
 	}
+	
+	
+	public String getIdSIGPlace() {
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
+		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		
+		return idSIGPlace;
+	}
+	
 
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 

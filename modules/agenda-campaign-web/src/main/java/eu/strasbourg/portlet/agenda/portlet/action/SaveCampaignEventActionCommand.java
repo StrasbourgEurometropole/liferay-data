@@ -169,10 +169,21 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "subtitle");
 			Map<Locale, String> description = LocalizationUtil
 				.getLocalizationMap(request, "description");
+			
+			// Le input étant un textarea et l'affichage sur stras.eu en html, on remplace les \des BR pour garder les sauts de ligne 
+			for(Map.Entry<Locale, String> descripLang : description.entrySet()) {
+				if(descripLang.getValue() != null) {
+					String valueBr = descripLang.getValue().replaceAll("\n", "<br/>");
+					descripLang.setValue(valueBr);
+				}
+			}
+	
 			campaignEvent.setTitleMap(title);
 			campaignEvent.setSubtitleMap(subtitle);
 			campaignEvent.setDescriptionMap(description);
-
+			
+			
+			
 			// Image et image web
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
@@ -189,6 +200,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				campaignEvent.setImageId(fileEntry.getFileEntryId());
 			}
 
+			// Dans le cas où le responsable clique sur le bouton pour récupérer l'image de l'auteur
+			Long webImageId = ParamUtil.getLong(request, "webImageId");
+			
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(webImage);
@@ -200,6 +214,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					MimeTypesUtil.getContentType(webImage), webImage.getName(),
 					"", "", imageBytes, sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
+			}
+			else if(webImageId != null && webImageId != 0) {
+				campaignEvent.setWebImageId(webImageId);
 			}
 
 			String imageOwner = ParamUtil.getString(request, "imageOwner");
@@ -314,6 +331,15 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			// Tarifs
 			Map<Locale, String> price = LocalizationUtil
 				.getLocalizationMap(request, "price");
+			
+			// Le input étant un textarea et l'affichage sur stras.eu en html, on remplace les \des BR pour garder les sauts de ligne 
+			for(Map.Entry<Locale, String> priceLang : price.entrySet()) {
+				if(priceLang.getValue() != null) {
+					String valueBr = priceLang.getValue().replaceAll("\n", "<br/>");
+					priceLang.setValue(valueBr);
+				}
+			}
+			
 			campaignEvent.setPriceMap(price);
 
 			/**

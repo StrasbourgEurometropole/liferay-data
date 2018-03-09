@@ -81,7 +81,7 @@ public class EventIndexer extends BaseIndexer<Event> {
 			titleFieldMap.put(locale, eventTitle + " " + eventPlaceAlias);
 		}
 		document.addLocalizedText(Field.TITLE, titleFieldMap);
-		
+		document.addText("idSIGPlace", event.getPlaceSIGId());
 		document.addLocalizedText(Field.DESCRIPTION, event.getDescriptionMap());
 		document.addNumber(Field.STATUS, event.getStatus());
 		

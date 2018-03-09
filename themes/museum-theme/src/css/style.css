@@ -8241,3 +8241,16 @@ strong, .breadcrumb-wrapper .breadcrumb li:last-child, .page-header-portlet .pag
   display: inline-block;
   width: 100%;
 }
+
+.museum-dates-list {
+  transition: height 0.5s;
+  overflow: hidden;
+}
+
+.museum-see-dates  {
+  color: #2d2d2d;
+  border-bottom: 1px solid #a56a79;
+}
+.museum-see-dates:hover {
+  cursor: pointer;
+}

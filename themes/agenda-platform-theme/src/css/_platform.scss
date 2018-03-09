@@ -1,7 +1,8 @@
 // Pas de décallage du wrapper
-.control-menu {
-	position: static !important;
+.has-control-menu .top-header {
+	margin-top: 65px;
 }
+
 body.open #wrapper {
   padding-left: 0 !important;
 }

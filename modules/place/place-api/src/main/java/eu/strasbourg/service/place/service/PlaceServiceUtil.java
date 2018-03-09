@@ -70,6 +70,11 @@ public class PlaceServiceUtil {
 		return getService().getPlacesByType(typeId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTypes();
+	}
+
 	/**
 	* Retourne l'ancien web service LR6 concernant les Types de lieu
 	*/

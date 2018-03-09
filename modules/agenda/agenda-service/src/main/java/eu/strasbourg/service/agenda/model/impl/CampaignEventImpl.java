@@ -493,7 +493,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		StringWriter bodyWriter = new StringWriter();
 		subjectTemplate.process(context, subjectWriter);
 		bodyTemplate.process(context, bodyWriter);
-		MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mail, subjectWriter.toString(),
+		MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", mail, subjectWriter.toString(),
 				bodyWriter.toString());
 	}
 

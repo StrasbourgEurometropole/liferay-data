@@ -75,6 +75,12 @@ public interface PlaceService extends BaseService {
 	* Retourne l'ancien web service LR6 concernant les Types de lieu
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTypes() throws PortalException;
+
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getLegacyCategoriesJSON() throws PortalException;
 
 	/**

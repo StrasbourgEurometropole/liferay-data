@@ -66,6 +66,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			PlaceScheduleConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
 
+			String template = configuration.template();
+			
 			// récupère le texte de la configuration
 			String text = "";
 			Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.textScheduleXML());
@@ -155,7 +157,12 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			long categoryIdFromParam = ParamUtil.getLong(request, "categoryId");
 			if (Validator.isNull(categoryIdFromConfiguration) && Validator.isNull(categoryIdFromParam)) {
 				request.setAttribute("noconfig", true);
-				super.render(request, response);
+			
+				if (Validator.isNull(template)) {
+					template = "default";
+				}
+				include("/templates/" + template + ".jsp", request, response);
+				
 				return;
 			}
 			Long categoryId;
@@ -167,7 +174,12 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
 			if (Validator.isNull(category)) {
 				request.setAttribute("noconfig", true);
-				super.render(request, response);
+				
+				if (Validator.isNull(template)) {
+					template = "default";
+				}
+				include("/templates/" + template + ".jsp", request, response);
+				
 				return;
 			}
 			request.setAttribute("category", category);
@@ -255,6 +267,21 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			exceptions = exceptions.stream()
 					.sorted((p1, p2) -> p1.getValue().getStartDate().compareTo(p2.getValue().getStartDate()))
 					.collect(Collectors.toList());
+
+			
+			// On retire les fermetures exceptionnelles des sous lieux
+			ObjectValuePair<String, PlaceSchedule> oldException = null;
+			for (int i = 0; i < exceptions.size(); i++) {
+				ObjectValuePair<String, PlaceSchedule> exception = exceptions.get(i);
+				if (oldException != null && exception.getKey().equals(oldException.getKey())
+						&& exception.getValue().isClosed()
+						&& exception.getValue().getPeriod().equals(oldException.getValue().getPeriod())) {
+					exceptions.remove(i);
+					i--;
+				} else {
+					oldException = exception;
+				}
+			}
 			request.setAttribute("exceptions", exceptions);
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);
@@ -262,7 +289,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			// request.setAttribute("detailURL",
 			// StrasbourgPropsUtil.getPlaceDetailURL());
 
-			String template = configuration.template();
+			
 			if (Validator.isNull(template)) {
 				template = "default";
 			}

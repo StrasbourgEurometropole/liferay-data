@@ -397,106 +397,335 @@ public interface ActivityOrganizerModel extends BaseModel<ActivityOrganizer>,
 	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale);
 
 	/**
-	 * Returns the contact information of this activity organizer.
+	 * Returns the presentation of this activity organizer.
 	 *
-	 * @return the contact information of this activity organizer
+	 * @return the presentation of this activity organizer
 	 */
-	public String getContactInformation();
+	public String getPresentation();
 
 	/**
-	 * Returns the localized contact information of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized presentation of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the locale of the language
-	 * @return the localized contact information of this activity organizer
+	 * @return the localized presentation of this activity organizer
 	 */
 	@AutoEscape
-	public String getContactInformation(Locale locale);
+	public String getPresentation(Locale locale);
 
 	/**
-	 * Returns the localized contact information of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized presentation of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param locale the local of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized contact information of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 * @return the localized presentation of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
 	 */
 	@AutoEscape
-	public String getContactInformation(Locale locale, boolean useDefault);
+	public String getPresentation(Locale locale, boolean useDefault);
 
 	/**
-	 * Returns the localized contact information of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 * Returns the localized presentation of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
-	 * @return the localized contact information of this activity organizer
+	 * @return the localized presentation of this activity organizer
 	 */
 	@AutoEscape
-	public String getContactInformation(String languageId);
+	public String getPresentation(String languageId);
 
 	/**
-	 * Returns the localized contact information of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 * Returns the localized presentation of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
 	 *
 	 * @param languageId the ID of the language
 	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized contact information of this activity organizer
+	 * @return the localized presentation of this activity organizer
 	 */
 	@AutoEscape
-	public String getContactInformation(String languageId, boolean useDefault);
+	public String getPresentation(String languageId, boolean useDefault);
 
 	@AutoEscape
-	public String getContactInformationCurrentLanguageId();
+	public String getPresentationCurrentLanguageId();
 
 	@AutoEscape
-	public String getContactInformationCurrentValue();
+	public String getPresentationCurrentValue();
 
 	/**
-	 * Returns a map of the locales and localized contact informations of this activity organizer.
+	 * Returns a map of the locales and localized presentations of this activity organizer.
 	 *
-	 * @return the locales and localized contact informations of this activity organizer
+	 * @return the locales and localized presentations of this activity organizer
 	 */
-	public Map<Locale, String> getContactInformationMap();
+	public Map<Locale, String> getPresentationMap();
 
 	/**
-	 * Sets the contact information of this activity organizer.
+	 * Sets the presentation of this activity organizer.
 	 *
-	 * @param contactInformation the contact information of this activity organizer
+	 * @param presentation the presentation of this activity organizer
 	 */
-	public void setContactInformation(String contactInformation);
+	public void setPresentation(String presentation);
 
 	/**
-	 * Sets the localized contact information of this activity organizer in the language.
+	 * Sets the localized presentation of this activity organizer in the language.
 	 *
-	 * @param contactInformation the localized contact information of this activity organizer
+	 * @param presentation the localized presentation of this activity organizer
 	 * @param locale the locale of the language
 	 */
-	public void setContactInformation(String contactInformation, Locale locale);
+	public void setPresentation(String presentation, Locale locale);
 
 	/**
-	 * Sets the localized contact information of this activity organizer in the language, and sets the default locale.
+	 * Sets the localized presentation of this activity organizer in the language, and sets the default locale.
 	 *
-	 * @param contactInformation the localized contact information of this activity organizer
+	 * @param presentation the localized presentation of this activity organizer
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
-	public void setContactInformation(String contactInformation, Locale locale,
+	public void setPresentation(String presentation, Locale locale,
 		Locale defaultLocale);
 
-	public void setContactInformationCurrentLanguageId(String languageId);
+	public void setPresentationCurrentLanguageId(String languageId);
 
 	/**
-	 * Sets the localized contact informations of this activity organizer from the map of locales and localized contact informations.
+	 * Sets the localized presentations of this activity organizer from the map of locales and localized presentations.
 	 *
-	 * @param contactInformationMap the locales and localized contact informations of this activity organizer
+	 * @param presentationMap the locales and localized presentations of this activity organizer
 	 */
-	public void setContactInformationMap(
-		Map<Locale, String> contactInformationMap);
+	public void setPresentationMap(Map<Locale, String> presentationMap);
 
 	/**
-	 * Sets the localized contact informations of this activity organizer from the map of locales and localized contact informations, and sets the default locale.
+	 * Sets the localized presentations of this activity organizer from the map of locales and localized presentations, and sets the default locale.
 	 *
-	 * @param contactInformationMap the locales and localized contact informations of this activity organizer
+	 * @param presentationMap the locales and localized presentations of this activity organizer
 	 * @param defaultLocale the default locale
 	 */
-	public void setContactInformationMap(
-		Map<Locale, String> contactInformationMap, Locale defaultLocale);
+	public void setPresentationMap(Map<Locale, String> presentationMap,
+		Locale defaultLocale);
+
+	/**
+	 * Returns the address of this activity organizer.
+	 *
+	 * @return the address of this activity organizer
+	 */
+	public String getAddress();
+
+	/**
+	 * Returns the localized address of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized address of this activity organizer
+	 */
+	@AutoEscape
+	public String getAddress(Locale locale);
+
+	/**
+	 * Returns the localized address of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized address of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getAddress(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized address of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized address of this activity organizer
+	 */
+	@AutoEscape
+	public String getAddress(String languageId);
+
+	/**
+	 * Returns the localized address of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized address of this activity organizer
+	 */
+	@AutoEscape
+	public String getAddress(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getAddressCurrentLanguageId();
+
+	@AutoEscape
+	public String getAddressCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized addresses of this activity organizer.
+	 *
+	 * @return the locales and localized addresses of this activity organizer
+	 */
+	public Map<Locale, String> getAddressMap();
+
+	/**
+	 * Sets the address of this activity organizer.
+	 *
+	 * @param address the address of this activity organizer
+	 */
+	public void setAddress(String address);
+
+	/**
+	 * Sets the localized address of this activity organizer in the language.
+	 *
+	 * @param address the localized address of this activity organizer
+	 * @param locale the locale of the language
+	 */
+	public void setAddress(String address, Locale locale);
+
+	/**
+	 * Sets the localized address of this activity organizer in the language, and sets the default locale.
+	 *
+	 * @param address the localized address of this activity organizer
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setAddress(String address, Locale locale, Locale defaultLocale);
+
+	public void setAddressCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized addresses of this activity organizer from the map of locales and localized addresses.
+	 *
+	 * @param addressMap the locales and localized addresses of this activity organizer
+	 */
+	public void setAddressMap(Map<Locale, String> addressMap);
+
+	/**
+	 * Sets the localized addresses of this activity organizer from the map of locales and localized addresses, and sets the default locale.
+	 *
+	 * @param addressMap the locales and localized addresses of this activity organizer
+	 * @param defaultLocale the default locale
+	 */
+	public void setAddressMap(Map<Locale, String> addressMap,
+		Locale defaultLocale);
+
+	/**
+	 * Returns the phone of this activity organizer.
+	 *
+	 * @return the phone of this activity organizer
+	 */
+	@AutoEscape
+	public String getPhone();
+
+	/**
+	 * Sets the phone of this activity organizer.
+	 *
+	 * @param phone the phone of this activity organizer
+	 */
+	public void setPhone(String phone);
+
+	/**
+	 * Returns the mail of this activity organizer.
+	 *
+	 * @return the mail of this activity organizer
+	 */
+	@AutoEscape
+	public String getMail();
+
+	/**
+	 * Sets the mail of this activity organizer.
+	 *
+	 * @param mail the mail of this activity organizer
+	 */
+	public void setMail(String mail);
+
+	/**
+	 * Returns the site url of this activity organizer.
+	 *
+	 * @return the site url of this activity organizer
+	 */
+	public String getSiteURL();
+
+	/**
+	 * Returns the localized site url of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized site url of this activity organizer
+	 */
+	@AutoEscape
+	public String getSiteURL(Locale locale);
+
+	/**
+	 * Returns the localized site url of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized site url of this activity organizer. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getSiteURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized site url of this activity organizer in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized site url of this activity organizer
+	 */
+	@AutoEscape
+	public String getSiteURL(String languageId);
+
+	/**
+	 * Returns the localized site url of this activity organizer in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized site url of this activity organizer
+	 */
+	@AutoEscape
+	public String getSiteURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getSiteURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getSiteURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized site urls of this activity organizer.
+	 *
+	 * @return the locales and localized site urls of this activity organizer
+	 */
+	public Map<Locale, String> getSiteURLMap();
+
+	/**
+	 * Sets the site url of this activity organizer.
+	 *
+	 * @param siteURL the site url of this activity organizer
+	 */
+	public void setSiteURL(String siteURL);
+
+	/**
+	 * Sets the localized site url of this activity organizer in the language.
+	 *
+	 * @param siteURL the localized site url of this activity organizer
+	 * @param locale the locale of the language
+	 */
+	public void setSiteURL(String siteURL, Locale locale);
+
+	/**
+	 * Sets the localized site url of this activity organizer in the language, and sets the default locale.
+	 *
+	 * @param siteURL the localized site url of this activity organizer
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setSiteURL(String siteURL, Locale locale, Locale defaultLocale);
+
+	public void setSiteURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized site urls of this activity organizer from the map of locales and localized site urls.
+	 *
+	 * @param siteURLMap the locales and localized site urls of this activity organizer
+	 */
+	public void setSiteURLMap(Map<Locale, String> siteURLMap);
+
+	/**
+	 * Sets the localized site urls of this activity organizer from the map of locales and localized site urls, and sets the default locale.
+	 *
+	 * @param siteURLMap the locales and localized site urls of this activity organizer
+	 * @param defaultLocale the default locale
+	 */
+	public void setSiteURLMap(Map<Locale, String> siteURLMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the image ID of this activity organizer.

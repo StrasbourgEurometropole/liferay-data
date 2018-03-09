@@ -216,5 +216,18 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	public static java.lang.String getTypes() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getTypes();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(PlaceServiceSoap.class);
 }

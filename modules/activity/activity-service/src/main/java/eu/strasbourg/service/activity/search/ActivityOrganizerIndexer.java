@@ -67,7 +67,7 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 
 		document.addLocalizedText(Field.TITLE, activityOrganizer.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,
-			activityOrganizer.getContactInformationMap());
+				activityOrganizer.getPresentationMap());
 		document.addNumber(Field.STATUS, activityOrganizer.getStatus());
 		return document;
 	}

@@ -27,13 +27,17 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -267,6 +271,11 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		
 		return json;		
+	}
+	
+	@Override
+	public JSONArray getTypes() throws PortalException {	
+		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE));
 	}
 	
 }
