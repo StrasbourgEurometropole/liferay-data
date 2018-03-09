@@ -255,6 +255,21 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			exceptions = exceptions.stream()
 					.sorted((p1, p2) -> p1.getValue().getStartDate().compareTo(p2.getValue().getStartDate()))
 					.collect(Collectors.toList());
+
+			
+			// On retire les fermetures exceptionnelles des sous lieux
+			ObjectValuePair<String, PlaceSchedule> oldException = null;
+			for (int i = 0; i < exceptions.size(); i++) {
+				ObjectValuePair<String, PlaceSchedule> exception = exceptions.get(i);
+				if (oldException != null && exception.getKey().equals(oldException.getKey())
+						&& exception.getValue().isClosed()
+						&& exception.getValue().getPeriod().equals(oldException.getValue().getPeriod())) {
+					exceptions.remove(i);
+					i--;
+				} else {
+					oldException = exception;
+				}
+			}
 			request.setAttribute("exceptions", exceptions);
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);
