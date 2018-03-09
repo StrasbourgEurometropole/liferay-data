@@ -221,6 +221,7 @@
                                     <#assign totalExceptionsCount = 0 />
                                     <h3><@liferay_ui.message key="eu.exceptional-closings-openings" /></h3>
                                     <ul class="seu-dates-list">
+                                        <#assign periodsExceptionsPlace = [] />
                                         <#list exceptions as exception>
                                             <#assign totalExceptionsCount++ />
                                             <li>
@@ -234,23 +235,27 @@
                                                 </#if>
                                                 - ${exception.description}
                                             </li>
+                                            <#assign periodsExceptionsPlace = periodsExceptionsPlace + [ exception.getPeriodDisplay(locale) ] />
                                         </#list>
                                         <#list entry.publishedSubPlaces as subPlace>
                                             <#assign exceptions = subPlace.getSubPlaceScheduleExceptionFreeMarker(.now, true, locale) />
                                             <#if exceptions?has_content>
                                                 <#list exceptions as exception>
-                                                    <#assign totalExceptionsCount++ />
-                                                    <li>
-                                                        <strong>${subPlace.getName(locale)} - ${exception.getPeriodDisplay(locale)}</strong> : 
-                                                        <#if exception.isClosed()>
-                                                            <@liferay_ui.message key="eu.closed" />
-                                                        <#else>
-                                                            <#list exception.openingTimes as openingTime>
-                                                                ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
-                                                            </#list>
-                                                        </#if>
-                                                        - ${exception.description}
-                                                    </li>
+                                                    __ ${exception.isClosed()?then('Fermé','Ouvert')} - ${exception.getPeriodDisplay(locale)}<br>
+                                                    <#if !exception.isClosed() || periodsExceptionsPlace?seq_contains(exception.getPeriodDisplay(locale)) >
+                                                        <#assign totalExceptionsCount++ />
+                                                        <li>
+                                                            <strong>${subPlace.getName(locale)} - ${exception.getPeriodDisplay(locale)}</strong> : 
+                                                            <#if exception.isClosed()>
+                                                                <@liferay_ui.message key="eu.closed" />
+                                                            <#else>
+                                                                <#list exception.openingTimes as openingTime>
+                                                                    ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
+                                                                </#list>
+                                                            </#if>
+                                                            - ${exception.description}
+                                                        </li>
+                                                    </#if>
                                                 </#list>
                                             </#if>
                                         </#list>
