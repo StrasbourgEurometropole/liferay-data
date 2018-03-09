@@ -283,7 +283,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 				List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<Pair<LocalTime, LocalTime>>();
 				 
 				// Un souci où l'on passait une fois avec le scheduleCompareList.get(0).getOpeningTimes() à null
-				if(scheduleCompareList.get(0).getOpeningTimes() != null)
+				if(!scheduleCompareList.isEmpty() && scheduleCompareList.get(0).getOpeningTimes() != null)
 				{
 					// On va comparer chaque horaire à parent ...
 					for (Pair<LocalTime, LocalTime> parentTime : parentPlaceSchedule.getOpeningTimes())
@@ -330,16 +330,18 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	public List<PlaceSchedule> getSubPlaceScheduleException(GregorianCalendar premierJour, Boolean surPeriode,
 			Locale locale) {
 		List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
+		GregorianCalendar lundi = new GregorianCalendar();
+		lundi.setTime(premierJour.getTime());
+		lundi.set(Calendar.HOUR_OF_DAY, 0);
+		lundi.set(Calendar.MINUTE, 0);
+		lundi.set(Calendar.SECOND, 0);
+		lundi.set(Calendar.MILLISECOND, 0);
 		GregorianCalendar dernierJour = new GregorianCalendar();
-		premierJour.set(Calendar.HOUR_OF_DAY, 0);
-		premierJour.set(Calendar.MINUTE, 0);
-		premierJour.set(Calendar.SECOND, 0);
-		premierJour.set(Calendar.MILLISECOND, 0);
 		dernierJour.setTime(premierJour.getTime());
 		dernierJour.add(Calendar.DAY_OF_YEAR, 1);
 		dernierJour.add(Calendar.MINUTE, -1);
 		if (surPeriode) {
-			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			lundi.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			dernierJour.add(Calendar.MONTH, 2);
 		}
 
@@ -347,7 +349,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		for (ScheduleException scheduleException : this.getScheduleExceptions()) {
 			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
 					&& scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
-					&& scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+					&& scheduleException.getEndDate().compareTo(lundi.getTime()) >= 0) {
 				if (scheduleException.isClosed()) {
 					PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
 							scheduleException.getStartDate(), scheduleException.getEndDate(),
@@ -366,11 +368,10 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 			}
 		}
 
-		if (premierJour.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 
-		// vérifie si cette date n'est pas dans les horaires d'exception
 		// vérifie si le lieu attaché est assujeti au jour férié
 		Place place = this.getPlaceByPlaceId(this.getPlaceId());
 		if (place.isSubjectToPublicHoliday()) {
@@ -378,17 +379,20 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 				if (publicHoliday.getDate() != null) {
 					GregorianCalendar publicHolidayYear = new GregorianCalendar();
 					publicHolidayYear.setTime(publicHoliday.getDate());
-					publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
-					if (publicHolidayYear.compareTo(premierJour) >= 0
+					if (publicHoliday.isRecurrent()) {
+						publicHolidayYear.set(Calendar.YEAR, lundi.get(Calendar.YEAR));
+					}
+					if (publicHolidayYear.compareTo(lundi) >= 0
 							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
-								publicHoliday.getDate(), publicHoliday.getDate(), publicHoliday.getName(locale),
+								publicHolidayYear.getTime(), publicHolidayYear.getTime(), publicHoliday.getName(locale),
 								locale);
 						placeSchedule.setPublicHoliday(true);
 						placeSchedule.setClosed(true);
-						listPlaceSchedules.clear();
+						// commenté car il supprimait tous les horaires exceptionnels et n'enregistrait qu'un jour férié
+						//listPlaceSchedules.clear();
 						listPlaceSchedules.add(placeSchedule);
-						break;
+						//break;
 					}
 				}
 			}
