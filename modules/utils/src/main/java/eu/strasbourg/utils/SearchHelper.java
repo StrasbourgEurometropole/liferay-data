@@ -677,7 +677,7 @@ public class SearchHelper {
 			
 			BooleanQuery initialQuery = (BooleanQuery) getGlobalSearchQuery(classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate,
-					toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsNames, locale) ;
+					toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsNames,false, locale) ;
 			
 			// Si le id SIG du lieu est renseigné on rajoute la condition à la requête
 			if(Validator.isNotNull(idSIGPlace)) {
