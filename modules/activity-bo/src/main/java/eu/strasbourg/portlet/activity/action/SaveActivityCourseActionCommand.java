@@ -119,6 +119,10 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		Map<Locale, String> name = LocalizationUtil.getLocalizationMap(request,
 			"name");
 		activityCourse.setNameMap(name);
+		
+		// Présentation
+		Map<Locale, String> presentation = LocalizationUtil.getLocalizationMap(request, "presentation");
+		activityCourse.setPresentationMap(presentation);
 
 		// Activité
 		long activityId = ParamUtil.getLong(request, "activityId");
@@ -134,20 +138,29 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 			"price");
 		activityCourse.setPriceMap(price);
 
+		// ---------------------------------------------------------------
+		// ---------------------------- MEDIA ----------------------------
+		// ---------------------------------------------------------------
+
+		// Visuel d'illustration
+		Long imageId = ParamUtil.getLong(request, "imageId");
+		activityCourse.setImageId(imageId);
+
+		// Visuels
+		String imageIds = ParamUtil.getString(request, "imageIds");
+		activityCourse.setImageIds(imageIds);
+
+		// Vidéos
+		String videosIds = ParamUtil.getString(request, "videosIds");
+		activityCourse.setVideosIds(videosIds);
+
+		// Documents
+		String documents = ParamUtil.getString(request, "documents");
+		activityCourse.setDocumentsIds(documents);
+
 		// Organisateur
-		String organizerType = ParamUtil.getString(request, "organizerType");
-		switch (organizerType) {
-		case "emsService":
-			long serviceId = ParamUtil.getLong(request, "serviceId");
-			activityCourse.setServiceId(serviceId);
-			activityCourse.setOrganizerId(0);
-			break;
-		case "otherService":
-			long organizerId = ParamUtil.getLong(request, "organizerId");
-			activityCourse.setOrganizerId(organizerId);
-			activityCourse.setServiceId(0);
-			break;
-		}
+		long organizerId = ParamUtil.getLong(request, "organizerId");
+		activityCourse.setOrganizerId(organizerId);
 
 		// Lieux
 		for (ActivityCoursePlace activityCoursePlace : activityCourse
@@ -305,8 +318,7 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		}
 
 		// Service / Organisateur
-		if (Validator.isNull(ParamUtil.getLong(request, "serviceId"))
-			&& Validator.isNull(ParamUtil.getLong(request, "organizerId"))) {
+		if (Validator.isNull(ParamUtil.getLong(request, "organizerId"))) {
 			SessionErrors.add(request, "service-error");
 			isValid = false;
 		}

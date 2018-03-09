@@ -1,6 +1,13 @@
 <%@ include file="/search-activity-init.jsp"%>
 
 <liferay-portlet:renderURL var="searchURL" />
+    <script>
+        $(document).ready(
+        	function() { 
+        		$("#activity").select2(); 
+        	}
+        );
+    </script>
 
 <div class="seu-container">
     <div class="seu-view-activity">
@@ -8,16 +15,19 @@
         <form class="seu-view-filters" method="post" action="${searchURL}">
             <div class="seu-filter-line">
             
-            	<!-- Activités -->
+            	<!-- ActivitÃ©s -->
                 <div class="widget">
-                    <div class="title content">
-                        <aui:select cssClass="toCustomSelect" id="activity" name="activityId" label="activity">
-                        	<aui:option value="" label="all-activities" />
+                    <div class="title">
+                        <label for="activity"><liferay-ui:message key="activity" /></label>
+                    </div>
+                    <div class="content">
+                        <select cssClass="toCustomSelect" id="activity" name="activityId" >
+                            <aui:option value="" label="all-activities" selected="${empty param.activityId}" />
                         	<c:forEach items="${dc.activitiesForDropdown}" var="activity">
-                        		<aui:option value="${activity.activityId}" label="${activity.getTitle(locale)}" 
-                        			selected="${param.activityId eq activity.activityId}" />
+                            	<aui:option value="${activity.activityId}" label="${activity.getTitle(locale)}" 
+                            		selected="${param.activityId eq activity.activityId}" />
                         	</c:forEach>
-                        </aui:select>
+                        </select>
                    	</div>
                 </div>
                 
@@ -72,7 +82,7 @@
             
             <div class="seu-filter-line">
             
-            	<!-- Heure de début -->
+            	<!-- Heure de dÃ©but -->
                 <div class="widget type-heure">
                     <div class="title">
                         <label for="hour_start"><liferay-ui:message key="start-time" /></label>
@@ -142,8 +152,12 @@
                 <button class="seu-btn-square seu-filled seu-core" type="submit"><span class="seu-flexbox"><span class="seu-btn-text"><liferay-ui:message key="search" /></span> <span class="seu-btn-arrow"></span></span></button>
             </div>
         </form>
+
+		<c:if test="${not empty dc.text}">
+			<div class="activities-postform">${dc.text}</div>
+		</c:if>
         
-        <!-- Nombre de résultats et items par page -->
+        <!-- Nombre de rÃ©sultats et items par page -->
         <div class="seu-view-results">
             <div class="seu-result-count">${dc.searchContainer.total} 
             	<c:choose>
@@ -167,9 +181,9 @@
             </div>
         </div>
         
-        <!-- Liste des résultats -->
+        <!-- Liste des rÃ©sultats -->
         <aui:form method="post" name="fm">
-			<!-- Résultats -->
+			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
 		        <ul id="seu-grid--list01">		        
@@ -180,7 +194,7 @@
 							displayStyle="${displayStyle}"
 							displayStyleGroupId="${displayStyleGroupId}"
 							entries="${templateEntries}">
-								Veuillez sélectionner un template dans la configuration du portlet.
+								Veuillez sÃ©lectionner un template dans la configuration du portlet.
 						</liferay-ddm:template-renderer>
 					</c:forEach>
 				</ul>
@@ -188,7 +202,7 @@
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">
 		            <ul class="seu-pagination unstyled">
-		            	<!-- Page précédente -->
+		            	<!-- Page prÃ©cÃ©dente -->
 		                <li class="seu-pagin-prev disabled seu-pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
 			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
@@ -250,4 +264,19 @@
         
     </div>
 </div>
+
+<style>
+	.select2-container--default .select2-selection--single .select2-selection__rendered {
+		padding-left: 7.5px;
+		padding-top: 8px;
+	    font-family: "MontSerrat", arial;
+	    font-size: 1.4rem;
+	    color: #7e7e7e;
+	    text-transform: uppercase;
+	}
+	
+	.select2-selection__arrow{
+		display: none;
+	}
+</style>
 <!--Fin contenu  -->

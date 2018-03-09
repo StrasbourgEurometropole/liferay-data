@@ -100,10 +100,24 @@ public class SaveActivityOrganizerActionCommand extends BaseMVCActionCommand {
 			"name");
 		activityOrganizer.setNameMap(name);
 
+		// Présentation
+		Map<Locale, String> presentation = LocalizationUtil
+			.getLocalizationMap(request, "presentation");
+		activityOrganizer.setPresentationMap(presentation);
+
 		// Coordonnées
-		Map<Locale, String> contactInformation = LocalizationUtil
-			.getLocalizationMap(request, "contactInformation");
-		activityOrganizer.setContactInformationMap(contactInformation);
+		Map<Locale, String> address = LocalizationUtil
+			.getLocalizationMap(request, "address");
+		activityOrganizer.setAddressMap(address);
+
+		String phone = ParamUtil.getString(request, "phone");
+		activityOrganizer.setPhone(phone);
+
+		String mail = ParamUtil.getString(request, "mail");
+		activityOrganizer.setMail(mail);
+
+		String siteURL = ParamUtil.getString(request, "siteURL");
+		activityOrganizer.setSiteURL(siteURL);
 
 		// Image
 		long imageId = ParamUtil.getLong(request, "imageId");

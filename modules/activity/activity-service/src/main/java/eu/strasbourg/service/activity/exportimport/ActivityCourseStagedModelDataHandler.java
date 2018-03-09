@@ -143,8 +143,6 @@ public class ActivityCourseStagedModelDataHandler
 		importedActivityCourse.setName(stagedModel.getName());
 		importedActivityCourse.setArrangements(stagedModel.getArrangements());
 		importedActivityCourse.setPrice(stagedModel.getPrice());
-		// TODO : pas sûr, ID de staging
-		importedActivityCourse.setServiceId(stagedModel.getServiceId());
 		importedActivityCourse.setStatus(stagedModel.getStatus());
 
 		// Id de l'organisateur

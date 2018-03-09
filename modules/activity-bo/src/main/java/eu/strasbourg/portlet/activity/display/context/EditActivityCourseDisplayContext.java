@@ -48,6 +48,7 @@ public class EditActivityCourseDisplayContext {
 			activityCourse = ActivityCourseLocalServiceUtil
 				.getActivityCourse(activityCourseId);
 		}
+		
 		return activityCourse;
 	}
 
@@ -78,16 +79,6 @@ public class EditActivityCourseDisplayContext {
 			this.themeDisplay.getScopeGroupId(),
 			StrasbourgPortletKeys.ACTIVITY_BO,
 			StrasbourgPortletKeys.ACTIVITY_BO, actionId);
-	}
-
-	/**
-	 * Retourne la liste des services gestionnaires
-	 */
-	public List<AssetCategory> getServices() {
-		AssetVocabulary servicesVocabulary = AssetVocabularyHelper
-			.getVocabulary(VocabularyNames.ACTIVITY_SERVICE,
-				this.themeDisplay.getScopeGroupId());
-		return servicesVocabulary.getCategories();
 	}
 
 	/**

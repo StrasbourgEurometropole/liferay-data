@@ -66,7 +66,7 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,16 +94,24 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		sb.append(statusDate);
 		sb.append(", name=");
 		sb.append(name);
+		sb.append(", presentation=");
+		sb.append(presentation);
 		sb.append(", arrangements=");
 		sb.append(arrangements);
 		sb.append(", price=");
 		sb.append(price);
 		sb.append(", activityId=");
 		sb.append(activityId);
-		sb.append(", serviceId=");
-		sb.append(serviceId);
 		sb.append(", organizerId=");
 		sb.append(organizerId);
+		sb.append(", imageId=");
+		sb.append(imageId);
+		sb.append(", imageIds=");
+		sb.append(imageIds);
+		sb.append(", videosIds=");
+		sb.append(videosIds);
+		sb.append(", documentsIds=");
+		sb.append(documentsIds);
 		sb.append("}");
 
 		return sb.toString();
@@ -170,6 +178,13 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 			activityCourseImpl.setName(name);
 		}
 
+		if (presentation == null) {
+			activityCourseImpl.setPresentation(StringPool.BLANK);
+		}
+		else {
+			activityCourseImpl.setPresentation(presentation);
+		}
+
 		if (arrangements == null) {
 			activityCourseImpl.setArrangements(StringPool.BLANK);
 		}
@@ -185,8 +200,29 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		}
 
 		activityCourseImpl.setActivityId(activityId);
-		activityCourseImpl.setServiceId(serviceId);
 		activityCourseImpl.setOrganizerId(organizerId);
+		activityCourseImpl.setImageId(imageId);
+
+		if (imageIds == null) {
+			activityCourseImpl.setImageIds(StringPool.BLANK);
+		}
+		else {
+			activityCourseImpl.setImageIds(imageIds);
+		}
+
+		if (videosIds == null) {
+			activityCourseImpl.setVideosIds(StringPool.BLANK);
+		}
+		else {
+			activityCourseImpl.setVideosIds(videosIds);
+		}
+
+		if (documentsIds == null) {
+			activityCourseImpl.setDocumentsIds(StringPool.BLANK);
+		}
+		else {
+			activityCourseImpl.setDocumentsIds(documentsIds);
+		}
 
 		activityCourseImpl.resetOriginalValues();
 
@@ -214,14 +250,18 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
+		presentation = objectInput.readUTF();
 		arrangements = objectInput.readUTF();
 		price = objectInput.readUTF();
 
 		activityId = objectInput.readLong();
 
-		serviceId = objectInput.readLong();
-
 		organizerId = objectInput.readLong();
+
+		imageId = objectInput.readLong();
+		imageIds = objectInput.readUTF();
+		videosIds = objectInput.readUTF();
+		documentsIds = objectInput.readUTF();
 	}
 
 	@Override
@@ -272,6 +312,13 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 			objectOutput.writeUTF(name);
 		}
 
+		if (presentation == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(presentation);
+		}
+
 		if (arrangements == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -288,9 +335,30 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 
 		objectOutput.writeLong(activityId);
 
-		objectOutput.writeLong(serviceId);
-
 		objectOutput.writeLong(organizerId);
+
+		objectOutput.writeLong(imageId);
+
+		if (imageIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(imageIds);
+		}
+
+		if (videosIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(videosIds);
+		}
+
+		if (documentsIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(documentsIds);
+		}
 	}
 
 	public String uuid;
@@ -306,9 +374,13 @@ public class ActivityCourseCacheModel implements CacheModel<ActivityCourse>,
 	public String statusByUserName;
 	public long statusDate;
 	public String name;
+	public String presentation;
 	public String arrangements;
 	public String price;
 	public long activityId;
-	public long serviceId;
 	public long organizerId;
+	public long imageId;
+	public String imageIds;
+	public String videosIds;
+	public String documentsIds;
 }

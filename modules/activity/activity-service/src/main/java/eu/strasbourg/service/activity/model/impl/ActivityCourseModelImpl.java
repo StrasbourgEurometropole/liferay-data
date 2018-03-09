@@ -94,11 +94,15 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "name", Types.VARCHAR },
+			{ "presentation", Types.CLOB },
 			{ "arrangements", Types.CLOB },
 			{ "price", Types.CLOB },
 			{ "activityId", Types.BIGINT },
-			{ "serviceId", Types.BIGINT },
-			{ "organizerId", Types.BIGINT }
+			{ "organizerId", Types.BIGINT },
+			{ "imageId", Types.BIGINT },
+			{ "imageIds", Types.VARCHAR },
+			{ "videosIds", Types.VARCHAR },
+			{ "documentsIds", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -116,14 +120,18 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("presentation", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("arrangements", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("activityId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("serviceId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("organizerId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,arrangements TEXT null,price TEXT null,activityId LONG,serviceId LONG,organizerId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,arrangements TEXT null,price TEXT null,activityId LONG,organizerId LONG,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,documentsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table activity_ActivityCourse";
 	public static final String ORDER_BY_JPQL = " ORDER BY activityCourse.activityCourseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY activity_ActivityCourse.activityCourseId ASC";
@@ -171,11 +179,15 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
+		model.setPresentation(soapModel.getPresentation());
 		model.setArrangements(soapModel.getArrangements());
 		model.setPrice(soapModel.getPrice());
 		model.setActivityId(soapModel.getActivityId());
-		model.setServiceId(soapModel.getServiceId());
 		model.setOrganizerId(soapModel.getOrganizerId());
+		model.setImageId(soapModel.getImageId());
+		model.setImageIds(soapModel.getImageIds());
+		model.setVideosIds(soapModel.getVideosIds());
+		model.setDocumentsIds(soapModel.getDocumentsIds());
 
 		return model;
 	}
@@ -253,11 +265,15 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
+		attributes.put("presentation", getPresentation());
 		attributes.put("arrangements", getArrangements());
 		attributes.put("price", getPrice());
 		attributes.put("activityId", getActivityId());
-		attributes.put("serviceId", getServiceId());
 		attributes.put("organizerId", getOrganizerId());
+		attributes.put("imageId", getImageId());
+		attributes.put("imageIds", getImageIds());
+		attributes.put("videosIds", getVideosIds());
+		attributes.put("documentsIds", getDocumentsIds());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -345,6 +361,12 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			setName(name);
 		}
 
+		String presentation = (String)attributes.get("presentation");
+
+		if (presentation != null) {
+			setPresentation(presentation);
+		}
+
 		String arrangements = (String)attributes.get("arrangements");
 
 		if (arrangements != null) {
@@ -363,16 +385,34 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			setActivityId(activityId);
 		}
 
-		Long serviceId = (Long)attributes.get("serviceId");
-
-		if (serviceId != null) {
-			setServiceId(serviceId);
-		}
-
 		Long organizerId = (Long)attributes.get("organizerId");
 
 		if (organizerId != null) {
 			setOrganizerId(organizerId);
+		}
+
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
+		String imageIds = (String)attributes.get("imageIds");
+
+		if (imageIds != null) {
+			setImageIds(imageIds);
+		}
+
+		String videosIds = (String)attributes.get("videosIds");
+
+		if (videosIds != null) {
+			setVideosIds(videosIds);
+		}
+
+		String documentsIds = (String)attributes.get("documentsIds");
+
+		if (documentsIds != null) {
+			setDocumentsIds(documentsIds);
 		}
 	}
 
@@ -694,6 +734,109 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 
 	@JSON
 	@Override
+	public String getPresentation() {
+		if (_presentation == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _presentation;
+		}
+	}
+
+	@Override
+	public String getPresentation(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPresentation(languageId);
+	}
+
+	@Override
+	public String getPresentation(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getPresentation(languageId, useDefault);
+	}
+
+	@Override
+	public String getPresentation(String languageId) {
+		return LocalizationUtil.getLocalization(getPresentation(), languageId);
+	}
+
+	@Override
+	public String getPresentation(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getPresentation(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getPresentationCurrentLanguageId() {
+		return _presentationCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getPresentationCurrentValue() {
+		Locale locale = getLocale(_presentationCurrentLanguageId);
+
+		return getPresentation(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getPresentationMap() {
+		return LocalizationUtil.getLocalizationMap(getPresentation());
+	}
+
+	@Override
+	public void setPresentation(String presentation) {
+		_presentation = presentation;
+	}
+
+	@Override
+	public void setPresentation(String presentation, Locale locale) {
+		setPresentation(presentation, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPresentation(String presentation, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(presentation)) {
+			setPresentation(LocalizationUtil.updateLocalization(
+					getPresentation(), "Presentation", presentation,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setPresentation(LocalizationUtil.removeLocalization(
+					getPresentation(), "Presentation", languageId));
+		}
+	}
+
+	@Override
+	public void setPresentationCurrentLanguageId(String languageId) {
+		_presentationCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setPresentationMap(Map<Locale, String> presentationMap) {
+		setPresentationMap(presentationMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setPresentationMap(Map<Locale, String> presentationMap,
+		Locale defaultLocale) {
+		if (presentationMap == null) {
+			return;
+		}
+
+		setPresentation(LocalizationUtil.updateLocalization(presentationMap,
+				getPresentation(), "Presentation",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public String getArrangements() {
 		if (_arrangements == null) {
 			return StringPool.BLANK;
@@ -919,17 +1062,6 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 
 	@JSON
 	@Override
-	public long getServiceId() {
-		return _serviceId;
-	}
-
-	@Override
-	public void setServiceId(long serviceId) {
-		_serviceId = serviceId;
-	}
-
-	@JSON
-	@Override
 	public long getOrganizerId() {
 		return _organizerId;
 	}
@@ -937,6 +1069,65 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 	@Override
 	public void setOrganizerId(long organizerId) {
 		_organizerId = organizerId;
+	}
+
+	@JSON
+	@Override
+	public long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
+	@JSON
+	@Override
+	public String getImageIds() {
+		if (_imageIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _imageIds;
+		}
+	}
+
+	@Override
+	public void setImageIds(String imageIds) {
+		_imageIds = imageIds;
+	}
+
+	@JSON
+	@Override
+	public String getVideosIds() {
+		if (_videosIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _videosIds;
+		}
+	}
+
+	@Override
+	public void setVideosIds(String videosIds) {
+		_videosIds = videosIds;
+	}
+
+	@JSON
+	@Override
+	public String getDocumentsIds() {
+		if (_documentsIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _documentsIds;
+		}
+	}
+
+	@Override
+	public void setDocumentsIds(String documentsIds) {
+		_documentsIds = documentsIds;
 	}
 
 	@Override
@@ -1057,6 +1248,17 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			}
 		}
 
+		Map<Locale, String> presentationMap = getPresentationMap();
+
+		for (Map.Entry<Locale, String> entry : presentationMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> arrangementsMap = getArrangementsMap();
 
 		for (Map.Entry<Locale, String> entry : arrangementsMap.entrySet()) {
@@ -1124,6 +1326,17 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			setName(getName(defaultLocale), defaultLocale, defaultLocale);
 		}
 
+		String presentation = getPresentation(defaultLocale);
+
+		if (Validator.isNull(presentation)) {
+			setPresentation(getPresentation(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setPresentation(getPresentation(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
 		String arrangements = getArrangements(defaultLocale);
 
 		if (Validator.isNull(arrangements)) {
@@ -1172,11 +1385,15 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		activityCourseImpl.setStatusByUserName(getStatusByUserName());
 		activityCourseImpl.setStatusDate(getStatusDate());
 		activityCourseImpl.setName(getName());
+		activityCourseImpl.setPresentation(getPresentation());
 		activityCourseImpl.setArrangements(getArrangements());
 		activityCourseImpl.setPrice(getPrice());
 		activityCourseImpl.setActivityId(getActivityId());
-		activityCourseImpl.setServiceId(getServiceId());
 		activityCourseImpl.setOrganizerId(getOrganizerId());
+		activityCourseImpl.setImageId(getImageId());
+		activityCourseImpl.setImageIds(getImageIds());
+		activityCourseImpl.setVideosIds(getVideosIds());
+		activityCourseImpl.setDocumentsIds(getDocumentsIds());
 
 		activityCourseImpl.resetOriginalValues();
 
@@ -1333,6 +1550,14 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 			activityCourseCacheModel.name = null;
 		}
 
+		activityCourseCacheModel.presentation = getPresentation();
+
+		String presentation = activityCourseCacheModel.presentation;
+
+		if ((presentation != null) && (presentation.length() == 0)) {
+			activityCourseCacheModel.presentation = null;
+		}
+
 		activityCourseCacheModel.arrangements = getArrangements();
 
 		String arrangements = activityCourseCacheModel.arrangements;
@@ -1351,16 +1576,40 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 
 		activityCourseCacheModel.activityId = getActivityId();
 
-		activityCourseCacheModel.serviceId = getServiceId();
-
 		activityCourseCacheModel.organizerId = getOrganizerId();
+
+		activityCourseCacheModel.imageId = getImageId();
+
+		activityCourseCacheModel.imageIds = getImageIds();
+
+		String imageIds = activityCourseCacheModel.imageIds;
+
+		if ((imageIds != null) && (imageIds.length() == 0)) {
+			activityCourseCacheModel.imageIds = null;
+		}
+
+		activityCourseCacheModel.videosIds = getVideosIds();
+
+		String videosIds = activityCourseCacheModel.videosIds;
+
+		if ((videosIds != null) && (videosIds.length() == 0)) {
+			activityCourseCacheModel.videosIds = null;
+		}
+
+		activityCourseCacheModel.documentsIds = getDocumentsIds();
+
+		String documentsIds = activityCourseCacheModel.documentsIds;
+
+		if ((documentsIds != null) && (documentsIds.length() == 0)) {
+			activityCourseCacheModel.documentsIds = null;
+		}
 
 		return activityCourseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1388,16 +1637,24 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		sb.append(getStatusDate());
 		sb.append(", name=");
 		sb.append(getName());
+		sb.append(", presentation=");
+		sb.append(getPresentation());
 		sb.append(", arrangements=");
 		sb.append(getArrangements());
 		sb.append(", price=");
 		sb.append(getPrice());
 		sb.append(", activityId=");
 		sb.append(getActivityId());
-		sb.append(", serviceId=");
-		sb.append(getServiceId());
 		sb.append(", organizerId=");
 		sb.append(getOrganizerId());
+		sb.append(", imageId=");
+		sb.append(getImageId());
+		sb.append(", imageIds=");
+		sb.append(getImageIds());
+		sb.append(", videosIds=");
+		sb.append(getVideosIds());
+		sb.append(", documentsIds=");
+		sb.append(getDocumentsIds());
 		sb.append("}");
 
 		return sb.toString();
@@ -1405,7 +1662,7 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.activity.model.ActivityCourse");
@@ -1464,6 +1721,10 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>presentation</column-name><column-value><![CDATA[");
+		sb.append(getPresentation());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>arrangements</column-name><column-value><![CDATA[");
 		sb.append(getArrangements());
 		sb.append("]]></column-value></column>");
@@ -1476,12 +1737,24 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 		sb.append(getActivityId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>serviceId</column-name><column-value><![CDATA[");
-		sb.append(getServiceId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>organizerId</column-name><column-value><![CDATA[");
 		sb.append(getOrganizerId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageIds</column-name><column-value><![CDATA[");
+		sb.append(getImageIds());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>videosIds</column-name><column-value><![CDATA[");
+		sb.append(getVideosIds());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>documentsIds</column-name><column-value><![CDATA[");
+		sb.append(getDocumentsIds());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1513,6 +1786,8 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 	private Date _statusDate;
 	private String _name;
 	private String _nameCurrentLanguageId;
+	private String _presentation;
+	private String _presentationCurrentLanguageId;
 	private String _arrangements;
 	private String _arrangementsCurrentLanguageId;
 	private String _price;
@@ -1520,8 +1795,11 @@ public class ActivityCourseModelImpl extends BaseModelImpl<ActivityCourse>
 	private long _activityId;
 	private long _originalActivityId;
 	private boolean _setOriginalActivityId;
-	private long _serviceId;
 	private long _organizerId;
+	private long _imageId;
+	private String _imageIds;
+	private String _videosIds;
+	private String _documentsIds;
 	private long _columnBitmask;
 	private ActivityCourse _escapedModel;
 }

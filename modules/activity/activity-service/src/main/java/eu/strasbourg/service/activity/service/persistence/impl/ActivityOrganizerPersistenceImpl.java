@@ -2434,7 +2434,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		activityOrganizerImpl.setStatusByUserName(activityOrganizer.getStatusByUserName());
 		activityOrganizerImpl.setStatusDate(activityOrganizer.getStatusDate());
 		activityOrganizerImpl.setName(activityOrganizer.getName());
-		activityOrganizerImpl.setContactInformation(activityOrganizer.getContactInformation());
+		activityOrganizerImpl.setPresentation(activityOrganizer.getPresentation());
+		activityOrganizerImpl.setAddress(activityOrganizer.getAddress());
+		activityOrganizerImpl.setPhone(activityOrganizer.getPhone());
+		activityOrganizerImpl.setMail(activityOrganizer.getMail());
+		activityOrganizerImpl.setSiteURL(activityOrganizer.getSiteURL());
 		activityOrganizerImpl.setImageId(activityOrganizer.getImageId());
 
 		return activityOrganizerImpl;

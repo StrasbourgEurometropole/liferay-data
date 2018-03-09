@@ -58,7 +58,7 @@ public class DemarchesWebPortlet extends MVCPortlet {
 				for (int  i=0; i<forms.length(); i++) {
 					JSONObject form = forms.getJSONObject(i);
 					if(form.getString("form_status_is_endpoint").equals("false")){
-						Demarche demarche = new Demarche(form.getString("form_name"), form.getString("form_status"), form.getString("form_url"));
+						Demarche demarche = new Demarche(form.getString("form_name"), form.getString("form_status"), form.getString("url"));
 						demarches.add(demarche);
 					}
 					if(demarches.size() == 3) break;
