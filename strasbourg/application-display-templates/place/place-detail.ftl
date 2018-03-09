@@ -10,6 +10,15 @@
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
+<@liferay_util["html-top"]>
+    <meta property="og:title" content="${entry.getAlias(locale)?html}" />
+    <meta property="og:description" content="${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"  />
+    <#if entry.imageURL?has_content>
+        <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+    </#if>
+</@>
+
 <div class="seu-page-lieu">
     <main class="seu-container">
         <a href="#" class="add-favorites"
@@ -307,7 +316,11 @@
                         <div class="seu-collapsing-box">
                             <div class="seu-agenda-slider-container">
                                 <div class="seu-slider">
-                                    <#list entry.publishedEvents as event>
+                                    <#assign i=0 />
+                                    <#list entry.publishedEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
+                                        <#if i == 5>
+                                            <#break>
+                                        </#if>
                                         <div class="seu-agenda-slider-item seu-has-ville">
                                             <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
@@ -333,6 +346,7 @@
                                                 <div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${event.getDescription(locale)?replace("<[^>]*>", "", "r")}</div>
                                             </a>
                                         </div>
+                                        <#assign i++>
                                     </#list>
                                 </div>
                                 <div class="owl-nav">
@@ -344,7 +358,7 @@
                                     </button>
                                 </div>
                                 <div class="seu-btn-line">
-                                    <a href="${homeURL}agenda" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
+                                    <a href="${homeURL}agenda?idSIGPlace=${entry.getSIGid()}" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
                                         <span class="seu-flexbox">
                                             <span class="seu-btn-text"><@liferay_ui.message key="eu.all-events" /></span>
                                             <span class="seu-btn-arrow"></span>

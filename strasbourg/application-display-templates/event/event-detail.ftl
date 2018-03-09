@@ -5,6 +5,17 @@
     <#assign homeURL = "/" />
 </#if>
 
+<@liferay_util["html-top"]>
+    <meta property="og:title" content="${entry.getTitle(locale)?html} - ${entry.getEventScheduleDisplay(locale)}" />
+    <meta property="og:description" content="${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}" />
+    <meta property="og:url" content="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" />
+    <#if entry.imageURL?contains('http')>
+        <meta property="og:image" content="${entry.imageURL}" />
+    <#else>
+        <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
+    </#if>
+</@>
+
 <!-- Détail événement -->
 <div class="seu-container">
     <a href="#" class="add-favorites"
@@ -302,3 +313,4 @@
         font-weight: normal;
     }
 </style>
+

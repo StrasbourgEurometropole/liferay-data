@@ -185,11 +185,19 @@
     <div class="event-40">
       <div class="event-info-section">
         <h4><@liferay_ui.message key="eu.dates-and-times" /></h4>
-        <ul>
-          <#list entry.eventPeriods as period>
+        <ul class="museum-dates-list">
+          <#list entry.currentAndFuturePeriods as period>
             <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
           </#list>
         </ul>
+         <#if (entry.currentAndFuturePeriods?size > 5)>
+            <div class="museum-line-left">
+                <span class="museum-see-dates">
+                        <span class="museum-more"><@liferay_ui.message key="eu.see-more" /></span>
+                        <span class="museum-less"><@liferay_ui.message key="eu.see-less" /></span>
+                </span>
+            </div>
+        </#if>
       </div>
       <#if entry.free == 1 || entry.getPrice(locale)?has_content>
         <div class="event-info-section">
