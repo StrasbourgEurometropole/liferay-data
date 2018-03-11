@@ -61,7 +61,6 @@ public class InterestViewerDisplayContext {
 	private List<AssetEntry> entries;
 	private InterestViewerConfiguration configuration;
 
-
 	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request) {
 		this.themeDisplay = themeDisplay;
 		this.request = request;
@@ -72,11 +71,11 @@ public class InterestViewerDisplayContext {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public InterestViewerConfiguration getConfiguration() {
 		return configuration;
 	}
-	
+
 	public String getNoInterestText() {
 		String noInterest = "";
 		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.noInterestXML());
@@ -108,7 +107,7 @@ public class InterestViewerDisplayContext {
 			entries.sort((AssetEntry e1, AssetEntry e2) -> this.getDaysBetweenTodayAndPublicationDate(e1)
 					- this.getDaysBetweenTodayAndPublicationDate(e2));
 
-			events = events.size() > 9 ? events.subList(0, 8) : events;
+			
 			for (AssetEntry eventEntry : events) {
 				Event event = EventLocalServiceUtil.fetchEvent(eventEntry.getClassPK());
 				if (event != null) {
@@ -266,7 +265,7 @@ public class InterestViewerDisplayContext {
 
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds,
-				this.themeDisplay.getScopeGroupId(), count);
+				this.themeDisplay.getScopeGroupId(), count, "dates_Number_sortable", false);
 
 		// On renvoie la liste des événements :
 		// d'abord les événements du jour classés par date de fin
@@ -318,7 +317,8 @@ public class InterestViewerDisplayContext {
 
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
 		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
-		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count);
+		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count,
+				"modified_sortable", true);
 
 		// On renvoie la liste des actualités classés par date de publication
 		for (Document document : hits.getDocs()) {
@@ -333,8 +333,8 @@ public class InterestViewerDisplayContext {
 		return entries;
 	}
 
-	private Hits getHits(String[] classNames, String tagsNamesString, List<Long[]> prefilterCategoriesIds,
-			long idGroup, int count) {
+	private Hits getHits(String[] classNames, String tagsNamesString, List<Long[]> prefilterCategoriesIds, long idGroup,
+			int count, String sortField, boolean sortDesc) {
 
 		// Search context
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -371,14 +371,12 @@ public class InterestViewerDisplayContext {
 
 		// Pagination et ordre
 		int start = 0;
-		int end = count - 1;
-		String sortField = dateFieldName;
-		boolean isSortDesc = false;
+		int end = count;
 
 		// Recherche
 		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, globalScope,
 				keywords, dateField, dateFieldName, fromDate, toDate, categoriesRechercheIds, prefilterCategoriesIds,
-				prefilterTagsNames, true, locale, start, end, sortField, isSortDesc);
+				prefilterTagsNames, true, locale, start, end, sortField, sortDesc);
 
 		return hits;
 	}
@@ -425,7 +423,7 @@ public class InterestViewerDisplayContext {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
 		return group.getPublicLayoutSet().getVirtualHostname();
 	}
-	
+
 	private String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale) {
 		String content = article.getContentByLocale(locale.toString());
 
@@ -463,7 +461,7 @@ public class InterestViewerDisplayContext {
 			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
 				return true;
 			}
 		}

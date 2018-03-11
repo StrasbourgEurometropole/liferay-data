@@ -37,6 +37,10 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 
+				<aui:input name="url">
+					<aui:validator name="url" errorMessage="URL non valide" />
+				</aui:input>
+
 				<aui:input name="description" label="required-description" />
 				<!-- Hack pour ajouter une validation sur la description -->
 				<div class="has-error">

@@ -3,7 +3,7 @@
     <c:set var="homeURL" value="/web/strasbourg.eu/"/>
 </c:if>
 <c:if test="${not empty dc.getVirtualHostName()}">
-    <c:set var="homeURL" value="${dc.getVirtualHostName()}/"/>
+    <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
          
 <c:if test="${not dc.hasInterest()}">
@@ -51,7 +51,7 @@
 	                category: 'agenda',
 	                title: '${dc.getJSONEncodedString(event.getTitle(locale))}',
 	                lead: '${dc.getJSONEncodedString(event.getDescription(locale))}',
-	                link: 'https://${homeURL}evenement/-/entity/id/${event.eventId}',
+	                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
 	                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 	                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
 						<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
