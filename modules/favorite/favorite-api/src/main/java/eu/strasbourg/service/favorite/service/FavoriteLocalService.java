@@ -234,4 +234,6 @@ public interface FavoriteLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId);
 }

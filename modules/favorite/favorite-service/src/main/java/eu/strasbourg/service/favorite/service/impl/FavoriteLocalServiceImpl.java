@@ -63,4 +63,12 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 	public List<Favorite> getByPublikUser(String publikUserId) {
 		return this.favoritePersistence.findByPublikUserId(publikUserId);
 	}
+	
+	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId) {
+		List<Favorite> favorites = this.favoritePersistence.findByEntityIdAndTypeId(entityId, typeId);
+		
+		for (Favorite favorite : favorites) {
+			this.favoritePersistence.remove(favorite);
+		}
+	}
 }

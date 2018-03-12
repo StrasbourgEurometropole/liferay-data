@@ -266,6 +266,11 @@ public class FavoriteLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static void deleteFavoriteByEntityIdAndType(long entityId,
+		long typeId) {
+		getService().deleteFavoriteByEntityIdAndType(entityId, typeId);
+	}
+
 	public static FavoriteLocalService getService() {
 		return _serviceTracker.getService();
 	}

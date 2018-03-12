@@ -281,6 +281,11 @@ public class FavoriteLocalServiceWrapper implements FavoriteLocalService,
 	}
 
 	@Override
+	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId) {
+		_favoriteLocalService.deleteFavoriteByEntityIdAndType(entityId, typeId);
+	}
+
+	@Override
 	public FavoriteLocalService getWrappedService() {
 		return _favoriteLocalService;
 	}
