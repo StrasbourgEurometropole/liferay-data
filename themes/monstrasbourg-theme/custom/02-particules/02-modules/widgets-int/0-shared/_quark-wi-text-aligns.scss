@@ -1,0 +1,38 @@
+%wi-centered-text{
+    .section-title .title,
+    .wi-content{
+        text-align: center;
+    }   
+    .section-title:before{
+        background-position: center;
+    }
+    &--mobile{
+        @include RWD(mobile){
+            .section-title .title,
+            .wi-content{
+                text-align: center;
+            }   
+            .section-title:before{
+                background-position: center;
+            }     
+        }
+    }
+}
+%wi-lefted-text{
+    .section-title .title,
+    .wi-content{
+        text-align: left;
+    }   
+    .section-title:before{
+        background-position: left center;
+    }
+    @include RWD(mobile){
+        .section-title .title,
+        .wi-content{
+            text-align: center;
+        }   
+        .section-title:before{
+            background-position: center;
+        }     
+    }
+}

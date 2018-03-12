@@ -1,0 +1,21 @@
+//  CrossReading
+.block-crossreading{
+    @extend %molecule-slider--wambrechies-duo;
+    margin-bottom: $margin-item-rte;
+    clear: both;
+    
+    &.crossreading-auto{
+        @extend %container;
+        margin-bottom: $margin-item-rte;
+        margin-bottom: 40px;
+
+        .owl-nav{
+            @include RWD(tablet){
+                width: calc(100% - 80px);
+            }
+            @include RWD(mobile){
+                width: calc(100% - 40px);
+            }
+        }
+    }
+}

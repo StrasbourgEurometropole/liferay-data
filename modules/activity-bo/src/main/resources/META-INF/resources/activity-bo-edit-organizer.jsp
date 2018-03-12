@@ -1,4 +1,4 @@
-<%@ include file="/activity-bo-init.jsp"%>
+<%@ include file="./activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.ActivityOrganizer"%>
 
 <liferay-portlet:renderURL varImpl="activityOrganizersURL">
@@ -37,9 +37,21 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
+				<aui:input name="presentation" />
+				
 				<aui:input name="tags" type="assetTags" />
 				
-				<aui:input name="contactInformation" />
+				<aui:input name="address" />
+					
+				<aui:input name="phone" helpMessage="telephone-help" />
+				
+				<aui:input name="mail" >
+					<aui:validator name="email"/>
+				</aui:input>
+
+				<aui:input name="siteURL" >
+				 	<aui:validator name="url"/>
+				</aui:input>
 				
 				<strasbourg-picker:image label="image" name="imageId"
 					required="false" value="${dc.activityOrganizer.imageId}" /> 

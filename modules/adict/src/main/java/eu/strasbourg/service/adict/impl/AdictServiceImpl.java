@@ -39,8 +39,7 @@ public class AdictServiceImpl implements AdictService {
 		try {
 
 			String adictBaseURL = StrasbourgPropsUtil.getAdictBaseURL();
-			JSONObject wsResponse = JSONHelper
-					.readJsonFromURL(adictBaseURL + query);
+			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictBaseURL + query);
 			JSONArray features = wsResponse.getJSONArray("features");
 			for (int i = 0; i < features.length(); i++) {
 				JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
@@ -87,8 +86,7 @@ public class AdictServiceImpl implements AdictService {
 		List<SectorType> types = new ArrayList<SectorType>();
 		try {
 			String adictSectorTypesBaseURL = StrasbourgPropsUtil.getAdictSectorTypesBaseURL();
-			JSONArray wsResponse = JSONHelper.readJsonArrayFromURL(
-					adictSectorTypesBaseURL);
+			JSONArray wsResponse = JSONHelper.readJsonArrayFromURL(adictSectorTypesBaseURL);
 			for (int i = 0; i < wsResponse.length(); i++) {
 				String id = wsResponse.getJSONObject(i).getString("id");
 				String name = wsResponse.getJSONObject(i).getString("typename");
@@ -126,8 +124,8 @@ public class AdictServiceImpl implements AdictService {
 			y = HtmlUtil.escape(y);
 			sectorType = HtmlUtil.escape(sectorType);
 			String adictSectorBaseURL = StrasbourgPropsUtil.getAdictSectorBaseURL();
-			JSONObject wsResponse = JSONHelper.readJsonFromURL(adictSectorBaseURL + "&x=" + x
-					+ "&y=" + y + "&srid=4326&sector_type=" + sectorType);
+			JSONObject wsResponse = JSONHelper.readJsonFromURL(
+					adictSectorBaseURL + "&x=" + x + "&y=" + y + "&srid=4326&sector_type=" + sectorType);
 			JSONArray features = wsResponse.getJSONArray("features");
 			for (int i = 0; i < features.length(); i++) {
 				JSONObject properties = features.getJSONObject(i).getJSONObject("properties");
@@ -141,6 +139,27 @@ public class AdictServiceImpl implements AdictService {
 		}
 
 		return sigIds;
+	}
+
+	/**
+	 * Retourne les coordonnées d'une adresse en JSon
+	 */
+	@Override
+	public JSONArray getCoordinateForAddress(String address) {
+		JSONArray coordinates = null;
+		try {
+			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
+			String url = urlSearch + HtmlUtil.escapeURL(address);
+			JSONObject addresses = JSONHelper.readJsonFromURL(url);
+			JSONArray features = addresses.getJSONArray("features");
+			if (features.length() > 0) {
+				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
+				coordinates = geometry.getJSONArray("coordinates");
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+		return coordinates;
 	}
 
 }

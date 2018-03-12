@@ -77,9 +77,14 @@
 		<property name="accessForWheelchair" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="accessForElder" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="accessForDeficient" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="RTEnabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="RTType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="RTExternalId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="occupation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="occupationLastUpdate" type="org.hibernate.type.TimestampType" />
+		<property name="RTAvailable" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTOccupation" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTCapacity" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="RTStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="RTLastUpdate" type="org.hibernate.type.TimestampType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />

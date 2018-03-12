@@ -1,0 +1,108 @@
+%molecule-nav-notifications{
+	display: block;
+    transition: all 0.5s $t-bam;
+	z-index: 2;
+	position: relative;
+	margin-bottom: 30px;
+
+	&.opened{
+		transform: translateX(-100%);
+	}
+	#trigger-notifications {
+		background-color: $third-color;
+		width: calc(100% + 55px);
+		transform: translateX(-55px);
+		padding: 15px;
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+		&:focus{
+			outline: dotted 1px $core-color;
+		}
+
+		.notif-flexbox {
+			display: flex;
+		}
+
+		.notif-picto {
+			position: relative;
+			content: '';
+			display: inline-block;
+			width: 25px;
+			height: 25px;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-image: url( svg-bg-uri($svg-bell, #FFFFFF) );
+			margin-right: 40px;
+		}
+		.notif-amount {
+			position: absolute;
+			top: -7px;
+			right: -7px;
+			width: 18px;
+			padding: 0 3px;
+			height: 18px;
+			background-color: $core-color;
+			color: #FFFFFF;
+			border-radius: 50%;
+			font-size: 1.1rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.notification-text {
+			@extend %atom-h4-rte;
+			color: $core-color;
+			position: relative;
+			&:after{
+				content: '';
+				display: block;
+				width: 30px;
+				height: 10px;
+				background-size: 30px;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
+				position: absolute;
+				left: 0;
+				top: 26px;
+			}
+		}
+	}
+	.notif-list {
+		position: absolute;
+		top: 100%;
+		right: 0;
+
+		.notif-item {
+			padding: 15px 20px;
+			background-color: #f6f6f6;
+			display: block;
+			border-bottom: solid 1px #d8dbdf;
+			&.new{
+				background-color: $third-color;
+				border-color: #FFFFFF;
+			}
+			&:hover, &:focus{
+				text-decoration: none;
+				.notif-text{
+					text-decoration: underline;
+					text-underline-position: under;
+				}
+			}
+		}
+		.notif-date {
+			font-weight: 600;
+			font-size: 1.6rem;
+			color: $core-color;
+		}
+		.notif-text {
+			@extend %text-basis-rte;
+		}
+		.notif-last{
+			padding: 15px 20px;
+			background-color: $third-color;
+
+		}
+	}
+}

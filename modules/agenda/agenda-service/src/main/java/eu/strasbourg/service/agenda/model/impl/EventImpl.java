@@ -15,8 +15,11 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -191,6 +194,13 @@ public class EventImpl extends EventBaseImpl {
 		return currentAndFuturePeriods;
 	}
 
+	/**
+	 * Retourne la date de début de la future ou courante période de l'événement
+	 */
+	public Date getStartDateFirstCurrentAndFuturePeriod() {		
+		return getCurrentAndFuturePeriods().isEmpty() ? null:getCurrentAndFuturePeriods().get(0).getStartDate();
+	}
+	
 	/**
 	 * Retourne la période principale de l'événement (de la première date de
 	 * début à la dernière date de fin) sous forme de String dans la locale
@@ -435,6 +445,34 @@ public class EventImpl extends EventBaseImpl {
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_SERVICE);
+	}
+	
+	@Override
+	public LocalDate getNextOpenDate() {
+		if (eventIsHappeningToday()) {
+			return LocalDate.now();
+		} else {
+			for (EventPeriod period : this.getEventPeriods()) {
+				LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				if (startDate.isAfter(LocalDate.now())) {
+					return startDate;	
+				}
+			}
+		}
+		return LocalDate.MAX;
+	}
+	
+	private boolean eventIsHappeningToday() {
+		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
+		for (EventPeriod period : this.getEventPeriods()) {
+			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			endDate = endDate.plusDays(1);
+			if (today.isAfter(startDate) && endDate.isBefore(today) || today.isEqual(startDate)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

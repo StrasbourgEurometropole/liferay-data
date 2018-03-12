@@ -34,6 +34,15 @@
             	placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}">
         </div>
     </div>
+            <div class="widget">
+            <div class="title">
+                <label for="theme"><liferay-ui:message key="eu.place" /></label>
+            </div>
+            <div class="content">
+				<select  class="" name="idSIGPlace" >
+				</select>
+			</div>				
+		</div>
 </div>
 <c:set var="showAdvancedSearch" value="${not empty dc.filterCategoriesIdsString}" />
 <c:if test="${showAdvancedSearch}">
@@ -138,3 +147,13 @@
         </span>
     </button>
 </div>
+
+<liferay-util:html-bottom>
+<aui:script>
+	var idSIGPlace = '${dc.idSIGPlace}' ;
+</aui:script>
+	
+	<script src="/o/searchassetweb/js/strasbourg-agenda.js"></script>
+</liferay-util:html-bottom>
+
+	

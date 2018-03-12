@@ -7,4 +7,5 @@ dependencies {
 	compileOnly project(":modules:agenda:agenda-api")
 	compileOnly project(":modules:edition:edition-api")
 	compileOnly project(":modules:video:video-api")
+	compileOnly project(":modules:activity:activity-api")
 }

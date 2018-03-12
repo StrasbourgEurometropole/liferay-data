@@ -1,0 +1,41 @@
+%atom-form-checkbox{
+    position: absolute;
+    left: -99999999px;
+
+    & + span{
+        padding-left: 30px;
+        display: block;
+        &:before{
+            display: inline-block;
+            content: '';
+            height: 15px;
+            width: 15px;
+            background-color: transparent;
+            position: absolute;
+            top: 50%; left: 0;
+            transform: translateY(-50%);
+            border: solid 3px $core-color;
+        }
+        &:after{
+            display: inline-block;
+            content: '';
+            height: 15px;
+            width: 15px;
+            background-color: $second-color;
+            position: absolute;
+            top: 50%; left: 0;
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+    }
+    &:checked{
+        & + span{
+            &:before{
+                opacity: 0;
+            }
+            &:after{
+                opacity: 1;
+            }
+        }
+    }
+}

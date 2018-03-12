@@ -1544,6 +1544,11 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		return _event.getAvailableLanguageIds();
 	}
 
+	@Override
+	public java.time.LocalDate getNextOpenDate() {
+		return _event.getNextOpenDate();
+	}
+
 	/**
 	* Returns the create date of this event.
 	*
@@ -1602,6 +1607,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getPublicationDate() {
 		return _event.getPublicationDate();
+	}
+
+	/**
+	* Retourne la date de début de la future ou courante période de l'événement
+	*/
+	@Override
+	public Date getStartDateFirstCurrentAndFuturePeriod() {
+		return _event.getStartDateFirstCurrentAndFuturePeriod();
 	}
 
 	/**

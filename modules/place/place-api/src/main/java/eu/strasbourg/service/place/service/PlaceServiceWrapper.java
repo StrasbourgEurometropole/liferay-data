@@ -66,6 +66,18 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getPlacesByType(typeId);
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getTypes();
+	}
+
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -80,6 +92,9 @@ public class PlaceServiceWrapper implements PlaceService,
 		return _placeService.getLegacyJSON();
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Territoires
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {

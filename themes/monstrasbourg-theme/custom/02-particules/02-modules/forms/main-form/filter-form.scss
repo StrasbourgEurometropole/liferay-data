@@ -1,0 +1,7 @@
+.favoris__filters{
+    width: 50%;
+
+    @include RWD(mobile){
+        width: 100%;
+    }
+}

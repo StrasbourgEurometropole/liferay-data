@@ -1501,6 +1501,9 @@ a {
   display: block;
   margin-left: auto;
   margin-right: auto; }
+  /* line 7, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
+  .seu-not-front .seu h1 .seu-btn-square.seu-bordered.seu-core a:last-child, .seu-not-front .rte .image-full.type-image figure figcaption .seu-btn-square.seu-bordered.seu-core a:last-child, .seu-not-front .hat .container .seu-btn-square.seu-bordered.seu-core a:last-child, .seu header .seu-scrolled-search-engine .seu-search .seu-btn-square.seu-bordered.seu-core a:last-child, .seu .seu-container .seu-btn-square.seu-bordered.seu-core a:last-child, .seu-not-front .seu .region-post-header .region-nav-tools .seu-btn-square.seu-bordered.seu-core a:last-child {
+    margin-bottom: 60px; }
   @media only screen and (max-width: 1279px) {
     /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
     .seu-not-front .seu h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .seu .region-post-header .region-nav-tools {
@@ -1514,7 +1517,7 @@ a {
       padding-left: 20px;
       padding-right: 20px; } }
 
-/* line 19, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
+/* line 23, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
 .page-demarches #rub_service,
 .seu-main-form, .seu-wi-contact-form {
   width: 100%;
@@ -3794,17 +3797,18 @@ a {
 .seu-not-front .rte ul:not(.unstyled) {
   padding-left: 60px;
   margin-bottom: 10px;
-  list-style: none; }
+  list-style: none;
+  overflow: hidden; }
   @media only screen and (max-width: 767px) {
     /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) {
       padding-left: 20px; } }
-  /* line 8, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 9, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) li {
     margin-bottom: 0px;
     position: relative;
     font-weight: 400; }
-    /* line 12, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 13, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ul:not(.unstyled) li:before {
       content: '';
       height: 5px;
@@ -3816,25 +3820,26 @@ a {
       position: absolute;
       left: -15px;
       top: 14px; }
-  /* line 25, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 26, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ul:not(.unstyled) ul {
     padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 25, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 26, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ul:not(.unstyled) ul {
         padding-left: 40px; } }
 
-/* line 33, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+/* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
 .seu-not-front .rte ol:not(.unstyled) {
   padding-left: 50px;
   list-style: none;
   counter-reset: item;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  overflow: hidden; }
   @media only screen and (max-width: 767px) {
-    /* line 33, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) {
       padding-left: 30px; } }
-  /* line 41, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 43, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) li {
     margin-bottom: 0;
     position: relative;
@@ -3844,7 +3849,7 @@ a {
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start; }
-    /* line 46, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 48, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) li:before {
       counter-increment: item;
       content: counters(item, ".") ". ";
@@ -3853,11 +3858,11 @@ a {
       top: 0px;
       margin-right: 5px;
       margin-top: 1px; }
-  /* line 57, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) ol {
     padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 57, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ol:not(.unstyled) ol {
         padding-left: 40px; } }
 
@@ -5763,7 +5768,10 @@ a {
       flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center; }
+          align-items: center;
+  /*   @include RWD(mobile){
+        display: none;
+    }*/ }
   /* line 7, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/post-header/ariane/_molecule-ariane.scss */
   .region-post-header .block-container-breadcrumb .page-depth li, .region-post-header .block-container-breadcrumb .page-depth li a {
     font-family: "MontSerrat", arial;
@@ -5802,10 +5810,6 @@ a {
     .region-post-header .block-container-breadcrumb .page-depth li .page.active {
       font-weight: 700;
       color: #31455d; }
-  @media only screen and (max-width: 767px) {
-    /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/post-header/ariane/_molecule-ariane.scss */
-    .region-post-header .block-container-breadcrumb .page-depth {
-      display: none; } }
 
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/post-header/share-this/_molecule-print-this.scss */
 .print-this {
@@ -9809,11 +9813,10 @@ a {
         -ms-flex-align: center;
             align-items: center;
     margin-bottom: 50px;
-    margin-top: 40px; }
-    @media only screen and (max-width: 767px) {
-      /* line 46, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
-      .seu-not-front .seu .region-post-header .region-nav-tools {
-        display: none; } }
+    margin-top: 40px;
+    /*     @include RWD(mobile){
+                display: none;
+            }*/ }
   /* line 61, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/03-pages/_page-int.scss */
   .seu-not-front .seu .region-post-header .block-container-breadcrumb {
     margin-right: auto;
@@ -11295,6 +11298,19 @@ form + .seu-error-messages {
 .seu-not-front .hat > *:last-child {
   margin-bottom: 0; }
 
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/wi-search-agenda.scss */
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  padding: 10px;
+  font-family: "MontSerrat", arial;
+  font-weight: 400;
+  color: #7e7e7e; }
+
+/* line 9, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/wi-search-agenda.scss */
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  display: none; }
+
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-chiffres/wi-chiffres.scss */
 .seu-wi-chiffres {
   margin-bottom: 40px; }
@@ -11361,16 +11377,18 @@ form + .seu-error-messages {
     .seu-wi-duo.seu-wi-solo {
       background-color: #46cfc0; } }
 
-/* line 2, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-detail-edition.scss */
-.wi-edition-detail .edition-date {
-  color: #31455d;
-  font-weight: bold;
-  margin-bottom: 20px; }
-
-/* line 7, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-detail-edition.scss */
-.wi-edition-detail .seu-wi-link-group .seu-media-picto {
-  background-size: 30px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d' viewBox='0 0 43.9 43.9'%3E%3Cpath d='M40.9 3c-4.1-4.1-10.7-4.1-14.7 0l-7.4 7.4c-0.6 0.6-0.6 1.6 0 2.3 0.6 0.6 1.6 0.6 2.3 0l7.4-7.4c1.4-1.4 3.2-2.1 5.1-2.1 1.9 0 3.7 0.7 5.1 2.1 1.4 1.4 2.1 3.2 2.1 5.1 0 1.9-0.7 3.7-2.1 5.1L29.1 25c-2.8 2.8-7.4 2.8-10.2 0 -0.6-0.6-1.6-0.6-2.3 0 -0.6 0.6-0.6 1.6 0 2.3 2 2 4.7 3 7.4 3 2.7 0 5.3-1 7.4-3l9.6-9.6c2-2 3-4.6 3-7.4C44 7.6 42.9 4.9 40.9 3L40.9 3zM40.9 3'/%3E%3Cpath d='M21.7 32.4l-6.2 6.2c-1.4 1.4-3.2 2.1-5.1 2.1 -1.9 0-3.7-0.7-5.1-2.1 -2.8-2.8-2.8-7.4 0-10.2l9.1-9.1c1.4-1.4 3.2-2.1 5.1-2.1 1.9 0 3.7 0.7 5.1 2.1 0.6 0.6 1.6 0.6 2.3 0 0.6-0.6 0.6-1.6 0-2.3 -4.1-4.1-10.7-4.1-14.7 0L3 26.2c-2 2-3 4.6-3 7.4s1.1 5.4 3 7.4 4.6 3 7.4 3c2.8 0 5.4-1.1 7.4-3l6.2-6.2c0.6-0.6 0.6-1.6 0-2.3C23.3 31.8 22.3 31.8 21.7 32.4L21.7 32.4zM21.7 32.4'/%3E%3C/svg%3E"); }
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-detail-edition.scss */
+.wi-edition-detail {
+  margin-bottom: 60px; }
+  /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-detail-edition.scss */
+  .wi-edition-detail .edition-date {
+    color: #31455d;
+    font-weight: bold;
+    margin-bottom: 20px; }
+  /* line 8, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-detail-edition.scss */
+  .wi-edition-detail .seu-wi-link-group .seu-media-picto {
+    background-size: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d' viewBox='0 0 43.9 43.9'%3E%3Cpath d='M40.9 3c-4.1-4.1-10.7-4.1-14.7 0l-7.4 7.4c-0.6 0.6-0.6 1.6 0 2.3 0.6 0.6 1.6 0.6 2.3 0l7.4-7.4c1.4-1.4 3.2-2.1 5.1-2.1 1.9 0 3.7 0.7 5.1 2.1 1.4 1.4 2.1 3.2 2.1 5.1 0 1.9-0.7 3.7-2.1 5.1L29.1 25c-2.8 2.8-7.4 2.8-10.2 0 -0.6-0.6-1.6-0.6-2.3 0 -0.6 0.6-0.6 1.6 0 2.3 2 2 4.7 3 7.4 3 2.7 0 5.3-1 7.4-3l9.6-9.6c2-2 3-4.6 3-7.4C44 7.6 42.9 4.9 40.9 3L40.9 3zM40.9 3'/%3E%3Cpath d='M21.7 32.4l-6.2 6.2c-1.4 1.4-3.2 2.1-5.1 2.1 -1.9 0-3.7-0.7-5.1-2.1 -2.8-2.8-2.8-7.4 0-10.2l9.1-9.1c1.4-1.4 3.2-2.1 5.1-2.1 1.9 0 3.7 0.7 5.1 2.1 0.6 0.6 1.6 0.6 2.3 0 0.6-0.6 0.6-1.6 0-2.3 -4.1-4.1-10.7-4.1-14.7 0L3 26.2c-2 2-3 4.6-3 7.4s1.1 5.4 3 7.4 4.6 3 7.4 3c2.8 0 5.4-1.1 7.4-3l6.2-6.2c0.6-0.6 0.6-1.6 0-2.3C23.3 31.8 22.3 31.8 21.7 32.4L21.7 32.4zM21.7 32.4'/%3E%3C/svg%3E"); }
 
 /* line 2, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-editions/wi-vignette-edition.scss */
 .wi-search-result.wi-edition-thumbnail .seu-result-right .seu-result-infos-top {
@@ -11600,86 +11618,90 @@ form + .seu-error-messages {
   font-weight: 600;
   color: #505050;
   font-size: 18px; }
-  /* line 82, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+  @media (max-width: 370px) {
+    /* line 78, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    .place-schedule-portlet .opening-time {
+      font-size: 15px; } }
+  /* line 87, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
   .place-schedule-portlet .opening-time.exception {
     color: #F44336; }
-    /* line 84, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 89, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .opening-time.exception:after {
       content: "*"; }
 
-/* line 89, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+/* line 94, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
 .place-schedule-portlet .first-day .opening-time {
   font-weight: 700; }
 
-/* line 92, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+/* line 97, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
 .place-schedule-portlet td.occupation-state {
   padding-top: 25px;
   vertical-align: top; }
 
-/* line 96, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+/* line 101, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
 .place-schedule-portlet .crowded-amount {
   margin: auto !important; }
 
-/* line 100, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+/* line 105, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
 .place-schedule-portlet .crowded-label {
   font-size: 15px;
   color: #505050; }
 
-/* line 105, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+/* line 110, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
 .place-schedule-portlet .mobile-occupation-state {
   display: none; }
 
 @media only screen and (max-width: 767px) {
-  /* line 110, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+  /* line 115, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
   .place-schedule-portlet .occupation-state,
   .place-schedule-portlet .occupation,
   .place-schedule-portlet .not-first-day,
   .place-schedule-portlet .button-holder,
   .place-schedule-portlet .today-label {
     display: none; }
-  /* line 117, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+  /* line 122, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
   .place-schedule-portlet table th:first-child {
     width: 190px; }
-  /* line 120, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+  /* line 125, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
   .place-schedule-portlet form.seu-view-filters {
     margin-bottom: 40px; }
-  /* line 124, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+  /* line 129, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
   .place-schedule-portlet .see-more-row .first-day {
     padding: 10px; }
-    /* line 126, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 131, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day .mobile-occupation-state {
       display: block; }
-    /* line 129, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 134, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day .mobile-crowded-amount {
       font-weight: 700;
       font-size: 15px; }
-    /* line 133, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 138, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day .mobile-crowded-label {
       font-size: 15px; }
-    /* line 136, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 141, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.green {
       background-color: #40A040;
       color: white; }
-    /* line 140, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 145, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.orange {
       background-color: #FF470F;
       color: white; }
-    /* line 144, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 149, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.red {
       background-color: #FF0F0F;
       color: white; }
-    /* line 148, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 153, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.black {
       background-color: #272222;
       color: white; }
-    /* line 152, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 157, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.white {
       background-color: #9E9E9E;
       color: white; }
-      /* line 155, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+      /* line 160, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
       .place-schedule-portlet .see-more-row .first-day.white .mobile-crowded-amount {
         display: none; }
-    /* line 159, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
+    /* line 164, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-lieux/wi-tableau-horaires.scss */
     .place-schedule-portlet .see-more-row .first-day.grey {
       background-color: #9E9E9E;
       color: white; } }
@@ -12183,6 +12205,10 @@ form + .seu-error-messages {
     -webkit-box-pack: left !important;
         -ms-flex-pack: left !important;
             justify-content: left !important; }
+
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-web-content/wi-web-content.scss */
+.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_ {
+  opacity: 1 !important; }
 
 /* line 2, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/04-hacks/_android.scss */
 .seu.android.tablet header .seu-nav-top .seu-menu-triggerBox .seu-menu-panel .seu-menu-rwd-content {

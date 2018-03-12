@@ -10,14 +10,15 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.upload.UploadServletRequestImpl;
 
 import eu.strasbourg.service.tipi.service.TipiEntryLocalService;
 
@@ -33,37 +34,36 @@ import eu.strasbourg.service.tipi.service.TipiEntryLocalService;
 	service = Portlet.class)
 public class TipiCallbackPortlet extends MVCPortlet {
 
-	private TipiEntryLocalService tipiEntryLocalService;
-
-	public void setTipiEnryLocalService(
-		TipiEntryLocalService tipiEntryLocalService) {
-		this.tipiEntryLocalService = tipiEntryLocalService;
-	}
+	
 
 	@Override
 	public void render(RenderRequest renderRequest,
 		RenderResponse renderResponse) throws IOException, PortletException {
-
-		// Utilisation de l'upload
-		UploadServletRequestImpl uploadServletRequest = new UploadServletRequestImpl(
-			PortalUtil.getHttpServletRequest(renderRequest));
-
-		String price = ParamUtil.getString(uploadServletRequest, "montant");
+		
+		// Permet de remonter la hiérarchie des Request
+		HttpServletRequest request = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
+				
+		String price = ParamUtil.getString(request, "montant"); 
 		if (Validator.isNotNull(price)) {
-			String objet = ParamUtil.getString(uploadServletRequest, "objet");
-			String status = ParamUtil.getString(uploadServletRequest,
-				"resultrans");
-			String dateString = ParamUtil.getString(uploadServletRequest,
-				"dattrans");
+			String objet = ParamUtil.getString(request, "objet");
+			String status = ParamUtil.getString(request,"resultrans");
+			String dateString = ParamUtil.getString(request,"dattrans");
 
-			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("ddMMyyy");
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("ddMMyyyy");
 			LocalDate transactionDate = LocalDate.parse(dateString, fmt);
 			Date date = Date.from(transactionDate
 				.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-			this.tipiEntryLocalService.addPayment(date, objet, status, price);
+			_tipiEntryLocalService.addPayment(date, objet, status, price);
 		}
 		super.render(renderRequest, renderResponse);
 	}
+	private TipiEntryLocalService _tipiEntryLocalService;
 
+	@Reference(unbind = "-")
+	protected void setTipiEntryLocalService(
+			TipiEntryLocalService tipiEntryLocalService) {
+
+		_tipiEntryLocalService = tipiEntryLocalService;
+	}
 }

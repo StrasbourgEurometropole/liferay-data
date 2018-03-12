@@ -61,10 +61,15 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
 				notification = _notificationLocalService.createNotification(sc);
 			} else {
 				notification = _notificationLocalService.getNotification(notificationId);
+				notification.setNew(false);
 			}
 
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			notification.setTitleMap(title);
+			
+			String url = ParamUtil.getString(request, "url");
+			notification.setUrl(url);
+			
 			Map<Locale, String> description = LocalizationUtil.getLocalizationMap(request, "description");
 			notification.setDescriptionMap(description);
 

@@ -72,10 +72,14 @@
 						<div class="item-real-time">
 							<c:set var="occupationState" value="${place.getRealTime()}" />
 							<c:set var="isSwimmingPool" value="${place.isSwimmingPool()}" />
-							<div class="crowded-amount ${occupationState.cssClass}">
+							<c:set var="isMairie" value="${place.isMairie()}" />
+							<div class="crowded-amount ${occupationState.cssClass}" <c:if test="${isMairie}">style="font-size: 1.5rem"</c:if>>
 								<c:choose>
 									<c:when test="${isSwimmingPool}">
 										${occupationState.occupation}
+									</c:when>
+									<c:when test="${isMairie}">
+										${occupationState.occupation} min
 									</c:when>
 									<c:otherwise>
 											${occupationState.available}
@@ -88,6 +92,9 @@
 										<c:when test="${isSwimmingPool}">
 											<liferay-ui:message key="live-frequentation" />
 										</c:when>
+										<c:when test="${isMairie}">
+											<liferay-ui:message key="estimated-time" />
+										</c:when>
 										<c:otherwise>
 											<liferay-ui:message key="live-occupation" />
 										</c:otherwise>
@@ -95,7 +102,7 @@
 								</span>
 								<span class="real-time-detail">
 									<c:choose>
-										<c:when test="${isSwimmingPool}">
+										<c:when test="${isSwimmingPool or isMairie}">
 											<liferay-ui:message key="${occupationState.label}" />
 										</c:when>
 										<c:otherwise>

@@ -1,5 +1,7 @@
 package eu.strasbourg.utils.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.Locale;
 
 import com.liferay.portal.kernel.model.Layout;
@@ -19,4 +21,8 @@ public interface LayoutHelperService {
 	public String getLayoutPath(Layout layout, Locale locale);
 	
 	public String getJournalArticleLayoutURL(long groupId, String articleId, ThemeDisplay themeDisplay);
+
+	public String getPublikLoginURL(String currentCompleteURL) throws MalformedURLException, UnsupportedEncodingException;
+
+	public String getPublikLogoutURL(String currentCompleteURL) throws MalformedURLException, UnsupportedEncodingException;
 }

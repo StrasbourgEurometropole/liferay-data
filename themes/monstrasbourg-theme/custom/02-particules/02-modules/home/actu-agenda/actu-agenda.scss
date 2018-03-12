@@ -1,0 +1,16 @@
+#actu-agenda{
+    @extend %organism-actu-agenda;
+    margin-bottom: 40px;
+}
+
+#actu-agenda-no-interest {
+    @extend %molecule-home-section;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+    p{
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+    }
+}

@@ -1,0 +1,134 @@
+.mseu-pagination{
+    width: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+
+	.pagin-item{
+		display: inline-block;
+		color: inherit;
+		margin-left: 15px;
+
+		&:before{
+			display: none !important;
+		}
+
+		a, button{
+			position: relative; 
+			z-index: 2;
+			color: $core-color;
+		}
+
+		&.pagin-prev{
+			margin-left: 0;
+			margin-right: auto;
+		}
+
+		&.disabled{
+			pointer-events: none;
+			opacity: 0;
+		}
+		&.is-active{
+			pointer-events: none;
+            .btn-text{
+                color: $third-color !important;
+            }
+		}
+		&.pagin-next{
+			margin-left: auto;
+			margin-right: 0;
+		} 
+		&.pagin-first{
+			margin-left: 0;
+		} 
+
+		/**
+			Pagination "chiffres"
+		*/
+		&:not(.pagin-next):not(.pagin-prev):not(.pagin-first):not(.pagin-last){
+			& > a, & > div, & > button{
+				text-decoration: none;
+			}
+			.btn-text{
+				font-family: $site-font;
+				font-size: 1.5rem;
+				font-weight: 600;
+				padding: 3px;
+			} 
+			&.is-active .btn-text{
+				text-decoration: underline;
+			}
+			a:hover, a:focus,
+			button:hover, button:focus{
+				.btn-text{
+					color: #FFFFFF;
+				}
+				background-color: $core-color;
+			}
+		}
+		/**
+			Pagination "Boutons"
+		*/
+		// &.pagin-next,
+		// &.pagin-prev,
+		// &.pagin-first,
+		// &.pagin-last{
+		// 	&:not(.is-active):not(.disabled){			
+		// 		& > div, & > a{
+		// 			@extend %atom-btn-int--core;
+		// 			padding: 0 15px;
+		// 			text-decoration: none;
+		// 		}
+		// 	}
+		// 	&.is-active, &.disabled{
+		// 		& > div, & > a{
+		// 			@extend %atom-btn-int--white; 
+		// 			padding: 0 15px;
+		// 			text-decoration: none;
+		// 		}
+		// 	} 
+		// }
+	}
+
+	.pagin-prev{
+		.btn-text{
+			order: 2;
+			margin-left: 20px !important;
+			margin-right: 0 !important;
+		}
+		.btn-arrow{
+			transform: rotate(-180deg);
+			order: 1;
+		}
+	}
+	@include RWD(tablet){
+		.pagin-first,
+		.pagin-last{
+			display: none !important;
+		}
+	}
+	@include RWD(mobile){
+		.pagin-item:not(.pagin-next):not(.pagin-prev){
+			display: none;
+		}
+		.pagin-next{
+			margin-left: auto;
+		}
+		.pagin-next, .pagin-prev{
+			.btn-text{
+				font-size: 0 !important;
+			}
+		}
+		.pagin-prev .btn-text:before{
+			content:'Prec'; 
+			font-size: 16px;
+			font-size: 1.6rem;
+		}
+		.pagin-next .btn-text:before{
+			content:'Suiv';
+			font-size: 16px;
+			font-size: 1.6rem;
+		}
+	}
+}

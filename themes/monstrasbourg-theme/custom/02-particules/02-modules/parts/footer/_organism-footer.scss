@@ -1,0 +1,27 @@
+%organism-footer{
+    .footer-bottom{
+        background-color: #dddddd;
+        svg{
+            width: 180px;
+            height: auto;
+            fill: #3a3a3a;
+        }
+        .custom-container{
+            display: flex;
+            align-items: center;
+            height: 50px;
+            margin-top: 60px;
+
+            @include RWD(mobile){
+                display: block;
+                height: unset;
+                padding: 20px;
+                text-align: center;
+            }
+        }
+
+        .fill{
+            flex: 1;
+        }
+    }
+}

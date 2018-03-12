@@ -94,7 +94,11 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "name", Types.VARCHAR },
-			{ "contactInformation", Types.CLOB },
+			{ "presentation", Types.CLOB },
+			{ "address", Types.CLOB },
+			{ "phone", Types.VARCHAR },
+			{ "mail", Types.VARCHAR },
+			{ "siteURL", Types.VARCHAR },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -113,11 +117,15 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("contactInformation", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("presentation", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("address", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("siteURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table activity_ActivityOrganizer (uuid_ VARCHAR(75) null,activityOrganizerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,contactInformation TEXT null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table activity_ActivityOrganizer (uuid_ VARCHAR(75) null,activityOrganizerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,address TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table activity_ActivityOrganizer";
 	public static final String ORDER_BY_JPQL = " ORDER BY activityOrganizer.activityOrganizerId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY activity_ActivityOrganizer.activityOrganizerId ASC";
@@ -164,7 +172,11 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
-		model.setContactInformation(soapModel.getContactInformation());
+		model.setPresentation(soapModel.getPresentation());
+		model.setAddress(soapModel.getAddress());
+		model.setPhone(soapModel.getPhone());
+		model.setMail(soapModel.getMail());
+		model.setSiteURL(soapModel.getSiteURL());
 		model.setImageId(soapModel.getImageId());
 
 		return model;
@@ -244,7 +256,11 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
-		attributes.put("contactInformation", getContactInformation());
+		attributes.put("presentation", getPresentation());
+		attributes.put("address", getAddress());
+		attributes.put("phone", getPhone());
+		attributes.put("mail", getMail());
+		attributes.put("siteURL", getSiteURL());
 		attributes.put("imageId", getImageId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -333,10 +349,34 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 			setName(name);
 		}
 
-		String contactInformation = (String)attributes.get("contactInformation");
+		String presentation = (String)attributes.get("presentation");
 
-		if (contactInformation != null) {
-			setContactInformation(contactInformation);
+		if (presentation != null) {
+			setPresentation(presentation);
+		}
+
+		String address = (String)attributes.get("address");
+
+		if (address != null) {
+			setAddress(address);
+		}
+
+		String phone = (String)attributes.get("phone");
+
+		if (phone != null) {
+			setPhone(phone);
+		}
+
+		String mail = (String)attributes.get("mail");
+
+		if (mail != null) {
+			setMail(mail);
+		}
+
+		String siteURL = (String)attributes.get("siteURL");
+
+		if (siteURL != null) {
+			setSiteURL(siteURL);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -664,109 +704,337 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 
 	@JSON
 	@Override
-	public String getContactInformation() {
-		if (_contactInformation == null) {
+	public String getPresentation() {
+		if (_presentation == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _contactInformation;
+			return _presentation;
 		}
 	}
 
 	@Override
-	public String getContactInformation(Locale locale) {
+	public String getPresentation(Locale locale) {
 		String languageId = LocaleUtil.toLanguageId(locale);
 
-		return getContactInformation(languageId);
+		return getPresentation(languageId);
 	}
 
 	@Override
-	public String getContactInformation(Locale locale, boolean useDefault) {
+	public String getPresentation(Locale locale, boolean useDefault) {
 		String languageId = LocaleUtil.toLanguageId(locale);
 
-		return getContactInformation(languageId, useDefault);
+		return getPresentation(languageId, useDefault);
 	}
 
 	@Override
-	public String getContactInformation(String languageId) {
-		return LocalizationUtil.getLocalization(getContactInformation(),
-			languageId);
+	public String getPresentation(String languageId) {
+		return LocalizationUtil.getLocalization(getPresentation(), languageId);
 	}
 
 	@Override
-	public String getContactInformation(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getContactInformation(),
-			languageId, useDefault);
+	public String getPresentation(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getPresentation(), languageId,
+			useDefault);
 	}
 
 	@Override
-	public String getContactInformationCurrentLanguageId() {
-		return _contactInformationCurrentLanguageId;
+	public String getPresentationCurrentLanguageId() {
+		return _presentationCurrentLanguageId;
 	}
 
 	@JSON
 	@Override
-	public String getContactInformationCurrentValue() {
-		Locale locale = getLocale(_contactInformationCurrentLanguageId);
+	public String getPresentationCurrentValue() {
+		Locale locale = getLocale(_presentationCurrentLanguageId);
 
-		return getContactInformation(locale);
+		return getPresentation(locale);
 	}
 
 	@Override
-	public Map<Locale, String> getContactInformationMap() {
-		return LocalizationUtil.getLocalizationMap(getContactInformation());
+	public Map<Locale, String> getPresentationMap() {
+		return LocalizationUtil.getLocalizationMap(getPresentation());
 	}
 
 	@Override
-	public void setContactInformation(String contactInformation) {
-		_contactInformation = contactInformation;
+	public void setPresentation(String presentation) {
+		_presentation = presentation;
 	}
 
 	@Override
-	public void setContactInformation(String contactInformation, Locale locale) {
-		setContactInformation(contactInformation, locale,
-			LocaleUtil.getSiteDefault());
+	public void setPresentation(String presentation, Locale locale) {
+		setPresentation(presentation, locale, LocaleUtil.getSiteDefault());
 	}
 
 	@Override
-	public void setContactInformation(String contactInformation, Locale locale,
+	public void setPresentation(String presentation, Locale locale,
 		Locale defaultLocale) {
 		String languageId = LocaleUtil.toLanguageId(locale);
 		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
 
-		if (Validator.isNotNull(contactInformation)) {
-			setContactInformation(LocalizationUtil.updateLocalization(
-					getContactInformation(), "ContactInformation",
-					contactInformation, languageId, defaultLanguageId));
+		if (Validator.isNotNull(presentation)) {
+			setPresentation(LocalizationUtil.updateLocalization(
+					getPresentation(), "Presentation", presentation,
+					languageId, defaultLanguageId));
 		}
 		else {
-			setContactInformation(LocalizationUtil.removeLocalization(
-					getContactInformation(), "ContactInformation", languageId));
+			setPresentation(LocalizationUtil.removeLocalization(
+					getPresentation(), "Presentation", languageId));
 		}
 	}
 
 	@Override
-	public void setContactInformationCurrentLanguageId(String languageId) {
-		_contactInformationCurrentLanguageId = languageId;
+	public void setPresentationCurrentLanguageId(String languageId) {
+		_presentationCurrentLanguageId = languageId;
 	}
 
 	@Override
-	public void setContactInformationMap(
-		Map<Locale, String> contactInformationMap) {
-		setContactInformationMap(contactInformationMap,
-			LocaleUtil.getSiteDefault());
+	public void setPresentationMap(Map<Locale, String> presentationMap) {
+		setPresentationMap(presentationMap, LocaleUtil.getSiteDefault());
 	}
 
 	@Override
-	public void setContactInformationMap(
-		Map<Locale, String> contactInformationMap, Locale defaultLocale) {
-		if (contactInformationMap == null) {
+	public void setPresentationMap(Map<Locale, String> presentationMap,
+		Locale defaultLocale) {
+		if (presentationMap == null) {
 			return;
 		}
 
-		setContactInformation(LocalizationUtil.updateLocalization(
-				contactInformationMap, getContactInformation(),
-				"ContactInformation", LocaleUtil.toLanguageId(defaultLocale)));
+		setPresentation(LocalizationUtil.updateLocalization(presentationMap,
+				getPresentation(), "Presentation",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getAddress() {
+		if (_address == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _address;
+		}
+	}
+
+	@Override
+	public String getAddress(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAddress(languageId);
+	}
+
+	@Override
+	public String getAddress(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getAddress(languageId, useDefault);
+	}
+
+	@Override
+	public String getAddress(String languageId) {
+		return LocalizationUtil.getLocalization(getAddress(), languageId);
+	}
+
+	@Override
+	public String getAddress(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getAddress(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getAddressCurrentLanguageId() {
+		return _addressCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getAddressCurrentValue() {
+		Locale locale = getLocale(_addressCurrentLanguageId);
+
+		return getAddress(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getAddressMap() {
+		return LocalizationUtil.getLocalizationMap(getAddress());
+	}
+
+	@Override
+	public void setAddress(String address) {
+		_address = address;
+	}
+
+	@Override
+	public void setAddress(String address, Locale locale) {
+		setAddress(address, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAddress(String address, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(address)) {
+			setAddress(LocalizationUtil.updateLocalization(getAddress(),
+					"Address", address, languageId, defaultLanguageId));
+		}
+		else {
+			setAddress(LocalizationUtil.removeLocalization(getAddress(),
+					"Address", languageId));
+		}
+	}
+
+	@Override
+	public void setAddressCurrentLanguageId(String languageId) {
+		_addressCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setAddressMap(Map<Locale, String> addressMap) {
+		setAddressMap(addressMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setAddressMap(Map<Locale, String> addressMap,
+		Locale defaultLocale) {
+		if (addressMap == null) {
+			return;
+		}
+
+		setAddress(LocalizationUtil.updateLocalization(addressMap,
+				getAddress(), "Address", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getPhone() {
+		if (_phone == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _phone;
+		}
+	}
+
+	@Override
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	@JSON
+	@Override
+	public String getMail() {
+		if (_mail == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _mail;
+		}
+	}
+
+	@Override
+	public void setMail(String mail) {
+		_mail = mail;
+	}
+
+	@JSON
+	@Override
+	public String getSiteURL() {
+		if (_siteURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _siteURL;
+		}
+	}
+
+	@Override
+	public String getSiteURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSiteURL(languageId);
+	}
+
+	@Override
+	public String getSiteURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSiteURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getSiteURL(String languageId) {
+		return LocalizationUtil.getLocalization(getSiteURL(), languageId);
+	}
+
+	@Override
+	public String getSiteURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getSiteURL(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getSiteURLCurrentLanguageId() {
+		return _siteURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getSiteURLCurrentValue() {
+		Locale locale = getLocale(_siteURLCurrentLanguageId);
+
+		return getSiteURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getSiteURLMap() {
+		return LocalizationUtil.getLocalizationMap(getSiteURL());
+	}
+
+	@Override
+	public void setSiteURL(String siteURL) {
+		_siteURL = siteURL;
+	}
+
+	@Override
+	public void setSiteURL(String siteURL, Locale locale) {
+		setSiteURL(siteURL, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setSiteURL(String siteURL, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(siteURL)) {
+			setSiteURL(LocalizationUtil.updateLocalization(getSiteURL(),
+					"SiteURL", siteURL, languageId, defaultLanguageId));
+		}
+		else {
+			setSiteURL(LocalizationUtil.removeLocalization(getSiteURL(),
+					"SiteURL", languageId));
+		}
+	}
+
+	@Override
+	public void setSiteURLCurrentLanguageId(String languageId) {
+		_siteURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setSiteURLMap(Map<Locale, String> siteURLMap) {
+		setSiteURLMap(siteURLMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setSiteURLMap(Map<Locale, String> siteURLMap,
+		Locale defaultLocale) {
+		if (siteURLMap == null) {
+			return;
+		}
+
+		setSiteURL(LocalizationUtil.updateLocalization(siteURLMap,
+				getSiteURL(), "SiteURL", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -898,9 +1166,31 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 			}
 		}
 
-		Map<Locale, String> contactInformationMap = getContactInformationMap();
+		Map<Locale, String> presentationMap = getPresentationMap();
 
-		for (Map.Entry<Locale, String> entry : contactInformationMap.entrySet()) {
+		for (Map.Entry<Locale, String> entry : presentationMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> addressMap = getAddressMap();
+
+		for (Map.Entry<Locale, String> entry : addressMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> siteURLMap = getSiteURLMap();
+
+		for (Map.Entry<Locale, String> entry : siteURLMap.entrySet()) {
 			Locale locale = entry.getKey();
 			String value = entry.getValue();
 
@@ -954,15 +1244,33 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 			setName(getName(defaultLocale), defaultLocale, defaultLocale);
 		}
 
-		String contactInformation = getContactInformation(defaultLocale);
+		String presentation = getPresentation(defaultLocale);
 
-		if (Validator.isNull(contactInformation)) {
-			setContactInformation(getContactInformation(modelDefaultLanguageId),
+		if (Validator.isNull(presentation)) {
+			setPresentation(getPresentation(modelDefaultLanguageId),
 				defaultLocale);
 		}
 		else {
-			setContactInformation(getContactInformation(defaultLocale),
-				defaultLocale, defaultLocale);
+			setPresentation(getPresentation(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String address = getAddress(defaultLocale);
+
+		if (Validator.isNull(address)) {
+			setAddress(getAddress(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setAddress(getAddress(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String siteURL = getSiteURL(defaultLocale);
+
+		if (Validator.isNull(siteURL)) {
+			setSiteURL(getSiteURL(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setSiteURL(getSiteURL(defaultLocale), defaultLocale, defaultLocale);
 		}
 	}
 
@@ -993,7 +1301,11 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		activityOrganizerImpl.setStatusByUserName(getStatusByUserName());
 		activityOrganizerImpl.setStatusDate(getStatusDate());
 		activityOrganizerImpl.setName(getName());
-		activityOrganizerImpl.setContactInformation(getContactInformation());
+		activityOrganizerImpl.setPresentation(getPresentation());
+		activityOrganizerImpl.setAddress(getAddress());
+		activityOrganizerImpl.setPhone(getPhone());
+		activityOrganizerImpl.setMail(getMail());
+		activityOrganizerImpl.setSiteURL(getSiteURL());
 		activityOrganizerImpl.setImageId(getImageId());
 
 		activityOrganizerImpl.resetOriginalValues();
@@ -1147,12 +1459,44 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 			activityOrganizerCacheModel.name = null;
 		}
 
-		activityOrganizerCacheModel.contactInformation = getContactInformation();
+		activityOrganizerCacheModel.presentation = getPresentation();
 
-		String contactInformation = activityOrganizerCacheModel.contactInformation;
+		String presentation = activityOrganizerCacheModel.presentation;
 
-		if ((contactInformation != null) && (contactInformation.length() == 0)) {
-			activityOrganizerCacheModel.contactInformation = null;
+		if ((presentation != null) && (presentation.length() == 0)) {
+			activityOrganizerCacheModel.presentation = null;
+		}
+
+		activityOrganizerCacheModel.address = getAddress();
+
+		String address = activityOrganizerCacheModel.address;
+
+		if ((address != null) && (address.length() == 0)) {
+			activityOrganizerCacheModel.address = null;
+		}
+
+		activityOrganizerCacheModel.phone = getPhone();
+
+		String phone = activityOrganizerCacheModel.phone;
+
+		if ((phone != null) && (phone.length() == 0)) {
+			activityOrganizerCacheModel.phone = null;
+		}
+
+		activityOrganizerCacheModel.mail = getMail();
+
+		String mail = activityOrganizerCacheModel.mail;
+
+		if ((mail != null) && (mail.length() == 0)) {
+			activityOrganizerCacheModel.mail = null;
+		}
+
+		activityOrganizerCacheModel.siteURL = getSiteURL();
+
+		String siteURL = activityOrganizerCacheModel.siteURL;
+
+		if ((siteURL != null) && (siteURL.length() == 0)) {
+			activityOrganizerCacheModel.siteURL = null;
 		}
 
 		activityOrganizerCacheModel.imageId = getImageId();
@@ -1162,7 +1506,7 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1190,8 +1534,16 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		sb.append(getStatusDate());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", contactInformation=");
-		sb.append(getContactInformation());
+		sb.append(", presentation=");
+		sb.append(getPresentation());
+		sb.append(", address=");
+		sb.append(getAddress());
+		sb.append(", phone=");
+		sb.append(getPhone());
+		sb.append(", mail=");
+		sb.append(getMail());
+		sb.append(", siteURL=");
+		sb.append(getSiteURL());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append("}");
@@ -1201,7 +1553,7 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.activity.model.ActivityOrganizer");
@@ -1260,8 +1612,24 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>contactInformation</column-name><column-value><![CDATA[");
-		sb.append(getContactInformation());
+			"<column><column-name>presentation</column-name><column-value><![CDATA[");
+		sb.append(getPresentation());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>address</column-name><column-value><![CDATA[");
+		sb.append(getAddress());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>phone</column-name><column-value><![CDATA[");
+		sb.append(getPhone());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>mail</column-name><column-value><![CDATA[");
+		sb.append(getMail());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>siteURL</column-name><column-value><![CDATA[");
+		sb.append(getSiteURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
@@ -1297,8 +1665,14 @@ public class ActivityOrganizerModelImpl extends BaseModelImpl<ActivityOrganizer>
 	private Date _statusDate;
 	private String _name;
 	private String _nameCurrentLanguageId;
-	private String _contactInformation;
-	private String _contactInformationCurrentLanguageId;
+	private String _presentation;
+	private String _presentationCurrentLanguageId;
+	private String _address;
+	private String _addressCurrentLanguageId;
+	private String _phone;
+	private String _mail;
+	private String _siteURL;
+	private String _siteURLCurrentLanguageId;
 	private long _imageId;
 	private long _columnBitmask;
 	private ActivityOrganizer _escapedModel;

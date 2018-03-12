@@ -37,21 +37,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 
-				<aui:input name="description" label="required-description" />
-				<!-- Hack pour ajouter une validation sur la description -->
-				<div class="has-error">
-					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
-						<aui:validator name="custom" errorMessage="requested-description-error">
-							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_interest_InterestBOPortlet_description_fr_FR').val().length > 0;
-								if (!validate) {
-									$("#_eu_strasbourg_portlet_interest_InterestBOPortlet_descriptionContainer").get(0).scrollIntoView();
-								}
-								return validate;
-							}
-						</aui:validator>
-					</aui:input>
-				</div>
+				<aui:input name="description" />
 				
 				<aui:select name="typeId" label="type" required="true">
 					<aui:option value="" label="" />

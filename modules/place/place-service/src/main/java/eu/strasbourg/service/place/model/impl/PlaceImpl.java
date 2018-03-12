@@ -35,8 +35,7 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.ParkingStateClient;
-import eu.strasbourg.service.place.PoolStateSOAPClient;
+import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -576,6 +575,8 @@ public class PlaceImpl extends PlaceBaseImpl {
 										59, 999);
 								if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
 									return false;
+								} else {
+									closed = true;
 								}
 							}
 						}
@@ -615,33 +616,55 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public boolean isSwimmingPool() {
-		for (AssetCategory type : this.getTypes()) {
-			String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
-			if (typeSigId.toLowerCase().equals("cat_06_05")) {
-				return true;
-			}
-		}
-		return false;
+		return this.getRTType().equals("1");
+	}
+
+	/**
+	 * Retourne true si le lieu est une mairie
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isMairie() {
+		return this.getRTType().equals("3");
 	}
 
 	/**
 	 * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
-	 * piscine ou un parking)
+	 * piscine,une mairie ou un parking)
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public OccupationState getRealTime() {
-		return isSwimmingPool() ? getRealTime("1") : getRealTime("2");
+		try {
+			return getRealTime(this.getRTType());
+		} catch (Exception ex) {
+			return OccupationState.NOT_AVAILABLE;
+		}
 	}
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 * 
 	 * @param type
-	 *            (1 = piscine, 2 = parking)
+	 *            (1 = piscine, 2 = parking, 3 = mairie)
+	 * @throws Exception
 	 */
 	@Override
 	public OccupationState getRealTime(String type) {
 		OccupationState state = null;
+
+		GregorianCalendar today = new GregorianCalendar();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		today.clear(Calendar.MINUTE);
+		today.clear(Calendar.SECOND);
+		today.clear(Calendar.MILLISECOND);
+		if (this.isClosed(today)) {
+			state = OccupationState.CLOSED;
+			return state;
+		}
+
 		if (Validator.isNull(this.getRTExternalId())) {
 			state = OccupationState.DISABLED;
 			return state;
@@ -651,16 +674,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		switch (type) {
 		case "1":
 			// récupération de la période en cours
-			GregorianCalendar today = new GregorianCalendar();
-			today.set(Calendar.HOUR_OF_DAY, 0);
-			today.clear(Calendar.MINUTE);
-			today.clear(Calendar.SECOND);
-			today.clear(Calendar.MILLISECOND);
-			if (this.isClosed(today)) {
-				state = OccupationState.CLOSED;
-				return state;
-			}
-
 			Period periodEnCours = null;
 			for (Period period : this.getPeriods()) {
 				if (!period.getDefaultPeriod()) {
@@ -682,7 +695,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 				state = OccupationState.NOT_AVAILABLE;
 				return state;
 			}
-			occupation = PoolStateSOAPClient.getOccupation(this);
+			occupation = this.getRTOccupation();
 			if (occupation == -1) {
 				state = OccupationState.NOT_AVAILABLE;
 				return state;
@@ -698,9 +711,74 @@ public class PlaceImpl extends PlaceBaseImpl {
 			state.setOccupation("" + occupation);
 			break;
 		case "2":
-			state = ParkingStateClient.getOccupationState(this);
+			state = OccupationState.NOT_AVAILABLE;
+			switch (this.getRTStatus()) {
+			case "status_1":
+				state = OccupationState.OPEN;
+				state.setAvailable("" + this.getRTAvailable());
+				state.setCapacity("" + this.getRTCapacity());
+				break;
+			case "status_2":
+				state = OccupationState.FULL;
+				break;
+			case "status_3":
+				state = OccupationState.NOT_AVAILABLE;
+				break;
+			case "status_4":
+				state = OccupationState.CLOSED;
+				break;
+			}
+			break;
+		case "3":
+			// récupération de la période en cours
+			periodEnCours = null;
+			for (Period period : this.getPeriods()) {
+				if (!period.getDefaultPeriod()) {
+					if (period.getStartDate() != null && period.getEndDate() != null
+							&& period.getStartDate().compareTo(today.getTime()) <= 0
+							&& period.getEndDate().compareTo(today.getTime()) >= 0) {
+						periodEnCours = period;
+						break;
+					}
+				} else {
+					periodEnCours = period;
+				}
+			}
+			if (Validator.isNull(periodEnCours)) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			// TODO est-ce que l'on garde cette vérification ? (de même que pour
+			// les piscines ?)
+			// car si il n'y a pas de capacié max de renseigné il y a quand même
+			// une fréquentation
+			/*
+			 * if (Validator.isNull(periodEnCours.getRTMaxThreshold())) { state
+			 * = OccupationState.NOT_AVAILABLE; return state; }
+			 */
+			try {
+				occupation = MairieStateSOAPClient.getWaitingTime(this.getRTExternalId());
+			} catch (Exception e) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (occupation == -1) {
+				state = OccupationState.NOT_AVAILABLE;
+				return state;
+			}
+			if (occupation > periodEnCours.getRTRedThreshold()) {
+				state = OccupationState.BLACK;
+			} else if (occupation > periodEnCours.getRTOrangeThreshold()) {
+				state = OccupationState.RED;
+			} else if (occupation > periodEnCours.getRTGreenThreshold()) {
+				state = OccupationState.ORANGE;
+			} else
+				state = OccupationState.GREEN;
+			state.setOccupation("" + occupation);
+			break;
 		}
 		return state;
+
 	}
 
 	/**
@@ -750,9 +828,46 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		return listHoraires;
 	}
-	
+
 	/**
-	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount" 
+	 * Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
+	 */
+	@Override
+	public PlaceSchedule getNextScheduleOpening(GregorianCalendar today, Locale locale) {
+		PlaceSchedule placeSchedule = null;
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTime(today.getTime());
+
+		boolean find = false;
+		for (int nbDays = 0; nbDays < 14; nbDays++) {
+			List<PlaceSchedule> list = getPlaceSchedule(date, locale);
+			if (!list.isEmpty()) {
+				placeSchedule = list.get(0);
+				placeSchedule.setStartDate(date.getTime());
+				if (!placeSchedule.isClosed()) {
+					// Si le lieu est ouvert, on vérifie que l'heure d'ouverture
+					// n'est pas passée
+					LocalTime time = LocalTime.now();
+					for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
+						if (today.before(date) || time.isBefore(openingTime.getSecond())) {
+							nbDays = 14;
+							find = true;
+							break;
+						}
+					}
+				}
+			}
+			date.add(GregorianCalendar.DATE, 1);
+			if (!find) {
+				placeSchedule = null;
+			}
+		}
+		return placeSchedule;
+	}
+
+	/**
+	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	 * "date" + "daysCount"
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getPlaceSchedule(Date date, int daysCount, Locale locale) {
@@ -833,23 +948,24 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * 
 	 * @param surPériode
 	 *            (false = horaires d'une journée uniquement , true = horaires
-	 *            sur une semaine)
+	 *            sur 2 mois à partir du jour + le début de la semaine)
 	 */
 	@Override
 	public List<PlaceSchedule> getPlaceScheduleException(GregorianCalendar premierJour, Boolean surPeriode,
 			Locale locale) {
 		List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
+		GregorianCalendar lundi = new GregorianCalendar();
+		lundi.setTime(premierJour.getTime());
+		lundi.set(Calendar.HOUR_OF_DAY, 0);
+		lundi.set(Calendar.MINUTE, 0);
+		lundi.set(Calendar.SECOND, 0);
+		lundi.set(Calendar.MILLISECOND, 0);
 		GregorianCalendar dernierJour = new GregorianCalendar();
-		dernierJour.setTime(premierJour.getTime());
-		premierJour.set(Calendar.HOUR_OF_DAY, 0);
-		premierJour.set(Calendar.MINUTE, 0);
-		premierJour.set(Calendar.SECOND, 0);
-		premierJour.set(Calendar.MILLISECOND, 0);
 		dernierJour.setTime(premierJour.getTime());
 		dernierJour.add(Calendar.DAY_OF_YEAR, 1);
 		dernierJour.add(Calendar.MINUTE, -1);
 		if (surPeriode) {
-			premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			lundi.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			dernierJour.add(Calendar.MONTH, 2);
 		}
 
@@ -857,7 +973,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		for (ScheduleException scheduleException : this.getScheduleExceptions()) {
 			if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
 					&& scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
-					&& scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+					&& scheduleException.getEndDate().compareTo(lundi.getTime()) >= 0) {
 
 				if (scheduleException.isClosed()) {
 					PlaceSchedule placeSchedule = new PlaceSchedule(scheduleException.getExceptionId(),
@@ -877,7 +993,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 
-		if (premierJour.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 
@@ -888,18 +1004,19 @@ public class PlaceImpl extends PlaceBaseImpl {
 					GregorianCalendar publicHolidayYear = new GregorianCalendar();
 					publicHolidayYear.setTime(publicHoliday.getDate());
 					if (publicHoliday.isRecurrent()) {
-						publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
+						publicHolidayYear.set(Calendar.YEAR, lundi.get(Calendar.YEAR));
 					}
-					if (publicHolidayYear.compareTo(premierJour) >= 0
+					if (publicHolidayYear.compareTo(lundi) >= 0
 							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
-								publicHoliday.getDate(), publicHoliday.getDate(), publicHoliday.getName(locale),
+								publicHolidayYear.getTime(), publicHolidayYear.getTime(), publicHoliday.getName(locale),
 								locale);
 						placeSchedule.setPublicHoliday(true);
 						placeSchedule.setClosed(true);
-						listPlaceSchedules.clear();
+						// commenté car il supprimait tous les horaires exceptionnels et n'enregistrait qu'un jour férié
+						//listPlaceSchedules.clear();
 						listPlaceSchedules.add(placeSchedule);
-						break;
+						//break;
 					}
 				}
 			}
@@ -1174,7 +1291,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		schedule.put("map", scheduleMap);
 		jsonPlace.put("horaires", schedule);
 
-
 		jsonPlace.put("descriptionAccesHandicap", this.getAccessForDisabled(Locale.FRANCE));
 
 		JSONObject categories = JSONFactoryUtil.createJSONObject();
@@ -1188,7 +1304,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		}
 		categories.put("list", categoriesArray);
 		jsonPlace.put("categorie", categories);
-
 
 		jsonPlace.put("horaireExceptionnel", this.getExceptionalSchedule(Locale.FRANCE));
 		jsonPlace.put("nomFacebook", this.getFacebookLabel(Locale.FRANCE));
@@ -1208,7 +1323,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 		jsonPlace.put("nomGalerie", "");
 		jsonPlace.put("ouvertures exceptionnelles", "");
 		jsonPlace.put("Fermetures exceptionnelles", "");
-		
 
 		jsonPlace.put("services", this.getServiceAndActivities(Locale.FRANCE));
 		jsonPlace.put("document1", this.getDocumentURLs().size() > 0 ? this.getDocumentURLs().get(0) : "");
@@ -1226,7 +1340,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		AssetCategory district = this.getDistrictCategory();
 		String districtCode = AssetVocabularyHelper.getCategoryProperty(district.getCategoryId(), "SIG");
 		if (Validator.isNotNull(districtCode)) {
-			territoryMap.put("Quartier", districtCode);	 
+			territoryMap.put("Quartier", districtCode);
 		}
 		AssetCategory city = this.getCityCategory();
 		territoryMap.put("Commune",
@@ -1245,7 +1359,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 		mercatorMap.put("Y", this.getMercatorY());
 		mercator.put("map", mercatorMap);
 		jsonPlace.put("coordonneesMercator", mercator);
-		
+
 		jsonPlace.put("javaClass", "com.cus.surfs.service.cusplaceasset.batch.CusPlaceAssetWithSchedule");
 		jsonPlace.put("pays", this.getAddressCountry());
 		jsonPlace.put("nomVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getTitle(Locale.FRANCE) : "");

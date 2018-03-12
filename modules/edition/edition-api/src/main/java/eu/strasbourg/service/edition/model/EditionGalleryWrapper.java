@@ -543,6 +543,14 @@ public class EditionGalleryWrapper implements EditionGallery,
 	}
 
 	/**
+	* Retourne le texte à afficher pour les types de la galerie d'éditions
+	*/
+	@Override
+	public java.lang.String getTypesLabels(java.util.Locale locale) {
+		return _editionGallery.getTypesLabels(locale);
+	}
+
+	/**
 	* Returns the user name of this edition gallery.
 	*
 	* @return the user name of this edition gallery

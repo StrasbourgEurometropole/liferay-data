@@ -397,6 +397,107 @@ public interface ActivityCourseModel extends BaseModel<ActivityCourse>,
 	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale);
 
 	/**
+	 * Returns the presentation of this activity course.
+	 *
+	 * @return the presentation of this activity course
+	 */
+	public String getPresentation();
+
+	/**
+	 * Returns the localized presentation of this activity course in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized presentation of this activity course
+	 */
+	@AutoEscape
+	public String getPresentation(Locale locale);
+
+	/**
+	 * Returns the localized presentation of this activity course in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized presentation of this activity course. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getPresentation(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized presentation of this activity course in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized presentation of this activity course
+	 */
+	@AutoEscape
+	public String getPresentation(String languageId);
+
+	/**
+	 * Returns the localized presentation of this activity course in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized presentation of this activity course
+	 */
+	@AutoEscape
+	public String getPresentation(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getPresentationCurrentLanguageId();
+
+	@AutoEscape
+	public String getPresentationCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized presentations of this activity course.
+	 *
+	 * @return the locales and localized presentations of this activity course
+	 */
+	public Map<Locale, String> getPresentationMap();
+
+	/**
+	 * Sets the presentation of this activity course.
+	 *
+	 * @param presentation the presentation of this activity course
+	 */
+	public void setPresentation(String presentation);
+
+	/**
+	 * Sets the localized presentation of this activity course in the language.
+	 *
+	 * @param presentation the localized presentation of this activity course
+	 * @param locale the locale of the language
+	 */
+	public void setPresentation(String presentation, Locale locale);
+
+	/**
+	 * Sets the localized presentation of this activity course in the language, and sets the default locale.
+	 *
+	 * @param presentation the localized presentation of this activity course
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setPresentation(String presentation, Locale locale,
+		Locale defaultLocale);
+
+	public void setPresentationCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized presentations of this activity course from the map of locales and localized presentations.
+	 *
+	 * @param presentationMap the locales and localized presentations of this activity course
+	 */
+	public void setPresentationMap(Map<Locale, String> presentationMap);
+
+	/**
+	 * Sets the localized presentations of this activity course from the map of locales and localized presentations, and sets the default locale.
+	 *
+	 * @param presentationMap the locales and localized presentations of this activity course
+	 * @param defaultLocale the default locale
+	 */
+	public void setPresentationMap(Map<Locale, String> presentationMap,
+		Locale defaultLocale);
+
+	/**
 	 * Returns the arrangements of this activity course.
 	 *
 	 * @return the arrangements of this activity course
@@ -611,20 +712,6 @@ public interface ActivityCourseModel extends BaseModel<ActivityCourse>,
 	public void setActivityId(long activityId);
 
 	/**
-	 * Returns the service ID of this activity course.
-	 *
-	 * @return the service ID of this activity course
-	 */
-	public long getServiceId();
-
-	/**
-	 * Sets the service ID of this activity course.
-	 *
-	 * @param serviceId the service ID of this activity course
-	 */
-	public void setServiceId(long serviceId);
-
-	/**
 	 * Returns the organizer ID of this activity course.
 	 *
 	 * @return the organizer ID of this activity course
@@ -637,6 +724,65 @@ public interface ActivityCourseModel extends BaseModel<ActivityCourse>,
 	 * @param organizerId the organizer ID of this activity course
 	 */
 	public void setOrganizerId(long organizerId);
+
+	/**
+	 * Returns the image ID of this activity course.
+	 *
+	 * @return the image ID of this activity course
+	 */
+	public long getImageId();
+
+	/**
+	 * Sets the image ID of this activity course.
+	 *
+	 * @param imageId the image ID of this activity course
+	 */
+	public void setImageId(long imageId);
+
+	/**
+	 * Returns the image IDs of this activity course.
+	 *
+	 * @return the image IDs of this activity course
+	 */
+	@AutoEscape
+	public String getImageIds();
+
+	/**
+	 * Sets the image IDs of this activity course.
+	 *
+	 * @param imageIds the image IDs of this activity course
+	 */
+	public void setImageIds(String imageIds);
+
+	/**
+	 * Returns the videos IDs of this activity course.
+	 *
+	 * @return the videos IDs of this activity course
+	 */
+	@AutoEscape
+	public String getVideosIds();
+
+	/**
+	 * Sets the videos IDs of this activity course.
+	 *
+	 * @param videosIds the videos IDs of this activity course
+	 */
+	public void setVideosIds(String videosIds);
+
+	/**
+	 * Returns the documents IDs of this activity course.
+	 *
+	 * @return the documents IDs of this activity course
+	 */
+	@AutoEscape
+	public String getDocumentsIds();
+
+	/**
+	 * Sets the documents IDs of this activity course.
+	 *
+	 * @param documentsIds the documents IDs of this activity course
+	 */
+	public void setDocumentsIds(String documentsIds);
 
 	/**
 	 * Returns <code>true</code> if this activity course is approved.

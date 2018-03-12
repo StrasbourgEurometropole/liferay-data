@@ -104,6 +104,11 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getCurrentAndFuturePeriods();
 
 	/**
+	* Retourne la date de début de la future ou courante période de l'événement
+	*/
+	public java.util.Date getStartDateFirstCurrentAndFuturePeriod();
+
+	/**
 	* Retourne la période principale de l'événement (de la première date de
 	* début à la dernière date de fin) sous forme de String dans la locale
 	* passée en paramètre
@@ -193,6 +198,8 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne les territoires de l'événement
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getServices();
+
+	public java.time.LocalDate getNextOpenDate();
 
 	/**
 	* Retourne la version JSON de l'événenement

@@ -25,14 +25,12 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.notification.model.Notification;
@@ -41,7 +39,6 @@ import eu.strasbourg.service.notification.service.base.NotificationLocalServiceB
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * The implementation of the notification local service.
@@ -118,9 +115,15 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 		// utilisateurs et on envoie les infos aux canaux de diffusions
 		List<PublikUser> usersToNotify = notification.getUsersToNotify();
 		for (PublikUser user : usersToNotify) {
-			UserNotificationStatus status = this.userNotificationStatusLocalService.createUserNotificationStatus(
-					new UserNotificationStatusPK(notification.getNotificationId(), user.getPublikId()));
-			this.userNotificationStatusLocalService.updateUserNotificationStatus(status);
+			UserNotificationStatusPK userNotificationStatusPK = new UserNotificationStatusPK(
+					notification.getNotificationId(), user.getPublikId());
+			UserNotificationStatus existingStatus = this.userNotificationStatusLocalService
+					.fetchUserNotificationStatus(userNotificationStatusPK);
+			if (existingStatus == null) {
+				UserNotificationStatus status = this.userNotificationStatusLocalService
+						.createUserNotificationStatus(userNotificationStatusPK);
+				this.userNotificationStatusLocalService.updateUserNotificationStatus(status);
+			}
 		}
 	}
 
@@ -163,7 +166,7 @@ public class NotificationLocalServiceImpl extends NotificationLocalServiceBaseIm
 
 	/**
 	 * Modifie le statut de tous les notifications au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur.
+	 * une date de publication dans le passé.
 	 */
 	@Override
 	public void publishRelevantNotifications() throws PortalException {

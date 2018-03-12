@@ -1,0 +1,11 @@
+// Animation au hover des vignettes (souvent déclaré dans les molecules-grid
+
+%animation-vignette{
+    background-color: #FFFFFF;
+
+    .grid-item-visu{
+        &:before{
+            opacity: 1;
+        }
+    }
+}

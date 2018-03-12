@@ -45,11 +45,15 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="presentation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="arrangements" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="activityId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="serviceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="organizerId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="imageIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="videosIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="documentsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceImpl" table="activity_ActivityCoursePlace">
 		<id name="activityCoursePlaceId" type="long">
@@ -110,7 +114,11 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="contactInformation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="presentation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="siteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

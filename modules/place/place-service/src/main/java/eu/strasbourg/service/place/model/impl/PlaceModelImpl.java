@@ -126,9 +126,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "accessForWheelchair", Types.BOOLEAN },
 			{ "accessForElder", Types.BOOLEAN },
 			{ "accessForDeficient", Types.BOOLEAN },
+			{ "RTEnabled", Types.BOOLEAN },
+			{ "RTType", Types.VARCHAR },
 			{ "RTExternalId", Types.VARCHAR },
-			{ "occupation", Types.VARCHAR },
-			{ "occupationLastUpdate", Types.TIMESTAMP },
+			{ "RTAvailable", Types.BIGINT },
+			{ "RTOccupation", Types.BIGINT },
+			{ "RTCapacity", Types.BIGINT },
+			{ "RTStatus", Types.VARCHAR },
+			{ "RTLastUpdate", Types.TIMESTAMP },
 			{ "imageId", Types.BIGINT },
 			{ "imageIds", Types.VARCHAR },
 			{ "videosIds", Types.VARCHAR },
@@ -184,9 +189,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("accessForWheelchair", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("accessForElder", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("accessForDeficient", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("RTEnabled", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("RTType", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RTExternalId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("occupation", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("occupationLastUpdate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("RTAvailable", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTOccupation", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTCapacity", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("RTStatus", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("RTLastUpdate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
@@ -194,7 +204,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTExternalId VARCHAR(75) null,occupation VARCHAR(75) null,occupationLastUpdate DATE null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(75) null,addressComplement VARCHAR(75) null,addressStreet VARCHAR(75) null,addressDistribution VARCHAR(75) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,priceId LONG,documentsIds VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -276,9 +286,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setAccessForWheelchair(soapModel.getAccessForWheelchair());
 		model.setAccessForElder(soapModel.getAccessForElder());
 		model.setAccessForDeficient(soapModel.getAccessForDeficient());
+		model.setRTEnabled(soapModel.getRTEnabled());
+		model.setRTType(soapModel.getRTType());
 		model.setRTExternalId(soapModel.getRTExternalId());
-		model.setOccupation(soapModel.getOccupation());
-		model.setOccupationLastUpdate(soapModel.getOccupationLastUpdate());
+		model.setRTAvailable(soapModel.getRTAvailable());
+		model.setRTOccupation(soapModel.getRTOccupation());
+		model.setRTCapacity(soapModel.getRTCapacity());
+		model.setRTStatus(soapModel.getRTStatus());
+		model.setRTLastUpdate(soapModel.getRTLastUpdate());
 		model.setImageId(soapModel.getImageId());
 		model.setImageIds(soapModel.getImageIds());
 		model.setVideosIds(soapModel.getVideosIds());
@@ -394,9 +409,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("accessForWheelchair", getAccessForWheelchair());
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
+		attributes.put("RTEnabled", getRTEnabled());
+		attributes.put("RTType", getRTType());
 		attributes.put("RTExternalId", getRTExternalId());
-		attributes.put("occupation", getOccupation());
-		attributes.put("occupationLastUpdate", getOccupationLastUpdate());
+		attributes.put("RTAvailable", getRTAvailable());
+		attributes.put("RTOccupation", getRTOccupation());
+		attributes.put("RTCapacity", getRTCapacity());
+		attributes.put("RTStatus", getRTStatus());
+		attributes.put("RTLastUpdate", getRTLastUpdate());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -694,22 +714,52 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			setAccessForDeficient(accessForDeficient);
 		}
 
+		Boolean RTEnabled = (Boolean)attributes.get("RTEnabled");
+
+		if (RTEnabled != null) {
+			setRTEnabled(RTEnabled);
+		}
+
+		String RTType = (String)attributes.get("RTType");
+
+		if (RTType != null) {
+			setRTType(RTType);
+		}
+
 		String RTExternalId = (String)attributes.get("RTExternalId");
 
 		if (RTExternalId != null) {
 			setRTExternalId(RTExternalId);
 		}
 
-		String occupation = (String)attributes.get("occupation");
+		Long RTAvailable = (Long)attributes.get("RTAvailable");
 
-		if (occupation != null) {
-			setOccupation(occupation);
+		if (RTAvailable != null) {
+			setRTAvailable(RTAvailable);
 		}
 
-		Date occupationLastUpdate = (Date)attributes.get("occupationLastUpdate");
+		Long RTOccupation = (Long)attributes.get("RTOccupation");
 
-		if (occupationLastUpdate != null) {
-			setOccupationLastUpdate(occupationLastUpdate);
+		if (RTOccupation != null) {
+			setRTOccupation(RTOccupation);
+		}
+
+		Long RTCapacity = (Long)attributes.get("RTCapacity");
+
+		if (RTCapacity != null) {
+			setRTCapacity(RTCapacity);
+		}
+
+		String RTStatus = (String)attributes.get("RTStatus");
+
+		if (RTStatus != null) {
+			setRTStatus(RTStatus);
+		}
+
+		Date RTLastUpdate = (Date)attributes.get("RTLastUpdate");
+
+		if (RTLastUpdate != null) {
+			setRTLastUpdate(RTLastUpdate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -2625,6 +2675,33 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public Boolean getRTEnabled() {
+		return _RTEnabled;
+	}
+
+	@Override
+	public void setRTEnabled(Boolean RTEnabled) {
+		_RTEnabled = RTEnabled;
+	}
+
+	@JSON
+	@Override
+	public String getRTType() {
+		if (_RTType == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _RTType;
+		}
+	}
+
+	@Override
+	public void setRTType(String RTType) {
+		_RTType = RTType;
+	}
+
+	@JSON
+	@Override
 	public String getRTExternalId() {
 		if (_RTExternalId == null) {
 			return StringPool.BLANK;
@@ -2641,29 +2718,62 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
-	public String getOccupation() {
-		if (_occupation == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _occupation;
-		}
+	public long getRTAvailable() {
+		return _RTAvailable;
 	}
 
 	@Override
-	public void setOccupation(String occupation) {
-		_occupation = occupation;
+	public void setRTAvailable(long RTAvailable) {
+		_RTAvailable = RTAvailable;
 	}
 
 	@JSON
 	@Override
-	public Date getOccupationLastUpdate() {
-		return _occupationLastUpdate;
+	public long getRTOccupation() {
+		return _RTOccupation;
 	}
 
 	@Override
-	public void setOccupationLastUpdate(Date occupationLastUpdate) {
-		_occupationLastUpdate = occupationLastUpdate;
+	public void setRTOccupation(long RTOccupation) {
+		_RTOccupation = RTOccupation;
+	}
+
+	@JSON
+	@Override
+	public long getRTCapacity() {
+		return _RTCapacity;
+	}
+
+	@Override
+	public void setRTCapacity(long RTCapacity) {
+		_RTCapacity = RTCapacity;
+	}
+
+	@JSON
+	@Override
+	public String getRTStatus() {
+		if (_RTStatus == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _RTStatus;
+		}
+	}
+
+	@Override
+	public void setRTStatus(String RTStatus) {
+		_RTStatus = RTStatus;
+	}
+
+	@JSON
+	@Override
+	public Date getRTLastUpdate() {
+		return _RTLastUpdate;
+	}
+
+	@Override
+	public void setRTLastUpdate(Date RTLastUpdate) {
+		_RTLastUpdate = RTLastUpdate;
 	}
 
 	@JSON
@@ -3228,9 +3338,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setAccessForWheelchair(getAccessForWheelchair());
 		placeImpl.setAccessForElder(getAccessForElder());
 		placeImpl.setAccessForDeficient(getAccessForDeficient());
+		placeImpl.setRTEnabled(getRTEnabled());
+		placeImpl.setRTType(getRTType());
 		placeImpl.setRTExternalId(getRTExternalId());
-		placeImpl.setOccupation(getOccupation());
-		placeImpl.setOccupationLastUpdate(getOccupationLastUpdate());
+		placeImpl.setRTAvailable(getRTAvailable());
+		placeImpl.setRTOccupation(getRTOccupation());
+		placeImpl.setRTCapacity(getRTCapacity());
+		placeImpl.setRTStatus(getRTStatus());
+		placeImpl.setRTLastUpdate(getRTLastUpdate());
 		placeImpl.setImageId(getImageId());
 		placeImpl.setImageIds(getImageIds());
 		placeImpl.setVideosIds(getVideosIds());
@@ -3621,6 +3736,16 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeCacheModel.accessForDeficient = getAccessForDeficient();
 
+		placeCacheModel.RTEnabled = getRTEnabled();
+
+		placeCacheModel.RTType = getRTType();
+
+		String RTType = placeCacheModel.RTType;
+
+		if ((RTType != null) && (RTType.length() == 0)) {
+			placeCacheModel.RTType = null;
+		}
+
 		placeCacheModel.RTExternalId = getRTExternalId();
 
 		String RTExternalId = placeCacheModel.RTExternalId;
@@ -3629,21 +3754,27 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.RTExternalId = null;
 		}
 
-		placeCacheModel.occupation = getOccupation();
+		placeCacheModel.RTAvailable = getRTAvailable();
 
-		String occupation = placeCacheModel.occupation;
+		placeCacheModel.RTOccupation = getRTOccupation();
 
-		if ((occupation != null) && (occupation.length() == 0)) {
-			placeCacheModel.occupation = null;
+		placeCacheModel.RTCapacity = getRTCapacity();
+
+		placeCacheModel.RTStatus = getRTStatus();
+
+		String RTStatus = placeCacheModel.RTStatus;
+
+		if ((RTStatus != null) && (RTStatus.length() == 0)) {
+			placeCacheModel.RTStatus = null;
 		}
 
-		Date occupationLastUpdate = getOccupationLastUpdate();
+		Date RTLastUpdate = getRTLastUpdate();
 
-		if (occupationLastUpdate != null) {
-			placeCacheModel.occupationLastUpdate = occupationLastUpdate.getTime();
+		if (RTLastUpdate != null) {
+			placeCacheModel.RTLastUpdate = RTLastUpdate.getTime();
 		}
 		else {
-			placeCacheModel.occupationLastUpdate = Long.MIN_VALUE;
+			placeCacheModel.RTLastUpdate = Long.MIN_VALUE;
 		}
 
 		placeCacheModel.imageId = getImageId();
@@ -3679,7 +3810,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(109);
+		StringBundler sb = new StringBundler(119);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3773,12 +3904,22 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAccessForElder());
 		sb.append(", accessForDeficient=");
 		sb.append(getAccessForDeficient());
+		sb.append(", RTEnabled=");
+		sb.append(getRTEnabled());
+		sb.append(", RTType=");
+		sb.append(getRTType());
 		sb.append(", RTExternalId=");
 		sb.append(getRTExternalId());
-		sb.append(", occupation=");
-		sb.append(getOccupation());
-		sb.append(", occupationLastUpdate=");
-		sb.append(getOccupationLastUpdate());
+		sb.append(", RTAvailable=");
+		sb.append(getRTAvailable());
+		sb.append(", RTOccupation=");
+		sb.append(getRTOccupation());
+		sb.append(", RTCapacity=");
+		sb.append(getRTCapacity());
+		sb.append(", RTStatus=");
+		sb.append(getRTStatus());
+		sb.append(", RTLastUpdate=");
+		sb.append(getRTLastUpdate());
 		sb.append(", imageId=");
 		sb.append(getImageId());
 		sb.append(", imageIds=");
@@ -3796,7 +3937,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(166);
+		StringBundler sb = new StringBundler(181);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -3987,16 +4128,36 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAccessForDeficient());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>RTEnabled</column-name><column-value><![CDATA[");
+		sb.append(getRTEnabled());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTType</column-name><column-value><![CDATA[");
+		sb.append(getRTType());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>RTExternalId</column-name><column-value><![CDATA[");
 		sb.append(getRTExternalId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>occupation</column-name><column-value><![CDATA[");
-		sb.append(getOccupation());
+			"<column><column-name>RTAvailable</column-name><column-value><![CDATA[");
+		sb.append(getRTAvailable());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>occupationLastUpdate</column-name><column-value><![CDATA[");
-		sb.append(getOccupationLastUpdate());
+			"<column><column-name>RTOccupation</column-name><column-value><![CDATA[");
+		sb.append(getRTOccupation());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTCapacity</column-name><column-value><![CDATA[");
+		sb.append(getRTCapacity());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTStatus</column-name><column-value><![CDATA[");
+		sb.append(getRTStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>RTLastUpdate</column-name><column-value><![CDATA[");
+		sb.append(getRTLastUpdate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>imageId</column-name><column-value><![CDATA[");
@@ -4094,9 +4255,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private Boolean _accessForWheelchair;
 	private Boolean _accessForElder;
 	private Boolean _accessForDeficient;
+	private Boolean _RTEnabled;
+	private String _RTType;
 	private String _RTExternalId;
-	private String _occupation;
-	private Date _occupationLastUpdate;
+	private long _RTAvailable;
+	private long _RTOccupation;
+	private long _RTCapacity;
+	private String _RTStatus;
+	private Date _RTLastUpdate;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

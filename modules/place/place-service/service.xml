@@ -70,9 +70,14 @@
 		<column name="accessForDeficient" type="Boolean" />
 
 		<!-- Temps réel -->
+		<column name="RTEnabled" type="Boolean" />
+		<column name="RTType" type="String" />
 		<column name="RTExternalId" type="String" />
-		<column name="occupation" type="String" />
-		<column name="occupationLastUpdate" type="Date" />
+		<column name="RTAvailable" type="long" />>
+		<column name="RTOccupation" type="long" />
+		<column name="RTCapacity" type="long" />
+		<column name="RTStatus" type="String" />
+		<column name="RTLastUpdate" type="Date" />
 		
 		
 		<!-- Links with other entities -->

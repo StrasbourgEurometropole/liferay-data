@@ -26,7 +26,6 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 		"javax.portlet.init-param.config-template=/config/config.jsp",
 		"com.liferay.portlet.footer-portlet-javascript=/js/main.js",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
-		"com.liferay.portlet.header-portlet-css=/css/tipi-style.css",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class TipiPortlet extends MVCPortlet {
@@ -70,9 +69,9 @@ public class TipiPortlet extends MVCPortlet {
 		// On récupère l'URL de paiement dans config.properties
 		String billingURL = "";
 		String callbackURL = "";
-		billingURL = StrasbourgPropsUtil.getTipiURL();
-		callbackURL = StrasbourgPropsUtil.getTipiCallbackURL();
-		//callbackURL = "http://ldkimmwffo.localtunnel.me/web/tipi/accueil";
+		billingURL = "http://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/tpa/paiement.web?saisie=T&";
+		callbackURL = "https://webhook.site/42ef84dd-89fd-4cb8-af24-a057e88cdecb";
+				//callbackURL = "http://ldkimmwffo.localtunnel.me/web/tipi/accueil";
 		request.setAttribute("billingURL", billingURL);
 		request.setAttribute("callbackURL", callbackURL);
 

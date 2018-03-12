@@ -105,9 +105,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("accessForWheelchair", getAccessForWheelchair());
 		attributes.put("accessForElder", getAccessForElder());
 		attributes.put("accessForDeficient", getAccessForDeficient());
+		attributes.put("RTEnabled", getRTEnabled());
+		attributes.put("RTType", getRTType());
 		attributes.put("RTExternalId", getRTExternalId());
-		attributes.put("occupation", getOccupation());
-		attributes.put("occupationLastUpdate", getOccupationLastUpdate());
+		attributes.put("RTAvailable", getRTAvailable());
+		attributes.put("RTOccupation", getRTOccupation());
+		attributes.put("RTCapacity", getRTCapacity());
+		attributes.put("RTStatus", getRTStatus());
+		attributes.put("RTLastUpdate", getRTLastUpdate());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -402,22 +407,52 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 			setAccessForDeficient(accessForDeficient);
 		}
 
+		Boolean RTEnabled = (Boolean)attributes.get("RTEnabled");
+
+		if (RTEnabled != null) {
+			setRTEnabled(RTEnabled);
+		}
+
+		String RTType = (String)attributes.get("RTType");
+
+		if (RTType != null) {
+			setRTType(RTType);
+		}
+
 		String RTExternalId = (String)attributes.get("RTExternalId");
 
 		if (RTExternalId != null) {
 			setRTExternalId(RTExternalId);
 		}
 
-		String occupation = (String)attributes.get("occupation");
+		Long RTAvailable = (Long)attributes.get("RTAvailable");
 
-		if (occupation != null) {
-			setOccupation(occupation);
+		if (RTAvailable != null) {
+			setRTAvailable(RTAvailable);
 		}
 
-		Date occupationLastUpdate = (Date)attributes.get("occupationLastUpdate");
+		Long RTOccupation = (Long)attributes.get("RTOccupation");
 
-		if (occupationLastUpdate != null) {
-			setOccupationLastUpdate(occupationLastUpdate);
+		if (RTOccupation != null) {
+			setRTOccupation(RTOccupation);
+		}
+
+		Long RTCapacity = (Long)attributes.get("RTCapacity");
+
+		if (RTCapacity != null) {
+			setRTCapacity(RTCapacity);
+		}
+
+		String RTStatus = (String)attributes.get("RTStatus");
+
+		if (RTStatus != null) {
+			setRTStatus(RTStatus);
+		}
+
+		Date RTLastUpdate = (Date)attributes.get("RTLastUpdate");
+
+		if (RTLastUpdate != null) {
+			setRTLastUpdate(RTLastUpdate);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -560,6 +595,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.isIncomplete();
 	}
 
+	/**
+	* Retourne true si le lieu est une mairie
+	*
+	* @return
+	*/
+	@Override
+	public boolean isMairie() {
+		return _place.isMairie();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _place.isNew();
@@ -674,6 +719,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar dateJour, java.util.Locale locale) {
+		return _place.getNextScheduleOpening(dateJour, locale);
+	}
+
+	/**
 	* Retourne le prix rattaché au lieu
 	*/
 	@Override
@@ -683,7 +737,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 	/**
 	* Retourne le temps réel (en gérant automatiquement le fait que ce soit une
-	* piscine ou un parking)
+	* piscine,une mairie ou un parking)
+	*
+	* @throws Exception
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime() {
@@ -694,7 +750,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	* Retourne le temps réel (couleur de fond,valeur)
 	*
 	* @param type
-	(1 = piscine, 2 = parking)
+	(1 = piscine, 2 = parking, 3 = mairie)
+	* @throws Exception
 	*/
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime(
@@ -775,6 +832,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.Boolean getAccessForWheelchair() {
 		return _place.getAccessForWheelchair();
+	}
+
+	/**
+	* Returns the rt enabled of this place.
+	*
+	* @return the rt enabled of this place
+	*/
+	@Override
+	public java.lang.Boolean getRTEnabled() {
+		return _place.getRTEnabled();
 	}
 
 	/**
@@ -1595,16 +1662,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the occupation of this place.
-	*
-	* @return the occupation of this place
-	*/
-	@Override
-	public java.lang.String getOccupation() {
-		return _place.getOccupation();
-	}
-
-	/**
 	* Returns the phone of this place.
 	*
 	* @return the phone of this place
@@ -1710,6 +1767,26 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String getRTExternalId() {
 		return _place.getRTExternalId();
+	}
+
+	/**
+	* Returns the rt status of this place.
+	*
+	* @return the rt status of this place
+	*/
+	@Override
+	public java.lang.String getRTStatus() {
+		return _place.getRTStatus();
+	}
+
+	/**
+	* Returns the rt type of this place.
+	*
+	* @return the rt type of this place
+	*/
+	@Override
+	public java.lang.String getRTType() {
+		return _place.getRTType();
 	}
 
 	/**
@@ -2049,13 +2126,13 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Returns the occupation last update of this place.
+	* Returns the rt last update of this place.
 	*
-	* @return the occupation last update of this place
+	* @return the rt last update of this place
 	*/
 	@Override
-	public Date getOccupationLastUpdate() {
-		return _place.getOccupationLastUpdate();
+	public Date getRTLastUpdate() {
+		return _place.getRTLastUpdate();
 	}
 
 	/**
@@ -2453,6 +2530,36 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public long getPrimaryKey() {
 		return _place.getPrimaryKey();
+	}
+
+	/**
+	* Returns the rt available of this place.
+	*
+	* @return the rt available of this place
+	*/
+	@Override
+	public long getRTAvailable() {
+		return _place.getRTAvailable();
+	}
+
+	/**
+	* Returns the rt capacity of this place.
+	*
+	* @return the rt capacity of this place
+	*/
+	@Override
+	public long getRTCapacity() {
+		return _place.getRTCapacity();
+	}
+
+	/**
+	* Returns the rt occupation of this place.
+	*
+	* @return the rt occupation of this place
+	*/
+	@Override
+	public long getRTOccupation() {
+		return _place.getRTOccupation();
 	}
 
 	/**
@@ -3326,26 +3433,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Sets the occupation of this place.
-	*
-	* @param occupation the occupation of this place
-	*/
-	@Override
-	public void setOccupation(java.lang.String occupation) {
-		_place.setOccupation(occupation);
-	}
-
-	/**
-	* Sets the occupation last update of this place.
-	*
-	* @param occupationLastUpdate the occupation last update of this place
-	*/
-	@Override
-	public void setOccupationLastUpdate(Date occupationLastUpdate) {
-		_place.setOccupationLastUpdate(occupationLastUpdate);
-	}
-
-	/**
 	* Sets the phone of this place.
 	*
 	* @param phone the phone of this place
@@ -3475,6 +3562,36 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Sets the rt available of this place.
+	*
+	* @param RTAvailable the rt available of this place
+	*/
+	@Override
+	public void setRTAvailable(long RTAvailable) {
+		_place.setRTAvailable(RTAvailable);
+	}
+
+	/**
+	* Sets the rt capacity of this place.
+	*
+	* @param RTCapacity the rt capacity of this place
+	*/
+	@Override
+	public void setRTCapacity(long RTCapacity) {
+		_place.setRTCapacity(RTCapacity);
+	}
+
+	/**
+	* Sets the rt enabled of this place.
+	*
+	* @param RTEnabled the rt enabled of this place
+	*/
+	@Override
+	public void setRTEnabled(java.lang.Boolean RTEnabled) {
+		_place.setRTEnabled(RTEnabled);
+	}
+
+	/**
 	* Sets the rt external ID of this place.
 	*
 	* @param RTExternalId the rt external ID of this place
@@ -3482,6 +3599,46 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setRTExternalId(java.lang.String RTExternalId) {
 		_place.setRTExternalId(RTExternalId);
+	}
+
+	/**
+	* Sets the rt last update of this place.
+	*
+	* @param RTLastUpdate the rt last update of this place
+	*/
+	@Override
+	public void setRTLastUpdate(Date RTLastUpdate) {
+		_place.setRTLastUpdate(RTLastUpdate);
+	}
+
+	/**
+	* Sets the rt occupation of this place.
+	*
+	* @param RTOccupation the rt occupation of this place
+	*/
+	@Override
+	public void setRTOccupation(long RTOccupation) {
+		_place.setRTOccupation(RTOccupation);
+	}
+
+	/**
+	* Sets the rt status of this place.
+	*
+	* @param RTStatus the rt status of this place
+	*/
+	@Override
+	public void setRTStatus(java.lang.String RTStatus) {
+		_place.setRTStatus(RTStatus);
+	}
+
+	/**
+	* Sets the rt type of this place.
+	*
+	* @param RTType the rt type of this place
+	*/
+	@Override
+	public void setRTType(java.lang.String RTType) {
+		_place.setRTType(RTType);
 	}
 
 	/**

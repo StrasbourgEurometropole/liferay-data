@@ -13,10 +13,10 @@
 		<aui:fieldset>
 			<aui:select name="form">
 				<aui:option value="0"/>
-				<aui:option value="childhood" label="Facturation petite enfance" />
-				<aui:option value="schoolRestaurant" label="Facturation restauration scolaire" />
-				<aui:option value="afterSchool" label="Facturation de l'accueil p&eacute;riscolaire" />
-				<aui:option value="water" label="Facturation d'eau et d'assainissement" />
+				<aui:option value="childhood" label="Facturation petite enfance" selected="${form eq 'childhood'}"/>
+				<aui:option value="schoolRestaurant" label="Facturation restauration scolaire" selected="${form eq 'schoolRestaurant'}" />
+				<aui:option value="afterSchool" label="Facturation de l'accueil p&eacute;riscolaire" selected="${form eq 'afterSchool'}" />
+				<aui:option value="water" label="Facturation d'eau et d'assainissement" selected="${form eq 'water'}" />
 			</aui:select>
 			<aui:input type="hidden" name="form" />
 		</aui:fieldset>

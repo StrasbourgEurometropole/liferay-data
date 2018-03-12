@@ -1,0 +1,52 @@
+%organism-bills{    
+    @extend %molecule-home-section;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+    p{
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+    }
+    form{
+        @extend %skin-form-validation;
+        .webform-layout-box{
+            display: flex;
+            justify-content: space-between;
+            
+            @include RWD(mobile){
+                display: block;
+            }
+        }
+        .form-group{
+            margin-bottom: 15px;
+            @include RWD(tablet_only){
+                flex: 1;
+                & + .form-group{
+                    margin-left: 30px;
+                }
+            }
+        }
+        label{
+            @extend %text-form-label;
+            .required{
+                color: #ff1818;
+            }
+            margin-bottom: 10px;
+        }
+        input{
+            @extend %atom-form-input;
+            @include RWD(desktop){
+                width: 420px;
+            }
+            @include RWD(tablet){
+                width: 100%;
+            }
+        }
+        span.error{
+            display: block;
+            margin-top: 5px;
+            font-size: 1.4rem;
+        }
+    }
+}

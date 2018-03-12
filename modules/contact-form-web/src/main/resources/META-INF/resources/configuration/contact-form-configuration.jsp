@@ -20,6 +20,7 @@
 			<aui:select name="template" label="display">
 				<aui:option value="default" label="default" />
 				<aui:option value="christmas" label="christmas" selected="${template eq 'christmas'}"/>
+				<aui:option value="tipi" label="tipi" selected="${template eq 'tipi'}"/>
 			</aui:select>
 			
 			<!-- Titre -->
@@ -31,7 +32,7 @@
 			<!-- Texte de description -->
 			<aui:input name="descriptionText" value="${descriptionText}" localized="true" type="editor" label="description-text" />
 			
-			<!-- Texte "confidentialité" -->
+			<!-- Texte "confidentialitÃ©" -->
 			<aui:input name="privacyText" value="${privacyText}" localized="true" type="editor" label="privacy-text" />
 		</aui:fieldset>
 		

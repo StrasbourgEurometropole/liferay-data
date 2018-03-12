@@ -71,10 +71,7 @@ public class NotificationImpl extends NotificationBaseImpl {
 			// On récupère l'utilisateur concerné
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.getSingleUserId());
 			if (user != null) {
-				// On vérifie qu'il est abonné au type
-				if (UserNotificationTypeLocalServiceUtil.isUserSubscribedToType(this.getSingleUserId(), this.getTypeId())) {
-					users.add(user);
-				}
+				users.add(user);
 			}
 		} else {
 			// On récupère la liste des utilisateurs abonnés au type de la

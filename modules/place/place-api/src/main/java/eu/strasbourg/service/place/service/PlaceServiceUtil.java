@@ -70,6 +70,14 @@ public class PlaceServiceUtil {
 		return getService().getPlacesByType(typeId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTypes();
+	}
+
+	/**
+	* Retourne l'ancien web service LR6 concernant les Types de lieu
+	*/
 	public static com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLegacyCategoriesJSON();
@@ -82,6 +90,9 @@ public class PlaceServiceUtil {
 		return getService().getLegacyJSON();
 	}
 
+	/**
+	* Retourne l'ancien web service LR6 concernant les Territoires
+	*/
 	public static com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLegacyTerritoriesJSON();

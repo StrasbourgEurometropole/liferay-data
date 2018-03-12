@@ -47,7 +47,11 @@ public class ActivityOrganizerSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setName(model.getName());
-		soapModel.setContactInformation(model.getContactInformation());
+		soapModel.setPresentation(model.getPresentation());
+		soapModel.setAddress(model.getAddress());
+		soapModel.setPhone(model.getPhone());
+		soapModel.setMail(model.getMail());
+		soapModel.setSiteURL(model.getSiteURL());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -208,12 +212,44 @@ public class ActivityOrganizerSoap implements Serializable {
 		_name = name;
 	}
 
-	public String getContactInformation() {
-		return _contactInformation;
+	public String getPresentation() {
+		return _presentation;
 	}
 
-	public void setContactInformation(String contactInformation) {
-		_contactInformation = contactInformation;
+	public void setPresentation(String presentation) {
+		_presentation = presentation;
+	}
+
+	public String getAddress() {
+		return _address;
+	}
+
+	public void setAddress(String address) {
+		_address = address;
+	}
+
+	public String getPhone() {
+		return _phone;
+	}
+
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	public String getMail() {
+		return _mail;
+	}
+
+	public void setMail(String mail) {
+		_mail = mail;
+	}
+
+	public String getSiteURL() {
+		return _siteURL;
+	}
+
+	public void setSiteURL(String siteURL) {
+		_siteURL = siteURL;
 	}
 
 	public long getImageId() {
@@ -237,6 +273,10 @@ public class ActivityOrganizerSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _name;
-	private String _contactInformation;
+	private String _presentation;
+	private String _address;
+	private String _phone;
+	private String _mail;
+	private String _siteURL;
 	private long _imageId;
 }

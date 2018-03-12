@@ -21,7 +21,7 @@
     color: #CC6677;
 }
 
-.place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date, .place-schedule-incorrect-date, .place-schedule-incorrect-hour {
+.place-schedule-period, .place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date, .place-schedule-incorrect-date, .place-schedule-incorrect-hour {
     margin-top: -10px;
     margin-bottom: 10px;
     color: #CC6677;

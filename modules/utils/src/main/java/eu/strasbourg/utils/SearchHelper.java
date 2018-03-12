@@ -211,7 +211,82 @@ public class SearchHelper {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
 					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-					prefilterTagsNames, locale);
+					prefilterTagsNames, false, locale);
+
+			// Ordre
+			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
+			System.out.println(sort);
+			searchContext.setSorts(sort);
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour les moteurs de
+	 * recherche d'assets
+	 * 
+	 * @param searchContext
+	 * @param classNames
+	 *            La liste des classNames concernés par la recherche
+	 * @param groupId
+	 *            Le groupId des entités à rechercher
+	 * @param globalGroupId
+	 *            Le group id global (companyGroupId)
+	 * @param globalScope
+	 *            "true" si on prend en compte les entités du groupe global
+	 * @param keywords
+	 *            Mots clés de recherche
+	 * @param dateField
+	 *            "true" si on prend en compte le champ date
+	 * @param fromDate
+	 *            Date de début, sous le format "yyyyMMdd000000"
+	 * @param toDate
+	 *            Date de fin, sous le format "yyyyMMdd000000"
+	 * @param categoriesIds
+	 *            Liste de tableaux d'ids de catégories (provenant de la
+	 *            recherche utilisateur) - un OU est effectué entre chaque id de
+	 *            chaque tableau, et UN entre chaque liste
+	 * @param prefilterCategoriesIds
+	 *            Liste de tableaux d'ids de catégories (provenant de la
+	 *            configuration du préfiltre par l'administrateur) - un OU est
+	 *            effectué entre chaque id de chaque tableau, et UN entre chaque
+	 *            liste
+	 * @param prefilterTagsNames
+	 *            Liste de tags
+	 * @param andOnTags
+	 *            True si on souhaite faire un "ET" sur les tags, false sinon
+	 * @param locale
+	 *            Locale
+	 * @param start
+	 *            Pagination : début
+	 * @param end
+	 *            Pagination : fin
+	 * @param sortField
+	 *            Champ sur lequel on veut effectuer le classement
+	 * @param isSortDesc
+	 *            Classement descendant par défaut, ascendant si "true"
+	 * @return Les hits renvoyés par le moteur de recherche
+	 */
+	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, boolean andOnTags, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
+		try {
+			// Pagination
+			searchContext.setStart(start);
+			searchContext.setEnd(end);
+
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames, andOnTags, locale);
 
 			// Ordre
 			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
@@ -234,6 +309,89 @@ public class SearchHelper {
 		}
 	}
 
+	
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour les moteurs de
+	 * recherche d'assets contenant un champ de filtre "Lieu" (Agenda)
+	 * 
+	 * @param searchContext
+	 * @param classNames
+	 *            La liste des classNames concernés par la recherche
+	 * @param groupId
+	 *            Le groupId des entités à rechercher
+	 * @param globalGroupId
+	 *            Le group id global (companyGroupId)
+	 * @param globalScope
+	 *            "true" si on prend en compte les entités du groupe global
+	 * @param keywords
+	 *            Mots clés de recherche
+	 * @param dateField
+	 *            "true" si on prend en compte le champ date
+	 * @param fromDate
+	 *            Date de début, sous le format "yyyyMMdd000000"
+	 * @param toDate
+	 *            Date de fin, sous le format "yyyyMMdd000000"
+	 * @param categoriesIds
+	 *            Liste de tableaux d'ids de catégories (provenant de la
+	 *            recherche utilisateur) - un OU est effectué entre chaque id de
+	 *            chaque tableau, et UN entre chaque liste
+	 * @param prefilterCategoriesIds
+	 *            Liste de tableaux d'ids de catégories (provenant de la
+	 *            configuration du préfiltre par l'administrateur) - un OU est
+	 *            effectué entre chaque id de chaque tableau, et UN entre chaque
+	 *            liste
+	 * @param prefilterTagsNames
+	 *            Liste de tags
+	 * @param idSIGPlace
+	 * 			  L'id SIG du lieu
+	 * @param locale
+	 *            Locale
+	 * @param start
+	 *            Pagination : début
+	 * @param end
+	 *            Pagination : fin
+	 * @param sortField
+	 *            Champ sur lequel on veut effectuer le classement
+	 * @param isSortDesc
+	 *            Classement descendant par défaut, ascendant si "true"
+	 * @return Les hits renvoyés par le moteur de recherche
+	 */
+	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, String idSIGPlace, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
+		try {
+			// Pagination
+			searchContext.setStart(start);
+			searchContext.setEnd(end);
+
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames, idSIGPlace, locale);
+
+			// Ordre
+			Sort sort = SortFactoryUtil.create(sortField, isSortDesc);
+			System.out.println(sort);
+			if (sortField.startsWith("order_ems") || sortField.startsWith("order_city")) {
+				Sort alphabeticalSort = SortFactoryUtil.create("localized_title_fr_FR_sortable", Sort.STRING_TYPE, false); 
+				System.out.println(alphabeticalSort);
+				searchContext.setSorts(sort, alphabeticalSort);
+			} else {
+				searchContext.setSorts(sort);	
+			}
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+	
 	/**
 	 * Retourne le nombre de résultats correspondant aux paramètres pour les
 	 * moteurs de recherche globaux
@@ -246,7 +404,48 @@ public class SearchHelper {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
 					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-					prefilterTagsNames, locale);
+					prefilterTagsNames, false, locale);
+			return IndexSearcherHelperUtil.searchCount(searchContext, query);
+		} catch (SearchException e) {
+			_log.error(e);
+			return 0;
+		}
+	}
+	
+
+	/**
+	 * Retourne le nombre de résultats correspondant aux paramètres pour les
+	 * moteurs de recherche globaux
+	 */
+	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, boolean andOnTags, Locale locale) {
+		try {
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames, andOnTags, locale);
+			return IndexSearcherHelperUtil.searchCount(searchContext, query);
+		} catch (SearchException e) {
+			_log.error(e);
+			return 0;
+		}
+	}
+	
+	/**
+	 * Retourne le nombre de résultats correspondant aux paramètres pour les
+	 * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda)
+	 */
+	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
+			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames,String idSIGPlace, Locale locale) {
+		try {
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames,idSIGPlace, locale);
 			return IndexSearcherHelperUtil.searchCount(searchContext, query);
 		} catch (SearchException e) {
 			_log.error(e);
@@ -261,7 +460,7 @@ public class SearchHelper {
 	private static Query getGlobalSearchQuery(String[] classNames, long groupId, long globalGroupId,
 			boolean globalScope, String keywords, boolean dateField, String dateFieldName, LocalDate fromDate,
 			LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, Locale locale) {
+			String[] prefilterTagsNames, boolean andOnTags, Locale locale) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -425,7 +624,12 @@ public class SearchHelper {
 				for (String tagName : prefilterTagsNames) {
 					BooleanQuery tagQuery = new BooleanQueryImpl();
 					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf(tagName));
-					tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
+					// TODO ATTENTION : La recherche se faisait par SHOULD et non MUST avant
+					if (andOnTags) {
+						tagsQuery.add(tagQuery, BooleanClauseOccur.MUST);
+					} else {
+						tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
+					}
 				}
 				query.add(tagsQuery, BooleanClauseOccur.MUST);
 			}
@@ -461,6 +665,36 @@ public class SearchHelper {
 		}
 	}
 
+	/**
+	 * Retourne la requête à exécuter correspondant aux paramètres pour les
+	 * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda)
+	 */
+	private static Query getGlobalSearchQuery(String[] classNames, long groupId, long globalGroupId,
+			boolean globalScope, String keywords, boolean dateField, String dateFieldName, LocalDate fromDate,
+			LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+			String[] prefilterTagsNames, String idSIGPlace, Locale locale) {
+		try {
+			
+			BooleanQuery initialQuery = (BooleanQuery) getGlobalSearchQuery(classNames, groupId, globalGroupId,
+					globalScope, keywords, dateField, dateFieldName, fromDate,
+					toDate, categoriesIds, prefilterCategoriesIds, prefilterTagsNames,false, locale) ;
+			
+			// Si le id SIG du lieu est renseigné on rajoute la condition à la requête
+			if(Validator.isNotNull(idSIGPlace)) {
+				BooleanQuery query = new BooleanQueryImpl();
+				query.addRequiredTerm("idSIGPlace", idSIGPlace);
+				initialQuery.add(query, BooleanClauseOccur.MUST);
+			}
+			
+			
+			return initialQuery;
+		} catch (ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+	
+	
 	/**
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * événements

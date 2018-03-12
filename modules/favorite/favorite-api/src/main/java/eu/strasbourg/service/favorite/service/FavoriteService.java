@@ -59,9 +59,21 @@ public interface FavoriteService extends BaseService {
 		long typeId, java.lang.String userId, long entityId);
 
 	/**
+	* Ajoute un favori à un utilisateur
+	*/
+	public JSONObject addFavoriteLink(java.lang.String title,
+		java.lang.String url, long typeId, long entityId, long entityGroupId);
+
+	/**
 	* Supprime un favoris d'un utilisateur
 	*/
 	public JSONObject deleteFavorite(java.lang.String userId, long favoriteId);
+
+	/**
+	* Supprime un favoris d'un utilisateur
+	*/
+	public JSONObject deleteFavoriteLink(java.lang.String title,
+		java.lang.String url, long typeId, long entityId);
 
 	/**
 	* Retourne la liste des types de favoris

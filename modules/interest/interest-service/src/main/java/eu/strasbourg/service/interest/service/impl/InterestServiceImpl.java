@@ -31,8 +31,6 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.base.InterestServiceBaseImpl;
-import eu.strasbourg.service.oidc.model.PublikUser;
-import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**

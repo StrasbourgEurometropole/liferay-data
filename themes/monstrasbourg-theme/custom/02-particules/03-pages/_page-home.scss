@@ -1,0 +1,25 @@
+.mseu .front{
+    position: relative;
+
+
+    .wi-wrapper{
+        display: flex;
+        box-shadow: 0 0 10px rgba(#203146, 0.15);
+        margin-bottom: 40px;
+        & > * {
+            width: 50%;
+        }
+        @include RWD(tablet){
+            display: block;
+        }& > * {
+            width: 100%;
+        }
+    }
+    section{
+        transition: transform 0.5s $t-bam;
+    }
+    section.deleted{
+        transform: translateX(100vw);
+    }
+    
+}

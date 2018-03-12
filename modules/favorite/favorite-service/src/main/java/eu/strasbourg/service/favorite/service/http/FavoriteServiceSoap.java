@@ -118,6 +118,25 @@ public class FavoriteServiceSoap {
 	}
 
 	/**
+	* Ajoute un favori à un utilisateur
+	*/
+	public static java.lang.String addFavoriteLink(java.lang.String title,
+		java.lang.String url, long typeId, long entityId, long entityGroupId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = FavoriteServiceUtil.addFavoriteLink(title,
+					url, typeId, entityId, entityGroupId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
 	* Supprime un favoris d'un utilisateur
 	*/
 	public static java.lang.String deleteFavorite(java.lang.String userId,
@@ -125,6 +144,25 @@ public class FavoriteServiceSoap {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = FavoriteServiceUtil.deleteFavorite(userId,
 					favoriteId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	* Supprime un favoris d'un utilisateur
+	*/
+	public static java.lang.String deleteFavoriteLink(java.lang.String title,
+		java.lang.String url, long typeId, long entityId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = FavoriteServiceUtil.deleteFavoriteLink(title,
+					url, typeId, entityId);
 
 			return returnValue.toString();
 		}
