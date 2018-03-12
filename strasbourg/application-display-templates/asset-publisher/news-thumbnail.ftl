@@ -1,4 +1,4 @@
-<!-- Vignette contenu web -->
+<!-- Vignette actualité -->
 
 <#setting locale = locale />
 
