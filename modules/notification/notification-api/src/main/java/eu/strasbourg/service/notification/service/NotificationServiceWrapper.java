@@ -38,11 +38,10 @@ public class NotificationServiceWrapper implements NotificationService,
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addNotification(
 		java.lang.String userId, boolean isGlobal, java.lang.String title,
-		java.lang.String description, java.lang.String url,
-		java.lang.String publicationDate, java.lang.String expirationDate,
-		java.lang.String typeId) {
+		java.lang.String url, java.lang.String publicationDate,
+		java.lang.String expirationDate, java.lang.String typeId) {
 		return _notificationService.addNotification(userId, isGlobal, title,
-			description, url, publicationDate, expirationDate, typeId);
+			url, publicationDate, expirationDate, typeId);
 	}
 
 	/**

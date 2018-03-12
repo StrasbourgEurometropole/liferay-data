@@ -10,7 +10,6 @@
 
 		<column name="notificationId" primary="true" type="long" />
         <column name="title" type="String" localized="true" />
-        <column name="description" type="String" localized="true" />
         <column name="url" type="String" localized="false" />
         <column name="automatic" type="boolean" />
         <column name="singleUser" type="boolean" />

@@ -156,14 +156,13 @@ public class NotificationServiceSoap {
 	* Envoie une notification à un utilisateur
 	*/
 	public static java.lang.String addNotification(java.lang.String userId,
-		boolean isGlobal, java.lang.String title, java.lang.String description,
-		java.lang.String url, java.lang.String publicationDate,
-		java.lang.String expirationDate, java.lang.String typeId)
-		throws RemoteException {
+		boolean isGlobal, java.lang.String title, java.lang.String url,
+		java.lang.String publicationDate, java.lang.String expirationDate,
+		java.lang.String typeId) throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.addNotification(userId,
-					isGlobal, title, description, url, publicationDate,
-					expirationDate, typeId);
+					isGlobal, title, url, publicationDate, expirationDate,
+					typeId);
 
 			return returnValue.toString();
 		}
