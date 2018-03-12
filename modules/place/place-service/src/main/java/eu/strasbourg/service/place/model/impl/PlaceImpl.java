@@ -575,7 +575,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 										59, 999);
 								if (heureActuelle.isAfter(startHour) && heureActuelle.isBefore(endHour)) {
 									return false;
-								}else{
+								} else {
 									closed = true;
 								}
 							}
@@ -637,7 +637,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 */
 	@Override
 	public OccupationState getRealTime() {
-		return getRealTime(this.getRTType());
+		try {
+			return getRealTime(this.getRTType());
+		} catch (Exception ex) {
+			return OccupationState.NOT_AVAILABLE;
+		}
 	}
 
 	/**
@@ -834,17 +838,18 @@ public class PlaceImpl extends PlaceBaseImpl {
 		GregorianCalendar date = new GregorianCalendar();
 		date.setTime(today.getTime());
 
-		boolean find =  false;
+		boolean find = false;
 		for (int nbDays = 0; nbDays < 14; nbDays++) {
 			List<PlaceSchedule> list = getPlaceSchedule(date, locale);
-			if(!list.isEmpty()){
+			if (!list.isEmpty()) {
 				placeSchedule = list.get(0);
 				placeSchedule.setStartDate(date.getTime());
-				if(!placeSchedule.isClosed()){
-					// Si le lieu est ouvert, on vérifie que l'heure d'ouverture n'est pas passée
+				if (!placeSchedule.isClosed()) {
+					// Si le lieu est ouvert, on vérifie que l'heure d'ouverture
+					// n'est pas passée
 					LocalTime time = LocalTime.now();
 					for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
-						if(today.before(date) || time.isBefore(openingTime.getSecond())){
+						if (today.before(date) || time.isBefore(openingTime.getSecond())) {
 							nbDays = 14;
 							find = true;
 							break;
@@ -853,13 +858,13 @@ public class PlaceImpl extends PlaceBaseImpl {
 				}
 			}
 			date.add(GregorianCalendar.DATE, 1);
-			if (!find){
+			if (!find) {
 				placeSchedule = null;
 			}
 		}
 		return placeSchedule;
 	}
-	
+
 	/**
 	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
 	 * "date" + "daysCount"

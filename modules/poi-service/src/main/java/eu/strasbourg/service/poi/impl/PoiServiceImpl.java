@@ -14,7 +14,9 @@ import org.osgi.service.component.annotations.Component;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -58,12 +60,21 @@ public class PoiServiceImpl implements PoiService {
 		for (int i = 0; i < categoriesCI.size(); i++) {
 			tabCategories[i] = categoriesCI.get(i).getCategoryId();
 		}
+		long startTime = 0, endTime = 0, duration = 0;
 
+		startTime = System.nanoTime();
 		List<Place> places = getPlaces(tabCategories, globalGroupId);
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1_000_000;
+		System.out.println("GetPlaces : " + duration);
 
 		// récupère le fichier geoJson
 		try {
+			startTime = System.nanoTime();
 			geoJson = getGeoJSON(places, groupId);
+			endTime = System.nanoTime();
+			duration = (endTime - startTime) / 1_000_000;
+			System.out.println("getGeoJSON : " + duration + "ms");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -71,21 +82,14 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	private List<Place> getPlaces(Long[] categoryIds, long globalGroupId) {
-		List<Place> places = new ArrayList<Place>();
-		for (Long categoryId : categoryIds) {
-			List<AssetEntry> entries = AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId);
-			for (AssetEntry entry : entries) {
-				if (entry == null) {
-					continue;
-				}
-				Place place = PlaceLocalServiceUtil.fetchPlaceByUuidAndGroupId(entry.getClassUuid(), globalGroupId);
-				if (place == null) {
-					continue;
-				}
-				places.add(place);
-			}
+		List<AssetEntry> entries = new ArrayList<AssetEntry>();
+		for (Long categoryId : categoryIds) { 
+			entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
 		}
-		return places;
+		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
+		Criterion criterion = RestrictionsFactoryUtil.in("placeId", classPks);
+		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(criterion);
+		return PlaceLocalServiceUtil.dynamicQuery(placeQuery);
 		/*
 		 * List<Place> places = new ArrayList<Place>();
 		 * 
@@ -160,7 +164,8 @@ public class PoiServiceImpl implements PoiService {
 
 			JSONObject properties = JSONFactoryUtil.createJSONObject();
 			properties.put("name", place.getAlias(Locale.FRANCE));
-			properties.put("address", place.getAddressStreet());
+			properties.put("address", place.getAddressStreet() + " " + place.getAddressComplement() + " "
+					+ place.getAddressZipCode() + " " + place.getCity(Locale.FRANCE));
 			properties.put("visual", place.getImageURL());
 			// récupère l'url de détail du poi
 			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -170,7 +175,7 @@ public class PoiServiceImpl implements PoiService {
 				if (virtualHostName.isEmpty()) {
 					url = "/web" + group.getFriendlyURL() + "/";
 				} else {
-					url = virtualHostName ;
+					url = "https://" + virtualHostName;
 				}
 				url += "lieu/-/entity/sig/" + place.getSIGid();
 				properties.put("url", url);

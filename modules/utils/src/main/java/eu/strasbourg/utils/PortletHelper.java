@@ -28,51 +28,49 @@ public class PortletHelper {
 	 */
 	public static String getPortletTitle(String key, PortletRequest request) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		String titleFromLanguageKey = LanguageUtil
-			.get(PortalUtil.getHttpServletRequest(request), key);
-		String useCustomPortletPreference = request.getPreferences()
-			.getValue("portletSetupUseCustomTitle", "false");
-		boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference,
-			false);
+		String titleFromLanguageKey = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), key);
+		String useCustomPortletPreference = request.getPreferences().getValue("portletSetupUseCustomTitle", "false");
+		boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference, false);
 		if (useCustomPortlet) {
-			String preferenceKey = "portletSetupTitle_"
-				+ themeDisplay.getLocale().toString();
-			return request.getPreferences().getValue(preferenceKey,
-				titleFromLanguageKey);
+			String preferenceKey = "portletSetupTitle_" + themeDisplay.getLocale().toString();
+			return request.getPreferences().getValue(preferenceKey, titleFromLanguageKey);
 		} else {
 			return titleFromLanguageKey;
 		}
 	}
-	
+
 	/**
-	 * Retourne un boolean indiquant si le portlet doit être affiché ou non en fonction des
-	 * préférences de l'utilisateur dans le portlet user display configuration
+	 * Retourne un boolean indiquant si le portlet doit être affiché ou non en
+	 * fonction des préférences de l'utilisateur dans le portlet user display
+	 * configuration
+	 * 
 	 * @param themeDisplay
 	 * @param cssClassNames
 	 * @return
 	 */
-	public static boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames){
-		
+	public static boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames) {
+
 		// Récupération du publik ID avec la session
 		String internalId = SessionParamUtil.getString(themeDisplay.getRequest(), "publik_internal_id");
 		boolean result = true;
-		
-		if(internalId != null && !internalId.equals("")){
-			List<String> hiddenPortlets = new ArrayList<String>(); // Les portlets à ne pas afficher
-			
+
+		if (internalId != null && !internalId.equals("")) {
+			// Portlets à ne pas afficher
+			List<String> hiddenPortlets = new ArrayList<String>(); 
 			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-			JSONObject json;
-			
+
 			try {
-				json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
 				JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
-				jsonArray.forEach(t -> hiddenPortlets.add((String) t));
-				result = !hiddenPortlets.contains(cssClassNames);
+				if (jsonArray != null) {
+					jsonArray.forEach(t -> hiddenPortlets.add((String) t));
+					result = !hiddenPortlets.contains(cssClassNames);
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return result;
 	}
 }

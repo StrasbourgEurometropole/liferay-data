@@ -97,7 +97,11 @@ public class UserDisplayPortlet extends MVCPortlet {
 					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
 
 					// JSON initialisation
-					JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+					String userConfigString = user.getDisplayConfig();
+					if (Validator.isNull(userConfigString)) {
+						userConfigString = "{\"hiddenPortlets\":[]}";
+					}
+					JSONObject json = JSONFactoryUtil.createJSONObject(userConfigString);
 					JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
 					
 					String portletName = ParamUtil.getString(resourceRequest, "portletName");
