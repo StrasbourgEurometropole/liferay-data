@@ -15,6 +15,7 @@
 package eu.strasbourg.service.activity.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +68,6 @@ import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.PlaceAgenda;
-import eu.strasbourg.service.activity.model.CourseAgenda.CoursePeriodAgenda;
 import eu.strasbourg.service.activity.service.base.ActivityLocalServiceBaseImpl;
 
 /**
@@ -434,6 +434,9 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		List<ActivityCourseSchedule> courseSchedules = coursePlaces.stream()
 				.map(ActivityCoursePlace::getActivityCourseSchedules).flatMap(List::stream)
 				.collect(Collectors.toList());
+
+		// On tri par heure de début
+		courseSchedules.sort(Comparator.comparing(ActivityCourseSchedule::getStartTime));
 
 		// Via ces schedules, on récupère les différentes périodes concernées par le lieu
 		List<AssetCategory> activityPeriods = courseSchedules.stream().map(ActivityCourseSchedule::getPeriods)
