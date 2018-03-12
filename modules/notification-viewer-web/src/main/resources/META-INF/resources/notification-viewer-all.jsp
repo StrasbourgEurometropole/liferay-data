@@ -6,8 +6,8 @@
 		<h1>Mes notifications</h1>
 		        
 		<!-- Nombre de résultats et items par page -->
-		<div class="seu-view-results">
-		    <div class="seu-result-count"> 
+		<div class="search-infos">
+		    <div class="search-infos__amount"> 
 		    	<c:choose>
 		    		<c:when test="${dc.searchContainer.total == 0}">
 		    			<liferay-ui:message key="no-notification" />
@@ -20,8 +20,8 @@
 		    		</c:otherwise>
 		    	</c:choose>
 		   	</div>
-		    <!-- <div class="seu-filler"></div>
-		    <div class="seu-result-filter">
+		    <div class="filler"></div>
+		    <div class="search-infos__filter">
 		        <span><liferay-ui:message key="results-per-page" /></span>
 		        <select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
 		            <c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
@@ -29,7 +29,7 @@
 		            	<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
 		            </c:forEach>
 		        </select>
-		    </div> -->
+		    </div>
 		</div>
 		
 		<!-- Liste des résultats -->
@@ -87,7 +87,7 @@
 		            	<!-- Page précédente -->
 		                <li class="pagin-prev pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
+			                    <a class="btn-square bordered core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
 									href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
 			                        <span class="flexbox">
 			                            <span class="btn-text"><liferay-ui:message key="previous" /></span>
@@ -130,7 +130,7 @@
 		                <!-- Page suivante -->
 		                <li class="pagin-next pagin-item">
 							<c:if test="${not dc.pager.onLastPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />" 
+			                    <a class="btn-square bordered core" title="<liferay-ui:message key="go-to-next-page" />" 
 			                    	data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
 			                        <span class="flexbox">
 			                            <span class="btn-text"><liferay-ui:message key="next" /></span>
@@ -145,25 +145,6 @@
 		</aui:form>
     </div>
 </div>
-
-<style>
-	.seu-view-results{
-		display: -webkit-box;
-	    display: -ms-flexbox;
-	    display: flex;
-	    -webkit-box-align: center;
-	    -ms-flex-align: center;
-	    align-items: center;
-	    margin-top: 40px;
-	    margin-bottom: 30px;
-	    
-	    .seu-filler{
-	        -webkit-box-flex: 1;
-		    -ms-flex: 1;
-		    flex: 1;
-	    }
-    }
-</style>
         
 <aui:script>
 function callServeResource(notificationURL){
