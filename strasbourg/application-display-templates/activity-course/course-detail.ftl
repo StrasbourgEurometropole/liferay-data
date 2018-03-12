@@ -57,7 +57,7 @@
             <h3>
                 <@liferay_ui.message key="eu.activity.manager" />
             </h3>
-            <a href="${homeURL}orgnisateur-activites/-/entity/id/${entry.organizerId}">${entry.getOrganizerName(locale)}</a>
+            <a href="${homeURL}organisateur-activites/-/entity/id/${entry.organizerId}">${entry.getOrganizerName(locale)}</a>
         </#if>
     </div>
         
