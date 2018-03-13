@@ -193,17 +193,7 @@
 			                                	<liferay-ui:message key="${occupationState.label}" />
 			                                </div>
 								    	</td>
-							    </c:if>
-							    <c:set var="hasURL" value="0" />
-								<c:forEach var="period" items="${place.periods}" varStatus="status" >
-									<c:if test="${!empty period.linkURL && !empty period.linkLabel}">  
-										<td colspan="7">
-									    	<a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
-									    </td>   
-										<c:set var="hasURL" value="1" />
-										<c:set var="status.index" value="${items.size}" />
-									</c:if>
-								</c:forEach> 
+							    </c:if> 
 
 								<c:if test="${hasURL == 0}">
 									<c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
