@@ -97,11 +97,12 @@
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
             // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["name", "like", "address", "opened", "schedules", "amount", "url"];
+            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url"];
             var popupMarkup =
                 '<div class="aroundme__infowindow infowindow">' +
                 '     <button class="infowindow__close"></button>' +
                 '     <div class="infowindow__content">' +
+                '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
                 '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
@@ -136,79 +137,14 @@
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
+                            } else if (info_to_display =="visual") {
+                                formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
                             } else {
                                 formated_info = feature.properties[info_to_display];
                             }
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
-
-/*
-                    var popup = "";
-                    // popup du marker
-                    //popup += "<img src='" + feature.properties.visual + "' width='100%' /><br>";
-                    popup += feature.properties.name + "<br>";
-                    popup += feature.properties.address + "<br>";
-                    //popup += "<input type='button' value='favoris' name='favoris'/><br>";
-                    if (feature.properties.schedule != undefined) {
-                        if (feature.properties.schedule.isClosed != undefined) {
-                            if (feature.properties.schedule.isClosed) {
-                                popup += Liferay.Language.get('eu.closed') + "<br>";
-                                var openingDate = feature.properties.schedule.openingDate
-                                if (openingDate != undefined) {
-                                    popup += "Ouvrira " + feature.properties.schedule.openingDate + "<br>";
-                                    if (feature.properties.schedule.alwaysOpen) {
-                                        popup += "24h/24<br>";
-                                    } else {
-                                        var openingTime = feature.properties.schedule.openingTime
-                                        if (openingTime != undefined) {
-                                            // on n'affiche que le prochain horaire
-                                            // d'ouverture
-                                            var schedule = "";
-                                            for (var time in openingTime[0]) {
-                                                if (schedule == "") {
-                                                    schedule += openingTime[0][time] + " - ";
-                                                } else {
-                                                    schedule += openingTime[0][time];
-                                                }
-                                            }
-                                            popup += schedule + "<br>";
-                                        }
-                                    }
-                                }
-                            } else {
-                                popup += Liferay.Language.get('open-period') + "<br>";
-                                if (feature.properties.schedule.alwaysOpen) {
-                                    popup += "24h/24<br>";
-                                } else {
-                                    var openingTimes = feature.properties.schedule.openingTimes
-                                    if (openingTimes != undefined) {
-                                        for (var opening in openingTimes) {
-                                            // on affiche tous les horaires du jour.
-                                            var times = openingTimes[opening];
-                                            var schedule = "";
-                                            for (var time in times) {
-                                                if (schedule == "") {
-                                                    schedule += times[time] + " - ";
-                                                } else {
-                                                    schedule += times[time];
-                                                }
-                                            }
-                                            popup += schedule + "<br>";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (feature.properties.url != undefined) {
-                        popup += "<a href='" + feature.properties.url + "' ";
-                        if (newTab) {
-                            popup += "target='_blank' ";
-                        }
-                        popup += ">" + Liferay.Language.get('learn-more') + "</a>";
-                    }
-                    */
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.name;
@@ -234,13 +170,25 @@
             // Retourne l'objet marker pour un POI donné
             var pointToLayer = function(feature, latlng) {
                 if (feature.properties.icon) {
-                    var markerIcon = new L.Icon({
-                        iconUrl: feature.properties.icon,
-                        iconSize: [34,42],
-                        iconAnchor: [17, 42],
-                        popupAnchor: [0, -42]
-                    });
-                    return L.marker(latlng, { icon: markerIcon })
+                    if (feature.properties.amount) {
+                        var divIcon = new L.divIcon({
+                            html:  '<img src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
+                                + feature.properties.amount.color + '">' 
+                                + feature.properties.amount.frequentation + '</div>',
+                            iconSize: [34,42],
+                            iconAnchor: [17, 42],
+                            popupAnchor: [0, -42]
+                        });
+                        return L.marker(latlng, { icon: divIcon })
+                    } else {
+                        var markerIcon = new L.Icon({
+                            iconUrl: feature.properties.icon,
+                            iconSize: [34,42],
+                            iconAnchor: [17, 42],
+                            popupAnchor: [0, -42]
+                        });
+                        return L.marker(latlng, { icon: markerIcon })
+                    }
                 } else {
                     return L.marker(latlng);
                 }
@@ -394,6 +342,15 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     mymap.setView([position.coords.latitude, position.coords.longitude], 18);
                 });
+            }
+
+            // Scroll sur la liste
+            var div = document.getElementsByClassName('filtres--poi')[0];
+            if (!L.Browser.touch) {
+                L.DomEvent.disableClickPropagation(div);
+                L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
+            } else {
+                L.DomEvent.on(div, 'click', L.DomEvent.stopPropagation);
             }
 
             // Affichage des POIs

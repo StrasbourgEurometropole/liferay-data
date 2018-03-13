@@ -1,8 +1,8 @@
 package eu.strasbourg.service.poi.impl;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
@@ -33,6 +34,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
+import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.models.Pair;
 
 /**
@@ -87,8 +89,9 @@ public class PoiServiceImpl implements PoiService {
 			entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
 		}
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-		Criterion criterion = RestrictionsFactoryUtil.in("placeId", classPks);
-		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(criterion);
+		Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
+		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
 		return PlaceLocalServiceUtil.dynamicQuery(placeQuery);
 		/*
 		 * List<Place> places = new ArrayList<Place>();
@@ -182,88 +185,62 @@ public class PoiServiceImpl implements PoiService {
 			}
 			properties.put("sigId", place.getSIGid());
 
-			if (!place.getPeriods().isEmpty()) {
-				JSONObject schedule = JSONFactoryUtil.createJSONObject();
+			// Horaires
+			if (place.hasScheduleTable()) {
+				// récupère les horaires en cours
 				GregorianCalendar now = new GregorianCalendar();
-				LocalTime timeNow = LocalTime.now();
-				boolean isClosed = place.isClosed(now);
-				schedule.put("isClosed", isClosed);
-				if (isClosed) {
-					// récupère le prochain horraire d'ouverture
-					PlaceSchedule placeSchedule = place.getNextScheduleOpening(now, Locale.FRENCH);
-					if (placeSchedule != null) {
-						// si c'est le jour même, on n'affiche pas le jour
-						GregorianCalendar jourJ = new GregorianCalendar();
-						jourJ.setTime(now.getTime());
-						jourJ.set(Calendar.HOUR_OF_DAY, 0);
-						jourJ.clear(Calendar.MINUTE);
-						jourJ.clear(Calendar.SECOND);
-						jourJ.clear(Calendar.MILLISECOND);
-						GregorianCalendar jourOuverture = new GregorianCalendar();
-						jourOuverture.setTime(placeSchedule.getStartDate());
-						jourOuverture.set(Calendar.HOUR_OF_DAY, 0);
-						jourOuverture.clear(Calendar.MINUTE);
-						jourOuverture.clear(Calendar.SECOND);
-						jourOuverture.clear(Calendar.MILLISECOND);
-						if (jourOuverture.after(jourJ)) {
-							GregorianCalendar lendemain = new GregorianCalendar();
-							lendemain.setTime(jourJ.getTime());
-							lendemain.add(GregorianCalendar.DATE, 1);
-							if (jourOuverture.after(lendemain)) {
-								schedule.put("openingDate", placeSchedule.getStartDate());
-							} else {
-								schedule.put("openingDate", "demain");
+				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
+				if (currentSchedules.size() > 0) {
+					PlaceSchedule currentSchedule = currentSchedules.get(0);
+					String schedule = "";
+					String opened = "";
+					if (currentSchedule.isAlwaysOpen()) {
+						schedule = "7j/7, 24h/24";
+					} else if (place.isOpenNow()) {
+						opened = "Ouvert";
+						for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
+							if (schedule.length() > 0) {
+								schedule += "<br>";
 							}
-						} else {
-							schedule.put("openingDate", "");
+							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+							schedule += "De " + startString + " &agrave; " + endString;
 						}
-						schedule.put("alwaysOpen", placeSchedule.isAlwaysOpen());
-						if (placeSchedule.getOpeningTimes() != null) {
-							for (Pair<LocalTime, LocalTime> openingTimes : placeSchedule.getOpeningTimes()) {
-								if (timeNow.isBefore(openingTimes.getFirst()) || jourOuverture.after(jourJ)) {
-									List<Pair<LocalTime, LocalTime>> pairs = new ArrayList<Pair<LocalTime, LocalTime>>();
-									pairs.add(openingTimes);
-									schedule.put("openingTime", pairs);
-									break;
-								}
-							}
-						}
+					} else {
+						opened = "Ferm&eacute";
 					}
+					properties.put("opened", opened);
+					properties.put("schedules", schedule);
+				}
+			}
+			
+			// Icône
+			AssetCategory category = null;
+			List<AssetCategory> categories = place.getTypes();
+			if (!categories.isEmpty()) {
+				category = categories.get(0);
+			}
+			properties.put("icon", category.getDescription(Locale.FRANCE));
+			
+			// Temps réel
+			if (place.getRTEnabled()) { // (place.isEnabled()) {
+				OccupationState occupation = place.getRealTime();
+				String frequentation = "";
+				String color = occupation.getCssClass();
+				if (place.isSwimmingPool()) {
+					frequentation = occupation.getOccupation();
+				} else if (place.isMairie()) {
+					frequentation = occupation.getOccupation();
 				} else {
-					// récupère les horaires en cours
-					List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, Locale.FRENCH);
-					List<Pair<LocalTime, LocalTime>> openingTime = null;
-					boolean alwaysOpen = false;
-					if (currentSchedules != null) {
-						PlaceSchedule currentSchedule = currentSchedules.get(0);
-						alwaysOpen = currentSchedule.isAlwaysOpen();
-						openingTime = currentSchedule.getOpeningTimes();
-					}
-					schedule.put("alwaysOpen", alwaysOpen);
-					schedule.put("openingTimes", openingTime);
+					frequentation = occupation.getAvailable();
 				}
-				properties.put("schedule", schedule);
-			}
-
-			if (false) { // (place.isEnabled()) {
-
-				properties.put("icon", "TODO");
-				/*
-				 * OccupationState occupation = place.getRealTime();
-				 * 
-				 * int type = 2; if (place.isSwimmingPool()){ type = 1; } if
-				 * (place.isMairie()){ type = 3; } properties.put("typePlace",
-				 * type); properties.put("realTime", occupation);
-				 */
-			} else {
-				// récupère la catégorie du lieu
-				AssetCategory category = null;
-				List<AssetCategory> categories = place.getTypes();
-				if (!categories.isEmpty()) {
-					category = categories.get(0);
-				}
-				properties.put("icon", category.getDescription(Locale.FRANCE));
-			}
+				JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
+				amountProperty.put("frequentation", frequentation);
+				amountProperty.put("color", color);
+				properties.put("amount", amountProperty);
+			} 
+			
+			
 			feature.put("properties", properties);
 
 			JSONObject geometry = JSONFactoryUtil.createJSONObject();
