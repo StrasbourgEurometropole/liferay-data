@@ -530,16 +530,18 @@ public class PlaceImpl extends PlaceBaseImpl {
 		LocalDate date = localDateTime.toLocalDate();
 		LocalTime time = localDateTime.toLocalTime();
 		List<PlaceSchedule> schedules = this.getPlaceSchedule(date, Locale.FRANCE);
-		if (schedules.size() > 0) {
+		if (schedules != null && schedules.size() > 0) {
 			PlaceSchedule schedule = schedules.get(0);
 			if (schedule.isAlwaysOpen()) {
 				isOpen = true;
 			} else {
 				List<Pair<LocalTime, LocalTime>> openingTimes = schedule.getOpeningTimes();
-				for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
-					if (openingTime.getFirst().isBefore(time) && openingTime.getSecond().isAfter(time)) {
-						isOpen = true;
-						break;
+				if (openingTimes != null) {
+					for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+						if (openingTime.getFirst().isBefore(time) && openingTime.getSecond().isAfter(time)) {
+							isOpen = true;
+							break;
+						}
 					}
 				}
 			}
