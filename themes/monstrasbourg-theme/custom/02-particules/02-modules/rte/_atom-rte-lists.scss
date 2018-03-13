@@ -2,7 +2,7 @@
     padding-left: 60px;
     margin-bottom: $margin-p;
     list-style: none;
-
+overflow: hidden;
     @include RWD(mobile){
         padding-left: 20px;
     }
@@ -36,7 +36,7 @@
     list-style: none;
     counter-reset: item;
     margin-bottom: $margin-p;
-
+overflow: hidden;
     @include RWD(mobile){
         padding-left: 30px;
     }
@@ -51,7 +51,7 @@
             color: $core-color;
             display: block;
             top: 0px;
-            font-weight: 700;
+          //  font-weight: 700;
             margin-right: 5px;
             margin-top: 1px;
         }
