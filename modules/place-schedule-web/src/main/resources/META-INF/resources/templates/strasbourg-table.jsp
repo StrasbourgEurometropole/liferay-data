@@ -251,16 +251,7 @@
 								<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'}">
 									 <td class="subplace-name">
 									    ${subPlace.getName(locale)}
-									</td>
-								    <c:set var="hasURL" value="0" />
-									<c:forEach var="period" items="${subPlace.periods}"  varStatus="status">
-										<c:if test="${!empty period.linkURL && !empty period.linkLabel}">  
-											<td colspan="7">
-										    	<a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
-										    </td>   
-											<c:set var="hasURL" value="1" />                    
-										</c:if>
-									</c:forEach> 
+									</td> 
 
 									<c:if test="${hasURL == 0}">
 										<c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
