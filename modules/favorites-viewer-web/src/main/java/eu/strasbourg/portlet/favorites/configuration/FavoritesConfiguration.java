@@ -12,5 +12,8 @@ public interface FavoritesConfiguration {
 	
 	@Meta.AD(name="template", deflt = "default", required = false)
 	public String template();
+
+	@Meta.AD(name = "noFavoritesXML", deflt = "", required = false)
+	public String noFavoritesXML();
 	
 }

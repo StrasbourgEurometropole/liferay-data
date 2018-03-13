@@ -9,7 +9,7 @@
 		
 		<c:if test="${empty dc.lastFavorites}">
 			<p style="font-size: 15px;">
-				<liferay-ui:message key="no-favorites" />
+				${dc.getNoFavoriteText()}
 			</p>
 		</c:if>
 

@@ -35,7 +35,7 @@
 	    <div class="search-infos__amount"> 
 	    	<c:choose>
 	    		<c:when test="${dc.searchContainer.total == 0}">
-	    			<liferay-ui:message key="no-favorites" />
+	    			${dc.getNoFavoriteText()}
 	    		</c:when>
 	    		<c:when test="${dc.searchContainer.total gt 1}">
 	    			${dc.searchContainer.total} <liferay-ui:message key="favorites" />

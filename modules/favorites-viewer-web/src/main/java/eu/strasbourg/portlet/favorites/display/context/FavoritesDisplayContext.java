@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,18 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.portlet.favorites.configuration.FavoritesConfiguration;
 import eu.strasbourg.portlet.favorites.display.FavoriteDisplay;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
@@ -35,6 +41,7 @@ public class FavoritesDisplayContext {
 	private PortletRequest request;
 	private RenderResponse response;
 	private ThemeDisplay themeDisplay;
+	private FavoritesConfiguration configuration;
 
 	private List<FavoriteDisplay> favorites;
 	private List<FavoriteDisplay> lastFavorites;
@@ -44,6 +51,12 @@ public class FavoritesDisplayContext {
 		this.request = request;
 		this.response = response;
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		try {
+			this.configuration = themeDisplay.getPortletDisplay()
+					.getPortletInstanceConfiguration(FavoritesConfiguration.class);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<FavoriteDisplay> getFavorites() {
@@ -72,6 +85,21 @@ public class FavoritesDisplayContext {
 			favorites = favoritesDisplay;
 		}
 		return favorites;
+	}
+	
+	public String getNoFavoriteText() {
+		String noFavorites = "";
+		Map<Locale, String> mapText = LocalizationUtil.getLocalizationMap(configuration.noFavoritesXML());
+		for (Map.Entry<Locale, String> map : mapText.entrySet()) {
+			if (themeDisplay.getLocale().toString().equals(map.getKey().toString())) {
+				noFavorites = HtmlUtil.unescape(map.getValue());
+				break;
+			}
+		}
+		if (Validator.isNull(noFavorites)) {
+			noFavorites = "No configuration";
+		}
+		return noFavorites;
 	}
 
 	public List<FavoriteDisplay> getLastFavorites() {
