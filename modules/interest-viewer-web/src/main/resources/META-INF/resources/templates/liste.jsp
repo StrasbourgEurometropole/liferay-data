@@ -86,8 +86,8 @@
 										<div class="seu-date-end">${firstStartDate}</div> 
 									</div> 
 	                            </c:if>
-								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div> 
 								<div class="seu-ville">${event.getPlaceAlias(locale)} - ${event.getPlaceCity(locale)}</div> 
+								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div> 
 								<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${event.getDescription(locale)}</div> 
 							</a> 
 						</div> 
