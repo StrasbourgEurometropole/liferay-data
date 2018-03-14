@@ -63,7 +63,7 @@
                 -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
                 height: 4px;
-                z-index: -1;
+                z-index: 0;
                 @include RWD(mobile){
                     top: 14px;
                 }
@@ -103,6 +103,7 @@
                 display: block;
                 text-align: center;
                 width: 160px;
+                z-index: 2;
                 @include RWD(mobile){
                     width: unset;
                 }

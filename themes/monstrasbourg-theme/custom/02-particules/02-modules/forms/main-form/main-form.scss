@@ -9,8 +9,8 @@
 #side{
     @extend %molecule-form-progressbar;
 }
-.page-demarches #rub_service,
-.main-form{
+#rub_service,
+.mseu-main-form{
     @extend %container-form;
     @extend %molecule-inlines-rte;
     @extend %molecule-headings-rte;
@@ -63,8 +63,8 @@
 }
 
 // Surcharge Bouton démarche
-.page-demarches #rub_service,
-.main-form{
+#rub_service,
+.mseu-main-form{
     .previous-button{
         button{
             padding: 15px 20px;
