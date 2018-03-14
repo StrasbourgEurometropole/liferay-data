@@ -611,6 +611,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne true si le lieu est un parking
+	*
+	* @return
+	*/
+	@Override
+	public boolean isParking() {
+		return _place.isParking();
+	}
+
+	/**
 	* Returns <code>true</code> if this place is pending.
 	*
 	* @return <code>true</code> if this place is pending; <code>false</code> otherwise
@@ -723,8 +733,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*/
 	@Override
 	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
-		java.util.GregorianCalendar dateJour, java.util.Locale locale) {
-		return _place.getNextScheduleOpening(dateJour, locale);
+		java.util.GregorianCalendar today, java.util.Locale locale) {
+		return _place.getNextScheduleOpening(today, locale);
 	}
 
 	/**
@@ -2209,7 +2219,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*
 	* @param surPériode
 	(false = horaires d'une journée uniquement , true = horaires
-	sur une semaine)
+	sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
@@ -2424,7 +2434,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount"
+	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	* "date" + "daysCount"
 	*/
 	@Override
 	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getPlaceSchedule(

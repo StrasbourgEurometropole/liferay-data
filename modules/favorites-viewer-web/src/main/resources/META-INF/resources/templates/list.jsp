@@ -147,12 +147,20 @@
 									</c:if>
 								</div>
 								
-								
-								
-								<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">	
-									<div class="favoris-teaser__crowding">
-										<c:set var="occupationState" value="${favorite.place.getRealTime('1')}" />
-										<div class="favoris-teaser__crowding-amount favoris-teaser__crowding-amount--${occupationState.cssClass}">${occupationState.occupation}</div>
+								<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">
+									<div class="favoris-teaser__crowding">	
+										<c:set var="occupationState" value="${favorite.place.getRealTime()}" />
+										<div class="favoris-teaser__crowding-amount favoris-teaser__crowding-amount--${occupationState.cssClass}">
+											<c:if test="${favorite.place.isSwimmingPool()}">
+				                                    ${occupationState.occupation}
+										    </c:if>
+											<c:if test="${favorite.place.isParking()}">
+				                                    ${occupationState.available}
+										    </c:if>
+											<c:if test="${favorite.place.isMairie()}">
+				                                    ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}">min</c:if>
+									    	</c:if>
+										</div>
 										<div class="favoris-teaser__crowding-label"><liferay-ui:message key="${occupationState.label}" /></div>
 									</div>
 								</c:if>

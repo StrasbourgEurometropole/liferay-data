@@ -117,7 +117,7 @@ public class FavoritesDisplayContext {
 
 	public GregorianCalendar getTodayCalendar() {
 		GregorianCalendar jourChoisi = new GregorianCalendar();
-		jourChoisi.set(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue(),
+		jourChoisi.set(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue() -1,
 				LocalDateTime.now().getDayOfMonth());
 		jourChoisi.set(Calendar.HOUR_OF_DAY, 0);
 		jourChoisi.clear(Calendar.MINUTE);
