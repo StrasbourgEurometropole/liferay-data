@@ -1,3 +1,6 @@
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext()>
+<#assign httpServletRequest = serviceContext.getRequest()>
+
 <script>
     window.tipiURL = '${tipiURL.getData()}';
     window.tipiCallbackURL = '${tipiCallbackURL.getData()}';
@@ -44,14 +47,18 @@
             <div class="form-group">
                 <div class="form-label"><label for="bill_mail"><@liferay.language key="email" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <input type="email" id="email" required="" aria-required="true"  placeholder='<@liferay.language key="your-email" />...'>
+                    <input type="email" 
+                    <#if httpServletRequest.getSession().getAttribute('publik_email')?has_content>
+                        value="${httpServletRequest.getSession().getAttribute('publik_email')}" 
+                    </#if>
+                    id="email" required="" aria-required="true"  placeholder='<@liferay.language key="your-email" />...'>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-label"><label for="bill_amount"><@liferay.language key="amount" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <input type="number" value="1000.00" min="0" required="" aria-required="true"  id="amount" name="bill_amount" />
+                    <input type="number" value="0.00" min="0" required="" aria-required="true"  id="amount" name="bill_amount" />
                 </div>
             </div>
         </div>
