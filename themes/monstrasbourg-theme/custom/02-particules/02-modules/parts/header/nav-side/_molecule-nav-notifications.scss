@@ -80,7 +80,7 @@
 			display: block;
 			border-bottom: solid 1px #d8dbdf;
 			&.new{
-				background-color: $third-color;
+				background-color: #FFFFFF;
 				border-color: #FFFFFF;
 			}
 			&:hover, &:focus{
@@ -101,7 +101,7 @@
 		}
 		.notif-last{
 			padding: 15px 20px;
-			background-color: $third-color;
+			background-color: #FFFFFF;
 
 		}
 	}
