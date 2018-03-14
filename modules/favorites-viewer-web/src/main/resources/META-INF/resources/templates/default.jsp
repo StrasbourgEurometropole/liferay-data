@@ -50,7 +50,14 @@
 								</c:if>
 							</c:if>
 							<c:if test="${favorite.typeId == 2 }">
-								${favorite.event.getEventScheduleDisplay(locale)}
+								<c:if test="${favorite.event.firstStartDate == favorite.event.lastEndDate }">
+									<fmt:formatDate value="${favorite.event.firstStartDate}"
+										var="formattedModifiedDate" type="date" pattern="dd.MM" />
+									Le ${formattedModifiedDate}
+								</c:if>
+								<c:if test="${favorite.event.firstStartDate != favorite.event.lastEndDate }">
+									${favorite.event.getEventScheduleDisplay(locale)}
+								</c:if>
 							</c:if>
 							<c:if test="${favorite.typeId == 4 }">
 								<c:if test="${favorite.edition.getDiffusionDateMonth()<10}">0</c:if>${favorite.edition.getDiffusionDateMonth()}.${favorite.edition.getDiffusionDateYear()}
@@ -61,7 +68,14 @@
 								Le ${formattedModifiedDate}
 							</c:if>
 							<c:if test="${favorite.typeId == 12 }">
-								${favorite.manifestation.getManifestationScheduleDisplay(locale) }
+								<c:if test="${favorite.manifestation.startDate == favorite.manifestation.endDate }">
+									<fmt:formatDate value="${favorite.manifestation.startDate}"
+										var="formattedModifiedDate" type="date" pattern="dd.MM" />
+									Le ${formattedModifiedDate}
+								</c:if>
+								<c:if test="${favorite.manifestation.startDate != favorite.manifestation.endDate }">
+									${favorite.manifestation.getManifestationScheduleDisplay(locale) }
+								</c:if>
 							</c:if>
 						</div>
 						<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">	
