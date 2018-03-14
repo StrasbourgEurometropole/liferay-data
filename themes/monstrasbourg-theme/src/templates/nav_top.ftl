@@ -13,7 +13,7 @@
             <div class="account-wrapper">
                 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
                 <#if request.session.getAttribute("publik_logged_in")!false>
-                    <a href="#" class="nav-account nav-btn" title="Mon compte">
+                    <a href="${layoutHelper.getPublikProfileURL()}" class="nav-account nav-btn" title="Mon compte">
                         <span class="flexbox">
                             <span class="picto"></span>
                             <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>

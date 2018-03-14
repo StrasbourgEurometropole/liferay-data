@@ -165,4 +165,7 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.demarches.suivi.url");
 	}
 
+	public static String getPublikProfileURL(){
+		return PropsUtil.get("eu.strasbourg.publik.url.profile");
+	}
 }
