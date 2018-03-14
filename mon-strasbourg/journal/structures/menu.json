@@ -124,6 +124,29 @@
             "nestedFields": [
                 {
                     "label": {
+                        "fr_FR": "Masquer l'item Personnaliser"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": false
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "hideItem",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox"
+                },
+                {
+                    "label": {
                         "fr_FR": "URL de personnalisation"
                     },
                     "predefinedValue": {

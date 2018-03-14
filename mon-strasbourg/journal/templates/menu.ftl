@@ -14,7 +14,7 @@
             </#list>
         </#if>
         <div class="fill"></div>
-        <#if custom?has_content>
+        <#if !custom.hideItem.data?has_content>
             <a href="${custom.linkCustom.getData()}" class="nav-item custom">
                 <span class="flexbox">
                     <div class="item-picto"></div>
