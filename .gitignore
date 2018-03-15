@@ -202,3 +202,10 @@ $RECYCLE.BIN/
 .DS_Store
 
 themes/test-theme/
+themes/monstrasbourg-theme/src/css/strasbourg.css.map
+themes/monstrasbourg-theme/src/css/strasbourg.css
+themes/monstrasbourg-theme/src/js/strasbourg.js
+themes/strasbourg-theme/src/css/strasbourg.css.map
+themes/strasbourg-theme/src/css/strasbourg.css
+themes/strasbourg-theme/src/js/strasbourg.js
+

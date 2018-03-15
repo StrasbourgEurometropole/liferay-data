@@ -18,6 +18,12 @@
     </script>
 </liferay-util:html-bottom>
 
+<c:if test="${widgetMod}">
+    <section id="wi-aroundme">
+        <h2>Autour de moi</h2>
+        <p class="subtitle">${widgetIntro}</p>
+</c:if>
+
 <div id="aroundme">
     <c:if test="${!widgetMod}">
 
@@ -77,13 +83,13 @@
                             var="resetUserConfiguration">
                             <portlet:param name="mvcPath" value="/map-view.jsp"></portlet:param>
                         </portlet:actionURL>
-                        <a href=""${resetUserConfiguration} class="filtres__btn filtres__btn--reset">
+                        <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
                             <span class="flexbox">
                                 <span class="btn-arrow"></span>
                                 <span class="btn-text">Effacer mes filtres</span>
                             </span>
                         </a>
-                        <a class="filtres__btn filtres__btn--save">
+                        <a href="" class="filtres__btn filtres__btn--save">
                             <span class="flexbox">
                                 <span class="btn-arrow"></span>
                                 <span class="btn-text">Enregistrer mes pr&eacute;f&eacute;rences</span>
@@ -125,15 +131,17 @@
     </div>
 </div>
 
-<div>
-    <div id="map-markers"
-        style="width: 400px; height: 400px; display: inline-block; overflow: auto;"></div>
-</div>
+<c:if test="${widgetMod}">
+        <div class="btn-line">
+            <a href="${widgetLink}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Modifier ma carte</span><span class="btn-arrow"></span></span></a>
+        </div>
+    </section>
+</c:if>
 
 
 <liferay-util:body-top>
     <aui:script>
-        window.userAddress = '${address}';
+        window.userAddress = '${fn:escapeXml(address)}';
         window.groupId = ${groupId};
         window.newTab = ${newTab};
         window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";

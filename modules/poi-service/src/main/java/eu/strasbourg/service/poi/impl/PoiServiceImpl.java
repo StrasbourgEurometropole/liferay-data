@@ -196,6 +196,7 @@ public class PoiServiceImpl implements PoiService {
 					String opened = "";
 					if (currentSchedule.isAlwaysOpen()) {
 						schedule = "7j/7, 24h/24";
+						opened = "Ouvert";
 					} else if (place.isOpenNow()) {
 						opened = "Ouvert";
 						for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {

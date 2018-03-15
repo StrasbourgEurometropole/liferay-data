@@ -78,7 +78,7 @@
         }
 
         &.account{.item-picto{background-image: url( svg-bg-uri($svg-account, #FFFFFF) );}}
-        &.favorite{.item-picto{background-image: url( svg-bg-uri($svg-favorite, #FFFFFF) );}}
+        &.favorite{.item-picto{background-image: url( svg-bg-uri($svg-favoris, #FFFFFF) );}}
         &.proximity{
             .item-picto{
                 background-image: url( svg-bg-uri($svg-proximity, #FFFFFF) );
