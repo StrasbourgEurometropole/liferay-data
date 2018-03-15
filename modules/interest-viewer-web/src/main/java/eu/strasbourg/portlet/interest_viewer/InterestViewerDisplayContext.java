@@ -23,6 +23,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -60,6 +62,8 @@ public class InterestViewerDisplayContext {
 	private List<List<AssetEntry>> listEntries;
 	private List<AssetEntry> entries;
 	private InterestViewerConfiguration configuration;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request) {
 		this.themeDisplay = themeDisplay;
@@ -169,12 +173,24 @@ public class InterestViewerDisplayContext {
 		if (interests == null) {
 			interests = this.getInterests();
 		}
+		String msg = "CENTRE D'INTERET UTILISATEUR : [";
+		for (Interest interest : interests) {
+			msg += interest.getInterestId() + " - " + interest.getTitle(Locale.FRENCH) + ";";
+		}
+		msg += "]";
+		_log.info(msg);
 
 		// récupère les catégories des centres d'intérêts de l'utilisateur
 		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
 		for (Interest interest : interests) {
 			categoriesCI.addAll(interest.getCategories());
 		}
+		msg = "CATEGORIES DES CENTRE D'INTERET UTILISATEUR : [";
+		for (AssetCategory categorieCI : categoriesCI) {
+			msg += categorieCI.getCategoryId() + " - " + categorieCI.getTitle(Locale.FRENCH) + ";";
+		}
+		msg += "]";
+		_log.info(msg);
 
 		// récupère les vocabulaires liés aux événements et aux actus
 		List<AssetCategory> eventSearchCategories = new ArrayList<AssetCategory>();
@@ -204,6 +220,18 @@ public class InterestViewerDisplayContext {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		msg = "CATEGORIES EVENT DES CENTRE D'INTERET UTILISATEUR : [";
+		for (AssetCategory eventSearchCategorie : eventSearchCategories) {
+			msg += eventSearchCategorie.getCategoryId() + " - " + eventSearchCategorie.getTitle(Locale.FRENCH) + ";";
+		}
+		msg += "]";
+		_log.info(msg);
+		msg = "CATEGORIES ACTU DES CENTRE D'INTERET UTILISATEUR : [";
+		for (AssetCategory actuSearchCategorie : actuSearchCategories) {
+			msg += actuSearchCategorie.getCategoryId() + " - " + actuSearchCategorie.getTitle(Locale.FRENCH) + ";";
+		}
+		msg += "]";
+		_log.info(msg);
 
 		// récupère les évènements des centres d'intérêt
 		List<Long[]> categorieEventIds = new ArrayList<Long[]>();
@@ -266,6 +294,7 @@ public class InterestViewerDisplayContext {
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds,
 				this.themeDisplay.getScopeGroupId(), count, "dates_Number_sortable", false);
+		_log.info("NOMBRE D'EVENT  : " + hits.getLength());
 
 		// On renvoie la liste des événements :
 		// d'abord les événements du jour classés par date de fin
@@ -319,6 +348,7 @@ public class InterestViewerDisplayContext {
 		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count,
 				"modified_sortable", true);
+		_log.info("NOMBRE D'ACTU  : " + hits.getLength());
 
 		// On renvoie la liste des actualités classés par date de publication
 		for (Document document : hits.getDocs()) {
