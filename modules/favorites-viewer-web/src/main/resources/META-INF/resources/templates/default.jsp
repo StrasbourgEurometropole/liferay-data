@@ -8,7 +8,7 @@
 		<portlet:param name="portletName" value="last-favorites" />
 	</portlet:resourceURL>
 	
-    <button class="delete-wi" value="${portletURL}"></button>     
+<%--     <button class="delete-wi" value="${portletURL}"></button>      --%>
     <h2>${dc.getPortletTitle('my-last-favorites')}</h2>
     <div class="favoris-grid">
 		

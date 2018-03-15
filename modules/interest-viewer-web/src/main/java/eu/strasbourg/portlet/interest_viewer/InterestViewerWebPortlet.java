@@ -6,16 +6,22 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -57,5 +63,26 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
+		try {
+			String resourceID = resourceRequest.getResourceID();
+			ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			
+			if (resourceID.equals("hidePortlet")) {
+				String portletName = ParamUtil.getString(resourceRequest, "portletName");
+				PortletHelper.hidePortlet(themeDisplay, portletName);
+			}
+			
+		} catch (Exception e) {
+			_log.error(e);
+		}
 
+		super.serveResource(resourceRequest, resourceResponse);
+	}
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
