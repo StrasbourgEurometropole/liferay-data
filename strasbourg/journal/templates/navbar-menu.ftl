@@ -7,7 +7,7 @@
         <#list menuNavigation.getSiblings() as menu>
             <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank" title="${menu.data} (nouvelle fenêtre)"</#if>>${menu.getData()}</a></li>
         </#list>
-        <li><a href="${layoutHelper.getPublikLogoutURL(currentUrl)}" class="account-link logout">Se déconnecter</a></li>
+        <li><a href="${layoutHelper.getPublikLogoutURL(currentUrl)}" title="Se déconnecter" class="account-link logout">Se déconnecter</a></li>
     </ul>
 </#if>
 <#if menuNavigation.getSiblings()?has_content>
