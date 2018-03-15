@@ -17,4 +17,5 @@ import aQute.bnd.annotation.ProviderType;
 public interface PortletHelperService {
 	public String getPortletTitle(String key, PortletRequest request);
 	public boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames);
+	public void hidePortlet(ThemeDisplay themeDisplay, String portletName);
 }

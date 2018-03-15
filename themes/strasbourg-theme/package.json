@@ -41,7 +41,6 @@
     "gulp-uglify": "^3.0.0",
     "liferay-theme-deps-7.0": "~1.0.0",
     "liferay-theme-tasks": "*",
-    "node-sass": "^3.8.0",
     "vinyl-ftp": "^0.5.0"
   },
   "publishConfig": {

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -72,5 +73,42 @@ public class PortletHelper {
 		}
 
 		return result;
+	}
+	
+
+	public static void hidePortlet(ThemeDisplay themeDisplay, String portletName) {
+		// Récupération du publik ID avec la session
+		String internalId = SessionParamUtil.getString(themeDisplay.getRequest(), "publik_internal_id");
+		
+		if (internalId != null && !internalId.equals("")) {
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+			try {
+				// JSON initialisation
+				String userConfigString = user.getDisplayConfig();
+				if (Validator.isNull(userConfigString)) {
+					userConfigString = "{\"hiddenPortlets\":[]}";
+				}
+				
+				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+				JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
+				
+				List<String> portlets = new ArrayList<String>(); 
+				jsonArray.forEach(a -> portlets.add((String)a));
+					
+				if(!portlets.contains(portletName))
+					portlets.add(portletName);
+					
+				JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
+				portlets.forEach(a -> jsonArray2.put(a));
+				jsonArray = jsonArray2;
+				
+				// Enregistrement des préférences utilisateur.
+				json.put("hiddenPortlets", jsonArray);
+				user.setDisplayConfig(json.toJSONString());
+				PublikUserLocalServiceUtil.updatePublikUser(user);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

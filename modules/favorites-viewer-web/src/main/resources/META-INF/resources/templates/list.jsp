@@ -1,7 +1,6 @@
 <%@ include file="../favorites-viewer-init.jsp"%>
 
 <c:set var="locale" value="${themeDisplay.getLocale() }" />
-
 	<h1> ${dc.getPortletTitle('my-favorites')}</h1>
 	<div class="generic-form favoris__filters">
 		<div class="widget">
@@ -168,24 +167,24 @@
 <!--  	<ul class="mseu-pagination unstyled">
 		<li class="pagin-prev disabled pagin-item"><a href="#"
 			class="btn-square bordered core" data-action="prev"
-			title="Aller ÃÂ  la page prÃÂ©cÃÂ©dente"> <span class="flexbox">
-					<span class="btn-text">PrÃÂ©cÃÂ©dent</span> <span class="btn-arrow"></span>
+			title="Aller ÃÂÃÂ  la page prÃÂÃÂ©cÃÂÃÂ©dente"> <span class="flexbox">
+					<span class="btn-text">PrÃÂÃÂ©cÃÂÃÂ©dent</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="is-active pagin-item">
-			<div data-page="1" title="Aller ÃÂ ÃÂ  la page 1">
+			<div data-page="1" title="Aller ÃÂÃÂ ÃÂÃÂ  la page 1">
 				<span class="flexbox"> <span class="btn-text">1</span> <span
 					class="btn-arrow"></span>
 				</span>
 			</div>
 		</li>
 		<li class="pagin-item"><a href="#" data-page="2"
-			title="Aller ÃÂ  la page 2"> <span class="flexbox"> <span
+			title="Aller ÃÂÃÂ  la page 2"> <span class="flexbox"> <span
 					class="btn-text">2</span> <span class="btn-arrow"></span>
 			</span>
 		</a></li>
 		<li class="pagin-next pagin-item"><a href="#"
-			class="btn-square bordered core" title="Aller ÃÂ  la page suivante"
+			class="btn-square bordered core" title="Aller ÃÂÃÂ  la page suivante"
 			data-action="next"> <span class="flexbox"> <span
 					class="btn-text">Suivant</span> <span class="btn-arrow"></span>
 			</span>

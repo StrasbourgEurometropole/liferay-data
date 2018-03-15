@@ -3,7 +3,12 @@
 <c:set var="locale" value="${themeDisplay.getLocale() }" />
 
 <section id="favoris">
-   <!-- <button class="delete-wi"></button>  -->    
+
+	<portlet:resourceURL id="hidePortlet" var="portletURL">
+		<portlet:param name="portletName" value="last-favorites" />
+	</portlet:resourceURL>
+	
+    <button class="delete-wi" value="${portletURL}"></button>     
     <h2>${dc.getPortletTitle('my-last-favorites')}</h2>
     <div class="favoris-grid">
 		
@@ -12,7 +17,6 @@
 				<liferay-ui:message key="no-favorites" />
 			</p>
 		</c:if>
-
 		<c:forEach items="${dc.lastFavorites}" var="favorite">					
 			<div class="favoris-teaser">
 				<a href="${favorite.url}" class="favoris-teaser__link">
