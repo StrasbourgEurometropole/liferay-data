@@ -6,19 +6,19 @@
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
 
-<c:if test="${not dc.hasInterest()}">
-	<div class="seu-wi seu-wi-agenda"> 
-		<div class="seu-container"> 
-			<h2 class="seu-section-title"> 
-				<span class="seu-title"><liferay-ui:message key="actu-agenda" /></span> 
-			</h2> 
+<div class="seu-wi seu-wi-agenda"> 
+	<div class="seu-container"> 
+		<h2 class="seu-section-title"> 
+			<span class="seu-title"><liferay-ui:message key="actu-agenda" /></span> 
+		</h2> 
+		<c:if test="${not dc.hasInterest()}">
 			<p class="no-interests">${dc.getNoInterestText()}</p>
-		</div>
+		</c:if>
 	</div>
-</c:if>
+</div>
 <c:if test="${not empty dc.actusAndWebmags}">
 	<div class="seu-container">
-		<div class="seu-wi seu-wi-agenda seu-type--actu"> 
+		<div class="seu-wi seu-wi-agenda"> 
 			<div class="seu-container"> 
 				<h2 class="seu-section-title"> 
 					<span class="seu-title"><liferay-ui:message key="news" /></span> 
@@ -54,6 +54,9 @@
 			</div> 
 		</div>
 	</div>
+</c:if>
+<c:if test="${empty dc.actusAndWebmags}">
+	<p><liferay-ui:message key="no-actu" /></p>
 </c:if>
 
 <c:if test="${not empty dc.events}">
@@ -104,6 +107,9 @@
 			</div>
 		</div> 
 	</div>
+</c:if>
+<c:if test="${empty dc.events}">
+	<p><liferay-ui:message key="no-event" /></p>
 </c:if>
 
 <style>
