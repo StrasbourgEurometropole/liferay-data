@@ -31,5 +31,11 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
+	
+	@Meta.AD(name = "widgetIntro", required = false)
+	public String widgetIntro();
+
+	@Meta.AD(name = "widgetLink", required = false)
+	public String widgetLink();
 
 }

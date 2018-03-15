@@ -80,13 +80,14 @@
                 background-size: 15px 15px;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                //background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
                 display: inline-block;
                 content: '';
                 position: absolute;
                 top: 50%;
                 left: 50%;
-                transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%) rotate(180deg);
             }
         }
         &--close{
@@ -767,6 +768,7 @@
         .side__trigger--pull{
             &:before{
                 background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                transform: translate(-50%, -50%);
             }     
         }
 
@@ -864,10 +866,10 @@
         }
         #aroundme{
             position: fixed;
-            top: 20px;
-            left: 20px;
-            height: calc(100% - 40px);
-            width: calc(100% - 40px);
+            top: 0; //20px;
+            left: 0; //20px;
+            height: 100%; //calc(100% - 40px);
+            width: 100%; //calc(100% - 40px);
             display: flex;
             flex-direction: column;
             &:before{

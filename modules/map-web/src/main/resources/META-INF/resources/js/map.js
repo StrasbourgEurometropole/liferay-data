@@ -52,6 +52,9 @@
                 if (environment != 'desktop') { // Si tablette/mobile on ferme le panel de base
                     ame.close_panel_side();
                     ame.close_panel_top();
+                } else {
+                    ame.open_panel_side();
+                    ame.open_panel_top();
                 }
             }
             managePanelRwd(environment);
@@ -172,25 +175,31 @@
                 if (feature.properties.icon) {
                     if (feature.properties.amount) {
                         var divIcon = new L.divIcon({
-                            html:  '<img src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
+                            html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
                                 + feature.properties.amount.color + '">' 
                                 + feature.properties.amount.frequentation + '</div>',
-                            iconSize: [34,42],
-                            iconAnchor: [17, 42],
-                            popupAnchor: [0, -42]
+                            iconSize: [35,49],
+                            iconAnchor: [17, 49],
+                            popupAnchor: [1, -49]
                         });
                         return L.marker(latlng, { icon: divIcon })
                     } else {
                         var markerIcon = new L.Icon({
                             iconUrl: feature.properties.icon,
-                            iconSize: [34,42],
-                            iconAnchor: [17, 42],
-                            popupAnchor: [0, -42]
+                            iconSize: [35,49],
+                            iconAnchor: [17, 49],
+                            popupAnchor: [1, -50]
                         });
                         return L.marker(latlng, { icon: markerIcon })
                     }
                 } else {
-                    return L.marker(latlng);
+                    var markerIcon = new L.Icon({
+                        iconUrl: '/o/mapweb/images/default.png',
+                        iconSize: [35,49],
+                        iconAnchor: [17, 49],
+                        popupAnchor: [1, -49]
+                    });
+                    return L.marker(latlng, { icon: markerIcon })
                 }
             }
 
@@ -203,7 +212,7 @@
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-favorites-pois', {
-                        groupId: groupId
+                        groupId: window.groupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -226,7 +235,7 @@
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-pois', {
                         interests: interests,
-                        groupId: groupId
+                        groupId: window.groupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -256,7 +265,7 @@
                     var i;
                     for (i = 0; i < ame.$filters.length; i++) {
                         var filter = $(ame.$filters[i]);
-                        if (!filter.attr('name').includes("showFavorites") && filter.is(':checked')) {
+                        if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
                             if (interests.length > 0) {
                                 interests = interests + ",";
                             }
@@ -300,9 +309,15 @@
             ame.$ui_zoomout.on('click', function() {
                 mymap.zoomOut();
             });
-            ame.$ui_locate.on('click', moveToUserPosition);
-            ame.$ui_home.on('click', moveToUserAddress);
-            ame.$filters.on('change', saveUserConfig);
+            ame.$ui_locate.on('click', function() {
+                moveToUserPosition();
+            });
+            ame.$ui_home.on('click', function() {
+                moveToUserAddress
+            });
+            ame.$filters.on('change', function() {
+                saveUserConfig();
+            });
 
             $('#mapid').on('click', '.infowindow__close', function() {
                 mymap.closePopup();
@@ -345,13 +360,15 @@
             }
 
             // Scroll sur la liste
-            var div = document.getElementsByClassName('filtres--poi')[0];
-            if (!L.Browser.touch) {
-                L.DomEvent.disableClickPropagation(div);
-                L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
-            } else {
-                L.DomEvent.on(div, 'click', L.DomEvent.stopPropagation);
-            }
+            var list = document.getElementsByClassName('filtres--poi')[0];
+            list.addEventListener('mouseover', function() {
+                mymap.dragging.disable();
+                mymap.scrollWheelZoom.disable();
+            });
+            list.addEventListener('mouseout', function() {
+                mymap.dragging.enable();
+                mymap.scrollWheelZoom.enable();
+            });
 
             // Affichage des POIs
             showPois();

@@ -17,6 +17,14 @@
 			<aui:input type="checkbox" name="widgetMod" value="${widgetMod}" label="widget-mod" />
 		</div>
 		
+		<div>
+			<aui:input type="text" name="widgetIntro" value="${widgetIntro}" label="widget-intro" />
+		</div>
+		
+		<div>
+			<aui:input type="text" name="widgetLink" value="${widgetLink}" label="widget-link" />
+		</div>
+		
 		<!-- Choix du site pour la cible des lien -->
 		<aui:select name="groupId" label="detail-target-site">
 			<c:forEach var="site" items="${sites}">
@@ -65,7 +73,7 @@
 			</div>
 		</aui:fieldset>
 
-		<!-- config par dÃÂÃÂ©faut -->
+		<!-- config par défaut -->
 		<div>
 			<liferay-ui:message key="default-configuration-explanations" />
 			<aui:input type="checkbox" name="defaultConfig" value="${defaultConfig}" label="default-configuration" />
