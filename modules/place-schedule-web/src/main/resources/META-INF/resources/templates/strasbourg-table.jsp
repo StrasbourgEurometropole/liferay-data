@@ -1,6 +1,6 @@
 <%@ include file="/place-schedule-init.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
-
+<fmt:setLocale value="${locale}" />
 <c:choose>
 	<c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostname or themeDisplay.scopeGroup.isStagingGroup()}">
 		<c:set var="homeURL" value="/web${layout.group.friendlyURL}/" />
@@ -356,7 +356,7 @@
 							        </th>
 								</c:when>
 							</c:choose>
-							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
+							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >							
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
 								<fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />

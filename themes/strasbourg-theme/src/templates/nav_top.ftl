@@ -31,9 +31,11 @@
                 <span class="notif-amount">${notifCount}</span>
               </span>
             </#if>
-            <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+            <a href="${layoutHelper.getPublikProfileURL()}" style="text-decoration: none;">
+              <span class="seu-text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+            </a>    
             <span class="seu-arrow"></span>
-          </span>    
+          </span>
         </button>
         <!-- Menu connecté -->
         <@liferay_portlet["runtime"]

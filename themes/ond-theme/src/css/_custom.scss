@@ -1960,4 +1960,14 @@
 	clear: both;
 }
 
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+
+	.footer .footer-top .social-network ul li a {
+    	background: transparent url(../img/btn/social-network_petit.png) top left no-repeat;
+    	background-size: initial;
+	}
+}
+
 @import "partials/fixes";

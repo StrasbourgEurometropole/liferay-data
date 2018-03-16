@@ -1043,6 +1043,552 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_URL_3 = "(favorite.url IS NULL OR favorite.url = '') AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2 = "favorite.typeId = ? AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2 = "favorite.entityId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ENTITYIDANDTYPEID =
+		new FinderPath(FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntityIdAndTypeId",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID =
+		new FinderPath(FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByEntityIdAndTypeId",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			FavoriteModelImpl.ENTITYID_COLUMN_BITMASK |
+			FavoriteModelImpl.TYPEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ENTITYIDANDTYPEID = new FinderPath(FavoriteModelImpl.ENTITY_CACHE_ENABLED,
+			FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByEntityIdAndTypeId",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the favorites where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @return the matching favorites
+	 */
+	@Override
+	public List<Favorite> findByEntityIdAndTypeId(long entityId, long typeId) {
+		return findByEntityIdAndTypeId(entityId, typeId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the favorites where entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FavoriteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @return the range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByEntityIdAndTypeId(long entityId, long typeId,
+		int start, int end) {
+		return findByEntityIdAndTypeId(entityId, typeId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FavoriteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByEntityIdAndTypeId(long entityId, long typeId,
+		int start, int end, OrderByComparator<Favorite> orderByComparator) {
+		return findByEntityIdAndTypeId(entityId, typeId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the favorites where entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FavoriteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching favorites
+	 */
+	@Override
+	public List<Favorite> findByEntityIdAndTypeId(long entityId, long typeId,
+		int start, int end, OrderByComparator<Favorite> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID;
+			finderArgs = new Object[] { entityId, typeId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ENTITYIDANDTYPEID;
+			finderArgs = new Object[] {
+					entityId, typeId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Favorite> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Favorite>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Favorite favorite : list) {
+					if ((entityId != favorite.getEntityId()) ||
+							(typeId != favorite.getTypeId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_FAVORITE_WHERE);
+
+			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+
+			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(FavoriteModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(entityId);
+
+				qPos.add(typeId);
+
+				if (!pagination) {
+					list = (List<Favorite>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Favorite>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite findByEntityIdAndTypeId_First(long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+		Favorite favorite = fetchByEntityIdAndTypeId_First(entityId, typeId,
+				orderByComparator);
+
+		if (favorite != null) {
+			return favorite;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("entityId=");
+		msg.append(entityId);
+
+		msg.append(", typeId=");
+		msg.append(typeId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchFavoriteException(msg.toString());
+	}
+
+	/**
+	 * Returns the first favorite in the ordered set where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite fetchByEntityIdAndTypeId_First(long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator) {
+		List<Favorite> list = findByEntityIdAndTypeId(entityId, typeId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite findByEntityIdAndTypeId_Last(long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+		Favorite favorite = fetchByEntityIdAndTypeId_Last(entityId, typeId,
+				orderByComparator);
+
+		if (favorite != null) {
+			return favorite;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("entityId=");
+		msg.append(entityId);
+
+		msg.append(", typeId=");
+		msg.append(typeId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchFavoriteException(msg.toString());
+	}
+
+	/**
+	 * Returns the last favorite in the ordered set where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	@Override
+	public Favorite fetchByEntityIdAndTypeId_Last(long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator) {
+		int count = countByEntityIdAndTypeId(entityId, typeId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Favorite> list = findByEntityIdAndTypeId(entityId, typeId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the favorites before and after the current favorite in the ordered set where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param favoriteId the primary key of the current favorite
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next favorite
+	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
+	 */
+	@Override
+	public Favorite[] findByEntityIdAndTypeId_PrevAndNext(long favoriteId,
+		long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator)
+		throws NoSuchFavoriteException {
+		Favorite favorite = findByPrimaryKey(favoriteId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Favorite[] array = new FavoriteImpl[3];
+
+			array[0] = getByEntityIdAndTypeId_PrevAndNext(session, favorite,
+					entityId, typeId, orderByComparator, true);
+
+			array[1] = favorite;
+
+			array[2] = getByEntityIdAndTypeId_PrevAndNext(session, favorite,
+					entityId, typeId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Favorite getByEntityIdAndTypeId_PrevAndNext(Session session,
+		Favorite favorite, long entityId, long typeId,
+		OrderByComparator<Favorite> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_FAVORITE_WHERE);
+
+		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+
+		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(FavoriteModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(entityId);
+
+		qPos.add(typeId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(favorite);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Favorite> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the favorites where entityId = &#63; and typeId = &#63; from the database.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 */
+	@Override
+	public void removeByEntityIdAndTypeId(long entityId, long typeId) {
+		for (Favorite favorite : findByEntityIdAndTypeId(entityId, typeId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(favorite);
+		}
+	}
+
+	/**
+	 * Returns the number of favorites where entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @return the number of matching favorites
+	 */
+	@Override
+	public int countByEntityIdAndTypeId(long entityId, long typeId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ENTITYIDANDTYPEID;
+
+		Object[] finderArgs = new Object[] { entityId, typeId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_FAVORITE_WHERE);
+
+			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+
+			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(entityId);
+
+				qPos.add(typeId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2 = "favorite.entityId = ? AND ";
+	private static final String _FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2 = "favorite.typeId = ?";
 
 	public FavoritePersistenceImpl() {
 		setModelClass(Favorite.class);
@@ -1316,6 +1862,16 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
 				args);
 
+			args = new Object[] {
+					favoriteModelImpl.getEntityId(),
+					favoriteModelImpl.getTypeId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ENTITYIDANDTYPEID,
+				args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -1336,6 +1892,29 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
+					args);
+			}
+
+			if ((favoriteModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						favoriteModelImpl.getOriginalEntityId(),
+						favoriteModelImpl.getOriginalTypeId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ENTITYIDANDTYPEID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID,
+					args);
+
+				args = new Object[] {
+						favoriteModelImpl.getEntityId(),
+						favoriteModelImpl.getTypeId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_ENTITYIDANDTYPEID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ENTITYIDANDTYPEID,
 					args);
 			}
 		}

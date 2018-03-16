@@ -155,6 +155,7 @@
             }
 
             &.seu-nav-account{
+                background-color: $third-color;
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-account, #505050) );                    
                 }
@@ -315,9 +316,9 @@
                 display: none;
             }
             &.actif{
-                background-color: $third-color;
+                background-color: #31455D;
+                color: #FFFFFF;
                 pointer-events: none;
-                color: $core-color;
                 display: flex;
             }
             &:hover, &:focus{

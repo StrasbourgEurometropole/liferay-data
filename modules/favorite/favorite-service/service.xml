@@ -26,6 +26,10 @@
 			<finder-column name="typeId" />
 			<finder-column name="entityId" />		
 		</finder>
+		<finder name="EntityIdAndTypeId" return-type="Collection"  >
+			<finder-column name="entityId" />	
+			<finder-column name="typeId" />	
+		</finder>
 	</entity>
 	
 </service-builder>
