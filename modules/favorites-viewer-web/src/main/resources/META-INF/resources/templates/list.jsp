@@ -82,23 +82,23 @@
 									<c:if test="${favorite.typeId == 1 }">
 										<c:if test="${not empty favorite.place.periods}">
 											<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
-												<c:choose>
-													<c:when test="${schedule.isClosed()}">
-														<liferay-ui:message key="eu.closed" />
-													</c:when>
-													<c:when test="${schedule.isAlwaysOpen()}">
-														<liferay-ui:message key="always-open" />
-													</c:when>
-													<c:otherwise>
-														<liferay-ui:message key="today-schedule" />
-														<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
-															<div>${openingTime.first} - ${openingTime.second}</div>
-															<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
-																<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
-															</c:if>
-														</c:forEach>
-													</c:otherwise>
-												</c:choose>
+
+												<c:if test="${!schedule.isOpenNow()}">
+													<liferay-ui:message key="eu.closed" />
+												</c:if>
+												<c:if test="${schedule.isAlwaysOpen()}">
+													<liferay-ui:message key="always-open" />
+												</c:if>
+												<c:if test="${not empty schedule.openingTimes}">
+													<liferay-ui:message key="today-schedule" />
+													<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
+														<div>${openingTime.first} - ${openingTime.second}</div>
+														<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
+															<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
+														</c:if>
+													</c:forEach>
+												</c:if>
+
 											</c:forEach>
 										</c:if>
 									</c:if>
@@ -114,7 +114,7 @@
 									</c:if>
 									<c:if test="${favorite.typeId == 4 }">
 										<c:if test="${favorite.edition.getDiffusionDateMonth()<10}">0</c:if>${favorite.edition.getDiffusionDateMonth()}.${favorite.edition.getDiffusionDateYear()}
-									</c:if> 
+									</c:if>
 									<c:if test="${favorite.typeId == 6 }">
 										<fmt:formatDate value="${favorite.news.modifiedDate}"
 											var="formattedModifiedDate" type="date" pattern="dd.MM.yy" />
@@ -131,9 +131,9 @@
 										</c:if>
 									</c:if>
 								</div>
-								
+
 								<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">
-									<div class="favoris-teaser__crowding">	
+									<div class="favoris-teaser__crowding">
 										<c:set var="occupationState" value="${favorite.place.getRealTime()}" />
 										<div class="favoris-teaser__crowding-amount favoris-teaser__crowding-amount--${occupationState.cssClass}">
 											<c:if test="${favorite.place.isSwimmingPool()}">
@@ -150,8 +150,8 @@
 									</div>
 								</c:if>
 							</div>
-					</a> 
-				
+					</a>
+
 					<liferay-portlet:actionURL name="deleteFavorite" var="deleteFavoriteURL">
 						<portlet:param name="favoriteId" value="${favorite.favoriteId}" />
 					</liferay-portlet:actionURL>
