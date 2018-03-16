@@ -250,7 +250,7 @@
                                             <#assign exceptions = subPlace.getSubPlaceScheduleExceptionFreeMarker(.now, true, locale) />
                                             <#if exceptions?has_content>
                                                 <#list exceptions as exception>
-                                                    <#if !exception.isClosed() || periodsExceptionsPlace?seq_contains(exception.getPeriodDisplay(locale)) >
+                                                    <#if !exception.isClosed() || !periodsExceptionsPlace?seq_contains(exception.getPeriodDisplay(locale)) >
                                                         <#assign totalExceptionsCount++ />
                                                         <li>
                                                             <strong>${subPlace.getName(locale)} - ${exception.getPeriodDisplay(locale)}</strong> : 
