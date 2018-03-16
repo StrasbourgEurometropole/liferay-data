@@ -33,7 +33,7 @@
 						<c:if test="${favorite.typeId == 1 }">
 								<c:if test="${not empty favorite.place.periods}">
 									<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
-										<c:if test="${!schedule.isOpenNow()}">
+										<c:if test="${schedule.isClosed()}">
 											<liferay-ui:message key="eu.closed" />
 										</c:if>
 										<c:if test="${schedule.isAlwaysOpen()}">
