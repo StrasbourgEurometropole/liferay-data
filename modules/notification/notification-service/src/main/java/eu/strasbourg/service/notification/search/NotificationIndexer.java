@@ -66,7 +66,6 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 		document.addKeyword(Field.COMPANY_ID, companyId);
 		document.addKeyword(Field.GROUP_ID, companyId);
 		document.addLocalizedText(Field.TITLE, notification.getTitleMap());
-		document.addLocalizedText(Field.DESCRIPTION, notification.getDescriptionMap());
 		document.addNumber(Field.STATUS, notification.getStatus());
 
 		return document;

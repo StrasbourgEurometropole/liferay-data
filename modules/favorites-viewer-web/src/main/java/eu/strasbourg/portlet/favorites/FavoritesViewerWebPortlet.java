@@ -1,13 +1,6 @@
 package eu.strasbourg.portlet.favorites;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -79,7 +72,7 @@ public class FavoritesViewerWebPortlet extends MVCPortlet {
 			renderRequest.setAttribute("showAllURL", showAllURL);
 			
 			
-			FavoritesDisplayContext dc = new FavoritesDisplayContext(renderRequest, themeDisplay);
+			FavoritesDisplayContext dc = new FavoritesDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			
 			include("/templates/" + template + ".jsp", renderRequest, renderResponse);

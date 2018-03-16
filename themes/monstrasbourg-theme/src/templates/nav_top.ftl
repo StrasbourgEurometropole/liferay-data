@@ -19,7 +19,7 @@
                             <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
                         </span>    
                     </a>
-                    <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}">
+                    <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
                         <span class="flexbox">
                             <span class="picto"></span>
                         </span>  

@@ -66,14 +66,12 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{notificationId=");
 		sb.append(notificationId);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", description=");
-		sb.append(description);
 		sb.append(", url=");
 		sb.append(url);
 		sb.append(", automatic=");
@@ -106,13 +104,6 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		}
 		else {
 			notificationImpl.setTitle(title);
-		}
-
-		if (description == null) {
-			notificationImpl.setDescription(StringPool.BLANK);
-		}
-		else {
-			notificationImpl.setDescription(description);
 		}
 
 		if (url == null) {
@@ -158,7 +149,6 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		notificationId = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
 		url = objectInput.readUTF();
 
 		automatic = objectInput.readBoolean();
@@ -183,13 +173,6 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		}
 		else {
 			objectOutput.writeUTF(title);
-		}
-
-		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(description);
 		}
 
 		if (url == null) {
@@ -220,7 +203,6 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 
 	public long notificationId;
 	public String title;
-	public String description;
 	public String url;
 	public boolean automatic;
 	public boolean singleUser;

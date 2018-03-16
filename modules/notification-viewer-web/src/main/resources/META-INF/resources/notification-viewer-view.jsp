@@ -40,17 +40,17 @@
 						</div>
 					</a>
 				</c:forEach>
-				<div class="notif-last">
-					<a href="${showAllURL}" class="btn-square--filled--core"><span
-						class="flexbox"><span class="btn-text"><liferay-ui:message key="see-all" /></span><span
-							class="btn-arrow"></span></span></a>
-				</div>
 			</c:when>
 			<c:otherwise>
 				<a href="#" class="notif-item">
-					<div class="notif-text" data-dot="2"><liferay-ui:message key="no-notification" /></div>
+					<div class="notif-text" data-dot="2"><liferay-ui:message key="no-notification-unread" /></div>
 				</a>
 			</c:otherwise>
 		</c:choose>
+		<div class="notif-last">
+			<a href="${showAllURL}" class="btn-square--filled--core"><span
+				class="flexbox"><span class="btn-text"><liferay-ui:message key="see-all" /></span><span
+					class="btn-arrow"></span></span></a>
+		</div>
 	</div>
 </div>

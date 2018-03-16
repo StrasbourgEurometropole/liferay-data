@@ -149,6 +149,7 @@
                             </div>
                             <div class="date-end">__date_end__</div>
                         </div>
+                        <div class="ville">__ville__</div>
                         <div class="title dotme" data-dot="3">__title__</div>
                         <div class="lead dotme" data-dot="7">__lead__</div>
                     </a>

@@ -72,8 +72,6 @@ public class DemarchesWebPortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
-			
-			renderRequest.setAttribute("urlSuivi", StrasbourgPropsUtil.getDemarcheSuiviURL());
 
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {

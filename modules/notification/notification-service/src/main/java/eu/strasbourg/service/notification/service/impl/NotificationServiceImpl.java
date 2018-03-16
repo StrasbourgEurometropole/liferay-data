@@ -218,7 +218,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	 * Envoie une notification à un utilisateur
 	 */
 	@Override
-	public JSONObject addNotification(String userId, boolean isGlobal, String title, String description, String url,
+	public JSONObject addNotification(String userId, boolean isGlobal, String title, String url,
 			String publicationDate, String expirationDate, String typeId) {
 		if (!isAuthorized()) {
 			return error("not authorized");
@@ -237,9 +237,6 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 			}
 			if (Validator.isNull(title)) {
 				return error("title is empty");
-			}
-			if (Validator.isNull(description)) {
-				return error("description is empty");
 			}
 			if (Validator.isNotNull(url) && !Validator.isUrl(url)) {
 				return error("url is not valid");
@@ -271,7 +268,6 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 
 			Notification notification = this.notificationLocalService.createNotification(sc);
 			notification.setTitle(title, Locale.FRANCE);
-			notification.setDescription(description, Locale.FRANCE);
 			notification.setPublicationDate(Date.from(publicationInstant));
 			notification.setExpirationDate(Date.from(expirationInstant));
 			notification.setUrl(url);

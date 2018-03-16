@@ -21,17 +21,6 @@
 		    	<span class="flexbox"><span class="btn-text"><liferay-ui:message key="all-steps" /></span><span class="btn-arrow"></span></span>
 		    </a>
     </section>
-
-    <section id="serial">
-        <h2><liferay-ui:message key="tracking-code" /></h2>
-        <liferay-portlet:runtime
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="code_suivi" />
-        <form id="formSuivi">
-            <input id="codeSuivi" type="text" placeholder="EX: CNPHNTFB " required aria-required="true">
-	        <button data-url-suivi="${urlSuivi}" type="submit" class="btn-square--filled--core"><span class="flexbox"><span class="btn-text"><liferay-ui:message key="submit" /></span><span class="btn-arrow"></span></span></button>
-	    </form>
-    </section>
 </div>
 
 <style>

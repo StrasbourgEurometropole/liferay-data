@@ -30,6 +30,10 @@
 			</aui:select>
 		</aui:fieldset>
 		
+		<aui:fieldset>
+			<aui:input name="noFavoritesMap" value="${noFavorites}" localized="true" type="editor" label="no-favorites-text" />
+		</aui:fieldset>
+		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 		</aui:button-row>

@@ -254,6 +254,13 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean isSwimmingPool();
 
 	/**
+	* Retourne true si le lieu est un parking
+	*
+	* @return
+	*/
+	public boolean isParking();
+
+	/**
 	* Retourne true si le lieu est une mairie
 	*
 	* @return

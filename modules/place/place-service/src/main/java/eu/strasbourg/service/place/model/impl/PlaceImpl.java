@@ -657,6 +657,16 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne true si le lieu est un parking
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isParking() {
+		return this.getRTType().equals("2");
+	}
+
+	/**
 	 * Retourne true si le lieu est une mairie
 	 * 
 	 * @return

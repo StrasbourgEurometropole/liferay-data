@@ -611,6 +611,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne true si le lieu est un parking
+	*
+	* @return
+	*/
+	@Override
+	public boolean isParking() {
+		return _place.isParking();
+	}
+
+	/**
 	* Returns <code>true</code> if this place is pending.
 	*
 	* @return <code>true</code> if this place is pending; <code>false</code> otherwise
