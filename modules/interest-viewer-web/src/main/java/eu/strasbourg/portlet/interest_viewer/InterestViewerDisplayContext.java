@@ -198,7 +198,19 @@ public class InterestViewerDisplayContext {
 		try {
 			List<AssetVocabulary> eventVocabularies = EventLocalServiceUtil
 					.getAttachedVocabularies(themeDisplay.getCompany().getGroupId());
+			msg = "VOCABULAIRES EVENT : [";
+			for (AssetVocabulary eventVocabularie : eventVocabularies) {
+				msg += eventVocabularie.getVocabularyId() + " - " + eventVocabularie.getTitle(Locale.FRENCH) + ";";
+			}
+			msg += "]";
+			_log.info(msg);
 			List<AssetVocabulary> actuVocabularies = this.getJournalArticleVocabularies();
+			msg = "VOCABULAIRES ACTU : [";
+			for (AssetVocabulary actuVocabularie : actuVocabularies) {
+				msg += actuVocabularie.getVocabularyId() + " - " + actuVocabularie.getTitle(Locale.FRENCH) + ";";
+			}
+			msg += "]";
+			_log.info(msg);
 
 			// on stocks les catégories des centres d'intérêts de
 			// l'utilisateur qui ont comme vocabulaire un vocabulaire des
