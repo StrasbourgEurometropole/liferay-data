@@ -3,6 +3,7 @@ package eu.strasbourg.service.place.model.impl;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -521,7 +522,43 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
-	 * Vérifie si le lieu est fermé
+	 * Retourne true si le lieu est ouvert à l'instant passé en paramètre
+	 */
+	@Override
+	public Boolean isOpen(LocalDateTime localDateTime) {
+		boolean isOpen = false;
+		LocalDate date = localDateTime.toLocalDate();
+		LocalTime time = localDateTime.toLocalTime();
+		List<PlaceSchedule> schedules = this.getPlaceSchedule(date, Locale.FRANCE);
+		if (schedules != null && schedules.size() > 0) {
+			PlaceSchedule schedule = schedules.get(0);
+			if (schedule.isAlwaysOpen()) {
+				isOpen = true;
+			} else {
+				List<Pair<LocalTime, LocalTime>> openingTimes = schedule.getOpeningTimes();
+				if (openingTimes != null) {
+					for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+						if (openingTime.getFirst().isBefore(time) && openingTime.getSecond().isAfter(time)) {
+							isOpen = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		return isOpen;
+	}
+
+	/**
+	 * Retourne true si le lieu est ouvert à l'instant présent
+	 */
+	@Override
+	public Boolean isOpenNow() {
+		return isOpen(LocalDateTime.now());
+	}
+
+	/**
+	 * Vérifie si le lieu est fermé un jour donné
 	 */
 	@Override
 	public Boolean isClosed(GregorianCalendar jourSemaine) {
@@ -617,6 +654,16 @@ public class PlaceImpl extends PlaceBaseImpl {
 	@Override
 	public boolean isSwimmingPool() {
 		return this.getRTType().equals("1");
+	}
+
+	/**
+	 * Retourne true si le lieu est un parking
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isParking() {
+		return this.getRTType().equals("2");
 	}
 
 	/**
@@ -1006,17 +1053,17 @@ public class PlaceImpl extends PlaceBaseImpl {
 					if (publicHoliday.isRecurrent()) {
 						publicHolidayYear.set(Calendar.YEAR, lundi.get(Calendar.YEAR));
 					}
-					if (publicHolidayYear.compareTo(lundi) >= 0
-							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
+					if (publicHolidayYear.compareTo(lundi) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
 						PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
 								publicHolidayYear.getTime(), publicHolidayYear.getTime(), publicHoliday.getName(locale),
 								locale);
 						placeSchedule.setPublicHoliday(true);
 						placeSchedule.setClosed(true);
-						// commenté car il supprimait tous les horaires exceptionnels et n'enregistrait qu'un jour férié
-						//listPlaceSchedules.clear();
+						// commenté car il supprimait tous les horaires
+						// exceptionnels et n'enregistrait qu'un jour férié
+						// listPlaceSchedules.clear();
 						listPlaceSchedules.add(placeSchedule);
-						//break;
+						// break;
 					}
 				}
 			}

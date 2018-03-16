@@ -1,0 +1,20 @@
+#wi-aroundme{
+    @extend %molecule-home-section;
+    margin-bottom: 40px;
+    z-index: 5;
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+    #aroundme{
+        z-index: 10;
+    }
+    .subtitle{
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+
+    }
+    .btn-line{
+        margin-top: 20px;
+    }
+}

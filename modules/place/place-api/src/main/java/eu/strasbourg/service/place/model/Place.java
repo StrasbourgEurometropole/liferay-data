@@ -232,7 +232,17 @@ public interface Place extends PlaceModel, PersistedModel {
 	public boolean hasAnyAccessForDisabled();
 
 	/**
-	* Vérifie si le lieu est fermé
+	* Retourne true si le lieu est ouvert à l'instant passé en paramètre
+	*/
+	public java.lang.Boolean isOpen(java.time.LocalDateTime localDateTime);
+
+	/**
+	* Retourne true si le lieu est ouvert à l'instant présent
+	*/
+	public java.lang.Boolean isOpenNow();
+
+	/**
+	* Vérifie si le lieu est fermé un jour donné
 	*/
 	public java.lang.Boolean isClosed(java.util.GregorianCalendar jourSemaine);
 
@@ -242,6 +252,13 @@ public interface Place extends PlaceModel, PersistedModel {
 	* @return
 	*/
 	public boolean isSwimmingPool();
+
+	/**
+	* Retourne true si le lieu est un parking
+	*
+	* @return
+	*/
+	public boolean isParking();
 
 	/**
 	* Retourne true si le lieu est une mairie
@@ -286,10 +303,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	*/
 	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
-		java.util.GregorianCalendar dateJour, java.util.Locale locale);
+		java.util.GregorianCalendar today, java.util.Locale locale);
 
 	/**
-	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount"
+	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	* "date" + "daysCount"
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getPlaceSchedule(
 		java.util.Date date, int daysCount, java.util.Locale locale);
@@ -306,7 +324,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	*
 	* @param surPériode
 	(false = horaires d'une journée uniquement , true = horaires
-	sur une semaine)
+	sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
 		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,

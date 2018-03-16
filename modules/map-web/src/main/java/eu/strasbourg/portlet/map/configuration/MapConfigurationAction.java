@@ -125,6 +125,14 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 			String defaultConfig = ParamUtil.getString(request, "defaultConfig");
 			setPreference(request, "defaultConfig", defaultConfig);
 			
+			// Texte introduction en mode widget
+			String widgetIntro = ParamUtil.getString(request, "widgetIntro");
+			setPreference(request, "widgetIntro", widgetIntro);
+			
+			// URL lien bouton mode widget
+			String widgetLink = ParamUtil.getString(request, "widgetLink");
+			setPreference(request, "widgetLink", widgetLink);
+			
 			//Si la case est cochée on écrase (Si elle existe) la précédente configuration globale
 			if(ParamUtil.getBoolean(request, "defaultConfig"))
 			{
@@ -206,6 +214,12 @@ public class MapConfigurationAction extends DefaultConfigurationAction{
 			
 			// Config par défaut
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
+			
+			// Texte intro mode widget
+			request.setAttribute("widgetIntro", configuration.widgetIntro());
+			
+			// URL bouton mode widget
+			request.setAttribute("widgetLink", configuration.widgetLink());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);

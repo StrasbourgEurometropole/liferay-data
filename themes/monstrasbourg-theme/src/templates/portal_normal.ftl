@@ -46,11 +46,26 @@
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <script>
   window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
-
-  document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.23.5'><\/script>".replace("HOST", location.hostname));
 </script>
 
   <header class="header">
+
+      <div id="cookies" class="cookies-top clearfix" data-site-id="UA-999999">
+        <div class="popup-content info">
+            <div id="popup-text">
+                <p>
+                    Ce site web utilise des cookies. En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies.
+                    Pour en savoir plus <a href="https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser" target=_blank>Cliquez-ici</a>.
+                </p>
+            </div>
+            <div id="popup-buttons">
+                <button type="button" class="agree-button">
+                    <span class="sr-only">OK</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <#include "${full_templates_path}/nav_top.ftl" />
 
     <nav id="nav-side">

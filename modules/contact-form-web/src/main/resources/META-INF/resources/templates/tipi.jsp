@@ -101,10 +101,14 @@
 	.portlet-layout {
 		display: block;
 	}
-
+ 	
+ 	a {
+ 		text-decoration: underline !important;
+ 	}
+ 	
 	a:hover, a:focus {
 		color: black;
-		text-decoration: underline;
+		text-decoration: none !important;
 	}
 
 	label {

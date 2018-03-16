@@ -52,6 +52,9 @@
                 if (environment != 'desktop') { // Si tablette/mobile on ferme le panel de base
                     ame.close_panel_side();
                     ame.close_panel_top();
+                } else {
+                    ame.open_panel_side();
+                    ame.open_panel_top();
                 }
             }
             managePanelRwd(environment);
@@ -97,11 +100,12 @@
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
             // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["name", "like", "address", "opened", "schedules", "amount", "url"];
+            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url"];
             var popupMarkup =
                 '<div class="aroundme__infowindow infowindow">' +
                 '     <button class="infowindow__close"></button>' +
                 '     <div class="infowindow__content">' +
+                '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
                 '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
@@ -136,79 +140,14 @@
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
+                            } else if (info_to_display =="visual") {
+                                formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
                             } else {
                                 formated_info = feature.properties[info_to_display];
                             }
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
-
-/*
-                    var popup = "";
-                    // popup du marker
-                    //popup += "<img src='" + feature.properties.visual + "' width='100%' /><br>";
-                    popup += feature.properties.name + "<br>";
-                    popup += feature.properties.address + "<br>";
-                    //popup += "<input type='button' value='favoris' name='favoris'/><br>";
-                    if (feature.properties.schedule != undefined) {
-                        if (feature.properties.schedule.isClosed != undefined) {
-                            if (feature.properties.schedule.isClosed) {
-                                popup += Liferay.Language.get('eu.closed') + "<br>";
-                                var openingDate = feature.properties.schedule.openingDate
-                                if (openingDate != undefined) {
-                                    popup += "Ouvrira " + feature.properties.schedule.openingDate + "<br>";
-                                    if (feature.properties.schedule.alwaysOpen) {
-                                        popup += "24h/24<br>";
-                                    } else {
-                                        var openingTime = feature.properties.schedule.openingTime
-                                        if (openingTime != undefined) {
-                                            // on n'affiche que le prochain horaire
-                                            // d'ouverture
-                                            var schedule = "";
-                                            for (var time in openingTime[0]) {
-                                                if (schedule == "") {
-                                                    schedule += openingTime[0][time] + " - ";
-                                                } else {
-                                                    schedule += openingTime[0][time];
-                                                }
-                                            }
-                                            popup += schedule + "<br>";
-                                        }
-                                    }
-                                }
-                            } else {
-                                popup += Liferay.Language.get('open-period') + "<br>";
-                                if (feature.properties.schedule.alwaysOpen) {
-                                    popup += "24h/24<br>";
-                                } else {
-                                    var openingTimes = feature.properties.schedule.openingTimes
-                                    if (openingTimes != undefined) {
-                                        for (var opening in openingTimes) {
-                                            // on affiche tous les horaires du jour.
-                                            var times = openingTimes[opening];
-                                            var schedule = "";
-                                            for (var time in times) {
-                                                if (schedule == "") {
-                                                    schedule += times[time] + " - ";
-                                                } else {
-                                                    schedule += times[time];
-                                                }
-                                            }
-                                            popup += schedule + "<br>";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (feature.properties.url != undefined) {
-                        popup += "<a href='" + feature.properties.url + "' ";
-                        if (newTab) {
-                            popup += "target='_blank' ";
-                        }
-                        popup += ">" + Liferay.Language.get('learn-more') + "</a>";
-                    }
-                    */
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.name;
@@ -234,15 +173,33 @@
             // Retourne l'objet marker pour un POI donné
             var pointToLayer = function(feature, latlng) {
                 if (feature.properties.icon) {
+                    if (feature.properties.amount) {
+                        var divIcon = new L.divIcon({
+                            html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
+                                + feature.properties.amount.color + '">' 
+                                + feature.properties.amount.frequentation + '</div>',
+                            iconSize: [35,49],
+                            iconAnchor: [17, 49],
+                            popupAnchor: [1, -49]
+                        });
+                        return L.marker(latlng, { icon: divIcon })
+                    } else {
+                        var markerIcon = new L.Icon({
+                            iconUrl: feature.properties.icon,
+                            iconSize: [35,49],
+                            iconAnchor: [17, 49],
+                            popupAnchor: [1, -50]
+                        });
+                        return L.marker(latlng, { icon: markerIcon })
+                    }
+                } else {
                     var markerIcon = new L.Icon({
-                        iconUrl: feature.properties.icon,
-                        iconSize: [34,42],
-                        iconAnchor: [17, 42],
-                        popupAnchor: [0, -42]
+                        iconUrl: '/o/mapweb/images/default.png',
+                        iconSize: [35,49],
+                        iconAnchor: [17, 49],
+                        popupAnchor: [1, -49]
                     });
                     return L.marker(latlng, { icon: markerIcon })
-                } else {
-                    return L.marker(latlng);
                 }
             }
 
@@ -255,7 +212,7 @@
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-favorites-pois', {
-                        groupId: groupId
+                        groupId: window.groupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -278,7 +235,7 @@
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-pois', {
                         interests: interests,
-                        groupId: groupId
+                        groupId: window.groupId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -308,7 +265,7 @@
                     var i;
                     for (i = 0; i < ame.$filters.length; i++) {
                         var filter = $(ame.$filters[i]);
-                        if (!filter.attr('name').includes("showFavorites") && filter.is(':checked')) {
+                        if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
                             if (interests.length > 0) {
                                 interests = interests + ",";
                             }
@@ -352,9 +309,15 @@
             ame.$ui_zoomout.on('click', function() {
                 mymap.zoomOut();
             });
-            ame.$ui_locate.on('click', moveToUserPosition);
-            ame.$ui_home.on('click', moveToUserAddress);
-            ame.$filters.on('change', saveUserConfig);
+            ame.$ui_locate.on('click', function() {
+                moveToUserPosition();
+            });
+            ame.$ui_home.on('click', function() {
+                moveToUserAddress
+            });
+            ame.$filters.on('change', function() {
+                saveUserConfig();
+            });
 
             $('#mapid').on('click', '.infowindow__close', function() {
                 mymap.closePopup();
@@ -395,6 +358,17 @@
                     mymap.setView([position.coords.latitude, position.coords.longitude], 18);
                 });
             }
+
+            // Scroll sur la liste
+            var list = document.getElementsByClassName('filtres--poi')[0];
+            list.addEventListener('mouseover', function() {
+                mymap.dragging.disable();
+                mymap.scrollWheelZoom.disable();
+            });
+            list.addEventListener('mouseout', function() {
+                mymap.dragging.enable();
+                mymap.scrollWheelZoom.enable();
+            });
 
             // Affichage des POIs
             showPois();

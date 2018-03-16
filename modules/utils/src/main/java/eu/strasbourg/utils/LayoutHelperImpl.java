@@ -84,4 +84,10 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		}
 		return query_pairs;
 	}
+	
+	@Override
+	public String getPublikProfileURL() {
+		return StrasbourgPropsUtil.getPublikProfileURL();
+	}
+	
 }

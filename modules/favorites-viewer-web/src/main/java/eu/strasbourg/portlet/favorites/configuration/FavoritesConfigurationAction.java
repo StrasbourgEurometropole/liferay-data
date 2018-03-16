@@ -1,5 +1,8 @@
 package eu.strasbourg.portlet.favorites.configuration;
 
+import java.util.Locale;
+import java.util.Map;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -14,7 +17,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -52,6 +57,16 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 			// Mode d'affichage
 			String template = ParamUtil.getString(request, "template");
 			setPreference(request, "template", template);
+			
+			// Text
+			Map<Locale, String> textMap = LocalizationUtil
+				.getLocalizationMap(request, "noFavoritesMap");
+			LocalizedValuesMap map = new LocalizedValuesMap();
+			for (Map.Entry<Locale, String> e : textMap.entrySet()) {
+				map.put(e.getKey(), e.getValue());
+			}
+			String noFavoritesXML = LocalizationUtil.getXml(map, "noFavorites");
+			setPreference(request, "noFavoritesXML", noFavoritesXML);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -77,6 +92,9 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 			
 			// Template
 			request.setAttribute("template", configuration.template());
+			
+			// Texte si pas de favoris
+			request.setAttribute("noFavorites", configuration.noFavoritesXML());
 			
 
 		} catch (ConfigurationException e) {

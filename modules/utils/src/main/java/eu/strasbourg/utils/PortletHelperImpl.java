@@ -35,4 +35,8 @@ public class PortletHelperImpl implements PortletHelperService {
 	public boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames) {
 		return PortletHelper.hiddenDashboardPortlet(themeDisplay, cssClassNames);
 	}
+	
+	public void hidePortlet(ThemeDisplay themeDisplay, String portletName) {
+		PortletHelper.hidePortlet(themeDisplay, portletName);
+	}
 }

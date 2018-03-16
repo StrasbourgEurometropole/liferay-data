@@ -63,7 +63,6 @@ public class UserNotificationStatusImpl extends UserNotificationStatusBaseImpl {
 		if (notification != null) {
 			result.put("id", notification.getNotificationId());
 			result.put("title", notification.getTitle(Locale.FRANCE));
-			result.put("description", notification.getDescription(Locale.FRANCE));
 			result.put("url", notification.getUrl());
 			if (notification.getType() != null) {
 				result.put("type", notification.getType().getTitle(Locale.FRANCE));

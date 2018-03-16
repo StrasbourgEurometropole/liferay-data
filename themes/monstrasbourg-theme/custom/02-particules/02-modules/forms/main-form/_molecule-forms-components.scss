@@ -26,6 +26,7 @@
 
     .text-info{
         margin-bottom: $margin-p;
+        line-height: 1.2em;
     }
     
     input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar){ 
@@ -48,6 +49,7 @@
          @extend %text-form-label;
          color: $core-color;
          position: relative;
+         line-height: 1.2em;
 
          .required{
              color: $error;
@@ -73,6 +75,7 @@
         font-size: 1.6rem;
         font-family: $main-font;
         font-style: italic;
+        margin-top: 5px;
     }
     .content label{
         font-weight: 400;

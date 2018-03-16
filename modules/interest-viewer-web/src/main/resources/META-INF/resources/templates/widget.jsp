@@ -8,6 +8,11 @@
          
 <c:if test="${not dc.hasInterest()}">
     <section id="actu-agenda-no-interest">
+    <portlet:resourceURL id="hidePortlet" var="portletURL">
+		<portlet:param name="portletName" value="news-agenda" />
+	</portlet:resourceURL>
+	
+<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
         <h2><liferay-ui:message key="actu-agenda" /></h2>
         <p class="no-interests">${dc.getNoInterestText()}</p>
     </section>
@@ -80,7 +85,12 @@
     </script>
       
     <section id="actu-agenda">
-        <!--<button class="delete-wi"></button>-->
+    
+    <portlet:resourceURL id="hidePortlet" var="portletURL">
+		<portlet:param name="portletName" value="news-agenda" />
+	</portlet:resourceURL>
+	
+<%--     <button class="delete-wi" value="${portletURL}"></button>   --%>
         <h2><liferay-ui:message key="actu-agenda" /></h2>    
         <div id="slider--mega">
             <div class="top-line"> 
@@ -139,6 +149,7 @@
                             </div>
                             <div class="date-end">__date_end__</div>
                         </div>
+                        <div class="ville">__ville__</div>
                         <div class="title dotme" data-dot="3">__title__</div>
                         <div class="lead dotme" data-dot="7">__lead__</div>
                     </a>

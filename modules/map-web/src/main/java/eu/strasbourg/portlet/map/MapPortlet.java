@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -118,7 +119,9 @@ public class MapPortlet extends MVCPortlet {
      		else //Si pas de config on récupère tous les centres d'intérêt avec le statut publié
 			{	
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-						.filter(i -> i.getStatus() == 0).collect(Collectors.toList());
+						.filter(i -> i.getStatus() == 0)
+						.sorted((i1, i2) -> i1.getType().getTitle(Locale.FRANCE).compareTo(i2.getType().getTitle(Locale.FRANCE)))
+						.collect(Collectors.toList());
 			}
 			
 			//Est-ce que la config du portlet est défini ?
@@ -136,8 +139,9 @@ public class MapPortlet extends MVCPortlet {
 					
 				//Récupération de tous les centres d'intérêts actifs avec le statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
-						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId())).collect(Collectors.toList());
-				
+						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
+						.sorted((i1, i2) -> i1.getType().getTitle(Locale.FRANCE).compareTo(i2.getType().getTitle(Locale.FRANCE)))
+						.collect(Collectors.toList());
 			}
 			
             String address = null;
@@ -175,6 +179,8 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("widgetMod", widgetMod);
+			request.setAttribute("widgetIntro", configuration.widgetIntro());
+			request.setAttribute("widgetLink", configuration.widgetLink());
 			request.setAttribute("address", address);
 			request.setAttribute("newTab", newTab);
 			request.setAttribute("groupId", groupId);

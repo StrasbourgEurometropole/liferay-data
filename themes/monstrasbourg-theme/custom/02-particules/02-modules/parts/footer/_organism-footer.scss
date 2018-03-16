@@ -1,27 +1,99 @@
 %organism-footer{
-    .footer-bottom{
-        background-color: #dddddd;
-        svg{
-            width: 180px;
-            height: auto;
-            fill: #3a3a3a;
-        }
-        .custom-container{
-            display: flex;
-            align-items: center;
-            height: 50px;
-            margin-top: 60px;
-
-            @include RWD(mobile){
-                display: block;
-                height: unset;
-                padding: 20px;
-                text-align: center;
+    .footer {
+        .footer-bottom{
+            background-color: #3a3a3a;
+            .col-top {
+                margin-top: 40px;
+                padding-top: 20px;
+                border-top: solid 1px #505050;
+                svg{
+                    width: 260px;
+                    height: auto;
+                    fill: #606060;
+                }
             }
+
+            .container .col-bottom {
+                color: #b4b4b4;
+                font-size: 1.4rem;
+                padding-bottom: 20px;
+                h1{
+                    font-size: 3.5rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    color: $core-color;
+                    font-family: $site-font;
+                    line-height: 1.2;
+                    color: #FFFFFF;
+
+                    @include RWD(mobile){
+                        font-size: 2.5rem;
+                    }
+                }
+                h2{
+                    font-family: $site-font;
+                    color: #FFFFFF;
+                    font-size: 3.7rem; 
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    line-height: 1.2;
+                    word-break: break-word;
+                    hyphens: auto;
+
+                    @include RWD(mobile){
+                        font-size: 2.5rem;
+                    }
+                }
+                h3{
+                    font-family: $site-font;    
+                    font-weight: 400;
+                    font-size: 3.0rem;
+                    color: #FFFFFF;
+                    line-height: 1.2;
+                    text-transform: uppercase;
+                    
+                    @include RWD(mobile){
+                        font-size: 1.7rem;
+                    }
+                }
+
+                ul {
+                    list-style: disc;
+                    padding-left: 60px;
+                }
+
+                ol {
+                    list-style: decimal;
+                    padding-left: 60px;
+                }
+                strong, b{
+                    font-weight: 600;
+                }
+                em{
+                    font-style: italic;
+                }
+                sup{
+                   // vertical-align: super;
+                    font-size: smaller;
+                    line-height: normal; 
+                }
+                sub{
+                    vertical-align: sub;
+                    font-size: smaller;
+                    line-height: normal;
+                }
+            }
+
+            .fill{
+                flex: 1;
+            }  
+        }
+        .portlet-content-editable {
+                border-width: 0 !important;
         }
 
-        .fill{
-            flex: 1;
+        .portlet {
+            margin-bottom: 0px !important;
         }
     }
 }
