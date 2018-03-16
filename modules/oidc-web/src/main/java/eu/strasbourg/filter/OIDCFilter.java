@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -19,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.kernel.util.*;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONException;
@@ -27,10 +29,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BaseFilter;
-import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -75,20 +73,24 @@ public class OIDCFilter extends BaseFilter {
 		if (isAlreadyLoggedIn) {
 			// S'il souhaite se déconnecter, on le déconnecte
 			if (wantsToLogout) {
+				LOG.info("Logout because of request parameter");
 				logout(request, response);
+				redirectToIdPLogout(request, response);
 				return;
 			}
 			// Si son jwt n'est plus valide, on le déconnecte
 			String jwtFromCookies = this.getCookieValue(request, "jwt");
 			if (jwtFromCookies == null || jwtFromCookies.equals("")) {
+				LOG.info("Logout because no JWT");
 				logout(request, response);
+				redirectToIdPLogout(request, response);
 				return;
 			} else {
 				boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
 						StrasbourgPropsUtil.getInternalIssuer());
 				if (!isJwtValid) {
+					LOG.info("Logout because of invalid JWT");
 					logout(request, response);
-					return;
 				}
 			}
 		} else {
@@ -108,7 +110,7 @@ public class OIDCFilter extends BaseFilter {
 			if (code.length() > 0) {
 				// On récupère alors le JWT et l'access token via une requête
 				// vers le provider
-				LOG.info("Code received, requestion tokens");
+				LOG.info("Code received, requesting tokens");
 				JSONObject json = sendTokenRequest(request, response, filterChain, code);
 				if (json == null) {
 					LOG.info("Token empty");
@@ -182,7 +184,7 @@ public class OIDCFilter extends BaseFilter {
 		// Si un attribut "state" se trouve dans la query string, on redirige
 		// vers la page correspondante
 		String redirectURL = ParamUtil.getString(request, "state");
-		if (Validator.isUrl(redirectURL, false)) {
+		if (Validator.isUrl(redirectURL, true)) {
 			LOG.info("State parameter : redirect to " + redirectURL);
 			response.sendRedirect(redirectURL);
 			return;
@@ -196,8 +198,13 @@ public class OIDCFilter extends BaseFilter {
 	 * sa dernière page visitée dans la session (attribut last_visited)
 	 */
 	private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String currentDomainRoot = request.getRequestURL().toString()
+				.replace(request.getServletPath(), "")
+				.replace(request.getPathInfo(), "");
 		response.sendRedirect(
-				StrasbourgPropsUtil.getPublikAuthorizeURL() + "&state=" + request.getRequestURL().toString());
+		StrasbourgPropsUtil.getPublikAuthorizeURL()
+				+ "&redirect_uri=" + currentDomainRoot
+				+ "&state=" + request.getRequestURL().toString());
 	}
 
 	/**
@@ -221,8 +228,11 @@ public class OIDCFilter extends BaseFilter {
 		connection.setRequestProperty("Authorization", "Basic " + encoded);
 
 		// Paramètres
+		String currentDomainRoot = request.getRequestURL().toString()
+				.replace(request.getServletPath(), "")
+				.replace(request.getPathInfo(), "");
 		String parameters = "grant_type=authorization_code&code=" + code + "&redirect_uri="
-				+ StrasbourgPropsUtil.getURL();
+				+ currentDomainRoot;
 		byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
 		int postDataLength = postData.length;
 		connection.setDoOutput(true);
@@ -275,11 +285,24 @@ public class OIDCFilter extends BaseFilter {
 		request.getSession().setAttribute(givenNameAttribute, null);
 		request.getSession().setAttribute(internalIdAttribute, null);
 		request.getSession().setAttribute(emailAttribute, null);
+		
+		response.setHeader("Cache-Control", "no-cache, no-store");
+		response.setHeader("Pragma", "no-cache");
 
 		createCookie(request, response, "jwt", "");
+	}
+
+	/**
+	 * Redirect the user to OIDC provider logout URL
+	 */
+	private void redirectToIdPLogout(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL() + "?post_logout_redirect_uri="
-					+ StrasbourgPropsUtil.getURL() + "&state=" + request.getRequestURL().toString());
+			String currentDomainRoot = request.getRequestURL().toString()
+					.replace(request.getServletPath(), "")
+					.replace(request.getPathInfo(), "");
+			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
+					+ "?post_logout_redirect_uri=" + currentDomainRoot
+					+ "&state=" + URLEncoder.encode(request.getRequestURI().toString(), "UTF-8"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
