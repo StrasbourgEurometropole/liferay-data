@@ -6,7 +6,7 @@
 
 
             <div class="fill"></div>
-            <a href="#" class="nav-contact nav-btn" title="contact">
+            <a href="https://demarches.strasbourg.eu/contactez-nous/contact/" class="nav-contact nav-btn" title="contact">
                 <span class="flexbox">
                     <span class="picto"></span>
                     <span class="text">Contact</span>
