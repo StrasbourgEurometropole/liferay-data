@@ -12,7 +12,7 @@
         <p>${text.getData()}</p> 
         <p class="errors"></p>      
         <div class="webform-layout-box">
-            <div class="form-group" style="width: 450px">
+            <div class="form-group list">
                 <div class="form-label"><label for="annee"><@liferay.language key="bill-type" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
                     <select id="type_facture" class="toCustomSelect silencedSelect" required="" aria-required="true">
@@ -72,7 +72,13 @@
     .customSelectContain{    
         border: solid rgb(221, 221, 221) 2px;
     }
-    
+
+    @media only screen and (min-width: 1280px){
+        .form-group.list{
+            width: 450px;
+        }
+    }
+
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
         -webkit-appearance: none;
