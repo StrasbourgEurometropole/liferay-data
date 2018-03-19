@@ -6,15 +6,13 @@
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
 
-<div class="seu-wi seu-wi-agenda"> 
-	<div class="seu-container"> 
-		<h2 class="seu-section-title"> 
-			<span class="seu-title"><liferay-ui:message key="actu-agenda" /></span> 
-		</h2> 
+<div class="seu-wi seu-wi-agenda" style="padding-bottom:0px"> 
+	<main class="seu-container"> 
+		<h1 style="margin-bottom:0px"><liferay-ui:message key="actu-agenda" /></h1> 
 		<c:if test="${not dc.hasInterest()}">
 			<p class="no-interests">${dc.getNoInterestText()}</p>
 		</c:if>
-	</div>
+	</main>
 </div>
 <c:if test="${not empty dc.actusAndWebmags}">
 	<div class="seu-container">
