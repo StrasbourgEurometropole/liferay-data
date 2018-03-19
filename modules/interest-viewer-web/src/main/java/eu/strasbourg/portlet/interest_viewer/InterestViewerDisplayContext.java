@@ -323,6 +323,8 @@ public class InterestViewerDisplayContext {
 				}
 			}
 		}
+		_log.info("NOMBRE D'EVENT DU JOUR : " + eventsOfTheDay.size());
+		_log.info("NOMBRE D'EVENT DES AUTRES JOURS : " + otherEvents.size());
 
 		eventsOfTheDay = eventsOfTheDay.stream().sorted((e1, e2) -> {
 			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
@@ -342,6 +344,7 @@ public class InterestViewerDisplayContext {
 		for (Event event : otherEvents) {
 			entries.add(event.getAssetEntry());
 		}
+		_log.info("NOMBRE D'EVENT APRES TRI : " + entries.size());
 
 		return entries;
 	}
