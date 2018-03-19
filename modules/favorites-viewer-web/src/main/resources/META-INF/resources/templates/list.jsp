@@ -30,7 +30,7 @@
 		</div>
 	</div>
 		        
-	<!-- Nombre de rÃ©sultats et items par page -->
+	<!-- Nombre de résultats et items par page -->
 	<div class="search-infos">
 	    <div class="search-infos__amount"> 
 	    	<c:choose>
@@ -57,9 +57,9 @@
 	    </div> 
 	</div>
 		
-	<!-- Liste des rÃ©sultats -->
+	<!-- Liste des résultats -->
 	<aui:form method="post" name="fm">
-		<!-- RÃ©sultats -->
+		<!-- Résultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
 			<ul class="favoris-list">
@@ -83,7 +83,7 @@
 										<c:if test="${not empty favorite.place.periods}">
 											<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
 
-												<c:if test="${schedule.isClosed()}">
+												<c:if test="${!favorite.place.isOpenNow()}">
 													<liferay-ui:message key="eu.closed" />
 												</c:if>
 												<c:if test="${schedule.isAlwaysOpen()}">
@@ -162,7 +162,7 @@
 			<!-- Pagination -->
 			<c:if test="${dc.pager.lastPage > 1}">
 	            <ul class="mseu-pagination unstyled">
-	            	<!-- Page prÃ©cÃ©dente -->
+	            	<!-- Page précédente -->
 	                <li class="pagin-prev pagin-item">
 						<c:if test="${not dc.pager.onFirstPage}">
 		                    <a class="btn-square bordered core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"

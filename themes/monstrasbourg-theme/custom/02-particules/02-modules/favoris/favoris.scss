@@ -60,6 +60,18 @@
                     }
                 }
             }
+            
+            &.type-2 {
+            	.favoris-teaser__description {
+					color: #2da192;
+					font-size: 18px;
+					&:before {
+						display: block;
+						content: "";
+                        background-image: url( svg-bg-uri($svg-locate, #2da192) );
+					}
+            	}
+			}
         }
     }
 }
