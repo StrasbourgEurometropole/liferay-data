@@ -22,6 +22,9 @@
         left: 0;
         right: 0;
         height: 2px;
+        @include RWD(mobile){
+          bottom: -25px;
+        }
     }
     &__link{
         text-decoration: none;
