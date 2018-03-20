@@ -68,6 +68,12 @@ public class OIDCFilter extends BaseFilter {
 		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);
 		String code = ParamUtil.getString(request, "code");
 		boolean wantsToLogout = ParamUtil.getBoolean(request, "logout");
+		String logoutOrigin = ParamUtil.getString(request, "origin");
+		if (wantsToLogout && logoutOrigin.equals("publik")) {
+			logout(request, response);
+			response.sendRedirect("https://connexion.strasbourg.eu/static/authentic2/images/ok.png");
+			return;
+		}
 
 		// Dans le cas où l'utilisateur est connecté
 		if (isAlreadyLoggedIn) {
@@ -198,12 +204,9 @@ public class OIDCFilter extends BaseFilter {
 	 * sa dernière page visitée dans la session (attribut last_visited)
 	 */
 	private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String currentDomainRoot = request.getRequestURL().toString()
-				.replace(request.getServletPath(), "")
-				.replace(request.getPathInfo(), "");
 		response.sendRedirect(
 		StrasbourgPropsUtil.getPublikAuthorizeURL()
-				+ "&redirect_uri=" + currentDomainRoot
+				+ "&redirect_uri=" + StrasbourgPropsUtil.getURL()
 				+ "&state=" + request.getRequestURL().toString());
 	}
 
@@ -228,11 +231,8 @@ public class OIDCFilter extends BaseFilter {
 		connection.setRequestProperty("Authorization", "Basic " + encoded);
 
 		// Paramètres
-		String currentDomainRoot = request.getRequestURL().toString()
-				.replace(request.getServletPath(), "")
-				.replace(request.getPathInfo(), "");
 		String parameters = "grant_type=authorization_code&code=" + code + "&redirect_uri="
-				+ currentDomainRoot;
+				+ StrasbourgPropsUtil.getURL();
 		byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
 		int postDataLength = postData.length;
 		connection.setDoOutput(true);
@@ -297,11 +297,8 @@ public class OIDCFilter extends BaseFilter {
 	 */
 	private void redirectToIdPLogout(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String currentDomainRoot = request.getRequestURL().toString()
-					.replace(request.getServletPath(), "")
-					.replace(request.getPathInfo(), "");
 			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
-					+ "?post_logout_redirect_uri=" + currentDomainRoot
+					+ "?post_logout_redirect_uri=" + StrasbourgPropsUtil.getURL()
 					+ "&state=" + URLEncoder.encode(request.getRequestURI().toString(), "UTF-8"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
