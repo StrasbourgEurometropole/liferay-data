@@ -13,3 +13,9 @@
 <div class="rte">
     ${content.getData()}
 </div>
+
+<style>
+    .page-depth li:nth-child(2){
+    	display: none;
+    }
+</style>
