@@ -32,6 +32,7 @@
         }
         @include RWD(mobile){
             padding: 20px;
+            padding-bottom: 50px;
         }
     }
     .seu-title{
@@ -115,7 +116,7 @@
             margin-top: 30px;
             @include RWD(mobile){
                 flex: 1;
-            }
+            }          
         }
         &.seu-big{
             @include RWD(desktop){
@@ -134,6 +135,14 @@
                     padding: 35px;
                 }                
             }
+        }
+        &.seu-has-picture {
+            @include RWD(mobile){
+              box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2);
+          }
+          .seu-link {
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+          }
         }
     }
     &.seu-has-ville{
