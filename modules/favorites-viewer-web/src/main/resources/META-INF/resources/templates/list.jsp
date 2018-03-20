@@ -64,19 +64,13 @@
 					searchContainer="${dc.searchContainer}">
 			<ul class="favoris-list">
 				<c:forEach items="${dc.paginatedResults}" var="favorite">
-					<li class="favoris-teaser"><a href="${favorite.url}"
+					<li class="favoris-teaser type-${favorite.typeId}"><a href="${favorite.url}"
 						class="favoris-teaser__link">
 							<div class="favoris-teaser__type">  <liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
 							<div >
 								
 								<h3 class="favoris-teaser__title" data-dot="3"
 									style="word-wrap: break-word;">${favorite.title}</h3>
-												
-								<div class="favoris-teaser__description">
-									<c:if test="${favorite.typeId == 2 }">
-										${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}
-									</c:if>
-								</div>
 								
 								<div class="favoris-teaser__date">
 									<c:if test="${favorite.typeId == 1 }">
@@ -131,6 +125,12 @@
 										</c:if>
 									</c:if>
 								</div>
+
+								<c:if test="${favorite.typeId == 2 }">
+									<div class="favoris-teaser__description">
+										<div>${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}</div>
+									</div>
+								</c:if>
 
 								<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">
 									<div class="favoris-teaser__crowding">

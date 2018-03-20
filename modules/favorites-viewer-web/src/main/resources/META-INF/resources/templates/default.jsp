@@ -18,35 +18,37 @@
 			</p>
 		</c:if>
 		<c:forEach items="${dc.lastFavorites}" var="favorite">					
-			<div class="favoris-teaser type-${favorite.typeId}>
+			<div class="favoris-teaser type-${favorite.typeId}">
 				<a href="${favorite.url}" class="favoris-teaser__link">
 					<div class="favoris-teaser__type"><liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
 					<div >
 						<h3 class="favoris-teaser__title" data-dot="3"
 							style="word-wrap: break-word;">${favorite.title}</h3>
-						<div class="favoris-teaser__description">
-							<c:if test="${favorite.typeId == 2 }">
-								${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}
-							</c:if>
-						</div>
+
 						<div class="favoris-teaser__date">
 						<c:if test="${favorite.typeId == 1 }">
 								<c:if test="${not empty favorite.place.periods}">
 									<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
 										<c:if test="${!favorite.place.isOpenNow()}">
-											<liferay-ui:message key="eu.closed" />
+											<div>
+												<liferay-ui:message key="eu.closed" />
+											</div>
 										</c:if>
 										<c:if test="${schedule.isAlwaysOpen()}">
-											<liferay-ui:message key="always-open" />
+											<div>
+												<liferay-ui:message key="always-open" />
+											</div>
 										</c:if>
 										<c:if test="${not empty schedule.openingTimes}">
-											<liferay-ui:message key="today-schedule" />
-											<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
-												<div>${openingTime.first} - ${openingTime.second}</div>
-												<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
-													<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
-												</c:if>
-											</c:forEach>
+											<div>
+												<liferay-ui:message key="today-schedule" />
+												<c:forEach items="${schedule.openingTimes}" var="openingTime" varStatus="timeLoopStatus">
+													<div>${openingTime.first} - ${openingTime.second}</div>
+													<c:if test="${not empty schedule.comments[timeLoopStatus.index]}">
+														<div style="text-transform: none; font-weight: 400; margin-top:-10px;">(${schedule.comments[timeLoopStatus.index]})</div>
+													</c:if>
+												</c:forEach>
+											</div>
 										</c:if>
 									</c:forEach>
 								</c:if>
@@ -88,6 +90,13 @@
 								</c:if>
 							</c:if>
 						</div>
+
+						<div class="favoris-teaser__description">
+							<c:if test="${favorite.typeId == 2 }">
+								<div>${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}</div>
+							</c:if>
+						</div>
+
 						<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">	
 							<div class="favoris-teaser__crowding">
 								<c:set var="occupationState" value="${favorite.place.getRealTime()}" />
