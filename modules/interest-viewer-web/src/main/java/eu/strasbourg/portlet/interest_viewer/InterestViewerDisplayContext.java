@@ -290,7 +290,7 @@ public class InterestViewerDisplayContext {
 		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
 		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-		eventQuery.setLimit(0, count - 1);
+		eventQuery.setLimit(0, count);
 		List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
 		for (Event event : listEvent) {
