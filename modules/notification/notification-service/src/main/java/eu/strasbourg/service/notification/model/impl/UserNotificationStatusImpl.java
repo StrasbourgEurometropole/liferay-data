@@ -14,10 +14,12 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
+import java.text.DateFormat;
 import java.util.Locale;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.notification.model.Notification;
@@ -68,8 +70,9 @@ public class UserNotificationStatusImpl extends UserNotificationStatusBaseImpl {
 				result.put("type", notification.getType().getTitle(Locale.FRANCE));
 				result.put("typeId", AssetVocabularyHelper.getExternalId(notification.getType()));
 			}
-			result.put("publicationDate", notification.getPublicationDate().toString());
-			result.put("expirationDate", notification.getExpirationDate().toString());
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			result.put("publicationDate", dateFormat.format(notification.getPublicationDate()));
+			result.put("expirationDate", dateFormat.format(notification.getExpirationDate()));
 			result.put("isRead", this.isRead());
 		}
 
