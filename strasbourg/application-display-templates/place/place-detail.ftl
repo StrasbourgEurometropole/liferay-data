@@ -307,7 +307,7 @@
                 </#if>
 
                 <!-- Agenda -->
-                <#if entry.displayEvents && entry.publishedEvents?has_content>
+                <#if entry.displayEvents && entry.currentAndFuturePublishedEvents?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
                             <h2 class="description"><span style="text-transform: uppercase;"><@liferay_ui.message key="agenda" /></span></h2>
@@ -316,7 +316,7 @@
                             <div class="seu-agenda-slider-container">
                                 <div class="seu-slider">
                                     <#assign i=0 />
-                                    <#list entry.publishedEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
+                                    <#list entry.currentAndFuturePublishedEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
                                         <#if i == 5>
                                             <#break>
                                         </#if>
