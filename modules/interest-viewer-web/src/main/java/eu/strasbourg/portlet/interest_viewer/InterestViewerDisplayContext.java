@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -102,6 +101,8 @@ public class InterestViewerDisplayContext {
 	}
 
 	public List<AssetEntry> getEntries() {
+		long startTime = System.nanoTime();
+
 		if (entries == null) {
 			if (listEntries == null) {
 				listEntries = this.getListEntries();
@@ -141,6 +142,9 @@ public class InterestViewerDisplayContext {
 				}
 			}
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000; 
+		_log.info("Temps d'exe = " + duration);
 		return entries;
 
 	}
@@ -178,24 +182,12 @@ public class InterestViewerDisplayContext {
 		if (interests == null) {
 			interests = this.getInterests();
 		}
-		String msg = "CENTRE D'INTERET UTILISATEUR : [";
-		for (Interest interest : interests) {
-			msg += interest.getInterestId() + " - " + interest.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les catégories des centres d'intérêts de l'utilisateur
 		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
 		for (Interest interest : interests) {
 			categoriesCI.addAll(interest.getCategories());
 		}
-		msg = "CATEGORIES DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory categorieCI : categoriesCI) {
-			msg += categorieCI.getCategoryId() + " - " + categorieCI.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les vocabulaires liés aux événements et aux actus
 		List<AssetCategory> eventSearchCategories = new ArrayList<AssetCategory>();
@@ -203,19 +195,7 @@ public class InterestViewerDisplayContext {
 		try {
 			List<AssetVocabulary> eventVocabularies = EventLocalServiceUtil
 					.getAttachedVocabularies(themeDisplay.getCompany().getGroupId());
-			msg = "VOCABULAIRES EVENT : [";
-			for (AssetVocabulary eventVocabularie : eventVocabularies) {
-				msg += eventVocabularie.getVocabularyId() + " - " + eventVocabularie.getTitle(Locale.FRENCH) + ";";
-			}
-			msg += "]";
-			_log.info(msg);
 			List<AssetVocabulary> actuVocabularies = this.getJournalArticleVocabularies();
-			msg = "VOCABULAIRES ACTU : [";
-			for (AssetVocabulary actuVocabularie : actuVocabularies) {
-				msg += actuVocabularie.getVocabularyId() + " - " + actuVocabularie.getTitle(Locale.FRENCH) + ";";
-			}
-			msg += "]";
-			_log.info(msg);
 
 			// on stocks les catégories des centres d'intérêts de
 			// l'utilisateur qui ont comme vocabulaire un vocabulaire des
@@ -237,18 +217,6 @@ public class InterestViewerDisplayContext {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		msg = "CATEGORIES EVENT DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory eventSearchCategorie : eventSearchCategories) {
-			msg += eventSearchCategorie.getCategoryId() + " - " + eventSearchCategorie.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
-		msg = "CATEGORIES ACTU DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory actuSearchCategorie : actuSearchCategories) {
-			msg += actuSearchCategorie.getCategoryId() + " - " + actuSearchCategorie.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les évènements des centres d'intérêt
 		List<Long[]> categorieEventIds = new ArrayList<Long[]>();
@@ -324,7 +292,6 @@ public class InterestViewerDisplayContext {
 				result.add(assetEntry);
 			}
 		}
-		_log.info("NOMBRE D'EVENT  : " + result.size());
 		return result;
 	}
 
@@ -342,7 +309,6 @@ public class InterestViewerDisplayContext {
 		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count,
 				"modified_sortable", true);
-		_log.info("NOMBRE D'ACTU  : " + hits.getLength());
 
 		// On renvoie la liste des actualités classés par date de publication
 		for (Document document : hits.getDocs()) {
