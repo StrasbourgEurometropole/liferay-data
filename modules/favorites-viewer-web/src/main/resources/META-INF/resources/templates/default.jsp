@@ -18,7 +18,7 @@
 			</p>
 		</c:if>
 		<c:forEach items="${dc.lastFavorites}" var="favorite">					
-			<div class="favoris-teaser">
+			<div class="favoris-teaser type-${favorite.typeId}">
 				<a href="${favorite.url}" class="favoris-teaser__link">
 					<div class="favoris-teaser__type"><liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
 					<div >
@@ -33,7 +33,7 @@
 						<c:if test="${favorite.typeId == 1 }">
 								<c:if test="${not empty favorite.place.periods}">
 									<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
-										<c:if test="${!schedule.isOpenNow()}">
+										<c:if test="${!favorite.place.isOpenNow()}">
 											<liferay-ui:message key="eu.closed" />
 										</c:if>
 										<c:if test="${schedule.isAlwaysOpen()}">
@@ -60,7 +60,7 @@
 									Le ${formattedStartDate}
 								</c:if>
 								<c:if test="${favorite.event.firstStartDate != favorite.event.lastEndDate }">
-                    						Du ${formattedStartDate} au ${formattedEndDate}
+                   						Du ${formattedStartDate} au ${formattedEndDate}
 								</c:if>
 							</c:if>
 							<c:if test="${favorite.typeId == 4 }">
@@ -80,7 +80,7 @@
 									Le ${formattedStartDate}
 								</c:if>
 								<c:if test="${favorite.manifestation.startDate != favorite.manifestation.endDate }">
-                    						Du ${formattedStartDate} au ${formattedEndDate}
+                  						Du ${formattedStartDate} au ${formattedEndDate}
 								</c:if>
 							</c:if>
 						</div>
