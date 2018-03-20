@@ -54,17 +54,15 @@
 								</c:if>
 							</c:if>
 							<c:if test="${favorite.typeId == 2 }">
+								<fmt:formatDate value="${favorite.event.firstStartDate}"
+									var="formattedStartDate" type="date" pattern="dd.MM.yy" />
+								<fmt:formatDate value="${favorite.event.lastEndDate}"
+									var="formattedEndDate" type="date" pattern="dd.MM.yy" />
 								<c:if test="${favorite.event.firstStartDate == favorite.event.lastEndDate }">
-									<fmt:formatDate value="${favorite.event.firstStartDate}"
-										var="formattedModifiedDate" type="date" pattern="dd.MM" />
-									Le ${formattedModifiedDate}
+									Le ${formattedStartDate}
 								</c:if>
 								<c:if test="${favorite.event.firstStartDate != favorite.event.lastEndDate }">
-									<fmt:formatDate value="${favorite.event.firstStartDate}"
-										var="formattedStartDate" type="date" pattern="dd.MM.yyyy" />
-									<fmt:formatDate value="${favorite.event.lastEndDate}"
-										var="formattedEndDate" type="date" pattern="dd.MM.yyyy" />
-									Du ${formattedStartDate} au ${formattedEndDate}
+                   						Du ${formattedStartDate} au ${formattedEndDate}
 								</c:if>
 							</c:if>
 							<c:if test="${favorite.typeId == 4 }">
@@ -76,17 +74,15 @@
 								Le ${formattedModifiedDate}
 							</c:if>
 							<c:if test="${favorite.typeId == 12 }">
+								<fmt:formatDate value="${favorite.manifestation.startDate}"
+									var="formattedStartDate" type="date" pattern="dd.MM.yy" />
+								<fmt:formatDate value="${favorite.manifestation.endDate}"
+									var="formattedEndDate" type="date" pattern="dd.MM.yy" />
 								<c:if test="${favorite.manifestation.startDate == favorite.manifestation.endDate }">
-									<fmt:formatDate value="${favorite.manifestation.startDate}"
-										var="formattedModifiedDate" type="date" pattern="dd.MM" />
-									Le ${formattedModifiedDate}
+									Le ${formattedStartDate}
 								</c:if>
 								<c:if test="${favorite.manifestation.startDate != favorite.manifestation.endDate }">
-									<fmt:formatDate value="${favorite.event.firstStartDate}"
-										var="formattedStartDate" type="date" pattern="dd.MM.yyyy" />
-									<fmt:formatDate value="${favorite.event.lastEndDate}"
-										var="formattedEndDate" type="date" pattern="dd.MM.yyyy" />
-									Du ${formattedStartDate} au ${formattedEndDate}
+                  						Du ${formattedStartDate} au ${formattedEndDate}
 								</c:if>
 							</c:if>
 						</div>

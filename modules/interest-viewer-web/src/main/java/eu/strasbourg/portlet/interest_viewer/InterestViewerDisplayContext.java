@@ -2,10 +2,15 @@ package eu.strasbourg.portlet.interest_viewer;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -16,7 +21,14 @@ import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
@@ -94,7 +106,6 @@ public class InterestViewerDisplayContext {
 			entries.sort((AssetEntry e1, AssetEntry e2) -> this.getDaysBetweenTodayAndPublicationDate(e1)
 					- this.getDaysBetweenTodayAndPublicationDate(e2));
 
-			
 			for (AssetEntry eventEntry : events) {
 				Event event = EventLocalServiceUtil.fetchEvent(eventEntry.getClassPK());
 				if (event != null) {
@@ -276,57 +287,34 @@ public class InterestViewerDisplayContext {
 	private List<AssetEntry> getEvents(List<Long[]> prefilterCategoriesIds) {
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 
-		// Tags
-		String tagsNamesString = null;
-		if (prefilterCategoriesIds.size() == 0) {
-			tagsNamesString = "coupdecoeur";
-		}
-
-		// ClassNames
-		String[] classNames = new String[1];
-		classNames[0] = Event.class.getName();
-
-		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
-		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds,
-				this.themeDisplay.getScopeGroupId(), count, "dates_Number_sortable", false);
-		_log.info("NOMBRE D'EVENT  : " + hits.getLength());
-
-		// On renvoie la liste des événements :
-		// d'abord les événements du jour classés par date de fin
-		// ensuite les autres, classés par date de fin également
-		List<Event> eventsOfTheDay = new ArrayList<Event>();
-		List<Event> otherEvents = new ArrayList<Event>();
-		for (Document document : hits.getDocs()) {
-			Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			if (event != null) {
-				if (this.eventIsHappeningToday(event)) {
-					eventsOfTheDay.add(event);
-				} else {
-					otherEvents.add(event);
+		if (prefilterCategoriesIds.size() > 0) {
+			for (Long[] categoriesIdsGroupByVocabulary : prefilterCategoriesIds) {
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
+					entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+				}
+			}
+		} else {
+			List<AssetTag> allTags = AssetTagLocalServiceUtil.getTags();
+			for (AssetTag tag : allTags) {
+				if (tag.getName().equals("coupdecoeur")) {
+					entries.addAll(AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId()));
 				}
 			}
 		}
-
-		eventsOfTheDay = eventsOfTheDay.stream().sorted((e1, e2) -> {
-			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
-			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
-			return e1EndDate.compareTo(e2EndDate);
-		}).collect(Collectors.toList());
-
-		otherEvents = otherEvents.stream().sorted((e1, e2) -> {
-			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
-			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
-			return e1EndDate.compareTo(e2EndDate);
-		}).collect(Collectors.toList());
-
-		for (Event event : eventsOfTheDay) {
-			entries.add(event.getAssetEntry());
+		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
+		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
+		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+		List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
+		List<AssetEntry> result = new ArrayList<AssetEntry>();
+		for (Event event : listEvent) {
+			AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+			if(assetEntry != null){
+				result.add(assetEntry);
+			}
 		}
-		for (Event event : otherEvents) {
-			entries.add(event.getAssetEntry());
-		}
-
-		return entries;
+		_log.info("NOMBRE D'EVENT  : " + result.size());
+		return result;
 	}
 
 	private List<AssetEntry> getActus(List<Long[]> prefilterCategoriesIds, String tag) {
