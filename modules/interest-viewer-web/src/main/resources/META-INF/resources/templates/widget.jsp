@@ -6,7 +6,7 @@
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
         
-<section id="actu-agenda-no-interest">
+<section id="actu-agenda">
 	<portlet:resourceURL id="hidePortlet" var="portletURL">
 		<portlet:param name="portletName" value="news-agenda" />
 	</portlet:resourceURL>
