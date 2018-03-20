@@ -4,11 +4,7 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -112,12 +108,17 @@ public class InterestViewerDisplayContext {
 			List<AssetEntry> actus = listEntries.get(1);
 			List<AssetEntry> webMag = listEntries.get(2);
 
+			long newsSortStartTime = System.nanoTime();
 			entries = new ArrayList<AssetEntry>();
 			entries.addAll(actus.size() > 9 ? actus.subList(0, 8) : actus);
 			entries.addAll(webMag.size() > 9 ? webMag.subList(0, 8) : webMag);
-			entries.sort((AssetEntry e1, AssetEntry e2) -> this.getDaysBetweenTodayAndPublicationDate(e1)
-					- this.getDaysBetweenTodayAndPublicationDate(e2));
+			entries.sort(Comparator.comparingInt(this::getDaysBetweenTodayAndPublicationDate));
 
+			long newsSortEndTime = System.nanoTime();
+			long newsSortDuration = (newsSortEndTime - newsSortStartTime) / 1000000;
+			_log.info("NewsSort : " + newsSortDuration + "ms");
+
+			long sortStartTime = System.nanoTime();
 			for (AssetEntry eventEntry : events) {
 				Event event = EventLocalServiceUtil.fetchEvent(eventEntry.getClassPK());
 				if (event != null) {
@@ -141,10 +142,14 @@ public class InterestViewerDisplayContext {
 					}
 				}
 			}
+
+			long sortEndTime = System.nanoTime();
+			long sortDuration = (sortEndTime - sortStartTime) / 1000000;
+			_log.info("EventSort : " + sortDuration + "ms");
 		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1000000; 
-		_log.info("Temps d'exe = " + duration);
+		_log.info("Temps d'exe = " + duration + "ms");
 		return entries;
 
 	}
@@ -264,8 +269,9 @@ public class InterestViewerDisplayContext {
 	}
 
 	private List<AssetEntry> getEvents(List<Long[]> prefilterCategoriesIds) {
+		long startTime = System.nanoTime();
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
-
+		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		if (prefilterCategoriesIds.size() > 0) {
 			for (Long[] categoriesIdsGroupByVocabulary : prefilterCategoriesIds) {
 				for (long categoryId : categoriesIdsGroupByVocabulary) {
@@ -284,6 +290,7 @@ public class InterestViewerDisplayContext {
 		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
 		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+		eventQuery.setLimit(0, count - 1);
 		List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
 		for (Event event : listEvent) {
@@ -292,10 +299,15 @@ public class InterestViewerDisplayContext {
 				result.add(assetEntry);
 			}
 		}
+
+		long endTime = System.nanoTime();
+		_log.info("GetEvents : " + (endTime - startTime)/1000000 + "ms");
 		return result;
 	}
 
 	private List<AssetEntry> getActus(List<Long[]> prefilterCategoriesIds, String tag) {
+		long startTime = System.nanoTime();
+
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 
 		// Tags
@@ -320,6 +332,8 @@ public class InterestViewerDisplayContext {
 			}
 		}
 
+		long endTime = System.nanoTime();
+		_log.info("GetActus : " + (endTime - startTime)/1000000 + "ms");
 		return entries;
 	}
 
