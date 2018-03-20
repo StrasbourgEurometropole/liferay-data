@@ -141,6 +141,7 @@
                 }
                 @include RWD(mobile){
                     margin-right: 10px;
+                    display: none;
                     .picto{
                         margin-right: 0;
                     }
