@@ -19,3 +19,11 @@
         </ul>
     </section>  
 </#if>
+
+<style>
+    @media only screen and (max-width: 767px){
+        #alert-slider .alert-lead {
+            display:none;
+        }
+    }
+</style>
