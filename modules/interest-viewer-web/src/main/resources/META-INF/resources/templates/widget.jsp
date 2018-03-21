@@ -25,8 +25,8 @@
 	        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
 	        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
 		                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
-		          		<c:set var="title" value="${dc.getJournalArticleTitle(article,locale)}"/>
-						<c:set var="chapo" value="${dc.getJournalArticleCatcher(article,locale)}"/>
+		          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
+						<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
 						<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
 						<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
 						<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
@@ -53,8 +53,8 @@
 						<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
 		              {
 		                category: 'agenda',
-		                title: '${dc.getJSONEncodedString(event.getTitle(locale))}',
-		                lead: '${dc.getJSONEncodedString(event.getDescription(locale))}',
+		                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
+		                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
 		                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
 		                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 		                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">

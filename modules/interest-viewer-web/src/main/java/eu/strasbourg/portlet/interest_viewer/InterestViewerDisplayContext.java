@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -168,6 +170,9 @@ public class InterestViewerDisplayContext {
 		actusAndWebmags = actusAndWebmags.stream()
 				.sorted((a1, a2) -> a2.getPublishDate().compareTo(a1.getPublishDate())).collect(Collectors.toList());
 		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
+		if(actusAndWebmags.size() <= count){
+			return actusAndWebmags;
+		}
 		return actusAndWebmags.subList(0, count);
 	}
 
@@ -283,7 +288,7 @@ public class InterestViewerDisplayContext {
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
 		for (Event event : listEvent) {
 			AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-			if(assetEntry != null){
+			if (assetEntry != null) {
 				result.add(assetEntry);
 			}
 		}
@@ -453,5 +458,12 @@ public class InterestViewerDisplayContext {
 			}
 		}
 		return false;
+	}
+
+	public String DeleteTag(String html) {
+
+		Pattern p = Pattern.compile("<[^>]*>");
+		Matcher m = p.matcher(html); 
+		return m.replaceAll("");
 	}
 }
