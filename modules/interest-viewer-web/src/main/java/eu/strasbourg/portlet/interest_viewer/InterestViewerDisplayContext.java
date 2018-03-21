@@ -4,12 +4,7 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -18,10 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
@@ -96,6 +97,8 @@ public class InterestViewerDisplayContext {
 	}
 
 	public List<AssetEntry> getEntries() {
+		long startTime = System.nanoTime();
+
 		if (entries == null) {
 			if (listEntries == null) {
 				listEntries = this.getListEntries();
@@ -105,13 +108,17 @@ public class InterestViewerDisplayContext {
 			List<AssetEntry> actus = listEntries.get(1);
 			List<AssetEntry> webMag = listEntries.get(2);
 
+			long newsSortStartTime = System.nanoTime();
 			entries = new ArrayList<AssetEntry>();
 			entries.addAll(actus.size() > 9 ? actus.subList(0, 8) : actus);
 			entries.addAll(webMag.size() > 9 ? webMag.subList(0, 8) : webMag);
-			entries.sort((AssetEntry e1, AssetEntry e2) -> this.getDaysBetweenTodayAndPublicationDate(e1)
-					- this.getDaysBetweenTodayAndPublicationDate(e2));
+			entries.sort(Comparator.comparingInt(this::getDaysBetweenTodayAndPublicationDate));
 
-			
+			long newsSortEndTime = System.nanoTime();
+			long newsSortDuration = (newsSortEndTime - newsSortStartTime) / 1000000;
+			_log.info("NewsSort : " + newsSortDuration + "ms");
+
+			long sortStartTime = System.nanoTime();
 			for (AssetEntry eventEntry : events) {
 				Event event = EventLocalServiceUtil.fetchEvent(eventEntry.getClassPK());
 				if (event != null) {
@@ -135,7 +142,14 @@ public class InterestViewerDisplayContext {
 					}
 				}
 			}
+
+			long sortEndTime = System.nanoTime();
+			long sortDuration = (sortEndTime - sortStartTime) / 1000000;
+			_log.info("EventSort : " + sortDuration + "ms");
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000; 
+		_log.info("Temps d'exe = " + duration + "ms");
 		return entries;
 
 	}
@@ -173,24 +187,12 @@ public class InterestViewerDisplayContext {
 		if (interests == null) {
 			interests = this.getInterests();
 		}
-		String msg = "CENTRE D'INTERET UTILISATEUR : [";
-		for (Interest interest : interests) {
-			msg += interest.getInterestId() + " - " + interest.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les catégories des centres d'intérêts de l'utilisateur
 		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
 		for (Interest interest : interests) {
 			categoriesCI.addAll(interest.getCategories());
 		}
-		msg = "CATEGORIES DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory categorieCI : categoriesCI) {
-			msg += categorieCI.getCategoryId() + " - " + categorieCI.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les vocabulaires liés aux événements et aux actus
 		List<AssetCategory> eventSearchCategories = new ArrayList<AssetCategory>();
@@ -198,19 +200,7 @@ public class InterestViewerDisplayContext {
 		try {
 			List<AssetVocabulary> eventVocabularies = EventLocalServiceUtil
 					.getAttachedVocabularies(themeDisplay.getCompany().getGroupId());
-			msg = "VOCABULAIRES EVENT : [";
-			for (AssetVocabulary eventVocabularie : eventVocabularies) {
-				msg += eventVocabularie.getVocabularyId() + " - " + eventVocabularie.getTitle(Locale.FRENCH) + ";";
-			}
-			msg += "]";
-			_log.info(msg);
 			List<AssetVocabulary> actuVocabularies = this.getJournalArticleVocabularies();
-			msg = "VOCABULAIRES ACTU : [";
-			for (AssetVocabulary actuVocabularie : actuVocabularies) {
-				msg += actuVocabularie.getVocabularyId() + " - " + actuVocabularie.getTitle(Locale.FRENCH) + ";";
-			}
-			msg += "]";
-			_log.info(msg);
 
 			// on stocks les catégories des centres d'intérêts de
 			// l'utilisateur qui ont comme vocabulaire un vocabulaire des
@@ -232,18 +222,6 @@ public class InterestViewerDisplayContext {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		msg = "CATEGORIES EVENT DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory eventSearchCategorie : eventSearchCategories) {
-			msg += eventSearchCategorie.getCategoryId() + " - " + eventSearchCategorie.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
-		msg = "CATEGORIES ACTU DES CENTRE D'INTERET UTILISATEUR : [";
-		for (AssetCategory actuSearchCategorie : actuSearchCategories) {
-			msg += actuSearchCategorie.getCategoryId() + " - " + actuSearchCategorie.getTitle(Locale.FRENCH) + ";";
-		}
-		msg += "]";
-		_log.info(msg);
 
 		// récupère les évènements des centres d'intérêt
 		List<Long[]> categorieEventIds = new ArrayList<Long[]>();
@@ -291,62 +269,45 @@ public class InterestViewerDisplayContext {
 	}
 
 	private List<AssetEntry> getEvents(List<Long[]> prefilterCategoriesIds) {
+		long startTime = System.nanoTime();
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
-
-		// Tags
-		String tagsNamesString = null;
-		if (prefilterCategoriesIds.size() == 0) {
-			tagsNamesString = "coupdecoeur";
-		}
-
-		// ClassNames
-		String[] classNames = new String[1];
-		classNames[0] = Event.class.getName();
-
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
-		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds,
-				this.themeDisplay.getScopeGroupId(), count, "dates_Number_sortable", false);
-		_log.info("NOMBRE D'EVENT  : " + hits.getLength());
-
-		// On renvoie la liste des événements :
-		// d'abord les événements du jour classés par date de fin
-		// ensuite les autres, classés par date de fin également
-		List<Event> eventsOfTheDay = new ArrayList<Event>();
-		List<Event> otherEvents = new ArrayList<Event>();
-		for (Document document : hits.getDocs()) {
-			Event event = EventLocalServiceUtil.fetchEvent(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			if (event != null) {
-				if (this.eventIsHappeningToday(event)) {
-					eventsOfTheDay.add(event);
-				} else {
-					otherEvents.add(event);
+		if (prefilterCategoriesIds.size() > 0) {
+			for (Long[] categoriesIdsGroupByVocabulary : prefilterCategoriesIds) {
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
+					entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+				}
+			}
+		} else {
+			List<AssetTag> allTags = AssetTagLocalServiceUtil.getTags();
+			for (AssetTag tag : allTags) {
+				if (tag.getName().equals("coupdecoeur")) {
+					entries.addAll(AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId()));
 				}
 			}
 		}
-
-		eventsOfTheDay = eventsOfTheDay.stream().sorted((e1, e2) -> {
-			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
-			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
-			return e1EndDate.compareTo(e2EndDate);
-		}).collect(Collectors.toList());
-
-		otherEvents = otherEvents.stream().sorted((e1, e2) -> {
-			Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
-			Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
-			return e1EndDate.compareTo(e2EndDate);
-		}).collect(Collectors.toList());
-
-		for (Event event : eventsOfTheDay) {
-			entries.add(event.getAssetEntry());
-		}
-		for (Event event : otherEvents) {
-			entries.add(event.getAssetEntry());
+		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
+		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
+		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+		eventQuery.setLimit(0, count);
+		List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
+		List<AssetEntry> result = new ArrayList<AssetEntry>();
+		for (Event event : listEvent) {
+			AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+			if(assetEntry != null){
+				result.add(assetEntry);
+			}
 		}
 
-		return entries;
+		long endTime = System.nanoTime();
+		_log.info("GetEvents : " + (endTime - startTime)/1000000 + "ms");
+		return result;
 	}
 
 	private List<AssetEntry> getActus(List<Long[]> prefilterCategoriesIds, String tag) {
+		long startTime = System.nanoTime();
+
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 
 		// Tags
@@ -360,7 +321,6 @@ public class InterestViewerDisplayContext {
 		int count = configuration.template().equals("liste") ? configuration.newsNumberOnListPage() : 9;
 		Hits hits = this.getHits(classNames, tagsNamesString, prefilterCategoriesIds, group.getGroupId(), count,
 				"modified_sortable", true);
-		_log.info("NOMBRE D'ACTU  : " + hits.getLength());
 
 		// On renvoie la liste des actualités classés par date de publication
 		for (Document document : hits.getDocs()) {
@@ -372,6 +332,8 @@ public class InterestViewerDisplayContext {
 			}
 		}
 
+		long endTime = System.nanoTime();
+		_log.info("GetActus : " + (endTime - startTime)/1000000 + "ms");
 		return entries;
 	}
 

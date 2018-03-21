@@ -1,19 +1,19 @@
-.favoris-teaser{
-    @include RWD(tablet){
+.favoris-teaser {
+    @include RWD(tablet) {
         &:nth-child(1),
-        &:nth-child(2){
+        &:nth-child(2) {
             margin-bottom: 50px;
         }
     }
-    @include RWD(mobile){
+    @include RWD(mobile) {
         margin-bottom: 50px;
-        &:last-child{
+        &:last-child {
             margin-bottom: 0 !important;
         }
     }
     padding-bottom: 60px;
     position: relative;
-    &:after{
+    &:after {
         content: '';
         display: block;
         background-color: #f6f6f6;
@@ -26,81 +26,78 @@
           bottom: -25px;
         }
     }
-    &__link{
+    &__link {
         text-decoration: none;
         display: block;
-        &:hover, &:focus{
+        &:hover,
+        &:focus {
             text-decoration: none;
-            .favoris-teaser__title{
+            .favoris-teaser__title {
                 text-decoration: underline;
             }
         }
     }
 
-   &__type{
+    &__type {
         font-family: $fancy-font;
         font-weight: 400;
         font-size: 1.4rem;
         color: #7e7e7e;
-        text-transform: uppercase;   
-        margin-bottom: 10px;        
-   }
-   &__content{
-       padding-left: 40px;
-   }
-   &__tag{
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    &__content {
+        padding-left: 40px;
+    }
+    &__tag {
         font-family: $fancy-font;
         font-weight: 400;
         font-size: 1.4rem;
         color: #2da192;
         text-transform: uppercase;
-        margin-bottom: 2px;  
+        margin-bottom: 2px;
         transform: translateX(-38px);
-        display: flex;
-        //align-items: center;
-        
-        &:before{
+        display: flex; //align-items: center;
+        &:before {
             content: '';
             display: inline-block;
-            width: 13px;
-            min-width: 13px;
-            height: 15px;
-            background-size: contain;
+            width: 40px;
+            background-size: 15px;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: url( svg-bg-uri($svg-bookmark, $core-color) );
+            background-image: url(svg-bg-uri($svg-bookmark, $core-color));
             margin-right: 25px;
-            transform:  translateY(2px);
+            transform: translateY(2px);
         }
-   }
-   &__title{
-       font-family: $fancy-font;
-       font-weight: 500;
-       font-size: 2.2rem;
-       color: $core-color;
-       text-transform: uppercase;
-       margin-bottom: 5px;    
-       line-height: 1.2em;    
-   }
-   &__description{
-       font-family: $main-font;
-       font-weight: 600;
-       color: #7e7e7e;
-       font-size: 1.4rem;
-       margin-bottom: 3px;        
-   }
-   &__date{
-       font-family: $fancy-font;
-       font-weight: 600;
-       font-size: 2.0rem;
-       color: #2da192;
-   }
-   &__crowding{
-       display: flex;
-       align-items: center;
-       margin-top: 15px;
+    }
+    &__title {
+        font-family: $fancy-font;
+        font-weight: 500;
+        font-size: 2.2rem;
+        color: $core-color;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        line-height: 1.2em;
+    }
+    &__description {
+        font-family: $main-font;
+        font-weight: 600;
+        color: #7e7e7e;
+        font-size: 1.4rem;
+        margin-bottom: 3px;
+    }
+    &__date {
+        font-family: $fancy-font;
+        font-weight: 600;
+        font-size: 2.0rem;
+        color: #2da192;
+    }
+    &__crowding {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
 
-        &-amount{
+        &-amount {
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -115,54 +112,71 @@
             &--orange{
                 background-color: $crowded-orange;
             }
-            &--green{
+            &--green {
                 background-color: $crowded-green;
             }
-            &--grey{
+            &--grey {
                 background-color: $crowded-grey;
             }
-            &--white{
+            &--white {
                 background-color: $crowded-white;
                 color: #272222;
             }
             &--red{
                 background-color: $crowded-red;
             }
-       }
-       &-label{
-           flex-shrink: 0;
-           font-size: 1.5rem;
-           color: $core-color;
-           flex: 1;
-       }
-       &-amount + &-label{
-           margin-left: 10px;
-       }
-   }
-   &__trash{
-       font-weight: 600;
-       font-size: 1.4rem;
-       color: $core-color;
-       display: flex;
-       align-items: center;
-       position: absolute;
-       bottom: 0;
-       left: 0;
+        }
+        &-label {
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            color: $core-color;
+            flex: 1;
+        }
+        &-amount+&-label {
+            margin-left: 10px;
+        }
+    }
+    &__trash {
+        font-weight: 600;
+        font-size: 1.4rem;
+        color: $core-color;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
 
-       &:before{
-           content: '';
-           display: block;
-           width: 20px;
-           height: 20px;
-           background-size: contain;
-           background-position: center;
-           background-repeat: no-repeat;
-           background-image: url( svg-bg-uri($svg-trash, $core-color) );
-           margin-right: 10px;
-       }
+        &:before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(svg-bg-uri($svg-trash, $core-color));
+            margin-right: 10px;
+        }
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
 
-       &:hover, &:focus{
-           text-decoration: underline;
-       }
-   }
+    &.type-2 {
+        .favoris-teaser__description {
+            color: #2da192;
+            font-size: 18px;
+            display: flex;
+            &:before {
+                content: '';
+                width: 20px;
+                padding: 0 15px;
+                background-size: 15px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url(svg-bg-uri($svg-marker, #2da192));
+            }
+        }
+    }
 }
