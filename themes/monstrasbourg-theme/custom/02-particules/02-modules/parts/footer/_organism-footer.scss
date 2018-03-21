@@ -88,6 +88,14 @@
                     font-size: smaller;
                     line-height: normal;
                 }
+                a {
+                    color: #b4b4b4;
+                    text-decoration: none;
+                    &:hover {
+                       color: #b4b4b4; 
+                       text-decoration: underline;
+                    }
+                }
             }
 
             .fill{
