@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.liferay.portal.kernel.util.PortalUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -172,13 +173,17 @@ public class PoiServiceImpl implements PoiService {
 			properties.put("visual", place.getImageURL());
 			// récupère l'url de détail du poi
 			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+			if (group == null) {
+				group = GroupLocalServiceUtil
+						.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+			}
 			if (group != null) {
 				String url = "";
 				String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
 				if (virtualHostName.isEmpty()) {
 					url = "/web" + group.getFriendlyURL() + "/";
 				} else {
-					url = "https://" + virtualHostName;
+					url = "https://" + virtualHostName + "/";
 				}
 				url += "lieu/-/entity/sig/" + place.getSIGid();
 				properties.put("url", url);
