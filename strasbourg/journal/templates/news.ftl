@@ -47,9 +47,10 @@
         .region-banner {
             background-image: url(${image.getData()}) !important;
         }
-        .search-asset-portlet {
-            display: none;
-        }
     </style>
 </#if>
-
+<style>
+.search-asset-portlet, .page-header {
+    display: none !important;
+}
+</style>
