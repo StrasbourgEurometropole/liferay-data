@@ -46,11 +46,11 @@ public class OIDCFilter extends BaseFilter {
 	private String givenNameAttribute = "publik_given_name";
 	private String familyNameAttribute = "publik_family_name";
 	private String emailAttribute = "publik_email";
-	String familyName;
-	String givenName;
-	String internalId;
-	String accessToken;
-	String email;
+	private String familyName;
+	private String givenName;
+	private String internalId;
+	private String accessToken;
+	private String email;
 
 	@Override
 	protected Log getLog() {
@@ -85,7 +85,7 @@ public class OIDCFilter extends BaseFilter {
 				return;
 			}
 			// Si son jwt n'est plus valide, on le déconnecte
-			String jwtFromCookies = this.getCookieValue(request, "jwt");
+			String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
 			if (jwtFromCookies == null || jwtFromCookies.equals("")) {
 				LOG.info("Logout because no JWT");
 				logout(request, response);
@@ -151,7 +151,7 @@ public class OIDCFilter extends BaseFilter {
 					// l'id utilisateur
 					String internalJwtToken = JWTUtils.createJWT(internalId, 60 * 60 * 24);
 					// On l'enregistre dans un cookie
-					createCookie(request, response, "jwt", internalJwtToken);
+					createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), internalJwtToken);
 
 					// On met les infos de l'utilisateur dans la session
 					putUserInfoInSession(request);
@@ -166,7 +166,7 @@ public class OIDCFilter extends BaseFilter {
 		// Si on n'est pas connecté mais qu'on a un jwt dans les cookies, on
 		// doit le vérifier et connecter l'utilisateur s'il est valide
 		if (!isAlreadyLoggedIn && !wantsToLogout) {
-			String jwtFromCookies = this.getCookieValue(request, "jwt");
+			String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
 			if (jwtFromCookies != null && !jwtFromCookies.equals("")) {
 				boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
 						StrasbourgPropsUtil.getInternalIssuer());
@@ -177,12 +177,14 @@ public class OIDCFilter extends BaseFilter {
 
 					// Et les autres données en base
 					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.internalId);
-					givenName = user.getFirstName();
-					familyName = user.getLastName();
-					email = user.getEmail();
+					if (user != null) {
+						givenName = user.getFirstName();
+						familyName = user.getLastName();
+						email = user.getEmail();
 
-					// On les met dans la session
-					putUserInfoInSession(request);
+						// On les met dans la session
+						putUserInfoInSession(request);
+					}
 				}
 			}
 		}
@@ -289,7 +291,7 @@ public class OIDCFilter extends BaseFilter {
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 
-		createCookie(request, response, "jwt", "");
+		createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), "");
 	}
 
 	/**
@@ -299,7 +301,7 @@ public class OIDCFilter extends BaseFilter {
 		try {
 			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
 					+ "?post_logout_redirect_uri=" + StrasbourgPropsUtil.getURL()
-					+ "&state=" + URLEncoder.encode(request.getRequestURI().toString(), "UTF-8"));
+					+ "&state=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -329,7 +331,7 @@ public class OIDCFilter extends BaseFilter {
 		String url = request.getRequestURL().toString();
 		String domain = getMainDomain(url);
 		cookie.setDomain(domain);
-		cookie.setMaxAge(60 * 60 * 24);
+		cookie.setMaxAge(60 * 60 * 10);
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
