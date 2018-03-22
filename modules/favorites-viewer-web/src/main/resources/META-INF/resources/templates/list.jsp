@@ -17,7 +17,7 @@
 					<option value="${allFavoritesURL}" <c:if test="${empty param.favoriteTypeId}">selected</c:if>>
 						<liferay-ui:message key="everything" />
 					</option>
-					<c:forEach items="${dc.favoritesType}" var="favoriteType">
+					<c:forEach items="${dc.favoritesTypeFromUserFavorites}" var="favoriteType">
 						<liferay-portlet:renderURL var="favoriteFilterURL">
 							<liferay-portlet:param name="favoriteTypeId" value="${favoriteType.id}" />
 						</liferay-portlet:renderURL>
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 		        
-	<!-- Nombre de résultats et items par page -->
+	<!-- Nombre de rÃ©sultats et items par page -->
 	<div class="search-infos">
 	    <div class="search-infos__amount"> 
 	    	<c:choose>
@@ -57,9 +57,9 @@
 	    </div> 
 	</div>
 		
-	<!-- Liste des résultats -->
+	<!-- Liste des rÃ©sultats -->
 	<aui:form method="post" name="fm">
-		<!-- Résultats -->
+		<!-- RÃ©sultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
 			<ul class="favoris-list">
@@ -166,6 +166,7 @@
 			<!-- Pagination -->
 			<c:if test="${dc.pager.lastPage > 1}">
 	            <ul class="mseu-pagination unstyled">
+
 	            	<!-- Page précédente -->
 	                <li class="pagin-prev pagin-item">
 						<c:if test="${not dc.pager.onFirstPage}">

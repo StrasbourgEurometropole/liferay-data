@@ -1,8 +1,8 @@
-.mseu footer{
+footer{
     @extend %organism-footer;
 }
 // Spé hp
-.mseu .front footer{
+.front footer{
     // padding-top: 190px;
     // margin-top: -160px; 
     @include RWD(mobile){

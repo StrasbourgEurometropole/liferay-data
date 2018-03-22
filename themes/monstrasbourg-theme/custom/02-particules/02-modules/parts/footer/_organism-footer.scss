@@ -21,39 +21,45 @@
                     font-size: 3.5rem;
                     font-weight: 700;
                     text-transform: uppercase;
-                    color: $core-color;
                     font-family: $site-font;
                     line-height: 1.2;
                     color: #FFFFFF;
+                    margin-bottom: inherit;
+                    text-align: inherit;
 
                     @include RWD(mobile){
                         font-size: 2.5rem;
+                    }
+                    &:before{
+                        display: none;
                     }
                 }
                 h2{
                     font-family: $site-font;
                     color: #FFFFFF;
-                    font-size: 3.7rem; 
-                    font-weight: 500;
+                    font-size: 2.5rem; 
+                    font-weight: 700;
                     text-transform: uppercase;
                     line-height: 1.2;
                     word-break: break-word;
                     hyphens: auto;
 
                     @include RWD(mobile){
-                        font-size: 2.5rem;
+                        font-size: 2rem;
                     }
                 }
                 h3{
-                    font-family: $site-font;    
-                    font-weight: 400;
-                    font-size: 3.0rem;
+                    font-family: $site-font;
                     color: #FFFFFF;
-                    line-height: 1.2;
+                    font-size: 2.2rem; 
+                    font-weight: 700;
                     text-transform: uppercase;
-                    
+                    line-height: 1.2;
+                    word-break: break-word;
+                    hyphens: auto;
+
                     @include RWD(mobile){
-                        font-size: 1.7rem;
+                        font-size: 1.8rem;
                     }
                 }
 
@@ -81,6 +87,14 @@
                     vertical-align: sub;
                     font-size: smaller;
                     line-height: normal;
+                }
+                a {
+                    color: #b4b4b4;
+                    text-decoration: none;
+                    &:hover {
+                       color: #b4b4b4; 
+                       text-decoration: underline;
+                    }
                 }
             }
 
