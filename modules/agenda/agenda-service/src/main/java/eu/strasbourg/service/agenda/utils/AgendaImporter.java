@@ -114,7 +114,6 @@ public class AgendaImporter {
 		// On prépare le rapport, l'objet JSON et le répertoire qui
 		// contient les fichiers à importer
 		_log.info("Start import");
-		long startTime = System.nanoTime();
 		ImportReport report = null;
 		JSONObject json = null;
 		File directory = new File(
@@ -270,9 +269,6 @@ public class AgendaImporter {
 		// On purge les plus anciens des rapports d'import
 		ImportReportLocalServiceUtil.purgeReports();
 		_log.info("End import");
-		long endTime = System.nanoTime();
-		long duration = (endTime - startTime) / 1000000;
-		_log.info("Duration : " + duration + "ms");
 		return true;
 	}
 
