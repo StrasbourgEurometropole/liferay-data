@@ -69,8 +69,8 @@ public class TipiPortlet extends MVCPortlet {
 		// On récupère l'URL de paiement dans config.properties
 		String billingURL = "";
 		String callbackURL = "";
-		billingURL = "http://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/tpa/paiement.web?saisie=T&";
-		callbackURL = "https://webhook.site/42ef84dd-89fd-4cb8-af24-a057e88cdecb";
+		billingURL =  StrasbourgPropsUtil.getTipiURL();
+		callbackURL = StrasbourgPropsUtil.getTipiCallbackURL();
 				//callbackURL = "http://ldkimmwffo.localtunnel.me/web/tipi/accueil";
 		request.setAttribute("billingURL", billingURL);
 		request.setAttribute("callbackURL", callbackURL);

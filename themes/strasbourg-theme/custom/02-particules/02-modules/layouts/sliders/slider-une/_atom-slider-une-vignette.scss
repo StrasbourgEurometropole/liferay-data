@@ -16,6 +16,7 @@
         }
         @include RWD(mobile){
             padding: 20px;
+            padding-bottom: 40px;
         }
     }
     .seu-title{
@@ -146,6 +147,10 @@
         }
         .seu-text{
             padding: 30px;
+            @include RWD(mobile){
+                padding: 20px;
+                padding-bottom: 40px;
+            }
         }
         .seu-title{
             color: $core-color;

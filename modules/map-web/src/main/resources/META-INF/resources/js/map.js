@@ -313,7 +313,7 @@
                 moveToUserPosition();
             });
             ame.$ui_home.on('click', function() {
-                moveToUserAddress
+                moveToUserAddress();
             });
             ame.$filters.on('change', function() {
                 saveUserConfig();
@@ -349,12 +349,24 @@
                 Liferay.Service('/strasbourg.strasbourg/get-coordinate-for-address', {
                     address: window.userAddress
                 }, function(data) {
+                    var markerIcon = new L.Icon({
+                        iconUrl: '/o/mapweb/images/home.png',
+                        iconSize: [35,49],
+                        iconAnchor: [17, 49]
+                    });
+                    var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
                     mymap = mymap.setView([data[1], data[0]], 18);
                 });
             }
 
             function moveToUserPosition() {
                 navigator.geolocation.getCurrentPosition(function(position) {
+                    var markerIcon = new L.Icon({
+                        iconUrl: '/o/mapweb/images/gps.png',
+                        iconSize: [25,25],
+                        iconAnchor: [12, 12]
+                    });
+                    var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
                     mymap.setView([position.coords.latitude, position.coords.longitude], 18);
                 });
             }
