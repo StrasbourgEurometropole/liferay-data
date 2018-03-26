@@ -4135,8 +4135,8 @@ a {
 .mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, #rub_service,
 .mseu-main-form, .mseu .not-front {
   font-family: "OpenSans", arial;
-  font-size: 1.6rem;
-  line-height: 1.2em;
+  font-size: 1.8rem;
+  line-height: 1.66666666;
   color: #5c5c5c;
   font-weight: 400; }
   @media only screen and (max-width: 767px) {
@@ -4801,17 +4801,21 @@ a {
     left: 0;
     right: 0;
     height: 2px; }
-  /* line 26, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    @media only screen and (max-width: 767px) {
+      /* line 16, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      .favoris-teaser:after {
+        bottom: -25px; } }
+  /* line 29, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__link {
     text-decoration: none;
     display: block; }
-    /* line 29, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 32, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__link:hover, .favoris-teaser__link:focus {
       text-decoration: none; }
-      /* line 31, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 35, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__link:hover .favoris-teaser__title, .favoris-teaser__link:focus .favoris-teaser__title {
         text-decoration: underline; }
-  /* line 37, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 41, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__type {
     font-family: "MontSerrat", arial;
     font-weight: 400;
@@ -4819,10 +4823,10 @@ a {
     color: #7e7e7e;
     text-transform: uppercase;
     margin-bottom: 10px; }
-  /* line 45, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 49, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__content {
     padding-left: 40px; }
-  /* line 48, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 52, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__tag {
     font-family: "MontSerrat", arial;
     font-weight: 400;
@@ -4835,14 +4839,12 @@ a {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex; }
-    /* line 59, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 61, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__tag:before {
       content: '';
       display: inline-block;
-      width: 13px;
-      min-width: 13px;
-      height: 15px;
-      background-size: contain;
+      width: 40px;
+      background-size: 15px;
       background-position: center;
       background-repeat: no-repeat;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 366.9 427.7'%3E%3Cpath class='st0' d='M367 45.1c0-0.4 0-0.8 0-1.2 0 0 0 0 0 0 -0.3-8.5-3-16.5-7.9-23.6l0 0c0 0 0 0-0.1-0.1 -5.2-7.4-12.1-12.9-20.7-16.3 -5.6-2.4-11.5-3.5-17.6-3.5l-15.6 0 0 0v0L50.2 0.4l-3.3-0.1c-6.1 0-12 1.2-17.6 3.5 -8.6 3.4-15.6 8.9-20.8 16.4 -5.3 7.6-8 16.1-8 25.3v0 336.7 0c0 0.3 0 0.6 0 0.9 0.2 8.3 2.5 16 7 23 0.3 0.5 0.6 1 1 1.4 1.9 2.8 4.1 5.3 6.6 7.5 0 0 0.1 0 0.1 0.1 0.8 0.7 1.6 1.4 2.4 2.1 0.2 0.2 0.5 0.3 0.7 0.5 0.6 0.5 1.3 1 2 1.4 0.4 0.2 0.7 0.5 1.1 0.7 0.6 0.4 1.1 0.7 1.7 1.1 0.5 0.3 0.9 0.5 1.4 0.7 0.5 0.3 1 0.6 1.6 0.8 0.5 0.3 1.1 0.5 1.6 0.7 0.5 0.2 1 0.5 1.5 0.7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0 5.5 2.3 11.4 3.5 17.5 3.5 12.2 0 23-4.2 32.3-12.6 0.1-0.1 0.1-0.1 0.2-0.2l0.3-0.3 88.6-85.2 15.5-14.9 15.4 14.8 88.7 85.3 0.3 0.3c0.1 0.1 0.1 0.1 0.2 0.2 9.2 8.4 20.1 12.6 32.3 12.6 6.1 0 11.9-1.2 17.5-3.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5-0.2 1-0.4 1.5-0.7 0.5-0.2 1.1-0.5 1.6-0.7 0.6-0.3 1.1-0.6 1.6-0.8 0.5-0.2 0.9-0.5 1.4-0.7 0.6-0.3 1.2-0.7 1.7-1.1 0.4-0.2 0.7-0.4 1.1-0.7 0.7-0.4 1.3-0.9 1.9-1.4 0.3-0.2 0.5-0.4 0.8-0.6 0.8-0.7 1.7-1.4 2.4-2.1 0 0 0.1 0 0.1-0.1 2.4-2.2 4.6-4.8 6.6-7.5 0.3-0.5 0.7-1 1-1.4 4.5-7 6.8-14.7 7-23 0-0.3 0-0.6 0-0.9v0V45.6v0C367 45.4 367 45.3 367 45.1zM334.9 382.5c0 2.2-0.6 4.1-1.7 6 -0.2 0.3-0.3 0.5-0.5 0.8 -1.1 1.6-2.5 2.9-4.2 3.9 -0.7 0.4-1.4 0.8-2.3 1.1l-0.1 0.1 -0.2 0.1c-1.3 0.5-3.1 0.8-5.3 0.8 -4.3 0-7.6-1.2-10.7-4l-51-49.1L183.8 270l0 0 0 0 -77.2 74.2 -49 47.1c-3.1 2.8-6.4 4-10.7 4 -2.2 0-4-0.3-5.3-0.8l-0.2-0.1 -0.1-0.1c-0.8-0.3-1.6-0.7-2.3-1.1 -1.7-1-3-2.2-4.2-3.9 -0.2-0.3-0.4-0.5-0.5-0.8 -1.1-1.9-1.7-3.8-1.7-6 0-0.1 0-0.1 0-0.2V45.6c0-1.7 0.3-3.3 0.9-4.7 0.3-0.8 0.8-1.5 1.3-2.3 0.5-0.6 0.9-1.2 1.5-1.8 1.3-1.4 3-2.4 5-3.2l0.4-0.2c1.7-0.7 3.4-1.1 5.2-1.1l136.9 0 136.9 0c1.8 0 3.5 0.3 5.2 1.1l0.4 0.2c2 0.8 3.6 1.8 5 3.2 0.5 0.5 1 1.1 1.5 1.8 0.6 0.8 1 1.6 1.3 2.4 0 0 0 0.1 0 0.1 0 0 0 0.1 0 0.1 0.5 1.4 0.8 2.8 0.8 4.4v336.7C334.9 382.4 334.9 382.4 334.9 382.5z'/%3E%3C/svg%3E");
@@ -4892,27 +4894,31 @@ a {
       -webkit-box-pack: center;
           -ms-flex-pack: center;
               justify-content: center;
-      font-weight: 700;
+      font-weight: 600;
       color: #FFFFFF;
-      font-size: 2.1rem;
+      font-size: 1.7rem;
       height: 50px;
       width: 50px;
       -ms-flex-negative: 0;
-          flex-shrink: 0; }
-      /* line 111, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+          flex-shrink: 0;
+      text-align: center; }
+      /* line 112, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--orange {
         background-color: #ff470f; }
-      /* line 114, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 115, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--green {
         background-color: #40a040; }
-      /* line 117, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 118, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--grey {
         background-color: #9E9E9E; }
-      /* line 120, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 121, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
       .favoris-teaser__crowding-amount--white {
         background-color: #FFFFFF;
         color: #272222; }
-    /* line 125, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      /* line 125, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+      .favoris-teaser__crowding-amount--red {
+        background-color: #FF0F0F; }
+    /* line 129, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__crowding-label {
       -ms-flex-negative: 0;
           flex-shrink: 0;
@@ -4921,10 +4927,10 @@ a {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 131, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 135, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__crowding-amount + .favoris-teaser__crowding-label {
       margin-left: 10px; }
-  /* line 135, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  /* line 139, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
   .favoris-teaser__trash {
     font-weight: 600;
     font-size: 1.4rem;
@@ -4938,7 +4944,7 @@ a {
     position: absolute;
     bottom: 0;
     left: 0; }
-    /* line 145, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 149, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__trash:before {
       content: '';
       display: block;
@@ -4949,9 +4955,25 @@ a {
       background-repeat: no-repeat;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 512 512'%3E%3Cpath d='M465.4 48.2h-137.6V24C327.8 10.7 317.1 0 303.9 0h-95.8c-13.2 0-23.9 10.7-23.9 24V48.2H46.6c-6.7 0-12 5.4-12 12 0 6.7 5.4 12 12 12h22.3l15.2 396.4C85.1 493 104.8 512 129.1 512h253.8c24.3 0 44-19 45-43.3l15.2-396.4h22.3c6.7 0 12-5.4 12-12C477.5 53.6 472.1 48.2 465.4 48.2zM208.3 24.1h95.4v24.1h-95.4V24.1zM403.8 467.8c-0.4 11.3-9.6 20.1-20.9 20.1H129.1c-11.3 0-20.4-8.8-20.9-20.1L93 72.3h326L403.8 467.8z'/%3E%3Cpath d='M182.6 181.6c-0.1-6.6-5.5-11.8-12-11.8 -0.1 0-0.2 0-0.2 0 -6.7 0.1-11.9 5.6-11.8 12.3l3.8 196.6c0.1 6.6 5.5 11.8 12 11.8 0.1 0 0.2 0 0.2 0 6.7-0.1 11.9-5.6 11.8-12.3L182.6 181.6z'/%3E%3Cpath d='M256 169.8c-6.7 0-12 5.4-12 12v196.6c0 6.7 5.4 12 12 12 6.7 0 12-5.4 12-12V181.8C268 175.1 262.7 169.8 256 169.8z'/%3E%3Cpath d='M341.6 169.8c-6.6-0.1-12.2 5.2-12.3 11.8l-3.8 196.6c-0.1 6.7 5.2 12.2 11.8 12.3 0.1 0 0.2 0 0.2 0 6.5 0 11.9-5.2 12-11.8l3.8-196.6C353.6 175.4 348.3 169.9 341.6 169.8z'/%3E%3C/svg%3E");
       margin-right: 10px; }
-    /* line 157, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    /* line 160, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
     .favoris-teaser__trash:hover, .favoris-teaser__trash:focus {
       text-decoration: underline; }
+  /* line 167, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+  .favoris-teaser.type-2 .favoris-teaser__description {
+    color: #2da192;
+    font-size: 18px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+    /* line 171, custom/02-particules/02-modules/favoris/_atom-favoris-teaser.scss */
+    .favoris-teaser.type-2 .favoris-teaser__description:before {
+      content: '';
+      width: 20px;
+      padding: 0 15px;
+      background-size: 15px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%232da192' viewBox='0 0 266.9 393.3'%3E%3Cpath d='M133.5 0C59.9 0 0 59.9 0 133.5 0 163 17.4 208 54.8 275c25.5 45.7 50.9 84.3 52 85.9l18.4 27.8c1.8 2.8 5 4.5 8.3 4.5 3.4 0 6.5-1.7 8.3-4.5l18.4-27.8c1.1-1.6 26.3-39.9 52-85.9 37.4-67 54.8-112 54.8-141.5C266.9 59.9 207.1 0 133.5 0L133.5 0zM194.7 265.3c-25.3 45.4-50.2 83.1-51.2 84.7l-10 15.2 -10-15.2c-1.1-1.6-26.1-39.6-51.2-84.7C37.6 203.1 20 158.8 20 133.5 20 70.9 70.9 20 133.5 20c62.6 0 113.5 50.9 113.5 113.5C246.9 158.8 229.4 203.1 194.7 265.3L194.7 265.3zM194.7 265.3'/%3E%3Cpath d='M133.5 58.6c-40.8 0-74 33.2-74 74 0 40.8 33.2 74 74 74 40.8 0 74-33.2 74-74C207.5 91.8 174.3 58.6 133.5 58.6L133.5 58.6zM133.5 186.6c-29.8 0-54-24.2-54-54 0-29.8 24.2-54 54-54 29.8 0 54 24.2 54 54C187.5 162.4 163.2 186.6 133.5 186.6L133.5 186.6zM133.5 186.6'/%3E%3C/svg%3E"); }
 
 /* line 1, custom/02-particules/02-modules/forms/datepicker/_atom-datepicker.scss */
 #ui-datepicker-div {
@@ -6882,7 +6904,8 @@ a {
 .not-front .rte ul:not(.unstyled) {
   padding-left: 60px;
   margin-bottom: 10px;
-  list-style: none; }
+  list-style: none;
+  overflow: hidden; }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .not-front .rte ul:not(.unstyled) {
@@ -6917,7 +6940,8 @@ a {
   padding-left: 50px;
   list-style: none;
   counter-reset: item;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  overflow: hidden; }
   @media only screen and (max-width: 767px) {
     /* line 34, custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .not-front .rte ol:not(.unstyled) {
@@ -6939,7 +6963,6 @@ a {
       color: #31455d;
       display: block;
       top: 0px;
-      font-weight: 700;
       margin-right: 5px;
       margin-top: 1px; }
   /* line 59, custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
@@ -9015,7 +9038,7 @@ a {
       border-bottom: solid 1px #d8dbdf; }
       /* line 82, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
       .mseu #nav-side #nav-notifications .notif-list .notif-item.new {
-        background-color: #fbb52d;
+        background-color: #FFFFFF;
         border-color: #FFFFFF; }
       /* line 86, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
       .mseu #nav-side #nav-notifications .notif-list .notif-item:hover, .mseu #nav-side #nav-notifications .notif-list .notif-item:focus {
@@ -9029,10 +9052,13 @@ a {
       font-weight: 600;
       font-size: 1.6rem;
       color: #31455d; }
-    /* line 102, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+    /* line 99, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+    .mseu #nav-side #nav-notifications .notif-list .notif-text {
+      background-color: #f6f6f6; }
+    /* line 103, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
     .mseu #nav-side #nav-notifications .notif-list .notif-last {
       padding: 15px 20px;
-      background-color: #fbb52d; }
+      background-color: #FFFFFF; }
 
 /* line 1, custom/02-particules/02-modules/parts/post-header/ariane/_molecule-ariane.scss */
 .block-custom-container-breadcrumb .page-depth {
@@ -9227,7 +9253,8 @@ a {
 
 /* line 4, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
 .not-front .hat strong, .not-front .rte strong, #rub_service strong,
-.mseu-main-form strong {
+.mseu-main-form strong, .not-front .hat b, .not-front .rte b, #rub_service b,
+.mseu-main-form b {
   font-weight: 600;
   color: #505050; }
 
@@ -9240,7 +9267,6 @@ a {
 /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
 .not-front .hat sup, .not-front .rte sup, #rub_service sup,
 .mseu-main-form sup {
-  vertical-align: super;
   font-size: smaller;
   line-height: normal; }
 
@@ -9737,8 +9763,9 @@ a {
   #alert-slider .alert-lead {
     font-weight: 400;
     font-size: 1.6rem;
-    font-family: "OpenSans", arial; }
-  /* line 93, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+    font-family: "OpenSans", arial;
+    padding-bottom: 5px; }
+  /* line 94, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
   #alert-slider .owl-nav {
     position: absolute;
     left: 0;
@@ -9746,7 +9773,7 @@ a {
     width: 100%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
-    /* line 100, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+    /* line 101, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
     #alert-slider .owl-nav > div {
       position: absolute;
       content: '';
@@ -9762,23 +9789,23 @@ a {
       font-size: 0;
       top: 0; }
       @media only screen and (max-width: 1279px) {
-        /* line 100, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+        /* line 101, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
         #alert-slider .owl-nav > div {
           width: 30px;
           height: 30px;
           background-size: 15px; } }
-      /* line 119, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+      /* line 120, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
       #alert-slider .owl-nav > div.owl-prev {
         -webkit-transform: translateY(-50%) rotate(-180deg);
                 transform: translateY(-50%) rotate(-180deg);
         left: 0; }
-      /* line 123, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+      /* line 124, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
       #alert-slider .owl-nav > div.owl-next {
         -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
         right: 0; }
       @media only screen and (max-width: 767px) {
-        /* line 100, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
+        /* line 101, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
         #alert-slider .owl-nav > div {
           width: 26px;
           height: 26px;
@@ -10228,36 +10255,117 @@ a {
       #une .slider-une-container .slider .owl-item .item {
         height: 350px; } }
 
-/* line 2, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
-.mseu footer .footer-bottom {
-  background-color: #dddddd; }
-  /* line 4, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
-  .mseu footer .footer-bottom svg {
-    width: 180px;
-    height: auto;
-    fill: #3a3a3a; }
-  /* line 9, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
-  .mseu footer .footer-bottom .custom-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    height: 50px;
-    margin-top: 60px; }
-    @media only screen and (max-width: 767px) {
-      /* line 9, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
-      .mseu footer .footer-bottom .custom-container {
-        display: block;
-        height: unset;
-        padding: 20px;
-        text-align: center; } }
-  /* line 23, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
-  .mseu footer .footer-bottom .fill {
+/* line 3, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+footer .footer .footer-bottom {
+  background-color: #3a3a3a; }
+  /* line 5, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+  footer .footer .footer-bottom .col-top {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: solid 1px #505050; }
+    /* line 9, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .col-top svg {
+      width: 260px;
+      height: auto;
+      fill: #606060; }
+  /* line 16, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+  footer .footer .footer-bottom .container .col-bottom {
+    color: #b4b4b4;
+    font-size: 1.4rem;
+    padding-bottom: 20px; }
+    /* line 20, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: "MontSerrat", arial;
+      line-height: 1.2;
+      color: #FFFFFF;
+      margin-bottom: inherit;
+      text-align: inherit; }
+      @media only screen and (max-width: 767px) {
+        /* line 20, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+        footer .footer .footer-bottom .container .col-bottom h1 {
+          font-size: 2.5rem; } }
+      /* line 33, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+      footer .footer .footer-bottom .container .col-bottom h1:before {
+        display: none; }
+    /* line 37, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom h2 {
+      font-family: "MontSerrat", arial;
+      color: #FFFFFF;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.2;
+      word-break: break-word;
+      -webkit-hyphens: auto;
+          -ms-hyphens: auto;
+              hyphens: auto; }
+      @media only screen and (max-width: 767px) {
+        /* line 37, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+        footer .footer .footer-bottom .container .col-bottom h2 {
+          font-size: 2rem; } }
+    /* line 51, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom h3 {
+      font-family: "MontSerrat", arial;
+      color: #FFFFFF;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.2;
+      word-break: break-word;
+      -webkit-hyphens: auto;
+          -ms-hyphens: auto;
+              hyphens: auto; }
+      @media only screen and (max-width: 767px) {
+        /* line 51, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+        footer .footer .footer-bottom .container .col-bottom h3 {
+          font-size: 1.8rem; } }
+    /* line 66, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom ul {
+      list-style: disc;
+      padding-left: 60px; }
+    /* line 71, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom ol {
+      list-style: decimal;
+      padding-left: 60px; }
+    /* line 75, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom strong, footer .footer .footer-bottom .container .col-bottom b {
+      font-weight: 600; }
+    /* line 78, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom em {
+      font-style: italic; }
+    /* line 81, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom sup {
+      font-size: smaller;
+      line-height: normal; }
+    /* line 86, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom sub {
+      vertical-align: sub;
+      font-size: smaller;
+      line-height: normal; }
+    /* line 91, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+    footer .footer .footer-bottom .container .col-bottom a {
+      color: #b4b4b4;
+      text-decoration: none; }
+      /* line 94, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+      footer .footer .footer-bottom .container .col-bottom a:hover {
+        color: #b4b4b4;
+        text-decoration: underline; }
+  /* line 101, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+  footer .footer .footer-bottom .fill {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
+
+/* line 105, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+footer .footer .portlet-content-editable {
+  border-width: 0 !important; }
+
+/* line 109, custom/02-particules/02-modules/parts/footer/_organism-footer.scss */
+footer .footer .portlet {
+  margin-bottom: 0px !important; }
 
 /* line 1, custom/02-particules/02-modules/parts/header/_organism-header.scss */
 .mseu header {
@@ -10297,6 +10405,12 @@ a {
       height: 100%;
       position: relative;
       z-index: 2; }
+      /* line 34, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      .mseu header .nav-top .custom-container a {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        height: 48px; }
       @media only screen and (max-width: 1279px) {
         /* line 27, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .custom-container {
@@ -10307,38 +10421,38 @@ a {
         .mseu header .nav-top .custom-container {
           -ms-flex-wrap: wrap;
               flex-wrap: wrap; } }
-    /* line 42, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+    /* line 47, custom/02-particules/02-modules/parts/header/_organism-header.scss */
     .mseu header .nav-top .scrolled-logo {
       height: 48px;
       width: 170px;
       fill: #FFFFFF; }
       @media only screen and (max-width: 1279px) {
-        /* line 42, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 47, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .scrolled-logo {
           margin-left: 40px;
           width: 160px; } }
       @media only screen and (max-width: 767px) {
-        /* line 42, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 47, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .scrolled-logo {
           margin-left: 20px;
           display: block;
           width: 150px;
           height: auto; } }
-    /* line 57, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+    /* line 62, custom/02-particules/02-modules/parts/header/_organism-header.scss */
     .mseu header .nav-top .fill {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 60, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+    /* line 65, custom/02-particules/02-modules/parts/header/_organism-header.scss */
     .mseu header .nav-top .nav-btn {
       padding: 0 25px;
       font-size: 1.7rem;
       height: 45px; }
       @media only screen and (max-width: 767px) {
-        /* line 60, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 65, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn {
           padding: 0 10px; } }
-      /* line 68, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 73, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn .flexbox {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -10347,7 +10461,7 @@ a {
             -ms-flex-align: center;
                 align-items: center;
         height: 100%; }
-      /* line 73, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 78, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn .text {
         line-height: 1;
         color: #FFFFFF;
@@ -10356,10 +10470,10 @@ a {
         font-weight: 700;
         font-size: 1.7rem;
         position: relative; }
-        /* line 81, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 86, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn .text:after {
           background-color: #FFFFFF; }
-      /* line 86, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 91, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn .picto {
         content: '';
         display: inline-block;
@@ -10369,55 +10483,56 @@ a {
         background-position: center;
         background-repeat: no-repeat;
         margin-right: 15px; }
-      /* line 96, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 101, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn:hover, .mseu header .nav-top .nav-btn:focus {
         text-decoration: none; }
-      /* line 105, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 110, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn.nav-contact {
         margin-right: 25px; }
-        /* line 106, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 111, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn.nav-contact .picto {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF'  viewBox='-49 229 512 334'%3E%3Cpath d='M452.8 231.5H-38.8c-5.6 0-10.2 4.6-10.2 10.2v268.7c0 28.8 23.4 52.2 52.2 52.2h407.7c28.8 0 52.2-23.4 52.2-52.2V241.7C463 236 458.4 231.5 452.8 231.5zM442.6 510.4c0 17.5-14.3 31.8-31.8 31.8H3.2c-17.5 0-31.8-14.3-31.8-31.8V263.9l229.1 187.6c1.9 1.5 4.2 2.3 6.5 2.3 2.3 0 4.6-0.8 6.5-2.3l177.3-144.8c4.4-3.6 5-10 1.4-14.4 -3.6-4.4-10-5-14.4-1.4L207 430.4 -11.1 251.9h453.7V510.4z'/%3E%3C/svg%3E"); }
         @media only screen and (max-width: 767px) {
-          /* line 105, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+          /* line 110, custom/02-particules/02-modules/parts/header/_organism-header.scss */
           .mseu header .nav-top .nav-btn.nav-contact {
             margin-right: 10px; }
-            /* line 112, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+            /* line 117, custom/02-particules/02-modules/parts/header/_organism-header.scss */
             .mseu header .nav-top .nav-btn.nav-contact .text {
               display: none; }
-            /* line 115, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+            /* line 120, custom/02-particules/02-modules/parts/header/_organism-header.scss */
             .mseu header .nav-top .nav-btn.nav-contact .picto {
               margin: 0; } }
-      /* line 120, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 125, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn.nav-account {
         padding-left: 50px;
         padding-right: 10px; }
-        /* line 123, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 128, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn.nav-account .picto {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF'  viewBox='0 0 44 44'%3E%3Cpath d='M44 22C44 9.9 34.1 0 22 0S0 9.9 0 22c0 6.4 2.8 12.2 7.1 16.2l0 0 0.7 0.6c0 0 0.1 0.1 0.1 0.1 0.4 0.3 0.8 0.6 1.2 0.9 0.1 0.1 0.3 0.2 0.4 0.3 0.4 0.3 0.9 0.6 1.3 0.8 0.1 0.1 0.2 0.1 0.3 0.2 0.5 0.3 1 0.5 1.5 0.8 0 0 0.1 0 0.1 0.1 1.7 0.8 3.5 1.3 5.3 1.7 0.1 0 0.1 0 0.1 0 0.6 0.1 1.2 0.2 1.8 0.2 0.1 0 0.1 0 0.2 0 0.6 0 1.2 0.1 1.8 0.1 0.6 0 1.2 0 1.8-0.1 0.1 0 0.1 0 0.2 0 0.6-0.1 1.2-0.1 1.7-0.2 0.1 0 0.1 0 0.2 0 1.8-0.3 3.6-0.9 5.2-1.6 0.1 0 0.1-0.1 0.2-0.1 0.5-0.2 1-0.5 1.5-0.8 0.1-0.1 0.2-0.1 0.4-0.2 0.4-0.3 0.9-0.5 1.3-0.8 0.1-0.1 0.3-0.2 0.4-0.3 0.4-0.3 0.7-0.5 1-0.8 0.1-0.1 0.2-0.1 0.2-0.2l0.7-0.6 0 0C41.2 34.2 44 28.4 44 22L44 22zM1.6 22C1.6 10.8 10.7 1.6 22 1.6S42.4 10.8 42.4 22c0 6.1-2.7 11.5-6.9 15.3 -0.2-0.2-0.5-0.3-0.7-0.4L28 33.4c-0.6-0.3-1-0.9-1-1.6v-2.4c0.2-0.2 0.3-0.4 0.5-0.7 0.9-1.2 1.6-2.6 2.1-4.1 1-0.5 1.7-1.5 1.7-2.6v-2.8c0-0.7-0.3-1.4-0.7-1.9v-3.7c0-0.4 0.2-2.8-1.5-4.7 -1.5-1.7-3.9-2.5-7.1-2.5 -3.2 0-5.6 0.9-7.1 2.5 -1.7 1.9-1.5 4.3-1.5 4.7v3.7c-0.5 0.5-0.7 1.2-0.7 1.9v2.8c0 0.9 0.4 1.7 1.1 2.3 0.6 2.5 2 4.5 2.5 5.1v2.3c0 0.7-0.4 1.3-0.9 1.6L9 36.8c-0.2 0.1-0.4 0.2-0.6 0.4C4.2 33.4 1.6 28 1.6 22L1.6 22zM34 38.5c-0.3 0.2-0.6 0.4-0.9 0.6 -0.1 0.1-0.3 0.2-0.4 0.3 -0.4 0.2-0.8 0.5-1.2 0.7 -0.1 0-0.2 0.1-0.3 0.1 -0.9 0.5-1.8 0.9-2.8 1.2 0 0-0.1 0-0.1 0 -0.5 0.2-1 0.3-1.5 0.4h0c-0.5 0.1-1 0.2-1.6 0.3 0 0 0 0 0 0 -0.5 0.1-1 0.1-1.5 0.2 -0.1 0-0.2 0-0.3 0 -0.5 0-1 0.1-1.5 0.1 -0.5 0-1 0-1.5-0.1 -0.1 0-0.2 0-0.3 0 -0.5 0-1-0.1-1.5-0.2l-0.1 0c-1.1-0.2-2.1-0.4-3.1-0.8 0 0-0.1 0-0.1 0 -0.5-0.2-1-0.4-1.5-0.6 0 0 0 0 0 0 -0.5-0.2-0.9-0.4-1.4-0.7 -0.1 0-0.1-0.1-0.2-0.1 -0.4-0.2-0.8-0.5-1.2-0.7 -0.1-0.1-0.2-0.1-0.3-0.2 -0.4-0.2-0.7-0.5-1.1-0.7 0 0-0.1-0.1-0.1-0.1l0.1 0 6.3-3.4c1.1-0.6 1.8-1.7 1.8-3v-2.9l-0.2-0.2c0 0-1.7-2.1-2.4-5l-0.1-0.3 -0.3-0.2c-0.4-0.2-0.6-0.7-0.6-1.1v-2.8c0-0.4 0.2-0.7 0.4-1L15 18v-4.5l0-0.1c0 0-0.2-1.9 1.1-3.5 1.2-1.3 3.1-2 5.9-2 2.7 0 4.7 0.7 5.9 2 1.4 1.5 1.1 3.5 1.1 3.5l0 4.6 0.3 0.2c0.3 0.3 0.4 0.6 0.4 1v2.8c0 0.6-0.4 1.1-0.9 1.3l-0.4 0.1 -0.1 0.4c-0.5 1.5-1.1 2.8-2 4 -0.2 0.3-0.4 0.6-0.6 0.8l-0.2 0.2v3c0 1.3 0.7 2.4 1.9 3l6.8 3.4c0 0 0.1 0 0.1 0.1C34.1 38.4 34.1 38.4 34 38.5L34 38.5zM34 38.5'/%3E%3C/svg%3E"); }
         @media only screen and (max-width: 767px) {
-          /* line 120, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+          /* line 125, custom/02-particules/02-modules/parts/header/_organism-header.scss */
           .mseu header .nav-top .nav-btn.nav-account {
             padding-left: 20px; } }
-      /* line 130, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+      /* line 135, custom/02-particules/02-modules/parts/header/_organism-header.scss */
       .mseu header .nav-top .nav-btn.nav-logout {
         padding-left: 10px;
         padding-right: 10px;
         background-color: #2d2d2d; }
-        /* line 134, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 139, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn.nav-logout .picto {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23717171' viewBox='0 0 380.2 380.2'%3E%3Cpath d='M324.5 55.7C288.6 19.8 240.9 0 190.1 0 139.3 0 91.6 19.8 55.7 55.7 19.8 91.6 0 139.3 0 190.1c0 50.8 19.8 98.5 55.7 134.4 35.9 35.9 83.6 55.7 134.4 55.7 50.8 0 98.5-19.8 134.4-55.7 35.9-35.9 55.7-83.6 55.7-134.4 0-50.8-19.8-98.5-55.7-134.4zm-15.3 253.5c-31.8 31.8-74.2 49.4-119.1 49.4-45 0-87.3-17.5-119.1-49.4C5.3 243.5 5.3 136.6 71 71c31.8-31.8 74.2-49.4 119.1-49.4 45 0 87.3 17.5 119.1 49.4 65.7 65.6 65.7 172.5 0 238.2zm0 0'/%3E%3Cpath d='M273.8 106.3c-4.2-4.2-11-4.2-15.3 0L190 174.8l-68.5-68.5c-4.2-4.2-11-4.2-15.3 0-4.2 4.2-4.2 11 0 15.3l68.5 68.5-68.5 68.5c-4.2 4.2-4.2 11 0 15.3 2.1 2.1 4.9 3.2 7.6 3.2 2.7 0 5.5-1 7.6-3.2l68.5-68.5 68.5 68.5c2.1 2.1 4.9 3.2 7.6 3.2 2.8 0 5.5-1 7.6-3.2 4.2-4.2 4.2-11 0-15.3l-68.3-68.5 68.5-68.5c4.3-4.2 4.3-11 0-15.3zm0 0'/%3E%3C/svg%3E"); }
-        /* line 138, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 143, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .nav-btn.nav-logout:hover .picto, .mseu header .nav-top .nav-btn.nav-logout:focus .picto {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 380.2 380.2'%3E%3Cpath d='M324.5 55.7C288.6 19.8 240.9 0 190.1 0 139.3 0 91.6 19.8 55.7 55.7 19.8 91.6 0 139.3 0 190.1c0 50.8 19.8 98.5 55.7 134.4 35.9 35.9 83.6 55.7 134.4 55.7 50.8 0 98.5-19.8 134.4-55.7 35.9-35.9 55.7-83.6 55.7-134.4 0-50.8-19.8-98.5-55.7-134.4zm-15.3 253.5c-31.8 31.8-74.2 49.4-119.1 49.4-45 0-87.3-17.5-119.1-49.4C5.3 243.5 5.3 136.6 71 71c31.8-31.8 74.2-49.4 119.1-49.4 45 0 87.3 17.5 119.1 49.4 65.7 65.6 65.7 172.5 0 238.2zm0 0'/%3E%3Cpath d='M273.8 106.3c-4.2-4.2-11-4.2-15.3 0L190 174.8l-68.5-68.5c-4.2-4.2-11-4.2-15.3 0-4.2 4.2-4.2 11 0 15.3l68.5 68.5-68.5 68.5c-4.2 4.2-4.2 11 0 15.3 2.1 2.1 4.9 3.2 7.6 3.2 2.7 0 5.5-1 7.6-3.2l68.5-68.5 68.5 68.5c2.1 2.1 4.9 3.2 7.6 3.2 2.8 0 5.5-1 7.6-3.2 4.2-4.2 4.2-11 0-15.3l-68.3-68.5 68.5-68.5c4.3-4.2 4.3-11 0-15.3zm0 0'/%3E%3C/svg%3E"); }
         @media only screen and (max-width: 767px) {
-          /* line 130, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+          /* line 135, custom/02-particules/02-modules/parts/header/_organism-header.scss */
           .mseu header .nav-top .nav-btn.nav-logout {
-            margin-right: 10px; }
-            /* line 144, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+            margin-right: 10px;
+            display: none; }
+            /* line 150, custom/02-particules/02-modules/parts/header/_organism-header.scss */
             .mseu header .nav-top .nav-btn.nav-logout .picto {
               margin-right: 0; } }
-    /* line 150, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+    /* line 156, custom/02-particules/02-modules/parts/header/_organism-header.scss */
     .mseu header .nav-top .account-wrapper {
       background-color: #2d2d2d;
       display: -webkit-box;
@@ -10425,7 +10540,7 @@ a {
       display: flex;
       height: 100%; }
       @media only screen and (max-width: 767px) {
-        /* line 150, custom/02-particules/02-modules/parts/header/_organism-header.scss */
+        /* line 156, custom/02-particules/02-modules/parts/header/_organism-header.scss */
         .mseu header .nav-top .account-wrapper {
           -webkit-box-pack: justify;
               -ms-flex-pack: justify;
@@ -12035,7 +12150,12 @@ a {
       top: 0;
       right: 0;
       -webkit-transform: translate(50%, -50%);
-              transform: translate(50%, -50%); }
+              transform: translate(50%, -50%);
+      /*
+            &.white{
+                background-color: $crowded-white;
+            }
+            */ }
       /* line 551, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .aroundme__marker-amount.red {
         background-color: #FF0F0F; }
@@ -12046,23 +12166,20 @@ a {
       #aroundme .aroundme__marker-amount.green {
         background-color: #40a040; }
       /* line 560, custom/02-particules/02-modules/aroundme/aroundme.scss */
-      #aroundme .aroundme__marker-amount.grey {
+      #aroundme .aroundme__marker-amount.grey, #aroundme .aroundme__marker-amount.white {
         background-color: #9E9E9E; }
-      /* line 563, custom/02-particules/02-modules/aroundme/aroundme.scss */
-      #aroundme .aroundme__marker-amount.white {
-        background-color: #FFFFFF; }
-  /* line 571, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 573, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-popup-content-wrapper {
     border-radius: 0;
     padding: 0; }
-  /* line 575, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 577, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-popup-content {
     margin: 0; }
-  /* line 578, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 580, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .leaflet-div-icon {
     background: none;
     border: none; }
-  /* line 582, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 584, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .infowindow {
     width: 300px;
     background-color: #FFFFFF;
@@ -12071,7 +12188,7 @@ a {
     -webkit-box-shadow: 0 0 10px 0 rgba(32, 49, 70, 0.15);
             box-shadow: 0 0 10px 0 rgba(32, 49, 70, 0.15);
     z-index: 20; }
-    /* line 589, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 591, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow:before {
       width: 0;
       height: 0;
@@ -12086,7 +12203,7 @@ a {
       -webkit-transform: translate(-50%, -100%);
               transform: translate(-50%, -100%); }
     @media only screen and (max-width: 767px) {
-      /* line 582, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 584, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow {
         position: absolute;
         top: 50% !important;
@@ -12095,10 +12212,10 @@ a {
         max-height: calc(100% - 20px);
         -webkit-transform: translate(-50%, -50%) !important;
                 transform: translate(-50%, -50%) !important; }
-        /* line 611, custom/02-particules/02-modules/aroundme/aroundme.scss */
+        /* line 613, custom/02-particules/02-modules/aroundme/aroundme.scss */
         #aroundme .infowindow:before {
           display: none; } }
-    /* line 615, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 617, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__close {
       content: '';
       display: inline-block;
@@ -12113,19 +12230,19 @@ a {
       position: absolute;
       top: 5px;
       left: 5px; }
-    /* line 629, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 631, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__content {
       padding: 30px; }
-    /* line 632, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 634, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__top {
       border-bottom: solid 1px #dddddd;
       padding-bottom: 20px; }
-    /* line 636, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 638, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__title-block {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-    /* line 639, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 641, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__name {
       font-family: "MontSerrat", arial;
       font-size: 1.4rem;
@@ -12135,7 +12252,7 @@ a {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 648, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 650, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__like a {
       content: '';
       display: inline-block;
@@ -12147,42 +12264,42 @@ a {
       background-position: center;
       background-repeat: no-repeat;
       margin-left: 10px; }
-      /* line 658, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 660, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__like a:not(.liked) {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'   viewBox='0 0 240.7 240.7'%3E%3Cpath d='M123.8 80l-3.4 3.4 -3.4-3.4c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47 14.3-15.9 14.2-38.7-0.2-53.1C162.4 65.3 138.5 65.3 123.8 80zM168.4 125c-10.1 11.3-38 34.5-48 42.8 -10-8.2-37.9-31.5-48-42.8 -10-11.1-10-26.8-0.2-36.6 5-5 11.6-7.5 18.2-7.5 6.6 0 13.2 2.5 18.2 7.5l7.5 7.5c0.9 0.9 2 1.4 3.2 1.6 1.9 0.4 4-0.1 5.5-1.6l7.5-7.5c10-10 26.4-10 36.4 0C178.4 98.2 178.3 114 168.4 125z'/%3E%3Cpath d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9S60.3 229.2 120.4 229.2s108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3C/svg%3E"); }
-      /* line 661, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 663, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__like a.liked {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 240.7 240.7'%3E%3Cpath class='st0' d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9s48.8 108.9 108.9 108.9 108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3Cpath class='st0' d='M177 80c-14.7-14.7-38.6-14.7-53.3 0l-3.4 3.4L117 80c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47C191.5 117.2 191.4 94.3 177 80z'/%3E%3C/svg%3E"); }
-    /* line 667, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 669, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__address {
       font-family: "OpenSans", arial;
       font-weight: 500;
       color: #707070;
       font-size: 1.4rem; }
-    /* line 673, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 675, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__bottom {
       padding-top: 20px;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-    /* line 677, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 679, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__left {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 680, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 682, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__opened {
       font-family: "OpenSans", arial;
       font-weight: 500;
       color: #707070;
       font-size: 1.4rem; }
-    /* line 686, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 688, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__schedules {
       font-weight: 700;
       font-family: "MontSerrat", arial;
       color: #2da192;
       font-size: 1.4rem; }
-    /* line 692, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 694, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__visualImage {
       padding-bottom: 70%;
       background-size: cover;
@@ -12191,7 +12308,7 @@ a {
       display: block;
       width: calc(100% + 60px);
       margin: -30px -30px 20px -30px; }
-    /* line 705, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 707, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__amount .infowindow__frequentation {
       border-radius: 50%;
       display: -webkit-box;
@@ -12209,55 +12326,57 @@ a {
       height: 50px;
       width: 50px;
       -ms-flex-negative: 0;
-          flex-shrink: 0; }
-      /* line 717, custom/02-particules/02-modules/aroundme/aroundme.scss */
+          flex-shrink: 0;
+      /*
+                &.white{
+                    background-color: $crowded-white;
+                }
+                */ }
+      /* line 719, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.orange {
         background-color: #ff470f; }
-      /* line 720, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 722, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.green {
         background-color: #40a040; }
-      /* line 723, custom/02-particules/02-modules/aroundme/aroundme.scss */
-      #aroundme .infowindow__amount .infowindow__frequentation.grey {
+      /* line 725, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      #aroundme .infowindow__amount .infowindow__frequentation.grey, #aroundme .infowindow__amount .infowindow__frequentation.white {
         background-color: #9E9E9E; }
-      /* line 726, custom/02-particules/02-modules/aroundme/aroundme.scss */
-      #aroundme .infowindow__amount .infowindow__frequentation.white {
-        background-color: #FFFFFF; }
-      /* line 729, custom/02-particules/02-modules/aroundme/aroundme.scss */
+      /* line 733, custom/02-particules/02-modules/aroundme/aroundme.scss */
       #aroundme .infowindow__amount .infowindow__frequentation.red {
         background-color: #FF0F0F; }
-    /* line 735, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 739, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme .infowindow__url a {
       width: 100%;
       display: block !important;
       padding: 10px 20px; }
-  /* line 748, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 752, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.top-opened #aroundme__top {
     -webkit-transform: translateY(0);
             transform: translateY(0); }
   @media only screen and (max-width: 767px) {
-    /* line 753, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 757, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.top-opened #aroundme__top {
       -webkit-transform: translateY(0);
               transform: translateY(0); }
-    /* line 756, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 760, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.top-opened #aroundme__side {
       -webkit-transform: translateX(100%);
               transform: translateX(100%); } }
-  /* line 764, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 768, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.side-opened #aroundme__side {
     -webkit-transform: translateX(0);
             transform: translateX(0); }
-  /* line 769, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 773, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.side-opened .side__trigger--pull:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
   @media only screen and (max-width: 767px) {
-    /* line 777, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 781, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.side-opened #aroundme__top {
       -webkit-transform: translateY(-100%) translateY(-50px);
               transform: translateY(-100%) translateY(-50px); } }
-  /* line 785, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 789, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.infowindow-opened #aroundme__center:before {
     content: '';
     position: absolute;
@@ -12268,11 +12387,11 @@ a {
     z-index: 20;
     background-color: rgba(0, 0, 0, 0.7); }
   @media only screen and (max-width: 767px) {
-    /* line 798, custom/02-particules/02-modules/aroundme/aroundme.scss */
+    /* line 802, custom/02-particules/02-modules/aroundme/aroundme.scss */
     #aroundme.infowindow-opened #aroundme__top {
       -webkit-transform: translateY(-100%) translateY(-50px);
               transform: translateY(-100%) translateY(-50px); } }
-  /* line 802, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 806, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme.infowindow-opened .infowindow {
     display: block; }
 
@@ -12291,10 +12410,10 @@ a {
   100% {
     -webkit-transform: translate(-50%, -50%) rotate(360deg);
     transform: translate(-50%, -50%) rotate(360deg); } }
-  /* line 827, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 831, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling {
     position: relative; }
-  /* line 830, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 834, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div,
   #aroundme .lds-rolling div:after {
     position: absolute;
@@ -12303,17 +12422,17 @@ a {
     border: 10px solid #ffffff;
     border-top-color: transparent;
     border-radius: 50%; }
-  /* line 839, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 843, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div {
     -webkit-animation: lds-rolling 1s linear infinite;
     animation: lds-rolling 1s linear infinite;
     top: 100px;
     left: 100px; }
-  /* line 845, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 849, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling div:after {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg); }
-  /* line 849, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 853, custom/02-particules/02-modules/aroundme/aroundme.scss */
   #aroundme .lds-rolling {
     width: 40px !important;
     height: 40px !important;
@@ -12321,11 +12440,11 @@ a {
     transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px); }
 
 /* ------------------------------ Etat full screen */
-/* line 864, custom/02-particules/02-modules/aroundme/aroundme.scss */
+/* line 868, custom/02-particules/02-modules/aroundme/aroundme.scss */
 .aroundme--fullscreen header {
   display: none !important; }
 
-/* line 867, custom/02-particules/02-modules/aroundme/aroundme.scss */
+/* line 871, custom/02-particules/02-modules/aroundme/aroundme.scss */
 .aroundme--fullscreen #aroundme {
   position: fixed;
   top: 0;
@@ -12339,7 +12458,7 @@ a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column; }
-  /* line 875, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 879, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme:before {
     content: '';
     position: fixed;
@@ -12349,17 +12468,17 @@ a {
     height: 100%;
     z-index: 10;
     background-color: rgba(33, 33, 33, 0.8); }
-  /* line 885, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 889, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__center {
     height: 100%;
     z-index: 15; }
-  /* line 892, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 896, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__top {
     display: none !important; }
-  /* line 895, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 899, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__map {
     height: 100%; }
-  /* line 898, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 902, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__ui--fullscreen {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 351.5 351.4'%3E%3Cpath class='st0' d='M214.2 143h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-38.2l78.7-78.7c2.4-2.4 2.4-6.3 0-8.6L332.1 1.8c-2.4-2.4-6.3-2.4-8.6 0l-78.7 78.7V42.3c0-3.4-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.8-6.1 6.1V137C208.1 140.2 210.9 143 214.2 143z'/%3E%3Cpath class='st0' d='M19 2L1.7 19.3c-2.4 2.3-2.4 6.2 0 8.6l78.7 78.7H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.7 6.1 6.1 6.1h94.7c3.3 0 6.1-2.7 6.1-6.1V42.4c0-3.3-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2L27.7 1.9C25.3-0.5 21.5-0.5 19 2z'/%3E%3Cpath class='st0' d='M1.7 332.3L19 349.6c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.5c3.4 0 6.1-2.8 6.1-6.1v-94.7c0-3.4-2.8-6.1-6.1-6.1l0 0H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h38.2L1.7 323.6C-0.7 326.1-0.7 329.9 1.7 332.3z'/%3E%3Cpath class='st0' d='M214.5 315.1h24.4c3.4 0 6.1-2.7 6.1-6.1v-38.2l78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3c2.4-2.4 2.4-6.3 0-8.6l-78.7-78.7h38.2c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-94.7l0 0c-3.4 0-6.1 2.8-6.1 6.1v94.7C208.4 312.4 211.2 315.1 214.5 315.1z'/%3E%3C/svg%3E"); }
 
@@ -12930,19 +13049,25 @@ a {
 /* line 1, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
 #wi-aroundme {
   margin-bottom: 40px;
+  padding: 0;
+  overflow: hidden;
   z-index: 5; }
-  /* line 5, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 7, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-  /* line 8, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 10, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme #aroundme {
     z-index: 10; }
-  /* line 11, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 13, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  #wi-aroundme .meta {
+    padding: 20px 75px 45px 75px;
+    text-align: center; }
+  /* line 17, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme .subtitle {
     font-size: 1.8rem;
     color: #5c5c5c;
     margin-bottom: 20px; }
-  /* line 17, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 23, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme .btn-line {
     margin-top: 20px; }
 
@@ -13182,7 +13307,7 @@ a {
 
 @media only screen and (max-width: 767px) {
   /* line 5, custom/02-particules/02-modules/parts/footer/footer.scss */
-  .mseu .front footer {
+  .front footer {
     padding-top: 120px;
     margin-top: -120px; } }
 
@@ -13678,94 +13803,6 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 /* line 17, custom/02-particules/04-hacks/_liferay.scss */
 #nav-side .portlet-content {
   padding: 0; }
-
-/* line 1, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.mseu .not-front h1 {
-  font-size: 50px;
-  font-size: 5.0rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #31455d;
-  font-family: "MontSerrat", arial;
-  line-height: 1.2; }
-  @media only screen and (max-width: 767px) {
-    /* line 1, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-    .mseu .not-front h1 {
-      font-size: 2.5rem; } }
-
-/* line 14, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.not-front .rte h2, #rub_service h2,
-.mseu-main-form h2 {
-  font-family: "MontSerrat", arial;
-  color: #505050;
-  font-size: 3.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  line-height: 1.2;
-  word-break: break-word;
-  -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-          hyphens: auto; }
-  @media only screen and (max-width: 767px) {
-    /* line 14, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-    .not-front .rte h2, #rub_service h2,
-    .mseu-main-form h2 {
-      font-size: 2.5rem; } }
-
-/* line 28, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.not-front .rte h3, #rub_service h3,
-.mseu-main-form h3 {
-  font-family: "MontSerrat", arial;
-  font-weight: 600;
-  font-size: 2.4rem;
-  color: #505050;
-  line-height: 1.2;
-  text-transform: uppercase; }
-  @media only screen and (max-width: 767px) {
-    /* line 28, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-    .not-front .rte h3, #rub_service h3,
-    .mseu-main-form h3 {
-      font-size: 1.7rem; } }
-
-/* line 40, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4,
-.mseu-main-form h4, #welcome-page .feature .feature-info h3 {
-  font-family: "MontSerrat", arial;
-  font-weight: 700;
-  font-size: 1.7rem;
-  color: #505050;
-  line-height: 1.2;
-  text-transform: uppercase; }
-  @media only screen and (max-width: 767px) {
-    /* line 40, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-    .mseu #nav-side #nav-notifications #trigger-notifications .notification-text, .not-front .rte h4, #rub_service h4,
-    .mseu-main-form h4, #welcome-page .feature .feature-info h3 {
-      font-size: 1.4rem; } }
-
-/* line 52, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.not-front .rte h5, #rub_service h5,
-.mseu-main-form h5 {
-  font-size: 14px;
-  text-transform: uppercase; }
-
-/* line 57, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-.not-front .hat > * {
-  font-family: "MontSerrat", arial;
-  font-weight: 400;
-  font-size: 3.0rem;
-  line-height: 1.2;
-  color: #31455d; }
-  @media only screen and (max-width: 767px) {
-    /* line 57, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-    .not-front .hat > * {
-      font-size: 2rem; } }
-
-/* line 69, custom/03-strasbourg/quarks/_quark-typo-heading.scss */
-#actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #serial h2, #survey h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, #welcome-page .create-account-section h2, #welcome-page .description-section h2 {
-  font-weight: 700;
-  font-size: 32px;
-  font-size: 3.2rem;
-  letter-spacing: 0.05em; }
 
 /* line 1, custom/03-strasbourg/atoms/_atom-btn-square.scss */
 .btn-square.filled.core, .btn-square--filled--core, #aroundme .infowindow__url a, .seu-btn-square.seu-filled.seu-core, .seu-btn-square--filled--core, .btn-square.filled.second, .btn-square--filled--second, .seu-btn-square.seu-filled.seu-second, .seu-btn-square--filled--second, .btn-square.bordered.white, .btn-square--bordered--white, .seu-btn-square.seu-bordered.seu-white, .seu-btn-square--bordered--white, .btn-square.bordered.core, .btn-square--bordered--core, .seu-btn-square.seu-bordered.seu-core, .seu-btn-square--bordered--core, .btn-square.bordered.grey, .btn-square--bordered--grey, .seu-btn-square.seu-bordered.seu-grey, .seu-btn-square--bordered--grey {
