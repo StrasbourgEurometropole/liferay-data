@@ -642,6 +642,34 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setExternalImageCopyright(String externalImageCopyright);
 
 	/**
+	 * Returns the image width of this event.
+	 *
+	 * @return the image width of this event
+	 */
+	public Integer getImageWidth();
+
+	/**
+	 * Sets the image width of this event.
+	 *
+	 * @param imageWidth the image width of this event
+	 */
+	public void setImageWidth(Integer imageWidth);
+
+	/**
+	 * Returns the image height of this event.
+	 *
+	 * @return the image height of this event
+	 */
+	public Integer getImageHeight();
+
+	/**
+	 * Sets the image height of this event.
+	 *
+	 * @param imageHeight the image height of this event
+	 */
+	public void setImageHeight(Integer imageHeight);
+
+	/**
 	 * Returns the place sig ID of this event.
 	 *
 	 * @return the place sig ID of this event
