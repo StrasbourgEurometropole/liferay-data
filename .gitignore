@@ -1,6 +1,9 @@
 #################
 ## Liferay
 #################
+out
+.class
+.idea
 .gradle
 .settings
 gradle.properties
