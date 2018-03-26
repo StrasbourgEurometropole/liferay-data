@@ -384,6 +384,9 @@
 
             // Affichage des POIs
             showPois();
+            if (window.isWidgetMode) {
+                ame.close_panel_side();
+            }
         }
     });
 }(jQuery));
