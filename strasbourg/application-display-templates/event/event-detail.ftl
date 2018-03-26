@@ -14,6 +14,8 @@
     <#else>
         <meta property="og:image" content="${themeDisplay.getPortalURL()}${entry.imageURL}" />
     </#if>
+    <meta property="og:image:height" content="${entry.getImageHeight()}" />
+    <meta property="og:image:width" content="${entry..getImageWidth()}" />
 </@>
 
 <!-- Détail événement -->
