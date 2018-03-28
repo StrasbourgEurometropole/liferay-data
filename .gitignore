@@ -46,6 +46,7 @@ local.properties
 /configs/uat/portal-ext.properties
 /gradlew
 /gradlew.bat
+/gradle
 /settings.gradle
 /sh.exe.stackdump
 
