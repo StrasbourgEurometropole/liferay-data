@@ -36,19 +36,6 @@ local.properties
 .classpath
 .settings/
 .loadpath
-/build.gradle
-/configs/common/.touch
-/configs/dev/portal-ext.properties
-/configs/local/portal-ext.properties
-/configs/prod/osgi/configs/com.liferay.portal.search.elasticsearch.configuration.ElasticsearchConfiguration.cfg
-/configs/prod/portal-ext.properties
-/configs/uat/osgi/configs/com.liferay.portal.search.elasticsearch.configuration.ElasticsearchConfiguration.cfg
-/configs/uat/portal-ext.properties
-/gradlew
-/gradlew.bat
-/gradle
-/settings.gradle
-/sh.exe.stackdump
 
 # External tool builders
 .externalToolBuilders/
