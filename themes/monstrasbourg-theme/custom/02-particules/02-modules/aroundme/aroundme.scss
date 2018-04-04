@@ -557,12 +557,14 @@
             &.green{
                 background-color: $crowded-green;
             }
-            &.grey{
+            &.grey,&.white{
                 background-color: $crowded-grey;
             }
+            /*
             &.white{
                 background-color: $crowded-white;
             }
+            */
         }
     }
 
@@ -720,12 +722,14 @@
                 &.green{
                     background-color: $crowded-green;
                 }
-                &.grey{
+                &.grey, &.white{
                     background-color: $crowded-grey;
                 }
+                /*
                 &.white{
                     background-color: $crowded-white;
                 }
+                */
                 &.red{
                     background-color: $crowded-red;
                 }

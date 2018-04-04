@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
@@ -85,13 +86,14 @@ public class InterestImpl extends InterestBaseImpl {
 		jsonInterest.put("id", this.getInterestId());
 		jsonInterest.put("name", this.getTitle(Locale.FRANCE));
 		jsonInterest.put("description", this.getDescription(Locale.FRANCE));
-		String type = "";
 		AssetCategory typeCategory = this.getType();
 		if (typeCategory != null) {
-			type = typeCategory.getTitle(Locale.FRANCE);
+			String typeName = typeCategory.getTitle(Locale.FRANCE);
+			jsonInterest.put("type", typeName);
+
+			String typeExternalId = AssetVocabularyHelper.getExternalId(typeCategory);
+			jsonInterest.put("typeId", Validator.isNull(typeExternalId) ? this.getTypeId() : typeExternalId);
 		}
-		jsonInterest.put("type", type);
-		jsonInterest.put("typeId", this.getTypeId());
 		JSONArray categories = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory category : this.getCategories()) {
 			categories.put(category.getCategoryId());

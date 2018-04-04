@@ -97,6 +97,7 @@
 			color: $core-color;
 		}
 		.notif-text {
+			background-color: #f6f6f6;
 			@extend %text-basis-rte;
 		}
 		.notif-last{

@@ -1,10 +1,7 @@
 package eu.strasbourg.portlet.map;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -120,7 +117,7 @@ public class MapPortlet extends MVCPortlet {
 			{	
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 						.filter(i -> i.getStatus() == 0)
-						.sorted((i1, i2) -> i1.getType().getTitle(Locale.FRANCE).compareTo(i2.getType().getTitle(Locale.FRANCE)))
+						.sorted(Comparator.comparing(i -> i.getType().getTitle(Locale.FRANCE)))
 						.collect(Collectors.toList());
 			}
 			
@@ -140,7 +137,7 @@ public class MapPortlet extends MVCPortlet {
 				//Récupération de tous les centres d'intérêts actifs avec le statut publié
 				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
 						.filter(i -> i.getStatus() == 0 && interestIds.contains(i.getInterestId()))
-						.sorted((i1, i2) -> i1.getType().getTitle(Locale.FRANCE).compareTo(i2.getType().getTitle(Locale.FRANCE)))
+						.sorted(Comparator.comparing(i2 -> i2.getType().getTitle(Locale.FRANCE)))
 						.collect(Collectors.toList());
 			}
 			
@@ -173,9 +170,10 @@ public class MapPortlet extends MVCPortlet {
 					hasConfig = true;
 				}
 			}
-			
-			request.setAttribute("interests", interests);
+
+			request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
 			request.setAttribute("interestsCheckedIds", interestsDefaultsIds);
+			request.setAttribute("interestsCount", interests.size());
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("showFavorites", showFavorites);
 			request.setAttribute("widgetMod", widgetMod);
@@ -184,6 +182,9 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("address", address);
 			request.setAttribute("newTab", newTab);
 			request.setAttribute("groupId", groupId);
+			if (widgetMod) {
+				request.setAttribute(getMVCPathAttributeName(renderResponse.getNamespace()), "/map-widget-view.jsp");
+			}
 		} catch (Exception e) {
 			_log.error(e);
 		}
