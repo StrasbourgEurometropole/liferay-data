@@ -47,6 +47,7 @@ import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PeriodLocalService;
 import eu.strasbourg.service.place.service.ScheduleExceptionLocalService;
 import eu.strasbourg.service.place.service.SlotLocalService;
+import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -86,72 +87,78 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 
 			// --------------------- Périodes & horaires ---------------------
-
-			// Suppression des périodes liées au sous lieu
-			List<Period> oldPeriods = subPlace.getPeriods();
-			for (Period period : oldPeriods) {
-				_periodLocalService.removePeriod(period.getPeriodId());
+			
+			// suppression des slots du sous lieu
+			List<Period> periods = subPlace.getPeriods();
+			for (Period period : periods) {
+				List<Slot> slots = period.getSlots(subPlaceId);
+				for (Slot slot : slots) {
+					SlotLocalServiceUtil.deleteSlot(slot);
+				}
 			}
 
-			// Ajout des période liées au sous lieu
+			// Mise à jour des périodes liées au sous lieu
 			String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
-			for (String periodIndex : periodsIndexes.split(",")) {
-				if (Validator.isNotNull(periodIndex)
-						&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
+			if (Validator.isNotNull(periodsIndexes)) {
+				for (String periodIndex : periodsIndexes.split(",")) {
+					if (Validator.isNotNull(periodIndex)
+							&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
+						long periodId = ParamUtil.getLong(request, "periodId" + periodIndex);
+						Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
+								"namePeriod" + periodIndex);
+						Map<Locale, String> periodLabel = LocalizationUtil.getLocalizationMap(request,
+								"periodLabel" + periodIndex);
+						Map<Locale, String> periodURL = LocalizationUtil.getLocalizationMap(request,
+								"periodURL" + periodIndex);
+						boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
+						Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
+								new SimpleDateFormat("yyyy-MM-dd"));
+						Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
+								new SimpleDateFormat("yyyy-MM-dd"));
+						boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
 
-					Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
-							"namePeriod" + periodIndex);
-					Map<Locale, String> periodLabel = LocalizationUtil.getLocalizationMap(request,
-							"periodLabel" + periodIndex);
-					Map<Locale, String> periodURL = LocalizationUtil.getLocalizationMap(request,
-							"periodURL" + periodIndex);
-					boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
-					Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
-							new SimpleDateFormat("yyyy-MM-dd"));
-					Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
-							new SimpleDateFormat("yyyy-MM-dd"));
-					boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
+						Period period = _periodLocalService.fetchPeriod(periodId);
+						period.setNameMap(namePeriod);
+						period.setLinkLabelMap(periodLabel);
+						period.setLinkURLMap(periodURL);
+						period.setDefaultPeriod(defaultPeriod);
+						if (!period.getDefaultPeriod()) {
+							period.setStartDate(startDatePeriod);
+							period.setEndDate(endDatePeriod);
+						}
+						period.setAlwaysOpen(alwaysOpen);
+						period.setPlaceId(subPlace.getPlaceId());
+						this._periodLocalService.updatePeriod(period);
 
-					Period period = _periodLocalService.createPeriod(sc);
-					period.setNameMap(namePeriod);
-					period.setLinkLabelMap(periodLabel);
-					period.setLinkURLMap(periodURL);
-					period.setDefaultPeriod(defaultPeriod);
-					if (!period.getDefaultPeriod()) {
-						period.setStartDate(startDatePeriod);
-						period.setEndDate(endDatePeriod);
-					}
-					period.setAlwaysOpen(alwaysOpen);
-					period.setSubPlaceId(subPlace.getSubPlaceId());
-					this._periodLocalService.updatePeriod(period);
+						if (!period.getAlwaysOpen()) {
+							// Ajout des slots liées à la période
+							for (int jour = 0; jour < 7; jour++) {
+								String slotsIndexes = ParamUtil.getString(request,
+										"slotsIndexes" + periodIndex + "-" + jour);
+								for (String slotIndex : slotsIndexes.split(",")) {
+									if (Validator
+											.isNotNull(ParamUtil.getString(request,
+													"startHour" + periodIndex + "-" + jour + "-" + slotIndex))
+											&& Validator.isNotNull(ParamUtil.getString(request,
+													"endHour" + periodIndex + "-" + jour + "-" + slotIndex))) {
+										String startHour = ParamUtil.getString(request,
+												"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
+										String endHour = ParamUtil.getString(request,
+												"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
+										Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+												"comment" + periodIndex + "-" + jour + "-" + slotIndex);
 
-					if (!period.getAlwaysOpen()) {
-						// Ajout des slots liées à la période
-						for (int jour = 0; jour < 7; jour++) {
-							String slotsIndexes = ParamUtil.getString(request,
-									"slotsIndexes" + periodIndex + "-" + jour);
-							for (String slotIndex : slotsIndexes.split(",")) {
-								if (Validator
-										.isNotNull(ParamUtil.getString(request,
-												"startHour" + periodIndex + "-" + jour + "-" + slotIndex))
-										&& Validator.isNotNull(ParamUtil.getString(request,
-												"endHour" + periodIndex + "-" + jour + "-" + slotIndex))) {
-									String startHour = ParamUtil.getString(request,
-											"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
-									String endHour = ParamUtil.getString(request,
-											"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
-									Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
-											"comment" + periodIndex + "-" + jour + "-" + slotIndex);
+										Slot slot = _slotLocalService.createSlot(sc);
+										slot.setDayOfWeek(jour);
+										slot.setStartHour(startHour);
+										slot.setEndHour(endHour);
+										slot.setCommentMap(comment);
+										slot.setPeriodId(period.getPeriodId());
+										slot.setSubPlaceId(subPlace.getSubPlaceId());
+										this._slotLocalService.updateSlot(slot);
+									}
 
-									Slot slot = _slotLocalService.createSlot(sc);
-									slot.setDayOfWeek(jour);
-									slot.setStartHour(startHour);
-									slot.setEndHour(endHour);
-									slot.setCommentMap(comment);
-									slot.setPeriodId(period.getPeriodId());
-									this._slotLocalService.updateSlot(slot);
 								}
-
 							}
 						}
 					}

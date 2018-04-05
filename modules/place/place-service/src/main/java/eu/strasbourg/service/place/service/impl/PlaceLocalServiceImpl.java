@@ -263,11 +263,10 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 			this.scheduleExceptionLocalService.deleteScheduleException(exception.getExceptionId());
 		}
 
-		// Supprime LE LIEN des sous-lieux
+		// Supprime les sous-lieux
 		List<SubPlace> subPlaces = place.getSubPlaces();
 		for (SubPlace subPlace : subPlaces) {
-			subPlace.setPlaceId(0);
-			this.subPlaceLocalService.updateSubPlace(subPlace);
+			this.subPlaceLocalService.removeSubPlace(subPlace.getSubPlaceId());
 		}
 		
 		// Supprime les périodes

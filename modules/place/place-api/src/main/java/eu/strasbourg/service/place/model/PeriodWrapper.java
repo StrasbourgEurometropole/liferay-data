@@ -511,11 +511,28 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Retourne les Slots de la période
+	* Retourne les Slots de la période pour un lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getAllSlots() {
+		return _period.getAllSlots();
+	}
+
+	/**
+	* Retourne les Slots de la période pour un lieu
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots() {
 		return _period.getSlots();
+	}
+
+	/**
+	* Retourne les Slots de la période pour un sous-lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
+		long subPlaceId) {
+		return _period.getSlots(subPlaceId);
 	}
 
 	/**
@@ -524,6 +541,15 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule() {
 		return _period.getWeekSchedule();
+	}
+
+	/**
+	* Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule(
+		long subPlaceId) {
+		return _period.getWeekSchedule(subPlaceId);
 	}
 
 	/**

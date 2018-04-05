@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.ScheduleException;
+import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.base.SubPlaceLocalServiceBaseImpl;
 
@@ -142,10 +143,13 @@ public class SubPlaceLocalServiceImpl extends SubPlaceLocalServiceBaseImpl {
 					.deleteScheduleException(exception.getExceptionId());
 		}
 
-		// Supprime les périodes
+		// Supprime les slots
 		List<Period> periods = subPlace.getPeriods();
 		for (Period period : periods) {
-			this.periodLocalService.removePeriod(period.getPeriodId());
+			List<Slot> slots = period.getSlots(subPlaceId);
+			for (Slot slot : slots) {
+				this.slotLocalService.deleteSlot(slot.getSlotId());
+			}
 		}
 
 		return subPlace;

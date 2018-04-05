@@ -135,6 +135,7 @@
 		<property name="endHour" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="periodId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="subPlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.place.model.impl.SubPlaceImpl" table="place_SubPlace">
 		<id name="subPlaceId" type="long">

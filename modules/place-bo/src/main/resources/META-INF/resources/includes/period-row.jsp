@@ -8,6 +8,7 @@
 	</c:if>
 id="period${param.index}">
 	<aui:input name="numPeriod${param.index}" value="${param.index}" type="hidden" />
+	<aui:input name="periodId${param.index}" value="${param.periodId}" type="hidden" />
 
 	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}" localized="true" type="text" />
 	<div class="place-period-name" style="display: none">

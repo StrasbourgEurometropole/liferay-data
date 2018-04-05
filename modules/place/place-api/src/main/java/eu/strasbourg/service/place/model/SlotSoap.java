@@ -39,6 +39,7 @@ public class SlotSoap implements Serializable {
 		soapModel.setEndHour(model.getEndHour());
 		soapModel.setComment(model.getComment());
 		soapModel.setPeriodId(model.getPeriodId());
+		soapModel.setSubPlaceId(model.getSubPlaceId());
 
 		return soapModel;
 	}
@@ -147,6 +148,14 @@ public class SlotSoap implements Serializable {
 		_periodId = periodId;
 	}
 
+	public long getSubPlaceId() {
+		return _subPlaceId;
+	}
+
+	public void setSubPlaceId(long subPlaceId) {
+		_subPlaceId = subPlaceId;
+	}
+
 	private String _uuid;
 	private long _slotId;
 	private long _dayOfWeek;
@@ -154,4 +163,5 @@ public class SlotSoap implements Serializable {
 	private String _endHour;
 	private String _comment;
 	private long _periodId;
+	private long _subPlaceId;
 }

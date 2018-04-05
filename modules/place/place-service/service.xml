@@ -228,10 +228,14 @@
 		
 		<!-- Links with other entities -->
 		<column name="periodId" type="long" />
+		<column name="subPlaceId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="PeriodId" return-type="Collection">
 			<finder-column name="periodId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
 		</finder>
 		
 	</entity>

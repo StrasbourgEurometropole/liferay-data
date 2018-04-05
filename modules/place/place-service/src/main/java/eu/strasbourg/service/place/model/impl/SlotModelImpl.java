@@ -74,7 +74,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			{ "startHour", Types.VARCHAR },
 			{ "endHour", Types.VARCHAR },
 			{ "comment_", Types.VARCHAR },
-			{ "periodId", Types.BIGINT }
+			{ "periodId", Types.BIGINT },
+			{ "subPlaceId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -86,9 +87,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		TABLE_COLUMNS_MAP.put("endHour", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("periodId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ STRING null,periodId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Slot (uuid_ VARCHAR(75) null,slotId LONG not null primary key,dayOfWeek LONG,startHour VARCHAR(75) null,endHour VARCHAR(75) null,comment_ STRING null,periodId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Slot";
 	public static final String ORDER_BY_JPQL = " ORDER BY slot.slotId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Slot.slotId ASC";
@@ -105,8 +107,9 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Slot"),
 			true);
 	public static final long PERIODID_COLUMN_BITMASK = 1L;
-	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long SLOTID_COLUMN_BITMASK = 4L;
+	public static final long SUBPLACEID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long SLOTID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.place.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.place.model.Slot"));
 
@@ -154,6 +157,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		attributes.put("endHour", getEndHour());
 		attributes.put("comment", getComment());
 		attributes.put("periodId", getPeriodId());
+		attributes.put("subPlaceId", getSubPlaceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -203,6 +207,12 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 		if (periodId != null) {
 			setPeriodId(periodId);
+		}
+
+		Long subPlaceId = (Long)attributes.get("subPlaceId");
+
+		if (subPlaceId != null) {
+			setSubPlaceId(subPlaceId);
 		}
 	}
 
@@ -400,6 +410,28 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		return _originalPeriodId;
 	}
 
+	@Override
+	public long getSubPlaceId() {
+		return _subPlaceId;
+	}
+
+	@Override
+	public void setSubPlaceId(long subPlaceId) {
+		_columnBitmask |= SUBPLACEID_COLUMN_BITMASK;
+
+		if (!_setOriginalSubPlaceId) {
+			_setOriginalSubPlaceId = true;
+
+			_originalSubPlaceId = _subPlaceId;
+		}
+
+		_subPlaceId = subPlaceId;
+	}
+
+	public long getOriginalSubPlaceId() {
+		return _originalSubPlaceId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -499,6 +531,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		slotImpl.setEndHour(getEndHour());
 		slotImpl.setComment(getComment());
 		slotImpl.setPeriodId(getPeriodId());
+		slotImpl.setSubPlaceId(getSubPlaceId());
 
 		slotImpl.resetOriginalValues();
 
@@ -567,6 +600,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 		slotModelImpl._setOriginalPeriodId = false;
 
+		slotModelImpl._originalSubPlaceId = slotModelImpl._subPlaceId;
+
+		slotModelImpl._setOriginalSubPlaceId = false;
+
 		slotModelImpl._columnBitmask = 0;
 	}
 
@@ -612,12 +649,14 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 		slotCacheModel.periodId = getPeriodId();
 
+		slotCacheModel.subPlaceId = getSubPlaceId();
+
 		return slotCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -633,6 +672,8 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		sb.append(getComment());
 		sb.append(", periodId=");
 		sb.append(getPeriodId());
+		sb.append(", subPlaceId=");
+		sb.append(getSubPlaceId());
 		sb.append("}");
 
 		return sb.toString();
@@ -640,7 +681,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Slot");
@@ -674,6 +715,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			"<column><column-name>periodId</column-name><column-value><![CDATA[");
 		sb.append(getPeriodId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>subPlaceId</column-name><column-value><![CDATA[");
+		sb.append(getSubPlaceId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -695,6 +740,9 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	private long _periodId;
 	private long _originalPeriodId;
 	private boolean _setOriginalPeriodId;
+	private long _subPlaceId;
+	private long _originalSubPlaceId;
+	private boolean _setOriginalSubPlaceId;
 	private long _columnBitmask;
 	private Slot _escapedModel;
 }
