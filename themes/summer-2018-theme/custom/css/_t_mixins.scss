@@ -1,0 +1,162 @@
+@charset "UTF-8";
+
+@mixin clear() // clear float
+{
+	&:after
+	{
+		content: '';
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 0;
+		line-height: 1px;
+		clear: both;
+		overflow: hidden;
+	}
+}
+
+@mixin ft($family, $size, $weight, $color, $lineheight) // define font
+{
+	font-family: $family;
+	font-size: $size;
+	font-weight: $weight;
+	color: $color;
+	line-height: $lineheight;
+}
+
+@mixin btn($background, $color, $radius, $font, $size) // define button
+{
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 15px 50px;
+	border-radius: $radius+px;
+	background-color: $background;
+	@include ft($font,$size,700,$color,$size+10);
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+@mixin wide
+{
+	@media screen and (max-width: #{$breakpoint_wd})
+	{
+		@content;
+	}
+}
+@mixin desktop
+{
+	@media screen and (max-width: #{$breakpoint_de})
+	{
+		@content;
+	}
+}
+@mixin tablet_landscape
+{
+	@media screen and (max-width: #{$breakpoint_tl})
+	{
+		@content;
+	}
+}
+@mixin tablet_portrait
+{
+	@media screen and (max-width: #{$breakpoint_tp})
+	{
+		@content;
+	}
+}
+@mixin mobile
+{
+	@media screen and (max-width: #{$breakpoint_mo})
+	{
+		@content;
+	}
+}
+
+@mixin an($type, $time) // define animation
+{
+	-webkit-transition:$type $time+s;
+	-moz-transition:$type $time+s;
+	transition:$type $time+s;
+}
+
+@mixin dl($time) // define animation
+{
+	-webkit-transition-delay:$time+s;
+	-moz-transition-delay: $time+s;
+	transition-delay: $time+s;
+}
+
+@mixin zoom() // hover zoom image
+{
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+
+	img
+	{	
+		-webkit-backface-visibility: hidden;
+		-moz-backface-visibility: hidden;
+		backface-visibility: hidden;
+		-webkit-transform: translateZ(0);
+	    -moz-transform: translateZ(0);
+	    transform: translateZ(0);
+		-webkit-transform-style: preserve-3d;
+		-moz-transform-style: preserve-3d;
+		transform-style: preserve-3d;			
+		-moz-transform: scale(1.0);
+		-webkit-transform: scale(1.0);
+		transform: scale(1.0);
+		opacity: 1.0;
+		@include an(all, 0.5);
+	}
+	&:hover img
+	{
+		-moz-transform: scale(1.05);
+		-webkit-transform: scale(1.05);
+		transform: scale(1.05);
+		opacity: 0.9;
+	}
+}
+
+/*
+RATIO
+---------------------------------------------- */
+@mixin aspect-ratio($width, $height, $add: 0px) {
+	position: relative;
+	overflow: hidden;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-bottom: $add;
+		padding-top: ($height / $width) * 100%;
+	}
+	> div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+
+/*
+  This mixin can be used to set the object-fit:
+  @include object-fit(contain);
+  or object-fit and object-position:
+  @include object-fit(cover, top);
+*/
+@mixin object-fit($fit: fill, $position: null){
+	-o-object-fit: $fit;
+	object-fit: $fit;
+	@if $position {
+		-o-object-position: $position;
+		object-position: $position;
+		font-family: 'object-fit: #{$fit}; object-position: #{$position}';
+	} @else {
+		font-family: 'object-fit: #{$fit}';
+	}
+}
