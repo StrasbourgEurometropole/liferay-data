@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -306,6 +307,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 

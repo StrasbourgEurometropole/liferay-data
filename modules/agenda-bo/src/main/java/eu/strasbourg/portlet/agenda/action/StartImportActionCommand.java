@@ -15,6 +15,8 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
+import java.io.IOException;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -22,6 +24,8 @@ import javax.portlet.PortletException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 
 import eu.strasbourg.service.agenda.service.EventLocalService;
@@ -39,7 +43,12 @@ public class StartImportActionCommand
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
-		return _eventLocalService.doImport();		
+		try {
+			return _eventLocalService.doImport();
+		} catch (IOException e) {
+			_log.error(e);
+			return false;
+		}		
 	}
 
 	private EventLocalService _eventLocalService;
@@ -50,4 +59,6 @@ public class StartImportActionCommand
 
 		_eventLocalService = eventLocalService;
 	}
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
