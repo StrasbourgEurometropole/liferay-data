@@ -26,7 +26,6 @@
 		<property name="RTRedThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="RTMaxThreshold" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="subPlaceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.place.model.impl.PlaceImpl" table="place_Place">
 		<id name="placeId" type="long">

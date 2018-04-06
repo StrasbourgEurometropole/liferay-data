@@ -65,7 +65,7 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -95,8 +95,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		sb.append(RTMaxThreshold);
 		sb.append(", placeId=");
 		sb.append(placeId);
-		sb.append(", subPlaceId=");
-		sb.append(subPlaceId);
 		sb.append("}");
 
 		return sb.toString();
@@ -158,7 +156,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		periodImpl.setRTRedThreshold(RTRedThreshold);
 		periodImpl.setRTMaxThreshold(RTMaxThreshold);
 		periodImpl.setPlaceId(placeId);
-		periodImpl.setSubPlaceId(subPlaceId);
 
 		periodImpl.resetOriginalValues();
 
@@ -189,8 +186,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		RTMaxThreshold = objectInput.readLong();
 
 		placeId = objectInput.readLong();
-
-		subPlaceId = objectInput.readLong();
 	}
 
 	@Override
@@ -241,8 +236,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		objectOutput.writeLong(RTMaxThreshold);
 
 		objectOutput.writeLong(placeId);
-
-		objectOutput.writeLong(subPlaceId);
 	}
 
 	public String uuid;
@@ -259,5 +252,4 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 	public long RTRedThreshold;
 	public long RTMaxThreshold;
 	public long placeId;
-	public long subPlaceId;
 }

@@ -71,7 +71,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		attributes.put("RTRedThreshold", getRTRedThreshold());
 		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("placeId", getPlaceId());
-		attributes.put("subPlaceId", getSubPlaceId());
 
 		return attributes;
 	}
@@ -160,12 +159,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 
 		if (placeId != null) {
 			setPlaceId(placeId);
-		}
-
-		Long subPlaceId = (Long)attributes.get("subPlaceId");
-
-		if (subPlaceId != null) {
-			setSubPlaceId(subPlaceId);
 		}
 	}
 
@@ -652,16 +645,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		return _period.getRTRedThreshold();
 	}
 
-	/**
-	* Returns the sub place ID of this period.
-	*
-	* @return the sub place ID of this period
-	*/
-	@Override
-	public long getSubPlaceId() {
-		return _period.getSubPlaceId();
-	}
-
 	@Override
 	public void persist() {
 		_period.persist();
@@ -1006,16 +989,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public void setStartDate(Date startDate) {
 		_period.setStartDate(startDate);
-	}
-
-	/**
-	* Sets the sub place ID of this period.
-	*
-	* @param subPlaceId the sub place ID of this period
-	*/
-	@Override
-	public void setSubPlaceId(long subPlaceId) {
-		_period.setSubPlaceId(subPlaceId);
 	}
 
 	/**
