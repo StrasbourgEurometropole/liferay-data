@@ -1052,7 +1052,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 
-		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (!surPeriode && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 

@@ -521,20 +521,6 @@ public interface PeriodModel extends BaseModel<Period>, LocalizedModel {
 	 */
 	public void setPlaceId(long placeId);
 
-	/**
-	 * Returns the sub place ID of this period.
-	 *
-	 * @return the sub place ID of this period
-	 */
-	public long getSubPlaceId();
-
-	/**
-	 * Sets the sub place ID of this period.
-	 *
-	 * @param subPlaceId the sub place ID of this period
-	 */
-	public void setSubPlaceId(long subPlaceId);
-
 	@Override
 	public boolean isNew();
 

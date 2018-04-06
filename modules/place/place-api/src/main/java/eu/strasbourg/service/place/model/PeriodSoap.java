@@ -47,7 +47,6 @@ public class PeriodSoap implements Serializable {
 		soapModel.setRTRedThreshold(model.getRTRedThreshold());
 		soapModel.setRTMaxThreshold(model.getRTMaxThreshold());
 		soapModel.setPlaceId(model.getPlaceId());
-		soapModel.setSubPlaceId(model.getSubPlaceId());
 
 		return soapModel;
 	}
@@ -212,14 +211,6 @@ public class PeriodSoap implements Serializable {
 		_placeId = placeId;
 	}
 
-	public long getSubPlaceId() {
-		return _subPlaceId;
-	}
-
-	public void setSubPlaceId(long subPlaceId) {
-		_subPlaceId = subPlaceId;
-	}
-
 	private String _uuid;
 	private long _periodId;
 	private String _name;
@@ -234,5 +225,4 @@ public class PeriodSoap implements Serializable {
 	private long _RTRedThreshold;
 	private long _RTMaxThreshold;
 	private long _placeId;
-	private long _subPlaceId;
 }

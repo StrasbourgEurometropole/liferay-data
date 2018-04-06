@@ -66,7 +66,7 @@ public class PeriodLocalServiceImpl extends PeriodLocalServiceBaseImpl {
 		Period period = periodPersistence.remove(periodId);
 
 		// Supprime les slots liés à la période
-		List<Slot> slots = period.getSlots();
+		List<Slot> slots = period.getAllSlots();
 		for (Slot slot : slots) {
 			this.slotLocalService.deleteSlot(slot.getSlotId());
 		}
@@ -80,13 +80,5 @@ public class PeriodLocalServiceImpl extends PeriodLocalServiceBaseImpl {
 	@Override
 	public List<Period> getByPlaceId(long placeId) {
 		return this.periodPersistence.findByPlaceId(placeId);
-	}
-
-	/**
-	 * Retourne les Periods rattachées à un sous-lieu
-	 */
-	@Override
-	public List<Period> getBySubPlaceId(long subPlaceId) {
-		return this.periodPersistence.findBySubPlaceId(subPlaceId);
 	}
 }

@@ -24,7 +24,6 @@
 			<hint name="default-value">0</hint>
 		</field>
 		<field name="placeId" type="long" />
-		<field name="subPlaceId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.Place">
 		<field name="uuid" type="String" />
@@ -145,6 +144,7 @@
 		<field name="endHour" type="String" />
 		<field localized="true" name="comment" type="String" />
 		<field name="periodId" type="long" />
+		<field name="subPlaceId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.place.model.SubPlace">
 		<field name="uuid" type="String" />

@@ -244,15 +244,6 @@ public class PeriodLocalServiceWrapper implements PeriodLocalService,
 	}
 
 	/**
-	* Retourne les Periods rattachées à un sous-lieu
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Period> getBySubPlaceId(
-		long subPlaceId) {
-		return _periodLocalService.getBySubPlaceId(subPlaceId);
-	}
-
-	/**
 	* Returns a range of all the periods.
 	*
 	* <p>

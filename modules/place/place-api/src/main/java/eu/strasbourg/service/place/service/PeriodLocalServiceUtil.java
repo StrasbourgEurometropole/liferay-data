@@ -238,14 +238,6 @@ public class PeriodLocalServiceUtil {
 	}
 
 	/**
-	* Retourne les Periods rattachées à un sous-lieu
-	*/
-	public static java.util.List<eu.strasbourg.service.place.model.Period> getBySubPlaceId(
-		long subPlaceId) {
-		return getService().getBySubPlaceId(subPlaceId);
-	}
-
-	/**
 	* Returns a range of all the periods.
 	*
 	* <p>
