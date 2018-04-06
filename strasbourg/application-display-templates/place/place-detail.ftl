@@ -172,6 +172,36 @@
                                                 <#assign day = day + 1 />
                                             </#list>
                                         </ul>
+                                        <!-- Période par défaut pour les sous-lieux -->
+                                        <#list entry.publishedSubPlaces as subPlace>
+                                            <div class="tab-title">${subPlace.getName(locale)}</div>
+                                            <ul class="schedule-list">
+                                                <#assign weekSchedules = subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                                <#assign day = 0 />
+                                                <#list weekSchedules as schedule>
+                                                    <li>
+                                                        <span><@liferay_ui.message key="jour-semaine${day}" /></span>
+                                                        <span>
+                                                            <#if schedule.isClosed()>
+                                                                <@liferay_ui.message key="eu.closed" />
+                                                            <#elseif schedule.isAlwaysOpen()>
+                                                                <@liferay_ui.message key="always-open" />
+                                                            <#else>
+                                                                <#list schedule.openingTimes as openingTime>
+                                                                    <div>
+                                                                        ${openingTime.first} - ${openingTime.second}
+                                                                    </div>
+                                                                    <#if schedule.comments[openingTime?index]?has_content>
+                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                    </#if>
+                                                                </#list>
+                                                            </#if>
+                                                        </span>
+                                                    </li>
+                                                    <#assign day = day + 1 />
+                                                </#list>
+                                            </ul>
+                                        </#list>
                                     </div>
                                 </#if>
                                 <!-- Autres périodes -->
@@ -207,6 +237,38 @@
                                                 <#assign day = day + 1 />
                                             </#list>
                                         </ul>
+                                        <!-- Autres Périodes pour les sous-lieux -->
+                                        <#list entry.publishedSubPlaces as subPlace>
+                                            <div class="tab-title">${subPlace.getName(locale)}</div>
+                                            <ul class="schedule-list">
+                                                <#assign weekSchedules = period.getWeekSchedule(subPlace.subPlaceId) />
+                                                <#assign day = 0 />
+                                                <#list weekSchedules as schedule>
+                                                    <li>
+                                                        <span><@liferay_ui.message key="jour-semaine${day}" /></span>
+                                                        <span>
+                                                            <div>
+                                                                <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    <#list schedule.openingTimes as openingTime>
+                                                                        <div>
+                                                                            ${openingTime.first} - ${openingTime.second}
+                                                                        </div>
+                                                                        <#if schedule.comments[openingTime?index]?has_content>
+                                                                            <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                        </#if>
+                                                                    </#list>
+                                                                </#if>
+                                                            </div>
+                                                        </span>
+                                                    </li>
+                                                    <#assign day = day + 1 />
+                                                </#list>
+                                            </ul>
+                                        </#list>
                                     </div>
                                 </#list>
                             </div>
