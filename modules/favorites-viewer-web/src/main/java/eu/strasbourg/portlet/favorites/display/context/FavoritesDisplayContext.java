@@ -59,6 +59,9 @@ public class FavoritesDisplayContext {
 		}
 	}
 
+	/**
+	 * Récupère tous les favoris de l'utilisateur à afficher selon le filtre sélectionné
+	 */
 	public List<FavoriteDisplay> getFavorites() {
 		if (favorites == null) {
 			String publikUserId = "";
@@ -209,6 +212,47 @@ public class FavoritesDisplayContext {
 		List<FavoriteType> favoritesType = FavoriteType.getAll();
 		favoritesType.sort(Comparator.comparing(FavoriteType::getName));
 		return favoritesType;
+	}
+	
+	/**
+	 * Récupère tous les favoris de l'utilisateur sans tenir compte du filtre
+	 */
+	public List<FavoriteDisplay> getAllFavorites() {
+		String publikUserId = "";
+		HttpServletRequest servletRequest = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(servletRequest, "publik_logged_in");
+		if (isLoggedIn) {
+			publikUserId = SessionParamUtil.getString(servletRequest, "publik_internal_id");
+		}
+
+		List<Favorite> userFavorites = FavoriteLocalServiceUtil.getByPublikUser(publikUserId);
+		List<FavoriteDisplay> favoritesDisplay = new ArrayList<FavoriteDisplay>();
+
+		for (Favorite favorite : userFavorites) {
+			favoritesDisplay.add(new FavoriteDisplay(favorite, publikUserId, themeDisplay));
+		}
+		favoritesDisplay.sort(Comparator.comparing(FavoriteDisplay::getFavoriteId));
+		Collections.reverse(favoritesDisplay);
+
+		return favoritesDisplay;
+	}
+	
+	/**
+	 * Retourne la liste des types de favoris présent dans la liste de favoris de l'utilisateur
+	 */
+	public List<FavoriteType> getFavoritesTypeFromUserFavorites() {
+		List<FavoriteType> favoritesType = FavoriteType.getAll();			
+		List<Long> typesIdFromUserFavorites = getAllFavorites().stream().map(x->x.getTypeId()).collect(Collectors.toList());
+		List<FavoriteType> favoriteTypeFromUserFavorite = new ArrayList<FavoriteType>();
+		
+		for (FavoriteType favoriteType : favoritesType) {
+			if(typesIdFromUserFavorites.contains(favoriteType.getId())) {
+				favoriteTypeFromUserFavorite.add(favoriteType);
+			}
+		}
+		
+		favoriteTypeFromUserFavorite.sort(Comparator.comparing(FavoriteType::getName));
+		return favoriteTypeFromUserFavorite;
 	}
 
 }

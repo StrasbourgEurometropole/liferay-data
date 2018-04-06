@@ -115,6 +115,8 @@
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageWidth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="imageHeight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="placeSIGId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeStreetNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />

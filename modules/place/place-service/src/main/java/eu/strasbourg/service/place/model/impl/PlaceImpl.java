@@ -512,6 +512,18 @@ public class PlaceImpl extends PlaceBaseImpl {
 	}
 
 	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public List<Event> getCurrentAndFuturePublishedEvents() {
+		final Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DATE, -1);
+	    Date yesterday = cal.getTime();
+		List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+		return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+	}
+	
+	/**
 	 * Retourne true si l'événement est accessible pour au moins un type de
 	 * handicap
 	 */
@@ -1040,7 +1052,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 			}
 		}
 
-		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (!surPeriode && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 

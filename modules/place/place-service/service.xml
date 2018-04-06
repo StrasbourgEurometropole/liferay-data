@@ -202,14 +202,10 @@
 		
 		<!-- Links with other entities -->
 		<column name="placeId" type="long" />
-		<column name="subPlaceId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="PlaceId" return-type="Collection">
 			<finder-column name="placeId" />
-		</finder>
-		<finder name="SubPlaceId" return-type="Collection">
-			<finder-column name="subPlaceId" />
 		</finder>
 		
 	</entity>
@@ -228,10 +224,14 @@
 		
 		<!-- Links with other entities -->
 		<column name="periodId" type="long" />
+		<column name="subPlaceId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="PeriodId" return-type="Collection">
 			<finder-column name="periodId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
 		</finder>
 		
 	</entity>

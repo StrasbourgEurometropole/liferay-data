@@ -5,93 +5,84 @@
 <c:if test="${not empty dc.getVirtualHostName()}">
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
-         
-<c:if test="${not dc.hasInterest()}">
-    <section id="actu-agenda-no-interest">
-    <portlet:resourceURL id="hidePortlet" var="portletURL">
+        
+<section id="actu-agenda">
+	<portlet:resourceURL id="hidePortlet" var="portletURL">
 		<portlet:param name="portletName" value="news-agenda" />
 	</portlet:resourceURL>
-	
-<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
-        <h2><liferay-ui:message key="actu-agenda" /></h2>
-        <p class="no-interests">${dc.getNoInterestText()}</p>
-    </section>
-</c:if>
-<c:if test="${dc.hasInterest() and not empty dc.entries}">
-    <script type="text/javascript">
-        <c:set var="newsCount" value="0"/>
-        <c:set var="editionCount" value="0"/>
-        <c:set var="eventCount" value="0"/>
-        var mega_source = [
-        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
-        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
-	                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
-	          		<c:set var="title" value="${dc.getJournalArticleTitle(article,locale)}"/>
-					<c:set var="chapo" value="${dc.getJournalArticleCatcher(article,locale)}"/>
-					<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
-					<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
-					<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
-	              {
-	            	<c:if test="${dc.isMag(curEntry.getTagNames())}">
-	                  <c:set var="editionCount" value="${editionCount + 1}"/>
-	                  category: 'mag',
-	  	            </c:if>
-		          	<c:if test="${!dc.isMag(curEntry.getTagNames())}">
-	                  <c:set var="newsCount" value="${newsCount + 1}"/>
-	                  category: 'actu',
-	  	            </c:if>
-	                title: '${dc.getJSONEncodedString(title)}',
-	                lead: '${dc.getJSONEncodedString(chapo)}',
-	                picture: '${image}',
-	                link: '${viewURL}'
-		          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-	                  ,is_Big: true
-		  	        </c:if>
-	              }
-	            </c:if>
-        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
-	                <c:set var="eventCount" value="${eventCount + 1}"/>
-					<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
-	              {
-	                category: 'agenda',
-	                title: '${dc.getJSONEncodedString(event.getTitle(locale))}',
-	                lead: '${dc.getJSONEncodedString(event.getDescription(locale))}',
-	                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
-	                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
-	                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
-						<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-						date_start: '',
-						date_end: '${firstStartDate}',
-						date_prefix: '<liferay-ui:message key="eu.event.the" />',
-						date_suffix: ''
-	                </c:if>
-	        		<c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
-						<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-						<fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
-						date_start: '${firstStartDate}',
-						date_end: '${lastEndDate}',
-						date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
-						date_suffix: '<liferay-ui:message key="eu.event.to" />'
-	                </c:if>
-		          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-	                  ,is_Big: true
-		  	        </c:if>
-	              }
-	            </c:if>
-        		<c:if test="${!loopStatus.last}">,
- 	        	</c:if>
-			</c:forEach>
-        ];
-    </script>
+
+	<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
+	<h2><liferay-ui:message key="actu-agenda" /></h2> 
+	<c:if test="${not dc.hasInterest()}">
+	        <p class="no-interests">${dc.getNoInterestText()}</p>
+	</c:if>
+	<c:if test="${dc.hasInterest() and not empty dc.entries}">
+	    <script type="text/javascript">
+	        <c:set var="newsCount" value="0"/>
+	        <c:set var="editionCount" value="0"/>
+	        <c:set var="eventCount" value="0"/>
+	        var mega_source = [
+	        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
+	        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
+		                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
+		          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
+						<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
+						<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+						<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
+						<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
+		              {
+		            	<c:if test="${dc.isMag(curEntry.getTagNames())}">
+		                  <c:set var="editionCount" value="${editionCount + 1}"/>
+		                  category: 'mag',
+		  	            </c:if>
+			          	<c:if test="${!dc.isMag(curEntry.getTagNames())}">
+		                  <c:set var="newsCount" value="${newsCount + 1}"/>
+		                  category: 'actu',
+		  	            </c:if>
+		                title: '${dc.getJSONEncodedString(title)}',
+		                lead: '${dc.getJSONEncodedString(chapo)}',
+		                picture: '${image}',
+		                link: '${viewURL}'
+			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
+		                  ,is_Big: true
+			  	        </c:if>
+		              }
+		            </c:if>
+	        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
+		                <c:set var="eventCount" value="${eventCount + 1}"/>
+						<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
+		              {
+		                category: 'agenda',
+		                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
+		                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
+		                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
+		                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
+		                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
+							<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
+							date_start: '',
+							date_end: '${firstStartDate}',
+							date_prefix: '<liferay-ui:message key="eu.event.the" />',
+							date_suffix: ''
+		                </c:if>
+		        		<c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
+							<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
+							<fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
+							date_start: '${firstStartDate}',
+							date_end: '${lastEndDate}',
+							date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
+							date_suffix: '<liferay-ui:message key="eu.event.to" />'
+		                </c:if>
+			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
+		                  ,is_Big: true
+			  	        </c:if>
+		              }
+		            </c:if>
+	        		<c:if test="${!loopStatus.last}">,
+	 	        	</c:if>
+				</c:forEach>
+	        ];
+	    </script>
       
-    <section id="actu-agenda">
-    
-    <portlet:resourceURL id="hidePortlet" var="portletURL">
-		<portlet:param name="portletName" value="news-agenda" />
-	</portlet:resourceURL>
-	
-<%--     <button class="delete-wi" value="${portletURL}"></button>   --%>
-        <h2><liferay-ui:message key="actu-agenda" /></h2>    
         <div id="slider--mega">
             <div class="top-line"> 
                 <div class="filters">
@@ -184,5 +175,5 @@
                 </div>
             </div>
         </div>
-    </section>
-</c:if>
+	</c:if>
+</section>

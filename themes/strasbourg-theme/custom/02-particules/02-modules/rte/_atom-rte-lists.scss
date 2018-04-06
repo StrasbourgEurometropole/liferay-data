@@ -43,13 +43,11 @@
     li {
         margin-bottom: 0;
         position: relative;
-        display: flex;
         align-items: flex-start;
         &:before {
             counter-increment: item;
             content: counters(item, '.') ". ";
             color: $core-color;
-            display: block;
             top: 0px;
            // font-weight: 700;
             margin-right: 5px;

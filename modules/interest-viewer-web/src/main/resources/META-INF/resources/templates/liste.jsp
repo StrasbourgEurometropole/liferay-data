@@ -6,15 +6,13 @@
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
 
-<div class="seu-wi seu-wi-agenda"> 
-	<div class="seu-container"> 
-		<h2 class="seu-section-title"> 
-			<span class="seu-title"><liferay-ui:message key="actu-agenda" /></span> 
-		</h2> 
+<div class="seu-wi seu-wi-agenda" style="padding-bottom:0px"> 
+	<main class="seu-container"> 
+		<h1 style="margin-bottom:0px"><liferay-ui:message key="actu-agenda" /></h1> 
 		<c:if test="${not dc.hasInterest()}">
 			<p class="no-interests">${dc.getNoInterestText()}</p>
 		</c:if>
-	</div>
+	</main>
 </div>
 <c:if test="${not empty dc.actusAndWebmags}">
 	<div class="seu-container">
@@ -30,10 +28,10 @@
 							<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
 							<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/> 
 							<div class="seu-wi-item seu-actu seu-has-picture"> 
-								<a href="${viewURL}" class="seu-link" title="${dc.getJournalArticleTitle(article,locale)}"> 
+								<a href="${viewURL}" class="seu-link" title="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"> 
 									<div class="seu-text"> 
-										<div class="seu-title dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.getJournalArticleTitle(article,locale)}</div> 
-										<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.getJournalArticleCatcher(article,locale)}</div> 
+										<div class="seu-title dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}</div> 
+										<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}</div> 
 									</div> 
 									<div> 
 										<div class="seu-picture" style="background-image: url(${dc.getJournalArticleImage(article,locale)})"></div> 
@@ -70,7 +68,7 @@
         			<c:forEach var="curEntry" items="${dc.events}" varStatus="loopStatus">
 						<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
 						<div class="seu-wi-item seu-has-ville"> 
-							<a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}"> 
+							<a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${dc.DeleteTag(event.getTitle(locale))}"> 
                             	<c:if test="${event.getFirstStartDate() != null}">
 									<div class="seu-date"> 
 										<div class="seu-date-sup"> 
@@ -90,8 +88,8 @@
 									</div> 
 	                            </c:if>
 								<div class="seu-ville">${event.getPlaceAlias(locale)} - ${event.getPlaceCity(locale)}</div> 
-								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div> 
-								<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${event.getDescription(locale)}</div> 
+								<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div> 
+								<div class="seu-lead dotme is-truncated" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getDescription(locale))}</div> 
 							</a> 
 						</div> 
 					</c:forEach>

@@ -60,7 +60,7 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException> getScheduleExceptions();
 
 	/**
-	* Retourne les Periods du sous-lieu
+	* Retourne les Periods du lieu auquel appartient le sous-lieu
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
 

@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+/***************************/
+/***************************/
+
+   /* -- BLOC ACTUALITES -- */
+
+/***************************/
+/***************************/
+
+#mns-global{
+
+	.mns-bloc-actu{
+		@include an(all,0.3);
+
+		> a{
+			display: block;
+			transform: translateY(0px);
+			@include an(all,0.3);
+		}
+		.mns-bloc-top-img{
+			img{
+				@include an(all,0.3);
+				width: 100%;
+			}
+		}
+
+		.mns-bloc-content-actu{
+			padding: 15px 0 40px 0;
+			img{
+				width: 100%;
+			}
+		}
+		.publication{
+			margin-bottom: 15px;
+		}
+		h1,h4{
+			@include ft($f_hx, 18px, 700, $c_txt, normal);
+			display: block;
+			padding-bottom: 20px;
+			margin: 0;
+		}
+		h3{
+			@include ft($f_hx, 24px, 700, $c_txt, normal);
+			display: block;
+			padding-bottom: 20px;
+			margin: 0;
+		}
+		p, strong{
+			margin-bottom: 15px;
+			display: block;
+			color: $c_txt;
+		}
+
+
+
+		&:hover{
+			a{
+				transform: translateY(-20px);
+				img{
+					box-shadow: 0 -20px 28px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+				}
+			}
+		}
+	}
+
+
+	.mns-detail-actu-content{
+		float: none;
+		margin-bottom: 40px;
+		@include mobile{
+			padding: 0;
+		}
+	}
+	
+}

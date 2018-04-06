@@ -17,7 +17,7 @@
 					<option value="${allFavoritesURL}" <c:if test="${empty param.favoriteTypeId}">selected</c:if>>
 						<liferay-ui:message key="everything" />
 					</option>
-					<c:forEach items="${dc.favoritesType}" var="favoriteType">
+					<c:forEach items="${dc.favoritesTypeFromUserFavorites}" var="favoriteType">
 						<liferay-portlet:renderURL var="favoriteFilterURL">
 							<liferay-portlet:param name="favoriteTypeId" value="${favoriteType.id}" />
 						</liferay-portlet:renderURL>
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 		        
-	<!-- Nombre de résultats et items par page -->
+	<!-- Nombre de rÃ©sultats et items par page -->
 	<div class="search-infos">
 	    <div class="search-infos__amount"> 
 	    	<c:choose>
@@ -57,33 +57,27 @@
 	    </div> 
 	</div>
 		
-	<!-- Liste des résultats -->
+	<!-- Liste des rÃ©sultats -->
 	<aui:form method="post" name="fm">
-		<!-- Résultats -->
+		<!-- RÃ©sultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
 			<ul class="favoris-list">
 				<c:forEach items="${dc.paginatedResults}" var="favorite">
-					<li class="favoris-teaser"><a href="${favorite.url}"
+					<li class="favoris-teaser type-${favorite.typeId}"><a href="${favorite.url}"
 						class="favoris-teaser__link">
 							<div class="favoris-teaser__type">  <liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
 							<div >
 								
 								<h3 class="favoris-teaser__title" data-dot="3"
 									style="word-wrap: break-word;">${favorite.title}</h3>
-												
-								<div class="favoris-teaser__description">
-									<c:if test="${favorite.typeId == 2 }">
-										${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}
-									</c:if>
-								</div>
 								
 								<div class="favoris-teaser__date">
 									<c:if test="${favorite.typeId == 1 }">
 										<c:if test="${not empty favorite.place.periods}">
 											<c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
 
-												<c:if test="${!schedule.isOpenNow()}">
+												<c:if test="${!favorite.place.isOpenNow()}">
 													<liferay-ui:message key="eu.closed" />
 												</c:if>
 												<c:if test="${schedule.isAlwaysOpen()}">
@@ -103,13 +97,15 @@
 										</c:if>
 									</c:if>
 									<c:if test="${favorite.typeId == 2 }">
+										<fmt:formatDate value="${favorite.event.firstStartDate}"
+											var="formattedStartDate" type="date" pattern="dd.MM.yy" />
+										<fmt:formatDate value="${favorite.event.lastEndDate}"
+											var="formattedEndDate" type="date" pattern="dd.MM.yy" />
 										<c:if test="${favorite.event.firstStartDate == favorite.event.lastEndDate }">
-											<fmt:formatDate value="${favorite.event.firstStartDate}"
-												var="formattedModifiedDate" type="date" pattern="dd.MM" />
-											Le ${formattedModifiedDate}
+											Le ${formattedStartDate}
 										</c:if>
 										<c:if test="${favorite.event.firstStartDate != favorite.event.lastEndDate }">
-											${favorite.event.getEventScheduleDisplay(locale)}
+                    						Du ${formattedStartDate} au ${formattedEndDate}
 										</c:if>
 									</c:if>
 									<c:if test="${favorite.typeId == 4 }">
@@ -121,16 +117,24 @@
 										Le ${formattedModifiedDate}
 									</c:if>
 									<c:if test="${favorite.typeId == 12 }">
+										<fmt:formatDate value="${favorite.manifestation.startDate}"
+											var="formattedStartDate" type="date" pattern="dd.MM.yy" />
+										<fmt:formatDate value="${favorite.manifestation.endDate}"
+											var="formattedEndDate" type="date" pattern="dd.MM.yy" />
 										<c:if test="${favorite.manifestation.startDate == favorite.manifestation.endDate }">
-											<fmt:formatDate value="${favorite.manifestation.startDate}"
-												var="formattedModifiedDate" type="date" pattern="dd.MM" />
-											Le ${formattedModifiedDate}
+											Le ${formattedStartDate}
 										</c:if>
 										<c:if test="${favorite.manifestation.startDate != favorite.manifestation.endDate }">
-											${favorite.manifestation.getManifestationScheduleDisplay(locale) }
+                    						Du ${formattedStartDate} au ${formattedEndDate}
 										</c:if>
 									</c:if>
 								</div>
+
+								<c:if test="${favorite.typeId == 2 }">
+									<div class="favoris-teaser__description">
+										<div>${favorite.event.getPlaceAlias(locale)} - ${favorite.event.getPlaceCity(locale)}</div>
+									</div>
+								</c:if>
 
 								<c:if test="${favorite.typeId == 1 && favorite.place.isEnabled()}">
 									<div class="favoris-teaser__crowding">
@@ -162,6 +166,7 @@
 			<!-- Pagination -->
 			<c:if test="${dc.pager.lastPage > 1}">
 	            <ul class="mseu-pagination unstyled">
+
 	            	<!-- Page précédente -->
 	                <li class="pagin-prev pagin-item">
 						<c:if test="${not dc.pager.onFirstPage}">

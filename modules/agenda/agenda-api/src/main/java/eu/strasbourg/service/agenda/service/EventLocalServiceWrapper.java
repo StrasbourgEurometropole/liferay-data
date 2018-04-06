@@ -34,9 +34,11 @@ public class EventLocalServiceWrapper implements EventLocalService,
 
 	/**
 	* Lance l'import des événements
+	*
+	* @throws IOException
 	*/
 	@Override
-	public boolean doImport() {
+	public boolean doImport() throws java.io.IOException {
 		return _eventLocalService.doImport();
 	}
 
@@ -236,12 +238,15 @@ public class EventLocalServiceWrapper implements EventLocalService,
 
 	/**
 	* Met à jour une édition et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	@Override
 	public eu.strasbourg.service.agenda.model.Event updateEvent(
 		eu.strasbourg.service.agenda.model.Event event,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return _eventLocalService.updateEvent(event, sc);
 	}
 

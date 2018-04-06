@@ -83,41 +83,44 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 				}
 			}
 
+
 			// On récupère les données temps réel
-			switch (place.getRTType()) {
-			case "1":
-				try {
-					long poolOccupation = PoolStateSOAPClient.getOccupation(place);
-					place.setRTOccupation(poolOccupation);
-				} catch (Exception ex) {
-					log.error("Can not update real time data for 'piscine'");
-				}
-				break;
+			if (!place.getRTEnabled().equals("NO")) {
+				switch (place.getRTType()) {
+					case "1":
+						try {
+							long poolOccupation = PoolStateSOAPClient.getOccupation(place);
+							place.setRTOccupation(poolOccupation);
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'piscine'");
+						}
+						break;
 
-			case "2":
-				try {
-					JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId());
-					String status = parkingData.getString("ds");
-					long capacity = Long.parseLong(parkingData.getString("dt"));
-					long available = Long.parseLong(parkingData.getString("df"));
-					place.setRTAvailable(available);
-					place.setRTOccupation(capacity - available);
-					place.setRTCapacity(capacity);
-					place.setRTStatus(status);
-				} catch (Exception ex) {
-					log.error("Can not update real time data for 'parking'");
-				}
-				break;
+					case "2":
+						try {
+							JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId());
+							String status = parkingData.getString("ds");
+							long capacity = Long.parseLong(parkingData.getString("dt"));
+							long available = Long.parseLong(parkingData.getString("df"));
+							place.setRTAvailable(available);
+							place.setRTOccupation(capacity - available);
+							place.setRTCapacity(capacity);
+							place.setRTStatus(status);
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'parking'");
+						}
+						break;
 
-			case "3":
-				try {
-					long occupation = MairieStateSOAPClient.getWaitingTime(place.getRTExternalId());
-					place.setRTOccupation(occupation);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					log.error("Can not update real time data for 'mairie'");
+					case "3":
+						try {
+							long occupation = MairieStateSOAPClient.getWaitingTime(place.getRTExternalId());
+							place.setRTOccupation(occupation);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							log.error("Can not update real time data for 'mairie'");
+						}
+						break;
 				}
-				break;
 			}
 			place.setRTEnabled(true);
 			place.setRTLastUpdate(new Date());

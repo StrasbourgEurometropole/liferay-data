@@ -46,11 +46,11 @@ public class OIDCFilter extends BaseFilter {
 	private String givenNameAttribute = "publik_given_name";
 	private String familyNameAttribute = "publik_family_name";
 	private String emailAttribute = "publik_email";
-	String familyName;
-	String givenName;
-	String internalId;
-	String accessToken;
-	String email;
+	private String familyName;
+	private String givenName;
+	private String internalId;
+	private String accessToken;
+	private String email;
 
 	@Override
 	protected Log getLog() {
@@ -68,6 +68,12 @@ public class OIDCFilter extends BaseFilter {
 		boolean isAlreadyLoggedIn = SessionParamUtil.getBoolean(request, loggedInAttribute);
 		String code = ParamUtil.getString(request, "code");
 		boolean wantsToLogout = ParamUtil.getBoolean(request, "logout");
+		String logoutOrigin = ParamUtil.getString(request, "origin");
+		if (wantsToLogout && logoutOrigin.equals("publik")) {
+			logout(request, response);
+			response.sendRedirect("https://connexion.strasbourg.eu/static/authentic2/images/ok.png");
+			return;
+		}
 
 		// Dans le cas où l'utilisateur est connecté
 		if (isAlreadyLoggedIn) {
@@ -79,7 +85,7 @@ public class OIDCFilter extends BaseFilter {
 				return;
 			}
 			// Si son jwt n'est plus valide, on le déconnecte
-			String jwtFromCookies = this.getCookieValue(request, "jwt");
+			String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
 			if (jwtFromCookies == null || jwtFromCookies.equals("")) {
 				LOG.info("Logout because no JWT");
 				logout(request, response);
@@ -111,7 +117,7 @@ public class OIDCFilter extends BaseFilter {
 				// On récupère alors le JWT et l'access token via une requête
 				// vers le provider
 				LOG.info("Code received, requesting tokens");
-				JSONObject json = sendTokenRequest(request, response, filterChain, code);
+				JSONObject json = sendTokenRequest(request, code);
 				if (json == null) {
 					LOG.info("Token empty");
 					super.processFilter(request, response, filterChain);
@@ -145,7 +151,7 @@ public class OIDCFilter extends BaseFilter {
 					// l'id utilisateur
 					String internalJwtToken = JWTUtils.createJWT(internalId, 60 * 60 * 24);
 					// On l'enregistre dans un cookie
-					createCookie(request, response, "jwt", internalJwtToken);
+					createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), internalJwtToken);
 
 					// On met les infos de l'utilisateur dans la session
 					putUserInfoInSession(request);
@@ -160,7 +166,7 @@ public class OIDCFilter extends BaseFilter {
 		// Si on n'est pas connecté mais qu'on a un jwt dans les cookies, on
 		// doit le vérifier et connecter l'utilisateur s'il est valide
 		if (!isAlreadyLoggedIn && !wantsToLogout) {
-			String jwtFromCookies = this.getCookieValue(request, "jwt");
+			String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
 			if (jwtFromCookies != null && !jwtFromCookies.equals("")) {
 				boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
 						StrasbourgPropsUtil.getInternalIssuer());
@@ -171,12 +177,14 @@ public class OIDCFilter extends BaseFilter {
 
 					// Et les autres données en base
 					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(this.internalId);
-					givenName = user.getFirstName();
-					familyName = user.getLastName();
-					email = user.getEmail();
+					if (user != null) {
+						givenName = user.getFirstName();
+						familyName = user.getLastName();
+						email = user.getEmail();
 
-					// On les met dans la session
-					putUserInfoInSession(request);
+						// On les met dans la session
+						putUserInfoInSession(request);
+					}
 				}
 			}
 		}
@@ -198,12 +206,10 @@ public class OIDCFilter extends BaseFilter {
 	 * sa dernière page visitée dans la session (attribut last_visited)
 	 */
 	private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String currentDomainRoot = request.getRequestURL().toString()
-				.replace(request.getServletPath(), "")
-				.replace(request.getPathInfo(), "");
 		response.sendRedirect(
+
 		StrasbourgPropsUtil.getPublikAuthorizeURL()
-				+ "&redirect_uri=" + currentDomainRoot
+				+ "&redirect_uri=" + this.getDomainRoot(request)
 				+ "&state=" + request.getRequestURL().toString());
 	}
 
@@ -211,8 +217,7 @@ public class OIDCFilter extends BaseFilter {
 	 * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id
 	 * token
 	 */
-	private JSONObject sendTokenRequest(HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain, String code) throws IOException {
+	private JSONObject sendTokenRequest(HttpServletRequest request, String code) throws IOException {
 		// Si oui, on récupère un token et les infos de l'utilisateur
 		String authURL = StrasbourgPropsUtil.getPublikTokenURL();
 
@@ -228,11 +233,8 @@ public class OIDCFilter extends BaseFilter {
 		connection.setRequestProperty("Authorization", "Basic " + encoded);
 
 		// Paramètres
-		String currentDomainRoot = request.getRequestURL().toString()
-				.replace(request.getServletPath(), "")
-				.replace(request.getPathInfo(), "");
 		String parameters = "grant_type=authorization_code&code=" + code + "&redirect_uri="
-				+ currentDomainRoot;
+				+ this.getDomainRoot(request);
 		byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
 		int postDataLength = postData.length;
 		connection.setDoOutput(true);
@@ -250,8 +252,7 @@ public class OIDCFilter extends BaseFilter {
 		// Résultat
 		try {
 			InputStream is = connection.getInputStream();
-			JSONObject json = readJsonFromInputStream(is);
-			return json;
+			return readJsonFromInputStream(is);
 		} catch (Exception ex) {
 			BufferedReader rd = new BufferedReader(
 					new InputStreamReader(connection.getErrorStream(), Charset.forName("UTF-8")));
@@ -289,7 +290,7 @@ public class OIDCFilter extends BaseFilter {
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 
-		createCookie(request, response, "jwt", "");
+		createCookie(request, response, "jwt_" + StrasbourgPropsUtil.getEnvironment(), "");
 	}
 
 	/**
@@ -297,14 +298,10 @@ public class OIDCFilter extends BaseFilter {
 	 */
 	private void redirectToIdPLogout(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String currentDomainRoot = request.getRequestURL().toString()
-					.replace(request.getServletPath(), "")
-					.replace(request.getPathInfo(), "");
 			response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
-					+ "?post_logout_redirect_uri=" + currentDomainRoot
-					+ "&state=" + URLEncoder.encode(request.getRequestURI().toString(), "UTF-8"));
+					+ "?post_logout_redirect_uri=" + this.getDomainRoot(request)
+					+ "&state=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -332,7 +329,6 @@ public class OIDCFilter extends BaseFilter {
 		String url = request.getRequestURL().toString();
 		String domain = getMainDomain(url);
 		cookie.setDomain(domain);
-		cookie.setMaxAge(60 * 60 * 24);
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
@@ -375,20 +371,25 @@ public class OIDCFilter extends BaseFilter {
 	 * localhost), on renvoie le nom de domaine sans le sous domaine
 	 */
 	private String getMainDomain(String urlString) {
-		URL url = null;
 		String domainString = null;
 		try {
-			url = new URL(urlString);
+			URL url = new URL(urlString);
 			String[] domainNameParts = url.getHost().split("\\.");
 			domainString = domainNameParts[domainNameParts.length - 1];
 			if (domainNameParts.length > 1) {
 				domainString = "." + domainNameParts[domainNameParts.length - 2] + "." + domainString;
 			}
 
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException ignored) {
 		}
 
 		return domainString;
+	}
+
+	private String getDomainRoot(HttpServletRequest request) {
+		return request.getRequestURL().toString()
+				.replace(request.getServletPath(), "")
+				.replace(request.getPathInfo(), "");
 	}
 
 }

@@ -1,5 +1,5 @@
 jQuery(function() {
-    jQuery('#formFactures').submit( function() {
+    jQuery('#formFactures').submit( function(event) {
 	    event.preventDefault();
 	    var errorMessage = '';
 	    var isValid = true;

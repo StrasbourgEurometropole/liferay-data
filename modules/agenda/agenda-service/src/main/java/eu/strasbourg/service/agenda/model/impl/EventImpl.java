@@ -198,7 +198,7 @@ public class EventImpl extends EventBaseImpl {
 	 * Retourne la date de début de la future ou courante période de l'événement
 	 */
 	public Date getStartDateFirstCurrentAndFuturePeriod() {		
-		return getCurrentAndFuturePeriods().isEmpty() ? null:getCurrentAndFuturePeriods().get(0).getStartDate();
+		return getCurrentAndFuturePeriods().isEmpty() ? new Date(0):getCurrentAndFuturePeriods().get(0).getStartDate();
 	}
 	
 	/**

@@ -252,6 +252,20 @@ public interface SlotModel extends BaseModel<Slot>, LocalizedModel {
 	 */
 	public void setPeriodId(long periodId);
 
+	/**
+	 * Returns the sub place ID of this slot.
+	 *
+	 * @return the sub place ID of this slot
+	 */
+	public long getSubPlaceId();
+
+	/**
+	 * Sets the sub place ID of this slot.
+	 *
+	 * @param subPlaceId the sub place ID of this slot
+	 */
+	public void setSubPlaceId(long subPlaceId);
+
 	@Override
 	public boolean isNew();
 

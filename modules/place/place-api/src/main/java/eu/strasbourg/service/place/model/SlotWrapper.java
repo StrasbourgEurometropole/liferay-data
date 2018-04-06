@@ -63,6 +63,7 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 		attributes.put("endHour", getEndHour());
 		attributes.put("comment", getComment());
 		attributes.put("periodId", getPeriodId());
+		attributes.put("subPlaceId", getSubPlaceId());
 
 		return attributes;
 	}
@@ -109,6 +110,12 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 
 		if (periodId != null) {
 			setPeriodId(periodId);
+		}
+
+		Long subPlaceId = (Long)attributes.get("subPlaceId");
+
+		if (subPlaceId != null) {
+			setSubPlaceId(subPlaceId);
 		}
 	}
 
@@ -343,6 +350,16 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 		return _slot.getSlotId();
 	}
 
+	/**
+	* Returns the sub place ID of this slot.
+	*
+	* @return the sub place ID of this slot
+	*/
+	@Override
+	public long getSubPlaceId() {
+		return _slot.getSubPlaceId();
+	}
+
 	@Override
 	public void persist() {
 		_slot.persist();
@@ -513,6 +530,16 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	@Override
 	public void setStartHour(java.lang.String startHour) {
 		_slot.setStartHour(startHour);
+	}
+
+	/**
+	* Sets the sub place ID of this slot.
+	*
+	* @param subPlaceId the sub place ID of this slot
+	*/
+	@Override
+	public void setSubPlaceId(long subPlaceId) {
+		_slot.setSubPlaceId(subPlaceId);
 	}
 
 	/**

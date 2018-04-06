@@ -210,12 +210,6 @@ public interface PeriodLocalService extends BaseLocalService,
 	public List<Period> getByPlaceId(long placeId);
 
 	/**
-	* Retourne les Periods rattachées à un sous-lieu
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Period> getBySubPlaceId(long subPlaceId);
-
-	/**
 	* Returns a range of all the periods.
 	*
 	* <p>

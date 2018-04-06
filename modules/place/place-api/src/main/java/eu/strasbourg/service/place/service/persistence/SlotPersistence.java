@@ -303,6 +303,137 @@ public interface SlotPersistence extends BasePersistence<Slot> {
 	public int countByPeriodId(long periodId);
 
 	/**
+	* Returns all the slots where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @return the matching slots
+	*/
+	public java.util.List<Slot> findBySubPlaceId(long subPlaceId);
+
+	/**
+	* Returns a range of all the slots where subPlaceId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param subPlaceId the sub place ID
+	* @param start the lower bound of the range of slots
+	* @param end the upper bound of the range of slots (not inclusive)
+	* @return the range of matching slots
+	*/
+	public java.util.List<Slot> findBySubPlaceId(long subPlaceId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the slots where subPlaceId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param subPlaceId the sub place ID
+	* @param start the lower bound of the range of slots
+	* @param end the upper bound of the range of slots (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching slots
+	*/
+	public java.util.List<Slot> findBySubPlaceId(long subPlaceId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the slots where subPlaceId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param subPlaceId the sub place ID
+	* @param start the lower bound of the range of slots
+	* @param end the upper bound of the range of slots (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching slots
+	*/
+	public java.util.List<Slot> findBySubPlaceId(long subPlaceId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first slot in the ordered set where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching slot
+	* @throws NoSuchSlotException if a matching slot could not be found
+	*/
+	public Slot findBySubPlaceId_First(long subPlaceId,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException;
+
+	/**
+	* Returns the first slot in the ordered set where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching slot, or <code>null</code> if a matching slot could not be found
+	*/
+	public Slot fetchBySubPlaceId_First(long subPlaceId,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator);
+
+	/**
+	* Returns the last slot in the ordered set where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching slot
+	* @throws NoSuchSlotException if a matching slot could not be found
+	*/
+	public Slot findBySubPlaceId_Last(long subPlaceId,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException;
+
+	/**
+	* Returns the last slot in the ordered set where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching slot, or <code>null</code> if a matching slot could not be found
+	*/
+	public Slot fetchBySubPlaceId_Last(long subPlaceId,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator);
+
+	/**
+	* Returns the slots before and after the current slot in the ordered set where subPlaceId = &#63;.
+	*
+	* @param slotId the primary key of the current slot
+	* @param subPlaceId the sub place ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next slot
+	* @throws NoSuchSlotException if a slot with the primary key could not be found
+	*/
+	public Slot[] findBySubPlaceId_PrevAndNext(long slotId, long subPlaceId,
+		com.liferay.portal.kernel.util.OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException;
+
+	/**
+	* Removes all the slots where subPlaceId = &#63; from the database.
+	*
+	* @param subPlaceId the sub place ID
+	*/
+	public void removeBySubPlaceId(long subPlaceId);
+
+	/**
+	* Returns the number of slots where subPlaceId = &#63;.
+	*
+	* @param subPlaceId the sub place ID
+	* @return the number of matching slots
+	*/
+	public int countBySubPlaceId(long subPlaceId);
+
+	/**
 	* Caches the slot in the entity cache if it is enabled.
 	*
 	* @param slot the slot
