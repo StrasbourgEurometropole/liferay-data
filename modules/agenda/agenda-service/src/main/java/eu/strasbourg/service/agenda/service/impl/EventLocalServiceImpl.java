@@ -14,7 +14,10 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
+
+import javax.imageio.ImageIO;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -57,6 +62,8 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.utils.AgendaImporter;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 /**
  * The implementation of the event local service.
@@ -109,10 +116,11 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 	/**
 	 * Met à jour une édition et l'enregistre en base de données
+	 * @throws IOException 
 	 */
 	@Override
 	public Event updateEvent(Event event, ServiceContext sc)
-		throws PortalException {
+		throws PortalException, IOException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		event.setCompanyId(sc.getCompanyId());
@@ -120,6 +128,21 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		event.setStatusByUserName(user.getFullName());
 		event.setStatusDate(sc.getModifiedDate());
 
+		if(event.getImageId() == null || event.getImageId() == 0) {
+			URL url = new URL(event.getExternalImageURL());
+	        final BufferedImage bi = ImageIO.read(url);
+			event.setImageHeight(bi.getHeight());
+			event.setImageWidth(bi.getWidth());
+		}
+		else {
+			String imageURL = FileEntryHelper.getFileEntryURL(event.getImageId()); 
+			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+			URL url = new URL(completeImageURL);
+	        final BufferedImage bi = ImageIO.read(url);
+			event.setImageHeight(bi.getHeight());
+			event.setImageWidth(bi.getWidth());
+		}
+		
 		// On classe les périodes par date de début, ce qui va nous
 		// permettre
 		// de setter les champs "firstStartDate" et "lastEndDate" sur
@@ -462,9 +485,10 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 	/**
 	 * Lance l'import des événements
+	 * @throws IOException 
 	 */
 	@Override
-	public boolean doImport() {
+	public boolean doImport() throws IOException {
 		AgendaImporter agendaImporter = new AgendaImporter();
 		agendaImporter.doImport();
 		return true;

@@ -77,6 +77,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("description", getDescription());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("placeSIGId", getPlaceSIGId());
 		attributes.put("placeName", getPlaceName());
 		attributes.put("placeStreetNumber", getPlaceStreetNumber());
@@ -217,6 +219,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		String placeSIGId = (String)attributes.get("placeSIGId");
@@ -615,6 +629,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.Integer getFree() {
 		return _event.getFree();
+	}
+
+	/**
+	* Returns the image height of this event.
+	*
+	* @return the image height of this event
+	*/
+	@Override
+	public java.lang.Integer getImageHeight() {
+		return _event.getImageHeight();
+	}
+
+	/**
+	* Returns the image width of this event.
+	*
+	* @return the image width of this event
+	*/
+	@Override
+	public java.lang.Integer getImageWidth() {
+		return _event.getImageWidth();
 	}
 
 	/**
@@ -2250,6 +2284,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the image height of this event.
+	*
+	* @param imageHeight the image height of this event
+	*/
+	@Override
+	public void setImageHeight(java.lang.Integer imageHeight) {
+		_event.setImageHeight(imageHeight);
+	}
+
+	/**
 	* Sets the image ID of this event.
 	*
 	* @param imageId the image ID of this event
@@ -2257,6 +2301,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setImageId(java.lang.Long imageId) {
 		_event.setImageId(imageId);
+	}
+
+	/**
+	* Sets the image width of this event.
+	*
+	* @param imageWidth the image width of this event
+	*/
+	@Override
+	public void setImageWidth(java.lang.Integer imageWidth) {
+		_event.setImageWidth(imageWidth);
 	}
 
 	/**
