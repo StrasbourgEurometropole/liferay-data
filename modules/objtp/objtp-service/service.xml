@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.objtp">
+	<author>JeremyZwickert</author>
+	<namespace>objtp</namespace>
+	
+	<!-- Category -->
+	<entity local-service="true"  cache-enabled="true" name="ObjectCategory" remote-service="true" uuid="false" >
+		<column name="code" primary="true" type="String" />
+		<column name="name" type="String" />
+	</entity>
+	
+	<!-- Objet -->
+	<entity local-service="true"  cache-enabled="true" name="FoundObject" remote-service="true" uuid="false" >
+		<column name="number" primary="true" type="String" />
+		<column name="date" type="String" />
+		<column name="imageURL" type="String" />
+		<column name="categoryCode" type="String" />
+		
+		<!-- Finder methods -->
+		<finder name="CategoryCode" return-type="Collection">
+			<finder-column name="categoryCode" />
+		</finder>
+		
+	</entity>
+</service-builder>

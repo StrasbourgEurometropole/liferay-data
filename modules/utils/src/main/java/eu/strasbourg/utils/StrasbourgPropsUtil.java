@@ -164,4 +164,8 @@ public class StrasbourgPropsUtil {
 	public static String getPublikProfileURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.profile");
 	}
+	
+	public static String getObjtpURL(){
+		return PropsUtil.get("eu.strasbourg.objtp.url");
+	}
 }

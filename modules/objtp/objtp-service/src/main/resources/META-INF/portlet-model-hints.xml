@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.objtp.model.FoundObject">
+		<field name="number" type="String" />
+		<field name="date" type="String" />
+		<field name="imageURL" type="String" />
+		<field name="categoryCode" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.objtp.model.ObjectCategory">
+		<field name="code" type="String" />
+		<field name="name" type="String" />
+	</model>
+</model-hints>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="eu.strasbourg.service.objtp.model.FoundObject" />
+	<import class="eu.strasbourg.service.objtp.model.ObjectCategory" />
+	<class name="eu.strasbourg.service.objtp.model.impl.FoundObjectImpl" table="objtp_FoundObject">
+		<id column="number_" name="number" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="date_" name="date" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="categoryCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl" table="objtp_ObjectCategory">
+		<id column="code_" name="code" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
