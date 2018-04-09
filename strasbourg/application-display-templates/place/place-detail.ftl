@@ -144,7 +144,7 @@
                                 <!-- Période par défaut -->
                                 <#if entry.defaultPeriod?has_content>
                                     <div class="tab-content">
-                                        <h3 class="hidden"><@liferay_ui.message key="eu.place.normal-schedule" /></h3>
+                                        <h3 class="hidden">${entry.defaultPeriod.getName(locale)}</h3>
                                         <div class="tab-title">${entry.getAlias(locale)}</div>
                                         <ul class="schedule-list">
                                             <#assign weekSchedules = entry.defaultPeriod.getWeekSchedule() />
