@@ -130,6 +130,11 @@ function affichageDates(objet, id) {
 	var namespaceAUI = "#" + namespace;
 	if (objet.checked) {
 		$('.dates' + id).hide();
+		
+		// Initialisation du nom de la période si période par défault
+		if($(namespaceAUI + 'namePeriod' + id).val() == ""){
+			$(namespaceAUI + 'namePeriod' + id).val("Horaires habituels");
+		}
 	} else {
 		$('.dates' + id).show();
 	}
