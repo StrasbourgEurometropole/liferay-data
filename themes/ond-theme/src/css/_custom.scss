@@ -865,12 +865,26 @@
 				    border-bottom: 1px solid #f2f1e8;
 				    background: #ad3939;
 				    vertical-align: top;
+					font-family: Arial;
 
 					.entry-header {
 
 						h2{
-							margin-top: -218px;
+						    font-size: 1.25em;
+						    line-height: 1.1em;
+						    font-weight: 700;
+						    margin: 0;
+						    padding: 0;
+						    padding-bottom: 13px;
+						    padding: 15px 0 9px 0;
+						    margin: 0 15px 9px 15px;
+						    position: relative;
+							margin-top: -205px;
 							display: none;
+
+							a {
+								font-size: 0.9em;
+							}
 						}
 					}
 
@@ -880,7 +894,6 @@
 					    font-weight: 300;
 					    min-height: 3.5em;
 					    position: relative;
-					    font-family: Lato, sans-serif;
 					    font-size: 1.1em;
 					    display: none;
 					}
@@ -892,7 +905,33 @@
 					    bottom: 0px;
 					    left: 0px;
 					    right: 0px;
+					    padding-right: 0px;
 					    display: none;
+
+					    time{
+					    	font-weight: 700;
+						    font-size: 0.9em;
+						    text-transform: uppercase;
+							font-family: Arial;
+							float: left;
+						}
+					}
+
+					.btn-more {
+					    float: right;
+					    border-color: white;
+					    color:white;
+					    margin-right:5px;
+					    margin-top:0;
+
+					    &:hover {
+						    float: right;
+						    border-color: white;
+						    background:white;
+						    margin-right:5px;
+						    text-decoration: none;
+						    color: #b44b4a;
+						}
 					}
 				}
 
