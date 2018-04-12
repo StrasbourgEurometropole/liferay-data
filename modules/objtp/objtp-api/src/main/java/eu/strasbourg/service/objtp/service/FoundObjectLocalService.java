@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
@@ -67,12 +66,12 @@ public interface FoundObjectLocalService extends BaseLocalService,
 	*
 	* @throws MalformedURLException
 	* @throws IOException
-	* @throws JSONException
+	* @throws PortalException
 	*/
-	public boolean doImport() throws JSONException, IOException;
+	public boolean doImport() throws PortalException, IOException;
 
 	public boolean importObject(JSONObject objectJSON)
-		throws JSONException, IOException;
+		throws PortalException, IOException;
 
 	public DynamicQuery dynamicQuery();
 

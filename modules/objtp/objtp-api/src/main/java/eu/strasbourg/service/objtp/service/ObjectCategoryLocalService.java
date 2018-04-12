@@ -71,6 +71,8 @@ public interface ObjectCategoryLocalService extends BaseLocalService,
 	*/
 	public boolean doImport() throws JSONException, IOException;
 
+	public boolean importObjectCategory(JSONObject objectCategoryJSON);
+
 	public DynamicQuery dynamicQuery();
 
 	/**
@@ -230,6 +232,4 @@ public interface ObjectCategoryLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
-
-	public void importObjectCategory(JSONObject objectCategoryJSON);
 }

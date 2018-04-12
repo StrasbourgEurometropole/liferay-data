@@ -38,18 +38,20 @@ public class FoundObjectLocalServiceWrapper implements FoundObjectLocalService,
 	*
 	* @throws MalformedURLException
 	* @throws IOException
-	* @throws JSONException
+	* @throws PortalException
 	*/
 	@Override
 	public boolean doImport()
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return _foundObjectLocalService.doImport();
 	}
 
 	@Override
 	public boolean importObject(
 		com.liferay.portal.kernel.json.JSONObject objectJSON)
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return _foundObjectLocalService.importObject(objectJSON);
 	}
 

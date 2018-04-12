@@ -54,6 +54,11 @@ public class ObjectCategoryLocalServiceUtil {
 		return getService().doImport();
 	}
 
+	public static boolean importObjectCategory(
+		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
+		return getService().importObjectCategory(objectCategoryJSON);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
@@ -254,11 +259,6 @@ public class ObjectCategoryLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	public static void importObjectCategory(
-		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
-		getService().importObjectCategory(objectCategoryJSON);
 	}
 
 	public static ObjectCategoryLocalService getService() {

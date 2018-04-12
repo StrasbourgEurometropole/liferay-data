@@ -22,11 +22,19 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.objtp.model.FoundObject;
@@ -66,10 +74,10 @@ public class FoundObjectLocalServiceImpl extends FoundObjectLocalServiceBaseImpl
 	 * Lance l'import des objtp
 	 * @throws MalformedURLException 
 	 * @throws IOException 
-	 * @throws JSONException 
+	 * @throws PortalException 
 	 */
 	@Override
-	public boolean doImport() throws JSONException, IOException {
+	public boolean doImport() throws IOException, PortalException {
 		_log.info("Start importing found objects");
 		
 		// On vide d'abord la base
@@ -111,7 +119,7 @@ public class FoundObjectLocalServiceImpl extends FoundObjectLocalServiceBaseImpl
 	}
 	
 	@Override
-	public boolean importObject(JSONObject objectJSON) throws JSONException, IOException {
+	public boolean importObject(JSONObject objectJSON) throws IOException, PortalException {
 		
 		
 		// Récupération des différents champs
@@ -163,12 +171,49 @@ public class FoundObjectLocalServiceImpl extends FoundObjectLocalServiceBaseImpl
 			JSONObject image = imageArray.getJSONObject(0);
 			String imageBase64 = image.getString("image");
 			
+			// On convertit l'image base64 en série de Bytes
 			byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(imageBase64);
-			BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			
+			// Récupère les différents ID nécessaires aux manipulations de dossiers
+			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+			long companyId = defaultCompany.getCompanyId();
+			long globalGroupId = defaultCompany.getGroup().getGroupId();
+		    long repositoryId = DLFolderConstants.getDataRepositoryId(globalGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+		  
+		    // serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
+		    ServiceContext serviceContext = new ServiceContext();
+		    serviceContext.setAddGroupPermissions(true);
+		    serviceContext.setAddGuestPermissions(true);
+		    
+			// on récupère le dossier "Objets trouves" présent dans Global
+			Folder objtpFolder = DLAppServiceUtil.getFolder(repositoryId,0,"Objets trouves");
+			
+			// S'il n'existe pas, on le crée
+			if(objtpFolder == null) {
+				objtpFolder = DLAppServiceUtil.addFolder(
+			             repositoryId
+			             ,DLFolderConstants.DEFAULT_PARENT_FOLDER_ID
+			             , "Objets trouves"
+			            , "Objets trouves"
+			            , serviceContext);;
+			}
+			
+			// on ajoute l'image au dossier
+			DLAppServiceUtil.addFileEntry(
+	                repositoryId,
+	                objtpFolder.getFolderId(),
+	                object.getNumber(),
+	                "image/jpeg",
+	                object.getNumber(),
+	                null,
+	                null,
+	                imageBytes,
+	                serviceContext);
+	
 		}
 		
 		foundObjectLocalService.updateFoundObject(object);
 	
 		return true;
-	}
+	}	
 }

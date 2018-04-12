@@ -47,16 +47,18 @@ public class FoundObjectLocalServiceUtil {
 	*
 	* @throws MalformedURLException
 	* @throws IOException
-	* @throws JSONException
+	* @throws PortalException
 	*/
 	public static boolean doImport()
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return getService().doImport();
 	}
 
 	public static boolean importObject(
 		com.liferay.portal.kernel.json.JSONObject objectJSON)
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return getService().importObject(objectJSON);
 	}
 

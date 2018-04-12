@@ -48,6 +48,12 @@ public class ObjectCategoryLocalServiceWrapper
 	}
 
 	@Override
+	public boolean importObjectCategory(
+		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
+		return _objectCategoryLocalService.importObjectCategory(objectCategoryJSON);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _objectCategoryLocalService.dynamicQuery();
 	}
@@ -266,12 +272,6 @@ public class ObjectCategoryLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _objectCategoryLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
-	}
-
-	@Override
-	public void importObjectCategory(
-		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
-		_objectCategoryLocalService.importObjectCategory(objectCategoryJSON);
 	}
 
 	@Override
