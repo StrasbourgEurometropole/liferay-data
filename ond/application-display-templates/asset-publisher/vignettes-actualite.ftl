@@ -18,7 +18,7 @@
                 
                 <article style="padding:0px;" class="new">
                     <div class="entry-header">
-                        <a href="${viewURL}">
+                        <a href="${viewURL}" title="${title}">
                             <img src="${illustration}">
                         </a>
                         <h2 style="text-align: left;">
