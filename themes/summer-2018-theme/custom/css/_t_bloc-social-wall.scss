@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+/***************************/
+/***************************/
+
+   /* -- BLOC SOCIAL WALL -- */
+
+/***************************/
+/***************************/
+
+#mns-global{
+	.mns-social-wall{
+		padding-top: 0;
+		transform: translate3d(0,0,0);
+		@include mobile{
+			padding: 0;
+			width: 100%;
+			.mns-list-social-wall > div:nth-child(3) ~ div {
+				display: none;
+			}
+		}
+		ul{
+			text-align: center;
+			width: 100%;
+			padding: 0;
+			li{
+				display: inline-block;
+				padding: 0;
+				margin: 0 7px;
+
+				span{
+					font-size: 44px;
+					&.icon-facebook-with-circle{
+						color: #3b5998;
+					}
+					&.icon-instagram-with-circle{
+						color: #e95950;
+					}
+					&.icon-twitter-with-circle{
+						color: #4099FF;
+					}
+				}
+			}
+		}
+		h2, h3{
+			@include ft($f_hx, $s_h3, 700, $c_txt, normal);
+			text-align: center;
+			span{
+				color: $c_main;
+			}
+
+			@include mobile{
+				font-size: 26px;
+			}
+		}
+		p{
+			text-align: center;
+			width: 40%;
+			margin: auto;
+			font-size: 16px;
+			line-height: 26px;
+			@include tablet_portrait{
+				width: 70%;
+			}
+			@include mobile {
+				width: 90%;
+			}
+		}
+	 	figure img {
+			width: 270px;
+			height: 270px;
+		}
+	}
+
+	.mns-bloc-social-wall{
+		border-bottom: 1px solid $c_filet;
+		margin-bottom: 40px;
+		a{
+			display: block;
+			@include an(all,0.3);
+			img{
+				width: 100%;
+				@include an(all,0.3);
+			}
+			> div{
+				position: relative;
+			}
+			&:hover{
+				transform: translateY(-20px);
+				img{
+					box-shadow: 0 -20px 28px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
+				}
+			}
+		}
+		span{
+			position: relative;
+			display: block;
+			height: 58px;
+			width: 58px;
+			border-radius: 50%;
+			transform: translateY(-50%);
+			left: 15px;
+			pointer-events: none;
+			img{
+				box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+				border-radius: 50%;
+			}
+		}
+		.account{
+			position: absolute;
+			top: 35px;
+			left: 0px;
+			width: 100%;
+			text-align: right;
+			@include ft($f_txt, 14px, 400, $c_main, 22px);
+		}
+		p{
+			width: 100%;
+			text-align: left;
+			top: -10px;
+			margin-bottom: 20px;
+	    max-height: 100px;
+	    overflow: hidden;
+		}
+	}
+
+	img.emoji {
+		width: 18px !important;
+		vertical-align: text-top;
+		display: inline !important;
+	}
+}

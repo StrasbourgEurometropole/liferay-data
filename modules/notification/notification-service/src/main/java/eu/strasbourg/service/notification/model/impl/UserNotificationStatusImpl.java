@@ -70,7 +70,7 @@ public class UserNotificationStatusImpl extends UserNotificationStatusBaseImpl {
 				result.put("type", notification.getType().getTitle(Locale.FRANCE));
 				result.put("typeId", AssetVocabularyHelper.getExternalId(notification.getType()));
 			}
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			result.put("publicationDate", dateFormat.format(notification.getPublicationDate()));
 			result.put("expirationDate", dateFormat.format(notification.getExpirationDate()));
 			result.put("isRead", this.isRead());

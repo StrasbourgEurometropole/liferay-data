@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+@import "_t_vars";
+@import "_t_mixins";
+
+/***************************/
+/***************************/
+
+   /* -- PAGE TOP 10 -- */
+
+/***************************/
+/***************************/
+
+
+#mns-global{
+
+	.mns-intro-top10{
+		@include tablet_portrait{
+			max-width: 750px;
+			padding: 50px 15px;
+		}
+		@include mobile {
+			padding: 50px 15px;
+		}
+	}
+
+	.mns-top-10{
+		margin-bottom: 70px;
+		position: relative;
+		transform:translate3d(0,0,0);
+
+		@include mobile{
+			margin-bottom: 0;
+		}
+		> div{
+			margin-bottom: 30px;
+			-js-display: flex;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transform: translate3d(0,0,0);
+			@include tablet_portrait{
+				margin-bottom: 100px;
+			}
+			@include mobile{
+				flex-direction: column;
+			}
+		}
+
+		.mns-wrapper-img{
+			border-radius: 50%;
+			overflow: hidden;
+			img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			figure{
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.mns-wrapper-img-top1{
+			width: 670px;
+			height: 670px;
+			@include desktop{
+				width: 450px;
+				height: 450px;
+			}
+			@include tablet_portrait {
+				width: 330px;
+				height: 330px;
+			}
+			@include mobile {
+				height: 280px;
+				width: 280px;
+				margin: 0 auto 15px auto;
+			}
+		}
+
+		.mns-wrapper-img-top2{
+			width: 570px;
+			height: 570px;
+			@include desktop{
+				width: 450px;
+				height: 450px;
+			}
+			@include tablet_portrait {
+				width: 330px;
+				height: 330px;
+			}
+			@include mobile {
+				height: 280px;
+				width: 280px;
+				margin: 0 auto 15px auto;
+			}
+		}
+
+		.mns-wrapper-img-top8{
+			width: 470px;
+			height: 470px;
+			@include desktop{
+				width: 350px;
+				height: 350px;
+			}
+			@include tablet_portrait {
+				width: 330px;
+				height: 330px;
+			}
+			@include mobile {
+				height: 280px;
+				width: 280px;
+				margin: 0 auto 15px auto;
+			}
+		}
+
+
+
+		@include mobile{
+			.order-1{
+				order: 1;
+				text-align: left;
+			}
+
+			.order-2{
+				order: 2;
+				text-align: left;
+			}
+		}
+
+		span{
+			@include ft($f_txt, 20px, 400, $c_main, 26px);
+			text-transform: uppercase;
+		}
+
+		h2{
+			@include ft($f_hx, 46px, 700, $c_txt, 56px);
+			width: 90%;
+			@include desktop{
+				width: 100%;
+			}
+			@include tablet_portrait {
+				font-size: 32px;
+				line-height: normal;
+			}
+		}
+		strong,p,h2,span{
+			margin-bottom: 15px;
+			display: block;
+		}
+
+		.mns-para{
+			position: absolute;
+			width: 33%;
+			z-index: -1;
+			&.para-elipse{
+				left: 0;
+			}
+			&.para-stars{
+				right: 50px;
+			}
+			&.para-triangle{
+				right: 0;
+			}
+		}
+
+		.text-right{
+			h2{
+				width: 100%;
+			}
+		}
+
+		.mns-badge{
+			position: absolute;
+			z-index: 20;
+			@include ft($f_hx, 36px, 700, $c_white, normal);
+			background: $c_main;
+			border-radius: 50%;
+			border: 4px solid $c_white;
+			width: 70px;
+			height: 70px;
+			text-align: center;
+			margin: 0;
+		}
+
+		.badge-left{
+			bottom: 130px;
+			left: 20px;
+			&.mns-medium{
+				line-height: 54px;
+			}
+			@include desktop{
+				bottom: 60px;
+			}
+			@include tablet_portrait {
+				bottom: 20px;
+			}
+			@include mobile {
+				bottom: 60px;
+			}
+		}
+
+		.badge-left-top{
+			top: 80px;
+			left: 20px;
+			&.mns-medium{
+				line-height: 54px;
+			}
+			@include desktop{
+				top: 50px;
+			}
+			@include tablet_portrait {
+				top: 20px;
+			}
+			@include mobile {
+				left: 45px;
+			}
+		}
+
+		.badge-left-top-small{
+			top: 20px;
+			left: 50px;
+			@include desktop{
+				top: 0;
+				left: 35px;
+			}
+			@include mobile {
+				left: 45px;
+			}
+		}
+
+		.badge-right{
+			top: 85px;
+			right: 20px;
+			&.mns-medium{
+				line-height: 54px;
+			}
+			@include desktop{
+				top: 45px;
+			}
+			@include tablet_portrait {
+				top: 15px;
+			}
+			@include mobile {
+				right: 45px;
+			}
+		}
+
+		.badge-right-top-small{
+			top: 20px;
+			right: 50px;
+			&.mns-medium{
+				line-height: 54px;
+			}
+			@include desktop{
+				top: 10px;
+				right: 30px;
+			}
+			@include mobile {
+				right: 45px;
+			}
+		}
+
+		.mns-main-image{
+			@include mobile{
+				margin: auto auto 40px auto;
+			}
+		}
+
+		.deco-elipse-top-1{
+			position: absolute;
+			z-index: -1;
+			right: 40px;
+			top: 40px;
+		}
+
+		.deco-elipse-top-8{
+			position: absolute;
+			z-index: -1;
+			right: 40%;
+			bottom: -30px;
+			@include mobile{
+				right: 40px;
+				bottom: 30px;
+			}
+		}
+
+		.deco-elipse-top-10{
+			position: absolute;
+			z-index: -1;
+			right: 80px;
+			bottom: 10px;
+		}
+	}
+
+}

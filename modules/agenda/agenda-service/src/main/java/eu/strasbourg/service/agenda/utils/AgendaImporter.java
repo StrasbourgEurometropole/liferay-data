@@ -110,7 +110,7 @@ public class AgendaImporter {
 			.getVocabulariesForAssetType(this.globalGroupId, eventClassNameId);
 	}
 
-	public boolean doImport() {
+	public boolean doImport() throws IOException {
 		// On prépare le rapport, l'objet JSON et le répertoire qui
 		// contient les fichiers à importer
 		_log.info("Start import");
@@ -496,7 +496,7 @@ public class AgendaImporter {
 	}
 
 	private ImportReportLine importEvent(JSONObject jsonEvent,
-		String provider) {
+		String provider) throws IOException {
 		ImportReportLine reportLine;
 		try {
 			reportLine = ImportReportLineLocalServiceUtil

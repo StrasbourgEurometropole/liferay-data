@@ -99,6 +99,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			{ "description", Types.CLOB },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
+			{ "imageWidth", Types.INTEGER },
+			{ "imageHeight", Types.INTEGER },
 			{ "placeSIGId", Types.VARCHAR },
 			{ "placeName", Types.VARCHAR },
 			{ "placeStreetNumber", Types.VARCHAR },
@@ -148,6 +150,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeStreetNumber", Types.VARCHAR);
@@ -177,7 +181,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -237,6 +241,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setDescription(soapModel.getDescription());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
+		model.setImageWidth(soapModel.getImageWidth());
+		model.setImageHeight(soapModel.getImageHeight());
 		model.setPlaceSIGId(soapModel.getPlaceSIGId());
 		model.setPlaceName(soapModel.getPlaceName());
 		model.setPlaceStreetNumber(soapModel.getPlaceStreetNumber());
@@ -359,6 +365,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		attributes.put("description", getDescription());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("placeSIGId", getPlaceSIGId());
 		attributes.put("placeName", getPlaceName());
 		attributes.put("placeStreetNumber", getPlaceStreetNumber());
@@ -502,6 +510,18 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		String placeSIGId = (String)attributes.get("placeSIGId");
@@ -1264,6 +1284,28 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
 		_externalImageCopyright = externalImageCopyright;
+	}
+
+	@JSON
+	@Override
+	public Integer getImageWidth() {
+		return _imageWidth;
+	}
+
+	@Override
+	public void setImageWidth(Integer imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	@JSON
+	@Override
+	public Integer getImageHeight() {
+		return _imageHeight;
+	}
+
+	@Override
+	public void setImageHeight(Integer imageHeight) {
+		_imageHeight = imageHeight;
 	}
 
 	@JSON
@@ -2576,6 +2618,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setDescription(getDescription());
 		eventImpl.setExternalImageURL(getExternalImageURL());
 		eventImpl.setExternalImageCopyright(getExternalImageCopyright());
+		eventImpl.setImageWidth(getImageWidth());
+		eventImpl.setImageHeight(getImageHeight());
 		eventImpl.setPlaceSIGId(getPlaceSIGId());
 		eventImpl.setPlaceName(getPlaceName());
 		eventImpl.setPlaceStreetNumber(getPlaceStreetNumber());
@@ -2815,6 +2859,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.externalImageCopyright = null;
 		}
 
+		eventCacheModel.imageWidth = getImageWidth();
+
+		eventCacheModel.imageHeight = getImageHeight();
+
 		eventCacheModel.placeSIGId = getPlaceSIGId();
 
 		String placeSIGId = eventCacheModel.placeSIGId;
@@ -2997,7 +3045,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(95);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -3035,6 +3083,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(getExternalImageURL());
 		sb.append(", externalImageCopyright=");
 		sb.append(getExternalImageCopyright());
+		sb.append(", imageWidth=");
+		sb.append(getImageWidth());
+		sb.append(", imageHeight=");
+		sb.append(getImageHeight());
 		sb.append(", placeSIGId=");
 		sb.append(getPlaceSIGId());
 		sb.append(", placeName=");
@@ -3096,7 +3148,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(139);
+		StringBundler sb = new StringBundler(145);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.Event");
@@ -3173,6 +3225,14 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		sb.append(
 			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
 		sb.append(getExternalImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageWidth</column-name><column-value><![CDATA[");
+		sb.append(getImageWidth());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageHeight</column-name><column-value><![CDATA[");
+		sb.append(getImageHeight());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>placeSIGId</column-name><column-value><![CDATA[");
@@ -3323,6 +3383,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _descriptionCurrentLanguageId;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
+	private Integer _imageWidth;
+	private Integer _imageHeight;
 	private String _placeSIGId;
 	private String _originalPlaceSIGId;
 	private String _placeName;
