@@ -1,3 +1,9 @@
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<#assign file = fileEntryHelper.getFileEntryByRelativeURL(illustration.getData()) />
+<#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />
+<#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
+
+
 <div class="article-detail">
   <#if illustration.getAttribute('alt')?has_content>
     <h1 class="article-title ${illustration.getAttribute('alt')}">
@@ -19,20 +25,24 @@
   </div>
   <div class="article-image">
     <div class="imgcontainer">
-      <#if illustration.getAttribute('title')?has_content && illustration.getAttribute('alt')?has_content>
-        <a title="${illustration.getAttribute('title')} © ${illustration.getAttribute('alt')} " href="${illustration.getData()}" class="magnific-popup">
+      <#if legend?has_content && copyright?has_content>
+        <a title="${legend} © ${copyright} " href="${illustration.getData()}" class="magnific-popup">
+      <#elseif legend?has_content >
+        <a href="${illustration.getData()}" title ="${legend}" class="magnific-popup">
       <#else>
         <a href="${illustration.getData()}" class="magnific-popup">
       </#if>
-      <#if illustration.getAttribute('title')?has_content && illustration.getAttribute('alt')?has_content>
-        <img src="${illustration.getData()}" alt="© ${illustration.getAttribute('alt')} " title="${illustration.getAttribute('title')}" />
+      <#if legend?has_content && copyright?has_content>
+        <img src="${illustration.getData()}" alt="© ${copyright} " title="${legend}" />
+      <#elseif legend?has_content >
+        <img src="${illustration.getData()}"  title="${legend}" />
       <#else>
-        <img src="${illustration.getData()}" />
+        <img src="${illustration.getData()}"  />
       </#if>
       </a>
       <div class="copyright-caption">
-        <#if illustration.getAttribute('alt')?has_content>
-          &copy;&nbsp;${illustration.getAttribute('alt')} &nbsp;
+        <#if copyright?has_content>
+          &copy;&nbsp;${copyright} &nbsp;
         </#if>
       </div>
     </div>
