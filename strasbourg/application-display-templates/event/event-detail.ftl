@@ -201,7 +201,8 @@
             <@liferay_portlet.actionURL var="contactURL" name="contact">
                 <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
                 <@liferay_portlet.param name="to" value="${entry.email}" />
-                <@liferay_portlet.param name="subject" value="Formulaire de contact - Agenda - ${entry.getTitle(locale)}" />
+                <@liferay_portlet.param name="title" value="${entry.getTitle(locale)}" />
+                <@liferay_portlet.param name="type" value="Event" />
             </@liferay_portlet.actionURL>
             
             <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="seu-wi seu-wi-contact-form col-md-8">
