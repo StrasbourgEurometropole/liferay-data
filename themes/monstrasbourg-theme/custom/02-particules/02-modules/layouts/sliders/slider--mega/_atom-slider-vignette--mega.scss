@@ -103,24 +103,25 @@
                 flex: 1;
             }
         }
-        &.big{
-            @include RWD(desktop){
-                .picture{
-                    position: absolute;
-                    top: 0; left: 0; 
-                    height: 100%; width: 100%;
-                    margin: 0;
-                }
-                .text{
-                    height: 50%; width: 50%;
-                    position: absolute;
-                    top: 0; right: 0;
-                    z-index: 10;
-                    background-color: #FFFFFF;
-                    padding: 35px;
-                }                
-            }
-        }
+        // Pas utilisé ici
+        //&.big{
+        //    @include RWD(desktop){
+        //        .picture{
+        //            position: absolute;
+        //            top: 0; left: 0; 
+        //            height: 100%; width: 100%;
+        //            margin: 0;
+        //        }
+        //        .text{
+        //            height: 50%; width: 50%;
+        //            position: absolute;
+        //            top: 0; right: 0;
+        //            z-index: 10;
+        //            background-color: #FFFFFF;
+        //            padding: 35px;
+        //        }                
+        //    }
+        //}
     }
     &.mag{
         .link{
@@ -180,35 +181,36 @@
                 background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
             }
         }
-        &.big{
-            @include RWD(desktop){
-                .picture{
-                    position: absolute;
-                    top: 0; left: 0;  
-                    height: 100%; width: 100%;
-                    margin: 0;
-                }
-                .mag-logo{
-                    z-index: 20;
-                    left: 75%;
-                }
-                .text{
-                    height: 50%; width: 50%;
-                    position: absolute;
-                    bottom: 0; right: 0;
-                    z-index: 10;
-                    transition: all, 0.5s;
-                    background-color: $second-color;
-                }                
-            }
-            .link{
-                &:hover, &:focus{
-                    .text{
-                        background-color: #3CB0A4;
-                    }
-                }
-            }
-        }
+        // pas utilisé ici
+        //&.big{
+        //    @include RWD(desktop){
+        //        .picture{
+        //            position: absolute;
+        //            top: 0; left: 0;  
+        //            height: 100%; width: 100%;
+        //            margin: 0;
+        //        }
+        //        .mag-logo{
+        //            z-index: 20;
+        //            left: 75%;
+        //        }
+        //        .text{
+        //            height: 50%; width: 50%;
+        //            position: absolute;
+        //            bottom: 0; right: 0;
+        //            z-index: 10;
+        //            transition: all, 0.5s;
+        //            background-color: $second-color;
+        //        }                
+        //    }
+        //    .link{
+        //        &:hover, &:focus{
+        //            .text{
+        //                background-color: #3CB0A4;
+        //            }
+        //        }
+        //    }
+        //}
     }
     &.has-picture{
         .link{
