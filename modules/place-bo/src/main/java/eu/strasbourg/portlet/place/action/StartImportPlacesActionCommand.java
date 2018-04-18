@@ -123,7 +123,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 						traitementFichier(br);
 
 					} else {
-						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
+						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu (ATTENTION, vérifier également que le fichier est converti en UTF-8 sans BOM).";
 						resultat = "ERREUR";
 					}
 					br.close();
