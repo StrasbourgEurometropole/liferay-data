@@ -79,6 +79,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 	 * 
 	 */
 	private static final long serialVersionUID = -8684903451087898120L;
+	private Date publicHoliday;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1074,7 +1075,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 						// commenté car il supprimait tous les horaires
 						// exceptionnels et n'enregistrait qu'un jour férié
 						// listPlaceSchedules.clear();
-						listPlaceSchedules.add(placeSchedule);
+						//On vérifie que le jour férié n'est pas déjà dans les schedules exception
+						if(!listPlaceSchedules.stream()
+								.anyMatch(s -> (s.getStartDate().compareTo(placeSchedule.getStartDate()) <= 0 && s.getEndDate().compareTo(placeSchedule.getEndDate()) >= 0 ))){
+							listPlaceSchedules.add(placeSchedule);
+						}
 						// break;
 					}
 				}
