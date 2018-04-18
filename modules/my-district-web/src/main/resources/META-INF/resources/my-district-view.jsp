@@ -31,7 +31,7 @@
 		<c:if test="${not empty official}">
 	 		<div class="wi-wrapper">
 	    		<section id="elu">
-					<h1><liferay-ui:message key="neighborhood-assistant" /></h1>
+					<h1><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h1>
 					<img title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
 					<div class="seu-text">
 					    <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
