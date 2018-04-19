@@ -139,26 +139,8 @@ public class MyDistrictDisplayContext {
 	// récupération de la catégorie "quartier" de l'utilisateur
 	public AssetCategory getDistrict() {
 		if (district == null) {
-			JSONArray coordinates = null;
-			if (Validator.isNotNull(getAddress())) {
-				// TODO Angel : Lequel garder ?
-				coordinates = StrasbourgServiceUtil.getCoordinateForAddress(address);
-				coordinates = adictService.getCoordinateForAddress(address);
-			}
-			if (Validator.isNotNull(coordinates)) {
-				String[] sectorTypes = { "quartier_elus" };
-				List<String> sigIds = adictService.getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(),
-						coordinates.get(1).toString(), sectorTypes);
-				if (!sigIds.isEmpty()) {
-					AssetVocabulary territoryVocabulary;
-					try {
-						territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-						district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, sigIds.get(0));
-					} catch (PortalException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			String sectorType = "quartier_elus";
+			district = adictService.getDistrictByAddressAndSector(getAddress(), sectorType);
 		}
 		return district;
 	}
@@ -357,7 +339,7 @@ public class MyDistrictDisplayContext {
 		}
 		return value;
 	}
-	
+
 	public String getJournalArticleTitle(JournalArticle article, Locale locale) {
 		return getJournalArticleFieldValue(article, "title", locale);
 	}
@@ -381,7 +363,7 @@ public class MyDistrictDisplayContext {
 		else
 			return false;
 	}
-	
+
 	// récupération des évènements
 	public List<AssetEntry> getEvents() {
 		if (events == null) {
@@ -410,7 +392,7 @@ public class MyDistrictDisplayContext {
 	public String DeleteTag(String html) {
 
 		Pattern p = Pattern.compile("<[^>]*>");
-		Matcher m = p.matcher(html); 
+		Matcher m = p.matcher(html);
 		return m.replaceAll("");
 	}
 }
