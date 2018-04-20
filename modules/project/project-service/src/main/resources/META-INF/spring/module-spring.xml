@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.project.service.impl.ParticipationLocalServiceImpl" id="eu.strasbourg.service.project.service.ParticipationLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.ParticipationServiceImpl" id="eu.strasbourg.service.project.service.ParticipationService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ParticipationPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ParticipationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.ProjectLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.ProjectServiceImpl" id="eu.strasbourg.service.project.service.ProjectService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence" parent="basePersistence" />
+</beans>

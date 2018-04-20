@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.project.model.Participation">
+		<field name="uuid" type="String" />
+		<field name="participationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="author" type="String" />
+		<field name="publicationDate" type="Date" />
+		<field name="expirationDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.Project">
+		<field name="uuid" type="String" />
+		<field name="projectId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="externalImageURL" type="String" />
+		<field name="externalImageCopyright" type="String" />
+		<field name="imageWidth" type="int" />
+		<field name="imageHeight" type="int" />
+		<field name="description" type="String" />
+		<field name="budget" type="String" />
+		<field name="label" type="String" />
+		<field name="duration" type="int" />
+		<field name="partners" type="String" />
+		<field name="imageId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.project.model.ProjectTimeline">
+		<field name="projectTimelineId" type="long" />
+		<field name="startDate" type="int" />
+		<field name="date" type="Date" />
+		<field name="title" type="String" />
+		<field name="projectId" type="long" />
+	</model>
+</model-hints>
