@@ -91,11 +91,11 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "externalImageCopyright", Types.VARCHAR },
 			{ "imageWidth", Types.INTEGER },
 			{ "imageHeight", Types.INTEGER },
-			{ "description", Types.VARCHAR },
+			{ "description", Types.CLOB },
 			{ "budget", Types.VARCHAR },
 			{ "label", Types.VARCHAR },
 			{ "duration", Types.INTEGER },
-			{ "partners", Types.VARCHAR },
+			{ "partners", Types.CLOB },
 			{ "imageId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -118,15 +118,15 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("label", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("partners", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("partners", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,imageWidth INTEGER,imageHeight INTEGER,description VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";

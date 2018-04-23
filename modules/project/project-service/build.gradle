@@ -3,11 +3,13 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
+	compile project (':modules:utils')
 	compileOnly project(":modules:project:project-api")
 }
 
 buildService {
 	apiDir = "../project-api/src/main/java"
+	osgiModule = true
 }
 
 group = "eu.strasbourg.service.project"

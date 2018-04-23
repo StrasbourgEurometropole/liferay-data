@@ -83,6 +83,16 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Crée un projet vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Project createProject(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _projectLocalService.createProject(sc);
+	}
+
+	/**
 	* Creates a new project with the primary key. Does not add the project to the database.
 	*
 	* @param projectId the primary key for the new project
@@ -169,6 +179,16 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Supprime un projet
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Project removeProject(
+		long projectId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _projectLocalService.removeProject(projectId);
+	}
+
+	/**
 	* Updates the project in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param project the project
@@ -178,6 +198,30 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	public eu.strasbourg.service.project.model.Project updateProject(
 		eu.strasbourg.service.project.model.Project project) {
 		return _projectLocalService.updateProject(project);
+	}
+
+	/**
+	* Met à jour un projet et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Project updateProject(
+		eu.strasbourg.service.project.model.Project project,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _projectLocalService.updateProject(project, sc);
+	}
+
+	/**
+	* Met à jour le statut du projet par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.Project updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _projectLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	/**
@@ -254,6 +298,24 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à un projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return _projectLocalService.getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne tous les projets d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> getByGroupId(
+		long groupId) {
+		return _projectLocalService.getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the projects.
 	*
 	* <p>
@@ -326,6 +388,16 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _projectLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut du projet "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.project.model.Project project, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_projectLocalService.updateStatus(project, status);
 	}
 
 	@Override

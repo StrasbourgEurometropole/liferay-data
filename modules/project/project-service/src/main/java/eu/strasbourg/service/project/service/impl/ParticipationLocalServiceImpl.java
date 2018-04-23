@@ -14,6 +14,34 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
+
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+
+import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 
 /**
@@ -37,4 +65,231 @@ public class ParticipationLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.ParticipationLocalServiceUtil} to access the participation local service.
 	 */
+	
+	/**
+	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Participation createParticipation(ServiceContext sc)
+		throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		Participation participation = this.participationLocalService
+			.createParticipation(pk);
+
+		participation.setGroupId(sc.getScopeGroupId());
+		participation.setCompanyId(sc.getCompanyId());
+		participation.setUserName(user.getFullName());
+		participation.setUserId(sc.getUserId());
+
+		participation.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return participation;
+	}
+	
+	/**
+	 * Met à jour une participation et l'enregistre en base de données
+	 */
+	@Override
+	public Participation updateParticipation(Participation participation, ServiceContext sc)
+			throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		participation.setStatusByUserId(sc.getUserId());
+		participation.setStatusByUserName(user.getFullName());
+		participation.setStatusDate(sc.getModifiedDate());
+
+		// Si on n'utilise pas le framework workflow, simple gestion
+		// brouillon/publié
+		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+				sc.getCompanyId(), sc.getScopeGroupId(),
+				Project.class.getName())) {
+			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+				participation.setStatus(WorkflowConstants.STATUS_APPROVED);
+			} else {
+				participation.setStatus(WorkflowConstants.STATUS_DRAFT);
+			}
+			participation = this.participationLocalService.updateParticipation(participation);
+			this.updateAssetEntry(participation, sc);
+		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
+					// l'enregistrement
+			participation = this.participationLocalService.updateParticipation(participation);
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(
+					participation.getCompanyId(), participation.getGroupId(), participation.getUserId(),
+					Participation.class.getName(), participation.getPrimaryKey(), participation, sc);
+		}
+
+		return participation;
+	}
+	
+	/**
+	 * Met à jour l'AssetEntry rattachée à la participation
+	 */
+	private void updateAssetEntry(Participation participation, ServiceContext sc)
+			throws PortalException {
+		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
+				sc.getScopeGroupId(), // Group ID
+				participation.getCreateDate(), // Date of creation
+				participation.getModifiedDate(), // Date of modification
+				Participation.class.getName(), // Class name
+				participation.getPrimaryKey(), // Class PK
+				participation.getUuid(), // UUID
+				0, // Class type ID
+				sc.getAssetCategoryIds(), // Categories IDs
+				sc.getAssetTagNames(), // Tags IDs
+				true, // Listable
+				participation.isApproved(), // Visible
+				participation.getCreateDate(), // Start date
+				null, // End date
+				participation.getCreateDate(), // Publication date
+				null, // Date of expiration
+				ContentTypes.TEXT_HTML, // Content type
+				participation.getTitle(), // Title
+				participation.getTitle(), // Description
+				participation.getTitle(), // Summary
+				null, // URL
+				null, // Layout uuid
+				0, // Width
+				0, // Height
+				null); // Priority
+
+		// Réindexe la participation
+		this.reindex(participation, false);
+	}
+	
+	/**
+	 * Met à jour le statut de la participation par le framework workflow
+	 */
+	@Override
+	public Participation updateStatus(long userId, long entryId, int status,
+			ServiceContext sc, Map<String, Serializable> workflowContext)
+			throws PortalException {
+		Date now = new Date();
+		// Statut de l'entité
+		Participation participation = this.getParticipation(entryId);
+		participation.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			participation.setStatusByUserId(user.getUserId());
+			participation.setStatusByUserName(user.getFullName());
+		}
+		participation.setStatusDate(new Date());
+		participation = this.participationLocalService.updateParticipation(participation);
+
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(Project.class.getName(), participation.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
+
+		this.reindex(participation, false);
+
+		return participation;
+	}
+	
+	/**
+	 * Met à jour le statut de la participation "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(Participation participation, int status) throws PortalException {
+		this.updateStatus(participation.getUserId(), participation.getParticipationId(), status, null,
+				null);
+	}
+	
+	/**
+	 * Supprime une participation
+	 */
+	@Override
+	public Participation removeParticipation(long participationId) throws PortalException {
+		AssetEntry entry = AssetEntryLocalServiceUtil
+				.fetchEntry(Participation.class.getName(), participationId);
+
+		if (entry != null) {
+			// Delete the link with categories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+						categoryId, entry.getEntryId());
+			}
+
+			// Delete the link with tags
+			long[] tagIds = AssetEntryLocalServiceUtil
+					.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+						entry.getEntryId());
+			}
+
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService
+					.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Delete the AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(Project.class.getName(),
+					participationId);
+
+		}
+
+		// Supprime la participation
+		Participation participation = participationPersistence.remove(participationId);
+
+		// Delete the index
+		this.reindex(participation, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				participation.getCompanyId(), participation.getGroupId(),
+				Participation.class.getName(), participation.getParticipationId());
+
+		return participation;
+	}
+	
+	/**
+	 * Reindex la participation dans le moteur de recherche
+	 */
+	private void reindex(Participation participation, boolean delete) throws SearchException {
+		Indexer<Participation> indexer = IndexerRegistryUtil
+				.nullSafeGetIndexer(Participation.class);
+		if (delete) {
+			indexer.delete(participation);
+		} else {
+			indexer.reindex(participation);
+		}
+	}
+	
+	/**
+	 * Renvoie la liste des vocabulaires rattachés à une participation
+	 */
+	@Override
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
+			.getAssetVocabularies(-1, -1);
+		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
+		long classNameId = ClassNameLocalServiceUtil
+			.getClassNameId(Participation.class);
+		for (AssetVocabulary vocabulary : vocabularies) {
+			if (vocabulary.getGroupId() == groupId
+				&& LongStream.of(vocabulary.getSelectedClassNameIds())
+					.anyMatch(c -> c == classNameId)) {
+				attachedVocabularies.add(vocabulary);
+			}
+		}
+		return attachedVocabularies;
+	}
+	
+	/**
+	 * Retourne toutes les participations d'un groupe
+	 */
+	@Override
+	public List<Participation> getByGroupId(long groupId) {
+		return this.participationPersistence.findByGroupId(groupId);
+	}
+	
 }

@@ -85,6 +85,15 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Crée une participation vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.project.model.Participation createParticipation(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createParticipation(sc);
+	}
+
+	/**
 	* Creates a new participation with the primary key. Does not add the participation to the database.
 	*
 	* @param participationId the primary key for the new participation
@@ -164,6 +173,15 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une participation
+	*/
+	public static eu.strasbourg.service.project.model.Participation removeParticipation(
+		long participationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeParticipation(participationId);
+	}
+
+	/**
 	* Updates the participation in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param participation the participation
@@ -172,6 +190,28 @@ public class ParticipationLocalServiceUtil {
 	public static eu.strasbourg.service.project.model.Participation updateParticipation(
 		eu.strasbourg.service.project.model.Participation participation) {
 		return getService().updateParticipation(participation);
+	}
+
+	/**
+	* Met à jour une participation et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.project.model.Participation updateParticipation(
+		eu.strasbourg.service.project.model.Participation participation,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateParticipation(participation, sc);
+	}
+
+	/**
+	* Met à jour le statut de la participation par le framework workflow
+	*/
+	public static eu.strasbourg.service.project.model.Participation updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	/**
@@ -243,6 +283,22 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Renvoie la liste des vocabulaires rattachés à une participation
+	*/
+	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(
+		long groupId) {
+		return getService().getAttachedVocabularies(groupId);
+	}
+
+	/**
+	* Retourne toutes les participations d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.Participation> getByGroupId(
+		long groupId) {
+		return getService().getByGroupId(groupId);
+	}
+
+	/**
 	* Returns a range of all the participations.
 	*
 	* <p>
@@ -310,6 +366,15 @@ public class ParticipationLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.project.model.Participation participation,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(participation, status);
 	}
 
 	public static ParticipationLocalService getService() {

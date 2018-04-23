@@ -16,6 +16,8 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -40,6 +43,7 @@ import eu.strasbourg.service.project.model.Participation;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Participation. Methods of this
@@ -95,6 +99,12 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Participation addParticipation(Participation participation);
+
+	/**
+	* Crée une participation vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Participation createParticipation(ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Creates a new participation with the primary key. Does not add the participation to the database.
@@ -162,6 +172,12 @@ public interface ParticipationLocalService extends BaseLocalService,
 		java.lang.String uuid, long groupId) throws PortalException;
 
 	/**
+	* Supprime une participation
+	*/
+	public Participation removeParticipation(long participationId)
+		throws PortalException;
+
+	/**
 	* Updates the participation in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param participation the participation
@@ -169,6 +185,19 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Participation updateParticipation(Participation participation);
+
+	/**
+	* Met à jour une participation et l'enregistre en base de données
+	*/
+	public Participation updateParticipation(Participation participation,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de la participation par le framework workflow
+	*/
+	public Participation updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of participations.
@@ -223,6 +252,18 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Renvoie la liste des vocabulaires rattachés à une participation
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getAttachedVocabularies(long groupId);
+
+	/**
+	* Retourne toutes les participations d'un groupe
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Participation> getByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the participations.
@@ -281,4 +322,10 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Participation participation, int status)
+		throws PortalException;
 }

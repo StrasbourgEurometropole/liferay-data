@@ -83,7 +83,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDate INTEGER,date_ DATE null,title VARCHAR(75) null,projectId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDate INTEGER,date_ DATE null,title VARCHAR(400) null,projectId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.projectTimelineId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.projectTimelineId ASC";
