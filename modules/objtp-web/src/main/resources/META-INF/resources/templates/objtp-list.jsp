@@ -1,1 +1,0 @@
-<%@ include file="/objtp-init.jsp" %>

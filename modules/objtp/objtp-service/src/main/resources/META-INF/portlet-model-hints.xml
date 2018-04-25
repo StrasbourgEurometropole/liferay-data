@@ -4,7 +4,7 @@
 	<model name="eu.strasbourg.service.objtp.model.FoundObject">
 		<field name="number" type="String" />
 		<field name="date" type="String" />
-		<field name="imageURL" type="String" />
+		<field name="imageUrl" type="String" />
 		<field name="categoryCode" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.objtp.model.ObjectCategory">

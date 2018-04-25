@@ -35,7 +35,7 @@ public class FoundObjectSoap implements Serializable {
 
 		soapModel.setNumber(model.getNumber());
 		soapModel.setDate(model.getDate());
-		soapModel.setImageURL(model.getImageURL());
+		soapModel.setImageUrl(model.getImageUrl());
 		soapModel.setCategoryCode(model.getCategoryCode());
 
 		return soapModel;
@@ -105,12 +105,12 @@ public class FoundObjectSoap implements Serializable {
 		_date = date;
 	}
 
-	public String getImageURL() {
-		return _imageURL;
+	public String getImageUrl() {
+		return _imageUrl;
 	}
 
-	public void setImageURL(String imageURL) {
-		_imageURL = imageURL;
+	public void setImageUrl(String imageUrl) {
+		_imageUrl = imageUrl;
 	}
 
 	public String getCategoryCode() {
@@ -123,6 +123,6 @@ public class FoundObjectSoap implements Serializable {
 
 	private String _number;
 	private String _date;
-	private String _imageURL;
+	private String _imageUrl;
 	private String _categoryCode;
 }

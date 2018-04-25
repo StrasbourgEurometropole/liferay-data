@@ -70,8 +70,8 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 		sb.append(number);
 		sb.append(", date=");
 		sb.append(date);
-		sb.append(", imageURL=");
-		sb.append(imageURL);
+		sb.append(", imageUrl=");
+		sb.append(imageUrl);
 		sb.append(", categoryCode=");
 		sb.append(categoryCode);
 		sb.append("}");
@@ -97,11 +97,11 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 			foundObjectImpl.setDate(date);
 		}
 
-		if (imageURL == null) {
-			foundObjectImpl.setImageURL(StringPool.BLANK);
+		if (imageUrl == null) {
+			foundObjectImpl.setImageUrl(StringPool.BLANK);
 		}
 		else {
-			foundObjectImpl.setImageURL(imageURL);
+			foundObjectImpl.setImageUrl(imageUrl);
 		}
 
 		if (categoryCode == null) {
@@ -120,7 +120,7 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		number = objectInput.readUTF();
 		date = objectInput.readUTF();
-		imageURL = objectInput.readUTF();
+		imageUrl = objectInput.readUTF();
 		categoryCode = objectInput.readUTF();
 	}
 
@@ -141,11 +141,11 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 			objectOutput.writeUTF(date);
 		}
 
-		if (imageURL == null) {
+		if (imageUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(imageURL);
+			objectOutput.writeUTF(imageUrl);
 		}
 
 		if (categoryCode == null) {
@@ -158,6 +158,6 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 
 	public String number;
 	public String date;
-	public String imageURL;
+	public String imageUrl;
 	public String categoryCode;
 }

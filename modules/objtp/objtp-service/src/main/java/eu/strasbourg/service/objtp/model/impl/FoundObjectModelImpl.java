@@ -64,7 +64,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "number_", Types.VARCHAR },
 			{ "date_", Types.VARCHAR },
-			{ "imageURL", Types.VARCHAR },
+			{ "imageUrl", Types.VARCHAR },
 			{ "categoryCode", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -72,11 +72,11 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 	static {
 		TABLE_COLUMNS_MAP.put("number_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("date_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("imageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("imageUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("categoryCode", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table objtp_FoundObject (number_ VARCHAR(75) not null primary key,date_ VARCHAR(75) null,imageURL VARCHAR(75) null,categoryCode VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table objtp_FoundObject (number_ VARCHAR(75) not null primary key,date_ VARCHAR(75) null,imageUrl VARCHAR(75) null,categoryCode VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table objtp_FoundObject";
 	public static final String ORDER_BY_JPQL = " ORDER BY foundObject.number ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY objtp_FoundObject.number_ ASC";
@@ -110,7 +110,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 		model.setNumber(soapModel.getNumber());
 		model.setDate(soapModel.getDate());
-		model.setImageURL(soapModel.getImageURL());
+		model.setImageUrl(soapModel.getImageUrl());
 		model.setCategoryCode(soapModel.getCategoryCode());
 
 		return model;
@@ -178,7 +178,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 		attributes.put("number", getNumber());
 		attributes.put("date", getDate());
-		attributes.put("imageURL", getImageURL());
+		attributes.put("imageUrl", getImageUrl());
 		attributes.put("categoryCode", getCategoryCode());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -201,10 +201,10 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 			setDate(date);
 		}
 
-		String imageURL = (String)attributes.get("imageURL");
+		String imageUrl = (String)attributes.get("imageUrl");
 
-		if (imageURL != null) {
-			setImageURL(imageURL);
+		if (imageUrl != null) {
+			setImageUrl(imageUrl);
 		}
 
 		String categoryCode = (String)attributes.get("categoryCode");
@@ -248,18 +248,18 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 	@JSON
 	@Override
-	public String getImageURL() {
-		if (_imageURL == null) {
+	public String getImageUrl() {
+		if (_imageUrl == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _imageURL;
+			return _imageUrl;
 		}
 	}
 
 	@Override
-	public void setImageURL(String imageURL) {
-		_imageURL = imageURL;
+	public void setImageUrl(String imageUrl) {
+		_imageUrl = imageUrl;
 	}
 
 	@JSON
@@ -308,7 +308,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 		foundObjectImpl.setNumber(getNumber());
 		foundObjectImpl.setDate(getDate());
-		foundObjectImpl.setImageURL(getImageURL());
+		foundObjectImpl.setImageUrl(getImageUrl());
 		foundObjectImpl.setCategoryCode(getCategoryCode());
 
 		foundObjectImpl.resetOriginalValues();
@@ -389,12 +389,12 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 			foundObjectCacheModel.date = null;
 		}
 
-		foundObjectCacheModel.imageURL = getImageURL();
+		foundObjectCacheModel.imageUrl = getImageUrl();
 
-		String imageURL = foundObjectCacheModel.imageURL;
+		String imageUrl = foundObjectCacheModel.imageUrl;
 
-		if ((imageURL != null) && (imageURL.length() == 0)) {
-			foundObjectCacheModel.imageURL = null;
+		if ((imageUrl != null) && (imageUrl.length() == 0)) {
+			foundObjectCacheModel.imageUrl = null;
 		}
 
 		foundObjectCacheModel.categoryCode = getCategoryCode();
@@ -416,8 +416,8 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 		sb.append(getNumber());
 		sb.append(", date=");
 		sb.append(getDate());
-		sb.append(", imageURL=");
-		sb.append(getImageURL());
+		sb.append(", imageUrl=");
+		sb.append(getImageUrl());
 		sb.append(", categoryCode=");
 		sb.append(getCategoryCode());
 		sb.append("}");
@@ -442,8 +442,8 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 		sb.append(getDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>imageURL</column-name><column-value><![CDATA[");
-		sb.append(getImageURL());
+			"<column><column-name>imageUrl</column-name><column-value><![CDATA[");
+		sb.append(getImageUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>categoryCode</column-name><column-value><![CDATA[");
@@ -461,7 +461,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 		};
 	private String _number;
 	private String _date;
-	private String _imageURL;
+	private String _imageUrl;
 	private String _categoryCode;
 	private String _originalCategoryCode;
 	private long _columnBitmask;

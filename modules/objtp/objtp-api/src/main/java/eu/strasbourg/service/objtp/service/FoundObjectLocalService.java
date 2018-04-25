@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -35,6 +35,8 @@ import eu.strasbourg.service.objtp.model.FoundObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+
+import java.text.ParseException;
 
 import java.util.List;
 
@@ -60,19 +62,6 @@ public interface FoundObjectLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link FoundObjectLocalServiceUtil} to access the found object local service. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-
-	/**
-	* Lance l'import des objtp
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws PortalException
-	*/
-	public boolean doImport() throws PortalException, IOException;
-
-	public boolean importObject(JSONObject objectJSON)
-		throws PortalException, IOException;
-
 	public DynamicQuery dynamicQuery();
 
 	/**
@@ -236,4 +225,10 @@ public interface FoundObjectLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	@Transactional(isolation = Isolation.DEFAULT, rollbackFor =  {
+		PortalException.class, SystemException.class, IOException.class, JSONException.class, ParseException.class}
+	)
+	public void doImport()
+		throws PortalException, JSONException, IOException, ParseException;
 }

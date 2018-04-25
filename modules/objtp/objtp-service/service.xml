@@ -15,7 +15,7 @@
 	<entity local-service="true"  cache-enabled="true" name="FoundObject" remote-service="true" uuid="false" >
 		<column name="number" primary="true" type="String" />
 		<column name="date" type="String" />
-		<column name="imageURL" type="String" />
+		<column name="imageUrl" type="String" />
 		<column name="categoryCode" type="String" />
 		
 		<!-- Finder methods -->

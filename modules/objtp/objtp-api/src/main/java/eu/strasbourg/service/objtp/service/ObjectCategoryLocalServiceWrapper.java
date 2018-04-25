@@ -34,25 +34,6 @@ public class ObjectCategoryLocalServiceWrapper
 		_objectCategoryLocalService = objectCategoryLocalService;
 	}
 
-	/**
-	* Lance l'import des catégories d'objet
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws JSONException
-	*/
-	@Override
-	public boolean doImport()
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
-		return _objectCategoryLocalService.doImport();
-	}
-
-	@Override
-	public boolean importObjectCategory(
-		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
-		return _objectCategoryLocalService.importObjectCategory(objectCategoryJSON);
-	}
-
 	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _objectCategoryLocalService.dynamicQuery();

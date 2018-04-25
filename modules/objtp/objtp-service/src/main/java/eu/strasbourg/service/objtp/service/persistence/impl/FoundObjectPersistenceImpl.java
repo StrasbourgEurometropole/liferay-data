@@ -926,7 +926,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 		foundObjectImpl.setNumber(foundObject.getNumber());
 		foundObjectImpl.setDate(foundObject.getDate());
-		foundObjectImpl.setImageURL(foundObject.getImageURL());
+		foundObjectImpl.setImageUrl(foundObject.getImageUrl());
 		foundObjectImpl.setCategoryCode(foundObject.getCategoryCode());
 
 		return foundObjectImpl;

@@ -33,28 +33,6 @@ public class FoundObjectLocalServiceWrapper implements FoundObjectLocalService,
 		_foundObjectLocalService = foundObjectLocalService;
 	}
 
-	/**
-	* Lance l'import des objtp
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws PortalException
-	*/
-	@Override
-	public boolean doImport()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
-		return _foundObjectLocalService.doImport();
-	}
-
-	@Override
-	public boolean importObject(
-		com.liferay.portal.kernel.json.JSONObject objectJSON)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
-		return _foundObjectLocalService.importObject(objectJSON);
-	}
-
 	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _foundObjectLocalService.dynamicQuery();
@@ -280,6 +258,14 @@ public class FoundObjectLocalServiceWrapper implements FoundObjectLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _foundObjectLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	@Override
+	public void doImport()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.json.JSONException, java.io.IOException,
+			java.text.ParseException {
+		_foundObjectLocalService.doImport();
 	}
 
 	@Override

@@ -13,8 +13,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.portlet.objtp.configuration.ObjtpConfiguration;
 import eu.strasbourg.portlet.objtp.portlet.context.ObjtpDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -34,20 +36,35 @@ public class ObjtpWebPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		
 		try {
+
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 					.getAttribute(WebKeys.THEME_DISPLAY);
 
-			ObjtpDisplayContext dc = new ObjtpDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
 			
-			include("/templates/objtp-rubric.jsp", renderRequest, renderResponse);
+			ObjtpConfiguration configuration;
+			
+			configuration = themeDisplay.getPortletDisplay()
+					.getPortletInstanceConfiguration(ObjtpConfiguration.class);
+
+			String title = configuration.title();
+			if (Validator.isNull(title)) {
+				title = "";
+			}
+
+			String categoryCodes = configuration.categoryCodes();
+			if (Validator.isNull(categoryCodes)) {
+				categoryCodes = "";
+			}
+			
+			ObjtpDisplayContext dc = new ObjtpDisplayContext(renderRequest, renderResponse, categoryCodes);
+			renderRequest.setAttribute("dc", dc);
+			renderRequest.setAttribute("title",title);
+			include("/objtp-view.jsp", renderRequest, renderResponse);
 			
 		} catch (Exception e) {
 			_log.error(e);
 		}
 	}
-	
-	
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

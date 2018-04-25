@@ -41,27 +41,6 @@ public class FoundObjectLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-
-	/**
-	* Lance l'import des objtp
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws PortalException
-	*/
-	public static boolean doImport()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
-		return getService().doImport();
-	}
-
-	public static boolean importObject(
-		com.liferay.portal.kernel.json.JSONObject objectJSON)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
-		return getService().importObject(objectJSON);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
@@ -267,6 +246,13 @@ public class FoundObjectLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void doImport()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.json.JSONException, java.io.IOException,
+			java.text.ParseException {
+		getService().doImport();
 	}
 
 	public static FoundObjectLocalService getService() {

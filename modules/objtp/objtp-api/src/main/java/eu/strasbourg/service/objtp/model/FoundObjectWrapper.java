@@ -59,7 +59,7 @@ public class FoundObjectWrapper implements FoundObject,
 
 		attributes.put("number", getNumber());
 		attributes.put("date", getDate());
-		attributes.put("imageURL", getImageURL());
+		attributes.put("imageUrl", getImageUrl());
 		attributes.put("categoryCode", getCategoryCode());
 
 		return attributes;
@@ -79,10 +79,10 @@ public class FoundObjectWrapper implements FoundObject,
 			setDate(date);
 		}
 
-		String imageURL = (String)attributes.get("imageURL");
+		String imageUrl = (String)attributes.get("imageUrl");
 
-		if (imageURL != null) {
-			setImageURL(imageURL);
+		if (imageUrl != null) {
+			setImageUrl(imageUrl);
 		}
 
 		String categoryCode = (String)attributes.get("categoryCode");
@@ -174,8 +174,8 @@ public class FoundObjectWrapper implements FoundObject,
 	* @return the image url of this found object
 	*/
 	@Override
-	public java.lang.String getImageURL() {
-		return _foundObject.getImageURL();
+	public java.lang.String getImageUrl() {
+		return _foundObject.getImageUrl();
 	}
 
 	/**
@@ -257,11 +257,11 @@ public class FoundObjectWrapper implements FoundObject,
 	/**
 	* Sets the image url of this found object.
 	*
-	* @param imageURL the image url of this found object
+	* @param imageUrl the image url of this found object
 	*/
 	@Override
-	public void setImageURL(java.lang.String imageURL) {
-		_foundObject.setImageURL(imageURL);
+	public void setImageUrl(java.lang.String imageUrl) {
+		_foundObject.setImageUrl(imageUrl);
 	}
 
 	@Override

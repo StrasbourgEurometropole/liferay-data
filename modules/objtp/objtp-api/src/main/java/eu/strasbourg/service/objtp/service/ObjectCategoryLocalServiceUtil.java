@@ -41,24 +41,6 @@ public class ObjectCategoryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.ObjectCategoryLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-
-	/**
-	* Lance l'import des catégories d'objet
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws JSONException
-	*/
-	public static boolean doImport()
-		throws com.liferay.portal.kernel.json.JSONException, java.io.IOException {
-		return getService().doImport();
-	}
-
-	public static boolean importObjectCategory(
-		com.liferay.portal.kernel.json.JSONObject objectCategoryJSON) {
-		return getService().importObjectCategory(objectCategoryJSON);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}

@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.objtp.service.FoundObjectLocalService;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalService;
+import eu.strasbourg.service.objtp.service.util.ImportReportObjtp;
+import eu.strasbourg.service.objtp.service.util.ImportReportStatusObjtp;
 
 /**
  * Importe automatiquement les objets trouvés et les catégories associées
@@ -38,7 +40,6 @@ public class ImportFoundObjectListener extends BaseSchedulerEntryMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start importing objtp");
-		objectCategoryLocalService.doImport();
 		foundObjectLocalService.doImport();
 		log.info("Finish importing objtp");
 	}

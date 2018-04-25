@@ -16,10 +16,14 @@ package eu.strasbourg.service.objtp.service.impl;
 
 import java.util.List;
 
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.base.ObjectCategoryServiceBaseImpl;
 
@@ -37,6 +41,7 @@ import eu.strasbourg.service.objtp.service.base.ObjectCategoryServiceBaseImpl;
  * @see ObjectCategoryServiceBaseImpl
  * @see eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil
  */
+@ProviderType
 public class ObjectCategoryServiceImpl extends ObjectCategoryServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -60,5 +65,4 @@ public class ObjectCategoryServiceImpl extends ObjectCategoryServiceBaseImpl {
 
 		return jsonObjectCategories;
 	}
-
 }

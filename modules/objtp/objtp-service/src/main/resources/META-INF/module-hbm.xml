@@ -9,7 +9,7 @@
 			<generator class="assigned" />
 		</id>
 		<property column="date_" name="date" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="imageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="categoryCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl" table="objtp_ObjectCategory">

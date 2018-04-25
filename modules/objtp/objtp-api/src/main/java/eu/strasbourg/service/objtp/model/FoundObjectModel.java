@@ -96,14 +96,14 @@ public interface FoundObjectModel extends BaseModel<FoundObject> {
 	 * @return the image url of this found object
 	 */
 	@AutoEscape
-	public String getImageURL();
+	public String getImageUrl();
 
 	/**
 	 * Sets the image url of this found object.
 	 *
-	 * @param imageURL the image url of this found object
+	 * @param imageUrl the image url of this found object
 	 */
-	public void setImageURL(String imageURL);
+	public void setImageUrl(String imageUrl);
 
 	/**
 	 * Returns the category code of this found object.

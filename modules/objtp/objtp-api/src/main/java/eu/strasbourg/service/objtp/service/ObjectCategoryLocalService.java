@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -34,7 +32,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.List;
@@ -61,18 +58,6 @@ public interface ObjectCategoryLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ObjectCategoryLocalServiceUtil} to access the object category local service. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.ObjectCategoryLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-
-	/**
-	* Lance l'import des catégories d'objet
-	*
-	* @throws MalformedURLException
-	* @throws IOException
-	* @throws JSONException
-	*/
-	public boolean doImport() throws JSONException, IOException;
-
-	public boolean importObjectCategory(JSONObject objectCategoryJSON);
-
 	public DynamicQuery dynamicQuery();
 
 	/**
