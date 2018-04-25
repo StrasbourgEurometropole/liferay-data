@@ -77,18 +77,18 @@ public interface ProjectTimelineModel extends BaseModel<ProjectTimeline> {
 	public void setProjectTimelineId(long projectTimelineId);
 
 	/**
-	 * Returns the start date of this project timeline.
+	 * Returns the start day of this project timeline.
 	 *
-	 * @return the start date of this project timeline
+	 * @return the start day of this project timeline
 	 */
-	public int getStartDate();
+	public int getStartDay();
 
 	/**
-	 * Sets the start date of this project timeline.
+	 * Sets the start day of this project timeline.
 	 *
-	 * @param startDate the start date of this project timeline
+	 * @param startDay the start day of this project timeline
 	 */
-	public void setStartDate(int startDate);
+	public void setStartDay(int startDay);
 
 	/**
 	 * Returns the date of this project timeline.

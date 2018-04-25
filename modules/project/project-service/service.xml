@@ -40,6 +40,12 @@
 		<column name="duration" type="int" />
 		<column name="partners" type="String" />
 		
+		<!-- Contact -->
+		<column name="contactNamme" type="String" />
+		<column name="contactLine1" type="String" />
+		<column name="contactLine2" type="String" />
+		<column name="contactPhoneNumber" type="String" />
+		
 		<!-- Links with other entities -->
         <column name="imageId" type="long" />
 		
@@ -85,6 +91,12 @@
 		<column name="title" type="String" />
 		<column name="author" type="String" />
 		
+		<!-- Contact -->
+		<column name="contactNamme" type="String" />
+		<column name="contactLine1" type="String" />
+		<column name="contactLine2" type="String" />
+		<column name="contactPhoneNumber" type="String" />
+		
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date"></column>
@@ -112,12 +124,12 @@
 		<column name="projectTimelineId" primary="true" type="long" />
 		
 		<!-- Other fields -->
-        <column name="startDate" type="int" />
+        <column name="startDay" type="int" />
         <column name="date" type="Date" />
         <column name="title" type="String" />
         
         <!-- Links with other entities -->
-        <column name="projectId" type="long" />
+        <column name="projectId" type="long"></column>
 		
 		<!-- Finder methods -->
 		<finder name="ProjectId" return-type="Collection">

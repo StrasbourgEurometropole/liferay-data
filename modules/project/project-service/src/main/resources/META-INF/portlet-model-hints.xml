@@ -18,6 +18,14 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="author" type="String" />
+		<field name="contactNamme" type="String" />
+		<field name="contactLine1" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="contactLine2" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="contactPhoneNumber" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 	</model>
@@ -50,11 +58,19 @@
 		<field name="partners" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="contactNamme" type="String" />
+		<field name="contactLine1" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="contactLine2" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="contactPhoneNumber" type="String" />
 		<field name="imageId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.ProjectTimeline">
 		<field name="projectTimelineId" type="long" />
-		<field name="startDate" type="int" />
+		<field name="startDay" type="int" />
 		<field name="date" type="Date" />
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>

@@ -59,7 +59,6 @@ import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
  * @see ProjectLocalServiceBaseImpl
  * @see eu.strasbourg.service.project.service.ProjectLocalServiceUtil
  */
-@ProviderType
 public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:

@@ -81,6 +81,10 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		attributes.put("label", getLabel());
 		attributes.put("duration", getDuration());
 		attributes.put("partners", getPartners());
+		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactLine1", getContactLine1());
+		attributes.put("contactLine2", getContactLine2());
+		attributes.put("contactPhoneNumber", getContactPhoneNumber());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -221,6 +225,30 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setPartners(partners);
 		}
 
+		String contactNamme = (String)attributes.get("contactNamme");
+
+		if (contactNamme != null) {
+			setContactNamme(contactNamme);
+		}
+
+		String contactLine1 = (String)attributes.get("contactLine1");
+
+		if (contactLine1 != null) {
+			setContactLine1(contactLine1);
+		}
+
+		String contactLine2 = (String)attributes.get("contactLine2");
+
+		if (contactLine2 != null) {
+			setContactLine2(contactLine2);
+		}
+
+		String contactPhoneNumber = (String)attributes.get("contactPhoneNumber");
+
+		if (contactPhoneNumber != null) {
+			setContactPhoneNumber(contactPhoneNumber);
+		}
+
 		Long imageId = (Long)attributes.get("imageId");
 
 		if (imageId != null) {
@@ -323,6 +351,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		return _project.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _project.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _project.getExpandoBridge();
@@ -414,6 +450,46 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Returns the contact line1 of this project.
+	*
+	* @return the contact line1 of this project
+	*/
+	@Override
+	public java.lang.String getContactLine1() {
+		return _project.getContactLine1();
+	}
+
+	/**
+	* Returns the contact line2 of this project.
+	*
+	* @return the contact line2 of this project
+	*/
+	@Override
+	public java.lang.String getContactLine2() {
+		return _project.getContactLine2();
+	}
+
+	/**
+	* Returns the contact namme of this project.
+	*
+	* @return the contact namme of this project
+	*/
+	@Override
+	public java.lang.String getContactNamme() {
+		return _project.getContactNamme();
+	}
+
+	/**
+	* Returns the contact phone number of this project.
+	*
+	* @return the contact phone number of this project
+	*/
+	@Override
+	public java.lang.String getContactPhoneNumber() {
+		return _project.getContactPhoneNumber();
+	}
+
+	/**
 	* Returns the description of this project.
 	*
 	* @return the description of this project
@@ -441,6 +517,22 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getExternalImageURL() {
 		return _project.getExternalImageURL();
+	}
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	@Override
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _project.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _project.getImageURL();
 	}
 
 	/**
@@ -564,6 +656,23 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _project.getCategories();
+	}
+
+	/**
+	* Retourne la liste des entrées timelines du projet
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines() {
+		return _project.getProjectTimelines();
+	}
+
+	/**
 	* Returns the company ID of this project.
 	*
 	* @return the company ID of this project
@@ -661,6 +770,46 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_project.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the contact line1 of this project.
+	*
+	* @param contactLine1 the contact line1 of this project
+	*/
+	@Override
+	public void setContactLine1(java.lang.String contactLine1) {
+		_project.setContactLine1(contactLine1);
+	}
+
+	/**
+	* Sets the contact line2 of this project.
+	*
+	* @param contactLine2 the contact line2 of this project
+	*/
+	@Override
+	public void setContactLine2(java.lang.String contactLine2) {
+		_project.setContactLine2(contactLine2);
+	}
+
+	/**
+	* Sets the contact namme of this project.
+	*
+	* @param contactNamme the contact namme of this project
+	*/
+	@Override
+	public void setContactNamme(java.lang.String contactNamme) {
+		_project.setContactNamme(contactNamme);
+	}
+
+	/**
+	* Sets the contact phone number of this project.
+	*
+	* @param contactPhoneNumber the contact phone number of this project
+	*/
+	@Override
+	public void setContactPhoneNumber(java.lang.String contactPhoneNumber) {
+		_project.setContactPhoneNumber(contactPhoneNumber);
 	}
 
 	/**

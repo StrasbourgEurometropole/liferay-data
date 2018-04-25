@@ -14,7 +14,20 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.List;
+import java.util.Locale;
+
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.util.Validator;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +47,57 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	public ProjectImpl() {
 	}
+	
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Project.class.getName(),
+			this.getProjectId());
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
+	}
+	
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
+	}
+	
+	/**
+	 * Retourne la liste des entrées timelines du projet
+	 */
+	@Override
+	public List<ProjectTimeline> getProjectTimelines() {
+		List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil.getByProjectId(this.getProjectId());
+		return projectTimelines;
+	}
+	
 }

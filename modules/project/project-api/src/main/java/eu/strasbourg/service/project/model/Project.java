@@ -53,4 +53,30 @@ public interface Project extends ProjectModel, PersistedModel {
 				return Project.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
+
+	/**
+	* Retourne la liste des entrées timelines du projet
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines();
 }

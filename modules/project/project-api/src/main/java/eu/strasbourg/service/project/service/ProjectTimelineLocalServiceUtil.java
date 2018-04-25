@@ -80,6 +80,14 @@ public class ProjectTimelineLocalServiceUtil {
 	}
 
 	/**
+	* Crée une une entrée de timeline vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.project.model.ProjectTimeline createProjectTimeline()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createProjectTimeline();
+	}
+
+	/**
 	* Creates a new project timeline with the primary key. Does not add the project timeline to the database.
 	*
 	* @param projectTimelineId the primary key for the new project timeline
@@ -209,6 +217,14 @@ public class ProjectTimelineLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne les périodes d'un événement
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getByProjectId(
+		long projectIdId) {
+		return getService().getByProjectId(projectIdId);
 	}
 
 	/**

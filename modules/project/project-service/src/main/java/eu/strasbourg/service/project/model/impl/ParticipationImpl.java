@@ -14,7 +14,15 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.List;
+
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the Participation service. Represents a row in the &quot;project_Participation&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +42,24 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	public ParticipationImpl() {
 	}
+	
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
+			this.getParticipationId());
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper
+			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
 }

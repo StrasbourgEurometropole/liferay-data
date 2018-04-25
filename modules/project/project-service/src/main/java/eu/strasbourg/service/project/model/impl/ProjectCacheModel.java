@@ -65,7 +65,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -111,6 +111,14 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		sb.append(duration);
 		sb.append(", partners=");
 		sb.append(partners);
+		sb.append(", contactNamme=");
+		sb.append(contactNamme);
+		sb.append(", contactLine1=");
+		sb.append(contactLine1);
+		sb.append(", contactLine2=");
+		sb.append(contactLine2);
+		sb.append(", contactPhoneNumber=");
+		sb.append(contactPhoneNumber);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -226,6 +234,34 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setPartners(partners);
 		}
 
+		if (contactNamme == null) {
+			projectImpl.setContactNamme(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setContactNamme(contactNamme);
+		}
+
+		if (contactLine1 == null) {
+			projectImpl.setContactLine1(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setContactLine1(contactLine1);
+		}
+
+		if (contactLine2 == null) {
+			projectImpl.setContactLine2(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setContactLine2(contactLine2);
+		}
+
+		if (contactPhoneNumber == null) {
+			projectImpl.setContactPhoneNumber(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setContactPhoneNumber(contactPhoneNumber);
+		}
+
 		projectImpl.setImageId(imageId);
 
 		projectImpl.resetOriginalValues();
@@ -266,6 +302,10 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 		duration = objectInput.readInt();
 		partners = objectInput.readUTF();
+		contactNamme = objectInput.readUTF();
+		contactLine1 = objectInput.readUTF();
+		contactLine2 = objectInput.readUTF();
+		contactPhoneNumber = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 	}
@@ -366,6 +406,34 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(partners);
 		}
 
+		if (contactNamme == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(contactNamme);
+		}
+
+		if (contactLine1 == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(contactLine1);
+		}
+
+		if (contactLine2 == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(contactLine2);
+		}
+
+		if (contactPhoneNumber == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(contactPhoneNumber);
+		}
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -391,5 +459,9 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String label;
 	public int duration;
 	public String partners;
+	public String contactNamme;
+	public String contactLine1;
+	public String contactLine2;
+	public String contactPhoneNumber;
 	public long imageId;
 }

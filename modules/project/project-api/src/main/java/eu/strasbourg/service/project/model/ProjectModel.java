@@ -440,6 +440,66 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	public void setPartners(String partners);
 
 	/**
+	 * Returns the contact namme of this project.
+	 *
+	 * @return the contact namme of this project
+	 */
+	@AutoEscape
+	public String getContactNamme();
+
+	/**
+	 * Sets the contact namme of this project.
+	 *
+	 * @param contactNamme the contact namme of this project
+	 */
+	public void setContactNamme(String contactNamme);
+
+	/**
+	 * Returns the contact line1 of this project.
+	 *
+	 * @return the contact line1 of this project
+	 */
+	@AutoEscape
+	public String getContactLine1();
+
+	/**
+	 * Sets the contact line1 of this project.
+	 *
+	 * @param contactLine1 the contact line1 of this project
+	 */
+	public void setContactLine1(String contactLine1);
+
+	/**
+	 * Returns the contact line2 of this project.
+	 *
+	 * @return the contact line2 of this project
+	 */
+	@AutoEscape
+	public String getContactLine2();
+
+	/**
+	 * Sets the contact line2 of this project.
+	 *
+	 * @param contactLine2 the contact line2 of this project
+	 */
+	public void setContactLine2(String contactLine2);
+
+	/**
+	 * Returns the contact phone number of this project.
+	 *
+	 * @return the contact phone number of this project
+	 */
+	@AutoEscape
+	public String getContactPhoneNumber();
+
+	/**
+	 * Sets the contact phone number of this project.
+	 *
+	 * @param contactPhoneNumber the contact phone number of this project
+	 */
+	public void setContactPhoneNumber(String contactPhoneNumber);
+
+	/**
 	 * Returns the image ID of this project.
 	 *
 	 * @return the image ID of this project

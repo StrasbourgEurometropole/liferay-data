@@ -90,6 +90,11 @@ public interface ProjectTimelineLocalService extends BaseLocalService,
 	public ProjectTimeline addProjectTimeline(ProjectTimeline projectTimeline);
 
 	/**
+	* Crée une une entrée de timeline vide avec une PK, non ajouté à la base de donnée
+	*/
+	public ProjectTimeline createProjectTimeline() throws PortalException;
+
+	/**
 	* Creates a new project timeline with the primary key. Does not add the project timeline to the database.
 	*
 	* @param projectTimelineId the primary key for the new project timeline
@@ -195,6 +200,12 @@ public interface ProjectTimelineLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Retourne les périodes d'un événement
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ProjectTimeline> getByProjectId(long projectIdId);
 
 	/**
 	* Returns a range of all the project timelines.

@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.PortalException;
+
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectTimelineLocalServiceBaseImpl;
 
 /**
@@ -37,4 +42,26 @@ public class ProjectTimelineLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil} to access the project timeline local service.
 	 */
+	
+	/**
+	 * Crée une une entrée de timeline vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public ProjectTimeline createProjectTimeline() throws PortalException {
+		long pk = counterLocalService.increment();
+
+		ProjectTimeline eventPeriod = this.projectTimelineLocalService
+			.createProjectTimeline(pk);
+
+		return eventPeriod;
+	}
+
+	/**
+	 * Retourne les périodes d'un événement
+	 */
+	@Override
+	public List<ProjectTimeline> getByProjectId(long projectIdId) {
+		return this.projectTimelinePersistence.findByProjectId(projectIdId, -1, -1, null, false);
+	}
+	
 }

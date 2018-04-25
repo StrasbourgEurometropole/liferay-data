@@ -88,6 +88,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "author", Types.VARCHAR },
+			{ "contactNamme", Types.VARCHAR },
+			{ "contactLine1", Types.VARCHAR },
+			{ "contactLine2", Types.VARCHAR },
+			{ "contactPhoneNumber", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP }
 		};
@@ -108,11 +112,15 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("author", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("contactNamme", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("contactLine1", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("contactLine2", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("contactPhoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactNamme VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Participation";
 	public static final String ORDER_BY_JPQL = " ORDER BY participation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Participation.title ASC";
@@ -160,6 +168,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
 		model.setAuthor(soapModel.getAuthor());
+		model.setContactNamme(soapModel.getContactNamme());
+		model.setContactLine1(soapModel.getContactLine1());
+		model.setContactLine2(soapModel.getContactLine2());
+		model.setContactPhoneNumber(soapModel.getContactPhoneNumber());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
 
@@ -240,6 +252,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("author", getAuthor());
+		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactLine1", getContactLine1());
+		attributes.put("contactLine2", getContactLine2());
+		attributes.put("contactPhoneNumber", getContactPhoneNumber());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -333,6 +349,30 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if (author != null) {
 			setAuthor(author);
+		}
+
+		String contactNamme = (String)attributes.get("contactNamme");
+
+		if (contactNamme != null) {
+			setContactNamme(contactNamme);
+		}
+
+		String contactLine1 = (String)attributes.get("contactLine1");
+
+		if (contactLine1 != null) {
+			setContactLine1(contactLine1);
+		}
+
+		String contactLine2 = (String)attributes.get("contactLine2");
+
+		if (contactLine2 != null) {
+			setContactLine2(contactLine2);
+		}
+
+		String contactPhoneNumber = (String)attributes.get("contactPhoneNumber");
+
+		if (contactPhoneNumber != null) {
+			setContactPhoneNumber(contactPhoneNumber);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -601,6 +641,70 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@JSON
 	@Override
+	public String getContactNamme() {
+		if (_contactNamme == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _contactNamme;
+		}
+	}
+
+	@Override
+	public void setContactNamme(String contactNamme) {
+		_contactNamme = contactNamme;
+	}
+
+	@JSON
+	@Override
+	public String getContactLine1() {
+		if (_contactLine1 == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _contactLine1;
+		}
+	}
+
+	@Override
+	public void setContactLine1(String contactLine1) {
+		_contactLine1 = contactLine1;
+	}
+
+	@JSON
+	@Override
+	public String getContactLine2() {
+		if (_contactLine2 == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _contactLine2;
+		}
+	}
+
+	@Override
+	public void setContactLine2(String contactLine2) {
+		_contactLine2 = contactLine2;
+	}
+
+	@JSON
+	@Override
+	public String getContactPhoneNumber() {
+		if (_contactPhoneNumber == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _contactPhoneNumber;
+		}
+	}
+
+	@Override
+	public void setContactPhoneNumber(String contactPhoneNumber) {
+		_contactPhoneNumber = contactPhoneNumber;
+	}
+
+	@JSON
+	@Override
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -752,6 +856,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		participationImpl.setStatusDate(getStatusDate());
 		participationImpl.setTitle(getTitle());
 		participationImpl.setAuthor(getAuthor());
+		participationImpl.setContactNamme(getContactNamme());
+		participationImpl.setContactLine1(getContactLine1());
+		participationImpl.setContactLine2(getContactLine2());
+		participationImpl.setContactPhoneNumber(getContactPhoneNumber());
 		participationImpl.setPublicationDate(getPublicationDate());
 		participationImpl.setExpirationDate(getExpirationDate());
 
@@ -912,6 +1020,38 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.author = null;
 		}
 
+		participationCacheModel.contactNamme = getContactNamme();
+
+		String contactNamme = participationCacheModel.contactNamme;
+
+		if ((contactNamme != null) && (contactNamme.length() == 0)) {
+			participationCacheModel.contactNamme = null;
+		}
+
+		participationCacheModel.contactLine1 = getContactLine1();
+
+		String contactLine1 = participationCacheModel.contactLine1;
+
+		if ((contactLine1 != null) && (contactLine1.length() == 0)) {
+			participationCacheModel.contactLine1 = null;
+		}
+
+		participationCacheModel.contactLine2 = getContactLine2();
+
+		String contactLine2 = participationCacheModel.contactLine2;
+
+		if ((contactLine2 != null) && (contactLine2.length() == 0)) {
+			participationCacheModel.contactLine2 = null;
+		}
+
+		participationCacheModel.contactPhoneNumber = getContactPhoneNumber();
+
+		String contactPhoneNumber = participationCacheModel.contactPhoneNumber;
+
+		if ((contactPhoneNumber != null) && (contactPhoneNumber.length() == 0)) {
+			participationCacheModel.contactPhoneNumber = null;
+		}
+
 		Date publicationDate = getPublicationDate();
 
 		if (publicationDate != null) {
@@ -935,7 +1075,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -965,6 +1105,14 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getTitle());
 		sb.append(", author=");
 		sb.append(getAuthor());
+		sb.append(", contactNamme=");
+		sb.append(getContactNamme());
+		sb.append(", contactLine1=");
+		sb.append(getContactLine1());
+		sb.append(", contactLine2=");
+		sb.append(getContactLine2());
+		sb.append(", contactPhoneNumber=");
+		sb.append(getContactPhoneNumber());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
@@ -976,7 +1124,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Participation");
@@ -1039,6 +1187,22 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getAuthor());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>contactNamme</column-name><column-value><![CDATA[");
+		sb.append(getContactNamme());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>contactLine1</column-name><column-value><![CDATA[");
+		sb.append(getContactLine1());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>contactLine2</column-name><column-value><![CDATA[");
+		sb.append(getContactLine2());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>contactPhoneNumber</column-name><column-value><![CDATA[");
+		sb.append(getContactPhoneNumber());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
 		sb.append(getPublicationDate());
 		sb.append("]]></column-value></column>");
@@ -1076,6 +1240,10 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private Date _statusDate;
 	private String _title;
 	private String _author;
+	private String _contactNamme;
+	private String _contactLine1;
+	private String _contactLine2;
+	private String _contactPhoneNumber;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _columnBitmask;

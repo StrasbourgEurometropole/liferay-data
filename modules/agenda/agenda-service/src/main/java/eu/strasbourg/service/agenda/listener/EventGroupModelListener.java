@@ -53,4 +53,5 @@ public class EventGroupModelListener extends BaseModelListener<Group> {
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	
 }

@@ -2402,6 +2402,10 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 		projectImpl.setLabel(project.getLabel());
 		projectImpl.setDuration(project.getDuration());
 		projectImpl.setPartners(project.getPartners());
+		projectImpl.setContactNamme(project.getContactNamme());
+		projectImpl.setContactLine1(project.getContactLine1());
+		projectImpl.setContactLine2(project.getContactLine2());
+		projectImpl.setContactPhoneNumber(project.getContactPhoneNumber());
 		projectImpl.setImageId(project.getImageId());
 
 		return projectImpl;

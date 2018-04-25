@@ -881,7 +881,7 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 		projectTimelineImpl.setPrimaryKey(projectTimeline.getPrimaryKey());
 
 		projectTimelineImpl.setProjectTimelineId(projectTimeline.getProjectTimelineId());
-		projectTimelineImpl.setStartDate(projectTimeline.getStartDate());
+		projectTimelineImpl.setStartDay(projectTimeline.getStartDay());
 		projectTimelineImpl.setDate(projectTimeline.getDate());
 		projectTimelineImpl.setTitle(projectTimeline.getTitle());
 		projectTimelineImpl.setProjectId(projectTimeline.getProjectId());

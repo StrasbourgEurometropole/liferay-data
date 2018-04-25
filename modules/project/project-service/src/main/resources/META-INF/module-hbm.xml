@@ -22,6 +22,10 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="author" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactNamme" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactLine1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 	</class>
@@ -50,13 +54,17 @@
 		<property name="label" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="partners" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="contactNamme" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactLine1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.ProjectTimelineImpl" table="project_ProjectTimeline">
 		<id name="projectTimelineId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="startDate" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="startDay" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

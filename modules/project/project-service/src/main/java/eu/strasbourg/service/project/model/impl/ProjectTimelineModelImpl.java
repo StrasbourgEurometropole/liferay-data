@@ -68,7 +68,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 	public static final String TABLE_NAME = "project_ProjectTimeline";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "projectTimelineId", Types.BIGINT },
-			{ "startDate", Types.INTEGER },
+			{ "startDay", Types.INTEGER },
 			{ "date_", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "projectId", Types.BIGINT }
@@ -77,13 +77,13 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	static {
 		TABLE_COLUMNS_MAP.put("projectTimelineId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("startDate", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("startDay", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDate INTEGER,date_ DATE null,title VARCHAR(400) null,projectId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,date_ DATE null,title VARCHAR(400) null,projectId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.projectTimelineId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.projectTimelineId ASC";
@@ -116,7 +116,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		ProjectTimeline model = new ProjectTimelineImpl();
 
 		model.setProjectTimelineId(soapModel.getProjectTimelineId());
-		model.setStartDate(soapModel.getStartDate());
+		model.setStartDay(soapModel.getStartDay());
 		model.setDate(soapModel.getDate());
 		model.setTitle(soapModel.getTitle());
 		model.setProjectId(soapModel.getProjectId());
@@ -186,7 +186,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("projectTimelineId", getProjectTimelineId());
-		attributes.put("startDate", getStartDate());
+		attributes.put("startDay", getStartDay());
 		attributes.put("date", getDate());
 		attributes.put("title", getTitle());
 		attributes.put("projectId", getProjectId());
@@ -205,10 +205,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			setProjectTimelineId(projectTimelineId);
 		}
 
-		Integer startDate = (Integer)attributes.get("startDate");
+		Integer startDay = (Integer)attributes.get("startDay");
 
-		if (startDate != null) {
-			setStartDate(startDate);
+		if (startDay != null) {
+			setStartDay(startDay);
 		}
 
 		Date date = (Date)attributes.get("date");
@@ -243,13 +243,13 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@JSON
 	@Override
-	public int getStartDate() {
-		return _startDate;
+	public int getStartDay() {
+		return _startDay;
 	}
 
 	@Override
-	public void setStartDate(int startDate) {
-		_startDate = startDate;
+	public void setStartDay(int startDay) {
+		_startDay = startDay;
 	}
 
 	@JSON
@@ -334,7 +334,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		ProjectTimelineImpl projectTimelineImpl = new ProjectTimelineImpl();
 
 		projectTimelineImpl.setProjectTimelineId(getProjectTimelineId());
-		projectTimelineImpl.setStartDate(getStartDate());
+		projectTimelineImpl.setStartDay(getStartDay());
 		projectTimelineImpl.setDate(getDate());
 		projectTimelineImpl.setTitle(getTitle());
 		projectTimelineImpl.setProjectId(getProjectId());
@@ -413,7 +413,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		projectTimelineCacheModel.projectTimelineId = getProjectTimelineId();
 
-		projectTimelineCacheModel.startDate = getStartDate();
+		projectTimelineCacheModel.startDay = getStartDay();
 
 		Date date = getDate();
 
@@ -443,8 +443,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		sb.append("{projectTimelineId=");
 		sb.append(getProjectTimelineId());
-		sb.append(", startDate=");
-		sb.append(getStartDate());
+		sb.append(", startDay=");
+		sb.append(getStartDay());
 		sb.append(", date=");
 		sb.append(getDate());
 		sb.append(", title=");
@@ -469,8 +469,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(getProjectTimelineId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>startDate</column-name><column-value><![CDATA[");
-		sb.append(getStartDate());
+			"<column><column-name>startDay</column-name><column-value><![CDATA[");
+		sb.append(getStartDay());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>date</column-name><column-value><![CDATA[");
@@ -495,7 +495,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			ProjectTimeline.class
 		};
 	private long _projectTimelineId;
-	private int _startDate;
+	private int _startDay;
 	private Date _date;
 	private String _title;
 	private long _projectId;

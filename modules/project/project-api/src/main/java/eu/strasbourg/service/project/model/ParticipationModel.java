@@ -323,6 +323,66 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setAuthor(String author);
 
 	/**
+	 * Returns the contact namme of this participation.
+	 *
+	 * @return the contact namme of this participation
+	 */
+	@AutoEscape
+	public String getContactNamme();
+
+	/**
+	 * Sets the contact namme of this participation.
+	 *
+	 * @param contactNamme the contact namme of this participation
+	 */
+	public void setContactNamme(String contactNamme);
+
+	/**
+	 * Returns the contact line1 of this participation.
+	 *
+	 * @return the contact line1 of this participation
+	 */
+	@AutoEscape
+	public String getContactLine1();
+
+	/**
+	 * Sets the contact line1 of this participation.
+	 *
+	 * @param contactLine1 the contact line1 of this participation
+	 */
+	public void setContactLine1(String contactLine1);
+
+	/**
+	 * Returns the contact line2 of this participation.
+	 *
+	 * @return the contact line2 of this participation
+	 */
+	@AutoEscape
+	public String getContactLine2();
+
+	/**
+	 * Sets the contact line2 of this participation.
+	 *
+	 * @param contactLine2 the contact line2 of this participation
+	 */
+	public void setContactLine2(String contactLine2);
+
+	/**
+	 * Returns the contact phone number of this participation.
+	 *
+	 * @return the contact phone number of this participation
+	 */
+	@AutoEscape
+	public String getContactPhoneNumber();
+
+	/**
+	 * Sets the contact phone number of this participation.
+	 *
+	 * @param contactPhoneNumber the contact phone number of this participation
+	 */
+	public void setContactPhoneNumber(String contactPhoneNumber);
+
+	/**
 	 * Returns the publication date of this participation.
 	 *
 	 * @return the publication date of this participation

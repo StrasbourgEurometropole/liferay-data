@@ -59,7 +59,7 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("projectTimelineId", getProjectTimelineId());
-		attributes.put("startDate", getStartDate());
+		attributes.put("startDay", getStartDay());
 		attributes.put("date", getDate());
 		attributes.put("title", getTitle());
 		attributes.put("projectId", getProjectId());
@@ -75,10 +75,10 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 			setProjectTimelineId(projectTimelineId);
 		}
 
-		Integer startDate = (Integer)attributes.get("startDate");
+		Integer startDay = (Integer)attributes.get("startDay");
 
-		if (startDate != null) {
-			setStartDate(startDate);
+		if (startDay != null) {
+			setStartDay(startDay);
 		}
 
 		Date date = (Date)attributes.get("date");
@@ -142,13 +142,13 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
-	* Returns the start date of this project timeline.
+	* Returns the start day of this project timeline.
 	*
-	* @return the start date of this project timeline
+	* @return the start day of this project timeline
 	*/
 	@Override
-	public int getStartDate() {
-		return _projectTimeline.getStartDate();
+	public int getStartDay() {
+		return _projectTimeline.getStartDay();
 	}
 
 	@Override
@@ -303,13 +303,13 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
-	* Sets the start date of this project timeline.
+	* Sets the start day of this project timeline.
 	*
-	* @param startDate the start date of this project timeline
+	* @param startDay the start day of this project timeline
 	*/
 	@Override
-	public void setStartDate(int startDate) {
-		_projectTimeline.setStartDate(startDate);
+	public void setStartDay(int startDay) {
+		_projectTimeline.setStartDay(startDay);
 	}
 
 	/**

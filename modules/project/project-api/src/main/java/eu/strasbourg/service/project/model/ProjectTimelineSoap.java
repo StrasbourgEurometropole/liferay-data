@@ -35,7 +35,7 @@ public class ProjectTimelineSoap implements Serializable {
 		ProjectTimelineSoap soapModel = new ProjectTimelineSoap();
 
 		soapModel.setProjectTimelineId(model.getProjectTimelineId());
-		soapModel.setStartDate(model.getStartDate());
+		soapModel.setStartDay(model.getStartDay());
 		soapModel.setDate(model.getDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setProjectId(model.getProjectId());
@@ -101,12 +101,12 @@ public class ProjectTimelineSoap implements Serializable {
 		_projectTimelineId = projectTimelineId;
 	}
 
-	public int getStartDate() {
-		return _startDate;
+	public int getStartDay() {
+		return _startDay;
 	}
 
-	public void setStartDate(int startDate) {
-		_startDate = startDate;
+	public void setStartDay(int startDay) {
+		_startDay = startDay;
 	}
 
 	public Date getDate() {
@@ -134,7 +134,7 @@ public class ProjectTimelineSoap implements Serializable {
 	}
 
 	private long _projectTimelineId;
-	private int _startDate;
+	private int _startDay;
 	private Date _date;
 	private String _title;
 	private long _projectId;

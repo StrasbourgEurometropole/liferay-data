@@ -56,6 +56,10 @@ public class ProjectSoap implements Serializable {
 		soapModel.setLabel(model.getLabel());
 		soapModel.setDuration(model.getDuration());
 		soapModel.setPartners(model.getPartners());
+		soapModel.setContactNamme(model.getContactNamme());
+		soapModel.setContactLine1(model.getContactLine1());
+		soapModel.setContactLine2(model.getContactLine2());
+		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
 		soapModel.setImageId(model.getImageId());
 
 		return soapModel;
@@ -285,6 +289,38 @@ public class ProjectSoap implements Serializable {
 		_partners = partners;
 	}
 
+	public String getContactNamme() {
+		return _contactNamme;
+	}
+
+	public void setContactNamme(String contactNamme) {
+		_contactNamme = contactNamme;
+	}
+
+	public String getContactLine1() {
+		return _contactLine1;
+	}
+
+	public void setContactLine1(String contactLine1) {
+		_contactLine1 = contactLine1;
+	}
+
+	public String getContactLine2() {
+		return _contactLine2;
+	}
+
+	public void setContactLine2(String contactLine2) {
+		_contactLine2 = contactLine2;
+	}
+
+	public String getContactPhoneNumber() {
+		return _contactPhoneNumber;
+	}
+
+	public void setContactPhoneNumber(String contactPhoneNumber) {
+		_contactPhoneNumber = contactPhoneNumber;
+	}
+
 	public long getImageId() {
 		return _imageId;
 	}
@@ -315,5 +351,9 @@ public class ProjectSoap implements Serializable {
 	private String _label;
 	private int _duration;
 	private String _partners;
+	private String _contactNamme;
+	private String _contactLine1;
+	private String _contactLine2;
+	private String _contactPhoneNumber;
 	private long _imageId;
 }

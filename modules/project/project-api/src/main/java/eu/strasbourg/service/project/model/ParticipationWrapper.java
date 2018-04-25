@@ -74,6 +74,10 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("author", getAuthor());
+		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactLine1", getContactLine1());
+		attributes.put("contactLine2", getContactLine2());
+		attributes.put("contactPhoneNumber", getContactPhoneNumber());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -164,6 +168,30 @@ public class ParticipationWrapper implements Participation,
 
 		if (author != null) {
 			setAuthor(author);
+		}
+
+		String contactNamme = (String)attributes.get("contactNamme");
+
+		if (contactNamme != null) {
+			setContactNamme(contactNamme);
+		}
+
+		String contactLine1 = (String)attributes.get("contactLine1");
+
+		if (contactLine1 != null) {
+			setContactLine1(contactLine1);
+		}
+
+		String contactLine2 = (String)attributes.get("contactLine2");
+
+		if (contactLine2 != null) {
+			setContactLine2(contactLine2);
+		}
+
+		String contactPhoneNumber = (String)attributes.get("contactPhoneNumber");
+
+		if (contactPhoneNumber != null) {
+			setContactPhoneNumber(contactPhoneNumber);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -274,6 +302,14 @@ public class ParticipationWrapper implements Participation,
 		return _participation.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _participation.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _participation.getExpandoBridge();
@@ -333,6 +369,46 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getAuthor() {
 		return _participation.getAuthor();
+	}
+
+	/**
+	* Returns the contact line1 of this participation.
+	*
+	* @return the contact line1 of this participation
+	*/
+	@Override
+	public java.lang.String getContactLine1() {
+		return _participation.getContactLine1();
+	}
+
+	/**
+	* Returns the contact line2 of this participation.
+	*
+	* @return the contact line2 of this participation
+	*/
+	@Override
+	public java.lang.String getContactLine2() {
+		return _participation.getContactLine2();
+	}
+
+	/**
+	* Returns the contact namme of this participation.
+	*
+	* @return the contact namme of this participation
+	*/
+	@Override
+	public java.lang.String getContactNamme() {
+		return _participation.getContactNamme();
+	}
+
+	/**
+	* Returns the contact phone number of this participation.
+	*
+	* @return the contact phone number of this participation
+	*/
+	@Override
+	public java.lang.String getContactPhoneNumber() {
+		return _participation.getContactPhoneNumber();
 	}
 
 	/**
@@ -456,6 +532,15 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _participation.getCategories();
+	}
+
+	/**
 	* Returns the company ID of this participation.
 	*
 	* @return the company ID of this participation
@@ -543,6 +628,46 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setCompanyId(long companyId) {
 		_participation.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the contact line1 of this participation.
+	*
+	* @param contactLine1 the contact line1 of this participation
+	*/
+	@Override
+	public void setContactLine1(java.lang.String contactLine1) {
+		_participation.setContactLine1(contactLine1);
+	}
+
+	/**
+	* Sets the contact line2 of this participation.
+	*
+	* @param contactLine2 the contact line2 of this participation
+	*/
+	@Override
+	public void setContactLine2(java.lang.String contactLine2) {
+		_participation.setContactLine2(contactLine2);
+	}
+
+	/**
+	* Sets the contact namme of this participation.
+	*
+	* @param contactNamme the contact namme of this participation
+	*/
+	@Override
+	public void setContactNamme(java.lang.String contactNamme) {
+		_participation.setContactNamme(contactNamme);
+	}
+
+	/**
+	* Sets the contact phone number of this participation.
+	*
+	* @param contactPhoneNumber the contact phone number of this participation
+	*/
+	@Override
+	public void setContactPhoneNumber(java.lang.String contactPhoneNumber) {
+		_participation.setContactPhoneNumber(contactPhoneNumber);
 	}
 
 	/**

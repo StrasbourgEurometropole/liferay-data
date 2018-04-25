@@ -48,6 +48,10 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setAuthor(model.getAuthor());
+		soapModel.setContactNamme(model.getContactNamme());
+		soapModel.setContactLine1(model.getContactLine1());
+		soapModel.setContactLine2(model.getContactLine2());
+		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 
@@ -214,6 +218,38 @@ public class ParticipationSoap implements Serializable {
 		_author = author;
 	}
 
+	public String getContactNamme() {
+		return _contactNamme;
+	}
+
+	public void setContactNamme(String contactNamme) {
+		_contactNamme = contactNamme;
+	}
+
+	public String getContactLine1() {
+		return _contactLine1;
+	}
+
+	public void setContactLine1(String contactLine1) {
+		_contactLine1 = contactLine1;
+	}
+
+	public String getContactLine2() {
+		return _contactLine2;
+	}
+
+	public void setContactLine2(String contactLine2) {
+		_contactLine2 = contactLine2;
+	}
+
+	public String getContactPhoneNumber() {
+		return _contactPhoneNumber;
+	}
+
+	public void setContactPhoneNumber(String contactPhoneNumber) {
+		_contactPhoneNumber = contactPhoneNumber;
+	}
+
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -244,6 +280,10 @@ public class ParticipationSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _author;
+	private String _contactNamme;
+	private String _contactLine1;
+	private String _contactLine2;
+	private String _contactPhoneNumber;
 	private Date _publicationDate;
 	private Date _expirationDate;
 }

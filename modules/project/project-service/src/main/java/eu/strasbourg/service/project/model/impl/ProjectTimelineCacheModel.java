@@ -70,8 +70,8 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 
 		sb.append("{projectTimelineId=");
 		sb.append(projectTimelineId);
-		sb.append(", startDate=");
-		sb.append(startDate);
+		sb.append(", startDay=");
+		sb.append(startDay);
 		sb.append(", date=");
 		sb.append(date);
 		sb.append(", title=");
@@ -88,7 +88,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		ProjectTimelineImpl projectTimelineImpl = new ProjectTimelineImpl();
 
 		projectTimelineImpl.setProjectTimelineId(projectTimelineId);
-		projectTimelineImpl.setStartDate(startDate);
+		projectTimelineImpl.setStartDay(startDay);
 
 		if (date == Long.MIN_VALUE) {
 			projectTimelineImpl.setDate(null);
@@ -115,7 +115,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		projectTimelineId = objectInput.readLong();
 
-		startDate = objectInput.readInt();
+		startDay = objectInput.readInt();
 		date = objectInput.readLong();
 		title = objectInput.readUTF();
 
@@ -127,7 +127,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		throws IOException {
 		objectOutput.writeLong(projectTimelineId);
 
-		objectOutput.writeInt(startDate);
+		objectOutput.writeInt(startDay);
 		objectOutput.writeLong(date);
 
 		if (title == null) {
@@ -141,7 +141,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 	}
 
 	public long projectTimelineId;
-	public int startDate;
+	public int startDay;
 	public long date;
 	public String title;
 	public long projectId;
