@@ -16,6 +16,8 @@ package eu.strasbourg.service.objtp.service.impl;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -58,6 +60,8 @@ public class FoundObjectLocalServiceImpl extends FoundObjectLocalServiceBaseImpl
 	
 	@Override
 	public List<FoundObject> getFoundObjectByCategoryCode(String codeCategory) {
-		return this.foundObjectPersistence.findByCategoryCode(codeCategory);
+		List<FoundObject> objectsByCategory = this.foundObjectPersistence.findByCategoryCode(codeCategory);
+
+		return objectsByCategory;
 	}
 }

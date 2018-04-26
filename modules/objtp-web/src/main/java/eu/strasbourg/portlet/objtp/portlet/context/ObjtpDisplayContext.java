@@ -1,6 +1,10 @@
 package eu.strasbourg.portlet.objtp.portlet.context;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +22,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
-import eu.strasbourg.service.objtp.service.FoundObjectServiceUtil;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
 import eu.strasbourg.utils.Pager;
 
@@ -77,7 +80,8 @@ public class ObjtpDisplayContext {
 				}
 			}		
 		}	
-		
+		objectsFilter.sort(Comparator.comparing(FoundObject::getDate));
+		Collections.reverse(objectsFilter);
 		return objectsFilter;
 	}
 	

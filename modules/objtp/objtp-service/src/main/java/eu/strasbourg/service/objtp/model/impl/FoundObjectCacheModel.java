@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing FoundObject in entity cache.
  *
@@ -90,11 +92,11 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 			foundObjectImpl.setNumber(number);
 		}
 
-		if (date == null) {
-			foundObjectImpl.setDate(StringPool.BLANK);
+		if (date == Long.MIN_VALUE) {
+			foundObjectImpl.setDate(null);
 		}
 		else {
-			foundObjectImpl.setDate(date);
+			foundObjectImpl.setDate(new Date(date));
 		}
 
 		if (imageUrl == null) {
@@ -119,7 +121,7 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		number = objectInput.readUTF();
-		date = objectInput.readUTF();
+		date = objectInput.readLong();
 		imageUrl = objectInput.readUTF();
 		categoryCode = objectInput.readUTF();
 	}
@@ -134,12 +136,7 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 			objectOutput.writeUTF(number);
 		}
 
-		if (date == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(date);
-		}
+		objectOutput.writeLong(date);
 
 		if (imageUrl == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -157,7 +154,7 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 	}
 
 	public String number;
-	public String date;
+	public long date;
 	public String imageUrl;
 	public String categoryCode;
 }

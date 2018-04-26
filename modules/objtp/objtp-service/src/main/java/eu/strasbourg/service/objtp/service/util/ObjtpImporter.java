@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.osgi.service.component.annotations.Reference;
 
@@ -16,6 +17,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -25,6 +27,7 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.objtp.model.FoundObject;
@@ -39,7 +42,8 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class ObjtpImporter {
 
-	
+	private ResourceBundle bundle = ResourceBundleUtil
+			.getBundle("content.ImportErrors", this.getClass().getClassLoader());
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 	
 	@Transactional(isolation = Isolation.DEFAULT, rollbackFor = {PortalException.class, SystemException.class,IOException.class,JSONException.class, ParseException.class})	
@@ -82,11 +86,11 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
-			report.globalErrorObjectCategory("Catégorie d'objet : Erreur URL");
+			report.globalErrorObjectCategory(LanguageUtil.get(bundle, "category-object-no-url"));
 			return report;
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
-			report.globalErrorObjectCategory("Catégorie d'objet : Format JSON invalide");
+			report.globalErrorObjectCategory(LanguageUtil.get(bundle, "category-object-json-fail"));
 			return report;
 		}
 		
@@ -94,15 +98,14 @@ public class ObjtpImporter {
 	    JSONArray objectCategories = json.getJSONArray("result");
 	    
 	    if(objectCategories == null || objectCategories.length() ==0) {
-	    	report.globalErrorObjectCategory("Aucune catégorie d'objet");
+	    	report.globalErrorObjectCategory(LanguageUtil.get(bundle, "no-category-object"));
 	    	return report;
 	    }  
 	    
 	    // Récupère le nombre total de catégories d'objet à insérer
 	    report.setTotalObjectCategoryCount(objectCategories.length());
-	    
-	    // On vide d'abord la base
-	   List<ObjectCategory> allCategories = ObjectCategoryLocalServiceUtil.getObjectCategories(-1, -1);
+	    // On vide d'abord la base   
+	    List<ObjectCategory> allCategories = ObjectCategoryLocalServiceUtil.getObjectCategories(-1, -1);
 	 	for (ObjectCategory category : allCategories) {
 	 		ObjectCategoryLocalServiceUtil.deleteObjectCategory(category);
 		}
@@ -130,11 +133,11 @@ public class ObjtpImporter {
 		// Récupération des différents champs
 		String categoryName = objectCategoryJSON.getString("nom_categorie");
 		if (Validator.isNull(categoryName)) {
-			reportLine.error("Champ nom catégorie absent");
+			reportLine.error(LanguageUtil.get(bundle, "category-object-name-field-missing"));
 		}	
 		String codeCategory = objectCategoryJSON.getString("code_categorie");
 		if (Validator.isNull(codeCategory)) {
-			reportLine.error("Champ code catégorie absent");
+			reportLine.error(LanguageUtil.get(bundle, "category-object-code-field-missing"));
 			reportLine.setNumber("XXX");
 		}
 		else {
@@ -176,11 +179,11 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
-			report.globalErrorFoundObject("Objet trouvé : Erreur URL");
+			report.globalErrorFoundObject(LanguageUtil.get(bundle, "found-object-no-url"));
 			return report;
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
-			report.globalErrorFoundObject("Objet trouvé : Format JSON invalide");
+			report.globalErrorFoundObject(LanguageUtil.get(bundle, "found-object-json-fail"));
 			return report;
 		}
 		
@@ -188,7 +191,7 @@ public class ObjtpImporter {
 	    JSONArray foundObjects = json.getJSONArray("result");
 	    
 	    if(foundObjects == null || foundObjects.length() ==0) {
-	    	report.globalErrorFoundObject("Aucun objet trouvé");
+	    	report.globalErrorFoundObject(LanguageUtil.get(bundle, "no-found-object"));
 			return report;
 	    }
 	    
@@ -201,7 +204,7 @@ public class ObjtpImporter {
 	 		FoundObjectLocalServiceUtil.deleteFoundObject(object);
 		}
 	    
-	    
+	 	
 	    for (int i = 0; i < foundObjects.length() ; i++) {
 	    	_log.info("Import objet trouvé : " + (i + 1) + "/" + foundObjects.length());
 	    	JSONObject foundObject = foundObjects.getJSONObject(i);
@@ -231,7 +234,7 @@ public class ObjtpImporter {
 		// Récupération des différents champs
 		String objectNumero = objectJSON.getString("numero_objet");
 		if (Validator.isNull(objectNumero)) {
-			reportLine.error("Champ numero objet absent");
+			reportLine.error(LanguageUtil.get(bundle, "found-object-numero-field-missing"));
 			reportLine.setNumber("XXX");
 		}
 		else {
@@ -239,23 +242,23 @@ public class ObjtpImporter {
 		}
 		String depotDate = objectJSON.getString("date_depot");
 		if (Validator.isNull(depotDate)) {
-			reportLine.error("Champ date de depot manquant");
+			reportLine.error(LanguageUtil.get(bundle, "found-object-date-field-missing"));
 		}	
 		String codeCategory = objectJSON.getString("code_categorie");
 		if (Validator.isNull(codeCategory)) {
-			reportLine.error("Champ code catégorie manquant");
+			reportLine.error(LanguageUtil.get(bundle, "found-object-code-field-missing"));
 		}
 		else {
 			ObjectCategory category = ObjectCategoryLocalServiceUtil.fetchObjectCategory(codeCategory);
 			if(category == null) {
-				reportLine.error("Aucune catégorie existante liée au code " +codeCategory);
+				reportLine.error(LanguageUtil.format(bundle,"found-object-no-existing-code",codeCategory));
 			}
 		}		
 		
 		FoundObject objectDuplicate = FoundObjectLocalServiceUtil.fetchFoundObject(objectNumero);
 		
 		if(objectDuplicate != null) {
-			reportLine.error("Objet déjà existant avec ce numéro" );
+			reportLine.error(LanguageUtil.get(bundle, "found-object-already-existing"));
 		}
 		
 		if(reportLine.getStatus() == ImportReportStatusObjtp.FAILURE) {
@@ -272,7 +275,7 @@ public class ObjtpImporter {
 		
 		Date dateDepot = recievingFormat.parse(depotDate);
 		
-		object.setDate(outFormat.format(dateDepot));
+		object.setDate(dateDepot);
 		
 		// On récupère l'image associée à l'objet trouvé
 		String url = StrasbourgPropsUtil.getObjtpURL() + "image_objet?numero_objet="+ object.getNumber();
@@ -282,18 +285,18 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
-			reportLine.error("Image : Erreur URL");
+			reportLine.error(LanguageUtil.get(bundle, "image-no-url"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
-			reportLine.error("Image : Format JSON invalide");
+			reportLine.error(LanguageUtil.get(bundle, "image-json-fail"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		}
 		
 		JSONArray imageArray = json.getJSONArray("result");
 		
 		if(imageArray == null || imageArray.length() ==0){
-			reportLine.error("Aucune image associée à l'objet");
+			reportLine.error(LanguageUtil.get(bundle, "no-image-for-object"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		}
 		else {

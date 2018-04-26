@@ -12,7 +12,7 @@
 		    <div class="seu-result-count"> 
 		    	<c:choose>
 		    		<c:when test="${dc.searchContainer.total == 0}">
-		    			No Found Objects
+		    			<liferay-ui:message key="no-found-objects" />
 		    		</c:when>
 		    		<c:when test="${dc.searchContainer.total gt 1}">
 		    			${dc.searchContainer.total} <liferay-ui:message key="objtp-found-objects" />
@@ -39,18 +39,20 @@
 		<!-- Résultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
-		<div class="popup-gallery">
+		<div class="objtp-gallery">
 		    <div id="objtp-detail-container"style="position: relative">
 		    	<c:forEach items="${dc.paginatedResults}" var="object"> 
 		    		<c:if test="${not empty object.imageUrl}">
-			    		<c:set var="legend" value="${title} ${numeroLabel} ${object.number} ${dateLabel} ${object.date}"/>
+		    		<fmt:formatDate value="${object.date}"
+					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+			    		<c:set var="legend" value="${title} ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>
 				        <div class="objtp-detail-item">
 				        	<a href="${object.imageUrl}" title="${legend}">
 				            	<img class="objtp-picture" src="${object.imageUrl}" title="${legend}"></img>
 				            </a>
 				            <div class="objtp-info">
 				            	<p>${numeroLabel} ${object.number}</p>
-				            	<p>${dateLabel} ${object.date}</p>
+				            	<p>${dateLabel} ${formattedDate}</p>
 				            </div>
 				        </div>
 			        </c:if>

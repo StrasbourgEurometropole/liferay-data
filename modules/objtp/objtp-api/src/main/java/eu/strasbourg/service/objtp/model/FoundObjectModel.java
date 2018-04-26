@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the FoundObject service. Represents a row in the &quot;objtp_FoundObject&quot; database table, with each column mapped to a property of this class.
  *
@@ -80,15 +82,14 @@ public interface FoundObjectModel extends BaseModel<FoundObject> {
 	 *
 	 * @return the date of this found object
 	 */
-	@AutoEscape
-	public String getDate();
+	public Date getDate();
 
 	/**
 	 * Sets the date of this found object.
 	 *
 	 * @param date the date of this found object
 	 */
-	public void setDate(String date);
+	public void setDate(Date date);
 
 	/**
 	 * Returns the image url of this found object.

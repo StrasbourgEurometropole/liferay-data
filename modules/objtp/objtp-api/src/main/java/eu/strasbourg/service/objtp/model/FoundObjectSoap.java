@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -97,11 +98,11 @@ public class FoundObjectSoap implements Serializable {
 		_number = number;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return _date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		_date = date;
 	}
 
@@ -122,7 +123,7 @@ public class FoundObjectSoap implements Serializable {
 	}
 
 	private String _number;
-	private String _date;
+	private Date _date;
 	private String _imageUrl;
 	private String _categoryCode;
 }

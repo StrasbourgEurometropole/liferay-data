@@ -3,7 +3,7 @@
 <model-hints>
 	<model name="eu.strasbourg.service.objtp.model.FoundObject">
 		<field name="number" type="String" />
-		<field name="date" type="String" />
+		<field name="date" type="Date" />
 		<field name="imageUrl" type="String" />
 		<field name="categoryCode" type="String" />
 	</model>

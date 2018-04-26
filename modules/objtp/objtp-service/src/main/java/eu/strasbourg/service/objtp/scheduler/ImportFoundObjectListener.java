@@ -1,11 +1,15 @@
 package eu.strasbourg.service.objtp.scheduler;
 
+import java.io.IOException;
+import java.text.ParseException;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
@@ -16,8 +20,6 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.objtp.service.FoundObjectLocalService;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalService;
-import eu.strasbourg.service.objtp.service.util.ImportReportObjtp;
-import eu.strasbourg.service.objtp.service.util.ImportReportStatusObjtp;
 
 /**
  * Importe automatiquement les objets trouvés et les catégories associées
@@ -38,7 +40,7 @@ public class ImportFoundObjectListener extends BaseSchedulerEntryMessageListener
 	}
 
 	@Override
-	protected void doReceive(Message message) throws Exception {
+	protected void doReceive(Message message) throws JSONException, PortalException, IOException, ParseException {
 		log.info("Start importing objtp");
 		foundObjectLocalService.doImport();
 		log.info("Finish importing objtp");
@@ -46,7 +48,6 @@ public class ImportFoundObjectListener extends BaseSchedulerEntryMessageListener
 
 	@Reference(unbind = "-")
 	private volatile SchedulerEngineHelper schedulerEngineHelper;
-
 	@Reference(unbind = "-")
 	private FoundObjectLocalService foundObjectLocalService;
 	@Reference(unbind = "-")

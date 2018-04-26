@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -34,6 +35,7 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +65,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 	public static final String TABLE_NAME = "objtp_FoundObject";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "number_", Types.VARCHAR },
-			{ "date_", Types.VARCHAR },
+			{ "date_", Types.TIMESTAMP },
 			{ "imageUrl", Types.VARCHAR },
 			{ "categoryCode", Types.VARCHAR }
 		};
@@ -71,15 +73,15 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 	static {
 		TABLE_COLUMNS_MAP.put("number_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("date_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("categoryCode", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table objtp_FoundObject (number_ VARCHAR(75) not null primary key,date_ VARCHAR(75) null,imageUrl VARCHAR(75) null,categoryCode VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table objtp_FoundObject (number_ VARCHAR(75) not null primary key,date_ DATE null,imageUrl VARCHAR(75) null,categoryCode VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table objtp_FoundObject";
-	public static final String ORDER_BY_JPQL = " ORDER BY foundObject.number ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY objtp_FoundObject.number_ ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY foundObject.date ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY objtp_FoundObject.date_ ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -93,7 +95,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.objtp.model.FoundObject"),
 			true);
 	public static final long CATEGORYCODE_COLUMN_BITMASK = 1L;
-	public static final long NUMBER_COLUMN_BITMASK = 2L;
+	public static final long DATE_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -195,7 +197,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 			setNumber(number);
 		}
 
-		String date = (String)attributes.get("date");
+		Date date = (Date)attributes.get("date");
 
 		if (date != null) {
 			setDate(date);
@@ -232,17 +234,14 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 	@JSON
 	@Override
-	public String getDate() {
-		if (_date == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _date;
-		}
+	public Date getDate() {
+		return _date;
 	}
 
 	@Override
-	public void setDate(String date) {
+	public void setDate(Date date) {
+		_columnBitmask = -1L;
+
 		_date = date;
 	}
 
@@ -318,9 +317,15 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 
 	@Override
 	public int compareTo(FoundObject foundObject) {
-		String primaryKey = foundObject.getPrimaryKey();
+		int value = 0;
 
-		return getPrimaryKey().compareTo(primaryKey);
+		value = DateUtil.compareTo(getDate(), foundObject.getDate());
+
+		if (value != 0) {
+			return value;
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -381,12 +386,13 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 			foundObjectCacheModel.number = null;
 		}
 
-		foundObjectCacheModel.date = getDate();
+		Date date = getDate();
 
-		String date = foundObjectCacheModel.date;
-
-		if ((date != null) && (date.length() == 0)) {
-			foundObjectCacheModel.date = null;
+		if (date != null) {
+			foundObjectCacheModel.date = date.getTime();
+		}
+		else {
+			foundObjectCacheModel.date = Long.MIN_VALUE;
 		}
 
 		foundObjectCacheModel.imageUrl = getImageUrl();
@@ -460,7 +466,7 @@ public class FoundObjectModelImpl extends BaseModelImpl<FoundObject>
 			FoundObject.class
 		};
 	private String _number;
-	private String _date;
+	private Date _date;
 	private String _imageUrl;
 	private String _categoryCode;
 	private String _originalCategoryCode;

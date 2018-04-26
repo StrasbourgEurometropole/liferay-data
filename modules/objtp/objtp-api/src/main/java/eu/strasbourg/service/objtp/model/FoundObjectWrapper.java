@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -73,7 +74,7 @@ public class FoundObjectWrapper implements FoundObject,
 			setNumber(number);
 		}
 
-		String date = (String)attributes.get("date");
+		Date date = (Date)attributes.get("date");
 
 		if (date != null) {
 			setDate(date);
@@ -159,16 +160,6 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	/**
-	* Returns the date of this found object.
-	*
-	* @return the date of this found object
-	*/
-	@Override
-	public java.lang.String getDate() {
-		return _foundObject.getDate();
-	}
-
-	/**
 	* Returns the image url of this found object.
 	*
 	* @return the image url of this found object
@@ -208,6 +199,16 @@ public class FoundObjectWrapper implements FoundObject,
 		return _foundObject.toXmlString();
 	}
 
+	/**
+	* Returns the date of this found object.
+	*
+	* @return the date of this found object
+	*/
+	@Override
+	public Date getDate() {
+		return _foundObject.getDate();
+	}
+
 	@Override
 	public void persist() {
 		_foundObject.persist();
@@ -234,7 +235,7 @@ public class FoundObjectWrapper implements FoundObject,
 	* @param date the date of this found object
 	*/
 	@Override
-	public void setDate(java.lang.String date) {
+	public void setDate(Date date) {
 		_foundObject.setDate(date);
 	}
 

@@ -9,15 +9,26 @@
 	<entity local-service="true"  cache-enabled="true" name="ObjectCategory" remote-service="true" uuid="false" >
 		<column name="code" primary="true" type="String" />
 		<column name="name" type="String" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="name" />
+		</order>
+		
 	</entity>
 	
 	<!-- Objet -->
 	<entity local-service="true"  cache-enabled="true" name="FoundObject" remote-service="true" uuid="false" >
 		<column name="number" primary="true" type="String" />
-		<column name="date" type="String" />
+		<column name="date" type="Date" />
 		<column name="imageUrl" type="String" />
 		<column name="categoryCode" type="String" />
 		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="date" />
+		</order>
+
 		<!-- Finder methods -->
 		<finder name="CategoryCode" return-type="Collection">
 			<finder-column name="categoryCode" />

@@ -74,8 +74,8 @@ public class ObjectCategoryModelImpl extends BaseModelImpl<ObjectCategory>
 
 	public static final String TABLE_SQL_CREATE = "create table objtp_ObjectCategory (code_ VARCHAR(75) not null primary key,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table objtp_ObjectCategory";
-	public static final String ORDER_BY_JPQL = " ORDER BY objectCategory.code ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY objtp_ObjectCategory.code_ ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY objectCategory.name ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY objtp_ObjectCategory.name ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -246,9 +246,15 @@ public class ObjectCategoryModelImpl extends BaseModelImpl<ObjectCategory>
 
 	@Override
 	public int compareTo(ObjectCategory objectCategory) {
-		String primaryKey = objectCategory.getPrimaryKey();
+		int value = 0;
 
-		return getPrimaryKey().compareTo(primaryKey);
+		value = getName().compareTo(objectCategory.getName());
+
+		if (value != 0) {
+			return value;
+		}
+
+		return 0;
 	}
 
 	@Override

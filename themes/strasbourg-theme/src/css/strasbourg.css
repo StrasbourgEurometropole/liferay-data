@@ -1495,6 +1495,629 @@ a {
 .select2-container--classic.select2-container--open .select2-dropdown {
   border-color: #5897fb; }
 
+/* Magnific Popup CSS */
+/* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-bg {
+  background: #0B0B0B;
+  filter: alpha(opacity=80);
+  height: 100%;
+  left: 0;
+  opacity: 0.8;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1042; }
+
+/* line 16, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-wrap {
+  height: 100%;
+  left: 0;
+  outline: none !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1043;
+  -webkit-backface-visibility: hidden; }
+
+/* line 27, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-container {
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  padding: 0 8px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+/* line 40, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle; }
+
+/* line 47, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-align-top .mfp-container:before {
+  display: none; }
+
+/* line 51, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-content {
+  display: inline-block;
+  margin: 0 auto;
+  position: relative;
+  text-align: left;
+  vertical-align: middle;
+  z-index: 1045; }
+
+/* line 60, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-inline-holder .mfp-content, .mfp-ajax-holder .mfp-content {
+  cursor: auto;
+  width: 100%; }
+
+/* line 65, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ajax-cur {
+  cursor: progress; }
+
+/* line 69, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-zoom-out-cur, .mfp-zoom-out-cur .mfp-image-holder .mfp-close {
+  cursor: zoom-out; }
+
+/* line 73, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-zoom {
+  cursor: zoom-in; }
+
+/* line 77, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-auto-cursor .mfp-content {
+  cursor: auto; }
+
+/* line 81, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-close, .mfp-arrow, .mfp-preloader, .mfp-counter {
+  -ms-user-select: none;
+      user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none; }
+
+/* line 87, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-loading.mfp-figure {
+  display: none; }
+
+/* line 91, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-hide {
+  display: none !important; }
+
+/* line 95, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-preloader {
+  color: #CCC;
+  left: 8px;
+  margin-top: -0.8em;
+  position: absolute;
+  right: 8px;
+  text-align: center;
+  top: 50%;
+  width: auto;
+  z-index: 1044; }
+
+/* line 107, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-preloader a {
+  color: #CCC; }
+
+/* line 111, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-preloader a:hover {
+  color: white; }
+
+/* line 115, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-s-ready .mfp-preloader {
+  display: none; }
+
+/* line 119, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-s-error .mfp-content {
+  display: none; }
+
+/* line 123, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+button.mfp-close, button.mfp-arrow {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  overflow: visible;
+  padding: 0;
+  z-index: 1046;
+  -webkit-appearance: none;
+  -webkit-box-shadow: none; }
+
+/* line 137, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+/* line 142, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-close {
+  color: white;
+  filter: alpha(opacity=65);
+  font-family: Arial,Baskerville,monospace;
+  font-size: 28px;
+  font-style: normal;
+  height: 44px;
+  line-height: 44px;
+  opacity: 0.65;
+  padding: 0 0 18px 10px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  text-decoration: none;
+  top: 0;
+  width: 44px; }
+
+/* line 160, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-close:hover, .mfp-close:focus {
+  filter: alpha(opacity=100);
+  opacity: 1; }
+
+/* line 165, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-close:active {
+  top: 1px; }
+
+/* line 169, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-close-btn-in .mfp-close {
+  color: #ad3939; }
+
+/* line 173, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-image-holder .mfp-close, .mfp-iframe-holder .mfp-close {
+  color: white;
+  padding-right: 6px;
+  right: -6px;
+  text-align: right;
+  width: 100%; }
+
+/* line 181, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-counter {
+  font-size: 12px;
+  line-height: 18px;
+  right: 0;
+  top: 0; }
+
+/* line 188, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow {
+  filter: alpha(opacity=65);
+  height: 110px;
+  margin: 0;
+  margin-top: -55px;
+  opacity: 0.65;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  width: 90px;
+  -webkit-tap-highlight-color: transparent; }
+
+/* line 201, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow:active {
+  margin-top: -54px; }
+
+/* line 205, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow:hover, .mfp-arrow:focus {
+  filter: alpha(opacity=100);
+  opacity: 1; }
+
+/* line 210, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow:before, .mfp-arrow:after, .mfp-arrow .mfp-b, .mfp-arrow .mfp-a {
+  border: medium inset transparent;
+  content: '';
+  display: block;
+  height: 0;
+  left: 0;
+  margin-left: 35px;
+  margin-top: 35px;
+  position: absolute;
+  top: 0;
+  width: 0; }
+
+/* line 223, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow:after, .mfp-arrow .mfp-a {
+  border-bottom-width: 13px;
+  border-top-width: 13px;
+  top: 8px; }
+
+/* line 229, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow:before, .mfp-arrow .mfp-b {
+  border-bottom-width: 21px;
+  border-top-width: 21px;
+  opacity: 0.7; }
+
+/* line 235, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-left {
+  left: 0; }
+
+/* line 239, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-left:after, .mfp-arrow-left .mfp-a {
+  border-right: 17px solid white;
+  margin-left: 31px; }
+
+/* line 244, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-left:before, .mfp-arrow-left .mfp-b {
+  border-right: 27px solid #3F3F3F;
+  margin-left: 25px; }
+
+/* line 249, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-right {
+  right: 0; }
+
+/* line 253, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-right:after, .mfp-arrow-right .mfp-a {
+  border-left: 17px solid white;
+  margin-left: 39px; }
+
+/* line 258, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-arrow-right:before, .mfp-arrow-right .mfp-b {
+  border-left: 27px solid #3F3F3F; }
+
+/* line 262, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-iframe-holder {
+  padding-bottom: 40px;
+  padding-top: 40px; }
+
+/* line 267, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-iframe-holder .mfp-content {
+  line-height: 0;
+  max-width: 900px;
+  width: 100%; }
+
+/* line 273, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-iframe-holder .mfp-close {
+  top: -40px; }
+
+/* line 277, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-iframe-scaler {
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%;
+  width: 100%; }
+
+/* line 284, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-iframe-scaler iframe {
+  background: black;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%; }
+
+/* Main image in popup */
+/* line 297, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+img.mfp-img {
+  box-sizing: border-box;
+  display: block;
+  line-height: 0;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 40px 0 40px;
+  width: auto;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+/* The shadow behind the image */
+/* line 312, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-figure {
+  line-height: 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #FFFFFF; }
+
+/* line 319, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-figure:after {
+  background: #444;
+  bottom: 40px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  content: '';
+  display: block;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: auto;
+  z-index: -1; }
+
+/* line 334, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-figure small {
+  color: #BDBDBD;
+  display: block;
+  font-size: 12px;
+  line-height: 14px; }
+
+/* line 341, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-figure figure {
+  margin: 0; }
+
+/* line 345, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-bottom-bar {
+  cursor: auto;
+  left: 0;
+  /*margin-top: -36px;*/
+  top: 100%;
+  width: 100%;
+  font-size: 1.2em; }
+
+/* line 354, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-title {
+  color: #31455d;
+  line-height: 18px;
+  padding-right: 36px;
+  text-align: left;
+  word-wrap: break-word;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 10px; }
+
+/* line 365, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-image-holder .mfp-content {
+  max-width: 100%; }
+
+/* line 369, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-gallery .mfp-image-holder .mfp-figure {
+  cursor: pointer; }
+
+/* line 373, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ie7 .mfp-img {
+  padding: 0; }
+
+/* line 377, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ie7 .mfp-bottom-bar {
+  left: 50%;
+  margin-left: -300px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  width: 600px; }
+
+/* line 385, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ie7 .mfp-container {
+  padding: 0; }
+
+/* line 389, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ie7 .mfp-content {
+  padding-top: 44px; }
+
+/* line 393, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+.mfp-ie7 .mfp-close {
+  padding-top: 0;
+  right: 0;
+  top: 0; }
+
+@media screen and (max-width: 800px) and (orientation: landscape), screen and (max-height: 300px) {
+  /**   * Remove all paddings around the image on small screen   */
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-image-holder {
+    padding-left: 0;
+    padding-right: 0; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile img.mfp-img {
+    padding: 0; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-figure:after {
+    top: 0;
+    bottom: 0; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-figure small {
+    display: inline;
+    margin-left: 5px; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-bottom-bar {
+    background: rgba(0, 0, 0, 0.6);
+    bottom: 0;
+    margin: 0;
+    top: auto;
+    padding: 3px 5px;
+    position: fixed;
+    box-sizing: border-box; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-bottom-bar:empty {
+    padding: 0; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-counter {
+    right: 5px;
+    top: 3px; }
+  /* line 399, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-img-mobile .mfp-close {
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    text-align: center;
+    padding: 0; } }
+
+@media all and (max-width: 900px) {
+  /* line 401, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-arrow {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75); }
+  /* line 402, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-arrow-left {
+    -webkit-transform-origin: 0;
+    transform-origin: 0; }
+  /* line 403, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-arrow-right {
+    -webkit-transform-origin: 100%;
+    transform-origin: 100%; }
+  /* line 404, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox.scss */
+  .mfp-container {
+    padding-left: 6px;
+    padding-right: 6px; } }
+
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-content {
+  background: #FFF;
+  padding: 20px 15px;
+  text-align: left;
+  max-width: 650px;
+  /* TODO */
+  margin: 40px auto;
+  position: relative;
+  width: auto !important; }
+
+/* Max width for images forced to "important" */
+/* line 12, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-content img {
+  max-width: 100% !important;
+  height: auto !important; }
+
+/* padding-bottom and top for image */
+/* line 18, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-no-margins img.mfp-img {
+  padding: 0;
+  border-radius: 5px; }
+
+/* No margin for "no margins" class */
+/* line 24, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-no-margins .mfp-content {
+  padding: 0 !important; }
+
+/* position of shadow behind the image */
+/* line 28, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-no-margins .mfp-figure:after {
+  top: 0;
+  bottom: 0; }
+
+/* padding for main container */
+/* line 33, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-no-margins .mfp-container {
+  padding: 0; }
+
+/* Line height pour les sous titres dans les lightbox */
+/* line 38, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-content h2 {
+  line-height: 1.2em; }
+
+/* 
+
+for zoom animation 
+uncomment this part if you haven't added this code anywhere else
+
+*/
+/* line 49, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+  opacity: 0;
+  -webkit-backface-visibility: hidden;
+  transition: all 0.3s ease-out; }
+
+/* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-with-zoom.mfp-ready .mfp-container {
+  opacity: 1; }
+
+/* line 62, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-with-zoom.mfp-ready.mfp-bg {
+  opacity: 0.8; }
+
+/* line 66, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-with-zoom.mfp-removing .mfp-container,
+.mfp-with-zoom.mfp-removing.mfp-bg {
+  opacity: 0; }
+
+/* line 71, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-image .mfp-content {
+  padding: 0;
+  background: transparent; }
+
+/* Style pour affichage popup ajax et inline avec bordure */
+/* line 77, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-ajax-holder .mfp-content, .mfp-inline-holder .mfp-content {
+  box-sizing: border-box;
+  border: 10px solid #7d7d7b; }
+
+/* line 83, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-inline-holder .mfp-content {
+  padding: 0; }
+
+/* line 87, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-ajax-holder .mfp-content h1 {
+  font-size: 1.6em; }
+
+/* Modification apparence bouton fermeture pour popup "comment commander" de la boutique */
+/* line 92, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-inline-holder #how-to-order .mfp-close {
+  color: #FFF;
+  text-shadow: none;
+  font-weight: 100; }
+
+/* Modification placement bouton fermeture pour popup image */
+/* line 99, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-figure .mfp-close {
+  margin-top: -35px;
+  text-shadow: none;
+  moz-text-shadow: none;
+  webkit-text-shadow: none;
+  o-text-shadow: none;
+  font-weight: 100; }
+
+/* Bouton fermeture : pas d'ombre */
+/* line 109, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.mfp-close {
+  text-shadow: none;
+  font-weight: 100; }
+
+/* Gallerie images */
+/* line 115, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.imageLightboxGallery {
+  margin: 0 !important; }
+
+/* line 119, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.imageLightboxGallery img {
+  max-width: none !important; }
+
+/* line 123, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.imageLightboxGallery .image-informations {
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: table;
+  width: 1px; }
+
+/* line 130, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.imageLightboxGallery .image-informations h2.gallery-title {
+  padding-top: 35px;
+  padding-bottom: 10px; }
+
+/* line 136, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.image-gallery-lightbox .mfp-content {
+  max-width: none; }
+
+/* line 140, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+.image-gallery-main {
+  display: none; }
+
+@media screen and (max-width: 900px) {
+  /* On colle les flèches de navigation à gauche et à droite de l'écran */
+  /* line 146, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  .mfp-arrow-left {
+    left: 0; }
+  /* line 150, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  .mfp-arrow-right {
+    right: 0; }
+  /* line 154, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  .mfp-arrow {
+    top: 180px; } }
+
+@media screen and (max-width: 640px) {
+  /* line 160, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  h2.gallery-title {
+    line-height: 1.2em; }
+  /* Width for images forced to "100%" */
+  /* line 165, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  .mfp-content img {
+    width: 100% !important; }
+  /* line 169, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/01-libs/lightbox/_lightbox-custom.scss */
+  .imageLightboxGallery .image-informations {
+    width: auto; } }
+
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/01-shared/_quark-containers.scss */
 .seu-not-front .seu h1, .seu-not-front .rte .image-full.type-image figure figcaption, .seu-not-front .hat .container, .seu header .seu-scrolled-search-engine .seu-search, .seu .seu-container, .seu-not-front .seu .region-post-header .region-nav-tools {
   width: 1200px;
@@ -3853,26 +4476,22 @@ a {
   .seu-not-front .rte ol:not(.unstyled) li {
     margin-bottom: 0;
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start; }
-    /* line 48, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+    /* line 47, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
     .seu-not-front .rte ol:not(.unstyled) li:before {
       counter-increment: item;
       content: counters(item, ".") ". ";
       color: #31455d;
-      display: block;
       top: 0px;
       margin-right: 5px;
       margin-top: 1px; }
-  /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+  /* line 57, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
   .seu-not-front .rte ol:not(.unstyled) ol {
     padding-left: 45px; }
     @media only screen and (max-width: 767px) {
-      /* line 59, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
+      /* line 57, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/rte/_atom-rte-lists.scss */
       .seu-not-front .rte ol:not(.unstyled) ol {
         padding-left: 40px; } }
 
@@ -4111,6 +4730,108 @@ a {
     /* line 219, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-agenda/_atom-wi-agenda-vignette.scss */
     .seu-wi-agenda .seu-wi-item .seu-add-favorites:hover, .seu-agenda-slider-container .seu-agenda-slider-item .seu-add-favorites:hover, .seu-wi-agenda .seu-wi-item .seu-add-favorites:focus, .seu-agenda-slider-container .seu-agenda-slider-item .seu-add-favorites:focus {
       text-decoration: none; }
+
+/* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_atom-objtp-detail-vignette.scss */
+#objtp-detail-container .objtp-detail-item .objtp-picture {
+  width: 100%;
+  height: 75%;
+  position: relative;
+  border-bottom-width: 100%;
+  border-bottom-color: #31455d;
+  border-bottom: 1px; }
+
+/* line 13, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_atom-objtp-detail-vignette.scss */
+#objtp-detail-container .objtp-detail-item .objtp-info {
+  color: #31455d;
+  margin-top: 10px;
+  margin-left: 20px;
+  font-family: "OpenSans", arial;
+  font-weight: 600;
+  font-size: 2.0rem;
+  line-height: 1.8; }
+
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+#objtp-grid-carrefour .objtp-grid-item {
+  display: block; }
+  /* line 4, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: calc(73% + 1px);
+    display: block;
+    overflow: hidden; }
+    @media only screen and (max-width: 767px) {
+      /* line 4, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+      #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu {
+        padding-bottom: 65%; } }
+    /* line 13, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu:after {
+      background: linear-gradient(to bottom, transparent 0%, transparent 31%, rgba(0, 0, 0, 0.04) 37%, rgba(0, 0, 0, 0.24) 57%, rgba(0, 0, 0, 0.59) 85%, rgba(0, 0, 0, 0.7) 100%);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; }
+    /* line 21, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu:hover .objtp-grid-item-background, #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu:focus .objtp-grid-item-background {
+      -webkit-transform: scale(1.2);
+              transform: scale(1.2); }
+    /* line 24, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu:hover .objtp-grid-item-title, #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-visu:focus .objtp-grid-item-title {
+      -webkit-transform: translateY(-30px);
+              transform: translateY(-30px); }
+  /* line 29, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #31455d;
+    transition: all, 0.5s;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  /* line 40, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-title {
+    transition: all, 0.5s;
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: calc(100% - 60px);
+    font-family: "MontSerrat", arial;
+    font-weight: bold;
+    font-size: 1.7rem;
+    line-height: 2;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    z-index: 2; }
+    @media only screen and (max-width: 767px) {
+      /* line 40, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+      #objtp-grid-carrefour .objtp-grid-item .objtp-grid-item-title {
+        line-height: 1.4; } }
+  /* line 60, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-title {
+    padding-bottom: 40px;
+    border-bottom: solid 1px #FFFFFF; }
+    /* line 63, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+    #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-title:after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-size: 20px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
+      position: absolute;
+      right: 0px;
+      bottom: 15px; }
+  /* line 77, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_atom-objtp-vignette.scss */
+  #objtp-grid-carrefour .objtp-page.objtp-grid-item .objtp-grid-item-background {
+    background-color: #31455d; }
 
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/divers/cookies/_molecule-cookies.scss */
 #cookies {
@@ -6337,6 +7058,36 @@ a {
         .seu-wi-agenda .seu-btn-line a + a, .seu-wi-boutique .seu-btn-line a + a, .seu-wi-chiffres .seu-btn-line a + a, .seu-wi-duo .seu-wi .seu-btn-line a + a, .seu-wi-duo section.portlet .seu-btn-line a + a, .seu-wi-infos .seu-btn-line a + a, .seu-wi-quote .seu-btn-line a + a, .seu-wi-trombinoscope .seu-btn-line a + a {
           margin-top: 20px;
           margin-left: 0; } }
+
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+#objtp-detail-container {
+  margin-bottom: 40px; }
+  /* line 6, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+  #objtp-detail-container .objtp-detail-item {
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    height: 355px;
+    content: '';
+    display: block;
+    transition: opacity 1s;
+    position: relative;
+    overflow: hidden; }
+    @media only screen and (min-width: 1280px) {
+      /* line 6, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+      #objtp-detail-container .objtp-detail-item {
+        width: calc(33% - 10px); } }
+    @media only screen and (min-width: 767px) and (max-width: 1279px) {
+      /* line 6, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+      #objtp-detail-container .objtp-detail-item {
+        width: calc(50% - 10px); } }
+    @media only screen and (max-width: 767px) {
+      /* line 6, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+      #objtp-detail-container .objtp-detail-item {
+        width: 100%; } }
+    @media only screen and (max-width: 767px) {
+      /* line 6, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-detail.scss */
+      #objtp-detail-container .objtp-detail-item {
+        height: 355px; } }
 
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-slideNpop/_molecule-slider--pop.scss */
 .seu-wi-slideNpop .pop {
@@ -9601,6 +10352,25 @@ a {
       height: 100%;
       width: 100%; }
 
+/* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_organism-objtp-rubric.scss */
+#objtp-grid-carrefour {
+  margin-bottom: 40px; }
+  /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_organism-objtp-rubric.scss */
+  #objtp-grid-carrefour .objtp-grid-item {
+    margin-bottom: 20px; }
+    @media only screen and (min-width: 1280px) {
+      /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_organism-objtp-rubric.scss */
+      #objtp-grid-carrefour .objtp-grid-item {
+        width: calc(33% - 10px); } }
+    @media only screen and (min-width: 767px) and (max-width: 1279px) {
+      /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_organism-objtp-rubric.scss */
+      #objtp-grid-carrefour .objtp-grid-item {
+        width: calc(50% - 10px); } }
+    @media only screen and (max-width: 767px) {
+      /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/rubric/_organism-objtp-rubric.scss */
+      #objtp-grid-carrefour .objtp-grid-item {
+        width: 100%; } }
+
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-quote/_organism-wi-quote.scss */
 .seu-wi-quote {
   margin-left: calc(50% - 50vw);
@@ -11013,7 +11783,17 @@ form + .seu-error-messages {
       /* line 22, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
       #favConfirm .favMessage {
         margin-bottom: 2em; } }
-  /* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
+    /* line 33, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
+    #favConfirm .favMessage h1 {
+      text-align: center;
+      font-size: 5.0rem;
+      font-weight: 700;
+      line-height: 1.2; }
+      @media only screen and (max-width: 767px) {
+        /* line 33, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
+        #favConfirm .favMessage h1 {
+          font-size: 2.5rem; } }
+  /* line 44, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
   #favConfirm .favActions {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -11022,13 +11802,13 @@ form + .seu-error-messages {
         -ms-flex-pack: justify;
             justify-content: space-between; }
     @media only screen and (max-width: 767px) {
-      /* line 34, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
+      /* line 44, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
       #favConfirm .favActions {
         -webkit-box-orient: vertical;
         -webkit-box-direction: reverse;
             -ms-flex-direction: column-reverse;
                 flex-direction: column-reverse; }
-        /* line 41, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
+        /* line 51, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/favConfirm/favConfirm.scss */
         #favConfirm .favActions button + button {
           margin-top: 20px; } }
 

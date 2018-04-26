@@ -101,7 +101,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCategoryCode",
 			new String[] { String.class.getName() },
-			FoundObjectModelImpl.CATEGORYCODE_COLUMN_BITMASK);
+			FoundObjectModelImpl.CATEGORYCODE_COLUMN_BITMASK |
+			FoundObjectModelImpl.DATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_CATEGORYCODE = new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCategoryCode",
