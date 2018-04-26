@@ -121,7 +121,8 @@
 						<li> <a href="pied-de-page/contact" title="Contact">Contact</a></li> 
 						<li> <a href="mentions-legales" title="Mentions légales">Mentions légales</a></li> 
 					</ul> 
-					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © 2015</p> 
+					
+					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © ${.now?string.yyyy}</p> 
 				</div> 
 				<div class="f-right"> 
 					<div class="social-network"> 
