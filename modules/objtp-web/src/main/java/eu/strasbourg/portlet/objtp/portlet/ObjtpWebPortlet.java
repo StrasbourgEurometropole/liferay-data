@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.objtp.configuration.ObjtpConfiguration;
 import eu.strasbourg.portlet.objtp.portlet.context.ObjtpDisplayContext;
-import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -38,7 +37,6 @@ public class ObjtpWebPortlet extends MVCPortlet {
 		
 		try {
 
-			FoundObjectLocalServiceUtil.doImport();
 			
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 					.getAttribute(WebKeys.THEME_DISPLAY);

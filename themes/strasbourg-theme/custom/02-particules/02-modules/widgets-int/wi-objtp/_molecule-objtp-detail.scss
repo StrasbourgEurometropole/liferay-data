@@ -1,15 +1,15 @@
 #objtp-detail-container{
 
     margin-bottom: 40px;
-        
+   
     // Taille et design des slides
     .objtp-detail-item{
 
         @include RWD(desktop){            
-            width: calc(33% - 10px);
+            width: 24.25%;
         }
         @include RWD(tablet_only){
-            width: calc(50% - 10px);
+            width: 49.5%;
         }
         @include RWD(mobile){
             width: 100%;
@@ -28,4 +28,7 @@
             height: 355px;
         }
     }
+    .gutter-sizer {     
+        width: 1%;
+    }   
 }

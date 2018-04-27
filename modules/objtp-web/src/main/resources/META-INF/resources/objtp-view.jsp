@@ -6,7 +6,7 @@
 <main class="seu-container">
     <h1>${title}</h1>
     
-    <!-- Nombre de résultats et items par page -->
+    <!-- Nombre de rÃ©sultats et items par page -->
     <div class="seu-view-agenda" style="border-top: solid 2px #f6f6f6;">
 		<div class="seu-view-results">
 		    <div class="seu-result-count"> 
@@ -26,7 +26,7 @@
 		    <div class="seu-result-filter">
 		        <span><liferay-ui:message key="results-per-page" /></span>
 		        <select name="filter" id="" class="toCustomSelect silencedSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		            <c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+		            <c:forEach var="delta" items="${[10, 20, 50, 100]}">
 		            	<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
 		            	<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
 		            </c:forEach>
@@ -36,20 +36,23 @@
 	</div>
     
     <aui:form method="post" name="fm">
-		<!-- Résultats -->
+		<!-- RÃ©sultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
 		<div class="objtp-gallery">
 		    <div id="objtp-detail-container"style="position: relative">
+		    <div class="gutter-sizer"></div>
 		    	<c:forEach items="${dc.paginatedResults}" var="object"> 
 		    		<c:if test="${not empty object.imageUrl}">
 		    		<fmt:formatDate value="${object.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-			    		<c:set var="legend" value="${title} ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>
+			    		<c:set var="legend" value="${title} : ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>		    		
 				        <div class="objtp-detail-item">
-				        	<a href="${object.imageUrl}" title="${legend}">
-				            	<img class="objtp-picture" src="${object.imageUrl}" title="${legend}"></img>
-				            </a>
+				        	<div class="objtp-image-container">
+					        	<a href="${object.imageUrl}" title="${legend}">
+					            	<img class="objtp-picture" src="${object.imageUrl}" title="${legend}"></img>
+					            </a>
+				            </div>
 				            <div class="objtp-info">
 				            	<p>${numeroLabel} ${object.number}</p>
 				            	<p>${dateLabel} ${formattedDate}</p>
@@ -64,7 +67,7 @@
 			<c:if test="${dc.pager.lastPage > 1}">
 	            <ul class="seu-pagination unstyled">
 
-	            	<!-- Page prÃ©cÃ©dente -->
+	            	<!-- Page prÃÂ©cÃÂ©dente -->
 	                <li class="seu-pagin-prev seu-pagin-item">
 						<c:if test="${not dc.pager.onFirstPage}">
 		                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"

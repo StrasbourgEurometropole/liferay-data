@@ -125,7 +125,7 @@ public class ObjtpDisplayContext {
 		if (deltaFromParam > 0) {
 			return deltaFromParam;
 		}
-		return 5;
+		return 20;
 	}
 
 	/**
