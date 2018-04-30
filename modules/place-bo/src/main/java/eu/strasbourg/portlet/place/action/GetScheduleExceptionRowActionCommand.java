@@ -36,4 +36,5 @@ public class GetScheduleExceptionRowActionCommand implements MVCActionCommand {
 		request.setAttribute("fromAjax", true);
 		return true;
 	}
+	
 }

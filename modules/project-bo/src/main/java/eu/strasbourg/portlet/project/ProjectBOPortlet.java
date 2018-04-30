@@ -66,6 +66,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		}
 		
+		// Admin ou pas
+		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
+		
 		super.render(renderRequest, renderResponse);
 	}
 

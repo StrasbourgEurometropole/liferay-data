@@ -71,6 +71,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					PortletRequest.RENDER_PHASE);
 
 				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("cmd","editProject");
 				response.setRenderParameter("mvcPath","/project-bo-edit-project.jsp");
 				return false;
 			}
@@ -83,6 +84,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			} else {
 				project = _projectLocalService.getProject(projectId);
 			}
+			
+			// ---------------------------------------------------------------
+			// -------------------------- GENERALITES ------------------------
+			// ---------------------------------------------------------------
 
 			// Titre
 			String title = ParamUtil.getString(request, "title");
@@ -109,6 +114,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 				project.setExternalImageCopyright(externalImageCopyright);
 			}
 			
+			// ---------------------------------------------------------------
+			// -------------------------- EN BREF ----------------------------
+			// ---------------------------------------------------------------
+			
 			// Budget
 			String budget = ParamUtil.getString(request, "budget");
 			project.setBudget(budget);
@@ -124,6 +133,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			// Partenaires
 			String partners = ParamUtil.getString(request, "partners");
 			project.setPartners(partners);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- CONTACT ----------------------------
+			// ---------------------------------------------------------------
 			
 			// Contact : nom
 			String contactName = ParamUtil.getString(request, "contactName");
@@ -141,10 +154,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
 			project.setContactPhoneNumber(contactPhoneNumber);
 			
-
-			/**
-			 * Entrée(s) de timeline du projet
-			 */
+			// ---------------------------------------------------------------
+			// -------------------------- TIMELINE ---------------------------
+			// ---------------------------------------------------------------
+			
 			// Suppression des anciennes entrées de timeline
 			List<ProjectTimeline> oldTimelines = project.getProjectTimelines();
 			for (ProjectTimeline projectTimeline : oldTimelines) {
@@ -152,9 +165,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 			// Ajout des nouvelles
 			String timelineIndexesString = ParamUtil.getString(request,
-				"timelineIndexes");
+				"projectTimelineIndexes");
 			for (String timelineIndex : timelineIndexesString.split(",")) {
-				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				if (Validator.isNotNull(timelineIndex)
 					&& Validator.isNotNull(
 						ParamUtil.getString(request, "date" + timelineIndex))) {
@@ -169,7 +182,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					
 					// Titre
 					String timelineTitle = ParamUtil.getString(request,
-							"timelineTitle" + timelineIndex);
+							"title" + timelineIndex);
 
 					ProjectTimeline projectTimeline = _projectTimelineLocalService
 						.createProjectTimeline();
@@ -218,7 +231,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		}
 		
 		// TODO : vérifier la raison de la mauvaise redirection lors d'un controle 
-		// du coptyright
+		// du copyright
 		/**
 		// Copyright de l'image
 		String imageCopyright = ParamUtil.getString(request,

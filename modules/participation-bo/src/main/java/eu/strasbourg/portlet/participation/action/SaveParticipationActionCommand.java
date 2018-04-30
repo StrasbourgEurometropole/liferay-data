@@ -80,6 +80,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 				// Si elle existe (edit), on la cherche
 				participation = _participationLocalService.getParticipation(participationId);
 			}
+			
+			// ---------------------------------------------------------------
+			// -------------------------- GENERALITES ------------------------
+			// ---------------------------------------------------------------
 
 			// Titre
 			String title = ParamUtil.getString(request, "title");
@@ -88,6 +92,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Auteur
 			String author = ParamUtil.getString(request, "author");
 			participation.setAuthor(author);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- CONTACT ----------------------------
+			// ---------------------------------------------------------------
 			
 			// Contact : nom
 			String contactName = ParamUtil.getString(request, "contactName");
@@ -104,6 +112,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Contact : numéro de téléphone
 			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
 			participation.setContactPhoneNumber(contactPhoneNumber);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- AUTRES -----------------------------
+			// ---------------------------------------------------------------
 			
 			// Défini le format de date à utiliser pour les champs temporels 
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

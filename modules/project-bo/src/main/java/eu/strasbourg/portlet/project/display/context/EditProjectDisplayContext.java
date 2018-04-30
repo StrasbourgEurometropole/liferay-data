@@ -41,7 +41,7 @@ public class EditProjectDisplayContext {
 		return _project;
 	}
 		
-	public String getDefaultTimelineIndexes() {
+	public String getDefaultIndexes() {
 		if (this.getProject() != null) {
     		List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
     		String indexes = "0";
