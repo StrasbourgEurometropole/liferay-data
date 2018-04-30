@@ -282,7 +282,7 @@
                                             </#if>
                                         </#list>
                                         <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}" class="seu-btn-square--filled--second">
-                                            <span class="seu-btn-text">Voir tous les horaires des ${category.getTitle(locale)?lower_case}</span>
+                                            <span class="seu-btn-text"><@liferay_ui.message key="eu.see-all-schedule-of" /> ${category.getTitle(locale)?lower_case}</span>
                                         </a>
                                     </p>
                                 </#if>
