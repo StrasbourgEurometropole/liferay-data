@@ -1,0 +1,15 @@
+dependencies {
+	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
+	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
+	compile group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
+	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0" 
+	compile group: "com.liferay", name: "org.freemarker", version: "2.3.23.LIFERAY-PATCHED-2"
+	compile project(":modules:objtp:objtp-api")
+	compile project (':modules:utils')
+}
+
+buildService {
+	apiDir = "../objtp-api/src/main/java"
+}
+
+group = "eu.strasbourg.service.objtp"
