@@ -76,4 +76,7 @@ public class StrasbourgPortletKeys {
 	public static final String INTEREST_VIEWER_WEB = "eu_strasbourg_portlet_interest_viewer_InterestViewerWebPortlet";
 
 	public static final String OBJTP_WEB = "eu_strasbourg_portlet_objtp_web_ObjtpWebPortlet";
+
+	public static final String MY_DISTRICT_WEB = "eu_strasbourg_portlet_my_district_MyDistrictWebPortlet";
+
 }

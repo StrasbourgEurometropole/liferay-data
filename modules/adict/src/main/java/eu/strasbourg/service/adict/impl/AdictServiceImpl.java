@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -16,8 +19,10 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.SectorType;
 import eu.strasbourg.service.adict.Street;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * @author Benjamin Bini
@@ -139,6 +144,31 @@ public class AdictServiceImpl implements AdictService {
 		}
 
 		return sigIds;
+	}
+
+	/**
+	 * Retourne la catégorie du quartier de l'utilisateur
+	 */
+	@Override
+	public AssetCategory getDistrictByAddressAndSector(String address, String sectorType) {
+		AssetCategory district = null;
+		try {
+			JSONArray coordinates = getCoordinateForAddress(address);
+			List<String> sigIds = getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(), coordinates.get(1).toString(), sectorType);
+			if (!sigIds.isEmpty()) {
+				AssetVocabulary territoryVocabulary;
+				try {
+					territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+					district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, sigIds.get(0));
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return district;
 	}
 
 	/**

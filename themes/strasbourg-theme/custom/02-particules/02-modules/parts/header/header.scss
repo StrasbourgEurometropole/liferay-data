@@ -1,3 +1,15 @@
 .seu header{
     @extend %organism-header;
 }
+
+.mac .seu header {
+    @media only screen and (min-width: $break-large + "px" and max-width: $break-large + 15 + "px") {
+		.seu-nav-top .seu-menu-triggerBox{
+        	display: none;
+		}
+
+		.seu-nav-bottom {
+		    display: block;
+    	}
+    }
+}

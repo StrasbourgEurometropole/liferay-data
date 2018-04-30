@@ -30,16 +30,21 @@
                 }
                 .page{
                     width: 100%;
+                    &.big{
+                        @include RWD(desktop){
+                            @include grid-distribution(4, 20, 'item');
+                        }
+                    }     
                     &:not(.big){
                         @include RWD(desktop){
                             @include grid-distribution(3, 20, 'item');
-                        }                    
-                        @include RWD(tablet){
-                            @include grid-distribution(2, 20, 'item');
                         }
-                        @include RWD(mobile){
-                            @include grid-distribution(1, 0, 'item');
-                        }
+                    }                  
+                    @include RWD(tablet){
+                        @include grid-distribution(2, 20, 'item');
+                    }
+                    @include RWD(mobile){
+                        @include grid-distribution(1, 0, 'item');
                     }
                     // Pas de gestion des big ici
                     // &.big{
