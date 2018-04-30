@@ -323,19 +323,19 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setAuthor(String author);
 
 	/**
-	 * Returns the contact namme of this participation.
+	 * Returns the contact name of this participation.
 	 *
-	 * @return the contact namme of this participation
+	 * @return the contact name of this participation
 	 */
 	@AutoEscape
-	public String getContactNamme();
+	public String getContactName();
 
 	/**
-	 * Sets the contact namme of this participation.
+	 * Sets the contact name of this participation.
 	 *
-	 * @param contactNamme the contact namme of this participation
+	 * @param contactName the contact name of this participation
 	 */
-	public void setContactNamme(String contactNamme);
+	public void setContactName(String contactName);
 
 	/**
 	 * Returns the contact line1 of this participation.

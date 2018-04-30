@@ -18,7 +18,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="author" type="String" />
-		<field name="contactNamme" type="String" />
+		<field name="contactName" type="String" />
 		<field name="contactLine1" type="String">
 			<hint name="max-length">400</hint>
 		</field>
@@ -58,7 +58,7 @@
 		<field name="partners" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="contactNamme" type="String" />
+		<field name="contactName" type="String" />
 		<field name="contactLine1" type="String">
 			<hint name="max-length">400</hint>
 		</field>

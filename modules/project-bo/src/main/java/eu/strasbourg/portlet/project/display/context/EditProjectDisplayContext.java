@@ -41,11 +41,11 @@ public class EditProjectDisplayContext {
 		return _project;
 	}
 		
-	public String getProjectTimelinesIndexes() {
+	public String getDefaultTimelineIndexes() {
 		if (this.getProject() != null) {
-    		List<ProjectTimeline> projectTimelines = this.getProject().getProjectTimelines();
+    		List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
     		String indexes = "0";
-    		for (int i = 1; i <= projectTimelines.size(); i++) {
+    		for (int i = 1; i <= timelines.size(); i++) {
     			indexes +=  "," + i;
     		}
     		return indexes;

@@ -440,19 +440,19 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	public void setPartners(String partners);
 
 	/**
-	 * Returns the contact namme of this project.
+	 * Returns the contact name of this project.
 	 *
-	 * @return the contact namme of this project
+	 * @return the contact name of this project
 	 */
 	@AutoEscape
-	public String getContactNamme();
+	public String getContactName();
 
 	/**
-	 * Sets the contact namme of this project.
+	 * Sets the contact name of this project.
 	 *
-	 * @param contactNamme the contact namme of this project
+	 * @param contactName the contact name of this project
 	 */
-	public void setContactNamme(String contactNamme);
+	public void setContactName(String contactName);
 
 	/**
 	 * Returns the contact line1 of this project.

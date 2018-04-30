@@ -48,7 +48,7 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setAuthor(model.getAuthor());
-		soapModel.setContactNamme(model.getContactNamme());
+		soapModel.setContactName(model.getContactName());
 		soapModel.setContactLine1(model.getContactLine1());
 		soapModel.setContactLine2(model.getContactLine2());
 		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
@@ -218,12 +218,12 @@ public class ParticipationSoap implements Serializable {
 		_author = author;
 	}
 
-	public String getContactNamme() {
-		return _contactNamme;
+	public String getContactName() {
+		return _contactName;
 	}
 
-	public void setContactNamme(String contactNamme) {
-		_contactNamme = contactNamme;
+	public void setContactName(String contactName) {
+		_contactName = contactName;
 	}
 
 	public String getContactLine1() {
@@ -280,7 +280,7 @@ public class ParticipationSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _author;
-	private String _contactNamme;
+	private String _contactName;
 	private String _contactLine1;
 	private String _contactLine2;
 	private String _contactPhoneNumber;

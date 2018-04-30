@@ -2402,7 +2402,7 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 		projectImpl.setLabel(project.getLabel());
 		projectImpl.setDuration(project.getDuration());
 		projectImpl.setPartners(project.getPartners());
-		projectImpl.setContactNamme(project.getContactNamme());
+		projectImpl.setContactName(project.getContactName());
 		projectImpl.setContactLine1(project.getContactLine1());
 		projectImpl.setContactLine2(project.getContactLine2());
 		projectImpl.setContactPhoneNumber(project.getContactPhoneNumber());

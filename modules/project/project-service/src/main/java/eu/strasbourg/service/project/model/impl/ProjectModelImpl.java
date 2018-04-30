@@ -96,7 +96,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "label", Types.VARCHAR },
 			{ "duration", Types.INTEGER },
 			{ "partners", Types.CLOB },
-			{ "contactNamme", Types.VARCHAR },
+			{ "contactName", Types.VARCHAR },
 			{ "contactLine1", Types.VARCHAR },
 			{ "contactLine2", Types.VARCHAR },
 			{ "contactPhoneNumber", Types.VARCHAR },
@@ -127,14 +127,14 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("label", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("partners", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("contactNamme", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("contactName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactLine1", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactLine2", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPhoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactNamme VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -190,7 +190,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		model.setLabel(soapModel.getLabel());
 		model.setDuration(soapModel.getDuration());
 		model.setPartners(soapModel.getPartners());
-		model.setContactNamme(soapModel.getContactNamme());
+		model.setContactName(soapModel.getContactName());
 		model.setContactLine1(soapModel.getContactLine1());
 		model.setContactLine2(soapModel.getContactLine2());
 		model.setContactPhoneNumber(soapModel.getContactPhoneNumber());
@@ -281,7 +281,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		attributes.put("label", getLabel());
 		attributes.put("duration", getDuration());
 		attributes.put("partners", getPartners());
-		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
@@ -428,10 +428,10 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			setPartners(partners);
 		}
 
-		String contactNamme = (String)attributes.get("contactNamme");
+		String contactName = (String)attributes.get("contactName");
 
-		if (contactNamme != null) {
-			setContactNamme(contactNamme);
+		if (contactName != null) {
+			setContactName(contactName);
 		}
 
 		String contactLine1 = (String)attributes.get("contactLine1");
@@ -825,18 +825,18 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
-	public String getContactNamme() {
-		if (_contactNamme == null) {
+	public String getContactName() {
+		if (_contactName == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _contactNamme;
+			return _contactName;
 		}
 	}
 
 	@Override
-	public void setContactNamme(String contactNamme) {
-		_contactNamme = contactNamme;
+	public void setContactName(String contactName) {
+		_contactName = contactName;
 	}
 
 	@JSON
@@ -1037,7 +1037,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		projectImpl.setLabel(getLabel());
 		projectImpl.setDuration(getDuration());
 		projectImpl.setPartners(getPartners());
-		projectImpl.setContactNamme(getContactNamme());
+		projectImpl.setContactName(getContactName());
 		projectImpl.setContactLine1(getContactLine1());
 		projectImpl.setContactLine2(getContactLine2());
 		projectImpl.setContactPhoneNumber(getContactPhoneNumber());
@@ -1247,12 +1247,12 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			projectCacheModel.partners = null;
 		}
 
-		projectCacheModel.contactNamme = getContactNamme();
+		projectCacheModel.contactName = getContactName();
 
-		String contactNamme = projectCacheModel.contactNamme;
+		String contactName = projectCacheModel.contactName;
 
-		if ((contactNamme != null) && (contactNamme.length() == 0)) {
-			projectCacheModel.contactNamme = null;
+		if ((contactName != null) && (contactName.length() == 0)) {
+			projectCacheModel.contactName = null;
 		}
 
 		projectCacheModel.contactLine1 = getContactLine1();
@@ -1332,8 +1332,8 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getDuration());
 		sb.append(", partners=");
 		sb.append(getPartners());
-		sb.append(", contactNamme=");
-		sb.append(getContactNamme());
+		sb.append(", contactName=");
+		sb.append(getContactName());
 		sb.append(", contactLine1=");
 		sb.append(getContactLine1());
 		sb.append(", contactLine2=");
@@ -1444,8 +1444,8 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getPartners());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>contactNamme</column-name><column-value><![CDATA[");
-		sb.append(getContactNamme());
+			"<column><column-name>contactName</column-name><column-value><![CDATA[");
+		sb.append(getContactName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>contactLine1</column-name><column-value><![CDATA[");
@@ -1501,7 +1501,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private String _label;
 	private int _duration;
 	private String _partners;
-	private String _contactNamme;
+	private String _contactName;
 	private String _contactLine1;
 	private String _contactLine2;
 	private String _contactPhoneNumber;

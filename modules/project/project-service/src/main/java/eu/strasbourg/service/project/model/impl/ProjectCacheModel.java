@@ -111,8 +111,8 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		sb.append(duration);
 		sb.append(", partners=");
 		sb.append(partners);
-		sb.append(", contactNamme=");
-		sb.append(contactNamme);
+		sb.append(", contactName=");
+		sb.append(contactName);
 		sb.append(", contactLine1=");
 		sb.append(contactLine1);
 		sb.append(", contactLine2=");
@@ -234,11 +234,11 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setPartners(partners);
 		}
 
-		if (contactNamme == null) {
-			projectImpl.setContactNamme(StringPool.BLANK);
+		if (contactName == null) {
+			projectImpl.setContactName(StringPool.BLANK);
 		}
 		else {
-			projectImpl.setContactNamme(contactNamme);
+			projectImpl.setContactName(contactName);
 		}
 
 		if (contactLine1 == null) {
@@ -302,7 +302,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 		duration = objectInput.readInt();
 		partners = objectInput.readUTF();
-		contactNamme = objectInput.readUTF();
+		contactName = objectInput.readUTF();
 		contactLine1 = objectInput.readUTF();
 		contactLine2 = objectInput.readUTF();
 		contactPhoneNumber = objectInput.readUTF();
@@ -406,11 +406,11 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(partners);
 		}
 
-		if (contactNamme == null) {
+		if (contactName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(contactNamme);
+			objectOutput.writeUTF(contactName);
 		}
 
 		if (contactLine1 == null) {
@@ -459,7 +459,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String label;
 	public int duration;
 	public String partners;
-	public String contactNamme;
+	public String contactName;
 	public String contactLine1;
 	public String contactLine2;
 	public String contactPhoneNumber;

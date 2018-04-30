@@ -56,7 +56,7 @@ public class ProjectSoap implements Serializable {
 		soapModel.setLabel(model.getLabel());
 		soapModel.setDuration(model.getDuration());
 		soapModel.setPartners(model.getPartners());
-		soapModel.setContactNamme(model.getContactNamme());
+		soapModel.setContactName(model.getContactName());
 		soapModel.setContactLine1(model.getContactLine1());
 		soapModel.setContactLine2(model.getContactLine2());
 		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
@@ -289,12 +289,12 @@ public class ProjectSoap implements Serializable {
 		_partners = partners;
 	}
 
-	public String getContactNamme() {
-		return _contactNamme;
+	public String getContactName() {
+		return _contactName;
 	}
 
-	public void setContactNamme(String contactNamme) {
-		_contactNamme = contactNamme;
+	public void setContactName(String contactName) {
+		_contactName = contactName;
 	}
 
 	public String getContactLine1() {
@@ -351,7 +351,7 @@ public class ProjectSoap implements Serializable {
 	private String _label;
 	private int _duration;
 	private String _partners;
-	private String _contactNamme;
+	private String _contactName;
 	private String _contactLine1;
 	private String _contactLine2;
 	private String _contactPhoneNumber;

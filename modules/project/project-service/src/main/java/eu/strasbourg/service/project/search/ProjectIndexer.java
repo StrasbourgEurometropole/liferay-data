@@ -1,12 +1,7 @@
 package eu.strasbourg.service.project.search;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -31,7 +26,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class ProjectIndexer extends BaseIndexer<Project> {

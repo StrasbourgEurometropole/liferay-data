@@ -3,8 +3,6 @@ package eu.strasbourg.portlet.participation.action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -12,6 +10,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,7 +29,16 @@ import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+@Component(
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + StrasbourgPortletKeys.PARTICIPATION_BO,
+		"mvc.command.name=saveParticipation" 
+	},
+	service = MVCActionCommand.class
+)
 public class SaveParticipationActionCommand implements MVCActionCommand {
 
 	@Override
@@ -80,6 +88,22 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Auteur
 			String author = ParamUtil.getString(request, "author");
 			participation.setAuthor(author);
+			
+			// Contact : nom
+			String contactName = ParamUtil.getString(request, "contactName");
+			participation.setContactName(contactName);
+						
+			// Contact : ligne 1
+			String contactLine1 = ParamUtil.getString(request, "contactLine1");
+			participation.setContactLine1(contactLine1);
+						
+			// Contact : ligne 2
+			String contactLine2 = ParamUtil.getString(request, "contactLine2");
+			participation.setContactLine2(contactLine2);
+						
+			// Contact : numéro de téléphone
+			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
+			participation.setContactPhoneNumber(contactPhoneNumber);
 			
 			// Défini le format de date à utiliser pour les champs temporels 
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

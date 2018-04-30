@@ -12,6 +12,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,7 +34,16 @@ import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+@Component(
+	immediate = true,
+	property = { 
+		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
+		"mvc.command.name=saveProject"
+	},
+	service = MVCActionCommand.class
+)
 public class SaveProjectActionCommand implements MVCActionCommand {
 
 	@Override
@@ -113,7 +123,24 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			
 			// Partenaires
 			String partners = ParamUtil.getString(request, "partners");
-			project.setDescription(partners);
+			project.setPartners(partners);
+			
+			// Contact : nom
+			String contactName = ParamUtil.getString(request, "contactName");
+			project.setContactName(contactName);
+			
+			// Contact : ligne 1
+			String contactLine1 = ParamUtil.getString(request, "contactLine1");
+			project.setContactLine1(contactLine1);
+			
+			// Contact : ligne 2
+			String contactLine2 = ParamUtil.getString(request, "contactLine2");
+			project.setContactLine2(contactLine2);
+			
+			// Contact : numéro de téléphone
+			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
+			project.setContactPhoneNumber(contactPhoneNumber);
+			
 
 			/**
 			 * Entrée(s) de timeline du projet
@@ -133,14 +160,16 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 						ParamUtil.getString(request, "date" + timelineIndex))) {
 					
 					// J + XX
-					Integer startDay = ParamUtil.getInteger(request, "startDay");
+					Integer startDay = ParamUtil.getInteger(request,
+							"startDay" + timelineIndex);
 					
 					// Date
 					Date date = ParamUtil.getDate(request,
 							"date" + timelineIndex, dateFormat);
 					
 					// Titre
-					String timelineTitle = ParamUtil.getString(request, "timelineTitle");
+					String timelineTitle = ParamUtil.getString(request,
+							"timelineTitle" + timelineIndex);
 
 					ProjectTimeline projectTimeline = _projectTimelineLocalService
 						.createProjectTimeline();
@@ -187,7 +216,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "image-error");
 			isValid = false;
 		}
-
+		
+		// TODO : vérifier la raison de la mauvaise redirection lors d'un controle 
+		// du coptyright
+		/**
 		// Copyright de l'image
 		String imageCopyright = ParamUtil.getString(request,
 			"externalImageCopyright");
@@ -199,6 +231,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "image-copyright-error");
 			isValid = false;
 		}
+		*/
 
 		return isValid;
 	}

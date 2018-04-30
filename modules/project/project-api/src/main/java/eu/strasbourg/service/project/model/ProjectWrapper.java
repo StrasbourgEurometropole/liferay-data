@@ -81,7 +81,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		attributes.put("label", getLabel());
 		attributes.put("duration", getDuration());
 		attributes.put("partners", getPartners());
-		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
@@ -225,10 +225,10 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setPartners(partners);
 		}
 
-		String contactNamme = (String)attributes.get("contactNamme");
+		String contactName = (String)attributes.get("contactName");
 
-		if (contactNamme != null) {
-			setContactNamme(contactNamme);
+		if (contactName != null) {
+			setContactName(contactName);
 		}
 
 		String contactLine1 = (String)attributes.get("contactLine1");
@@ -470,13 +470,13 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Returns the contact namme of this project.
+	* Returns the contact name of this project.
 	*
-	* @return the contact namme of this project
+	* @return the contact name of this project
 	*/
 	@Override
-	public java.lang.String getContactNamme() {
-		return _project.getContactNamme();
+	public java.lang.String getContactName() {
+		return _project.getContactName();
 	}
 
 	/**
@@ -793,13 +793,13 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Sets the contact namme of this project.
+	* Sets the contact name of this project.
 	*
-	* @param contactNamme the contact namme of this project
+	* @param contactName the contact name of this project
 	*/
 	@Override
-	public void setContactNamme(java.lang.String contactNamme) {
-		_project.setContactNamme(contactNamme);
+	public void setContactName(java.lang.String contactName) {
+		_project.setContactName(contactName);
 	}
 
 	/**

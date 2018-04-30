@@ -41,7 +41,7 @@
 		<column name="partners" type="String" />
 		
 		<!-- Contact -->
-		<column name="contactNamme" type="String" />
+		<column name="contactName" type="String" />
 		<column name="contactLine1" type="String" />
 		<column name="contactLine2" type="String" />
 		<column name="contactPhoneNumber" type="String" />
@@ -92,7 +92,7 @@
 		<column name="author" type="String" />
 		
 		<!-- Contact -->
-		<column name="contactNamme" type="String" />
+		<column name="contactName" type="String" />
 		<column name="contactLine1" type="String" />
 		<column name="contactLine2" type="String" />
 		<column name="contactPhoneNumber" type="String" />

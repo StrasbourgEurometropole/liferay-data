@@ -6,6 +6,8 @@ import java.util.Locale;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -17,6 +19,7 @@ import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 
@@ -25,6 +28,7 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
+@Component(immediate = true, service = Indexer.class)
 public class ParticipationIndexer extends BaseIndexer<Participation> {
 
 	public static final String CLASS_NAME = Participation.class.getName();

@@ -19,7 +19,7 @@ import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 public class ViewParticipationsDisplayContext extends ViewListBaseDisplayContext<Participation> {
 
-private List <Participation> _participations;
+	private List <Participation> _participations;
 	
 	public ViewParticipationsDisplayContext(RenderRequest request, RenderResponse response) {
 		super(Participation.class, request, response);

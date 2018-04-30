@@ -74,7 +74,7 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("author", getAuthor());
-		attributes.put("contactNamme", getContactNamme());
+		attributes.put("contactName", getContactName());
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
@@ -170,10 +170,10 @@ public class ParticipationWrapper implements Participation,
 			setAuthor(author);
 		}
 
-		String contactNamme = (String)attributes.get("contactNamme");
+		String contactName = (String)attributes.get("contactName");
 
-		if (contactNamme != null) {
-			setContactNamme(contactNamme);
+		if (contactName != null) {
+			setContactName(contactName);
 		}
 
 		String contactLine1 = (String)attributes.get("contactLine1");
@@ -392,13 +392,13 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Returns the contact namme of this participation.
+	* Returns the contact name of this participation.
 	*
-	* @return the contact namme of this participation
+	* @return the contact name of this participation
 	*/
 	@Override
-	public java.lang.String getContactNamme() {
-		return _participation.getContactNamme();
+	public java.lang.String getContactName() {
+		return _participation.getContactName();
 	}
 
 	/**
@@ -651,13 +651,13 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Sets the contact namme of this participation.
+	* Sets the contact name of this participation.
 	*
-	* @param contactNamme the contact namme of this participation
+	* @param contactName the contact name of this participation
 	*/
 	@Override
-	public void setContactNamme(java.lang.String contactNamme) {
-		_participation.setContactNamme(contactNamme);
+	public void setContactName(java.lang.String contactName) {
+		_participation.setContactName(contactName);
 	}
 
 	/**
