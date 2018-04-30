@@ -140,6 +140,8 @@
 			<%-- Groupe de champs : Timeline --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="timeline">
 			
+				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
+			
 				<div id="date-fields">
 					<div class="lfr-form-row lfr-form-row-inline">
 						<div class="row-fields">
@@ -147,21 +149,30 @@
 								<liferay-util:param name="index" value="0" />
 							</liferay-util:include>
 						</div>
-					</div>
-						
+					</div>	
+					
+					<c:set var="nbTimeline" value="0"/>
 					<c:forEach items="${dc.project.projectTimelines}" var="timeline" varStatus="status">
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
 								<fmt:formatDate value="${timeline.date}" pattern="dd/MM/YYYY" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="indexTimeline" value="${status.count}" />
+									<liferay-util:param name="startDay" value="${timeline.startDay}" />
 									<liferay-util:param name="date" value="${formattedDate}" />
 									<liferay-util:param name="title" value="${timeline.title}" />
 								</liferay-util:include>
 							</div>
 						</div>
+						<c:set var="nbTimeline" value="${nbTimeline + 1}"/>
 					</c:forEach>
-					<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
+					<section>
+						<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addTimeline(); return false;"/>
+						<liferay-ui:message key="new-timeline" /><br>
+						<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
+					</section>
+					<aui:input name="nbTimeline" type="hidden" value="${nbTimeline}" />
+					
 				</div>
 			
 			</aui:fieldset>

@@ -28,23 +28,24 @@ jQuery(function() {
 function deleteTimeline(idTimeline) {
 	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
 	var namespaceAUI = "#" + namespace;
-	$('#' + idPeriod + '-' + jour + '-' + ).remove();
-	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val();
-	$(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val(nbSlot - 1);
+	$('#timeline' + idTimeline).remove();
+	var nbTimeline = $(namespaceAUI + 'nbTimeline').val();
+	alert(nbTimeline),
+	$(namespaceAUI + 'nbTimeline').val(nbTimeline - 1);
 }
 
-function addTimeline(idTimeline jour) {
+function addTimeline() {
 	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
 	var namespaceAUI = "#" + namespace;
-	var nbSlot = $(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour).val();
-	var lastSlot = 0;
-	if (nbSlot > 0) {
-		lastSlot = nbSlot;
+	var nbTimeline = $(namespaceAUI + 'nbTimeline').val();
+	var lastTimeline = 0;
+	if (nbTimeline > 0) {
+		lastTimeline = nbTimeline;
 	}
 	$.ajax({
-		url : getslotRowJSPURL + '&' + namespace + 'indexPeriod=' + idPeriod
+		url : getTimelineRowJSPURL + '&' + namespace + 'indexTimeline=' + idTimeline
 				+ '&' + namespace + 'jour=' + jour + '&' + namespace
-				+ 'indexSlot=' + lastSlot,
+				+ 'indexTimeline=' + lastSlot,
 		success : function(html) {
 			$('#' + idPeriod + '-' + jour).before(html);
 		}
