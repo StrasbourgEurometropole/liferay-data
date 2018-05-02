@@ -1,0 +1,127 @@
+#th-global {
+
+	.owl-cards:not(.owl-loaded) {
+		display: block;
+		margin-bottom: -20px;
+		.item {
+			display: none;
+			&:nth-child(-n+3) {
+				display: inline-block;
+				vertical-align: top;
+				position: relative;
+				margin-right: 20px;
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	.owl-carousel {
+		.owl-dots {
+			position: absolute;
+			height: 10px;
+			bottom: -15px;
+			right: 40px;
+			left: 40px;
+			width: calc(100% - 60px);
+			margin: auto;
+			text-align: right;
+			> .owl-dot{
+				display: inline-block;
+				vertical-align: middle;
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				background: $c_dark;
+				margin: 0 2px;
+				@include addTransition();
+				&.active{
+					background: $c_main;
+				}
+			}
+		}
+
+		&.dots-right {
+			.owl-dots {
+				margin: 0 !important;
+				position: absolute;
+				bottom: auto;
+				top: 50%;
+				transform: translate(0, -50%);
+				right: 10px;
+				width: 22px;
+				height: auto;
+			}
+		}
+
+		.owl-item {
+			.item {
+				@include mobile {
+					height: 50vh;
+				}
+				img {
+					object-fit: cover;
+					@include mobile {
+						height: 50vh;
+					}
+				}
+				.caption {
+					h2, p, a {
+						color: $c_white;
+					}
+				}
+			}
+		}
+
+		.owl-item.active ~ .opacify {
+			opacity: 0.4 !important;
+			@include addTransition();
+			.is-fullscreen & {
+				opacity: 1 !important;
+			}
+		}
+
+		.owl-nav [class*='owl-']:hover {
+			background: $c_main;
+		}
+		.owl-dots .owl-dot.active span, .owl-dots .owl-dot:hover span {
+			background: $c_main;
+		}
+
+		.owl-nav {
+			.owl-prev {
+				position: absolute;
+				top: 50%;
+				left: -40px;
+				height: 20px;
+				width: 20px;
+				transform: rotate(-45deg) translate(0, -50%);
+				border-top: 3px solid #fff;
+				border-left: 3px solid #fff;
+				box-shadow: -1px -1px 2px 0 rgba(0, 0, 0, 0.1);
+
+				&:hover {
+					background: transparent;
+					border-top: 3px solid $c_main;
+					border-left: 3px solid $c_main;
+				}
+			}
+			.owl-next {
+				position: absolute;
+				top: 50%;
+				right: -40px;
+				height: 20px;
+				width: 20px;
+				transform: rotate(45deg) translate(0, -50%);
+				border-top: 3px solid #fff;
+				border-right: 3px solid #fff;
+				box-shadow: 1px -1px 2px 0 rgba(0, 0, 0, 0.1);
+				&:hover {
+					background: transparent;
+					border-top: 3px solid $c_main;
+					border-right: 3px solid $c_main;
+				}
+			}
+		}
+	}
+
+}

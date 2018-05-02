@@ -1,0 +1,77 @@
+// Variables
+// ==========================================================================
+@import "base/var";
+
+
+// Bootstrap 3.3.7
+//=====================================
+//@import "bootstrap/bootstrap";
+
+
+// Base Styles
+//=====================================
+@import "base/reset";
+@import "base/mixins";
+@import "base/auto";
+@import "base/text";
+@import "base/anim";
+
+
+// Library styles + Library Custom
+// ==========================================================================
+@import "libs/owl";
+@import "libs/owl-custom";
+@import "libs/selectric";
+@import "libs/selectric-custom";
+@import "libs/icomoon";
+@import "libs/pikaday";
+
+
+// Style Header + Footer + Éléments communs du site
+// ==========================================================================
+@import "style/layout";
+@import "style/layout_header";
+@import "style/layout_footer";
+
+
+// Style des blocs modulables
+// ==========================================================================
+@import "blocs/bloc";
+@import "blocs/bloc-texte";
+@import "blocs/bloc-image";
+@import "blocs/bloc-iframe";
+@import "blocs/bloc-form";
+@import "blocs/bloc-colonne";
+@import "blocs/bloc-actu";
+@import "blocs/bloc-video";
+@import "blocs/bloc-text-img";
+
+@import "blocs/bloc-slider";
+@import "blocs/bloc-vignettes";
+@import "blocs/bloc-large";
+@import "blocs/bloc-select";
+@import "blocs/bloc-listing";
+@import "blocs/bloc-pagination";
+@import "blocs/bloc-social-share";
+@import "blocs/bloc-commentaires";
+@import "blocs/bloc-parallax";
+@import "blocs/bloc-telechargements";
+@import "blocs/bloc-prefooter";
+@import "blocs/bloc-facette";
+@import "blocs/bloc-detail-video";
+@import "blocs/bloc-page-detail";
+@import "blocs/bloc-signataire";
+@import "blocs/bloc-listing-participation";
+@import "blocs/bloc-widget";
+@import "blocs/bloc-pub";
+@import "blocs/bloc-aside";
+@import "blocs/bloc-modal";
+@import "blocs/bloc-accordion";
+
+@import "blocs/page-search";
+@import "blocs/page-detail-participation";
+@import "blocs/page-detail-projet";
+@import "blocs/page-carte";
+@import "blocs/page-pacte";
+
+

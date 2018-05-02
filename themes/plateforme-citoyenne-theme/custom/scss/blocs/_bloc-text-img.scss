@@ -1,0 +1,122 @@
+#th-global {
+
+	.pro-bloc-txt-img {
+		position: relative;
+
+		> div {
+			position: relative;
+			margin-top: 40px;
+			padding: 0;
+			&:first-child {
+				margin-top: 0;
+			}
+			&:last-child {
+				margin-bottom: 20px;
+				@include mobile {
+					margin-bottom: 0;
+				}
+			}
+			&:after {
+				content: "";
+				clear: both;
+				display: block;
+			}
+			@media screen and (max-width: 800px) {
+				padding: 0 !important;
+				display: flex;
+				flex-direction: column;
+			}
+
+
+			> div {
+				@media screen and (max-width: 800px) {
+					width: 100%;
+					float: none;
+				}
+				&:first-child {
+					float: left;
+					padding: 0 15px 0 0;
+					@media screen and (max-width: 1240px) {
+						padding: 0 15px 0 0;
+					}
+					@media screen and (max-width: 800px) {
+						position: relative;
+						top: 0;
+						float: none;
+						transform: none;
+						padding: 0 !important;
+						order: 1;
+					}
+				}
+				&:last-child {
+					float: right;
+					padding: 45px 0 35px 15px;
+					@include tablet_portrait {
+						padding: 35px 0 !important;
+					}
+					@media screen and (max-width: 800px) {
+						order: 2;
+					}
+				}
+				> * {
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
+
+			&:nth-child(odd) {
+				> div {
+					&:first-child {
+						float: right;
+						right: 0;
+						padding: 0 0 0 15px;
+						@media screen and (max-width: 1240px) {
+							padding: 0 0 0 15px;
+						}
+						@media screen and (max-width: 800px) {
+							position: relative;
+							top: 0;
+							float: none;
+							transform: none;
+							padding: 0;
+							order: 1;
+						}
+					}
+					&:last-child {
+						float: left;
+						text-align: right;
+						padding: 45px 15px 35px 0;
+						h2{
+							&:before{
+								top: 7px;
+								left: auto;
+								right: -85px;
+								@include mobile{
+									right: 0;
+								}
+							}
+						}
+						@media screen and (max-width: 800px) {
+							order: 2;
+							padding-bottom: 0 !important;
+							text-align: left;
+						}
+					}
+				}
+			}
+
+			figure {
+				@media screen and (max-width: 800px) {
+					margin: 0 0 45px;
+				}
+				img {
+					@media screen and (max-width: 1240px) {
+						height: 100%;
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+}

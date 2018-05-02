@@ -1,0 +1,358 @@
+#th-global {
+
+	.pro-bloc-prefooter {
+		background: $c_dark;
+		margin-bottom: -20px;
+
+		.row {
+			padding: 30px 0;
+
+			> * {
+				> * {
+					width: 280px;
+					@include mobile{
+						width: 100%;
+					}
+				}
+				&:first-child {
+					> * {
+						float: right;
+						@include mobile{
+							margin-bottom: 30px;
+						}
+						.pro-ico {
+							float: left;
+							margin-right: 15px;
+						}
+					}
+				}
+				&:last-child {
+					> * {
+						text-align: right;
+						.pro-ico {
+							float: right;
+							margin-left: 15px;
+							transform: rotate(180deg);
+						}
+					}
+				}
+			}
+
+			&.pro-pencil{
+				padding: 15px 0;
+				> * {
+					text-align: center;
+					> * {
+						display: inline-block;
+						float: none;
+						text-align: left;
+						@include mobile{
+							text-align: center;
+							margin: 0;
+						}
+						.pro-ico {
+							float: left;
+							margin-right: 15px;
+							width: 85px;
+							height: 85px;
+							@include mobile{
+								float: none;
+								margin: 0;
+							}
+							&:hover{
+								> span{
+									color: $c_main;
+								}
+							}
+							&:focus{
+								outline: 1px dashed $c_main;
+							}
+							> span{
+								@include ft($f_hx, 0.938em, 700, $c_txt, normal);
+								text-transform: uppercase;
+								position: absolute;
+								left: 0;
+								right: 0;
+								top: 50%;
+								transform: translateY(-50%) rotate(180deg);
+								bottom: auto;
+								> span{
+									display: block;
+									font-size: 1.7em;
+									margin-bottom: 5px;
+								}
+							}
+						}
+						> p {
+							margin-top: 12px;
+						}
+					}
+				}
+			}
+
+		}
+
+		p {
+			@include ft($f_txt, $s_small, 400, $c_white, normal);
+			margin-bottom: 5px;
+		}
+		.pro-you {
+			@include ft($f_hx, 1.125em, 700, $c_main, 1.444em);
+			text-transform: uppercase;
+		}
+
+		.pro-ico {
+			position: relative;
+			z-index: 100;
+			top: 3px;
+			width: 60px;
+			height: 60px;
+			background: $c_main;
+			border-radius: 50%;
+			display: inline-block;
+			border: 2px solid $c_main;
+			@include addTransition();
+			&:hover, &.active {
+				cursor: pointer;
+				background: transparent;
+				> span{
+					color: $c_main;
+				}
+			}
+			&:focus{
+				outline: 1px dashed $c_main;
+			}
+			> span {
+				line-height: 56px;
+				font-size: 1.5em;
+				color: $c_txt;
+				display: block;
+				text-align: center;
+				@include addTransition();
+			}
+		}
+
+		.pro-social-share-page {
+			border-top: 1px solid rgba($c_white, 0.3);
+			padding: 20px 0;
+			text-align: center;
+			> span{
+				@include ft($f_hx, $s_small, 400, $c_white, normal);
+				text-transform: uppercase;
+			}
+			ul{
+				list-style-type: none;
+				position: relative;
+				margin-top: 10px;
+				li {
+					display: inline-block;
+					a {
+						font-size: 2em;
+						padding: 0 3px;
+						color: $c_main;
+						&:hover, &:focus {
+							color: $c_white;
+						}
+					}
+				}
+
+				#sub-share {
+					opacity: 0;
+					width: auto;
+					position: absolute;
+					right: 0;
+					left: auto;
+					top: 50px;
+					bottom: auto;
+					padding: 10px;
+					margin: 0;
+					z-index: 100000000000;
+					line-height: normal;
+					background: $c_white;
+					box-shadow: 2px 1px 12px 0px rgba(0, 0, 0, 0.2);
+					pointer-events: none;
+					list-style-type: none;
+					display: none;
+					@include addTransition();
+
+					&:before {
+						content: "\e910";
+						@include font();
+						position: absolute;
+						top: -5px;
+						right: 11px;
+						pointer-events: none;
+						width: 10px;
+						height: 10px;
+						background: $c_white;
+						transform: rotate(45deg);
+						border-left: 4px solid $c_white;
+						border-top: 4px solid $c_white;
+						opacity: 0.99;
+						color: $c_white;
+						@include addTransition();
+						@include mobile {
+							right: 12px;
+						}
+					}
+					li {
+						margin: 0;
+						text-align: center;
+						margin-right: 0;
+						@include mobile {
+							float: none;
+							width: 100%;
+							text-align: center;
+						}
+						&:before {
+							content: none !important;
+						}
+						&:last-child {
+							a {
+								margin-bottom: 0;
+							}
+						}
+						a {
+							padding: 10px 20px;
+							margin-right: 0 !important;
+							display: block;
+							@include ft($f_txt, 12px, 600, $c_white, 20px);
+							text-transform: uppercase;
+
+							margin: 0;
+							margin-bottom: 10px;
+							&:hover, &:focus {
+								color: $c_white;
+							}
+						}
+					}
+				}
+
+				.open #sub-share {
+					opacity: 1;
+					display: block;
+					pointer-events: auto;
+				}
+			}
+		}
+
+
+		.row{
+			.pro-signature-pacte{
+				height: 60px;
+				> a {
+					box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.2);
+					position: absolute;
+					background: $c_main;
+					padding: 40px 0 15px 0;
+					width: 430px;
+					text-align: center;
+					float: none;
+					display: inline-block;
+					left: 50%;
+					border: 2px solid $c_main;
+					transform: translate(-50%,-60%) rotate(-4.6deg);
+					transform: translate3d(-50%,-60%,0) rotate(-4.6deg);
+					@include addTransition();
+					@include mobile{
+						width: 90%;
+					}
+					&.pro-disabled{
+						background: #F2F2F2;
+						border-color: #EEE;
+						&:hover{
+							background: #F2F2F2;
+							border-color: #EEE;
+							cursor: default;
+							.pro-svg{
+								> * {
+									color: $c_dark;
+									.cls-1{
+										stroke: $c_dark;
+									}
+								}
+								> span{
+									animation: none;
+								}
+							}
+							h3, p, span{
+								color: $c_dark;
+							}
+						}
+						&:focus{
+							outline: none;
+						}
+					}
+					&:hover{
+						background: $c_dark;
+						.pro-svg{
+							> * {
+								color: $c_main;
+								.cls-1{
+									stroke: $c_main;
+								}
+							}
+							> span{
+								animation-name: movePencil;
+								animation-duration: .4s;
+								animation-iteration-count: infinite;
+								animation-direction: alternate;
+								animation-timing-function: ease-in-out;
+							}
+						}
+						h3, p, span{
+							color: $c_main;
+						}
+					}
+					&:focus{
+						outline: 1px dashed $c_main;
+					}
+					.pro-svg{
+						svg{
+							margin-bottom: 10px;
+							position: relative;
+							left: -25px;
+							@include addTransition();
+							@include mobile_small{
+								width: 70%;
+							}
+							.cls-1{
+								@include addTransition();
+							}
+						}
+						span{
+							font-size: 1.5em;
+							position: absolute;
+							margin-left: -20px;
+							margin-top: -9px;
+							font-weight: 400;
+							display: inline-block !important;
+							@include addTransition();
+							@include mobile_small{
+								margin-top: -6px;
+							}
+						}
+					}
+
+					h3{
+						@include ft($f_hx, 1.563em, 700, $c_txt, 1.2em);
+						text-transform: uppercase;
+						margin: 0;
+						@include addTransition();
+					}
+					p{
+						color: $c_txt;
+						@include addTransition();
+					}
+					span{
+						@include ft($f_hx, 0.938em, 700, $c_txt, normal);
+						text-transform: uppercase;
+						@include addTransition();
+					}
+				}
+			}
+		}
+
+	}
+
+}

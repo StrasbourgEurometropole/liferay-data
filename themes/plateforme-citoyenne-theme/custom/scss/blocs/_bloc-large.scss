@@ -1,0 +1,101 @@
+#th-global{
+
+	.pro-bloc-large{
+		position: relative;
+		padding: 80px 0 40px 0;
+		@include mobile{
+			padding: 40px 0 20px;
+		}
+
+		&:before{
+			content: '';
+			background: url(../../assets/images/background/rec_black.png);
+			position: absolute;
+			left: -5%;
+			top: 40px;
+			width: 50%;
+			bottom: -30px;
+			background-color: $c_dark;
+			z-index: 100;
+			transform: rotate(-4.6deg);
+			overflow: hidden;
+			-webkit-backface-visibility: hidden;
+			@include tablet_portrait{
+				width: 65%;
+			}
+			@include mobile{
+				content: none;
+			}
+		}
+
+		figure{
+			img{
+				@include mobile{
+					height: 300px;
+				}
+			}
+			figcaption{
+				display: none;
+			}
+		}
+
+		.caption{
+			z-index: 1000;
+			@include mobile{
+				position: relative;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				transform: none;
+				background: $c_dark;
+				padding: 20px 15px;
+			}
+			> * {
+				max-width: 400px;
+				color: $c_white;
+			}
+			h2{
+				color: $c_main;
+				margin-bottom: 0;
+			}
+			p{
+				a{
+					color: $c_main;
+					&:hover, &:focus{
+						text-decoration: underline;
+					}
+				}
+			}
+			ul {
+				position: relative;
+				display: block;
+				list-style-type: none;
+				li {
+					position: relative;
+					padding: 0;
+					a{
+						@include ft($f_txt, $s_p, 700, $c_white, 1.600em);
+						padding: 5px 0;
+						display: block;
+						padding-left: 0;
+						@include addTransitionCurve();
+						&:before{
+							content: "\e903";
+							@include font();
+							float: left;
+							color: $c_main;
+							line-height: 1.6em;
+							margin-right: 10px;
+						}
+						&:hover, &:focus{
+							padding-left: 10px;
+							color: $c_main;
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

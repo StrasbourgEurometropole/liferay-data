@@ -1,0 +1,784 @@
+#th-global {
+
+	main{
+		padding-top: 167px;
+		@include tablet_portrait{
+			padding-top: 122px;
+		}
+	}
+
+	.pro-shadow {
+		position: fixed;
+		left: 0;
+		right: 0px;
+		top: 0;
+		bottom: 0;
+		z-index: 10000;
+		background: #000;
+		opacity: 0;
+		transition: opacity 1.5s ease-out;
+		transition-delay: 0.1s;
+		width: 0px;
+	}
+
+	#header {
+		background: $c_white;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 10000000;
+		transform: translateY(-80px);
+		transform: translate3d(0,-80px,0);
+		margin-bottom: -80px;
+		@include addTransitionCurve();
+
+		&.menu-no-header{
+			box-shadow: 0px 0px 30px 4px rgba(0,0,0,0.15);
+		}
+
+		&.menu-open {
+			@include tablet_portrait {
+				z-index: 1000000000;
+				.container .pro-wrapper-nav {
+					pointer-events: inherit;
+					left: 0;
+				}
+			}
+		}
+
+		&.pro-wrapper-search-open{
+			transform: none !important;
+			margin-bottom: 0;
+		}
+
+
+		.is-scrolled & {
+			transform: translateY(-125px);
+			transform: translate3d(0,-125px,0);
+			box-shadow: 0px 0px 30px 4px rgba(0,0,0,0.15);
+			@include tablet_portrait{
+				transform: translateY(-80px);
+				transform: translate3d(0,-80px,0);
+			}
+		}
+
+		.is-scrolled.scrolldir-top & {
+			transform: translateY(-80px);
+			transform: translate3d(0,-80px,0);
+		}
+
+		// BARRE DE RECHERCHE
+		// ==========================================================================
+		.pro-wrapper-search {
+			z-index: 100000000000;
+			position: relative;
+			background: #F2F2F2;
+			form {
+				position: relative;
+				height: auto;
+				line-height: normal;
+				padding: 20px 0;
+				&.input-is-focus{
+					&:before{
+						content: none;
+					}
+				}
+				&:before{
+					content: "\e90c";
+					@include font();
+					float: left;
+					display: block;
+					line-height: 80px;
+					position: absolute;
+					top: 0;
+					left: 0;
+					font-size: 2em;
+					animation: blink 1s infinite steps(1);
+					@include mobile {
+						content: none;
+					}
+				}
+				input {
+					-webkit-appearance: none;
+					@include ft($f_hx, 1.750em, 400, $c_txt, normal);
+					text-transform: uppercase;
+					width: calc(100% - 40px);
+					height: 40px;
+					border: none;
+					box-shadow: none;
+					background: none;
+					outline: none;
+					padding: 0 20px;
+					@include mobile {
+						padding: 0;
+						font-size: 1em;
+					}
+				}
+
+				button {
+					position: absolute;
+					height: 40px;
+					line-height: 40px;
+					right: 0;
+					top: 50%;
+					transform: translateY(-50%);
+					transform: translate3d(0, -50%, 0);
+					padding: 0;
+					-webkit-appearance: none;
+					border: none;
+					box-shadow: none;
+					outline: none;
+					font-size: 1.5em;
+					background: none;
+					@include mobile {
+						font-size: 1em;
+					}
+					span {
+						@include addTransition();
+					}
+					&:hover, &:focus {
+						cursor: pointer;
+						span {
+							color: $c_main;
+						}
+					}
+				}
+			}
+		}
+
+		// HEADER TOP PAGE
+		// ==========================================================================
+		.pro-top-header {
+			height: 45px;
+			border-bottom: 1px solid $c_filet;
+			@include addTransitionCurve();
+			@include tablet_portrait {
+				display: block;
+				position: fixed;
+				height: auto;
+				left: -100%;
+				width: 100%;
+				bottom: 0;
+				z-index: 10000;
+				border: none;
+			}
+			.container {
+				@include tablet_portrait{
+					position: absolute;
+					bottom: 100px;
+					width: 100%;
+				}
+				@include mobile{
+					bottom: 20px;
+				}
+				> a {
+					display: inline-block;
+					position: relative;
+					@include tablet_portrait{
+						display: none;
+					}
+					&:focus {
+						outline: 1px dashed $c_sub;
+					}
+				}
+				svg {
+					width: 110px;
+					height: 20px;
+					margin: 12px 0;
+				}
+				.pro-right {
+					float: right;
+					@include tablet_portrait{
+						float: none;
+					}
+					> * {
+						float: left;
+						@include tablet_portrait{
+							float: none;
+						}
+					}
+					.pro-btn-connexion {
+						@include ft($f_spe, $s_p, 700, $c_grey50, 3em);
+						text-transform: uppercase;
+						background: #fbac28;
+						padding: 0 20px;
+						margin: 0 15px;
+						@include addTransition();
+						@include tablet_portrait{
+							display: block;
+							width: calc(100% - 30px);
+							margin-bottom: 5px;
+						}
+						&:before {
+							content: "\e900";
+							@include font();
+							float: left;
+							line-height: 3em;
+							margin-right: 10px;
+							font-weight: 700;
+							@include tablet_portrait{
+								content: none;
+							}
+						}
+						&:hover, &:focus {
+							color: $c_white;
+						}
+					}
+					ul {
+						@include tablet_portrait{
+							margin-bottom: 15px;
+						}
+						li {
+							float: left;
+							line-height: 3em;
+							@include tablet_portrait{
+								float: none;
+								display: block;
+								width: 100%;
+							}
+							&:last-child{
+								a{
+									padding-right: 0;
+								}
+							}
+							a {
+								@include ft($f_txt, $s_small, 600, $c_grey50, 3.750em);
+								text-transform: uppercase;
+								padding: 0 15px;
+								display: block;
+								@include tablet_portrait{
+									color: $c_white;
+									text-align: left;
+									line-height: 2em;
+								}
+								&:after {
+									content: '';
+									position: absolute;
+									bottom: 0px;
+									left: 15px;
+									right: 15px;
+									height: 1px;
+									width: calc(100% - 30px);
+									background: $c_grey50;
+									opacity: 0;
+									@include addTransitionCurve();
+									@include tablet_portrait{
+										content: none;
+									}
+								}
+								&:hover, &:focus {
+									&:after {
+										opacity: 1;
+										bottom: 7px;
+									}
+									@include tablet_portrait{
+										color: $c_main;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// HEADER PRINCIPAL DU SITE
+		// ==========================================================================
+		.pro-header {
+			position: relative;
+			text-align: center;
+			// Logo du site (image)
+			.pro-logo {
+				position: relative;
+				z-index: 100;
+				height: $header-height;
+				line-height: $header-height;
+				font-size: 24px;
+				text-transform: uppercase;
+				font-weight: 300;
+				color: $c_main;
+				float: left;
+				transform: translateY(15px);
+				transform: translate3d(0, 15px, 0);
+				@include addTransitionCurve();
+
+				&:focus {
+					outline: 1px dashed $c_sub;
+				}
+
+				.is-scrolled & {
+					transform: none;
+					height: 80px;
+					line-height: 80px;
+				}
+
+				@include mobile_small{
+					width: 100px;
+				}
+
+				figure {
+					background: none;
+					position: relative;
+					top: 50%;
+					transform: translate3d(0, -50%, 0);
+					img{
+						@include addTransitionCurve();
+						@include mobile{
+							height: auto;
+						}
+						.is-scrolled & {
+							width: 90px;
+							height: 100%;
+							top: 10px;
+						}
+					}
+				}
+			}
+
+			// Zone de naviguation
+			.pro-wrapper-nav {
+				display: inline-block;
+				vertical-align: middle;
+				line-height: $header-height;
+
+				position: absolute;
+				left: 0;
+				right: 0;
+				z-index: 10;
+				width: 100%;
+
+				@include addTransitionCurve();
+				@include tablet_portrait {
+					position: fixed;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: -100%;
+					width: 50%;
+					height: 100vh;
+					margin: 0;
+					z-index: 100000000;
+					transform: translateY(80px);
+					transform: translate3d(0,80px,0);
+					pointer-events: none;
+					background: $c_sub;
+					@include addTransitionCurve();
+				}
+				@include mobile{
+					width: calc(100% - 60px);
+				}
+				.is-scrolled & {
+					line-height: 80px;
+				}
+
+
+				nav {
+					display: inline-block;
+					vertical-align: middle;
+					position: relative;
+					@include tablet_portrait {
+						position: fixed;
+						top: 0;
+						left: -100%;
+						width: 100%;
+						height: 75vh;
+						overflow: auto;
+						float: none;
+						margin: 0;
+						padding: 50px 30px 0 30px;
+						text-align: center;
+						z-index: 900;
+
+						transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s;
+						visibility: hidden;
+						opacity: 0;
+					}
+
+					&.show {
+						transition: all 0.2s ease-in-out, visibility 0s linear;
+						visibility: visible;
+						opacity: 1;
+						left: 0;
+
+						ul {
+							li {
+								opacity: 1;
+								display: block;
+								width: 100%;
+								text-align: left;
+								&:after {
+									content: none;
+								}
+								a {
+									padding: 10px 0;
+								}
+
+								> ul {
+									padding-left: 20px;
+									li {
+										a {
+											font-size: 1.2em;
+											line-height: normal;
+											padding: 3px 0;
+										}
+									}
+								}
+							}
+						}
+
+						& + .pro-top-header{
+							left: 0;
+						}
+					}
+
+					ul {
+						list-style-type: none;
+						padding: 0;
+
+						li {
+							position: relative;
+							margin: 0;
+							display: inline-block;
+							font-size: 1em;
+							float: left;
+							&:after {
+								content: '';
+								position: absolute;
+								top: 3px;
+								right: 0;
+								bottom: 3px;
+								height: 16px;
+								width: 1px;
+								background: $c_filet;
+							}
+							&:last-child {
+								&:after {
+									content: none;
+								}
+							}
+							&.pro-home{
+								margin-right: 15px;
+								top: -3px;
+								@media screen and (max-width: 1200px){
+									margin-right: 0;
+								}
+								@include tablet_portrait{
+									top: 0;
+								}
+								&:after{
+									content: none;
+								}
+								a{
+									font-size: 1.4em;
+									line-height: 1em;
+									@media screen and (max-width: 1200px){
+										font-size: 1em;
+										line-height: 1.42em;
+										position: relative;
+										top: 2px;
+										padding-right: 5px;
+									}
+									@include tablet_portrait{
+										font-size: 1.4em;
+									}
+									&:after{
+										content: none;
+									}
+									&:hover, &:focus{
+										color: $c_main;
+									}
+								}
+							}
+							a {
+								@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+								text-transform: uppercase;
+								display: block;
+								padding: 0 15px;
+								&:after {
+									content: '';
+									position: absolute;
+									bottom: -8px;
+									left: 8px;
+									right: 8px;
+									height: 0;
+									width: calc(100% - 16px);
+									transform-origin: bottom;
+									background: $c_main;
+									z-index: -1;
+									@include addTransitionCurve();
+								}
+								@media screen and (max-width: 1200px){
+									font-size: 1em;
+									padding: 0 10px;
+								}
+								@include tablet_portrait {
+									@include ft($f_hx, 20px, 700, $c_white, 26px);
+									text-transform: uppercase;
+									height: auto;
+									padding: 0 15px;
+									&:after{
+										content: none;
+									}
+								}
+								&:hover, &:focus, &.active {
+									&:after {
+										height: 20px;
+									}
+									@include tablet_portrait{
+										color: $c_main;
+									}
+								}
+							}
+							ul {
+								display: none;
+								position: absolute;
+								top: calc(100% + 20px);
+								width: 100%;
+								margin: 0;
+								border: none;
+								border-radius: 0;
+								@include tablet_portrait {
+									position: relative;
+									background: none;
+									box-shadow: none;
+								}
+								li {
+									display: block;
+									float: none;
+									&:after {
+										content: none;
+									}
+									a {
+										padding: 7px 15px;
+										width: 100%;
+										height: 100%;
+										white-space: normal;
+										.no-hover & {
+											background: none;
+										}
+										&:after {
+											content: none;
+										}
+									}
+								}
+							}
+
+							&.open > ul {
+								display: block;
+							}
+						}
+					}
+				}
+			}
+
+			.pro-menu-right {
+				position: absolute;
+				right: 15px;
+				z-index: 100;
+				height: $header-height;
+				line-height: $header-height;
+				float: right;
+				@include addTransitionCurve();
+				@include tablet_portrait {
+					position: relative;
+					padding-right: 50px;
+				}
+				@include mobile{
+					padding-right: 30px;
+				}
+				.is-scrolled & {
+					height: 80px;
+					line-height: 80px;
+				}
+				ul {
+					li {
+						line-height: normal;
+						display: inline-block;
+						vertical-align: middle;
+						a {
+							color: $c_txt;
+							padding: 0 8px;
+							font-size: 1.4em;
+							@include addTransitionCurve();
+							&:hover, &:focus {
+								color: $c_main;
+							}
+							&:focus {
+								& + span {
+									visibility: visible;
+									color: $c_white !important;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.lang {
+				position: relative;
+				float: left;
+				&:hover {
+					cursor: pointer;
+				}
+
+				> a {
+					@include ft($f_hx, $s_p, 700, $c_txt, $header-height);
+					span {
+						vertical-align: middle;
+					}
+				}
+				.sub-menu {
+					position: absolute;
+					background: #fff;
+					width: auto;
+					top: 80px;
+					padding: 0 0;
+					overflow: hidden;
+					transform: scaleY(0);
+					transform-origin: top;
+					opacity: 0;
+					@include addTransition();
+
+					@include tablet_portrait {
+						top: 70px;
+					}
+
+					&.sub-lang-mobile {
+						display: none !important;
+					}
+
+					&.is-focus-lang {
+						box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.15);
+						padding: 4px 0;
+						top: $header-height;
+						opacity: 1;
+						z-index: 10;
+						display: block;
+						transform: scaleY(1);
+					}
+
+					li {
+						display: block;
+						width: 100%;
+					}
+					a {
+						@include ft($f_hx, $s_p, 700, $c_sub, normal);
+						padding: 8px 15px;
+						text-align: left;
+						height: auto;
+						display: block;
+						@include tablet_portrait {
+							text-align: center;
+							text-transform: none;
+						}
+						&:hover, &:focus {
+							color: $c_main;
+						}
+					}
+				}
+
+				select {
+					display: none;
+					&.is-display {
+						display: block;
+						opacity: 0;
+						position: absolute;
+						top: 0;
+						left: 0;
+						bottom: 0;
+						right: 0;
+						height: 100%;
+						width: 100%;
+						z-index: 101010100;
+					}
+				}
+
+				&:hover, &:focus {
+					.currentLang {
+						a, span {
+							color: $c_main;
+						}
+					}
+					.sub-menu {
+						box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.15);
+						padding: 4px 0;
+						top: $header-height;
+						opacity: 1;
+						z-index: 10;
+						display: block;
+						transform: scaleY(1);
+						@include tablet_portrait {
+							top: 70px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// MENU BURGER A PARTIR DU DEVICE TABLETTE
+	// ==========================================================================
+	div.th-menu {
+		position: absolute;
+		top: 50%;
+		right: 25px;
+		display: none;
+		width: 30px;
+		height: 20px;
+		margin: 0;
+		cursor: pointer;
+		z-index: 1000000000;
+		transform: rotate(0deg) translate3d(0, -50%, 0);
+		transition: all 0.5s ease;
+
+		@include tablet_portrait {
+			display: block;
+		}
+		@include mobile{
+			right: 15px;
+		}
+	}
+	div.th-menu span {
+		position: absolute;
+		left: 0;
+		display: block;
+		width: 100%;
+		height: 2px;
+		background: $c_sub;
+		opacity: 1;
+		transform: rotate(0deg);
+		transition: all 0.25s ease;
+	}
+	div.th-menu span:nth-child(1) {
+		top: 0;
+	}
+	div.th-menu span:nth-child(2),
+	div.th-menu span:nth-child(3) {
+		top: 9px;
+	}
+	div.th-menu span:nth-child(4) {
+		top: 18px;
+	}
+	div.th-menu.open span:nth-child(1) {
+		top: 9px;
+		left: 50%;
+		width: 0;
+		background: $c_white;
+	}
+	div.th-menu.open span:nth-child(2) {
+		background: $c_white;
+		transform: rotate(45deg);
+	}
+	div.th-menu.open span:nth-child(3) {
+		background: $c_white;
+		transform: rotate(-45deg);
+	}
+	div.th-menu.open span:nth-child(4) {
+		top: 9px;
+		left: 50%;
+		width: 0;
+		background: $c_white;
+	}
+
+}

@@ -1,0 +1,157 @@
+#th-global {
+
+
+	.pro-bloc-listing-participation {
+		&:after{
+			content: '';
+			display: block;
+			position: absolute;
+			top: 0;
+			right: -15px;
+			bottom: 0;
+			height: 100%;
+			width: 1px;
+			background: #CECECE;
+		}
+		#breadcrumb {
+			padding: 10px 0;
+			background: $c_white;
+		}
+
+		.pro-wrapper-sort {
+			position: relative;
+			z-index: 100000;
+			padding: 15px 0 25px 0;
+			display: block;
+			width: 100%;
+			background: $c_white;
+			&:after{
+				content: '';
+				display: block;
+				clear: both;
+			}
+			form {
+				float: left;
+				@include tablet_landscape{
+					float: none;
+				}
+				&:after{
+					content: '';
+					display: block;
+					clear: both;
+				}
+				> * {
+					&:first-child {
+						padding-left: 0;
+					}
+				}
+			}
+
+			.pro-legend{
+				@include ft($f_txt, $s_small, 400, $c_txt, 1.636em);
+				float: right;
+				&:after{
+					content: "\e90a";
+					@include font();
+					float: right;
+					line-height: 1.8em;
+					margin-left: 5px;
+				}
+				@include tablet_landscape{
+					float: none;
+					display: inline-block;
+					margin-top: 20px;
+				}
+			}
+		}
+
+
+		.pro-wrapper-listing-participation{
+			position: relative;
+			background: #e5e8e9;
+			padding: 20px 0 10px 0;
+			@include mobile{
+				padding: 15px 0;
+			}
+			&:before{
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: -15px;
+				width: 99999px;
+				display: block;
+				background: #e5e8e9;
+				@include tablet_portrait{
+					right: 0;
+					left: -1000px;
+				}
+			}
+
+
+			.pro-bloc-card-participation{
+				margin: 20px 0;
+
+				&:hover, &:focus{
+					> * {
+						transform: none;
+					}
+				}
+
+				.pro-header-participation{
+					padding: 30px 30px 0 30px;
+					margin-bottom: 30px;
+
+					> p {
+						@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
+						strong{
+							color: $c_txt;
+						}
+					}
+				}
+
+				.pro-content-participation{
+					padding: 0 30px 20px 30px;
+					&:after{
+						left: 30px;
+						right: 30px;
+						width: calc(100% - 60px);
+					}
+
+					h3{
+						@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+						margin-bottom: 20px;
+					}
+
+					.pro-time{
+						@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+					}
+				}
+
+				.pro-footer-participation{
+					padding: 10px 30px;
+				}
+			}
+		}
+
+
+	}
+
+
+
+	.pro-bloc-facette-participation{
+
+		.pro-affiner{
+			padding: 20px 30px;
+			@include mobile{
+				margin-bottom: 15px;
+				padding: 20px 15px;
+			}
+		}
+		form{
+			padding: 0 0 0 30px;
+		}
+	}
+
+
+}
