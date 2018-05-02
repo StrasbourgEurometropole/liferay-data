@@ -86,10 +86,12 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
+			_log.error(e);
 			report.globalErrorObjectCategory(LanguageUtil.get(bundle, "category-object-no-url"));
 			return report;
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
+			_log.error(e);
 			report.globalErrorObjectCategory(LanguageUtil.get(bundle, "category-object-json-fail"));
 			return report;
 		}
@@ -179,10 +181,12 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
+			_log.error(e);
 			report.globalErrorFoundObject(LanguageUtil.get(bundle, "found-object-no-url"));
 			return report;
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
+			_log.error(e);
 			report.globalErrorFoundObject(LanguageUtil.get(bundle, "found-object-json-fail"));
 			return report;
 		}
@@ -285,10 +289,12 @@ public class ObjtpImporter {
 			json = JSONHelper.readJsonFromURL(url);
 		} catch (IOException e) { 
 			// Erreur de lecture URL
+			_log.error(e);
 			reportLine.error(LanguageUtil.get(bundle, "image-no-url"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		} catch (JSONException e) { 
 			// Erreur de parse du JSON
+			_log.error(e);
 			reportLine.error(LanguageUtil.get(bundle, "image-json-fail"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		}
