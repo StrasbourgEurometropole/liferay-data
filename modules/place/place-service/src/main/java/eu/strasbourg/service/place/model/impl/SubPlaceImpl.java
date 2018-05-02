@@ -365,7 +365,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 			}
 		}
 
-		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (!surPeriode && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 

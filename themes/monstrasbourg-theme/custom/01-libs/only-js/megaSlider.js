@@ -86,7 +86,7 @@ function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 3;
     if(elements[0].indexOf('big') != -1){
-        itemSeparator = 3;
+        itemSeparator = 4;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
@@ -97,7 +97,11 @@ function addToSlider(conf, elements){
     
     elements.forEach(function(element, index) {
         if(index%itemSeparator == 0 && index > 0){
-            nodeStringToAdd += '</div><div class="'+conf.pages_class+'">';
+            nodeStringToAdd += '</div><div class="'+conf.pages_class
+            if(elements[0].indexOf('big') != -1){
+                nodeStringToAdd += ' '+conf.is_Big_Class;
+            }
+            nodeStringToAdd += '"">';
         }
         nodeStringToAdd += element;
     }, this);

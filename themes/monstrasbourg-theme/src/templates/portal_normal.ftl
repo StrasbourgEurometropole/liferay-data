@@ -25,6 +25,22 @@
       </#if>
       ${themeDisplay.getResponse().sendRedirect(homeURL)}
   </#if>
+
+  <script>
+    <#if request.session.getAttribute("publik_logged_in")!false>
+      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+      window.userFavorites = [
+        <#list favorites as favorite>
+          {
+            entityId: ${favorite.entityId},
+            typeId: ${favorite.typeId}
+          }<#sep>,</#sep>
+        </#list>
+      ];
+    </#if>
+
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <@liferay_util["include"] page=top_head_include />
@@ -33,9 +49,10 @@
   <title>${the_title?replace('-', '|')}</title>
 </head>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
+<#assign isDistrict = layout.getFriendlyURL() == "/mon-quartier" />
 
 <body class="${css_class} no-js
-     class_group_home <#if isHome>front<#else>not-front</#if>">
+     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if>">
 
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -98,7 +115,7 @@
     <div class="custom-container">
       <#include "${full_templates_path}/home_banner.ftl" />
     
-    <#if !isHome>
+    <#if !(isHome || isDistrict)>
       <div class="card-box">  
         <#if layout.getFriendlyURL() != "/bienvenue">
           <@liferay.breadcrumbs />
@@ -115,7 +132,7 @@
         <@liferay_util["include"] page=content_include />
       </@>
     </#if>
-    <#if !isHome>
+    <#if !(isHome || isDistrict)>
       </div>
     <#else>
       <#--include "${full_templates_path}/content.ftl" /-->

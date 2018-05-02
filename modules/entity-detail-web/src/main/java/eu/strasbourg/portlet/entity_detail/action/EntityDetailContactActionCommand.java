@@ -15,6 +15,12 @@
  */
 package eu.strasbourg.portlet.entity_detail.action;
 
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -36,6 +42,8 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
 		"mvc.command.name=contact" }, service = MVCActionCommand.class)
@@ -45,71 +53,95 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 		request.setAttribute("fromContactForm", true);
 		
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		Configuration configuration = new Configuration(Configuration.getVersion());
+		configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
+		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		
+		Map<String, Object> context = new HashMap<>();
+		
+		String type = ParamUtil.getString(request, "type");
 		String email = ParamUtil.getString(request, "email");
 		String to = ParamUtil.getString(request, "to");
-		String subject = ParamUtil.getString(request, "subject");
+		String title = ParamUtil.getString(request, "title");
 		String message = ParamUtil.getString(request, "message");
 		String firstName = ParamUtil.getString(request, "firstName");
 		String lastName = ParamUtil.getString(request, "lastName");
 		boolean notificationEmail = ParamUtil.getBoolean(request, "notificationEmail");
-		String body = "Prenom : " + firstName + "\n";
-		body += "Nom : " + lastName + "\n";
-		body += "Mail : " + email + "\n";
-		body += "Message : " + message;
-
-		// Validation
-		String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
-		boolean hasError = false;
-		if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
-			SessionErrors.add(request, "recaptcha-error");
-			hasError = true;
-		}
-		// Champs vides
-		if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(subject) || Validator.isNull(firstName)
-				|| Validator.isNull(lastName) || Validator.isNull(message)) { 
-			SessionErrors.add(request, "all-fields-required");
-			hasError = true;
-		}
-		// Mail invalide
-		if (!Validator.isEmailAddress(email)) {
-			SessionErrors.add(request, "invalid-mail");
-			hasError = true;
-		}
-		// Pas d'erreur
-		if (!hasError) {
-			SessionMessages.add(request, "mail-success");
-			request.setAttribute("mailSent", true);
-			boolean success = MailHelper.sendMailWithPlainText("no-reply@no-reply.strasbourg.eu", to, subject, body);
-
-			// Envoi du mail à l'utilisateur
-			if (success && notificationEmail) {
-				ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-				ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
-				String notificationSubject = "";
-				String headerImage = "";
-				String headerText = "";
-				String footerText = "";
-				String footerImage = "";
-				try {
-					notificationSubject = GetterUtil.getString(ed.getAttribute("subject_mail_contact"));
-					headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
-					headerText = GetterUtil.getString(ed.getAttribute("text_header_mail_contact"));
-					footerText = GetterUtil.getString(ed.getAttribute("text_footer_mail_contact"));
-					footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
-				} catch (Exception ex) {
-					_log.error("Missing expando field");
-				}
-
-				body = "<p>" + headerText + "</p>" + body.replace("\n", "<br>") + "<p>" + footerText + "</p>";
-				if (Validator.isUrl(headerImage)) {
-					body = "<p><img src='" + headerImage + "' /></p>" + body;
-				}
-				if (Validator.isUrl(footerImage)) {
-					body = body + "<p><img src='" + footerImage + "' /></p>";
-				}
-				MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email, notificationSubject, body);
+		
+		LocalDateTime dateTime = LocalDateTime.now();
+		String date = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+		context.put("date", date);
+		context.put("time", time);
+		context.put("website", themeDisplay.getScopeGroup().getName(request.getLocale()));
+		context.put("firstName", firstName);
+		context.put("lastName", lastName);
+		context.put("content", message);
+		context.put("emailFrom", email);
+		context.put("type", type);
+		context.put("title", title);
+		try {
+			Template subjectTemplate = configuration.getTemplate("contact-mail-subject.ftl");
+			Template bodyTemplate = configuration.getTemplate("contact-mail-body.ftl");
+			StringWriter subjectWriter = new StringWriter();
+			StringWriter bodyWriter = new StringWriter();
+			subjectTemplate.process(context, subjectWriter);
+			bodyTemplate.process(context, bodyWriter);
+			
+			// Validation
+			String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+			boolean hasError = false;
+			if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
+				SessionErrors.add(request, "recaptcha-error");
+				hasError = true;
 			}
-			return success;
+			// Champs vides
+			if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(firstName)
+					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
+				SessionErrors.add(request, "all-fields-required");
+				hasError = true;
+			}
+			// Mail invalide
+			if (!Validator.isEmailAddress(email)) {
+				SessionErrors.add(request, "invalid-mail");
+				hasError = true;
+			}
+			// Pas d'erreur
+			if (!hasError) {
+				SessionMessages.add(request, "mail-success");
+				request.setAttribute("mailSent", true);
+				boolean success = MailHelper.sendMailWithPlainText("no-reply@no-reply.strasbourg.eu", to, subjectWriter.toString(), bodyWriter.toString());
+	
+				// Envoi du mail à l'utilisateur
+				if (success && notificationEmail) {
+					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
+					String headerImage = "";
+					String footerImage = "";
+					try {
+						headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
+						footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
+						context.put("headerImage", headerImage);
+						context.put("footerImage", footerImage);
+					} catch (Exception ex) {
+						_log.error("Missing expando field");
+					}
+	
+					Template subjectCopyTemplate = configuration
+							.getTemplate("contact-mail-copy-subject.ftl");
+					Template bodyCopyTemplate = configuration
+							.getTemplate("contact-mail-copy-body.ftl");
+					StringWriter subjectCopyWriter = new StringWriter();
+					StringWriter bodyCopyWriter = new StringWriter();
+					subjectCopyTemplate.process(context, subjectCopyWriter);
+					bodyCopyTemplate.process(context, bodyCopyWriter);
+					
+					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email, subjectCopyWriter.toString(), bodyCopyWriter.toString());
+				}
+				return success;
+			}
+		} catch (Exception e) {
+			_log.error(e);
 		}
 
 		// On renvoie pour l'affichage
