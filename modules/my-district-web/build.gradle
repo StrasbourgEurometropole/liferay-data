@@ -15,5 +15,5 @@ dependencies {
 	compile project (':modules:strasbourg:strasbourg-api')
 	compile project (':modules:adict')
 	compile project (':modules:official:official-api')
-	compile project (':modules:place:place-api')
+	compile project (':modules:place:place-api')  
 }
