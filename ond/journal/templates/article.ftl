@@ -1,6 +1,6 @@
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign file = fileEntryHelper.getFileEntryByRelativeURL(illustration.getData()) />
-<#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />
+<#assign editorialTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
 <#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
 
 <div class="article-detail">
@@ -14,11 +14,11 @@
             <div class="imgcontainer">
                 
 
-                <a href="${illustration.getData()}" title="${legend} © ${copyright}" class="magnific-popup">
-                    <#if illustration.getAttribute('alt')?has_content && legend?has_content >
-                        <img src="${illustration.getData()}" alt="${illustration.getAttribute('alt')}" title="${legend}" />
-                    <#elseif legend?has_content >
-                     <img src="${illustration.getData()}" title="${legend}" />
+                <a href="${illustration.getData()}" title="${editorialTitle} © ${copyright}" class="magnific-popup">
+                    <#if illustration.getAttribute('alt')?has_content && editorialTitle?has_content >
+                        <img src="${illustration.getData()}" alt="${illustration.getAttribute('alt')}" title="${editorialTitle}" />
+                    <#elseif editorialTitle?has_content >
+                     <img src="${illustration.getData()}" title="${editorialTitle}" />
                     <#else>
                         <img src="${illustration.getData()}" />
                     </#if>
