@@ -29,6 +29,16 @@
         @include RWD(mobile){
             margin-bottom: 2em;
         }
+
+        h1 {
+            text-align: center;
+            font-size: 5.0rem;
+            font-weight: 700;
+            line-height: 1.2; 
+            @include RWD(mobile){
+                font-size: 2.5rem;
+            }      
+        }
     }
 
     .favActions{

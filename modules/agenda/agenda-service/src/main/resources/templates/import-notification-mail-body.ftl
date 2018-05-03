@@ -10,6 +10,12 @@
 	<#list report.errorEventsLines as event>
 		- ${event.entityExternalId} - ${event.entityName} : ${event.log}
 	</#list>
+		
+	${report.errorManifestationsCount} manifestation<#if (report.errorManifestationsCount > 1)>s</#if> en erreur
+	
+	<#list report.errorManifestationsLines as manif>
+		- ${manif.entityExternalId} - ${manif.entityName} : ${manif.log}
+	</#list>
 	
 	${report.newEventsCount} événement<#if (report.newEventsCount > 1)>s</#if> créé<#if (report.newEventsCount > 1)>s</#if>
 	
@@ -22,13 +28,7 @@
 	<#list report.modifiedEventsLines as event>
 		- ${event.entityExternalId} - ${event.entityName}
 	</#list>
-	
-	${report.errorManifestationsCount} manifestation<#if (report.errorManifestationsCount > 1)>s</#if> en erreur
-	
-	<#list report.errorManifestationsLines as manif>
-		- ${manif.entityExternalId} - ${manif.entityName} : ${manif.log}
-	</#list>
-	
+
 	${report.newManifestationsCount} manifestation<#if (report.newManifestationsCount > 1)>s</#if> créée<#if (report.newManifestationsCount > 1)>s</#if>
 	
 	<#list report.newManifestationsLines as manif>
