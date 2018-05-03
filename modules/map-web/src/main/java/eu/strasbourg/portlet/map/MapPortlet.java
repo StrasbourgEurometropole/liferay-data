@@ -241,7 +241,10 @@ public class MapPortlet extends MVCPortlet {
 						categories.removeIf(c -> c.getVocabularyId() == vocabulary.getVocabularyId());
 					}
 					// Récupération de toutes les catégories en préfiltre
-					prefilterCategoriesIdsString = "" + district.getCategoryId();
+					prefilterCategoriesIdsString = "";
+					if(district != null){
+						prefilterCategoriesIdsString += district.getCategoryId();
+					}
 					for (String categoryId : prefilterCategoriesIds) {
 						if (!vocabulary.getCategories().stream()
 								.anyMatch(c -> c.getCategoryId() == Long.parseLong(categoryId))) {
