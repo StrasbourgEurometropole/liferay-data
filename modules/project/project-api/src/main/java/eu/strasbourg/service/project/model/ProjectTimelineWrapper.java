@@ -62,6 +62,7 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 		attributes.put("startDay", getStartDay());
 		attributes.put("date", getDate());
 		attributes.put("title", getTitle());
+		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
 
 		return attributes;
@@ -91,6 +92,12 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String link = (String)attributes.get("link");
+
+		if (link != null) {
+			setLink(link);
 		}
 
 		Long projectId = (Long)attributes.get("projectId");
@@ -164,6 +171,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	@Override
 	public java.lang.Object clone() {
 		return new ProjectTimelineWrapper((ProjectTimeline)_projectTimeline.clone());
+	}
+
+	/**
+	* Returns the link of this project timeline.
+	*
+	* @return the link of this project timeline
+	*/
+	@Override
+	public java.lang.String getLink() {
+		return _projectTimeline.getLink();
 	}
 
 	/**
@@ -260,6 +277,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_projectTimeline.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the link of this project timeline.
+	*
+	* @param link the link of this project timeline
+	*/
+	@Override
+	public void setLink(java.lang.String link) {
+		_projectTimeline.setLink(link);
 	}
 
 	@Override

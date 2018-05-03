@@ -120,6 +120,21 @@ public interface ProjectTimelineModel extends BaseModel<ProjectTimeline> {
 	public void setTitle(String title);
 
 	/**
+	 * Returns the link of this project timeline.
+	 *
+	 * @return the link of this project timeline
+	 */
+	@AutoEscape
+	public String getLink();
+
+	/**
+	 * Sets the link of this project timeline.
+	 *
+	 * @param link the link of this project timeline
+	 */
+	public void setLink(String link);
+
+	/**
 	 * Returns the project ID of this project timeline.
 	 *
 	 * @return the project ID of this project timeline

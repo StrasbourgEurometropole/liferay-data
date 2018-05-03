@@ -183,12 +183,17 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					// Titre
 					String timelineTitle = ParamUtil.getString(request,
 							"title" + timelineIndex);
+					
+					// Lien
+					String link = ParamUtil.getString(request,
+							"link" + timelineIndex);
 
 					ProjectTimeline projectTimeline = _projectTimelineLocalService
 						.createProjectTimeline();
 					projectTimeline.setStartDay(startDay);
 					projectTimeline.setDate(date);
 					projectTimeline.setTitle(timelineTitle);
+					projectTimeline.setLink(link);
 					projectTimeline.setProjectId(project.getProjectId());
 					this._projectTimelineLocalService
 						.updateProjectTimeline(projectTimeline);

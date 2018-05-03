@@ -26,6 +26,20 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="contactPhoneNumber" type="String" />
+		<field name="videoUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="imageUrl" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="mediaChoice" type="boolean" />
+		<field name="descriptionChapeau" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="descriptionBody" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="filesIds" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 	</model>
@@ -45,8 +59,12 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="externalImageURL" type="String" />
-		<field name="externalImageCopyright" type="String" />
+		<field name="externalImageURL" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="externalImageCopyright" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="imageWidth" type="int" />
 		<field name="imageHeight" type="int" />
 		<field name="description" type="String">
@@ -73,6 +91,9 @@
 		<field name="startDay" type="int" />
 		<field name="date" type="Date" />
 		<field name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="link" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="projectId" type="long" />

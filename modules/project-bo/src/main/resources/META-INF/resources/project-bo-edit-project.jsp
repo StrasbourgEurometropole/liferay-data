@@ -159,6 +159,7 @@
 									<liferay-util:param name="startDay" value="${projectTimeline.startDay}" />
 									<liferay-util:param name="date" value="${formattedDate}" />
 									<liferay-util:param name="title" value="${projectTimeline.title}" />
+									<liferay-util:param name="link" value="${projectTimeline.link}" />
 								</liferay-util:include>
 							</div>
 						</div>

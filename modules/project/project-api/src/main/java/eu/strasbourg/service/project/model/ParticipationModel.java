@@ -383,6 +383,102 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setContactPhoneNumber(String contactPhoneNumber);
 
 	/**
+	 * Returns the video url of this participation.
+	 *
+	 * @return the video url of this participation
+	 */
+	@AutoEscape
+	public String getVideoUrl();
+
+	/**
+	 * Sets the video url of this participation.
+	 *
+	 * @param videoUrl the video url of this participation
+	 */
+	public void setVideoUrl(String videoUrl);
+
+	/**
+	 * Returns the image url of this participation.
+	 *
+	 * @return the image url of this participation
+	 */
+	@AutoEscape
+	public String getImageUrl();
+
+	/**
+	 * Sets the image url of this participation.
+	 *
+	 * @param imageUrl the image url of this participation
+	 */
+	public void setImageUrl(String imageUrl);
+
+	/**
+	 * Returns the media choice of this participation.
+	 *
+	 * @return the media choice of this participation
+	 */
+	public boolean getMediaChoice();
+
+	/**
+	 * Returns <code>true</code> if this participation is media choice.
+	 *
+	 * @return <code>true</code> if this participation is media choice; <code>false</code> otherwise
+	 */
+	public boolean isMediaChoice();
+
+	/**
+	 * Sets whether this participation is media choice.
+	 *
+	 * @param mediaChoice the media choice of this participation
+	 */
+	public void setMediaChoice(boolean mediaChoice);
+
+	/**
+	 * Returns the description chapeau of this participation.
+	 *
+	 * @return the description chapeau of this participation
+	 */
+	@AutoEscape
+	public String getDescriptionChapeau();
+
+	/**
+	 * Sets the description chapeau of this participation.
+	 *
+	 * @param descriptionChapeau the description chapeau of this participation
+	 */
+	public void setDescriptionChapeau(String descriptionChapeau);
+
+	/**
+	 * Returns the description body of this participation.
+	 *
+	 * @return the description body of this participation
+	 */
+	@AutoEscape
+	public String getDescriptionBody();
+
+	/**
+	 * Sets the description body of this participation.
+	 *
+	 * @param descriptionBody the description body of this participation
+	 */
+	public void setDescriptionBody(String descriptionBody);
+
+	/**
+	 * Returns the files IDs of this participation.
+	 *
+	 * @return the files IDs of this participation
+	 */
+	@AutoEscape
+	public String getFilesIds();
+
+	/**
+	 * Sets the files IDs of this participation.
+	 *
+	 * @param filesIds the files IDs of this participation
+	 */
+	public void setFilesIds(String filesIds);
+
+	/**
 	 * Returns the publication date of this participation.
 	 *
 	 * @return the publication date of this participation

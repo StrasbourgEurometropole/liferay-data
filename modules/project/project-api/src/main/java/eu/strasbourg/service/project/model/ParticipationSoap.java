@@ -52,6 +52,12 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setContactLine1(model.getContactLine1());
 		soapModel.setContactLine2(model.getContactLine2());
 		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
+		soapModel.setVideoUrl(model.getVideoUrl());
+		soapModel.setImageUrl(model.getImageUrl());
+		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setDescriptionChapeau(model.getDescriptionChapeau());
+		soapModel.setDescriptionBody(model.getDescriptionBody());
+		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 
@@ -250,6 +256,58 @@ public class ParticipationSoap implements Serializable {
 		_contactPhoneNumber = contactPhoneNumber;
 	}
 
+	public String getVideoUrl() {
+		return _videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		_videoUrl = videoUrl;
+	}
+
+	public String getImageUrl() {
+		return _imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		_imageUrl = imageUrl;
+	}
+
+	public boolean getMediaChoice() {
+		return _mediaChoice;
+	}
+
+	public boolean isMediaChoice() {
+		return _mediaChoice;
+	}
+
+	public void setMediaChoice(boolean mediaChoice) {
+		_mediaChoice = mediaChoice;
+	}
+
+	public String getDescriptionChapeau() {
+		return _descriptionChapeau;
+	}
+
+	public void setDescriptionChapeau(String descriptionChapeau) {
+		_descriptionChapeau = descriptionChapeau;
+	}
+
+	public String getDescriptionBody() {
+		return _descriptionBody;
+	}
+
+	public void setDescriptionBody(String descriptionBody) {
+		_descriptionBody = descriptionBody;
+	}
+
+	public String getFilesIds() {
+		return _filesIds;
+	}
+
+	public void setFilesIds(String filesIds) {
+		_filesIds = filesIds;
+	}
+
 	public Date getPublicationDate() {
 		return _publicationDate;
 	}
@@ -284,6 +342,12 @@ public class ParticipationSoap implements Serializable {
 	private String _contactLine1;
 	private String _contactLine2;
 	private String _contactPhoneNumber;
+	private String _videoUrl;
+	private String _imageUrl;
+	private boolean _mediaChoice;
+	private String _descriptionChapeau;
+	private String _descriptionBody;
+	private String _filesIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 }

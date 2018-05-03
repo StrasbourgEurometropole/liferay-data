@@ -97,6 +97,18 @@
 		<column name="contactLine2" type="String" />
 		<column name="contactPhoneNumber" type="String" />
 		
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="imageUrl" type="String" />
+		<column name="mediaChoice" type="boolean" />
+		
+		<!-- Description -->
+		<column name="descriptionChapeau" type="String" />
+		<column name="descriptionBody" type="String" />
+		
+		<!-- Links with other entities -->
+		<column name="filesIds" type="String" /> 
+		
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
 		<column name="expirationDate" type="Date"></column>
@@ -127,6 +139,7 @@
         <column name="startDay" type="int" />
         <column name="date" type="Date" />
         <column name="title" type="String" />
+        <column name="link" type="String" />
         
         <!-- Links with other entities -->
         <column name="projectId" type="long"></column>

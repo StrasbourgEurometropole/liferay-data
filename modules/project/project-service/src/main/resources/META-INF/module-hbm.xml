@@ -26,6 +26,12 @@
 		<property name="contactLine1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="descriptionChapeau" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="descriptionBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 	</class>
@@ -67,6 +73,7 @@
 		<property name="startDay" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

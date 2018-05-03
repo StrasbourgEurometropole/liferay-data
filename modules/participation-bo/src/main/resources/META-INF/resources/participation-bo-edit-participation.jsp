@@ -21,17 +21,12 @@
 <%-- Composant : formulaire de saisie de l'entite --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${saveParticipationURL}" method="post" name="fm">
-	
-		<%-- Champ : Selecteur de langue --%>
-		<aui:translation-manager availableLocales="${dc.availableLocales}"
-			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
-			id="translationManager" />
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.participation}" model="<%=Participation.class %>" />
 		<aui:fieldset-group markupView="lexicon">
 		
-			<%-- Champ : (cache) PK de l'entitÃÂÃÂÃÂÃÂ© --%>
+			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="participationId" type="hidden" />
 
 			<%-- Groupe de champs : Generalites --%>
@@ -59,6 +54,41 @@
 				
 				<%-- Champ : Numero de telephone --%>
 				<aui:input name="contactPhoneNumber" required="false" />
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Médias --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="medias">
+				
+				<%-- Champ : Choix du média --%>
+				<aui:input name="mediaChoice" label="media-preference" type="toggle-switch"
+					value="${not empty dc.participation ? dc.participation.mediaChoice : true}" />
+				
+				<%-- Champ : URL de la vidéo --%>
+				<aui:input name="imageUrl" required="false" />
+				
+				<%-- Champ : URL de l'image --%>
+				<aui:input name="videoUrl" required="false" />
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Description --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="description">
+				
+				<%-- Champ : Chapeau de la description --%>
+				<aui:input name="descriptionChapeau" required="false" />
+				
+				<%-- Champ : Date d'expiration --%>
+				<aui:input name="descriptionBody" required="false" />
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Documents --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
+				
+				<%-- Champ : Sélection des documents --%>
+				<strasbourg-picker:file label="eu.documents" name="filesIds"
+					required="false" multiple="true" value="${dc.participation.filesIds}" /> 
 				
 			</aui:fieldset>
 			
@@ -128,7 +158,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour aÃÂ  la liste des entites --%>
+			<%-- Composant : bouton de retour aÃÂÃÂ  la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>

@@ -114,6 +114,42 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setContactPhoneNumber(contactPhoneNumber);
 			
 			// ---------------------------------------------------------------
+			// -------------------------- MEDIAS -----------------------------
+			// ---------------------------------------------------------------
+			
+			// Choix de la vidéo ou de l'image
+			Boolean mediaChoice = ParamUtil.getBoolean(request, "mediaChoice");
+			participation.setMediaChoice(mediaChoice);
+			
+			// URL de la vidéo
+			String videoUrl = ParamUtil.getString(request, "videoUrl");
+			participation.setVideoUrl(videoUrl);
+			
+			// URL de l'image
+			String imageUrl = ParamUtil.getString(request, "imageUrl");
+			participation.setImageUrl(imageUrl);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
+			
+			// Chapeau de la description
+			String descriptionChapeau = ParamUtil.getString(request, "descriptionChapeau");
+			participation.setDescriptionChapeau(descriptionChapeau);
+			
+			// Corps de la description
+			String descriptionBody = ParamUtil.getString(request, "descriptionBody");
+			participation.setDescriptionBody(descriptionBody);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DOCUMENTS --------------------------
+			// ---------------------------------------------------------------
+			
+			// Documents associés
+			String filesIds = ParamUtil.getString(request, "filesIds");
+			participation.setFilesIds(filesIds);
+			
+			// ---------------------------------------------------------------
 			// -------------------------- AUTRES -----------------------------
 			// ---------------------------------------------------------------
 			
