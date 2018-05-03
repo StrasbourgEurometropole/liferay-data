@@ -60,18 +60,17 @@
                     <div class="pro-right">
                         <a href="#connexion" class="pro-btn-connexion" title="Se connecter à la plateforme citoyenne" data-toggle="modal" data-target="#myModal">Connexion</a>
                         <ul>
-                            <li><a href="#access" title="Lien vers la page Accessibilité">Accessibilité</a></li>
-                            <li><a href="#glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </div>       
         <div class="container pro-header">
-            <a href="index.html" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
+            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                 <figure role="group">
-                    <img src="assets/images/logos/logo-plateforme-citoyenne.png" srcset="assets/images/logos/logo-plateforme-citoyenne-2x.png 2x" width="128" height="122" alt="Logo du site
+                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne.png" srcset="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2x.png 2x" width="128" height="122" alt="Logo du site
                     Plateforme Citoyenne de Strasbourg"/>
                 </figure>
             </a>
@@ -79,23 +78,10 @@
             <div class="pro-wrapper-nav">
                 <nav id="menu">
                     <ul>
-                        <li class="pro-home"><a href="index.html" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a>
+                        <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a>
                         </li>
-                        <li class="active"><a href="page-informer.html" title="S'informer">S'informer</a></li>
-                        <li><a href="listing-participation.html" title="Participer">Participer</a></li>
-                        <li><a href="listing-event.html" title="Initiatives citoyennes">Initiatives citoyennes</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" title="Lien en sous-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pétitions citoyennes <span
-                                    class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="page-standard.html" title="Lien vers la page Nom de la page">Action</a></li>
-                                <li><a href="detail-article.html" title="Lien vers la page Nom de la page">Détail d'un article</a></li>
-                                <li><a href="detail-participation.html" title="Lien vers la page Nom de la page">Page d'une participation</a></li>
-                                <li><a href="detail-event.html" title="Lien vers la page Nom de la page">Page d'un événement</a></li>
-                                <li><a href="detail-video.html" title="Lien vers la page Nom de la page">Page de détail vidéo</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="page-standard.html" title="Avertir">Avertir</a></li>
+                        <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
+                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participer" title="Participer">Participer</a></li>                      
                     </ul>
                 </nav>
             </div>

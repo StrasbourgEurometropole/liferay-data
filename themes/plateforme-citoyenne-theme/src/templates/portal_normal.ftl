@@ -22,65 +22,33 @@
 
 <@liferay.control_menu />
 
-<div class="container-fluid" id="th-global">
-	<header id="banner" role="banner">
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 
-		<div id="heading">
-			<h1 class="site-title">
-				<a class="${logo_css_class}" href="${site_default_url}" title="<@liferay.language_format arguments="${site_name}" key="go-to-x" />">
-					<img alt="${logo_description}" height="${site_logo_height}" src="${site_logo}" width="${site_logo_width}" />
-				</a>
+<div id="th-global">
 
-				<#if show_site_name>
-					<span class="site-name" title="<@liferay.language_format arguments="${site_name}" key="go-to-x" />">
-						${site_name}
-					</span>
-				</#if>
-			</h1>
-		</div>
+	<#include "${full_templates_path}/nav_top.ftl" />
 
-		
+	<section id="content">
+		<h1 class="hide-accessible">${the_title}</h1>
 
-		<#if !is_signed_in>
-			<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow">${sign_in_text}</a>
-		</#if>
+		<#if selectable>
+			<@liferay_util["include"] page=content_include />
+		<#else>
+			${portletDisplay.recycle()}
 
-		<#if has_navigation && is_setup_complete>
-			<#include "${full_templates_path}/navigation.ftl" />
-		</#if>
-	</header>
+			${portletDisplay.setTitle(the_title)}
 
-	<div id="th-global">
-
-		<#include "${full_templates_path}/nav_top.ftl" />
-
-		<section id="content">
-			<h1 class="hide-accessible">${the_title}</h1>
-
-			<nav id="breadcrumbs">
-				<@liferay.breadcrumbs />
-			</nav>
-
-			<#if selectable>
+			<@liferay_theme["wrap-portlet"] page="portlet.ftl">
 				<@liferay_util["include"] page=content_include />
-			<#else>
-				${portletDisplay.recycle()}
+			</@>
+		</#if>
+	</section>
 
-				${portletDisplay.setTitle(the_title)}
-
-				<@liferay_theme["wrap-portlet"] page="portlet.ftl">
-					<@liferay_util["include"] page=content_include />
-				</@>
-			</#if>
-		</section>
-
-	</div>
-
-	<footer id="footer" role="contentinfo">
-		<p class="powered-by">
-			<@liferay.language key="powered-by" /> <a href="http://www.liferay.com" rel="external">Liferay</a>
-		</p>
-	</footer>
+	<#include "${full_templates_path}/footer.ftl" />
 </div>
 
 <@liferay_util["include"] page=body_bottom_include />
