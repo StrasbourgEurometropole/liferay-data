@@ -649,7 +649,8 @@
                                 <@liferay_portlet.actionURL var="contactURL" name="contact">
                                     <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
                                     <@liferay_portlet.param name="to" value="${entry.mail}" />
-                                    <@liferay_portlet.param name="subject" value="Formulaire de contact - Lieu - ${entry.getAlias(locale)}" />
+                                    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
+                                    <@liferay_portlet.param name="type" value="Place" />
                                 </@liferay_portlet.actionURL>
                                 
                                 <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="seu-wi seu-wi-contact-form col-md-8">

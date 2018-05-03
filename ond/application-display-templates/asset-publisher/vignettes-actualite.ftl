@@ -1,6 +1,6 @@
 <!-- Toutes les actualités -->
 <#setting locale = locale />
-<#setting date_format="d/MM/yyyy">
+<#setting date_format="dd/MM/yyyy">
 <#if entries?has_content>
     <div class="all-news">
         <h1 class="all-news-title">
@@ -18,7 +18,7 @@
                 
                 <article style="padding:0px;" class="new">
                     <div class="entry-header">
-                        <a href="${viewURL}">
+                        <a href="${viewURL}" title="${title}">
                             <img src="${illustration}">
                         </a>
                         <h2 style="text-align: left;">
