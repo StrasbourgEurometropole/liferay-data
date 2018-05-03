@@ -170,6 +170,82 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getPois(java.lang.String interests,
+		java.lang.String categories, long groupId, java.lang.String typeContenu)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					categories, groupId, typeContenu);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getPoisCategoryCount(long idCategory, long groupId,
+		java.lang.String typeContenu) throws RemoteException {
+		try {
+			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(idCategory,
+					groupId, typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getPoisInterestCount(long idCategory, long groupId,
+		java.lang.String typeContenu) throws RemoteException {
+		try {
+			int returnValue = StrasbourgServiceUtil.getPoisInterestCount(idCategory,
+					groupId, typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getFavoritesPois(long groupId,
+		java.lang.String typeContenu) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId,
+					typeContenu);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getFavoritesPoisCount(long groupId,
+		java.lang.String typeContenu) throws RemoteException {
+		try {
+			int returnValue = StrasbourgServiceUtil.getFavoritesPoisCount(groupId,
+					typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getCoordinateForAddress(
 		java.lang.String address) throws RemoteException {
 		try {

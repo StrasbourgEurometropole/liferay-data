@@ -51,9 +51,23 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		long groupId, java.lang.String typeContenu) {
+		return _strasbourgService.getFavoritesPois(groupId, typeContenu);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return _strasbourgService.getFileDetails(groupId, uuid, language);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
+		java.lang.String interests, java.lang.String categories, long groupId,
+		java.lang.String typeContenu) {
+		return _strasbourgService.getPois(interests, categories, groupId,
+			typeContenu);
 	}
 
 	@Override
@@ -72,6 +86,25 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	public com.liferay.portal.kernel.json.JSONObject searchStreets(
 		java.lang.String query, java.lang.String city) {
 		return _strasbourgService.searchStreets(query, city);
+	}
+
+	@Override
+	public int getFavoritesPoisCount(long groupId, java.lang.String typeContenu) {
+		return _strasbourgService.getFavoritesPoisCount(groupId, typeContenu);
+	}
+
+	@Override
+	public int getPoisCategoryCount(long idCategory, long groupId,
+		java.lang.String typeContenu) {
+		return _strasbourgService.getPoisCategoryCount(idCategory, groupId,
+			typeContenu);
+	}
+
+	@Override
+	public int getPoisInterestCount(long idCategory, long groupId,
+		java.lang.String typeContenu) {
+		return _strasbourgService.getPoisInterestCount(idCategory, groupId,
+			typeContenu);
 	}
 
 	@Override
