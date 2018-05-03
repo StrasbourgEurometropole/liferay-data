@@ -34,11 +34,9 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
@@ -77,7 +75,6 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		Project project = this.projectLocalService.createProject(pk);
 
 		project.setGroupId(sc.getScopeGroupId());
-		project.setCompanyId(sc.getCompanyId());
 		project.setUserName(user.getFullName());
 		project.setUserId(sc.getUserId());
 
@@ -98,25 +95,14 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStatusByUserName(user.getFullName());
 		project.setStatusDate(sc.getModifiedDate());
 
-		// Si on n'utilise pas le framework workflow, simple gestion
-		// brouillon/publié
-		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-				sc.getCompanyId(), sc.getScopeGroupId(),
-				Project.class.getName())) {
-			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				project.setStatus(WorkflowConstants.STATUS_APPROVED);
-			} else {
-				project.setStatus(WorkflowConstants.STATUS_DRAFT);
-			}
-			project = this.projectLocalService.updateProject(project);
-			this.updateAssetEntry(project, sc);
-		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
-					// l'enregistrement
-			project = this.projectLocalService.updateProject(project);
-			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-					project.getCompanyId(), project.getGroupId(), project.getUserId(),
-					Project.class.getName(), project.getPrimaryKey(), project, sc);
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			project.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			project.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
+		project = this.projectLocalService.updateProject(project);
+		this.updateAssetEntry(project, sc);
+		this.reindex(project, false);
 
 		return project;
 	}

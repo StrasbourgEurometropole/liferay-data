@@ -34,11 +34,9 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
@@ -79,7 +77,6 @@ public class ParticipationLocalServiceImpl
 			.createParticipation(pk);
 
 		participation.setGroupId(sc.getScopeGroupId());
-		participation.setCompanyId(sc.getCompanyId());
 		participation.setUserName(user.getFullName());
 		participation.setUserId(sc.getUserId());
 
@@ -100,25 +97,14 @@ public class ParticipationLocalServiceImpl
 		participation.setStatusByUserName(user.getFullName());
 		participation.setStatusDate(sc.getModifiedDate());
 
-		// Si on n'utilise pas le framework workflow, simple gestion
-		// brouillon/publié
-		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-				sc.getCompanyId(), sc.getScopeGroupId(),
-				Participation.class.getName())) {
-			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				participation.setStatus(WorkflowConstants.STATUS_APPROVED);
-			} else {
-				participation.setStatus(WorkflowConstants.STATUS_DRAFT);
-			}
-			participation = this.participationLocalService.updateParticipation(participation);
-			this.updateAssetEntry(participation, sc);
-		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
-					// l'enregistrement
-			participation = this.participationLocalService.updateParticipation(participation);
-			WorkflowHandlerRegistryUtil.startWorkflowInstance(
-					participation.getCompanyId(), participation.getGroupId(), participation.getUserId(),
-					Participation.class.getName(), participation.getPrimaryKey(), participation, sc);
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			participation.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			participation.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
+		participation = this.participationLocalService.updateParticipation(participation);
+		this.updateAssetEntry(participation, sc);
+		this.reindex(participation, false);
 
 		return participation;
 	}
@@ -146,8 +132,8 @@ public class ParticipationLocalServiceImpl
 				null, // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
 				participation.getTitle(), // Title
-				participation.getTitle(), // Description
-				participation.getTitle(), // Summary
+				participation.getDescriptionBody(), // Description
+				participation.getDescriptionBody(), // Summary
 				null, // URL
 				null, // Layout uuid
 				0, // Width

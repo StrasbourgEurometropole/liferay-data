@@ -52,9 +52,6 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(
-				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getCompanyGroupId());
 			
 			// Validation
 			boolean isValid = validate(request);
