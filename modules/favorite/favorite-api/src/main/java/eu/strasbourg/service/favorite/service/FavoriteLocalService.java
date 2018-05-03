@@ -152,6 +152,12 @@ public interface FavoriteLocalService extends BaseLocalService,
 	public int getFavoritesCount();
 
 	/**
+	* Retourne le type du favori de l'élément
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Long getFavoriteTypeByClass(java.lang.String favoriteClass);
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier
