@@ -643,12 +643,10 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 			FINDER_CLASS_NAME_ENTITY, "fetchByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
-				String.class.getName(), Long.class.getName(),
-				Long.class.getName()
+				Long.class.getName(), Long.class.getName()
 			},
 			FavoriteModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
 			FavoriteModelImpl.TITLE_COLUMN_BITMASK |
-			FavoriteModelImpl.URL_COLUMN_BITMASK |
 			FavoriteModelImpl.TYPEID_COLUMN_BITMASK |
 			FavoriteModelImpl.ENTITYID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_ALLATTRIBUTES = new FinderPath(FavoriteModelImpl.ENTITY_CACHE_ENABLED,
@@ -656,16 +654,14 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
-				String.class.getName(), Long.class.getName(),
-				Long.class.getName()
+				Long.class.getName(), Long.class.getName()
 			});
 
 	/**
-	 * Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
+	 * Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param title the title
-	 * @param url the url
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
 	 * @return the matching favorite
@@ -673,12 +669,12 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	 */
 	@Override
 	public Favorite findByAllAttributes(String publikUserId, String title,
-		String url, long typeId, long entityId) throws NoSuchFavoriteException {
-		Favorite favorite = fetchByAllAttributes(publikUserId, title, url,
-				typeId, entityId);
+		long typeId, long entityId) throws NoSuchFavoriteException {
+		Favorite favorite = fetchByAllAttributes(publikUserId, title, typeId,
+				entityId);
 
 		if (favorite == null) {
-			StringBundler msg = new StringBundler(12);
+			StringBundler msg = new StringBundler(10);
 
 			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -687,9 +683,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 
 			msg.append(", title=");
 			msg.append(title);
-
-			msg.append(", url=");
-			msg.append(url);
 
 			msg.append(", typeId=");
 			msg.append(typeId);
@@ -710,28 +703,25 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	}
 
 	/**
-	 * Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param title the title
-	 * @param url the url
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
 	 * @return the matching favorite, or <code>null</code> if a matching favorite could not be found
 	 */
 	@Override
 	public Favorite fetchByAllAttributes(String publikUserId, String title,
-		String url, long typeId, long entityId) {
-		return fetchByAllAttributes(publikUserId, title, url, typeId, entityId,
-			true);
+		long typeId, long entityId) {
+		return fetchByAllAttributes(publikUserId, title, typeId, entityId, true);
 	}
 
 	/**
-	 * Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param title the title
-	 * @param url the url
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
 	 * @param retrieveFromCache whether to retrieve from the finder cache
@@ -739,10 +729,8 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	 */
 	@Override
 	public Favorite fetchByAllAttributes(String publikUserId, String title,
-		String url, long typeId, long entityId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] {
-				publikUserId, title, url, typeId, entityId
-			};
+		long typeId, long entityId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { publikUserId, title, typeId, entityId };
 
 		Object result = null;
 
@@ -756,7 +744,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 
 			if (!Objects.equals(publikUserId, favorite.getPublikUserId()) ||
 					!Objects.equals(title, favorite.getTitle()) ||
-					!Objects.equals(url, favorite.getUrl()) ||
 					(typeId != favorite.getTypeId()) ||
 					(entityId != favorite.getEntityId())) {
 				result = null;
@@ -764,7 +751,7 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(7);
+			StringBundler query = new StringBundler(6);
 
 			query.append(_SQL_SELECT_FAVORITE_WHERE);
 
@@ -796,20 +783,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
 			}
 
-			boolean bindUrl = false;
-
-			if (url == null) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_1);
-			}
-			else if (url.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_3);
-			}
-			else {
-				bindUrl = true;
-
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_2);
-			}
-
 			query.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
 
 			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
@@ -833,10 +806,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 					qPos.add(title);
 				}
 
-				if (bindUrl) {
-					qPos.add(url);
-				}
-
 				qPos.add(typeId);
 
 				qPos.add(entityId);
@@ -853,7 +822,7 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 
 						if (_log.isWarnEnabled()) {
 							_log.warn(
-								"FavoritePersistenceImpl.fetchByAllAttributes(String, String, String, long, long, boolean) with parameters (" +
+								"FavoritePersistenceImpl.fetchByAllAttributes(String, String, long, long, boolean) with parameters (" +
 								StringUtil.merge(finderArgs) +
 								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
@@ -869,8 +838,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 							!favorite.getPublikUserId().equals(publikUserId) ||
 							(favorite.getTitle() == null) ||
 							!favorite.getTitle().equals(title) ||
-							(favorite.getUrl() == null) ||
-							!favorite.getUrl().equals(url) ||
 							(favorite.getTypeId() != typeId) ||
 							(favorite.getEntityId() != entityId)) {
 						finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTES,
@@ -898,47 +865,43 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	}
 
 	/**
-	 * Removes the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; from the database.
+	 * Removes the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; from the database.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param title the title
-	 * @param url the url
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
 	 * @return the favorite that was removed
 	 */
 	@Override
 	public Favorite removeByAllAttributes(String publikUserId, String title,
-		String url, long typeId, long entityId) throws NoSuchFavoriteException {
-		Favorite favorite = findByAllAttributes(publikUserId, title, url,
-				typeId, entityId);
+		long typeId, long entityId) throws NoSuchFavoriteException {
+		Favorite favorite = findByAllAttributes(publikUserId, title, typeId,
+				entityId);
 
 		return remove(favorite);
 	}
 
 	/**
-	 * Returns the number of favorites where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63;.
+	 * Returns the number of favorites where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63;.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param title the title
-	 * @param url the url
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
 	 * @return the number of matching favorites
 	 */
 	@Override
 	public int countByAllAttributes(String publikUserId, String title,
-		String url, long typeId, long entityId) {
+		long typeId, long entityId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_ALLATTRIBUTES;
 
-		Object[] finderArgs = new Object[] {
-				publikUserId, title, url, typeId, entityId
-			};
+		Object[] finderArgs = new Object[] { publikUserId, title, typeId, entityId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(6);
+			StringBundler query = new StringBundler(5);
 
 			query.append(_SQL_COUNT_FAVORITE_WHERE);
 
@@ -970,20 +933,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
 			}
 
-			boolean bindUrl = false;
-
-			if (url == null) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_1);
-			}
-			else if (url.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_3);
-			}
-			else {
-				bindUrl = true;
-
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_URL_2);
-			}
-
 			query.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
 
 			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
@@ -1005,10 +954,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 
 				if (bindTitle) {
 					qPos.add(title);
-				}
-
-				if (bindUrl) {
-					qPos.add(url);
 				}
 
 				qPos.add(typeId);
@@ -1038,9 +983,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TITLE_1 = "favorite.title IS NULL AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TITLE_2 = "favorite.title = ? AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TITLE_3 = "(favorite.title IS NULL OR favorite.title = '') AND ";
-	private static final String _FINDER_COLUMN_ALLATTRIBUTES_URL_1 = "favorite.url IS NULL AND ";
-	private static final String _FINDER_COLUMN_ALLATTRIBUTES_URL_2 = "favorite.url = ? AND ";
-	private static final String _FINDER_COLUMN_ALLATTRIBUTES_URL_3 = "(favorite.url IS NULL OR favorite.url = '') AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2 = "favorite.typeId = ? AND ";
 	private static final String _FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2 = "favorite.entityId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ENTITYIDANDTYPEID =
@@ -1607,7 +1549,7 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_ALLATTRIBUTES,
 			new Object[] {
 				favorite.getPublikUserId(), favorite.getTitle(),
-				favorite.getUrl(), favorite.getTypeId(), favorite.getEntityId()
+				favorite.getTypeId(), favorite.getEntityId()
 			}, favorite);
 
 		favorite.resetOriginalValues();
@@ -1681,8 +1623,8 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 	protected void cacheUniqueFindersCache(FavoriteModelImpl favoriteModelImpl) {
 		Object[] args = new Object[] {
 				favoriteModelImpl.getPublikUserId(),
-				favoriteModelImpl.getTitle(), favoriteModelImpl.getUrl(),
-				favoriteModelImpl.getTypeId(), favoriteModelImpl.getEntityId()
+				favoriteModelImpl.getTitle(), favoriteModelImpl.getTypeId(),
+				favoriteModelImpl.getEntityId()
 			};
 
 		finderCache.putResult(FINDER_PATH_COUNT_BY_ALLATTRIBUTES, args,
@@ -1696,8 +1638,7 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 		if (clearCurrent) {
 			Object[] args = new Object[] {
 					favoriteModelImpl.getPublikUserId(),
-					favoriteModelImpl.getTitle(), favoriteModelImpl.getUrl(),
-					favoriteModelImpl.getTypeId(),
+					favoriteModelImpl.getTitle(), favoriteModelImpl.getTypeId(),
 					favoriteModelImpl.getEntityId()
 				};
 
@@ -1710,7 +1651,6 @@ public class FavoritePersistenceImpl extends BasePersistenceImpl<Favorite>
 			Object[] args = new Object[] {
 					favoriteModelImpl.getOriginalPublikUserId(),
 					favoriteModelImpl.getOriginalTitle(),
-					favoriteModelImpl.getOriginalUrl(),
 					favoriteModelImpl.getOriginalTypeId(),
 					favoriteModelImpl.getOriginalEntityId()
 				};

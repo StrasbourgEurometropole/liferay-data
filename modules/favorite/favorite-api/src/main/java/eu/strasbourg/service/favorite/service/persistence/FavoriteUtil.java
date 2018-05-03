@@ -279,94 +279,85 @@ public class FavoriteUtil {
 	}
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the matching favorite
 	* @throws NoSuchFavoriteException if a matching favorite could not be found
 	*/
 	public static Favorite findByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId)
+		java.lang.String title, long typeId, long entityId)
 		throws eu.strasbourg.service.favorite.exception.NoSuchFavoriteException {
 		return getPersistence()
-				   .findByAllAttributes(publikUserId, title, url, typeId,
-			entityId);
+				   .findByAllAttributes(publikUserId, title, typeId, entityId);
 	}
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the matching favorite, or <code>null</code> if a matching favorite could not be found
 	*/
 	public static Favorite fetchByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId) {
+		java.lang.String title, long typeId, long entityId) {
 		return getPersistence()
-				   .fetchByAllAttributes(publikUserId, title, url, typeId,
-			entityId);
+				   .fetchByAllAttributes(publikUserId, title, typeId, entityId);
 	}
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching favorite, or <code>null</code> if a matching favorite could not be found
 	*/
 	public static Favorite fetchByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId,
-		long entityId, boolean retrieveFromCache) {
+		java.lang.String title, long typeId, long entityId,
+		boolean retrieveFromCache) {
 		return getPersistence()
-				   .fetchByAllAttributes(publikUserId, title, url, typeId,
-			entityId, retrieveFromCache);
+				   .fetchByAllAttributes(publikUserId, title, typeId, entityId,
+			retrieveFromCache);
 	}
 
 	/**
-	* Removes the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; from the database.
+	* Removes the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; from the database.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the favorite that was removed
 	*/
 	public static Favorite removeByAllAttributes(
-		java.lang.String publikUserId, java.lang.String title,
-		java.lang.String url, long typeId, long entityId)
+		java.lang.String publikUserId, java.lang.String title, long typeId,
+		long entityId)
 		throws eu.strasbourg.service.favorite.exception.NoSuchFavoriteException {
 		return getPersistence()
-				   .removeByAllAttributes(publikUserId, title, url, typeId,
-			entityId);
+				   .removeByAllAttributes(publikUserId, title, typeId, entityId);
 	}
 
 	/**
-	* Returns the number of favorites where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63;.
+	* Returns the number of favorites where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63;.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the number of matching favorites
 	*/
 	public static int countByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId) {
+		java.lang.String title, long typeId, long entityId) {
 		return getPersistence()
-				   .countByAllAttributes(publikUserId, title, url, typeId,
-			entityId);
+				   .countByAllAttributes(publikUserId, title, typeId, entityId);
 	}
 
 	/**
