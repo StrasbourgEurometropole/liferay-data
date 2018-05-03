@@ -12,3 +12,23 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<jsp:useBean id="strasbourgPropsUtil" class="eu.strasbourg.utils.StrasbourgPropsUtil"/>
+<jsp:useBean id="strasbourgServiceUtil" class="eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil"/>
+
+
+<liferay-util:body-top>
+    <aui:script>
+        window.userAddress = '${fn:escapeXml(address)}';
+        window.groupId = ${groupId};
+        window.newTab = ${openInNewTab};
+        window.typesContenu = "${typesContenu}";
+        window.categoriesCheckedIds = "${fn:replace(categoriesCheckedIds, '"', '')}";
+        window.prefilterCategoriesIds = "${fn:replace(prefilterCategoriesIds,'"','')}";
+        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
+        window.showFavoritesByDefault = ${showFavorites};
+        window.isWidgetMode = ${widgetMod};
+        window.aroundMePortletNamespace = '<portlet:namespace />';
+        window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
+    </aui:script>
+</liferay-util:body-top>

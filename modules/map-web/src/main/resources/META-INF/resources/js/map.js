@@ -9,6 +9,8 @@
             ame.$trigger_top = ame.$ame.find('.top__trigger'),
             ame.$panel_top = ame.$ame.find('#aroundme__top'),
             ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox']"),
+            ame.$filters_categories = ame.$ame.find("#aroundme__top .categories input[type='checkbox']"),
+            ame.$filters_interests = ame.$ame.find("#aroundme__top .interests input[type='checkbox']"),
             ame.$showFavoritesFilter = ame.$ame.find('[name=' + window.aroundMePortletNamespace + 'showFavorites]');
 
             ame.close_panel_top = function() {
@@ -29,7 +31,6 @@
             ame.$ui_zoomout = $('.aroundme__ui--zoomout'),
             ame.$ui_locate = $('.aroundme__ui--locate'),
             ame.$ui_home = $('.aroundme__ui--home'),
-
 
             // Ouverture/fermeture Panel
             ame.$trigger_side.on('click', function() {
@@ -154,7 +155,7 @@
                 }
             }
 
-            // Supprime les doublons parmis les markerss
+            // Supprime les doublons parmis les markers
             var removeDuplicates = function(markers) {
                 var layers = markers.getLayers();
                 var i = 0;
@@ -193,13 +194,28 @@
                         return L.marker(latlng, { icon: markerIcon })
                     }
                 } else {
-                    var markerIcon = new L.Icon({
-                        iconUrl: '/o/mapweb/images/default.png',
-                        iconSize: [35,49],
-                        iconAnchor: [17, 49],
-                        popupAnchor: [1, -49]
-                    });
-                    return L.marker(latlng, { icon: markerIcon })
+                	if(feature.properties.type){
+                		switch (feature.properties.type) {
+						case 2:
+	                        var markerIcon = new L.Icon({
+	                            iconUrl: '/o/mapweb/images/event.png',
+	                            iconSize: [35,49],
+	                            iconAnchor: [17, 49],
+	                            popupAnchor: [1, -49]
+	                        });
+	                        return L.marker(latlng, { icon: markerIcon })
+							break;
+						default:
+	                        var markerIcon = new L.Icon({
+	                            iconUrl: '/o/mapweb/images/default.png',
+	                            iconSize: [35,49],
+	                            iconAnchor: [17, 49],
+	                            popupAnchor: [1, -49]
+	                        });
+	                        return L.marker(latlng, { icon: markerIcon })
+							break;
+						}                		
+                	}
                 }
             }
 
@@ -212,7 +228,8 @@
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-favorites-pois', {
-                        groupId: window.groupId
+                        groupId: window.groupId,
+                        typeContenu: window.typesContenu
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -229,13 +246,15 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests) {
+            var addInterestsMarkers = function(markers, interests, categories) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-pois', {
                         interests: interests,
-                        groupId: window.groupId
+                        categories: categories,
+                        groupId: window.groupId,
+                        typeContenu: window.typesContenu
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -257,14 +276,35 @@
                 mymap.removeLayer(markers);
                 markers.clearLayers();
 
+                // Récupération des catégories à afficher
+                var categories = "";
+                if (window.isWidgetMode) {
+                	categories =  window.categoriesCheckedIds;
+                } else {
+                    var i;
+                    for (i = 0; i < ame.$filters_categories.length; i++) {
+                        var filter = $(ame.$filters_categories[i]);
+                        if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
+                            if (categories.length > 0) {
+                            	categories = categories + ",";
+                            }
+                            categories = categories + filter.attr('value');
+                        }
+                    }
+                }
+                // ajout des catégories cochées par défaut
+                if(categories != '')
+                	categories += ",";
+            	categories +=  window.prefilterCategoriesIds;
+
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
                 if (window.isWidgetMode) {
                     interests =  window.interestsCheckedIds;
                 } else {
                     var i;
-                    for (i = 0; i < ame.$filters.length; i++) {
-                        var filter = $(ame.$filters[i]);
+                    for (i = 0; i < ame.$filters_interests.length; i++) {
+                        var filter = $(ame.$filters_interests[i]);
                         if (filter.attr('name').indexOf("showFavorites") == -1 && filter.is(':checked')) {
                             if (interests.length > 0) {
                                 interests = interests + ",";
@@ -274,14 +314,14 @@
                     }
                 }
 
-                // Récupèration des données concernant les centres d'intérêt
-                if (interests.length > 0) {
-                    addInterestsMarkers(markers, interests);
+                // Récupération des données concernant les centres d'intérêt
+                if (interests.length > 0 || categories.length > 0) {
+                    addInterestsMarkers(markers, interests, categories);
                 }
 
                 // Récupération des données concernant les favoris
-                if (window.isWidgetMode && window.showFavoritesByDefault 
-                    || ame.$showFavoritesFilter.length && ame.$showFavoritesFilter.is(':checked')) {
+                if ((window.isWidgetMode && window.showFavoritesByDefault) 
+                    || (ame.$showFavoritesFilter.length && ame.$showFavoritesFilter.is(':checked'))) {
                     addFavoriteMarkers(markers);
                 }
 
@@ -346,16 +386,53 @@
             }
 
             function moveToUserAddress() {
-                Liferay.Service('/strasbourg.strasbourg/get-coordinate-for-address', {
-                    address: window.userAddress
-                }, function(data) {
-                    var markerIcon = new L.Icon({
-                        iconUrl: '/o/mapweb/images/home.png',
-                        iconSize: [35,49],
-                        iconAnchor: [17, 49]
+            	if(window.userAddress == "  "){
+    		        var agree = function() {
+    		        	window.location = window.publikProfileURL;
+    		        }
+            		createPopinMap(Liferay.Language.get('center-to-address'), agree);
+            	}else{
+                    Liferay.Service('/strasbourg.strasbourg/get-coordinate-for-address', {
+                        address: window.userAddress
+                    }, function(data) {
+                        var markerIcon = new L.Icon({
+                            iconUrl: '/o/mapweb/images/home.png',
+                            iconSize: [35,49],
+                            iconAnchor: [17, 49]
+                        });
+                        var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
+                        mymap = mymap.setView([data[1], data[0]], 18);
                     });
-                    var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
-                    mymap = mymap.setView([data[1], data[0]], 18);
+            	}
+            }
+            
+            function destroyPopinMap(){
+                $('#mapConfirm').remove().off('clickmapConfirm');
+                $('.mseu').off('click.mapconfirm').removeClass('overlayed');
+            }
+            
+            function createPopinMap(message, agree){
+                var template = '<div id="mapConfirm"> \
+                    <div class="mapMessage">##mapMessage##</div> \
+                    <div class="mapActions"> \
+                        <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button> \
+                        <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">Modifier mes informations</span><span class="btn-arrow"></span></span></button> \
+                    </div> \
+                </div>';
+
+                template = template.replace('##mapMessage##', message);
+                $('body').append(template);
+                $('.mseu').addClass('overlayed');
+
+
+                $('#mapConfirm .deny').on('click.mapConfirm', function(e){
+                    destroyPopinMap();
+                });
+                $('#mapConfirm .confirm').on('click.mapConfirm', function(){
+                    destroyPopinMap();
+                    if(agree !== undefined){
+                        agree();
+                    }
                 });
             }
 
