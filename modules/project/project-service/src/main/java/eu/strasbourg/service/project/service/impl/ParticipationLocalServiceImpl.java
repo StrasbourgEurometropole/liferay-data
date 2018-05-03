@@ -41,7 +41,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 
 /**
@@ -105,7 +104,7 @@ public class ParticipationLocalServiceImpl
 		// brouillon/publié
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 				sc.getCompanyId(), sc.getScopeGroupId(),
-				Project.class.getName())) {
+				Participation.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 				participation.setStatus(WorkflowConstants.STATUS_APPROVED);
 			} else {
@@ -180,7 +179,7 @@ public class ParticipationLocalServiceImpl
 
 		// Statut de l'entry
 		AssetEntry entry = this.assetEntryLocalService
-				.getEntry(Project.class.getName(), participation.getPrimaryKey());
+				.getEntry(Participation.class.getName(), participation.getPrimaryKey());
 		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
 		if (entry.isVisible()) {
 			entry.setPublishDate(now);
@@ -232,7 +231,7 @@ public class ParticipationLocalServiceImpl
 			}
 
 			// Delete the AssetEntry
-			AssetEntryLocalServiceUtil.deleteEntry(Project.class.getName(),
+			AssetEntryLocalServiceUtil.deleteEntry(Participation.class.getName(),
 					participationId);
 
 		}

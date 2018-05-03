@@ -10,6 +10,5 @@ dependencies {
 buildService {
 	apiDir = "../project-api/src/main/java"
 	osgiModule = true
+	propsUtil = "eu.strasbourg.service.project.service.util.PropsUtil"
 }
-
-group = "eu.strasbourg.service.project"

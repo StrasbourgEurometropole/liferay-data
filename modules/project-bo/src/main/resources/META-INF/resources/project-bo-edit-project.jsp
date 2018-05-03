@@ -18,8 +18,16 @@
 	<portlet:param name="cmd" value="saveProject" />
 </liferay-portlet:actionURL>
 
-<%-- Composant : formulaire de saisie de l'entite --%>
+<%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
+
+	<%-- Composant : definit la liste des messages d'erreur 
+	(voir méthode "validate" dans le saveAction de l'entité) --%>
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+
+	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveProjectURL}" method="post" name="fm">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
@@ -38,7 +46,7 @@
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="true" />
 				
-				<%-- Selecteurs : Image interne ou externe ? --%>
+				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"

@@ -27,6 +27,9 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class ProjectTimelineImpl extends ProjectTimelineBaseImpl {
+
+	private static final long serialVersionUID = -7959920725497646087L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

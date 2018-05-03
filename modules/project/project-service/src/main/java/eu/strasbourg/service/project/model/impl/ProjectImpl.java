@@ -40,6 +40,9 @@ import eu.strasbourg.utils.FileEntryHelper;
  */
 @ProviderType
 public class ProjectImpl extends ProjectBaseImpl {
+
+	private static final long serialVersionUID = -5328915283253003964L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

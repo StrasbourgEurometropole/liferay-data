@@ -40,7 +40,6 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
 
