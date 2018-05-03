@@ -12,8 +12,11 @@
   </#if>
   ${title.getData()}</h1>
   <div class="article-date-publication">
+    <!-- Pour que le parseDate fonctionne, on lui ordonne d'utiliser une locale Fr (on récup la date en Fr) -->
+    <#setting locale="fr_FR"/>
     <#assign displaydate = .vars['reserved-article-display-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')/>
-    <#assign modifieddate = .vars['reserved-article-modified-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')/> 
+    <#assign modifieddate = .vars['reserved-article-modified-date'].data?date('EEE, dd MMM yyyy hh:mm:ss Z')/>
+    <#setting locale=locale/>
     <@liferay_ui.message key='eu.published' />
     <time>
       <#if displaydate == modifieddate>

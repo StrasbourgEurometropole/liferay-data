@@ -1,6 +1,6 @@
 <!-- Toutes les actualités -->
 <#setting locale = locale />
-<#setting date_format="d/MM/yyyy">
+<#setting date_format="dd/MM/yyyy">
 <#if entries?has_content>
     <div class="all-news">
         <h1 class="all-news-title">
