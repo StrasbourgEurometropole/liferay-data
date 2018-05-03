@@ -1,0 +1,247 @@
+#th-global{
+
+	.pro-bloc-text-hp{
+		position: relative;
+		padding: 40px 15px;
+		&:before{
+			content: '';
+			position: absolute;
+			top: 45px;
+			left: 15px;
+			width: 123px;
+			height: 20px;
+			background: $c_main;
+			@include mobile{
+				position: relative;
+				top: 0;
+				left: 0;
+				width: 100px;
+				height: 10px;
+				margin-bottom: 25px;
+			}
+		}
+		> * {
+			max-width: 850px;
+			margin-left: 155px;
+			&:last-child{
+				margin-bottom: 0;
+			}
+			@include mobile{
+				max-width: 100%;
+				margin-left: 0;
+			}
+		}
+		h1, h2{
+			@include ft($f_hx,5em,700,$c_txt,1em);
+			text-transform: uppercase;
+			@include mobile{
+				font-size: 3em;
+			}
+		}
+
+		.pro-btn-yellow{
+			display: inline-block;
+			width: auto;
+			padding: 0 45px;
+			&:hover, &:focus{
+				border-color: $c_txt;
+				background: $c_txt;
+				color: $c_main;
+			}
+		}
+	}
+
+	.pro-bloc-texte {
+
+		> * {
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+
+		.pro-btn-yellow{
+			display: inline-block;
+			min-width: 200px;
+			width: auto;
+			margin-top: 20px;
+			&:hover, &:focus{
+				background: $c_dark;
+				border-color: $c_dark;
+			}
+		}
+
+		h2{
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.300em);
+			text-transform: uppercase;
+			margin-bottom: 10px;
+			display: inline-block;
+			&:before{
+				content: '';
+				position: absolute;
+				top: 3px;
+				left: -85px;
+				height: 13px;
+				width: 72px;
+				background: $c_main;
+				@include mobile{
+					position: relative;
+					top: 0;
+					left: 0;
+					display: block;
+					margin-bottom: 20px;
+				}
+			}
+
+			&.pro-big-title{
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.267em);
+			}
+		}
+
+		h3{
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1.300em);
+			margin-top: 25px;
+			margin-bottom: 10px;
+			&.pro-big-title{
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.267em);
+			}
+		}
+
+		p{
+			margin-bottom: 10px;
+			&.pro-txt-intro{
+				@include ft($f_txt, 1.125em, 400, $c_txt, 1.556em);
+			}
+			a{
+				color: $c_txt;
+				text-decoration: underline;
+				@include addTransition();
+				&:hover, &:focus{
+					color: $c_main;
+				}
+			}
+		}
+
+		figure{
+			position: relative;
+			margin: 30px 0 70px 0;
+			img{
+				width: 100%;
+				height: 100%;
+			}
+			figcaption{
+				position: absolute;
+				text-transform: none;
+				bottom: -25px;
+				right: 0;
+				left: 0;
+				white-space: normal;
+				transform-origin: center;
+				transform: none;
+				text-shadow: none;
+				color: black;
+				text-align: right;
+				display: block;
+				width: 100%;
+				&:after{
+					content: "\e90a";
+					@include font();
+					float: right;
+					line-height: 1.8em;
+					margin-left: 5px;
+				}
+			}
+		}
+
+
+		iframe{
+			width: 100%;
+			height: 460px;
+			margin: 30px 0;
+			display: block;
+		}
+
+
+		ul{
+			padding: 0;
+			margin-bottom: 10px;
+			list-style-type: none;
+			@include clearfix();
+			li{
+				@include ft($f_txt, $s_p, 400, $c_txt, 1.600em);
+				padding-left: 22px;
+				&:before{
+					content: "";
+					position: absolute;
+					left: 0;
+					top: 10px;
+					width: 13px;
+					height: 4px;
+					background: $c_main;
+				}
+				a{
+					color: $c_txt;
+					text-decoration: underline;
+					@include addTransition();
+					&:hover, &:focus{
+						color: $c_main;
+					}
+				}
+			}
+		}
+
+
+		ol{
+			padding: 0;
+			margin-bottom: 10px;
+			list-style-type: decimal;
+			@include clearfix();
+			li{
+				@include ft($f_txt,$s_p,300,$c_txt,22px);
+				margin-left: 15px;
+			}
+		}
+
+
+
+		p {
+			margin-bottom: 10px;
+			img {
+				&.alignnone {
+					width: 100%;
+				}
+				&.alignleft {
+					float: left;
+					margin-top: 0;
+					padding-right: 40px;
+					@include mobile {
+						float: none;
+						width: 100%;
+						padding: 0;
+						margin: 30px 0;
+					}
+				}
+				&.aligncenter {
+					display: block;
+					margin: 30px auto;
+					@include mobile {
+						width: 100%;
+						margin: 30px 0;
+					}
+				}
+				&.alignright {
+					float: right;
+					padding-left: 40px;
+					margin-top: 0;
+					@include mobile {
+						float: none;
+						width: 100%;
+						padding-left: 0;
+						margin: 30px 0;
+					}
+				}
+			}
+		}
+
+	}
+
+}

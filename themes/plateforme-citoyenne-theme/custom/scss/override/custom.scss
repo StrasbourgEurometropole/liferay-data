@@ -1,0 +1,21 @@
+
+//Empeche le header du thème de cacher le header de liferay
+#th-global #header {
+position : relative;
+z-index : initial;
+}
+
+//Corrige l'affichage de la bare de configuration d'un portlet en mode admin qui devenait trop haute
+#th-global ul.dropdown-menu {
+display : none
+}
+
+//Cache le titre d'un web content...
+#th-global .portlet .portlet-title-text {
+	display: none;
+}
+
+//Pour afficher le header du thème en mode admin
+.has-control-menu #th-global{
+  margin-top: 64px;
+}
