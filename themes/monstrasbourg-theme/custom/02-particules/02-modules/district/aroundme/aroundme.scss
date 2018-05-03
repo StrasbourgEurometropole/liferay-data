@@ -17,11 +17,14 @@
     }
 
     color: white;
-    font-size: 2.6rem;
     padding-top: 40px;
     background-color: #31455d;
 
     @include RWD(mobile){
         padding-bottom: 30px;
     }
+}
+
+#aroundme{
+    margin-bottom: 40px;
 }

@@ -16,12 +16,6 @@
                 order: 2;
                 flex: auto;
             }
-
-            .rte{
-                font-size: 1.7rem;
-                font-weight: 600;
-                color: #5c5c5c;       
-            }
         }
 
         .container-right{
@@ -38,10 +32,14 @@
                 background-color: $second-color;
             }
             flex-shrink: 0;
-            font-size: 1.5rem;
+
+            .crowded-date{
+                text-transform: none;
+            }
 
             .crowded-caption {
                 font-weight: 700;
+                margin-bottom: 0px;
             }
 
             .crowded-amount{
@@ -66,12 +64,6 @@
                 &.white{background-color: #FFFFFF; color: #000000; border-color: #000000}
                 &.grey{background-color: #9E9E9E}
             }
-        }
-
-        h3  .crowded-date {
-                font-size: 1.5rem;
-                text-transform: none;
-                color: #5c5c5c;
         }
     }
 }
