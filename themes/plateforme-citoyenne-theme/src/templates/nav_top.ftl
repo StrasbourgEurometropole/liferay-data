@@ -58,7 +58,27 @@
                     </a>
 
                     <div class="pro-right">
-                        <a href="#connexion" class="pro-btn-connexion" title="Se connecter à la plateforme citoyenne" data-toggle="modal" data-target="#myModal">Connexion</a>
+                        <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                            <a href="${layoutHelper.getPublikProfileURL()}" class="pro-btn-connexion" title="Mon compte">
+                                <span class="flexbox">
+                                    <span class="picto"></span>
+                                    <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>
+                                </span>    
+                            </a>
+                            <a class="nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                                <span class="flexbox">
+                                    <span class="picto"></span>
+                                </span>  
+                            </a>
+                        <#else>
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="pro-btn-connexion" title="Connexion">
+                                <span class="flexbox">
+                                    <span class="picto"></span>
+                                    <span class="text">Connexion</span>
+                                </span>    
+                            </a>
+                        </#if>
                         <ul>
                             <li><a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
                             <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
