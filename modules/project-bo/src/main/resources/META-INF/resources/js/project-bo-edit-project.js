@@ -35,3 +35,22 @@ jQuery(function() {
 	}
 
 });
+
+//Schedules
+var autoFields = undefined; // Référence au champ répétable (setté plus loin)
+(function($) {
+	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_"; // Namespace du portlet
+
+	// Configuration de l'autofield
+	AUI().use('liferay-auto-fields', function(Y) {
+		if (!!document.getElementById('date-fields')) {
+			// Création de l'autofield
+			autoFields = new Liferay.AutoFields({
+				contentBox : '#date-fields',
+				fieldIndexes : namespace + 'projectTimelineIndexes',
+				namespace : namespace,
+				url : getProjectTimelineRowJSPURL
+			}).render();
+		}
+	});
+})(jQuery);

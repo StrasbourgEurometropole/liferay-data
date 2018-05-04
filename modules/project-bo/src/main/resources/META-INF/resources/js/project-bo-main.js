@@ -24,32 +24,3 @@ jQuery(function() {
 		= Liferay.Workflow.ACTION_SAVE_DRAFT;
 	});;
 });
-
-function deleteTimeline(idTimeline) {
-	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
-	var namespaceAUI = "#" + namespace;
-	$('#timeline' + idTimeline).remove();
-	var nbTimeline = $(namespaceAUI + 'nbTimeline').val();
-	alert(nbTimeline),
-	$(namespaceAUI + 'nbTimeline').val(nbTimeline - 1);
-}
-
-function addTimeline() {
-	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
-	var namespaceAUI = "#" + namespace;
-	var nbTimeline = $(namespaceAUI + 'nbTimeline').val();
-	var lastTimeline = 0;
-	if (nbTimeline > 0) {
-		lastTimeline = nbTimeline;
-	}
-	$.ajax({
-		url : getTimelineRowJSPURL + '&' + namespace + 'indexTimeline=' + idTimeline
-				+ '&' + namespace + 'jour=' + jour + '&' + namespace
-				+ 'indexTimeline=' + lastSlot,
-		success : function(html) {
-			$('#' + idPeriod + '-' + jour).before(html);
-		}
-	});
-	$(namespaceAUI + 'nbSlot' + idPeriod + '-' + jour)
-			.val(parseInt(nbSlot) + 1);
-}

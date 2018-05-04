@@ -35,6 +35,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
  */
 @ProviderType
 public class ParticipationImpl extends ParticipationBaseImpl {
+
+	private static final long serialVersionUID = 1311330918138728472L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

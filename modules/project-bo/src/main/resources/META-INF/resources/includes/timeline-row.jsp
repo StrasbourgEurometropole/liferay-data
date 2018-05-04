@@ -1,15 +1,9 @@
 <%@ include file="/project-bo-init.jsp"%>
 
-<div id="timeline${param.indexTimeline}">	
+<aui:input type="number" value="${param.startDay}" name="startDay${param.index}" label="J + XX" inlineField="true" />
+		
+<aui:input type="date" value="${param.date}" name="date${param.index}" label="Date" inlineField="true" />
+		
+<aui:input type="text" value="${param.title}" name="title${param.index}" label="Titre" inlineField="true" />
 
-	<aui:input type="text" value="${param.startDay}" name="startDay${param.indexTimeline}" label="J + XX" inlineField="true" />
-		
-	<aui:input type="text" value="${param.date}" name="date${param.indexTimeline}" label="Date" inlineField="true" />
-		
-	<aui:input type="text" value="${param.title}" name="title${param.indexTimeline}" label="Titre" inlineField="true" />
-	
-	<br />
-	
-	<aui:button cssClass="btn-icon icon icon-trash icon-2x" type="button" onClick="deleteTimeline(${param.indexTimeline}); return false;" />
-	
-</div>
+<aui:input type="text" value="${param.link}" name="link${param.index}" label = "Lien" inlineField="true" />

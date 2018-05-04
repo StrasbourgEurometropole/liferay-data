@@ -71,6 +71,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			{ "startDay", Types.INTEGER },
 			{ "date_", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
+			{ "link", Types.VARCHAR },
 			{ "projectId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -80,23 +81,24 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		TABLE_COLUMNS_MAP.put("startDay", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("link", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,date_ DATE null,title VARCHAR(400) null,projectId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,date_ DATE null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.projectTimelineId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.projectTimelineId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
 			true);
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
 			true);
 	public static final long PROJECTID_COLUMN_BITMASK = 1L;
@@ -119,6 +121,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		model.setStartDay(soapModel.getStartDay());
 		model.setDate(soapModel.getDate());
 		model.setTitle(soapModel.getTitle());
+		model.setLink(soapModel.getLink());
 		model.setProjectId(soapModel.getProjectId());
 
 		return model;
@@ -145,7 +148,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		return models;
 	}
 
-	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.project.model.ProjectTimeline"));
 
 	public ProjectTimelineModelImpl() {
@@ -189,6 +192,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		attributes.put("startDay", getStartDay());
 		attributes.put("date", getDate());
 		attributes.put("title", getTitle());
+		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -221,6 +225,12 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String link = (String)attributes.get("link");
+
+		if (link != null) {
+			setLink(link);
 		}
 
 		Long projectId = (Long)attributes.get("projectId");
@@ -281,6 +291,22 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@JSON
 	@Override
+	public String getLink() {
+		if (_link == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _link;
+		}
+	}
+
+	@Override
+	public void setLink(String link) {
+		_link = link;
+	}
+
+	@JSON
+	@Override
 	public long getProjectId() {
 		return _projectId;
 	}
@@ -337,6 +363,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		projectTimelineImpl.setStartDay(getStartDay());
 		projectTimelineImpl.setDate(getDate());
 		projectTimelineImpl.setTitle(getTitle());
+		projectTimelineImpl.setLink(getLink());
 		projectTimelineImpl.setProjectId(getProjectId());
 
 		projectTimelineImpl.resetOriginalValues();
@@ -432,6 +459,14 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			projectTimelineCacheModel.title = null;
 		}
 
+		projectTimelineCacheModel.link = getLink();
+
+		String link = projectTimelineCacheModel.link;
+
+		if ((link != null) && (link.length() == 0)) {
+			projectTimelineCacheModel.link = null;
+		}
+
 		projectTimelineCacheModel.projectId = getProjectId();
 
 		return projectTimelineCacheModel;
@@ -439,7 +474,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{projectTimelineId=");
 		sb.append(getProjectTimelineId());
@@ -449,6 +484,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(getDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", link=");
+		sb.append(getLink());
 		sb.append(", projectId=");
 		sb.append(getProjectId());
 		sb.append("}");
@@ -458,7 +495,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.ProjectTimeline");
@@ -481,6 +518,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>link</column-name><column-value><![CDATA[");
+		sb.append(getLink());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>projectId</column-name><column-value><![CDATA[");
 		sb.append(getProjectId());
 		sb.append("]]></column-value></column>");
@@ -498,6 +539,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 	private int _startDay;
 	private Date _date;
 	private String _title;
+	private String _link;
 	private long _projectId;
 	private long _originalProjectId;
 	private boolean _setOriginalProjectId;

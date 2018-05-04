@@ -66,7 +66,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{projectTimelineId=");
 		sb.append(projectTimelineId);
@@ -76,6 +76,8 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		sb.append(date);
 		sb.append(", title=");
 		sb.append(title);
+		sb.append(", link=");
+		sb.append(link);
 		sb.append(", projectId=");
 		sb.append(projectId);
 		sb.append("}");
@@ -104,6 +106,13 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 			projectTimelineImpl.setTitle(title);
 		}
 
+		if (link == null) {
+			projectTimelineImpl.setLink(StringPool.BLANK);
+		}
+		else {
+			projectTimelineImpl.setLink(link);
+		}
+
 		projectTimelineImpl.setProjectId(projectId);
 
 		projectTimelineImpl.resetOriginalValues();
@@ -118,6 +127,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		startDay = objectInput.readInt();
 		date = objectInput.readLong();
 		title = objectInput.readUTF();
+		link = objectInput.readUTF();
 
 		projectId = objectInput.readLong();
 	}
@@ -137,6 +147,13 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 			objectOutput.writeUTF(title);
 		}
 
+		if (link == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(link);
+		}
+
 		objectOutput.writeLong(projectId);
 	}
 
@@ -144,5 +161,6 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 	public int startDay;
 	public long date;
 	public String title;
+	public String link;
 	public long projectId;
 }

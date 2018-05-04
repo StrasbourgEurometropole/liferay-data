@@ -45,6 +45,7 @@ public class ViewProjectsDisplayContext extends ViewListBaseDisplayContext<Proje
 		return this._projects;
 	}
 	
+	
 	/**
 	 * Retourne la liste des projets correspondant à la recherche lancée en ignorant la pagination
 	 */

@@ -47,9 +47,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 		
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
-			sc.setScopeGroupId(
-				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
-					.getCompanyGroupId());
 			
 			// Validation
 			boolean isValid = validate(request);
@@ -80,6 +77,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 				// Si elle existe (edit), on la cherche
 				participation = _participationLocalService.getParticipation(participationId);
 			}
+			
+			// ---------------------------------------------------------------
+			// -------------------------- GENERALITES ------------------------
+			// ---------------------------------------------------------------
 
 			// Titre
 			String title = ParamUtil.getString(request, "title");
@@ -88,6 +89,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Auteur
 			String author = ParamUtil.getString(request, "author");
 			participation.setAuthor(author);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- CONTACT ----------------------------
+			// ---------------------------------------------------------------
 			
 			// Contact : nom
 			String contactName = ParamUtil.getString(request, "contactName");
@@ -104,6 +109,46 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Contact : numéro de téléphone
 			String contactPhoneNumber = ParamUtil.getString(request, "contactPhoneNumber");
 			participation.setContactPhoneNumber(contactPhoneNumber);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- MEDIAS -----------------------------
+			// ---------------------------------------------------------------
+			
+			// Choix de la vidéo ou de l'image
+			Boolean mediaChoice = ParamUtil.getBoolean(request, "mediaChoice");
+			participation.setMediaChoice(mediaChoice);
+			
+			// URL de la vidéo
+			String videoUrl = ParamUtil.getString(request, "videoUrl");
+			participation.setVideoUrl(videoUrl);
+			
+			// URL de l'image
+			String imageUrl = ParamUtil.getString(request, "imageUrl");
+			participation.setImageUrl(imageUrl);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DESCRIPTION ------------------------
+			// ---------------------------------------------------------------
+			
+			// Chapeau de la description
+			String descriptionChapeau = ParamUtil.getString(request, "descriptionChapeau");
+			participation.setDescriptionChapeau(descriptionChapeau);
+			
+			// Corps de la description
+			String descriptionBody = ParamUtil.getString(request, "descriptionBody");
+			participation.setDescriptionBody(descriptionBody);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- DOCUMENTS --------------------------
+			// ---------------------------------------------------------------
+			
+			// Documents associés
+			String filesIds = ParamUtil.getString(request, "filesIds");
+			participation.setFilesIds(filesIds);
+			
+			// ---------------------------------------------------------------
+			// -------------------------- AUTRES -----------------------------
+			// ---------------------------------------------------------------
 			
 			// Défini le format de date à utiliser pour les champs temporels 
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

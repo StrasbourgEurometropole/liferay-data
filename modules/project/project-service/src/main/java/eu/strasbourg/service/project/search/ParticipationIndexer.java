@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(immediate = true, service = Indexer.class)
@@ -67,6 +66,8 @@ public class ParticipationIndexer extends BaseIndexer<Participation> {
 			assetCategories);
 		
 		document.addKeyword(Field.TITLE, participation.getTitle());
+		document.addText(Field.DESCRIPTION,
+				participation.getDescriptionBody());
 		document.addNumber(Field.STATUS, participation.getStatus());
 		return document;
 	}

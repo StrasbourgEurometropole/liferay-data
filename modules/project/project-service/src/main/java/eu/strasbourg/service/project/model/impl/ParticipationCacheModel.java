@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -104,6 +104,18 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(contactLine2);
 		sb.append(", contactPhoneNumber=");
 		sb.append(contactPhoneNumber);
+		sb.append(", videoUrl=");
+		sb.append(videoUrl);
+		sb.append(", imageUrl=");
+		sb.append(imageUrl);
+		sb.append(", mediaChoice=");
+		sb.append(mediaChoice);
+		sb.append(", descriptionChapeau=");
+		sb.append(descriptionChapeau);
+		sb.append(", descriptionBody=");
+		sb.append(descriptionBody);
+		sb.append(", filesIds=");
+		sb.append(filesIds);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
@@ -209,6 +221,43 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setContactPhoneNumber(contactPhoneNumber);
 		}
 
+		if (videoUrl == null) {
+			participationImpl.setVideoUrl(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setVideoUrl(videoUrl);
+		}
+
+		if (imageUrl == null) {
+			participationImpl.setImageUrl(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setImageUrl(imageUrl);
+		}
+
+		participationImpl.setMediaChoice(mediaChoice);
+
+		if (descriptionChapeau == null) {
+			participationImpl.setDescriptionChapeau(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setDescriptionChapeau(descriptionChapeau);
+		}
+
+		if (descriptionBody == null) {
+			participationImpl.setDescriptionBody(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setDescriptionBody(descriptionBody);
+		}
+
+		if (filesIds == null) {
+			participationImpl.setFilesIds(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setFilesIds(filesIds);
+		}
+
 		if (publicationDate == Long.MIN_VALUE) {
 			participationImpl.setPublicationDate(null);
 		}
@@ -254,6 +303,13 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		contactLine1 = objectInput.readUTF();
 		contactLine2 = objectInput.readUTF();
 		contactPhoneNumber = objectInput.readUTF();
+		videoUrl = objectInput.readUTF();
+		imageUrl = objectInput.readUTF();
+
+		mediaChoice = objectInput.readBoolean();
+		descriptionChapeau = objectInput.readUTF();
+		descriptionBody = objectInput.readUTF();
+		filesIds = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 	}
@@ -341,6 +397,43 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(contactPhoneNumber);
 		}
 
+		if (videoUrl == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(videoUrl);
+		}
+
+		if (imageUrl == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(imageUrl);
+		}
+
+		objectOutput.writeBoolean(mediaChoice);
+
+		if (descriptionChapeau == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(descriptionChapeau);
+		}
+
+		if (descriptionBody == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(descriptionBody);
+		}
+
+		if (filesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(filesIds);
+		}
+
 		objectOutput.writeLong(publicationDate);
 		objectOutput.writeLong(expirationDate);
 	}
@@ -363,6 +456,12 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public String contactLine1;
 	public String contactLine2;
 	public String contactPhoneNumber;
+	public String videoUrl;
+	public String imageUrl;
+	public boolean mediaChoice;
+	public String descriptionChapeau;
+	public String descriptionBody;
+	public String filesIds;
 	public long publicationDate;
 	public long expirationDate;
 }

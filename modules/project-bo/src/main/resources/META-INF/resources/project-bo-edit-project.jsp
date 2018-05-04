@@ -18,14 +18,17 @@
 	<portlet:param name="cmd" value="saveProject" />
 </liferay-portlet:actionURL>
 
-<%-- Composant : formulaire de saisie de l'entite --%>
+<%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
+
+	<%-- Composant : definit la liste des messages d'erreur 
+	(voir méthode "validate" dans le saveAction de l'entité) --%>
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+
+	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveProjectURL}" method="post" name="fm">
-	
-		<%-- Champ : Selecteur de langue --%>
-		<aui:translation-manager availableLocales="${dc.availableLocales}"
-			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
-			id="translationManager" />
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.project}" model="<%=Project.class %>" />
@@ -43,7 +46,7 @@
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="true" />
 				
-				<%-- Selecteurs : Image interne ou externe ? --%>
+				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
@@ -141,37 +144,43 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="timeline">
 			
 				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
-			
+				
+				<%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
 				<div id="date-fields">
-					<div class="lfr-form-row lfr-form-row-inline">
-						<div class="row-fields">
-							<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="0" />
-							</liferay-util:include>
-						</div>
-					</div>	
-					
-					<c:set var="nbTimeline" value="0"/>
-					<c:forEach items="${dc.project.projectTimelines}" var="timeline" varStatus="status">
+				
+					<c:if test="${empty dc.project.projectTimelines}">
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
-								<fmt:formatDate value="${timeline.date}" pattern="dd/MM/YYYY" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="indexTimeline" value="${status.count}" />
-									<liferay-util:param name="startDay" value="${timeline.startDay}" />
-									<liferay-util:param name="date" value="${formattedDate}" />
-									<liferay-util:param name="title" value="${timeline.title}" />
+									<liferay-util:param name="index" value="0" />
 								</liferay-util:include>
 							</div>
 						</div>
-						<c:set var="nbTimeline" value="${nbTimeline + 1}"/>
+					</c:if>
+					
+					<c:forEach items="${dc.project.projectTimelines}" var="projectTimeline" varStatus="status">
+						<div class="lfr-form-row lfr-form-row-inline">
+							<div class="row-fields">
+								<fmt:formatDate value="${projectTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
+								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="startDay" value="${projectTimeline.startDay}" />
+									<liferay-util:param name="date" value="${formattedDate}" />
+									<liferay-util:param name="title" value="${projectTimeline.title}" />
+									<liferay-util:param name="link" value="${projectTimeline.link}" />
+								</liferay-util:include>
+							</div>
+						</div>
 					</c:forEach>
-					<section>
-						<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addTimeline(); return false;"/>
-						<liferay-ui:message key="new-timeline" /><br>
-						<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
-					</section>
-					<aui:input name="nbTimeline" type="hidden" value="${nbTimeline}" />
+					
+					<%-- Variable : Définit les variables de gestion et de retour du selecteur 
+					(voir "autofields" dans le .js de l'edit de l'entité)  --%>
+					<c:if test="${empty dc.project.projectTimelines}">
+							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
+						</c:if>
+						<c:if test="${not empty dc.project.projectTimelines}">
+							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
+					</c:if>		
 					
 				</div>
 			
@@ -218,7 +227,7 @@
 
 <liferay-util:html-top>
 	<script>
-		var getTimelineRowJSPURL = '${timelineRowURL}';
+		var getProjectTimelineRowJSPURL = '${timelineRowURL}';
 	</script>
 </liferay-util:html-top>
 

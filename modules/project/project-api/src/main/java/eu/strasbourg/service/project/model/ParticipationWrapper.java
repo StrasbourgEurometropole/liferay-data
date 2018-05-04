@@ -78,6 +78,12 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("contactLine1", getContactLine1());
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
+		attributes.put("videoUrl", getVideoUrl());
+		attributes.put("imageUrl", getImageUrl());
+		attributes.put("mediaChoice", getMediaChoice());
+		attributes.put("descriptionChapeau", getDescriptionChapeau());
+		attributes.put("descriptionBody", getDescriptionBody());
+		attributes.put("filesIds", getFilesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -194,6 +200,42 @@ public class ParticipationWrapper implements Participation,
 			setContactPhoneNumber(contactPhoneNumber);
 		}
 
+		String videoUrl = (String)attributes.get("videoUrl");
+
+		if (videoUrl != null) {
+			setVideoUrl(videoUrl);
+		}
+
+		String imageUrl = (String)attributes.get("imageUrl");
+
+		if (imageUrl != null) {
+			setImageUrl(imageUrl);
+		}
+
+		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
+
+		if (mediaChoice != null) {
+			setMediaChoice(mediaChoice);
+		}
+
+		String descriptionChapeau = (String)attributes.get("descriptionChapeau");
+
+		if (descriptionChapeau != null) {
+			setDescriptionChapeau(descriptionChapeau);
+		}
+
+		String descriptionBody = (String)attributes.get("descriptionBody");
+
+		if (descriptionBody != null) {
+			setDescriptionBody(descriptionBody);
+		}
+
+		String filesIds = (String)attributes.get("filesIds");
+
+		if (filesIds != null) {
+			setFilesIds(filesIds);
+		}
+
 		Date publicationDate = (Date)attributes.get("publicationDate");
 
 		if (publicationDate != null) {
@@ -205,6 +247,16 @@ public class ParticipationWrapper implements Participation,
 		if (expirationDate != null) {
 			setExpirationDate(expirationDate);
 		}
+	}
+
+	/**
+	* Returns the media choice of this participation.
+	*
+	* @return the media choice of this participation
+	*/
+	@Override
+	public boolean getMediaChoice() {
+		return _participation.getMediaChoice();
 	}
 
 	/**
@@ -275,6 +327,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public boolean isIncomplete() {
 		return _participation.isIncomplete();
+	}
+
+	/**
+	* Returns <code>true</code> if this participation is media choice.
+	*
+	* @return <code>true</code> if this participation is media choice; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isMediaChoice() {
+		return _participation.isMediaChoice();
 	}
 
 	@Override
@@ -412,6 +474,46 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Returns the description body of this participation.
+	*
+	* @return the description body of this participation
+	*/
+	@Override
+	public java.lang.String getDescriptionBody() {
+		return _participation.getDescriptionBody();
+	}
+
+	/**
+	* Returns the description chapeau of this participation.
+	*
+	* @return the description chapeau of this participation
+	*/
+	@Override
+	public java.lang.String getDescriptionChapeau() {
+		return _participation.getDescriptionChapeau();
+	}
+
+	/**
+	* Returns the files IDs of this participation.
+	*
+	* @return the files IDs of this participation
+	*/
+	@Override
+	public java.lang.String getFilesIds() {
+		return _participation.getFilesIds();
+	}
+
+	/**
+	* Returns the image url of this participation.
+	*
+	* @return the image url of this participation
+	*/
+	@Override
+	public java.lang.String getImageUrl() {
+		return _participation.getImageUrl();
+	}
+
+	/**
 	* Returns the status by user name of this participation.
 	*
 	* @return the status by user name of this participation
@@ -469,6 +571,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getUuid() {
 		return _participation.getUuid();
+	}
+
+	/**
+	* Returns the video url of this participation.
+	*
+	* @return the video url of this participation
+	*/
+	@Override
+	public java.lang.String getVideoUrl() {
+		return _participation.getVideoUrl();
 	}
 
 	@Override
@@ -680,6 +792,26 @@ public class ParticipationWrapper implements Participation,
 		_participation.setCreateDate(createDate);
 	}
 
+	/**
+	* Sets the description body of this participation.
+	*
+	* @param descriptionBody the description body of this participation
+	*/
+	@Override
+	public void setDescriptionBody(java.lang.String descriptionBody) {
+		_participation.setDescriptionBody(descriptionBody);
+	}
+
+	/**
+	* Sets the description chapeau of this participation.
+	*
+	* @param descriptionChapeau the description chapeau of this participation
+	*/
+	@Override
+	public void setDescriptionChapeau(java.lang.String descriptionChapeau) {
+		_participation.setDescriptionChapeau(descriptionChapeau);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_participation.setExpandoBridgeAttributes(expandoBridge);
@@ -707,6 +839,16 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Sets the files IDs of this participation.
+	*
+	* @param filesIds the files IDs of this participation
+	*/
+	@Override
+	public void setFilesIds(java.lang.String filesIds) {
+		_participation.setFilesIds(filesIds);
+	}
+
+	/**
 	* Sets the group ID of this participation.
 	*
 	* @param groupId the group ID of this participation
@@ -714,6 +856,26 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setGroupId(long groupId) {
 		_participation.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the image url of this participation.
+	*
+	* @param imageUrl the image url of this participation
+	*/
+	@Override
+	public void setImageUrl(java.lang.String imageUrl) {
+		_participation.setImageUrl(imageUrl);
+	}
+
+	/**
+	* Sets whether this participation is media choice.
+	*
+	* @param mediaChoice the media choice of this participation
+	*/
+	@Override
+	public void setMediaChoice(boolean mediaChoice) {
+		_participation.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -864,6 +1026,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_participation.setUuid(uuid);
+	}
+
+	/**
+	* Sets the video url of this participation.
+	*
+	* @param videoUrl the video url of this participation
+	*/
+	@Override
+	public void setVideoUrl(java.lang.String videoUrl) {
+		_participation.setVideoUrl(videoUrl);
 	}
 
 	@Override

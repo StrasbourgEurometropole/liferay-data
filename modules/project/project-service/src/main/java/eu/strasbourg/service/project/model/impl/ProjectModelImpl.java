@@ -134,20 +134,20 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Project"),
 			true);
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Project"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Project"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
@@ -219,7 +219,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		return models;
 	}
 
-	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.project.service.util.ServiceProps.get(
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.project.model.Project"));
 
 	public ProjectModelImpl() {

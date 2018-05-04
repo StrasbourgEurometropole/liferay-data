@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.project.model.Project;
@@ -41,16 +42,15 @@ public class EditProjectDisplayContext {
 		return _project;
 	}
 		
-	public String getDefaultTimelineIndexes() {
-		if (this.getProject() != null) {
-    		List<ProjectTimeline> timelines = this.getProject().getProjectTimelines();
-    		String indexes = "0";
-    		for (int i = 1; i <= timelines.size(); i++) {
-    			indexes +=  "," + i;
-    		}
-    		return indexes;
+	public String getDefaultIndexes(int length) {
+		String indexes = "";
+		for (int i = 1; i <= length; i++) {
+			if (Validator.isNotNull(indexes)) {
+				indexes += ",";
+			}
+			indexes += i;
 		}
-		return "";
+		return indexes;
 	}
 
 	public Locale[] getAvailableLocales() {
