@@ -79,4 +79,6 @@ public class StrasbourgPortletKeys {
 
 	public static final String MY_DISTRICT_WEB = "eu_strasbourg_portlet_my_district_MyDistrictWebPortlet";
 
+	public static final String VOTE_PLACE_WEB = "eu_strasbourg_portlet_vote_place_VotePlaceWebPortlet";
+
 }
