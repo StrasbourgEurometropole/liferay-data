@@ -6,6 +6,52 @@
     "fields": [
         {
             "label": {
+                "fr_FR": "Sélectionner l’alignement des données textuelles"
+            },
+            "options": [
+                {
+                    "value": "pro-captionleft",
+                    "label": {
+                        "fr_FR": "A gauche"
+                    }
+                },
+                {
+                    "value": "pro-captionmiddle",
+                    "label": {
+                        "fr_FR": "Au milieu"
+                    }
+                },
+                {
+                    "value": "pro-captionright",
+                    "label": {
+                        "fr_FR": "A droite"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    "pro-captionmiddle"
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "selectAlignment",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
                 "fr_FR": "Titre"
             },
             "predefinedValue": {
@@ -89,7 +135,8 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
             "name": "text",
@@ -97,7 +144,7 @@
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "textarea"
+            "type": "ddm-text-html"
         },
         {
             "label": {

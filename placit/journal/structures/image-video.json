@@ -139,7 +139,7 @@
         },
         {
             "label": {
-                "fr_FR": "Description"
+                "fr_FR": "Déscription"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -150,7 +150,8 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
             "name": "description",
@@ -158,7 +159,7 @@
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "textarea"
+            "type": "ddm-text-html"
         }
     ]
 }

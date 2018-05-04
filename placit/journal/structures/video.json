@@ -40,7 +40,8 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "string",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
             "name": "legend",
@@ -48,7 +49,7 @@
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "textarea"
+            "type": "ddm-text-html"
         }
     ]
 }
