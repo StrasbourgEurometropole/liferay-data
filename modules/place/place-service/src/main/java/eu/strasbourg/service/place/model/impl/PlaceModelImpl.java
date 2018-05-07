@@ -223,9 +223,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	public static final long SIGID_COLUMN_BITMASK = 1L;
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long PRICEID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long PLACEID_COLUMN_BITMASK = 32L;
+	public static final long NAME_COLUMN_BITMASK = 8L;
+	public static final long PRICEID_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long PLACEID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -1060,7 +1061,17 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_originalName == null) {
+			_originalName = _name;
+		}
+
 		_name = name;
+	}
+
+	public String getOriginalName() {
+		return GetterUtil.getString(_originalName);
 	}
 
 	@JSON
@@ -3427,6 +3438,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		placeModelImpl._originalSIGid = placeModelImpl._SIGid;
 
+		placeModelImpl._originalName = placeModelImpl._name;
+
 		placeModelImpl._originalPriceId = placeModelImpl._priceId;
 
 		placeModelImpl._setOriginalPriceId = false;
@@ -4211,6 +4224,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _SIGid;
 	private String _originalSIGid;
 	private String _name;
+	private String _originalName;
 	private String _addressComplement;
 	private String _addressStreet;
 	private String _addressDistribution;
