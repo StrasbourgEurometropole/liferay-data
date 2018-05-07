@@ -52,7 +52,7 @@
                             >
                             <label for="<portlet:namespace />showFavorites" class="option">
                             	Mes favoris
-	                            (${strasbourgServiceUtil.getFavoritesPoisCount(groupId, typesContenu)})
+	                            (${dc.getFavoritesPoisCount(groupId, typesContenu)})
                             </label>
                         </div>
 	                    <c:set var="checkboxNamesCategories" value="" />
@@ -72,7 +72,7 @@
 	                                >
 	                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
 	                                	${category.getTitle(locale)} 
-	                                	(${strasbourgServiceUtil.getPoisCategoryCount(category.categoryId, groupId, typesContenu)})
+	                                	(${dc.getPoisCategoryCount(category.categoryId, groupId, typesContenu)})
 	                                </label>
 	                            </div>
 	                        </c:forEach>
@@ -94,7 +94,7 @@
 	                                >
 	                                <label for="<portlet:namespace />interestPointId_${groupLoopStatus.index}_${intStatus.index}" class="option">
 	                                	${interest.getTitle(locale)}
-	                                	(${strasbourgServiceUtil.getPoisInterestCount(interest.interestId, groupId, typesContenu)})
+	                                	(${dc.getPoisInterestCount(interest.interestId, groupId, typesContenu)})
 	                                </label>
 	                            </div>
 	                        </c:forEach>

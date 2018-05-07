@@ -28,7 +28,6 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -343,7 +342,6 @@ public class MapPortlet extends MVCPortlet {
 				vocabularyGroup.put(vocabularyName, categoriesVocabulary);
 			}
 
-			eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil.getService();
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("widgetMod", widgetMod);
 			request.setAttribute("widgetIntro", configuration.widgetIntro());
@@ -362,6 +360,8 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showConfig", showConfig);
 			request.setAttribute("showList", showList);
 			request.setAttribute("address", address);
+			MapDisplayContext dc = new MapDisplayContext();
+			request.setAttribute("dc", dc);
 			if (widgetMod) {
 				request.setAttribute(getMVCPathAttributeName(renderResponse.getNamespace()), "/map-widget-view.jsp");
 			}

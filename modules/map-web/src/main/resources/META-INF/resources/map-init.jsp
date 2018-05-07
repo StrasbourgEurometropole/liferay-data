@@ -14,7 +14,6 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <portlet:defineObjects />
 
 <jsp:useBean id="strasbourgPropsUtil" class="eu.strasbourg.utils.StrasbourgPropsUtil"/>
-<jsp:useBean id="strasbourgServiceUtil" class="eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil"/>
 
 
 <liferay-util:body-top>
