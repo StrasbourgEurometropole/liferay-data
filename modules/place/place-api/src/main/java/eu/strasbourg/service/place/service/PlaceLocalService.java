@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
 
 import java.io.Serializable;
@@ -153,6 +154,13 @@ public interface PlaceLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Place fetchPlaceByUuidAndGroupId(java.lang.String uuid, long groupId);
+
+	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	public Place findByName(java.lang.String name) throws NoSuchPlaceException;
 
 	/**
 	* Returns the place with the primary key.
