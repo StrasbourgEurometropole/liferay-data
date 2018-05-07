@@ -80,14 +80,11 @@ public class ProjectAssetRenderer extends BaseJSPAssetRenderer<Project> {
 
 	@Override
 	public String getSummary(PortletRequest portletRequest, PortletResponse portletResponse) {
-		// TODO Auto-generated method stub
-		return null;
+		return "Name: " + _entry.getDescription();
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
+		return _entry.getLabel();
 	}
-
 }
