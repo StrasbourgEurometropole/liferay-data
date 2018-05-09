@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -33,7 +32,6 @@ import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
-import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
