@@ -38,50 +38,7 @@
         }
     
     }
-
-    .add-favorites{
-        font-family: "MontSerrat", arial;
-        font-size: 1.4rem;
-        color: $core-color;
-        text-transform: uppercase;
-        font-weight: 700;
-        position: relative;
-        height: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-bottom: 20px;
-        &:before{
-            content: '';
-            display: inline-block;
-            width: 21px;
-            height: 21px;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-right: 12px;
-            flex-shrink: 0;
-            background-image: url( svg-bg-uri($svg-favoris, $core-color) );
-        }
-        &.liked{
-            &:before{
-                background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
-            }
-        }
-        span{
-            position: relative;
-        }
-        span:after{
-            @extend %animation-hoverBar-in;
-            background-color: $core-color;
-        }
-        &:hover, &:focus{
-            text-decoration: none;
-            span:after{
-                @extend %animation-hoverBar-out;
-            }
-        }
-    }
+    
     .hat{
         margin-bottom: 50px;
         @include RWD(mobile){
