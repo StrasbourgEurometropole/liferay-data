@@ -6,93 +6,6 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Choix de l'affichage"
-            },
-            "options": [
-                {
-                    "value": "video",
-                    "label": {
-                        "fr_FR": "Vidéo"
-                    }
-                },
-                {
-                    "value": "image",
-                    "label": {
-                        "fr_FR": "Image"
-                    }
-                }
-            ],
-            "predefinedValue": {
-                "fr_FR": [
-                    ""
-                ]
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "keyword",
-            "localizable": true,
-            "multiple": false,
-            "name": "mediaChoice",
-            "readOnly": false,
-            "repeatable": false,
-            "required": true,
-            "showLabel": true,
-            "type": "select"
-        },
-        {
-            "label": {
-                "fr_FR": "Image"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "image",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "ddm-image"
-        },
-        {
-            "label": {
-                "fr_FR": "URL de la vidéo"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "videoUrl",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
                 "fr_FR": "Surtitre"
             },
             "predefinedValue": {
@@ -139,7 +52,7 @@
         },
         {
             "label": {
-                "fr_FR": "Déscription"
+                "fr_FR": "Description"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -160,6 +73,94 @@
             "required": true,
             "showLabel": true,
             "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Sélectionner le type de média en arrière-plan"
+            },
+            "options": [
+                {
+                    "value": "image",
+                    "label": {
+                        "fr_FR": "image"
+                    }
+                },
+                {
+                    "value": "video",
+                    "label": {
+                        "fr_FR": "video"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    ""
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "selectMedia",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
+        },
+        {
+            "label": {
+                "fr_FR": "Image"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Vidéo (.mp4)"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "document-library",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "video",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-documentlibrary"
         }
     ]
 }

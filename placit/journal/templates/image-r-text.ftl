@@ -1,5 +1,5 @@
 <section class="container">
-    
+
     <div class="pro-bloc-txt-img pro-bloc pro-bloc-texte clearfix col-lg-10 col-lg-offset-1">
         <div>
             <div class="col-sm-6">
@@ -10,7 +10,7 @@
             </div>
             
             <div class="col-sm-6">
-                <h2 class="pro-big-title">${title.getData()}</h2>
+                <h2 class="pro-big-title image-r-text-title">${title.getData()}</h2>
                 <p>${text.getData()}</p>
                 <a href="${linkUrl.getData()}" class="pro-btn-yellow" title="${linkLabel.getData()}">En savoir plus</a>
             </div>
