@@ -37,7 +37,7 @@ $(".selectric-input").each(function(){
 
 // Quand on click sur l'îcone de recherche dans le menu, on ouvre la search bar
 $('a[href$="rechercher"]').on('click',function(){
-    $('#header').toggleClass('pro-wrapper-search-open');
+    $('#pro-header').toggleClass('pro-wrapper-search-open');
     $('.pro-wrapper-search form input').focus();
     $('#pro-shadow-bg').addClass('pro-display-block');
 });

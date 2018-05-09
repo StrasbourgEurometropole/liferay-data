@@ -87,7 +87,7 @@ $selectric-font-size:       12px !default;                                      
 }
 
 .selectric-open {
-  z-index: 9999;
+  z-index: 200;
 
   .selectric {
     border-color: darken($selectric-main-color, 10%);

@@ -17,7 +17,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 @Component(
 		immediate = true,
 		property = {
-	        "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO
+	        "javax.portlet.name=eu_strasbourg_service_project_service"
 	    },
 		service = TemplateHandler.class
 	)
@@ -34,7 +34,7 @@ public class ProjectDisplayTemplateHandler extends BasePortletDisplayTemplateHan
 
 	@Override
 	public String getResourceName() {
-		return StrasbourgPortletKeys.PROJECT_BO;
+		return "eu_strasbourg_service_project_service";
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class ProjectDisplayTemplateHandler extends BasePortletDisplayTemplateHan
 			"Projets", List.class, PortletDisplayTemplateManager.ENTRIES, 
 			"Projet", Project.class, "currentProject", "getTitle(locale)");
 		
-		fieldsTemplateVariableGroup.addVariable("Lien", Project.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Projet", Project.class, "entry");
 		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;

@@ -73,7 +73,7 @@ $('.owl-cards').each(function () {
             items: 4,
             // autoHeight:true,
             autoWidth: true,
-            navText: ["", ""]
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"]
         };
 
         var data = _self.data();

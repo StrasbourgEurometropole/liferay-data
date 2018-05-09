@@ -1,306 +1,300 @@
-#th-global {
-
-	.pro-search-page {
-		.pro-form-search {
-			height: 100%;
-			margin: 0;
-			.container {
-				position: relative;
-				bottom: 0;
-				padding-bottom: 30px;
-				#breadcrumb {
-					padding: 15px 0;
-					span, a {
-						color: $c_white;
-					}
-					a {
-						&:hover, &:focus {
-							color: $c_main;
-						}
-						&:after {
-							height: 2px;
-							background: $c_white;
-						}
-					}
+.pro-search-page {
+	.pro-form-search {
+		height: 100%;
+		margin: 0;
+		.container {
+			position: relative;
+			bottom: 0;
+			padding-bottom: 30px;
+			#breadcrumb {
+				padding: 15px 0;
+				span, a {
+					color: $c_white;
 				}
-			}
-		}
-
-		.pro-wrapper-search {
-			padding-top: 20px;
-			padding-bottom: 10px;
-			> .row {
-				> * {
-					margin: 10px 0;
-
-					.pro-bloc-actu {
-						height: 219px;
-						border: 1px solid rgba($c_dark, 0.25);
-						border-radius: 4px;
-						margin: 0;
-						@include addTransition();
-						&:after{
-							content: '';
-							display: block;
-							clear: both;
-						}
-						&:hover, &:focus {
-							box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-							&:before {
-								top: 0;
-								left: 0;
-								right: 0;
-								bottom: 0;
-								opacity: 0;
-								z-index: 10;
-								visibility: hidden;
-							}
-							> .img {
-								z-index: 20;
-								top: 0;
-								left: 0;
-								right: 0;
-								width: 40%;
-								height: 100%;
-								margin-bottom: 0;
-								figure {
-									height: 100%;
-									img {
-										opacity: 1 !important;
-									}
-								}
-								> span {
-									opacity: 0;
-									left: 20px;
-								}
-								&.pro-no-photo {
-									height: 174px;
-									width: 100%;
-								}
-							}
-							> .content {
-								&:after {
-									left: 0;
-									right: 0;
-									width: 100%;
-									opacity: 0;
-								}
-								.link {
-									&:after {
-										opacity: 0;
-									}
-								}
-							}
-						}
-						@include mobile {
-							height: 100%;
-							margin: 0;
-						}
-						> * {
-							height: 100%;
-						}
-						.img{
-							width: 40%;
-							float: left;
-							@include mobile{
-								position: absolute;
-							}
-							figure{
-								height: 100%;
-							}
-						}
-						.content{
-							width: 60%;
-							float: left;
-							padding: 15px;
-							@include mobile{
-								margin-left: 40%;
-							}
-						}
+				a {
+					&:hover, &:focus {
+						color: $c_main;
 					}
-
-
-
-					.pro-bloc-card-event {
-						height: 219px;
-						@include mobile {
-							height: 100%;
-						}
-						> * {
-							height: 100%;
-						}
-						&:hover, &:focus {
-							> * {
-								transform: none;
-							}
-						}
-						.pro-footer-event {
-							padding: 18px 20px;
-							position: absolute;
-							bottom: 0;
-							left: 0;
-							right: 0;
-							@include mobile{
-								position: relative;
-							}
-							> span.pro-number {
-								font-size: 0.75em;
-							}
-
-							.pro-btn-action{
-								@include tablet_portrait{
-									width: 160px;
-									&.active{
-										&:after{
-											right: 25px;
-										}
-									}
-								}
-								@include mobile{
-									width: 100%;
-									&.active{
-										&:after{
-											right: 50px;
-										}
-									}
-								}
-							}
-						}
+					&:after {
+						height: 2px;
+						background: $c_white;
 					}
-
-					.pro-bloc-card-participation {
-						height: 219px;
-						@include mobile {
-							height: 100%;
-						}
-						> * {
-							height: 100%;
-						}
-						&:hover, &:focus {
-							> * {
-								transform: none;
-							}
-						}
-
-						.pro-header-participation {
-							padding: 13px 20px 0 20px;
-						}
-						.pro-footer-participation{
-							padding: 11px 20px;
-							position: absolute;
-							left: 0;
-							right: 0;
-							bottom: 0;
-							@include mobile{
-								position: relative;
-							}
-						}
-					}
-
-					.pro-card-video {
-						height: 219px;
-						border: 1px solid rgba($c_dark, 0.25);
-						border-radius: 4px;
-						@include mobile {
-							height: 100%;
-						}
-						&:hover, &:focus {
-							box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-							cursor: pointer;
-							.pro-header {
-								figure {
-									img {
-										transform: none;
-									}
-								}
-							}
-						}
-						.pro-header {
-							height: 100%;
-							&:before, &:after {
-								content: none;
-							}
-							figure {
-								height: 100%;
-								&:after {
-									content: '';
-									position: absolute;
-									top: 0;
-									left: 0;
-									right: 0;
-									bottom: 0;
-									z-index: 100;
-									/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,0.65+100 */
-									background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
-									background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-									background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
-								}
-								img {
-									height: 100%;
-								}
-							}
-							.icon-ico-lecteur {
-								transform: none;
-								left: auto;
-								top: auto;
-								right: 85px;
-								bottom: 85px;
-								z-index: 1000;
-							}
-						}
-						.pro-meta-avis {
-							position: absolute;
-							bottom: 10px;
-							left: 20px;
-							right: 20px;
-							width: calc(100% - 40px);
-							z-index: 1000;
-							text-align: left;
-							> a{
-								float: none;
-								display: inline-block;
-								text-align: left;
-								&:focus{
-									h3{
-										color: $c_main;
-									}
-								}
-							}
-							h3 {
-								color: $c_white;
-								margin-bottom: 10px;
-								@include addTransition();
-							}
-							.pro-view {
-								color: $c_white;
-								font-weight: 700;
-								position: absolute;
-								right: 0;
-								bottom: 0;
-							}
-							.pro-avis {
-								display: block;
-								float: none;
-								text-align: left;
-								> * {
-									background: $c_main;
-									text-align: center;
-									border-radius: 4px;
-									display: inline-block;
-									&:hover, &:focus{
-										background: $c_dark;
-										color: $c_main;
-									}
-								}
-							}
-						}
-
-					}
-
 				}
 			}
 		}
 	}
 
+	.pro-wrapper-search {
+		padding-top: 20px;
+		padding-bottom: 10px;
+		> .row {
+			> * {
+				margin: 10px 0;
+
+				.pro-bloc-actu {
+					height: 219px;
+					border: 1px solid rgba($c_dark, 0.25);
+					border-radius: 4px;
+					margin: 0;
+					@include addTransition();
+					&:after {
+						content: '';
+						display: block;
+						clear: both;
+					}
+					&:hover, &:focus {
+						box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+						&:before {
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							opacity: 0;
+							z-index: 10;
+							visibility: hidden;
+						}
+						> .img {
+							z-index: 20;
+							top: 0;
+							left: 0;
+							right: 0;
+							width: 40%;
+							height: 100%;
+							margin-bottom: 0;
+							figure {
+								height: 100%;
+								img {
+									opacity: 1 !important;
+								}
+							}
+							> span {
+								opacity: 0;
+								left: 20px;
+							}
+							&.pro-no-photo {
+								height: 174px;
+								width: 100%;
+							}
+						}
+						> .content {
+							&:after {
+								left: 0;
+								right: 0;
+								width: 100%;
+								opacity: 0;
+							}
+							.link {
+								&:after {
+									opacity: 0;
+								}
+							}
+						}
+					}
+					@include mobile {
+						height: 100%;
+						margin: 0;
+					}
+					> * {
+						height: 100%;
+					}
+					.img {
+						width: 40%;
+						float: left;
+						@include mobile {
+							position: absolute;
+						}
+						figure {
+							height: 100%;
+						}
+					}
+					.content {
+						width: 60%;
+						float: left;
+						padding: 15px;
+						@include mobile {
+							margin-left: 40%;
+						}
+					}
+				}
+
+				.pro-bloc-card-event {
+					height: 219px;
+					@include mobile {
+						height: 100%;
+					}
+					> * {
+						height: 100%;
+					}
+					&:hover, &:focus {
+						> * {
+							transform: none;
+						}
+					}
+					.pro-footer-event {
+						padding: 18px 20px;
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						@include mobile {
+							position: relative;
+						}
+						> span.pro-number {
+							font-size: 0.75em;
+						}
+
+						.pro-btn-action {
+							@include tablet_portrait {
+								width: 160px;
+								&.active {
+									&:after {
+										right: 25px;
+									}
+								}
+							}
+							@include mobile {
+								width: 100%;
+								&.active {
+									&:after {
+										right: 50px;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				.pro-bloc-card-participation {
+					height: 219px;
+					@include mobile {
+						height: 100%;
+					}
+					> * {
+						height: 100%;
+					}
+					&:hover, &:focus {
+						> * {
+							transform: none;
+						}
+					}
+
+					.pro-header-participation {
+						padding: 13px 20px 0 20px;
+					}
+					.pro-footer-participation {
+						padding: 11px 20px;
+						position: absolute;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						@include mobile {
+							position: relative;
+						}
+					}
+				}
+
+				.pro-card-video {
+					height: 219px;
+					border: 1px solid rgba($c_dark, 0.25);
+					border-radius: 4px;
+					@include mobile {
+						height: 100%;
+					}
+					&:hover, &:focus {
+						box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+						cursor: pointer;
+						.pro-header {
+							figure {
+								img {
+									transform: none;
+								}
+							}
+						}
+					}
+					.pro-header {
+						height: 100%;
+						&:before, &:after {
+							content: none;
+						}
+						figure {
+							height: 100%;
+							&:after {
+								content: '';
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								z-index: 100;
+								/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,0.65+100 */
+								background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
+								background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+								background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+								filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
+							}
+							img {
+								height: 100%;
+							}
+						}
+						.icon-ico-lecteur {
+							transform: none;
+							left: auto;
+							top: auto;
+							right: 85px;
+							bottom: 85px;
+							z-index: 100;
+						}
+					}
+					.pro-meta-avis {
+						position: absolute;
+						bottom: 10px;
+						left: 20px;
+						right: 20px;
+						width: calc(100% - 40px);
+						z-index: 1000;
+						text-align: left;
+						> a {
+							float: none;
+							display: inline-block;
+							text-align: left;
+							&:focus {
+								h3 {
+									color: $c_main;
+								}
+							}
+						}
+						h3 {
+							color: $c_white;
+							margin-bottom: 10px;
+							@include addTransition();
+						}
+						.pro-view {
+							color: $c_white;
+							font-weight: 700;
+							position: absolute;
+							right: 0;
+							bottom: 0;
+						}
+						.pro-avis {
+							display: block;
+							float: none;
+							text-align: left;
+							> * {
+								background: $c_main;
+								text-align: center;
+								border-radius: 4px;
+								display: inline-block;
+								&:hover, &:focus {
+									background: $c_dark;
+									color: $c_main;
+								}
+							}
+						}
+					}
+
+				}
+
+			}
+		}
+	}
 }

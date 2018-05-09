@@ -1,129 +1,124 @@
-#th-global{
+.pro-wrapper-signataire {
+	padding: 20px 0;
 
-
-	.pro-wrapper-signataire{
-		padding: 20px 0;
-
+	> * {
 		> * {
-			> * {
-				margin: 10px 0;
-				height: 106px;
-				border: 1px solid #bfbfbf;
-				border-radius: 4px;
-				@include mobile{
-					height: 110px;
+			margin: 10px 0;
+			height: 106px;
+			border: 1px solid #bfbfbf;
+			border-radius: 4px;
+			@include mobile {
+				height: 110px;
+			}
+			@include mobile_small {
+				height: 140px;
+			}
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			.pro-people {
+				float: left;
+				width: calc(100% - 150px);
+				top: 50%;
+				position: relative;
+				transform: translateY(-50%);
+				transform: translate3d(0, -50%, 0);
+				padding: 0 0 0 20px;
+				@include tablet_landscape {
+					width: calc(100% - 100px);
 				}
-				@include mobile_small{
-					height: 140px;
-				}
-				&:after{
-					content: '';
-					display: block;
-					clear: both;
-				}
-				.pro-people{
-					float: left;
+				@include tablet_portrait {
 					width: calc(100% - 150px);
-					top: 50%;
-					position: relative;
-					transform: translateY(-50%);
-					transform: translate3d(0,-50%,0);
-					padding: 0 0 0 20px;
-					@include tablet_landscape{
-						width: calc(100% - 100px);
-					}
-					@include tablet_portrait{
-						width: calc(100% - 150px);
-					}
-					@include mobile{
-						width: calc(100% - 70px);
-						padding: 0 0 0 10px;
-					}
-					figure{
-						float: left;
-						overflow: hidden;
-						margin-right: 20px;
-						background: none;
-						img{
-							width: 75px;
-							height: 75px;
-							border-radius: 50%;
-							@include mobile{
-								width: 55px;
-								height: 55px;
-							}
+				}
+				@include mobile {
+					width: calc(100% - 70px);
+					padding: 0 0 0 10px;
+				}
+				figure {
+					float: left;
+					overflow: hidden;
+					margin-right: 20px;
+					background: none;
+					img {
+						width: 75px;
+						height: 75px;
+						border-radius: 50%;
+						@include mobile {
+							width: 55px;
+							height: 55px;
 						}
-					}
-					div{
-						float: left;
-						.pro-time{
-							@include ft($f_txt, 0.688em, 400, $c_txt, normal);
-							background: none;
-							padding: 0;
-							margin: 5px 0;
-						}
-
-						.pro-name{
-							@include ft($f_txt, 1.125em, 700, $c_txt, 1.222em);
-							margin-bottom: 5px;
-						}
-
-						.pro-fonction{
-							@include ft($f_txt, $s_small, 400, $c_txt, normal);
-							margin: 0;
-						}
-
 					}
 				}
-				.pro-state-signature{
+				div {
 					float: left;
+					.pro-time {
+						@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+						background: none;
+						padding: 0;
+						margin: 5px 0;
+					}
+
+					.pro-name {
+						@include ft($f_txt, 1.125em, 700, $c_txt, 1.222em);
+						margin-bottom: 5px;
+					}
+
+					.pro-fonction {
+						@include ft($f_txt, $s_small, 400, $c_txt, normal);
+						margin: 0;
+					}
+
+				}
+			}
+			.pro-state-signature {
+				float: left;
+				width: 150px;
+				height: 100%;
+				text-align: center;
+				background: #edf0f2;
+				border-top-right-radius: 4px;
+				border-bottom-right-radius: 4px;
+				position: relative;
+				@include tablet_landscape {
+					width: 100px;
+				}
+				@include tablet_portrait {
 					width: 150px;
-					height: 100%;
+				}
+				@include mobile {
+					width: 70px;
+				}
+				span {
+					@include ft($f_hx, 1.125em, 700, $c_txt, normal);
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					transform: translate3d(-50%, -50%, 0);
+					display: block;
 					text-align: center;
-					background: #edf0f2;
-					border-top-right-radius: 4px;
-					border-bottom-right-radius: 4px;
-					position: relative;
-					@include tablet_landscape{
-						width: 100px;
+					text-transform: uppercase;
+					width: 100%;
+					@include tablet_landscape {
+						font-size: 1em;
 					}
-					@include tablet_portrait{
-						width: 150px;
-					}
-					@include mobile{
-						width: 70px;
-					}
-					span{
-						@include ft($f_hx, 1.125em, 700, $c_txt, normal);
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						transform: translate(-50%,-50%);
-						transform: translate3d(-50%,-50%,0);
-						display: block;
-						text-align: center;
-						text-transform: uppercase;
-						width: 100%;
-						@include tablet_landscape{
-							font-size: 1em;
-						}
-						&:after{
-							content: "\e91a";
-							@include font();
-							float: none;
-							font-size: 1em;
-							margin-left: 15px;
-							line-height: 1.5em;
-							position: relative;
-							top: -3px;
-							@include mobile{
-								content: none;
-							}
+					&:after {
+						content: "\e91a";
+						@include font();
+						float: none;
+						font-size: 1em;
+						margin-left: 15px;
+						line-height: 1.5em;
+						position: relative;
+						top: -3px;
+						@include mobile {
+							content: none;
 						}
 					}
 				}
 			}
 		}
 	}
-
 }

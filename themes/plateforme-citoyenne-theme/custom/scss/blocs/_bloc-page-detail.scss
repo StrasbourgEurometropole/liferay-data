@@ -1,165 +1,161 @@
-#th-global {
+.pro-page-detail {
 
-	.pro-page-detail {
+	> .container {
+		> * {
+			@include mobile {
+				padding: 0;
+			}
+		}
+	}
 
-		> .container {
-			> * {
-				@include mobile{
-					padding: 0;
+	article {
+		padding-top: 35px;
+
+		header {
+			.pro-time {
+				position: relative;
+				left: -15px;
+				margin-bottom: 8px;
+				@include mobile {
+					left: 0;
 				}
+			}
+			p {
+				margin-bottom: 20px;
+			}
+			h1 {
+				@include ft($f_hx, 2.500em, 700, $c_txt, 1.100em);
+				text-transform: uppercase;
+				display: block;
+				margin-bottom: 0;
+				position: relative;
+				@include mobile {
+					font-size: 2em;
+					line-height: normal;
+				}
+				&:before {
+					content: "\e919";
+					@include font();
+					position: absolute;
+					left: -105px;
+					top: 50%;
+					transform: translateY(-50%);
+					transform: translate3d(0, -50%, 0);
+					width: 88px;
+					height: 88px;
+					border: 4px solid #ececec;
+					border-radius: 50%;
+					text-align: center;
+					line-height: 80px;
+					@media screen and (max-width: 1140px) {
+						width: 48px;
+						height: 48px;
+						line-height: 40px;
+						border: 2px solid #ececec;
+						left: -60px;
+						font-size: 0.5em;
+					}
+					@include tablet_landscape {
+						content: none;
+					}
+				}
+			}
+			.pro-meta {
+				margin-bottom: 0;
+				> * {
+					&:first-child {
+						padding-left: 0;
+					}
+				}
+			}
+			#breadcrumb {
+				padding: 10px 0;
 			}
 		}
 
-		article {
-			padding-top: 35px;
+		.pro-container-detail-event {
 
-			header {
-				.pro-time {
-					position: relative;
-					left: -15px;
-					margin-bottom: 8px;
-					@include mobile{
-						left: 0;
+			.pro-main-img {
+				figure {
+					img {
+						height: 100%;
+					}
+				}
+			}
+
+			.pro-bloc {
+				@include mobile {
+					margin: 0;
+				}
+			}
+
+			.pro-small-detail-bloc {
+				padding-top: 30px;
+				@include mobile {
+					padding-top: 0;
+				}
+				> * {
+					@include mobile {
+						margin: 20px 0;
+					}
+				}
+				h4 {
+					@include ft($f_hx, 0.938em, 700, $c_txt, normal);
+					text-transform: uppercase;
+					padding-bottom: 10px;
+					border-bottom: 1px solid #cccccc;
+					margin-bottom: 20px;
+				}
+				ul {
+					text-align: left;
+					li {
+						display: inline-block;
+						vertical-align: middle;
+						margin: 0 15px;
+						opacity: 1;
+						@include tablet_landscape {
+							margin: 0 10px;
+						}
+						@include tablet_portrait {
+							margin: 0 7px;
+						}
+						&.pro-tooltip .tooltiptext {
+							visibility: hidden;
+							width: 120px;
+							background-color: black;
+							color: #fff;
+							text-align: center;
+							border-radius: 6px;
+							padding: 5px 0;
+							position: absolute;
+							z-index: 1;
+							top: 150%;
+							left: 50%;
+							margin-left: -60px;
+							@include ft($f_txt, 0.750em, 400, $c_white, 1em);
+						}
+
+						&.pro-tooltip .tooltiptext::after {
+							right: auto;
+							left: 50%;
+							margin-left: -3px;
+						}
+
+						&.pro-tooltip:hover .tooltiptext {
+							visibility: visible;
+						}
+
+						span {
+							font-size: 1.8em;
+						}
 					}
 				}
 				p {
-					margin-bottom: 20px;
-				}
-				h1 {
-					@include ft($f_hx, 2.500em, 700, $c_txt, 1.100em);
-					text-transform: uppercase;
-					display: block;
-					margin-bottom: 0;
-					position: relative;
-					@include mobile{
-						font-size: 2em;
-						line-height: normal;
-					}
-					&:before {
-						content: "\e919";
-						@include font();
-						position: absolute;
-						left: -105px;
-						top: 50%;
-						transform: translateY(-50%);
-						transform: translate3d(0, -50%, 0);
-						width: 88px;
-						height: 88px;
-						border: 4px solid #ececec;
-						border-radius: 50%;
-						text-align: center;
-						line-height: 80px;
-						@media screen and (max-width: 1140px){
-							width: 48px;
-							height: 48px;
-							line-height: 40px;
-							border: 2px solid #ececec;
-							left: -60px;
-							font-size: 0.5em;
-						}
-						@include tablet_landscape{
-							content: none;
-						}
-					}
-				}
-				.pro-meta {
-					margin-bottom: 0;
-					> * {
-						&:first-child {
-							padding-left: 0;
-						}
-					}
-				}
-				#breadcrumb {
-					padding: 10px 0;
+					@include ft($f_txt, 0.875em, 400, #4c4c4c, normal);
 				}
 			}
 
-			.pro-container-detail-event {
-
-				.pro-main-img {
-					figure {
-						img {
-							height: 100%;
-						}
-					}
-				}
-
-				.pro-bloc{
-					@include mobile{
-						margin: 0;
-					}
-				}
-
-				.pro-small-detail-bloc {
-					padding-top: 30px;
-					@include mobile{
-						padding-top: 0;
-					}
-					> * {
-						@include mobile{
-							margin: 20px 0;
-						}
-					}
-					h4 {
-						@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-						text-transform: uppercase;
-						padding-bottom: 10px;
-						border-bottom: 1px solid #cccccc;
-						margin-bottom: 20px;
-					}
-					ul {
-						text-align: left;
-						li {
-							display: inline-block;
-							vertical-align: middle;
-							margin: 0 15px;
-							opacity: 1;
-							@include tablet_landscape{
-								margin: 0 10px;
-							}
-							@include tablet_portrait{
-								margin: 0 7px;
-							}
-							&.pro-tooltip .tooltiptext {
-								visibility: hidden;
-								width: 120px;
-								background-color: black;
-								color: #fff;
-								text-align: center;
-								border-radius: 6px;
-								padding: 5px 0;
-								position: absolute;
-								z-index: 1;
-								top: 150%;
-								left: 50%;
-								margin-left: -60px;
-								@include ft($f_txt, 0.750em, 400, $c_white, 1em);
-							}
-
-							&.pro-tooltip .tooltiptext::after {
-								right: auto;
-								left: 50%;
-								margin-left: -3px;
-							}
-
-							&.pro-tooltip:hover .tooltiptext {
-								visibility: visible;
-							}
-
-							span {
-								font-size: 1.8em;
-							}
-						}
-					}
-					p {
-						@include ft($f_txt, 0.875em, 400, #4c4c4c, normal);
-					}
-				}
-
-			}
 		}
-
 	}
 
 }

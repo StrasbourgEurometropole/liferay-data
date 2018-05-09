@@ -1,328 +1,324 @@
-#th-global {
+.pro-bloc-commentaires {
+	overflow: hidden;
+	margin-top: -20px;
+	h2 {
+		font-size: 2.5em;
+		line-height: 2em;
+		border-bottom: 1px solid $c_filet;
+		margin-bottom: 25px;
+		@include mobile {
+			font-size: 1.500em;
+			line-height: 1.5em;
+			padding-bottom: 10px;
+		}
+	}
 
-	.pro-bloc-commentaires {
+	> div {
 		overflow: hidden;
-		margin-top: -20px;
-		h2 {
-			font-size: 2.5em;
-			line-height: 2em;
-			border-bottom: 1px solid $c_filet;
-			margin-bottom: 25px;
-			@include mobile{
-				font-size: 1.500em;
-				line-height: 1.5em;
-				padding-bottom: 10px;
+		margin-left: -15px;
+		@include tablet_portrait {
+			margin-left: 0;
+		}
+		> div {
+			@include tablet_portrait {
+				padding: 0;
+			}
+			@include mobile {
+				margin-bottom: 40px;
+				h2 {
+					margin: 0;
+				}
 			}
 		}
+	}
 
-
-		> div{
+	.pro-item {
+		margin-bottom: 20px;
+		@include mobile {
+			margin-top: 40px;
+		}
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		figure {
+			width: 75px;
+			height: 75px;
+			float: left;
 			overflow: hidden;
-			margin-left: -15px;
-			@include tablet_portrait{
-				margin-left: 0;
+			border-radius: 50%;
+			margin-right: 15px;
+			@include mobile {
+				float: none;
+				margin: 0;
+				margin-bottom: 20px;
 			}
-			> div{
-				@include tablet_portrait{
-					padding: 0;
+		}
+		.pro-txt {
+			float: left;
+			width: calc(100% - 90px);
+			@include mobile {
+				float: none;
+				width: 100%;
+			}
+			> span {
+				@include ft($f_txt, 1em, 400, $c_txt, 1.188em);
+				@include mobile {
+					display: block;
 				}
-				@include mobile{
-					margin-bottom: 40px;
-					h2{
+				&.pro-name {
+					font-weight: 700;
+				}
+				&.pro-time {
+					font-weight: 700;
+				}
+			}
+			.pro-comment {
+				padding: 20px;
+				margin-top: 10px;
+				background: #ececec;
+				border-radius: 10px;
+				position: relative;
+				&:before {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: -10px;
+					width: 0;
+					height: 0;
+					border-style: solid;
+					border-width: 0px 30px 30px 0;
+					border-color: transparent #ececec transparent transparent;
+					@include mobile {
+						content: none;
+					}
+				}
+				.pro-interactions {
+					text-align: right;
+					> * {
+						display: inline-block;
+						vertical-align: middle;
+					}
+					> span, a {
+						position: relative;
+						@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+						margin: 0 8px;
+						&:before {
+							content: "\e913";
+							@include font();
+							float: left;
+							margin-right: 5px;
+							line-height: 1.5em;
+							position: relative;
+							top: -2px;
+						}
+						&.pro-dislike {
+							&:before {
+								transform: rotate(-180deg);
+								top: 2px;
+							}
+						}
+					}
+					> div {
+						@include mobile {
+							display: block;
+							margin-top: 10px;
+						}
+						> a {
+							@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+							position: relative;
+							margin: 0;
+							&:before {
+								content: none;
+							}
+							&:hover, &:focus {
+								text-decoration: underline;
+							}
+							&.pro-reponse {
+								font-weight: 700;
+								padding-right: 4px;
+								padding-left: 10px;
+								@include mobile {
+									padding-right: 20px;
+								}
+								&:after {
+									content: '';
+									position: absolute;
+									right: 0;
+									top: 50%;
+									transform: translateY(-50%);
+									transform: translate3d(0, -50%, 0);
+									height: 12px;
+									width: 1px;
+									background: $c_txt;
+									@include mobile {
+										right: 7px;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.pro-comment-response {
+				margin-top: 20px;
+				> * {
+					float: left;
+					@include mobile {
+						float: none;
+					}
+				}
+				figure {
+					width: 45px;
+					height: 45px;
+					overflow: hidden;
+					border-radius: 50%;
+					margin-right: 20px;
+					transform: translateY(-5px);
+					transform: translate3d(0, -5px, 0);
+					@include mobile {
+						display: block;
+						float: none;
 						margin: 0;
 					}
 				}
+				div {
+					width: calc(100% - 65px);
+					@include mobile {
+						width: 100%;
+					}
+					p {
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
+						max-width: 90%;
+					}
+				}
 			}
 		}
+	}
 
-		.pro-item {
-			margin-bottom: 20px;
-			@include mobile{
+	.pro-reagir {
+		> div {
+			position: relative;
+			padding: 50px 30px;
+			margin-top: 20px;
+			@include tablet_landscape {
+				padding: 50px 10px 50px 30px;
+			}
+			@include tablet_portrait {
+				padding: 50px 50px 30px 50px;
 				margin-top: 40px;
 			}
-			&:after {
+			@include mobile {
+				padding: 30px;
+			}
+			@include mobile_small {
+				padding: 30px 15px;
+			}
+			&:before {
 				content: '';
-				display: block;
-				clear: both;
-			}
-			figure {
-				width: 75px;
-				height: 75px;
-				float: left;
+				background: url(../../assets/images/background/small-rec-black.png);
+				position: absolute;
+				left: 0;
+				top: 0px;
+				height: 100%;
+				width: 120%;
+				bottom: 0;
+				z-index: -1;
+				transform: rotate(-4.6deg);
 				overflow: hidden;
-				border-radius: 50%;
-				margin-right: 15px;
-				@include mobile{
-					float: none;
-					margin: 0;
-					margin-bottom: 20px;
-				}
-			}
-			.pro-txt {
-				float: left;
-				width: calc(100% - 90px);
-				@include mobile{
-					float: none;
+				-webkit-backface-visibility: hidden;
+				@include tablet_portrait {
 					width: 100%;
-				}
-				> span {
-					@include ft($f_txt, 1em, 400, $c_txt, 1.188em);
-					@include mobile{
-						display: block;
-					}
-					&.pro-name{
-						font-weight: 700;
-					}
-					&.pro-time {
-						font-weight: 700;
-					}
-				}
-				.pro-comment{
-					padding: 20px;
-					margin-top: 10px;
-					background: #ececec;
-					border-radius: 10px;
-					position: relative;
-					&:before{
-						content: '';
-						position: absolute;
-						top: 0;
-						left: -10px;
-						width: 0;
-						height: 0;
-						border-style: solid;
-						border-width: 0px 30px 30px 0;
-						border-color: transparent #ececec transparent transparent;
-						@include mobile{
-							content: none;
-						}
-					}
-					.pro-interactions{
-						text-align: right;
-						> *{
-							display: inline-block;
-							vertical-align: middle;
-						}
-						> span, a{
-							position: relative;
-							@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
-							margin: 0 8px;
-							&:before{
-								content: "\e913";
-								@include font();
-								float: left;
-								margin-right: 5px;
-								line-height: 1.5em;
-								position: relative;
-								top: -2px;
-							}
-							&.pro-dislike{
-								&:before{
-									transform: rotate(-180deg);
-									top: 2px;
-								}
-							}
-						}
-						> div{
-							@include mobile{
-								display: block;
-								margin-top: 10px;
-							}
-							> a{
-								@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
-								position: relative;
-								margin: 0;
-								&:before{
-									content: none;
-								}
-								&:hover, &:focus{
-									text-decoration: underline;
-								}
-								&.pro-reponse{
-									font-weight: 700;
-									padding-right: 4px;
-									padding-left: 10px;
-									@include mobile{
-										padding-right: 20px;
-									}
-									&:after{
-										content: '';
-										position: absolute;
-										right: 0;
-										top: 50%;
-										transform: translateY(-50%);
-										transform: translate3d(0,-50%,0);
-										height: 12px;
-										width: 1px;
-										background: $c_txt;
-										@include mobile{
-											right: 7px;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
-				.pro-comment-response{
-					margin-top: 20px;
-					> * {
-						float: left;
-						@include mobile{
-							float: none;
-						}
-					}
-					figure{
-						width: 45px;
-						height: 45px;
-						overflow: hidden;
-						border-radius: 50%;
-						margin-right: 20px;
-						transform: translateY(-5px);
-						transform: translate3d(0,-5px,0);
-						@include mobile{
-							display: block;
-							float: none;
-							margin: 0;
-						}
-					}
-					div{
-						width: calc(100% - 65px);
-						@include mobile{
-							width: 100%;
-						}
-						p{
-							@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
-							max-width: 90%;
-						}
-					}
+					background: none;
+					background-color: $c_dark;
+					transform: none;
 				}
 			}
-		}
+			h3 {
+				@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+				text-transform: uppercase;
+			}
+			p {
+				@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
+			}
 
-		.pro-reagir{
-			> div{
-				position: relative;
-				padding: 50px 30px;
-				margin-top: 20px;
-				@include tablet_landscape{
-					padding: 50px 10px 50px 30px;
+			.pro-or {
+				@include ft($f_txt, $s_small, 700, $c_white, 1.571em);
+				display: block;
+				text-align: center;
+				margin: 20px 0;
+				text-transform: uppercase;
+			}
+
+			.pro-no-account {
+				@include ft($f_txt, $s_small, 400, $c_white, 1.571em);
+				display: block;
+				text-align: center;
+				text-decoration: underline;
+				margin: 20px 0;
+				&:hover, &:focus {
+					color: $c_main;
 				}
-				@include tablet_portrait{
-					padding: 50px 50px 30px 50px;
-					margin-top: 40px;
-				}
-				@include mobile{
-					padding: 30px;
-				}
-				@include mobile_small{
-					padding: 30px 15px;
-				}
-				&:before{
-					content: '';
-					background: url(../../assets/images/background/small-rec-black.png);
-					position: absolute;
-					left: 0;
-					top: 0px;
-					height: 100%;
-					width: 120%;
-					bottom: 0;
-					z-index: -1;
-					transform: rotate(-4.6deg);
-					overflow: hidden;
-					-webkit-backface-visibility: hidden;
-					@include tablet_portrait{
-						width: 100%;
-						background: none;
-						background-color: $c_dark;
-						transform: none;
-					}
-				}
-				h3{
-					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-					text-transform: uppercase;
-				}
-				p{
-					@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
+			}
+
+			form {
+				margin-top: 50px;
+
+				&.pro-user-connected {
+					margin-top: 0;
 				}
 
-				.pro-or{
-					@include ft($f_txt, $s_small, 700, $c_white, 1.571em);
+				label {
+					display: none;
+				}
+				input {
+					@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
+					height: 50px;
+					border-radius: 2px;
 					display: block;
-					text-align: center;
-					margin: 20px 0;
-					text-transform: uppercase;
-				}
+					-webkit-appearance: none;
+					border: none;
+					box-shadow: none;
+					width: 100%;
+					padding: 0 17px;
+					margin-bottom: 10px;
+					&::placeholder {
+						color: $c_txt;
+					}
 
-				.pro-no-account{
-					@include ft($f_txt, $s_small, 400, $c_white, 1.571em);
-					display: block;
-					text-align: center;
-					text-decoration: underline;
-					margin: 20px 0;
-					&:hover, &:focus{
-						color: $c_main;
+					&.pro-btn-yellow {
+						@include btn($c_main, $c_txt, 4, $f_hx, $s_p);
+						line-height: normal;
+						font-weight: 700;
+						height: 46px;
+						line-height: 46px;
+						border: 2px solid $c_main;
+						padding: 0;
+						position: relative;
+						@include addTransition();
+						&:hover, &:focus {
+							background: transparent;
+							color: $c_main;
+						}
 					}
 				}
 
-				form{
-					margin-top: 50px;
-
-					&.pro-user-connected{
-							margin-top: 0;
-					}
-
-					label{
-						display: none;
-					}
-					input{
-						@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
-						height: 50px;
-						border-radius: 2px;
+				.pro-textearea {
+					label {
 						display: block;
-						-webkit-appearance: none;
-						border: none;
-						box-shadow: none;
-						width: 100%;
-						padding: 0 17px;
-						margin-bottom: 10px;
-						&::placeholder{
-							color: $c_txt;
-						}
-
-						&.pro-btn-yellow{
-							@include btn($c_main, $c_txt, 4, $f_hx, $s_p);
-							line-height: normal;
-							font-weight: 700;
-							height: 46px;
-							line-height: 46px;
-							border: 2px solid $c_main;
-							padding: 0;
-							position: relative;
-							@include addTransition();
-							&:hover, &:focus{
-								background: transparent;
-								color: $c_main;
-							}
-						}
+						@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+						text-transform: uppercase;
+						margin-bottom: 15px;
 					}
-
-					.pro-textearea{
-						label{
-							display: block;
-							@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-							text-transform: uppercase;
-							margin-bottom: 15px;
-						}
-						textarea{
-							width: 100%;
-							height: 340px;
-							padding: 15px;
-							margin-bottom: 10px;
-							border-radius: 2px;
-							resize: none;
-						}
+					textarea {
+						width: 100%;
+						height: 340px;
+						padding: 15px;
+						margin-bottom: 10px;
+						border-radius: 2px;
+						resize: none;
 					}
 				}
 			}

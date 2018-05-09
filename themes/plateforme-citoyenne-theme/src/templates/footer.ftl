@@ -1,4 +1,4 @@
-<footer id="footer">
+<footer id="pro-footer">
 	<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone")>
 	<@liferay_portlet["runtime"]
 	portletProviderAction=portletProviderAction.VIEW

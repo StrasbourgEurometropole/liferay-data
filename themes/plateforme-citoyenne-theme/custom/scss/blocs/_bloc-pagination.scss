@@ -1,162 +1,159 @@
-#th-global{
+/* GLOBAL STYLE PAGINATION */
+.pro-pagination {
+	padding: 25px 0;
+	border-top: 1px solid $c_filet;
+	margin-bottom: -20px;
+	@include mobile {
+		padding: 20px 0;
+	}
 
-	/* GLOBAL STYLE PAGINATION */
-	.pro-pagination{
-		padding: 25px 0;
-		border-top: 1px solid $c_filet;
-		margin-bottom: -20px;
-		@include mobile{
-			padding: 20px 0;
-		}
+	& + .pro-bloc-prefooter {
+		margin-top: 20px;
+	}
 
-		& + .pro-bloc-prefooter{
-			margin-top: 20px;
+	p, form {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0;
+	}
+	p {
+		@include ft($f_txt, $s_p, 400, $c_txt, 1.6em);
+		margin-left: 15px;
+		@include tablet_portrait {
+			font-size: 0.750em;
+			line-height: 2em;
 		}
+	}
 
-		p, form{
-			display: inline-block;
-			vertical-align: middle;
-			margin: 0;
-		}
-		p{
-			@include ft($f_txt, $s_p, 400, $c_txt, 1.6em);
-			margin-left: 15px;
-			@include tablet_portrait{
-				font-size: 0.750em;
-				line-height: 2em;
+	.selectric-wrapper {
+		display: inline-block;
+		vertical-align: middle;
+		.selectric {
+			background: none;
+			border: none;
+			padding-right: 20px;
+			&:after {
+				content: "\e902";
+				@include font();
+				color: $c_txt;
+				font-size: 0.5em;
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				transform: translate3d(0, -50%, 0);
+				border: none;
+			}
+			.button {
+				display: none;
+			}
+
+			.label {
+				position: relative;
+				@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
+				text-transform: uppercase;
+				margin: 0;
+				height: 100%;
+				padding: 0;
+				&:after {
+					content: '';
+					position: absolute;
+					bottom: 5px;
+					left: 0;
+					right: 0;
+					height: 4px;
+					background: $c_main;
+					z-index: -1;
+					@include addTransitionCurve();
+				}
+				&:hover {
+					&:after {
+						height: 10px;
+					}
+				}
 			}
 		}
 
-		.selectric-wrapper{
-			display: inline-block;
-			vertical-align: middle;
-			.selectric{
-				background: none;
-				border: none;
-				padding-right: 20px;
-				&:after{
-					content: "\e902";
-					@include font();
-					color: $c_txt;
-					font-size: 0.5em;
-					position: absolute;
-					right: 0;
-					top: 50%;
-					transform: translateY(-50%);
-					transform: translate3d(0,-50%,0);
-					border: none;
-				}
-				.button{
-					display: none;
-				}
-
-				.label{
-					position: relative;
+		.selectric-items {
+			top: 110%;
+			background: $c_white;
+			box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.20);
+			border: none;
+			width: 100px !important;
+			z-index: -1;
+			ul {
+				li {
 					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
 					text-transform: uppercase;
-					margin: 0;
-					height: 100%;
-					padding: 0;
-					&:after{
-						content: '';
-						position: absolute;
-						bottom: 5px;
-						left: 0;
-						right: 0;
-						height: 4px;
-						background: $c_main;
-						z-index: -1;
-						@include addTransitionCurve();
-					}
-					&:hover{
-						&:after{
-							height: 10px;
-						}
-					}
-				}
-			}
-
-			.selectric-items{
-				top: 110%;
-				background: $c_white;
-				box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.20);
-				border: none;
-				width: 100px !important;
-				z-index: -1;
-				ul{
-					li{
-						@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
-						text-transform: uppercase;
-						padding: 8px 15px;
-					}
+					padding: 8px 15px;
 				}
 			}
 		}
+	}
 
-		.pull-right{
-			text-align: right;
-			ul{
+	.pull-right {
+		text-align: right;
+		ul {
+			padding: 0;
+			margin: 0;
+			li {
 				padding: 0;
 				margin: 0;
-				li{
-					padding: 0;margin: 0;
-					display: inline-block;
-					vertical-align: middle;
-					@include addTransitionCurve();
-					&:hover{
-						a{
-							color: $c_main;
-							span{
-								border-color: $c_main;
-								background: $c_main;
-								color: $c_white;
-							}
+				display: inline-block;
+				vertical-align: middle;
+				@include addTransitionCurve();
+				&:hover {
+					a {
+						color: $c_main;
+						span {
+							border-color: $c_main;
+							background: $c_main;
+							color: $c_white;
 						}
 					}
-					a{
-						padding: 0 20px;
-						@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
-						text-transform: uppercase;
-						position: relative;
-						@include addTransition();
-						&:focus{
-							color: $c_main;
-						}
-						@include mobile{
-							padding: 0;
-							margin-left: 20px;
-						}
-						span{
-							padding: 5px;
-							@include addTransitionCurve();
-						}
+				}
+				a {
+					padding: 0 20px;
+					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
+					text-transform: uppercase;
+					position: relative;
+					@include addTransition();
+					&:focus {
+						color: $c_main;
+					}
+					@include mobile {
+						padding: 0;
+						margin-left: 20px;
+					}
+					span {
+						padding: 5px;
+						@include addTransitionCurve();
+					}
 
-						&.pro-first{
-							padding: 0 10px;
-							&:before{
-								content: "\e90e";
-								@include font();
-								font-size: 1.3em;
-								float: left;
-								line-height: 1.2em;
-								margin-right: 5px;
-							}
+					&.pro-first {
+						padding: 0 10px;
+						&:before {
+							content: "\e90e";
+							@include font();
+							font-size: 1.3em;
+							float: left;
+							line-height: 1.2em;
+							margin-right: 5px;
 						}
-						&.pro-last{
-							padding: 0 10px;
-							&:after{
-								content: "\e903";
-								@include font();
-								font-size: 1.3em;
-								float: right;
-								line-height: 1.2em;
-								margin-left: 5px;
-							}
+					}
+					&.pro-last {
+						padding: 0 10px;
+						&:after {
+							content: "\e903";
+							@include font();
+							font-size: 1.3em;
+							float: right;
+							line-height: 1.2em;
+							margin-left: 5px;
 						}
 					}
 				}
 			}
 		}
 	}
-
 }

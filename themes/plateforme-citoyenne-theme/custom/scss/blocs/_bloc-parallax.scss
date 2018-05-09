@@ -1,119 +1,114 @@
-#th-global{
-
-	.pro-bloc-parallax{
-		margin: 20px 0;
-		position: relative;
-		height: 780px;
-		background-attachment: fixed !important;
-		background-size: cover !important;
-		@include mobile{
-			height: 70vh;
-		}
-
-		& + .pro-bloc-parallax{
-			margin-top: -20px;
-		}
-
-		&:after{
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+17,0.65+100 */
-			background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 17%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 17%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 17%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
-		}
-
-		.caption{
-			text-align: center;
-			bottom: 80px;
-			top: auto;
-			transform: none;
-			z-index: 100;
-			margin: auto;
-			h2{
-				color: $c_white;
-				&:before{
-					content: none;
-				}
-			}
-
-			.pro-btn-yellow{
-				text-align: center;
-				width: auto;
-			}
-			p{
-				color: $c_white;
-				width: 75%;
-				margin: auto;
-				@include mobile{
-					width: 100%;
-				}
-			}
-
-			.link{
-				@include ft($f_hx, 24px, 700, $c_main, 24px);
-				@include addTransition();
-				&:hover, &:focus{
-					color: $c_white;
-				}
-			}
-
-
-			&.pro-captionleft{
-
-				> *{
-					text-align: left;
-				}
-
-				> * > *{
-					width: 50%;
-					text-align: left;
-					&.pro-btn-yellow{
-						text-align: center;
-						width: auto;
-					}
-					@include mobile{
-						width: 100%;
-					}
-				}
-				@include mobile{
-					width: 100%;
-				}
-				p{
-					width: 75%;
-					margin: 0;
-					@include mobile{
-						width: 100%;
-					}
-				}
-			}
-
-			&.pro-captionright{
-				text-align: right;
-				> * {
-					max-width: 100%;
-				}
-				p{
-					width: 75%;
-					margin-left: 25%;
-					text-align: right;
-					@include tablet_portrait{
-						width: 70%;
-						margin-left: 30%;
-					}
-					@include mobile{
-						margin-left: 0;
-						width: 100%;
-					}
-				}
-			}
-
-		}
+.pro-bloc-parallax {
+	margin: 20px 0;
+	position: relative;
+	height: 780px;
+	background-attachment: fixed !important;
+	background-size: cover !important;
+	@include mobile {
+		height: 70vh;
 	}
 
+	& + .pro-bloc-parallax {
+		margin-top: -20px;
+	}
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+17,0.65+100 */
+		background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 17%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 17%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 17%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
+	}
+
+	.caption {
+		text-align: center;
+		bottom: 80px;
+		top: auto;
+		transform: none;
+		z-index: 100;
+		margin: auto;
+		h2 {
+			color: $c_white;
+			&:before {
+				content: none;
+			}
+		}
+
+		.pro-btn-yellow {
+			text-align: center;
+			width: auto;
+		}
+		p {
+			color: $c_white;
+			width: 75%;
+			margin: auto;
+			@include mobile {
+				width: 100%;
+			}
+		}
+
+		.link {
+			@include ft($f_hx, 24px, 700, $c_main, 24px);
+			@include addTransition();
+			&:hover, &:focus {
+				color: $c_white;
+			}
+		}
+
+		&.pro-captionleft {
+
+			> * {
+				text-align: left;
+			}
+
+			> * > * {
+				width: 50%;
+				text-align: left;
+				&.pro-btn-yellow {
+					text-align: center;
+					width: auto;
+				}
+				@include mobile {
+					width: 100%;
+				}
+			}
+			@include mobile {
+				width: 100%;
+			}
+			p {
+				width: 75%;
+				margin: 0;
+				@include mobile {
+					width: 100%;
+				}
+			}
+		}
+
+		&.pro-captionright {
+			text-align: right;
+			> * {
+				max-width: 100%;
+			}
+			p {
+				width: 75%;
+				margin-left: 25%;
+				text-align: right;
+				@include tablet_portrait {
+					width: 70%;
+					margin-left: 30%;
+				}
+				@include mobile {
+					margin-left: 0;
+					width: 100%;
+				}
+			}
+		}
+
+	}
 }

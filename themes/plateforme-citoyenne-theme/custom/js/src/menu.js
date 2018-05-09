@@ -11,13 +11,13 @@ function ar_menu()
 			$(this).addClass('open');
 			$('nav').addClass('show');
 			$('#pro-shadow-bg').addClass('pro-display-block');
-			$('#header').addClass('menu-open');
+			$('#pro-header').addClass('menu-open');
 			$('.social-share').css('opacity','0');
 		}
 		else {
 			$('#pro-shadow-bg').removeClass('pro-display-block');
 			$(this).removeClass('open');
-			$('#header').removeClass('menu-open');
+			$('#pro-header').removeClass('menu-open');
 			$('.social-share').css('opacity','1');
 			setTimeout(function () {
 				$('nav').removeClass('show');
@@ -29,8 +29,8 @@ function ar_menu()
 		$(this).removeClass('pro-display-block');
 		$('nav').removeClass('show');
 		$('.th-menu').removeClass('open');
-		$('#header').removeClass('menu-open');
-		$('#header').removeClass('pro-wrapper-search-open');
+		$('#pro-header').removeClass('menu-open');
+		$('#pro-header').removeClass('pro-wrapper-search-open');
 	});
 }
 
@@ -38,35 +38,6 @@ function ar_menu()
 $('.currentLang > a').on('focus',function(){
 	$('.is-focus-lang').removeClass('is-focus-lang');
 	$(this).parents().next().addClass('is-focus-lang');
-});
-
-
-/* Detect the scroll of the page and animate the menu */
-$(window).on('scroll', function (e) {
-	var st = $(this).scrollTop();
-
-	if (st > 100) {
-		$("body").addClass("is-scrolled");
-	}
-	else {
-		$("body").removeClass("is-scrolled");
-	}
-});
-
-
-var lastscrolltop = 0;
-var lastIsDirTop = 0;
-document.addEventListener('scroll',function(){
-	var st = $(document).scrollTop();
-	if(st<lastscrolltop && lastIsDirTop == 0){
-		lastIsDirTop = 1;
-		$(document.body).addClass('scrolldir-top',true);
-	}
-	if(st>lastscrolltop && lastIsDirTop == 1){
-		lastIsDirTop = 0;
-		$(document.body).removeClass('scrolldir-top',true);
-	}
-	lastscrolltop = st;
 });
 
 

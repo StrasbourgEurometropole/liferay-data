@@ -1,6 +1,4 @@
-#th-global {
-
-	main{
+main{
 		padding-top: 167px;
 		@include tablet_portrait{
 			padding-top: 122px;
@@ -13,7 +11,7 @@
 		right: 0px;
 		top: 0;
 		bottom: 0;
-		z-index: 10000;
+		z-index: 150;
 		background: #000;
 		opacity: 0;
 		transition: opacity 1.5s ease-out;
@@ -21,13 +19,13 @@
 		width: 0px;
 	}
 
-	#header {
+	#pro-header {
 		background: $c_white;
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 10000000;
+		z-index: 150;
 		transform: translateY(-80px);
 		transform: translate3d(0,-80px,0);
 		margin-bottom: -80px;
@@ -39,7 +37,7 @@
 
 		&.menu-open {
 			@include tablet_portrait {
-				z-index: 1000000000;
+				z-index: 200;
 				.container .pro-wrapper-nav {
 					pointer-events: inherit;
 					left: 0;
@@ -71,7 +69,7 @@
 		// BARRE DE RECHERCHE
 		// ==========================================================================
 		.pro-wrapper-search {
-			z-index: 100000000000;
+			z-index: 200;
 			position: relative;
 			background: #F2F2F2;
 			form {
@@ -160,7 +158,7 @@
 				left: -100%;
 				width: 100%;
 				bottom: 0;
-				z-index: 10000;
+				z-index: 150;
 				border: none;
 			}
 			.container {
@@ -358,7 +356,8 @@
 					width: 50%;
 					height: 100vh;
 					margin: 0;
-					z-index: 100000000;
+					margin: 0;
+					z-index: 200;
 					transform: translateY(80px);
 					transform: translate3d(0,80px,0);
 					pointer-events: none;
@@ -388,7 +387,7 @@
 						margin: 0;
 						padding: 50px 30px 0 30px;
 						text-align: center;
-						z-index: 900;
+						z-index: 200;
 
 						transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s;
 						visibility: hidden;
@@ -690,7 +689,7 @@
 						right: 0;
 						height: 100%;
 						width: 100%;
-						z-index: 101010100;
+						z-index: 200;
 					}
 				}
 
@@ -728,7 +727,7 @@
 		height: 20px;
 		margin: 0;
 		cursor: pointer;
-		z-index: 1000000000;
+		z-index: 200;
 		transform: rotate(0deg) translate3d(0, -50%, 0);
 		transition: all 0.5s ease;
 
@@ -780,5 +779,3 @@
 		width: 0;
 		background: $c_white;
 	}
-
-}

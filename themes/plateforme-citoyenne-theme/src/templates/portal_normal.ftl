@@ -32,7 +32,7 @@
 
 	<#include "${full_templates_path}/nav_top.ftl" />
 
-	<section id="content">
+	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>
@@ -46,7 +46,7 @@
 				<@liferay_util["include"] page=content_include />
 			</@>
 		</#if>
-	</section>
+	</main>
 
 	<#include "${full_templates_path}/footer.ftl" />
 </div>

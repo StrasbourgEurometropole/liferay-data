@@ -1,5 +1,5 @@
 <nav class="nav-top">
-        <header id="header" class="menu-no-header">
+        <header id="pro-header" class="menu-no-header">
 
         <div class="pro-wrapper-search">
             <div class="container">

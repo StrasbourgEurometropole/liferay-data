@@ -1,6 +1,6 @@
 // Si User et sur IE / EDGE alors on ajoute la classe IE au body
 if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer'){
-    $('body').addClass('ie');
+    $('#th-global').addClass('ie');
 }
 
 
@@ -13,13 +13,29 @@ $(window).on('scroll', function (e) {
     var st = $(this).scrollTop();
 
     if (st > 100) {
-        $("body").addClass("is-scrolled");
+        $("#th-global").addClass("is-scrolled");
         $('.social-share').addClass('fadein');
     }
     else {
-        $("body").removeClass("is-scrolled");
+        $("#th-global").removeClass("is-scrolled");
         $('.social-share').removeClass('fadein');
     }
+});
+
+
+var lastscrolltop = 0;
+var lastIsDirTop = 0;
+document.addEventListener('scroll',function(){
+    var st = $(document).scrollTop();
+    if(st<lastscrolltop && lastIsDirTop == 0){
+        lastIsDirTop = 1;
+        $("#th-global").addClass('scrolldir-top',true);
+    }
+    if(st>lastscrolltop && lastIsDirTop == 1){
+        lastIsDirTop = 0;
+        $("#th-global").removeClass('scrolldir-top',true);
+    }
+    lastscrolltop = st;
 });
 
 

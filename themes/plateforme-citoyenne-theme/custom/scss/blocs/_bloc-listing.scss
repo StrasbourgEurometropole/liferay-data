@@ -1,93 +1,89 @@
-#th-global {
+.pro-wrapper-top-listing {
+	padding: 20px 0;
+	border-bottom: 1px solid $c_filet;
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
 
-	.pro-wrapper-top-listing {
-		padding: 20px 0;
-		border-bottom: 1px solid $c_filet;
-		&:after {
-			content: '';
+	#breadcrumb {
+		float: left;
+	}
+
+	.pro-wrapper-sort {
+		float: right;
+		@include tablet_portrait {
+			float: none;
 			display: block;
-			clear: both;
-		}
-
-		#breadcrumb {
-			float: left;
-		}
-
-		.pro-wrapper-sort {
-			float: right;
-			@include tablet_portrait {
-				float: none;
+			margin-top: 40px;
+			&:after {
+				content: '';
+				clear: both;
 				display: block;
-				margin-top: 40px;
+			}
+		}
+		@include mobile {
+			margin-top: 55px;
+		}
+
+		.pro-facette-date {
+			.pro-wrapper-date {
 				&:after {
-					content: '';
-					clear: both;
-					display: block;
-				}
-			}
-			@include mobile {
-				margin-top: 55px;
-			}
-
-			.pro-facette-date{
-				.pro-wrapper-date{
-					&:after{
-						top: 1px;
-					}
-				}
-			}
-
-		}
-	}
-
-	.pro-listing {
-		padding: 25px 0 0;
-		> * {
-			margin: 20px 0;
-			@include mobile {
-				margin: 10px 0;
-				min-height: auto !important;
-			}
-			&:last-child {
-				@include mobile {
-					margin-bottom: 0;
+					top: 1px;
 				}
 			}
 		}
-	}
 
-	.pro-bloc-listing-event{
-		padding: 10px 15px 0 15px;
-		> .pro-bloc-card-event {
-			margin: 14px 0;
-			&:hover, &:focus{
-				> div{
-					transform: translate3d(0, 0, 0) scale(1.02);
-				}
+	}
+}
+
+.pro-listing {
+	padding: 25px 0 0;
+	> * {
+		margin: 20px 0;
+		@include mobile {
+			margin: 10px 0;
+			min-height: auto !important;
+		}
+		&:last-child {
+			@include mobile {
+				margin-bottom: 0;
 			}
+		}
+	}
+}
+
+.pro-bloc-listing-event {
+	padding: 10px 15px 0 15px;
+	> .pro-bloc-card-event {
+		margin: 14px 0;
+		&:hover, &:focus {
 			> div {
-				.pro-footer-event{
-					padding: 0 20px;
-					span {
-						display: block;
-						text-align: right;
-						float: none;
-						@include mobile{
-							padding: 10px 0;
-						}
+				transform: translate3d(0, 0, 0) scale(1.02);
+			}
+		}
+		> div {
+			.pro-footer-event {
+				padding: 0 20px;
+				span {
+					display: block;
+					text-align: right;
+					float: none;
+					@include mobile {
+						padding: 10px 0;
 					}
 				}
 			}
-
 		}
+
 	}
+}
 
-
-	.pro-listing-container{
-		> * {
-			@include tablet_portrait{
-				min-height: auto !important;
-			}
+.pro-listing-container {
+	> * {
+		@include tablet_portrait {
+			min-height: auto !important;
 		}
 	}
 }

@@ -1,54 +1,49 @@
-#th-global{
+.pro-bloc-telechargements {
 
-	.pro-bloc-telechargements{
+	h3 {
+		margin: 0 0 20px 0;
+	}
 
-		h3{
-			margin: 0 0 20px 0;
-		}
-
-		.row{
-			> div{
-				> a{
-					border-bottom: 1px solid $c_main;
-					padding: 10px 0;
+	.row {
+		> div {
+			> a {
+				border-bottom: 1px solid $c_main;
+				padding: 10px 0;
+				display: block;
+				position: relative;
+				&:before {
+					content: "\e914";
+					@include font();
+					float: left;
+					line-height: 1.4em;
+					font-size: 1.7em;
+					margin-right: 13px;
+					color: $c_dark;
+				}
+				&:hover, &:focus {
+					.pro-filename {
+						color: $c_main;
+					}
+				}
+				> * {
 					display: block;
-					position: relative;
-					&:before{
-						content: "\e914";
-						@include font();
-						float: left;
-						line-height: 1.4em;
-						font-size: 1.7em;
-						margin-right: 13px;
-						color: $c_dark;
+				}
+				.pro-filename {
+					@include ft($f_txt, 0.938em, 700, $c_txt, normal);
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					width: 85%;
+					@include addTransition();
+					@include tablet_portrait {
+						width: 75%;
 					}
-					&:hover, &:focus{
-						.pro-filename{
-							color: $c_main;
-						}
-					}
-					> * {
-						display: block;
-					}
-					.pro-filename{
-						@include ft($f_txt, 0.938em, 700, $c_txt, normal);
-						white-space: nowrap;
-						text-overflow: ellipsis;
-						overflow: hidden;
-						width: 85%;
-						@include addTransition();
-						@include tablet_portrait{
-							width: 75%;
-						}
-					}
-					.pro-poids{
-						@include ft($f_txt, $s_small, 400, #666666, normal);
-					}
+				}
+				.pro-poids {
+					@include ft($f_txt, $s_small, 400, #666666, normal);
 				}
 			}
 		}
-
 	}
-
 
 }
