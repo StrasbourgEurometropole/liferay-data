@@ -298,6 +298,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Project> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _projectLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à un projet
 	*/
 	@Override
@@ -388,6 +397,14 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _projectLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _projectLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	/**

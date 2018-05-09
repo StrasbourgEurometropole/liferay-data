@@ -33,6 +33,7 @@ import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
+import eu.strasbourg.service.project.itemselector.ProjectItemSelectorCriterion;
 
 /**
  * @author Benjamin Bini
@@ -255,6 +256,16 @@ public class EntityPickerTag extends IncludeTag {
 				.getItemSelectorURL(
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, officialItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.project.model.Project":
+			ProjectItemSelectorCriterion ProjectItemSelectorCriterion = new ProjectItemSelectorCriterion();
+			ProjectItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, ProjectItemSelectorCriterion);
 			break;
 		}
 		

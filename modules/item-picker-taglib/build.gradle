@@ -27,5 +27,6 @@ dependencies {
 	compile project(":modules:place-web")
 	compile project(":modules:activity-web")
 	compile project(":modules:official-web")
+	compile project (':modules:project:project-service')
 	compile project(":modules:utils")
 }
