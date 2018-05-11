@@ -57,17 +57,3 @@
             <a href="${widgetLink}" class="btn-square--bordered--core"><span class="flexbox"><span class="btn-text">Modifier ma carte</span><span class="btn-arrow"></span></span></a>
         </div></div>
 </section>
-
-
-<liferay-util:body-top>
-    <aui:script>
-        window.userAddress = '${fn:escapeXml(address)}';
-        window.groupId = ${groupId};
-        window.newTab = ${newTab};
-        window.interestsCheckedIds = "${fn:replace(interestsCheckedIds, '"', '')}";
-        window.showFavoritesByDefault = ${showFavorites};
-        window.isWidgetMode = ${widgetMod};
-        window.interestPointUrl = '${interestPointURL}';
-        window.aroundMePortletNamespace = '<portlet:namespace />';
-    </aui:script>
-</liferay-util:body-top>

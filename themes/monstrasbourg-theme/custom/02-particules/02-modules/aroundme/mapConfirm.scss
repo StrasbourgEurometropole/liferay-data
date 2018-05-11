@@ -1,0 +1,47 @@
+#mapConfirm{
+    position: fixed;
+    background-color: #FFFFFF;
+    width: 70%;
+    max-width: 720px;
+    z-index: 9000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 50px 70px;
+    border-radius: 7px;
+
+    @include RWD(tablet){
+        padding: 30px 40px;
+    }
+
+    @include RWD(mobile){
+        padding: 20px;
+        width: calc(100% - 40px);
+        
+    }
+
+    .mapMessage{
+        margin-bottom: 4em;
+        font-family: $fancy-font;
+        font-weight: 600;
+        font-size: 1.7rem;
+        color: #505050;
+
+        @include RWD(mobile){
+            margin-bottom: 2em;
+        }
+    }
+
+    .mapActions{
+        display: flex;
+        justify-content: space-between;
+
+        @include RWD(mobile){
+            flex-direction: column-reverse;
+
+            button + button{
+                margin-top: 20px;
+            }
+        }
+    }
+}

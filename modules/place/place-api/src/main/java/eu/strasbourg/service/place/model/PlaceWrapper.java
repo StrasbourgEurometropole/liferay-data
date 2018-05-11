@@ -2256,9 +2256,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
-		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.GregorianCalendar dateChoisie, java.lang.Boolean surPeriode,
 		java.util.Locale locale) {
-		return _place.getPlaceScheduleException(premierJour, surPeriode, locale);
+		return _place.getPlaceScheduleException(dateChoisie, surPeriode, locale);
 	}
 
 	/**

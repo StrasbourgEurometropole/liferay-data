@@ -16,7 +16,7 @@
             font-weight: 700;
             font-size: 1.7rem;
             color: #31455d;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             text-align: center;
 
@@ -26,9 +26,9 @@
         }
         .seu-lead{
             font-family: $opensans;
-            font-weight: 400;
-            font-size: 1.7rem;
-            color: #51657d;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #31455d;
             line-height: 1.8;
 
             @include RWD(mobile){

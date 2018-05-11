@@ -63,8 +63,16 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getFavoritesPois(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getFavoritesPois(long groupId,
+		java.lang.String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
 		java.lang.String language);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPois(java.lang.String interests,
+		java.lang.String categories, long groupId, java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPois(java.lang.String interests, long groupId);
@@ -75,6 +83,17 @@ public interface StrasbourgService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject searchStreets(java.lang.String query,
 		java.lang.String city);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getFavoritesPoisCount(long groupId, java.lang.String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPoisCategoryCount(long idCategory, long groupId,
+		java.lang.String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPoisInterestCount(long idCategory, long groupId,
+		java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.lang.String getArticleHTMLContent(long groupId,

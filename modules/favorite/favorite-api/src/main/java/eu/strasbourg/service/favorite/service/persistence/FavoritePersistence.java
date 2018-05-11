@@ -175,74 +175,69 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	public int countByPublikUserId(java.lang.String publikUserId);
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or throws a {@link NoSuchFavoriteException} if it could not be found.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the matching favorite
 	* @throws NoSuchFavoriteException if a matching favorite could not be found
 	*/
 	public Favorite findByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId)
+		java.lang.String title, long typeId, long entityId)
 		throws NoSuchFavoriteException;
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the matching favorite, or <code>null</code> if a matching favorite could not be found
 	*/
 	public Favorite fetchByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId);
+		java.lang.String title, long typeId, long entityId);
 
 	/**
-	* Returns the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching favorite, or <code>null</code> if a matching favorite could not be found
 	*/
 	public Favorite fetchByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId,
-		long entityId, boolean retrieveFromCache);
+		java.lang.String title, long typeId, long entityId,
+		boolean retrieveFromCache);
 
 	/**
-	* Removes the favorite where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63; from the database.
+	* Removes the favorite where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63; from the database.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the favorite that was removed
 	*/
 	public Favorite removeByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId)
+		java.lang.String title, long typeId, long entityId)
 		throws NoSuchFavoriteException;
 
 	/**
-	* Returns the number of favorites where publikUserId = &#63; and title = &#63; and url = &#63; and typeId = &#63; and entityId = &#63;.
+	* Returns the number of favorites where publikUserId = &#63; and title = &#63; and typeId = &#63; and entityId = &#63;.
 	*
 	* @param publikUserId the publik user ID
 	* @param title the title
-	* @param url the url
 	* @param typeId the type ID
 	* @param entityId the entity ID
 	* @return the number of matching favorites
 	*/
 	public int countByAllAttributes(java.lang.String publikUserId,
-		java.lang.String title, java.lang.String url, long typeId, long entityId);
+		java.lang.String title, long typeId, long entityId);
 
 	/**
 	* Returns all the favorites where entityId = &#63; and typeId = &#63;.

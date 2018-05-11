@@ -859,6 +859,61 @@ public class PlaceUtil {
 	}
 
 	/**
+	* Returns the place where name = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	*
+	* @param name the name
+	* @return the matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
+	*/
+	public static Place findByname(java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getPersistence().findByname(name);
+	}
+
+	/**
+	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param name the name
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public static Place fetchByname(java.lang.String name) {
+		return getPersistence().fetchByname(name);
+	}
+
+	/**
+	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param name the name
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public static Place fetchByname(java.lang.String name,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByname(name, retrieveFromCache);
+	}
+
+	/**
+	* Removes the place where name = &#63; from the database.
+	*
+	* @param name the name
+	* @return the place that was removed
+	*/
+	public static Place removeByname(java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getPersistence().removeByname(name);
+	}
+
+	/**
+	* Returns the number of places where name = &#63;.
+	*
+	* @param name the name
+	* @return the number of matching places
+	*/
+	public static int countByname(java.lang.String name) {
+		return getPersistence().countByname(name);
+	}
+
+	/**
 	* Caches the place in the entity cache if it is enabled.
 	*
 	* @param place the place

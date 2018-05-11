@@ -29,7 +29,8 @@ L.Control.ListMarkers = L.Control.extend({
 		itemIcon: L.Icon.Default.imagePath+'/marker-icon.png',
 		itemArrow: '&#10148;',	//visit: http://character-code.com/arrows-html-codes.php
 		minZoom: 9,
-		position: 'bottomleft'
+		position: 'bottomleft',
+		type: 'type'
 		//TODO autocollapse
 	},
 
@@ -100,11 +101,9 @@ L.Control.ListMarkers = L.Control.extend({
 			}, this)
 			.on(a, 'mouseout', function(e) {
 				that.fire('item-mouseout', {layer: layer });
-			}, this);			
-
-			
+			}, this);	
 		
-		//console.log('_createItem',layer.options);
+		console.log('_createItem',layer.options);
 
 		if( layer.options.hasOwnProperty(this.options.label) )
 		{
@@ -118,6 +117,35 @@ L.Control.ListMarkers = L.Control.extend({
 		}
 		else
 			console.log("propertyName '"+this.options.label+"' not found in marker");
+		
+		if(layer.feature.properties.type != null){
+			var addedFavorite = false;
+			if (window.userFavorites) {
+				var i;
+				for (i = 0; i < window.userFavorites.length; i++) {
+					if(window.userFavorites[i].typeId == layer.feature.properties.type && window.userFavorites[i].entityId == layer.feature.properties.id){
+						addedFavorite = true;
+						break;
+					}
+				} 
+			}
+			var lienFavori = '<a href="#" class="add-favorites';
+			if(addedFavorite){
+				lienFavori += ' liked';
+			}
+			lienFavori += '" style="display: flex;" '
+				+ 'data-type="' + layer.feature.properties.type + '"' 
+		        + 'data-title="' + layer.options[this.options.label] + '"' 
+		        + 'data-url="' + layer.feature.properties.url + '"' 
+		        + 'data-id="' + layer.feature.properties.id + '">';
+			if(addedFavorite){
+				lienFavori += '<span>' + Liferay.Language.get("eu.remove-from-favorite") + '</span>';
+			}else{
+				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
+			}
+			lienFavori += '</a>';
+		    div.innerHTML += lienFavori;
+		}
 
 		return div;
 	},
