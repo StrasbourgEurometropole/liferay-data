@@ -254,6 +254,12 @@ public interface ParticipationLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par mot clés
+	*/
+	public List<Participation> findByKeyword(java.lang.String keyword,
+		long groupId, int start, int end);
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à une participation
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -322,6 +328,11 @@ public interface ParticipationLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	/**
 	* Met à jour le statut de la participation "manuellement" (pas via le workflow)

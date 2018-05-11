@@ -302,6 +302,16 @@ public class ParticipationLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par mot clés
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Participation> findByKeyword(
+		java.lang.String keyword, long groupId, int start, int end) {
+		return _participationLocalService.findByKeyword(keyword, groupId,
+			start, end);
+	}
+
+	/**
 	* Renvoie la liste des vocabulaires rattachés à une participation
 	*/
 	@Override
@@ -393,6 +403,14 @@ public class ParticipationLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _participationLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Recherche par mot clés (compte)
+	*/
+	@Override
+	public long findByKeywordCount(java.lang.String keyword, long groupId) {
+		return _participationLocalService.findByKeywordCount(keyword, groupId);
 	}
 
 	/**
