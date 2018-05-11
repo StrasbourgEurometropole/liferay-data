@@ -1,4 +1,5 @@
 <#if selectMedia.getData() == "image" >
+
     <header class="pro-header-medium">
         <figure class="fit-cover" role="group">
             <img src="${image.getData()}" width="1600" height="500" alt="${image.getAttribute("alt")}"/>
@@ -8,13 +9,21 @@
             <#if surtitle.getData() !="" >
                 <div class="pro-bloc-display"><span class="pro-surtitre">${surtitle.getData()}</span></div>
             </#if>
-            <h1>${title.getData()}</h1>
+            <h1>
+                ${titleLine1.getData()}
+                <#if titleLine2.getData() != "" >
+                    <br>
+                    ${titleLine2.getData()}
+                </#if>
+            </h1>
             <div class="pro-description">
                 <p>${description.getData()}</p>
             </div>
         </div>
     </header>
+
 <#else>
+
     <header class="pro-header-fullpage">
         <div class="pro-cover">
             <div class="pro-container-video">
@@ -31,11 +40,18 @@
                 <#if surtitle.getData() !="" >
                     <div class="pro-bloc-display"><span class="pro-surtitre">${surtitle.getData()}</span></div>
                 </#if>
-                <h1>${title.getData()}</h1>
+                <h1>
+                    ${titleLine1.getData()}
+                    <#if titleLine2.getData() != "" >
+                        <br>
+                        ${titleLine2.getData()}
+                    </#if>
+                </h1>
                 <div class="pro-description">
                     <p>${description.getData()}</p>
                 </div>
             </div>
         </div>
     </header>
+
 </#if>

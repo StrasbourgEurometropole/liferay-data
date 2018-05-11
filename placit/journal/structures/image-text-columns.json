@@ -46,7 +46,7 @@
         },
         {
             "label": {
-                "fr_FR": "Titre"
+                "fr_FR": "Titre ligne 1"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -60,13 +60,36 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "title",
+            "name": "titleLine1",
             "readOnly": false,
             "repeatable": true,
             "required": true,
             "showLabel": true,
             "type": "text",
             "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Titre ligne 2"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "titleLine2",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
                 {
                     "label": {
                         "fr_FR": "Image"
