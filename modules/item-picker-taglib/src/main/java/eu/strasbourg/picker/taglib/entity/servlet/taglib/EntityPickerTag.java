@@ -31,9 +31,9 @@ import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
-import eu.strasbourg.service.project.itemselector.ProjectItemSelectorCriterion;
 
 /**
  * @author Benjamin Bini
