@@ -57,14 +57,14 @@
 				
 			</aui:fieldset>
 			
-			<%-- Groupe de champs : Médias --%>
+			<%-- Groupe de champs : Medias --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="medias">
 				
-				<%-- Champ : Choix du média --%>
+				<%-- Champ : Choix du media --%>
 				<aui:input name="mediaChoice" label="media-preference" type="toggle-switch"
 					value="${not empty dc.participation ? dc.participation.mediaChoice : true}" />
 				
-				<%-- Champ : URL de la vidéo --%>
+				<%-- Champ : URL de la video --%>
 				<aui:input name="imageUrl" required="false" />
 				
 				<%-- Champ : URL de l'image --%>
@@ -86,7 +86,7 @@
 			<%-- Groupe de champs : Documents --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
 				
-				<%-- Champ : Sélection des documents --%>
+				<%-- Champ : SÃ©lection des documents --%>
 				<strasbourg-picker:file label="eu.documents" name="filesIds"
 					required="false" multiple="true" value="${dc.participation.filesIds}" /> 
 				
@@ -96,10 +96,10 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="others">
 				
 				<%-- Champ : Date de publication --%>
-				<aui:input name="publicationDate" required="false" />
+				<aui:input name="publicationDate" required="true" />
 				
 				<%-- Champ : Date d'expiration --%>
-				<aui:input name="expirationDate" required="false" />
+				<aui:input name="expirationDate" required="true" />
 				
 			</aui:fieldset>
 			
@@ -158,7 +158,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour aÃÂÃÂ  la liste des entites --%>
+			<%-- Composant : bouton de retour à la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>

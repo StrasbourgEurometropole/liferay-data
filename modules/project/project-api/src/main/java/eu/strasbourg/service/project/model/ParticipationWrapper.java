@@ -365,6 +365,30 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getCityCategory() {
+		return _participation.getCityCategory();
+	}
+
+	/**
+	* Retourne la catégorie Territoire correspondant au quartier du lieu
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory() {
+		return _participation.getDistrictCategory();
+	}
+
+	/**
+	* Retourne les type de la participation (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getType() {
+		return _participation.getType();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -406,6 +430,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public int getStatus() {
 		return _participation.getStatus();
+	}
+
+	@Override
+	public int getTodayExpirationDifferenceDays() {
+		return _participation.getTodayExpirationDifferenceDays();
+	}
+
+	@Override
+	public int getTodayPublicationDifferenceDays() {
+		return _participation.getTodayPublicationDifferenceDays();
 	}
 
 	@Override
@@ -494,6 +528,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le quartier
+	*/
+	@Override
+	public java.lang.String getDistrict(java.util.Locale locale) {
+		return _participation.getDistrict(locale);
+	}
+
+	/**
 	* Returns the files IDs of this participation.
 	*
 	* @return the files IDs of this participation
@@ -511,6 +553,21 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getImageUrl() {
 		return _participation.getImageUrl();
+	}
+
+	/**
+	* Retourne le status de la participation selon la temporalité actuelle
+	*
+	* @return le status suivant l'ordre :
+	[soon_arrived] : date du jour antérieur à la date de publication
+	[new] : 7 jour après la publication
+	[in_progress] : toute la durée de la période de participation
+	[soon_finished] : 7 jours avant l'expiration
+	[finished] : date du jour postérieur à la date d'expiration
+	*/
+	@Override
+	public java.lang.String getParticipationStatus() {
+		return _participation.getParticipationStatus();
 	}
 
 	/**
@@ -650,6 +707,14 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _participation.getCategories();
+	}
+
+	/**
+	* Retourne les territoire du lieu
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories() {
+		return _participation.getTerritories();
 	}
 
 	/**
