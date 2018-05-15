@@ -72,6 +72,17 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
+	 */
+	@Override
+	public String getTitleInTwoLines() {
+		String title = this.getTitle();
+		int titleLength = title.length();
+		int cutBr = title.indexOf(" ", 15);
+		return title.substring(0,cutBr)+"<br>"+title.substring(cutBr,title.length());
+	}
+	
+	/**
 	 * Retourne les type de la participation (
 	 */
 	@Override

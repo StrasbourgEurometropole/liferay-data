@@ -601,6 +601,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
+	*/
+	@Override
+	public java.lang.String getTitleInTwoLines() {
+		return _participation.getTitleInTwoLines();
+	}
+
+	/**
 	* Returns the user name of this participation.
 	*
 	* @return the user name of this participation

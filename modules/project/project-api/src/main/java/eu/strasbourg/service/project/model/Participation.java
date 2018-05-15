@@ -66,6 +66,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
+	* Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
+	*/
+	public java.lang.String getTitleInTwoLines();
+
+	/**
 	* Retourne les type de la participation (
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getType();
