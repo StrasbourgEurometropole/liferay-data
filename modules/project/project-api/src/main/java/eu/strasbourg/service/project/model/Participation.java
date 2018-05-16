@@ -64,4 +64,50 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
+	*/
+	public java.lang.String getTitleInTwoLines();
+
+	/**
+	* Retourne les type de la participation (
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getType();
+
+	/**
+	* Retourne les territoire du lieu
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories();
+
+	/**
+	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();
+
+	/**
+	* Retourne le quartier
+	*/
+	public java.lang.String getDistrict(java.util.Locale locale);
+
+	/**
+	* Retourne la catégorie Territoire correspondant au quartier du lieu
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory();
+
+	/**
+	* Retourne le status de la participation selon la temporalité actuelle
+	*
+	* @return le status suivant l'ordre :
+	[soon_arrived] : date du jour antérieur à la date de publication
+	[new] : 7 jour après la publication
+	[in_progress] : toute la durée de la période de participation
+	[soon_finished] : 7 jours avant l'expiration
+	[finished] : date du jour postérieur à la date d'expiration
+	*/
+	public java.lang.String getParticipationStatus();
+
+	public int getTodayPublicationDifferenceDays();
+
+	public int getTodayExpirationDifferenceDays();
 }
