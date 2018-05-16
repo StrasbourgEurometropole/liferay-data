@@ -160,7 +160,6 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	@Override
 	public String getParticipationStatus() {
 		// Instanciation des variables
-		Date t = new Date();
 		Date todayDate = new Date();
 		Date publicationDate = this.getPublicationDate();
 		Date publicationDatePlus = this.getPublicationDate();
