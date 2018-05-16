@@ -114,7 +114,7 @@ public class PoiServiceImpl implements PoiService {
 			places = getPlaces(tabCategories, globalGroupId);
 			endTime = System.nanoTime();
 			duration = (endTime - startTime) / 1_000_000;
-			System.out.println("GetPlaces : " + duration);
+			System.out.println("GetPlaces : " + duration + "ms (" + places.size() + " items)");
 		}
 
 		List<Event> events = new ArrayList<Event>();
@@ -122,9 +122,10 @@ public class PoiServiceImpl implements PoiService {
 			// récupère les évènements des centres d'intérêt
 			startTime = System.nanoTime();
 			events = getEvents(tabCategories, globalGroupId);
+			System.out.println();
 			endTime = System.nanoTime();
 			duration = (endTime - startTime) / 1_000_000;
-			System.out.println("GetEvents : " + duration);
+			System.out.println("GetEvents : " + duration + "ms (" + events.size() + " items)");
 		}
 
 		// récupère le fichier geoJson
@@ -141,20 +142,19 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	public int getPoisCategoryCount(long idCategory, long groupId, String classNames) {
-		int count = 0;
 
-		long globalGroupId = -1;
 		// récupère les catégories ainsi que les catégories enfants des
 		// catégories
-		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
+		long globalGroupId = -1;
+		List<AssetCategory> categories = new ArrayList<AssetCategory>();
 		if (Validator.isNotNull(idCategory)) {
 			AssetCategory assetCategory = AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory);
-			categoriesCI.add(assetCategory);
+			categories.add(assetCategory);
 			// récupère les catégories enfants
-			List<AssetCategory> chilsCategories = AssetCategoryLocalServiceUtil
+			List<AssetCategory> childCategories = AssetCategoryLocalServiceUtil
 					.getChildCategories(assetCategory.getCategoryId());
-			if (!chilsCategories.isEmpty()) {
-				categoriesCI.addAll(chilsCategories);
+			if (!childCategories.isEmpty()) {
+				categories.addAll(childCategories);
 			}
 			if (globalGroupId == -1) {
 				globalGroupId = assetCategory.getGroupId();
@@ -162,35 +162,27 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
-		for (int i = 0; i < categoriesCI.size(); i++) {
-			entries.addAll(
-					AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoriesCI.get(i).getCategoryId()));
+		for (int i = 0; i < categories.size(); i++) {
+			List<AssetEntry> entriesForCategory = AssetEntryLocalServiceUtil
+					.getAssetCategoryAssetEntries(categories.get(i).getCategoryId());
+			for (AssetEntry entry : entriesForCategory) {
+				if (entry.getGroupId() == globalGroupId && entry.getVisible() && entry.getListable()
+						&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))
+						&& entries.stream().filter(e -> e.getEntryId() == entry.getEntryId()).count() == 0) {
+					entries.add(entry);
+				}
+			}
+			System.out.println();
 		}
-		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 
-		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-			// récupère le nombre de lieux des centres d'intérêt
-			Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
-			DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			count += PlaceLocalServiceUtil.dynamicQueryCount(placeQuery);
-		}
-
-		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-			// récupère le nombre d'évènements des centres d'intérêt
-			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			count += EventLocalServiceUtil.dynamicQueryCount(eventQuery);
-		}
-		return count;
+		return entries.size();
 	}
 
 	public int getPoisInterestCount(long idInterest, long groupId, String classNames) {
-		int count = 0;
 
-		long globalGroupId = -1;
 		// récupère les catégories ainsi que les catégories enfants des
 		// catégories
+		long globalGroupId = -1;
 		List<AssetCategory> categoriesCI = new ArrayList<AssetCategory>();
 		if (Validator.isNotNull(idInterest)) {
 			Interest interest = InterestLocalServiceUtil.fetchInterest(idInterest);
@@ -211,26 +203,17 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 		for (int i = 0; i < categoriesCI.size(); i++) {
-			entries.addAll(
-					AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoriesCI.get(i).getCategoryId()));
+			List<AssetEntry> entriesForCategory = AssetEntryLocalServiceUtil
+					.getAssetCategoryAssetEntries(categoriesCI.get(i).getCategoryId());
+			for (AssetEntry entry : entriesForCategory) {
+				if (entry.getGroupId() == globalGroupId && entry.getVisible()
+						&& (classNames.contains(entry.getClassName()) || classNames.equals("all"))
+						&& entries.stream().filter(e -> e.getEntryId() == entry.getEntryId()).count() == 0) {
+					entries.add(entry);
+				}
+			}
 		}
-		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-
-		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-			// récupère le nombre de lieux des centres d'intérêt
-			Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
-			DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			count += PlaceLocalServiceUtil.dynamicQueryCount(placeQuery);
-		}
-
-		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-			// récupère le nombre d'évènements des centres d'intérêt
-			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			count += EventLocalServiceUtil.dynamicQueryCount(eventQuery);
-		}
-		return count;
+		return entries.size();
 	}
 
 	private List<Place> getPlaces(Long[] categoryIds, long globalGroupId) {
@@ -243,44 +226,6 @@ public class PoiServiceImpl implements PoiService {
 		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
 		return PlaceLocalServiceUtil.dynamicQuery(placeQuery);
-
-		// List<Place> places = new ArrayList<Place>();
-		//
-		// // Search context ThemeDisplay td =
-		// ServiceContextThreadLocal.getServiceContext().getThemeDisplay();
-		// SearchContext searchContext =
-		// SearchContextFactory.getInstance(td.getRequest());
-		//
-		// // ClassNames String[] classNames = new String[1]; classNames[0] =
-		// Place.class.getName();
-		//
-		// // GlobalScope boolean globalScope = true;
-		//
-		// // Catégories de la recherche utilisateur (non existantes pour ce
-		// // portlet)
-		// List<Long[]> categoriesRechercheIds = new ArrayList<Long[]>();
-		//
-		// // Locale Locale locale = Locale.FRANCE;
-		//
-		// // Recherche Hits hits =
-		// SearchHelper.getGlobalSearchHits(searchContext, classNames, 0,
-		// globalGroupId, globalScope, "", false, "", null,
-		// null, categoriesRechercheIds, prefilterCategoriesIds, null, true,
-		// locale, -1, -1, "", false);
-		//
-		// // On renvoie la liste des lieux
-		// for (Document document : hits.getDocs()) {
-		// Place place = null;
-		// AssetEntry assetEntry =
-		// AssetEntryLocalServiceUtil.fetchEntry(Place.class.getName(),
-		// GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-		// place = PlaceLocalServiceUtil.fetchPlace(assetEntry.getClassPK());
-		// if (place != null) {
-		// places.add(place);
-		// }
-		// }
-		//
-		// return places;
 	}
 
 	private List<Event> getEvents(Long[] categoryIds, long globalGroupId) {
@@ -349,13 +294,13 @@ public class PoiServiceImpl implements PoiService {
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
 		if (classNames.equals("all"))
 			return favorites.size();
-		else{
-			if (classNames.contains(Place.class.getName())) 
-				count += favorites.stream()
-						.filter(f -> f.getTypeId() == FavoriteType.PLACE.getId()).collect(Collectors.toList()).size();
-			if (classNames.contains(Event.class.getName())) 
-				count += favorites.stream()
-						.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId()).collect(Collectors.toList()).size();
+		else {
+			if (classNames.contains(Place.class.getName()))
+				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
+						.collect(Collectors.toList()).size();
+			if (classNames.contains(Event.class.getName()))
+				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.EVENT.getId())
+						.collect(Collectors.toList()).size();
 		}
 		return count;
 	}

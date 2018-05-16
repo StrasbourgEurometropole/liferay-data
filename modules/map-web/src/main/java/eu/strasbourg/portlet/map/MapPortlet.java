@@ -99,7 +99,7 @@ public class MapPortlet extends MVCPortlet {
 			boolean openInNewTab = false; // Ouvertures du détail des POIS dans
 											// la
 			// même fenêtre par défaut
-			String typesContenu = "all"; // Les type de contenus
+			String typesContenu = ""; // Les type de contenus
 			String categoriesIdsString = ""; // Les id des catégories affichées
 												// non cochées
 			String categoriesDefaultsIdsString = ""; // Les catégories affichées
@@ -114,7 +114,7 @@ public class MapPortlet extends MVCPortlet {
 											// cochés
 			String interestsDefaultsIdsString = ""; // Les intérêts affichés
 													// cochés
-			boolean showFavorites = true; // Affichage des favoris par défaut
+			boolean showFavorites = false; // Affichage des favoris par défaut
 			boolean showConfig = true; // Affichage de la zone de configuration
 			boolean showList = true; // Affichage de la liste à droite
 			List<AssetCategory> categories = null; // Les catégories actives
@@ -257,11 +257,8 @@ public class MapPortlet extends MVCPortlet {
 			} // Si pas de config on récupère toutes les catégories et tous les
 				// intérêts
 			else {
-				categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1).stream()
-						.sorted(Comparator.comparing(c2 -> c2.getTitle(Locale.FRANCE))).collect(Collectors.toList());
-				interests = InterestLocalServiceUtil.getInterests(-1, -1).stream().filter(i -> i.getStatus() == 0)
-						.sorted(Comparator.comparing(i -> i.getType().getTitle(Locale.FRANCE)))
-						.collect(Collectors.toList());
+				categories = new ArrayList<>();
+				interests = new ArrayList<>();
 			}
 
 			// Si l'utilisateur est connecté et qu'il a configuré le portlet
@@ -360,6 +357,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showConfig", showConfig);
 			request.setAttribute("showList", showList);
 			request.setAttribute("address", address);
+			request.setAttribute("defaultConfig", configuration.defaultConfig());
 			MapDisplayContext dc = new MapDisplayContext();
 			request.setAttribute("dc", dc);
 			if (widgetMod) {
@@ -459,7 +457,10 @@ public class MapPortlet extends MVCPortlet {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-	@Reference
 	private AdictService adictService;
 
+	@Reference(unbind = "-")
+    public void setAdictService(AdictService adictService) {
+        this.adictService = adictService;
+    }
 }

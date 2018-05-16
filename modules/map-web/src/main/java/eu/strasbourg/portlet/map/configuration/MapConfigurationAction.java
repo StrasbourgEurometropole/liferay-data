@@ -63,15 +63,15 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			JSONArray jsonArrayPrefilter = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayFilter = JSONFactoryUtil.createJSONArray();
 			JSONArray jsonArrayDefault = JSONFactoryUtil.createJSONArray();
-			JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
-			JSONArray jsonArray3 = JSONFactoryUtil.createJSONArray();
+			JSONArray jsonArrayUncheckedInterests = JSONFactoryUtil.createJSONArray();
+			JSONArray jsonArrayCheckedInterests = JSONFactoryUtil.createJSONArray();
 
 			setPreference(request, "hasConfig", "true");
 
 			// Widget mod
-			String widgetMod = ParamUtil.getString(request, "widgetMod");
-			setPreference(request, "widgetMod", widgetMod);
-			json.put("widgetMod", widgetMod);
+			String mode = ParamUtil.getString(request, "mode");
+			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
+			json.put("widgetMod", mode.equals("widget"));
 
 			// Texte introduction en mode widget
 			String widgetIntro = ParamUtil.getString(request, "widgetIntro");
@@ -103,25 +103,22 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 						typesContenuString += ",";
 					}
 					typesContenuString += typeContenuString;
-					jsonArrayTypeContenu.put(typesContenuString);
+					jsonArrayTypeContenu.put(typeContenuString);
 				}
 			}
 			setPreference(request, "typesContenu", typesContenuString);
 			json.put("typesContenu", jsonArrayTypeContenu);
 
 			// Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(request,
-				"prefilterCategoriesIds");
+			String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories par des virgules
 			List<Long> vocabulariesIds = new ArrayList<Long>();
 			for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 				Long categoryId = GetterUtil.getLong(categoryIdStr);
 				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds
-						.contains(category.getVocabularyId())) {
+					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
 						vocabulariesIds.add(category.getVocabularyId());
 					}
 				}
@@ -131,10 +128,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				for (String categoryIdStr : prefilterCategoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-							.fetchAssetCategory(categoryId);
-						if (category != null
-							&& vocabularyId == category.getVocabularyId()) {
+						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+						if (category != null && vocabularyId == category.getVocabularyId()) {
 							if (sortedPrefilterCategoriesIds.length() > 0) {
 								sortedPrefilterCategoriesIds += ",";
 							}
@@ -144,23 +139,19 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 			}
-			setPreference(request, "prefilterCategoriesIds",
-				sortedPrefilterCategoriesIds);
+			setPreference(request, "prefilterCategoriesIds", sortedPrefilterCategoriesIds);
 			json.put("prefilterCategoriesIds", jsonArrayPrefilter);
 
 			// Filtre catégories
-			String categoriesIds = ParamUtil.getString(request,
-				"categoriesIds");
+			String categoriesIds = ParamUtil.getString(request, "categoriesIds");
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories par des virgules
 			vocabulariesIds = new ArrayList<Long>();
 			for (String categoryIdStr : categoriesIds.split(",")) {
 				Long categoryId = GetterUtil.getLong(categoryIdStr);
 				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds
-						.contains(category.getVocabularyId())) {
+					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
 						vocabulariesIds.add(category.getVocabularyId());
 					}
 				}
@@ -170,10 +161,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				for (String categoryIdStr : categoriesIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-							.fetchAssetCategory(categoryId);
-						if (category != null
-							&& vocabularyId == category.getVocabularyId()) {
+						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+						if (category != null && vocabularyId == category.getVocabularyId()) {
 							if (sortedCategoriesIds.length() > 0) {
 								sortedCategoriesIds += ",";
 							}
@@ -183,23 +172,19 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 			}
-			setPreference(request, "categoriesIds",
-				sortedCategoriesIds);
+			setPreference(request, "categoriesIds", sortedCategoriesIds);
 			json.put("categoriesIds", jsonArrayFilter);
 
 			// Filtre catégories par défaut
-			String categoriesDefaultsIds = ParamUtil.getString(request,
-				"categoriesDefaultsIds");
+			String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories par des virgules
 			vocabulariesIds = new ArrayList<Long>();
 			for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
 				Long categoryId = GetterUtil.getLong(categoryIdStr);
 				if (categoryId > 0) {
-					AssetCategory category = AssetCategoryLocalServiceUtil
-						.fetchAssetCategory(categoryId);
-					if (category != null && !vocabulariesIds
-						.contains(category.getVocabularyId())) {
+					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+					if (category != null && !vocabulariesIds.contains(category.getVocabularyId())) {
 						vocabulariesIds.add(category.getVocabularyId());
 					}
 				}
@@ -209,10 +194,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				for (String categoryIdStr : categoriesDefaultsIds.split(",")) {
 					Long categoryId = GetterUtil.getLong(categoryIdStr);
 					if (categoryId > 0) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-							.fetchAssetCategory(categoryId);
-						if (category != null
-							&& vocabularyId == category.getVocabularyId()) {
+						AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
+						if (category != null && vocabularyId == category.getVocabularyId()) {
 							if (sortedCategoriesDefaultsIds.length() > 0) {
 								sortedCategoriesDefaultsIds += ",";
 							}
@@ -222,8 +205,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					}
 				}
 			}
-			setPreference(request, "categoriesDefaultsIds",
-				sortedCategoriesDefaultsIds);
+			setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds);
 			json.put("categoriesDefaultsIds", jsonArrayDefault);
 
 			// Choix afficher les favoris
@@ -242,8 +224,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			json.put("showList", showList);
 
 			// Config par défaut
-			String defaultConfig = ParamUtil.getString(request, "defaultConfig");
-			setPreference(request, "defaultConfig", defaultConfig);
+
+			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
 
 			// Filtre sur le quartier de l'utilisateur
 			String districtUser = ParamUtil.getString(request, "districtUser");
@@ -254,35 +236,40 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			String interestsIdsString = "";
 			// Centres d'intérêts affichés cochés
 			String interestsDefaultsIdsString = "";
-			long interestsCount = ParamUtil.getLong(request, "interestsCount");
-			for (long i = 0; i < interestsCount; i++) {
-				String interestIdString = ParamUtil.getString(request, "interestId_" + i);
-				boolean interestSelected = Validator.isNotNull(interestIdString) && !interestIdString.equals("false");
-				if (interestSelected) {
-					if (interestsIdsString.length() > 0) {
-						interestsIdsString += ",";
-					}
-					interestsIdsString += interestIdString;
-					jsonArray2.put(Long.parseLong(interestIdString));
-				}
-				interestIdString = ParamUtil.getString(request, "interestDefaultId_" + i);
-				interestSelected = Validator.isNotNull(interestIdString) && !interestIdString.equals("false");
-				if (interestSelected) {
-					if (interestsDefaultsIdsString.length() > 0) {
-						interestsDefaultsIdsString += ",";
-					}
-					interestsDefaultsIdsString += interestIdString;
-					jsonArray3.put(Long.parseLong(interestIdString));
+
+			List<Interest> interests = InterestLocalServiceUtil.getInterests(-1, -1).stream()
+					.filter(i -> i.isApproved()).collect(Collectors.toList());
+			for (Interest interest : interests) {
+				String interestStatus = ParamUtil.getString(request, "interestStatus" + interest.getInterestId());
+				switch (interestStatus) {
+					case "checked":
+						if (interestsDefaultsIdsString.length() > 0) {
+							interestsDefaultsIdsString += ",";
+						}
+						interestsDefaultsIdsString += interest.getInterestId();
+						jsonArrayCheckedInterests.put(interest.getInterestId());
+						break;
+					case "unchecked":
+						if (interestsIdsString.length() > 0) {
+							interestsIdsString += ",";
+						}
+						interestsIdsString += interest.getInterestId();
+						jsonArrayUncheckedInterests.put(interest.getInterestId());
+						break;
+					default:
+						break;
 				}
 			}
+
 			setPreference(request, "interestsIds", interestsIdsString);
-			json.put("interestsIds", jsonArray2);
+			json.put("interestsIds", jsonArrayUncheckedInterests);
 			setPreference(request, "interestsDefaultsIds", interestsDefaultsIdsString);
-			json.put("interestsDefaultsIds", jsonArray3);
+			json.put("interestsDefaultsIds", jsonArrayCheckedInterests);
 
 			// Si la case est cochée on écrase (Si elle existe) la précédente
 			// configuration globale
-			if (ParamUtil.getBoolean(request, "defaultConfig")) {
+			System.out.println("MODE : " + mode);
+			if (mode.equals("aroundme")) {
 				ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
 
 				try {
@@ -341,7 +328,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				typesContenuString = configuration.typesContenu();
 			}
 			request.setAttribute("typesContenu", typesContenuString);
-			
+
 			// Préfiltres catégories
 			String prefilterCategoriesIds = configuration.prefilterCategoriesIds().replace(";", ",");
 			request.setAttribute("prefilterCategoriesIds", prefilterCategoriesIds);
