@@ -19,7 +19,7 @@ public class ProjectAssetRenderer extends BaseJSPAssetRenderer<Project> {
 	public static final String TYPE = "project";
 	private Project _entry;
 	
-	public ProjectAssetRenderer(Project entry){
+	public ProjectAssetRenderer(Project entry){	
 		_entry = entry;
 	}
 	
@@ -85,6 +85,6 @@ public class ProjectAssetRenderer extends BaseJSPAssetRenderer<Project> {
 
 	@Override
 	public String getTitle(Locale locale) {
-		return _entry.getLabel();
+		return _entry.getTitle();
 	}
 }
