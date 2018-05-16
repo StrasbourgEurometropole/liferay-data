@@ -27,4 +27,5 @@ public class VocabularyNames {
 	public static final String INTEREST_TYPE = "type de centre d'interet";
 	public static final String NOTIFICATION_TYPE = "type de notification";
 	public static final String NEWS_TYPE = "type d'actualite";
+	public static final String PROJECT_STATUS = "statut du projet";
 }

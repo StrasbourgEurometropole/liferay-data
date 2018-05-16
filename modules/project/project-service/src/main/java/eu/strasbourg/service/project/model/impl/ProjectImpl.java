@@ -28,6 +28,7 @@ import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -102,5 +103,16 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil.getByProjectId(this.getProjectId());
 		return projectTimelines;
 	}
+	
+	/**
+	 * Retourne les territoire du lieu
+	 */
+//	@Override
+//	public List<AssetCategory> getTerritories() {
+//		
+//		AssetVocabularyHelper.getass
+//		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+//				VocabularyNames.PROJECT_STATUS);
+//	}
 	
 }
