@@ -14,7 +14,7 @@
 #mns-global{
 	.mns-bloc-agenda{
 		position: relative;
-		margin: 65px 0 40px;
+		margin: 65px 0 0px;
 		@include mobile{
 			margin: 65px 0 0;
 		}
@@ -44,7 +44,6 @@
 			@include ft($f_txt, 14px, 400, $c_white, normal);
 			position: absolute;
 			top: 20px;
-			left: -10px;
 			z-index: 5;
 			padding: 15px;
 		}
@@ -65,7 +64,7 @@
 		}
 
 		h4,h3{
-			@include ft($f_hx, 18px, 700, $c_txt, normal);
+			@include ft($f_arial, 18px, 700, $c_txt, normal);
 			text-align: center;
 			width: 75%;
 			margin: auto;
@@ -81,6 +80,23 @@
 			text-align: center;
 			opacity: 0;
 		}
+		.icon-ico-map-marker:before {
+		  	content: '';
+  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
+  			position: absolute;
+  			height: 15px;
+  			width: 15px;
+  			top: 20%;
+		}
+
+		.icon-ico-type:before {
+		  	content: '';
+  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
+  			position: absolute;
+  			height: 15px;
+  			width: 15px;
+  			top: 20%;
+		}
 		.mns-indic.col-xs-6 {
 			display: flex;
 			 .icon-ico-map-marker, .icon-ico-type {
@@ -89,6 +105,30 @@
 			 	margin-right: 3px;
 			 }
 		}
+		.mns-indic.col-xs-12 {
+			margin-bottom: 10px;
+			span {
+			 	font-size: 16px !important;
+			}
+			.icon-ico-type {
+			 	margin-left: 1px;
+			 	margin-right: 15px;
+			 	span {
+			 		margin-left: 1px;
+			 		font-size: 16px !important;
+			 	}
+			 }
+			 .icon-ico-map-marker {
+			 	margin-right: 15px;
+			 }
+		}
+		
+	}
+
+	.mns-section-agenda {
+		.mns-right {
+				margin-bottom: 40px;
+			}
 	}
 
 	.mns-wrapper-video{

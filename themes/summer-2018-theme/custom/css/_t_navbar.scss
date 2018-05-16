@@ -23,7 +23,7 @@
 			display: none;
 		}
 		&.mns-nav-scroll-layer{
-			top: 151px;
+			top: 171px;
 		}
 	}
 
@@ -243,8 +243,15 @@
 				width: 100%;
 			}
 		}
+		.navbar-header {
+			float: none;
+		}
 		.navbar-brand{
-			height: 93px;
+			float: none !important;
+			align-items: center;
+			margin-bottom: 40px;
+			display: flex;
+			justify-content: center;
 			@include ft($f_txt, 26px, 400, $c_white, 18px);	
 			@include tablet_portrait{
 				padding: 15px 30px;
@@ -306,13 +313,17 @@
 		}
 
 		ul{
-			height: 93px;
+			height: 70px;
+			display: flex;
+			float: none !important;
+    		justify-content: center;
 			@include tablet_portrait{
 				height: auto;
 				padding: 0 20px;
 			}
 			li{
-				height: 93px;
+				max-width: 160px;
+				height: 70px;
 				padding: 0;
 				@include tablet_portrait{
 					height: auto;
@@ -327,11 +338,12 @@
 				}
 
 				a{
-					@include ft($f_txt, 16px, 700, $c_white, normal);	
+					@include ft($f_txt, 16px, 700, $c_white, normal);
+					word-break: normal !important;	
 					text-transform: uppercase;
 					padding: 0 15px;
-					height: 93px;
-					line-height: 93px;
+					height: 70px;
+					text-align: center;
 					@include an(all,0.3);
 					background: none !important;
 					@include desktop{
@@ -339,12 +351,11 @@
 					}
 					@include tablet_portrait {
 						height: 50px;
-						line-height: 50px;
 					}
 
 					&:hover, &:focus{
 						background: none;
-						color: $c_main;
+						color: $c_txt;
 					}
 					&:hover:after, &.active{
 						content: '';
@@ -508,7 +519,7 @@
 			position: fixed;
 			top: 0;
 			background: $c_white;
-			height: 151px;
+			height: 171px;
 			border-bottom: 1px solid #d8dae4;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 			@include an(all,0.3);
@@ -525,7 +536,7 @@
 			}
 
 			&.mns-bigger{
-				height: 151px;
+				height: 171px;
 				@include desktop{
 					top: 40px;
 				}
@@ -552,10 +563,15 @@
 			> div{
 				border-bottom: none;
 			}
+			.navbar-header {
+				float: left;
+				margin-top: 15px;
+			}
 			.navbar-brand{
 				color: $c_txt;
 				height: 76px;
 				font-size: 24px;
+				margin-top: -5px;
 				@include mobile{
 					height: auto;
 				}
@@ -571,6 +587,7 @@
 			}
 
 			.navbar-collapse{
+				margin-top: 35px;
 				@include tablet_portrait{
 					top: 75px;
 				}
@@ -607,20 +624,19 @@
 
 
 			ul{
-				height: 76px;
+				height: 80px;
 				@include tablet_portrait{
 					height: auto;
 					border-bottom: 1px solid $c_filet;
 					box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 				}
 				li{
-					height: 76px;
+					height: 80px;
 					@include tablet_portrait{
 						height: auto;
 					}
 					a{
-						height: 76px;
-						line-height: 76px;
+						height: 60px;
 						color: $c_txt;
 						@include an(all,0.3);
 						&:hover{
@@ -633,7 +649,7 @@
 					}
 				}
 			}
-		}
+		}		
 	}
 
 	@include tablet_portrait{

@@ -178,9 +178,13 @@
 
 			if ($(window).scrollTop() == 0) {
 				$('.mns-nav-ipad').removeClass('mns-top');
+				$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
+				$("#logo-menu").attr("width","421");
 			}
 			else{
 				$('.mns-nav-ipad').addClass('mns-top');
+				$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
+				$("#logo-menu").attr("width","116");
 			}
 		});
 
@@ -190,9 +194,13 @@
 				if ($(window).scrollTop() > 0) {
 					$('.mns-nav').addClass("mns-nav-scroll");
 					$('#layer').addClass('mns-nav-scroll-layer')
+					$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
+					$("#logo-menu").attr("width","116");
 				} else {
 					$('.mns-nav').removeClass("mns-nav-scroll");
 					$('#layer').removeClass('mns-nav-scroll-layer')
+					$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
+					$("#logo-menu").attr("width","421");
 				}
 			}
 			);
@@ -204,7 +212,7 @@
 	});
 
 	// Change comportement OwlCarousel
-	function opacifySlider(){
+/*	function opacifySlider(){
 		$('.owl-opacify').on('translated.owl.carousel',function(){
 			var $el = $(this);
 			opacifyOffSlide($el);
@@ -243,17 +251,18 @@
 		$(slides).addClass('opacify');
 	}
 	// End Change comportement OwlCarousel
-
+*/
 	// Carsousel section Agenda 
 	$('#owl-agenda').owlCarousel({
 		loop:false,
-		margin:40,
 		dots: false,
 		nav:true,
-		items: 3,
+		margin: 40,
 		autoWidth: true,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+		items: 4,
+		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
 	})
+
 
 	// Carsousel section Testimonial
 	$('#owl-testi').owlCarousel({
@@ -271,7 +280,7 @@
 		dots: false,
 		nav:true,
 		items: 1,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
 	})
 
 	$('#owl-full .owl-item').each(function() {

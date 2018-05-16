@@ -38,13 +38,13 @@
 			margin-bottom: 15px;
 		}
 		h1,h4{
-			@include ft($f_hx, 18px, 700, $c_txt, normal);
+			@include ft($f_arial, 18px, 700, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;
 		}
 		h3{
-			@include ft($f_hx, 24px, 700, $c_txt, normal);
+			@include ft($f_arial, 24px, 700, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;

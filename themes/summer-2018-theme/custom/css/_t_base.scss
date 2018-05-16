@@ -50,6 +50,31 @@ body{
 		}
 	}
 
+	.mns-portlet-title {
+		display: inline-block; 
+		text-align: left;
+		text-transform: uppercase;		
+		h2 {
+			@include ft($f_arial, 108px, 0, $c_txt, normal);
+			text-align: center;
+			margin-bottom: 40px;
+
+			@include mobile{
+				font-size: 60px;
+			}
+		}
+		&:after{
+			content: '';
+			background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+			position: relative;
+			display: block;
+			top: -40px;
+			width: 180px;
+			height: 62px;
+			z-index: 9999;
+		}
+	}
+
 	.mns-date-event{
 		@include ft($f_txt, 16px, 700, $c_main, normal);	
 		margin-bottom: 10px;
@@ -377,10 +402,10 @@ body{
 			margin: 0 !important;
 		}
 		span{
-			@include ft($f_txt, 14px, 400, #808080, normal);
+			@include ft($f_txt, 14px, 400, $c_txt, normal);
 		}
 		&:nth-child(1){
-			text-align: right;
+			text-align: left;
 		}
 		&:nth-child(2){
 			text-align: left;

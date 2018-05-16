@@ -163,34 +163,31 @@
 	}
 
 	.mns-btn{
-		@include btn($c_white, $c_txt, 0, $f_hx, $s_link);
+		@include btn($c_white, $c_txt, 0, $f_arial, $s_link);
 		@include an(all,0.3);
 		min-width: 270px;
 		@include mobile{
 			width: auto;
 		}
 		&:hover{
-			background: $c_main;
+			background: $c_txt;
 			color: $c_white;
 		}
 	}
 
 	a.link,
 	span.link{
-		@include ft($f_hx, 18px, 700, $c_txt, normal);
+		@include ft($f_arial, 12px, 800, $c_main, normal);
+		text-transform: uppercase;
 		display: inline-block;
 		&:after{
 			content: '';
 			display: block;
 			height: 4px; 
-			width: 25px;
-			background: #ebded3;
+			width: 100%;
+			background: $c_main;
 			position: relative;
 			top: 10px;
-			@include an(ease-in, 0.3);
-		}
-		&:hover:after{
-			width: 100%;
 		}
 
 		&.align-right{
@@ -198,9 +195,9 @@
 			padding-left: 15px;
 			&:before{
 				content: '';
+				background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
 				width: 9999px;
-				height: 1px;
-				background-color: #d8dae4;
+				height: 10px;
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
@@ -211,14 +208,15 @@
 
 	a.basic-link, 
 	span.basic-link{
-		@include ft($f_txt, 16px, 700, $c_main, normal);
+		@include ft($f_arial, 12px, 800, $c_main, normal);
 		display: block;
 		text-align: left;
+		text-transform: uppercase;
 	}
 
 	a.large-link,
 	span.large-link{
-		@include ft($f_hx, 24px, 700, $c_txt, normal);
+		@include ft($f_arial, 24px, 700, $c_main, normal);
 		text-transform: uppercase;
 		display: inline-block;
 		position: relative;

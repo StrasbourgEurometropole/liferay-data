@@ -5,7 +5,7 @@
 
 #mns-global{
 
-	.owl-nav{
+	/*.owl-nav{
 		text-align: right;
 		position: relative;
 		overflow: hidden;
@@ -20,8 +20,8 @@
 			transform: translateY(-50%);
 			right: 120px;
 		}
-	}
-
+	}*/
+/*
 	@include mobile {
 		#owl-full {
 			.item img {
@@ -37,26 +37,24 @@
 		}
 	}
 
-	#owl-full .owl-nav{
-		position: absolute;
-		bottom: 35px;
-		right: 40px;
-		@include mobile{
-			position: relative;
-			bottom: 0;
-			right: 0;
-			margin: 0;
-			padding: 0 15px;
+	
+*/
+/*	
+
+	
+	#owl-agenda .owl-item.opacify{
+		.mns-bloc-agenda{
+			a{
+				pointer-events: none;
+			}
 		}
-	}
+	}*/
 
 	#owl-full .owl-nav > button{
 		position: relative;
 		background: transparent;
 		border: 2px solid $c_white;
 		border-radius: 50%;
-		width: 40px;
-		height: 40px;
 		@include an(all,0.3);
 		span{
 			position: absolute;
@@ -64,7 +62,7 @@
 			left: 50%;
 			transform: translate(-50%,-50%);
 			color: $c_white;
-			font-size: 18px;
+			font-size: 18px;	
 		}
 		&:hover{
 			background: $c_white;
@@ -88,33 +86,57 @@
 		}
 	}
 
+	#owl-full .owl-nav{
+		position: absolute;
+		bottom: 35px;
+		right: 200px;
+		@include mobile{
+			position: relative;
+			bottom: 0;
+			right: 0;
+			margin: 0;
+			padding: 0 15px;
+		}
+
+		.owl-prev {
+			background-color: transparent;
+			border: transparent;
+			@extend %atom-home-slider-arrow;  // Flèches
+            transform: rotate(180deg);
+            left: -100px;
+            bottom: 0;
+        }
+        .owl-next {
+			background-color: transparent;
+			border: transparent;
+			@extend %atom-home-slider-arrow;  // Flèches
+        }
+	}
+
 	#owl-agenda .owl-item{
 		max-width: 260px;
 		@include an(all,0.3);
 	}
 
-	#owl-agenda .owl-item.opacify{
-		.mns-bloc-agenda{
-			a{
-				pointer-events: none;
-			}
-		}
-	}
 
-	.owl-theme .owl-nav [class*=owl-]{
-		position: relative;
-		background: #FFF;
-		border: 2px solid #ebded3;
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
+	#owl-agenda .owl-nav {
 		@include an(all,0.3);
 		span{
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%,-50%);
 			color: $c_txt;
+			background-size: 30px;
+		    background-position: center;
+		    background-repeat: no-repeat;
+		    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+		    z-index: 10;
+		    height: 60px;
+		    width: 60px;
+		    background-color: #46cfc0;
+		    border-radius: 50%;
+		    position: relative;
+		    left: 30px;
 		}
 		&:hover{
 			background: $c_main;
@@ -123,9 +145,39 @@
 				color: $c_white;
 			}
 		}
+
+		.owl-prev {
+			background-color: transparent;
+			border: transparent;
+			height: 550px;
+			 	 @extend %atom-home-slider-arrow;  // Flèches
+                transform: rotate(180deg);
+                left: -300px;
+                width: 300px;
+                outline: none;
+                @include tablet_landscape{
+                    width: 80px;
+                    left: 0px;
+                }
+		}
+
+		.owl-next {
+			background-color: transparent;
+			border: transparent;
+			height: 550px;
+			@extend %atom-home-slider-arrow;  // Flèches
+            right: 0;
+            width: 200px;
+            right: -200px;
+            outline: none;
+            @include tablet_landscape{
+                width: 80px;
+            }
+		}
+
 	}
 
-	.owl-carousel{
+	/*.owl-carousel{
 		.caption{
 			position: absolute;
 			right: 40px;
@@ -173,6 +225,61 @@
 	// 	opacity: 1!important;
 	// }
 
+}*/
+
 }
 
+%atom-home-slider-arrow{
+    position: absolute;
+    top: 0;
+    transition: all, 0.5s;
+    cursor: pointer;
+    content: '';
+    display: flex;
+    align-items: center;
+    z-index: 100;
+
+    
+    .mns-picto{
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+        z-index: 10;
+        height: 60px;
+        width: 60px;
+        background-color: $c_main;
+        border-radius: 50%;
+        position: relative;
+        left: 30px;
+        @include tablet_landscape{
+            width: 35px;
+            height: 35px;
+            background-size: 20px;
+        }
+        @include mobile{
+            left: 35px;
+            width: 40px;
+            height: 40px;
+            background-size: 18px;
+        }
+    }
+
+    .flexbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.owl-prev{
+        transform: rotate(180deg);
+    }
+
+    &.disabled{
+        pointer-events: none;
+        opacity: 0 !important;
+        @include mobile{
+            display: none;
+        }
+    }
 }

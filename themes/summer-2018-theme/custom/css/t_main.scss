@@ -5,6 +5,8 @@
 @import "libs/pikaday";
 @import "libs/selectric";
 
+@import "_svg-factory";
+
 @import "_t_vars";
 @import "_t_text";
 @import "_t_mixins";
@@ -19,6 +21,7 @@
 @import "_t_bloc-agenda";
 @import "_t_bloc-social-wall";
 @import "_t_bloc-testi";
+@import "_t_bloc_great_events";
 
 @import "_t_page-agenda-detail";
 @import "_t_page-agenda-list";
@@ -318,7 +321,9 @@
 		margin-top: 50px;
 	}
 	.title{
-		@include ft($f_txt, 26px, 400, $c_txt, 28px);
+		margin-top: 90px;
+		@include ft($f_arial, 75px, 800, $c_main, 75px);
+		text-transform: uppercase;
 		display: block;
 		background: none;
 	}
@@ -326,25 +331,21 @@
 		display: block;
 	}
 	p:not(.title){
+		@include ft($f_arial, 52px, 400, $c_main, 90px);
 		position: relative;
-		&:after{
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: transparent;
-			background: -moz-linear-gradient(top, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			background: linear-gradient(to bottom, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			background: -webkit-linear-gradient(top, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			-ms-filter: "progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#000000', endColorstr='#ffffff')";
-			@include desktop{
-				content: none;
-			}
-		}
+	}
+	&:after{
+		content: '';
+		background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 10px;
+		left: 0%;
+		z-index: 9999;
 	}
 }
+
 
 /* Section Zone Entrées */
 .mns-wrapper-home-entry{
@@ -745,16 +746,6 @@
 			padding: 0;
 		}
 	}
-	h2{
-		color: $c_main;
-		margin: 0;
-		top: 20px;
-		@include mobile{
-			top: 0;
-			font-size: 60px;
-			left: -15px;
-		}
-	}
 }
 
 
@@ -769,7 +760,6 @@
 	}
 	h2{
 		color: $c_txt;
-		margin-bottom: 0;
 		@include mobile{
 			font-size: 60px;
 			margin-bottom: 20px;
@@ -803,9 +793,11 @@
 		transform: translate(-50%,-50%);
 		width: 100%;
 		z-index: 10;
-		h2,h3{
-			@include ft($f_txt, $s_h3, 300, $c_white, normal);
+		h2{
+			@include ft($f_txt, $s_h3, 700, $c_txt, normal);
 			margin-bottom: 5px;
+			text-transform: uppercase;
+			display: inline-block;
 			@include mobile{
 				font-size: 42px;
 			}
@@ -813,7 +805,18 @@
 				font-family: $f_hx;
 				font-weight: 700;
 			}
+			&:before{
+				content: '';
+  				background: url(/o/summer-2018-theme/images/tampon-module-farse.png) no-repeat center center /contain;
+  				position: relative;
+				display: block;
+				width: 258px;
+				height: 176px;
+				z-index: 9999;
+				margin-bottom: 50px;
+			}
 		}
+		
 		.mns-content-text{
 			width: 40%;
 			margin: auto;
@@ -827,7 +830,7 @@
 		p{
 			font-size: 18px;
 			line-height: 26px;
-			color: $c_white;
+			color: $c_txt;
 		}
 		a{
 			margin-top: 20px;
