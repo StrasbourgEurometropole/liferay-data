@@ -53,8 +53,8 @@
 	#owl-full .owl-nav > button{
 		position: relative;
 		background: transparent;
-		border: 2px solid $c_white;
-		border-radius: 50%;
+		background-color: transparent;
+		border: 0;
 		@include an(all,0.3);
 		span{
 			position: absolute;
@@ -64,51 +64,41 @@
 			color: $c_white;
 			font-size: 18px;	
 		}
-		&:hover{
-			background: $c_white;
-			border-color: $c_white;
-			span{
-				color: $c_txt;
-			}
-		}
 		@include mobile{
 			border-color: #ebded3;
 			span{
 				color: $c_txt;
-			}
-			&:hover{
-				border-color: $c_main;
-				background: $c_main;
-				span{
-					color: $c_white;
-				}
 			}
 		}
 	}
 
 	#owl-full .owl-nav{
 		position: absolute;
-		bottom: 35px;
-		right: 200px;
+		bottom: 10%;
+		right: calc(20% + 60px);
 		@include mobile{
-			position: relative;
-			bottom: 0;
-			right: 0;
-			margin: 0;
-			padding: 0 15px;
+			position: absolute;
+			bottom: 10%;
+			right: calc(20% + 40px);
 		}
 
 		.owl-prev {
+			margin: 0 !important;
+        	padding: 0 !important;
 			background-color: transparent;
 			border: transparent;
+			outline: none;
 			@extend %atom-home-slider-arrow;  // Flèches
             transform: rotate(180deg);
             left: -100px;
             bottom: 0;
         }
         .owl-next {
+        	margin: 0 !important;
+        	padding: 0 !important;
 			background-color: transparent;
 			border: transparent;
+			outline: none;
 			@extend %atom-home-slider-arrow;  // Flèches
         }
 	}
@@ -121,31 +111,6 @@
 
 	#owl-agenda .owl-nav {
 		@include an(all,0.3);
-		span{
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			color: $c_txt;
-			background-size: 30px;
-		    background-position: center;
-		    background-repeat: no-repeat;
-		    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
-		    z-index: 10;
-		    height: 60px;
-		    width: 60px;
-		    background-color: #46cfc0;
-		    border-radius: 50%;
-		    position: relative;
-		    left: 30px;
-		}
-		&:hover{
-			background: $c_main;
-			border-color: $c_main;
-			span{
-				color: $c_white;
-			}
-		}
-
 		.owl-prev {
 			background-color: transparent;
 			border: transparent;

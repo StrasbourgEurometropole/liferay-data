@@ -188,6 +188,7 @@
 			background: $c_main;
 			position: relative;
 			top: 10px;
+			transition: all 0.3s ease
 		}
 
 		&.align-right{
@@ -201,7 +202,7 @@
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
-				left: -9999px;
+				left: -9999px;	
 			}
 		}
 	}

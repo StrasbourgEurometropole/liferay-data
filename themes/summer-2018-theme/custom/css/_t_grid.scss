@@ -105,7 +105,7 @@
 
 	/* HEADER Page d'accueil */
 	.mns-header{
-		height: calc(100vh - 80px);
+		height: 600px;
 		text-align: center;
 		position: relative;
 		transform: translate3d(0,0,0);
@@ -338,10 +338,10 @@
 
 	/* Header page résultats */ 
 	.mns-header-standard{
-		height: 275px;
+		height: 100px;
 		@include mobile{
 			padding: 0 15px;
-			height: 200px;
+			height: 100px;
 		}
 		.container{
 			position: relative;
@@ -363,8 +363,6 @@
 		}
 
 		.mns-breadcrumbs{
-			left: 119px;
-			top: -40px;
 			@include mobile{
 				left: 0;
 				top: -64px;

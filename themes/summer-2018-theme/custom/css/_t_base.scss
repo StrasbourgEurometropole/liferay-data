@@ -130,9 +130,9 @@ body{
 		// }
 
 		.mns-line{
-			width: 25px;
-			height: 4px;
-			background: #ebded3;
+			width: 100%;
+			height: 10px;
+			background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
 			display: block;
 			margin: 40px 0;
 		}
@@ -422,7 +422,7 @@ body{
 		position: absolute;
 		left: 0;
 		top: -70px;
-		padding: 25px 15px;
+		margin-top: 70px;
 		@include mobile{
 			top: -80px;
 			overflow: scroll;
@@ -442,7 +442,7 @@ body{
 			}
 		}
 		a{
-			@include ft($f_hx, 13px, 400, $c_white, normal);
+			@include ft($f_arial, 13px, 400, $c_white, normal);
 			position: relative;
 			display: inline-block;
 			@include an(all,0.3);
@@ -461,7 +461,7 @@ body{
 			}
 		}
 		span{
-			@include ft($f_hx, 13px, 700, $c_white, normal);
+			@include ft($f_arial, 13px, 700, $c_white, normal);
 		}
 	}
 

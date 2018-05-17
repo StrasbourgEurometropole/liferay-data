@@ -14,6 +14,7 @@
 #mns-global{
 
 	.mns-agenda-detail{
+		margin-top: 30px;
 		@include mobile{
 			margin-top: -50px;
 		}
@@ -59,10 +60,24 @@
 		}
 
 		.mns-info-pratiques{
+			max-width: 298px;
+    		margin-left: 1px;
+    		background-color: $c_main;
 			.mns-sec-info{
+				border-bottom: 0px;
 				.mns-title-info{
+					text-transform: uppercase;
+					color: $c_txt;
+					font-family: $f_arial;
 					&:after{
-						margin-bottom: 20px;
+						content: '';
+						background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+						position: relative;
+						display: block;
+						top: -20px;
+						height: 40px;
+						width: 80px;
+						z-index: 9999;
 					}
 				}
 				p{
@@ -72,11 +87,11 @@
 				}
 				a{
 					display: block;
-					@include ft($f_txt, 16px, 700, $c_white, 24px);
+					@include ft($f_txt, 18px, 700, $c_white, 24px);
 					margin-bottom: 20px;
 					@include an(all,0.3);
 					&:hover{
-						color: $c_main;
+						color: $c_txt;
 					}
 					&:last-child{
 						margin-bottom: 0;
@@ -96,8 +111,7 @@
 		}
 
 		.mns-event-date{
-			@include ft($f_txt, 20px, 700, $c_main, normal);
-			text-transform: uppercase;
+			@include ft($f_txt, 20px, 700, $c_txt, normal);
 			margin-bottom: 15px;
 			display: block;
 		}
@@ -117,6 +131,7 @@
 			}
 
 			h1{
+				font-family: $f_arial;
 				font-size: 48px;
 				line-height: 54px;
 				width: 100%;
@@ -129,13 +144,36 @@
 						margin-right: 15px;
 					}
 				}
+				.icon-ico-map-marker{
+					height: 15px;
+			  		width: 15px;
+
+					&:before {
+					  	content: '';
+			  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
+			  			position: absolute;
+			  			height: 15px;
+			  			width: 15px;
+			  		}
+				}
+
+				.icon-ico-type{
+					height: 15px;
+			  		width: 15px;
+
+			  		&:before {
+					  	content: '';
+			  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
+			  			position: absolute;
+			  			height: 15px;
+			  			width: 15px;
+		  			}
+				}
 			}
 
 			.mns-title-detail-actu{
-				@include ft($f_txt, 16px, 700, $c_main, normal);
+				@include ft($f_txt, 16px, 700, $c_txt, normal);
 				padding-bottom: 10px;
-				border-bottom: 1px solid $c_filet;
-				text-transform: uppercase;
 				display: block;
 				margin-bottom: 25px;
 			}

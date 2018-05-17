@@ -169,41 +169,35 @@
 
 	var height = $(window).height();
 	var width = $(window).width();
+	// If qui sert pour quand on a un Header simple sur lequel on veut tt le temps le menu en sticky
+	if(!$('.mns-nav').hasClass("mns-nav-no-header")) {
+		if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
+			$('body').addClass('ipad');
+			$('.mns-nav').addClass("mns-nav-scroll");
+			$('.mns-nav').addClass("mns-nav-ipad");
+			$(window).scroll(function(){
 
-	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
-		$('body').addClass('ipad');
-		$('.mns-nav').addClass("mns-nav-scroll");
-		$('.mns-nav').addClass("mns-nav-ipad");
-		$(window).scroll(function(){
-
-			if ($(window).scrollTop() == 0) {
-				$('.mns-nav-ipad').removeClass('mns-top');
-				$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
-				$("#logo-menu").attr("width","421");
-			}
-			else{
-				$('.mns-nav-ipad').addClass('mns-top');
-				$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
-				$("#logo-menu").attr("width","116");
-			}
-		});
-
-	}else {
-		$(window).scroll(
-			function() {
-				if ($(window).scrollTop() > 0) {
-					$('.mns-nav').addClass("mns-nav-scroll");
-					$('#layer').addClass('mns-nav-scroll-layer')
-					$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
-					$("#logo-menu").attr("width","116");
-				} else {
-					$('.mns-nav').removeClass("mns-nav-scroll");
-					$('#layer').removeClass('mns-nav-scroll-layer')
-					$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
-					$("#logo-menu").attr("width","421");
+				if ($(window).scrollTop() == 0) {
+					$('.mns-nav-ipad').removeClass('mns-top');
 				}
-			}
-			);
+				else{
+					$('.mns-nav-ipad').addClass('mns-top');
+				}
+			});
+
+		}else {
+			$(window).scroll(
+				function() {
+					if ($(window).scrollTop() > 0) {
+						$('.mns-nav').addClass("mns-nav-scroll");
+						$('#layer').addClass('mns-nav-scroll-layer')
+					} else {
+						$('.mns-nav').removeClass("mns-nav-scroll");
+						$('#layer').removeClass('mns-nav-scroll-layer')
+					}
+				}
+				);
+		}
 	}
 
 	// Affiche Dropdown menu
