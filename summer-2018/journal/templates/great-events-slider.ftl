@@ -13,7 +13,7 @@
                     <div class="caption">
                         <h1>${curImage.children[0].data}</h1>
                         <h2>${curImage.children[1].data}</h2>
-                        <p>${curImage.children[2].data}</p>
+                        <p>${curImage.children[2].data[0..*110]}<#if (curImage.children[2].data?length > 110)>...</#if></p>
                         <a href="${curImage.children[3].data}">
                             <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
                         </a>

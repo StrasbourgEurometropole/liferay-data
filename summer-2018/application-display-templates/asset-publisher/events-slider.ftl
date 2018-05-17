@@ -27,12 +27,10 @@
                             </figure>
                             <div>
                                 <div class="col-xs-12 mns-indic">
-                                    <span class="icon-ico-map-marker"></span>
-                                    <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>
+                                    <span class="ico-map-marker" itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>
                                 </div>
                                 <div class="col-xs-12 mns-indic">
-                                    <span class="icon-ico-type"></span>
-                                    <span>${event.getTypeLabel(locale)}</span>
+                                    <span class="ico-type">${event.getTypeLabel(locale)}</span>
                                 </div>
                                 <h3 itemprop="name">${event.getTitle(locale)}</h3>
                                 <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
