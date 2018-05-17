@@ -2,8 +2,7 @@
 
 	.mns-bloc-article{
 		.mns-title {
-			@include ft($f_arial, 108px, 200, $c_txt, normal);
-			line-height: 108px;
+			@include ft($f_ms, 58px, 100, $c_txt, normal);
 			text-transform: uppercase;
 			display: inline-block;
 			width: auto;
@@ -13,14 +12,13 @@
 				position: relative;
 				display: block;
 				top: 0px;
-				width: 180px;
-				height: 62px;
+				height: 40px;
 				z-index: 9999;
 			}
 		}
 
 		a{
-			@include ft($f_arial, 16px, 700, $c_main, normal);
+			@include ft($f_ms, 16px, 700, $c_main, normal);
 			text-decoration: underline;
 			&:hover{
 				color: $c_txt;
@@ -36,7 +34,7 @@
 			font-size: 22px;
 		}
 		h1 {
-			font-family: $f_arial;
+			font-family: $f_ms;
 		}
 	}
 }

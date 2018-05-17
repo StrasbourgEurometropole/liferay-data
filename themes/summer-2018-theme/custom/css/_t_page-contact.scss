@@ -54,7 +54,7 @@
 					width: 100%;
 					margin: 0;
 					span{
-						@include ft($f_txt, 12px, 400, $c_txt, 22px);
+						@include ft($f_ms, 12px, 400, $c_txt, 22px);
 						font-style: italic;
 						margin: 15px 0;
 						display: block;
@@ -71,7 +71,7 @@
 			padding: 30px 20px;
 			border-bottom: 1px solid #4d4d4d;
 			strong, p{
-				@include ft($f_txt, 14px, 400, $c_white, 22px);
+				@include ft($f_ms, 14px, 400, $c_white, 22px);
 				margin-bottom: 0;
 			}
 			strong{
@@ -90,7 +90,7 @@
 				padding: 0;margin: 0;
 				a{
 					border-bottom: 1px solid #4d4d4d;
-					@include ft($f_txt, 14px, 400, $c_white, 22px);
+					@include ft($f_ms, 14px, 400, $c_white, 22px);
 					padding: 10px 0;
 					display: block;
 					padding-left: 20px;
@@ -126,7 +126,7 @@
 		}
 
 		.mns-title-info{
-			@include ft($f_hx, 18px, 700, $c_white, 24px);
+			@include ft($f_ms, 18px, 700, $c_white, 24px);
 			&:after{
 				content: '';
 				height: 4px;

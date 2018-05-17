@@ -272,7 +272,7 @@
 			}
 
 			.mns-title{
-				@include ft($f_hx, 16px, 700, $c_txt, normal);
+				@include ft($f_ms, 16px, 700, $c_txt, normal);
 				margin-bottom: 5px;
 				display: block;
 			}
@@ -295,7 +295,7 @@
 					vertical-align: middle;
 				}
 				p{
-					@include ft($f_txt, 16px, 400, $c_white, normal);
+					@include ft($f_ms, 16px, 400, $c_white, normal);
 					display: inline-block;
 					vertical-align: middle;
 					padding: 0 5px;
@@ -323,7 +323,7 @@
 	}
 	.title{
 		margin-top: 90px;
-		@include ft($f_arial, 75px, 800, $c_main, 75px);
+		@include ft($f_ms, 75px, 800, $c_main, 75px);
 		text-transform: uppercase;
 		display: block;
 		background: none;
@@ -332,7 +332,7 @@
 		display: block;
 	}
 	p:not(.title){
-		@include ft($f_arial, 52px, 400, $c_main, 90px);
+		@include ft($f_ms, 52px, 400, $c_main, 90px);
 		position: relative;
 	}
 	&:after{
@@ -368,7 +368,7 @@
 .mns-home-entry{
 	position: relative;
 	h1.title{
-		@include ft($f_txt, $s_h3, 300, $c_main, 62px);
+		@include ft($f_ms, $s_h3, 300, $c_main, 62px);
 		text-align: right;
 		margin-bottom: 0;
 		@include mobile{
@@ -378,7 +378,7 @@
 		}
 	}
 	h2.city{
-		@include ft($f_txt, 64px, 300, $c_txt, 62px);
+		@include ft($f_ms, 64px, 300, $c_txt, 62px);
 		text-align: right;
 		@include mobile{
 			font-size: 38px;
@@ -387,7 +387,7 @@
 		}
 
 		span{
-			@include ft($f_hx, 64px, 700, $c_txt, 62px);
+			@include ft($f_ms, 64px, 700, $c_txt, 62px);
 			text-align: right;	
 			@include mobile{
 				font-size: 38px;
@@ -451,7 +451,7 @@
 		}
 
 		h3{
-			@include ft($f_hx, $s_h4, 400, $c_white, normal);
+			@include ft($f_ms, $s_h4, 400, $c_white, normal);
 			margin: 0;
 			text-align: center;
 			position: absolute;
@@ -515,7 +515,7 @@
 				margin-top: 10px;
 			}
 			span{
-				@include ft($f_hx, 18px, 700, $c_txt, normal);
+				@include ft($f_ms, 18px, 700, $c_txt, normal);
 				display: block;
 			}
 		}
@@ -795,7 +795,7 @@
 		width: 100%;
 		z-index: 10;
 		h2{
-			@include ft($f_txt, $s_h3, 700, $c_txt, normal);
+			@include ft($f_ms, $s_h3, 700, $c_txt, normal);
 			margin-bottom: 5px;
 			text-transform: uppercase;
 			display: inline-block;
@@ -803,7 +803,7 @@
 				font-size: 42px;
 			}
 			span{
-				font-family: $f_hx;
+				font-family: $f_ms;
 				font-weight: 700;
 			}
 			&:before{
@@ -887,7 +887,7 @@
 
 
 	label{
-		@include ft($f_txt, 13px, 600, $c_txt, 16px);
+		@include ft($f_ms, 13px, 600, $c_txt, 16px);
 		padding: 15px 0 10px 0;
 		display: block;
 		text-align: left;
@@ -979,7 +979,7 @@
 		line-height: 20px;
 		margin: 0;
 		border-style: none;
-		@include ft($f_hx, 18px, 700, $c_white, 16px);
+		@include ft($f_ms, 18px, 700, $c_white, 16px);
 		text-transform: lowercase;
 
 		&:after{
@@ -1049,7 +1049,7 @@
 		padding: 15px 0;
 		display: block;
 		text-transform: uppercase;
-		@include ft($f_txt, 15px, 600, $c_txt, 20px);
+		@include ft($f_ms, 15px, 600, $c_txt, 20px);
 	}
 	.btn-filtre{
 		transform: translateY(10px);
@@ -1075,7 +1075,7 @@
 		}
 	}
 	span.mns-more{
-		@include ft($f_txt, 14px, 600, $c_main, 26px);
+		@include ft($f_ms, 18px, 600, $c_txt, 26px);
 		display: inline-block;
 		text-transform: uppercase;
 		width: 80%;

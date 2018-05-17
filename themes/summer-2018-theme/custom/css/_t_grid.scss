@@ -52,7 +52,7 @@
 				font-weight: 400;
 				padding: 13px 15px;
 				border-left: 1px solid #7C7C7C;
-				@include ft($f_arial, 12px, 400, $c_white, normal);
+				@include ft($f_ms, 12px, 400, $c_white, normal);
 				@include an(all,0.3);
 				&:hover, &.active{
 					font-weight: 700;
@@ -135,11 +135,11 @@
 				width: 100%;
 			}
 			h2{
-				@include ft($f_txt, 34px, 400, $c_white, 42px);
+				@include ft($f_ms, 34px, 400, $c_white, 42px);
 				margin: 0;
 			}
 			.mns-surtitre{
-				@include ft($f_txt, 34px, 400, $c_white, 42px);
+				@include ft($f_ms, 34px, 400, $c_white, 42px);
 				margin: 0;
 				line-height: 26px;
 				@include mobile{
@@ -148,7 +148,7 @@
 				}
 			}
 			h1{
-				@include ft($f_hx, 70px, 700, $c_white, 76px);
+				@include ft($f_ms, 70px, 700, $c_white, 76px);
 				margin: 0 auto;
 				width: 50%;
 				@include tablet_portrait{
@@ -161,7 +161,7 @@
 				}
 			}
 			span{
-				@include ft($f_hx, 50px, 700, $c_white, 52px);
+				@include ft($f_ms, 50px, 700, $c_white, 52px);
 				margin: 0;
 			}
 		}
@@ -242,7 +242,7 @@
 				}
 
 				.mns-slider-date-event{
-					@include ft($f_txt, 20px, 700, $c_white, 42px);
+					@include ft($f_ms, 20px, 700, $c_white, 42px);
 					text-transform: uppercase;
 					@include mobile{
 						font-size: 12px;
@@ -250,7 +250,7 @@
 					}
 				}
 				h2{
-					@include ft($f_hx, 48px, 700, $c_white, 62px);
+					@include ft($f_ms, 48px, 700, $c_white, 62px);
 					@include tablet_portrait{
 						font-size: 36px;
 						line-height: normal;
@@ -338,7 +338,7 @@
 
 	/* Header page résultats */ 
 	.mns-header-standard{
-		height: 100px;
+		height: 150px;
 		@include mobile{
 			padding: 0 15px;
 			height: 100px;
@@ -353,7 +353,7 @@
 		}
 
 		h1{
-			@include ft($f_hx, 88px, 700, $c_main, 108px);
+			@include ft($f_ms, 88px, 700, $c_main, 108px);
 			@include tablet_portrait{
 				font-size: 68px;
 			}
@@ -423,7 +423,7 @@
 						display: block;
 					}
 					a{
-						@include ft($f_txt, 15px, 700, #b3b3b3, 26px);
+						@include ft($f_ms, 14px, 700, #b3b3b3, 26px);
 						text-transform: uppercase;
 						padding: 25px 15px;
 						display: inline-block;
@@ -450,7 +450,7 @@
 		.mns-title{
 			border-bottom: 1px solid #838383;
 			span{
-				@include ft($f_txt, 15px, 700, #b3b3b3, 26px);
+				@include ft($f_ms, 15px, 700, #b3b3b3, 26px);
 				text-transform: uppercase;
 				padding: 25px 15px 25px 0;
 				display: inline-block;
@@ -472,7 +472,7 @@
 					padding: 0;
 					margin: 0;
 					a{
-						@include ft($f_txt, 15px, 400, #b3b3b3, normal);
+						@include ft($f_ms, 15px, 400, #b3b3b3, normal);
 						padding: 5px 0;
 						display: inline-block;
 						@include an(all,0.3);
@@ -484,7 +484,7 @@
 			}
 			p{
 				margin-top: 40px;
-				@include ft($f_txt, 15px, 400, #b3b3b3, normal);
+				@include ft($f_ms, 15px, 400, #b3b3b3, normal);
 				@include mobile{
 					margin-bottom: 0;
 				}
@@ -504,19 +504,19 @@
 				margin-bottom: 0;
 			}
 			h5{
-				@include ft($f_txt, 15px, 700, $c_white, normal);
+				@include ft($f_ms, 15px, 700, $c_white, normal);
 				text-transform: uppercase;
 				padding: 15px 0;
 				margin: 0;
 			}
 			span{
-				@include ft($f_txt, 15px, 400, $c_white, normal);
+				@include ft($f_ms, 15px, 400, $c_white, normal);
 				display: block;
 				margin-bottom: 10px;
 			}
 
 			a{
-				@include ft($f_txt, 15px, 400, $c_white, normal);
+				@include ft($f_ms, 15px, 400, $c_white, normal);
 				display: block;
 				@include an(all,0.3);
 				&:hover{

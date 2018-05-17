@@ -20,6 +20,7 @@
 		}
 		a{
 			display: block;
+			text-align: start;
 			@include an(all,0.3);
 			> div{
 				padding: 15px 0;
@@ -41,7 +42,7 @@
 		}
 		.date{
 			background: $c_main;
-			@include ft($f_txt, 14px, 400, $c_white, normal);
+			@include ft($f_ms, 14px, 400, $c_white, normal);
 			position: absolute;
 			top: 20px;
 			z-index: 5;
@@ -64,9 +65,8 @@
 		}
 
 		h4,h3{
-			@include ft($f_arial, 18px, 700, $c_txt, normal);
+			@include ft($f_ms, 18px, 700, $c_txt, normal);
 			text-align: center;
-			width: 75%;
 			margin: auto;
 			padding: 10px 0;
 			display: block;
@@ -80,49 +80,38 @@
 			text-align: center;
 			opacity: 0;
 		}
-		.icon-ico-map-marker:before {
-		  	content: '';
-  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
-  			position: absolute;
-  			height: 15px;
-  			width: 15px;
-  			top: 20%;
+		.ico-map-marker{
+			display: flex;
+			align-items: center;
+			&:before {
+			  	content: '';
+	  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
+	  			height: 15px;
+	  			width: 15px;
+	  			margin-right: 15px;
+	  			display: inline-block;
+  			}
 		}
 
-		.icon-ico-type:before {
-		  	content: '';
-  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
-  			position: absolute;
-  			height: 15px;
-  			width: 15px;
-  			top: 20%;
-		}
-		.mns-indic.col-xs-6 {
+		.ico-type{
 			display: flex;
-			 .icon-ico-map-marker, .icon-ico-type {
-			 	margin-top: 2px;
-			 	margin-left: -2px;
-			 	margin-right: 3px;
-			 }
+			align-items: center;
+			&:before {
+			  	content: '';
+	  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
+	  			height: 15px;
+	  			width: 15px;
+	  			margin-right: 15px;
+	  			display: inline-block;
+  			}
 		}
-		.mns-indic.col-xs-12 {
+
+		.mns-indic { 
 			margin-bottom: 10px;
 			span {
-			 	font-size: 16px !important;
+				font-size: 16px;
 			}
-			.icon-ico-type {
-			 	margin-left: 1px;
-			 	margin-right: 15px;
-			 	span {
-			 		margin-left: 1px;
-			 		font-size: 16px !important;
-			 	}
-			 }
-			 .icon-ico-map-marker {
-			 	margin-right: 15px;
-			 }
 		}
-		
 	}
 
 	.mns-section-agenda {
@@ -137,7 +126,7 @@
 			padding: 15px;
 		}
 		p{
-			@include ft($f_txt, 14px, 400, #808080, 21px);
+			@include ft($f_ms, 14px, 400, #808080, 21px);
 			text-align: right;
 			width: 40%;
 			margin-top: 10px;
@@ -153,5 +142,9 @@
 				width: 90%;
 			}
 		}
+	}
+
+	.clearfix.lfr-pagination {
+		margin-top: 50px;
 	}
 }

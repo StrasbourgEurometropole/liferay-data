@@ -258,7 +258,7 @@
 			background: url(/o/summer-2018-theme/images/logo-home.png) no-repeat center center /contain;
 			height: 190px;
 			margin-top: 50px; 
-			@include ft($f_txt, 26px, 400, $c_white, 18px);	
+			@include ft($f_ms, 26px, 400, $c_white, 18px);	
 			@include tablet_portrait{
 				padding: 15px 30px;
 			}
@@ -269,7 +269,7 @@
 			}
 			span{
 				display: block;
-				@include ft($f_hx, 30px, 700, $c_white, normal);	
+				@include ft($f_ms, 30px, 700, $c_white, normal);	
 				position: relative;
 				left: 40px;
 				@include mobile{
@@ -344,7 +344,7 @@
 				}
 
 				a{
-					@include ft($f_txt, 16px, 700, $c_white, normal);
+					@include ft($f_ms, 16px, 700, $c_white, normal);
 					word-break: normal !important;	
 					text-transform: uppercase;
 					padding: 0 15px;
@@ -430,7 +430,7 @@
 						width: 100%;
 					}
 					a{
-						@include ft($f_txt, 15px, 400, $c_txt, normal);	
+						@include ft($f_ms, 15px, 400, $c_txt, normal);	
 						height: auto;
 						padding: 10px 0;
 						border-bottom: 1px solid $c_filet;

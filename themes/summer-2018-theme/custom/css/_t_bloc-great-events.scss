@@ -17,13 +17,13 @@
 				background-color: rgba(0,0,0,0.5);
 
 				h1 {
-					@include ft($f_arial, 78px, 700, $c_main, normal);
+					@include ft($f_ms, 78px, 700, $c_main, normal);
 					margin: 0;
 					text-transform: uppercase;
 				}
 				h2 {
 					text-transform: uppercase;
-					@include ft($f_arial, 60px, 400, $c_white, normal);
+					@include ft($f_ms, 60px, 400, $c_white, normal);
 					
 					&:after{
 						content: '';
@@ -40,7 +40,7 @@
 
 				p {
 					margin-top: 40px;
-					@include ft($f_arial, 22px, 400, $c_white, normal);
+					@include ft($f_ms, 22px, 400, $c_white, normal);
 				}
 
 				.basic-link {

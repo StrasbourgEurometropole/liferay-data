@@ -42,11 +42,11 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_hx,$s_h1,700,$c_main,$s_h1+10);
+		@include ft($f_ms,$s_h1,700,$c_main,$s_h1+10);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_hx;
+			font-family: $f_ms;
 		}
 	}
 
@@ -56,11 +56,11 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_hx,$s_h2,700,$c_sub,$s_h2+10);
+		@include ft($f_ms,$s_h2,700,$c_sub,$s_h2+10);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_hx;
+			font-family: $f_ms;
 		}
 
 		@include mobile{
@@ -74,11 +74,11 @@
 		position: relative;
 		display: block;
 		margin: 0 0 10px 0;
-		@include ft($f_hx,$s_h3,700,$c_main,$s_h3+10);
+		@include ft($f_ms,$s_h3,700,$c_main,$s_h3+10);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_hx;
+			font-family: $f_ms;
 		}
 	}
 
@@ -88,11 +88,11 @@
 		position: relative;
 		display: block;
 		margin: 0 0 10px 0;
-		@include ft($f_hx,$s_h4,700,$c_sub,$s_h4+10);
+		@include ft($f_ms,$s_h4,700,$c_sub,$s_h4+10);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_hx;
+			font-family: $f_ms;
 		}
 	}
 
@@ -102,7 +102,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_txt,$s_p,400,$c_txt,$s_p+10);
+		@include ft($f_ms,$s_p,400,$c_txt,$s_p+10);
 
 		&.intercalaire
 		{
@@ -111,7 +111,7 @@
 
 		strong, a, u, i, em
 		{
-			font-family: $f_txt;
+			font-family: $f_ms;
 		}
 
 		a
@@ -131,10 +131,10 @@
 			position: relative;
 			margin: 0 0 5px 0;
 			padding: 0 0 0 20px;
-			@include ft($f_txt,$s_p,400,$c_txt,$s_p+5);
+			@include ft($f_ms,$s_p,400,$c_txt,$s_p+5);
 			strong, a, u, i, em
 			{
-				font-family: $f_txt;
+				font-family: $f_ms;
 			}
 
 			a
@@ -163,7 +163,7 @@
 	}
 
 	.mns-btn{
-		@include btn($c_white, $c_txt, 0, $f_arial, $s_link);
+		@include btn($c_white, $c_txt, 0, $f_ms, $s_link);
 		@include an(all,0.3);
 		min-width: 270px;
 		@include mobile{
@@ -177,7 +177,7 @@
 
 	a.link,
 	span.link{
-		@include ft($f_arial, 12px, 800, $c_main, normal);
+		@include ft($f_ms, 12px, 800, $c_main, normal);
 		text-transform: uppercase;
 		display: inline-block;
 		&:after{
@@ -209,7 +209,7 @@
 
 	a.basic-link, 
 	span.basic-link{
-		@include ft($f_arial, 12px, 800, $c_main, normal);
+		@include ft($f_ms, 12px, 800, $c_main, normal);
 		display: block;
 		text-align: left;
 		text-transform: uppercase;
@@ -217,7 +217,7 @@
 
 	a.large-link,
 	span.large-link{
-		@include ft($f_arial, 24px, 700, $c_main, normal);
+		@include ft($f_ms, 24px, 700, $c_main, normal);
 		text-transform: uppercase;
 		display: inline-block;
 		position: relative;
