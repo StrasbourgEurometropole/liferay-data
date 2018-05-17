@@ -1,3 +1,9 @@
+<!-- SLIDER DE PARTICIPATIONS -->
+
+<!-- Recuperation de la localisation de l'utilisateur -->
+<#setting locale = locale />
+
+<!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -33,7 +39,7 @@
                     </#if>
 
                     <!-- Recuperation du type de la participation (information, concertation, etc.) -->
-                    <#assign participationType = entry.getType().getName() />
+                    <#assign participationType = entry.getTypeCategory().getTitle(locale) />
 
                     <#switch participationType>
                         <#case "Information">
