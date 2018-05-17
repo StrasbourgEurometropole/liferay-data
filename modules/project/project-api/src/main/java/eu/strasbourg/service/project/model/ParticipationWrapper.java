@@ -365,27 +365,11 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	* Retourne le type de la participation (
 	*/
 	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getCityCategory() {
-		return _participation.getCityCategory();
-	}
-
-	/**
-	* Retourne la catégorie Territoire correspondant au quartier du lieu
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory() {
-		return _participation.getDistrictCategory();
-	}
-
-	/**
-	* Retourne les type de la participation (
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetCategory getType() {
-		return _participation.getType();
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
+		return _participation.getTypeCategory();
 	}
 
 	/**
@@ -432,11 +416,17 @@ public class ParticipationWrapper implements Participation,
 		return _participation.getStatus();
 	}
 
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
 	@Override
 	public int getTodayExpirationDifferenceDays() {
 		return _participation.getTodayExpirationDifferenceDays();
 	}
 
+	/**
+	* Calcul la différence de jours entre la date du jour et celle de publication
+	*/
 	@Override
 	public int getTodayPublicationDifferenceDays() {
 		return _participation.getTodayPublicationDifferenceDays();
@@ -525,14 +515,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getDescriptionChapeau() {
 		return _participation.getDescriptionChapeau();
-	}
-
-	/**
-	* Retourne le quartier
-	*/
-	@Override
-	public java.lang.String getDistrict(java.util.Locale locale) {
-		return _participation.getDistrict(locale);
 	}
 
 	/**
@@ -718,11 +700,47 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne les territoire du lieu
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
+	*
+	* @return : null si vide, sinon la liste des catégories
 	*/
 	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories() {
-		return _participation.getTerritories();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _participation.getCityCategories();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _participation.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _participation.getFilesURLs();
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays de la participation
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _participation.getTerritoryCategories();
+	}
+
+	/**
+	* Retourne les thematiques de la participation (
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _participation.getThematicCategories();
 	}
 
 	/**

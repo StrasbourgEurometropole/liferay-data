@@ -665,11 +665,39 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
+		return _project.getCityCategories();
+	}
+
+	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
+		return _project.getDistrictCategories();
+	}
+
+	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines() {
 		return _project.getProjectTimelines();
+	}
+
+	/**
+	* Retourne les catégories 'Territoire' correspondant aux pays du projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories() {
+		return _project.getTerritoryCategories();
 	}
 
 	/**
