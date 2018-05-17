@@ -71,29 +71,33 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.lang.String getTitleInTwoLines();
 
 	/**
-	* Retourne les type de la participation (
+	* Retourne le type de la participation (
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getType();
+	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
 
 	/**
-	* Retourne les territoire du lieu
+	* Retourne les thematiques de la participation (
 	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
 	/**
-	* Retourne la catégorie Territoire correspondant à la ville du lieu
+	* Retourne les catégories 'Territoire' correspondant aux pays de la participation
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getCityCategory();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne le quartier
+	* Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
+	*
+	* @return : null si vide, sinon la liste des catégories
 	*/
-	public java.lang.String getDistrict(java.util.Locale locale);
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
 
 	/**
-	* Retourne la catégorie Territoire correspondant au quartier du lieu
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	*
+	* @return : null si vide, sinon la liste des catégories
 	*/
-	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory();
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
 	* Retourne le status de la participation selon la temporalité actuelle
@@ -107,7 +111,18 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	*/
 	public java.lang.String getParticipationStatus();
 
+	/**
+	* Calcul la différence de jours entre la date du jour et celle de publication
+	*/
 	public int getTodayPublicationDifferenceDays();
 
+	/**
+	* Calcul la différence de jours entre la date du jour et celle d'expiration
+	*/
 	public int getTodayExpirationDifferenceDays();
+
+	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
 }

@@ -14,20 +14,23 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
@@ -79,73 +82,74 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		String title = this.getTitle();
 		int titleLength = title.length();
 		int cutBr = title.indexOf(" ", 15);
-		return title.substring(0,cutBr)+"<br>"+title.substring(cutBr,title.length());
+		return title.substring(0,cutBr)+"<br>"+title.substring(cutBr,titleLength);
 	}
 	
 	/**
-	 * Retourne les type de la participation (
+	 * Retourne le type de la participation (
 	 */
 	@Override
-	public AssetCategory getType() {
+	public AssetCategory getTypeCategory() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.PARTICIPATION_TYPE).get(0);
 	}
 	
 	/**
-	 * Retourne les territoire du lieu
+	 * Retourne les thematiques de la participation (
 	 */
 	@Override
-	public List<AssetCategory> getTerritories() {
+	public List<AssetCategory> getThematicCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.THEMATIC);
+	}
+	
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la participation
+	 */
+	@Override
+	public List<AssetCategory> getTerritoryCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.TERRITORY);
 	}
 	
 	/**
-	 * Retourne la catégorie Territoire correspondant à la ville du lieu
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes de la participation
+	 * @return : null si vide, sinon la liste des catégories 
 	 */
 	@Override
-	public AssetCategory getCityCategory() {
-		List<AssetCategory> territories = this.getTerritories();
+	public List<AssetCategory> getCityCategories() {
+		List<AssetCategory> territories = this.getTerritoryCategories();
+		List<AssetCategory> cities = new ArrayList<AssetCategory>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 1) {
-					return territory;
+					cities.add(territory);
 				}
 			} catch (PortalException e) {
 				continue;
 			}
 		}
-		return null;
+		return !cities.isEmpty() ? cities : null;
 	}
 
 	/**
-	 * Retourne le quartier
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	 * @return : null si vide, sinon la liste des catégories 
 	 */
 	@Override
-	public String getDistrict(Locale locale) {
-		AssetCategory districtCategory = this.getDistrictCategory();
-		if (districtCategory != null) {
-			return districtCategory.getTitle(locale);
-		}
-		return "";
-	}
-
-	/**
-	 * Retourne la catégorie Territoire correspondant au quartier du lieu
-	 */
-	@Override
-	public AssetCategory getDistrictCategory() {
-		List<AssetCategory> territories = this.getTerritories();
+	public List<AssetCategory> getDistrictCategories() {
+		List<AssetCategory> territories = this.getTerritoryCategories();
+		List<AssetCategory> districts = new ArrayList<AssetCategory>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 2) {
-					return territory;
+					districts.add(territory);
 				}
 			} catch (PortalException e) {
 				continue;
 			}
 		}
-		return null;
+		return !districts.isEmpty() ? districts : null;
 	}
 	
 	/**
@@ -196,6 +200,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 	}
 	
+	/**
+	 * Calcul la différence de jours entre la date du jour et celle de publication
+	 */
 	@Override
 	public int getTodayPublicationDifferenceDays () {
 		// Instanciation des variables
@@ -208,6 +215,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	    return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 	
+	/**
+	 * Calcul la différence de jours entre la date du jour et celle d'expiration
+	 */
 	@Override
 	public int getTodayExpirationDifferenceDays () {
 		// Instanciation des variables
@@ -218,6 +228,22 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		// conversion en nombre de jours
 		long diff = expirationDate.getTime() - todayDate.getTime();
 	    return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+	
+	/**
+	 * Retourne la liste des URLs des documents
+	 */
+	@Override
+	public List<String> getFilesURLs() {
+		List<String> URLs = new ArrayList<String>();
+		for (String fileIdStr : this.getFilesIds().split(",")) {
+			Long fileId = GetterUtil.getLong(fileIdStr);
+			if (Validator.isNotNull(fileId)) {
+				String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+				URLs.add(fileURL);
+			}
+		}
+		return URLs;
 	}
 	
 }

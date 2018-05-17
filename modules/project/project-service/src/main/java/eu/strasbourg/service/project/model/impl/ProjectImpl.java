@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
@@ -69,6 +71,55 @@ public class ProjectImpl extends ProjectBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays du projet
+	 */
+	@Override
+	public List<AssetCategory> getTerritoryCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.TERRITORY);
+	}
+	
+	/**
+	 * Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
+	 * @return : null si vide, sinon la liste des catégories 
+	 */
+	@Override
+	public List<AssetCategory> getCityCategories() {
+		List<AssetCategory> territories = this.getTerritoryCategories();
+		List<AssetCategory> cities = new ArrayList<AssetCategory>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 1) {
+					cities.add(territory);
+				}
+			} catch (PortalException e) {
+				continue;
+			}
+		}
+		return !cities.isEmpty() ? cities : null;
+	}
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
+	 * @return : null si vide, sinon la liste des catégories 
+	 */
+	@Override
+	public List<AssetCategory> getDistrictCategories() {
+		List<AssetCategory> territories = this.getTerritoryCategories();
+		List<AssetCategory> districts = new ArrayList<AssetCategory>();
+		for (AssetCategory territory : territories) {
+			try {
+				if (territory.getAncestors().size() == 2) {
+					districts.add(territory);
+				}
+			} catch (PortalException e) {
+				continue;
+			}
+		}
+		return !districts.isEmpty() ? districts : null;
 	}
 	
 	/**
