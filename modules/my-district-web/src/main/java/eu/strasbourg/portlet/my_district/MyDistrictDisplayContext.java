@@ -246,28 +246,14 @@ public class MyDistrictDisplayContext {
 	public List<Place> getSectorSchools() {
 		List<Place> sectorSchools = new ArrayList<Place>();
 		if (Validator.isNotNull(getDistrict())) {
-			List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-					.getAssetCategoryAssetEntries(district.getCategoryId());
-			// ne garde que les lieux
-			assetEntries.removeIf(e -> !(e.getClassName().equals(Place.class.getName())));
-			// ne garde que les écoles
-			AssetVocabulary placeTypeVocabulary;
-			try {
-				placeTypeVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-				// écoles élémentaires
-				AssetCategory elementarySchoolCategory = AssetVocabularyHelper
-						.getCategoryByExternalId(placeTypeVocabulary, "Cat_19_04");
-				// écoles maternelles
-				AssetCategory preSchoolCategory = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary,
-						"Cat_19_05");
-				assetEntries.removeIf(e -> !(e.getCategories().contains(elementarySchoolCategory)
-						|| e.getCategories().contains(preSchoolCategory)));
-			} catch (PortalException e1) {
-				e1.printStackTrace();
-			}
-			if (!assetEntries.isEmpty()) {
-				for (AssetEntry assetEntry : assetEntries) {
-					sectorSchools.add(PlaceLocalServiceUtil.fetchPlace(assetEntry.getClassPK()));
+			String[] sectorTypes = {"secteur_elementaire","secteur_maternelle"};
+			JSONArray coordinates = adictService.getCoordinateForAddress(address);
+			List<String> sigIds = adictService.getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(), coordinates.get(1).toString(),
+					sectorTypes);
+			for (String sigId : sigIds) {
+				Place place = PlaceLocalServiceUtil.getPlaceBySIGId(sigId);
+				if (place != null) {
+					sectorSchools.add(place);
 				}
 			}
 		}
