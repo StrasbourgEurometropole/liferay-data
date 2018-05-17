@@ -1,0 +1,42 @@
+#mns-global{
+
+	.mns-bloc-article{
+		.mns-title {
+			@include ft($f_arial, 108px, 200, $c_txt, normal);
+			line-height: 108px;
+			text-transform: uppercase;
+			display: inline-block;
+			width: auto;
+			&:after{
+				content: '';
+				background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+				position: relative;
+				display: block;
+				top: 0px;
+				width: 180px;
+				height: 62px;
+				z-index: 9999;
+			}
+		}
+
+		a{
+			@include ft($f_arial, 16px, 700, $c_main, normal);
+			text-decoration: underline;
+			&:hover{
+				color: $c_txt;
+				text-decoration: none;
+			}
+		}
+
+		h3,h2 {
+			font-weight: 700;
+		}
+
+		h3 {
+			font-size: 22px;
+		}
+		h1 {
+			font-family: $f_arial;
+		}
+	}
+}
