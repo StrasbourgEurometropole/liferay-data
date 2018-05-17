@@ -36,3 +36,9 @@
 		margin-top: -20px;
 	}
 }
+
+@keyframes pulse {
+	to {
+		box-shadow: 0 0 0 6px transparent, 0 0 0 12px rgba($c_main, 0);
+	}
+}

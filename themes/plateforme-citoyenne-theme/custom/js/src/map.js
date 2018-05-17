@@ -267,7 +267,7 @@ function callbackCarteInteractive(macarte){
     marker5 = th_maps.createMarker(macarte,{lat:48.5922362,lng:7.7282629},'map','projet');
 
 
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" title="lien de la page" class="pro-bloc-card-participation' +
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
         ' pro-theme-concertation"><div>' +
         '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
         '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
@@ -279,7 +279,7 @@ function callbackCarteInteractive(macarte){
         '</div></div></a></div>',marker1,247);
 
 
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="page-standard.html" title="lien de la page" class="pro-bloc-card-event"><div>' +
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="page.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
         '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Publiée le <time datetime="2018-01-10">10 janvier' +
         ' 2018</time></span>' +
         '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
@@ -287,14 +287,14 @@ function callbackCarteInteractive(macarte){
         '</div></a></div>',marker2,247);
 
 
-    contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-article.html" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
+    contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
         '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
         '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
         ' class="link">Lire la suite</span></div>' +
         '</a></div>',marker3,247);
 
 
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.html" class="item pro-bloc-card-participation pro-theme-information"' +
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
         ' data-linkall="a">' +
         '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
         '<p>Concertation publiée par :</p><p><strong>Ville de Strasbourg</strong></p></div>' +
@@ -304,7 +304,7 @@ function callbackCarteInteractive(macarte){
         '</div></a></div>',marker4,247);
 
 
-    contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.html" class="pro-card-video">' +
+    contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
         '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
         ' class="icon-ico-lecteur"></span></div>' +
         '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
