@@ -1,15 +1,15 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<div class="small-container mns-agenda-detail mns-fck">
+<div class="container mns-agenda-detail mns-fck">
     <div class="row">
-        <div class="col-sm-4 hidden-xs">
+        <div class="col-sm-3 hidden-xs">
             <figure>
                 <img src="${entry.getImageURL()}" alt="${entry.getTitle(locale)}" class="mns-img-agenda-top" />
                 <figcaption>© ${entry.getImageCopyright(locale)}</figcaption>
             </figure>
             <div class="mns-info-pratiques mns-info-test">
                 <div class="mns-sec-info">
-                    <h3 class="mns-title-info">Infos & Contact</h3>
+                    <h3 class="mns-title-info">Infos et contact</h3>
                     <p>${entry.getPlaceAlias(locale)} 
                         <br> 
                         <#if entry.getPlaceAddress(locale)?has_content>
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8 mns-content-agenda-detail" data-egalize=".mns-info-more">
+        <div class="col-sm-9 mns-content-agenda-detail" >
             <div class="col-xs-12">
                 <span class="mns-event-date">${entry.getEventScheduleDisplay(locale)}</span>
                 <h1>${entry.getTitle(locale)}</h1>
@@ -43,7 +43,22 @@
                 <p><strong>${entry.getSubtitle(locale)}</strong></p>
                 <p>${entry.getDescription(locale)}</p>
             </div>
-            <div class="mns-info-more col-sm-6">
+
+            <!--Calcul pour permettre de prendre pile la place qu'il faut aux 4 colonnes d'infos s'il y en a des manquantes-->
+            <#assign i=1/>
+            <#if entry.free == 1 || entry.getPrice(locale)?has_content>
+                <#assign i=i+1>
+            </#if>
+            <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+                <#assign i=i+1>
+            </#if>
+            <#if entry.getAccess(locale)?has_content>
+                <#assign i=i+1>
+            </#if>
+
+            <#assign column= 12/i />
+
+            <div class="mns-info-more col-sm-${column}">
                 <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
                 <#list entry.eventPeriods as period>
                     <p>
@@ -51,8 +66,8 @@
                     </p>
                 </#list>
             </div>
-            <div class="mns-info-more col-sm-6">
-                <#if entry.free == 1 || entry.getPrice(locale)?has_content>
+            <#if entry.free == 1 || entry.getPrice(locale)?has_content>
+                <div class="mns-info-more col-sm-${column}">                 
                     <span class="mns-title-detail-actu">Tarifs</span>
                     <#if entry.free == 1>
                         <div class="free-event">
@@ -60,11 +75,11 @@
                         </div>
                     </#if>
                     <p>${entry.getPrice(locale)}</p>
-                </#if>
-            </div>
-            <div class="mns-info-more col-sm-6">
-                <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
-                    <span class="mns-title-detail-actu">Services aux Handicapés</span>
+                </div>
+            </#if>
+            <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
+                <div class="mns-info-more col-sm-${column}">
+                    <span class="mns-title-detail-actu" style="margin-bottom: 1px;">Services aux Handicapés</span>
                     <#if entry.accessForBlind>
                         <span class="icon-ico-1"></span>
                     </#if>
@@ -80,14 +95,14 @@
                     <p>
                         ${entry.getAccessForDisabled(locale)}
                     </p>
-                </#if>
-            </div>
-            <div class="mns-info-more col-sm-6">
-                <#if entry.getAccess(locale)?has_content>
-                    <span class="mns-title-detail-actu">Accès</span>
+                </div>
+            </#if>
+            <#if entry.getAccess(locale)?has_content>
+                <div class="mns-info-more col-sm-${column}">
+                    <span class="mns-title-detail-actu">Transport</span>
                     <p>${entry.getAccess(locale)}</p>
-                </#if>
-            </div>
+                </div>
+            </#if>
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@
                 "fr_FR": "Titre"
             },
             "predefinedValue": {
-                "fr_FR": "L’histoire du marché de Noël"
+                "fr_FR": "L’été à Strasbourg"
             },
             "style": {
                 "fr_FR": ""
@@ -29,30 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "Texte gras"
-            },
-            "predefinedValue": {
-                "fr_FR": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "text1",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Texte non-gras"
+                "fr_FR": "Texte"
             },
             "predefinedValue": {
                 "fr_FR": "incididunt ut labore et dolore magna aliqua. Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lore magna aliqua."
@@ -66,30 +43,7 @@
             "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "text2",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "URL du lien"
-            },
-            "predefinedValue": {
-                "fr_FR": "#"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "linkURL",
+            "name": "text",
             "readOnly": false,
             "repeatable": false,
             "required": false,
