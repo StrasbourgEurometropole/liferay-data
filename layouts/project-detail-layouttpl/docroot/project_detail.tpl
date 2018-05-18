@@ -11,11 +11,15 @@
                         <section class="col-sm-8">
                             <div class="pro-timeline">
                                 $processor.processColumn("column-2", "portlet-column-content portlet-column-content-first")
-                            </div>
 
+							</div>
                             <div class="pro-wrapper">
+
+
                                 $processor.processColumn("column-3", "portlet-column-content portlet-column-content-last")
+                            </div>
                         </section> 
+
                         <aside class="col-sm-4">
                         </aside>                      
                     </div>
