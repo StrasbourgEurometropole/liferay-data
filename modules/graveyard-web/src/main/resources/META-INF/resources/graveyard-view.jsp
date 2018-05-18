@@ -230,7 +230,7 @@
 							            </div>
 									</div> 
 									<div align="right">
-										<a href="/o/graveyardweb/images/${tot.graveyardMapping.name}.jpg" class="seu-btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="graveyard.downloadPlan" /> (<liferay-ui:message key="eu.new-window" />)">
+										<a href="/o/graveyardweb/images/${tot.graveyardMapping.sigId}.jpg" class="seu-btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="graveyard.downloadPlan" /> (<liferay-ui:message key="eu.new-window" />)">
 											<span class="seu-flexbox">
 												<span class="seu-btn-text"><liferay-ui:message key="graveyard.downloadPlan" /></span>
 												<span class="seu-btn-arrow"></span>
