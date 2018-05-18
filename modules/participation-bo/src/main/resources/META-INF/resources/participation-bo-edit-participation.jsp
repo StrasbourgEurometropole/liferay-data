@@ -78,15 +78,23 @@
 				<%-- Champ : Chapeau de la description --%>
 				<aui:input name="descriptionChapeau" required="false" />
 				
-				<%-- Champ : Date d'expiration --%>
+				<%-- Champ : Corps de la description --%>
 				<aui:input name="descriptionBody" required="false" />
+				
+			</aui:fieldset>
+			
+			<%-- Groupe de champs : Lieux de consultation --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="consultation-places">
+				
+				<%-- Champ : Corps de la description des lieux de consultation --%>
+				<aui:input name="consultationPlacesBody" required="false" />
 				
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Documents --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
 				
-				<%-- Champ : SÃ©lection des documents --%>
+				<%-- Champ : SÃÂ©lection des documents --%>
 				<strasbourg-picker:file label="eu.documents" name="filesIds"
 					required="false" multiple="true" value="${dc.participation.filesIds}" /> 
 				
@@ -94,6 +102,10 @@
 			
 			<%-- Groupe de champs : Autres --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="others">
+				
+				<%-- Champ :Evenements --%>
+				<strasbourg-picker:entity type="eu.strasbourg.service.agenda.model.Event" label="eu.events" name="eventsIds"
+					required="false" multiple="true" value="${dc.participation.eventsIds}" />
 				
 				<%-- Champ : Date de publication --%>
 				<aui:input name="publicationDate" required="true" />
@@ -158,7 +170,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour à la liste des entites --%>
+			<%-- Composant : bouton de retour Ã  la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>

@@ -464,6 +464,21 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setDescriptionBody(String descriptionBody);
 
 	/**
+	 * Returns the consultation places body of this participation.
+	 *
+	 * @return the consultation places body of this participation
+	 */
+	@AutoEscape
+	public String getConsultationPlacesBody();
+
+	/**
+	 * Sets the consultation places body of this participation.
+	 *
+	 * @param consultationPlacesBody the consultation places body of this participation
+	 */
+	public void setConsultationPlacesBody(String consultationPlacesBody);
+
+	/**
 	 * Returns the files IDs of this participation.
 	 *
 	 * @return the files IDs of this participation
@@ -477,6 +492,21 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	 * @param filesIds the files IDs of this participation
 	 */
 	public void setFilesIds(String filesIds);
+
+	/**
+	 * Returns the events IDs of this participation.
+	 *
+	 * @return the events IDs of this participation
+	 */
+	@AutoEscape
+	public String getEventsIds();
+
+	/**
+	 * Sets the events IDs of this participation.
+	 *
+	 * @param eventsIds the events IDs of this participation
+	 */
+	public void setEventsIds(String eventsIds);
 
 	/**
 	 * Returns the publication date of this participation.

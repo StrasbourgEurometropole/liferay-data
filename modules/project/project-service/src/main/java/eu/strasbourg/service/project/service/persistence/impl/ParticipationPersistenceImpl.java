@@ -2430,7 +2430,9 @@ public class ParticipationPersistenceImpl extends BasePersistenceImpl<Participat
 		participationImpl.setMediaChoice(participation.isMediaChoice());
 		participationImpl.setDescriptionChapeau(participation.getDescriptionChapeau());
 		participationImpl.setDescriptionBody(participation.getDescriptionBody());
+		participationImpl.setConsultationPlacesBody(participation.getConsultationPlacesBody());
 		participationImpl.setFilesIds(participation.getFilesIds());
+		participationImpl.setEventsIds(participation.getEventsIds());
 		participationImpl.setPublicationDate(participation.getPublicationDate());
 		participationImpl.setExpirationDate(participation.getExpirationDate());
 

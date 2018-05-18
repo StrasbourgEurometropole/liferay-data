@@ -41,8 +41,12 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 
 
 /**
@@ -220,6 +224,13 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Project.class.getName(),
 					projectId);
+			
+			// Supprime les timelines associées au projet
+			List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil
+				.getByProjectId(projectId);
+			for (ProjectTimeline projectTimeline : projectTimelines) {
+				ProjectTimelineLocalServiceUtil.deleteProjectTimeline(projectTimeline);
+			}
 
 		}
 
