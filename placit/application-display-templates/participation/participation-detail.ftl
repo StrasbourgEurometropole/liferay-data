@@ -3,6 +3,9 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
+<!-- Recuperation du gestionnaire de fichiers Liferay -->
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -37,8 +40,8 @@
 <!-- Recuperation des quartiers de la participation -->
 <#assign participationDistricts = entry.getDistrictCategories() />
 
-<!-- Recuperation du gestionnaire de fichiers Liferay -->
-<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<!-- Recuperation des evenements lies a la participation -->
+<#assign participationEvents = entry.getEvents() />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -73,8 +76,8 @@
                     <div id="breadcrumb">
                     <span>
                         <span>
-                            <a href="index.html">Accueil</a>
-                            <a href="listing-event.html">Agenda</a>
+                            <a href="${homeURL}">Accueil</a>
+                            <a href="${homeURL}participation">Participations</a>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
@@ -123,7 +126,7 @@
 
                                 <!-- Lieux de consultations -->
                                 <div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-                                    <p>${entry.descriptionChapeau}</p>
+                                    <p><#if entry.consultationPlacesBody?has_content> ${entry.consultationPlacesBody} </#if></p>
                                     <div class="row pro-wrapper-quartiers">
 
                                     	<!-- Item lieu -->
@@ -176,7 +179,9 @@
 
                     <aside class="col-sm-4">
                         <div class="pro-event-comming">
-                            <a href="#pro-link-evenement" target="Evenement à venir"><strong>3</strong> Évènement(s) à venir</a>
+                            <a href="#pro-link-evenement" target="Evenement à venir">
+                                <strong><#if participationEvents?has_content>${participationEvents?size}</#if></strong> Évènement(s) à venir
+                            </a>
                         </div>
                         <div class="pro-contact">
                             <h4>Contact</h4>
@@ -186,7 +191,7 @@
                                 <#if entry.getContactLine2() != ""> <br>${entry.contactLine2} </#if>
                             </p>
                             <#if entry.getContactPhoneNumber() != "">
-                            	<a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : 00 00 00 00 00">${entry.contactPhoneNumber}</a>
+                            	<a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
                             </#if>
                         </div>
                     </aside>
@@ -197,3 +202,57 @@
     </div>
 
 </div>
+
+<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+    <div class="container">
+        <div class="col-lg-10 col-lg-offset-1">
+            <h2>L'agenda</h2>
+            <a href="${homeURL}agenda" class="pro-btn">Voir Tout l’agenda</a>
+        </div>
+
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="owl-carousel owl-opacify owl-theme owl-cards">
+
+
+                <#if participationEvents?has_content>
+                    <#list participationEvents as event >
+
+                        <!-- Separation du titre de l'evenement  en deux parties -->
+                        <#assign eventTitle = event.getTitle(locale) >
+                        <#if eventTitle?length gt 15 && eventTitle?index_of(" ", 15) != -1 >
+                            <#assign breakIndex = eventTitle?index_of(" ", 15) >
+                            <#assign eventTitleFirstPart = eventTitle?substring(0, breakIndex) />
+                            <#assign eventTitleSecondPart = eventTitle?substring(breakIndex, eventTitle?length) />
+                        <#else>
+                            <#assign eventTitleFirstPart = eventTitle />
+                        </#if>
+
+                        <a href="${homeURL}agenda/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+                            <div>
+                                <div class="pro-header-event">
+                                    <span class="pro-ico"><span class="icon-ico-debat"></span></span>
+                                    <span class="pro-time">Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time></span>
+                                    <p>À : ${event.getPlaceName(locale)}<br></p>
+                                    <h3>
+                                        ${eventTitleFirstPart}
+                                        <br>
+                                        <#if eventTitleSecondPart?has_content>${eventTitleSecondPart}</#if>
+                                    </h3>
+                                </div>
+                                <div class="pro-footer-event">
+                                    <!--
+                                    <span class="pro-btn-action active">Je participe</span>
+                                    <span class="pro-number"><strong>4537</strong> Participant(s)</span>
+                                    -->
+                                </div>
+                            </div>
+                        </a>
+                    </#list>
+                <#else>
+                    Aucun événement associé pour le moment
+                </#if>
+
+            </div>
+        </div>
+    </div>
+</section>
