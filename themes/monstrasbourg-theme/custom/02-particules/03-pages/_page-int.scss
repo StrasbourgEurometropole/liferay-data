@@ -38,6 +38,12 @@
         }
     
     }
+    #banner h1{
+        &:before{  
+            background-image: none; 
+        }
+    
+    }
     
     .hat{
         margin-bottom: 50px;

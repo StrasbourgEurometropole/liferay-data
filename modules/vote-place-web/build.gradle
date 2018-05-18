@@ -14,4 +14,5 @@ dependencies {
 	compile project (':modules:utils')
 	compile project (':modules:strasbourg:strasbourg-api')
 	compile project (':modules:felec-web')
+	compile project (':modules:place:place-api')
 }
