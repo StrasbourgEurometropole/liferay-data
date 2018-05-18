@@ -56,8 +56,10 @@
 	                                    </c:if>
 	                                >
 	                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
-	                                	${category.getTitle(locale)} 
-	                                	(${dc.getPoisCategoryCount(category.categoryId, groupId, typesContenu)})
+	                                	${category.getTitle(locale)}
+
+										<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
+	                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 	                                </label>
 	                            </div>
 	                        </c:forEach>

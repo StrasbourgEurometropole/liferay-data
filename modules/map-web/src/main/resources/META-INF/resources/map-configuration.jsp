@@ -177,7 +177,6 @@
 				<script>
 					var refreshConfigDisplay = function() {
                         var mode = $('.modeSelection input[type=radio]:checked').val();
-                        debugger;
                         if (mode === 'widget') {
                             $('.monStrasbourgMode').show();
                             $('.widgetMode').show();
