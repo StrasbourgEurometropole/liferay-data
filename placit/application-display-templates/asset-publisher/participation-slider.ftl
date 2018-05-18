@@ -59,6 +59,16 @@
                             <#break>
                     </#switch>
 
+                    <!-- Separation du titre de la participation  en deux parties -->
+                    <#assign participationTitle = entry.title >
+                    <#if participationTitle?length gt 15 && participationTitle?index_of(" ", 15) != -1 >
+                        <#assign breakIndex = participationTitle?index_of(" ", 15) >
+                        <#assign participationTitleFirstPart = participationTitle?substring(0, breakIndex) />
+                        <#assign participationTitleSecondPart = participationTitle?substring(breakIndex, participationTitle?length) />
+                    <#else>
+                        <#assign participationTitleFirstPart = participationTitle />
+                    </#if>
+
                     <div class="item pro-bloc-card-participation pro-theme-${cssParticipationType}" data-linkall="a">
                         <div>
                             <div class="pro-header-participation">
@@ -72,7 +82,13 @@
                                 <p><strong>${entry.getAuthor()}</strong></p>
                             </div>
                             <div class="pro-content-participation">
-                                <a href="${homeURL}participation/-/entity/id/${entry.participationId}" title="lien de la page"><h3>${entry.getTitleInTwoLines()}</h3></a>
+                                <a href="${homeURL}participation/-/entity/id/${entry.participationId}" title="lien de la page">
+                                    <h3>
+                                        ${participationTitleFirstPart}
+                                        <br>
+                                        <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
+                                    </h3>
+                                </a>
                                 <span class="pro-time">Publiée le <time datetime="2018-01-10">${entry.getPublicationDate()?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
                             </div>
                             <!-- Selection du type de template selon le status de la participation -->
