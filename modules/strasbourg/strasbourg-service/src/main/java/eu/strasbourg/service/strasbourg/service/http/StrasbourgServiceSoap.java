@@ -171,11 +171,11 @@ public class StrasbourgServiceSoap {
 	}
 
 	public static java.lang.String getPois(java.lang.String interests,
-		java.lang.String categories, long groupId, java.lang.String typeContenu)
-		throws RemoteException {
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu) throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
-					categories, groupId, typeContenu);
+					categories, prefilters, groupId, typeContenu);
 
 			return returnValue.toString();
 		}
@@ -186,11 +186,12 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static int getPoisCategoryCount(long idCategory, long groupId,
-		java.lang.String typeContenu) throws RemoteException {
+	public static int getPoisCategoryCount(long idCategory,
+		java.lang.String prefilters, long groupId, java.lang.String typeContenu)
+		throws RemoteException {
 		try {
 			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(idCategory,
-					groupId, typeContenu);
+					prefilters, groupId, typeContenu);
 
 			return returnValue;
 		}

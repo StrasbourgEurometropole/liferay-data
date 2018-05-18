@@ -248,13 +248,14 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
 		HttpPrincipal httpPrincipal, java.lang.String interests,
-		java.lang.String categories, long groupId, java.lang.String typeContenu) {
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPois", _getPoisParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					interests, categories, groupId, typeContenu);
+					interests, categories, prefilters, groupId, typeContenu);
 
 			Object returnObj = null;
 
@@ -275,14 +276,15 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static int getPoisCategoryCount(HttpPrincipal httpPrincipal,
-		long idCategory, long groupId, java.lang.String typeContenu) {
+		long idCategory, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPoisCategoryCount",
 					_getPoisCategoryCountParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					idCategory, groupId, typeContenu);
+					idCategory, prefilters, groupId, typeContenu);
 
 			Object returnObj = null;
 
@@ -435,11 +437,12 @@ public class StrasbourgServiceHttp {
 			long.class
 		};
 	private static final Class<?>[] _getPoisParameterTypes9 = new Class[] {
-			java.lang.String.class, java.lang.String.class, long.class,
-			java.lang.String.class
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, long.class, java.lang.String.class
 		};
 	private static final Class<?>[] _getPoisCategoryCountParameterTypes10 = new Class[] {
-			long.class, long.class, java.lang.String.class
+			long.class, java.lang.String.class, long.class,
+			java.lang.String.class
 		};
 	private static final Class<?>[] _getPoisInterestCountParameterTypes11 = new Class[] {
 			long.class, long.class, java.lang.String.class
