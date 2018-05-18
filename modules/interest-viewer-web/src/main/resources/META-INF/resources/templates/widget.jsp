@@ -5,8 +5,14 @@
 <c:if test="${not empty dc.getVirtualHostName()}">
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
-        
-<section id="actu-agenda">
+       
+
+<c:if test="${not dc.hasInterest()}">
+	<section id="actu-agenda-no-interest">
+</c:if>
+<c:if test="${dc.hasInterest()}">
+	<section id="actu-agenda">
+</c:if>
 	<portlet:resourceURL id="hidePortlet" var="portletURL">
 		<portlet:param name="portletName" value="news-agenda" />
 	</portlet:resourceURL>
@@ -14,7 +20,15 @@
 	<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
 	<h2><liferay-ui:message key="actu-agenda" /></h2> 
 	<c:if test="${not dc.hasInterest()}">
-	        <p class="no-interests">${dc.getNoInterestText()}</p>
+		<p>${dc.getNoInterestText()}</p>
+		<div align="center">
+			<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
+				<span class="flexbox">
+					<span class="btn-text">compl&eacute;ter mon compte</span>
+					<span class="btn-arrow"></span>
+				</span>
+			</a>
+		</div>
 	</c:if>
 	<c:if test="${dc.hasInterest() and not empty dc.entries}">
 	    <script type="text/javascript">
