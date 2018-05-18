@@ -223,11 +223,24 @@
 				@include mobile{
 					margin: 0;
 					top: 72px;
+					margin-top: 15px;
 				}
 				ul{
 					background: $c_white;
 					margin: 0;
+					@include mobile{
+						display: block;
+					}
+					@include tablet_portrait {
+						display: block;
+					}
 					li{
+						@include mobile {
+							max-width: none;
+						}
+						@include tablet_portrait {
+							max-width: none;
+						}
 						a{
 							line-height: 50px;
 							color: $c_txt;
@@ -257,15 +270,25 @@
 			justify-content: center;
 			background: url(/o/summer-2018-theme/images/logo-home.png) no-repeat center center /contain;
 			height: 190px;
-			margin-top: 50px; 
+			margin-top: 50px;
 			@include ft($f_ms, 26px, 400, $c_white, 18px);	
 			@include tablet_portrait{
-				padding: 15px 30px;
+				font-size: 24px;
+				height: 88px !important;
+				margin-left: 25px;
+			    margin-top: 5px;
+			    margin-bottom: 5px;
+				padding: 15px 25px;
+				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center /contain !important;
 			}
 			@include mobile {
 				font-size: 24px;
-				height: auto;
+				height: 78px !important;
+				margin-left: 25px;
+			    margin-top: 5px;
+			    margin-bottom: 5px;
 				padding: 15px 25px;
+				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat left center /contain !important;
 			}
 			span{
 				display: block;
@@ -322,8 +345,8 @@
 			height: 70px;
 			display: flex;
 			float: none !important;
-    		justify-content: center;
-			@include tablet_portrait{
+    		justify-content: space-between;
+			@include tablet_portrait {
 				height: auto;
 				padding: 0 20px;
 			}
@@ -331,7 +354,7 @@
 				max-width: 160px;
 				height: 70px;
 				padding: 0;
-				@include tablet_portrait{
+				@include tablet_portrait {
 					height: auto;
 					width: calc(100% - 20px);
 				}
@@ -344,7 +367,7 @@
 				}
 
 				a{
-					@include ft($f_ms, 16px, 700, $c_white, normal);
+					@include ft($f_ms, 17.5px, 700, $c_white, normal);
 					word-break: normal !important;	
 					text-transform: uppercase;
 					padding: 0 15px;
@@ -411,12 +434,17 @@
 				}
 
 				li{
+					max-width: none;
 					height: auto;
 					width: 46%;
 					float: left;
 					overflow: hidden;
 					margin: 0 2%;
-					@include mobile{
+					@include mobile {
+						width: 100%;
+						margin: 0;
+					}
+					@include tablet_portrait {
 						width: 100%;
 						margin: 0;
 					}
@@ -425,9 +453,6 @@
 						@include mobile{
 							margin-left: 0;
 						}
-					}
-					@include mobile{
-						width: 100%;
 					}
 					a{
 						@include ft($f_ms, 15px, 400, $c_txt, normal);	
@@ -443,8 +468,8 @@
 							padding-left: 35px;
 						}
 						&:hover{
+							font-size: 18px;
 							font-weight: 700;
-							padding-left: 35px;
 							@include desktop{
 								font-weight: 400;
 								color: $c_main;
@@ -458,7 +483,7 @@
 							}
 						}
 						span{
-							border: 2px solid #ebded3;
+							border: 2px solid $c_main;
 							border-radius: 50%;
 							padding: 5px;
 							margin-right: 5px;
@@ -572,6 +597,14 @@
 			.navbar-header {
 				float: left;
 				margin-top: 15px;
+				@include mobile {
+					float: none;
+					margin-top: 0;
+				}
+				@include tablet_portrait {
+					float: none;
+					margin-top: 0;
+				}
 			}
 			.navbar-brand{
 				display: flex !important;
@@ -581,8 +614,13 @@
 				margin-top: -5px;
 				background: url(/o/summer-2018-theme/images/logo-menu-small.png) no-repeat center center /contain; ;
 				width: 116px;
-				@include mobile{
-					height: auto;
+				@include mobile {
+					height: 78px;
+					margin-top: 0;
+				}
+				@include tablet_portrait {
+					height: 88px;
+					margin-top: 0;
 				}
 				span{
 					color: $c_txt;
@@ -597,8 +635,11 @@
 
 			.navbar-collapse{
 				margin-top: 35px;
-				@include tablet_portrait{
-					top: 75px;
+				@include mobile {
+					margin-top: 9px;
+				}
+				@include tablet_portrait {
+					margin-top: -40px;
 				}
 			}
 
@@ -607,16 +648,16 @@
 					a{
 						position: relative;
 						&:hover{
-							color: $c_main;
+							color: $c_txt;
 							@include desktop{
-								color: $c_main;
+								color: $c_txt;
 							}
 						}
 						&:before{
 							content: '';
 							background: url(/o/noel-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
 							position: absolute;
-							bottom: 7px;
+							bottom: -11px;
 							left: 50%;
 							display: block;
 							width: 23px;
@@ -625,6 +666,14 @@
 							transform: translateX(-50%);
 							@include tablet_portrait{
 								content: none;
+							}
+						}
+					}
+					a.dropdown-toggle {
+						&:hover{
+							color: $c_main;
+							@include desktop{
+								color: $c_main;
 							}
 						}
 					}
@@ -724,6 +773,20 @@
 	}
 
 	@include mobile {
+		.navbar-header {
+			background: white;
+		}
+		.navbar-brand.navbar-brand {
+			color: black;
+			span {
+				color: black;
+			}
+		}
+		.mns-nav .navbar-toggle .icon-bar {
+			background: black;
+		}
+	}
+	@include tablet_portrait {
 		.navbar-header {
 			background: white;
 		}

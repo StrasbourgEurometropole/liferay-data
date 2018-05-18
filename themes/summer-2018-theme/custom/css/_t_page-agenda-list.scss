@@ -33,6 +33,8 @@
 			}
 
 			.mns-label-top{
+				width: 100%;
+				display: inline-block;
 				padding-bottom: 5px;
 				border-bottom: 1px solid $c_filet;
 				margin-bottom: 15px;
@@ -56,6 +58,12 @@
 					width: 100%;
 				}
 			}
+
+			.checkbox{
+				overflow: hidden;
+				transition: all 0.3s ease
+			}
+
 			.between-form{
 				margin: 0 11px;
 				@include desktop{
@@ -81,14 +89,52 @@
 
 			.mns-submit{
 				input{
-					width: 230px;
-					font-size: 16px;
+					text-align: center;
+					position: relative;
+					width: 275px;
+					padding: 12px 0;
+					height: auto;
+					background: $c_white;
+					border: none;
+					box-shadow: none;
+					text-transform: uppercase;
+					@include ft($f_ms, 16px, 700, $c_main, normal);
+					@include an(all,0.3);
+					@include mobile{
+						margin-bottom: 40px;
+					}
 					@include tablet_portrait{
 						width: 100%;
 						font-size: 12px;
 					}
+					&:after{
+						content: '';
+						display: block;
+						height: 4px; 
+						width: 100%;
+						background: $c_main;
+						position: relative;
+						top: 10px;
+						transition: all 0.3s ease
+					}
+					&:hover{
+						background: $c_main;
+						color: $c_white;
+					}		
+				}
+				span{
+					display: none;
+					width: 100%;
+					height: 1px;
+					background: #a6a6a6;
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					left: 0;
+					z-index: -1;
 				}
 			}
+
 
 			.mns-ico-date{
 				display: inline-block;
@@ -112,6 +158,28 @@
 					font-size: 18px;
 				}
 			}
+
+
+			.mns-expand-collapse {
+				display: inline-block;
+				float: right;
+				cursor: pointer;
+
+				.mns-filter-expand {
+					background: url(/o/summer-2018-theme/images/plus.png) no-repeat center center /contain;
+					height: 26px;
+					width: 20px;
+					display: none;
+				}
+				.mns-filter-collapse {
+					background: url(/o/summer-2018-theme/images/moins.png) no-repeat center center /contain;
+					height: 26px;
+					width: 20px;
+				}
+			}
+
+
+
 		}
 
 		.mns-z-list-agenda{
