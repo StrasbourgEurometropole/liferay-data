@@ -139,6 +139,14 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setDescriptionBody(descriptionBody);
 			
 			// ---------------------------------------------------------------
+			// -------------------------- Lieux de consultations -------------
+			// ---------------------------------------------------------------
+			
+			// Corps de la description des lieux de consultation
+			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
+			participation.setConsultationPlacesBody(consultationPlacesBody);
+			
+			// ---------------------------------------------------------------
 			// -------------------------- DOCUMENTS --------------------------
 			// ---------------------------------------------------------------
 			
@@ -149,6 +157,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			// -------------------------- AUTRES -----------------------------
 			// ---------------------------------------------------------------
+			
+			// Evenements
+			String eventsIds = ParamUtil.getString(request, "eventsIds");
+			participation.setEventsIds(eventsIds);
 			
 			// Défini le format de date à utiliser pour les champs temporels 
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

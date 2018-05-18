@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(53);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -114,8 +114,12 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(descriptionChapeau);
 		sb.append(", descriptionBody=");
 		sb.append(descriptionBody);
+		sb.append(", consultationPlacesBody=");
+		sb.append(consultationPlacesBody);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
+		sb.append(", eventsIds=");
+		sb.append(eventsIds);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
@@ -251,11 +255,25 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setDescriptionBody(descriptionBody);
 		}
 
+		if (consultationPlacesBody == null) {
+			participationImpl.setConsultationPlacesBody(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setConsultationPlacesBody(consultationPlacesBody);
+		}
+
 		if (filesIds == null) {
 			participationImpl.setFilesIds(StringPool.BLANK);
 		}
 		else {
 			participationImpl.setFilesIds(filesIds);
+		}
+
+		if (eventsIds == null) {
+			participationImpl.setEventsIds(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setEventsIds(eventsIds);
 		}
 
 		if (publicationDate == Long.MIN_VALUE) {
@@ -309,7 +327,9 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		mediaChoice = objectInput.readBoolean();
 		descriptionChapeau = objectInput.readUTF();
 		descriptionBody = objectInput.readUTF();
+		consultationPlacesBody = objectInput.readUTF();
 		filesIds = objectInput.readUTF();
+		eventsIds = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 	}
@@ -427,11 +447,25 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(descriptionBody);
 		}
 
+		if (consultationPlacesBody == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(consultationPlacesBody);
+		}
+
 		if (filesIds == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
+		}
+
+		if (eventsIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(eventsIds);
 		}
 
 		objectOutput.writeLong(publicationDate);
@@ -461,7 +495,9 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public boolean mediaChoice;
 	public String descriptionChapeau;
 	public String descriptionBody;
+	public String consultationPlacesBody;
 	public String filesIds;
+	public String eventsIds;
 	public long publicationDate;
 	public long expirationDate;
 }

@@ -57,7 +57,9 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setDescriptionChapeau(model.getDescriptionChapeau());
 		soapModel.setDescriptionBody(model.getDescriptionBody());
+		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
 		soapModel.setFilesIds(model.getFilesIds());
+		soapModel.setEventsIds(model.getEventsIds());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 
@@ -300,12 +302,28 @@ public class ParticipationSoap implements Serializable {
 		_descriptionBody = descriptionBody;
 	}
 
+	public String getConsultationPlacesBody() {
+		return _consultationPlacesBody;
+	}
+
+	public void setConsultationPlacesBody(String consultationPlacesBody) {
+		_consultationPlacesBody = consultationPlacesBody;
+	}
+
 	public String getFilesIds() {
 		return _filesIds;
 	}
 
 	public void setFilesIds(String filesIds) {
 		_filesIds = filesIds;
+	}
+
+	public String getEventsIds() {
+		return _eventsIds;
+	}
+
+	public void setEventsIds(String eventsIds) {
+		_eventsIds = eventsIds;
 	}
 
 	public Date getPublicationDate() {
@@ -347,7 +365,9 @@ public class ParticipationSoap implements Serializable {
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;
+	private String _consultationPlacesBody;
 	private String _filesIds;
+	private String _eventsIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 }

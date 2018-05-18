@@ -31,7 +31,9 @@
 		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="descriptionChapeau" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="descriptionBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="eventsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 	</class>

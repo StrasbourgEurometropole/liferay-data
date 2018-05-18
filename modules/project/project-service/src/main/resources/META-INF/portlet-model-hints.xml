@@ -39,7 +39,11 @@
 		<field name="descriptionBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="consultationPlacesBody" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="filesIds" type="String" />
+		<field name="eventsIds" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 	</model>

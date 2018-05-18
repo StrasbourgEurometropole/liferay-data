@@ -60,6 +60,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
+	* Retourne la liste des événements liés à la participation
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/

@@ -83,7 +83,9 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("descriptionChapeau", getDescriptionChapeau());
 		attributes.put("descriptionBody", getDescriptionBody());
+		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
 		attributes.put("filesIds", getFilesIds());
+		attributes.put("eventsIds", getEventsIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -230,10 +232,23 @@ public class ParticipationWrapper implements Participation,
 			setDescriptionBody(descriptionBody);
 		}
 
+		String consultationPlacesBody = (String)attributes.get(
+				"consultationPlacesBody");
+
+		if (consultationPlacesBody != null) {
+			setConsultationPlacesBody(consultationPlacesBody);
+		}
+
 		String filesIds = (String)attributes.get("filesIds");
 
 		if (filesIds != null) {
 			setFilesIds(filesIds);
+		}
+
+		String eventsIds = (String)attributes.get("eventsIds");
+
+		if (eventsIds != null) {
+			setEventsIds(eventsIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -458,6 +473,16 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Returns the consultation places body of this participation.
+	*
+	* @return the consultation places body of this participation
+	*/
+	@Override
+	public java.lang.String getConsultationPlacesBody() {
+		return _participation.getConsultationPlacesBody();
+	}
+
+	/**
 	* Returns the contact line1 of this participation.
 	*
 	* @return the contact line1 of this participation
@@ -515,6 +540,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getDescriptionChapeau() {
 		return _participation.getDescriptionChapeau();
+	}
+
+	/**
+	* Returns the events IDs of this participation.
+	*
+	* @return the events IDs of this participation
+	*/
+	@Override
+	public java.lang.String getEventsIds() {
+		return _participation.getEventsIds();
 	}
 
 	/**
@@ -720,6 +755,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la liste des événements liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents() {
+		return _participation.getEvents();
+	}
+
+	/**
 	* Retourne la liste des URLs des documents
 	*/
 	@Override
@@ -834,6 +877,17 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Sets the consultation places body of this participation.
+	*
+	* @param consultationPlacesBody the consultation places body of this participation
+	*/
+	@Override
+	public void setConsultationPlacesBody(
+		java.lang.String consultationPlacesBody) {
+		_participation.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
 	* Sets the contact line1 of this participation.
 	*
 	* @param contactLine1 the contact line1 of this participation
@@ -901,6 +955,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setDescriptionChapeau(java.lang.String descriptionChapeau) {
 		_participation.setDescriptionChapeau(descriptionChapeau);
+	}
+
+	/**
+	* Sets the events IDs of this participation.
+	*
+	* @param eventsIds the events IDs of this participation
+	*/
+	@Override
+	public void setEventsIds(java.lang.String eventsIds) {
+		_participation.setEventsIds(eventsIds);
 	}
 
 	@Override

@@ -106,8 +106,12 @@
 		<column name="descriptionChapeau" type="String" />
 		<column name="descriptionBody" type="String" />
 		
+		<!-- Lieux de consultation -->
+		<column name="consultationPlacesBody" type="String" />
+		
 		<!-- Links with other entities -->
-		<column name="filesIds" type="String" /> 
+		<column name="filesIds" type="String" />
+		<column name="eventsIds" type="String" />
 		
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />

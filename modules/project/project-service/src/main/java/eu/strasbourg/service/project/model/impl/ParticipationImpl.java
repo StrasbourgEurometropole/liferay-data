@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -62,6 +64,22 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public AssetEntry getAssetEntry() {
 		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
 			this.getParticipationId());
+	}
+	
+	/**
+	 * Retourne la liste des événements liés à la participation
+	 */
+	@Override
+	public List<Event> getEvents() {
+		List<Event> events = new ArrayList<Event>();
+		for (String eventIdsStr : this.getEventsIds().split(",")) {
+			Long eventId = GetterUtil.getLong(eventIdsStr);
+			Event event = EventLocalServiceUtil.fetchEvent(eventId);
+			if (event != null) {
+				events.add(event);
+			}
+		}
+		return events;
 	}
 
 	/**
