@@ -123,6 +123,21 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 	
 	/**
+	 * Retourne les quartiers du projet
+	 */
+	@Override
+	public String getDistrictCategories(Locale locale) {
+		String districts = "";
+		for (AssetCategory type : this.getDistrictCategories()) {
+			if (districts.length() > 0) {
+				districts += " - ";
+			}
+			districts += type.getTitle(locale);
+		}
+		return districts;
+	}
+	
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -156,7 +171,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 
 	/*
-	 * Retourne la catégorie Territoire correspondant à la ville du lieu
+	 * Retourne le statut du projet
 	 */
 	@Override
 	public String getProjectStatus(Locale locale) {

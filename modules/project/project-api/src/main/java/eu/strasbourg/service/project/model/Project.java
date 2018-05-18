@@ -85,6 +85,11 @@ public interface Project extends ProjectModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
+	* Retourne les quartiers du projet
+	*/
+	public java.lang.String getDistrictCategories(java.util.Locale locale);
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	public java.lang.String getImageURL();

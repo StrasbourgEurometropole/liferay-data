@@ -500,6 +500,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne les quartiers du projet
+	*/
+	@Override
+	public java.lang.String getDistrictCategories(java.util.Locale locale) {
+		return _project.getDistrictCategories(locale);
+	}
+
+	/**
 	* Returns the external image copyright of this project.
 	*
 	* @return the external image copyright of this project
