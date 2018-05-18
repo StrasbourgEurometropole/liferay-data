@@ -1,14 +1,14 @@
 <#setting locale = locale />
 
 <!-- Détail article -->
-<div class="mns-fck container mns-p50">
-    <div class="text-center">
-        <h2>
+<div class="mns-fck mns-bloc-article container mns-p50">
+    <div>
+        <h1 class="mns-title">
             ${title.data}
-        </h2>
-        <p>
+        </h1>
+        <div class="mns-catcher">
             ${catcher.data}
-        </p>
+        </div>
     </div>
     ${text.data}
 </div>

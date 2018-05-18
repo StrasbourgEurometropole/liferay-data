@@ -30,10 +30,10 @@
         },
         {
             "label": {
-                "fr_FR": "Titre non-gras"
+                "fr_FR": "Titre"
             },
             "predefinedValue": {
-                "fr_FR": "Besoin d’un hotel, "
+                "fr_FR": "Le FARSE ? Qu'est ce que c'est ?"
             },
             "style": {
                 "fr_FR": ""
@@ -45,29 +45,6 @@
             "indexType": "",
             "localizable": true,
             "name": "title1",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Titre gras"
-            },
-            "predefinedValue": {
-                "fr_FR": "d’un resto ?"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "title2",
             "readOnly": false,
             "repeatable": false,
             "required": false,

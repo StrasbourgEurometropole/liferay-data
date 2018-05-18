@@ -6,7 +6,6 @@
 </#if>
 <header class="mns-header-standard">
     <div class="container">
-        <h1>${page.getName(locale)}</h1>
         <div class="mns-wrapper-bread">
             <div class="mns-breadcrumbs mns-bread-color">
                  <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
@@ -22,4 +21,39 @@
 </header>
 <script>
     $('.navbar.mns-nav').addClass('mns-nav-no-header');
+    $('.navbar-brand').addClass('hidden');
+
+    // Pour avoir tout le temps le menu sous forme Sticky
+    if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
+        $('body').addClass('ipad');
+        $('.mns-nav').addClass("mns-nav-scroll");
+        $('.mns-nav').addClass("mns-nav-ipad");
+        $('.mns-nav-ipad').addClass('mns-top');
+
+    }else {      
+        $('.mns-nav').addClass("mns-nav-scroll");
+        $('#layer').addClass('mns-nav-scroll-layer')
+    }
+
+    // Il faut rajouter un margin quand on est en haut de page et l'enlever quand on scroll
+    $(window).scroll(function(){
+        if ($(window).scrollTop() == 0) {
+            // Quand on est connecté on a un menu de plus en haut de page, alors on fait 
+            //deux margin différents pour que co ou pas on voit le sticky menuj
+            if ($(".has-control-menu")[0]){
+                 $('.mns-nav').css('margin-top','105px')
+            }
+            else {
+                $('.mns-nav').css('margin-top','40px')
+            }
+        }
+        else{
+            if ($(".has-control-menu")[0]){
+                 $('.mns-nav').css('margin-top','65px')
+            }
+            else {
+                $('.mns-nav').css('margin-top','0px')
+            }
+        }
+    });
 </script>
