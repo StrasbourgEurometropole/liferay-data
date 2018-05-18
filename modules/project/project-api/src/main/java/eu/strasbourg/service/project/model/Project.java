@@ -110,4 +110,19 @@ public interface Project extends ProjectModel, PersistedModel {
 	* Retourne les statuts du projet
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAllStatus();
+
+	/**
+	* Retourne l'asset category du projet (normalement du même non que le projet)
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	* Retourne la liste des participations du projet
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getParticipations();
+
+	/**
+	* Retourne la liste des évènements du projet
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents();
 }

@@ -30,4 +30,5 @@ public class VocabularyNames {
 	public static final String PARTICIPATION_TYPE = "type de participation";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
+	public static final String PROJECT = "projet";
 }
