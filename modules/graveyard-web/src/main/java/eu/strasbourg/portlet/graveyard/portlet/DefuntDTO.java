@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.graveyard.portlet;
 
 import com.liferay.portal.kernel.json.JSONObject;
 
+import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
@@ -13,35 +14,25 @@ public class DefuntDTO {
 	public String birthDate;
 	public String deathDate;
 	public String deathPlace;
-	public String EndConcessionDate;
 	public String graveyard;
 	public String graveSector;
 	public String graveRow;
 	public String graveNumber;
 	public String nameImage;
-	public String graveyardSIG;
-
+	public GraveyardMapping graveyardMapping;
+	
 	public DefuntDTO(JSONObject json) {
 	    	name = json.getString("nom");
 	    	firstName = json.getString("prenom");
 	    	birthDate = json.getString("date_naissance");
 	    	deathDate = json.getString("date_deces");
 	    	deathPlace = json.getString("lieu_deces");
-	    	EndConcessionDate = json.getString("date_fin_concession");
 	    	graveyard = json.getString("nom_cimetiere");
 	    	graveSector = json.getString("numero_secteur");
 	    	graveRow = json.getString("numero_rangee");
 	    	graveNumber = json.getString("numero_tombe");
 	    	nameImage = json.getString("nom_image");
-			Place place = null;
-			try {
-				place = PlaceLocalServiceUtil.findByName(graveyard);
-			} catch (NoSuchPlaceException e) {
-				e.printStackTrace();
-			}
-			if (place != null){
-				graveyardSIG = place.getSIGid();
-			}
+	    	graveyardMapping = GraveyardMapping.get(json.getLong("id_cimetiere"));
 	    }
 
 	public DefuntDTO() {
@@ -87,14 +78,6 @@ public class DefuntDTO {
 		this.deathPlace = deathPlace;
 	}
 
-	public String getEndConcessionDate() {
-		return EndConcessionDate;
-	}
-
-	public void setEndConcessionDate(String endConcessionDate) {
-		EndConcessionDate = endConcessionDate;
-	}
-
 	public String getGraveyard() {
 		return graveyard;
 	}
@@ -135,12 +118,12 @@ public class DefuntDTO {
 		this.nameImage = nameImage;
 	}
 
-	public String getGraveyardSIG() {
-		return graveyardSIG;
+	public GraveyardMapping getGraveyardMapping() {
+		return graveyardMapping;
 	}
 
-	public void setGraveyardSIG(String graveyardSIG) {
-		this.graveyardSIG = graveyardSIG;
+	public void setGraveyardMapping(GraveyardMapping graveyardMapping) {
+		this.graveyardMapping = graveyardMapping;
 	}
 
 }

@@ -34,6 +34,16 @@ public class GraveyardWebServiceClient {
 		} else {
 			params.put("date_fin", "");
 		}
+		if (Validator.isNotNull(birthDateStart)) {
+			params.put("date_naissance_debut", new SimpleDateFormat("dd/MM/yyyy").format(birthDateStart));
+		} else {
+			params.put("date_naissance_debut", "");
+		}
+		if (Validator.isNotNull(deathDateEnd)) {
+			params.put("date_naissance_fin", new SimpleDateFormat("dd/MM/yyyy").format(birthDateEnd));
+		} else {
+			params.put("date_naissance_fin", "");
+		}
 		params.put("cimetieres", graveyard);
 
 		StringBuilder postData = new StringBuilder();
@@ -46,7 +56,6 @@ public class GraveyardWebServiceClient {
 				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
 			}
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		JSONObject jsonResponse = null;

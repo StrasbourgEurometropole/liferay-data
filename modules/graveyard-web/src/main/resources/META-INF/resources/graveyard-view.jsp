@@ -13,10 +13,6 @@
 <%-- Action URL du formulaire --%>
 <section id="graveyard">
 	<div class="seu-container graveyard-web">
-	
-		<liferay-portlet:runtime
-			portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-			instanceId="graveyard" />
 		
 		<aui:form name="fm" action="${rechercheURL}" class="generic-form toValidate">
 	
@@ -141,7 +137,7 @@
 	                    <select id="concession" class="toCustomSelect silencedSelect" name="<portlet:namespace />concession">
 	                        <option value=""></option>
 							<c:forEach var="cimetiere" items="${dc.concessions}">
-								<option value="${cimetiere.getAlias(locale)}" <c:if test="${concession eq cimetiere.getAlias(locale)}">selected</c:if>>${cimetiere.getAlias(locale)}</option>
+								<option value="${cimetiere.id}" <c:if test="${concession eq cimetiere.id}">selected</c:if>>${cimetiere.name}</option>
 							</c:forEach>
 	                    </select>
 	                </div>
@@ -226,7 +222,7 @@
 										<!-- Localisation de la concession -->
 							            <div class="form-group">
 							            	<div class="form-label">
-								           	 	<a href="${homeURL}lieu/-/entity/sig/${tot.graveyardSIG}" target="_blank" title="${tot.graveyard} (<liferay-ui:message key="eu.new-window" />)">${tot.graveyard}</a>
+								           	 	<a href="${homeURL}lieu/-/entity/sig/${tot.graveyardMapping.sigId}" target="_blank" title="${tot.graveyardMapping.name} (<liferay-ui:message key="eu.new-window" />)">${tot.graveyardMapping.name}</a>
 							            	</div>
 							                <div class="form-field"><liferay-ui:message key="graveyard.gravesector" /> : ${tot.graveSector}</div>
 							                <div class="form-field"><liferay-ui:message key="graveyard.graverow" /> : ${tot.graveRow}</div>
@@ -234,7 +230,7 @@
 							            </div>
 									</div> 
 									<div align="right">
-										<a href="/o/graveyardweb/images/${tot.graveyard}.jpg" class="seu-btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="graveyard.downloadPlan" /> (<liferay-ui:message key="eu.new-window" />)">
+										<a href="/o/graveyardweb/images/${tot.graveyardMapping.name}.jpg" class="seu-btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="graveyard.downloadPlan" /> (<liferay-ui:message key="eu.new-window" />)">
 											<span class="seu-flexbox">
 												<span class="seu-btn-text"><liferay-ui:message key="graveyard.downloadPlan" /></span>
 												<span class="seu-btn-arrow"></span>

@@ -1,9 +1,14 @@
 package eu.strasbourg.portlet.graveyard.portlet.context;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -16,13 +21,18 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.graveyard.portlet.DefuntDTO;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardResponse;
+import eu.strasbourg.portlet.graveyard.portlet.GraveyardWebServiceClient;
+import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -37,7 +47,7 @@ public class GraveyardDisplayContext {
 	private GraveyardResponse graveyard;
 	private List<DefuntDTO> defunts;
 	private SearchContainer<DefuntDTO> searchContainer;
-	private List<Place> concessions;
+	private List<GraveyardMapping> concessions;
 
 	public GraveyardDisplayContext(RenderRequest request, RenderResponse response) {
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -47,6 +57,104 @@ public class GraveyardDisplayContext {
 
 	public void setGraveyard(GraveyardResponse graveyard) {
 		this.graveyard = graveyard;
+	}
+
+	public void recherche(RenderRequest request, RenderResponse response)
+			throws IOException, PortletException {
+		String name = ParamUtil.getString(request, "name");
+		String firstName = ParamUtil.getString(request, "firstname");
+
+		Boolean birthDateUnknows = ParamUtil.getBoolean(request, "birthdateunknown");
+		String birthDateStartString, birthDateEndString = null;
+		if (birthDateUnknows) {
+			birthDateStartString = ParamUtil.getString(request, "birthdatestart");
+			birthDateEndString = ParamUtil.getString(request, "birthdateend");
+		} else {
+			birthDateStartString = birthDateEndString = ParamUtil.getString(request, "birthdate");
+		}
+
+		Boolean deathDateUnknows = ParamUtil.getBoolean(request, "deathdateunknown");
+		String deathDateStartString, deathDateEndString = null;
+		if (deathDateUnknows) {
+			deathDateStartString = ParamUtil.getString(request, "deathdatestart");
+			deathDateEndString = ParamUtil.getString(request, "deathdateend");
+		} else {
+			deathDateStartString = deathDateEndString = ParamUtil.getString(request, "deathdate");
+		}
+
+		String deathPlace = ParamUtil.getString(request, "deathplace");
+		String concession = ParamUtil.getString(request, "concession");
+		try {
+
+			if (Validator.isNull(name)) {
+				if (SessionErrors.isEmpty(request)) {
+					SessionErrors.add(request, "required");
+				}
+				SessionErrors.add(request, "name-required");
+			}
+			if (Validator.isNull(firstName)) {
+				if (SessionErrors.isEmpty(request)) {
+					SessionErrors.add(request, "required");
+				}
+				SessionErrors.add(request, "firstname-required");
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			if ((Validator.isNotNull(birthDateStartString) || Validator.isNotNull(birthDateEndString))
+					&& !(Validator.isNotNull(birthDateStartString) && Validator.isNotNull(birthDateEndString))) {
+				if (SessionErrors.isEmpty(request)) {
+					SessionErrors.add(request, "required");
+				}
+				SessionErrors.add(request, "birthdates-required");
+			}
+			if ((Validator.isNotNull(deathDateStartString) || Validator.isNotNull(deathDateEndString))
+					&& !(Validator.isNotNull(deathDateStartString) && Validator.isNotNull(deathDateEndString))) {
+				if (SessionErrors.isEmpty(request)) {
+					SessionErrors.add(request, "required");
+				}
+				SessionErrors.add(request, "deathdates-required");
+			}
+			Date birthDateStart = null, birthDateEnd = null;
+			if (Validator.isNotNull(birthDateStartString))
+				birthDateStart = sdf.parse(birthDateStartString);
+			if (Validator.isNotNull(birthDateEndString))
+				birthDateEnd = sdf.parse(birthDateEndString);
+			if (Validator.isNotNull(birthDateStartString) && Validator.isNotNull(birthDateEndString)
+					&& birthDateStart.after(birthDateEnd)) {
+				SessionErrors.add(request, "birthdates-not-valid");
+			}
+
+			Date deathDateStart = null, deathDateEnd = null;
+			if (Validator.isNotNull(deathDateStartString))
+				deathDateStart = sdf.parse(deathDateStartString);
+			if (Validator.isNotNull(deathDateEndString))
+				deathDateEnd = sdf.parse(deathDateEndString);
+			if (Validator.isNotNull(deathDateStartString) && Validator.isNotNull(deathDateEndString)
+					&& deathDateStart.after(deathDateEnd)) {
+				SessionErrors.add(request, "deathdates-not-valid");
+			}
+			if (name.contains("<") || firstName.contains("<") || deathPlace.contains("<")) {
+				SessionErrors.add(request, "invalid-characters");
+			}
+			if (SessionErrors.isEmpty(request)) {
+				GraveyardResponse graveyardResponse = GraveyardWebServiceClient.getResponse(name, firstName,
+						birthDateStart, birthDateEnd, deathDateStart, deathDateEnd, deathPlace, concession);
+				this.setGraveyard(graveyardResponse);
+			}
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		request.setAttribute("name", HtmlUtil.escape(name));
+		request.setAttribute("firstname", HtmlUtil.escape(firstName));
+		request.setAttribute("birthdateunknown", birthDateUnknows);
+		request.setAttribute("birthdate", ParamUtil.getString(request, "birthdate"));
+		request.setAttribute("birthdatestart", birthDateStartString);
+		request.setAttribute("birthdateend", birthDateEndString);
+		request.setAttribute("deathdateunknown", deathDateUnknows);
+		request.setAttribute("deathdate", ParamUtil.getString(request, "deathdate"));
+		request.setAttribute("deathdatestart", deathDateStartString);
+		request.setAttribute("deathdateend", deathDateEndString);
+		request.setAttribute("deathplace", HtmlUtil.escape(deathPlace));
+		request.setAttribute("concession", concession);
 	}
 
 	public GraveyardResponse getGraveyard() {
@@ -61,23 +169,9 @@ public class GraveyardDisplayContext {
 	/**
 	 * Retourne les cimetières
 	 */
-	public List<Place> getConcessions() {
+	public List<GraveyardMapping> getConcessions() {
 		if (this.concessions == null) {
-			List<Place> concessions = new ArrayList<Place>();
-			AssetVocabulary placeTypeVocabulary;
-			try {
-				placeTypeVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-				AssetCategory graveyard = AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary,
-						"Cat_07_02");
-				List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil
-						.getAssetCategoryAssetEntries(graveyard.getCategoryId());
-				for (AssetEntry assetEntry : assetEntries) {
-					concessions.add(PlaceLocalServiceUtil.fetchPlace(assetEntry.getClassPK()));
-				}
-			} catch (PortalException e) {
-				e.printStackTrace();
-			}
-			this.concessions = concessions;
+			this.concessions = GraveyardMapping.getAll();
 		}
 		return this.concessions;
 	}
