@@ -1,3 +1,13 @@
+//Pour supprimers les marges des portlet liferay
+.portlet {
+  margin-bottom: 0;
+}
+
+//Idem pour les bordures
+.portlet-content-editable {
+	border-width : 0px;
+}
+
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
 	top: 64px;
