@@ -42,11 +42,15 @@
 		}
 		.date{
 			background: $c_main;
-			@include ft($f_ms, 14px, 400, $c_white, normal);
+			@include ft($f_ms, 12.5px, 700, $c_white, normal);
 			position: absolute;
 			top: 20px;
 			z-index: 5;
 			padding: 15px;
+			max-width: 260px;
+			width: 50%;
+			text-align: center;
+			padding: 15px 10px;
 		}
 
 		img{
@@ -65,7 +69,7 @@
 		}
 
 		h4,h3{
-			@include ft($f_ms, 18px, 700, $c_txt, normal);
+			@include ft($f_ms, 20px, 500, $c_txt, normal);
 			text-align: center;
 			margin: auto;
 			padding: 10px 0;
@@ -108,9 +112,6 @@
 
 		.mns-indic { 
 			margin-bottom: 10px;
-			span {
-				font-size: 16px;
-			}
 		}
 	}
 
@@ -146,5 +147,57 @@
 
 	.clearfix.lfr-pagination {
 		margin-top: 50px;
+
+		ul {
+			li {
+				&.disabled {
+					display: none;
+				}
+				padding: 10px;
+				margin-right: 10px;
+				@include tablet_portrait{
+					width: 100%;
+					background-color: $c_main;
+				}
+				@include mobile {
+					width: 100%;
+					background-color: $c_main;
+				}
+				a {
+					border: 0px;
+					z-index: 2;
+					position: relative;
+					background-color: transparent;
+					@include ft($f_ms, 14px, 700, $c_main, normal);				
+			        &:hover, &:focus{
+			        	color: $c_white;
+						background-color: transparent;			        
+			        }
+			        @include tablet_portrait{
+						color: $c_txt;
+					}
+					@include mobile {
+						color: $c_txt;
+					}
+				}
+				&:before{
+		            content: '';
+		            display: block;
+		            position: absolute;
+		            bottom: 0;
+		            left: 0%;
+		            height: 1px;
+		            width: 100%;
+		            transition: all, 0.3s;
+		            background-color: $c-main; 
+		            z-index: 1;
+		        }
+		         &:hover, &:focus{
+		            &:before{
+		                height: 100%;
+		            }
+		        }
+			}
+		}	
 	}
 }

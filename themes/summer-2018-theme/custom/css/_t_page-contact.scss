@@ -65,7 +65,7 @@
 	}
 
 	.mns-info-pratiques{
-		background: $c_txt;
+		background: $c_main;
 		position: relative;
 		.mns-sec-info{
 			padding: 30px 20px;
@@ -126,15 +126,17 @@
 		}
 
 		.mns-title-info{
-			@include ft($f_ms, 18px, 700, $c_white, 24px);
-			&:after{
-				content: '';
-				height: 4px;
-				width: 25px;
-				display: block;
-				background: $c_main;
-				margin-top: 20px;
-				margin-bottom: 30px;
+			@include ft($f_ms, 18px, 700, $c_txt, 24px);
+			h3 {
+				&:after{
+					content: '';
+					background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+					position: relative;
+					display: block;
+					height: 40px;
+					width: 80px;
+					z-index: 9999;
+				}
 			}
 		}
 

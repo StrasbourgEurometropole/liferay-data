@@ -74,7 +74,7 @@
 						background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
 						position: relative;
 						display: block;
-						top: -20px;
+						top: -5px;
 						height: 40px;
 						width: 80px;
 						z-index: 9999;
@@ -131,9 +131,7 @@
 			}
 
 			h1{
-				font-family: $f_ms;
-				font-size: 48px;
-				line-height: 54px;
+				@include ft($f_ms, 48px, 100, $c_txt, 54px);
 				width: 100%;
 				margin-bottom: 20px;
 			}

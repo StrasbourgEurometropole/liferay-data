@@ -2,18 +2,23 @@
 
 	.mns-bloc-article{
 		.mns-title {
-			@include ft($f_ms, 58px, 100, $c_txt, normal);
+			@include ft($f_ms, 60px, 100, $c_txt, normal);
 			text-transform: uppercase;
 			display: inline-block;
 			width: auto;
+			padding: 0 80px;
+			@include mobile {
+				font-size: 40px;
+				padding: 0px;
+			}
 			&:after{
 				content: '';
 				background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
 				position: relative;
 				display: block;
 				top: 0px;
-				height: 40px;
-				z-index: 9999;
+				width: 90px;
+				height: 31px;
 			}
 		}
 

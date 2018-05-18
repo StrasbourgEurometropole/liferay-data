@@ -6647,13 +6647,9 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 
 				if ($(window).scrollTop() == 0) {
 					$('.mns-nav-ipad').removeClass('mns-top');
-					//$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
-					//$("#logo-menu").attr("width","421");
 				}
 				else{
 					$('.mns-nav-ipad').addClass('mns-top');
-					//$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
-					//$("#logo-menu").attr("width","116");
 				}
 			});
 
@@ -6663,13 +6659,9 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 					if ($(window).scrollTop() > 0) {
 						$('.mns-nav').addClass("mns-nav-scroll");
 						$('#layer').addClass('mns-nav-scroll-layer')
-						//$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-menu-small.png");
-						//$("#logo-menu").attr("width","116");
 					} else {
 						$('.mns-nav').removeClass("mns-nav-scroll");
 						$('#layer').removeClass('mns-nav-scroll-layer')
-						//$("#logo-menu").attr("src","/o/summer-2018-theme/images/logo-home.png");
-						//$("#logo-menu").attr("width","421");
 					}
 				}
 				);
@@ -6750,6 +6742,9 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 		dots: false,
 		nav:true,
 		items: 1,
+		autoplay: true,
+    	autoplayTimeout: 4000,
+    	autoplayHoverPause: true,
 		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
 	})
 
@@ -6766,4 +6761,24 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 			$(this).find('.caption').removeClass('open');
 		});
 	};
+
+	$('.mns-expand-collapse').click(function(){
+    	var checkboxesId = $(this).data("checkboxes-id");
+		var checkboxes = $('#checkbox-'+checkboxesId);
+		if($(this).hasClass('expanded')){
+           $(this).find('.mns-filter-expand').show();
+           $(this).find('.mns-filter-collapse').hide();
+           $(this).removeClass('expanded');
+           checkboxes.height("0px");
+        } else {
+           $(this).find('.mns-filter-expand').hide();
+           $(this).find('.mns-filter-collapse').show();
+           $(this).addClass('expanded');
+           checkboxes.height("100%");
+        }
+    });
+
+
+
+
 

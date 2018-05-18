@@ -38,7 +38,7 @@
 			margin-bottom: 15px;
 		}
 		h1,h4{
-			@include ft($f_ms, 18px, 700, $c_txt, normal);
+			@include ft($f_ms, 20px, 500, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;
@@ -49,10 +49,10 @@
 			padding-bottom: 20px;
 			margin: 0;
 		}
-		p, strong{
+		p,strong {
+			@include ft($f_ms, 17.5px, 300, $c_txt, normal);
 			margin-bottom: 15px;
 			display: block;
-			color: $c_txt;
 		}
 
 
@@ -97,11 +97,13 @@
 			.mns-title {
 				text-align: center;
 				h1 {
-					@include ft($f_ms, 58px, 100, $c_txt, normal);
-					text-transform: uppercase;
+					@include ft($f_ms, 60px, 100, $c_txt, normal);
 					display: inline-block;
 					width: auto;
 					margin-bottom: 0px;
+					@include mobile {
+						font-size: 40px;
+					}
 				}
 			}
 

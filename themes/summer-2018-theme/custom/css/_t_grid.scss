@@ -109,11 +109,11 @@
 		text-align: center;
 		position: relative;
 		transform: translate3d(0,0,0);
-		@include tablet_portrait{
-			height: calc(100vh - 250px);
+		@include tablet_portrait {
+			display: none;
 		}
 		@include mobile {
-			height: calc(100vh - 50px);
+			display: none;
 		}
 		&:after{
 			content: '';
