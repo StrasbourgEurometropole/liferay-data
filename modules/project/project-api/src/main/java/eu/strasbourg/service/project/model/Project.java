@@ -98,4 +98,11 @@ public interface Project extends ProjectModel, PersistedModel {
 	* Retourne la liste des entrées timelines du projet
 	*/
 	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getProjectTimelines();
+
+	public java.lang.String getProjectStatus(java.util.Locale locale);
+
+	/**
+	* Retourne les statuts du projet
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAllStatus();
 }

@@ -555,6 +555,11 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		return _project.getPartners();
 	}
 
+	@Override
+	public java.lang.String getProjectStatus(java.util.Locale locale) {
+		return _project.getProjectStatus(locale);
+	}
+
 	/**
 	* Returns the status by user name of this project.
 	*
@@ -653,6 +658,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public Date getStatusDate() {
 		return _project.getStatusDate();
+	}
+
+	/**
+	* Retourne les statuts du projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAllStatus() {
+		return _project.getAllStatus();
 	}
 
 	/**

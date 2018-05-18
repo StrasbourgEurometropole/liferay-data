@@ -154,5 +154,30 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil.getByProjectId(this.getProjectId());
 		return projectTimelines;
 	}
+
+	/*
+	 * Retourne la catégorie Territoire correspondant à la ville du lieu
+	 */
+	@Override
+	public String getProjectStatus(Locale locale) {
+		List<AssetCategory> pStatus = getAllStatus();
+		
+		String result = "";
+		
+		//Retourne le premier element de la liste
+		if(pStatus.size() >= 1)
+			result = pStatus.get(0).getTitle(locale);
+		
+		return result;
+	}
+	
+	/**
+	 * Retourne les statuts du projet
+	 */
+	@Override
+	public List<AssetCategory> getAllStatus() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT_STATUS);
+	}
 	
 }

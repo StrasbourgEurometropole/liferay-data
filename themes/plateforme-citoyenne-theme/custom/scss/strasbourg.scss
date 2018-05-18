@@ -3,11 +3,6 @@
 @import "base/var";
 
 
-// Bootstrap 3.3.7
-//=====================================
-//@import "bootstrap/bootstrap";
-
-
 // Base Styles
 //=====================================
 @import "base/reset";
@@ -73,6 +68,7 @@
 @import "blocs/page-detail-projet";
 @import "blocs/page-carte";
 @import "blocs/page-pacte";
+@import "blocs/page-404";
 
 // Style override
 // ==========================================================================
