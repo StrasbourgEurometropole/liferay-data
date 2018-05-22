@@ -10,17 +10,17 @@
  
  <aside class="col-sm-4-to-move">
     <div class="pro-event-comming">
-        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>5</strong> Participation(s) en cours</a>
-        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>3</strong> Évènement(s) à venir</a>
+        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${entry.getParticipations()?size}</strong> Participation(s) en cours</a>
+        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${entry.getEvents()?size}</strong> Évènement(s) à venir</a>
     </div>
     <div class="pro-contact">
         <h4>Contact</h4>
         <p>
-            <strong>Nom du contact</strong><br>
-            Contact ligne 1<br>
-            Contact ligne 2
+            <strong>${entry.contactName}</strong><br>
+            ${entry.contactLine1}<br>
+            ${entry.contactLine2}
         </p>
-        <a href="tel:0000000000" title="Numéro de téléphone : 00 00 00 00 00">00 00 00 00 00</a>
+        <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
     </div>
 </aside>
  
@@ -30,12 +30,16 @@
  }
  
  .pro-page-detail.pro-page-detail-projet aside{
-     margin-top : 123px;
+     margin-top : 124px;
  }
+ .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
+    margin: 0;
+    padding: 15px 0;
+}
  </style>
+ 
  <script>
     $(document).ready(function() {
         $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
 });
-
 </script>

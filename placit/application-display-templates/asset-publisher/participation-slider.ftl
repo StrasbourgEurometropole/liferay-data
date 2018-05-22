@@ -89,7 +89,7 @@
                                         <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
                                     </h3>
                                 </a>
-                                <span class="pro-time">Publiée le <time datetime="2018-01-10">${entry.getPublicationDate()?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
+                                <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDate()}">${entry.getPublicationDate()?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
                             </div>
                             <!-- Selection du type de template selon le status de la participation -->
                             <#if participationStatus == "soon_arrived">
