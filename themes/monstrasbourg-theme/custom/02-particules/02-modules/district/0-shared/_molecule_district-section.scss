@@ -19,14 +19,15 @@
 
     h1{
         @extend %text-section-title-hp;
-        font-size: 2.5rem;
+        color: #31455d;
         margin-bottom: 40px;
     }
 
     p {
+        font-family: $opensans;
         font-size: 1.8rem;
-        font-weight: 600;
-        color: #5c5c5c;
+        font-weight: 400;
+        color: #31455d;
         margin-bottom: 20px;
     }
 
@@ -37,44 +38,35 @@
         margin-bottom: 10px;
     }
 
+    .slider--mega .owl-item {
+        .item{
+            height:471px;
 
-    .add-favorites{
-        font-family: "MontSerrat", arial;
-        font-size: 1.4rem;
-        color: $core-color;
-        text-transform: uppercase;
-        font-weight: 700;
-        display: flex;
-        margin-bottom: 20px;
-        &:before{
-            content: '';
-            display: inline-block;
-            width: 21px;
-            height: 21px;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-right: 12px;
-            flex-shrink: 0;
-            background-image: url( svg-bg-uri($svg-heart, $core-color) );
-        }
-        &.liked{
-            &:before{
-                background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+            .link{
+                height:425px;
+                overflow: hidden;
+            }
+
+            .add-favorites{
+                padding-left: 20px;
+                background-color: #FFFFFF;
+                padding-bottom: 2px;
+
+                @include RWD(desktop){
+                    span{
+                        top: -10px;
+                        width: 100px;
+                    }
+                }
+
+                @include RWD(tablet){
+                    padding-bottom: 24px;
+                }
             }
         }
-        span{
-            position: relative;
-        }
-        span:after{
-            @extend %animation-hoverBar-in;
-            background-color: $core-color;
-        }
-        &:hover, &:focus{
-            text-decoration: none;
-            span:after{
-                @extend %animation-hoverBar-out;
-            }
-        }
-    }
+
+        .mag .add-favorites{
+            background-color: #46cfc0;
+        } 
+    } 
 }

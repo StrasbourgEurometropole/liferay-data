@@ -144,16 +144,17 @@
 	</footer>
 </div>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
-  gtag('config', 'UA-33301756-8');
-</script>
-
+	  gtag('config', 'UA-33301756-8');
+	</script>
+</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

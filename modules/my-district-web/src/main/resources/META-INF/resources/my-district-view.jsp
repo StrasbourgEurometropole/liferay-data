@@ -90,11 +90,9 @@
 			                        <liferay-ui:message key="estimated-time" />
 									<fmt:formatDate value="${now}" type="date" var="dateNow" pattern="dd MMMM yyyy"/>
 									<fmt:formatDate value="${now}" type="date" var="hourNow" pattern="HH:mm"/>
-			                        <div class="crowded-date">
-			                        	<span class="wroded-day-month">${dateNow}</span>
-			                        	<span> - </span>
-			                        	<span class="crowded-time">${hourNow}</span>
-			                        </div>
+			                        <p class="crowded-date">
+			                        	${dateNow} - ${hourNow}
+			                        </p>
 			                    </h3>
 				                <div class="flexbox">
 				                    <div class="container-left" style="display: inline-table; width: auto;">
@@ -104,12 +102,12 @@
 				                        </div>
 				                    </div>
 				                    <div class="container-right" style="width: auto;">
-						                <div class="crowded-caption">
+						                <p class="crowded-caption">
 						                    <liferay-ui:message key="${occupationState.label}" />
-						                </div>
-						                <div class="crowded-fyi">    
+						                </p>
+						                <p class="crowded-fyi">    
 						                    <liferay-ui:message key="estimated-time-explanation" />
-						                </div>
+						                </p>
 				                    </div>
 				                </div>
 				            </c:if>
@@ -422,25 +420,3 @@
 			</c:if>
 	</c:if>
 </div>
-
-<style>
-	#sliders .slider--mega .slider-mega-container .slider .owl-item .item{
-		height:471px;
-	} 
-	
-	#sliders .slider--mega .slider-mega-container .slider .owl-item .item .link{
-		height:425px;
-    	overflow: hidden;
-	} 
-	
-	#sliders .slider--mega .slider-mega-container .slider .owl-item .item .add-favorites{
-	    padding-left: 20px;
-	    margin-bottom: 0px;
-	    height: 46px;
-	    background-color: #FFFFFF;
-	} 
-	
-	#sliders .slider--mega .slider-mega-container .slider .owl-item .item.mag .add-favorites{
-        background-color: #46cfc0;
-	} 
-</style>

@@ -279,17 +279,20 @@ public class InterestViewerDisplayContext {
 				}
 			}
 		}
-		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-		eventQuery.setLimit(0, count);
-		List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
+
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
-		for (Event event : listEvent) {
-			AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-			if (assetEntry != null) {
-				result.add(assetEntry);
+		if(!entries.isEmpty()){
+			List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
+			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
+			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+			eventQuery.setLimit(0, count);
+			List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
+			for (Event event : listEvent) {
+				AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+				if (assetEntry != null) {
+					result.add(assetEntry);
+				}
 			}
 		}
 

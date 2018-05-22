@@ -20,6 +20,7 @@ public class FelecResponse {
     public String startDate;
     public String endDate;
     public String applicationDate;
+	public String returnCard;
     
     public FelecResponse(JSONObject json) {
 	firstName = json.getString("tous_les_prenoms");
@@ -38,12 +39,21 @@ public class FelecResponse {
 	startDate = json.getString("debut_validite_centre");
 	endDate = json.getString("fin_validite_centre");
 	applicationDate = json.getString("date_effet_mouvement");
+	returnCard = json.getString("carte_en_retour");
     }
 
     public FelecResponse() {
     }
 
-    public String getFirstName() {
+    public String getReturnCard() {
+		return returnCard;
+	}
+
+	public void setReturnCard(String returnCard) {
+		this.returnCard = returnCard;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
