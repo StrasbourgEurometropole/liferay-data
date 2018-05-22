@@ -1109,7 +1109,12 @@ public class PlaceImpl extends PlaceBaseImpl {
 	public List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode, Locale locale) {
 		GregorianCalendar premierJour = new GregorianCalendar();
 		premierJour.setTime(dateDeb);
-		return getPlaceScheduleException(premierJour, surPeriode, locale);
+		List<PlaceSchedule> exceptions = getPlaceScheduleException(premierJour, surPeriode, locale);
+
+		exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(dateDeb) >= 0)
+				.collect(Collectors.toList());
+
+		return exceptions;
 	}
 
 	/**

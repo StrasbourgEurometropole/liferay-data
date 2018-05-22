@@ -392,7 +392,11 @@
 	                			<li class="more-schedules" style="display: none;">
 							</c:if>
 								<strong>
-									${exception.key} - 
+			                		${exception.key[0]}
+									<c:if test="${fn:length(exception.key) > 1}">
+			                			- ${exception.key[1]}
+									</c:if>
+									 - 
 									${exception.value.period} :
 								</strong>
 								<c:if test="${exception.value.isClosed()}">
