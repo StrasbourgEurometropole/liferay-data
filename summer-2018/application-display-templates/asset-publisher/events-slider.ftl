@@ -7,11 +7,12 @@
 </#if>
 <div class="mns-section-agenda">
     <div class="container">
-        <div class="col-xs-12 mns-right">
-            <h2><@liferay_ui.message key="eu.the-agenda" /></h2>
-            <a href="/agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
+        <div class="col-xs-12" style="text-align: center;">
+            <div  class="mns-portlet-title">
+                <h2><@liferay_ui.message key="agenda" /></h2>
+            </div>
         </div>
-        <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
+        <div class="owl-carousel owl-theme col-xs-12" id="owl-agenda">
             <#list entries as curEntry>
                 <#if (curEntry?index == 20)>
                     <#break>
@@ -25,13 +26,11 @@
                                 <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
                             </figure>
                             <div>
-                                <div class="col-xs-6 mns-indic">
-                                    <span class="icon-ico-map-marker"></span>
-                                    <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>
+                                <div class="col-xs-12 mns-indic">
+                                    <span class="ico-map-marker" itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>
                                 </div>
-                                <div class="col-xs-6 mns-indic">
-                                    <span class="icon-ico-type"></span>
-                                    <span>${event.getTypeLabel(locale)}</span>
+                                <div class="col-xs-12 mns-indic">
+                                    <span class="ico-type">${event.getTypeLabel(locale)}</span>
                                 </div>
                                 <h3 itemprop="name">${event.getTitle(locale)}</h3>
                                 <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
@@ -41,5 +40,8 @@
                 </div>
             </#list>
         </div>
+        <div class="col-xs-12 mns-right">
+            <span><a href="/agenda" class="link align-right"><@liferay_ui.message key="eu.all-agenda" /></a></span>
+        </div>    
     </div>
 </div>

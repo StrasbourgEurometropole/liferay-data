@@ -6,57 +6,10 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Image"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "",
-            "localizable": true,
-            "name": "image",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "ddm-image"
-        },
-        {
-            "label": {
                 "fr_FR": "Titre"
             },
             "predefinedValue": {
-                "fr_FR": "Le FARSE ? Qu'est ce que c'est ?"
-            },
-            "style": {
                 "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "title1",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Texte"
-            },
-            "predefinedValue": {
-                "fr_FR": "In condimentum facilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis vicilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper."
             },
             "style": {
                 "fr_FR": ""
@@ -67,19 +20,43 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
+            "name": "title",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Texte"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
             "name": "text",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
-                "fr_FR": "Label bouton"
+                "fr_FR": "Nom du lien"
             },
             "predefinedValue": {
-                "fr_FR": "Préparez votre séjour"
+                "fr_FR": ""
             },
             "style": {
                 "fr_FR": ""
@@ -88,9 +65,9 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
-            "name": "buttonLabel",
+            "name": "linkLabel",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -99,7 +76,7 @@
         },
         {
             "label": {
-                "fr_FR": "URL bouton"
+                "fr_FR": "URL du lien"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -111,9 +88,9 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
-            "name": "buttonURL",
+            "name": "linkUrl",
             "readOnly": false,
             "repeatable": false,
             "required": false,

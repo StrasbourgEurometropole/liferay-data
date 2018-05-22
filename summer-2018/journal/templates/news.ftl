@@ -6,24 +6,16 @@
 <#setting locale = locale />
 
 <!-- Détail actualité -->
-<div class="small-container mns-actu-detail mns-fck">
+<div class="container mns-actu-detail mns-fck">
     <div class="mns-top-detail-img">
-        <img src="${image.data}" alt="${title.data}" width="930" height="620" />
+        <img src="${image.data}" alt="${title.data}" />
     </div>
-    <div class="mns-detail-actu-content col-sm-9 col-sm-offset-3 col-xs-12">
-        <h1>${title.data}</h1>
-        <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${displaydate}</span>
+    <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${displaydate}</span>
+    <div class="mns-detail-actu-content col-xs-12">
+        <div class="mns-title">
+            <h1>${title.data}</h1>
+        </div>
         <span class="mns-line"></span>
         ${text.data}
     </div>
 </div>
-
-<style>
-    #mns-global .mns-header-single h1,
-    #mns-global .mns-header-standard h1 {
-        display: none;
-    }
-</style>
-<script>
-    $('.mns-header-standard').attr('class', 'mns-header-single');
-</script>
