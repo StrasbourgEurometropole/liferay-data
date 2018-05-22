@@ -18,25 +18,25 @@
             <!-- Parcours des entites de l'asset publisher -->
             <#list entries as curEntry>
             
-           <div class="item pro-bloc-card-participation pro-theme-information" data-linkall="a">
-                        <div>
-                            <div class="pro-header-participation">
-                                <figure role="group">
-                                    <img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/>
-                                </figure>
-                                <p>Concertation publiée par :</p>
-                                <p><strong>Ville de Strasbourg</strong></p>
-                            </div>
-                            <div class="pro-content-participation">
-                                <a href="detail-participation.html" title="lien de la page"><h3>Titre de l’Évènement<br>Sur deux lignes</h3></a>
-                                <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span>
-                            </div>
-                            <div class="pro-footer-participation">
-                                <a href="detail-participation.html#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">Réagissez...</a>
-                            </div>
-                        </div>
-                    </div> 
-           
+            
+            <!-- Recuperation de l'entite -->
+           <#assign entry = curEntry.getAssetRenderer().getEvent() />
+            
+            <a href="detail-event.html" title="lien de la page" class="item pro-bloc-card-event">
+                <div>
+                    <div class="pro-header-event">
+                        <span class="pro-ico"><span class="icon-ico-debat"></span></span>
+                        <span class="pro-time">Le ${entry.firstStartDate?date}</span>
+                        <p>À : ${entry.getPlaceAlias(locale)}</p>
+                        <h3 style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+                            overflow: hidden;text-overflow: ellipsis;height: 53px">
+                            ${entry.getTitle(locale)}
+                        </h3>
+                    </div>
+                    <div class="pro-footer-event">
+                    </div>
+                </div>
+            </a>
             </#list>
         </div>       
     </div>
