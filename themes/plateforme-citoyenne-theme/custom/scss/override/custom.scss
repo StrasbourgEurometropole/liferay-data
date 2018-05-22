@@ -13,6 +13,11 @@
 	top: 64px;
 }
 
+//Force l'affichage du header de configuration des portlet en mode admin
+.portlet-topper {
+	z-index : 200;
+}
+
 //Pour que l'affichage du contenu principal prenne en compte le header de liferay 
 .has-control-menu #th-global main{
 	padding-top : 231px;
