@@ -1,6 +1,8 @@
+<!-- BLOC IMAGE A DROITE + TEXTE -->
+
 <section class="container">
 
-    <div class="pro-bloc-txt-img pro-bloc pro-bloc-texte clearfix col-lg-10 col-lg-offset-1">
+    <div class="pro-bloc-txt-img pro-bloc pro-bloc-texte clearfix">
         <div>
             <div class="col-sm-6">
                 <figure class="fit-cover" role="group">

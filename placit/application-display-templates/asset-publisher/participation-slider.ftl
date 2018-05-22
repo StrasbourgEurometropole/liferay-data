@@ -108,7 +108,7 @@
                                 <div class="pro-footer-participation pro-participation-deadline">
                                     <p>Participation terminée</p>
                                 </div>
-                            </#if> 
+                            </#if>
                         </div>
                     </div>
 

@@ -1,3 +1,5 @@
+<!-- BLOC ACTUALITE -->
+
 <#setting locale = locale />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
