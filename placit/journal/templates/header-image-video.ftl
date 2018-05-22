@@ -1,3 +1,5 @@
+<!-- BLOC IMAGE OU VIDEO A LA UNE -->
+
 <#if selectMedia.getData() == "image" >
 
     <header class="pro-header-medium">

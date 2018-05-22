@@ -1,6 +1,8 @@
+<!-- BLOC IMAGE A GAUCHE + TEXTE -->
+
 <section class="container">
 
-    <div class="pro-bloc-txt-img pro-bloc pro-bloc-texte clearfix col-lg-10 col-lg-offset-1">
+    <div class="pro-bloc-txt-img pro-bloc pro-bloc-texte clearfix">
         <div style="margin:0; padding:0">
             <div class="col-sm-6" style="margin:0; padding:0">
             </div>
