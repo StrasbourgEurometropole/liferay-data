@@ -2149,7 +2149,7 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 
         cache.items.merge = merge > 1 || cache.items.merge;
 
-        widths[iterator] = !grid ? this._items[iterator].width() + 1 : width * merge + 1;
+        widths[iterator] = !grid ? this._items[iterator].width() + 1  : width * merge + 1 ;
       }
 
       this._widths = widths;

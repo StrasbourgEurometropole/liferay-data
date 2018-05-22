@@ -120,6 +120,16 @@
 	#owl-agenda .owl-item{
 		max-width: 260px;
 		@include an(all,0.3);
+		img {
+			width: auto !important;
+		}
+	}
+
+	#owl-agenda .owl-stage {
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-box;
+		display: box;
 	}
 
 
