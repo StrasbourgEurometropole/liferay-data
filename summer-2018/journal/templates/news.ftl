@@ -8,7 +8,7 @@
 <!-- Détail actualité -->
 <div class="container mns-actu-detail mns-fck">
     <div class="mns-top-detail-img">
-        <img src="${image.data}" alt="${title.data}" width="930" height="620" />
+        <img src="${image.data}" alt="${title.data}" />
     </div>
     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${displaydate}</span>
     <div class="mns-detail-actu-content col-xs-12">

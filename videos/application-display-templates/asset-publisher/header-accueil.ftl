@@ -59,42 +59,6 @@
 				<div id="next-video" class="btn arrow right"></div>
 			</div>
 		</div>
-		<div class="owl-carousel">
-			<#if entries?has_content>
-			    <#list entries as curEntry>
-			        <#assign video = curEntry.getAssetRenderer().getVideo() />
-			        <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-			          <@liferay_portlet.param name="classPK" value="${video.getVideoId()}" />
-			          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-			        </@liferay_portlet.renderURL>
-
-					<div class="owl-video-tumbnail">
-						<a href="${detailURL}" style="display: inline;">
-							<img src="${video.getImageURL()}" title="${video.getTitle(locale)}" />
-						</a>
-						<div class="owl-video-cover">
-							<a href="${detailURL}" style="display: block; width: 100%; height: 100%;"></a>
-							<div class="owl-video-text">
-								<h2 class="video-title">
-									<span>
-										<a href="${detailURL}" style="display: inline;">
-											${video.getTitle(locale)}
-										</a>
-									</span>
-								</h2>
-								<div class="date">
-									<span>${video.getPublicationDate()?string("dd/MM/yyyy")}</span>
-								</div>
-								<div class="provider">
-									<span>${video.getProvidersLabel(locale)}</span>
-								</div>
-							</div>
-						</div>
-					</div>
-			    </#list>
-			</#if>
-		</div>
-	</div>
 </div>
 
 <#if entries?has_content>
