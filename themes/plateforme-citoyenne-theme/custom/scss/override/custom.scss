@@ -8,6 +8,7 @@
 	border-width : 0px;
 }
 
+
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
 	top: 64px;
@@ -16,6 +17,12 @@
 //Force l'affichage du header de configuration des portlet en mode admin
 .portlet-topper {
 	z-index : 200;
+}
+
+//Force l'opacite à 1 de certains portlets pour ne pas etre cache par le header 
+//vu que le z-index ne fonctionne pas dans ce cas precis
+.lfr-configurator-visibility:hover {
+	opacity : 1;
 }
 
 //Pour que l'affichage du contenu principal prenne en compte le header de liferay 

@@ -116,6 +116,7 @@
 				transform: translateX(-50%);
 				transform: translate3d(-50%, 0, 0);
 				z-index: 100;
+				display: block;
 
 				> div {
 					&:after {
