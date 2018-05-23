@@ -41,7 +41,7 @@
             </#list>
         </div>
         <div class="col-xs-12 mns-center">
-            <span><a href="/agenda" class="link align-center"><@liferay_ui.message key="eu.all-agenda" /></a></span>
+            <span><a href="${homeURL}agenda" class="link align-center"><@liferay_ui.message key="eu.all-agenda" /></a></span>
         </div>    
     </div>
 </div>
