@@ -9,7 +9,7 @@
     <div class="container">
         <div class="col-xs-12" style="text-align: center;">
             <div  class="mns-portlet-title">
-                <h2><@liferay_ui.message key="agenda" /></h2>
+                <h1><@liferay_ui.message key="agenda" /></h1>
             </div>
         </div>
         <div class="owl-carousel owl-theme col-xs-12" id="owl-agenda">
@@ -40,8 +40,8 @@
                 </div>
             </#list>
         </div>
-        <div class="col-xs-12 mns-right">
-            <span><a href="/agenda" class="link align-right"><@liferay_ui.message key="eu.all-agenda" /></a></span>
+        <div class="col-xs-12 mns-center">
+            <span><a href="/agenda" class="link align-center"><@liferay_ui.message key="eu.all-agenda" /></a></span>
         </div>    
     </div>
 </div>

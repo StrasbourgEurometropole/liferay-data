@@ -9,7 +9,7 @@
 <div class="container mns-section-actualites">
     <div class="col-xs-12" style="text-align: center;">
         <div  class="mns-portlet-title">
-            <h2><@liferay_ui.message key="eu.news" /></h2>
+            <h1><@liferay_ui.message key="eu.news" /></h1>
         </div>
     </div>
     <div class="row" data-egalize=".mns-bloc-actu > a">
@@ -39,8 +39,8 @@
                 </div>
             </#list>
         </#if>
-        <div class="col-xs-12 mns-right">
-            <span><a href="${homeURL}news" class="link align-right"><@liferay_ui.message key="eu.all-news" /></a></span>
+        <div class="col-xs-12 mns-center">
+            <span><a href="${homeURL}news" class="link align-center"><@liferay_ui.message key="eu.all-news" /></a></span>
         </div>
     </div>
 </div>
