@@ -23,7 +23,7 @@
 			font-size: 14px;
 			line-height: 22px;
 			padding-bottom: 15px;
-			border-bottom: 1px solid #a6a6a6;
+			border-bottom: 1px solid #f1d184;
 			margin-bottom: 40px;
 		}
 
@@ -62,6 +62,50 @@
 				}
 			}
 		}
+
+		h3.mns-title-info{
+			@include ft($f_ms, 21.5px, 600, $c_txt, 24px);
+			&:after{
+				content: '';
+				background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+				position: relative;
+				display: block;
+				height: 40px;
+				width: 80px;
+			}
+		}
+
+		.mns-submit {
+			display: flex;
+    		justify-content: center;
+    		input{
+				width: 150px;
+				padding: 12px 0;
+				height: auto;
+				background: $c_white;
+				border: none;
+				box-shadow: none;
+				color: $c_main !important;
+				z-index: 2;
+				border: 4px solid $c_main;
+				@include ft($f_ms, 22px, 700, $c_txt, normal);
+				@include an(all,0.3);
+				&:hover{
+					background: $c_main;
+					color: $c_white !important;
+				}
+			}
+			span{
+				width: 100%;
+				height: 10px;
+				background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				left: 0;
+				z-index: 1;
+			}
+		}
 	}
 
 	.mns-info-pratiques{
@@ -69,13 +113,13 @@
 		position: relative;
 		.mns-sec-info{
 			padding: 30px 20px;
-			border-bottom: 1px solid #4d4d4d;
+			border-bottom: 1px solid #f1d184;
 			strong, p{
 				@include ft($f_ms, 14px, 400, $c_white, 22px);
 				margin-bottom: 0;
 			}
 			strong{
-				font-weight: 700;
+				font-weight: 500;
 			}
 
 			a.basic-link{
@@ -89,7 +133,7 @@
 			li{
 				padding: 0;margin: 0;
 				a{
-					border-bottom: 1px solid #4d4d4d;
+					border-bottom: 1px solid #f1d184;
 					@include ft($f_ms, 14px, 400, $c_white, 22px);
 					padding: 10px 0;
 					display: block;
@@ -125,20 +169,7 @@
 			}
 		}
 
-		.mns-title-info{
-			@include ft($f_ms, 18px, 700, $c_txt, 24px);
-			h3 {
-				&:after{
-					content: '';
-					background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
-					position: relative;
-					display: block;
-					height: 40px;
-					width: 80px;
-					z-index: 9999;
-				}
-			}
-		}
+		
 
 		.mns-sec-access{
 			.mns-title-info{

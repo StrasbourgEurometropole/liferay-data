@@ -135,7 +135,7 @@
 				width: 100%;
 			}
 			h2{
-				@include ft($f_ms, 34px, 400, $c_white, 42px);
+				@include ft($f_ms, 25px, 600, $c_white, 42px);
 				margin: 0;
 			}
 			.mns-surtitre{
@@ -484,7 +484,7 @@
 			}
 			p{
 				margin-top: 40px;
-				@include ft($f_ms, 15px, 400, #b3b3b3, normal);
+				@include ft($f_ms, 17.5px, 300, #b3b3b3, normal);
 				@include mobile{
 					margin-bottom: 0;
 				}

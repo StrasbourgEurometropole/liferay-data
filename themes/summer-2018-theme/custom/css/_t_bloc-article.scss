@@ -1,29 +1,38 @@
 #mns-global{
 
 	.mns-bloc-article{
-		.mns-title {
-			@include ft($f_ms, 60px, 100, $c_txt, normal);
-			text-transform: uppercase;
-			display: inline-block;
-			width: auto;
-			padding: 0 80px;
-			@include mobile {
-				font-size: 40px;
-				padding: 0px;
+		.mns-wrapper-title{
+			display: flex;
+		    justify-content: center;
+			.mns-title {
+				@include ft($f_ms, 70px, 100, $c_txt, normal);
+				text-transform: uppercase;
+				display: inline-block;
+				width: 85%;
+				padding: 0 80px;
+				@include mobile {
+					font-size: 40px;
+					padding: 0px;
+				}
+				&:after{
+					content: '';
+					background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+					position: relative;
+					display: block;
+					top: 0px;
+					width: 90px;
+					height: 31px;
+				}
 			}
-			&:after{
-				content: '';
-				background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
-				position: relative;
-				display: block;
-				top: 0px;
-				width: 90px;
-				height: 31px;
+		}
+		.mns-catcher {
+			p{
+				@include ft($f_ms, 20px, 400, $c_txt, normal);
 			}
 		}
 
 		a{
-			@include ft($f_ms, 16px, 700, $c_main, normal);
+			@include ft($f_ms, 17.5px, 500, $c_main, normal);
 			text-decoration: underline;
 			&:hover{
 				color: $c_txt;
@@ -32,11 +41,11 @@
 		}
 
 		h3,h2 {
-			font-weight: 700;
+			font-weight: 600;
 		}
 
 		h3 {
-			font-size: 22px;
+			font-size: 21.5px;
 		}
 		h1 {
 			font-family: $f_ms;

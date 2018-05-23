@@ -46,7 +46,7 @@
 			}
 		}
 		h2, h3{
-			@include ft($f_ms, $s_h3, 700, $c_txt, normal);
+			@include ft($f_ms, 21.5px, 600, $c_txt, normal);
 			text-align: center;
 			span{
 				color: $c_main;

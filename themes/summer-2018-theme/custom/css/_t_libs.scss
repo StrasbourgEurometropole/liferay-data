@@ -5,50 +5,6 @@
 
 #mns-global{
 
-	/*.owl-nav{
-		text-align: right;
-		position: relative;
-		overflow: hidden;
-
-		&:before{
-			content: '';
-			width: 9999px;
-			height: 1px;
-			background-color: #d8dae4;
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			right: 120px;
-		}
-	}*/
-/*
-	@include mobile {
-		#owl-full {
-			.item img {
-				height: 300px; 
-				object-fit: cover;
-			}
-			h2 {
-				height: 60px;
-			}
-			p {
-				height: 104px;
-			}
-		}
-	}
-
-	
-*/
-/*	
-
-	
-	#owl-agenda .owl-item.opacify{
-		.mns-bloc-agenda{
-			a{
-				pointer-events: none;
-			}
-		}
-	}*/
 	#owl-full .owl-stage-outer {
 		width: 100%
 	}
@@ -145,15 +101,15 @@
 			background-color: transparent;
 			border: transparent;
 			height: 550px;
-			 	 @extend %atom-home-slider-arrow;  // Flèches
-                transform: rotate(180deg);
-                left: -300px;
-                width: 300px;
-                outline: none;
-                @include tablet_landscape{
-                    width: 80px;
-                    left: 0px;
-                }
+		 	@extend %atom-home-slider-arrow;  // Flèches
+            transform: rotate(180deg);
+            left: -300px;
+            width: 300px;
+            outline: none;
+            @include tablet_landscape{
+                width: 80px;
+                left: 0px;
+            }
 		}
 
 		.owl-next {
@@ -170,57 +126,16 @@
             }
 		}
 
+        .owl-next .mns-picto, .owl-prev .mns-picto{
+            transition: all 0.3s ease;
+            &:hover{
+                 background-image: url( svg-bg-uri($svg-arrow-orange, #FFFFFF) );
+                 border: 4px solid $c_main;
+                 background-color: $c_white;
+            }
+        }
 	}
 
-	/*.owl-carousel{
-		.caption{
-			position: absolute;
-			right: 40px;
-			bottom: 90px;
-			text-align: right;
-			width: 33.33%;
-			@include tablet_portrait{
-				width: 50%;
-			}
-			@include mobile{
-				position: relative;
-				width: 100%;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				text-align: left;
-				padding: 20px 15px 0 15px;
-			}
-			h3{
-				@include ft($f_txt, 28px, 400, $c_white, 24px);
-				margin-bottom: 20px;
-				@include mobile{
-					color: $c_txt;
-				}
-			}
-			p{
-				color: $c_white;
-				font-size: 16px;
-				@include mobile{
-					color: $c_txt;
-				}
-			}
-		}
-	}
-
-
-
-	.owl-opacify .owl-stage-outer{
-		overflow: visible!important;
-	}
-	.opacify {
-		@include an(all,0.3);
-		opacity: 0.4 !important;
-	// @media screen and (max-width: 600px){
-	// 	opacity: 1!important;
-	// }
-
-}*/
 
 }
 

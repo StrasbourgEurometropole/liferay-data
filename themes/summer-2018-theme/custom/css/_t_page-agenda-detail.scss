@@ -22,7 +22,7 @@
 			padding-bottom: 50px;
 			h2{
 				text-align: left;
-				@include ft($f_ms, 40px, 700, $c_txt, normal);
+				@include ft($f_ms, 25px, 600, $c_txt, normal);
 				display: inline-block;
 				vertical-align: middle;
 			}
@@ -131,7 +131,7 @@
 			}
 
 			h1{
-				@include ft($f_ms, 48px, 100, $c_txt, 54px);
+				@include ft($f_ms, 60px, 100, $c_txt, 54px);
 				width: 100%;
 				margin-bottom: 20px;
 			}
@@ -170,10 +170,8 @@
 			}
 
 			.mns-title-detail-actu{
-				@include ft($f_ms, 16px, 700, $c_txt, normal);
-				padding-bottom: 10px;
+				@include ft($f_ms, 16px, 700, $c_txt, normal);	
 				display: block;
-				margin-bottom: 25px;
 			}
 
 			.mns-info-more{

@@ -44,15 +44,18 @@
 			margin: 0;
 		}
 		h3{
-			@include ft($f_ms, 24px, 700, $c_txt, normal);
+			@include ft($f_ms, 21.5px, 600, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;
 		}
-		p,strong {
+		p {
 			@include ft($f_ms, 17.5px, 300, $c_txt, normal);
 			margin-bottom: 15px;
 			display: block;
+		}
+		strong {
+			font-weight: 500;
 		}
 
 
@@ -108,7 +111,7 @@
 			}
 
 			a{
-				@include ft($f_ms, 16px, 700, $c_main, normal);
+				@include ft($f_ms, 17.5px, 500, $c_main, normal);
 				text-decoration: underline;
 				&:hover{
 					color: $c_txt;
@@ -117,11 +120,11 @@
 			}
 
 			h3,h2 {
-				font-weight: 700;
+				font-weight: 600;
 			}
 
 			h3 {
-				font-size: 22px;
+				font-size: 21.5px;
 			}
 			h1 {
 				font-family: $f_ms;

@@ -56,7 +56,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,$s_h2,700,$c_sub,$s_h2+10);
+		@include ft($f_ms,25px,600,$c_sub,normal);
 
 		strong, a, u, i, em
 		{
@@ -74,7 +74,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 10px 0;
-		@include ft($f_ms,$s_h3,700,$c_main,$s_h3+10);
+		@include ft($f_ms,21.5px,600,$c_main,normal);
 
 		strong, a, u, i, em
 		{
@@ -102,7 +102,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,$s_p,400,$c_txt,$s_p+10);
+		@include ft($f_ms,17.5px,300,$c_txt,$s_p+10);
 
 		&.intercalaire
 		{
@@ -187,12 +187,15 @@
 			width: 100%;
 			background: $c_main;
 			position: relative;
-			transition: all 0.3s ease
+			transition: all 0.3s ease;
 		}
 
-		&.align-right{
+		&.align-center{
 			position: relative;
-			padding-left: 15px;
+			padding: 5px 15px;
+			text-align: center;
+			border: 4px solid;
+			transition: all 0.3s ease;
 			&:before{
 				content: '';
 				background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
@@ -203,12 +206,27 @@
 				transform: translateY(-50%);
 				left: -9999px;	
 			}
+			&:after{
+				content: '';
+				background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+				width: 9999px;
+				height: 10px;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: -9999px;	
+			}
+			&:hover{
+				background: $c_main;
+			    color: $c_white;
+			    border-color: $c_main;
+			}
 		}
 	}
 
 	a.basic-link, 
 	span.basic-link{
-		@include ft($f_ms, 12px, 800, $c_main, normal);
+		@include ft($f_ms, 15px, 700, $c_main, normal);
 		display: block;
 		text-align: left;
 		text-transform: uppercase;

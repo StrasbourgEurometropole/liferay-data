@@ -49,12 +49,20 @@ body{
 			height: 38px;
 		}
 	}
+	.mns-center{
+		text-align: center;
+		span{
+			overflow-x: hidden;
+			display: block;
+			height: 38px;
+		}
+	}
 
 	.mns-portlet-title {
 		display: inline-block; 
 		text-align: left;
 		text-transform: uppercase;		
-		h2 {
+		h1 {
 			@include ft($f_ms, 60px, 100, $c_txt, normal);
 			text-align: center;
 			margin-bottom: 40px;
@@ -104,18 +112,18 @@ body{
 			}
 		}
 		h2{
-			@include ft($f_ms, 26px, 400, $c_txt, 48px);
+			@include ft($f_ms, 25px, 600, $c_txt, 48px);
 			margin-bottom: 15px;
 			@include mobile{
 				line-height: normal;
 			}
 		}
 		h3{
-			@include ft($f_ms, 26px, 400, $c_txt, 28px);
+			@include ft($f_ms, 21.5px, 600, $c_txt, 28px);
 			margin-bottom: 20px;
 		}
 		strong, p{
-			font-size: 16px;
+			font-size: 17.5px;
 			margin-bottom: 20px;
 		}
 
@@ -218,7 +226,7 @@ body{
 				@include ft($f_ms, 22px, 700, $c_txt, 30px);
 			}
 			p{
-				@include ft($f_ms, 15px, 400, $c_txt, 26px);
+				@include ft($f_ms, 17.5px, 300, $c_txt, 26px);
 			}
 		}
 	}

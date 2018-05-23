@@ -280,7 +280,7 @@
 				width: 100%;
 			}
 			p{
-				font-size: 13px;
+				font-size: 17.5px;
 				line-height: 22px;
 				margin-bottom: 0;
 			}
@@ -295,7 +295,7 @@
 					vertical-align: middle;
 				}
 				p{
-					@include ft($f_ms, 16px, 400, $c_white, normal);
+					@include ft($f_ms, 17.5px, 300, $c_white, normal);
 					display: inline-block;
 					vertical-align: middle;
 					padding: 0 5px;
@@ -378,7 +378,7 @@
 .mns-home-entry{
 	position: relative;
 	h1.title{
-		@include ft($f_ms, $s_h3, 300, $c_main, 62px);
+		@include ft($f_ms, 60px, 300, $c_main, 62px);
 		text-align: right;
 		margin-bottom: 0;
 		@include mobile{
@@ -461,7 +461,7 @@
 		}
 
 		h3{
-			@include ft($f_ms, $s_h4, 400, $c_white, normal);
+			@include ft($f_ms, 21.5px, 600, $c_white, normal);
 			margin: 0;
 			text-align: center;
 			position: absolute;
@@ -511,7 +511,7 @@
 			}
 			h3{
 				color: $c_main;
-				font-size: 72px;
+				font-size: 21.5px;
 				position: relative;
 				top: 0;
 				left: 0;
@@ -597,7 +597,7 @@
 
 		.caption.open{
 			h3{
-				font-size: 30px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -625,7 +625,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -661,7 +661,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -692,14 +692,14 @@
 			margin: 7px auto;
 		}
 		h3{
-			font-size: 30px;
+			font-size: 21.5px;
 			@include mobile{
 				font-size: 28px;
 			}
 		}
 		.caption.open{
 			h3{
-				font-size: 26px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -730,7 +730,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -799,7 +799,7 @@
 	}
 	.caption{
 		position: absolute;
-		top: 50%;
+		top: 45%;
 		left: 50%;
 		transform: translate(-50%,-50%);
 		width: 100%;
@@ -825,6 +825,9 @@
 				height: 114px;
 				z-index: 9999;
 				margin-bottom: 50px;
+				@include mobile{
+					margin-bottom: 20px;;
+				}
 			}
 		}
 		
@@ -846,6 +849,7 @@
 		a{
 			margin-top: 20px;
 			font-size: 15px;
+			text-transform: uppercase;
 		}
 	}
 
