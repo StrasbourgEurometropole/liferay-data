@@ -73,6 +73,96 @@
         }
 	}
 
+
+    #owl-slider .owl-stage-outer {
+        width: 100%;
+
+        .item {
+            height: 700px;
+            @include tablet_portrait {
+                height: 600px;
+            }
+            @include mobile {
+                height: 240px !important;
+            }
+            img {
+                position: absolute !important;
+            }
+        }
+
+        .caption {
+            position: absolute;
+            z-index: 3;
+            bottom: 20%;
+            right: 5%;
+        }
+    }
+
+    #owl-slider .owl-nav > button{
+        position: relative;
+        background: transparent;
+        background-color: transparent;
+        border: 0;
+        @include an(all,0.3);
+        span{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            color: $c_white;
+            font-size: 18px;    
+        }
+        @include mobile{
+            border-color: #ebded3;
+            span{
+                color: $c_txt;
+            }
+        }
+    }
+
+    #owl-slider .owl-nav{
+        position: absolute;
+        bottom: 10%;
+        right: calc(5% + 20px);
+        @include mobile {
+            position: absolute;
+            bottom: 10%;
+            right: calc(5% + 10px);
+        }
+        @include tablet_portrait {
+            position: absolute;
+            bottom: 10%;
+            right: calc(5% + 20px);
+        }
+
+        .owl-prev {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: transparent;
+            border: transparent;
+            outline: none;
+            @extend %atom-home-slider-arrow;  // Flèches
+            transform: rotate(180deg);
+            left: -100px;
+            bottom: 0;
+            .mns-picto {
+                left: 0 !important;
+            }
+        }
+        .owl-next {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: transparent;
+            border: transparent;
+            outline: none;
+            @extend %atom-home-slider-arrow;
+            .mns-picto {
+                left: 0 !important;
+            }
+        }
+    }
+
+
 	#owl-agenda .owl-item{
 		max-width: 260px;
 		@include an(all,0.3);

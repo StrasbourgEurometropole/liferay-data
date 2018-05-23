@@ -280,6 +280,18 @@
 		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
 	})
 
+	// Carsousel section Testimonial
+	$('#owl-slider').owlCarousel({
+		loop:true,
+		dots: false,
+		nav:true,
+		items: 1,
+		autoplay: true,
+    	autoplayTimeout: 4000,
+    	autoplayHoverPause: true,
+		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
+	})
+
 	$('#owl-full .owl-item').each(function() {
 		$(this).css('width', $(this).width() + 1);
 	});
