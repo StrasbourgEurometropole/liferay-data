@@ -56,7 +56,11 @@
                 <#assign i=i+1>
             </#if>
 
-            <#assign column= 12/i />
+            <#if i ==4>
+                <#assign column=6>
+            <#else>
+                <#assign column= 12/i />
+            </#if>
 
             <div class="mns-info-more col-sm-${column}">
                 <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
@@ -79,7 +83,7 @@
             </#if>
             <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
                 <div class="mns-info-more col-sm-${column}">
-                    <span class="mns-title-detail-actu" style="margin-bottom: 1px;">Services aux Handicapés</span>
+                    <span class="mns-title-detail-actu" style="padding-bottom: 10px;">Services aux Handicapés</span>
                     <#if entry.accessForBlind>
                         <span class="icon-ico-1"></span>
                     </#if>
