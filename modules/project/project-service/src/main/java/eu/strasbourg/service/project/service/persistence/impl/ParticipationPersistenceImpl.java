@@ -2426,13 +2426,18 @@ public class ParticipationPersistenceImpl extends BasePersistenceImpl<Participat
 		participationImpl.setContactLine2(participation.getContactLine2());
 		participationImpl.setContactPhoneNumber(participation.getContactPhoneNumber());
 		participationImpl.setVideoUrl(participation.getVideoUrl());
-		participationImpl.setImageUrl(participation.getImageUrl());
+		participationImpl.setExternalImageURL(participation.getExternalImageURL());
+		participationImpl.setExternalImageCopyright(participation.getExternalImageCopyright());
+		participationImpl.setImageWidth(participation.getImageWidth());
+		participationImpl.setImageHeight(participation.getImageHeight());
 		participationImpl.setMediaChoice(participation.isMediaChoice());
 		participationImpl.setDescriptionChapeau(participation.getDescriptionChapeau());
 		participationImpl.setDescriptionBody(participation.getDescriptionBody());
 		participationImpl.setConsultationPlacesBody(participation.getConsultationPlacesBody());
+		participationImpl.setImageId(participation.getImageId());
 		participationImpl.setFilesIds(participation.getFilesIds());
 		participationImpl.setEventsIds(participation.getEventsIds());
+		participationImpl.setPlacesIds(participation.getPlacesIds());
 		participationImpl.setPublicationDate(participation.getPublicationDate());
 		participationImpl.setExpirationDate(participation.getExpirationDate());
 

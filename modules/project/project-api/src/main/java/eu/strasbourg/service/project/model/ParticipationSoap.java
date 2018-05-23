@@ -53,13 +53,18 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setContactLine2(model.getContactLine2());
 		soapModel.setContactPhoneNumber(model.getContactPhoneNumber());
 		soapModel.setVideoUrl(model.getVideoUrl());
-		soapModel.setImageUrl(model.getImageUrl());
+		soapModel.setExternalImageURL(model.getExternalImageURL());
+		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
+		soapModel.setImageWidth(model.getImageWidth());
+		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setDescriptionChapeau(model.getDescriptionChapeau());
 		soapModel.setDescriptionBody(model.getDescriptionBody());
 		soapModel.setConsultationPlacesBody(model.getConsultationPlacesBody());
+		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setEventsIds(model.getEventsIds());
+		soapModel.setPlacesIds(model.getPlacesIds());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
 
@@ -266,12 +271,36 @@ public class ParticipationSoap implements Serializable {
 		_videoUrl = videoUrl;
 	}
 
-	public String getImageUrl() {
-		return _imageUrl;
+	public String getExternalImageURL() {
+		return _externalImageURL;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		_imageUrl = imageUrl;
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	public String getExternalImageCopyright() {
+		return _externalImageCopyright;
+	}
+
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	public int getImageWidth() {
+		return _imageWidth;
+	}
+
+	public void setImageWidth(int imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	public int getImageHeight() {
+		return _imageHeight;
+	}
+
+	public void setImageHeight(int imageHeight) {
+		_imageHeight = imageHeight;
 	}
 
 	public boolean getMediaChoice() {
@@ -310,6 +339,14 @@ public class ParticipationSoap implements Serializable {
 		_consultationPlacesBody = consultationPlacesBody;
 	}
 
+	public long getImageId() {
+		return _imageId;
+	}
+
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
 	public String getFilesIds() {
 		return _filesIds;
 	}
@@ -324,6 +361,14 @@ public class ParticipationSoap implements Serializable {
 
 	public void setEventsIds(String eventsIds) {
 		_eventsIds = eventsIds;
+	}
+
+	public String getPlacesIds() {
+		return _placesIds;
+	}
+
+	public void setPlacesIds(String placesIds) {
+		_placesIds = placesIds;
 	}
 
 	public Date getPublicationDate() {
@@ -361,13 +406,18 @@ public class ParticipationSoap implements Serializable {
 	private String _contactLine2;
 	private String _contactPhoneNumber;
 	private String _videoUrl;
-	private String _imageUrl;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private int _imageWidth;
+	private int _imageHeight;
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;
 	private String _consultationPlacesBody;
+	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;
+	private String _placesIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 }

@@ -99,7 +99,10 @@
 		
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
-		<column name="imageUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+        <column name="externalImageCopyright" type="String" />
+        <column name="imageWidth" type="int" />
+        <column name="imageHeight" type="int" />
 		<column name="mediaChoice" type="boolean" />
 		
 		<!-- Description -->
@@ -110,8 +113,10 @@
 		<column name="consultationPlacesBody" type="String" />
 		
 		<!-- Links with other entities -->
+		<column name="imageId" type="long" />
 		<column name="filesIds" type="String" />
 		<column name="eventsIds" type="String" />
+		<column name="placesIds" type="String" />
 		
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />

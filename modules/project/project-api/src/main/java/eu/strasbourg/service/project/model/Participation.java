@@ -65,15 +65,15 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
+	* Retourne la liste des lieux liés à la participation
+	*/
+	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
-
-	/**
-	* Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
-	*/
-	public java.lang.String getTitleInTwoLines();
 
 	/**
 	* Retourne le type de la participation (
@@ -130,4 +130,14 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	* Retourne la liste des URLs des documents
 	*/
 	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageURL();
+
+	/**
+	* Retourne le copyright de l'image principale
+	*/
+	public java.lang.String getImageCopyright(java.util.Locale locale);
 }

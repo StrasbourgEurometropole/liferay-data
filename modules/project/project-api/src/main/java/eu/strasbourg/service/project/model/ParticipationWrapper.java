@@ -79,13 +79,18 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("imageUrl", getImageUrl());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("descriptionChapeau", getDescriptionChapeau());
 		attributes.put("descriptionBody", getDescriptionBody());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
+		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("eventsIds", getEventsIds());
+		attributes.put("placesIds", getPlacesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -208,10 +213,29 @@ public class ParticipationWrapper implements Participation,
 			setVideoUrl(videoUrl);
 		}
 
-		String imageUrl = (String)attributes.get("imageUrl");
+		String externalImageURL = (String)attributes.get("externalImageURL");
 
-		if (imageUrl != null) {
-			setImageUrl(imageUrl);
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
@@ -239,6 +263,12 @@ public class ParticipationWrapper implements Participation,
 			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
 		String filesIds = (String)attributes.get("filesIds");
 
 		if (filesIds != null) {
@@ -249,6 +279,12 @@ public class ParticipationWrapper implements Participation,
 
 		if (eventsIds != null) {
 			setEventsIds(eventsIds);
+		}
+
+		String placesIds = (String)attributes.get("placesIds");
+
+		if (placesIds != null) {
+			setPlacesIds(placesIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -422,6 +458,26 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Returns the image height of this participation.
+	*
+	* @return the image height of this participation
+	*/
+	@Override
+	public int getImageHeight() {
+		return _participation.getImageHeight();
+	}
+
+	/**
+	* Returns the image width of this participation.
+	*
+	* @return the image width of this participation
+	*/
+	@Override
+	public int getImageWidth() {
+		return _participation.getImageWidth();
+	}
+
+	/**
 	* Returns the status of this participation.
 	*
 	* @return the status of this participation
@@ -553,6 +609,26 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Returns the external image copyright of this participation.
+	*
+	* @return the external image copyright of this participation
+	*/
+	@Override
+	public java.lang.String getExternalImageCopyright() {
+		return _participation.getExternalImageCopyright();
+	}
+
+	/**
+	* Returns the external image url of this participation.
+	*
+	* @return the external image url of this participation
+	*/
+	@Override
+	public java.lang.String getExternalImageURL() {
+		return _participation.getExternalImageURL();
+	}
+
+	/**
 	* Returns the files IDs of this participation.
 	*
 	* @return the files IDs of this participation
@@ -563,13 +639,19 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Returns the image url of this participation.
-	*
-	* @return the image url of this participation
+	* Retourne le copyright de l'image principale
 	*/
 	@Override
-	public java.lang.String getImageUrl() {
-		return _participation.getImageUrl();
+	public java.lang.String getImageCopyright(java.util.Locale locale) {
+		return _participation.getImageCopyright(locale);
+	}
+
+	/**
+	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageURL() {
+		return _participation.getImageURL();
 	}
 
 	/**
@@ -585,6 +667,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getParticipationStatus() {
 		return _participation.getParticipationStatus();
+	}
+
+	/**
+	* Returns the places IDs of this participation.
+	*
+	* @return the places IDs of this participation
+	*/
+	@Override
+	public java.lang.String getPlacesIds() {
+		return _participation.getPlacesIds();
 	}
 
 	/**
@@ -615,14 +707,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public java.lang.String getTitle() {
 		return _participation.getTitle();
-	}
-
-	/**
-	* Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
-	*/
-	@Override
-	public java.lang.String getTitleInTwoLines() {
-		return _participation.getTitleInTwoLines();
 	}
 
 	/**
@@ -771,6 +855,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne la liste des lieux liés à la participation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
+		return _participation.getPlaces();
+	}
+
+	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays de la participation
 	*/
 	@Override
@@ -804,6 +896,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public long getGroupId() {
 		return _participation.getGroupId();
+	}
+
+	/**
+	* Returns the image ID of this participation.
+	*
+	* @return the image ID of this participation
+	*/
+	@Override
+	public long getImageId() {
+		return _participation.getImageId();
 	}
 
 	/**
@@ -994,6 +1096,27 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Sets the external image copyright of this participation.
+	*
+	* @param externalImageCopyright the external image copyright of this participation
+	*/
+	@Override
+	public void setExternalImageCopyright(
+		java.lang.String externalImageCopyright) {
+		_participation.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	* Sets the external image url of this participation.
+	*
+	* @param externalImageURL the external image url of this participation
+	*/
+	@Override
+	public void setExternalImageURL(java.lang.String externalImageURL) {
+		_participation.setExternalImageURL(externalImageURL);
+	}
+
+	/**
 	* Sets the files IDs of this participation.
 	*
 	* @param filesIds the files IDs of this participation
@@ -1014,13 +1137,33 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Sets the image url of this participation.
+	* Sets the image height of this participation.
 	*
-	* @param imageUrl the image url of this participation
+	* @param imageHeight the image height of this participation
 	*/
 	@Override
-	public void setImageUrl(java.lang.String imageUrl) {
-		_participation.setImageUrl(imageUrl);
+	public void setImageHeight(int imageHeight) {
+		_participation.setImageHeight(imageHeight);
+	}
+
+	/**
+	* Sets the image ID of this participation.
+	*
+	* @param imageId the image ID of this participation
+	*/
+	@Override
+	public void setImageId(long imageId) {
+		_participation.setImageId(imageId);
+	}
+
+	/**
+	* Sets the image width of this participation.
+	*
+	* @param imageWidth the image width of this participation
+	*/
+	@Override
+	public void setImageWidth(int imageWidth) {
+		_participation.setImageWidth(imageWidth);
 	}
 
 	/**
@@ -1056,6 +1199,16 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setParticipationId(long participationId) {
 		_participation.setParticipationId(participationId);
+	}
+
+	/**
+	* Sets the places IDs of this participation.
+	*
+	* @param placesIds the places IDs of this participation
+	*/
+	@Override
+	public void setPlacesIds(java.lang.String placesIds) {
+		_participation.setPlacesIds(placesIds);
 	}
 
 	/**

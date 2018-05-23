@@ -202,12 +202,15 @@ public class ProjectLocalServiceWrapper implements ProjectLocalService,
 
 	/**
 	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	@Override
 	public eu.strasbourg.service.project.model.Project updateProject(
 		eu.strasbourg.service.project.model.Project project,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return _projectLocalService.updateProject(project, sc);
 	}
 

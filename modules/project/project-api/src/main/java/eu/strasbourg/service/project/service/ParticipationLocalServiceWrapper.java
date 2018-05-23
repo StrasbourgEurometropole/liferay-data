@@ -206,12 +206,15 @@ public class ParticipationLocalServiceWrapper
 
 	/**
 	* Met à jour une participation et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	@Override
 	public eu.strasbourg.service.project.model.Participation updateParticipation(
 		eu.strasbourg.service.project.model.Participation participation,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return _participationLocalService.updateParticipation(participation, sc);
 	}
 

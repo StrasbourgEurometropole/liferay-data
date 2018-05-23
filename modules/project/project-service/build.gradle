@@ -7,6 +7,7 @@ dependencies {
 	compile group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "2.0.0"
 	compile project(":modules:project:project-api")
 	compile project(":modules:agenda:agenda-api")
+	compile project(":modules:place:place-api")
 	compile project (':modules:utils')
 }
 

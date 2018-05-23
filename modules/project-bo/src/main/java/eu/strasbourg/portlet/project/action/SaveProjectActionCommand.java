@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.project.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -198,6 +199,8 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			_projectLocalService.updateProject(project, sc);
 
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 

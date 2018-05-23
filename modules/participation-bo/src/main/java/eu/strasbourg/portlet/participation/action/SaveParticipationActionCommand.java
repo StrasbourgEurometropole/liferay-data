@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.participation.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -122,9 +123,22 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			String videoUrl = ParamUtil.getString(request, "videoUrl");
 			participation.setVideoUrl(videoUrl);
 			
-			// URL de l'image
-			String imageUrl = ParamUtil.getString(request, "imageUrl");
-			participation.setImageUrl(imageUrl);
+			// Image
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			if (imageId > 0) { // Image interne
+				participation.setImageId(imageId);
+				participation.setExternalImageURL("");
+				participation.setExternalImageCopyright("");
+			} else { // Image interne
+				participation.setImageId((long) 0);
+				String externalImageURL = ParamUtil.getString(request,
+					"externalImageURL");
+				participation.setExternalImageURL(externalImageURL);
+
+				String externalImageCopyright = ParamUtil.getString(request,
+					"externalImageCopyright");
+				participation.setExternalImageCopyright(externalImageCopyright);
+			}
 			
 			// ---------------------------------------------------------------
 			// -------------------------- DESCRIPTION ------------------------
@@ -145,6 +159,10 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			// Corps de la description des lieux de consultation
 			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
 			participation.setConsultationPlacesBody(consultationPlacesBody);
+			
+			// Lieux
+			String placesIds = ParamUtil.getString(request, "placesIds");
+			participation.setPlacesIds(placesIds);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- DOCUMENTS --------------------------
@@ -176,6 +194,8 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			_participationLocalService.updateParticipation(participation, sc);
 
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 

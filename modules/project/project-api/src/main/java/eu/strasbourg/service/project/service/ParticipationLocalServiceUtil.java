@@ -194,11 +194,14 @@ public class ParticipationLocalServiceUtil {
 
 	/**
 	* Met à jour une participation et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	public static eu.strasbourg.service.project.model.Participation updateParticipation(
 		eu.strasbourg.service.project.model.Participation participation,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return getService().updateParticipation(participation, sc);
 	}
 

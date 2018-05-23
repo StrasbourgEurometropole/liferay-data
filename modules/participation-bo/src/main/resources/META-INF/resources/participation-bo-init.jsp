@@ -14,6 +14,12 @@
 
 <%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
 
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-util:html-bottom>
+	<script src="/o/participationbo/js/participation-bo-main.js" type="text/javascript"></script>
+</liferay-util:html-bottom>

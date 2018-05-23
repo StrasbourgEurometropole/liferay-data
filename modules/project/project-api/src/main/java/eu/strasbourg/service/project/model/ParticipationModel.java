@@ -398,19 +398,62 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setVideoUrl(String videoUrl);
 
 	/**
-	 * Returns the image url of this participation.
+	 * Returns the external image url of this participation.
 	 *
-	 * @return the image url of this participation
+	 * @return the external image url of this participation
 	 */
 	@AutoEscape
-	public String getImageUrl();
+	public String getExternalImageURL();
 
 	/**
-	 * Sets the image url of this participation.
+	 * Sets the external image url of this participation.
 	 *
-	 * @param imageUrl the image url of this participation
+	 * @param externalImageURL the external image url of this participation
 	 */
-	public void setImageUrl(String imageUrl);
+	public void setExternalImageURL(String externalImageURL);
+
+	/**
+	 * Returns the external image copyright of this participation.
+	 *
+	 * @return the external image copyright of this participation
+	 */
+	@AutoEscape
+	public String getExternalImageCopyright();
+
+	/**
+	 * Sets the external image copyright of this participation.
+	 *
+	 * @param externalImageCopyright the external image copyright of this participation
+	 */
+	public void setExternalImageCopyright(String externalImageCopyright);
+
+	/**
+	 * Returns the image width of this participation.
+	 *
+	 * @return the image width of this participation
+	 */
+	public int getImageWidth();
+
+	/**
+	 * Sets the image width of this participation.
+	 *
+	 * @param imageWidth the image width of this participation
+	 */
+	public void setImageWidth(int imageWidth);
+
+	/**
+	 * Returns the image height of this participation.
+	 *
+	 * @return the image height of this participation
+	 */
+	public int getImageHeight();
+
+	/**
+	 * Sets the image height of this participation.
+	 *
+	 * @param imageHeight the image height of this participation
+	 */
+	public void setImageHeight(int imageHeight);
 
 	/**
 	 * Returns the media choice of this participation.
@@ -479,6 +522,20 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setConsultationPlacesBody(String consultationPlacesBody);
 
 	/**
+	 * Returns the image ID of this participation.
+	 *
+	 * @return the image ID of this participation
+	 */
+	public long getImageId();
+
+	/**
+	 * Sets the image ID of this participation.
+	 *
+	 * @param imageId the image ID of this participation
+	 */
+	public void setImageId(long imageId);
+
+	/**
 	 * Returns the files IDs of this participation.
 	 *
 	 * @return the files IDs of this participation
@@ -507,6 +564,21 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	 * @param eventsIds the events IDs of this participation
 	 */
 	public void setEventsIds(String eventsIds);
+
+	/**
+	 * Returns the places IDs of this participation.
+	 *
+	 * @return the places IDs of this participation
+	 */
+	@AutoEscape
+	public String getPlacesIds();
+
+	/**
+	 * Sets the places IDs of this participation.
+	 *
+	 * @param placesIds the places IDs of this participation
+	 */
+	public void setPlacesIds(String placesIds);
 
 	/**
 	 * Returns the publication date of this participation.
