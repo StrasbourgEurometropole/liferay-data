@@ -81,10 +81,11 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 				request.setAttribute("felecResponse", felecResponse);
 				Place office = null;
 				try {
-					office = PlaceLocalServiceUtil.findByName(
-							"Bureau de vote " + (felecResponse.getStationNumber().substring(0, 1).equals("0")
-									? felecResponse.getStationNumber().substring(1)
-									: felecResponse.getStationNumber()));
+					//retire les zéros devant le numéro
+					String stationNumber = felecResponse.getStationNumber().replaceAll("^0+", "");
+					List<Place> places = PlaceLocalServiceUtil.findByName("% " + stationNumber);
+					if(!places.isEmpty())
+						office = places.get(0);
 				} catch (NoSuchPlaceException e) {
 					e.printStackTrace();
 				}

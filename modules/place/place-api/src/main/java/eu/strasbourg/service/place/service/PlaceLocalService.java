@@ -156,13 +156,6 @@ public interface PlaceLocalService extends BaseLocalService,
 	public Place fetchPlaceByUuidAndGroupId(java.lang.String uuid, long groupId);
 
 	/**
-	* Lance une recherche par nom
-	*
-	* @throws NoSuchPlaceException
-	*/
-	public Place findByName(java.lang.String name) throws NoSuchPlaceException;
-
-	/**
 	* Returns the place with the primary key.
 	*
 	* @param placeId the primary key of the place
@@ -273,6 +266,14 @@ public interface PlaceLocalService extends BaseLocalService,
 	*/
 	public List<Place> findByKeyword(java.lang.String keyword, long groupId,
 		int start, int end);
+
+	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	public List<Place> findByName(java.lang.String name)
+		throws NoSuchPlaceException;
 
 	/**
 	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe

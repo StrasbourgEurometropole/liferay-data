@@ -859,52 +859,151 @@ public class PlaceUtil {
 	}
 
 	/**
-	* Returns the place where name = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	* Returns all the places where name LIKE &#63;.
 	*
 	* @param name the name
-	* @return the matching place
-	* @throws NoSuchPlaceException if a matching place could not be found
+	* @return the matching places
 	*/
-	public static Place findByname(java.lang.String name)
-		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+	public static List<Place> findByname(java.lang.String name) {
 		return getPersistence().findByname(name);
 	}
 
 	/**
-	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns a range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
 	*
 	* @param name the name
-	* @return the matching place, or <code>null</code> if a matching place could not be found
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @return the range of matching places
 	*/
-	public static Place fetchByname(java.lang.String name) {
-		return getPersistence().fetchByname(name);
+	public static List<Place> findByname(java.lang.String name, int start,
+		int end) {
+		return getPersistence().findByname(name, start, end);
 	}
 
 	/**
-	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns an ordered range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
 	*
 	* @param name the name
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching places
+	*/
+	public static List<Place> findByname(java.lang.String name, int start,
+		int end, OrderByComparator<Place> orderByComparator) {
+		return getPersistence().findByname(name, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param name the name
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching place, or <code>null</code> if a matching place could not be found
+	* @return the ordered range of matching places
 	*/
-	public static Place fetchByname(java.lang.String name,
+	public static List<Place> findByname(java.lang.String name, int start,
+		int end, OrderByComparator<Place> orderByComparator,
 		boolean retrieveFromCache) {
-		return getPersistence().fetchByname(name, retrieveFromCache);
+		return getPersistence()
+				   .findByname(name, start, end, orderByComparator,
+			retrieveFromCache);
 	}
 
 	/**
-	* Removes the place where name = &#63; from the database.
+	* Returns the first place in the ordered set where name LIKE &#63;.
 	*
 	* @param name the name
-	* @return the place that was removed
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
 	*/
-	public static Place removeByname(java.lang.String name)
+	public static Place findByname_First(java.lang.String name,
+		OrderByComparator<Place> orderByComparator)
 		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
-		return getPersistence().removeByname(name);
+		return getPersistence().findByname_First(name, orderByComparator);
 	}
 
 	/**
-	* Returns the number of places where name = &#63;.
+	* Returns the first place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public static Place fetchByname_First(java.lang.String name,
+		OrderByComparator<Place> orderByComparator) {
+		return getPersistence().fetchByname_First(name, orderByComparator);
+	}
+
+	/**
+	* Returns the last place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
+	*/
+	public static Place findByname_Last(java.lang.String name,
+		OrderByComparator<Place> orderByComparator)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getPersistence().findByname_Last(name, orderByComparator);
+	}
+
+	/**
+	* Returns the last place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public static Place fetchByname_Last(java.lang.String name,
+		OrderByComparator<Place> orderByComparator) {
+		return getPersistence().fetchByname_Last(name, orderByComparator);
+	}
+
+	/**
+	* Returns the places before and after the current place in the ordered set where name LIKE &#63;.
+	*
+	* @param placeId the primary key of the current place
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next place
+	* @throws NoSuchPlaceException if a place with the primary key could not be found
+	*/
+	public static Place[] findByname_PrevAndNext(long placeId,
+		java.lang.String name, OrderByComparator<Place> orderByComparator)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getPersistence()
+				   .findByname_PrevAndNext(placeId, name, orderByComparator);
+	}
+
+	/**
+	* Removes all the places where name LIKE &#63; from the database.
+	*
+	* @param name the name
+	*/
+	public static void removeByname(java.lang.String name) {
+		getPersistence().removeByname(name);
+	}
+
+	/**
+	* Returns the number of places where name LIKE &#63;.
 	*
 	* @param name the name
 	* @return the number of matching places

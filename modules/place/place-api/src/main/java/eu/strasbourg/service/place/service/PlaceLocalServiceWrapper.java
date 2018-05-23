@@ -157,18 +157,6 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	}
 
 	/**
-	* Lance une recherche par nom
-	*
-	* @throws NoSuchPlaceException
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.Place findByName(
-		java.lang.String name)
-		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
-		return _placeLocalService.findByName(name);
-	}
-
-	/**
 	* Returns the place with the primary key.
 	*
 	* @param placeId the primary key of the place
@@ -327,6 +315,18 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	public java.util.List<eu.strasbourg.service.place.model.Place> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return _placeLocalService.findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> findByName(
+		java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return _placeLocalService.findByName(name);
 	}
 
 	/**
