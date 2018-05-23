@@ -29,9 +29,14 @@
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="imageUrl" type="String">
+		<field name="externalImageURL" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="externalImageCopyright" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="imageWidth" type="int" />
+		<field name="imageHeight" type="int" />
 		<field name="mediaChoice" type="boolean" />
 		<field name="descriptionChapeau" type="String">
 			<hint name="max-length">400</hint>
@@ -42,8 +47,10 @@
 		<field name="consultationPlacesBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
 		<field name="eventsIds" type="String" />
+		<field name="placesIds" type="String" />
 		<field name="publicationDate" type="Date" />
 		<field name="expirationDate" type="Date" />
 	</model>

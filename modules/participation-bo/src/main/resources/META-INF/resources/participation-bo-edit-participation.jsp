@@ -65,10 +65,29 @@
 					value="${not empty dc.participation ? dc.participation.mediaChoice : true}" />
 				
 				<%-- Champ : URL de la video --%>
-				<aui:input name="imageUrl" required="false" />
-				
-				<%-- Champ : URL de l'image --%>
 				<aui:input name="videoUrl" required="false" />
+				
+				<%-- Selecteur : Image interne ou externe ? --%>
+				<label><input type="radio" value="internalImage" name="imageType" 
+					<c:if test="${(not empty dc.participation.imageId and dc.participation.imageId gt 0) or empty dc.participation.externalImageURL }">checked</c:if>> Image interne</label><br>
+				<label><input type="radio" value="externalImage" name="imageType"
+					<c:if test="${(empty dc.participation.imageId or dc.participation.imageId eq 0) and not empty dc.participation.externalImageURL }">checked</c:if>> Image externe</label><br><br>
+				
+				<%-- Champ : Image interne --%>
+				<div class="internalImage" <c:if test="${(empty dc.participation.imageId or dc.participation.imageId eq 0) and not empty dc.participation.externalImageURL }">style="display: none;"</c:if>>
+					<strasbourg-picker:image label="image" name="imageId" required="false" value="${dc.participation.imageId}" global="true" />
+				</div>
+				
+				<%-- Groupe de champs : Image externe --%>
+				<div class="externalImage" <c:if test="${(not empty dc.participation.imageId and dc.participation.imageId gt 0) or empty dc.participation.externalImageURL }">style="display: none;"</c:if>>
+					
+					<%-- Champ : URL de l'image externe --%>
+					<aui:input name="externalImageURL" required="false" />
+					
+					<%-- Champ : Copyright de l'image externe --%>
+					<aui:input name="externalImageCopyright" required="false" />
+					
+				</div>
 				
 			</aui:fieldset>
 			
@@ -89,12 +108,16 @@
 				<%-- Champ : Corps de la description des lieux de consultation --%>
 				<aui:input name="consultationPlacesBody" required="false" />
 				
+				<%-- Champ : Lieux --%>
+				<strasbourg-picker:entity type="eu.strasbourg.service.place.model.Place" label="eu.places" name="placesIds"
+					required="false" multiple="true" value="${dc.participation.placesIds}" />
+				
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : Documents --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
 				
-				<%-- Champ : SÃÂ©lection des documents --%>
+				<%-- Champ : Selection des documents --%>
 				<strasbourg-picker:file label="eu.documents" name="filesIds"
 					required="false" multiple="true" value="${dc.participation.filesIds}" /> 
 				
@@ -103,7 +126,7 @@
 			<%-- Groupe de champs : Autres --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="others">
 				
-				<%-- Champ :Evenements --%>
+				<%-- Champ : Evenements --%>
 				<strasbourg-picker:entity type="eu.strasbourg.service.agenda.model.Event" label="eu.events" name="eventsIds"
 					required="false" multiple="true" value="${dc.participation.eventsIds}" />
 				
@@ -170,13 +193,17 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour Ã  la liste des entites --%>
+			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
 </div>
+
+<liferay-util:html-bottom>
+	<script src="/o/participationbo/js/participation-bo-edit-participation.js" type="text/javascript"></script>
+</liferay-util:html-bottom>
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>

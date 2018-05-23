@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -106,8 +106,14 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(contactPhoneNumber);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
-		sb.append(", imageUrl=");
-		sb.append(imageUrl);
+		sb.append(", externalImageURL=");
+		sb.append(externalImageURL);
+		sb.append(", externalImageCopyright=");
+		sb.append(externalImageCopyright);
+		sb.append(", imageWidth=");
+		sb.append(imageWidth);
+		sb.append(", imageHeight=");
+		sb.append(imageHeight);
 		sb.append(", mediaChoice=");
 		sb.append(mediaChoice);
 		sb.append(", descriptionChapeau=");
@@ -116,10 +122,14 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(descriptionBody);
 		sb.append(", consultationPlacesBody=");
 		sb.append(consultationPlacesBody);
+		sb.append(", imageId=");
+		sb.append(imageId);
 		sb.append(", filesIds=");
 		sb.append(filesIds);
 		sb.append(", eventsIds=");
 		sb.append(eventsIds);
+		sb.append(", placesIds=");
+		sb.append(placesIds);
 		sb.append(", publicationDate=");
 		sb.append(publicationDate);
 		sb.append(", expirationDate=");
@@ -232,13 +242,22 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setVideoUrl(videoUrl);
 		}
 
-		if (imageUrl == null) {
-			participationImpl.setImageUrl(StringPool.BLANK);
+		if (externalImageURL == null) {
+			participationImpl.setExternalImageURL(StringPool.BLANK);
 		}
 		else {
-			participationImpl.setImageUrl(imageUrl);
+			participationImpl.setExternalImageURL(externalImageURL);
 		}
 
+		if (externalImageCopyright == null) {
+			participationImpl.setExternalImageCopyright(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setExternalImageCopyright(externalImageCopyright);
+		}
+
+		participationImpl.setImageWidth(imageWidth);
+		participationImpl.setImageHeight(imageHeight);
 		participationImpl.setMediaChoice(mediaChoice);
 
 		if (descriptionChapeau == null) {
@@ -262,6 +281,8 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setConsultationPlacesBody(consultationPlacesBody);
 		}
 
+		participationImpl.setImageId(imageId);
+
 		if (filesIds == null) {
 			participationImpl.setFilesIds(StringPool.BLANK);
 		}
@@ -274,6 +295,13 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		}
 		else {
 			participationImpl.setEventsIds(eventsIds);
+		}
+
+		if (placesIds == null) {
+			participationImpl.setPlacesIds(StringPool.BLANK);
+		}
+		else {
+			participationImpl.setPlacesIds(placesIds);
 		}
 
 		if (publicationDate == Long.MIN_VALUE) {
@@ -322,14 +350,22 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		contactLine2 = objectInput.readUTF();
 		contactPhoneNumber = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
-		imageUrl = objectInput.readUTF();
+		externalImageURL = objectInput.readUTF();
+		externalImageCopyright = objectInput.readUTF();
+
+		imageWidth = objectInput.readInt();
+
+		imageHeight = objectInput.readInt();
 
 		mediaChoice = objectInput.readBoolean();
 		descriptionChapeau = objectInput.readUTF();
 		descriptionBody = objectInput.readUTF();
 		consultationPlacesBody = objectInput.readUTF();
+
+		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
 		eventsIds = objectInput.readUTF();
+		placesIds = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
 		expirationDate = objectInput.readLong();
 	}
@@ -424,12 +460,23 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(videoUrl);
 		}
 
-		if (imageUrl == null) {
+		if (externalImageURL == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(imageUrl);
+			objectOutput.writeUTF(externalImageURL);
 		}
+
+		if (externalImageCopyright == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(externalImageCopyright);
+		}
+
+		objectOutput.writeInt(imageWidth);
+
+		objectOutput.writeInt(imageHeight);
 
 		objectOutput.writeBoolean(mediaChoice);
 
@@ -454,6 +501,8 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(consultationPlacesBody);
 		}
 
+		objectOutput.writeLong(imageId);
+
 		if (filesIds == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -466,6 +515,13 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		}
 		else {
 			objectOutput.writeUTF(eventsIds);
+		}
+
+		if (placesIds == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(placesIds);
 		}
 
 		objectOutput.writeLong(publicationDate);
@@ -491,13 +547,18 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public String contactLine2;
 	public String contactPhoneNumber;
 	public String videoUrl;
-	public String imageUrl;
+	public String externalImageURL;
+	public String externalImageCopyright;
+	public int imageWidth;
+	public int imageHeight;
 	public boolean mediaChoice;
 	public String descriptionChapeau;
 	public String descriptionBody;
 	public String consultationPlacesBody;
+	public long imageId;
 	public String filesIds;
 	public String eventsIds;
+	public String placesIds;
 	public long publicationDate;
 	public long expirationDate;
 }

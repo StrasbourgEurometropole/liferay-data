@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.model.Project;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.List;
@@ -184,9 +185,11 @@ public interface ProjectLocalService extends BaseLocalService,
 
 	/**
 	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	public Project updateProject(Project project, ServiceContext sc)
-		throws PortalException;
+		throws PortalException, IOException;
 
 	/**
 	* Met à jour le statut du projet par le framework workflow

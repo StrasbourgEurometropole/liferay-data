@@ -27,13 +27,18 @@
 		<property name="contactLine2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactPhoneNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="imageUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageWidth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="imageHeight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="mediaChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="descriptionChapeau" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="descriptionBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="consultationPlacesBody" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="eventsIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="placesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="expirationDate" type="org.hibernate.type.TimestampType" />
 	</class>

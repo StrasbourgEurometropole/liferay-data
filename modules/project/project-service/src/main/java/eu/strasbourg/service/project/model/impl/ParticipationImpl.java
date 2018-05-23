@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -30,6 +31,8 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -81,6 +84,22 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return events;
 	}
+	
+	/**
+	 * Retourne la liste des lieux liés à la participation
+	 */
+	@Override
+	public List<Place> getPlaces() {
+		List<Place> places = new ArrayList<Place>();
+		for (String placeIdsStr : this.getPlacesIds().split(",")) {
+			Long placeId = GetterUtil.getLong(placeIdsStr);
+			Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return places;
+	}
 
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
@@ -90,17 +109,6 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
-	}
-	
-	/**
-	 * Retourne le titre muni d'une balise <br> permettant l'affichage en deux lignes ...
-	 */
-	@Override
-	public String getTitleInTwoLines() {
-		String title = this.getTitle();
-		int titleLength = title.length();
-		int cutBr = title.indexOf(" ", 15);
-		return title.substring(0,cutBr)+"<br>"+title.substring(cutBr,titleLength);
 	}
 	
 	/**
@@ -262,6 +270,30 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			}
 		}
 		return URLs;
+	}
+	
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		if (Validator.isNotNull(this.getExternalImageURL())) {
+			return this.getExternalImageURL();
+		} else {
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}
+	}
+	
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(Locale locale) {
+		if (Validator.isNotNull(this.getExternalImageCopyright())) {
+			return this.getExternalImageCopyright();
+		} else {
+			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+		}
 	}
 	
 }

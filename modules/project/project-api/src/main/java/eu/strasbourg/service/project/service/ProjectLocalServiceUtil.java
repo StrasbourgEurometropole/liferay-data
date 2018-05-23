@@ -194,11 +194,14 @@ public class ProjectLocalServiceUtil {
 
 	/**
 	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	public static eu.strasbourg.service.project.model.Project updateProject(
 		eu.strasbourg.service.project.model.Project project,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return getService().updateProject(project, sc);
 	}
 

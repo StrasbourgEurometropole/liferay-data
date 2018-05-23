@@ -32,7 +32,7 @@
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_participation_ParticipationBOPortlet</portlet-name>
 		</portlet-ref>
-		<weight>3</weight>
+		<weight>2</weight>
 		<permissions>
 			<supports>
 				<action-key>VIEW</action-key>

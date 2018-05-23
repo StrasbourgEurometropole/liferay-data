@@ -93,13 +93,18 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			{ "contactLine2", Types.VARCHAR },
 			{ "contactPhoneNumber", Types.VARCHAR },
 			{ "videoUrl", Types.VARCHAR },
-			{ "imageUrl", Types.VARCHAR },
+			{ "externalImageURL", Types.VARCHAR },
+			{ "externalImageCopyright", Types.VARCHAR },
+			{ "imageWidth", Types.INTEGER },
+			{ "imageHeight", Types.INTEGER },
 			{ "mediaChoice", Types.BOOLEAN },
 			{ "descriptionChapeau", Types.VARCHAR },
 			{ "descriptionBody", Types.CLOB },
 			{ "consultationPlacesBody", Types.CLOB },
+			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR },
 			{ "eventsIds", Types.VARCHAR },
+			{ "placesIds", Types.VARCHAR },
 			{ "publicationDate", Types.TIMESTAMP },
 			{ "expirationDate", Types.TIMESTAMP }
 		};
@@ -125,18 +130,23 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("contactLine2", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactPhoneNumber", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("imageUrl", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("descriptionChapeau", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("descriptionBody", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("consultationPlacesBody", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventsIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("placesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,imageUrl VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,placesIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Participation";
 	public static final String ORDER_BY_JPQL = " ORDER BY participation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Participation.title ASC";
@@ -189,13 +199,18 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		model.setContactLine2(soapModel.getContactLine2());
 		model.setContactPhoneNumber(soapModel.getContactPhoneNumber());
 		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setImageUrl(soapModel.getImageUrl());
+		model.setExternalImageURL(soapModel.getExternalImageURL());
+		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
+		model.setImageWidth(soapModel.getImageWidth());
+		model.setImageHeight(soapModel.getImageHeight());
 		model.setMediaChoice(soapModel.getMediaChoice());
 		model.setDescriptionChapeau(soapModel.getDescriptionChapeau());
 		model.setDescriptionBody(soapModel.getDescriptionBody());
 		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
+		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
 		model.setEventsIds(soapModel.getEventsIds());
+		model.setPlacesIds(soapModel.getPlacesIds());
 		model.setPublicationDate(soapModel.getPublicationDate());
 		model.setExpirationDate(soapModel.getExpirationDate());
 
@@ -281,13 +296,18 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		attributes.put("contactLine2", getContactLine2());
 		attributes.put("contactPhoneNumber", getContactPhoneNumber());
 		attributes.put("videoUrl", getVideoUrl());
-		attributes.put("imageUrl", getImageUrl());
+		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put("externalImageCopyright", getExternalImageCopyright());
+		attributes.put("imageWidth", getImageWidth());
+		attributes.put("imageHeight", getImageHeight());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("descriptionChapeau", getDescriptionChapeau());
 		attributes.put("descriptionBody", getDescriptionBody());
 		attributes.put("consultationPlacesBody", getConsultationPlacesBody());
+		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("eventsIds", getEventsIds());
+		attributes.put("placesIds", getPlacesIds());
 		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("expirationDate", getExpirationDate());
 
@@ -413,10 +433,29 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			setVideoUrl(videoUrl);
 		}
 
-		String imageUrl = (String)attributes.get("imageUrl");
+		String externalImageURL = (String)attributes.get("externalImageURL");
 
-		if (imageUrl != null) {
-			setImageUrl(imageUrl);
+		if (externalImageURL != null) {
+			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageCopyright = (String)attributes.get(
+				"externalImageCopyright");
+
+		if (externalImageCopyright != null) {
+			setExternalImageCopyright(externalImageCopyright);
+		}
+
+		Integer imageWidth = (Integer)attributes.get("imageWidth");
+
+		if (imageWidth != null) {
+			setImageWidth(imageWidth);
+		}
+
+		Integer imageHeight = (Integer)attributes.get("imageHeight");
+
+		if (imageHeight != null) {
+			setImageHeight(imageHeight);
 		}
 
 		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
@@ -444,6 +483,12 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			setConsultationPlacesBody(consultationPlacesBody);
 		}
 
+		Long imageId = (Long)attributes.get("imageId");
+
+		if (imageId != null) {
+			setImageId(imageId);
+		}
+
 		String filesIds = (String)attributes.get("filesIds");
 
 		if (filesIds != null) {
@@ -454,6 +499,12 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if (eventsIds != null) {
 			setEventsIds(eventsIds);
+		}
+
+		String placesIds = (String)attributes.get("placesIds");
+
+		if (placesIds != null) {
+			setPlacesIds(placesIds);
 		}
 
 		Date publicationDate = (Date)attributes.get("publicationDate");
@@ -802,18 +853,56 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@JSON
 	@Override
-	public String getImageUrl() {
-		if (_imageUrl == null) {
+	public String getExternalImageURL() {
+		if (_externalImageURL == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _imageUrl;
+			return _externalImageURL;
 		}
 	}
 
 	@Override
-	public void setImageUrl(String imageUrl) {
-		_imageUrl = imageUrl;
+	public void setExternalImageURL(String externalImageURL) {
+		_externalImageURL = externalImageURL;
+	}
+
+	@JSON
+	@Override
+	public String getExternalImageCopyright() {
+		if (_externalImageCopyright == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _externalImageCopyright;
+		}
+	}
+
+	@Override
+	public void setExternalImageCopyright(String externalImageCopyright) {
+		_externalImageCopyright = externalImageCopyright;
+	}
+
+	@JSON
+	@Override
+	public int getImageWidth() {
+		return _imageWidth;
+	}
+
+	@Override
+	public void setImageWidth(int imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	@JSON
+	@Override
+	public int getImageHeight() {
+		return _imageHeight;
+	}
+
+	@Override
+	public void setImageHeight(int imageHeight) {
+		_imageHeight = imageHeight;
 	}
 
 	@JSON
@@ -883,6 +972,17 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@JSON
 	@Override
+	public long getImageId() {
+		return _imageId;
+	}
+
+	@Override
+	public void setImageId(long imageId) {
+		_imageId = imageId;
+	}
+
+	@JSON
+	@Override
 	public String getFilesIds() {
 		if (_filesIds == null) {
 			return StringPool.BLANK;
@@ -911,6 +1011,22 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	@Override
 	public void setEventsIds(String eventsIds) {
 		_eventsIds = eventsIds;
+	}
+
+	@JSON
+	@Override
+	public String getPlacesIds() {
+		if (_placesIds == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _placesIds;
+		}
+	}
+
+	@Override
+	public void setPlacesIds(String placesIds) {
+		_placesIds = placesIds;
 	}
 
 	@JSON
@@ -1071,13 +1187,18 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		participationImpl.setContactLine2(getContactLine2());
 		participationImpl.setContactPhoneNumber(getContactPhoneNumber());
 		participationImpl.setVideoUrl(getVideoUrl());
-		participationImpl.setImageUrl(getImageUrl());
+		participationImpl.setExternalImageURL(getExternalImageURL());
+		participationImpl.setExternalImageCopyright(getExternalImageCopyright());
+		participationImpl.setImageWidth(getImageWidth());
+		participationImpl.setImageHeight(getImageHeight());
 		participationImpl.setMediaChoice(getMediaChoice());
 		participationImpl.setDescriptionChapeau(getDescriptionChapeau());
 		participationImpl.setDescriptionBody(getDescriptionBody());
 		participationImpl.setConsultationPlacesBody(getConsultationPlacesBody());
+		participationImpl.setImageId(getImageId());
 		participationImpl.setFilesIds(getFilesIds());
 		participationImpl.setEventsIds(getEventsIds());
+		participationImpl.setPlacesIds(getPlacesIds());
 		participationImpl.setPublicationDate(getPublicationDate());
 		participationImpl.setExpirationDate(getExpirationDate());
 
@@ -1278,13 +1399,26 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.videoUrl = null;
 		}
 
-		participationCacheModel.imageUrl = getImageUrl();
+		participationCacheModel.externalImageURL = getExternalImageURL();
 
-		String imageUrl = participationCacheModel.imageUrl;
+		String externalImageURL = participationCacheModel.externalImageURL;
 
-		if ((imageUrl != null) && (imageUrl.length() == 0)) {
-			participationCacheModel.imageUrl = null;
+		if ((externalImageURL != null) && (externalImageURL.length() == 0)) {
+			participationCacheModel.externalImageURL = null;
 		}
+
+		participationCacheModel.externalImageCopyright = getExternalImageCopyright();
+
+		String externalImageCopyright = participationCacheModel.externalImageCopyright;
+
+		if ((externalImageCopyright != null) &&
+				(externalImageCopyright.length() == 0)) {
+			participationCacheModel.externalImageCopyright = null;
+		}
+
+		participationCacheModel.imageWidth = getImageWidth();
+
+		participationCacheModel.imageHeight = getImageHeight();
 
 		participationCacheModel.mediaChoice = getMediaChoice();
 
@@ -1313,6 +1447,8 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.consultationPlacesBody = null;
 		}
 
+		participationCacheModel.imageId = getImageId();
+
 		participationCacheModel.filesIds = getFilesIds();
 
 		String filesIds = participationCacheModel.filesIds;
@@ -1327,6 +1463,14 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if ((eventsIds != null) && (eventsIds.length() == 0)) {
 			participationCacheModel.eventsIds = null;
+		}
+
+		participationCacheModel.placesIds = getPlacesIds();
+
+		String placesIds = participationCacheModel.placesIds;
+
+		if ((placesIds != null) && (placesIds.length() == 0)) {
+			participationCacheModel.placesIds = null;
 		}
 
 		Date publicationDate = getPublicationDate();
@@ -1352,7 +1496,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1392,8 +1536,14 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getContactPhoneNumber());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
-		sb.append(", imageUrl=");
-		sb.append(getImageUrl());
+		sb.append(", externalImageURL=");
+		sb.append(getExternalImageURL());
+		sb.append(", externalImageCopyright=");
+		sb.append(getExternalImageCopyright());
+		sb.append(", imageWidth=");
+		sb.append(getImageWidth());
+		sb.append(", imageHeight=");
+		sb.append(getImageHeight());
 		sb.append(", mediaChoice=");
 		sb.append(getMediaChoice());
 		sb.append(", descriptionChapeau=");
@@ -1402,10 +1552,14 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getDescriptionBody());
 		sb.append(", consultationPlacesBody=");
 		sb.append(getConsultationPlacesBody());
+		sb.append(", imageId=");
+		sb.append(getImageId());
 		sb.append(", filesIds=");
 		sb.append(getFilesIds());
 		sb.append(", eventsIds=");
 		sb.append(getEventsIds());
+		sb.append(", placesIds=");
+		sb.append(getPlacesIds());
 		sb.append(", publicationDate=");
 		sb.append(getPublicationDate());
 		sb.append(", expirationDate=");
@@ -1417,7 +1571,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(88);
+		StringBundler sb = new StringBundler(103);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Participation");
@@ -1500,8 +1654,20 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getVideoUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>imageUrl</column-name><column-value><![CDATA[");
-		sb.append(getImageUrl());
+			"<column><column-name>externalImageURL</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
+		sb.append(getExternalImageCopyright());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageWidth</column-name><column-value><![CDATA[");
+		sb.append(getImageWidth());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>imageHeight</column-name><column-value><![CDATA[");
+		sb.append(getImageHeight());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>mediaChoice</column-name><column-value><![CDATA[");
@@ -1520,12 +1686,20 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getConsultationPlacesBody());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>imageId</column-name><column-value><![CDATA[");
+		sb.append(getImageId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>filesIds</column-name><column-value><![CDATA[");
 		sb.append(getFilesIds());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>eventsIds</column-name><column-value><![CDATA[");
 		sb.append(getEventsIds());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>placesIds</column-name><column-value><![CDATA[");
+		sb.append(getPlacesIds());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>publicationDate</column-name><column-value><![CDATA[");
@@ -1570,13 +1744,18 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private String _contactLine2;
 	private String _contactPhoneNumber;
 	private String _videoUrl;
-	private String _imageUrl;
+	private String _externalImageURL;
+	private String _externalImageCopyright;
+	private int _imageWidth;
+	private int _imageHeight;
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;
 	private String _consultationPlacesBody;
+	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;
+	private String _placesIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
 	private long _columnBitmask;

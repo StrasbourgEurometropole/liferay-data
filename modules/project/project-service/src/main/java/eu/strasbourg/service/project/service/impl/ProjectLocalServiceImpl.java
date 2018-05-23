@@ -14,12 +14,18 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.LongStream;
+
+import javax.imageio.ImageIO;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -41,11 +47,11 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import eu.strasbourg.service.agenda.model.EventPeriod;
-import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 
 
@@ -92,15 +98,31 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	
 	/**
 	 * Met à jour un projet et l'enregistre en base de données
+	 * @throws IOException 
 	 */
 	@Override
 	public Project updateProject(Project project, ServiceContext sc)
-			throws PortalException {
+			throws PortalException, IOException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		project.setStatusByUserId(sc.getUserId());
 		project.setStatusByUserName(user.getFullName());
 		project.setStatusDate(sc.getModifiedDate());
+		
+		if(Objects.isNull(project.getImageId()) || project.getImageId() == 0) {
+			URL url = new URL(project.getExternalImageURL());
+	        final BufferedImage bi = ImageIO.read(url);
+	        project.setImageHeight(bi.getHeight());
+	        project.setImageWidth(bi.getWidth());
+		}
+		else {
+			String imageURL = FileEntryHelper.getFileEntryURL(project.getImageId()); 
+			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+			URL url = new URL(completeImageURL);
+	        final BufferedImage bi = ImageIO.read(url);
+	        project.setImageHeight(bi.getHeight());
+	        project.setImageWidth(bi.getWidth());
+		}
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			project.setStatus(WorkflowConstants.STATUS_APPROVED);

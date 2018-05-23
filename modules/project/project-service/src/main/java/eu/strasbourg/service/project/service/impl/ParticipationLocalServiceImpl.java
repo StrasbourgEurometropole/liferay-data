@@ -14,12 +14,18 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.LongStream;
+
+import javax.imageio.ImageIO;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -42,8 +48,9 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 /**
  * The implementation of the participation local service.
@@ -91,15 +98,31 @@ public class ParticipationLocalServiceImpl
 	
 	/**
 	 * Met à jour une participation et l'enregistre en base de données
+	 * @throws IOException 
 	 */
 	@Override
 	public Participation updateParticipation(Participation participation, ServiceContext sc)
-			throws PortalException {
+			throws PortalException, IOException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		participation.setStatusByUserId(sc.getUserId());
 		participation.setStatusByUserName(user.getFullName());
 		participation.setStatusDate(sc.getModifiedDate());
+		
+		if(Objects.isNull(participation.getImageId()) || participation.getImageId() == 0) {
+			URL url = new URL(participation.getExternalImageURL());
+	        final BufferedImage bi = ImageIO.read(url);
+	        participation.setImageHeight(bi.getHeight());
+	        participation.setImageWidth(bi.getWidth());
+		}
+		else {
+			String imageURL = FileEntryHelper.getFileEntryURL(participation.getImageId()); 
+			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
+			URL url = new URL(completeImageURL);
+	        final BufferedImage bi = ImageIO.read(url);
+	        participation.setImageHeight(bi.getHeight());
+	        participation.setImageWidth(bi.getWidth());
+		}
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			participation.setStatus(WorkflowConstants.STATUS_APPROVED);
