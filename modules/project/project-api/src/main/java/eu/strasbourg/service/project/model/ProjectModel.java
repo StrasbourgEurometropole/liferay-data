@@ -381,6 +381,21 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	public void setDescription(String description);
 
 	/**
+	 * Returns the detail url of this project.
+	 *
+	 * @return the detail url of this project
+	 */
+	@AutoEscape
+	public String getDetailURL();
+
+	/**
+	 * Sets the detail url of this project.
+	 *
+	 * @param detailURL the detail url of this project
+	 */
+	public void setDetailURL(String detailURL);
+
+	/**
 	 * Returns the budget of this project.
 	 *
 	 * @return the budget of this project

@@ -77,6 +77,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		attributes.put("imageWidth", getImageWidth());
 		attributes.put("imageHeight", getImageHeight());
 		attributes.put("description", getDescription());
+		attributes.put("detailURL", getDetailURL());
 		attributes.put("budget", getBudget());
 		attributes.put("label", getLabel());
 		attributes.put("duration", getDuration());
@@ -199,6 +200,12 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String detailURL = (String)attributes.get("detailURL");
+
+		if (detailURL != null) {
+			setDetailURL(detailURL);
 		}
 
 		String budget = (String)attributes.get("budget");
@@ -505,6 +512,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getDescription() {
 		return _project.getDescription();
+	}
+
+	/**
+	* Returns the detail url of this project.
+	*
+	* @return the detail url of this project
+	*/
+	@Override
+	public java.lang.String getDetailURL() {
+		return _project.getDetailURL();
 	}
 
 	/**
@@ -903,6 +920,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public void setDescription(java.lang.String description) {
 		_project.setDescription(description);
+	}
+
+	/**
+	* Sets the detail url of this project.
+	*
+	* @param detailURL the detail url of this project
+	*/
+	@Override
+	public void setDetailURL(java.lang.String detailURL) {
+		_project.setDetailURL(detailURL);
 	}
 
 	/**

@@ -33,6 +33,7 @@
         <column name="imageWidth" type="int" />
         <column name="imageHeight" type="int" />
 		<column	name="description" type="String" />
+		<column name="detailURL" type="String" />
 		
 		<!-- En bref -->
 		<column name="budget" type="String" />

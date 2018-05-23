@@ -65,7 +65,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,8 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		sb.append(imageHeight);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", detailURL=");
+		sb.append(detailURL);
 		sb.append(", budget=");
 		sb.append(budget);
 		sb.append(", label=");
@@ -211,6 +213,13 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setDescription(description);
 		}
 
+		if (detailURL == null) {
+			projectImpl.setDetailURL(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setDetailURL(detailURL);
+		}
+
 		if (budget == null) {
 			projectImpl.setBudget(StringPool.BLANK);
 		}
@@ -297,6 +306,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 		imageHeight = objectInput.readInt();
 		description = objectInput.readUTF();
+		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		label = objectInput.readUTF();
 
@@ -383,6 +393,13 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(description);
 		}
 
+		if (detailURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(detailURL);
+		}
+
 		if (budget == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -455,6 +472,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public int imageWidth;
 	public int imageHeight;
 	public String description;
+	public String detailURL;
 	public String budget;
 	public String label;
 	public int duration;
