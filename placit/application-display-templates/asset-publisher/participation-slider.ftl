@@ -119,3 +119,8 @@
 
     </div>
 </section>
+<style>
+    .pro-bloc-slider.pro-slider-participation {
+             margin-top: 0px;
+    }
+</style>
