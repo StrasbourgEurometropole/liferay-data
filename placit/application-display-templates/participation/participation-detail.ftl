@@ -275,7 +275,7 @@
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
                                     <span class="pro-time">Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time></span>
-                                    <p>À : ${event.getPlaceName(locale)}<br></p>
+                                    <p>À : ${event.getPlaceAlias(locale)}<br></p>
                                     <h3>
                                         ${eventTitleFirstPart}
                                         <br>
