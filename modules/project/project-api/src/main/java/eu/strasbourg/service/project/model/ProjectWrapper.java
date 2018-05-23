@@ -352,6 +352,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne l'asset category du projet (normalement du même non que le projet)
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _project.getProjectCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -497,6 +505,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getDescription() {
 		return _project.getDescription();
+	}
+
+	/**
+	* Retourne les quartiers du projet
+	*/
+	@Override
+	public java.lang.String getDistrictCategories(java.util.Locale locale) {
+		return _project.getDistrictCategories(locale);
 	}
 
 	/**
@@ -695,6 +711,22 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
 		return _project.getDistrictCategories();
+	}
+
+	/**
+	* Retourne la liste des évènements du projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents() {
+		return _project.getEvents();
+	}
+
+	/**
+	* Retourne la liste des participations du projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getParticipations() {
+		return _project.getParticipations();
 	}
 
 	/**

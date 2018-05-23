@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -25,6 +26,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
@@ -123,6 +126,21 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 	
 	/**
+	 * Retourne les quartiers du projet
+	 */
+	@Override
+	public String getDistrictCategories(Locale locale) {
+		String districts = "";
+		for (AssetCategory type : this.getDistrictCategories()) {
+			if (districts.length() > 0) {
+				districts += " - ";
+			}
+			districts += type.getTitle(locale);
+		}
+		return districts;
+	}
+	
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override
@@ -156,7 +174,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 
 	/*
-	 * Retourne la catégorie Territoire correspondant à la ville du lieu
+	 * Retourne le statut du projet
 	 */
 	@Override
 	public String getProjectStatus(Locale locale) {
@@ -180,4 +198,46 @@ public class ProjectImpl extends ProjectBaseImpl {
 				VocabularyNames.PROJECT_STATUS);
 	}
 	
+	/**
+	 * Retourne l'asset category du projet (normalement du même non que le projet)
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT).stream().findFirst().orElse(null);
+	}
+	
+	/**
+	 * Retourne la liste des participations du projet
+	 */
+	@Override
+	public List<AssetEntry> getParticipations() {
+		List<AssetEntry> result = new ArrayList<AssetEntry>();
+		
+		if(getProjectCategory() != null)
+			result = AssetEntryLocalServiceUtil
+			.getAssetCategoryAssetEntries(getProjectCategory()
+			.getCategoryId()).stream()
+			.filter(cat -> cat.getClassName().equals(Participation.class.getName()))
+			.collect(Collectors.toList());
+		
+		return result;
+	}
+	
+	/**
+	 * Retourne la liste des évènements du projet
+	 */
+	@Override
+	public List<AssetEntry> getEvents() {
+		List<AssetEntry> result = new ArrayList<AssetEntry>();
+		
+		if(getProjectCategory() != null)
+			result = AssetEntryLocalServiceUtil
+			.getAssetCategoryAssetEntries(getProjectCategory()
+			.getCategoryId()).stream()
+			.filter(cat -> cat.getClassName().equals(Event.class.getName()))
+			.collect(Collectors.toList());
+		
+		return result;
+	}
 }
