@@ -121,6 +121,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne le projet de la participation (
+	 */
+	@Override
+	public AssetCategory getProjectCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PROJECT).get(0);
+	}
+	
+	/**
 	 * Retourne les thematiques de la participation (
 	 */
 	@Override

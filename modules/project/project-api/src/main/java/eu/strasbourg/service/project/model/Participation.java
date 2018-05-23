@@ -81,6 +81,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory();
 
 	/**
+	* Retourne le projet de la participation (
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
 	* Retourne les thematiques de la participation (
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();

@@ -416,6 +416,14 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
+	* Retourne le projet de la participation (
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _participation.getProjectCategory();
+	}
+
+	/**
 	* Retourne le type de la participation (
 	*/
 	@Override
