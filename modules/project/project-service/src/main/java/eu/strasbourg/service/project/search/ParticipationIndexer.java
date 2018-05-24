@@ -1,7 +1,10 @@
 package eu.strasbourg.service.project.search;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -65,10 +68,21 @@ public class ParticipationIndexer extends BaseIndexer<Participation> {
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
-		document.addKeyword(Field.TITLE, participation.getTitle());
-		document.addText(Field.DESCRIPTION,
-				participation.getDescriptionBody());
+		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
+		titleFieldMap.put(Locale.FRANCE, participation.getTitle());
+		titleFieldMap.put(Locale.GERMANY, participation.getTitle());
+		titleFieldMap.put(Locale.ENGLISH, participation.getTitle());
+		document.addLocalizedText(Field.TITLE, titleFieldMap);
+		
+		Map<Locale, String> descriptionFieldMap = new HashMap<Locale, String>();
+		descriptionFieldMap.put(Locale.FRANCE, participation.getDescriptionBody());
+		descriptionFieldMap.put(Locale.GERMANY, participation.getDescriptionBody());
+		descriptionFieldMap.put(Locale.ENGLISH, participation.getDescriptionBody());
+		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
+		
 		document.addNumber(Field.STATUS, participation.getStatus());
+		document.addDateSortable("publicationDate", participation.getPublicationDate());
+		document.addDateSortable("expirationDate", participation.getExpirationDate());
 		return document;
 	}
 	

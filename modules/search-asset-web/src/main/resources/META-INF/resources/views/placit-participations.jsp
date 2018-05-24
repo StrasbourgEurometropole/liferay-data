@@ -1,5 +1,7 @@
 <%@ include file="/search-asset-init.jsp" %>
 
+<liferay-portlet:actionURL varImpl="searchActionURL" />
+
  <div class="container">
     <div class="row">
         <div class="col-md-8 pro-bloc-listing-participation">
@@ -16,29 +18,15 @@
             </div>
 
             <div class="pro-wrapper-sort">
-                <form method="get" action="/">
-                    <div class="pro-sort pro-dropdown">
-                        <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="all-districts" /></a>
-                        <ul>
-                            <li><a href="#" title="Nom du quartier">Krutenau</a></li>
-                            <li><a href="#" title="Nom du quartier">Neudorf</a></li>
-                            <li><a href="#" title="Nom du quartier">Wacken</a></li>
-                            <li><a href="#" title="Nom du quartier">Gare</a></li>
-                            <li><a href="#" title="Nom du quartier">Elsau</a></li>
-                            <li><a href="#" title="Nom du quartier">Esplanade</a></li>
-                        </ul>
-                    </div>
-                    <div class="pro-sort pro-dropdown">
-                        <a href="#" title="Voir toutes les thÃ©matiques"><liferay-ui:message key="all-thematics" /></a>
-                        <ul>
-                            <li><a href="#" title="Nom de la thÃ©matique">Nom thÃ©matique 1</a></li>
-                            <li><a href="#" title="Nom de la thÃ©matique">Nom thÃ©matique 25</a></li>
-                            <li><a href="#" title="Nom de la thÃ©matique">Nom thÃ©matique 3</a></li>
-                            <li><a href="#" title="Nom de la thÃ©matique">Nom thÃ©matique 4</a></li>
-                            <li><a href="#" title="Nom de la thÃ©matique">Nom thÃ©matique 5</a></li>
-                        </ul>
-                    </div>
-                </form>
+            
+            	<!-- Formulaire -->
+				<aui:form action="${searchActionURL}" method="get" name="fm"
+					id="search-asset-form">
+					<liferay-portlet:renderURLParams varImpl="searchActionURL" />
+					<liferay-util:include page="/form-headers/placit-participations-form-header.jsp"
+						servletContext="<%=application %>" />
+				</aui:form>
+				
                 <span class="pro-legend"><liferay-ui:message key="legend-participations" /></span>
             </div>
 
@@ -151,6 +139,7 @@
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="most-searched" /></h4>
                 
+                <!-- 
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
@@ -166,6 +155,7 @@
                         </div>
                     </div>
                 </a>
+                -->
 
             </div>
 
@@ -173,6 +163,7 @@
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="least-noticed" /></h4>
                 
+                <!-- 
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
@@ -188,6 +179,7 @@
                         </div>
                     </div>
                 </a>
+                -->
                 
             </div>
 
@@ -209,7 +201,7 @@
                     </select>
                 </form>
                 <p class="hidden-xs">
-                	<liferay-ui:message key="show-results" /> ${page.index}-${page.index} <liferay-ui:message key="among" /> ${page.count} <liferay-ui:message key="participations" />
+                	<liferay-ui:message key="show-results" /> ?-? <liferay-ui:message key="among" /> ${dc.pager.count} <liferay-ui:message key="participations" />
                 </p>
             </div>
 
