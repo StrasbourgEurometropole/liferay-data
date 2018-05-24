@@ -21,7 +21,7 @@
 
 //Force l'opacite à 1 de certains portlets pour ne pas etre cache par le header 
 //vu que le z-index ne fonctionne pas dans ce cas precis
-.lfr-configurator-visibility:hover {
+.lfr-configurator-visibility {
 	opacity : 1;
 }
 
@@ -77,4 +77,14 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 .pro-bloc-facette .pro-affiner:before {
 	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
+}
+
+
+/* Barre de boutons dans la configuration */
+.portlet-configuration-setup form.form {
+  margin-bottom: 100px;
+  .button-holder.dialog-footer {
+    position: fixed;
+    background: white;
+  }
 }
