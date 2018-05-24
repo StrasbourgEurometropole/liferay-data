@@ -63,6 +63,7 @@
 		<property name="imageWidth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="imageHeight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="detailURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="label" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />

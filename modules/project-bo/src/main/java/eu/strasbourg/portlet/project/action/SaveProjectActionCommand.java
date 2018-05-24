@@ -110,6 +110,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 				project.setExternalImageCopyright(externalImageCopyright);
 			}
 			
+			// URL détail du projet
+			String detailURL = ParamUtil.getString(request, "detailURL");
+			project.setDetailURL(detailURL);
+			
 			// ---------------------------------------------------------------
 			// -------------------------- EN BREF ----------------------------
 			// ---------------------------------------------------------------

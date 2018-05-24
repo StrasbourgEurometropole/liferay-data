@@ -81,6 +81,7 @@
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="detailURL" type="String" />
 		<field name="budget" type="String" />
 		<field name="label" type="String" />
 		<field name="duration" type="int" />

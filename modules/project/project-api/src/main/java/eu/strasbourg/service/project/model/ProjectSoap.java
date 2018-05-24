@@ -52,6 +52,7 @@ public class ProjectSoap implements Serializable {
 		soapModel.setImageWidth(model.getImageWidth());
 		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setDetailURL(model.getDetailURL());
 		soapModel.setBudget(model.getBudget());
 		soapModel.setLabel(model.getLabel());
 		soapModel.setDuration(model.getDuration());
@@ -257,6 +258,14 @@ public class ProjectSoap implements Serializable {
 		_description = description;
 	}
 
+	public String getDetailURL() {
+		return _detailURL;
+	}
+
+	public void setDetailURL(String detailURL) {
+		_detailURL = detailURL;
+	}
+
 	public String getBudget() {
 		return _budget;
 	}
@@ -347,6 +356,7 @@ public class ProjectSoap implements Serializable {
 	private int _imageWidth;
 	private int _imageHeight;
 	private String _description;
+	private String _detailURL;
 	private String _budget;
 	private String _label;
 	private int _duration;

@@ -92,6 +92,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "imageWidth", Types.INTEGER },
 			{ "imageHeight", Types.INTEGER },
 			{ "description", Types.CLOB },
+			{ "detailURL", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
 			{ "label", Types.VARCHAR },
 			{ "duration", Types.INTEGER },
@@ -123,6 +124,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("detailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("label", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
@@ -134,7 +136,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -186,6 +188,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		model.setImageWidth(soapModel.getImageWidth());
 		model.setImageHeight(soapModel.getImageHeight());
 		model.setDescription(soapModel.getDescription());
+		model.setDetailURL(soapModel.getDetailURL());
 		model.setBudget(soapModel.getBudget());
 		model.setLabel(soapModel.getLabel());
 		model.setDuration(soapModel.getDuration());
@@ -277,6 +280,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		attributes.put("imageWidth", getImageWidth());
 		attributes.put("imageHeight", getImageHeight());
 		attributes.put("description", getDescription());
+		attributes.put("detailURL", getDetailURL());
 		attributes.put("budget", getBudget());
 		attributes.put("label", getLabel());
 		attributes.put("duration", getDuration());
@@ -402,6 +406,12 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String detailURL = (String)attributes.get("detailURL");
+
+		if (detailURL != null) {
+			setDetailURL(detailURL);
 		}
 
 		String budget = (String)attributes.get("budget");
@@ -766,6 +776,22 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
+	public String getDetailURL() {
+		if (_detailURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _detailURL;
+		}
+	}
+
+	@Override
+	public void setDetailURL(String detailURL) {
+		_detailURL = detailURL;
+	}
+
+	@JSON
+	@Override
 	public String getBudget() {
 		if (_budget == null) {
 			return StringPool.BLANK;
@@ -1033,6 +1059,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		projectImpl.setImageWidth(getImageWidth());
 		projectImpl.setImageHeight(getImageHeight());
 		projectImpl.setDescription(getDescription());
+		projectImpl.setDetailURL(getDetailURL());
 		projectImpl.setBudget(getBudget());
 		projectImpl.setLabel(getLabel());
 		projectImpl.setDuration(getDuration());
@@ -1221,6 +1248,14 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			projectCacheModel.description = null;
 		}
 
+		projectCacheModel.detailURL = getDetailURL();
+
+		String detailURL = projectCacheModel.detailURL;
+
+		if ((detailURL != null) && (detailURL.length() == 0)) {
+			projectCacheModel.detailURL = null;
+		}
+
 		projectCacheModel.budget = getBudget();
 
 		String budget = projectCacheModel.budget;
@@ -1286,7 +1321,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1324,6 +1359,8 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getImageHeight());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", detailURL=");
+		sb.append(getDetailURL());
 		sb.append(", budget=");
 		sb.append(getBudget());
 		sb.append(", label=");
@@ -1349,7 +1386,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(85);
+		StringBundler sb = new StringBundler(88);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Project");
@@ -1428,6 +1465,10 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>detailURL</column-name><column-value><![CDATA[");
+		sb.append(getDetailURL());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>budget</column-name><column-value><![CDATA[");
 		sb.append(getBudget());
 		sb.append("]]></column-value></column>");
@@ -1497,6 +1538,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private int _imageWidth;
 	private int _imageHeight;
 	private String _description;
+	private String _detailURL;
 	private String _budget;
 	private String _label;
 	private int _duration;

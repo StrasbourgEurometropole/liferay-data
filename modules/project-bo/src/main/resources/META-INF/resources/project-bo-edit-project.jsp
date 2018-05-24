@@ -22,7 +22,7 @@
 <div class="container-fluid-1280 main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
-	(voir méthode "validate" dans le saveAction de l'entité) --%>
+	(voir mÃ©thode "validate" dans le saveAction de l'entitÃ©) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -71,7 +71,10 @@
 					</aui:input>
 					
 				</div>
-			
+				
+				<%-- Champ : URL detail du projet --%>
+				<aui:input name="detailURL" required="false" />
+				
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : En bref --%>
@@ -173,8 +176,8 @@
 						</div>
 					</c:forEach>
 					
-					<%-- Variable : Définit les variables de gestion et de retour du selecteur 
-					(voir "autofields" dans le .js de l'edit de l'entité)  --%>
+					<%-- Variable : DÃ©finit les variables de gestion et de retour du selecteur 
+					(voir "autofields" dans le .js de l'edit de l'entitÃ©)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
 							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
 						</c:if>
@@ -209,14 +212,14 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour ÃÂ  la liste des entites --%>
+			<%-- Composant : bouton de retour ÃÂÃÂ  la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
 	
-	<%-- Variable : definit la phase de l'entitÃÂ© (utile pour l'action Jquery) --%>
+	<%-- Variable : definit la phase de l'entitÃÂÃÂ© (utile pour l'action Jquery) --%>
 	<liferay-util:html-top>
 		<script>
 			var editProject = true;
