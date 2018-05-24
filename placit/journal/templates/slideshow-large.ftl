@@ -1,3 +1,5 @@
+<!-- BLOC DIAPORAMA -->
+
 <section class="pro-bloc-image-slider pro-bloc-texte">
     <div class="owl-carousel owl-theme owl-slider">
 

@@ -5,7 +5,7 @@
 <div class="mns-great-event-slider-full mns-p50">
     <div class="col-xs-12" style="text-align: center;">
         <div  class="mns-portlet-title">
-            <h2><@liferay_ui.message key="eu.great-events" /></h2>
+            <h1><@liferay_ui.message key="eu.great-events" /></h1>
         </div>
     </div>
     <div class="owl-carousel owl-theme" id="owl-full">

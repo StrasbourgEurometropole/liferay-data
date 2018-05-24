@@ -38,10 +38,20 @@
 </#switch>
 
 <!-- Recuperation des quartiers de la participation -->
-<#assign participationDistricts = entry.getDistrictCategories() />
+<#if entry.getDistrictCategories()??>
+    <#assign participationDistricts = entry.getDistrictCategories() />
+</#if>
+
+<!-- Recuperation des thématiques de la participation -->
+<#if entry.getThematicCategories()??>
+    <#assign participationThematics = entry.getThematicCategories() />
+</#if>
 
 <!-- Recuperation des evenements lies a la participation -->
 <#assign participationEvents = entry.getEvents() />
+
+<!-- Recuperation des evenements lies a la participation -->
+<#assign participationPlaces = entry.getPlaces() />
 
 <div class="pro-page-detail pro-page-detail-participation">
 
@@ -54,18 +64,27 @@
                     <div class="pro-header-participation pro-theme-${cssParticipationType}">
                         <h1>${entry.title}</h1>
                         <div class="pro-meta">
+
+                            <!-- Liste des quartiers de la participation -->
                         	<#if participationDistricts?? >
                             	<#list participationDistricts as participationDistrict >
                             		<span>${participationDistrict.getTitle(locale)}</span>
                             	</#list>
                             </#if>
-                            <span>Thématique</span>
+
+                            <!-- Liste des thématiques de la participation -->
+                            <#if participationThematics?? >
+                                <#list participationThematics as participationThematic >
+                                    <span>${participationThematic.getTitle(locale)}</span>
+                                </#list>
+                            </#if>
+
                         </div>
                         <div class="pro-header-auteur">
                             <figure>
                             	<!-- Si une image de la participation existe -->
-                                <#if entry.getImageUrl() != "">
-                                	<img src="${entry.getImageUrl()}" width="40" height="40" alt="Arrière plan page standard"/>
+                                <#if entry.getImageURL()?has_content>
+                                	<img src="${entry.getImageURL()}" width="40" height="40" alt="Arrière plan page standard"/>
                                 </#if>
                             </figure>
                             <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
@@ -86,21 +105,35 @@
 
                 <div class="row pro-container-detail-event">
                     <div class="col-sm-8">
-                        <div class="pro-main-img">
-                        	<!-- Test du choix du media : "true"/image, "false"/video --> 
-                        	<#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
-	                        	<figure>
-	                        		<iframe src="${entry.videoUrl}" width="880" height="593" class="fit-cover"></iframe>
-	                        	</figure>
-					        <#else>
-	                            <figure>
-	                            	<!-- Si une image de la participation existe -->
-	                                <#if entry.getImageUrl() != "">
-	                                	<img src='${entry.imageUrl}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
-	                                </#if>
-	                            </figure>
-	                        </#if>
-                        </div>
+
+                        <!-- Test du choix du media : "true"/image, "false"/video --> 
+                        <#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
+                            <div class="pro-bloc-texte pro-main-img">
+                                <div class="pro-bloc-video bloc-standard">
+                                    <div class="mask-video">
+                                        <figure class="o80" role="group">
+                                            <!-- Si une image existe malgrès le choix d'une vidéo pour l'affichage,
+                                            on la présente en tant qu'image de couverture  -->
+                                            <#if entry.getImageURL()?has_content>
+                                                <img src="${entry.getImageURL()}" alt="Couverture de la vidéo" width="960" height="600"/>
+                                            </#if>
+                                        </figure>
+                                        <a href="#play" class="btn-ytbe" title="Lire la vidéo">
+                                            <span class="pro-btn-video" title="Lire la vidéo"><span class="icon-ico-lecteur"></span>Voir la vidéo</span>
+                                        </a>
+                                    </div>
+                                    <div class="embed-container" data-urlvideo="${entry.videoUrl}"></div>
+                                </div>
+                            </div>
+                        <#else>
+                            <div class="pro-main-img">
+                                <figure>
+                                    <img src='${entry.getImageURL()}' alt="Image agenda" width="880" height="593" class="fit-cover"/>
+                                    <figcaption>${entry.getImageCopyright(locale)}</figcaption>
+                                </figure>
+                            </div>
+                        </#if>
+
 
                         <div class="pro-tabs">
 
@@ -130,19 +163,29 @@
                                     <div class="row pro-wrapper-quartiers">
 
                                     	<!-- Item lieu -->
-                                        <div class="col-md-4 col-sm-6">
-                                            <a href="detail-article.html" title="Nom du quartier">
-                                                <figure class="fit-cover">
-                                                    <img src="assets/images/medias/img-col-33-1.jpg" width="200" height="140" alt="Image du quartier"/>
-                                                </figure>
-                                                <div>
-                                                    <span class="pro-name">Quartier</span>
-                                                    <h3>Nom du Lieu sur deux lignes</h3>
-                                                    <span class="pro-link">En savoir plus</span>
-                                                </div>
-                                            </a>
-                                        </div>
+                                        <#if participationPlaces?has_content>
+                                            <#list participationPlaces as place >
 
+                                                <div class="col-md-4 col-sm-6">
+                                                    <a>
+                                                        <figure class="fit-cover">
+                                                            <img src="<#if place.getImageURL()?has_content> ${place.getImageURL()} </#if>" width="200" height="140" alt="Image du quartier"/>
+                                                        </figure>
+                                                        <div>
+                                                            <span class="pro-name">${place.getDistrict(locale)}</span>
+                                                            <h3>
+                                                                ${place.getAlias(locale)}
+                                                            </h3>
+                                                            <!--
+                                                            <span class="pro-link">En savoir plus</span>
+                                                            -->
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </#list>
+                                        <#else>
+                                            Aucun lieu associé pour le moment
+                                        </#if>
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +275,7 @@
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
                                     <span class="pro-time">Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time></span>
-                                    <p>À : ${event.getPlaceName(locale)}<br></p>
+                                    <p>À : ${event.getPlaceAlias(locale)}<br></p>
                                     <h3>
                                         ${eventTitleFirstPart}
                                         <br>

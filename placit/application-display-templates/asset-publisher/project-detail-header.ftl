@@ -1,3 +1,4 @@
+<#setting locale = locale />
 <#assign currEntry = entry.getAssetRenderer().getProject() />
 
 
@@ -6,9 +7,9 @@
         <img src="${currEntry.imageURL}" alt="" width="1600" height="600">
     </figure>
     <div class="container caption">
-        <div class="pro-bloc-display"><span class="pro-surtitre">Statut du projet test</span></div>
+        <div class="pro-bloc-display"><span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span></div>
         <h1>${currEntry.title}</h1>
-        <div class="pro-bloc-display"><span class="pro-soustitre">Quartier concerné : <strong>Nom du                          quartier</strong></span></div>
+        <div class="pro-bloc-display"><span class="pro-soustitre">Quartier concerné : <strong>${currEntry.getDistrictCategories(locale)}</strong></span></div>
         <div class="pro-bloc-display-desc"><p>${currEntry.description}</p></div>
     </div>
 </header>

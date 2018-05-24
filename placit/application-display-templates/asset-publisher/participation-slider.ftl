@@ -74,33 +74,35 @@
                             <div class="pro-header-participation">
                                 <figure role="group">
                                     <!-- Si une image de la participation existe -->
-                                    <#if entry.getImageUrl() != "">
-                                        <img src="${entry.getImageUrl()}" width="40" height="40" alt="Image participation"/>
+                                    <#if entry.getImageURL()?has_content>
+                                        <img src="${entry.getImageURL()}" width="40" height="40" alt="Image participation"/>
                                     </#if>
                                 </figure>
                                 <p>Concertation publiée par :</p>
                                 <p><strong>${entry.getAuthor()}</strong></p>
                             </div>
                             <div class="pro-content-participation">
-                                <a href="${homeURL}participation/-/entity/id/${entry.participationId}" title="lien de la page">
+                                <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                     <h3>
                                         ${participationTitleFirstPart}
                                         <br>
                                         <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
                                     </h3>
                                 </a>
-                                <span class="pro-time">Publiée le <time datetime="2018-01-10">${entry.getPublicationDate()?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span></span>
+                                <span class="pro-time">
+                                    Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
+                                </span>
                             </div>
                             <!-- Selection du type de template selon le status de la participation -->
                             <#if participationStatus == "soon_arrived">
                                 <div class="pro-footer-participation pro-participation-soon">
-                                    <a href="${homeURL}participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
+                                    <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                         Bientôt disponible
                                     </a>
                                 </div>
                             <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
                                 <div class="pro-footer-participation">
-                                    <a href="${homeURL}participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
+                                    <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                         Réagissez...
                                     </a>
                                 </div>
@@ -108,7 +110,7 @@
                                 <div class="pro-footer-participation pro-participation-deadline">
                                     <p>Participation terminée</p>
                                 </div>
-                            </#if> 
+                            </#if>
                         </div>
                     </div>
 
@@ -119,3 +121,8 @@
 
     </div>
 </section>
+<style>
+    .pro-bloc-slider.pro-slider-participation {
+             margin-top: 0px;
+    }
+</style>

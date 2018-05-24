@@ -1,68 +1,60 @@
+<!-- SLIDER PROJET -->
+
+<!-- Recuperation de la localisation de l'utilisateur -->
+<#setting locale = locale />
+
+<!-- Recuperation de l'URL de "base" du site -->
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
 <section class="pro-bloc-slider">
-    <div class="container">
+            <div class="container">
+                <h2>Les projets :</h2>
+                <form class="pro-form-select">
+                    <label for="quartiers" aria-hidden="true" class="hide">Quartiers</label>
+                    <select id="quartiers" onchange="this.value;">
+                        <option value="pro-projet-all">Tous les quartiers</option>
+                        <option value="pro-projet-krutenau">Krutenau</option>
+                        <option value="pro-projet-neudorf">Neudorf</option>
+                        <option value="pro-projet-wacken">Wacken</option>
+                    </select>
+                </form>
+                <a href="listing-actu.html" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
 
-        <h2>Les projets :</h2>
-        <form class="pro-form-select">
-            <label for="quartiers" aria-hidden="true" class="hide">Quartiers</label>
-            <select id="quartiers" onchange="this.value;">
-                <option value="pro-projet-all">Tous les quartiers</option>
-                <option value="pro-projet-krutenau">Krutenau</option>
-                <option value="pro-projet-neudorf">Neudorf</option>
-                <option value="pro-projet-wacken">Wacken</option>
-            </select>
-        </form>
-        <a href="listing-actu.html" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
 
+                <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
+                <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
 
-        <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
-        <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+                    <!-- Parcours des entites de l'asset publisher -->
+                    <#list entries as curEntry>
 
-            <div class="item bloc-card-projet">
-                <a href="detail-projet.html" title="lien de la page">
-                    <div class="img">
-                        <figure role="group">
-                            <img src='assets/images/medias/hp-projet-1.jpg' alt="Image agenda" width="360" height="242" class="fit-cover"/>
-                        </figure>
-                        <span>Voir le projet</span>
+                    <!-- Recuperation de l'entite -->
+                    <#assign entry = curEntry.getAssetRenderer().getProject() />
+
+                    <div class="item bloc-card-projet">
+                        <a href="${homeURL + entry.detailURL}" title="détail du projet">
+                            <div class="img">
+                                <figure role="group">
+                                    <img src='${entry.imageURL}' alt="Image projet" width="360" height="242" class="fit-cover"/>
+                                </figure>
+                                <span>Voir le projet</span>
+                            </div>
+                            <div class="content">
+                                <span class="location">${entry.getDistrictCategories(locale)}</span>
+                                <h3>${entry.title}</h3>
+                            </div>
+                        </a>
+                        <ul>
+                            <li><a href="page-standard.html" title="Participation(s) du projet" tabindex="-1">${entry.getParticipations()?size} Participation(s) en cours</a></li>
+                            <li><a href="page-standard.html" title="Événement(s) du projet" tabindex="-1">${entry.getEvents()?size} Événement(s) à venir</a></li>                          
+                        </ul>
                     </div>
-                    <div class="content">
-                        <span class="location">Nom du quartier</span>
-                        <h3>Titre long du projet <br>sur deux lignes</h3>
-                    </div>
-                </a>
-                <ul>
-                    <li><a href="page-standard.html" title="lien de la page" tabindex="-1">5 Participation(s) en cours</a></li>
-                    <li><a href="page-standard.html" title="lien de la page" tabindex="-1">2 Événement(s) à venir</a></li>
-                    <li><a href="page-standard.html" title="lien de la page" tabindex="-1">2 idée(s) citoyenne(s)/Budget participatif</a></li>
-                    <li><a href="page-standard.html" title="lien de la page" tabindex="-1">7 Pétition(s) ouverte(s)</a></li>
-                    <li><a href="page-standard.html" title="lien de la page" tabindex="-1">34 Initiative(s)</a></li>
-                </ul>
+
+                    </#list>
+
+                </div>
             </div>
-
-        </div>
-
-
-        <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS KRUTENAU -->
-        <div id="pro-projet-krutenau" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
-
-            <!-- ITEM -->
-
-        </div>
-
-
-        <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS NEUDORF -->
-        <div id="pro-projet-neudorf" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
-
-            <!-- ITEM -->
-
-        </div>
-
-
-        <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS WACKEN -->
-        <div id="pro-projet-wacken" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
-
-            <!-- ITEM -->
-
-        </div>
-    </div>
-</section>
+        </section>
