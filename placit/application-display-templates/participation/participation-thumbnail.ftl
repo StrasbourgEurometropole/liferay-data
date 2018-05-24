@@ -9,21 +9,26 @@
 </#if>
 
 <!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
-<#switch  entry.getParticipationStatus()>
+<#switch entry.getParticipationStatus()>
     <#case "new">
         <#assign participationStatus = "Nouvelle" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
         <#break>
     <#case "soon_arrived">
         <#assign participationStatus = "À venir" />
+        <#assign proDuree = "Début dans " + entry.getTodayPublicationDifferenceDays() + " jour(s)"  />
         <#break>
     <#case "in_progress">
         <#assign participationStatus = "En cours" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
         <#break>
     <#case "soon_finished">
         <#assign participationStatus = "Bientôt terminée" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
         <#break>
     <#case "finished">
         <#assign participationStatus = "Terminée" />
+        <#assign proDuree = "Terminée"  />
         <#break>
 </#switch>
 
@@ -44,7 +49,7 @@
         <#assign cssParticipationType = "concertation" />
         <#break>
     <#case "Enquête publique">
-        <#assign cssParticipationType = "brun" />
+        <#assign cssParticipationType = "enquete-publique" />
         <#break>
 </#switch>
 
@@ -73,7 +78,7 @@
     <#assign participationProject = entry.getProjectCategory() />
 </#if>
 
-<div class="item pro-bloc-card-participation pro-theme-information" data-linkall="a">
+<div class="item pro-bloc-card-participation pro-theme-${cssParticipationType}" data-linkall="a">
     <div>
         <div class="pro-header-participation">
             <figure role="group">
@@ -115,13 +120,15 @@
                 <span>${participationStatus}</span>
 
                 <!-- Projet lié à la participation -->
-                <span>${participationProject}</span>
+                <span>${participationProject.getTitle(locale)}</span>
 
             </div>
             <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="Détail ''">
-                ${participationTitleFirstPart}
-                <br>
-                <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
+                <h3>
+                    ${participationTitleFirstPart}
+                    <br>
+                    <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
+                </h3>
             </a>
             <span class="pro-time">
                 Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
