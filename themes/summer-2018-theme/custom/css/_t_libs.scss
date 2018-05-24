@@ -10,16 +10,14 @@
 	}
 
 	#owl-full .owl-nav > button{
-		position: relative;
 		background: transparent;
 		background-color: transparent;
 		border: 0;
 		@include an(all,0.3);
 		span{
 			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%,-50%);
+			top: 0;
+			left: 0;
 			color: $c_white;
 			font-size: 18px;	
 		}
@@ -34,19 +32,30 @@
 	#owl-full .owl-nav{
 		position: absolute;
 		bottom: 10%;
-		right: calc(20% + 20px);
+		right: calc(20% + 40px);
 		@include mobile {
 			position: absolute;
 			bottom: 10%;
-			right: calc(20% + 10px);
+			right: calc(20% + 35px);
 		}
 		@include tablet_portrait {
 			position: absolute;
 			bottom: 10%;
-			right: calc(10% + 20px);
+			right: calc(10% + 30px);
 		}
 
 		.owl-prev {
+            top: 0;
+            height: 40px;
+            width: 40px;
+            @include tablet_portrait {
+                width: 35px;
+                height: 35px;
+            }
+            @include mobile {
+                width: 30px;
+                height: 30px;
+            }   
 			margin: 0 !important;
         	padding: 0 !important;
 			background-color: transparent;
@@ -56,20 +65,25 @@
             transform: rotate(180deg);
             left: -100px;
             bottom: 0;
-            .mns-picto {
-            	left: 0 !important;
-            }
         }
         .owl-next {
+            top: 0;
+            height: 40px;
+            width: 40px;
+            @include tablet_landscape {
+                width: 35px;
+                height: 35px;
+            }
+            @include mobile {
+                width: 30px;
+                height: 30px;
+            } 
         	margin: 0 !important;
         	padding: 0 !important;
 			background-color: transparent;
 			border: transparent;
 			outline: none;
 			@extend %atom-home-slider-arrow;
-			.mns-picto {
-            	left: 0 !important;
-            }
         }
 	}
 
@@ -99,16 +113,14 @@
     }
 
     #owl-slider .owl-nav > button{
-        position: relative;
         background: transparent;
         background-color: transparent;
         border: 0;
         @include an(all,0.3);
         span{
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
+            top: 0;
+            left: 0;
             color: $c_white;
             font-size: 18px;    
         }
@@ -123,19 +135,30 @@
     #owl-slider .owl-nav{
         position: absolute;
         bottom: 10%;
-        right: calc(5% + 20px);
+        right: calc(5% + 40px);
         @include mobile {
             position: absolute;
             bottom: 10%;
-            right: calc(5% + 10px);
+            right: calc(5% + 35px);
         }
         @include tablet_portrait {
             position: absolute;
             bottom: 10%;
-            right: calc(5% + 20px);
+            right: calc(5% + 30px);
         }
 
         .owl-prev {
+            top: 0;
+            height: 40px;
+            width: 40px;
+            @include tablet_portrait {
+                width: 35px;
+                height: 35px;
+            }
+            @include mobile {
+                width: 30px;
+                height: 30px;
+            } 
             margin: 0 !important;
             padding: 0 !important;
             background-color: transparent;
@@ -145,20 +168,25 @@
             transform: rotate(180deg);
             left: -100px;
             bottom: 0;
-            .mns-picto {
-                left: 0 !important;
-            }
         }
         .owl-next {
+            top: 0;
+            height: 40px;
+            width: 40px;
+            @include tablet_portrait {
+                width: 35px;
+                height: 35px;
+            }
+            @include mobile {
+                width: 30px;
+                height: 30px;
+            } 
             margin: 0 !important;
             padding: 0 !important;
             background-color: transparent;
             border: transparent;
             outline: none;
             @extend %atom-home-slider-arrow;
-            .mns-picto {
-                left: 0 !important;
-            }
         }
     }
 
@@ -200,6 +228,9 @@
                 width: 80px;
                 left: 0px;
             }
+            .mns-picto {
+                left: 30px;
+            }
 		}
 
 		.owl-next {
@@ -213,6 +244,9 @@
             outline: none;
             @include tablet_landscape{
                 width: 80px;
+            }
+            .mns-picto {
+                left: 30px;
             }
 		}
 
@@ -251,13 +285,12 @@
         background-color: $c_main;
         border-radius: 50%;
         position: relative;
-        left: 30px;
-        @include tablet_landscape{
+        @include tablet_portrait {
             width: 35px;
             height: 35px;
             background-size: 20px;
         }
-        @include mobile{
+        @include mobile {
             left: 35px;
             width: 30px;
             height: 30px;
