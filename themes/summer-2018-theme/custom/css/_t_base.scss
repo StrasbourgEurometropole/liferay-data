@@ -49,22 +49,58 @@ body{
 			height: 38px;
 		}
 	}
+	.mns-center{
+		text-align: center;
+		span{
+			overflow-x: hidden;
+			display: block;
+			height: 38px;
+		}
+	}
+
+	.mns-portlet-title {
+		display: inline-block; 
+		text-align: left;
+		text-transform: uppercase;		
+		h1 {
+			@include ft($f_ms, 60px, 100, $c_txt, normal);
+			text-align: center;
+			margin-bottom: 40px;
+
+			@include mobile{
+				font-size: 60px;
+			}
+		}
+		&:after{
+			content: '';
+			background: url(/o/summer-2018-theme/images/vagues-noires.png) no-repeat left center /contain;
+			position: relative;
+			display: block;
+			top: -40px;
+			width: 90px;
+			height: 31px;
+			@include mobile{
+				font-size: 60px;
+				width: 90px;
+			}
+		}
+	}
 
 	.mns-date-event{
-		@include ft($f_txt, 16px, 700, $c_main, normal);	
+		@include ft($f_ms, 16px, 700, $c_main, normal);	
 		margin-bottom: 10px;
 		display: block;
 	}
 
 	.publication{
-		@include ft($f_txt, 14px, 300, #808080, 16px);
+		@include ft($f_ms, 12.5px, 300, $c_txt, 16px);
 		display: block;
 	}
 
 	/* MNS FCK EDITOR */
 	.mns-fck{
 		h1{
-			@include ft($f_hx, 58px, 700, $c_txt, 62px);
+			@include ft($f_ms, 58px, 700, $c_txt, 62px);
 			width: 85%;
 			margin-bottom: 40px;
 			@include tablet_portrait{
@@ -76,18 +112,18 @@ body{
 			}
 		}
 		h2{
-			@include ft($f_txt, 26px, 400, $c_txt, 48px);
+			@include ft($f_ms, 25px, 600, $c_txt, 48px);
 			margin-bottom: 15px;
 			@include mobile{
 				line-height: normal;
 			}
 		}
 		h3{
-			@include ft($f_txt, 26px, 400, $c_txt, 28px);
+			@include ft($f_ms, 21.5px, 600, $c_txt, 28px);
 			margin-bottom: 20px;
 		}
 		strong, p{
-			font-size: 16px;
+			font-size: 17.5px;
 			margin-bottom: 20px;
 		}
 
@@ -105,9 +141,9 @@ body{
 		// }
 
 		.mns-line{
-			width: 25px;
-			height: 4px;
-			background: #ebded3;
+			width: 100%;
+			height: 10px;
+			background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
 			display: block;
 			margin: 40px 0;
 		}
@@ -133,7 +169,7 @@ body{
 				padding-right: 10%;
 				padding-top: 20px;
 				text-align: right;
-				@include ft($f_txt, 14px, 400, #808080, 21px);
+				@include ft($f_ms, 14px, 400, #808080, 21px);
 				@include desktop{
 					left: -38%;
 					width: 45%;
@@ -187,10 +223,10 @@ body{
 				}
 			}
 			.title{
-				@include ft($f_hx, 22px, 700, $c_txt, 30px);
+				@include ft($f_ms, 22px, 700, $c_txt, 30px);
 			}
 			p{
-				@include ft($f_txt, 15px, 400, $c_txt, 26px);
+				@include ft($f_ms, 17.5px, 300, $c_txt, 26px);
 			}
 		}
 	}
@@ -253,7 +289,7 @@ body{
 
 				.label{
 					margin-left: -20px;
-					@include ft($f_hx, 14px, 700, $c_txt, 31px);
+					@include ft($f_ms, 14px, 700, $c_txt, 31px);
 				}
 			}
 
@@ -265,7 +301,7 @@ body{
 				border-radius: 10px;
 				ul{
 					li{
-						@include ft($f_hx, 14px, 700, $c_txt, 31px);
+						@include ft($f_ms, 14px, 700, $c_txt, 31px);
 						padding-left: 15px;
 						&.highlighted{
 							background: none;
@@ -311,7 +347,7 @@ body{
 					}
 					a{
 						margin: 0 5px;
-						@include ft($f_hx, 14px, 700, $c_txt, normal);	
+						@include ft($f_ms, 14px, 700, $c_txt, normal);	
 						position: relative;
 						span{
 							padding: 5px;
@@ -377,10 +413,10 @@ body{
 			margin: 0 !important;
 		}
 		span{
-			@include ft($f_txt, 14px, 400, #808080, normal);
+			@include ft($f_ms, 12.5px, 300, $c_txt, normal);
 		}
 		&:nth-child(1){
-			text-align: right;
+			text-align: left;
 		}
 		&:nth-child(2){
 			text-align: left;
@@ -397,7 +433,7 @@ body{
 		position: absolute;
 		left: 0;
 		top: -70px;
-		padding: 25px 15px;
+		margin-top: 70px;
 		@include mobile{
 			top: -80px;
 			overflow: scroll;
@@ -417,7 +453,7 @@ body{
 			}
 		}
 		a{
-			@include ft($f_hx, 13px, 400, $c_white, normal);
+			@include ft($f_ms, 13px, 400, $c_white, normal);
 			position: relative;
 			display: inline-block;
 			@include an(all,0.3);
@@ -436,7 +472,7 @@ body{
 			}
 		}
 		span{
-			@include ft($f_hx, 13px, 700, $c_white, normal);
+			@include ft($f_ms, 13px, 700, $c_white, normal);
 		}
 	}
 

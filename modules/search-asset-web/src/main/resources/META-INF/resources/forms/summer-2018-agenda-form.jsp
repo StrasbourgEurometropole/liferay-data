@@ -35,8 +35,12 @@
 		<div class="form-group">
 			<div class="mns-label-top">
 				<label>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
+				<div class="mns-expand-collapse expanded" data-checkboxes-id="${vocStatus.count}">
+					<div class="mns-filter-expand" ></div>
+					<div class="mns-filter-collapse"></div>
+				</div>
 			</div>
-			<div class="checkbox">
+			<div class="checkbox" id="checkbox-${vocStatus.count}">
 				<c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category"
 					varStatus="catStatus">
 					<aui:input type="checkbox" name="vocabulary_${vocStatus.index}"
