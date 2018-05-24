@@ -13,9 +13,9 @@
         <p class="errors"></p>      
         <div class="webform-layout-box">
             <div class="form-group list">
-                <div class="form-label"><label for="annee"><@liferay.language key="bill-type" /><strong class="required">*</strong></label></div>
+                <div class="form-label"><label for="bill_type"><@liferay.language key="bill-type" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <select id="type_facture" class="toCustomSelect silencedSelect" required="" aria-required="true">
+                    <select id="type_facture" class="toCustomSelect silencedSelect" required="" aria-required="true" name="bill_type">
                         <option value=""></option>
                         <option value="childhood"><@liferay.language key="childhood" /></option>
                         <option value="schoolRestaurant"><@liferay.language key="school-restaurant" /></option>
@@ -28,16 +28,16 @@
 
         <div class="webform-layout-box">
             <div class="form-group">
-                <div class="form-label"><label for="annee"><@liferay.language key="year" /><strong class="required">*</strong></label></div>
+                <div class="form-label"><label for="bill_annee"><@liferay.language key="year" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <input type="number" id="year" required="" aria-required="true" placeholder='<@liferay.language key="year" />...'>
+                    <input type="number" id="year" required="" aria-required="true" placeholder='<@liferay.language key="year" />...' name="bill_annee">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-label"><label for="bill_id"><@liferay.language key="bill-number" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <input type="number" id="ref" required="" aria-required="true" placeholder='<@liferay.language key="your-bill-numer" />...'>
+                    <input type="number" id="ref" required="" aria-required="true" placeholder='<@liferay.language key="your-bill-numer" />...' name="bill_id">
                 </div>
             </div>
         </div>
@@ -45,11 +45,11 @@
             <div class="form-group">
                 <div class="form-label"><label for="bill_mail"><@liferay.language key="bill-email" /><strong class="required">*</strong></label></div>
                 <div class="form-field">
-                    <input type="email" 
+                    <input type="email" id="email" required="" aria-required="true"  placeholder='<@liferay.language key="your-email" />...' name="bill_mail"
                     <#if httpServletRequest.getSession().getAttribute('publik_email')?has_content>
                         value="${httpServletRequest.getSession().getAttribute('publik_email')}" 
                     </#if>
-                    id="email" required="" aria-required="true"  placeholder='<@liferay.language key="your-email" />...'>
+                    >
                 </div>
             </div>
 
