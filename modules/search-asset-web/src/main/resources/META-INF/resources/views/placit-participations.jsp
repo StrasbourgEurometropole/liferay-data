@@ -208,7 +208,9 @@
 	                    </c:forEach>
                     </select>
                 </form>
-                <p class="hidden-xs"><liferay-ui:message key="show-results" /> 1-8 <liferay-ui:message key="among" /> 52 <liferay-ui:message key="participations" /></p>
+                <p class="hidden-xs">
+                	<liferay-ui:message key="show-results" /> ${page.index}-${page.index} <liferay-ui:message key="among" /> ${page.count} <liferay-ui:message key="participations" />
+                </p>
             </div>
 
             <div class="col-sm-6 col-xs-8 pull-right">
