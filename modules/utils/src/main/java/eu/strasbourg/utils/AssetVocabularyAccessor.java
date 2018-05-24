@@ -46,5 +46,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
-
+	
+	public AssetVocabulary getProjectStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PROJECT_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
 }
