@@ -1,7 +1,10 @@
 package eu.strasbourg.service.project.search;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -65,9 +68,14 @@ public class ProjectIndexer extends BaseIndexer<Project> {
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
-		document.addKeyword(Field.TITLE, project.getTitle());
-		document.addText(Field.DESCRIPTION,
-			project.getDescription());
+		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
+		titleFieldMap.put(Locale.FRANCE, project.getTitle());
+		
+		Map<Locale, String> descriptionFieldMap = new HashMap<Locale, String>();
+		descriptionFieldMap.put(Locale.FRANCE, project.getDescription());
+		
+		document.addLocalizedText(Field.TITLE, titleFieldMap);
+		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
 		document.addNumber(Field.STATUS, project.getStatus());
 		return document;
 	}
