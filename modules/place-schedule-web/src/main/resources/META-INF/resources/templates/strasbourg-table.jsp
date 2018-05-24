@@ -40,7 +40,7 @@
 			<h1><liferay-ui:message key="title-schedule" /> ${category.getTitle(locale)}</h1>
 
 			<!-- Formulaire de recherche -->
-			<aui:form action="${searchURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
+			<aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 				<div class="seu-filter-line">
 				    <div class="widget" style="width: calc( 50% - 15px);">
 				        <div class="title">

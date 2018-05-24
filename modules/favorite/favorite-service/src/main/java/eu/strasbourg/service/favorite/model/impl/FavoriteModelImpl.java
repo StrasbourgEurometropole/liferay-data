@@ -106,8 +106,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
 	public static final long TITLE_COLUMN_BITMASK = 4L;
 	public static final long TYPEID_COLUMN_BITMASK = 8L;
-	public static final long URL_COLUMN_BITMASK = 16L;
-	public static final long FAVORITEID_COLUMN_BITMASK = 32L;
+	public static final long FAVORITEID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -328,17 +327,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public void setUrl(String url) {
-		_columnBitmask |= URL_COLUMN_BITMASK;
-
-		if (_originalUrl == null) {
-			_originalUrl = _url;
-		}
-
 		_url = url;
-	}
-
-	public String getOriginalUrl() {
-		return GetterUtil.getString(_originalUrl);
 	}
 
 	@JSON
@@ -502,8 +491,6 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		favoriteModelImpl._originalTitle = favoriteModelImpl._title;
 
-		favoriteModelImpl._originalUrl = favoriteModelImpl._url;
-
 		favoriteModelImpl._originalTypeId = favoriteModelImpl._typeId;
 
 		favoriteModelImpl._setOriginalTypeId = false;
@@ -629,7 +616,6 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 	private String _title;
 	private String _originalTitle;
 	private String _url;
-	private String _originalUrl;
 	private long _typeId;
 	private long _originalTypeId;
 	private boolean _setOriginalTypeId;

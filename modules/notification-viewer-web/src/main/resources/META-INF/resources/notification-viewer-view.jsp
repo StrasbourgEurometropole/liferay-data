@@ -42,7 +42,9 @@
 				</c:forEach>
 			</c:when>
 			<c:otherwise>
-				<div class="notif-text" data-dot="2"><liferay-ui:message key="no-notification-unread" /></div>
+				<div class="notif-item">
+					<div class="notif-text" data-dot="2"><liferay-ui:message key="no-notification-unread" /></div>
+				</div>
 			</c:otherwise>
 		</c:choose>
 		<div class="notif-last">

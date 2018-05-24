@@ -152,7 +152,7 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 		    
 		    Favorite favoriteExist = null;
 		    try {
-				favoriteExist = this.favoritePersistence.findByAllAttributes(id, title, url, typeId, entityId);
+				favoriteExist = this.favoritePersistence.findByAllAttributes(id, title, typeId, entityId);
 			} catch (NoSuchFavoriteException e) {
 				// C'est ce qu'on espère
 			}
@@ -217,7 +217,7 @@ public class FavoriteServiceImpl extends FavoriteServiceBaseImpl {
 		    Favorite favorite = null;
 		    
 			try {
-				favorite = this.favoritePersistence.findByAllAttributes(id, title, url, typeId, entityId);
+				favorite = this.favoritePersistence.findByAllAttributes(id, title, typeId, entityId);
 			} catch (NoSuchFavoriteException e) {
 				// Possiblement plusieurs onglets d'ouvert et déjà supprimé sur l'un d'eux
 				return success("favorite deleted");

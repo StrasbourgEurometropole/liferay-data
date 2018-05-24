@@ -150,7 +150,7 @@ public class NotificationViewerDisplayContext {
 		if (deltaFromParam > 0) {
 			return deltaFromParam;
 		}
-		return 12;
+		return 5;
 	}
 
 	/**

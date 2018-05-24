@@ -97,6 +97,9 @@
 		<finder name="SIGId" return-type="Place">
 			<finder-column name="SIGid" />
 		</finder>
+		<finder name="name" return-type="Place">
+			<finder-column name="name" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

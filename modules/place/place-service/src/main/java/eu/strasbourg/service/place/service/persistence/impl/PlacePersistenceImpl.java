@@ -2700,6 +2700,248 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 	private static final String _FINDER_COLUMN_SIGID_SIGID_1 = "place.SIGid IS NULL";
 	private static final String _FINDER_COLUMN_SIGID_SIGID_2 = "place.SIGid = ?";
 	private static final String _FINDER_COLUMN_SIGID_SIGID_3 = "(place.SIGid IS NULL OR place.SIGid = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_NAME = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByname",
+			new String[] { String.class.getName() },
+			PlaceModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByname",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the place where name = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching place
+	 * @throws NoSuchPlaceException if a matching place could not be found
+	 */
+	@Override
+	public Place findByname(String name) throws NoSuchPlaceException {
+		Place place = fetchByname(name);
+
+		if (place == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("name=");
+			msg.append(name);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchPlaceException(msg.toString());
+		}
+
+		return place;
+	}
+
+	/**
+	 * Returns the place where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching place, or <code>null</code> if a matching place could not be found
+	 */
+	@Override
+	public Place fetchByname(String name) {
+		return fetchByname(name, true);
+	}
+
+	/**
+	 * Returns the place where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching place, or <code>null</code> if a matching place could not be found
+	 */
+	@Override
+	public Place fetchByname(String name, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { name };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_NAME,
+					finderArgs, this);
+		}
+
+		if (result instanceof Place) {
+			Place place = (Place)result;
+
+			if (!Objects.equals(name, place.getName())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_PLACE_WHERE);
+
+			boolean bindName = false;
+
+			if (name == null) {
+				query.append(_FINDER_COLUMN_NAME_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_NAME_NAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindName) {
+					qPos.add(name);
+				}
+
+				List<Place> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_NAME,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"PlacePersistenceImpl.fetchByname(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Place place = list.get(0);
+
+					result = place;
+
+					cacheResult(place);
+
+					if ((place.getName() == null) ||
+							!place.getName().equals(name)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_NAME,
+							finderArgs, place);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_NAME, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Place)result;
+		}
+	}
+
+	/**
+	 * Removes the place where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the place that was removed
+	 */
+	@Override
+	public Place removeByname(String name) throws NoSuchPlaceException {
+		Place place = findByname(name);
+
+		return remove(place);
+	}
+
+	/**
+	 * Returns the number of places where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching places
+	 */
+	@Override
+	public int countByname(String name) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_NAME;
+
+		Object[] finderArgs = new Object[] { name };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PLACE_WHERE);
+
+			boolean bindName = false;
+
+			if (name == null) {
+				query.append(_FINDER_COLUMN_NAME_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_NAME_NAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindName) {
+					qPos.add(name);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_NAME_NAME_1 = "place.name IS NULL";
+	private static final String _FINDER_COLUMN_NAME_NAME_2 = "place.name = ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(place.name IS NULL OR place.name = '')";
 
 	public PlacePersistenceImpl() {
 		setModelClass(Place.class);
@@ -2738,6 +2980,9 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
 			new Object[] { place.getSIGid() }, place);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_NAME,
+			new Object[] { place.getName() }, place);
 
 		place.resetOriginalValues();
 	}
@@ -2823,6 +3068,13 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args, placeModelImpl,
 			false);
+
+		args = new Object[] { placeModelImpl.getName() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_NAME, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_NAME, args, placeModelImpl,
+			false);
 	}
 
 	protected void clearUniqueFindersCache(PlaceModelImpl placeModelImpl,
@@ -2860,6 +3112,21 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { placeModelImpl.getName() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
+		}
+
+		if ((placeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_NAME.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { placeModelImpl.getOriginalName() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
 		}
 	}
 
