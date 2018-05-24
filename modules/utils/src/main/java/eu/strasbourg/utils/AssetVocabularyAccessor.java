@@ -54,4 +54,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+	
+	public AssetVocabulary getThematics(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.THEMATIC, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
 }
