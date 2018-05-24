@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.vote_place;
+﻿package eu.strasbourg.portlet.vote_place;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.GroupModel;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -97,6 +96,11 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 								"Bureau de vote " + (stationNumber.substring(0, 1).equals("0")
 										? stationNumber.substring(1)
 										: stationNumber));
+						//retire les zéros devant le numéro
+						String stationNumber = felecResponse.getStationNumber().replaceAll("^0+", "");
+						List<Place> places = PlaceLocalServiceUtil.findByName("% " + stationNumber);
+						if(!places.isEmpty())
+							office = places.get(0);
 					}
 				} catch (NoSuchPlaceException e) {
 					e.printStackTrace();

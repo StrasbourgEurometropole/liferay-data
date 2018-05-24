@@ -347,7 +347,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	 * @throws NoSuchPlaceException 
 	 */
 	@Override
-	public Place findByName(String name) throws NoSuchPlaceException {
+	public List<Place> findByName(String name) throws NoSuchPlaceException {
 
 		return placePersistence.findByname(name);
 	}
