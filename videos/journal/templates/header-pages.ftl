@@ -1,8 +1,13 @@
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 <div class="video-wrapper image-wrapper">
 	<div class="header-image">
 	</div>
 	<div class="cover">
-		<a href="accueil" class="home-link">
+		<a href="${homeURL}accueil" class="home-link">
 		</a>
 		<div class="strasbourg-bar">
 			<div class="container">
@@ -14,11 +19,11 @@
 		<div class="site-title-row">
 			<div class="container">
 				<h1 class="site-title">
-					<a href="accueil" class="logo">
+					<a href="${homeURL}accueil" class="logo">
 						<img class="desktop-only hide-tablet" src="/o/videos-theme/images/logo/logo_video_grey.png" />
 						<img class="mobile-only show-tablet" src="/o/videos-theme/images/logo/logo_video.png" />
 					</a> 
-					<a href="accueil">
+					<a href="${homeURL}accueil">
 						<span class="site-subtitle"><@liferay.language key='eu.videos-theme.description-page' /></span>
 					</a>
 					<div class="action mobile-only">
