@@ -71,7 +71,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		attributes.put("RTRedThreshold", getRTRedThreshold());
 		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("placeId", getPlaceId());
-		attributes.put("subPlaceId", getSubPlaceId());
 
 		return attributes;
 	}
@@ -160,12 +159,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 
 		if (placeId != null) {
 			setPlaceId(placeId);
-		}
-
-		Long subPlaceId = (Long)attributes.get("subPlaceId");
-
-		if (subPlaceId != null) {
-			setSubPlaceId(subPlaceId);
 		}
 	}
 
@@ -511,11 +504,28 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Retourne les Slots de la période
+	* Retourne les Slots de la période pour un lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getAllSlots() {
+		return _period.getAllSlots();
+	}
+
+	/**
+	* Retourne les Slots de la période pour un lieu
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots() {
 		return _period.getSlots();
+	}
+
+	/**
+	* Retourne les Slots de la période pour un sous-lieu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
+		long subPlaceId) {
+		return _period.getSlots(subPlaceId);
 	}
 
 	/**
@@ -524,6 +534,15 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule() {
 		return _period.getWeekSchedule();
+	}
+
+	/**
+	* Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule(
+		long subPlaceId) {
+		return _period.getWeekSchedule(subPlaceId);
 	}
 
 	/**
@@ -624,16 +643,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public long getRTRedThreshold() {
 		return _period.getRTRedThreshold();
-	}
-
-	/**
-	* Returns the sub place ID of this period.
-	*
-	* @return the sub place ID of this period
-	*/
-	@Override
-	public long getSubPlaceId() {
-		return _period.getSubPlaceId();
 	}
 
 	@Override
@@ -980,16 +989,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public void setStartDate(Date startDate) {
 		_period.setStartDate(startDate);
-	}
-
-	/**
-	* Sets the sub place ID of this period.
-	*
-	* @param subPlaceId the sub place ID of this period
-	*/
-	@Override
-	public void setSubPlaceId(long subPlaceId) {
-		_period.setSubPlaceId(subPlaceId);
 	}
 
 	/**

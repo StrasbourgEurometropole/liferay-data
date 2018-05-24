@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.agenda.model.Event;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.List;
@@ -73,8 +74,10 @@ public interface EventLocalService extends BaseLocalService,
 
 	/**
 	* Lance l'import des événements
+	*
+	* @throws IOException
 	*/
-	public boolean doImport();
+	public boolean doImport() throws IOException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasManifestationEvent(long manifestationId, long eventId);
@@ -212,9 +215,11 @@ public interface EventLocalService extends BaseLocalService,
 
 	/**
 	* Met à jour une édition et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	public Event updateEvent(Event event, ServiceContext sc)
-		throws PortalException;
+		throws PortalException, IOException;
 
 	/**
 	* Met à jour le statut de l'édition par le framework workflow

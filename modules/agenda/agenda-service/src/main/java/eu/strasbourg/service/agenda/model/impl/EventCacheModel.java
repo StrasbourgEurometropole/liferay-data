@@ -65,7 +65,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(95);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(externalImageURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
+		sb.append(", imageWidth=");
+		sb.append(imageWidth);
+		sb.append(", imageHeight=");
+		sb.append(imageHeight);
 		sb.append(", placeSIGId=");
 		sb.append(placeSIGId);
 		sb.append(", placeName=");
@@ -257,6 +261,9 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		else {
 			eventImpl.setExternalImageCopyright(externalImageCopyright);
 		}
+
+		eventImpl.setImageWidth(imageWidth);
+		eventImpl.setImageHeight(imageHeight);
 
 		if (placeSIGId == null) {
 			eventImpl.setPlaceSIGId(StringPool.BLANK);
@@ -439,6 +446,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		description = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
+
+		imageWidth = objectInput.readInt();
+
+		imageHeight = objectInput.readInt();
 		placeSIGId = objectInput.readUTF();
 		placeName = objectInput.readUTF();
 		placeStreetNumber = objectInput.readUTF();
@@ -551,6 +562,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
 		}
+
+		objectOutput.writeInt(imageWidth);
+
+		objectOutput.writeInt(imageHeight);
 
 		if (placeSIGId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -708,6 +723,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String description;
 	public String externalImageURL;
 	public String externalImageCopyright;
+	public int imageWidth;
+	public int imageHeight;
 	public String placeSIGId;
 	public String placeName;
 	public String placeStreetNumber;

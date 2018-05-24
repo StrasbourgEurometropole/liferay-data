@@ -58,7 +58,7 @@
 			<#include "${full_templates_path}/navigation.ftl" />
 		</#if>
 
-		<div id="content">			
+		<div id="content">
 			<#if selectable>
 				<@liferay_util["include"] page=content_include />
 			<#else>
@@ -67,11 +67,11 @@
 				<@liferay_theme["wrap-portlet"] page="portlet.ftl">
 					<@liferay_util["include"] page=content_include />
 				</@>
-			</#if> 
+			</#if>
 		</div>
 		<a class="to-top"></a>
 		<div class="footer">
-		        
+
 			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 			<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"
@@ -96,9 +96,20 @@
 	<script src="${javascript_folder}/more-videos.js"></script>
 	<script src="${javascript_folder}/search.js"></script>
 	<script src="${javascript_folder}/carrousel.js"></script>
-	<script src="${images_folder}/../vendors/owl/dist/owl.carousel.min.js"></script>
-	<script src="${images_folder}/../bower_components/retina.js/dist/retina.min.js"></script>
+	<script src="${images_folder}/../bower_components/retina.js/dist/retina.js"></script>
 
+
+	<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-4"></script> [^]
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-33301756-4');
+		</script>
+	</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

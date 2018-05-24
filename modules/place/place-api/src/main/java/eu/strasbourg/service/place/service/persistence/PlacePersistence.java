@@ -671,6 +671,49 @@ public interface PlacePersistence extends BasePersistence<Place> {
 	public int countBySIGId(java.lang.String SIGid);
 
 	/**
+	* Returns the place where name = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	*
+	* @param name the name
+	* @return the matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
+	*/
+	public Place findByname(java.lang.String name) throws NoSuchPlaceException;
+
+	/**
+	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param name the name
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchByname(java.lang.String name);
+
+	/**
+	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param name the name
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchByname(java.lang.String name, boolean retrieveFromCache);
+
+	/**
+	* Removes the place where name = &#63; from the database.
+	*
+	* @param name the name
+	* @return the place that was removed
+	*/
+	public Place removeByname(java.lang.String name)
+		throws NoSuchPlaceException;
+
+	/**
+	* Returns the number of places where name = &#63;.
+	*
+	* @param name the name
+	* @return the number of matching places
+	*/
+	public int countByname(java.lang.String name);
+
+	/**
 	* Caches the place in the entity cache if it is enabled.
 	*
 	* @param place the place

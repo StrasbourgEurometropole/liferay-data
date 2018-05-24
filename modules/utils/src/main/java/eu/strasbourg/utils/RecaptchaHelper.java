@@ -3,9 +3,8 @@ package eu.strasbourg.utils;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -25,7 +24,7 @@ public class RecaptchaHelper {
 
 		try {
 			URL obj = new URL(url);
-			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);

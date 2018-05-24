@@ -22,7 +22,6 @@
 		<finder name="AllAttributes" return-type="Favorite"  >
 			<finder-column name="publikUserId" />
 			<finder-column name="title" />
-			<finder-column name="url" />
 			<finder-column name="typeId" />
 			<finder-column name="entityId" />		
 		</finder>

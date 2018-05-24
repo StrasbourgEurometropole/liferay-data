@@ -21,7 +21,8 @@
 	        <c:set var="newsCount" value="0"/>
 	        <c:set var="editionCount" value="0"/>
 	        <c:set var="eventCount" value="0"/>
-	        var mega_source = [
+	        var mega_source = [];
+	        mega_source.push([
 	        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
 	        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
 		                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
@@ -43,9 +44,6 @@
 		                lead: '${dc.getJSONEncodedString(chapo)}',
 		                picture: '${image}',
 		                link: '${viewURL}'
-			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-		                  ,is_Big: true
-			  	        </c:if>
 		              }
 		            </c:if>
 	        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
@@ -72,18 +70,15 @@
 							date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
 							date_suffix: '<liferay-ui:message key="eu.event.to" />'
 		                </c:if>
-			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-		                  ,is_Big: true
-			  	        </c:if>
 		              }
 		            </c:if>
 	        		<c:if test="${!loopStatus.last}">,
 	 	        	</c:if>
 				</c:forEach>
-	        ];
+	        ]);
 	    </script>
       
-        <div id="slider--mega">
+        <div class="slider--mega">
             <div class="top-line"> 
                 <div class="filters">
                     <button class="actu-filter actif btn-round--grey" data-category="tous">
@@ -177,3 +172,11 @@
         </div>
 	</c:if>
 </section>
+
+<style>
+	
+	.slider--mega .slider-mega-container .slider .owl-item .item .link{
+    	overflow: hidden;
+	} 
+
+</style>

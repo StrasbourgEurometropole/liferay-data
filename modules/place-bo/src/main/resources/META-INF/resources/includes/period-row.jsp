@@ -8,18 +8,19 @@
 	</c:if>
 id="period${param.index}">
 	<aui:input name="numPeriod${param.index}" value="${param.index}" type="hidden" />
+	<aui:input name="periodId${param.index}" value="${param.periodId}" type="hidden" />
 
-	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}" localized="true" type="text" />
+	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}" localized="true" type="text" disabled="${param.disabled}" />
 	<div class="place-period-name" style="display: none">
 		<liferay-ui:message key="this-field-is-required" />
 	</div>	
 				
-	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}" localized="true" type="text"  />
+	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}" localized="true" type="text" disabled="${param.disabled}" />
 	<div class="place-period-label" style="display: none">
 		<liferay-ui:message key="this-field-is-required" />
 	</div>
 				
-	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}" localized="true" type="text"  >
+	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}" localized="true" type="text" disabled="${param.disabled}" >
 	 	<aui:validator name="url"/>
 	</aui:input>
 	<div class="place-period-url" style="display: none">
@@ -27,13 +28,13 @@ id="period${param.index}">
 	</div>
 				
 	<aui:input name="defaultPeriod${param.index}" label="default-period" type="toggle-switch" 
-		value="${not empty param ? param.defaultPeriod : false}" onClick="affichageDates(this, ${param.index})" />
+		value="${not empty param ? param.defaultPeriod : false}" onClick="affichageDates(this, ${param.index})" disabled="${param.disabled}" />
 	<div class="place-period-default" style="display: none">
 		<liferay-ui:message key="can-not-checked" />
 	</div>
 	
 	<div class="dates${param.index}" <c:if test="${not empty param and param.defaultPeriod }">style="display: none;"</c:if>>
-		<aui:input type="date" name="startDatePeriod${param.index}" label="start-date" value="${param.startDate}" />
+		<aui:input type="date" name="startDatePeriod${param.index}" label="start-date" value="${param.startDate}" disabled="${param.disabled}" />
 		<div class="place-period-start-date" style="display: none">
 			<liferay-ui:message key="this-field-is-required" />
 		</div>
@@ -42,14 +43,14 @@ id="period${param.index}">
 			<liferay-ui:message key="incorrect-date" />
 		</div>
 		
-		<aui:input type="date" name="endDatePeriod${param.index}" label="end-date" value="${param.endDate}" />
+		<aui:input type="date" name="endDatePeriod${param.index}" label="end-date" value="${param.endDate}" disabled="${param.disabled}" />
 		<div class="place-period-end-date" style="display: none">
 			<liferay-ui:message key="this-field-is-required" />
 		</div>
 	</div>
 				
 	<aui:input name="alwaysOpen${param.index}" label="always-open" type="toggle-switch" 
-	value="${not empty param ? param.alwaysOpen : false}" onClick="affichageOuverture(this, ${param.index})" />
+	value="${not empty param ? param.alwaysOpen : false}" onClick="affichageOuverture(this, ${param.index})" disabled="${param.disabled}" />
 	
 	<div class="ouvertures${param.index}" <c:if test="${not empty param and param.alwaysOpen }">style="display: none;"</c:if>>
 		<c:forEach var="jour" begin="0" end="6">

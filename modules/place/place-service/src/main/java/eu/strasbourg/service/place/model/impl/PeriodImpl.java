@@ -64,11 +64,30 @@ public class PeriodImpl extends PeriodBaseImpl {
 	}
 
 	/**
-	 * Retourne les Slots de la période
+	 * Retourne les Slots de la période pour un lieu
+	 */
+	@Override
+	public List<Slot> getAllSlots() {
+		List<Slot> slots = SlotLocalServiceUtil.getByPeriodId(this.getPeriodId());
+		return slots;
+	}
+
+	/**
+	 * Retourne les Slots de la période pour un lieu
 	 */
 	@Override
 	public List<Slot> getSlots() {
-		return SlotLocalServiceUtil.getByPeriodId(this.getPeriodId());
+		List<Slot> slots = SlotLocalServiceUtil.getByPeriodId(this.getPeriodId());
+		return slots.stream().filter(s -> s.getSubPlaceId() == 0).collect(Collectors.toList());
+	}
+
+	/**
+	 * Retourne les Slots de la période pour un sous-lieu
+	 */
+	@Override
+	public List<Slot> getSlots(long subPlaceId) {
+		List<Slot> slots = SlotLocalServiceUtil.getByPeriodId(this.getPeriodId());
+		return slots.stream().filter(s -> s.getSubPlaceId() == subPlaceId).collect(Collectors.toList());
 	}
 
 	/**
@@ -78,6 +97,22 @@ public class PeriodImpl extends PeriodBaseImpl {
 	public List<PlaceSchedule> getWeekSchedule() {
 		List<PlaceSchedule> weekSchedule = new ArrayList<PlaceSchedule>();
 		List<Slot> slots = this.getSlots();
+		for (int i = 0; i < 7; i++) {
+			int day = i;
+			List<Slot> slotsOfDay = slots.stream()
+					.filter(s -> s.getDayOfWeek() == day).collect(Collectors.toList());
+			weekSchedule.add(PlaceSchedule.fromSlots(slotsOfDay, this.getAlwaysOpen()));
+		}
+		return weekSchedule;
+	}
+
+	/**
+	 * Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
+	 */
+	@Override
+	public List<PlaceSchedule> getWeekSchedule(long subPlaceId) {
+		List<PlaceSchedule> weekSchedule = new ArrayList<PlaceSchedule>();
+		List<Slot> slots = this.getSlots(subPlaceId);
 		for (int i = 0; i < 7; i++) {
 			int day = i;
 			List<Slot> slotsOfDay = slots.stream()

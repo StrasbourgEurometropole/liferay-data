@@ -33,6 +33,8 @@
         <column name="description" type="String" localized="true" />
         <column name="externalImageURL" type="String" />
         <column name="externalImageCopyright" type="String" />
+        <column name="imageWidth" type="Integer" />
+        <column name="imageHeight" type="Integer" />
         
         <!-- Lieu -->
         <column name="placeSIGId" type="String" />

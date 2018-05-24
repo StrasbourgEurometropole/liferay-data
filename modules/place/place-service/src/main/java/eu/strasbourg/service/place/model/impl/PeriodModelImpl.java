@@ -83,8 +83,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			{ "RTOrangeThreshold", Types.BIGINT },
 			{ "RTRedThreshold", Types.BIGINT },
 			{ "RTMaxThreshold", Types.BIGINT },
-			{ "placeId", Types.BIGINT },
-			{ "subPlaceId", Types.BIGINT }
+			{ "placeId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -103,10 +102,9 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		TABLE_COLUMNS_MAP.put("RTRedThreshold", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("RTMaxThreshold", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,placeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Period";
 	public static final String ORDER_BY_JPQL = " ORDER BY period.periodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Period.periodId ASC";
@@ -123,9 +121,8 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Period"),
 			true);
 	public static final long PLACEID_COLUMN_BITMASK = 1L;
-	public static final long SUBPLACEID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long PERIODID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long PERIODID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.place.service.util.PropsUtil.get(
 				"lock.expiration.time.eu.strasbourg.service.place.model.Period"));
 
@@ -180,7 +177,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		attributes.put("RTRedThreshold", getRTRedThreshold());
 		attributes.put("RTMaxThreshold", getRTMaxThreshold());
 		attributes.put("placeId", getPlaceId());
-		attributes.put("subPlaceId", getSubPlaceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -272,12 +268,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 		if (placeId != null) {
 			setPlaceId(placeId);
-		}
-
-		Long subPlaceId = (Long)attributes.get("subPlaceId");
-
-		if (subPlaceId != null) {
-			setSubPlaceId(subPlaceId);
 		}
 	}
 
@@ -714,28 +704,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		return _originalPlaceId;
 	}
 
-	@Override
-	public long getSubPlaceId() {
-		return _subPlaceId;
-	}
-
-	@Override
-	public void setSubPlaceId(long subPlaceId) {
-		_columnBitmask |= SUBPLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalSubPlaceId) {
-			_setOriginalSubPlaceId = true;
-
-			_originalSubPlaceId = _subPlaceId;
-		}
-
-		_subPlaceId = subPlaceId;
-	}
-
-	public long getOriginalSubPlaceId() {
-		return _originalSubPlaceId;
-	}
-
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -883,7 +851,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		periodImpl.setRTRedThreshold(getRTRedThreshold());
 		periodImpl.setRTMaxThreshold(getRTMaxThreshold());
 		periodImpl.setPlaceId(getPlaceId());
-		periodImpl.setSubPlaceId(getSubPlaceId());
 
 		periodImpl.resetOriginalValues();
 
@@ -951,10 +918,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		periodModelImpl._originalPlaceId = periodModelImpl._placeId;
 
 		periodModelImpl._setOriginalPlaceId = false;
-
-		periodModelImpl._originalSubPlaceId = periodModelImpl._subPlaceId;
-
-		periodModelImpl._setOriginalSubPlaceId = false;
 
 		periodModelImpl._columnBitmask = 0;
 	}
@@ -1029,14 +992,12 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 		periodCacheModel.placeId = getPlaceId();
 
-		periodCacheModel.subPlaceId = getSubPlaceId();
-
 		return periodCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1066,8 +1027,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		sb.append(getRTMaxThreshold());
 		sb.append(", placeId=");
 		sb.append(getPlaceId());
-		sb.append(", subPlaceId=");
-		sb.append(getSubPlaceId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1075,7 +1034,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Period");
@@ -1137,10 +1096,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			"<column><column-name>placeId</column-name><column-value><![CDATA[");
 		sb.append(getPlaceId());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>subPlaceId</column-name><column-value><![CDATA[");
-		sb.append(getSubPlaceId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1171,9 +1126,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	private long _placeId;
 	private long _originalPlaceId;
 	private boolean _setOriginalPlaceId;
-	private long _subPlaceId;
-	private long _originalSubPlaceId;
-	private boolean _setOriginalSubPlaceId;
 	private long _columnBitmask;
 	private Period _escapedModel;
 }

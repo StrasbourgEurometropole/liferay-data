@@ -22,13 +22,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -87,11 +84,11 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne les Periods du sous-lieu
+	 * Retourne les Periods du lieu auquel appartient le sous-lieu
 	 */
 	@Override
 	public List<Period> getPeriods() {
-		return PeriodLocalServiceUtil.getBySubPlaceId(this.getSubPlaceId());
+		return PeriodLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
 	
 	/**
@@ -250,7 +247,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 						&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 					int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 							: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-					List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+					List<Slot> slots = period.getSlots(this.getSubPlaceId()).stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
 					
 					// On met alors dans la liste de comparaison pour la vérification d'horaire exceptionnel avec le lieu parent
 					scheduleCompareList.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
@@ -266,7 +263,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 			{
 				int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 						: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-				List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+				List<Slot> slots = defaultPeriod.getSlots(this.getSubPlaceId()).stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
 				// On met alors dans la liste de comparaison pour la vérification d'horaire exceptionnel avec le lieu parent
 				scheduleCompareList.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
 			}
@@ -368,7 +365,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 			}
 		}
 
-		if (lundi.compareTo(dernierJour) == 0 && !listPlaceSchedules.isEmpty()) {
+		if (!surPeriode && !listPlaceSchedules.isEmpty()) {
 			return listPlaceSchedules;
 		}
 

@@ -27,7 +27,7 @@
 
     .seu-media-picto{
         background-color: #f6f6f6;
-        background-image: url( svg-bg-uri($svg-insta, $core-color) );
+        background-image: url( svg-bg-uri($svg-link-group, $core-color) );
         @include RWD(mobile){
             height: 25px;
             width: 25px;

@@ -83,18 +83,10 @@
 				            	 id="onglet${nbPeriod}" >
 				            		<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
 					            		<liferay-ui:message key="period" /> ${status.count} 
-					            		<span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
 					            	</a>
 				            	</li>
 								<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
 							</c:forEach>
-			            	<li role="presentation"
-			            		<c:if test="${empty dc.subPlace.periods}">
-			            			class="active"
-			            		</c:if>
-			            	 id="addPeriod" >
-			            		<a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
-			            	</li>
 				        </ul>
 				    </div>
 				
@@ -105,6 +97,7 @@
 							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 								<liferay-util:param name="index" value="${status.count - 1}" />
+								<liferay-util:param name="disabled" value="true" />
 								<liferay-util:param name="name" value="${period.name}" />
 								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
 								<liferay-util:param name="startDate" value="${formattedStartDate}" />
@@ -118,7 +111,7 @@
 								<c:set var="slotStartHour" value="" />
 								<c:set var="slotEndHour" value="" />
 								<c:set var="slotComment" value="" />
-								<c:forEach items="${period.slots}" var="slot">
+								<c:forEach items="${period.getSlots(dc.subPlace.subPlaceId)}" var="slot">
 									<c:if test="${not empty slotJour}">
 										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
 										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />

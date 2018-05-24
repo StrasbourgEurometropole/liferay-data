@@ -31,7 +31,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="placeId" type="hidden" />
 
-			<!-- Informations géographique -->
+			<!-- Informations gÃ©ographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
 				
@@ -136,20 +136,20 @@
 				<aui:input name="presentation" />
 				
 				<aui:input name="serviceAndActivities"   />
-				<!-- Hack pour ajouter une validation sur les services et activités -->
+				<!-- Hack pour ajouter une validation sur les services et activitÃ©s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="serviceAndActivitiesValidatorInputHelper" value="placeholder" />
 				</div>
 				
 				<aui:input name="characteristics" helpMessage="characteristics-help" />
-				<!-- Hack pour ajouter une validation sur les caractéristiques -->
+				<!-- Hack pour ajouter une validation sur les caractÃ©ristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
 				
 			</aui:fieldset>
 				
-			<!-- Médias -->
+			<!-- MÃ©dias -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
@@ -201,12 +201,12 @@
 
 			</aui:fieldset>
 				
-			<!-- Accés -->
+			<!-- AccÃ©s -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
 				<aui:input name="access" label="access-mod" helpMessage="access-mod-help" />
-				<!-- Hack pour ajouter une validation sur le mode d'accès -->
+				<!-- Hack pour ajouter une validation sur le mode d'accÃ¨s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessValidatorInputHelper" value="placeholder"/>
 				</div>		
@@ -215,7 +215,7 @@
 					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" global="true" />
 				
 				<aui:input name="accessForDisabled"  />
-				<!-- Hack pour ajouter une validation sur le service aux personnes handicapées -->
+				<!-- Hack pour ajouter une validation sur le service aux personnes handicapÃ©es -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessForDisabledValidatorInputHelper" value="placeholder"/>
 				</div>	
@@ -237,7 +237,7 @@
 				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
 					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
 				
-				<!-- Périodes & horaires -->
+				<!-- PÃ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 					
@@ -276,6 +276,7 @@
 							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 								<liferay-util:param name="index" value="${status.count - 1}" />
+								<liferay-util:param name="disabled" value="false" />
 								<liferay-util:param name="name" value="${period.name}" />
 								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
 								<liferay-util:param name="startDate" value="${formattedStartDate}" />
@@ -384,21 +385,21 @@
 					
 			</aui:fieldset>
 				
-			<!-- Informations complémentaires -->
+			<!-- Informations complÃ©mentaires -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
 				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
-				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
+				<!-- Hack pour ajouter une validation sur les inforrmations complÃ©mentaires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="additionalInformationValidatorInputHelper" value="placeholder"/>
 				</div>	
 				
 			</aui:fieldset>
 				
-			<!-- Fréquentation temps réel -->
+			<!-- FrÃ©quentation temps rÃ©el -->
 			
 			<c:if test="${dc.place.isEnabled()}">
 				<aui:fieldset collapsed="false" collapsible="true"

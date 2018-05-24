@@ -118,6 +118,8 @@
 		<field name="externalImageCopyright" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="imageWidth" type="Integer" />
+		<field name="imageHeight" type="Integer" />
 		<field name="placeSIGId" type="String" />
 		<field localized="true" name="placeName" type="String" />
 		<field name="placeStreetNumber" type="String" />

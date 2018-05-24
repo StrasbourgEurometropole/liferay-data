@@ -11,24 +11,6 @@ public interface MapConfiguration {
 	@Meta.AD(name = "hasConfig", required = false)
 	public boolean hasConfig();
 	
-	@Meta.AD(name = "groupId", required = false)
-	public long groupId();
-	
-	@Meta.AD(name = "openInNewTab", required = false)
-	public boolean openInNewTab();
-	
-	@Meta.AD(name = "interestsIds", required = false)
-	public String interestsIds();
-	
-	@Meta.AD(name = "showFavorites", required = false)
-	public boolean showFavorites();
-	
-	@Meta.AD(name = "interestsDefaultsIds", required = false)
-	public String interestsDefaultsIds();
-	
-	@Meta.AD(name = "defaultConfig", required = false)
-	public boolean defaultConfig();
-	
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
 	
@@ -37,5 +19,44 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "widgetLink", required = false)
 	public String widgetLink();
+	
+	@Meta.AD(name = "groupId", required = false)
+	public long groupId();
+	
+	@Meta.AD(name = "openInNewTab", required = false)
+	public boolean openInNewTab();
+	
+	@Meta.AD(name = "typesContenu", required = false)
+	public String typesContenu();
+	
+	@Meta.AD(name = "prefilterCategoriesIds", required = false)
+	public String prefilterCategoriesIds();
+	
+	@Meta.AD(name = "categoriesIds", required = false)
+	public String categoriesIds();
+	
+	@Meta.AD(name = "categoriesDefaultsIds", required = false)
+	public String categoriesDefaultsIds();
+	
+	@Meta.AD(name = "showFavorites", required = false)
+	public boolean showFavorites();
+	
+	@Meta.AD(name = "showConfig", required = false)
+	public boolean showConfig();
+	
+	@Meta.AD(name = "showList", required = false)
+	public boolean showList();
+	
+	@Meta.AD(name = "defaultConfig", required = false)
+	public boolean defaultConfig();
+	
+	@Meta.AD(name = "districtUser", required = false)
+	public boolean districtUser();
+	
+	@Meta.AD(name = "interestsIds", required = false)
+	public String interestsIds();
+	
+	@Meta.AD(name = "interestsDefaultsIds", required = false)
+	public String interestsDefaultsIds();
 
 }

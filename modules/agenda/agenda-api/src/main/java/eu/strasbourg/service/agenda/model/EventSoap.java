@@ -52,6 +52,8 @@ public class EventSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
+		soapModel.setImageWidth(model.getImageWidth());
+		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setPlaceSIGId(model.getPlaceSIGId());
 		soapModel.setPlaceName(model.getPlaceName());
 		soapModel.setPlaceStreetNumber(model.getPlaceStreetNumber());
@@ -273,6 +275,22 @@ public class EventSoap implements Serializable {
 
 	public void setExternalImageCopyright(String externalImageCopyright) {
 		_externalImageCopyright = externalImageCopyright;
+	}
+
+	public Integer getImageWidth() {
+		return _imageWidth;
+	}
+
+	public void setImageWidth(Integer imageWidth) {
+		_imageWidth = imageWidth;
+	}
+
+	public Integer getImageHeight() {
+		return _imageHeight;
+	}
+
+	public void setImageHeight(Integer imageHeight) {
+		_imageHeight = imageHeight;
 	}
 
 	public String getPlaceSIGId() {
@@ -509,6 +527,8 @@ public class EventSoap implements Serializable {
 	private String _description;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
+	private Integer _imageWidth;
+	private Integer _imageHeight;
 	private String _placeSIGId;
 	private String _placeName;
 	private String _placeStreetNumber;

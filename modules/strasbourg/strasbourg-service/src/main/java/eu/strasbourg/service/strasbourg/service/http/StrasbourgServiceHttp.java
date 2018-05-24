@@ -246,12 +246,153 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getPois(
+		HttpPrincipal httpPrincipal, java.lang.String interests,
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getPois", _getPoisParameterTypes9);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					interests, categories, prefilters, groupId, typeContenu);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static int getPoisCategoryCount(HttpPrincipal httpPrincipal,
+		long idCategory, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getPoisCategoryCount",
+					_getPoisCategoryCountParameterTypes10);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					idCategory, prefilters, groupId, typeContenu);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static int getPoisInterestCount(HttpPrincipal httpPrincipal,
+		long idCategory, long groupId, java.lang.String typeContenu) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getPoisInterestCount",
+					_getPoisInterestCountParameterTypes11);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					idCategory, groupId, typeContenu);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
+		HttpPrincipal httpPrincipal, long groupId, java.lang.String typeContenu) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getFavoritesPois", _getFavoritesPoisParameterTypes12);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
+					typeContenu);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static int getFavoritesPoisCount(HttpPrincipal httpPrincipal,
+		long groupId, java.lang.String typeContenu) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getFavoritesPoisCount",
+					_getFavoritesPoisCountParameterTypes13);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
+					typeContenu);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Integer)returnObj).intValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		HttpPrincipal httpPrincipal, java.lang.String address) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getCoordinateForAddress",
-					_getCoordinateForAddressParameterTypes9);
+					_getCoordinateForAddressParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, address);
 
@@ -295,7 +436,24 @@ public class StrasbourgServiceHttp {
 	private static final Class<?>[] _getFavoritesPoisParameterTypes8 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getCoordinateForAddressParameterTypes9 = new Class[] {
+	private static final Class<?>[] _getPoisParameterTypes9 = new Class[] {
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getPoisCategoryCountParameterTypes10 = new Class[] {
+			long.class, java.lang.String.class, long.class,
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getPoisInterestCountParameterTypes11 = new Class[] {
+			long.class, long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getFavoritesPoisParameterTypes12 = new Class[] {
+			long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getFavoritesPoisCountParameterTypes13 = new Class[] {
+			long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getCoordinateForAddressParameterTypes14 = new Class[] {
 			java.lang.String.class
 		};
 }

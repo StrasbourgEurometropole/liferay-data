@@ -44,8 +44,10 @@ public class EventLocalServiceUtil {
 
 	/**
 	* Lance l'import des événements
+	*
+	* @throws IOException
 	*/
-	public static boolean doImport() {
+	public static boolean doImport() throws java.io.IOException {
 		return getService().doImport();
 	}
 
@@ -230,11 +232,14 @@ public class EventLocalServiceUtil {
 
 	/**
 	* Met à jour une édition et l'enregistre en base de données
+	*
+	* @throws IOException
 	*/
 	public static eu.strasbourg.service.agenda.model.Event updateEvent(
 		eu.strasbourg.service.agenda.model.Event event,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			java.io.IOException {
 		return getService().updateEvent(event, sc);
 	}
 

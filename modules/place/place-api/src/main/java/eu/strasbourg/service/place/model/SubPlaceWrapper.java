@@ -501,7 +501,7 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	/**
-	* Retourne les Periods du sous-lieu
+	* Retourne les Periods du lieu auquel appartient le sous-lieu
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods() {

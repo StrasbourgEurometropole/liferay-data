@@ -166,6 +166,14 @@ public class FavoriteLocalServiceWrapper implements FavoriteLocalService,
 	}
 
 	/**
+	* Retourne le type du favori de l'élément
+	*/
+	@Override
+	public java.lang.Long getFavoriteTypeByClass(java.lang.String favoriteClass) {
+		return _favoriteLocalService.getFavoriteTypeByClass(favoriteClass);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

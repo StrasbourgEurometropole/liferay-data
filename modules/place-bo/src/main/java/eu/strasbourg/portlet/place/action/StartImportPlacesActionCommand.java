@@ -61,8 +61,7 @@ import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-@Component(immediate = true, property = {
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
+@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=startImportPlaces" }, service = MVCActionCommand.class)
 public class StartImportPlacesActionCommand implements MVCActionCommand {
 
@@ -78,8 +77,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 	private ServiceContext sc = null;
 
 	@Override
-	public boolean processAction(ActionRequest request, ActionResponse response)
-			throws PortletException {
+	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 
 		try {
 			resultat = "SUCCES";
@@ -89,16 +87,14 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 			listLieuxErreurs = new ArrayList<String>();
 			sc = ServiceContextFactory.getInstance(request);
 
-			ThemeDisplay td = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
+			ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			sc.setScopeGroupId(td.getCompanyGroupId());
 			sc.setUserId(td.getUserId());
 		} catch (PortalException e) {
 			_log.error(e);
 		}
 
-		UploadPortletRequest uploadRequest = PortalUtil
-				.getUploadPortletRequest(request);
+		UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
 		placesFile = uploadRequest.getFile("places-file");
 		_log.info("Start import");
 
@@ -113,16 +109,11 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine.length == 14
-							&& chaine[0].equals("Identifiant_Lieu_SIG")
-							&& chaine[1].equals("Alias_Lieu_SIG")
-							&& chaine[2].equals("Identifiant_Categorie_SIG")
-							&& chaine[3].equals("Complement_Adresse")
-							&& chaine[4].equals("Voie")
-							&& chaine[5].equals("Mentions_Distribution")
-							&& chaine[6].equals("Code_Postal")
-							&& chaine[7].equals("Ville")
-							&& chaine[8].equals("Pays")
+					if (chaine.length == 14 && chaine[0].equals("Identifiant_Lieu_SIG")
+							&& chaine[1].equals("Alias_Lieu_SIG") && chaine[2].equals("Identifiant_Categorie_SIG")
+							&& chaine[3].equals("Complement_Adresse") && chaine[4].equals("Voie")
+							&& chaine[5].equals("Mentions_Distribution") && chaine[6].equals("Code_Postal")
+							&& chaine[7].equals("Ville") && chaine[8].equals("Pays")
 							&& chaine[9].equals("Coordonnees_SIG_Mercator_X")
 							&& chaine[10].equals("Coordonnees_SIG_Mercator_Y")
 							&& chaine[11].equals("Coordonnees_SIG_RGF93_X")
@@ -132,7 +123,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 						traitementFichier(br);
 
 					} else {
-						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu.";
+						messagesErreurs = "Le fichier ne respecte pas le formalisme attendu (ATTENTION, vérifier également que le fichier est converti en UTF-8 sans BOM).";
 						resultat = "ERREUR";
 					}
 					br.close();
@@ -145,14 +136,15 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 				messagesErreurs = "Fichier introuvable.";
 				resultat = "ERREUR";
 			}
-		} else
-
-		{
+		} else {
 			messagesErreurs = "Aucun fichier choisi.";
 			resultat = "ERREUR";
 		}
 
 		sendMail();
+		if (resultat.equals("ERREUR")) {
+			_log.info("Error : " + messagesErreurs);
+		}
 		_log.info("End import");
 
 		return true;
@@ -179,40 +171,31 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		try {
 
 			// Récupération du vocabulaire Type Lieu
-			AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper
-					.getGlobalVocabulary("Type de lieu");
+			AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper.getGlobalVocabulary("Type de lieu");
 
 			// Récupération des catégories du
 			// vocabulaire Type de Lieu
-			List<AssetCategory> categoriesTypeLieu = vocabularyTypeLieu
-					.getCategories();
+			List<AssetCategory> categoriesTypeLieu = vocabularyTypeLieu.getCategories();
 			Map<String, Long> listTypeLieu = new HashMap<String, Long>();
 			for (AssetCategory category : categoriesTypeLieu) {
-				listTypeLieu.put(
-						AssetVocabularyHelper.getCategoryProperty(
-								category.getCategoryId(), "SIG"),
+				listTypeLieu.put(AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG"),
 						category.getCategoryId());
 			}
 
 			// Récupération du vocabulaire Territoire
-			AssetVocabulary vocabularyTerritoire = AssetVocabularyHelper
-					.getGlobalVocabulary("Territoire");
+			AssetVocabulary vocabularyTerritoire = AssetVocabularyHelper.getGlobalVocabulary("Territoire");
 
 			// Récupération des catégories du
 			// vocabulaire Territoire
-			List<AssetCategory> categoriesTerritoire = vocabularyTerritoire
-					.getCategories();
+			List<AssetCategory> categoriesTerritoire = vocabularyTerritoire.getCategories();
 			Map<String, Long> SIGId_categoryIdMap = new HashMap<String, Long>();
 			for (AssetCategory category : categoriesTerritoire) {
-				SIGId_categoryIdMap.put(
-						AssetVocabularyHelper.getCategoryProperty(
-								category.getCategoryId(), "SIG"),
+				SIGId_categoryIdMap.put(AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG"),
 						category.getCategoryId());
 			}
 
 			String[] chaine;
-			for (String line = br.readLine(); line != null; line = br
-					.readLine()) {
+			for (String line = br.readLine(); line != null; line = br.readLine()) {
 				chaine = line.split(";");
 
 				ligne++;
@@ -229,17 +212,12 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 				mercatorY = chaine.length > 10 ? chaine[10] : "";
 				rgf93X = chaine.length > 11 ? chaine[11] : "";
 				rgf93Y = chaine.length > 12 ? chaine[12] : "";
-				idTerritoireSIG =  chaine.length > 13 ? chaine[13].split(",") :  new String[0];
+				idTerritoireSIG = chaine.length > 13 ? chaine[13].split(",") : new String[0];
 				String rgfPattern = "[0-9]+\\.[0-9]+";
-				if (!idSIG.equals("") && !alias.equals("")
-						&& idCategSIG.length > 0 && !voie.equals("")
-						&& !codePostal.equals("") && !pays.equals("")
-						&& !mercatorX.equals("") && !mercatorY.equals("")
-						&& !rgf93X.equals("") && !rgf93Y.equals("")
-						&& idTerritoireSIG.length > 0
-						&& mercatorX.matches(rgfPattern)
-						&& mercatorY.matches(rgfPattern)
-						&& rgf93X.matches(rgfPattern)
+				if (!idSIG.equals("") && !alias.equals("") && idCategSIG.length > 0 && !voie.equals("")
+						&& !codePostal.equals("") && !pays.equals("") && !mercatorX.equals("") && !mercatorY.equals("")
+						&& !rgf93X.equals("") && !rgf93Y.equals("") && idTerritoireSIG.length > 0
+						&& mercatorX.matches(rgfPattern) && mercatorY.matches(rgfPattern) && rgf93X.matches(rgfPattern)
 						&& rgf93Y.matches(rgfPattern)) {
 
 					boolean categoriesExiste = true;
@@ -250,34 +228,28 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					if (categoriesExiste) {
 						boolean territoireExiste = true;
 						for (String territoire : idTerritoireSIG) {
-							if (SIGId_categoryIdMap
-									.get(territoire.trim()) == null)
+							if (SIGId_categoryIdMap.get(territoire.trim()) == null)
 								territoireExiste = false;
 						}
 						if (territoireExiste) {
-							Place place = this._placeLocalService
-									.getPlaceBySIGId(idSIG);
+							Place place = this._placeLocalService.getPlaceBySIGId(idSIG);
 
 							if (place == null) {
-								sc.setWorkflowAction(
-										WorkflowConstants.ACTION_SAVE_DRAFT);
+								sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 								place = this._placeLocalService.createPlace(sc);
-								place.setAliasMap(LocalizationUtil
-										.getLocalizationMap(alias));
+								place.setAliasMap(LocalizationUtil.getLocalizationMap(alias));
 								place.setDisplayEvents(true);
 								place.setSubjectToPublicHoliday(true);
 							} else {
 								if (place.isApproved()) {
-									sc.setWorkflowAction(
-											WorkflowConstants.ACTION_PUBLISH);
+									sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 								} else {
-									sc.setWorkflowAction(
-											WorkflowConstants.ACTION_SAVE_DRAFT);
+									sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 								}
 							}
 							place.setSIGid(idSIG);
 							place.setName(alias);
-							place.setAlias(alias, Locale.FRANCE );
+							place.setAlias(alias, Locale.FRANCE);
 							place.setAddressComplement(complement);
 							place.setAddressStreet(voie);
 							place.setAddressDistribution(distribution);
@@ -296,128 +268,93 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 							boolean nouveau = true;
 							if (!place.isNew()) {
 								nouveau = false;
-								assetTagNames = place.getAssetEntry()
-										.getTagNames();
+								assetTagNames = place.getAssetEntry().getTagNames();
 
-								for (long assetCategoryId : place
-										.getAssetEntry().getCategoryIds()) {
+								for (long assetCategoryId : place.getAssetEntry().getCategoryIds()) {
 									AssetCategory assetCategory = AssetCategoryLocalServiceUtil
 											.getAssetCategory(assetCategoryId);
 									if (assetCategory != null
-											&& assetCategory
-													.getVocabularyId() != vocabularyTypeLieu
-															.getVocabularyId()
-											&& assetCategory
-													.getVocabularyId() != vocabularyTerritoire
-															.getVocabularyId())
-										listAssetCategoryId
-												.add(assetCategoryId);
+											&& assetCategory.getVocabularyId() != vocabularyTypeLieu.getVocabularyId()
+											&& assetCategory.getVocabularyId() != vocabularyTerritoire
+													.getVocabularyId())
+										listAssetCategoryId.add(assetCategoryId);
 								}
 							}
 							sc.setAssetTagNames(assetTagNames);
 
 							for (String category : idCategSIG) {
 								if (listTypeLieu.get(category.trim()) != null)
-									listAssetCategoryId.add(listTypeLieu
-											.get(category.trim()).longValue());
+									listAssetCategoryId.add(listTypeLieu.get(category.trim()).longValue());
 							}
 							for (String territorySIGId : idTerritoireSIG) {
 								if (Validator.isNotNull(territorySIGId)) {
-									Long categoryId = SIGId_categoryIdMap
-											.get(territorySIGId.trim())
-											.longValue();
+									Long categoryId = SIGId_categoryIdMap.get(territorySIGId.trim()).longValue();
 									listAssetCategoryId.add(categoryId);
 								}
 							}
-							long[] categoryIds = ArrayUtil
-									.toLongArray(listAssetCategoryId);
+							long[] categoryIds = ArrayUtil.toLongArray(listAssetCategoryId);
 							sc.setAssetCategoryIds(categoryIds);
 
 							try {
 
 								this._placeLocalService.updatePlace(place, sc);
 								if (nouveau) {
-									listLieuxCrees.add(
-											ligneRetour(ligne, idSIG, alias)
-													+ "<br>");
-									_log.info("Lieu crée => "
-											+ ligneRetour(ligne, idSIG, alias));
+									listLieuxCrees.add(ligneRetour(ligne, idSIG, alias) + "<br>");
+									_log.info("Lieu crée => " + ligneRetour(ligne, idSIG, alias));
 								} else {
-									listLieuxModifies.add(
-											ligneRetour(ligne, idSIG, alias)
-													+ "<br>");
-									_log.info("Lieu modifié; => "
-											+ ligneRetour(ligne, idSIG, alias));
+									listLieuxModifies.add(ligneRetour(ligne, idSIG, alias) + "<br>");
+									_log.info("Lieu modifié; => " + ligneRetour(ligne, idSIG, alias));
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
 								resultat = "REUSSI avec des erreurs";
 								listLieuxErreurs
-										.add(ligneRetour(ligne, idSIG, alias)
-												+ " => " + e.getMessage()
-												+ ".<br>");
-								_log.info(
-										"Erreur à la création/modification du lieu => "
-												+ ligneRetour(ligne, idSIG,
-														alias)
-												+ " => " + e.getMessage());
+										.add(ligneRetour(ligne, idSIG, alias) + " => " + e.getMessage() + ".<br>");
+								_log.info("Erreur à la création/modification du lieu => "
+										+ ligneRetour(ligne, idSIG, alias) + " => " + e.getMessage());
 							}
 
 						} else {
 							resultat = "REUSSI avec des erreurs";
-							listLieuxErreurs
-									.add(ligneRetour(ligne, idSIG, alias)
-											+ " : Le(s) territoire(s) associ&eacute;(s) &agrave; la ligne "
-											+ ligne + " n'existe(nt) pas.<br>");
-							_log.info(
-									"Erreur à la création/modification du lieu => "
-											+ ligneRetour(ligne, idSIG, alias)
-											+ " => Le(s) territoire(s) associé(s) à la ligne n'existe(nt) pas.");
+							listLieuxErreurs.add(ligneRetour(ligne, idSIG, alias)
+									+ " : Le(s) territoire(s) associ&eacute;(s) &agrave; la ligne " + ligne
+									+ " n'existe(nt) pas.<br>");
+							_log.info("Erreur à la création/modification du lieu => " + ligneRetour(ligne, idSIG, alias)
+									+ " => Le(s) territoire(s) associé(s) à la ligne n'existe(nt) pas.");
 						}
 					} else {
 						resultat = "REUSSI avec des erreurs";
-						listLieuxErreurs.add(ligneRetour(ligne, idSIG, alias)
-								+ " : Le(s) type(s) de lieu de la ligne "
+						listLieuxErreurs.add(ligneRetour(ligne, idSIG, alias) + " : Le(s) type(s) de lieu de la ligne "
 								+ ligne + " n'existe(nt) pas.<br>");
-						_log.info(
-								"Erreur à la création/modification du lieu => "
-										+ ligneRetour(ligne, idSIG, alias)
-										+ " => Le(s) type(s) de lieu de la ligne n'existe(nt) pas.");
+						_log.info("Erreur à la création/modification du lieu => " + ligneRetour(ligne, idSIG, alias)
+								+ " => Le(s) type(s) de lieu de la ligne n'existe(nt) pas.");
 					}
 				} else {
 					resultat = "REUSSI avec des erreurs";
 					String erreur = ligneRetour(ligne, idSIG, alias);
 					if (idSIG.equals("")) {
-						erreur += "<br>Le champ Identifiant_Lieu_SIG est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Identifiant_Lieu_SIG est manquant &agrave; la ligne " + ligne;
 					}
 					if (alias.equals("")) {
-						erreur += "<br>Le champ Alias_Lieu_SIG est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Alias_Lieu_SIG est manquant &agrave; la ligne " + ligne;
 					}
 					if (idCategSIG.length == 0) {
-						erreur += "<br>Le champ Identifiant_Categorie_SIG est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Identifiant_Categorie_SIG est manquant &agrave; la ligne " + ligne;
 					}
 					if (voie.equals("")) {
-						erreur += "<br>Le champ Voie est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Voie est manquant &agrave; la ligne " + ligne;
 					}
 					if (codePostal.equals("")) {
-						erreur += "<br>Le champ Code_Postal est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Code_Postal est manquant &agrave; la ligne " + ligne;
 					}
 					if (pays.equals("")) {
-						erreur += "<br>Le champ Pays est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Pays est manquant &agrave; la ligne " + ligne;
 					}
 					if (mercatorX.equals("")) {
-						erreur += "<br>Le champ Coordonnees_SIG_Mercator_X est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Coordonnees_SIG_Mercator_X est manquant &agrave; la ligne " + ligne;
 					}
 					if (mercatorY.equals("")) {
-						erreur += "<br>Le champ Coordonnees_SIG_Mercator_Y est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Coordonnees_SIG_Mercator_Y est manquant &agrave; la ligne " + ligne;
 					}
 					if (!mercatorX.matches(rgfPattern)) {
 						erreur += "<br>Le champ Coordonnees_SIG_Mercator_X ne respecte pas le format d&eacute;cimal &agrave; la ligne "
@@ -428,12 +365,10 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								+ ligne;
 					}
 					if (rgf93X.equals("")) {
-						erreur += "<br>Le champ Coordonnees_SIG_RGF93_X est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Coordonnees_SIG_RGF93_X est manquant &agrave; la ligne " + ligne;
 					}
 					if (rgf93Y.equals("")) {
-						erreur += "<br>Le champ Coordonnees_SIG_RGF93_Y est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Coordonnees_SIG_RGF93_Y est manquant &agrave; la ligne " + ligne;
 					}
 					if (!rgf93X.matches(rgfPattern)) {
 						erreur += "<br>Le champ Coordonnees_SIG_RGF93_X ne respecte pas le format d&eacute;cimal &agrave; la ligne "
@@ -444,13 +379,11 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								+ ligne;
 					}
 					if (idTerritoireSIG.length == 0) {
-						erreur += "<br>Le champ Identifiant_Territoire est manquant &agrave; la ligne "
-								+ ligne;
+						erreur += "<br>Le champ Identifiant_Territoire est manquant &agrave; la ligne " + ligne;
 					}
 					erreur += "<br>";
 					listLieuxErreurs.add(erreur);
-					_log.info("Erreur à la création/modification du lieu => "
-							+ erreur);
+					_log.info("Erreur à la création/modification du lieu => " + erreur);
 				}
 			}
 		} catch (PortalException e) {
@@ -460,38 +393,30 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 	}
 
 	public String ligneRetour(int ligne, String idSIG, String nom) {
-		return "N&deg; ligne : " + ligne + ", identifiant SIG : " + idSIG
-				+ ", nom du lieu : " + HtmlUtil.escape(nom);
+		return "N&deg; ligne : " + ligne + ", identifiant SIG : " + idSIG + ", nom du lieu : " + HtmlUtil.escape(nom);
 	}
 
 	public void sendMail() {
 
 		String environment = StrasbourgPropsUtil.getEnvironment();
-		String titre = environment + " Journal d'import des lieux - "
-				+ resultat;
+		String titre = environment + " Journal d'import des lieux - " + resultat;
 		String corps;
 		if (resultat.equals("ERREUR")) {
 			corps = "L'import du fichier ";
 			if (placesFile != null) {
 				corps += placesFile.getName();
 			}
-			corps += " n'a pas pu &ecirc;tre fait pour les raisons suivantes : <br>"
-					+ messagesErreurs;
+			corps += " n'a pas pu &ecirc;tre fait pour les raisons suivantes : <br>" + messagesErreurs;
 		} else {
-			String dateImport = new SimpleDateFormat("yyyy-MM-dd")
-					.format(new Date());
-			String heureImport = new SimpleDateFormat("HH:mm")
-					.format(new Date());
+			String dateImport = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			String heureImport = new SimpleDateFormat("HH:mm").format(new Date());
 			corps = "L'import du fichier " + placesFile.getName()
-					+ " a &eacute;t&eacute; r&eacute;alis&eacute; avec succ&egrave;s le "
-					+ dateImport + " &agrave; " + heureImport + ".<br>"
-					+ "Lieux cr&eacute;&eacute;s (" + listLieuxCrees.size()
-					+ ") :<br>";
+					+ " a &eacute;t&eacute; r&eacute;alis&eacute; avec succ&egrave;s le " + dateImport + " &agrave; "
+					+ heureImport + ".<br>" + "Lieux cr&eacute;&eacute;s (" + listLieuxCrees.size() + ") :<br>";
 			for (String lieuxCrees : listLieuxCrees) {
 				corps += lieuxCrees;
 			}
-			corps += "Lieux modifi&eacute;s (" + listLieuxModifies.size()
-					+ ") :<br>";
+			corps += "Lieux modifi&eacute;s (" + listLieuxModifies.size() + ") :<br>";
 			for (String lieuxModifies : listLieuxModifies) {
 				corps += lieuxModifies;
 			}
@@ -504,8 +429,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu",
-					mailAddresses, titre, corps);
+			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);
 		}

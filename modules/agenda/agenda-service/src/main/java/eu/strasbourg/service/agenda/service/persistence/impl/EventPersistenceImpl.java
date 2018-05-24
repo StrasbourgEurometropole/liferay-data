@@ -6402,6 +6402,8 @@ public class EventPersistenceImpl extends BasePersistenceImpl<Event>
 		eventImpl.setDescription(event.getDescription());
 		eventImpl.setExternalImageURL(event.getExternalImageURL());
 		eventImpl.setExternalImageCopyright(event.getExternalImageCopyright());
+		eventImpl.setImageWidth(event.getImageWidth());
+		eventImpl.setImageHeight(event.getImageHeight());
 		eventImpl.setPlaceSIGId(event.getPlaceSIGId());
 		eventImpl.setPlaceName(event.getPlaceName());
 		eventImpl.setPlaceStreetNumber(event.getPlaceStreetNumber());

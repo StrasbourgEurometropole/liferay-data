@@ -1,0 +1,33 @@
+%organism-ecoles{    
+    @extend %molecule-district-section;
+
+    .ecoles-grid{
+    	.ecoles-teaser{
+		    h3{
+		    	color: #2da192; 
+		    }
+
+            .add-favorites{    
+                width: max-content;
+                height: 10%;
+            }
+
+		    a.btn-square--bordered--core{
+		    	float: right;
+		    	margin-right: 60px;
+		    }
+
+        	margin-bottom: 50px;
+    	}
+
+        @include RWD(desktop){
+           @include grid-distribution(2, 50, ecoles-teaser);
+        }
+        @include RWD(tablet_only){
+           @include grid-distribution(2, 50, ecoles-teaser);
+        }
+        @include RWD(mobile){
+           @include grid-distribution(1, 0, ecoles-teaser);
+        }
+    }
+}

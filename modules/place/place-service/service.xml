@@ -97,6 +97,9 @@
 		<finder name="SIGId" return-type="Place">
 			<finder-column name="SIGid" />
 		</finder>
+		<finder name="name" return-type="Place">
+			<finder-column name="name" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
@@ -202,14 +205,10 @@
 		
 		<!-- Links with other entities -->
 		<column name="placeId" type="long" />
-		<column name="subPlaceId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="PlaceId" return-type="Collection">
 			<finder-column name="placeId" />
-		</finder>
-		<finder name="SubPlaceId" return-type="Collection">
-			<finder-column name="subPlaceId" />
 		</finder>
 		
 	</entity>
@@ -228,10 +227,14 @@
 		
 		<!-- Links with other entities -->
 		<column name="periodId" type="long" />
+		<column name="subPlaceId" type="long" />
         
 		<!-- Finder methods -->
 		<finder name="PeriodId" return-type="Collection">
 			<finder-column name="periodId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
 		</finder>
 		
 	</entity>
