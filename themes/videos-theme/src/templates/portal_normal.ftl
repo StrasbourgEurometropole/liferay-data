@@ -13,9 +13,6 @@
 	<!-- jQuery 1.9.1 -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
-	<link rel="stylesheet" href="${images_folder}/../vendors/owl/dist/assets/owl.carousel.min.css" />
-	<link rel="stylesheet" href="${images_folder}/../vendors/owl/dist/assets/owl.theme.default.min.css" />
-
 	<@liferay_util["include"] page=top_head_include />
 	<link rel="icon" type="image/png" href="${images_folder}/logo/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -96,8 +93,6 @@
 	<script src="${javascript_folder}/more-videos.js"></script>
 	<script src="${javascript_folder}/search.js"></script>
 	<script src="${javascript_folder}/carrousel.js"></script>
-	<script src="${images_folder}/../vendors/owl/dist/owl.carousel.min.js"></script>
-	<script src="${images_folder}/../bower_components/retina.js/dist/retina.min.js"></script>
 
 
 	<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
