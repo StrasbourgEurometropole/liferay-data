@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.vote_place;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,9 +65,16 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 			JSONObject userDetail = PublikApiClient.getUserDetails(internalId);
 			name = userDetail.getString("last_name");
 			firstName = userDetail.getString("first_name");
-			// date au format AAA-MM-JJ
+			// date au format AAAA-MM-JJ
 			birthDate = userDetail.getString("birthdate");
+			if (birthDate.length() > 0) {
+				LocalDate birthLocalDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				birthDate = birthLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			}
 			birthPlace = userDetail.getString("birthplace");
+			if (birthPlace != null && birthPlace.length() > 1) {
+				birthPlace = birthPlace.substring(0,1).toUpperCase() + birthPlace.substring(1);
+			}
 		}
 		request.setAttribute("lastName", name);
 		request.setAttribute("firstName", firstName);
@@ -76,16 +85,19 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 		if (Validator.isNotNull(birthPlace) && Validator.isNotNull(birthDate) && Validator.isNotNull(name)
 				&& Validator.isNotNull(firstName)) {
 			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				Date date = sdf.parse(birthDate);
 				felecResponse = FelecWebServiceClient.getResponse(name, firstName, date, birthPlace);
 				request.setAttribute("felecResponse", felecResponse);
 				Place office = null;
 				try {
-					office = PlaceLocalServiceUtil.findByName(
-							"Bureau de vote " + (felecResponse.getStationNumber().substring(0, 1).equals("0")
-									? felecResponse.getStationNumber().substring(1)
-									: felecResponse.getStationNumber()));
+					String stationNumber = felecResponse.getStationNumber();
+					if (Validator.isNotNull(stationNumber)) {
+						office = PlaceLocalServiceUtil.findByName(
+								"Bureau de vote " + (stationNumber.substring(0, 1).equals("0")
+										? stationNumber.substring(1)
+										: stationNumber));
+					}
 				} catch (NoSuchPlaceException e) {
 					e.printStackTrace();
 				}
