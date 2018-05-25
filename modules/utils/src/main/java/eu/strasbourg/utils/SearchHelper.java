@@ -509,7 +509,7 @@ public class SearchHelper {
 				// Sinon on se contente d'ajouter le groupe courant à la requête
 				query.addRequiredTerm(Field.GROUP_ID, groupId);
 			}
-			
+
 			// Statut et visibilité
 			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 			query.addRequiredTerm("visible", true);
@@ -518,7 +518,7 @@ public class SearchHelper {
 			publicationDateQuery.addRangeTerm(Field.PUBLISH_DATE + "_sortable", 0,
 					Timestamp.valueOf(LocalDateTime.now()).toInstant().toEpochMilli());
 			query.add(publicationDateQuery, BooleanClauseOccur.MUST);
-			
+
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
@@ -589,7 +589,7 @@ public class SearchHelper {
 
 				query.add(anyKeywordQuery, BooleanClauseOccur.MUST);
 			}
-			/*
+
 			// Catégories
 			// On fait un "ou" entre les catégories d'un même vocabulaire et un
 			// "et" entre les différents vocabulaires
@@ -657,9 +657,9 @@ public class SearchHelper {
 				}
 
 			}
-*/
+
 			return query;
-		} catch (Exception e) {
+		} catch (ParseException e) {
 			_log.error(e);
 			return null;
 		}
