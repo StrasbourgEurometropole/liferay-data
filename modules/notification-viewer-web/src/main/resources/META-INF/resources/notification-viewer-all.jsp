@@ -51,7 +51,7 @@
 							</c:otherwise>
 						</c:choose>
 				
-							<a href="${showNotification}" class="notification-item" >
+							<a href="${showNotification}" target="_blank" class="notification-item" title="${notif.title} (<liferay-ui:message key="eu.new-window" />)">
 								<div class="notification-item__date">
 									<fmt:formatDate type="date" value="${notif.date}" pattern = "dd.MM.yyyy"/>
 								</div>
