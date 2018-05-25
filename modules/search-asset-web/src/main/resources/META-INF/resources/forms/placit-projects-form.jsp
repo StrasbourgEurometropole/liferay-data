@@ -13,7 +13,7 @@
 			projet</legend>
 		<div>
 			<select class="" id="statut-projet"
-				name="<portlet:namespace />vocabulary_1">
+				name="<portlet:namespace />vocabulary_0">
 				<option><liferay-ui:message key="eu.projet-choose-status" /></option>
 				<c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
 				<c:set var="projectStatusVocabulary"
@@ -30,3 +30,8 @@
 		</div>
 	</fieldset>
 </div>
+<br />
+<button type="submit">
+	<span><liferay-ui:message key="search" /> </span>
+</button>
+<aui:input type="hidden" name="vocabulariesCount" value="1" />
