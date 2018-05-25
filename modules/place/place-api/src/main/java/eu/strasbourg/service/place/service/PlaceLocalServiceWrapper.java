@@ -318,6 +318,18 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 	}
 
 	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> findByName(
+		java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return _placeLocalService.findByName(name);
+	}
+
+	/**
 	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	*/
 	@Override

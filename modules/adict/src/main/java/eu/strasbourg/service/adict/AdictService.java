@@ -2,6 +2,7 @@ package eu.strasbourg.service.adict;
 
 import java.util.List;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.json.JSONArray;
 
 public interface AdictService {
@@ -11,4 +12,5 @@ public interface AdictService {
 	public List<String> getSectorizedPlaceIdsForCoordinates(String x, String y, String[] sectorTypes);
 	public List<String> getSectorizedPlaceIdsForCoordinates(String x, String y, String sectorType);
 	public JSONArray getCoordinateForAddress(String address);
+	public AssetCategory getDistrictByAddressAndSector(String address, String sectorType);
 }

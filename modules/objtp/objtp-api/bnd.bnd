@@ -1,0 +1,9 @@
+Bundle-Name: objtp-api
+Bundle-SymbolicName: eu.strasbourg.service.objtp.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.objtp.exception,\
+	eu.strasbourg.service.objtp.model,\
+	eu.strasbourg.service.objtp.service,\
+	eu.strasbourg.service.objtp.service.persistence
+-includeresource: META-INF/service.xml=../objtp-service/service.xml

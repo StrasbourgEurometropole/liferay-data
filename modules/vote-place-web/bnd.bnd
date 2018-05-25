@@ -1,0 +1,4 @@
+Bundle-Name: vote-place-web
+Bundle-SymbolicName: eu.strasbourg.portlet.vote
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.constants

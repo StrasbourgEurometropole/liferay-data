@@ -38,21 +38,24 @@
 			margin-bottom: 15px;
 		}
 		h1,h4{
-			@include ft($f_hx, 18px, 700, $c_txt, normal);
+			@include ft($f_ms, 20px, 500, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;
 		}
 		h3{
-			@include ft($f_hx, 24px, 700, $c_txt, normal);
+			@include ft($f_ms, 21.5px, 600, $c_txt, normal);
 			display: block;
 			padding-bottom: 20px;
 			margin: 0;
 		}
-		p, strong{
+		p {
+			@include ft($f_ms, 17.5px, 300, $c_txt, normal);
 			margin-bottom: 15px;
 			display: block;
-			color: $c_txt;
+		}
+		strong {
+			font-weight: 500;
 		}
 
 
@@ -68,12 +71,64 @@
 	}
 
 
-	.mns-detail-actu-content{
-		float: none;
-		margin-bottom: 40px;
-		@include mobile{
-			padding: 0;
+	.mns-actu-detail {
+
+		.mns-top-detail-img {
+			display: flex;
+    		justify-content: center;
+
+    		img{
+    			height: 100%;
+    			margin-bottom: 20px;
+    			border: 15px solid;
+			    border-color: white;
+			    box-shadow: 0 0px 20px rgba(0,0,0,0.4);
+    		}
 		}
+		.publication{
+			text-align: center;
+			margin-bottom: 40px;
+		}
+
+		.mns-detail-actu-content{
+			float: none;
+			margin-bottom: 40px;
+			@include mobile{
+				padding: 0;
+			}
+			
+			.mns-title {
+				text-align: center;
+				h1 {
+					@include ft($f_ms, 60px, 100, $c_txt, normal);
+					display: inline-block;
+					width: auto;
+					margin-bottom: 0px;
+					@include mobile {
+						font-size: 40px;
+					}
+				}
+			}
+
+			a{
+				@include ft($f_ms, 17.5px, 500, $c_main, normal);
+				text-decoration: underline;
+				&:hover{
+					color: $c_txt;
+					text-decoration: none;
+				}
+			}
+
+			h3,h2 {
+				font-weight: 600;
+			}
+
+			h3 {
+				font-size: 21.5px;
+			}
+			h1 {
+				font-family: $f_ms;
+			}
+		}	
 	}
-	
 }

@@ -189,7 +189,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			List<Place> selectedPlaces = new ArrayList<Place>();
 
-			List<ObjectValuePair<String, PlaceSchedule>> exceptions = new ArrayList<ObjectValuePair<String, PlaceSchedule>>();
+			List<ObjectValuePair<String[], PlaceSchedule>> exceptions = new ArrayList<ObjectValuePair<String[], PlaceSchedule>>();
 			long placeId = ParamUtil.getLong(request, "placeId");
 			// Récupère le lieu choisi
 			if (Validator.isNotNull(placeId)) {
@@ -197,24 +197,24 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
 				selectedPlaces.add(place);
 				// récupération des ouvertures et fermetures exceptionnelles du
-				// lieu sur 2 mois
+				// lieu sur 2 mois à partir du lundi de la semaine choisie
 				List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true, locale);
 				if (!placeSchedules.isEmpty()) {
 					for (PlaceSchedule schedule : placeSchedules) {
-						ObjectValuePair<String, PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-								place.getAlias(locale), schedule);
+						ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
+								new String[] {place.getAlias(locale)}, schedule);
 						exceptions.add(placeName_Exception);
 					}
 				}
 				// récupération des ouvertures et fermetures exceptionnelles des
-				// sous lieux du lieu sur 2 mois
+				// sous lieux du lieu sur 2 mois à partir du lundi de la semaine choisie
 				List<SubPlace> subPlaces = place.getSubPlaces();
 				for (SubPlace subPlace : subPlaces) {
 					placeSchedules = subPlace.getSubPlaceScheduleException(jourChoisi, true, locale);
 					if (!placeSchedules.isEmpty()) {
 						for (PlaceSchedule schedule : placeSchedules) {
-							ObjectValuePair<String, PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-									place.getAlias(locale), schedule);
+							ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
+									new String[] {place.getAlias(locale), subPlace.getName(locale)}, schedule);
 							exceptions.add(placeName_Exception);
 						}
 					}
@@ -234,26 +234,26 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 							if (Validator.isNull(placeId)) {
 								selectedPlaces.add(place);
 								// récupération des ouvertures et fermetures
-								// exceptionnelles des lieux sur 2 mois
+								// exceptionnelles des lieux sur 2 mois à partir du lundi de la semaine choisie
 								List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true,
 										locale);
 								if (!placeSchedules.isEmpty()) {
 									for (PlaceSchedule schedule : placeSchedules) {
-										ObjectValuePair<String, PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-												place.getAlias(locale), schedule);
+										ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
+												new String[] {place.getAlias(locale)}, schedule);
 										exceptions.add(placeName_Exception);
 									}
 								}
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des
-								// sous lieux du lieu sur 2 mois
+								// sous lieux du lieu sur 2 mois à partir du lundi de la semaine choisie
 								List<SubPlace> subPlaces = place.getSubPlaces();
 								for (SubPlace subPlace : subPlaces) {
 									placeSchedules = subPlace.getSubPlaceScheduleException(jourChoisi, true, locale);
 									if (!placeSchedules.isEmpty()) {
 										for (PlaceSchedule schedule : placeSchedules) {
-											ObjectValuePair<String, PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-													place.getAlias(locale), schedule);
+											ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
+													new String[] {place.getAlias(locale), subPlace.getName(locale)}, schedule);
 											exceptions.add(placeName_Exception);
 										}
 									}
@@ -266,18 +266,20 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			exceptions = exceptions.stream()
 					.sorted((p1, p2) -> p1.getValue().getStartDate().compareTo(p2.getValue().getStartDate()))
+					.filter(e -> e.getValue().getEndDate().compareTo(jourChoisi.getTime()) >= 0)
 					.collect(Collectors.toList());
 
 			
-			// On retire les fermetures exceptionnelles des sous lieux
-			ObjectValuePair<String, PlaceSchedule> oldException = null;
+			// On retire les fermetures exceptionnelles des sous lieux si le lieu est fermé
+			ObjectValuePair<String[], PlaceSchedule> oldException = null;
 			for (int i = 0; i < exceptions.size(); i++) {
-				ObjectValuePair<String, PlaceSchedule> exception = exceptions.get(i);
-				if (oldException != null && exception.getKey().equals(oldException.getKey())
-						&& exception.getValue().isClosed()
+				ObjectValuePair<String[], PlaceSchedule> exception = exceptions.get(i);
+				if (oldException != null && exception.getKey()[0].equals(oldException.getKey()[0])
 						&& exception.getValue().getPeriod().equals(oldException.getValue().getPeriod())) {
-					exceptions.remove(i);
-					i--;
+						if (oldException.getValue().isClosed()) {
+							exceptions.remove(i);
+							i--;
+						}
 				} else {
 					oldException = exception;
 				}

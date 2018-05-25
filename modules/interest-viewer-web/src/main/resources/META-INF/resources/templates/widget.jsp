@@ -5,8 +5,14 @@
 <c:if test="${not empty dc.getVirtualHostName()}">
     <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
 </c:if>
-        
-<section id="actu-agenda">
+       
+
+<c:if test="${not dc.hasInterest()}">
+	<section id="actu-agenda-no-interest">
+</c:if>
+<c:if test="${dc.hasInterest()}">
+	<section id="actu-agenda">
+</c:if>
 	<portlet:resourceURL id="hidePortlet" var="portletURL">
 		<portlet:param name="portletName" value="news-agenda" />
 	</portlet:resourceURL>
@@ -14,14 +20,23 @@
 	<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
 	<h2><liferay-ui:message key="actu-agenda" /></h2> 
 	<c:if test="${not dc.hasInterest()}">
-	        <p class="no-interests">${dc.getNoInterestText()}</p>
+		<p>${dc.getNoInterestText()}</p>
+		<div align="center">
+			<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
+				<span class="flexbox">
+					<span class="btn-text">compl&eacute;ter mon compte</span>
+					<span class="btn-arrow"></span>
+				</span>
+			</a>
+		</div>
 	</c:if>
 	<c:if test="${dc.hasInterest() and not empty dc.entries}">
 	    <script type="text/javascript">
 	        <c:set var="newsCount" value="0"/>
 	        <c:set var="editionCount" value="0"/>
 	        <c:set var="eventCount" value="0"/>
-	        var mega_source = [
+	        var mega_source = [];
+	        mega_source.push([
 	        	<c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
 	        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
 		                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
@@ -43,9 +58,6 @@
 		                lead: '${dc.getJSONEncodedString(chapo)}',
 		                picture: '${image}',
 		                link: '${viewURL}'
-			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-		                  ,is_Big: true
-			  	        </c:if>
 		              }
 		            </c:if>
 	        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
@@ -72,18 +84,15 @@
 							date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
 							date_suffix: '<liferay-ui:message key="eu.event.to" />'
 		                </c:if>
-			          	<c:if test="${dc.isFocus(curEntry.getTagNames())}">
-		                  ,is_Big: true
-			  	        </c:if>
 		              }
 		            </c:if>
 	        		<c:if test="${!loopStatus.last}">,
 	 	        	</c:if>
 				</c:forEach>
-	        ];
+	        ]);
 	    </script>
       
-        <div id="slider--mega">
+        <div class="slider--mega">
             <div class="top-line"> 
                 <div class="filters">
                     <button class="actu-filter actif btn-round--grey" data-category="tous">
@@ -177,3 +186,11 @@
         </div>
 	</c:if>
 </section>
+
+<style>
+	
+	.slider--mega .slider-mega-container .slider .owl-item .item .link{
+    	overflow: hidden;
+	} 
+
+</style>

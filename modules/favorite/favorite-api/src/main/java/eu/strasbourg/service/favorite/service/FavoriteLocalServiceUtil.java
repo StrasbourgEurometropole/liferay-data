@@ -160,6 +160,14 @@ public class FavoriteLocalServiceUtil {
 	}
 
 	/**
+	* Retourne le type du favori de l'élément
+	*/
+	public static java.lang.Long getFavoriteTypeByClass(
+		java.lang.String favoriteClass) {
+		return getService().getFavoriteTypeByClass(favoriteClass);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

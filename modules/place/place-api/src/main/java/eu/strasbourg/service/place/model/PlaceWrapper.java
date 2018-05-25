@@ -729,6 +729,15 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne le PlaceSchedule de la prochaine ouverture (pour X jour)
+	*/
+	@Override
+	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, int nbDays, java.util.Locale locale) {
+		return _place.getNextScheduleOpening(today, nbDays, locale);
+	}
+
+	/**
 	* Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	*/
 	@Override
@@ -2247,9 +2256,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
-		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.GregorianCalendar dateChoisie, java.lang.Boolean surPeriode,
 		java.util.Locale locale) {
-		return _place.getPlaceScheduleException(premierJour, surPeriode, locale);
+		return _place.getPlaceScheduleException(dateChoisie, surPeriode, locale);
 	}
 
 	/**

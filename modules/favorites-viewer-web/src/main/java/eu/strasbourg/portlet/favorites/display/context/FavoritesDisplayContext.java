@@ -175,7 +175,7 @@ public class FavoritesDisplayContext {
 		if (deltaFromParam > 0) {
 			return deltaFromParam;
 		}
-		return 15;
+		return 5;
 	}
 
 	/**

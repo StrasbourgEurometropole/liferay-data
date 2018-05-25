@@ -304,6 +304,17 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	public static java.util.List<eu.strasbourg.service.place.model.Place> findByName(
+		java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getService().findByName(name);
+	}
+
+	/**
 	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	*/
 	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary> getAttachedVocabularies(

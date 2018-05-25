@@ -5,6 +5,8 @@
 @import "libs/pikaday";
 @import "libs/selectric";
 
+@import "_svg-factory";
+
 @import "_t_vars";
 @import "_t_text";
 @import "_t_mixins";
@@ -15,10 +17,12 @@
 @import "_t_libs";
 @import "_t_form";
 
+@import "_t_bloc-article";
 @import "_t_bloc-actu";
 @import "_t_bloc-agenda";
 @import "_t_bloc-social-wall";
 @import "_t_bloc-testi";
+@import "_t_bloc-great-events";
 
 @import "_t_page-agenda-detail";
 @import "_t_page-agenda-list";
@@ -268,7 +272,7 @@
 			}
 
 			.mns-title{
-				@include ft($f_hx, 16px, 700, $c_txt, normal);
+				@include ft($f_ms, 16px, 700, $c_txt, normal);
 				margin-bottom: 5px;
 				display: block;
 			}
@@ -276,7 +280,7 @@
 				width: 100%;
 			}
 			p{
-				font-size: 13px;
+				font-size: 17.5px;
 				line-height: 22px;
 				margin-bottom: 0;
 			}
@@ -291,7 +295,7 @@
 					vertical-align: middle;
 				}
 				p{
-					@include ft($f_txt, 16px, 400, $c_white, normal);
+					@include ft($f_ms, 17.5px, 300, $c_white, normal);
 					display: inline-block;
 					vertical-align: middle;
 					padding: 0 5px;
@@ -314,37 +318,45 @@
 	margin-top: 30px;
 	margin-bottom: 50px;
 	transform: translate3d(0,0,0);
-	@include mobile{
+	@include mobile {
 		margin-top: 50px;
 	}
 	.title{
-		@include ft($f_txt, 26px, 400, $c_txt, 28px);
+		margin-top: 50px;
+		margin-bottom: 0px;
+		@include ft($f_ms, 70px, 700, $c_main, 70px);
+		text-transform: uppercase;
 		display: block;
 		background: none;
+		@include mobile {
+			@include ft($f_ms, 40px, 700, $c_main, normal);
+		}
+		@include tablet_portrait {
+			margin-top: 190px;
+		}
 	}
 	strong{
 		display: block;
 	}
 	p:not(.title){
+		@include ft($f_ms, 40px, 400, $c_main, normal);
 		position: relative;
-		&:after{
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: transparent;
-			background: -moz-linear-gradient(top, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			background: linear-gradient(to bottom, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			background: -webkit-linear-gradient(top, rgba(255,255,255,0.2),rgba(255,255,255,1));
-			-ms-filter: "progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#000000', endColorstr='#ffffff')";
-			@include desktop{
-				content: none;
-			}
+		@include mobile {
+			@include ft($f_ms, 30px, 700, $c_main, normal);
 		}
 	}
+	&:after{
+		content: '';
+		background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 10px;
+		left: 0%;
+		z-index: 9999;
+	}
 }
+
 
 /* Section Zone Entrées */
 .mns-wrapper-home-entry{
@@ -366,7 +378,7 @@
 .mns-home-entry{
 	position: relative;
 	h1.title{
-		@include ft($f_txt, $s_h3, 300, $c_main, 62px);
+		@include ft($f_ms, 60px, 300, $c_main, 62px);
 		text-align: right;
 		margin-bottom: 0;
 		@include mobile{
@@ -376,7 +388,7 @@
 		}
 	}
 	h2.city{
-		@include ft($f_txt, 64px, 300, $c_txt, 62px);
+		@include ft($f_ms, 64px, 300, $c_txt, 62px);
 		text-align: right;
 		@include mobile{
 			font-size: 38px;
@@ -385,7 +397,7 @@
 		}
 
 		span{
-			@include ft($f_hx, 64px, 700, $c_txt, 62px);
+			@include ft($f_ms, 64px, 700, $c_txt, 62px);
 			text-align: right;	
 			@include mobile{
 				font-size: 38px;
@@ -449,7 +461,7 @@
 		}
 
 		h3{
-			@include ft($f_hx, $s_h4, 400, $c_white, normal);
+			@include ft($f_ms, 21.5px, 600, $c_white, normal);
 			margin: 0;
 			text-align: center;
 			position: absolute;
@@ -499,7 +511,7 @@
 			}
 			h3{
 				color: $c_main;
-				font-size: 72px;
+				font-size: 21.5px;
 				position: relative;
 				top: 0;
 				left: 0;
@@ -513,7 +525,7 @@
 				margin-top: 10px;
 			}
 			span{
-				@include ft($f_hx, 18px, 700, $c_txt, normal);
+				@include ft($f_ms, 18px, 700, $c_txt, normal);
 				display: block;
 			}
 		}
@@ -585,7 +597,7 @@
 
 		.caption.open{
 			h3{
-				font-size: 30px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -613,7 +625,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -649,7 +661,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -680,14 +692,14 @@
 			margin: 7px auto;
 		}
 		h3{
-			font-size: 30px;
+			font-size: 21.5px;
 			@include mobile{
 				font-size: 28px;
 			}
 		}
 		.caption.open{
 			h3{
-				font-size: 26px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -718,7 +730,7 @@
 		}
 		.caption.open{
 			h3{
-				font-size: 40px;
+				font-size: 21.5px;
 			}
 		}
 	}
@@ -745,16 +757,6 @@
 			padding: 0;
 		}
 	}
-	h2{
-		color: $c_main;
-		margin: 0;
-		top: 20px;
-		@include mobile{
-			top: 0;
-			font-size: 60px;
-			left: -15px;
-		}
-	}
 }
 
 
@@ -769,7 +771,6 @@
 	}
 	h2{
 		color: $c_txt;
-		margin-bottom: 0;
 		@include mobile{
 			font-size: 60px;
 			margin-bottom: 20px;
@@ -798,22 +799,38 @@
 	}
 	.caption{
 		position: absolute;
-		top: 50%;
+		top: 45%;
 		left: 50%;
 		transform: translate(-50%,-50%);
 		width: 100%;
 		z-index: 10;
-		h2,h3{
-			@include ft($f_txt, $s_h3, 300, $c_white, normal);
+		h2{
+			@include ft($f_ms, 50px, 700, $c_txt, normal);
 			margin-bottom: 5px;
+			text-transform: uppercase;
+			display: inline-block;
 			@include mobile{
 				font-size: 42px;
 			}
 			span{
-				font-family: $f_hx;
+				font-family: $f_ms;
 				font-weight: 700;
 			}
+			&:before{
+				content: '';
+  				background: url(/o/summer-2018-theme/images/tampon-module-farse.png) no-repeat center center /contain;
+  				position: relative;
+				display: block;
+				width: 171px;
+				height: 114px;
+				z-index: 9999;
+				margin-bottom: 50px;
+				@include mobile{
+					margin-bottom: 20px;;
+				}
+			}
 		}
+		
 		.mns-content-text{
 			width: 40%;
 			margin: auto;
@@ -825,12 +842,14 @@
 			}
 		}
 		p{
-			font-size: 18px;
+			font-size: 17.5px;
 			line-height: 26px;
-			color: $c_white;
+			color: $c_txt;
 		}
 		a{
 			margin-top: 20px;
+			font-size: 15px;
+			text-transform: uppercase;
 		}
 	}
 
@@ -883,7 +902,7 @@
 
 
 	label{
-		@include ft($f_txt, 13px, 600, $c_txt, 16px);
+		@include ft($f_ms, 13px, 600, $c_txt, 16px);
 		padding: 15px 0 10px 0;
 		display: block;
 		text-align: left;
@@ -975,7 +994,7 @@
 		line-height: 20px;
 		margin: 0;
 		border-style: none;
-		@include ft($f_hx, 18px, 700, $c_white, 16px);
+		@include ft($f_ms, 18px, 700, $c_white, 16px);
 		text-transform: lowercase;
 
 		&:after{
@@ -1045,7 +1064,7 @@
 		padding: 15px 0;
 		display: block;
 		text-transform: uppercase;
-		@include ft($f_txt, 15px, 600, $c_txt, 20px);
+		@include ft($f_ms, 15px, 600, $c_txt, 20px);
 	}
 	.btn-filtre{
 		transform: translateY(10px);
@@ -1068,10 +1087,14 @@
 		display: none;
 		@include mobile{
 			display: block;
+			margin-top: 50px;
+		}
+		@include tablet_portrait {
+			margin-top: 50px;
 		}
 	}
 	span.mns-more{
-		@include ft($f_txt, 14px, 600, $c_main, 26px);
+		@include ft($f_ms, 18px, 700, $c_txt, 26px);
 		display: inline-block;
 		text-transform: uppercase;
 		width: 80%;

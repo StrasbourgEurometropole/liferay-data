@@ -1,0 +1,39 @@
+%organism-elu{    
+    @extend %molecule-district-section;
+
+    background-color: $official-color;
+
+    img{
+        margin-bottom: 20px;
+        width: 180px;
+    }
+
+    .seu-text{
+        margin-bottom: 20px;
+
+        .seu-title{
+            font-family: $montserrat;
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: #31455d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-align: center;
+
+            @include RWD(mobile){
+                font-size: 1.5rem;
+            }
+        }
+        .seu-lead{
+            font-family: $opensans;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #31455d;
+            line-height: 1.8;
+
+            @include RWD(mobile){
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

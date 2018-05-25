@@ -101,7 +101,7 @@
 				}
 			}
 			h2{
-				@include ft($f_hx, 48px, 700, $c_txt, 54px);
+				@include ft($f_ms, 25px, 600, $c_txt, 54px);
 				width: 80%;
 				margin-bottom: 50px;
 				@include tablet_portrait{

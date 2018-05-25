@@ -121,7 +121,8 @@
 						<li> <a href="pied-de-page/contact" title="Contact">Contact</a></li> 
 						<li> <a href="mentions-legales" title="Mentions légales">Mentions légales</a></li> 
 					</ul> 
-					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © 2015</p> 
+					
+					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © ${.now?string.yyyy}</p> 
 				</div> 
 				<div class="f-right"> 
 					<div class="social-network"> 
@@ -143,16 +144,17 @@
 	</footer>
 </div>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<#if  propsUtil.get('eu.strasbourg.environment') == "PROD">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33301756-8"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
-  gtag('config', 'UA-33301756-8');
-</script>
-
+	  gtag('config', 'UA-33301756-8');
+	</script>
+</#if>
 </body>
 
 	<@liferay_util["include"] page=body_bottom_include />

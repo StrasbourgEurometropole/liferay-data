@@ -23,10 +23,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${homeURL}">Strasbourg <span class="subtitle">Capitale de Noël</span></a>
+            <a class="navbar-brand" href="${homeURL}">
+               <!--<img id="logo-menu" src="/o/summer-2018-theme/images/logo-home.png" height="284" width="421" />-->
+            </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
                         <!-- a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
@@ -56,7 +58,6 @@
                                 <#list nav_item.getChildren() as nav_child>
                                     <li>
                                         <a href="${nav_child.getURL()}">
-                                            <span class='icon-chevron-thin-right'></span> 
                                             ${nav_child.getName()}
                                         </a>
                                     </li>
