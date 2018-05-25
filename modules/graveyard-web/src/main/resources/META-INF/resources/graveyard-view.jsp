@@ -28,7 +28,7 @@
 					</div>
 	            </div>
 	
-				<!-- Prénom -->
+				<!-- PrÃ©nom -->
 	            <div class="form-group">
 					<div class="title">
 						<label for="firstname"><liferay-ui:message key="graveyard.firstname" /><strong style="color:red">*</strong></label>
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 	
-				<!-- Date de décès -->
+				<!-- Date de dÃ©cÃ¨s -->
 				<div class="form-group">
 		            <div>
 						<div class="title">
@@ -119,7 +119,7 @@
 	        </div>
 	
 	        <div class="webform-layout-box">
-				<!-- Lieu de décès -->
+				<!-- Lieu de dÃ©cÃ¨s -->
 	            <div class="form-group">
 					<div class="title">
 						<label for="deathplace"><liferay-ui:message key="graveyard.deathplace" /></label>
@@ -168,17 +168,21 @@
 	
 		<div class="seu-error-messages"></div>
 	
-		<!-- Résultats -->
+		<!-- RÃ©sultats -->
 		<c:if test="${not empty dc and not empty dc.graveyard}">
 			<div class="graveyard-response rte">
-				<c:if test="${dc.err eq 1}">
-					<p>${graveyardResponse.err_desc}</p>
+				<c:if test="${dc.graveyard.err eq 1}">
+					<div class="seu-error-messages">
+						<div class="lfr-alert-container">
+							<div class="alert-danger">${dc.graveyard.err_desc}</div>
+						</div>
+					</div>
 				</c:if>
-				<c:if test="${dc.err eq 0}">
+				<c:if test="${dc.graveyard.err eq 0}">
 					<c:if test="${not empty dc.erreur}">
-						<p>${dc.erreur}</p>
+						<p>${dc.graveyard.erreur}</p>
 					</c:if>
-					<c:if test="${empty dc.erreur}">
+					<c:if test="${empty dc.graveyard.erreur}">
 						<p>
 					    	<c:choose>
 					    		<c:when test="${dc.searchContainer.total == 0}">
@@ -195,8 +199,8 @@
 					</c:if>
 				</c:if>
 				
-				<c:if test="${dc.err eq 0 && dc.searchContainer.total gt 0}">
-					<!-- Liste des résultats -->
+				<c:if test="${dc.graveyard.err eq 0 && dc.searchContainer.total gt 0}">
+					<!-- Liste des rÃ©sultats -->
 					<aui:form method="post" name="fm">
 						<liferay-ui:search-container id="entriesSearchContainer"
 									searchContainer="${dc.searchContainer}">
@@ -211,10 +215,10 @@
 											<!-- Date de naissance -->
 							            	<div class="form-label"><label><liferay-ui:message key="graveyard.birthdate" /></label></div>
 							                <div class="form-field">${tot.birthDate}</div>
-											<!-- Date du décès -->
+											<!-- Date du dÃ©cÃ¨s -->
 							            	<div class="form-label"><label><liferay-ui:message key="graveyard.deathdate" /></label></div>
 							                <div class="form-field">${tot.deathDate}</div>
-											<!-- Ville du décès -->
+											<!-- Ville du dÃ©cÃ¨s -->
 							            	<div class="form-label"><label><liferay-ui:message key="graveyard.deathplace" /></label></div>
 							                <div class="form-field">${tot.deathPlace}</div>
 										</div>
@@ -243,7 +247,7 @@
 							<!-- Pagination -->
 							<c:if test="${dc.pager.lastPage > 1}">
 					            <ul class="seu-pagination unstyled">
-					            	<!-- Page précédente -->
+					            	<!-- Page prÃ©cÃ©dente -->
 					                <li class="seu-pagin-prev seu-pagin-item">
 										<c:if test="${not dc.pager.onFirstPage}">
 						                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"

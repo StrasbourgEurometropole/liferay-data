@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
 
-import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class GraveyardWebServiceClient {
@@ -62,7 +62,7 @@ public class GraveyardWebServiceClient {
 		try {
 			// On récupère le JSON
 			String url = StrasbourgPropsUtil.getGraveyardURL() + "?" + postData;
-			jsonResponse = JSONHelper.readJsonFromURL(url);
+			jsonResponse = PasserelleHelper.readJsonFromURL(url);
 			graveyardResponse = new GraveyardResponse(jsonResponse);
 		} catch (IOException | JSONException ex) {
 			ex.printStackTrace();
