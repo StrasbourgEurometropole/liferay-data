@@ -70,7 +70,7 @@ L.Control.ListMarkers = L.Control.extend({
 			a = L.DomUtil.create('a', '', div),
 			that = this;
 
-		a.href = '#';
+		a.href = layer.feature.properties.url;
 		L.DomEvent
 			.disableClickPropagation(a)
 			.on(a, 'click', L.DomEvent.stop, this)
