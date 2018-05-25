@@ -245,7 +245,7 @@
 				                id: '${id}',
 				                groupId: '${groupId}',
 				                // La notion de big signifie ici que l'on veut 4 items par vues
-				                is_Big: true
+				                //is_Big: true
 				              }
 				            </c:if>
 			        		<c:if test="${!loopStatus.last}">,
@@ -357,7 +357,7 @@
 								date_suffix: '<liferay-ui:message key="eu.event.to" />',
 			                </c:if>
 				                // La notion de big signifie ici que l'on veut 4 items par vues
-				          	is_Big: true
+				          	//is_Big: true
 			              }
 			        		<c:if test="${!loopStatus.last}">,
 			 	        	</c:if>
