@@ -8,17 +8,20 @@ jQuery(function() {
 	          $('input#year').val().length === 0 ||
 	          $('input#amount').val().length === 0 ||
 	          $('input#email').val().length === 0 ||
-	          $('#type_facture')[0].selectedIndex === '') {
+	          $('#type_facture')[0].selectedIndex === 0) {
 	      isValid = false;
 	      errorMessage += 'Veuillez renseigner tous les champs du formulaire.<br/>';
 	    } 
 	    // Type de facture
 	    var selectedFacture = $('#type_facture')[0].selectedIndex;
 		var type_facture = $('#type_facture')[0].options[selectedFacture].value;
-	    if (selectedFacture === '') {
+	    if (selectedFacture === 0) {
 	      isValid = false;
 	      errorMessage += 'Veuillez choisir un type de facture.<br/>';
-	    } 
+          $('div.customSelect').addClass('error');
+	    }else{
+          $('div.customSelect').removeClass('error');
+	    }
 	    // Numéro de commande
 	    if ($('input#ref').val().length < 6 || ($('input#ref').val().length < 13 && type_facture === 'water')) {
 	      isValid = false;

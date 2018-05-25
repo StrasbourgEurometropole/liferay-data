@@ -1,0 +1,60 @@
+create table project_Participation (
+	uuid_ varchar(75) null,
+	participationId bigint not null primary key,
+	groupId bigint,
+	companyId bigint,
+	userId bigint,
+	userName varchar(75) null,
+	createDate datetime null,
+	modifiedDate datetime null,
+	status integer,
+	statusByUserId bigint,
+	statusByUserName varchar(75) null,
+	statusDate datetime null,
+	title varchar(400) null,
+	author varchar(75) null,
+	contactName varchar(75) null,
+	contactLine1 varchar(400) null,
+	contactLine2 varchar(400) null,
+	contactPhoneNumber varchar(75) null,
+	publicationDate datetime null,
+	expirationDate datetime null
+) engine InnoDB;
+
+create table project_Project (
+	uuid_ varchar(75) null,
+	projectId bigint not null primary key,
+	groupId bigint,
+	companyId bigint,
+	userId bigint,
+	userName varchar(75) null,
+	createDate datetime null,
+	modifiedDate datetime null,
+	status integer,
+	statusByUserId bigint,
+	statusByUserName varchar(75) null,
+	statusDate datetime null,
+	title varchar(400) null,
+	externalImageURL varchar(75) null,
+	externalImageCopyright varchar(75) null,
+	imageWidth integer,
+	imageHeight integer,
+	description longtext null,
+	budget varchar(75) null,
+	label varchar(75) null,
+	duration integer,
+	partners longtext null,
+	contactName varchar(75) null,
+	contactLine1 varchar(400) null,
+	contactLine2 varchar(400) null,
+	contactPhoneNumber varchar(75) null,
+	imageId bigint
+) engine InnoDB;
+
+create table project_ProjectTimeline (
+	projectTimelineId bigint not null primary key,
+	startDay integer,
+	date_ datetime null,
+	title varchar(400) null,
+	projectId bigint
+) engine InnoDB;
