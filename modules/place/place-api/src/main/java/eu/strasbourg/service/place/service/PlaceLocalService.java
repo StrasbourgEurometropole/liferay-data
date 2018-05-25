@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
 
 import java.io.Serializable;
@@ -265,6 +266,14 @@ public interface PlaceLocalService extends BaseLocalService,
 	*/
 	public List<Place> findByKeyword(java.lang.String keyword, long groupId,
 		int start, int end);
+
+	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	public List<Place> findByName(java.lang.String name)
+		throws NoSuchPlaceException;
 
 	/**
 	* Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe

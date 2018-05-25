@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl" id="eu.strasbourg.service.objtp.service.FoundObjectLocalService" />
+	<bean class="eu.strasbourg.service.objtp.service.impl.FoundObjectServiceImpl" id="eu.strasbourg.service.objtp.service.FoundObjectService" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.FoundObjectPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.objtp.service.impl.ObjectCategoryLocalServiceImpl" id="eu.strasbourg.service.objtp.service.ObjectCategoryLocalService" />
+	<bean class="eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl" id="eu.strasbourg.service.objtp.service.ObjectCategoryService" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.ObjectCategoryPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence" parent="basePersistence" />
+</beans>

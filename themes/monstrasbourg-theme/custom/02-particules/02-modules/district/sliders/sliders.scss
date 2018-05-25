@@ -1,0 +1,25 @@
+#sliders{
+    @extend %molecule-district-section;
+
+    padding: 0px;
+    box-shadow: none;
+    position: static;
+    background-color: transparent;
+    border-radius: 0;
+    display: block;
+    flex-direction: row;
+    justify-content: normal;
+
+    h1, .seu-btn-line{
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .add-favorites{    
+        line-height: 1.66666666;
+        position: static;
+        height: 10%;
+        align-items: normal;
+        justify-content: normal;
+    }
+}

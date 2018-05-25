@@ -15,8 +15,10 @@
 package eu.strasbourg.service.favorite.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.base.FavoriteLocalServiceBaseImpl;
 
 /**
@@ -70,5 +72,21 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		for (Favorite favorite : favorites) {
 			this.favoritePersistence.remove(favorite);
 		}
+	}
+
+	
+	/**
+	 * Retourne le type du favori de l'élément
+	 */
+	@Override
+	public Long getFavoriteTypeByClass(String favoriteClass) {
+		Long type = null;
+		List<FavoriteType> allFavoriteType = FavoriteType.getAll();
+		List<FavoriteType> favoritesType = allFavoriteType.stream().filter(f -> f.getFavoriteClass().getName().equals(favoriteClass)).collect(Collectors.toList());
+		if (!favoritesType.isEmpty()) {
+			FavoriteType favoriteType = favoritesType.get(0);
+			type = favoriteType.getId();
+		}
+		return type;
 	}
 }

@@ -1,0 +1,72 @@
+%molecule-district-section{
+    padding: 45px 75px;
+    box-shadow: 0 0 10px rgba(#203146, 0.15);
+    position: relative;
+    background-color: white;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @include RWD(tablet){ 
+        border-radius: 5px;
+        padding: 45px;
+    }
+    @include RWD(mobile){
+        padding: 45px 20px;
+    }
+
+    h1{
+        @extend %text-section-title-hp;
+        color: #31455d;
+        margin-bottom: 40px;
+    }
+
+    p {
+        font-family: $opensans;
+        font-size: 1.8rem;
+        font-weight: 400;
+        color: #31455d;
+        margin-bottom: 20px;
+    }
+
+    h3{
+        @extend %text-section-title-hp;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .slider--mega .owl-item {
+        .item{
+            height:471px;
+
+            .link{
+                height:425px;
+                overflow: hidden;
+            }
+
+            .add-favorites{
+                padding-left: 20px;
+                background-color: #FFFFFF;
+                padding-bottom: 2px;
+
+                @include RWD(desktop){
+                    span{
+                        top: -10px;
+                        width: 100px;
+                    }
+                }
+
+                @include RWD(tablet){
+                    padding-bottom: 24px;
+                }
+            }
+        }
+
+        .mag .add-favorites{
+            background-color: #46cfc0;
+        } 
+    } 
+}

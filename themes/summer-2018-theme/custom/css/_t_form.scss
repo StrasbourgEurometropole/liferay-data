@@ -6,7 +6,7 @@
 #mns-global{
 
 	label{
-		@include ft($f_txt, 14px, 700, $c_txt, 22px);
+		@include ft($f_ms, 14px, 700, $c_txt, 22px);
 	}
 
 	input{
@@ -14,7 +14,7 @@
 		border: 1px solid #a6a6a6;
 		border-radius: 0;
 		height: 48px;
-		@include ft($f_txt, 14px, 600, $c_txt, 22px);
+		@include ft($f_ms, 14px, 600, $c_txt, 22px);
 		&:focus{
 			border-color: $c_main;
 			box-shadow: none;
@@ -37,7 +37,7 @@
 		margin: 0;
 		position: relative;
 		label{
-			@include ft($f_txt, 14px, 400, $c_txt, 18px);
+			@include ft($f_ms, 14px, 400, $c_txt, 18px);
 			padding-left: 0;
 		}
 		input{
@@ -117,7 +117,7 @@
 			background: $c_white;
 			border: none;
 			box-shadow: 0 14px 29px rgba(0,0,22,0.10), 0 0px 10px rgba(0,4,20,0.10);
-			@include ft($f_hx, 22px, 700, $c_txt, normal);
+			@include ft($f_ms, 22px, 700, $c_txt, normal);
 			@include an(all,0.3);
 			&:hover{
 				background: $c_main;

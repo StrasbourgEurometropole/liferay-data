@@ -305,6 +305,12 @@ public interface Place extends PlaceModel, PersistedModel {
 		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
+	* Retourne le PlaceSchedule de la prochaine ouverture (pour X jour)
+	*/
+	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, int nbDays, java.util.Locale locale);
+
+	/**
 	* Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	*/
 	public eu.strasbourg.service.place.model.PlaceSchedule getNextScheduleOpening(
@@ -332,7 +338,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	sur 2 mois à partir du jour + le début de la semaine)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getPlaceScheduleException(
-		java.util.GregorianCalendar premierJour, java.lang.Boolean surPeriode,
+		java.util.GregorianCalendar dateChoisie, java.lang.Boolean surPeriode,
 		java.util.Locale locale);
 
 	/**

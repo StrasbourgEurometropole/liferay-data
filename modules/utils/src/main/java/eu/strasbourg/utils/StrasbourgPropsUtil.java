@@ -164,4 +164,16 @@ public class StrasbourgPropsUtil {
 	public static String getPublikProfileURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.profile");
 	}
+	
+	public static String getObjtpURL(){
+		return PropsUtil.get("eu.strasbourg.objtp.url");
+	}
+
+	public static String getObjtpImportMails(){
+		return PropsUtil.get("eu.strasbourg.objtp.mail");
+	}
+
+	public static String getGraveyardURL(){
+		return PropsUtil.get("eu.strasbourg.graveyard.url");
+	}
 }

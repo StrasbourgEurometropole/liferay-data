@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
@@ -339,6 +340,16 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		}
 
 		return placePersistence.findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * Lance une recherche par nom
+	 * @throws NoSuchPlaceException 
+	 */
+	@Override
+	public List<Place> findByName(String name) throws NoSuchPlaceException {
+
+		return placePersistence.findByname(name);
 	}
 
 	/**

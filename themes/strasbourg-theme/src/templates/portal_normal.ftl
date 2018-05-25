@@ -11,6 +11,9 @@
   <@liferay_util["include"] page=top_head_include />
   <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/strasbourg.css">
 
+  <!-- Magnific Popup core JS file -->
+  <script type="text/javascript" src="/o/strasbourg-theme/js/lightbox.js" charset="utf-8"></script> 
+
   <title>${the_title?replace('-', '|')}</title>
 </head>
 

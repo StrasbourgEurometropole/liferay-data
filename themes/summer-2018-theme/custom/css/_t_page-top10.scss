@@ -131,12 +131,12 @@
 		}
 
 		span{
-			@include ft($f_txt, 20px, 400, $c_main, 26px);
+			@include ft($f_ms, 20px, 400, $c_main, 26px);
 			text-transform: uppercase;
 		}
 
 		h2{
-			@include ft($f_hx, 46px, 700, $c_txt, 56px);
+			@include ft($f_ms, 46px, 700, $c_txt, 56px);
 			width: 90%;
 			@include desktop{
 				width: 100%;
@@ -175,7 +175,7 @@
 		.mns-badge{
 			position: absolute;
 			z-index: 20;
-			@include ft($f_hx, 36px, 700, $c_white, normal);
+			@include ft($f_ms, 36px, 700, $c_white, normal);
 			background: $c_main;
 			border-radius: 50%;
 			border: 4px solid $c_white;

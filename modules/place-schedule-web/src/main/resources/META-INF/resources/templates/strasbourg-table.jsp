@@ -40,7 +40,7 @@
 			<h1><liferay-ui:message key="title-schedule" /> ${category.getTitle(locale)}</h1>
 
 			<!-- Formulaire de recherche -->
-			<aui:form action="${searchURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
+			<aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 				<div class="seu-filter-line">
 				    <div class="widget" style="width: calc( 50% - 15px);">
 				        <div class="title">
@@ -392,7 +392,11 @@
 	                			<li class="more-schedules" style="display: none;">
 							</c:if>
 								<strong>
-									${exception.key} - 
+			                		${exception.key[0]}
+									<c:if test="${fn:length(exception.key) > 1}">
+			                			- ${exception.key[1]}
+									</c:if>
+									 - 
 									${exception.value.period} :
 								</strong>
 								<c:if test="${exception.value.isClosed()}">

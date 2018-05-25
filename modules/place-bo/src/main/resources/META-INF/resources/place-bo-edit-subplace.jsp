@@ -97,6 +97,7 @@
 							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
 							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 								<liferay-util:param name="index" value="${status.count - 1}" />
+								<liferay-util:param name="disabled" value="true" />
 								<liferay-util:param name="name" value="${period.name}" />
 								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
 								<liferay-util:param name="startDate" value="${formattedStartDate}" />

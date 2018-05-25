@@ -20,30 +20,40 @@ public class FelecResponse {
     public String startDate;
     public String endDate;
     public String applicationDate;
+	public String returnCard;
     
     public FelecResponse(JSONObject json) {
-	firstName = json.getString("tous_les_prenoms");
-	name = json.getString("nom_de_famille");
-	birthDate = json.getString("date_de_naissance");
-	responseCode = json.getString("code_retour");
-	responseMessage = json.getString("lib_retour");
-	address1 = json.getString("adresse1_du_bureau");
-	address2 = json.getString("adresse2_du_bureau");
-	address3 = json.getString("adresse3_du_bureau");
-	stationNumber = json.getString("numero_du_bureau");
-	stationLabel = json.getString("libelle_du_bureau");
-	center = json.getString("centre_de_vote");
-	centerCountry = json.getString("pays_centre_de_vote");
-	list = json.getString("libelle_liste");
-	startDate = json.getString("debut_validite_centre");
-	endDate = json.getString("fin_validite_centre");
-	applicationDate = json.getString("date_effet_mouvement");
+        firstName = json.getString("tous_les_prenoms");
+        name = json.getString("nom_de_famille");
+        birthDate = json.getString("date_de_naissance");
+        responseCode = json.getString("code_retour");
+        responseMessage = json.getString("lib_retour");
+        address1 = json.getString("adresse1_du_bureau");
+        address2 = json.getString("adresse2_du_bureau");
+        address3 = json.getString("adresse3_du_bureau");
+        stationNumber = json.getString("numero_du_bureau");
+        stationLabel = json.getString("libelle_du_bureau");
+        center = json.getString("centre_de_vote");
+        centerCountry = json.getString("pays_centre_de_vote");
+        list = json.getString("libelle_liste");
+        startDate = json.getString("debut_validite_centre");
+        endDate = json.getString("fin_validite_centre");
+        applicationDate = json.getString("date_effet_mouvement");
+        returnCard = json.getString("carte_en_retour");
     }
 
     public FelecResponse() {
     }
 
-    public String getFirstName() {
+    public String getReturnCard() {
+		return returnCard;
+	}
+
+	public void setReturnCard(String returnCard) {
+		this.returnCard = returnCard;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
