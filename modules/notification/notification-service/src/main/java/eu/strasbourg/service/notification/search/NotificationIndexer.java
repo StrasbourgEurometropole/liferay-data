@@ -1,11 +1,5 @@
 package eu.strasbourg.service.notification.search;
 
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -14,31 +8,29 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.search.BaseIndexer;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.service.NotificationLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class NotificationIndexer extends BaseIndexer<Notification> {
 
 	public static final String CLASS_NAME = Notification.class.getName();
 
-	private long companyId;
+	private long companyId = 0;
 
 	public NotificationIndexer() {
-
 		try {
 			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
 			this.companyId = defaultCompany.getCompanyId();
-		} catch (PortalException e) {
+		} catch (Exception e) {
 			_log.error(e);
 		}
 		setFilterSearch(true);
@@ -70,10 +62,10 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 
 		return document;
 	}
-
 	@Override
-	protected Summary doGetSummary(Document document, Locale locale, String snippet, PortletRequest portletRequest,
-			PortletResponse portletResponse) throws Exception {
+	protected Summary doGetSummary(Document document, Locale locale,
+								   String snippet, PortletRequest portletRequest,
+								   PortletResponse portletResponse) throws Exception {
 		Summary summary = createSummary(document, Field.TITLE, Field.URL);
 		return summary;
 	}
@@ -92,38 +84,37 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 
 	@Override
 	protected void doReindex(Notification notification) throws Exception {
-		// On indexe pas les notifications venant du WS
-		if (!notification.isAutomatic()) {
-			Document document = getDocument(notification);
-			IndexWriterHelperUtil.updateDocument(getSearchEngineId(), companyId, document, isCommitImmediately());
-		}
+		Document document = getDocument(notification);
+
+		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
+				companyId, document, isCommitImmediately());
+
 	}
 
 	protected void reindexEntries(long companyId) throws PortalException {
 		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = NotificationLocalServiceUtil
 				.getIndexableActionableDynamicQuery();
 
-		indexableActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
-			@Override
-			public void addCriteria(DynamicQuery dynamicQuery) {
+		indexableActionableDynamicQuery.setAddCriteriaMethod(
+				new ActionableDynamicQuery.AddCriteriaMethod() {
+					@Override
+					public void addCriteria(DynamicQuery dynamicQuery) {
 
-			}
-		});
+					}
+				});
 		indexableActionableDynamicQuery.setCompanyId(companyId);
-		indexableActionableDynamicQuery
-				.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Notification>() {
+		indexableActionableDynamicQuery.setPerformActionMethod(
+				new ActionableDynamicQuery.PerformActionMethod<Notification>() {
 
 					@Override
 					public void performAction(Notification entry) {
 						try {
-							// On indexe pas les notifications venant du WS
-							if (!entry.isAutomatic()) {
-								Document document = getDocument(entry);
+							Document document = getDocument(entry);
 
-								indexableActionableDynamicQuery.addDocuments(document);
-							}
+							indexableActionableDynamicQuery.addDocuments(document);
 						} catch (PortalException pe) {
-							_log.error("Unable to index Notification entry " + entry.getNotificationId());
+							_log.error("Unable to index notification entry "
+									+ entry.getNotificationId());
 						}
 					}
 
