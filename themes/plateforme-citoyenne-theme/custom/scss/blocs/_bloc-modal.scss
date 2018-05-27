@@ -1,0 +1,292 @@
+.modal-backdrop{
+	display: none !important;
+}
+.pro-modal {
+	position: fixed;
+	top: 50%;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	transform: translateY(-50%);
+	z-index: -1;
+	overflow: hidden;
+	-webkit-overflow-scrolling: touch;
+	outline: 0;
+	padding-right: 0 !important;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+
+	.modal-open & {
+		display: block !important;
+		z-index: 150;
+	}
+
+	.modal-dialog {
+		width: 100%;
+		max-width: 900px;
+		top: 50%;
+		margin: 0 auto;
+		transform: translateY(-50%);
+		@media screen and (max-width: 900px) {
+			margin: 0 30px;
+			width: calc(100% - 60px);
+		}
+		@include mobile {
+			margin: 0 15px;
+			width: calc(100% - 30px);
+		}
+	}
+
+	.modal-header {
+		height: 50px;
+		border: none;
+		.close {
+			right: 0;
+			position: absolute;
+			top: 2px;
+			width: 50px;
+			height: 50px;
+			background: $c_dark;
+			opacity: 1;
+			@include addTransition();
+			span {
+				color: $c_main;
+				display: block;
+				text-align: center;
+				line-height: 50px;
+				font-size: 0.9em;
+				@include addTransition();
+			}
+			&:hover, &:focus {
+				background: $c_main;
+				span {
+					color: $c_txt;
+				}
+			}
+		}
+	}
+
+	.modal-content {
+		box-shadow: none;
+		border-radius: 0;
+		height: 560px;
+		@include tablet_landscape {
+			height: 460px;
+		}
+		@include mobile {
+			overflow: auto;
+		}
+
+	}
+
+	.modal-body {
+		padding: 0 30px;
+		@include mobile {
+			padding: 0;
+			> * {
+				padding: 0;
+			}
+			.pro-txt {
+				padding: 0 15px;
+			}
+		}
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		h2 {
+			@include ft($f_hx, 5em, 700, $c_txt, 1.2em);
+			display: block;
+			text-transform: uppercase;
+			margin: 0;
+			@include mobile {
+				font-size: 3em;
+			}
+		}
+		.pro-soustitre {
+			position: relative;
+			@include ft($f_hx, 1.250em, 700, $c_txt, 1em);
+			display: block;
+			text-transform: uppercase;
+			padding-left: 40px;
+			margin-bottom: 30px;
+			@include mobile {
+				font-size: 0.8em;
+			}
+			&:before {
+				content: '';
+				width: 30px;
+				height: 18px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				background: $c_main;
+			}
+		}
+
+		p {
+			@include ft($f_txt, 1em, 400, $c_txt, 1.5em);
+			max-width: 90%;
+			@include mobile {
+				max-width: 100%;
+			}
+		}
+
+		.pro-txt {
+
+			> .pro-btn-yellow {
+				width: 260px;
+				margin-bottom: 20px;
+				@include mobile {
+					width: 100%;
+				}
+				&:hover, &:focus {
+					background: $c_dark;
+					border-color: $c_dark;
+					color: $c_main;
+				}
+			}
+		}
+
+		.pro-reagir {
+			z-index: 200;
+			position: absolute;
+			@include tablet_landscape {
+				top: -50px;
+			}
+			@include mobile {
+				position: relative;
+				top: 0;
+			}
+			> div {
+				position: relative;
+				padding: 50px 0;
+				margin-top: 20px;
+				width: 310px;
+				@include tablet_landscape {
+					padding: 50px 10px 50px 30px;
+				}
+				@include tablet_portrait {
+					padding: 50px 50px 30px 50px;
+					margin-top: 40px;
+				}
+				@include mobile {
+					width: 100%;
+					padding: 30px 15px;
+				}
+				&:before {
+					content: '';
+					background: url(../../assets/images/background/small-rec-black.png);
+					position: absolute;
+					left: -50px;
+					top: 0px;
+					height: 100%;
+					width: 145%;
+					bottom: 0;
+					z-index: -1;
+					transform: rotate(-4.6deg);
+					overflow: hidden;
+					-webkit-backface-visibility: hidden;
+					@include tablet_portrait {
+						left: 0;
+						width: 100%;
+					}
+					@include mobile {
+						background: $c_dark;
+						transform: none;
+					}
+				}
+				h3 {
+					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+					text-transform: uppercase;
+				}
+				p {
+					@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
+					width: 100%;
+					max-width: 100%;
+				}
+
+				.pro-or {
+					@include ft($f_txt, $s_small, 700, $c_white, 1.571em);
+					display: block;
+					text-align: center;
+					margin: 20px 0;
+					text-transform: uppercase;
+				}
+
+				.pro-no-account {
+					@include ft($f_txt, $s_small, 400, $c_white, 1.571em);
+					display: block;
+					text-align: center;
+					text-decoration: underline;
+					margin: 20px 0;
+					&:hover, &:focus {
+						color: $c_main;
+					}
+				}
+
+				form {
+					margin-top: 40px;
+
+					&.pro-user-connected {
+						margin-top: 0;
+					}
+
+					label {
+						display: none;
+					}
+					input {
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
+						height: 50px;
+						border-radius: 2px;
+						display: block;
+						-webkit-appearance: none;
+						border: none;
+						box-shadow: none;
+						width: 100%;
+						padding: 0 17px;
+						margin-bottom: 10px;
+						&::placeholder {
+							color: $c_txt;
+						}
+
+						&.pro-btn-yellow {
+							@include btn($c_main, $c_txt, 4, $f_hx, $s_p);
+							font-weight: 700;
+							height: 46px;
+							line-height: 46px;
+							border: 2px solid $c_main;
+							padding: 0;
+							position: relative;
+							width: 100% !important;
+							@include addTransition();
+							&:hover, &:focus {
+								background: transparent;
+								color: $c_main;
+							}
+						}
+					}
+
+					.pro-textearea {
+						label {
+							display: block;
+							@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+							text-transform: uppercase;
+							margin-bottom: 15px;
+						}
+						textarea {
+							width: 100%;
+							height: 340px;
+							padding: 15px;
+							margin-bottom: 10px;
+							border-radius: 2px;
+							resize: none;
+						}
+					}
+				}
+			}
+		}
+
+	}
+}

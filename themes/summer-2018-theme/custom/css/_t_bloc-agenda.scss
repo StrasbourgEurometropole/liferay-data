@@ -14,12 +14,13 @@
 #mns-global{
 	.mns-bloc-agenda{
 		position: relative;
-		margin: 65px 0 40px;
+		margin: 65px 0 0px;
 		@include mobile{
 			margin: 65px 0 0;
 		}
 		a{
 			display: block;
+			text-align: start;
 			@include an(all,0.3);
 			> div{
 				padding: 15px 0;
@@ -41,12 +42,15 @@
 		}
 		.date{
 			background: $c_main;
-			@include ft($f_txt, 14px, 400, $c_white, normal);
+			@include ft($f_ms, 12.5px, 700, $c_white, normal);
 			position: absolute;
 			top: 20px;
-			left: -10px;
 			z-index: 5;
 			padding: 15px;
+			max-width: 260px;
+			width: 50%;
+			text-align: center;
+			padding: 15px 10px;
 		}
 
 		img{
@@ -65,9 +69,8 @@
 		}
 
 		h4,h3{
-			@include ft($f_hx, 18px, 700, $c_txt, normal);
+			@include ft($f_ms, 20px, 500, $c_txt, normal);
 			text-align: center;
-			width: 75%;
 			margin: auto;
 			padding: 10px 0;
 			display: block;
@@ -81,14 +84,41 @@
 			text-align: center;
 			opacity: 0;
 		}
-		.mns-indic.col-xs-6 {
+		.ico-map-marker{
 			display: flex;
-			 .icon-ico-map-marker, .icon-ico-type {
-			 	margin-top: 2px;
-			 	margin-left: -2px;
-			 	margin-right: 3px;
-			 }
+			align-items: center;
+			&:before {
+			  	content: '';
+	  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
+	  			height: 15px;
+	  			width: 15px;
+	  			margin-right: 15px;
+	  			display: inline-block;
+  			}
 		}
+
+		.ico-type{
+			display: flex;
+			align-items: center;
+			&:before {
+			  	content: '';
+	  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
+	  			height: 15px;
+	  			width: 15px;
+	  			margin-right: 15px;
+	  			display: inline-block;
+  			}
+		}
+
+		.mns-indic { 
+			margin-bottom: 10px;
+		}
+	}
+
+	.mns-section-agenda {
+		.mns-right {
+				margin-bottom: 40px;
+			}
 	}
 
 	.mns-wrapper-video{
@@ -97,7 +127,7 @@
 			padding: 15px;
 		}
 		p{
-			@include ft($f_txt, 14px, 400, #808080, 21px);
+			@include ft($f_ms, 17.5px, 300, #808080, 21px);
 			text-align: right;
 			width: 40%;
 			margin-top: 10px;
@@ -113,5 +143,61 @@
 				width: 90%;
 			}
 		}
+	}
+
+	.clearfix.lfr-pagination {
+		margin-top: 50px;
+
+		ul {
+			li {
+				&.disabled {
+					display: none;
+				}
+				padding: 10px;
+				margin-right: 10px;
+				@include tablet_portrait{
+					width: 100%;
+					background-color: $c_main;
+				}
+				@include mobile {
+					width: 100%;
+					background-color: $c_main;
+				}
+				a {
+					border: 0px;
+					z-index: 2;
+					position: relative;
+					background-color: transparent;
+					@include ft($f_ms, 14px, 700, $c_main, normal);				
+			        &:hover, &:focus{
+			        	color: $c_white;
+						background-color: transparent;			        
+			        }
+			        @include tablet_portrait{
+						color: $c_txt;
+					}
+					@include mobile {
+						color: $c_txt;
+					}
+				}
+				&:before{
+		            content: '';
+		            display: block;
+		            position: absolute;
+		            bottom: 0;
+		            left: 0%;
+		            height: 1px;
+		            width: 100%;
+		            transition: all, 0.3s;
+		            background-color: $c-main; 
+		            z-index: 1;
+		        }
+		         &:hover, &:focus{
+		            &:before{
+		                height: 100%;
+		            }
+		        }
+			}
+		}	
 	}
 }

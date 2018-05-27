@@ -671,42 +671,130 @@ public interface PlacePersistence extends BasePersistence<Place> {
 	public int countBySIGId(java.lang.String SIGid);
 
 	/**
-	* Returns the place where name = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
+	* Returns all the places where name LIKE &#63;.
 	*
 	* @param name the name
-	* @return the matching place
+	* @return the matching places
+	*/
+	public java.util.List<Place> findByname(java.lang.String name);
+
+	/**
+	* Returns a range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param name the name
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @return the range of matching places
+	*/
+	public java.util.List<Place> findByname(java.lang.String name, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param name the name
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching places
+	*/
+	public java.util.List<Place> findByname(java.lang.String name, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the places where name LIKE &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param name the name
+	* @param start the lower bound of the range of places
+	* @param end the upper bound of the range of places (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching places
+	*/
+	public java.util.List<Place> findByname(java.lang.String name, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching place
 	* @throws NoSuchPlaceException if a matching place could not be found
 	*/
-	public Place findByname(java.lang.String name) throws NoSuchPlaceException;
-
-	/**
-	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param name the name
-	* @return the matching place, or <code>null</code> if a matching place could not be found
-	*/
-	public Place fetchByname(java.lang.String name);
-
-	/**
-	* Returns the place where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param name the name
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching place, or <code>null</code> if a matching place could not be found
-	*/
-	public Place fetchByname(java.lang.String name, boolean retrieveFromCache);
-
-	/**
-	* Removes the place where name = &#63; from the database.
-	*
-	* @param name the name
-	* @return the place that was removed
-	*/
-	public Place removeByname(java.lang.String name)
+	public Place findByname_First(java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator)
 		throws NoSuchPlaceException;
 
 	/**
-	* Returns the number of places where name = &#63;.
+	* Returns the first place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchByname_First(java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator);
+
+	/**
+	* Returns the last place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching place
+	* @throws NoSuchPlaceException if a matching place could not be found
+	*/
+	public Place findByname_Last(java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator)
+		throws NoSuchPlaceException;
+
+	/**
+	* Returns the last place in the ordered set where name LIKE &#63;.
+	*
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching place, or <code>null</code> if a matching place could not be found
+	*/
+	public Place fetchByname_Last(java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator);
+
+	/**
+	* Returns the places before and after the current place in the ordered set where name LIKE &#63;.
+	*
+	* @param placeId the primary key of the current place
+	* @param name the name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next place
+	* @throws NoSuchPlaceException if a place with the primary key could not be found
+	*/
+	public Place[] findByname_PrevAndNext(long placeId, java.lang.String name,
+		com.liferay.portal.kernel.util.OrderByComparator<Place> orderByComparator)
+		throws NoSuchPlaceException;
+
+	/**
+	* Removes all the places where name LIKE &#63; from the database.
+	*
+	* @param name the name
+	*/
+	public void removeByname(java.lang.String name);
+
+	/**
+	* Returns the number of places where name LIKE &#63;.
 	*
 	* @param name the name
 	* @return the number of matching places

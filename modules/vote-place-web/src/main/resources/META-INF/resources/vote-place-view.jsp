@@ -25,7 +25,7 @@
 			<div align="center">
 				<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
 					<span class="flexbox">
-						<span class="btn-text">compl&eacute;ter mon compte</span>
+						<span class="btn-text">Compl&eacute;ter mon compte</span>
 						<span class="btn-arrow"></span>
 					</span>
 				</a>
@@ -55,15 +55,15 @@
 					<div class="main-response">
 						<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">
 							Inscrivez-vous en ligne en moins de 10 minutes
-						</a> 
+						</a>
 						<br>
 						Une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e.
 						<br>
 						Attention : Vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
 	 					<br><br>
-						En cas de probl&egrave;me, vous pouvez contacter le 03 68 98 68 94 du lundi au vendredi de 8h00 &agrave; 17h00 en continu ou 
+						En cas de probl&egrave;me, vous pouvez contacter le 03 68 98 68 94 du lundi au vendredi de 8h00 &agrave; 17h00 en continu ou
 						<a href="${homeURL}centre-administratif-mairies-quartier" target="_blank" title="centre administratif et mairies de quartier (nouvelle fen&ecirc;tre)">vous rendre au centre administratif ou en mairie de quartier</a>.
-					</div> 
+					</div>
 					<div align="center">
 						<a href="${strasbourgPropsUtil.getPublikProfileURL()}" class="btn-square--bordered--core">
 							<span class="flexbox">
@@ -116,12 +116,12 @@
 					<a href="#" class="add-favorites"
 			            data-type="1" 
 			            data-title="${office.getAlias(locale)}" 
-			            data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${office.getSIGid()}" 
+			            data-url="${homeURL}lieu/-/entity/sig/${office.getSIGid()}"
 			            data-id="${office.placeId}">
 			            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
 			        </a>
 				</c:if>
-				<c:if test="${felecResponse.returnCard eq 0}">
+				<c:if test="${felecResponse.returnCard eq 'O'}">
 					<div class="error">
 						Votre carte d'&eacute;lecteur est disponible &agrave; l'accueil du centre administratif
 					</div>

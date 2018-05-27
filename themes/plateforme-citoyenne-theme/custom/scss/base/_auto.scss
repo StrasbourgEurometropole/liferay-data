@@ -1,0 +1,176 @@
+/* ------------------
+--- CSS GLOBAL + GRILLE RESPONSIVE ---
+------------------ */
+#th-global {
+	height: 100%;
+	font-family: $f_txt;
+	font-size: 16px;
+	line-height: 1em;
+	-webkit-font-smoothing: antialiased;
+	color: $c_txt;
+	margin: 0;
+	padding: 0 !important;
+	overflow-x: hidden;
+
+	section, div, header, footer {
+		box-sizing: border-box;
+	}
+
+	main {
+		position: relative;
+	}
+
+	.pro-bloc-display{
+		display: block;
+	}
+
+	.pro-margin-0{
+		margin: 0 !important;
+	}
+
+	.evitement {
+		@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+		position: absolute;
+		left: -999999px;
+		color: $c_white;
+		width: auto;
+		display: inline-block;
+		text-align: center;
+		height: 45px;
+		&:focus {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 200;
+			padding: 10px 15px;
+			background: rgba($c_grey50,0.8);
+		}
+	}
+
+	.pro-pad-40{
+		padding: 40px 0 !important;
+	}
+
+	.center{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		transform: translate3d(-50%,-50%,0);
+	}
+
+	.blur-effect {
+		filter: blur(8px);
+	}
+
+	.parallax-window {
+		min-height: 400px;
+	}
+
+	.no-pad {
+		padding: 0 !important;
+	}
+	.wrapper {
+		position: relative;
+		z-index: 200;
+	}
+
+	.large-img {
+		height: 960px;
+	}
+
+	.pro-no-photo {
+		background: #AAA;
+	}
+
+	.no-gutter > [class*="col-"] {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+
+	.fit-cover {
+		object-fit: cover;
+		font-family: 'object-fit: cover';
+	}
+
+	.fit-cover {
+		width: 100%;
+		object-fit: cover;
+		font-family: 'object-fit: cover';
+		img {
+			object-fit: cover;
+			font-family: 'object-fit: cover';
+			width: 100%;
+		}
+	}
+
+	.aligncenter {
+		text-align: center;
+	}
+	.alignleft {
+		text-align: left;
+	}
+	.alignright {
+		text-align: right;
+	}
+	.hide {
+		display: none;
+	}
+	figure {
+		background: $c_dark;
+	}
+
+	.o10 img {
+		opacity: 0.1;
+	}
+	.o20 img {
+		opacity: 0.2;
+	}
+	.o25 img {
+		opacity: 0.25;
+	}
+	.o30 img {
+		opacity: 0.3;
+	}
+	.o40 img {
+		opacity: 0.4;
+	}
+	.o50 img {
+		opacity: 0.5;
+	}
+	.o60 img {
+		opacity: 0.6;
+	}
+	.o70 img {
+		opacity: 0.7;
+	}
+	.o75 img {
+		opacity: 0.75;
+	}
+	.o80 img {
+		opacity: 0.8;
+	}
+	.o90 img {
+		opacity: 0.9;
+	}
+
+	.ratio-16-9 {
+		@include aspect-ratio(16, 9);
+	}
+	.ratio-16-10 {
+		@include aspect-ratio(16, 10);
+	}
+	.ratio-4-3 {
+		@include aspect-ratio(4, 3);
+	}
+
+	@for $i from 40 through 100 {
+		[data-fullscreen="#{$i}"] {
+			height: $i + 0%;
+		}
+	}
+
+}
+
+

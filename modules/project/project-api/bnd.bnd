@@ -1,0 +1,9 @@
+Bundle-Name: project-api
+Bundle-SymbolicName: eu.strasbourg.service.project.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.project.exception,\
+	eu.strasbourg.service.project.model,\
+	eu.strasbourg.service.project.service,\
+	eu.strasbourg.service.project.service.persistence
+-includeresource: META-INF/service.xml=../project-service/service.xml

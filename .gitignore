@@ -220,3 +220,4 @@ themes/strasbourg-theme/src/css/strasbourg.css
 themes/monstrasbourg-theme/src/js/strasbourg.js
 themes/monstrasbourg-theme/src/css/strasbourg.css
 modules/objtp/objtp-service/src/main/resources/service.properties
+modules/place/place-service/src/main/resources/service.properties

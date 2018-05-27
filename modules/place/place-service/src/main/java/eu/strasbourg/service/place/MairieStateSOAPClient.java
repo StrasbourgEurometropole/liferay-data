@@ -44,6 +44,7 @@ public class MairieStateSOAPClient {
 				} else {
 					try {
 						waitingTime = Long.parseLong(data.split(":")[1]);
+						waitingTime += Long.parseLong(data.split(":")[0]) * 60;
 					} catch (Exception ex) {
 					}
 				}

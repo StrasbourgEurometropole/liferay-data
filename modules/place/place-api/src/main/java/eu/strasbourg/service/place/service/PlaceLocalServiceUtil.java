@@ -155,17 +155,6 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
-	* Lance une recherche par nom
-	*
-	* @throws NoSuchPlaceException
-	*/
-	public static eu.strasbourg.service.place.model.Place findByName(
-		java.lang.String name)
-		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
-		return getService().findByName(name);
-	}
-
-	/**
 	* Returns the place with the primary key.
 	*
 	* @param placeId the primary key of the place
@@ -312,6 +301,17 @@ public class PlaceLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.place.model.Place> findByKeyword(
 		java.lang.String keyword, long groupId, int start, int end) {
 		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	* Lance une recherche par nom
+	*
+	* @throws NoSuchPlaceException
+	*/
+	public static java.util.List<eu.strasbourg.service.place.model.Place> findByName(
+		java.lang.String name)
+		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
+		return getService().findByName(name);
 	}
 
 	/**

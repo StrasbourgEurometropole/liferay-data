@@ -5,6 +5,7 @@
 
 #actu-agenda-no-interest {
     @extend %molecule-home-section;
+    margin-bottom: 40px;
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }

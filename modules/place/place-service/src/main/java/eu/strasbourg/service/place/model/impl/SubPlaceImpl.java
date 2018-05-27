@@ -28,8 +28,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
@@ -90,19 +92,19 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	public List<Period> getPeriods() {
 		return PeriodLocalServiceUtil.getByPlaceId(this.getPlaceId());
 	}
-	
+
 	/**
 	 * Retourne les périodes qui ne sont pas par défaut
 	 */
-	@Override 
+	@Override
 	public List<Period> getNonDefaultPeriod() {
 		return this.getPeriods().stream().filter(p -> !p.getDefaultPeriod()).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Retourne la période par défaut
 	 */
-	@Override 
+	@Override
 	public Period getDefaultPeriod() {
 		for (Period period : this.getPeriods()) {
 			if (period.getDefaultPeriod()) {
@@ -137,14 +139,16 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	}
 
 	/**
-	 * Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	 * Retourne une map contennant les horaires de chaque jour des 7 jours
+	 * suivants "startDate" (inclus)
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getFollowingWeekSchedules(Date startDate, Locale locale) {
 		Map<String, List<PlaceSchedule>> schedules = new LinkedHashMap<String, List<PlaceSchedule>>();
 		LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale).withZone(ZoneId.systemDefault());
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale)
+				.withZone(ZoneId.systemDefault());
 		for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
 			List<PlaceSchedule> liste = getSubPlaceSchedule(localDate, locale);
 			String dateString = localDate.atStartOfDay().format(dtf);
@@ -181,9 +185,10 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		}
 		return listHoraires;
 	}
-	
+
 	/**
-	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount" 
+	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	 * "date" + "daysCount"
 	 */
 	@Override
 	public Map<String, List<PlaceSchedule>> getSubPlaceSchedule(Date date, int daysCount, Locale locale) {
@@ -206,7 +211,6 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		return listHoraires;
 	}
 
-
 	/**
 	 * Retourne les horaires d'ouverture du jour voulu
 	 */
@@ -222,7 +226,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	public List<PlaceSchedule> getSubPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
 		List<PlaceSchedule> scheduleList = new ArrayList<PlaceSchedule>();
 		List<PlaceSchedule> scheduleCompareList = new ArrayList<PlaceSchedule>();
-		
+
 		// Si le lieu parent est fermé à cette date, le sous-lieu est fermé
 		List<PlaceSchedule> parentPlaceSchedules = this.getParentPlace().getPlaceSchedule(jourSemaine, locale);
 		boolean parentPlaceIsClosed = parentPlaceSchedules.stream().anyMatch(s -> s.isClosed());
@@ -239,79 +243,84 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 		// période concernée
 		if (scheduleList.isEmpty()) {
 			Period defaultPeriod = null;
-			for (Period period : this.getPeriods()) 
-			{
+			for (Period period : this.getPeriods()) {
 				// Soit la période en cours
 				if (period.getStartDate() != null && period.getEndDate() != null
 						&& period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
 						&& period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
 					int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 							: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-					List<Slot> slots = period.getSlots(this.getSubPlaceId()).stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
-					
-					// On met alors dans la liste de comparaison pour la vérification d'horaire exceptionnel avec le lieu parent
+					List<Slot> slots = period.getSlots(this.getSubPlaceId()).stream()
+							.filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+
+					// On met alors dans la liste de comparaison pour la
+					// vérification d'horaire exceptionnel avec le lieu parent
 					scheduleCompareList.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
 				}
 				// On met au cas où la période par défaut de côté
-				if (period.getDefaultPeriod() ) 
-				{
+				if (period.getDefaultPeriod()) {
 					defaultPeriod = period;
 				}
 			}
 			// S'il n'y a aucune période en cours, la période par défaut
-			if (defaultPeriod != null && scheduleCompareList.isEmpty()) 
-			{
+			if (defaultPeriod != null && scheduleCompareList.isEmpty()) {
 				int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
 						: jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-				List<Slot> slots = defaultPeriod.getSlots(this.getSubPlaceId()).stream().filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
-				// On met alors dans la liste de comparaison pour la vérification d'horaire exceptionnel avec le lieu parent
+				List<Slot> slots = defaultPeriod.getSlots(this.getSubPlaceId()).stream()
+						.filter(s -> s.getDayOfWeek() == dayOfWeek).collect(Collectors.toList());
+				// On met alors dans la liste de comparaison pour la
+				// vérification d'horaire exceptionnel avec le lieu parent
 				scheduleCompareList.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
 			}
 		}
-		
+
 		// On vérifie par rapport au lieu parent ...
-		for (PlaceSchedule parentPlaceSchedule : parentPlaceSchedules)
-		{
+		for (PlaceSchedule parentPlaceSchedule : parentPlaceSchedules) {
 			// ... seulement en cas d'horaires exceptionnels
-			if(parentPlaceSchedule.isException())
-			{
+			if (parentPlaceSchedule.isException()) {
 				// on prépare les nouveaux objets accueillant les horaires
-				PlaceSchedule scheduleParentException = new PlaceSchedule();				
+				PlaceSchedule scheduleParentException = new PlaceSchedule();
 				List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<Pair<LocalTime, LocalTime>>();
-				 
-				// Un souci où l'on passait une fois avec le scheduleCompareList.get(0).getOpeningTimes() à null
-				if(!scheduleCompareList.isEmpty() && scheduleCompareList.get(0).getOpeningTimes() != null)
-				{
+
+				// Un souci où l'on passait une fois avec le
+				// scheduleCompareList.get(0).getOpeningTimes() à null
+				if (!scheduleCompareList.isEmpty() && scheduleCompareList.get(0).getOpeningTimes() != null) {
 					// On va comparer chaque horaire à parent ...
-					for (Pair<LocalTime, LocalTime> parentTime : parentPlaceSchedule.getOpeningTimes())
-					{
+					for (Pair<LocalTime, LocalTime> parentTime : parentPlaceSchedule.getOpeningTimes()) {
 						// .. a chaque horaire du sous lieu
-						for (Pair<LocalTime, LocalTime> subplaceTime : scheduleCompareList.get(0).getOpeningTimes())
-						{
-							// Si l'horaire du sous lieu chevauche celui du parent, on recrée un horaire pour le sous lieu qui est inclut dans les bornes de l'horaire parent
-							if(parentTime.getFirst().compareTo(subplaceTime.getSecond()) < 0 && parentTime.getSecond().compareTo(subplaceTime.getFirst()) > 0)
-							{
-								LocalTime startHour =  parentTime.getFirst().isAfter(subplaceTime.getFirst()) ? parentTime.getFirst():subplaceTime.getFirst();
-								LocalTime endHour = parentTime.getSecond().isBefore(subplaceTime.getSecond()) ? parentTime.getSecond():subplaceTime.getSecond();
-								
+						for (Pair<LocalTime, LocalTime> subplaceTime : scheduleCompareList.get(0).getOpeningTimes()) {
+							// Si l'horaire du sous lieu chevauche celui du
+							// parent, on recrée un horaire pour le sous lieu
+							// qui est inclut dans les bornes de l'horaire
+							// parent
+							if (parentTime.getFirst().compareTo(subplaceTime.getSecond()) < 0
+									&& parentTime.getSecond().compareTo(subplaceTime.getFirst()) > 0) {
+								LocalTime startHour = parentTime.getFirst().isAfter(subplaceTime.getFirst())
+										? parentTime.getFirst() : subplaceTime.getFirst();
+								LocalTime endHour = parentTime.getSecond().isBefore(subplaceTime.getSecond())
+										? parentTime.getSecond() : subplaceTime.getSecond();
+
 								openingTimes.add(Pair.of(startHour, endHour));
 							}
-	
+
 						}
 					}
 				}
-				// Et on ajoute nos horaires à l'objet PlaceSchedule qui sera envoyé à la vue
+				// Et on ajoute nos horaires à l'objet PlaceSchedule qui sera
+				// envoyé à la vue
 				scheduleParentException.setOpeningTimes(openingTimes);
 				scheduleParentException.setException(true);
 				scheduleList.add(scheduleParentException);
 			}
 
 		}
-		
-		// Si cette liste est vide, c'est qu'il n'y a pas d'exceptions du Lieu parent et on remplit l'objet par les horaires de la période trouvée plus haut (période spécifique ou par défaut)
-		if(scheduleList.isEmpty())
+
+		// Si cette liste est vide, c'est qu'il n'y a pas d'exceptions du Lieu
+		// parent et on remplit l'objet par les horaires de la période trouvée
+		// plus haut (période spécifique ou par défaut)
+		if (scheduleList.isEmpty())
 			scheduleList.addAll(scheduleCompareList);
-		
+
 		return scheduleList;
 	}
 
@@ -379,17 +388,19 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 					if (publicHoliday.isRecurrent()) {
 						publicHolidayYear.set(Calendar.YEAR, lundi.get(Calendar.YEAR));
 					}
-					if (publicHolidayYear.compareTo(lundi) >= 0
-							&& publicHolidayYear.compareTo(dernierJour) <= 0) {
-						PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
-								publicHolidayYear.getTime(), publicHolidayYear.getTime(), publicHoliday.getName(locale),
-								locale);
-						placeSchedule.setPublicHoliday(true);
-						placeSchedule.setClosed(true);
-						// commenté car il supprimait tous les horaires exceptionnels et n'enregistrait qu'un jour férié
-						//listPlaceSchedules.clear();
-						listPlaceSchedules.add(placeSchedule);
-						//break;
+					// ne prend que les jours fériés de la période
+					if (publicHolidayYear.compareTo(lundi) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
+						// vérifie que le jour férié n'est pas déjà en exception
+						if (listPlaceSchedules.isEmpty() || !listPlaceSchedules.stream()
+								.anyMatch(se -> (!publicHolidayYear.getTime().after(se.getEndDate())
+										&& !publicHolidayYear.getTime().before(se.getStartDate())))) {
+							PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
+									publicHolidayYear.getTime(), publicHolidayYear.getTime(),
+									publicHoliday.getName(locale), locale);
+							placeSchedule.setPublicHoliday(true);
+							placeSchedule.setClosed(true);
+							listPlaceSchedules.add(placeSchedule);
+						}
 					}
 				}
 			}
@@ -407,6 +418,24 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	public List<PlaceSchedule> getSubPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode, Locale locale) {
 		GregorianCalendar premierJour = new GregorianCalendar();
 		premierJour.setTime(dateDeb);
-		return getSubPlaceScheduleException(premierJour, surPeriode, locale);
+		List<PlaceSchedule> exceptions = getSubPlaceScheduleException(premierJour, surPeriode, locale);
+
+		exceptions = exceptions.stream().filter(e -> e.getEndDate().compareTo(dateDeb) >= 0)
+				.collect(Collectors.toList());
+
+		// On retire les fermetures exceptionnelles si le lieu est fermé
+		for (int i = 0; i < exceptions.size(); i++) {
+			PlaceSchedule exception = exceptions.get(i);
+			if (exception.getStartDate().compareTo(exception.getEndDate()) == 0){
+			    GregorianCalendar calendar = new GregorianCalendar();
+			    calendar.setTime(exception.getStartDate());
+				if(this.getParentPlace().isClosed(calendar)) {
+					exceptions.remove(i);
+					i--;
+				}
+			}
+		}
+
+		return exceptions;
 	}
 }

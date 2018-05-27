@@ -1,0 +1,145 @@
+/* ------------------
+--- VARIABLES ---
+------------------ */
+$design-spacing:4px;
+
+// Fonts Roboto
+// ==========================================================================
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-bold-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-bolditalic-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-bolditalic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-italic-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-medium-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-medium-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-mediumitalic-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-mediumitalic-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-regular-webfont.woff2') format('woff2'),
+         url('../fonts/roboto-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Fonts Montserrat
+// ==========================================================================
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/montserrat-bold-webfont.woff2') format('woff2'),
+    url('../fonts/montserrat-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+// Fonts Oswald
+// ==========================================================================
+@font-face {
+    font-family: 'Oswald';
+    src: url('../fonts/oswald-bold-webfont.woff2') format('woff2'),
+    url('../fonts/oswald-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Oswald';
+    src: url('../fonts/oswald-regular-webfont.woff2') format('woff2'),
+    url('../fonts/oswald-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Oswald';
+    src: url('../fonts/oswald-light-webfont.woff2') format('woff2'),
+    url('../fonts/oswald-light-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+
+}
+
+
+// Fonts
+// ==========================================================================
+$f_hx: 'Oswald', Sans-Serif;
+$f_txt: 'Roboto', Sans-Serif;
+$f_spe: 'Montserrat', Sans-Serif;
+
+// Colors
+// ==========================================================================
+$c_main: #ffed00;
+$c_sub: #32455c;
+$c_orange: #fbac28;
+$c_grey: #3a3a3a;
+$c_darkgrey: #2d2d2d;
+$c_txt: #000;
+$c_light: #F5F5F5;
+$c_dark: #000000;
+$c_white: #FFFFFF;
+$c_filet: #cacaca;
+$c_grey50 : #505050;
+
+
+// Thème de couleur des participations
+$c_rouge: #e33a62;
+$c_orange: #ffb045;
+$c_violet: #6d23cc;
+$c_vert: #5eff89;
+$c_brun: #665348;
+
+
+// Sizes
+// ==========================================================================
+$s_h1: 36px;																			
+$s_h2: 3em;
+$s_h3: 1.500em;
+$s_h4: 18px;																			
+$s_p: 0.938em;
+$s_link: 1.125em;
+$s_small: 0.813em;
+
+
+// Width / Height / Spacing
+// ==========================================================================
+$max-width: 1200px;
+$border-gutter: 40px;
+$content-spacing: 50px;
+$content-gutter: 30px;
+$header-height: 122px;
+$copyright-height: 50px;
+
+
+// Breakpoints
+// ==========================================================================
+$breakpoint_wd: 1600px;
+//$breakpoint_de: 1024px; // en min width si jamais vraiment on voulait l'utiliser
+$breakpoint_paysage: 1024px; // taille ipad
+$breakpoint_portrait: 992px;
+$breakpoint_mo: 767px;
+$breakpoint_mo_small: 360px;

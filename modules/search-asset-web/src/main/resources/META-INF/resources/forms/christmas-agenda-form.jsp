@@ -9,7 +9,7 @@
 	<c:if test="${dc.dateField}">
 		<div class="form-group date-selection">
 			<div class="mns-label-top">
-				<label>Dates</label>
+				<label><liferay-ui:message key="eu.dates" /></label>
 			</div>
 			<span class="mns-ico-date">
 				<liferay-ui:input-date name="fromDate" nullable="true"

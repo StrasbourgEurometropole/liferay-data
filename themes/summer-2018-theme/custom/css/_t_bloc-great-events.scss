@@ -1,0 +1,113 @@
+#mns-global {
+	.mns-great-event-slider-full {
+
+		.mns-portlet-title {
+			h1 {			
+				@include mobile{
+					font-size: 40px;
+					text-align: start;
+				}
+				@include tablet_portrait{
+					font-size: 50px;
+				}
+			}
+			&:after{
+				@include mobile{
+					width: 60px;
+				}
+			}
+		}
+
+		.item {
+			height: 700px;
+			@include tablet_portrait {
+				height: 600px;
+			}
+			@include mobile {
+				height: 240px !important;
+			}
+			img {
+				position: absolute !important;
+			}
+
+			.caption {
+				width: 700px;
+				bottom: 20%;
+				right: 20%;
+				padding: 30px;
+				position: absolute;
+				display: inline-block;
+				background-color: rgba(0,0,0,0.5);
+				@include mobile {
+					width: 280px !important;
+					right: 0 !important;
+					left: 2% !important;
+					padding: 10px !important;
+				}
+				@include tablet_portrait {
+					width: 680px;
+					right: 10%;
+				}
+				h1 {
+					@include ft($f_ms, 65px, 700, $c_main, normal);
+					margin: 0;
+					text-transform: uppercase;
+					@include mobile {
+						@include ft($f_ms , 20px !important, 700, $c_main, normal) ;
+					}
+					@include tablet_portrait {
+						@include ft($f_ms, 65px, 700, $c_main, normal);
+					}
+				}
+				h2 {
+					text-transform: uppercase;
+					@include ft($f_ms, 50px, 400, $c_white, normal);
+					@include mobile {
+						@include ft($f_ms, 15px !important, 400, $c_white, normal);
+					}
+					@include tablet_portrait {
+						@include ft($f_ms, 50px, 400, $c_white, normal);
+					}
+					&:after{
+						content: '';
+						background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+						position: absolute;
+						display: block;
+						width: 100%;
+						height: 10px;
+						left: 0%;
+						margin-top: 10px;
+						@include mobile {
+							height: 5px !important;
+						}
+					}
+				}
+
+				p {
+					margin-top: 40px;
+					@include ft($f_ms, 17.5px, 400, $c_white, normal);
+					@include mobile{
+						@include ft($f_ms, 12px !important, 400, $c_white, normal);
+						margin-top: 20px;
+					}
+					@include tablet_portrait {
+						@include ft($f_ms, 17.5px, 400, $c_white, normal);
+					}
+				}
+
+				.basic-link {
+					margin-top: 40px;
+					margin-bottom: 40px;
+					font-size: 15px;
+					@include mobile{
+						margin: 0 !important;
+						font-size: 10px !important;
+					}
+					@include mobile{
+						font-size: 15px;
+					}
+				}
+			}
+		}
+	}
+}

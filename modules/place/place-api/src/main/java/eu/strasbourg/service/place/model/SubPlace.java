@@ -91,7 +91,8 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday> getPublicHolidays();
 
 	/**
-	* Retourne une map contennant les horaires de chaque jour des 7 jours suivants "startDate" (inclus)
+	* Retourne une map contennant les horaires de chaque jour des 7 jours
+	* suivants "startDate" (inclus)
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getFollowingWeekSchedules(
 		java.util.Date startDate, java.util.Locale locale);
@@ -104,7 +105,8 @@ public interface SubPlace extends SubPlaceModel, PersistedModel {
 		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
-	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à "date" + "daysCount"
+	* Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
+	* "date" + "daysCount"
 	*/
 	public java.util.Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getSubPlaceSchedule(
 		java.util.Date date, int daysCount, java.util.Locale locale);
