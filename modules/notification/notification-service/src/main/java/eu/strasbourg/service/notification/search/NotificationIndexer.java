@@ -27,12 +27,6 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 	private long companyId = 0;
 
 	public NotificationIndexer() {
-		try {
-			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
-			this.companyId = defaultCompany.getCompanyId();
-		} catch (Exception e) {
-			_log.error(e);
-		}
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -54,6 +48,10 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 	@Override
 	protected Document doGetDocument(Notification notification) throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, notification);
+		if (companyId == 0) {
+			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+			this.companyId = defaultCompany.getCompanyId();
+		}
 
 		document.addKeyword(Field.COMPANY_ID, companyId);
 		document.addKeyword(Field.GROUP_ID, companyId);
