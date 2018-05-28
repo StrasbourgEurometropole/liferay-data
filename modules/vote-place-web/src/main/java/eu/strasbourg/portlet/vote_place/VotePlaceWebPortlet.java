@@ -92,7 +92,6 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 				try {
 					String stationNumber = felecResponse.getStationNumber();
 					if (Validator.isNotNull(stationNumber)) {
-						//retire les zéros devant le numéro
 						stationNumber = stationNumber.replaceAll("^0+", "");
 						List<Place> places = PlaceLocalServiceUtil.findByName("% " + stationNumber);
 						if(!places.isEmpty())
