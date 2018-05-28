@@ -13,7 +13,7 @@
     <div class="favoris-grid">
 		
 		<c:if test="${empty dc.lastFavorites}">
-			<p style="font-size: 15px;">
+			<p>
 				${dc.getNoFavoriteText()}
 			</p>
 		</c:if>
