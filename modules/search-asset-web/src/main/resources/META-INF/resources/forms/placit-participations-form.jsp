@@ -63,13 +63,12 @@
 			items="${dc.getDropdownRootCategories(districtVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<div>
-				<aui:input type="checkbox" name="vocabulary_1"
-					value="${category.categoryId}"
-					checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-					id="vocabulary_1_${catStatus.index}"
-					label="${category.getTitle(locale)}" />
-			</div>
+			<aui:input type="checkbox" name="vocabulary_1"
+				value="${category.categoryId}"
+				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+				id="vocabulary_1_${catStatus.index}"
+				label="${category.getTitle(locale)}"
+				cssClass="move-to-grand-parent" />
 		</c:forEach>
         
     </fieldset>
@@ -88,14 +87,22 @@
 			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<div>
-				<aui:input type="checkbox" name="vocabulary_2"
-					value="${category.categoryId}"
-					checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-					id="vocabulary_2_${catStatus.index}"
-					label="${category.getTitle(locale)}" />
-			</div>
+			<aui:input type="checkbox" name="vocabulary_2"
+				value="${category.categoryId}"
+				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
+				id="vocabulary_2_${catStatus.index}"
+				label="${category.getTitle(locale)}"
+				cssClass="move-to-grand-parent" />
 		</c:forEach>
 		
     </fieldset>
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		$( ".move-to-grand-parent" ).each(function() {
+		  $( this ).contents().appendTo($( this ).parent().parent());
+		});
+	});
+</script>
