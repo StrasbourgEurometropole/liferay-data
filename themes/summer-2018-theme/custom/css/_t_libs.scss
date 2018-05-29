@@ -6,7 +6,16 @@
 #mns-global{
 
 	#owl-full .owl-stage-outer {
-		width: 100%
+		width: 100%;
+        img {
+            height: auto;
+            width: auto;
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: none;
+            object-fit: cover;
+        }
 	}
 
 	#owl-full .owl-nav > button{
@@ -36,12 +45,12 @@
 		@include mobile {
 			position: absolute;
 			bottom: 10%;
-			right: calc(20% + 35px);
+			left: calc(2% + 250px);
 		}
 		@include tablet_portrait {
 			position: absolute;
 			bottom: 10%;
-			right: calc(10% + 30px);
+			right: calc(10% + 35px);
 		}
 
 		.owl-prev {
@@ -101,10 +110,13 @@
             }
             img {
                 position: absolute !important;
-                height: 100%;
+                height: auto;
                 width: auto;
-                max-width: none;
+                min-width: 100%;
+                min-height: 100%;
+                max-width: 100%;
                 max-height: none;
+                object-fit: cover;
             }
         }
 
