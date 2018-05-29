@@ -6791,6 +6791,16 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
     });
 
 
-
+if($('html').attr('lang')=="de-DE") {
+	if ($(window).width() <= 320){
+		$('.mns-section-agenda').find('h1').css('font-size', '28px');
+	}
+	else if ($(window).width() <= 375){
+		$('.mns-section-agenda').find('h1').css('font-size', '32px');
+	}
+	else if ($(window).width() <= 420){
+		$('.mns-section-agenda').find('h1').css('font-size', '36px');
+	}
+}
 
 

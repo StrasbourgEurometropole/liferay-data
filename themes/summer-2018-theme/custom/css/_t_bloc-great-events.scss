@@ -4,7 +4,7 @@
 		.mns-portlet-title {
 			h1 {			
 				@include mobile{
-					font-size: 40px;
+					font-size: 40px !important;
 					text-align: start;
 				}
 				@include tablet_portrait{

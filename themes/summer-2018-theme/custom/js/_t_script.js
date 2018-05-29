@@ -322,7 +322,17 @@
         }
     });
 
-
-
+// Resize le titre de l'agenda de la home en allemand sur mobile
+if($('html').attr('lang')=="de-DE") {
+	if ($(window).width() <= 320){
+		$('.mns-section-agenda').find('h1').css('font-size', '28px');
+	}
+	else if ($(window).width() <= 375){
+		$('.mns-section-agenda').find('h1').css('font-size', '32px');
+	}
+	else if ($(window).width() <= 420){
+		$('.mns-section-agenda').find('h1').css('font-size', '36px');
+	}
+}
 
 
