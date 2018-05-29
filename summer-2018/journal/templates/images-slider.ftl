@@ -12,7 +12,7 @@
                     </figure>
                     <div class="caption">
                         <h3>${curImage.children[0].data}</h3>
-                        <p style="color: white;">${curImage.children[1].data}</p>
+                        <p style="color: white;">${curImage.children[1].data[0..*90]}<#if (curImage.children[1].data?length > 90)>...</#if></p>
                     </div>
                 </div>
             </#list>
