@@ -6,7 +6,7 @@
 
 <p>Bonjour,<br><br>
 
-Vous venez de soumettre des informations sur le formulaire de contact<#if type == "Event"> de l’événement ${title}<#elseif type == "Place"> du lieu ${title}</#if>. Vous trouverez ci-dessous la liste des informations saisies.</p>
+Vous venez de soumettre des informations sur le formulaire de contact<#if type == "Event"> de l’événement "${title}"<#elseif type == "Place"> du lieu ${title}</#if>. Vous trouverez ci-dessous la liste des informations saisies.</p>
 <br>
 <p><strong>Nom</strong> : ${lastName}</p>
 <p><strong>Prénom</strong> : ${firstName}</p>
