@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.vote_place;
+﻿package eu.strasbourg.portlet.vote_place;
 
 import java.io.IOException;
 import java.text.ParseException;

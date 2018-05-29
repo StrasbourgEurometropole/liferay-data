@@ -10,14 +10,7 @@ import com.liferay.portal.kernel.util.CacheResourceBundleLoader;
 import com.liferay.portal.kernel.util.ClassResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 
-@Component(
-    immediate = true,
-    property = {
-        "bundle.symbolic.name=com.liferay.login.web",
-        "resource.bundle.base.name=login.Language",
-        "servlet.context.name=login-web"
-    }
-)
+
 public class LoginResourceBundleLoaderComponent
 	implements ResourceBundleLoader {
 
