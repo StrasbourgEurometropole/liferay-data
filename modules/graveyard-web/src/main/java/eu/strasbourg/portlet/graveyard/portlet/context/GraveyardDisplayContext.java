@@ -3,7 +3,6 @@ package eu.strasbourg.portlet.graveyard.portlet.context;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +12,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -33,11 +27,7 @@ import eu.strasbourg.portlet.graveyard.portlet.DefuntDTO;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardResponse;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardWebServiceClient;
 import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
-import eu.strasbourg.utils.constants.VocabularyNames;
 
 public class GraveyardDisplayContext {
 
@@ -174,21 +164,6 @@ public class GraveyardDisplayContext {
 			this.concessions = GraveyardMapping.getAll();
 		}
 		return this.concessions;
-	}
-
-	/**
-	 * Retourne 0 si résultat ou retour avec erreur, 1 si erreur à l'envoi de la
-	 * requête (manque un paramètre ...)
-	 */
-	public String getErr() {
-		return this.graveyard.getErr();
-	}
-
-	/**
-	 * Retourne le message d'erreur si err = 0
-	 */
-	public String getErreur() {
-		return this.graveyard.getErreur();
 	}
 
 	/**

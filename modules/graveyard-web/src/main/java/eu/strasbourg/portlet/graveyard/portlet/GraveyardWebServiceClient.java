@@ -58,11 +58,10 @@ public class GraveyardWebServiceClient {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		JSONObject jsonResponse = null;
 		try {
 			// On récupère le JSON
 			String url = StrasbourgPropsUtil.getGraveyardURL() + "?" + postData;
-			jsonResponse = PasserelleHelper.readJsonFromURL(url);
+			JSONObject jsonResponse = PasserelleHelper.readJsonFromURL(url);
 			graveyardResponse = new GraveyardResponse(jsonResponse);
 		} catch (IOException | JSONException ex) {
 			ex.printStackTrace();
