@@ -101,14 +101,29 @@
             }
             img {
                 position: absolute !important;
+                height: 100%;
+                width: auto;
+                max-width: none;
+                max-height: none;
             }
         }
 
         .caption {
+            text-align: right;
             position: absolute;
             z-index: 3;
             bottom: 20%;
             right: 5%;
+            width: 25%;
+            @include tablet_portrait {
+                width: 50%;
+            }
+            @include mobile {
+                width: 50%;
+                p {
+                    font-size: 12.5px;
+                }
+            }
         }
     }
 
@@ -134,7 +149,7 @@
 
     #owl-slider .owl-nav{
         position: absolute;
-        bottom: 10%;
+        bottom: 20%;
         right: calc(5% + 40px);
         @include mobile {
             position: absolute;
@@ -291,7 +306,6 @@
             background-size: 20px;
         }
         @include mobile {
-            left: 35px;
             width: 30px;
             height: 30px;
             background-size: 18px;
