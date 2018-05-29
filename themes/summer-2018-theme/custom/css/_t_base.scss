@@ -15,6 +15,15 @@ body{
 		}
 	}
 
+	header {
+		@include tablet_portrait{
+			margin-bottom: 90px;
+		}
+		@include mobile{
+			margin-bottom: 90px;
+		}
+	}
+
 	.small-container{
 		width: 100%;
 		max-width: 960px;
