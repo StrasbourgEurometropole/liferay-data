@@ -85,8 +85,6 @@ function setTemplateInfos(infos, category, $template, conf){
 function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 3;
-    // récupération du 1er élément
-    $()
     if(elements[0].substr(elements[0].indexOf("class="),(elements[0].indexOf(">")-elements[0].indexOf("class"))).indexOf('big') != -1){
         itemSeparator = 3;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
