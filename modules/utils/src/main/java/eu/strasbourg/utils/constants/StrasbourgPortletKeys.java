@@ -84,4 +84,6 @@ public class StrasbourgPortletKeys {
 	public static final String MEDIATHEQUE_WEB = "eu_strasbourg_portlet_mediatheque_MediathequeWebPortlet";
 	public static final String VALIDATION_WEB = "eu_strasbourg_portlet_mediatheque_ValidationWebPortlet";
 
+	public static final String FAMILY_SPACE_WEB = "eu_strasbourg_portlet_familySpace_FamilySpaceWebPortlet";
+
 }
