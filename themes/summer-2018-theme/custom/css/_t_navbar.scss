@@ -636,7 +636,7 @@
 			.navbar-collapse{
 				margin-top: 35px;
 				@include mobile {
-					margin-top: 9px;
+					margin-top: 9px !important;
 				}
 				@include tablet_portrait {
 					margin-top: -40px;

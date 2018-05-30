@@ -336,3 +336,19 @@ if($('html').attr('lang')=="de-DE") {
 }
 
 
+if($('iframe[src^="https://www.youtube.com"]')) {
+	$iframe_yt = $('iframe[src^="https://www.youtube.com"]');
+	$iframe_yt.css('position','absolute');
+	$iframe_yt.css('top','0');
+	$iframe_yt.css('left','0');
+	$iframe_yt.css('width','100%');
+	$iframe_yt.css('height','100%');
+
+	$parent = $iframe_yt.parent();
+	$parent.css('position','relative');
+	$parent.css('padding-bottom','56.25%');
+	$parent.css('padding-top','30px');
+	$parent.css('overflow','hidden');
+	$parent.css('height','0');
+
+}
