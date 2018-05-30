@@ -7,7 +7,7 @@
 </#if>
 <div class="mns-section-agenda">
     <div class="container">
-        <div class="col-xs-12" style="text-align: center;">
+        <div style="text-align: center;">
             <div  class="mns-portlet-title">
                 <h1><@liferay_ui.message key="agenda" /></h1>
             </div>
