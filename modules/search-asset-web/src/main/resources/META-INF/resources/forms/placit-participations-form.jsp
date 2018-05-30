@@ -98,11 +98,17 @@
     </fieldset>
 </div>
 
+<div class="pro-group">
+	<input type="submit" name="rechercher"><liferay-ui:message key="search" /></>
+</div>
+
+<aui:input type="hidden" name="vocabulariesCount" value="2" />
+
 
 <script>
 	$(document).ready(function() {
-		$( ".move-to-grand-parent" ).each(function() {
-		  $( this ).contents().appendTo($( this ).parent().parent());
+		$('.move-to-grand-parent').each(function() {
+		  $(this).prependTo($(this).parent().parent());
 		});
 	});
 </script>

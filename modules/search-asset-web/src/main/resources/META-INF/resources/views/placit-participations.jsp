@@ -144,7 +144,29 @@
                     </select>
                 </form>
                 <p class="hidden-xs">
-                	<liferay-ui:message key="eu.show-results" /> ?-? <liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.participations" />
+                	<!-- Pagination label -->
+                	<liferay-ui:message key="eu.show-results" /> 
+                	<c:choose>
+	                	<c:when test="${dc.pager.count > 0}">
+	                		${dc.pager.currentPage * 8 - 7}
+	                	</c:when>
+	                	<c:otherwise>
+	                		0
+	                	</c:otherwise>
+	                </c:choose>
+                	-
+                	<c:choose>
+	                	<c:when test="${dc.pager.currentPage * 8 >= dc.pager.count}">
+	                		${dc.pager.currentPage * 8}
+	                	</c:when>
+	                	<c:when test="${dc.pager.currentPage * 8 < dc.pager.count}">
+	                		${dc.pager.currentPage * 8 - (dc.pager.count - dc.pager.currentPage * 8)}
+	                	</c:when>
+	                	<c:otherwise>
+	                		0
+	                	</c:otherwise>
+	                </c:choose>
+                	 <liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.participations" />
                 </p>
             </div>
 
