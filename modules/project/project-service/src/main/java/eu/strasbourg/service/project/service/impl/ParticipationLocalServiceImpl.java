@@ -109,13 +109,13 @@ public class ParticipationLocalServiceImpl
 		participation.setStatusByUserName(user.getFullName());
 		participation.setStatusDate(sc.getModifiedDate());
 		
-		if(Objects.isNull(participation.getImageId()) || participation.getImageId() == 0) {
+		if(!Objects.isNull(participation.getExternalImageURL()) && participation.getExternalImageURL() != "") {
 			URL url = new URL(participation.getExternalImageURL());
 	        final BufferedImage bi = ImageIO.read(url);
 	        participation.setImageHeight(bi.getHeight());
 	        participation.setImageWidth(bi.getWidth());
 		}
-		else {
+		else if (!Objects.isNull(participation.getImageId()) && participation.getImageId() != 0) {
 			String imageURL = FileEntryHelper.getFileEntryURL(participation.getImageId()); 
 			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
 			URL url = new URL(completeImageURL);
