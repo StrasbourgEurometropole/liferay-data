@@ -218,8 +218,23 @@
     }
 
 
+    #owl-agenda {
+        @media (min-width: 1300px) {
+            float: left !important;
+            width: 100% !important;
+        }
+        @media (min-width: 500px) {
+            float: none;
+            margin: auto;
+            width: 80%;
+        }
+    }
+
 	#owl-agenda .owl-item{
 		max-width: 260px;
+        @media (max-width: 330px) {
+           max-width: 240px;
+        }
 		@include an(all,0.3);
 		img {
 			width: auto !important;
@@ -232,14 +247,12 @@
 		display: -ms-box;
 		display: box;
 	}
-
+      
 
 	#owl-agenda .owl-nav {
-		@include mobile{
-            display: none;
-        }
-        @include tablet_portrait {
-            display: none;
+        display: none;
+        @media (min-width: 500px) {
+            display: block;
         }
 		@include an(all,0.3);
 		.owl-prev {
@@ -251,10 +264,6 @@
             left: -300px;
             width: 300px;
             outline: none;
-            @include tablet_landscape{
-                width: 80px;
-                left: 0px;
-            }
             .mns-picto {
                 left: 30px;
             }
@@ -269,9 +278,6 @@
             width: 200px;
             right: -200px;
             outline: none;
-            @include tablet_landscape{
-                width: 80px;
-            }
             .mns-picto {
                 left: 30px;
             }

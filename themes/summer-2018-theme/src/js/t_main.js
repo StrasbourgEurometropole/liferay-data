@@ -6721,20 +6721,23 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 		nav:true,
 		margin: 40,
 		autoWidth: true,
-		items: 4,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
+		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"],
+	    responsive:{
+	        0:{
+	            items:1
+	        },
+	        700:{
+	            items:2
+	        },
+	        1100:{
+	            items:3
+	        },
+	        1375:{
+	            items:4
+	        }
+	    }
 	})
 
-
-	// Carsousel section Testimonial
-	$('#owl-testi').owlCarousel({
-		loop:true,
-		margin:30,
-		dots: false,
-		nav:true,
-		items: 1,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
-	})
 
 	// Carsousel section Testimonial
 	$('#owl-full').owlCarousel({
