@@ -1,0 +1,9 @@
+Bundle-Name: comment-api
+Bundle-SymbolicName: eu.strasbourg.service.comment.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.comment.exception,\
+	eu.strasbourg.service.comment.model,\
+	eu.strasbourg.service.comment.service,\
+	eu.strasbourg.service.comment.service.persistence
+-includeresource: META-INF/service.xml=../comment-service/service.xml
