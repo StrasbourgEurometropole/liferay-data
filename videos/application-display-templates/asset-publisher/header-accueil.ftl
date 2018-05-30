@@ -1,6 +1,10 @@
 <!-- Header accueil -->
 <#setting locale = locale />
-
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+  <#assign homeURL = "/" />
+</#if>
 <div class="video-wrapper ">
 	<div id="featured-video-container"></div>
 	</c:if>
@@ -63,21 +67,16 @@
 			<#if entries?has_content>
 			    <#list entries as curEntry>
 			        <#assign video = curEntry.getAssetRenderer().getVideo() />
-			        <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-			          <@liferay_portlet.param name="classPK" value="${video.getVideoId()}" />
-			          <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-			        </@liferay_portlet.renderURL>
-
 					<div class="owl-video-tumbnail">
-						<a href="${detailURL}" style="display: inline;">
+						<a href="${homeURL}video/-/entity/id/${video.getVideoId()}" style="display: inline;">
 							<img src="${video.getImageURL()}" title="${video.getTitle(locale)}" />
 						</a>
 						<div class="owl-video-cover">
-							<a href="${detailURL}" style="display: block; width: 100%; height: 100%;"></a>
+							<a href="${homeURL}video/-/entity/id/${video.getVideoId()}" style="display: block; width: 100%; height: 100%;"></a>
 							<div class="owl-video-text">
 								<h2 class="video-title">
 									<span>
-										<a href="${detailURL}" style="display: inline;">
+										<a href="${homeURL}video/-/entity/id/${video.getVideoId()}" style="display: inline;">
 											${video.getTitle(locale)}
 										</a>
 									</span>
