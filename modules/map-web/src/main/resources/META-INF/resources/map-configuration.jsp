@@ -25,10 +25,10 @@
 					label="type-contenu">
 				
 				<!-- Lieux -->
-				<aui:input type="checkbox" name="typeContenu" value="eu.strasbourg.service.place.model.Place" label="eu.places" 
+				<aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
 				<!-- Evénements -->
-				<aui:input type="checkbox" name="typeContenu" value="eu.strasbourg.service.agenda.model.Event" label="eu.events" 
+				<aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
 					checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" ></aui:input>
 			
 			</aui:fieldset>
