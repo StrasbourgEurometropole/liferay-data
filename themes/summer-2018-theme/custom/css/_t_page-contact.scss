@@ -57,13 +57,7 @@
 
 				&.mns-textarea{
 					width: 100%;
-					margin: 0;
-					span{
-						@include ft($f_ms, 12px, 400, $c_txt, 22px);
-						font-style: italic;
-						margin: 15px 0;
-						display: block;
-					}
+					margin-bottom: 15px			
 				}
 				label {
 					font-size: 17.5px;
