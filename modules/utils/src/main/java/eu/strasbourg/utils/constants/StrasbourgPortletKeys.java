@@ -81,4 +81,7 @@ public class StrasbourgPortletKeys {
 
 	public static final String VOTE_PLACE_WEB = "eu_strasbourg_portlet_vote_place_VotePlaceWebPortlet";
 
+	public static final String MEDIATHEQUE_WEB = "eu_strasbourg_portlet_mediatheque_MediathequeWebPortlet";
+	public static final String VALIDATION_WEB = "eu_strasbourg_portlet_mediatheque_ValidationWebPortlet";
+
 }

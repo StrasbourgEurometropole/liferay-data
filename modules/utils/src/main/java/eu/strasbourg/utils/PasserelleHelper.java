@@ -24,9 +24,22 @@ public class PasserelleHelper {
 		return sb.toString();
 	}
 
-	public static JSONObject readJsonFromURL(String URL)
+	public static HttpURLConnection readFromURL(String URL)
 			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
+		return httpConn;
+	}
+
+	public static JSONObject readJsonFromURL(String URL)
+			throws IOException, JSONException {
+		HttpURLConnection httpConn =  readFromURL(URL);
+		JSONObject json = readJson(httpConn);
+		
+		return json;
+	}
+
+	public static JSONObject readJson(HttpURLConnection httpConn)
+			throws IOException, JSONException {
 		InputStream is;
 		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
 			is = httpConn.getInputStream();
@@ -34,12 +47,31 @@ public class PasserelleHelper {
 			/* error from server */
 			is = httpConn.getErrorStream();
 		}
-
+		
 		try {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);
 			JSONObject json = JSONFactoryUtil.createJSONObject(jsonText);
 			return json;
+		} finally {
+			is.close();
+		}
+	}
+
+	public static String readXML(HttpURLConnection httpConn)
+			throws IOException, JSONException {
+		InputStream is;
+		if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+			is = httpConn.getInputStream();
+		} else {
+			/* error from server */
+			is = httpConn.getErrorStream();
+		}
+		
+		try {
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String xmlText = readAll(rd);
+			return xmlText;
 		} finally {
 			is.close();
 		}
