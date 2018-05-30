@@ -41,6 +41,12 @@
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
+                    <a href="${homeURL}/contact" title="contact">
+                      <span class="mns-contact">
+                        <span class="mns-picto-contact"></span>
+                        <span class="mns-text">Contact</span>
+                      </span>    
+                    </a>
                     <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
                     <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
                     <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
