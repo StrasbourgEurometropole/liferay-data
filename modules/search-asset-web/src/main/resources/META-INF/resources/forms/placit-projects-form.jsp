@@ -9,8 +9,7 @@
 				key="eu.projet-erase" /></span>
 	</div>
 	<fieldset>
-		<legend aria-hidden="true" class="hide">Choix par nom de
-			projet</legend>
+		<legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
 		<div>
 			<select class="" id="statut-projet"
 				name="<portlet:namespace />vocabulary_0">
@@ -80,7 +79,16 @@
     </fieldset>
 </div>
 
-<button type="submit">
-	<span><liferay-ui:message key="search" /> </span>
-</button>
+<div class="pro-group">
+	<input type="submit" name="rechercher"/>
+</div>
+
 <aui:input type="hidden" name="vocabulariesCount" value="3" />
+
+<script>
+	$(document).ready(function() {
+		$('.move-to-grand-parent').each(function() {
+		  $(this).prependTo($(this).parent().parent());
+		});
+	});
+</script>

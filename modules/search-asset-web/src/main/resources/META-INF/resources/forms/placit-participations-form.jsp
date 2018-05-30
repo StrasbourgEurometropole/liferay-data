@@ -99,7 +99,7 @@
 </div>
 
 <div class="pro-group">
-	<input type="submit" name="rechercher"><liferay-ui:message key="search" /></>
+	<input type="submit" name="rechercher"/>
 </div>
 
 <aui:input type="hidden" name="vocabulariesCount" value="2" />

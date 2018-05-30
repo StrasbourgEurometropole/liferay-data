@@ -175,6 +175,30 @@
 
 }
 
+
+form{
+	input[type="submit"]{
+		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+		text-transform: uppercase;
+		font-weight: 700;
+		height: 46px;
+		border: 2px solid $c_main;
+		line-height: 46px;
+		width: 100%;
+		display: block;
+		text-align: center;
+		position: relative;
+		padding: 0;
+		margin-bottom: 30px;
+		@include addTransition();
+		&:hover, &:focus {
+			background: $c_dark;
+			border-color: $c_dark;
+			color: $c_main;
+		}
+	}
+}
+
 .bloc-form {
 	padding: 20px 0;
 
