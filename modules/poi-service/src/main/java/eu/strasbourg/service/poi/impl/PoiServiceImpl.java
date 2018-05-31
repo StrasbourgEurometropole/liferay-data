@@ -543,10 +543,10 @@ public class PoiServiceImpl implements PoiService {
 					schedule = "Le " + sdf.format(event.getFirstStartDate());
 				} else {
 					if (event.getFirstStartDate().compareTo(new Date()) <= 0) {
-						schedule = "Du" + sdf.format(event.getFirstStartDate()) + " au "
+						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
 								+ sdf.format(event.getLastEndDate());
 					} else {
-						schedule = "Du" + sdf.format(event.getFirstStartDate()) + " au "
+						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
 								+ sdf.format(event.getLastEndDate());
 					}
 				}
