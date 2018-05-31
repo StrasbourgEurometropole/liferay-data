@@ -5,6 +5,17 @@
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
     }
     .favoris-grid{
+
+        p{
+            font-size: 1.8rem;
+            color: #5c5c5c;
+            margin-bottom: 20px;
+        }
+
+        .favoris-teaser{
+            margin-bottom: 30px;
+        }
+
         @include RWD(desktop){
            @include grid-distribution(4, 50, favoris-teaser);
         }
@@ -14,7 +25,6 @@
         @include RWD(mobile){
            @include grid-distribution(1, 0, favoris-teaser);
         }
-        margin-bottom: 50px;
     }
     margin-bottom: 40px;
 }

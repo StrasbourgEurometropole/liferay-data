@@ -331,9 +331,6 @@
 		@include mobile {
 			@include ft($f_ms, 40px, 700, $c_main, normal);
 		}
-		@include tablet_portrait {
-			margin-top: 190px;
-		}
 	}
 	strong{
 		display: block;

@@ -85,8 +85,8 @@ function setTemplateInfos(infos, category, $template, conf){
 function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 3;
-    if(elements[0].indexOf('big') != -1){
-        itemSeparator = 4;
+    if(elements[0].substr(elements[0].indexOf("class="),(elements[0].indexOf(">")-elements[0].indexOf("class"))).indexOf('big') != -1){
+        itemSeparator = 3;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
@@ -98,7 +98,7 @@ function addToSlider(conf, elements){
     elements.forEach(function(element, index) {
         if(index%itemSeparator == 0 && index > 0){
             nodeStringToAdd += '</div><div class="'+conf.pages_class
-            if(elements[0].indexOf('big') != -1){
+            if(elements[0].substr(elements[0].indexOf("class="),(elements[0].indexOf(">")-elements[0].indexOf("class"))).indexOf('big') != -1){
                 nodeStringToAdd += ' '+conf.is_Big_Class;
             }
             nodeStringToAdd += '"">';
