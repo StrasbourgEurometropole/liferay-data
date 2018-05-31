@@ -67,24 +67,24 @@
         padding-left: 10px;
         display: inline-block;
         width: 100%;
+        position: relative;     
 
         &:before{
-            position: relative;
             display: inline-block;
-            top: 9px;
-            left: -10px;
+            vertical-align: top;
+            top: 15px;
         }
 
         &:after{
-            position: relative;
             display: inline-block;
-            top: 9px;
-            left: -98%;
+            vertical-align: top;
+            top: 15px;
         }
 
         span{
-            width: 93%;
+            width: calc(100% - 15px);
             display: inline-block;
+            margin-left: 15px;
         }
     }
     
