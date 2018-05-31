@@ -227,11 +227,11 @@ figcaption {
 			}
 		}
 	}
-	ul {
+	ul, fieldset {
 		position: absolute;
 		right: -20px;
 		top: 35px;
-		width: 160px;
+		width: 200px;
 		z-index: 200;
 		border-radius: 0;
 		list-style-type: none;
@@ -293,7 +293,83 @@ figcaption {
 
 	}
 
-	&.open ul {
+
+	fieldset{
+		&.pro-checkbox {
+			> * {
+				padding: 3px 15px;
+				input {
+					display: none;
+				}
+				label {
+					position: relative;
+					user-select: none;
+					display: block;
+					padding: 0;
+					@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
+					@include addTransition();
+					&:before {
+						content: '';
+						position: relative;
+						float: left;
+						margin-right: 10px;
+						transform: none;
+						text-align: left;
+						width: 16px;
+						height: 16px;
+						border: 1px solid #a6a6a6;
+						border-radius: 2px;
+						background: #fff;
+						cursor: pointer;
+						top: 3px;
+					}
+					&:after {
+						content: "\e91a";
+						@include font();
+						text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
+						font-size: 14px;
+						position: absolute;
+						left: 4px;
+						top: 3px;
+						transform: translateY(-50%);
+						transform: translate3d(0, -50%, 0);
+						cursor: pointer;
+						color: $c_txt;
+						transition: all .2s;
+						background: none;
+						opacity: 0;
+						transform: scale(0);
+						@include addTransitionCurve();
+					}
+					&:hover, &:focus {
+						cursor: pointer;
+
+					}
+				}
+				input {
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					opacity: 0;
+					&:focus {
+						& + label {
+							color: $c_main;
+						}
+					}
+				}
+				input[type="checkbox"]:checked + label:after, input[type="radio"]:checked + label:after {
+					content: "\e91a";
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+		}
+	}
+
+	&.open ul,  &.open fieldset{
 		opacity: 1;
 		display: block;
 	}

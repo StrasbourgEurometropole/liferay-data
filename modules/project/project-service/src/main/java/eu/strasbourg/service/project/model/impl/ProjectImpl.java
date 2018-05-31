@@ -240,4 +240,13 @@ public class ProjectImpl extends ProjectBaseImpl {
 		
 		return result;
 	}
+	
+	/**
+	 * Retourne les thematiques du projet
+	 */
+	@Override
+	public List<AssetCategory> getThematicCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.THEMATIC);
+	}
 }

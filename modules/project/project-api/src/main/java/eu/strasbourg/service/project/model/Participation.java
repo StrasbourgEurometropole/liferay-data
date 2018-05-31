@@ -110,6 +110,11 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
+	* Retourne le status de la participation
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getParticipationStatusCategory();
+
+	/**
 	* Retourne le status de la participation selon la temporalité actuelle
 	*
 	* @return le status suivant l'ordre :
