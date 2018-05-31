@@ -7099,6 +7099,18 @@ uncomment this part if you haven't added this code anywhere else
   #objtp-detail-container .gutter-sizer {
     width: 1%; }
 
+/* line 2, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-lightbox.scss */
+.mfp-objtp .mfp-bottom-bar {
+  margin-top: -36px !important; }
+
+/* line 5, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-lightbox.scss */
+.mfp-objtp .mfp-counter {
+  display: none; }
+
+/* line 11, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-objtp/_molecule-objtp-lightbox.scss */
+.mfp-no-margins img.mfp-img {
+  padding-bottom: 40px !important; }
+
 /* line 1, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/widgets-int/wi-slideNpop/_molecule-slider--pop.scss */
 .seu-wi-slideNpop .pop {
   position: fixed;
@@ -12376,6 +12388,14 @@ form + .seu-error-messages {
     .seu-front footer {
       padding-top: 120px;
       margin-top: -120px; } }
+
+@media only screen and (min-width: 1280px) and (max-width: 1295px) {
+  /* line 7, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/header.scss */
+  .mac .seu header .seu-nav-top .seu-menu-triggerBox {
+    display: none; }
+  /* line 11, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/header/header.scss */
+  .mac .seu header .seu-nav-bottom {
+    display: block; } }
 
 /* line 3, C:/liferay/eclipse-workspace/liferay-workspace/themes/strasbourg-theme/custom/02-particules/02-modules/parts/post-header/ariane/ariane.scss */
 .region-post-header .block-container-breadcrumb .back {

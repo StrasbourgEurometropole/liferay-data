@@ -40,21 +40,6 @@
 	            <aui:form method="POST" action="#" name="addItemForm" id="addItemForm" cssClass="filtres filtres--category">
 	                <div class="filtres__list" id="poin">
                         <button type="button" class="top__trigger top__trigger--close mobile-only"></button>
-                        <div class="filtres__item form-group grid-item filtres__item--favorite">
-                            <input
-                                    name="<portlet:namespace />showFavorites"
-                                    type="checkbox"
-                                    value="true"
-                                    id="<portlet:namespace />showFavorites"
-                            <c:if test="${showFavorites}">
-                                    checked
-                            </c:if>
-                            >
-                            <label for="<portlet:namespace />showFavorites" class="option">
-                            	Mes favoris
-	                            (${dc.getFavoritesPoisCount(groupId, typesContenu)})
-                            </label>
-                        </div>
 	                    <c:set var="checkboxNamesCategories" value="" />
 	                    <c:forEach var="vocabularyGroups" items="${vocabularyGroups}" varStatus="groupVocabularyLoopStatus">
 	                        <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;">${vocabularyGroups.key}</h2>
@@ -71,8 +56,10 @@
 	                                    </c:if>
 	                                >
 	                                <label for="<portlet:namespace />categoryPointId_${groupVocabularyLoopStatus.index}_${intStatus.index}" class="option">
-	                                	${category.getTitle(locale)} 
-	                                	(${dc.getPoisCategoryCount(category.categoryId, groupId, typesContenu)})
+	                                	${category.getTitle(locale)}
+
+										<c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
+	                                	(${dc.getPoisCategoryCount(category.categoryId, prefilters, groupId, typesContenu)})
 	                                </label>
 	                            </div>
 	                        </c:forEach>
@@ -80,6 +67,23 @@
 	                    <c:set var="checkboxNamesInterests" value="" />
 	                    <c:forEach var="interestGroup" items="${interestGroups}" varStatus="groupLoopStatus">
 	                        <h2 class="filtres__title" style="flex-basis: 100%; margin-top: 20px;">${interestGroup.category.getTitle(locale)}</h2>
+							<c:if test="${groupLoopStatus.index eq 0 and defaultConfig}">
+								<div class="filtres__item form-group grid-item filtres__item--favorite">
+									<input
+											name="<portlet:namespace />showFavorites"
+											type="checkbox"
+											value="true"
+											id="<portlet:namespace />showFavorites"
+									<c:if test="${showFavorites}">
+											checked
+									</c:if>
+									>
+									<label for="<portlet:namespace />showFavorites" class="option">
+										Mes favoris
+										(${dc.getFavoritesPoisCount(groupId, typesContenu)})
+									</label>
+								</div>
+							</c:if>
 	                        <c:forEach var="interest" items="${interestGroup.interests}" varStatus="intStatus">
 	                            <c:set var="checkboxNamesInterests" value="${checkboxNamesInterests},interestPointId_${groupLoopStatus.index}_${intStatus.index}" />
 	                            <div class="filtres__item form-group grid-item interests">

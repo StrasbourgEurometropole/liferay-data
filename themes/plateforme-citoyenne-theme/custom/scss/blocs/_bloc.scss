@@ -1,0 +1,16 @@
+// Affichage des blocs en fonction des containers, des colonnes ...
+// ==========================================================================
+
+.pro-bloc {
+	position: relative;
+	padding: 20px 15px;
+	@include mobile {
+		padding: 20px 0;
+	}
+}
+
+.container {
+	@media screen and (min-width: 1600px) {
+		width: 1520px;
+	}
+}

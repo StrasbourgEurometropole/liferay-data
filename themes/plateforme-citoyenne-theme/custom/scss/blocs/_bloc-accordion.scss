@@ -1,0 +1,163 @@
+.pro-bloc-accordion {
+	margin: 50px 0 130px 0;
+	@include mobile {
+		margin: 100px 0 130px 0;
+	}
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	> * {
+		@include mobile {
+			float: none;
+		}
+	}
+
+	h2 {
+		@include ft($f_hx, 2.813em, 700, $c_dark, normal);
+		text-transform: none;
+		margin-bottom: 100px;
+		@include mobile {
+			font-size: 1.5em;
+			margin-bottom: 40px;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			left: -105px;
+			top: 12px;
+			bottom: 0;
+			width: 90px;
+			height: 40px;
+			background: $c_main;
+		}
+	}
+
+	.panel {
+		border: none;
+		border-bottom: 4px solid $c_main;
+		background: none;
+		border-radius: 0;
+
+		.panel-heading {
+			background: none;
+			border: none;
+			padding: 0;
+			h3 {
+				position: relative;
+				@include ft($f_hx, 1.5em, 700, $c_dark, normal);
+				text-transform: uppercase;
+				margin: 0;
+				@include mobile {
+					font-size: 1em;
+				}
+				a {
+					position: relative;
+					display: block;
+					padding: 15px 0;
+					&[aria-expanded="true"] {
+						&:after {
+							content: "\e91b";
+						}
+					}
+					&[aria-expanded="false"] {
+						&:after {
+							content: "\e903";
+							transform: rotate(90deg);
+							transform-origin: top;
+							right: -7px;
+						}
+					}
+					&:after {
+						@include font();
+						position: absolute;
+						right: 0;
+						top: 50%;
+						transform: translateY(-50%);
+						transform: translate3d(0, -50%, 0);
+					}
+					@include mobile {
+						padding-right: 50px;
+					}
+					&:hover, &:focus {
+						color: $c_main;
+					}
+				}
+			}
+		}
+
+		.panel-collapse.in {
+			position: relative;
+			transform: translate3d(0, 0, 0);
+			.panel-body {
+				&:before, &:after {
+					content: '';
+					display: block;
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					background: #edf0f2;
+					width: 999999px;
+					height: 100%;
+					transform: translate3d(0, 0, 0);
+					transition-delay: 0.4s;
+					transition: all 0.5s ease;
+				}
+				&:before {
+					right: 100%;
+				}
+				&:after {
+					left: 100%;
+				}
+			}
+		}
+
+		.panel-body {
+			position: relative;
+			padding: 20px 0 40px;
+			border: none;
+			background: #edf0f2;
+
+			h4 {
+				@include ft($f_txt, 1.125em, 700, $c_dark, normal);
+				margin-top: 30px;
+			}
+			p {
+				@include ft($f_txt, 1em, 400, #606060, 1.5em);
+				margin-bottom: 10px;
+			}
+		}
+
+	}
+
+	.pro-bloc-facette {
+		form {
+			.pro-group {
+				.pro-checkbox {
+					> * {
+						label {
+							@include ft($f_txt, 1.1em, 700, $c_dark, normal);
+							padding-left: 25px;
+							@include addTransition();
+							&:before {
+								position: absolute;
+								left: 0;
+								top: 4px;
+							}
+							&:after {
+								left: 5px;
+								top: 3px;
+							}
+							&:hover, &:focus {
+								color: $c_main;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

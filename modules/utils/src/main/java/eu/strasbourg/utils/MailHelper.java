@@ -1,5 +1,7 @@
 package eu.strasbourg.utils;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
@@ -54,7 +56,7 @@ public class MailHelper {
 	}
 
 	/**
-	 * Envoie un mail en mode "plain text"
+	 * Envoie un mail en mode HTML
 	 * 
 	 * @param from
 	 *            Adresse de l'expéditeur
@@ -83,6 +85,44 @@ public class MailHelper {
 			}
 			return MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, body);
 		} catch (AddressException e) {
+			log.error(e);
+			return false;
+		}
+	}
+	
+	/**
+	 * Envoie un mail en mode HTML
+	 * 
+	 * @param from
+	 *            Adresse de l'expéditeur
+	 * @param senderName
+	 *            Nom de l'expéditeur
+	 * @param to
+	 *            Addresses du ou des destinataires, séparées par des virgules
+	 *            si elles sont plusieurs
+	 * @param subject
+	 *            Sujet du mail
+	 * @param body
+	 *            Corps du mail
+	 * @return True si le mail a correctement été envoyé, false sinon
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static boolean sendMailWithHTML(String from, String senderName, String to, String subject, String body) throws UnsupportedEncodingException {
+		InternetAddress fromAddress = null;
+		InternetAddress[] toAddresses = new InternetAddress[0];
+
+		try {
+			fromAddress = new InternetAddress(from, senderName);
+			for (String toAddress : to.split(",")) {
+				try {
+					InternetAddress address = new InternetAddress(toAddress);
+					toAddresses = ArrayUtil.append(toAddresses, address);
+				} catch (AddressException ex) {
+					log.error(ex);
+				}
+			}
+			return MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, body);
+		} catch (UnsupportedEncodingException e) {
 			log.error(e);
 			return false;
 		}

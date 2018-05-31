@@ -28,16 +28,16 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryLocalService;
 @Component(immediate = true, service = ImportFoundObjectListener.class)
 public class ImportFoundObjectListener extends BaseSchedulerEntryMessageListener {
 
-	/*	@Activate
+		@Activate
 	@Modified
 	protected void activate() {
 		// Tous les jours à 4h
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), "0 0 4 * * ?"));
+				getEventListenerClass(), "0 0 5 * * ?"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
-	}*/
+	}
 
 	@Override
 	protected void doReceive(Message message) throws JSONException, PortalException, IOException, ParseException {

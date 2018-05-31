@@ -67,9 +67,11 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, java.lang.String categories, long groupId,
-		java.lang.String typeContenu) {
-		return getService().getPois(interests, categories, groupId, typeContenu);
+		java.lang.String interests, java.lang.String categories,
+		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
+		return getService()
+				   .getPois(interests, categories, prefilters, groupId,
+			typeContenu);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
@@ -92,10 +94,11 @@ public class StrasbourgServiceUtil {
 		return getService().getFavoritesPoisCount(groupId, typeContenu);
 	}
 
-	public static int getPoisCategoryCount(long idCategory, long groupId,
-		java.lang.String typeContenu) {
+	public static int getPoisCategoryCount(long idCategory,
+		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
 		return getService()
-				   .getPoisCategoryCount(idCategory, groupId, typeContenu);
+				   .getPoisCategoryCount(idCategory, prefilters, groupId,
+			typeContenu);
 	}
 
 	public static int getPoisInterestCount(long idCategory, long groupId,

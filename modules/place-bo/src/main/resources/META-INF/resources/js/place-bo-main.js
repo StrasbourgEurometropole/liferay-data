@@ -250,23 +250,15 @@ function addSlot(idPeriod, jour, indexSlot, heureDebutLundi, heureFinLundi) {
 }
 
 function comparDatesYMD(startDate, endDate) {
-	var date1 = new Date();
-	date1.setFullYear(startDate.substr(0, 4));
-	date1.setMonth(startDate.substr(5, 2) -1);
-	date1.setDate(startDate.substr(8, 2));
-	date1.setHours(0);
-	date1.setMinutes(0);
-	date1.setSeconds(0);
-	date1.setMilliseconds(0);
+	var startDay = parseInt(startDate.substr(8, 2));
+	var startMonth = parseInt(startDate.substr(5, 2)) - 1;
+	var startYear = parseInt(startDate.substr(0, 4));
+	var date1 = new Date(startDay, startMonth, startYear, 0, 0, 0, 0);
 
-	var date2 = new Date();
-	date2.setFullYear(endDate.substr(0, 4));
-	date2.setMonth(endDate.substr(5, 2) -1);
-	date2.setDate(endDate.substr(8, 2));
-	date2.setHours(0);
-	date2.setMinutes(0);
-	date2.setSeconds(0);
-	date2.setMilliseconds(0);
+    var endDay = parseInt(startDate.substr(8, 2));
+    var endMonth = parseInt(startDate.substr(5, 2)) - 1;
+    var endYear = parseInt(startDate.substr(0, 4));
+    var date2 = new Date(endDay, endMonth, endYear, 0, 0, 0, 0);
 
 	// si la date d'arrviée et superieur a la date de depart en afficher un
 	// message d'erreur

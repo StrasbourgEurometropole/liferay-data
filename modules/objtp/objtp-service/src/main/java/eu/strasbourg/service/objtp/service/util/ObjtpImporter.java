@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,9 +30,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
-import eu.strasbourg.service.objtp.service.FoundObjectLocalService;
 import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
-import eu.strasbourg.service.objtp.service.ObjectCategoryLocalService;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
@@ -323,9 +319,15 @@ public class ObjtpImporter {
 		    serviceContext.setAddGroupPermissions(true);
 		    serviceContext.setAddGuestPermissions(true);
 		    
+		    Folder objtpFolder = null;
+		    try {
 			// on récupère le dossier "Objets trouves" présent dans Global
-			Folder objtpFolder = DLAppServiceUtil.getFolder(repositoryId,0,"Objets trouves");
-			
+			objtpFolder = DLAppServiceUtil.getFolder(repositoryId,0,"Objets trouves");
+		    }
+			catch(PortalException e) {
+				// Il lance une erreur s'il ne trouve rien
+				// Or la première fois, on veut créer le dossier, donc ça plantera forcément
+			}
 			// S'il n'existe pas, on le crée
 			if(objtpFolder == null) {
 				objtpFolder = DLAppServiceUtil.addFolder(
@@ -336,8 +338,15 @@ public class ObjtpImporter {
 			            , serviceContext);;
 			}
 			
-			FileEntry existingObjectImage =  DLAppServiceUtil.getFileEntry(globalGroupId, objtpFolder.getFolderId(), object.getNumber());
 			
+			 FileEntry existingObjectImage = null;
+			 try {
+			 existingObjectImage =  DLAppServiceUtil.getFileEntry(globalGroupId, objtpFolder.getFolderId(), object.getNumber());
+			 }
+				catch(PortalException e) {
+					// Il lance une erreur s'il ne trouve rien
+					// Or ça peut très largement arrivé qu'il ne trouve rien pour des nouveauxs objets trouvés
+				}
 			if(existingObjectImage != null) {
 				DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, objtpFolder.getFolderId(), object.getNumber());
 			}

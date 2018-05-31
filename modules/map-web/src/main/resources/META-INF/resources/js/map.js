@@ -246,13 +246,14 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, categories) {
+            var addInterestsMarkers = function(markers, interests, categories, prefilters) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-pois', {
                         interests: interests,
                         categories: categories,
+                        prefilters: prefilters,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu
                     },
@@ -292,10 +293,9 @@
                         }
                     }
                 }
-                // ajout des catégories cochées par défaut
-                if(categories != '')
-                	categories += ",";
-            	categories +=  window.prefilterCategoriesIds;
+
+                // Préfiltres
+            	var prefilters = window.prefilterCategoriesIds;
 
                 // Récupération des centres d'intérêts à afficher
                 var interests = "";
@@ -316,7 +316,7 @@
 
                 // Récupération des données concernant les centres d'intérêt
                 if (interests.length > 0 || categories.length > 0) {
-                    addInterestsMarkers(markers, interests, categories);
+                    addInterestsMarkers(markers, interests, categories, prefilters);
                 }
 
                 // Récupération des données concernant les favoris

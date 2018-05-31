@@ -6963,7 +6963,7 @@ function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 3;
     if(elements[0].indexOf('big') != -1){
-        itemSeparator = 3;
+        itemSeparator = 4;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
@@ -6974,7 +6974,11 @@ function addToSlider(conf, elements){
     
     elements.forEach(function(element, index) {
         if(index%itemSeparator == 0 && index > 0){
-            nodeStringToAdd += '</div><div class="'+conf.pages_class+'">';
+            nodeStringToAdd += '</div><div class="'+conf.pages_class
+            if(elements[0].indexOf('big') != -1){
+                nodeStringToAdd += ' '+conf.is_Big_Class;
+            }
+            nodeStringToAdd += '"">';
         }
         nodeStringToAdd += element;
     }, this);
@@ -15490,98 +15494,6 @@ $(document).ready(function(){
 	}); 
 }(jQuery));
 
-/**
- * MegaSlider
- * 
- * @description - Affiche un slider comportant plusieurs éléments par pages, triable par catégorie. Le slider est construit automatiquement à partir d'un flux de donnée en JS au format simple:
- *  sources = [
- *  {
- *      "category": "macatégorie",
- *      "info en tout genre": "moninfo",
- *      etc...
- *  },
- * etc...
- * ]
- * 
- * A besoin pour fonctionner:
- *      - un objet de configuration
- *      - un flux de donnée à afficher, stocké dans un objet JS (exemple ici mega_source  stockés dans index.html)
- *      - L'architecture html du slider
- *      - Un lot de template pour chaque catégorie d'item présent dans le slider, contenant des placeholders ##infosàremplacer## pour chaque entrée du flux de donnée (ici stockés dans index.html)
- *
- * @Lancement:
- *      - lancer d'abord getSources(monObjetSource, monObjetDeConfiguration); (à ne faire qu'une fois)
- *      - appeler megaSlider(monObjetDeConfiguration, maCategorie);
- *      - Ajouter les évènements au click sur les filtres de catégorie (optionnel)
- */
-
-
-/**
- * Configuration object 
- */
-
-var mega = {
-    can_animate: true,
-    $slider: $('.slider-mega-container .slider'),
-    $prev: $('.slider-mega-container .owl-prev'),
-    $next: $('.slider-mega-container .owl-next'),
-    $pages: $('.slider-mega-container .page'),
-    pages_class: 'page',
-    hasPicture_class: 'has-picture',
-    hasVille_class: 'has-ville',
-    is_Big_Class: 'big',
-    $items: $('.slider-mega-container .item'),
-    $filters: $('.actu-filter'),
-    $template_agenda: $('#mega-templates .event'),
-    $template_actu: $('#mega-templates .actu'),
-    $template_mag: $('#mega-templates .mag'),
-    $loader: $('#mega-loader')
-};
-
-/**
- * Suite d'appels permettant de construire un mega-slider à la une en fonction d'une catégorie
- * @param {string} category - Catégorie à afficher
- */
-function megaSlider(slider, category){
-    destroySlider(slider);
-    removeAllItems(slider);
-    majItems(category, slider);
-    buildSlider(slider);
-    dot();
-}
-if(mega.$slider.length){
-    $(document).ready(function(){
-        // Initialisation slider mega 
-        getSources(mega_source, mega);
-        megaSlider(mega, 'tous');
-
-        // Gestion des filtres slider mega
-        mega.$filters.on('click', function(e){
-            if(mega.can_animate){
-                mega.can_animate = false;
-                var $filter = $(this),
-                    category = $filter.attr('data-category');
-                mega.$filters.removeClass('actif');
-                $filter.addClass('actif');
-                mega.$slider.addClass('animate-out');
-                setTimeout(function(){
-                    megaSlider(mega, category);
-                    mega.$slider.removeClass('animate-out');
-                    mega.can_animate = true;
-                }, 800);
-            }
-        });
-
-        // Reload des slider au resize pour le RWD
-        $(window).resize(function(){
-            if(environmentChanged){
-                megaSlider(mega, 'tous');
-        }
-    });
-});
-    
-}
-
 (function ($) {
     $(document).ready(function(){
         var $alertSlider = $('#alert-slider');
@@ -15597,6 +15509,103 @@ if(mega.$slider.length){
     });
  }(jQuery));
 
+/**
+ * MegaSlider
+ * 
+ * @description - Affiche X slider(s) comportant plusieurs éléments par pages, triable par catégorie. Un slider est construit automatiquement à partir d'un flux de donnée en JS au format simple:
+ *  sources = [
+ *  {
+ *      "category": "macatégorie",
+ *      "info en tout genre": "moninfo",
+ *      etc...
+ *  },
+ * etc...
+ * ]
+ * 
+ * A besoin pour fonctionner:
+ *      - une liste d'objets de configuration
+ *      - X flux de données à afficher, stocké(s) dans un objet JS (exemple ici mega_source_...  stockés dans index.html)
+ *      - L'architecture html du slider
+ *      - Un lot de template pour chaque catégorie d'item présent dans le slider, contenant des placeholders ##infosàremplacer## pour chaque entrée du flux de donnée (ici stockés dans index.html)
+ *
+ * @Lancement:
+ *      - lancer d'abord getSources(monObjetSource, monObjetDeConfiguration); (à ne faire qu'une fois)
+ *      - appeler megaSlider(monObjetDeConfiguration, maCategorie);
+ *      - Ajouter les évènements au click sur les filtres de catégorie (optionnel)
+ */
+
+
+/**
+ * Configuration object 
+ */
+$(document).ready(function(){
+    var list_mega = [];
+    $('.slider--mega').each(function(index, element) {
+
+        list_mega[index] = {
+            can_animate: true,
+            $slider: $(element).find('.slider'),
+            $prev: $(element).find('.owl-prev'),
+            $next: $(element).find('.owl-next'),
+            $pages: $(element).find('.page'),
+            pages_class: 'page',
+            hasPicture_class: 'has-picture',
+            hasVille_class: 'has-ville',
+            is_Big_Class: 'big',
+            $items: $(element).find('.item'),
+            $filters: $(element).find('.actu-filter'),
+            $template_agenda: $(element).find('.event'),
+            $template_actu: $(element).find('.actu'),
+            $template_mag: $(element).find('.mag'),
+            $loader: $(element).find('#mega-loader')
+        }
+
+        // Initialisation slider mega 
+        getSources(mega_source[index], list_mega[index]);
+        megaSlider(list_mega[index], 'tous');
+
+        // Gestion des filtres slider mega
+        list_mega[index].$filters.on('click', function(e){
+            if(list_mega[index].can_animate){
+                list_mega[index].can_animate = false;
+                var $filter = $(this),
+                    category = $filter.attr('data-category');
+                list_mega[index].$filters.removeClass('actif');
+                $filter.addClass('actif');
+                list_mega[index].$slider.addClass('animate-out');
+                setTimeout(function(){
+                    megaSlider(list_mega[index], category);
+                    list_mega[index].$slider.removeClass('animate-out');
+                    list_mega[index].can_animate = true;
+                }, 800);
+            }
+        });
+    });
+
+    // Reload des slider au resize pour le RWD
+    $(window).resize(function(){
+        if(environmentChanged){
+            $('.slider--mega').each(function(index, element) {
+                megaSlider(list_mega[index], 'tous');
+            })
+        }
+    });
+});
+
+
+
+/**
+ * Suite d'appels permettant de construire un mega-slider à la une en fonction d'une catégorie
+ * @param {string} category - Catégorie à afficher
+ */
+function megaSlider(slider, category){
+    destroySlider(slider);
+    removeAllItems(slider);
+    majItems(category, slider);
+    buildSlider(slider);
+    dot();
+}
+
 (function ($) {
     
     $(document).ready(function(){
@@ -15604,13 +15613,26 @@ if(mega.$slider.length){
             $list = $('.notification-list'),
             $inputs = $list.find('input[type="checkbox"]');
 
-
             $inputs.on('change', function(){
+                $notifAmount = $('.notif-amount')[0];
                 var $item = $(this).closest('.notification-list__item');
                 if(!$item.hasClass('notification-list__item--read')){
                     $item.addClass('notification-list__item--read');
+                    if (Number($notifAmount.innerText)-1 == 0) {
+                        $notifAmount.remove();
+                    } else {
+                        $notifAmount.innerText =Number($notifAmount.innerText)-1;
+                    }
                 }else{
                     $item.removeClass('notification-list__item--read');
+                    if ($notifAmount == undefined) {
+                        var iDiv = document.createElement('div');
+                        iDiv.innerText = 1;
+                        iDiv.className = 'notif-amount';
+                        $('.notif-picto')[0].appendChild(iDiv);
+                    } else {
+                        $notifAmount.innerText =Number($notifAmount.innerText)+1;
+                    }
                 }
             });
         }
@@ -15698,6 +15720,134 @@ if(mega.$slider.length){
     });
 }(jQuery)); 
 
+$(function() {
+    // Si l'utilisateur a un favoris à ajouté via son sessionStorage, on l'ajoute
+    var favoriteToAdd = window.sessionStorage.getItem("favorite");
+    if (favoriteToAdd && favoriteToAdd.length > 0) {
+        favoriteToAdd = JSON.parse(favoriteToAdd),
+        Liferay.Service(
+            '/favorite.favorite/add-favorite-link',
+            favoriteToAdd,
+            function(obj) {
+                if (obj.hasOwnProperty('success')) {
+                    var favoriteButton = $('[data-type=' + favoriteToAdd.typeId + '][data-id=' + favoriteToAdd.entityId + ']');
+                    if(favoriteButton.length > 0) {
+                        favoriteButton.addClass('liked');
+                        favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+                    }
+                    window.sessionStorage.setItem("favorite", "");
+                }
+            }
+        );
+    }
+
+    // On parcourt les favoris utilisateurs et on modfie les boutons correspondant sur la page
+    if (window.userFavorites) {
+        var i;
+        for (i = 0; i < window.userFavorites.length; i++) {
+            var favoriteButton = $('[data-type=' + window.userFavorites[i].typeId + '][data-id=' + window.userFavorites[i].entityId + ']')
+            if (favoriteButton.length > 0) {
+                favoriteButton.addClass('liked');
+                favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+            }
+        }
+    }
+
+/*
+    var elements = $('.seu-add-favorites, .add-favorites, .item-misc');
+    if (elements) {
+        elements.each(function(i) {
+            var favorite = $(this);
+            if (window.userFavorites) {
+                $.each(window.userFavorites, function(index, value) {
+                    if (favorite.data("id") == this.entityId) {
+                        favorite[0].classList.add('liked'); // TO SIMPLIFY
+                        favorite[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+                    }
+                });
+            }
+        });
+    }
+*/
+});
+
+$(function() {
+    // Lors du clic sur un bouton "ajouter aux favoris"
+    $(document).on("click", '.seu-add-favorites, .add-favorites, .item-misc', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var htmlA = $(this);
+        var url = $(this).data("url");
+        var id = $(this).data("id");
+        var groupId = $(this).data("groupId") ? $(this).data("groupId") : 0;
+        var type = $(this).data("type");
+        var title = $(this).data("title");
+
+        // Si le favoris a déjà été ajouté par l'utilisateur
+        if (htmlA[0].classList.contains('liked')) {
+            // On appelle le WS pour supprimer le favoris
+            Liferay.Service(
+                '/favorite.favorite/delete-favorite-link', {
+                    title: title,
+                    url: url,
+                    typeId: type,
+                    entityId: id
+                },
+                function(obj) {
+                    // En cas de succès, on modifie le bouton
+                    if (obj.hasOwnProperty('success')) {
+                        htmlA[0].classList.remove('liked');
+                        htmlA[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+                    }
+                    // Sinon on affiche un message d'erreur
+                    else if (obj.hasOwnProperty('error')) {
+                        if (obj['error'] == 'notConnected')
+                            // Si l'utilisateur n'est pas connecté
+                            window.createPopin('Veuillez vous connecter pour retirer un favori.');
+                        else {
+                            // Autre erreur
+                            console.log(obj['error']);
+                            window.createPopin('Une erreur est survenue.');
+                        }
+                    }
+                }
+            );
+        } else {
+            // Sinon appel du WS pour ajouter un favoris
+            var favoriteToAdd = {
+                title: title,
+                url: url,
+                typeId: type,
+                entityId: id,
+                entityGroupId: groupId
+            };
+            Liferay.Service(
+                '/favorite.favorite/add-favorite-link',
+                favoriteToAdd,
+                function(obj) {
+                    if (obj.hasOwnProperty('success')) {
+                        htmlA[0].classList.add('liked');
+                        htmlA[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+                    } else if (obj.hasOwnProperty('error')) {
+                        if (obj['error'] == 'notConnected')
+                        window.createPopin('Veuillez vous connecter pour ajouter un favori.', function() {
+                            // Si l'utilisateur n'est pas connecté, on ajoute à son LocalStorage le favoris
+                            // On l'ajoutera la prochaine fois qu'il arrive sur la page en étant connecté
+                            window.sessionStorage.setItem("favorite", JSON.stringify(favoriteToAdd));
+                            window.location = window.loginURL;
+                        }, undefined, 'Se connecter', 'Annuler');
+                        else {
+                            console.log(obj['error']);
+                            window.createPopin('Une erreur est survenue.');
+                        }
+                    }
+
+                }
+            );
+        }
+    });
+});
 (function ($) {
 	if ($('.front').length) {
 		$(document).ready(function() {

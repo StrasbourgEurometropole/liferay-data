@@ -23,12 +23,16 @@
         margin-bottom: 40px;
     }
 
-    p {
+    p, ul {
         font-family: $opensans;
         font-size: 1.8rem;
         font-weight: 400;
         color: #31455d;
         margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: disc;
     }
 
     h3{

@@ -1,0 +1,53 @@
+#th-global{
+
+	.pro-actu{
+		padding: 20px 0;
+		@include mobile{
+			padding-top: 60px;
+		}
+		@include mobile_small{
+			padding-top: 40px;
+		}
+		header{
+			text-align: center;
+
+			h1{
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.267em);
+				text-transform: uppercase;
+				margin-bottom: 0;
+			}
+			figure{
+				margin: 20px 0;
+				img{
+					width: 100%;
+					height: 100%;
+					@include mobile{
+						height: 300px;
+					}
+				}
+			}
+		}
+
+		#breadcrumb{
+			margin-bottom: 20px;
+		}
+
+
+		.pro-content{
+			position: relative;
+			margin-top: 15px;
+			@include tablet_portrait{
+				padding: 0;
+			}
+
+			> * {
+				&:last-child{
+					margin-bottom: 0;
+				}
+			}
+
+		}
+
+	}
+
+}

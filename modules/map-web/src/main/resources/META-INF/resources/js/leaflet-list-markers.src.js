@@ -93,7 +93,7 @@ L.Control.ListMarkers = L.Control.extend({
 					}
 				});
 			}, this)
-//			.on(a, 'click', function(e) {				
+//			.on(a, 'click', function(e) {
 //				this._toggleDisplay(layer);
 //			}, this)
 			.on(a, 'mouseover', function(e) {
@@ -101,8 +101,8 @@ L.Control.ListMarkers = L.Control.extend({
 			}, this)
 			.on(a, 'mouseout', function(e) {
 				that.fire('item-mouseout', {layer: layer });
-			}, this);	
-		
+			}, this);
+
 		console.log('_createItem',layer.options);
 
 		if( layer.options.hasOwnProperty(this.options.label) )
@@ -144,7 +144,7 @@ L.Control.ListMarkers = L.Control.extend({
 				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
 			}
 			lienFavori += '</a>';
-		    div.innerHTML += lienFavori;
+		    a.insertAdjacentHTML('afterend', lienFavori);
 		}
 
 		return div;

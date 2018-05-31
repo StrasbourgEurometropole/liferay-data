@@ -40,7 +40,7 @@
 			<h1><liferay-ui:message key="title-schedule" /> ${category.getTitle(locale)}</h1>
 
 			<!-- Formulaire de recherche -->
-			<aui:form action="${searchURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
+			<aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 				<div class="seu-filter-line">
 				    <div class="widget" style="width: calc( 50% - 15px);">
 				        <div class="title">
@@ -411,7 +411,7 @@
 							</li>
 						</c:forEach>
 					</ul>
-					<a href="#"
+					<a href=""
 						class="btn-more-schedules seu-btn-square seu-bordered seu-core" 
 						title="${place.getAlias(locale)}" style="display: ${(nbExceptions <= 4) ? 'none' : 'inline-block'};"> 
 							<span class="seu-flexbox"> 
@@ -419,7 +419,7 @@
 								<span class="seu-btn-arrow" style="transform: rotateZ(90deg);"></span> 
 							</span>
 					</a>
-					<a href="#"
+					<a href=""
 						class="btn-less-schedules seu-btn-square seu-bordered seu-core" 
 						title="${place.getAlias(locale)}" style="display: none;"> 
 							<span class="seu-flexbox"> 

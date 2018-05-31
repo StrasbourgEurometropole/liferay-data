@@ -98,6 +98,8 @@ create table agenda_Event (
 	description TEXT null,
 	externalImageURL VARCHAR(255) null,
 	externalImageCopyright VARCHAR(400) null,
+	imageWidth INTEGER,
+	imageHeight INTEGER,
 	placeSIGId VARCHAR(75) null,
 	placeName STRING null,
 	placeStreetNumber VARCHAR(75) null,

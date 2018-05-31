@@ -2,7 +2,17 @@
 
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
-var plugins = require('gulp-load-plugins')();
+var plugins = require('gulp-load-plugins')({
+    rename: {
+        'gulp-clean-css': 'cleancss',
+        'gulp-sass-import-json': 'jsonToSass',
+        'gulp-ruby-sass': 'rubysass',
+        'gulp-require-tasks': 'requireTask',
+        'gulp-ext-replace': 'extReplace',
+        'gulp-sass-glob': 'globs'
+    }
+});
+var rename = require('gulp-rename');
 var del = require('del');
 
 liferayThemeTasks.registerTasks({

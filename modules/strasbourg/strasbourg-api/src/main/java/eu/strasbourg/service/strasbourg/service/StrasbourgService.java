@@ -72,7 +72,8 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPois(java.lang.String interests,
-		java.lang.String categories, long groupId, java.lang.String typeContenu);
+		java.lang.String categories, java.lang.String prefilters, long groupId,
+		java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPois(java.lang.String interests, long groupId);
@@ -88,8 +89,8 @@ public interface StrasbourgService extends BaseService {
 	public int getFavoritesPoisCount(long groupId, java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPoisCategoryCount(long idCategory, long groupId,
-		java.lang.String typeContenu);
+	public int getPoisCategoryCount(long idCategory,
+		java.lang.String prefilters, long groupId, java.lang.String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getPoisInterestCount(long idCategory, long groupId,

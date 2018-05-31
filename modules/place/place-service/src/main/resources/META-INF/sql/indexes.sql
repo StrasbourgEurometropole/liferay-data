@@ -1,4 +1,5 @@
 create index IX_20653473 on place_Period (placeId);
+create index IX_F6054B35 on place_Period (subPlaceId);
 create index IX_FF05E735 on place_Period (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_9DFD4BE7 on place_Place (SIGid[$COLUMN_LENGTH:75$]);

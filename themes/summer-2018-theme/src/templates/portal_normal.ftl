@@ -17,8 +17,8 @@
 
     <@liferay_util["include"] page=top_head_include />
     
-    <link href="/o/noel-theme/css/t_main.css" rel="stylesheet">
-    
+    <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
   </head>
 
 
@@ -36,11 +36,17 @@
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>
-                    <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/noel-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
+                    <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/summer-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
                 </div>
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
+                    <a href="${homeURL}/contact" class="mns-contact-link" title="Contact">
+                      <span class="mns-contact">
+                        <span class="mns-picto-contact"></span>
+                        <span class="mns-text">Contact</span>
+                      </span>    
+                    </a>
                     <a href="/fr${homeURL}${layout.friendlyURL}">FR</a>
                     <a href="/de${homeURL}${layout.friendlyURL}" title="Deutsch">DE</a>
                     <a href="/en${homeURL}${layout.friendlyURL}" title="English">EN</a>
@@ -74,7 +80,7 @@
     define._amd = define.amd;
     define.amd = false;
     </script>
-    <script src="/o/noel-theme/js/t_main.js"></script>
+    <script src="/o/summer-2018-theme/js/t_main.js"></script>
     <script>
     define.amd = define._amd;
     </script>

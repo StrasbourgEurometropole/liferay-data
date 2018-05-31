@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -125,6 +127,8 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 			place.setRTEnabled(true);
 			place.setRTLastUpdate(new Date());
 			_placeLocalService.updatePlace(place);
+			Indexer<Place> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Place.class);
+			indexer.reindex(place);
 
 			/*
 			 * System.out.println("Enabled : " + place.getRTEnabled());

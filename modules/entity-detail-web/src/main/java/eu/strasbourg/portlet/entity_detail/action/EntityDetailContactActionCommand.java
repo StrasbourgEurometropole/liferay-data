@@ -67,6 +67,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		String message = ParamUtil.getString(request, "message");
 		String firstName = ParamUtil.getString(request, "firstName");
 		String lastName = ParamUtil.getString(request, "lastName");
+		String websiteName = themeDisplay.getScopeGroup().getName(request.getLocale());
 		boolean notificationEmail = ParamUtil.getBoolean(request, "notificationEmail");
 		
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -74,7 +75,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		String time = dateTime.format(DateTimeFormatter.ofPattern("hh:mm"));
 		context.put("date", date);
 		context.put("time", time);
-		context.put("website", themeDisplay.getScopeGroup().getName(request.getLocale()));
+		context.put("website", websiteName);
 		context.put("firstName", firstName);
 		context.put("lastName", lastName);
 		context.put("content", message);
@@ -92,11 +93,11 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			// Validation
 			String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
 			boolean hasError = false;
-			if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
+		/*	if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
 				SessionErrors.add(request, "recaptcha-error");
 				hasError = true;
 			}
-			// Champs vides
+		*/	// Champs vides
 			if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(firstName)
 					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
 				SessionErrors.add(request, "all-fields-required");
@@ -111,7 +112,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			if (!hasError) {
 				SessionMessages.add(request, "mail-success");
 				request.setAttribute("mailSent", true);
-				boolean success = MailHelper.sendMailWithPlainText("no-reply@no-reply.strasbourg.eu", to, subjectWriter.toString(), bodyWriter.toString());
+				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to, subjectWriter.toString(), bodyWriter.toString());
 	
 				// Envoi du mail à l'utilisateur
 				if (success && notificationEmail) {
@@ -136,7 +137,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					subjectCopyTemplate.process(context, subjectCopyWriter);
 					bodyCopyTemplate.process(context, bodyCopyWriter);
 					
-					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", email, subjectCopyWriter.toString(), bodyCopyWriter.toString());
+					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email, subjectCopyWriter.toString(), bodyCopyWriter.toString());
 				}
 				return success;
 			}

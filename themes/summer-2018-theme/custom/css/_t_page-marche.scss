@@ -94,12 +94,12 @@
 				}
 			}
 			.mns-title-legende{
-				@include ft($f_hx, 18px, 700, $c_txt, 18px);	
+				@include ft($f_ms, 18px, 700, $c_txt, 18px);	
 				display: block;
 				margin-bottom: 10px;
 			}
 			p{
-				@include ft($f_txt, 16px, 400, $c_txt, normal);
+				@include ft($f_ms, 17.5px, 300, $c_txt, normal);
 				margin: 0;
 			}
 		}
@@ -141,7 +141,7 @@
 					margin: 0 5px;
 				}
 				span:not(.icon-plus){
-					@include ft($f_txt, 16px, 700, $c_white, 18px);	
+					@include ft($f_ms, 16px, 700, $c_white, 18px);	
 					text-transform: uppercase;
 				}
 				span.icon-plus{
@@ -162,7 +162,7 @@
 		padding-top: 0; 
 		padding-bottom: 50px;
 		h2{
-			@include ft($f_hx, 78px, 700, $c_txt, 54px);	
+			@include ft($f_ms, 78px, 700, $c_txt, 54px);	
 			display: block;
 			text-align: right;
 			margin-bottom: 50px;

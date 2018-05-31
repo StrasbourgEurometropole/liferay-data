@@ -4001,7 +4001,7 @@ a {
             transform: translate3d(0, 0, 0); } }
 
 /* line 2, custom/02-particules/01-shared/animations/_quark-animation-hoverBar.scss */
-#grid--list01 .grid-item .item-infos .item-misc span:after, .event-highlight .item-infos .item-misc span:after, .mseu header .nav-top .nav-btn .text:after, .mseu .not-front .add-favorites span:after {
+#grid--list01 .grid-item .item-infos .item-misc span:after, .event-highlight .item-infos .item-misc span:after, .mseu header .nav-top .nav-btn .text:after, .mseu .add-favorites span:after {
   content: '';
   display: block;
   width: 100%;
@@ -4015,7 +4015,7 @@ a {
   top: calc(100% + 3px); }
 
 /* line 13, custom/02-particules/01-shared/animations/_quark-animation-hoverBar.scss */
-#grid--list01 .grid-item .item-infos .item-misc:hover span:after, .event-highlight .item-infos .item-misc:hover span:after, #grid--list01 .grid-item .item-infos .item-misc:focus span:after, .event-highlight .item-infos .item-misc:focus span:after, .mseu header .nav-top .nav-btn:hover .text:after, .mseu header .nav-top .nav-btn:focus .text:after, .mseu .not-front .add-favorites:hover span:after, .mseu .not-front .add-favorites:focus span:after {
+#grid--list01 .grid-item .item-infos .item-misc:hover span:after, .event-highlight .item-infos .item-misc:hover span:after, #grid--list01 .grid-item .item-infos .item-misc:focus span:after, .event-highlight .item-infos .item-misc:focus span:after, .mseu header .nav-top .nav-btn:hover .text:after, .mseu header .nav-top .nav-btn:focus .text:after, .mseu .add-favorites:hover span:after, .mseu .add-favorites:focus span:after {
   -webkit-transform: translateY(0);
           transform: translateY(0);
   opacity: 1; }
@@ -4024,7 +4024,7 @@ a {
 .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
 .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
 .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
-.mseu-main-form textarea, #bills form input, #serial input {
+.mseu-main-form textarea, #bills form input, #mediatheque form input, #serial input {
   font-family: "OpenSans", arial;
   color: #505050;
   font-size: 1.8rem;
@@ -4032,14 +4032,14 @@ a {
 
 /* line 7, custom/02-particules/01-shared/typos/_quark-typo-forms.scss */
 .view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option),
-.mseu-main-form label:not(.option), #bills form label {
+.mseu-main-form label:not(.option), #bills form label, #mediatheque form label {
   font-weight: 600;
   font-family: "OpenSans", arial;
   color: #505050;
   font-size: 1.8rem; }
 
 /* line 1, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-.mseu .not-front h1 {
+.mseu .not-front h1, .aroundme--title {
   font-size: 3.5rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -4048,7 +4048,7 @@ a {
   line-height: 1.2; }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-    .mseu .not-front h1 {
+    .mseu .not-front h1, .aroundme--title {
       font-size: 2.5rem; } }
 
 /* line 14, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
@@ -4123,7 +4123,7 @@ a {
       font-size: 1.6rem; } }
 
 /* line 71, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-#actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #serial h2, #survey h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, #welcome-page .create-account-section h2, #welcome-page .description-section h2 {
+#districts-configuration h1, #ecoles h1, #elu h1, #direction h1, #mairie h1, #sliders h1, #districts-configuration h3, #ecoles h3, #elu h3, #direction h3, #mairie h3, #sliders h3, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, #welcome-page .create-account-section h2, #welcome-page .description-section h2 {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 3.5rem;
@@ -4539,7 +4539,7 @@ a {
 .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
 .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
 .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
-.mseu-main-form textarea, #bills form input, #serial input {
+.mseu-main-form textarea, #bills form input, #mediatheque form input, #serial input {
   width: 100%;
   height: 50px;
   background-color: #f6f6f6;
@@ -4553,7 +4553,7 @@ a {
   .view-filters .select2 .select2-selection:focus, .generic-form .select2 .select2-selection:focus, #rub_service .select2 .select2-selection:focus,
   .mseu-main-form .select2 .select2-selection:focus, .view-filters .filter-line .content input:focus, .view-filters input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
   .mseu-main-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea:focus, .generic-form textarea:focus, #rub_service textarea:focus,
-  .mseu-main-form textarea:focus, #bills form input:focus, #serial input:focus {
+  .mseu-main-form textarea:focus, #bills form input:focus, #mediatheque form input:focus, #serial input:focus {
     border-color: #31455d;
     outline: none;
     background-color: #FFFFFF; }
@@ -4561,7 +4561,7 @@ a {
   .view-filters .select2 .select2-selection::-webkit-input-placeholder, .generic-form .select2 .select2-selection::-webkit-input-placeholder, #rub_service .select2 .select2-selection::-webkit-input-placeholder,
   .mseu-main-form .select2 .select2-selection::-webkit-input-placeholder, .view-filters .filter-line .content input::-webkit-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .view-filters textarea::-webkit-input-placeholder, .generic-form textarea::-webkit-input-placeholder, #rub_service textarea::-webkit-input-placeholder,
-  .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
+  .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #mediatheque form input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4570,7 +4570,7 @@ a {
   .view-filters .select2 .select2-selection::-moz-placeholder, .generic-form .select2 .select2-selection::-moz-placeholder, #rub_service .select2 .select2-selection::-moz-placeholder,
   .mseu-main-form .select2 .select2-selection::-moz-placeholder, .view-filters .filter-line .content input::-moz-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .view-filters textarea::-moz-placeholder, .generic-form textarea::-moz-placeholder, #rub_service textarea::-moz-placeholder,
-  .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #serial input::-moz-placeholder {
+  .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #mediatheque form input::-moz-placeholder, #serial input::-moz-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4579,7 +4579,7 @@ a {
   .view-filters .select2 .select2-selection::-ms-input-placeholder, .generic-form .select2 .select2-selection::-ms-input-placeholder, #rub_service .select2 .select2-selection::-ms-input-placeholder,
   .mseu-main-form .select2 .select2-selection::-ms-input-placeholder, .view-filters .filter-line .content input::-ms-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .view-filters textarea::-ms-input-placeholder, .generic-form textarea::-ms-input-placeholder, #rub_service textarea::-ms-input-placeholder,
-  .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
+  .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #mediatheque form input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4640,16 +4640,16 @@ a {
     opacity: 1; }
 
 /* line 2, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .error {
+#bills form .error, #mediatheque form .error {
   border-color: #ff1818 !important; }
 
 /* line 5, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form span.error {
+#bills form span.error, #mediatheque form span.error {
   color: #ff1818;
   margin-top: 5px; }
 
 /* line 9, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .valid {
+#bills form .valid, #mediatheque form .valid {
   border-color: #31455d !important; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
@@ -4732,7 +4732,7 @@ a {
     display: none; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-headings.scss */
-.mseu .not-front h1 {
+.mseu .not-front h1, .aroundme--title {
   text-align: center; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-links.scss */
@@ -5351,344 +5351,6 @@ a {
       width: 100%;
       margin-left: 0; } }
 
-/* line 1, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-#slider--mega .slider-mega-container .owl-nav .owl-prev, #slider--mega .slider-mega-container .owl-nav .owl-next {
-  position: absolute;
-  top: 0;
-  -webkit-transition: all, 0.5s;
-  transition: all, 0.5s;
-  cursor: pointer;
-  content: '';
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 50px;
-  height: 100%;
-  z-index: 100; }
-  /* line 14, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-  #slider--mega .slider-mega-container .owl-nav .owl-prev .picto, #slider--mega .slider-mega-container .owl-nav .owl-next .picto {
-    background-size: 25px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
-    z-index: 10;
-    height: 50px;
-    width: 50px;
-    background-color: #46cfc0;
-    border-radius: 50%;
-    position: relative;
-    left: 30px; }
-    @media only screen and (max-width: 1279px) {
-      /* line 14, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-      #slider--mega .slider-mega-container .owl-nav .owl-prev .picto, #slider--mega .slider-mega-container .owl-nav .owl-next .picto {
-        width: 35px;
-        height: 35px;
-        background-size: 20px; } }
-    @media only screen and (max-width: 767px) {
-      /* line 14, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-      #slider--mega .slider-mega-container .owl-nav .owl-prev .picto, #slider--mega .slider-mega-container .owl-nav .owl-next .picto {
-        left: 35px;
-        width: 40px;
-        height: 40px;
-        background-size: 18px; } }
-  /* line 39, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-  #slider--mega .slider-mega-container .owl-nav .owl-prev .flexbox, #slider--mega .slider-mega-container .owl-nav .owl-next .flexbox {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
-  /* line 45, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-  #slider--mega .slider-mega-container .owl-nav .owl-prev {
-    -webkit-transform: rotate(180deg);
-            transform: rotate(180deg); }
-  /* line 49, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-  #slider--mega .slider-mega-container .owl-nav .disabled.owl-prev, #slider--mega .slider-mega-container .owl-nav .disabled.owl-next {
-    pointer-events: none;
-    opacity: 0 !important; }
-    @media only screen and (max-width: 767px) {
-      /* line 49, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-arrow--mega.scss */
-      #slider--mega .slider-mega-container .owl-nav .disabled.owl-prev, #slider--mega .slider-mega-container .owl-nav .disabled.owl-next {
-        display: none; } }
-
-/* line 2, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .link {
-  padding: 40px;
-  padding-bottom: 60px;
-  height: 100%;
-  width: 100%;
-  display: block;
-  opacity: 1;
-  -webkit-transition: all, 0.5s;
-  transition: all, 0.5s;
-  background-color: #FFFFFF;
-  position: relative; }
-  /* line 13, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .item .link:hover, #slider--mega .slider-mega-container .slider .owl-item .item .link:focus {
-    text-decoration: none;
-    background-color: #E3E3E3; }
-  @media only screen and (max-width: 767px) {
-    /* line 2, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item .link {
-      padding: 20px;
-      padding-bottom: 60px; } }
-
-/* line 22, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .title {
-  font-family: "MontSerrat", arial;
-  font-weight: 700;
-  font-size: 1.7rem;
-  color: #505050;
-  margin-bottom: 10px;
-  text-transform: uppercase; }
-  @media only screen and (max-width: 767px) {
-    /* line 22, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item .title {
-      font-size: 1.5rem; } }
-
-/* line 34, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .lead {
-  font-family: "OpenSans", arial;
-  font-weight: 600;
-  font-size: 1.4rem;
-  color: #7e7e7e;
-  line-height: 1.8; }
-  @media only screen and (max-width: 767px) {
-    /* line 34, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item .lead {
-      font-size: 1.2rem; } }
-
-/* line 45, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .picture {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100%;
-  position: relative; }
-  /* line 51, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .item .picture:before {
-    opacity: 0;
-    position: absolute;
-    content: '';
-    display: block;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    -webkit-transition: all, 0.5s;
-    transition: all, 0.5s; }
-
-/* line 62, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .date-start {
-  font-size: 2.4rem; }
-
-/* line 65, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .date-end {
-  font-family: "MontSerrat", arial;
-  font-weight: 700;
-  font-size: 3.5rem;
-  color: #46cfc0;
-  text-transform: uppercase;
-  margin-bottom: 40px;
-  line-height: 1;
-  color: #2da192; }
-  @media only screen and (max-width: 767px) {
-    /* line 65, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item .date-end {
-      margin-bottom: 20px; } }
-
-/* line 80, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .item .date-sup {
-  font-family: "MontSerrat", arial;
-  font-weight: 700;
-  font-size: 1.7rem;
-  color: #46cfc0;
-  text-transform: uppercase;
-  color: #2da192; }
-  @media only screen and (max-width: 767px) {
-    /* line 80, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item .date-sup {
-      font-size: 1.2rem; } }
-
-/* line 93, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .actu.item .link {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-
-/* line 98, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .actu.item .picture {
-  padding-bottom: 75%;
-  margin-top: 30px; }
-  @media only screen and (max-width: 767px) {
-    /* line 98, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .actu.item .picture {
-      padding-bottom: 0;
-      -webkit-box-flex: 1;
-          -ms-flex: 1;
-              flex: 1; } }
-
-@media only screen and (min-width: 1280px) {
-  /* line 108, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .actu.big.item .picture {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    margin: 0; }
-  /* line 114, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .actu.big.item .text {
-    height: 50%;
-    width: 50%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    background-color: #FFFFFF;
-    padding: 35px; } }
-
-/* line 126, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .link {
-  padding: 0;
-  background-color: #46cfc0;
-  -webkit-transition: all, 0.5s;
-  transition: all, 0.5s; }
-  /* line 131, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.item .link:hover, #slider--mega .slider-mega-container .slider .owl-item .mag.item .link:focus {
-    background: #3CB0A4; }
-
-/* line 135, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .picture {
-  height: 50%;
-  position: relative; }
-  /* line 138, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.item .picture:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
-    z-index: 1; }
-
-/* line 148, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .text {
-  padding: 30px;
-  padding-bottom: 50px; }
-
-/* line 152, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .title {
-  color: #31455d; }
-
-/* line 155, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .lead {
-  color: #31455d; }
-
-/* line 158, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%) translateY(-20px);
-          transform: translate(-50%, -50%) translateY(-20px);
-  text-align: center;
-  z-index: 10; }
-  /* line 165, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo .mag-text {
-    font-family: "MontSerrat", arial;
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    text-transform: uppercase; }
-  /* line 172, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo .mag-picto {
-    content: '';
-    display: inline-block;
-    width: 60px;
-    height: 20px;
-    background-size: 50px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23FFFFFF' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-
-@media only screen and (min-width: 1280px) {
-  /* line 185, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.big.item .picture {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    margin: 0; }
-  /* line 191, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.big.item .mag-logo {
-    z-index: 20;
-    left: 75%; }
-  /* line 195, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .mag.big.item .text {
-    height: 50%;
-    width: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 10;
-    -webkit-transition: all, 0.5s;
-    transition: all, 0.5s;
-    background-color: #46cfc0; } }
-
-/* line 206, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .mag.big.item .link:hover .text, #slider--mega .slider-mega-container .slider .owl-item .mag.big.item .link:focus .text {
-  background-color: #3CB0A4; }
-
-/* line 217, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .has-picture.item .link:hover .picture:before, #slider--mega .slider-mega-container .slider .owl-item .has-picture.item .link:focus .picture:before {
-  opacity: 1; }
-
-/* line 225, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-#slider--mega .slider-mega-container .slider .owl-item .has-ville.item .ville {
-  font-family: "MontSerrat", arial;
-  font-size: 1.4rem;
-  color: #2da192;
-  text-transform: none;
-  font-weight: 400;
-  margin-bottom: 10px;
-  padding-left: 30px;
-  position: relative; }
-  /* line 235, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_atom-slider-vignette--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item .has-ville.item .ville:before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-size: 12px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%232da192' viewBox='0 0 266.9 393.3'%3E%3Cpath d='M133.5 0C59.9 0 0 59.9 0 133.5 0 163 17.4 208 54.8 275c25.5 45.7 50.9 84.3 52 85.9l18.4 27.8c1.8 2.8 5 4.5 8.3 4.5 3.4 0 6.5-1.7 8.3-4.5l18.4-27.8c1.1-1.6 26.3-39.9 52-85.9 37.4-67 54.8-112 54.8-141.5C266.9 59.9 207.1 0 133.5 0L133.5 0zM194.7 265.3c-25.3 45.4-50.2 83.1-51.2 84.7l-10 15.2 -10-15.2c-1.1-1.6-26.1-39.6-51.2-84.7C37.6 203.1 20 158.8 20 133.5 20 70.9 70.9 20 133.5 20c62.6 0 113.5 50.9 113.5 113.5C246.9 158.8 229.4 203.1 194.7 265.3L194.7 265.3zM194.7 265.3'/%3E%3Cpath d='M133.5 58.6c-40.8 0-74 33.2-74 74 0 40.8 33.2 74 74 74 40.8 0 74-33.2 74-74C207.5 91.8 174.3 58.6 133.5 58.6L133.5 58.6zM133.5 186.6c-29.8 0-54-24.2-54-54 0-29.8 24.2-54 54-54 29.8 0 54 24.2 54 54C187.5 162.4 163.2 186.6 133.5 186.6L133.5 186.6zM133.5 186.6'/%3E%3C/svg%3E");
-    position: absolute;
-    top: 50%;
-    left: 0;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%); }
-
 /* line 1, custom/02-particules/02-modules/layouts/_atom-card-box.scss */
 .card-box {
   border-radius: 5px;
@@ -6299,6 +5961,295 @@ a {
   /* line 145, custom/02-particules/02-modules/layouts/grids/grid-carrefour/_atom-vignette-carrefour.scss */
   #grid-carrefour .no-picture.list.grid-item .grid-item-title {
     color: #31455d; }
+
+/* line 1, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+.slider--mega .slider-mega-container .owl-nav .owl-prev, .slider--mega .slider-mega-container .owl-nav .owl-next {
+  position: absolute;
+  top: 0;
+  -webkit-transition: all, 0.5s;
+  transition: all, 0.5s;
+  cursor: pointer;
+  content: '';
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 50px;
+  height: 100%;
+  z-index: 100; }
+  /* line 14, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+  .slider--mega .slider-mega-container .owl-nav .owl-prev .picto, .slider--mega .slider-mega-container .owl-nav .owl-next .picto {
+    background-size: 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
+    z-index: 10;
+    height: 50px;
+    width: 50px;
+    background-color: #46cfc0;
+    border-radius: 50%;
+    position: relative;
+    left: 30px; }
+    @media only screen and (max-width: 1279px) {
+      /* line 14, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+      .slider--mega .slider-mega-container .owl-nav .owl-prev .picto, .slider--mega .slider-mega-container .owl-nav .owl-next .picto {
+        width: 35px;
+        height: 35px;
+        background-size: 20px; } }
+    @media only screen and (max-width: 767px) {
+      /* line 14, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+      .slider--mega .slider-mega-container .owl-nav .owl-prev .picto, .slider--mega .slider-mega-container .owl-nav .owl-next .picto {
+        left: 35px;
+        width: 40px;
+        height: 40px;
+        background-size: 18px; } }
+  /* line 39, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+  .slider--mega .slider-mega-container .owl-nav .owl-prev .flexbox, .slider--mega .slider-mega-container .owl-nav .owl-next .flexbox {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  /* line 45, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+  .slider--mega .slider-mega-container .owl-nav .owl-prev {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+  /* line 49, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+  .slider--mega .slider-mega-container .owl-nav .disabled.owl-prev, .slider--mega .slider-mega-container .owl-nav .disabled.owl-next {
+    pointer-events: none;
+    opacity: 0 !important; }
+    @media only screen and (max-width: 767px) {
+      /* line 49, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-arrow--mega.scss */
+      .slider--mega .slider-mega-container .owl-nav .disabled.owl-prev, .slider--mega .slider-mega-container .owl-nav .disabled.owl-next {
+        display: none; } }
+
+/* line 2, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .link {
+  padding: 40px;
+  padding-bottom: 60px;
+  height: 100%;
+  width: 100%;
+  display: block;
+  opacity: 1;
+  -webkit-transition: all, 0.5s;
+  transition: all, 0.5s;
+  background-color: #FFFFFF;
+  position: relative; }
+  /* line 13, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .item .link:hover, .slider--mega .slider-mega-container .slider .owl-item .item .link:focus {
+    text-decoration: none;
+    background-color: #E3E3E3; }
+  @media only screen and (max-width: 767px) {
+    /* line 2, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item .link {
+      padding: 20px;
+      padding-bottom: 60px; } }
+
+/* line 22, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .title {
+  font-family: "MontSerrat", arial;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #505050;
+  margin-bottom: 10px;
+  text-transform: uppercase; }
+  @media only screen and (max-width: 767px) {
+    /* line 22, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item .title {
+      font-size: 1.5rem; } }
+
+/* line 34, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .lead {
+  font-family: "OpenSans", arial;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #7e7e7e;
+  line-height: 1.8; }
+  @media only screen and (max-width: 767px) {
+    /* line 34, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item .lead {
+      font-size: 1.2rem; } }
+
+/* line 45, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .picture {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  position: relative; }
+  /* line 51, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .item .picture:before {
+    opacity: 0;
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-transition: all, 0.5s;
+    transition: all, 0.5s; }
+
+/* line 62, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .date-start {
+  font-size: 2.4rem; }
+
+/* line 65, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .date-end {
+  font-family: "MontSerrat", arial;
+  font-weight: 700;
+  font-size: 3.5rem;
+  color: #46cfc0;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  line-height: 1;
+  color: #2da192; }
+  @media only screen and (max-width: 767px) {
+    /* line 65, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item .date-end {
+      margin-bottom: 20px; } }
+
+/* line 80, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .item .date-sup {
+  font-family: "MontSerrat", arial;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #46cfc0;
+  text-transform: uppercase;
+  color: #2da192; }
+  @media only screen and (max-width: 767px) {
+    /* line 80, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item .date-sup {
+      font-size: 1.2rem; } }
+
+/* line 93, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .actu.item .link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+/* line 98, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .actu.item .picture {
+  padding-bottom: 75%;
+  margin-top: 30px; }
+  @media only screen and (max-width: 767px) {
+    /* line 98, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .actu.item .picture {
+      padding-bottom: 0;
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1; } }
+
+/* line 127, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .link {
+  padding: 0;
+  background-color: #46cfc0;
+  -webkit-transition: all, 0.5s;
+  transition: all, 0.5s; }
+  /* line 132, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .mag.item .link:hover, .slider--mega .slider-mega-container .slider .owl-item .mag.item .link:focus {
+    background: #3CB0A4; }
+
+/* line 136, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .picture {
+  height: 50%;
+  position: relative; }
+  /* line 139, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .mag.item .picture:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(23%, rgba(0, 0, 0, 0.09)), color-stop(75%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5)));
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.09) 23%, rgba(0, 0, 0, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%);
+    z-index: 1; }
+
+/* line 149, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .text {
+  padding: 30px;
+  padding-bottom: 50px; }
+
+/* line 153, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .title {
+  color: #31455d; }
+
+/* line 156, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .lead {
+  color: #31455d; }
+
+/* line 159, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) translateY(-20px);
+          transform: translate(-50%, -50%) translateY(-20px);
+  text-align: center;
+  z-index: 10; }
+  /* line 166, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo .mag-text {
+    font-family: "MontSerrat", arial;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-transform: uppercase; }
+  /* line 173, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .mag.item .mag-logo .mag-picto {
+    content: '';
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+    background-size: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23FFFFFF' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
+
+/* line 219, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .has-picture.item .link:hover .picture:before, .slider--mega .slider-mega-container .slider .owl-item .has-picture.item .link:focus .picture:before {
+  opacity: 1; }
+
+/* line 227, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+.slider--mega .slider-mega-container .slider .owl-item .has-ville.item .ville {
+  font-family: "MontSerrat", arial;
+  font-size: 1.4rem;
+  color: #2da192;
+  text-transform: none;
+  font-weight: 400;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  position: relative; }
+  /* line 237, custom/02-particules/02-modules/layouts/sliders/slider--mega/_atom-slider-vignette--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item .has-ville.item .ville:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%232da192' viewBox='0 0 266.9 393.3'%3E%3Cpath d='M133.5 0C59.9 0 0 59.9 0 133.5 0 163 17.4 208 54.8 275c25.5 45.7 50.9 84.3 52 85.9l18.4 27.8c1.8 2.8 5 4.5 8.3 4.5 3.4 0 6.5-1.7 8.3-4.5l18.4-27.8c1.1-1.6 26.3-39.9 52-85.9 37.4-67 54.8-112 54.8-141.5C266.9 59.9 207.1 0 133.5 0L133.5 0zM194.7 265.3c-25.3 45.4-50.2 83.1-51.2 84.7l-10 15.2 -10-15.2c-1.1-1.6-26.1-39.6-51.2-84.7C37.6 203.1 20 158.8 20 133.5 20 70.9 70.9 20 133.5 20c62.6 0 113.5 50.9 113.5 113.5C246.9 158.8 229.4 203.1 194.7 265.3L194.7 265.3zM194.7 265.3'/%3E%3Cpath d='M133.5 58.6c-40.8 0-74 33.2-74 74 0 40.8 33.2 74 74 74 40.8 0 74-33.2 74-74C207.5 91.8 174.3 58.6 133.5 58.6L133.5 58.6zM133.5 186.6c-29.8 0-54-24.2-54-54 0-29.8 24.2-54 54-54 29.8 0 54 24.2 54 54C187.5 162.4 163.2 186.6 133.5 186.6L133.5 186.6zM133.5 186.6'/%3E%3C/svg%3E");
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
 
 /* line 1, custom/02-particules/02-modules/layouts/sliders/slider-social/_atom-slider-social-vignette.scss */
 #socials .slider-social-container .slider .owl-item .item {
@@ -7278,6 +7229,77 @@ a {
   .masonry-demarche .demarche-topic {
     width: 100%; } }
 
+/* line 1, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+#districts-configuration, #ecoles, #elu, #direction, #mairie, #sliders {
+  padding: 45px 75px;
+  -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+          box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
+  position: relative;
+  background-color: white;
+  border-radius: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  @media only screen and (max-width: 1279px) {
+    /* line 1, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    #districts-configuration, #ecoles, #elu, #direction, #mairie, #sliders {
+      border-radius: 5px;
+      padding: 45px; } }
+  @media only screen and (max-width: 767px) {
+    /* line 1, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    #districts-configuration, #ecoles, #elu, #direction, #mairie, #sliders {
+      padding: 45px 20px; } }
+  /* line 20, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration h1, #ecoles h1, #elu h1, #direction h1, #mairie h1, #sliders h1 {
+    color: #31455d;
+    margin-bottom: 40px; }
+  /* line 26, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration p, #ecoles p, #elu p, #direction p, #mairie p, #sliders p {
+    font-family: "OpenSans", arial;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #31455d;
+    margin-bottom: 20px; }
+  /* line 34, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration h3, #ecoles h3, #elu h3, #direction h3, #mairie h3, #sliders h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px; }
+  /* line 42, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration .slider--mega .owl-item .item, #ecoles .slider--mega .owl-item .item, #elu .slider--mega .owl-item .item, #direction .slider--mega .owl-item .item, #mairie .slider--mega .owl-item .item, #sliders .slider--mega .owl-item .item {
+    height: 471px; }
+    /* line 45, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    #districts-configuration .slider--mega .owl-item .item .link, #ecoles .slider--mega .owl-item .item .link, #elu .slider--mega .owl-item .item .link, #direction .slider--mega .owl-item .item .link, #mairie .slider--mega .owl-item .item .link, #sliders .slider--mega .owl-item .item .link {
+      height: 425px;
+      overflow: hidden; }
+    /* line 50, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    #districts-configuration .slider--mega .owl-item .item .add-favorites, #ecoles .slider--mega .owl-item .item .add-favorites, #elu .slider--mega .owl-item .item .add-favorites, #direction .slider--mega .owl-item .item .add-favorites, #mairie .slider--mega .owl-item .item .add-favorites, #sliders .slider--mega .owl-item .item .add-favorites {
+      padding-left: 20px;
+      background-color: #FFFFFF;
+      padding-bottom: 2px; }
+      @media only screen and (min-width: 1280px) {
+        /* line 56, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+        #districts-configuration .slider--mega .owl-item .item .add-favorites span, #ecoles .slider--mega .owl-item .item .add-favorites span, #elu .slider--mega .owl-item .item .add-favorites span, #direction .slider--mega .owl-item .item .add-favorites span, #mairie .slider--mega .owl-item .item .add-favorites span, #sliders .slider--mega .owl-item .item .add-favorites span {
+          top: -10px;
+          width: 100px; } }
+      @media only screen and (max-width: 1279px) {
+        /* line 50, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+        #districts-configuration .slider--mega .owl-item .item .add-favorites, #ecoles .slider--mega .owl-item .item .add-favorites, #elu .slider--mega .owl-item .item .add-favorites, #direction .slider--mega .owl-item .item .add-favorites, #mairie .slider--mega .owl-item .item .add-favorites, #sliders .slider--mega .owl-item .item .add-favorites {
+          padding-bottom: 24px; } }
+  /* line 68, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration .slider--mega .owl-item .mag .add-favorites, #ecoles .slider--mega .owl-item .mag .add-favorites, #elu .slider--mega .owl-item .mag .add-favorites, #direction .slider--mega .owl-item .mag .add-favorites, #mairie .slider--mega .owl-item .mag .add-favorites, #sliders .slider--mega .owl-item .mag .add-favorites {
+    background-color: #46cfc0; }
+
 /* line 1, custom/02-particules/02-modules/divers/cookies/_molecule-cookies.scss */
 #cookies {
   display: none;
@@ -7878,7 +7900,7 @@ a {
     min-width: 75px; }
 
 /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-#actu-agenda, #alert-slider, #bills, #demandes, #serial, #survey, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+#actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
   padding: 45px 75px;
   border-radius: 5px;
   -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
@@ -7887,14 +7909,14 @@ a {
   background-color: #FFFFFF; }
   @media only screen and (max-width: 1279px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda, #alert-slider, #bills, #demandes, #serial, #survey, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px; } }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda, #alert-slider, #bills, #demandes, #serial, #survey, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px 20px; } }
   /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #serial .delete-wi, #survey .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+  #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
     position: absolute;
     top: 45px;
     right: 75px;
@@ -7908,24 +7930,24 @@ a {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
     @media only screen and (max-width: 1279px) {
       /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #serial .delete-wi, #survey .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
         right: 45px; } }
     @media only screen and (max-width: 767px) {
       /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #serial .delete-wi, #survey .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
         right: 20px;
         top: 20px; } }
     /* line 35, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda .delete-wi:hover, #alert-slider .delete-wi:hover, #bills .delete-wi:hover, #demandes .delete-wi:hover, #serial .delete-wi:hover, #survey .delete-wi:hover, #favoris .delete-wi:hover, #actu-agenda-no-interest .delete-wi:hover, #une .delete-wi:hover, #wi-aroundme .delete-wi:hover, #actu-agenda .delete-wi:focus, #alert-slider .delete-wi:focus, #bills .delete-wi:focus, #demandes .delete-wi:focus, #serial .delete-wi:focus, #survey .delete-wi:focus, #favoris .delete-wi:focus, #actu-agenda-no-interest .delete-wi:focus, #une .delete-wi:focus, #wi-aroundme .delete-wi:focus {
+    #actu-agenda .delete-wi:hover, #alert-slider .delete-wi:hover, #bills .delete-wi:hover, #demandes .delete-wi:hover, #mediatheque .delete-wi:hover, #serial .delete-wi:hover, #survey .delete-wi:hover, #vote .delete-wi:hover, #favoris .delete-wi:hover, #actu-agenda-no-interest .delete-wi:hover, #une .delete-wi:hover, #wi-aroundme .delete-wi:hover, #actu-agenda .delete-wi:focus, #alert-slider .delete-wi:focus, #bills .delete-wi:focus, #demandes .delete-wi:focus, #mediatheque .delete-wi:focus, #serial .delete-wi:focus, #survey .delete-wi:focus, #vote .delete-wi:focus, #favoris .delete-wi:focus, #actu-agenda-no-interest .delete-wi:focus, #une .delete-wi:focus, #wi-aroundme .delete-wi:focus {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
   /* line 40, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #serial h2, #survey h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+  #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
     color: #31455d;
     width: 100%;
     text-align: center;
     margin-bottom: 25px; }
     /* line 47, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #serial h2:before, #survey h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+    #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
       display: block;
       content: '';
       width: 53px;
@@ -7938,273 +7960,16 @@ a {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
       @media only screen and (max-width: 767px) {
         /* line 47, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #serial h2:before, #survey h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           width: 43px;
           height: 15px; } }
     @media only screen and (max-width: 767px) {
       /* line 40, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #serial h2, #survey h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+      #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
         font-size: 2.5rem; }
         /* line 66, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #serial h2:before, #survey h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           margin-bottom: 5px; } }
-
-/* line 1, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-#slider--mega .slider-mega-container {
-  position: relative;
-  width: 100%; }
-  /* line 6, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-  #slider--mega .slider-mega-container .slider-overflow {
-    overflow: hidden;
-    padding: 10px;
-    margin: -10px; }
-  /* line 11, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-  #slider--mega .slider-mega-container .slider {
-    width: 900px;
-    margin: 0 auto; }
-    @media only screen and (max-width: 1279px) {
-      /* line 11, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-      #slider--mega .slider-mega-container .slider {
-        width: 80%;
-        margin: 0 auto; } }
-    /* line 19, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-stage-outer {
-      overflow: visible !important; }
-    /* line 24, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item {
-      -webkit-transition: opacity 1s 0.3s;
-      transition: opacity 1s 0.3s; }
-      /* line 27, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-      #slider--mega .slider-mega-container .slider .owl-item.active .item {
-        opacity: 1; }
-      /* line 31, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-      #slider--mega .slider-mega-container .slider .owl-item .page {
-        width: 100%; }
-        @media only screen and (min-width: 1280px) {
-          /* line 33, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-          #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-                flex-wrap: wrap; }
-            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-            #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item {
-              width: calc(33.3% - ( ((3px - 1px) * 20) / 3)); }
-              /* line 36, custom/00-conf/mixins/_grids-distribution.scss */
-              #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n+1) {
-                margin-right: 13.33333px;
-                margin-left: 0; }
-              /* line 41, custom/00-conf/mixins/_grids-distribution.scss */
-              #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n+2) {
-                margin-left: 6.66667px;
-                margin-right: 6.66667px; }
-              /* line 46, custom/00-conf/mixins/_grids-distribution.scss */
-              #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n) {
-                margin-left: 13.33333px;
-                margin-right: 0; } }
-        @media only screen and (max-width: 1279px) {
-          /* line 33, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-          #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-                flex-wrap: wrap; }
-            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-            #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item {
-              width: calc(50% - ( ((2px - 1px) * 20) / 2)); }
-              /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
-              #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(2n+1) {
-                margin-right: 10px;
-                margin-left: 0; }
-              /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
-              #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(2n) {
-                margin-left: 10px;
-                margin-right: 0; } }
-        @media only screen and (max-width: 767px) {
-          /* line 33, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-          #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-                flex-wrap: wrap; }
-            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-            #slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item {
-              width: calc(100% - ( ((1px - 1px) * 0) / 1));
-              margin-left: 0 !important;
-              margin-right: 0 !important; } }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(1) {
-      -webkit-transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
-      transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
-      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s;
-      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(2) {
-      -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
-      transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
-      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s;
-      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(3) {
-      -webkit-transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
-      transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
-      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s;
-      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(4) {
-      -webkit-transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
-      transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
-      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s;
-      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(5) {
-      -webkit-transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
-      transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
-      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s;
-      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(6) {
-      -webkit-transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
-      transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
-      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
-      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(7) {
-      -webkit-transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
-      transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
-      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s;
-      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s; }
-    /* line 71, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(8) {
-      -webkit-transition: opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s;
-      transition: opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s;
-      transition: transform 0.3s 0.4s, opacity 0.3s 0.4s;
-      transition: transform 0.3s 0.4s, opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s; }
-    /* line 78, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item:not(.active) {
-      opacity: 0;
-      -webkit-transition: opacity 0.3s;
-      transition: opacity 0.3s; }
-    /* line 83, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item {
-      -webkit-transform: translate(0, 40px);
-              transform: translate(0, 40px);
-      opacity: 0; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(1) {
-      -webkit-transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
-      transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
-      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s;
-      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(2) {
-      -webkit-transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
-      transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
-      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
-      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(3) {
-      -webkit-transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
-      transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
-      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s;
-      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(4) {
-      -webkit-transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
-      transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
-      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s;
-      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(5) {
-      -webkit-transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
-      transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
-      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s;
-      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(6) {
-      -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
-      transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
-      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s;
-      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(7) {
-      -webkit-transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
-      transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
-      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s;
-      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s; }
-    /* line 92, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(8) {
-      -webkit-transition: opacity 0.3s 0s, -webkit-transform 0.3s 0s;
-      transition: opacity 0.3s 0s, -webkit-transform 0.3s 0s;
-      transition: transform 0.3s 0s, opacity 0.3s 0s;
-      transition: transform 0.3s 0s, opacity 0.3s 0s, -webkit-transform 0.3s 0s; }
-  /* line 101, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-  #slider--mega .slider-mega-container .owl-nav {
-    z-index: 10; }
-    /* line 108, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .owl-nav .owl-prev {
-      -webkit-transform: rotate(180deg);
-              transform: rotate(180deg);
-      left: -20px;
-      width: 15%;
-      outline: none; }
-      @media only screen and (max-width: 1279px) {
-        /* line 108, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-        #slider--mega .slider-mega-container .owl-nav .owl-prev {
-          width: 80px; } }
-    /* line 118, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .owl-nav .owl-next {
-      right: -20px;
-      width: 15%;
-      outline: none; }
-      @media only screen and (max-width: 1279px) {
-        /* line 118, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-        #slider--mega .slider-mega-container .owl-nav .owl-next {
-          width: 80px; } }
-    /* line 128, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider--mega.scss */
-    #slider--mega .slider-mega-container .owl-nav.disabled {
-      display: none; }
-
-/* line 1, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-#slider--mega .filters {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 40px;
-  z-index: 2;
-  position: relative;
-  width: 100%; }
-  /* line 11, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-  #slider--mega .filters .actu-filter {
-    margin: 0 5px; }
-    /* line 13, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-    #slider--mega .filters .actu-filter:not(.actif) {
-      padding: 10px 20px; }
-    /* line 16, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-    #slider--mega .filters .actu-filter.actif {
-      background-color: #46cfc0;
-      color: #31455d;
-      pointer-events: none;
-      padding: 10px 20px; }
-      /* line 19, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-      #slider--mega .filters .actu-filter.actif .btn-text {
-        color: #31455d; }
-    @media only screen and (max-width: 767px) {
-      /* line 11, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-      #slider--mega .filters .actu-filter {
-        padding: 10px !important; }
-        /* line 27, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_molecule-slider-filters--mega.scss */
-        #slider--mega .filters .actu-filter .btn-text {
-          font-size: 1.2rem !important; } }
 
 /* line 2, custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_molecule-home-slider.scss */
 .slider-int-container, #socials .slider-social-container, #une .slider-une-container {
@@ -8577,6 +8342,290 @@ a {
       /* line 85, custom/02-particules/02-modules/layouts/grids/grid--list01/_molecule-grid--list01.scss */
       #grid--list01 .grid-item.coup-de-coeur .item-infos .item-misc span:after {
         background-color: #31455d; }
+
+/* line 1, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+.slider--mega .slider-mega-container {
+  position: relative;
+  width: 100%; }
+  /* line 6, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+  .slider--mega .slider-mega-container .slider-overflow {
+    overflow: hidden;
+    padding: 10px;
+    margin: -10px; }
+  /* line 11, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+  .slider--mega .slider-mega-container .slider {
+    width: 900px;
+    margin: 0 auto; }
+    @media only screen and (max-width: 1279px) {
+      /* line 11, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+      .slider--mega .slider-mega-container .slider {
+        width: 80%;
+        margin: 0 auto; } }
+    /* line 19, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-stage-outer {
+      overflow: visible !important; }
+    /* line 24, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item {
+      -webkit-transition: opacity 1s 0.3s;
+      transition: opacity 1s 0.3s; }
+      /* line 27, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+      .slider--mega .slider-mega-container .slider .owl-item.active .item {
+        opacity: 1; }
+      /* line 31, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+      .slider--mega .slider-mega-container .slider .owl-item .page {
+        width: 100%; }
+        @media only screen and (min-width: 1280px) {
+          /* line 33, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+          .slider--mega .slider-mega-container .slider .owl-item .page.big {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap; }
+            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+            .slider--mega .slider-mega-container .slider .owl-item .page.big .item {
+              width: calc(25% - ( ((4px - 1px) * 20) / 4)); }
+              /* line 52, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page.big .item:nth-child(4n+1) {
+                margin-right: 15px;
+                margin-left: 0; }
+              /* line 57, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page.big .item:nth-child(4n+2) {
+                margin-left: 5px;
+                margin-right: 10px; }
+              /* line 62, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page.big .item:nth-child(4n+3) {
+                margin-left: 10px;
+                margin-right: 5px; }
+              /* line 67, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page.big .item:nth-child(4n) {
+                margin-left: 15px;
+                margin-right: 0; } }
+        @media only screen and (min-width: 1280px) {
+          /* line 38, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+          .slider--mega .slider-mega-container .slider .owl-item .page:not(.big) {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap; }
+            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+            .slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item {
+              width: calc(33.3% - ( ((3px - 1px) * 20) / 3)); }
+              /* line 36, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n+1) {
+                margin-right: 13.33333px;
+                margin-left: 0; }
+              /* line 41, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n+2) {
+                margin-left: 6.66667px;
+                margin-right: 6.66667px; }
+              /* line 46, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page:not(.big) .item:nth-child(3n) {
+                margin-left: 13.33333px;
+                margin-right: 0; } }
+        @media only screen and (max-width: 1279px) {
+          /* line 31, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+          .slider--mega .slider-mega-container .slider .owl-item .page {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap; }
+            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+            .slider--mega .slider-mega-container .slider .owl-item .page .item {
+              width: calc(50% - ( ((2px - 1px) * 20) / 2)); }
+              /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page .item:nth-child(2n+1) {
+                margin-right: 10px;
+                margin-left: 0; }
+              /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
+              .slider--mega .slider-mega-container .slider .owl-item .page .item:nth-child(2n) {
+                margin-left: 10px;
+                margin-right: 0; } }
+        @media only screen and (max-width: 767px) {
+          /* line 31, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+          .slider--mega .slider-mega-container .slider .owl-item .page {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap; }
+            /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+            .slider--mega .slider-mega-container .slider .owl-item .page .item {
+              width: calc(100% - ( ((1px - 1px) * 0) / 1));
+              margin-left: 0 !important;
+              margin-right: 0 !important; } }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(1) {
+      -webkit-transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
+      transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
+      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s;
+      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(2) {
+      -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
+      transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
+      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s;
+      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(3) {
+      -webkit-transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
+      transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
+      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s;
+      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(4) {
+      -webkit-transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
+      transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
+      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s;
+      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(5) {
+      -webkit-transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
+      transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
+      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s;
+      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(6) {
+      -webkit-transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
+      transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
+      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
+      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(7) {
+      -webkit-transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
+      transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
+      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s;
+      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s; }
+    /* line 76, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item.active .item:nth-child(8) {
+      -webkit-transition: opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s;
+      transition: opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s;
+      transition: transform 0.3s 0.4s, opacity 0.3s 0.4s;
+      transition: transform 0.3s 0.4s, opacity 0.3s 0.4s, -webkit-transform 0.3s 0.4s; }
+    /* line 83, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item:not(.active) {
+      opacity: 0;
+      -webkit-transition: opacity 0.3s;
+      transition: opacity 0.3s; }
+    /* line 88, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item {
+      -webkit-transform: translate(0, 40px);
+              transform: translate(0, 40px);
+      opacity: 0; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(1) {
+      -webkit-transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
+      transition: opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s;
+      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s;
+      transition: transform 0.3s 0.35s, opacity 0.3s 0.35s, -webkit-transform 0.3s 0.35s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(2) {
+      -webkit-transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
+      transition: opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s;
+      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
+      transition: transform 0.3s 0.3s, opacity 0.3s 0.3s, -webkit-transform 0.3s 0.3s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(3) {
+      -webkit-transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
+      transition: opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s;
+      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s;
+      transition: transform 0.3s 0.25s, opacity 0.3s 0.25s, -webkit-transform 0.3s 0.25s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(4) {
+      -webkit-transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
+      transition: opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s;
+      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s;
+      transition: transform 0.3s 0.2s, opacity 0.3s 0.2s, -webkit-transform 0.3s 0.2s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(5) {
+      -webkit-transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
+      transition: opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s;
+      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s;
+      transition: transform 0.3s 0.15s, opacity 0.3s 0.15s, -webkit-transform 0.3s 0.15s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(6) {
+      -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
+      transition: opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s;
+      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s;
+      transition: transform 0.3s 0.1s, opacity 0.3s 0.1s, -webkit-transform 0.3s 0.1s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(7) {
+      -webkit-transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
+      transition: opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s;
+      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s;
+      transition: transform 0.3s 0.05s, opacity 0.3s 0.05s, -webkit-transform 0.3s 0.05s; }
+    /* line 97, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider.animate-out .owl-item.active .item:nth-child(8) {
+      -webkit-transition: opacity 0.3s 0s, -webkit-transform 0.3s 0s;
+      transition: opacity 0.3s 0s, -webkit-transform 0.3s 0s;
+      transition: transform 0.3s 0s, opacity 0.3s 0s;
+      transition: transform 0.3s 0s, opacity 0.3s 0s, -webkit-transform 0.3s 0s; }
+  /* line 106, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+  .slider--mega .slider-mega-container .owl-nav {
+    z-index: 10; }
+    /* line 113, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .owl-nav .owl-prev {
+      -webkit-transform: rotate(180deg);
+              transform: rotate(180deg);
+      left: -20px;
+      width: 15%;
+      outline: none; }
+      @media only screen and (max-width: 1279px) {
+        /* line 113, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+        .slider--mega .slider-mega-container .owl-nav .owl-prev {
+          width: 80px; } }
+    /* line 123, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .owl-nav .owl-next {
+      right: -20px;
+      width: 15%;
+      outline: none; }
+      @media only screen and (max-width: 1279px) {
+        /* line 123, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+        .slider--mega .slider-mega-container .owl-nav .owl-next {
+          width: 80px; } }
+    /* line 133, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider--mega.scss */
+    .slider--mega .slider-mega-container .owl-nav.disabled {
+      display: none; }
+
+/* line 1, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+.slider--mega .filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 40px;
+  z-index: 2;
+  position: relative;
+  width: 100%; }
+  /* line 11, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+  .slider--mega .filters .actu-filter {
+    margin: 0 5px; }
+    /* line 13, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+    .slider--mega .filters .actu-filter:not(.actif) {
+      padding: 10px 20px; }
+    /* line 16, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+    .slider--mega .filters .actu-filter.actif {
+      background-color: #46cfc0;
+      color: #31455d;
+      pointer-events: none;
+      padding: 10px 20px; }
+      /* line 19, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+      .slider--mega .filters .actu-filter.actif .btn-text {
+        color: #31455d; }
+    @media only screen and (max-width: 767px) {
+      /* line 11, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+      .slider--mega .filters .actu-filter {
+        padding: 10px !important; }
+        /* line 27, custom/02-particules/02-modules/layouts/sliders/slider--mega/_molecule-slider-filters--mega.scss */
+        .slider--mega .filters .actu-filter .btn-text {
+          font-size: 1.2rem !important; } }
 
 /* line 2, custom/02-particules/02-modules/notifications/_molecule-notification-list.scss */
 .notification-list__item {
@@ -9037,28 +9086,24 @@ a {
       display: block;
       border-bottom: solid 1px #d8dbdf; }
       /* line 82, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
-      .mseu #nav-side #nav-notifications .notif-list .notif-item.new {
-        background-color: #FFFFFF;
-        border-color: #FFFFFF; }
-      /* line 86, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
       .mseu #nav-side #nav-notifications .notif-list .notif-item:hover, .mseu #nav-side #nav-notifications .notif-list .notif-item:focus {
         text-decoration: none; }
-        /* line 88, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+        /* line 84, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
         .mseu #nav-side #nav-notifications .notif-list .notif-item:hover .notif-text, .mseu #nav-side #nav-notifications .notif-list .notif-item:focus .notif-text {
           text-decoration: underline;
           text-underline-position: under; }
-    /* line 94, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+    /* line 90, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
     .mseu #nav-side #nav-notifications .notif-list .notif-date {
       font-weight: 600;
       font-size: 1.6rem;
       color: #31455d; }
-    /* line 99, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+    /* line 95, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
     .mseu #nav-side #nav-notifications .notif-list .notif-text {
-      background-color: #f6f6f6; }
-    /* line 103, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
+      font-size: 1.6rem; }
+    /* line 99, custom/02-particules/02-modules/parts/header/nav-side/_molecule-nav-notifications.scss */
     .mseu #nav-side #nav-notifications .notif-list .notif-last {
       padding: 15px 20px;
-      background-color: #FFFFFF; }
+      background-color: #fbb52d; }
 
 /* line 1, custom/02-particules/02-modules/parts/post-header/ariane/_molecule-ariane.scss */
 .block-custom-container-breadcrumb .page-depth {
@@ -9493,6 +9538,217 @@ a {
       #banner svg {
         margin: 50px auto; } }
 
+/* line 4, custom/02-particules/02-modules/district/districts-configuration/_organism-districts-configuration.scss */
+#districts-configuration p {
+  margin-bottom: 40px; }
+
+/* line 5, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+#ecoles .ecoles-grid .ecoles-teaser {
+  margin-bottom: 50px; }
+  /* line 6, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid .ecoles-teaser h3 {
+    color: #2da192; }
+  /* line 10, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid .ecoles-teaser .add-favorites {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    height: 10%; }
+  /* line 15, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid .ecoles-teaser a.btn-square--bordered--core {
+    float: right;
+    margin-right: 60px; }
+
+@media only screen and (min-width: 1280px) {
+  /* line 4, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+    #ecoles .ecoles-grid .ecoles-teaser {
+      width: calc(50% - ( ((2px - 1px) * 50) / 2)); }
+      /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
+      #ecoles .ecoles-grid .ecoles-teaser:nth-child(2n+1) {
+        margin-right: 25px;
+        margin-left: 0; }
+      /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
+      #ecoles .ecoles-grid .ecoles-teaser:nth-child(2n) {
+        margin-left: 25px;
+        margin-right: 0; } }
+
+@media only screen and (min-width: 767px) and (max-width: 1279px) {
+  /* line 4, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+    #ecoles .ecoles-grid .ecoles-teaser {
+      width: calc(50% - ( ((2px - 1px) * 50) / 2)); }
+      /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
+      #ecoles .ecoles-grid .ecoles-teaser:nth-child(2n+1) {
+        margin-right: 25px;
+        margin-left: 0; }
+      /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
+      #ecoles .ecoles-grid .ecoles-teaser:nth-child(2n) {
+        margin-left: 25px;
+        margin-right: 0; } }
+
+@media only screen and (max-width: 767px) {
+  /* line 4, custom/02-particules/02-modules/district/ecoles/_organism-ecoles.scss */
+  #ecoles .ecoles-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+    #ecoles .ecoles-grid .ecoles-teaser {
+      width: calc(100% - ( ((1px - 1px) * 0) / 1));
+      margin-left: 0 !important;
+      margin-right: 0 !important; } }
+
+/* line 1, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+#elu {
+  background-color: #FFB201; }
+  /* line 6, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+  #elu img {
+    margin-bottom: 20px;
+    width: 180px; }
+  /* line 11, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+  #elu .seu-text {
+    margin-bottom: 20px; }
+    /* line 14, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+    #elu .seu-text .seu-title {
+      font-family: "MontSerrat", arial;
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: #31455d;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      text-align: center; }
+      @media only screen and (max-width: 767px) {
+        /* line 14, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+        #elu .seu-text .seu-title {
+          font-size: 1.5rem; } }
+    /* line 27, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+    #elu .seu-text .seu-lead {
+      font-family: "OpenSans", arial;
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #31455d;
+      line-height: 1.8; }
+      @media only screen and (max-width: 767px) {
+        /* line 27, custom/02-particules/02-modules/district/elu/_organism-elu.scss */
+        #elu .seu-text .seu-lead {
+          font-size: 1.2rem; } }
+
+/* line 4, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+#direction .flexbox, #mairie .flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%; }
+  @media only screen and (max-width: 1279px) {
+    /* line 4, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+    #direction .flexbox, #mairie .flexbox {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; } }
+  /* line 12, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+  #direction .flexbox .container-left, #mairie .flexbox .container-left {
+    width: 50%;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1; }
+    @media only screen and (max-width: 1279px) {
+      /* line 12, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-left, #mairie .flexbox .container-left {
+        -webkit-box-ordinal-group: 3;
+            -ms-flex-order: 2;
+                order: 2;
+        -webkit-box-flex: 1;
+            -ms-flex: auto;
+                flex: auto; } }
+    /* line 20, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+    #direction .flexbox .container-left .add-favorites, #mairie .flexbox .container-left .add-favorites {
+      width: -webkit-max-content;
+      width: -moz-max-content;
+      width: max-content; }
+  /* line 25, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+  #direction .flexbox .container-right, #mairie .flexbox .container-right {
+    -ms-flex-negative: 0;
+        flex-shrink: 0; }
+    @media only screen and (min-width: 1280px) {
+      /* line 25, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right, #mairie .flexbox .container-right {
+        margin-left: 20px;
+        width: 50%; } }
+    @media only screen and (max-width: 1279px) {
+      /* line 25, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right, #mairie .flexbox .container-right {
+        -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+                order: 1; } }
+    @media only screen and (min-width: 767px) and (max-width: 1279px) {
+      /* line 25, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right, #mairie .flexbox .container-right {
+        padding: 20px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        background-color: #46cfc0; } }
+    /* line 40, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+    #direction .flexbox .container-right .crowded-date, #mairie .flexbox .container-right .crowded-date {
+      text-transform: none; }
+    /* line 44, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+    #direction .flexbox .container-right .crowded-caption, #mairie .flexbox .container-right .crowded-caption {
+      font-weight: 700;
+      margin-bottom: 0px; }
+    /* line 49, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+    #direction .flexbox .container-right .crowded-amount, #mairie .flexbox .container-right .crowded-amount {
+      text-align: center;
+      width: 70px;
+      height: 70px;
+      line-height: 70px;
+      background-color: #40A040;
+      font-size: 2.8rem;
+      color: #FFFFFF;
+      font-weight: 600;
+      font-family: "MontSerrat", arial;
+      border-radius: 50%;
+      margin: 5px 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+      margin-left: 10px;
+      border: solid 2px #FFFFFF; }
+      /* line 64, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.green, #mairie .flexbox .container-right .crowded-amount.green {
+        background-color: #40A040; }
+      /* line 65, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.orange, #mairie .flexbox .container-right .crowded-amount.orange {
+        background-color: #FF470F; }
+      /* line 66, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.red, #mairie .flexbox .container-right .crowded-amount.red {
+        background-color: #FF0F0F; }
+      /* line 67, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.black, #mairie .flexbox .container-right .crowded-amount.black {
+        background-color: #272222; }
+      /* line 68, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.white, #mairie .flexbox .container-right .crowded-amount.white {
+        background-color: #FFFFFF;
+        color: #000000;
+        border-color: #000000; }
+      /* line 69, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie-direction.scss */
+      #direction .flexbox .container-right .crowded-amount.grey, #mairie .flexbox .container-right .crowded-amount.grey {
+        background-color: #9E9E9E; }
+
 /* line 1, custom/02-particules/02-modules/event-highlight/_organism-event-highlight.scss */
 .event-highlight {
   position: relative; }
@@ -9640,34 +9896,6 @@ a {
   #actu-agenda h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
 
-/* line 1, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_organism-slider--mega.scss */
-#slider--mega .slider-mega-container {
-  margin-bottom: 40px;
-  position: relative;
-  z-index: 2; }
-  @media only screen and (max-width: 767px) {
-    /* line 1, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_organism-slider--mega.scss */
-    #slider--mega .slider-mega-container {
-      margin-bottom: 10px; } }
-  /* line 11, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_organism-slider--mega.scss */
-  #slider--mega .slider-mega-container .slider .owl-item {
-    -webkit-backface-visibility: visible !important;
-            backface-visibility: visible !important; }
-    /* line 13, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_organism-slider--mega.scss */
-    #slider--mega .slider-mega-container .slider .owl-item .item {
-      -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-              box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-      opacity: 0.2;
-      height: 425px;
-      content: '';
-      display: block;
-      -webkit-transition: opacity 1s;
-      transition: opacity 1s; }
-      @media only screen and (max-width: 767px) {
-        /* line 13, custom/02-particules/02-modules/home/actu-agenda/slider--mega/_organism-slider--mega.scss */
-        #slider--mega .slider-mega-container .slider .owl-item .item {
-          height: 350px; } }
-
 /* line 1, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
 #alert-slider {
   padding-top: 15px;
@@ -9811,64 +10039,60 @@ a {
           height: 26px;
           background-size: 10px; } }
 
-/* line 3, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills h2:before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-
-/* line 6, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills p {
-  font-size: 1.8rem;
-  color: #5c5c5c;
-  margin-bottom: 20px; }
-
-/* line 13, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills form .webform-layout-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-  @media only screen and (max-width: 767px) {
-    /* line 13, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-    #bills form .webform-layout-box {
-      display: block; } }
-
-/* line 21, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills form .form-group {
-  margin-bottom: 15px; }
-  @media only screen and (min-width: 767px) and (max-width: 1279px) {
-    /* line 21, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-    #bills form .form-group {
-      -webkit-box-flex: 1;
-          -ms-flex: 1;
-              flex: 1; }
-      /* line 25, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-      #bills form .form-group + .form-group {
-        margin-left: 30px; } }
-
-/* line 30, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills form label {
-  margin-bottom: 10px; }
-  /* line 32, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-  #bills form label .required {
-    color: #ff1818; }
-
-@media only screen and (min-width: 1280px) {
-  /* line 37, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-  #bills form input {
-    width: 420px; } }
-
-@media only screen and (max-width: 1279px) {
-  /* line 37, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-  #bills form input {
-    width: 100%; } }
-
-/* line 46, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
-#bills form span.error {
-  display: block;
-  margin-top: 5px;
-  font-size: 1.4rem; }
+/* line 1, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+#bills {
+  margin-bottom: 40px; }
+  /* line 3, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills h2:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
+  /* line 6, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills p {
+    font-size: 1.8rem;
+    color: #5c5c5c;
+    margin-bottom: 20px; }
+  /* line 13, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills form .webform-layout-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    @media only screen and (max-width: 767px) {
+      /* line 13, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+      #bills form .webform-layout-box {
+        display: block; } }
+  /* line 21, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills form .form-group {
+    margin-bottom: 15px; }
+    @media only screen and (min-width: 767px) and (max-width: 1279px) {
+      /* line 21, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+      #bills form .form-group {
+        -webkit-box-flex: 1;
+            -ms-flex: 1;
+                flex: 1; }
+        /* line 25, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+        #bills form .form-group + .form-group {
+          margin-left: 30px; } }
+  /* line 30, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills form label {
+    margin-bottom: 10px; }
+    /* line 32, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+    #bills form label .required {
+      color: #ff1818; }
+  @media only screen and (min-width: 1280px) {
+    /* line 37, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+    #bills form input {
+      width: 420px; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 37, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+    #bills form input {
+      width: 100%; } }
+  /* line 46, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
+  #bills form span.error {
+    display: block;
+    margin-top: 5px;
+    font-size: 1.4rem; }
 
 /* line 1, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
 #demandes {
@@ -9911,6 +10135,75 @@ a {
       /* line 28, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
       #demandes .demandes-list .btn-text {
         text-transform: none !important; } }
+
+/* line 1, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+#mediatheque {
+  margin-bottom: 40px; }
+  /* line 5, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque h2:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
+  /* line 8, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque p {
+    font-size: 1.8rem;
+    color: #5c5c5c;
+    margin-bottom: 20px; }
+    /* line 13, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque p .center {
+      text-align: center; }
+  /* line 20, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque form .webform-layout-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    @media only screen and (max-width: 767px) {
+      /* line 20, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque form .webform-layout-box {
+        display: block; } }
+  /* line 28, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque form .form-group {
+    margin-bottom: 15px; }
+    @media only screen and (min-width: 767px) and (max-width: 1279px) {
+      /* line 28, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque form .form-group {
+        -webkit-box-flex: 1;
+            -ms-flex: 1;
+                flex: 1; }
+        /* line 32, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+        #mediatheque form .form-group + .form-group {
+          margin-left: 30px; } }
+  /* line 37, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque form label {
+    margin-bottom: 10px; }
+    /* line 39, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque form label .required {
+      color: #ff1818; }
+  @media only screen and (min-width: 1280px) {
+    /* line 44, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque form input {
+      width: 420px; } }
+  @media only screen and (max-width: 1279px) {
+    /* line 44, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque form input {
+      width: 100%; } }
+  /* line 53, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque form span.error {
+    display: block;
+    margin-top: 5px;
+    font-size: 1.4rem; }
+  /* line 60, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .error {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 15px 15px;
+    background-color: #FFDDDE;
+    padding: 15px 20px;
+    padding-left: 60px;
+    color: #505050;
+    font-size: 18px; }
 
 /* line 1, custom/02-particules/02-modules/home/serial/_organism-serial.scss */
 #serial {
@@ -10071,6 +10364,60 @@ a {
     position: relative;
     z-index: 2; }
 
+/* line 1, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+#vote {
+  margin-bottom: 40px; }
+  /* line 4, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+  #vote h2:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
+  /* line 8, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+  #vote .rte {
+    font-size: 1.8rem;
+    color: #5c5c5c;
+    text-align: center; }
+    /* line 13, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .error {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 15px 15px;
+      background-color: #FFDDDE;
+      padding: 15px 20px;
+      width: 85%;
+      margin: auto;
+      margin-bottom: 25px; }
+      /* line 24, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+      #vote .rte .error strong {
+        font-weight: 600; }
+    /* line 29, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .main-response {
+      margin-bottom: 20px; }
+      /* line 32, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+      #vote .rte .main-response a {
+        color: #31455d;
+        font-weight: 600;
+        text-decoration: underline; }
+    /* line 39, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .incomplet {
+      padding-top: 10px;
+      font-weight: 600; }
+    /* line 44, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .warning {
+      margin-bottom: 20px; }
+    /* line 48, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .poll-address {
+      margin-bottom: 20px; }
+      /* line 51, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+      #vote .rte .poll-address .poll-number {
+        font-weight: 600; }
+    /* line 56, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
+    #vote .rte .add-favorites {
+      width: -webkit-max-content;
+      width: -moz-max-content;
+      width: max-content;
+      margin: auto;
+      margin-bottom: 20px; }
+
 /* line 1, custom/02-particules/02-modules/layouts/grids/grid-carrefour/_organism-grid-carrefour.scss */
 #grid-carrefour {
   margin-bottom: 40px; }
@@ -10089,6 +10436,34 @@ a {
       /* line 14, custom/02-particules/02-modules/layouts/grids/grid-carrefour/_organism-grid-carrefour.scss */
       #grid-carrefour .grid-item {
         width: 100%; } }
+
+/* line 1, custom/02-particules/02-modules/layouts/sliders/slider--mega/_organism-slider--mega.scss */
+.slider--mega .slider-mega-container {
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2; }
+  @media only screen and (max-width: 767px) {
+    /* line 1, custom/02-particules/02-modules/layouts/sliders/slider--mega/_organism-slider--mega.scss */
+    .slider--mega .slider-mega-container {
+      margin-bottom: 10px; } }
+  /* line 11, custom/02-particules/02-modules/layouts/sliders/slider--mega/_organism-slider--mega.scss */
+  .slider--mega .slider-mega-container .slider .owl-item {
+    -webkit-backface-visibility: visible !important;
+            backface-visibility: visible !important; }
+    /* line 13, custom/02-particules/02-modules/layouts/sliders/slider--mega/_organism-slider--mega.scss */
+    .slider--mega .slider-mega-container .slider .owl-item .item {
+      -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+              box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+      opacity: 0.2;
+      height: 425px;
+      content: '';
+      display: block;
+      -webkit-transition: opacity 1s;
+      transition: opacity 1s; }
+      @media only screen and (max-width: 767px) {
+        /* line 13, custom/02-particules/02-modules/layouts/sliders/slider--mega/_organism-slider--mega.scss */
+        .slider--mega .slider-mega-container .slider .owl-item .item {
+          height: 350px; } }
 
 /* line 1, custom/02-particules/02-modules/layouts/sliders/slider-int/_organism-slider-int.scss */
 .slider-int-container {
@@ -11375,6 +11750,50 @@ footer .footer .portlet {
     text-align: center;
     font-size: 1.5rem;
     margin-bottom: 20px; }
+  /* line 85, custom/02-particules/03-pages/_page-general.scss */
+  .mseu .add-favorites {
+    font-family: "MontSerrat", arial;
+    font-size: 1.4rem;
+    color: #31455d;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: relative;
+    height: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    margin-bottom: 20px; }
+    /* line 97, custom/02-particules/03-pages/_page-general.scss */
+    .mseu .add-favorites:before {
+      content: '';
+      display: inline-block;
+      width: 21px;
+      height: 21px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-right: 12px;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'   viewBox='0 0 240.7 240.7'%3E%3Cpath d='M123.8 80l-3.4 3.4 -3.4-3.4c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47 14.3-15.9 14.2-38.7-0.2-53.1C162.4 65.3 138.5 65.3 123.8 80zM168.4 125c-10.1 11.3-38 34.5-48 42.8 -10-8.2-37.9-31.5-48-42.8 -10-11.1-10-26.8-0.2-36.6 5-5 11.6-7.5 18.2-7.5 6.6 0 13.2 2.5 18.2 7.5l7.5 7.5c0.9 0.9 2 1.4 3.2 1.6 1.9 0.4 4-0.1 5.5-1.6l7.5-7.5c10-10 26.4-10 36.4 0C178.4 98.2 178.3 114 168.4 125z'/%3E%3Cpath d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9S60.3 229.2 120.4 229.2s108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3C/svg%3E"); }
+    /* line 110, custom/02-particules/03-pages/_page-general.scss */
+    .mseu .add-favorites.liked:before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 240.7 240.7'%3E%3Cpath class='st0' d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9s48.8 108.9 108.9 108.9 108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3Cpath class='st0' d='M177 80c-14.7-14.7-38.6-14.7-53.3 0l-3.4 3.4L117 80c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47C191.5 117.2 191.4 94.3 177 80z'/%3E%3C/svg%3E"); }
+    /* line 114, custom/02-particules/03-pages/_page-general.scss */
+    .mseu .add-favorites span {
+      position: relative; }
+    /* line 117, custom/02-particules/03-pages/_page-general.scss */
+    .mseu .add-favorites span:after {
+      background-color: #31455d; }
+    /* line 121, custom/02-particules/03-pages/_page-general.scss */
+    .mseu .add-favorites:hover, .mseu .add-favorites:focus {
+      text-decoration: none; }
 
 /* line 1, custom/02-particules/03-pages/_page-home.scss */
 .mseu .front {
@@ -11451,59 +11870,18 @@ footer .footer .portlet {
       margin-bottom: 30px; } }
 
 /* line 42, custom/02-particules/03-pages/_page-int.scss */
-.mseu .not-front .add-favorites {
-  font-family: "MontSerrat", arial;
-  font-size: 1.4rem;
-  color: #31455d;
-  text-transform: uppercase;
-  font-weight: 700;
-  position: relative;
-  height: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  margin-bottom: 20px; }
-  /* line 54, custom/02-particules/03-pages/_page-int.scss */
-  .mseu .not-front .add-favorites:before {
-    content: '';
-    display: inline-block;
-    width: 21px;
-    height: 21px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-right: 12px;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'   viewBox='0 0 240.7 240.7'%3E%3Cpath d='M123.8 80l-3.4 3.4 -3.4-3.4c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47 14.3-15.9 14.2-38.7-0.2-53.1C162.4 65.3 138.5 65.3 123.8 80zM168.4 125c-10.1 11.3-38 34.5-48 42.8 -10-8.2-37.9-31.5-48-42.8 -10-11.1-10-26.8-0.2-36.6 5-5 11.6-7.5 18.2-7.5 6.6 0 13.2 2.5 18.2 7.5l7.5 7.5c0.9 0.9 2 1.4 3.2 1.6 1.9 0.4 4-0.1 5.5-1.6l7.5-7.5c10-10 26.4-10 36.4 0C178.4 98.2 178.3 114 168.4 125z'/%3E%3Cpath d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9S60.3 229.2 120.4 229.2s108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3C/svg%3E"); }
-  /* line 67, custom/02-particules/03-pages/_page-int.scss */
-  .mseu .not-front .add-favorites.liked:before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 240.7 240.7'%3E%3Cpath class='st0' d='M120.4 240.7C54 240.7 0 186.7 0 120.4S54 0 120.4 0s120.4 54 120.4 120.4S186.7 240.7 120.4 240.7zM120.4 11.5c-60 0-108.9 48.8-108.9 108.9s48.8 108.9 108.9 108.9 108.9-48.8 108.9-108.9S180.4 11.5 120.4 11.5z'/%3E%3Cpath class='st0' d='M177 80c-14.7-14.7-38.6-14.7-53.3 0l-3.4 3.4L117 80c-14.7-14.7-38.6-14.7-53.3 0 -14.4 14.4-14.5 37.2-0.2 53.1 13 14.5 51.4 45.7 53 47 1.1 0.9 2.4 1.3 3.8 1.3 0 0 0.1 0 0.1 0 1.4 0.1 2.7-0.4 3.9-1.3 1.6-1.3 40-32.6 53-47C191.5 117.2 191.4 94.3 177 80z'/%3E%3C/svg%3E"); }
-  /* line 71, custom/02-particules/03-pages/_page-int.scss */
-  .mseu .not-front .add-favorites span {
-    position: relative; }
-  /* line 74, custom/02-particules/03-pages/_page-int.scss */
-  .mseu .not-front .add-favorites span:after {
-    background-color: #31455d; }
-  /* line 78, custom/02-particules/03-pages/_page-int.scss */
-  .mseu .not-front .add-favorites:hover, .mseu .not-front .add-favorites:focus {
-    text-decoration: none; }
+.mseu .not-front #banner h1:before {
+  background-image: none; }
 
-/* line 85, custom/02-particules/03-pages/_page-int.scss */
+/* line 48, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .hat {
   margin-bottom: 50px; }
   @media only screen and (max-width: 767px) {
-    /* line 85, custom/02-particules/03-pages/_page-int.scss */
+    /* line 48, custom/02-particules/03-pages/_page-int.scss */
     .mseu .not-front .hat {
       margin-bottom: 30px; } }
 
-/* line 92, custom/02-particules/03-pages/_page-int.scss */
+/* line 55, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .region-post-header .region-nav-tools {
   position: relative;
   z-index: 10;
@@ -11518,30 +11896,30 @@ footer .footer .portlet {
   margin-bottom: 50px;
   margin-top: 40px; }
 
-/* line 103, custom/02-particules/03-pages/_page-int.scss */
+/* line 66, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .region-post-header .block-container-breadcrumb {
   margin-right: auto;
   padding-left: 0; }
 
-/* line 108, custom/02-particules/03-pages/_page-int.scss */
+/* line 71, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .region-post-header.has-banner .region-nav-tools {
   margin-top: 0;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   margin-bottom: 5px; }
 
-/* line 113, custom/02-particules/03-pages/_page-int.scss */
+/* line 76, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .region-post-header.has-banner .block-container-breadcrumb {
   background-color: #f6f6f6;
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   padding: 20px 30px; }
   @media only screen and (max-width: 767px) {
-    /* line 113, custom/02-particules/03-pages/_page-int.scss */
+    /* line 76, custom/02-particules/03-pages/_page-int.scss */
     .mseu .not-front .region-post-header.has-banner .block-container-breadcrumb {
       padding: 10px 15px; } }
 
-/* line 125, custom/02-particules/03-pages/_page-int.scss */
+/* line 88, custom/02-particules/03-pages/_page-int.scss */
 .mseu .not-front .actu-published {
   text-align: right;
   font-style: italic;
@@ -12482,6 +12860,119 @@ footer .footer .portlet {
   .aroundme--fullscreen #aroundme .aroundme__ui--fullscreen {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 351.5 351.4'%3E%3Cpath class='st0' d='M214.2 143h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-38.2l78.7-78.7c2.4-2.4 2.4-6.3 0-8.6L332.1 1.8c-2.4-2.4-6.3-2.4-8.6 0l-78.7 78.7V42.3c0-3.4-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.8-6.1 6.1V137C208.1 140.2 210.9 143 214.2 143z'/%3E%3Cpath class='st0' d='M19 2L1.7 19.3c-2.4 2.3-2.4 6.2 0 8.6l78.7 78.7H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.7 6.1 6.1 6.1h94.7c3.3 0 6.1-2.7 6.1-6.1V42.4c0-3.3-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2L27.7 1.9C25.3-0.5 21.5-0.5 19 2z'/%3E%3Cpath class='st0' d='M1.7 332.3L19 349.6c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.5c3.4 0 6.1-2.8 6.1-6.1v-94.7c0-3.4-2.8-6.1-6.1-6.1l0 0H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h38.2L1.7 323.6C-0.7 326.1-0.7 329.9 1.7 332.3z'/%3E%3Cpath class='st0' d='M214.5 315.1h24.4c3.4 0 6.1-2.7 6.1-6.1v-38.2l78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3c2.4-2.4 2.4-6.3 0-8.6l-78.7-78.7h38.2c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-94.7l0 0c-3.4 0-6.1 2.8-6.1 6.1v94.7C208.4 312.4 211.2 315.1 214.5 315.1z'/%3E%3C/svg%3E"); }
 
+/* line 1, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+#mapConfirm {
+  position: fixed;
+  background-color: #FFFFFF;
+  width: 70%;
+  max-width: 720px;
+  z-index: 9000;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 50px 70px;
+  border-radius: 7px; }
+  @media only screen and (max-width: 1279px) {
+    /* line 1, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+    #mapConfirm {
+      padding: 30px 40px; } }
+  @media only screen and (max-width: 767px) {
+    /* line 1, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+    #mapConfirm {
+      padding: 20px;
+      width: calc(100% - 40px); } }
+  /* line 23, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+  #mapConfirm .mapMessage {
+    margin-bottom: 4em;
+    font-family: "MontSerrat", arial;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: #505050; }
+    @media only screen and (max-width: 767px) {
+      /* line 23, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+      #mapConfirm .mapMessage {
+        margin-bottom: 2em; } }
+  /* line 35, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+  #mapConfirm .mapActions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    @media only screen and (max-width: 767px) {
+      /* line 35, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+      #mapConfirm .mapActions {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+                flex-direction: column-reverse; }
+        /* line 42, custom/02-particules/02-modules/aroundme/mapConfirm.scss */
+        #mapConfirm .mapActions button + button {
+          margin-top: 20px; } }
+
+/* line 1, custom/02-particules/02-modules/district/aroundme/aroundme.scss */
+.aroundme--title {
+  color: white;
+  padding-top: 40px;
+  background-color: #31455d; }
+  /* line 3, custom/02-particules/02-modules/district/aroundme/aroundme.scss */
+  .aroundme--title:before {
+    content: '';
+    display: block;
+    height: 15px;
+    background-size: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E");
+    margin-bottom: 15px; }
+    @media only screen and (max-width: 767px) {
+      /* line 3, custom/02-particules/02-modules/district/aroundme/aroundme.scss */
+      .aroundme--title:before {
+        margin-bottom: 10px;
+        background-size: 35px; } }
+  @media only screen and (max-width: 767px) {
+    /* line 1, custom/02-particules/02-modules/district/aroundme/aroundme.scss */
+    .aroundme--title {
+      padding-bottom: 30px; } }
+
+/* line 28, custom/02-particules/02-modules/district/aroundme/aroundme.scss */
+#aroundme {
+  margin-bottom: 40px; }
+
+/* line 1, custom/02-particules/02-modules/district/sliders/sliders.scss */
+#sliders {
+  padding: 0px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  position: static;
+  background-color: transparent;
+  border-radius: 0;
+  display: block;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: normal;
+      -ms-flex-pack: normal;
+          justify-content: normal; }
+  /* line 13, custom/02-particules/02-modules/district/sliders/sliders.scss */
+  #sliders h1, #sliders .seu-btn-line {
+    text-align: center;
+    margin-bottom: 40px; }
+  /* line 18, custom/02-particules/02-modules/district/sliders/sliders.scss */
+  #sliders .add-favorites {
+    line-height: 1.66666666;
+    position: static;
+    height: 10%;
+    -webkit-box-align: normal;
+        -ms-flex-align: normal;
+            align-items: normal;
+    -webkit-box-pack: normal;
+        -ms-flex-pack: normal;
+            justify-content: normal; }
+
 /* line 1, custom/02-particules/02-modules/divers/loader/loader.scss */
 #loader {
   display: -webkit-box;
@@ -13015,28 +13506,17 @@ footer .footer .portlet {
 #actu-agenda {
   margin-bottom: 40px; }
 
-/* line 8, custom/02-particules/02-modules/home/actu-agenda/actu-agenda.scss */
-#actu-agenda-no-interest h2:before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-
-/* line 11, custom/02-particules/02-modules/home/actu-agenda/actu-agenda.scss */
-#actu-agenda-no-interest p {
-  font-size: 1.8rem;
-  color: #5c5c5c;
-  margin-bottom: 20px; }
-
-/* line 13, custom/02-particules/02-modules/home/actu-agenda/slider--mega/slider--mega.scss */
-#slider--mega #mega-templates {
-  display: none; }
-
-/* line 16, custom/02-particules/02-modules/home/actu-agenda/slider--mega/slider--mega.scss */
-#slider--mega .btn-line {
-  text-align: center; }
-  /* line 18, custom/02-particules/02-modules/home/actu-agenda/slider--mega/slider--mega.scss */
-  #slider--mega .btn-line a {
-    padding: 10px 20px;
-    background-color: #31455d;
-    color: white; }
+/* line 6, custom/02-particules/02-modules/home/actu-agenda/actu-agenda.scss */
+#actu-agenda-no-interest {
+  margin-bottom: 40px; }
+  /* line 9, custom/02-particules/02-modules/home/actu-agenda/actu-agenda.scss */
+  #actu-agenda-no-interest h2:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
+  /* line 12, custom/02-particules/02-modules/home/actu-agenda/actu-agenda.scss */
+  #actu-agenda-no-interest p {
+    font-size: 1.8rem;
+    color: #5c5c5c;
+    margin-bottom: 20px; }
 
 /* line 1, custom/02-particules/02-modules/home/alert-slider/alert-slider.scss */
 #alert-slider {
@@ -13050,14 +13530,14 @@ footer .footer .portlet {
 #wi-aroundme {
   margin-bottom: 40px;
   padding: 0;
-  overflow: hidden;
   z-index: 5; }
-  /* line 7, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 6, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-  /* line 10, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
+  /* line 9, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme #aroundme {
-    z-index: 10; }
+    z-index: 10;
+    overflow: hidden; }
   /* line 13, custom/02-particules/02-modules/home/wi-aroundme/wi-aroundme.scss */
   #wi-aroundme .meta {
     padding: 20px 75px 45px 75px;
@@ -13194,6 +13674,19 @@ footer .footer .portlet {
     height: 25px;
     background-size: 15px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 328.8 387.8'%3E%3Cpath d='M162.9 208.7h2.6c23.4-0.4 42.4-8.6 56.4-24.4 30.8-34.7 25.7-94.2 25.1-99.9 -2-42.6-22.2-63-38.8-72.6C195.8 4.7 181.3 0.9 165.1 0.6h-1.4c-8.9 0-26.3 1.4-43 11C103.9 21 83.5 41.4 81.5 84.4c-0.6 5.7-5.7 65.2 25.1 99.9C120.5 200.1 139.5 208.3 162.9 208.7L162.9 208.7zM102.8 86.4c0-0.2 0.1-0.5 0.1-0.6 2.6-57.4 43.4-63.5 60.8-63.5h1c21.6 0.5 58.3 9.3 60.8 63.5 0 0.2 0 0.5 0.1 0.6 0.1 0.6 5.7 55-19.8 83.6 -10.1 11.4-23.5 17-41.2 17.1h-0.8c-17.6-0.2-31.1-5.8-41.1-17.1C97.3 141.5 102.7 86.9 102.8 86.4L102.8 86.4zM102.8 86.4'/%3E%3Cpath d='M328.6 307.4v-0.2c0-0.6-0.1-1.3-0.1-2 -0.5-15.8-1.5-52.9-36.2-64.7 -0.2-0.1-0.6-0.2-0.8-0.2 -36.1-9.2-66.1-30-66.4-30.2 -4.9-3.4-11.6-2.2-15 2.6 -3.4 4.9-2.2 11.6 2.6 15 1.4 1 33.2 23.1 73 33.4 18.6 6.6 20.7 26.6 21.3 44.8 0 0.7 0 1.4 0.1 2 0.1 7.2-0.4 18.3-1.7 24.7 -13 7.4-63.8 32.8-141 32.8 -77 0-128.1-25.5-141.1-32.9 -1.3-6.4-1.8-17.5-1.7-24.7 0-0.6 0.1-1.3 0.1-2 0.6-18.2 2.6-38.2 21.3-44.8 39.8-10.2 71.7-32.5 73-33.4 4.9-3.4 6.1-10.2 2.6-15 -3.4-4.9-10.2-6.1-15-2.6 -0.3 0.2-30.2 21-66.4 30.2 -0.3 0.1-0.6 0.2-0.8 0.2C1.6 252.3 0.6 289.4 0.1 305.1c0 0.7 0 1.4-0.1 2v0.2c-0.1 4.2-0.2 25.5 4.1 36.2 0.8 2.1 2.2 3.8 4.2 5 2.4 1.6 59.9 38.2 156.2 38.2s153.8-36.7 156.2-38.2c1.8-1.2 3.4-3 4.2-5C328.7 333 328.7 311.6 328.6 307.4L328.6 307.4zM328.6 307.4'/%3E%3C/svg%3E"); }
+
+/* line 13, custom/02-particules/02-modules/layouts/sliders/slider--mega/slider--mega.scss */
+.slider--mega #mega-templates {
+  display: none; }
+
+/* line 16, custom/02-particules/02-modules/layouts/sliders/slider--mega/slider--mega.scss */
+.slider--mega .btn-line {
+  text-align: center; }
+  /* line 18, custom/02-particules/02-modules/layouts/sliders/slider--mega/slider--mega.scss */
+  .slider--mega .btn-line a {
+    padding: 10px 20px;
+    background-color: #31455d;
+    color: white; }
 
 /* line 1, custom/02-particules/02-modules/layouts/sliders/slider-int/slider-int.scss */
 .slider-int-container {

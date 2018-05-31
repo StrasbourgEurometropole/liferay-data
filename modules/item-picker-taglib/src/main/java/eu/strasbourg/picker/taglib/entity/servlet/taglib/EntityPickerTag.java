@@ -30,7 +30,9 @@ import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCrit
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
+import eu.strasbourg.portlet.participation.itemselector.ParticipationItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
@@ -256,7 +258,28 @@ public class EntityPickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name, officialItemSelectorCriterion);
 			break;
+		case "eu.strasbourg.service.project.model.Project":
+			ProjectItemSelectorCriterion ProjectItemSelectorCriterion = new ProjectItemSelectorCriterion();
+			ProjectItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, ProjectItemSelectorCriterion);
+			break;
+		case "eu.strasbourg.service.project.model.Participation":
+			ParticipationItemSelectorCriterion ParticipationItemSelectorCriterion = new ParticipationItemSelectorCriterion();
+			ParticipationItemSelectorCriterion
+				.setDesiredItemSelectorReturnTypes(
+					desiredItemSelectorReturnTypes);
+			itemSelectorURL = ServletContextUtil.getItemSelector()
+				.getItemSelectorURL(
+					RequestBackedPortletURLFactoryUtil.create(request),
+					"itemSelected" + _name, ParticipationItemSelectorCriterion);
+			break;
 		}
+		
 		
 		// Si l'attribut "global" est "true", on se met sur le groupe global en
 		// modifiant l'URL
