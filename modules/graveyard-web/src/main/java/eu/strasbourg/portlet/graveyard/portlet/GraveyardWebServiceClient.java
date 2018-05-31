@@ -26,23 +26,15 @@ public class GraveyardWebServiceClient {
 		params.put("nom", name);
 		if (Validator.isNotNull(deathDateStart)) {
 			params.put("date_debut", new SimpleDateFormat("dd/MM/yyyy").format(deathDateStart));
-		} else {
-			params.put("date_debut", "");
 		}
 		if (Validator.isNotNull(deathDateEnd)) {
 			params.put("date_fin", new SimpleDateFormat("dd/MM/yyyy").format(deathDateEnd));
-		} else {
-			params.put("date_fin", "");
-		}
+		} 
 		if (Validator.isNotNull(birthDateStart)) {
 			params.put("date_naissance_debut", new SimpleDateFormat("dd/MM/yyyy").format(birthDateStart));
-		} else {
-			params.put("date_naissance_debut", "");
-		}
-		if (Validator.isNotNull(deathDateEnd)) {
+		} 
+		if (Validator.isNotNull(birthDateEnd)) {
 			params.put("date_naissance_fin", new SimpleDateFormat("dd/MM/yyyy").format(birthDateEnd));
-		} else {
-			params.put("date_naissance_fin", "");
 		}
 		params.put("cimetieres", graveyard);
 
