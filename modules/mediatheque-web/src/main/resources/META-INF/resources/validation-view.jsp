@@ -12,10 +12,10 @@
 		<c:if test="${liaison == 'ok'}">
 			<p>
 				<c:if test="${isLoggedIn}">
-					<liferay-ui:message key="liaison-ok-connect"/>
+					<liferay-ui:message key="liaison-ok" arguments="<liferay-ui:message key='btn-continue'/>" />
 				</c:if>
 				<c:if test="${!isLoggedIn}">
-					<liferay-ui:message key="liaison-ok-disconnect"/>
+					<liferay-ui:message key="liaison-ok" arguments="<liferay-ui:message key='btn-connect'/>"/>
 				</c:if>
 			</p>
 		</c:if>
@@ -23,10 +23,10 @@
 		<c:if test="${liaison == 'already-done'}">
 			<p>
 				<c:if test="${isLoggedIn}">
-					<liferay-ui:message key="liaison-existante-connect"/>
+					<liferay-ui:message key="liaison-existante" arguments="<liferay-ui:message key='btn-continue'/>"/>
 				</c:if>
 				<c:if test="${!isLoggedIn}">
-					<liferay-ui:message key="liaison-existante-disconnect"/>
+					<liferay-ui:message key="liaison-existante" arguments="<liferay-ui:message key='btn-connect'/>"/>
 				</c:if>
 			</p>
 		</c:if>
@@ -39,10 +39,7 @@
    
 		<c:if test="${liaison == 'ko'}">
 			<!-- Message d'erreur -->
-			<p><liferay-ui:message key="${error}" /></p>
-			<a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="contact-administrator" /> (<liferay-ui:message key="eu.new-window" />)">
-				<liferay-ui:message key="contact-administrator" />
-			</a>
+			<p><liferay-ui:message key="error-text" /></p>
 		</c:if>
 			
 		<c:if test="${!isLoggedIn || (liaison != 'ko' && liaison != 'time-excedeed')}">

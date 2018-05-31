@@ -16,3 +16,23 @@
 <portlet:defineObjects />
 
 <jsp:useBean id="LayoutHelper" class="eu.strasbourg.utils.LayoutHelperImpl"/>
+
+
+<liferay-util:html-bottom>
+	<aui:script>
+		$(document).ready(function() {
+		    $('body').on('click', '[data-dissociateconfirm]', function(e){
+		        e.preventDefault();
+		        e.stopPropagation();
+		        var href = $(this).attr('href');
+		        message = Liferay.Language.get('dissociate-validation-text');
+		        var agree = function() {
+		        	window.location = href;
+		        };
+		        var deny = function() {
+		        }
+		        createPopinMediatheque(message, agree, deny);
+		    });
+		});
+	</aui:script>
+</liferay-util:html-bottom>

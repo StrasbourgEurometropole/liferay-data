@@ -157,15 +157,14 @@
 		</div>
 		<p><liferay-ui:message key="dissociate-text" /></p>
 		<div align="center">
-			<liferay-portlet:renderURL varImpl="dissociateURL" />
-			<aui:form name="fm" action="${dissociateURL}" class="generic-form toValidate">
-				<input type="hidden" id="dissociate" name="<portlet:namespace />dissociate" value="dissocier">
-				<button class="btn-square--bordered--core" title="<liferay-ui:message key="dissociate" />">
-					<span class="flexbox">
-						<span class="btn-text"><liferay-ui:message key="dissociate" /></span>
-						<span class="btn-arrow"></span>
-					</span>
-				</button>
-			</aui:form>
+			<liferay-portlet:renderURL varImpl="dissociateURL" >
+				<portlet:param name="dissociate" value="dissocier" />
+			</liferay-portlet:renderURL>
+			<a href="${dissociateURL}" class="btn-square--bordered--core" title="<liferay-ui:message key="dissociate" />" data-dissociateconfirm="dissociate">
+				<span class="flexbox">
+					<span class="btn-text"><liferay-ui:message key="dissociate" /></span>
+					<span class="btn-arrow"></span>
+				</span>
+			</a>
 		</div>
 </section>
