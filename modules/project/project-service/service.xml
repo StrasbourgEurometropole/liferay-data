@@ -121,7 +121,7 @@
 		
 		<!-- Others -->
 		<column name="publicationDate" type="Date" />
-		<column name="expirationDate" type="Date"></column>
+		<column name="expirationDate" type="Date" />
 		
 		<!-- Order -->
 		<order by="asc">

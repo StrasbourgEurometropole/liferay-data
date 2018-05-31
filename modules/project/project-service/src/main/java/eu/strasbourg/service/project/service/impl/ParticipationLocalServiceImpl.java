@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -261,6 +262,17 @@ public class ParticipationLocalServiceImpl
 				Participation.class.getName(), participation.getParticipationId());
 
 		return participation;
+	}
+	
+	/**
+	 * Met a jour le statut de toutes les participations
+	 */
+	public void updateAllParticipationsStatus() {
+		List<Participation> participations = this.participationPersistence.findAll();
+		for (Participation participation : participations) {
+			participation.getParticipationStatus();
+		}
+		
 	}
 	
 	/**

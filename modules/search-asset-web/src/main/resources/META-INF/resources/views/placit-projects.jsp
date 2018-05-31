@@ -5,13 +5,12 @@
 <div class="pro-wrapper-top-listing">
 	<div class="container">
 		<div id="breadcrumb">
-			<span> <span><a href="/">Accueil</a> <span
+			<span> <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a> <span
 					class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-project" /></span> </span>
 			</span>
 		</div>
 	</div>
 </div>
-
 
 <section class="container">
 
@@ -130,46 +129,46 @@
 	            <div class="col-sm-6 col-xs-8 pull-right">
 	            
 	          		<c:if test="${dc.pager.lastPage > 1}">
-		                <ul>
-		                
-		                	<!-- Lien vers la premiere page -->
-		                	<c:if test="${not dc.pager.onFirstPage}">
-		                    	<li>
-		                    		<a href="${dc.getURLForPage(1)}" class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing">
-		                    			<liferay-ui:message key="eu.first" />
-		                    		</a>
-		                    	</li>
-		                    </c:if>
-		                    
-		                    <!-- Lien vers la page precedente page -->
-		                	<c:if test="${not dc.pager.onFirstPage}">
-		                    	<li>
-		                    		<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" title="Lien vers la page precedente du Listing">
-		                    			<liferay-ui:message key="eu.previous" />
-		                    		</a>
-		                    	</li>
-		                    </c:if>
-		                    
-		                    <!-- Lien vers la page suivante -->
-		                    <c:if test="${not dc.pager.onLastPage}">
-		                    	<li>
-		                    		<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" title="Lien vers la page suivante du Listing">
-		                    			<liferay-ui:message key="eu.next" />
-		                    		</a>
-		                    	</li>
-		                    </c:if>
-		                    
-		                    <!-- Lien vers la derniere page -->
-		                    <c:if test="${not dc.pager.onLastPage}">
-		                    	<li>
-		                    		<a href="${dc.getURLForPage(dc.pager.lastPage)}" class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing">
-		                    			<liferay-ui:message key="eu.last" />
-		                    		</a>
-		                    	</li>
-		                    </c:if>
-		                    
-		                </ul>
-			    	</c:if>
+	                <ul>
+	                
+	                	<!-- Lien vers la premiere page -->
+	                	<c:if test="${not dc.pager.onFirstPage}">
+	                    	<li>
+	                    		<a href="${dc.getURLForPage(1)}" class="hidden-sm hidden-xs pro-first" title="<liferay-ui:message key="eu.listing-link-to-first-page" />">
+	                    			<liferay-ui:message key="eu.first" />
+	                    		</a>
+	                    	</li>
+	                    </c:if>
+	                    
+	                    <!-- Lien vers la page precedente page -->
+	                	<c:if test="${not dc.pager.onFirstPage}">
+	                    	<li>
+	                    		<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
+	                    			<liferay-ui:message key="eu.previous" />
+	                    		</a>
+	                    	</li>
+	                    </c:if>
+	                    
+	                    <!-- Lien vers la page suivante -->
+	                    <c:if test="${not dc.pager.onLastPage}">
+	                    	<li>
+	                    		<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
+	                    			<liferay-ui:message key="eu.next" />
+	                    		</a>
+	                    	</li>
+	                    </c:if>
+	                    
+	                    <!-- Lien vers la derniere page -->
+	                    <c:if test="${not dc.pager.onLastPage}">
+	                    	<li>
+	                    		<a href="${dc.getURLForPage(dc.pager.lastPage)}" class="hidden-sm hidden-xs pro-last" title="<liferay-ui:message key="eu.listing-link-to-last-page" />">
+	                    			<liferay-ui:message key="eu.last" />
+	                    		</a>
+	                    	</li>
+	                    </c:if>
+	                    
+	                </ul>
+		    	</c:if>
 			    	
 	            </div>
 	        </div>

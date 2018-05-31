@@ -7,7 +7,7 @@
         <div class="col-md-8 pro-bloc-listing-participation">
             <div id="breadcrumb">
         <span>
-            <span><a href="index.html"><liferay-ui:message key="eu.home" /></a>
+            <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
                 <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-participation" /></span>
             </span>
         </span>
@@ -84,9 +84,9 @@
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂ©matique</span>
+                        <span>ThÃÂÃÂ©matique</span>
                     </div>
-                    <h3>Titre de lÃ¢ÂÂÃÂvÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>37 </strong>Commentaire(s)</span>
@@ -108,9 +108,9 @@
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂ©matique</span>
+                        <span>ThÃÂÃÂ©matique</span>
                     </div>
-                    <h3>Titre de lÃ¢ÂÂÃÂvÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>9 </strong>Commentaire(s)</span>
@@ -193,7 +193,7 @@
 	                	<!-- Lien vers la premiere page -->
 	                	<c:if test="${not dc.pager.onFirstPage}">
 	                    	<li>
-	                    		<a href="${dc.getURLForPage(1)}" class="hidden-sm hidden-xs pro-first" title="Lien vers la premiere page du Listing">
+	                    		<a href="${dc.getURLForPage(1)}" class="hidden-sm hidden-xs pro-first" title="<liferay-ui:message key="eu.listing-link-to-first-page" />">
 	                    			<liferay-ui:message key="eu.first" />
 	                    		</a>
 	                    	</li>
@@ -202,7 +202,7 @@
 	                    <!-- Lien vers la page precedente page -->
 	                	<c:if test="${not dc.pager.onFirstPage}">
 	                    	<li>
-	                    		<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" title="Lien vers la page precedente du Listing">
+	                    		<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" title="<liferay-ui:message key="eu.listing-link-to-previous-pag" />">
 	                    			<liferay-ui:message key="eu.previous" />
 	                    		</a>
 	                    	</li>
@@ -211,7 +211,7 @@
 	                    <!-- Lien vers la page suivante -->
 	                    <c:if test="${not dc.pager.onLastPage}">
 	                    	<li>
-	                    		<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" title="Lien vers la page suivante du Listing">
+	                    		<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" title="<liferay-ui:message key="eu.listing-link-to-next-page" />">
 	                    			<liferay-ui:message key="eu.next" />
 	                    		</a>
 	                    	</li>
@@ -220,7 +220,7 @@
 	                    <!-- Lien vers la derniere page -->
 	                    <c:if test="${not dc.pager.onLastPage}">
 	                    	<li>
-	                    		<a href="${dc.getURLForPage(dc.pager.lastPage)}" class="hidden-sm hidden-xs pro-last" title="Lien vers la derniere page du Listing">
+	                    		<a href="${dc.getURLForPage(dc.pager.lastPage)}" class="hidden-sm hidden-xs pro-last" title="<liferay-ui:message key="eu.listing-link-to-last-page" />">
 	                    			<liferay-ui:message key="eu.last" />
 	                    		</a>
 	                    	</li>

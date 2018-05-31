@@ -338,6 +338,11 @@ public interface ParticipationLocalService extends BaseLocalService,
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
 	/**
+	* Met a jour le statut de toutes les participations
+	*/
+	public void updateAllParticipationsStatus();
+
+	/**
 	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
 	*/
 	public void updateStatus(Participation participation, int status)
