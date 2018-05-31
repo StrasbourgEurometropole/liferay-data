@@ -6,7 +6,16 @@
 #mns-global{
 
 	#owl-full .owl-stage-outer {
-		width: 100%
+		width: 100%;
+        img {
+            height: auto;
+            width: auto;
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: none;
+            object-fit: cover;
+        }
 	}
 
 	#owl-full .owl-nav > button{
@@ -36,12 +45,12 @@
 		@include mobile {
 			position: absolute;
 			bottom: 10%;
-			right: calc(20% + 35px);
+			left: calc(2% + 250px);
 		}
 		@include tablet_portrait {
 			position: absolute;
 			bottom: 10%;
-			right: calc(10% + 30px);
+			right: calc(10% + 35px);
 		}
 
 		.owl-prev {
@@ -101,14 +110,32 @@
             }
             img {
                 position: absolute !important;
+                height: auto;
+                width: auto;
+                min-width: 100%;
+                min-height: 100%;
+                max-width: 100%;
+                max-height: none;
+                object-fit: cover;
             }
         }
 
         .caption {
+            text-align: right;
             position: absolute;
             z-index: 3;
             bottom: 20%;
             right: 5%;
+            width: 25%;
+            @include tablet_portrait {
+                width: 50%;
+            }
+            @include mobile {
+                width: 50%;
+                p {
+                    font-size: 12.5px;
+                }
+            }
         }
     }
 
@@ -134,7 +161,7 @@
 
     #owl-slider .owl-nav{
         position: absolute;
-        bottom: 10%;
+        bottom: 20%;
         right: calc(5% + 40px);
         @include mobile {
             position: absolute;
@@ -191,8 +218,23 @@
     }
 
 
+    #owl-agenda {
+        @media (min-width: 1300px) {
+            float: left !important;
+            width: 100% !important;
+        }
+        @media (min-width: 500px) {
+            float: none;
+            margin: auto;
+            width: 80%;
+        }
+    }
+
 	#owl-agenda .owl-item{
 		max-width: 260px;
+        @media (max-width: 330px) {
+           max-width: 240px;
+        }
 		@include an(all,0.3);
 		img {
 			width: auto !important;
@@ -205,14 +247,12 @@
 		display: -ms-box;
 		display: box;
 	}
-
+      
 
 	#owl-agenda .owl-nav {
-		@include mobile{
-            display: none;
-        }
-        @include tablet_portrait {
-            display: none;
+        display: none;
+        @media (min-width: 500px) {
+            display: block;
         }
 		@include an(all,0.3);
 		.owl-prev {
@@ -224,10 +264,6 @@
             left: -300px;
             width: 300px;
             outline: none;
-            @include tablet_landscape{
-                width: 80px;
-                left: 0px;
-            }
             .mns-picto {
                 left: 30px;
             }
@@ -242,9 +278,6 @@
             width: 200px;
             right: -200px;
             outline: none;
-            @include tablet_landscape{
-                width: 80px;
-            }
             .mns-picto {
                 left: 30px;
             }
@@ -291,7 +324,6 @@
             background-size: 20px;
         }
         @include mobile {
-            left: 35px;
             width: 30px;
             height: 30px;
             background-size: 18px;

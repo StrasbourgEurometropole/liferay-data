@@ -6721,20 +6721,23 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 		nav:true,
 		margin: 40,
 		autoWidth: true,
-		items: 4,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
+		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"],
+	    responsive:{
+	        0:{
+	            items:1
+	        },
+	        700:{
+	            items:2
+	        },
+	        1100:{
+	            items:3
+	        },
+	        1375:{
+	            items:4
+	        }
+	    }
 	})
 
-
-	// Carsousel section Testimonial
-	$('#owl-testi').owlCarousel({
-		loop:true,
-		margin:30,
-		dots: false,
-		nav:true,
-		items: 1,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
-	})
 
 	// Carsousel section Testimonial
 	$('#owl-full').owlCarousel({
@@ -6790,7 +6793,33 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
         }
     });
 
+// Resize le titre de l'agenda de la home en allemand sur mobile
+if($('html').attr('lang')=="de-DE") {
+	if ($(window).width() <= 320){
+		$('.mns-section-agenda').find('h1').css('font-size', '28px');
+	}
+	else if ($(window).width() <= 375){
+		$('.mns-section-agenda').find('h1').css('font-size', '32px');
+	}
+	else if ($(window).width() <= 420){
+		$('.mns-section-agenda').find('h1').css('font-size', '36px');
+	}
+}
 
 
+if($('iframe[src^="https://www.youtube.com"]')) {
+	$iframe_yt = $('iframe[src^="https://www.youtube.com"]');
+	$iframe_yt.css('position','absolute');
+	$iframe_yt.css('top','0');
+	$iframe_yt.css('left','0');
+	$iframe_yt.css('width','100%');
+	$iframe_yt.css('height','100%');
 
+	$parent = $iframe_yt.parent();
+	$parent.css('position','relative');
+	$parent.css('padding-bottom','56.25%');
+	$parent.css('padding-top','30px');
+	$parent.css('overflow','hidden');
+	$parent.css('height','0');
 
+}

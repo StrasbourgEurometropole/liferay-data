@@ -4,6 +4,25 @@
 @import "_t_mixins";
 
 #mns-global{
+	.mns-contact-link {
+		border-left: none !important;
+		.mns-contact {
+			.mns-picto-contact{
+				width: 20px;
+			    position: absolute; 
+			    height: 20px;
+			    background-size: 20px;
+			    background-position: center;
+			    background-repeat: no-repeat;
+			    margin-top: -3px;
+		        background-image: url( svg-bg-uri($svg-mail, #FFFFFF));
+		    }
+		    .mns-text {
+		    	margin-left: 30px;
+		    	text-transform: uppercase
+		    }
+		}
+	}	
 
 	.mns-layer{
 		position: fixed;
@@ -636,7 +655,7 @@
 			.navbar-collapse{
 				margin-top: 35px;
 				@include mobile {
-					margin-top: 9px;
+					margin-top: 9px !important;
 				}
 				@include tablet_portrait {
 					margin-top: -40px;

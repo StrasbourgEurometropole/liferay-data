@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.vote_place;
+﻿package eu.strasbourg.portlet.vote_place;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -92,6 +92,7 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 				try {
 					String stationNumber = felecResponse.getStationNumber();
 					if (Validator.isNotNull(stationNumber)) {
+						//retire les zéros devant le numéro
 						stationNumber = stationNumber.replaceAll("^0+", "");
 						List<Place> places = PlaceLocalServiceUtil.findByName("% " + stationNumber);
 						if(!places.isEmpty())
