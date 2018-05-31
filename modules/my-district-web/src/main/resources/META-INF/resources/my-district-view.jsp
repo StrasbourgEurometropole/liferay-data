@@ -244,55 +244,109 @@
 			</script>
 			<h1><liferay-ui:message key="district-actualities" /></h1>
 			<c:if test="${not empty dc.actusAndWebmags}">
-			<script type="text/javascript">
-                mega_source.push([
-                    <c:forEach var="curEntry" items="${dc.actusAndWebmags}" varStatus="loopStatus">
-                    <c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
-                    <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
-                    <c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
-                    <c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
-                    <c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
-                    <c:set var="id" value="${article.getArticleId()}"/>
-                    <c:set var="groupId" value="${article.getGroupId()}"/>
-                    <c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
-                    <c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
-                    {
-                        <c:if test="${dc.isMag(curEntry.getTagNames())}">
-                        category: 'mag',
-                        </c:if>
-                        <c:if test="${!dc.isMag(curEntry.getTagNames())}">
-                        category: 'actu',
-                        </c:if>
-                        title: '${dc.getJSONEncodedString(title)}',
-                        lead: '${dc.getJSONEncodedString(chapo)}',
-                        picture: '${image}',
-                        link: '${viewURL}',
-                        id: '${id}',
-                        groupId: '${groupId}',
-                        // La notion de big signifie ici que l'on veut 4 items par vues
-                        is_Big: true
-                    }
-                    </c:if>
-                    <c:if test="${!loopStatus.last}">,
-                    </c:if>
-                    </c:forEach>
-                ]);
-			</script>
-
-			<div class="slider--mega">
-				<div class="slider-mega-container">
-					<div class="slider-overflow">
-						<div class="slider">
-						</div>
-					</div>
-					<div class="owl-nav">
-						<button class="owl-prev">
-							<span class="picto"></span>
-						</button>
-						<button class="owl-next">
-							<span class="picto"></span>
-						</button>
-					</div>
+			    <script type="text/javascript">
+			        mega_source.push([
+			        	<c:forEach var="curEntry" items="${dc.actusAndWebmags}" varStatus="loopStatus">
+			        		<c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
+				                <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>
+				          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
+								<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
+								<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+								<c:set var="id" value="${article.getArticleId()}"/>
+								<c:set var="groupId" value="${article.getGroupId()}"/>
+								<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
+								<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
+				              {
+				            	<c:if test="${dc.isMag(curEntry.getTagNames())}">
+				                  category: 'mag',
+				  	            </c:if>
+					          	<c:if test="${!dc.isMag(curEntry.getTagNames())}">
+				                  category: 'actu',
+				  	            </c:if>
+				                title: '${dc.getJSONEncodedString(title)}',
+				                lead: '${dc.getJSONEncodedString(chapo)}',
+				                picture: '${image}',
+				                link: '${viewURL}',
+				                id: '${id}',
+				                groupId: '${groupId}',
+				                // La notion de big signifie ici que l'on veut 4 items par vues
+				                //is_Big: true
+				              }
+				            </c:if>
+			        		<c:if test="${!loopStatus.last}">,
+			 	        	</c:if>
+						</c:forEach>
+			        ]);
+			    </script>
+		      
+		        <div class="slider--mega">
+		            <div class="slider-mega-container">
+		                <div class="slider-overflow">
+		                    <div class="slider">
+		                    </div>
+		                </div>
+		                <div class="owl-nav">
+		                    <button class="owl-prev">
+		                        <span class="picto"></span>
+		                    </button>
+		                    <button class="owl-next">
+		                        <span class="picto"></span>
+		                    </button>
+		                </div>
+		            </div>
+		            <div id="mega-templates">
+		                <!-- Template actu-->
+		                <div class="item actu">
+		                    <a href="__link__" class="link" title="__title__">
+		                        <div class="text">
+		                            <div class="title dotme" data-dot="3">__title__</div>
+		                            <div class="lead dotme" data-dot="3">__lead__</div>
+		                        </div>
+		                        <div class="picture" style="background-image: url(__picture__)">
+		                        </div> 
+		                    </a>
+					        <a href="#" class="add-favorites"
+					            data-type="6" 
+					            data-title="__title__" 
+					            data-url="__link__" 
+					            data-id="__id__"
+					            data-group-id="__groupId__">
+					            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+					        </a>
+		                </div>
+		
+		                <!--Template Mag-->
+		                <div class="item mag">
+		                    <a href="__link__" class="link" title="__title__">
+		                        <div class="picture" style="background-image: url(__picture__)">
+		                        </div>
+		                        <div class="mag-logo">
+		                            <div class="mag-text">Mag'</div>
+		                            <div class="mag-picto"></div>
+		                        </div>
+		                        <div class="text">
+		                            <div class="title dotme" data-dot="3">__title__</div>
+		                            <div class="lead dotme" data-dot="3">__lead__</div>
+		                        </div>
+					        </a>
+					        <a href="#" class="add-favorites"
+					            data-type="6" 
+					            data-title="__title__" 
+					            data-url="__link__" 
+					            data-id="__id__"
+					            data-group-id="__groupId__">
+					            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+		                    </a>
+		                </div>
+		            </div>
+		        </div>
+				<div class="seu-btn-line"> 	
+					<a href="${homeURL}actualite" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-news" />">
+						<span class="flexbox">
+							<span class="btn-text"><liferay-ui:message key="eu.all-news" /></span>
+							<span class="btn-arrow"></span>
+						</span>
+					</a>
 				</div>
 				<div id="mega-templates">
 					<!-- Template actu-->
@@ -355,55 +409,89 @@
 
 			<h1><liferay-ui:message key="district-events" /></h1>
 			<c:if test="${not empty dc.events}">
-			<script type="text/javascript">
-                mega_source.push([
-                    <c:forEach var="curEntry" items="${dc.events}" varStatus="loopStatus">
-                    <c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
-                    {
-                        category: 'agenda',
-                        title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
-                        lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
-                        link: '${homeURL}evenement/-/entity/id/${event.eventId}',
-                        ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
-                        id: '${event.eventId}',
-                        <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
-                        <fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-                        date_start: '',
-                        date_end: '${firstStartDate}',
-                        date_prefix: '<liferay-ui:message key="eu.event.the" />',
-                        date_suffix: '',
-                        </c:if>
-                        <c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
-                        <fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-                        <fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
-                        date_start: '${firstStartDate}',
-                        date_end: '${lastEndDate}',
-                        date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
-                        date_suffix: '<liferay-ui:message key="eu.event.to" />',
-                        </c:if>
-                        // La notion de big signifie ici que l'on veut 4 items par vues
-                        is_Big: true
-                    }
-                    <c:if test="${!loopStatus.last}">,
-                    </c:if>
-                    </c:forEach>
-                ]);
-			</script>
-
-			<div class="slider--mega">
-				<div class="slider-mega-container">
-					<div class="slider-overflow">
-						<div class="slider">
-						</div>
-					</div>
-					<div class="owl-nav">
-						<button class="owl-prev">
-							<span class="picto"></span>
-						</button>
-						<button class="owl-next">
-							<span class="picto"></span>
-						</button>
-					</div>
+			    <script type="text/javascript">
+		        	mega_source.push([
+			        	<c:forEach var="curEntry" items="${dc.events}" varStatus="loopStatus">
+							<c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
+			              {
+			                category: 'agenda',
+			                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
+			                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
+			                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
+			                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
+			                id: '${event.eventId}',
+			                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
+								<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
+								date_start: '',
+								date_end: '${firstStartDate}',
+								date_prefix: '<liferay-ui:message key="eu.event.the" />',
+								date_suffix: '',
+			                </c:if>
+			        		<c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
+								<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
+								<fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
+								date_start: '${firstStartDate}',
+								date_end: '${lastEndDate}',
+								date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
+								date_suffix: '<liferay-ui:message key="eu.event.to" />',
+			                </c:if>
+				                // La notion de big signifie ici que l'on veut 4 items par vues
+				          	//is_Big: true
+			              }
+			        		<c:if test="${!loopStatus.last}">,
+			 	        	</c:if>
+						</c:forEach>
+			        ]);
+			    </script>
+		      
+		        <div class="slider--mega">
+		            <div class="slider-mega-container">
+		                <div class="slider-overflow">
+		                    <div class="slider">
+		                    </div>
+		                </div>
+		                <div class="owl-nav">
+		                    <button class="owl-prev">
+		                        <span class="picto"></span>
+		                    </button>
+		                    <button class="owl-next">
+		                        <span class="picto"></span>
+		                    </button>
+		                </div>
+		            </div>
+		            <div id="mega-templates">
+		                <!--Template Event-->
+		                <div class="item event">
+		                    <a href="__link__" class="link" title="__title__">
+		                        <div class="date">
+		                            <div class="date-sup">
+		                                <span class="date-prefix">__date_prefix__</span>
+		                                <span class="date-start">__date_start__</span>
+		                                <span class="date-suffix">__date_suffix__</span>
+		                            </div>
+		                            <div class="date-end">__date_end__</div>
+		                        </div>
+		                        <div class="ville">__ville__</div>
+		                        <div class="title dotme" data-dot="3">__title__</div>
+		                        <div class="lead dotme" data-dot="7">__lead__</div>
+		                    </a>
+					        <a href="#" class="add-favorites"
+					            data-type="2" 
+					            data-title="__title__" 
+					            data-url="__link__" 
+					            data-id="__id__" >
+					            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+					        </a>
+		                </div>
+		            </div>
+		        </div> 
+				<div class="seu-btn-line"> 	
+					<a href="${homeURL}agenda" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-events" />">
+						<span class="flexbox">
+							<span class="btn-text"><liferay-ui:message key="eu.all-events" /></span>
+							<span class="btn-arrow"></span>
+						</span>
+					</a>
 				</div>
 				<div id="mega-templates">
 					<!--Template Event-->

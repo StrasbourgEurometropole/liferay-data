@@ -443,7 +443,7 @@
                         iconSize: [25,25],
                         iconAnchor: [12, 12]
                     });
-                    var homeMarker = L.marker([data[1], data[0]], { icon: markerIcon }).addTo(mymap);
+                    var homeMarker = L.marker([position.coords.latitude, position.coords.longitude], { icon: markerIcon }).addTo(mymap);
                     mymap.setView([position.coords.latitude, position.coords.longitude], 18);
                 });
             }

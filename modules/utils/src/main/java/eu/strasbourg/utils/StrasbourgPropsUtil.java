@@ -176,4 +176,20 @@ public class StrasbourgPropsUtil {
 	public static String getGraveyardURL(){
 		return PropsUtil.get("eu.strasbourg.graveyard.url");
 	}
+
+	public static String getMediathequeBorrower(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.borrower");
+	}
+
+	public static String getMediathequeAssociation(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.association");
+	}
+
+	public static String getMediathequeValidation(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.validation");
+	}
+
+	public static String getMediathequeDestroy(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.destroy");
+	}
 }

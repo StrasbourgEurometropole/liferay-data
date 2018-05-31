@@ -54,18 +54,7 @@
             .add-favorites{
                 padding-left: 20px;
                 background-color: #FFFFFF;
-                padding-bottom: 2px;
-
-                @include RWD(desktop){
-                    span{
-                        top: -10px;
-                        width: 100px;
-                    }
-                }
-
-                @include RWD(tablet){
-                    padding-bottom: 24px;
-                }
+                padding-bottom: 25px;
             }
         }
 

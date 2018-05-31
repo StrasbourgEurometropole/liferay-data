@@ -6,8 +6,9 @@
 
 <head>
   <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay ni avec un compte Publik 
-  (et qu'il n'est pas sur la page d'infos), on le redirige vers la page d'infos -->
-  <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() != "/bienvenue">
+  (et qu'il n'est pas sur la page de bienvenue ni sur la page de validation médiathèque), 
+  on le redirige vers la page de bienvenue -->
+  <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && (layout.getFriendlyURL() != "/bienvenue" || layout.getFriendlyURL() != "/validation-médiathèque")>
       <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
       <#else>
@@ -16,7 +17,7 @@
       ${themeDisplay.getResponse().sendRedirect(homeURL + 'bienvenue')} 
   </#if>
   <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay mais qu'il est connecté
-  avec un compte Publik et s'il est sur la page d'infos, on le redirige vers la page d'accueil -->
+  avec un compte Publik et s'il est sur la page de bienvenue, on le redirige vers la page d'accueil -->
   <#if !is_signed_in && (request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() == "/bienvenue">
       <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />

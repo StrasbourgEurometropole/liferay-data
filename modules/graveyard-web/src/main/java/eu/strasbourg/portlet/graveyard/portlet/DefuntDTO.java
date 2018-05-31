@@ -3,9 +3,6 @@ package eu.strasbourg.portlet.graveyard.portlet;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
-import eu.strasbourg.service.place.exception.NoSuchPlaceException;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
 public class DefuntDTO {
 
