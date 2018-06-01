@@ -47,9 +47,9 @@
 						<div class="title">
 							<label for="birthdate"><liferay-ui:message key="graveyard.birthdate" /></label>
 						</div>
-						<div class="content" id="birthDate" <c:if test="${birthdateunknown }">style="display: none;"</c:if>>
+						<div class="content" id="birthDate">
 							<input name="<portlet:namespace />birthdate" data-type="date" type="text" id="birthdate" placeholder="JJ/MM/AAAA" 
-								value="${birthdate}">
+								value="${birthdate}" <c:if test="${birthdateunknown}">disabled="disabled"</c:if>>
 						</div>
 					</div>
 					<label for="birthdateunknown">
@@ -85,9 +85,9 @@
 						<div class="title">
 							<label for="deathdate"><liferay-ui:message key="graveyard.deathdate" /></label>
 						</div>
-						<div class="content" id="deathDate" <c:if test="${deathdateunknown }">style="display: none;"</c:if>>
+						<div class="content" id="deathDate" >
 							<input name="<portlet:namespace />deathdate" data-type="date" type="text" id="deathdate" placeholder="JJ/MM/AAAA" 
-								value="${deathdate}">
+								value="${deathdate}" <c:if test="${deathdateunknown }">disabled="disabled"</c:if>>
 						</div>
 					</div>
 					<label for="deathdateunknown">
