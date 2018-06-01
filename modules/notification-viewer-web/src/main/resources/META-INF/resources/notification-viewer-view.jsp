@@ -15,7 +15,7 @@
 			<div class="notification-text">Notifications</div>
 		</div>
 	</button>
-	<div class="notif-list" sttyle="width:230px;">
+	<div class="notif-list">
 		<c:choose>
 			<c:when test="${notifCount > 0}">
 				<c:forEach var="notif" items="${dc.results}" begin="0" end="2">
