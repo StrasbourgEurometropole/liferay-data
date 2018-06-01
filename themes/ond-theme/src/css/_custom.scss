@@ -895,6 +895,11 @@
 					    min-height: 3.5em;
 					    position: relative;
 					    display: none;
+					    text-decoration: none;
+
+					    &:hover {
+					    	text-decoration: underline;
+					    }
 					}
 
 					.entry-meta{
