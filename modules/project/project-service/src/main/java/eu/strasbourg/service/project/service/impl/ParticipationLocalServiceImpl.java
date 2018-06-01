@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -109,13 +110,13 @@ public class ParticipationLocalServiceImpl
 		participation.setStatusByUserName(user.getFullName());
 		participation.setStatusDate(sc.getModifiedDate());
 		
-		if(Objects.isNull(participation.getImageId()) || participation.getImageId() == 0) {
+		if(!Objects.isNull(participation.getExternalImageURL()) && participation.getExternalImageURL() != "") {
 			URL url = new URL(participation.getExternalImageURL());
 	        final BufferedImage bi = ImageIO.read(url);
 	        participation.setImageHeight(bi.getHeight());
 	        participation.setImageWidth(bi.getWidth());
 		}
-		else {
+		else if (!Objects.isNull(participation.getImageId()) && participation.getImageId() != 0) {
 			String imageURL = FileEntryHelper.getFileEntryURL(participation.getImageId()); 
 			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
 			URL url = new URL(completeImageURL);
@@ -261,6 +262,17 @@ public class ParticipationLocalServiceImpl
 				Participation.class.getName(), participation.getParticipationId());
 
 		return participation;
+	}
+	
+	/**
+	 * Met a jour le statut de toutes les participations
+	 */
+	public void updateAllParticipationsStatus() {
+		List<Participation> participations = this.participationPersistence.findAll();
+		for (Participation participation : participations) {
+			participation.getParticipationStatus();
+		}
+		
 	}
 	
 	/**

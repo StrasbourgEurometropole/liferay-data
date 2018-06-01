@@ -12,3 +12,5 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<jsp:useBean id="strasbourgPropsUtil" class="eu.strasbourg.utils.StrasbourgPropsUtil"/>

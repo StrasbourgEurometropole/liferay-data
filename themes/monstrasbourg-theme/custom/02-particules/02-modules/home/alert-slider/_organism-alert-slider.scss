@@ -102,8 +102,8 @@
             position: absolute;
             content: '';
             display: inline-block;
-            width: 34px;
-            height: 34px;
+            width: 40px;
+            height: 40px;
             background-size: 17px;
             background-position: center;
             background-repeat: no-repeat;
@@ -127,8 +127,8 @@
             }
 
             @include RWD(mobile){
-                width: 26px;
-                height: 26px;
+                width: 24px;
+                height: 24px;
                 background-size: 10px;
             }
         }

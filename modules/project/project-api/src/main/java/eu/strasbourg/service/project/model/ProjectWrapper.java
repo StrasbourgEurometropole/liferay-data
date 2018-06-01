@@ -763,6 +763,14 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
+	* Retourne les thematiques du projet
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
+		return _project.getThematicCategories();
+	}
+
+	/**
 	* Returns the company ID of this project.
 	*
 	* @return the company ID of this project

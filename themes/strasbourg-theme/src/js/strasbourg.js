@@ -6426,7 +6426,7 @@ jQuery('.objtp-gallery').magnificPopup({
 	delegate: 'a',
 	type: 'image',
 	tLoading: 'Loading image #%curr%...',
-	mainClass: 'mfp-img-mobile mfp-no-margins mfp-with-zoom mfp-image',
+	mainClass: 'mfp-objtp mfp-no-margins mfp-image',
 	gallery: {
 		enabled: true,
 		navigateByImgClick: true,

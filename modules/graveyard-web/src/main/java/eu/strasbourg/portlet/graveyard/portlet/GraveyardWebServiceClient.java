@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
 
-import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class GraveyardWebServiceClient {
@@ -26,23 +26,15 @@ public class GraveyardWebServiceClient {
 		params.put("nom", name);
 		if (Validator.isNotNull(deathDateStart)) {
 			params.put("date_debut", new SimpleDateFormat("dd/MM/yyyy").format(deathDateStart));
-		} else {
-			params.put("date_debut", "");
 		}
 		if (Validator.isNotNull(deathDateEnd)) {
 			params.put("date_fin", new SimpleDateFormat("dd/MM/yyyy").format(deathDateEnd));
-		} else {
-			params.put("date_fin", "");
-		}
+		} 
 		if (Validator.isNotNull(birthDateStart)) {
 			params.put("date_naissance_debut", new SimpleDateFormat("dd/MM/yyyy").format(birthDateStart));
-		} else {
-			params.put("date_naissance_debut", "");
-		}
-		if (Validator.isNotNull(deathDateEnd)) {
+		} 
+		if (Validator.isNotNull(birthDateEnd)) {
 			params.put("date_naissance_fin", new SimpleDateFormat("dd/MM/yyyy").format(birthDateEnd));
-		} else {
-			params.put("date_naissance_fin", "");
 		}
 		params.put("cimetieres", graveyard);
 
@@ -58,11 +50,10 @@ public class GraveyardWebServiceClient {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		JSONObject jsonResponse = null;
 		try {
 			// On récupère le JSON
 			String url = StrasbourgPropsUtil.getGraveyardURL() + "?" + postData;
-			jsonResponse = JSONHelper.readJsonFromURL(url);
+			JSONObject jsonResponse = PasserelleHelper.readJsonFromURL(url);
 			graveyardResponse = new GraveyardResponse(jsonResponse);
 		} catch (IOException | JSONException ex) {
 			ex.printStackTrace();

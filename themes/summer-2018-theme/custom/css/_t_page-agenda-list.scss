@@ -91,14 +91,15 @@
 				input{
 					text-align: center;
 					position: relative;
-					width: 275px;
+					width: 100%;
 					padding: 12px 0;
 					height: auto;
 					background: $c_white;
-					border: none;
+					border: 4px solid $c_main;
 					box-shadow: none;
 					text-transform: uppercase;
-					@include ft($f_ms, 16px, 700, $c_main, normal);
+					white-space: normal;
+					@include ft($f_ms, 15px, 700, $c_main, normal);
 					@include an(all,0.3);
 					@include mobile{
 						margin-bottom: 40px;

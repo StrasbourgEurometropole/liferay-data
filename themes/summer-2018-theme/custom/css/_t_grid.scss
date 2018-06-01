@@ -339,9 +339,14 @@
 	/* Header page résultats */ 
 	.mns-header-standard{
 		height: 150px;
-		@include mobile{
+		@include mobile {
 			padding: 0 15px;
-			height: 100px;
+			height: 10px;
+			margin-bottom: 0px;
+		}
+		@include tablet_portrait {
+				height: 60px;
+			margin-bottom: 0px;
 		}
 		.container{
 			position: relative;
@@ -366,7 +371,11 @@
 			@include mobile{
 				left: 0;
 				top: -64px;
-				padding: 20px 0;
+				margin-top: 0;
+				padding: 0;
+			}
+			@include tablet_portrait {
+				margin-top: 0;
 			}
 		}
 	}

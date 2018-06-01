@@ -1,13 +1,7 @@
 package eu.strasbourg.portlet.map;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
@@ -22,6 +16,8 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -72,11 +68,13 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class MapPortlet extends MVCPortlet {
 
+    private ThemeDisplay themeDisplay;
+
 	@Override
 	public void render(RenderRequest request, RenderResponse renderResponse) throws IOException, PortletException {
 
 		try {
-			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Récupération de la configuration
 			MapConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -155,10 +153,26 @@ public class MapPortlet extends MVCPortlet {
 					groupId = configuration.groupId();
 					openInNewTab = configuration.openInNewTab();
 					districtUser = configuration.districtUser();
-					if (Validator.isNotNull(address)) {
-						String sectorType = "quartier_elus";
-						district = adictService.getDistrictByAddressAndSector(address, sectorType);
-					}
+					if (districtUser) {
+                        if (Validator.isNotNull(address)) {
+                            String sectorType = "quartier_elus";
+                            district = adictService.getDistrictByAddressAndSector(address, sectorType);
+                        }
+                        if (district == null) {
+                            HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+                            HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+                            String districtId = ParamUtil.getString(originalRequest, "district");
+                            if (Validator.isNotNull(districtId)) {
+                                try {
+                                    AssetVocabulary territoryVocabulary =
+                                            AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+                                    district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
+                                } catch (PortalException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
 					typesContenu = configuration.typesContenu();
 					categoriesIdsString = configuration.categoriesIds();
 					categoriesDefaultsIdsString = configuration.categoriesDefaultsIds();
@@ -263,28 +277,46 @@ public class MapPortlet extends MVCPortlet {
 
 			// Si l'utilisateur est connecté et qu'il a configuré le portlet
 			// autour de moi
-			if (Validator.isNotNull(internalId)
-					&& Validator.isNotNull(PublikUserLocalServiceUtil.getByPublikUserId(internalId).getMapConfig())) {
-				hasConfig = true;
-				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-
-				JSONObject json = JSONFactoryUtil.createJSONObject(user.getMapConfig());
-				JSONArray jsonArrayCategories = json.getJSONArray("categories");
-				if (jsonArrayCategories != null) {
-					if (Validator.isNotNull(categoriesDefaultsIdsString)) {
-						categoriesDefaultsIdsString += ",";
-					}
-					categoriesDefaultsIdsString += jsonArrayCategories.join(",");
+			PublikUser user = null;
+			String userConfigString = null;
+			if (Validator.isNotNull(internalId)) {
+				user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+				userConfigString = user.getMapConfig();
+				if (Validator.isNotNull(userConfigString)) {
+					hasConfig = true;
 				}
-				JSONArray jsonArrayInterests = json.getJSONArray("interests");
-				if (jsonArrayInterests != null) {
-					if (Validator.isNotNull(interestsDefaultsIdsString)) {
-						interestsDefaultsIdsString += ",";
+			}
+			if (hasConfig) {
+				JSONObject userPortletConfig = null;
+				// Une config par portlet (nouvelle façon de faire)
+				if (userConfigString.startsWith("[")) {
+					JSONArray userConfigs =  JSONFactoryUtil.createJSONArray(userConfigString);
+					// On va recherche le configId correspondant
+					String configId = getConfigId();
+					for (int i = 0; i < userConfigs.length(); i++) {
+						JSONObject config = userConfigs.getJSONObject(i);
+						if (config.getString("configId").equals(configId)) {
+							userPortletConfig = config;
+							break;
+						}
 					}
-					interestsDefaultsIdsString += jsonArrayInterests.join(",");
+				} else { // Ca n'a été enregistré que pour le mode widget (legacy)
+					userPortletConfig = JSONFactoryUtil.createJSONObject(userConfigString);
 				}
 
-				showFavorites = json.getBoolean("showFavorites");
+
+				if (userPortletConfig != null) {
+                    JSONArray jsonArrayCategories = userPortletConfig.getJSONArray("categories");
+                    if (jsonArrayCategories != null) {
+                        categoriesDefaultsIdsString = jsonArrayCategories.join(",");
+                    }
+                    JSONArray jsonArrayInterests = userPortletConfig.getJSONArray("interests");
+                    if (jsonArrayInterests != null) {
+                        interestsDefaultsIdsString = jsonArrayInterests.join(",");
+                    }
+
+                    showFavorites = userPortletConfig.getBoolean("showFavorites");
+                }
 			} else // Sinon on prend par defaut les catégories de l'utilisateur
 					// s'il en a
 			{
@@ -378,7 +410,11 @@ public class MapPortlet extends MVCPortlet {
 
 			if (Validator.isNotNull(internalId)) {
 				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-				user.setMapConfig("");
+				String userConfigString = user.getMapConfig();
+				JSONArray userConfig = getCurrentPortletUserConfig(userConfigString);
+				userConfig = getUserConfigWithoutCurrentPortlet(userConfig, getConfigId());
+				userConfigString = userConfig.toJSONString();
+				user.setMapConfig(userConfigString);
 				PublikUserLocalServiceUtil.updatePublikUser(user);
 			}
 
@@ -395,6 +431,9 @@ public class MapPortlet extends MVCPortlet {
 
 	}
 
+	/**
+	 * Enregistrement de la configuration utilisateur
+	 */
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
@@ -406,45 +445,139 @@ public class MapPortlet extends MVCPortlet {
 				// Récupération du publik ID avec la session
 				String internalId = getPublikID(resourceRequest);
 
-				if (Validator.isNotNull(internalId)) {
-					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-
-					// JSON initialisation
-					JSONObject json = JSONFactoryUtil.createJSONObject();
-					JSONArray jsonArrayCategories = JSONFactoryUtil.createJSONArray();
-					JSONArray jsonArrayInterests = JSONFactoryUtil.createJSONArray();
-
-					String[] checkboxNamesCategories = ParamUtil.getString(resourceRequest, "checkboxNamesCategories")
-							.split(",");
-					for (String checkboxName : checkboxNamesCategories) {
-						String categoryIdString = ParamUtil.getString(resourceRequest, checkboxName);
-
-						if (Validator.isNotNull(categoryIdString) && !categoryIdString.equals("false"))
-							jsonArrayCategories.put(Long.parseLong(categoryIdString));
-					}
-
-					String[] checkboxNamesInterests = ParamUtil.getString(resourceRequest, "checkboxNamesInterests")
-							.split(",");
-					for (String checkboxName : checkboxNamesInterests) {
-						String interestIdString = ParamUtil.getString(resourceRequest, checkboxName);
-
-						if (Validator.isNotNull(interestIdString) && !interestIdString.equals("false"))
-							jsonArrayInterests.put(Long.parseLong(interestIdString));
-					}
-
-					// Enregistrement des préférences utilisateur.
-					json.put("showFavorites", ParamUtil.getBoolean(resourceRequest, "showFavorites"));
-					json.put("categories", jsonArrayCategories);
-					json.put("interests", jsonArrayInterests);
-					user.setMapConfig(json.toJSONString());
-					PublikUserLocalServiceUtil.updatePublikUser(user);
+				if (Validator.isNull(internalId)) {
+					return;
 				}
+
+				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+				if (Validator.isNull(user)) {
+					return;
+				}
+
+				// JSON initialisation
+				JSONObject configForPortlet = createUserConfigForPorltet(resourceRequest);
+				JSONArray configForUser = addPortletConfigToUserConfig(user.getMapConfig(), configForPortlet);
+				user.setMapConfig(configForUser.toJSONString());
+				PublikUserLocalServiceUtil.updatePublikUser(user);
 			}
 		} catch (Exception e) {
 			_log.error(e);
 		}
 
 		super.serveResource(resourceRequest, resourceResponse);
+	}
+
+    /**
+     * Retourne la configuration existante du portlet à partir de la String enregistrée
+     */
+	private JSONArray getCurrentPortletUserConfig(String userConfigString) {
+        JSONArray userConfig;
+        if (Validator.isNull(userConfigString)) { // Cas où il n'y a pas encore de config utilisateur
+            userConfig = JSONFactoryUtil.createJSONArray();
+        } else if (userConfigString.startsWith("[")) { // Cas où la config utilisateur existe déjà
+            try {
+                userConfig = JSONFactoryUtil.createJSONArray(userConfigString);
+            } catch (JSONException e) {
+                userConfig = JSONFactoryUtil.createJSONArray();
+            }
+        } else { // Cas où la config utilisateur date du moment où l'unique config sauvée étant pour le widget
+            userConfig = JSONFactoryUtil.createJSONArray();
+            try {
+                JSONObject portletConfigInOlderFormat = JSONFactoryUtil.createJSONObject(userConfigString);
+                portletConfigInOlderFormat.put("configId", "widget");
+                userConfig.put(portletConfigInOlderFormat);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return userConfig;
+    }
+
+    /**
+     * Retourne le configId du portlet en cours
+     */
+    private String getConfigId() {
+        if (Validator.isNull(configId)) {
+            try {
+                MapConfiguration configuration = themeDisplay.getPortletDisplay()
+                        .getPortletInstanceConfiguration(MapConfiguration.class);
+                if (configuration.defaultConfig()) {
+                    configId = "widget";
+                } else {
+                    configId = themeDisplay.getPortletDisplay().getInstanceId();
+                }
+            } catch (ConfigurationException e) {
+                configId = themeDisplay.getPortletDisplay().getInstanceId();
+            }
+        }
+        return configId;
+    }
+    private String configId;
+
+    /**
+     * Retiure la configuration du portlet en cours à partir de la configuration userConfig
+     */
+    private JSONArray getUserConfigWithoutCurrentPortlet(JSONArray userConfig, String configId) {
+	    JSONArray userConfigWithoutCurrentPortlet = JSONFactoryUtil.createJSONArray();
+        for (int i = 0; i < userConfig.length(); i++) {
+            JSONObject portletConfig = userConfig.getJSONObject(i);
+            String currentConfigId = portletConfig.getString("configId");
+            if (!configId.equals(currentConfigId)) {
+                userConfigWithoutCurrentPortlet.put(portletConfig);
+            }
+        }
+        return userConfigWithoutCurrentPortlet;
+    }
+
+    /**
+     * Ajoute la configuration du portlet en cours à la configuration utilisateur
+     */
+	private JSONArray addPortletConfigToUserConfig(String userConfigString, JSONObject currentPortletConfig) {
+		JSONArray userConfig = getCurrentPortletUserConfig(userConfigString);
+		String currentPortletConfigId = currentPortletConfig.getString("configId");
+		userConfig = getUserConfigWithoutCurrentPortlet(userConfig, currentPortletConfigId);
+        userConfig.put(currentPortletConfig);
+		return userConfig;
+	}
+
+    /**
+     * Crée la configuration du portlet en cours
+     */
+	private JSONObject createUserConfigForPorltet(ResourceRequest resourceRequest) {
+		JSONObject configForPortlet = JSONFactoryUtil.createJSONObject();
+
+		// ConfigId
+        configForPortlet.put("configId", getConfigId());
+
+        // Catégories
+        JSONArray jsonArrayCategories = JSONFactoryUtil.createJSONArray();
+		String[] checkboxNamesCategories = ParamUtil.getString(resourceRequest, "checkboxNamesCategories")
+				.split(",");
+		for (String checkboxName : checkboxNamesCategories) {
+			String categoryIdString = ParamUtil.getString(resourceRequest, checkboxName);
+
+			if (Validator.isNotNull(categoryIdString) && !categoryIdString.equals("false"))
+				jsonArrayCategories.put(Long.parseLong(categoryIdString));
+		}
+        configForPortlet.put("categories", jsonArrayCategories);
+
+        // CI
+        JSONArray jsonArrayInterests = JSONFactoryUtil.createJSONArray();
+		String[] checkboxNamesInterests = ParamUtil.getString(resourceRequest, "checkboxNamesInterests")
+				.split(",");
+		for (String checkboxName : checkboxNamesInterests) {
+			String interestIdString = ParamUtil.getString(resourceRequest, checkboxName);
+
+			if (Validator.isNotNull(interestIdString) && !interestIdString.equals("false"))
+				jsonArrayInterests.put(Long.parseLong(interestIdString));
+		}
+        configForPortlet.put("interests", jsonArrayInterests);
+
+        // Favoris
+		configForPortlet.put("showFavorites", ParamUtil.getBoolean(resourceRequest, "showFavorites"));
+
+		return configForPortlet;
 	}
 
 	private String getPublikID(PortletRequest resourceRequest) {
