@@ -124,5 +124,24 @@ $(function() {
                 }
             );
         }
+
+        // On met à jour window.userFavorites
+        var userId = window.publikInternalId;
+        Liferay.Service(
+            '/favorite.favorite/get-user-favorites', {
+                userId: userId
+            },
+            function(obj) {
+                var json = '[';
+                    obj.favorites.forEach(function(favorite, index){
+                      json  += '{"entityId":' + favorite.entityId + ',"typeId": ' + favorite.typeId +'}';
+                       if (obj.favorites[index + 1]){
+                            json  += ',';
+                       }
+                    }); 
+                json  += ']'; console.log(json);
+                window.userFavorites = JSON.parse(json);
+            }
+        );
     });
 });
