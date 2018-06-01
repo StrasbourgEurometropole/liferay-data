@@ -1,7 +1,6 @@
 package eu.strasbourg.porlet.comment;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,16 +46,16 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 		"javax.portlet.init-param.add-process-action-success-action=false", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.supported-public-render-parameter=message" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user"
+		}, service = Portlet.class)
 public class CommentPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 		
 		String userPublikId = getPublikID(request);
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			
 		try {
 			CommentConfiguration configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(CommentConfiguration.class);
@@ -82,8 +81,12 @@ public class CommentPortlet extends MVCPortlet {
 				comments = comments.stream().sorted((c1, c2) -> {
 				return c2.getCreateDate().compareTo(c1.getCreateDate());}).collect(Collectors.toList());
 			
+			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
+			
 			request.setAttribute("comments", comments);
+			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
+			
 			super.render(request, response);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
@@ -94,19 +97,21 @@ public class CommentPortlet extends MVCPortlet {
 		try {
 			
 			String userPublikId = getPublikID(request);
-			
-			ServiceContext sc = ServiceContextFactory.getInstance(request);
-
-			Comment comment = CommentLocalServiceUtil.createComment(sc);
-
-			String message = ParamUtil.getString(request, "message");
-			long entryID = ParamUtil.getLong(request, "entryID");
-
-			comment.setComment(message);
-			comment.setAssetEntryId(entryID);
-			comment.setPublikId(userPublikId);
-			
-			CommentLocalServiceUtil.addComment(comment);
+				if (Validator.isNotNull(userPublikId)) {
+				
+				ServiceContext sc = ServiceContextFactory.getInstance(request);
+	
+				Comment comment = CommentLocalServiceUtil.createComment(sc);
+	
+				String message = ParamUtil.getString(request, "message");
+				long entryID = ParamUtil.getLong(request, "entryID");
+	
+				comment.setComment(message);
+				comment.setAssetEntryId(entryID);
+				comment.setPublikId(userPublikId);
+				
+				CommentLocalServiceUtil.addComment(comment);
+			}
 		} catch (Exception e) {
 			_log.error(e);
 		}

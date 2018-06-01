@@ -28,10 +28,12 @@
 							</time></span>
 						<div class="pro-comment">
 							<p>${comment.comment}</p>
-							<div class="pro-interactions">
-								<div><a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
+							<c:if test="${isAdmin}">
+								<div class="pro-interactions">
+									<div><a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
+									</div>
 								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>

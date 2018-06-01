@@ -1,0 +1,98 @@
+<%@ include file="/pacte-init.jsp"%>
+
+<portlet:resourceURL id="pacteSignature" var="pacteSignatureURL">
+</portlet:resourceURL>
+
+<section class="container pro-page-pacte">
+	<div class="row">
+		<div class="pro-bloc-accordion">
+			<div class="col-sm-9 col-xs-12 pro-bloc-facette">
+				<form method="get" action="/">
+					<div class="pro-group">
+						<fieldset class="pro-checkbox">
+							<legend aria-hidden="true" class="hide">
+								<liferay-ui:message key="pacte-legend" />
+							</legend>
+							<div>
+								<input type="checkbox" name="zone_vdl" id="type_v_1" value="1">
+								<label for="type_v_1"><liferay-ui:message
+										key="pacte-label" /></label>
+							</div>
+						</fieldset>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<div class="pro-bloc-prefooter">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 pro-signature-pacte">
+				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'Ã©tat dÃ©sactivÃ© du bouton -->
+				<a href="#" onclick="callServeResource();"> <!-- class="pro-disabled" -->
+					<div class="pro-svg">
+						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
+							height="59.09" viewBox="0 0 236.125 59.09" role="img">
+                                    <defs>
+                                        <style>
+.cls-1 {
+	fill: none;
+	stroke: #000;
+	stroke-width: 2px;
+	fill-rule: evenodd;
+}
+</style>
+                                    </defs>
+                                    <path id="Forme_63"
+								data-name="Forme 63" class="cls-1"
+								d="M503,3845s24.047-19.45,31-32,2.16,22.27,13,22,44-13,44-13,6.457,15.31,28,2c10.7-6.61,2.414,6.51,31-1s26.523-35.57,16-31,5.617,23.09,28,24c28.344,1.15,42-8,42-8"
+								transform="translate(-502 -3788.5)" />
+                                </svg>
+						<span class="icon-ico-pencil"></span>
+					</div>
+					<h3>Signer</h3>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="pro-social-share-page">
+		<span>Partager sur :</span>
+		<ul>
+			<li><a href="#" target="_blank"
+				title="Lien de partage vers Facebook"
+				aria-label="Lien de partage vers Facebook"><span
+					class="icon-ico-facebook-with-circle"></span></a></li>
+			<li><a href="" target="_blank"
+				title="Lien de partage vers Twitter"
+				aria-label="Lien de partage vers Twitter"><span
+					class="icon-ico-twitter-with-circle"></span></a></li>
+			<li class="pro-dropdown"><a href="#social-share"
+				class="ico-share" title="Autres liens de partage"
+				aria-label="Autres liens de partage"><span
+					class="icon-ico-share-with-circle"></span></a>
+				<ul id="sub-share">
+					<li><a href="#" class="pro-btn-share btn-google-plus"
+						target="_blank">Google+</a></li>
+					<li><a target="_blank" href="#"
+						class="pro-btn-share btn-linkedin">LinkedIn</a></li>
+					<li><a href="mailto:" class="pro-btn-share btn-mail">Mail</a></li>
+				</ul></li>
+		</ul>
+	</div>
+</div>
+
+<aui:script>
+	function callServeResource() {
+		AUI().use('aui-io-request', function(A) {
+			A.io.request('${pacteSignatureURL}', {
+				method : 'post',
+				data : {
+					clauses : 'true'
+				}
+			});
+		});
+	}
+</aui:script>
