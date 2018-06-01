@@ -79,7 +79,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 	margin : 0px;
 }
 
-.pro-bloc-facette .pro-affiner:before {
+// Affichage du fond noir pour les commentaires et certains formulaires de recherches
+.pro-bloc-facette .pro-affiner:before, .pro-bloc-commentaires .pro-reagir>div:before  {
 	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
 }
 
@@ -91,4 +92,9 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     position: fixed;
     background: white;
   }
+}
+
+//Amélioration de l'affichage d'un commentaire en l'absence de photo de profil d'un utilisateur
+.pro-bloc-commentaires .pro-item .pro-txt .pro-comment:before {
+	content : normal;
 }
