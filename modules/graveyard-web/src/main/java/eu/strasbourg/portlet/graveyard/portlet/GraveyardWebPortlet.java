@@ -13,14 +13,17 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.portlet.graveyard.portlet.context.GraveyardDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * @author angelique.champougny
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=Rechercher un d&eacute;funt",
-		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/graveyard-view.jsp",
-		"javax.portlet.resource-bundle=content.Language",
+		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/graveyard-view.jsp",
+		"javax.portlet.init-param.config-template=/configuration/graveyard-configuration.jsp",
+		"javax.portlet.name=" + StrasbourgPortletKeys.GRAVEYARD_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class GraveyardWebPortlet extends MVCPortlet {
 

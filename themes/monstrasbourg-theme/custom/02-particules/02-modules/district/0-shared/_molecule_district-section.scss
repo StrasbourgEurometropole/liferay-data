@@ -23,12 +23,16 @@
         margin-bottom: 40px;
     }
 
-    p {
+    p, ul {
         font-family: $opensans;
         font-size: 1.8rem;
         font-weight: 400;
         color: #31455d;
         margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: disc;
     }
 
     h3{
@@ -50,18 +54,7 @@
             .add-favorites{
                 padding-left: 20px;
                 background-color: #FFFFFF;
-                padding-bottom: 2px;
-
-                @include RWD(desktop){
-                    span{
-                        top: -10px;
-                        width: 100px;
-                    }
-                }
-
-                @include RWD(tablet){
-                    padding-bottom: 24px;
-                }
+                padding-bottom: 25px;
             }
         }
 

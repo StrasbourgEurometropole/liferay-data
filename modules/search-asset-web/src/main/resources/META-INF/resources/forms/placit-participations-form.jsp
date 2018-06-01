@@ -104,7 +104,6 @@
 
 <aui:input type="hidden" name="vocabulariesCount" value="2" />
 
-
 <script>
 	$(document).ready(function() {
 		$('.move-to-grand-parent').each(function() {

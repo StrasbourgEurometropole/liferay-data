@@ -111,36 +111,39 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 	}
 
 	protected void reindexEntries(long companyId) throws PortalException {
-		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = ManifestationLocalServiceUtil
-			.getIndexableActionableDynamicQuery();
+		try {
+			final IndexableActionableDynamicQuery indexableActionableDynamicQuery = ManifestationLocalServiceUtil
+					.getIndexableActionableDynamicQuery();
 
-		indexableActionableDynamicQuery.setAddCriteriaMethod(
-			new ActionableDynamicQuery.AddCriteriaMethod() {
-				@Override
-				public void addCriteria(DynamicQuery dynamicQuery) {
+			indexableActionableDynamicQuery.setAddCriteriaMethod(
+					new ActionableDynamicQuery.AddCriteriaMethod() {
+						@Override
+						public void addCriteria(DynamicQuery dynamicQuery) {
 
-				}
-			});
-		indexableActionableDynamicQuery.setCompanyId(companyId);
-		indexableActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<Manifestation>() {
+						}
+					});
+			indexableActionableDynamicQuery.setCompanyId(companyId);
+			indexableActionableDynamicQuery.setPerformActionMethod(
+					new ActionableDynamicQuery.PerformActionMethod<Manifestation>() {
 
-				@Override
-				public void performAction(Manifestation entry) {
-					try {
-						Document document = getDocument(entry);
+						@Override
+						public void performAction(Manifestation entry) {
+							try {
+								Document document = getDocument(entry);
 
-						indexableActionableDynamicQuery.addDocuments(document);
-					} catch (PortalException pe) {
-						_log.error("Unable to index manifestation entry "
-							+ entry.getManifestationId());
-					}
-				}
+								indexableActionableDynamicQuery.addDocuments(document);
+							} catch (PortalException pe) {
+								_log.error("Unable to index manifestation entry "
+										+ entry.getManifestationId());
+							}
+						}
 
-			});
+					});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
-		indexableActionableDynamicQuery.performActions();
+			indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+			indexableActionableDynamicQuery.performActions();
+		} catch (NullPointerException ex) {
+		}
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

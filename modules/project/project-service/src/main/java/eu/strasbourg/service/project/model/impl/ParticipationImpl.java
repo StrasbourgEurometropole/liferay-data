@@ -188,6 +188,15 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 	
 	/**
+	 * Retourne le status de la participation
+	 */
+	@Override
+	public AssetCategory getParticipationStatusCategory() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PARTICIPATION_STATUS).get(0);
+	}
+	
+	/**
 	 * Retourne le status de la participation selon la temporalité actuelle 
 	 * @return le status suivant l'ordre :
 	 * 		[soon_arrived] : date du jour antérieur à la date de publication

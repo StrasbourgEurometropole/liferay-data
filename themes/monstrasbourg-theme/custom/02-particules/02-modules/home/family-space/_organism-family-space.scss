@@ -1,0 +1,9 @@
+%organism-family-space{    
+    @extend %molecule-home-section;
+
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+
+    margin-bottom: 40px;
+}

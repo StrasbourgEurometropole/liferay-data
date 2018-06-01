@@ -15,6 +15,15 @@ body{
 		}
 	}
 
+	header {
+		@include tablet_portrait{
+			margin-bottom: 90px;
+		}
+		@include mobile{
+			margin-bottom: 90px;
+		}
+	}
+
 	.small-container{
 		width: 100%;
 		max-width: 960px;
@@ -68,7 +77,8 @@ body{
 			margin-bottom: 40px;
 
 			@include mobile{
-				font-size: 60px;
+				font-size: 40px;
+				text-align: start;
 			}
 		}
 		&:after{
@@ -80,8 +90,7 @@ body{
 			width: 90px;
 			height: 31px;
 			@include mobile{
-				font-size: 60px;
-				width: 90px;
+				width: 60px;
 			}
 		}
 	}

@@ -9,5 +9,5 @@ create table publik_PublikUser (
 	lastName VARCHAR(200) null,
 	email VARCHAR(75) null,
 	mapConfig VARCHAR(1000) null,
-	displayConfig VARCHAR(75) null
+	displayConfig VARCHAR(1000) null
 );

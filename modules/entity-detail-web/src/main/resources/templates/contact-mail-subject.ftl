@@ -1,1 +1,1 @@
-${website} - Demande de contact depuis la fiche<#if type == "Event"> d’événement ${title}<#elseif type == "Place"> lieu ${title}</#if>
+${website} - Demande de contact depuis la fiche<#if type == "Event"> d'Ã©vÃ©nement ${title}<#elseif type == "Place"> lieu ${title}</#if>

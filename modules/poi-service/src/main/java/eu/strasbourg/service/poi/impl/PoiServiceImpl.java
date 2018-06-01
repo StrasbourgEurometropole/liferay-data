@@ -241,11 +241,6 @@ public class PoiServiceImpl implements PoiService {
 		List<AssetEntry> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
 			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
-			List<AssetCategory> childCategories = AssetCategoryLocalServiceUtil
-					.getChildCategories(categoryId);
-			for (AssetCategory category : childCategories) {
-				entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(category.getCategoryId()));
-			}
 		}
 		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
 
@@ -255,12 +250,12 @@ public class PoiServiceImpl implements PoiService {
 				entriesFromPrefilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
 			}
 
-			entries = entriesFromFilters.stream()
+			entries = entries.stream()
 					.filter(e -> entriesFromPrefilters.stream()
 							.anyMatch(p -> p.getEntryId() == e.getEntryId())).collect(Collectors.toList());
 		}
 
-		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
+		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
 		Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
 		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
@@ -271,12 +266,7 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntry> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
-			List<AssetCategory> childCategories = AssetCategoryLocalServiceUtil
-					.getChildCategories(categoryId);
-			for (AssetCategory category : childCategories) {
-				entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(category.getCategoryId()));
-			}
+				entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
 		}
 		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
 
@@ -553,10 +543,10 @@ public class PoiServiceImpl implements PoiService {
 					schedule = "Le " + sdf.format(event.getFirstStartDate());
 				} else {
 					if (event.getFirstStartDate().compareTo(new Date()) <= 0) {
-						schedule = "Du" + sdf.format(event.getFirstStartDate()) + " au "
+						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
 								+ sdf.format(event.getLastEndDate());
 					} else {
-						schedule = "Du" + sdf.format(event.getFirstStartDate()) + " au "
+						schedule = "Du " + sdf.format(event.getFirstStartDate()) + " au "
 								+ sdf.format(event.getLastEndDate());
 					}
 				}

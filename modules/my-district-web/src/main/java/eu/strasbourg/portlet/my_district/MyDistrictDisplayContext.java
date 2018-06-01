@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.dao.orm.Criterion;
@@ -35,13 +37,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
@@ -141,6 +137,20 @@ public class MyDistrictDisplayContext {
 		if (district == null) {
 			String sectorType = "quartier_elus";
 			district = adictService.getDistrictByAddressAndSector(getAddress(), sectorType);
+		}
+		if (district == null) {
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+			HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+			String districtId = ParamUtil.getString(originalRequest, "district");
+			if (Validator.isNotNull(districtId)) {
+				try {
+					AssetVocabulary territoryVocabulary =
+                            AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+					district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return district;
 	}
@@ -262,7 +272,7 @@ public class MyDistrictDisplayContext {
 
 	// récupération des actus et webmag
 	public List<AssetEntry> getActusAndWebmags() {
-		if (actuAndWebMag == null) {
+		if (actuAndWebMag == null && getDistrict() != null) {
 			List<AssetEntry> actuWebmag = new ArrayList<AssetEntry>();
 
 			// Search context
