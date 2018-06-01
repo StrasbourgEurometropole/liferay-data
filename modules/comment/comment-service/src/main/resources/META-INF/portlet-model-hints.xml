@@ -10,8 +10,14 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 		<field name="comment" type="String">
 			<hint name="max-length">4000</hint>
 		</field>
+		<field name="assetEntryId" type="long" />
+		<field name="publikId" type="String" />
 	</model>
 </model-hints>

@@ -6,6 +6,7 @@ dependencies {
 	compileOnly project(":modules:comment:comment-api")
 	
 	compile project (':modules:utils')
+	compile project(":modules:oidc:oidc-api")
 }
 
 buildService {

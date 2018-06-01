@@ -42,7 +42,13 @@ public class CommentSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setStatusByUserId(model.getStatusByUserId());
+		soapModel.setStatusByUserName(model.getStatusByUserName());
+		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setComment(model.getComment());
+		soapModel.setAssetEntryId(model.getAssetEntryId());
+		soapModel.setPublikId(model.getPublikId());
 
 		return soapModel;
 	}
@@ -159,12 +165,60 @@ public class CommentSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	public String getStatusByUserName() {
+		return _statusByUserName;
+	}
+
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
 	public String getComment() {
 		return _comment;
 	}
 
 	public void setComment(String comment) {
 		_comment = comment;
+	}
+
+	public long getAssetEntryId() {
+		return _assetEntryId;
+	}
+
+	public void setAssetEntryId(long assetEntryId) {
+		_assetEntryId = assetEntryId;
+	}
+
+	public String getPublikId() {
+		return _publikId;
+	}
+
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
 	}
 
 	private String _uuid;
@@ -175,5 +229,11 @@ public class CommentSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private String _comment;
+	private long _assetEntryId;
+	private String _publikId;
 }

@@ -9,8 +9,8 @@
 
 		<!-- PK fields -->
 		<column name="commentId" primary="true" type="long" />
+		
 		<!-- Group instance -->
-
 		<column name="groupId" type="long" />
 
 		<!-- Audit fields -->
@@ -19,9 +19,17 @@
 		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
+		
+		<!-- Workflow fields --> 
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
 
 		<!-- main fields -->
 		<column name="comment" type="String" />
+		<column name="assetEntryId" type="long" />
+		<column name="publikId" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -31,6 +39,12 @@
 		<!-- Finder methods -->
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
+		</finder>
+		
+		<!-- Finder methods -->
+		<finder name="AssetEntryId" return-type="Collection">
+			<finder-column name="assetEntryId" />
+			<finder-column name="status" />
 		</finder>
 
 		<!-- References -->

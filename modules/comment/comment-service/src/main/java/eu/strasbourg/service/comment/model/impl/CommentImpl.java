@@ -19,9 +19,12 @@ import java.util.List;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
@@ -60,5 +63,18 @@ public class CommentImpl extends CommentBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+	
+	@Override
+	public PublikUser getPublikUser() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+	
+	//Le nom de l'utilisateur formaté : Vincent L.
+	@Override
+	public String getPublikUserName() {
+		return StringUtil.upperCaseFirstLetter(getPublikUser().getFirstName()) 
+				+ " " 
+				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
 	}
 }

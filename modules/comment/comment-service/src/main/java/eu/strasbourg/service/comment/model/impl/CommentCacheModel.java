@@ -65,7 +65,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -83,8 +83,20 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append(", comment=");
 		sb.append(comment);
+		sb.append(", assetEntryId=");
+		sb.append(assetEntryId);
+		sb.append(", publikId=");
+		sb.append(publikId);
 		sb.append("}");
 
 		return sb.toString();
@@ -127,11 +139,37 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		commentImpl.setStatus(status);
+		commentImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			commentImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			commentImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			commentImpl.setStatusDate(null);
+		}
+		else {
+			commentImpl.setStatusDate(new Date(statusDate));
+		}
+
 		if (comment == null) {
 			commentImpl.setComment(StringPool.BLANK);
 		}
 		else {
 			commentImpl.setComment(comment);
+		}
+
+		commentImpl.setAssetEntryId(assetEntryId);
+
+		if (publikId == null) {
+			commentImpl.setPublikId(StringPool.BLANK);
+		}
+		else {
+			commentImpl.setPublikId(publikId);
 		}
 
 		commentImpl.resetOriginalValues();
@@ -153,7 +191,16 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 		comment = objectInput.readUTF();
+
+		assetEntryId = objectInput.readLong();
+		publikId = objectInput.readUTF();
 	}
 
 	@Override
@@ -184,11 +231,33 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
+
 		if (comment == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(comment);
+		}
+
+		objectOutput.writeLong(assetEntryId);
+
+		if (publikId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(publikId);
 		}
 	}
 
@@ -200,5 +269,11 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 	public String comment;
+	public long assetEntryId;
+	public String publikId;
 }

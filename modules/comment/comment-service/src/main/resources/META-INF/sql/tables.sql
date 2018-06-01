@@ -7,5 +7,11 @@ create table comment_Comment (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	comment_ STRING null
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	comment_ STRING null,
+	assetEntryId LONG,
+	publikId VARCHAR(75) null
 );

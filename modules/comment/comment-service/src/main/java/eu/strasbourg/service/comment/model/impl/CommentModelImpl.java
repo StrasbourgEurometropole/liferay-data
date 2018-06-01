@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.CommentModel;
@@ -82,7 +83,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
-			{ "comment_", Types.VARCHAR }
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP },
+			{ "comment_", Types.VARCHAR },
+			{ "assetEntryId", Types.BIGINT },
+			{ "publikId", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -95,10 +102,16 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,comment_ STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -114,10 +127,12 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.comment.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.comment.model.Comment"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long STATUS_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -140,7 +155,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
 		model.setComment(soapModel.getComment());
+		model.setAssetEntryId(soapModel.getAssetEntryId());
+		model.setPublikId(soapModel.getPublikId());
 
 		return model;
 	}
@@ -213,7 +234,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
+		attributes.put("assetEntryId", getAssetEntryId());
+		attributes.put("publikId", getPublikId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -271,10 +298,46 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			setModifiedDate(modifiedDate);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String comment = (String)attributes.get("comment");
 
 		if (comment != null) {
 			setComment(comment);
+		}
+
+		Long assetEntryId = (Long)attributes.get("assetEntryId");
+
+		if (assetEntryId != null) {
+			setAssetEntryId(assetEntryId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
 		}
 	}
 
@@ -434,6 +497,83 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@JSON
 	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
+		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
+	}
+
+	@JSON
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@JSON
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
+	@JSON
+	@Override
 	public String getComment() {
 		if (_comment == null) {
 			return StringPool.BLANK;
@@ -448,10 +588,129 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		_comment = comment;
 	}
 
+	@JSON
+	@Override
+	public long getAssetEntryId() {
+		return _assetEntryId;
+	}
+
+	@Override
+	public void setAssetEntryId(long assetEntryId) {
+		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
+
+		if (!_setOriginalAssetEntryId) {
+			_setOriginalAssetEntryId = true;
+
+			_originalAssetEntryId = _assetEntryId;
+		}
+
+		_assetEntryId = assetEntryId;
+	}
+
+	public long getOriginalAssetEntryId() {
+		return _originalAssetEntryId;
+	}
+
+	@JSON
+	@Override
+	public String getPublikId() {
+		if (_publikId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _publikId;
+		}
+	}
+
+	@Override
+	public void setPublikId(String publikId) {
+		_publikId = publikId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				Comment.class.getName()));
+	}
+
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public long getColumnBitmask() {
@@ -493,7 +752,13 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setUserName(getUserName());
 		commentImpl.setCreateDate(getCreateDate());
 		commentImpl.setModifiedDate(getModifiedDate());
+		commentImpl.setStatus(getStatus());
+		commentImpl.setStatusByUserId(getStatusByUserId());
+		commentImpl.setStatusByUserName(getStatusByUserName());
+		commentImpl.setStatusDate(getStatusDate());
 		commentImpl.setComment(getComment());
+		commentImpl.setAssetEntryId(getAssetEntryId());
+		commentImpl.setPublikId(getPublikId());
 
 		commentImpl.resetOriginalValues();
 
@@ -566,6 +831,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		commentModelImpl._setModifiedDate = false;
 
+		commentModelImpl._originalStatus = commentModelImpl._status;
+
+		commentModelImpl._setOriginalStatus = false;
+
+		commentModelImpl._originalAssetEntryId = commentModelImpl._assetEntryId;
+
+		commentModelImpl._setOriginalAssetEntryId = false;
+
 		commentModelImpl._columnBitmask = 0;
 	}
 
@@ -615,6 +888,27 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		commentCacheModel.status = getStatus();
+
+		commentCacheModel.statusByUserId = getStatusByUserId();
+
+		commentCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = commentCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			commentCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			commentCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			commentCacheModel.statusDate = Long.MIN_VALUE;
+		}
+
 		commentCacheModel.comment = getComment();
 
 		String comment = commentCacheModel.comment;
@@ -623,12 +917,22 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.comment = null;
 		}
 
+		commentCacheModel.assetEntryId = getAssetEntryId();
+
+		commentCacheModel.publikId = getPublikId();
+
+		String publikId = commentCacheModel.publikId;
+
+		if ((publikId != null) && (publikId.length() == 0)) {
+			commentCacheModel.publikId = null;
+		}
+
 		return commentCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -646,8 +950,20 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", statusByUserId=");
+		sb.append(getStatusByUserId());
+		sb.append(", statusByUserName=");
+		sb.append(getStatusByUserName());
+		sb.append(", statusDate=");
+		sb.append(getStatusDate());
 		sb.append(", comment=");
 		sb.append(getComment());
+		sb.append(", assetEntryId=");
+		sb.append(getAssetEntryId());
+		sb.append(", publikId=");
+		sb.append(getPublikId());
 		sb.append("}");
 
 		return sb.toString();
@@ -655,7 +971,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -694,8 +1010,32 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
+		sb.append(getStatusDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>comment</column-name><column-value><![CDATA[");
 		sb.append(getComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>assetEntryId</column-name><column-value><![CDATA[");
+		sb.append(getAssetEntryId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>publikId</column-name><column-value><![CDATA[");
+		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -721,7 +1061,17 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private String _comment;
+	private long _assetEntryId;
+	private long _originalAssetEntryId;
+	private boolean _setOriginalAssetEntryId;
+	private String _publikId;
 	private long _columnBitmask;
 	private Comment _escapedModel;
 }

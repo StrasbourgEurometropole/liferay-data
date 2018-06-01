@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -95,6 +96,11 @@ public interface CommentLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Comment addComment(Comment comment);
+
+	/**
+	* Crée un commentaire vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Comment createComment(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new comment with the primary key. Does not add the comment to the database.
@@ -226,6 +232,12 @@ public interface CommentLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Retourne tous les commentaires d'un asset entry
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Comment> getByAssetEntry(long assetEntryId, int status);
 
 	/**
 	* Retourne tous les commentaires d'un groupe

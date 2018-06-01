@@ -85,6 +85,15 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
+	* Crée un commentaire vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.comment.model.Comment createComment(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createComment(sc);
+	}
+
+	/**
 	* Creates a new comment with the primary key. Does not add the comment to the database.
 	*
 	* @param commentId the primary key for the new comment
@@ -249,6 +258,14 @@ public class CommentLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	* Retourne tous les commentaires d'un asset entry
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Comment> getByAssetEntry(
+		long assetEntryId, int status) {
+		return getService().getByAssetEntry(assetEntryId, status);
 	}
 
 	/**

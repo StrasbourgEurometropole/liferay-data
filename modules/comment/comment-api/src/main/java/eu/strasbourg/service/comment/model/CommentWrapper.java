@@ -67,7 +67,13 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 		attributes.put("comment", getComment());
+		attributes.put("assetEntryId", getAssetEntryId());
+		attributes.put("publikId", getPublikId());
 
 		return attributes;
 	}
@@ -122,11 +128,57 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setModifiedDate(modifiedDate);
 		}
 
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+
 		String comment = (String)attributes.get("comment");
 
 		if (comment != null) {
 			setComment(comment);
 		}
+
+		Long assetEntryId = (Long)attributes.get("assetEntryId");
+
+		if (assetEntryId != null) {
+			setAssetEntryId(assetEntryId);
+		}
+
+		String publikId = (String)attributes.get("publikId");
+
+		if (publikId != null) {
+			setPublikId(publikId);
+		}
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is approved.
+	*
+	* @return <code>true</code> if this comment is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _comment.isApproved();
 	}
 
 	@Override
@@ -134,14 +186,84 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		return _comment.isCachedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this comment is denied.
+	*
+	* @return <code>true</code> if this comment is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _comment.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is a draft.
+	*
+	* @return <code>true</code> if this comment is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _comment.isDraft();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _comment.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this comment is expired.
+	*
+	* @return <code>true</code> if this comment is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _comment.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is inactive.
+	*
+	* @return <code>true</code> if this comment is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _comment.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is incomplete.
+	*
+	* @return <code>true</code> if this comment is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _comment.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _comment.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is pending.
+	*
+	* @return <code>true</code> if this comment is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _comment.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this comment is scheduled.
+	*
+	* @return <code>true</code> if this comment is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _comment.isScheduled();
 	}
 
 	/**
@@ -173,8 +295,23 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser() {
+		return _comment.getPublikUser();
+	}
+
+	@Override
 	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
 		return _comment.compareTo(comment);
+	}
+
+	/**
+	* Returns the status of this comment.
+	*
+	* @return the status of this comment
+	*/
+	@Override
+	public int getStatus() {
+		return _comment.getStatus();
 	}
 
 	@Override
@@ -200,6 +337,41 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public java.lang.String getComment() {
 		return _comment.getComment();
+	}
+
+	/**
+	* Returns the publik ID of this comment.
+	*
+	* @return the publik ID of this comment
+	*/
+	@Override
+	public java.lang.String getPublikId() {
+		return _comment.getPublikId();
+	}
+
+	@Override
+	public java.lang.String getPublikUserName() {
+		return _comment.getPublikUserName();
+	}
+
+	/**
+	* Returns the status by user name of this comment.
+	*
+	* @return the status by user name of this comment
+	*/
+	@Override
+	public java.lang.String getStatusByUserName() {
+		return _comment.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this comment.
+	*
+	* @return the status by user uuid of this comment
+	*/
+	@Override
+	public java.lang.String getStatusByUserUuid() {
+		return _comment.getStatusByUserUuid();
 	}
 
 	/**
@@ -263,12 +435,32 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Returns the status date of this comment.
+	*
+	* @return the status date of this comment
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _comment.getStatusDate();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _comment.getCategories();
+	}
+
+	/**
+	* Returns the asset entry ID of this comment.
+	*
+	* @return the asset entry ID of this comment
+	*/
+	@Override
+	public long getAssetEntryId() {
+		return _comment.getAssetEntryId();
 	}
 
 	/**
@@ -312,6 +504,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Returns the status by user ID of this comment.
+	*
+	* @return the status by user ID of this comment
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _comment.getStatusByUserId();
+	}
+
+	/**
 	* Returns the user ID of this comment.
 	*
 	* @return the user ID of this comment
@@ -324,6 +526,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void persist() {
 		_comment.persist();
+	}
+
+	/**
+	* Sets the asset entry ID of this comment.
+	*
+	* @param assetEntryId the asset entry ID of this comment
+	*/
+	@Override
+	public void setAssetEntryId(long assetEntryId) {
+		_comment.setAssetEntryId(assetEntryId);
 	}
 
 	@Override
@@ -425,6 +637,66 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_comment.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the publik ID of this comment.
+	*
+	* @param publikId the publik ID of this comment
+	*/
+	@Override
+	public void setPublikId(java.lang.String publikId) {
+		_comment.setPublikId(publikId);
+	}
+
+	/**
+	* Sets the status of this comment.
+	*
+	* @param status the status of this comment
+	*/
+	@Override
+	public void setStatus(int status) {
+		_comment.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this comment.
+	*
+	* @param statusByUserId the status by user ID of this comment
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_comment.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this comment.
+	*
+	* @param statusByUserName the status by user name of this comment
+	*/
+	@Override
+	public void setStatusByUserName(java.lang.String statusByUserName) {
+		_comment.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this comment.
+	*
+	* @param statusByUserUuid the status by user uuid of this comment
+	*/
+	@Override
+	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+		_comment.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this comment.
+	*
+	* @param statusDate the status date of this comment
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_comment.setStatusDate(statusDate);
 	}
 
 	/**

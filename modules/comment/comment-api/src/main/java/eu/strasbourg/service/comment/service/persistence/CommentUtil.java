@@ -652,6 +652,185 @@ public class CommentUtil {
 	}
 
 	/**
+	* Returns all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @return the matching comments
+	*/
+	public static List<Comment> findByAssetEntryId(long assetEntryId, int status) {
+		return getPersistence().findByAssetEntryId(assetEntryId, status);
+	}
+
+	/**
+	* Returns a range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @return the range of matching comments
+	*/
+	public static List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end) {
+		return getPersistence()
+				   .findByAssetEntryId(assetEntryId, status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching comments
+	*/
+	public static List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end,
+		OrderByComparator<Comment> orderByComparator) {
+		return getPersistence()
+				   .findByAssetEntryId(assetEntryId, status, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching comments
+	*/
+	public static List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end,
+		OrderByComparator<Comment> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByAssetEntryId(assetEntryId, status, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public static Comment findByAssetEntryId_First(long assetEntryId,
+		int status, OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence()
+				   .findByAssetEntryId_First(assetEntryId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public static Comment fetchByAssetEntryId_First(long assetEntryId,
+		int status, OrderByComparator<Comment> orderByComparator) {
+		return getPersistence()
+				   .fetchByAssetEntryId_First(assetEntryId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public static Comment findByAssetEntryId_Last(long assetEntryId,
+		int status, OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence()
+				   .findByAssetEntryId_Last(assetEntryId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public static Comment fetchByAssetEntryId_Last(long assetEntryId,
+		int status, OrderByComparator<Comment> orderByComparator) {
+		return getPersistence()
+				   .fetchByAssetEntryId_Last(assetEntryId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the comments before and after the current comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param commentId the primary key of the current comment
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next comment
+	* @throws NoSuchCommentException if a comment with the primary key could not be found
+	*/
+	public static Comment[] findByAssetEntryId_PrevAndNext(long commentId,
+		long assetEntryId, int status,
+		OrderByComparator<Comment> orderByComparator)
+		throws eu.strasbourg.service.comment.exception.NoSuchCommentException {
+		return getPersistence()
+				   .findByAssetEntryId_PrevAndNext(commentId, assetEntryId,
+			status, orderByComparator);
+	}
+
+	/**
+	* Removes all the comments where assetEntryId = &#63; and status = &#63; from the database.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	*/
+	public static void removeByAssetEntryId(long assetEntryId, int status) {
+		getPersistence().removeByAssetEntryId(assetEntryId, status);
+	}
+
+	/**
+	* Returns the number of comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @return the number of matching comments
+	*/
+	public static int countByAssetEntryId(long assetEntryId, int status) {
+		return getPersistence().countByAssetEntryId(assetEntryId, status);
+	}
+
+	/**
 	* Caches the comment in the entity cache if it is enabled.
 	*
 	* @param comment the comment

@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -45,7 +46,7 @@ import java.util.Date;
  */
 @ProviderType
 public interface CommentModel extends BaseModel<Comment>, GroupedModel,
-	ShardedModel, StagedAuditedModel {
+	ShardedModel, StagedAuditedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -211,6 +212,87 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the status of this comment.
+	 *
+	 * @return the status of this comment
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this comment.
+	 *
+	 * @param status the status of this comment
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this comment.
+	 *
+	 * @return the status by user ID of this comment
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this comment.
+	 *
+	 * @param statusByUserId the status by user ID of this comment
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this comment.
+	 *
+	 * @return the status by user uuid of this comment
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this comment.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this comment
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this comment.
+	 *
+	 * @return the status by user name of this comment
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this comment.
+	 *
+	 * @param statusByUserName the status by user name of this comment
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this comment.
+	 *
+	 * @return the status date of this comment
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this comment.
+	 *
+	 * @param statusDate the status date of this comment
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
+
+	/**
 	 * Returns the comment of this comment.
 	 *
 	 * @return the comment of this comment
@@ -224,6 +306,99 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	 * @param comment the comment of this comment
 	 */
 	public void setComment(String comment);
+
+	/**
+	 * Returns the asset entry ID of this comment.
+	 *
+	 * @return the asset entry ID of this comment
+	 */
+	public long getAssetEntryId();
+
+	/**
+	 * Sets the asset entry ID of this comment.
+	 *
+	 * @param assetEntryId the asset entry ID of this comment
+	 */
+	public void setAssetEntryId(long assetEntryId);
+
+	/**
+	 * Returns the publik ID of this comment.
+	 *
+	 * @return the publik ID of this comment
+	 */
+	@AutoEscape
+	public String getPublikId();
+
+	/**
+	 * Sets the publik ID of this comment.
+	 *
+	 * @param publikId the publik ID of this comment
+	 */
+	public void setPublikId(String publikId);
+
+	/**
+	 * Returns <code>true</code> if this comment is approved.
+	 *
+	 * @return <code>true</code> if this comment is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this comment is denied.
+	 *
+	 * @return <code>true</code> if this comment is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this comment is a draft.
+	 *
+	 * @return <code>true</code> if this comment is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this comment is expired.
+	 *
+	 * @return <code>true</code> if this comment is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this comment is inactive.
+	 *
+	 * @return <code>true</code> if this comment is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this comment is incomplete.
+	 *
+	 * @return <code>true</code> if this comment is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this comment is pending.
+	 *
+	 * @return <code>true</code> if this comment is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this comment is scheduled.
+	 *
+	 * @return <code>true</code> if this comment is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

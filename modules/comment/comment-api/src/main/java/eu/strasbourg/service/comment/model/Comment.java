@@ -64,4 +64,8 @@ public interface Comment extends CommentModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser();
+
+	public java.lang.String getPublikUserName();
 }

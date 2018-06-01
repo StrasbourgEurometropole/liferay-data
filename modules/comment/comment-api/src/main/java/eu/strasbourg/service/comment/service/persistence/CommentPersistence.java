@@ -499,6 +499,150 @@ public interface CommentPersistence extends BasePersistence<Comment> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @return the matching comments
+	*/
+	public java.util.List<Comment> findByAssetEntryId(long assetEntryId,
+		int status);
+
+	/**
+	* Returns a range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @return the range of matching comments
+	*/
+	public java.util.List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end);
+
+	/**
+	* Returns an ordered range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching comments
+	*/
+	public java.util.List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CommentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param start the lower bound of the range of comments
+	* @param end the upper bound of the range of comments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching comments
+	*/
+	public java.util.List<Comment> findByAssetEntryId(long assetEntryId,
+		int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public Comment findByAssetEntryId_First(long assetEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator)
+		throws NoSuchCommentException;
+
+	/**
+	* Returns the first comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public Comment fetchByAssetEntryId_First(long assetEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator);
+
+	/**
+	* Returns the last comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment
+	* @throws NoSuchCommentException if a matching comment could not be found
+	*/
+	public Comment findByAssetEntryId_Last(long assetEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator)
+		throws NoSuchCommentException;
+
+	/**
+	* Returns the last comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching comment, or <code>null</code> if a matching comment could not be found
+	*/
+	public Comment fetchByAssetEntryId_Last(long assetEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator);
+
+	/**
+	* Returns the comments before and after the current comment in the ordered set where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param commentId the primary key of the current comment
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next comment
+	* @throws NoSuchCommentException if a comment with the primary key could not be found
+	*/
+	public Comment[] findByAssetEntryId_PrevAndNext(long commentId,
+		long assetEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator<Comment> orderByComparator)
+		throws NoSuchCommentException;
+
+	/**
+	* Removes all the comments where assetEntryId = &#63; and status = &#63; from the database.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	*/
+	public void removeByAssetEntryId(long assetEntryId, int status);
+
+	/**
+	* Returns the number of comments where assetEntryId = &#63; and status = &#63;.
+	*
+	* @param assetEntryId the asset entry ID
+	* @param status the status
+	* @return the number of matching comments
+	*/
+	public int countByAssetEntryId(long assetEntryId, int status);
+
+	/**
 	* Caches the comment in the entity cache if it is enabled.
 	*
 	* @param comment the comment

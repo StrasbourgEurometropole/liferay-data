@@ -19,6 +19,10 @@ import java.util.List;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
@@ -50,6 +54,33 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	@Override
 	public List<Comment> getByGroupId(long groupId) {
 		return this.commentPersistence.findByGroupId(groupId);
+	}
+	
+	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	@Override
+	public List<Comment> getByAssetEntry(long assetEntryId, int status) {
+		return this.commentPersistence.findByAssetEntryId(assetEntryId, status);
+	}
+	
+	/**
+	 * Crée un commentaire vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Comment createComment(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		Comment comment = this.commentLocalService.createComment(pk);
+
+		comment.setGroupId(sc.getScopeGroupId());
+		comment.setUserName(user.getFullName());
+		comment.setUserId(sc.getUserId());		
+		comment.setStatus(WorkflowConstants.STATUS_APPROVED);
+
+		return comment;
 	}
 	
 	/**
