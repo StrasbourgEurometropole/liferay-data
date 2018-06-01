@@ -8,7 +8,7 @@
 
 <section id="bills">
     <h2><@liferay.language key="pay-my-bills" /></h2>
-    <form id="formFactures" action="" class="generic-form toValidate">
+    <form id="formFactures" action="#bills" class="generic-form toValidate">
         <p>${text.getData()}</p> 
         <p class="errors"></p>      
         <div class="webform-layout-box">
