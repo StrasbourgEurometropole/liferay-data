@@ -141,9 +141,9 @@
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
-                            } else if (info_to_display =="visual") {
+                            } else if (info_to_display =="visual" && !feature.properties.amount) {//on n'affiche pas l'image si c'est un lieu avec des horaires
                                 formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
-                            } else {
+                            } else if (info_to_display !="visual") {
                                 formated_info = feature.properties[info_to_display];
                             }
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
