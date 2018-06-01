@@ -12,10 +12,10 @@
 		<c:if test="${liaison == 'ok'}">
 			<p>
 				<c:if test="${isLoggedIn}">
-					<liferay-ui:message key="liaison-ok" arguments="<liferay-ui:message key='btn-continue'/>" />
+					<liferay-ui:message key="liaison-ok" arguments="btn-continue" />
 				</c:if>
 				<c:if test="${!isLoggedIn}">
-					<liferay-ui:message key="liaison-ok" arguments="<liferay-ui:message key='btn-connect'/>"/>
+					<liferay-ui:message key="liaison-ok" arguments="btn-connect"/>
 				</c:if>
 			</p>
 		</c:if>
@@ -23,10 +23,10 @@
 		<c:if test="${liaison == 'already-done'}">
 			<p>
 				<c:if test="${isLoggedIn}">
-					<liferay-ui:message key="liaison-existante" arguments="<liferay-ui:message key='btn-continue'/>"/>
+					<liferay-ui:message key="liaison-existante" arguments="btn-continue"/>
 				</c:if>
 				<c:if test="${!isLoggedIn}">
-					<liferay-ui:message key="liaison-existante" arguments="<liferay-ui:message key='btn-connect'/>"/>
+					<liferay-ui:message key="liaison-existante" arguments="btn-connect"/>
 				</c:if>
 			</p>
 		</c:if>
