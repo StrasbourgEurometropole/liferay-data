@@ -20,6 +20,7 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-load-error" message="image-load-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
 	<liferay-ui:error key="place-name-error" message="place-name-error" />
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
