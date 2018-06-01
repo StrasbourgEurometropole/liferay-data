@@ -532,7 +532,7 @@ public class PoiServiceImpl implements PoiService {
 
 			// pour les favoris
 			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(event.getModelClassName()));
-			properties.put("id", event.getPlaceId());
+			properties.put("id", event.getEventId());
 
 			// Prochaine date
 			if (event.getFirstStartDate() != null) {
