@@ -25,14 +25,12 @@
 		</div>
 	</div>
 </section>
-
-
 <div class="pro-bloc-prefooter">
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 pro-signature-pacte">
-				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'Ã©tat dÃ©sactivÃ© du bouton -->
-				<a href="#" onclick="callServeResource();"> <!-- class="pro-disabled" -->
+				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂ©tat dÃÂ©sactivÃÂ© du bouton -->
+				<a href="#" onclick="callServeResource();" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
 					<div class="pro-svg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
 							height="59.09" viewBox="0 0 236.125 59.09" role="img">
@@ -53,7 +51,10 @@
                                 </svg>
 						<span class="icon-ico-pencil"></span>
 					</div>
-					<h3>Signer</h3>
+					<c:if test="${hasUserSigned}"><h3><liferay-ui:message key="pacte-adhere" /></h3>
+					</c:if>
+					<c:if test="${!hasUserSigned}"><h3><liferay-ui:message key="pacte-sign" /></h3>
+					</c:if>
 				</a>
 			</div>
 		</div>
@@ -85,14 +86,48 @@
 </div>
 
 <aui:script>
-	function callServeResource() {
-		AUI().use('aui-io-request', function(A) {
-			A.io.request('${pacteSignatureURL}', {
-				method : 'post',
-				data : {
-					clauses : 'true'
-				}
+function callServeResource() {
+	
+	if(${isUserloggedIn}){
+		if($("#type_v_1").is(':checked')) {
+			AUI().use('aui-io-request', function(A) {
+				A.io.request('${pacteSignatureURL}', {
+					method : 'post',
+					data : {
+						<portlet:namespace/>clauses : $("#type_v_1").is(':checked')
+					},
+					on: {
+		                success: function(e) {
+		                	var selector = '.pro-bloc-prefooter .pro-signature-pacte > a';
+		                	    e.preventDefault();
+		                	    $(selector).toggleClass('active');
+		                	    if($(selector).hasClass('active')){
+		                	        $('h3',selector).text('<liferay-ui:message key="pacte-adhere" />');
+		                	        $('span',selector).css('display','none');
+		                	        if($(selector).hasClass('pro-disabled')){
+		                	            $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+		                	            $('span',selector).css('display','block');
+		                	        }
+		                	    }
+		                	    else if($(selector).hasClass('pro-disabled')){
+		                	        $('h3',selector).text('<liferay-ui:message key="pacte-sign" />');
+		                	        $('span',selector).css('display','block');
+		                	    }
+		                	    else{
+		                	        $('h3',selector).text('Signer');
+		                	        $('span',selector).css('display','block');
+		                	    }
+					 	}
+					 }
+				});
 			});
-		});
+		}
+		else {
+			alert('<liferay-ui:message key="pacte-clauses-check" />')
+		}
 	}
+	else {
+		$("#myModal").modal()
+	}
+}
 </aui:script>

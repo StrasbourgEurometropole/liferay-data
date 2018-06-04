@@ -50,7 +50,18 @@ public class PactePortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
-		// TODO Auto-generated method stub
+		
+		String publikUserID = getPublikID(renderRequest);
+		
+		if(Validator.isNotNull(publikUserID)) {
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserID);
+			
+			renderRequest.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()) ? true : false);
+			renderRequest.setAttribute("isUserloggedIn", true);
+		}
+		else
+			renderRequest.setAttribute("isUserloggedIn", false);
+		
 		super.render(renderRequest, renderResponse);
 	}
 	
@@ -66,14 +77,16 @@ public class PactePortlet extends MVCPortlet {
 				if (Validator.isNotNull(publikUserID)) {
 					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserID);
 					
-					boolean clauses = ParamUtil.getBoolean(resourceRequest, "clauses");
+					//Vérification si la checkbox de clause de lecture du pacte est bien cochée
+					boolean isClausesChecked = ParamUtil.getBoolean(resourceRequest, "clauses");
 					
-					Enumeration<String> params = resourceRequest.getParameterNames();
-					
-					if(user.getPactSignature() != null)
-						user.setPactSignature(null);
-					else
-						user.setPactSignature(new Date());
+					//On sauvegarde la date de signature du pate. S'il était déjà signé on reset
+					if(isClausesChecked) {
+						if(user.getPactSignature() != null)
+							user.setPactSignature(null);
+						else
+							user.setPactSignature(new Date());
+					}
 					
 					PublikUserLocalServiceUtil.updatePublikUser(user);
 				}
