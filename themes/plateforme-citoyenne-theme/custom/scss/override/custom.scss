@@ -80,7 +80,7 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 // Affichage du fond noir pour les commentaires et certains formulaires de recherches
-.pro-bloc-facette .pro-affiner:before, .pro-bloc-commentaires .pro-reagir>div:before  {
+.pro-bloc-facette .pro-affiner:before, .pro-bloc-commentaires .pro-reagir>div:before, .pro-modal .modal-body .pro-reagir>div:before  {
 	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
 }
 

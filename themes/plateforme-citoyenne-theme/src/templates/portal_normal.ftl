@@ -29,8 +29,12 @@
 </#if>
 
 <div id="th-global">
+	
+	<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
 	<#include "${full_templates_path}/nav_top.ftl" />
+
+	<#include "${full_templates_path}/modal_connexion.ftl" />
 
 	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>

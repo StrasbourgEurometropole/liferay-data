@@ -1,0 +1,35 @@
+Lors d'une livraison du thème par thuria, il y a quelques fichiers à ne pas écraser :
+
+Les librairies js suivantes :
+
+- jquery.selectric.min.js
+- pikaday.js
+- owlcarousel2-a11ylayer.js
+
+Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
+
+
+Le fichier bloc-prefooter.js :
+
+le code suivant a été enlevé, déplacé et adapté dans le fichier pacte-view.jsp du module pacte-web
+
+$('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
+    e.preventDefault();
+    $(this).toggleClass('active');
+    if($(this).hasClass('active')){
+        $('h3',this).text('Vous avez adhéré au pacte');
+        $('span',this).css('display','none');
+        if($(this).hasClass('pro-disabled')){
+            $('h3',this).text('Signer');
+            $('span',this).css('display','block');
+        }
+    }
+    else if($(this).hasClass('pro-disabled')){
+        $('h3',this).text('Signer');
+        $('span',this).css('display','block');
+    }
+    else{
+        $('h3',this).text('Signer');
+        $('span',this).css('display','block');
+    }
+});
