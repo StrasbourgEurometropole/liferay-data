@@ -1,0 +1,4 @@
+Bundle-Name: resid-web
+Bundle-SymbolicName: eu.strasbourg.portlet.resid
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.resid.constants
