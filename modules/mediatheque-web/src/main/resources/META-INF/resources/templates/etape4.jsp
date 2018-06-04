@@ -76,9 +76,11 @@
 			        				<liferay-ui:message key="return-date" />
 								</c:if>
 								 : 
-								<fmt:parseDate value="${media.returnDate}" pattern="yyyy-MM-dd" var="returnDate" type="both" />
-								<fmt:formatDate value="${returnDate}" type="date" var="newReturnDate" pattern="dd/MM/yyyy" />
-								${newReturnDate}
+			        			<c:if test="${not empty media.returnDate}">
+									<fmt:parseDate value="${media.returnDate}" pattern="yyyy-MM-dd" var="returnDate" type="both" />
+									<fmt:formatDate value="${returnDate}" type="date" var="newReturnDate" pattern="dd/MM/yyyy" />
+									${newReturnDate}
+								</c:if>
 							</c:if>
 						</p>
         			</div>
