@@ -43,14 +43,25 @@
 		<div class="col-md-4">
 			<div class="pro-reagir">
 				<div>
-					<form method="post" action="${postComment}"
+					<form id="form-comments" method="post" action="${postComment}"
 						class="pro-user-connected">
 
 						<div class="pro-textearea">
 							<label for="message"><liferay-ui:message
 									key="comment-your-comment" /></label>
 							<textarea id="message" name="<portlet:namespace />message"
-								placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"></textarea>
+								<c:choose>
+								  <c:when test="${!isUserloggedIn}">
+								   	placeholder="<liferay-ui:message key='comment-please-connect'/>"
+								  </c:when>
+								  <c:when test="${!hasUserSigned}">
+								    placeholder="<liferay-ui:message key='comment-please-sign'/>"
+								  </c:when>
+								  <c:otherwise>
+								    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
+								  </c:otherwise>
+								</c:choose>
+								></textarea>
 						</div>
 						<input type="submit" class="pro-btn-yellow" value="Envoyer" />
 					</form>
@@ -59,3 +70,19 @@
 		</div>
 	</div>
 </section>
+<aui:script>
+	$("#form-comments").submit(function(e){
+	    if(!${isUserloggedIn}){
+	    	e.preventDefault();
+	    	$("#myModal").modal();
+    	}
+	    else if(!${hasUserSigned}){
+	    	e.preventDefault();
+	    	$("#myModal").modal();
+	    }
+    	else if($("#message").val().length == 0){
+    		e.preventDefault();
+    		alert('<liferay-ui:message key="comment-empty" />');
+    	}
+	});
+</aui:script>

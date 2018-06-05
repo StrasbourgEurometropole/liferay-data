@@ -123,11 +123,11 @@ function callServeResource() {
 			});
 		}
 		else {
-			alert('<liferay-ui:message key="pacte-clauses-check" />')
+			alert('<liferay-ui:message key="pacte-clauses-check" />');
 		}
 	}
 	else {
-		$("#myModal").modal()
+		$("#myModal").modal();
 	}
 }
 </aui:script>
