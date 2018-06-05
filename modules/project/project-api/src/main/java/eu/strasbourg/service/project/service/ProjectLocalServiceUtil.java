@@ -200,8 +200,7 @@ public class ProjectLocalServiceUtil {
 	public static eu.strasbourg.service.project.model.Project updateProject(
 		eu.strasbourg.service.project.model.Project project,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().updateProject(project, sc);
 	}
 

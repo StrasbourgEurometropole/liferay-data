@@ -95,8 +95,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			{ "videoUrl", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
-			{ "imageWidth", Types.INTEGER },
-			{ "imageHeight", Types.INTEGER },
 			{ "mediaChoice", Types.BOOLEAN },
 			{ "descriptionChapeau", Types.VARCHAR },
 			{ "descriptionBody", Types.CLOB },
@@ -132,8 +130,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("mediaChoice", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("descriptionChapeau", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("descriptionBody", Types.CLOB);
@@ -146,7 +142,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		TABLE_COLUMNS_MAP.put("expirationDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,placesIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table project_Participation (uuid_ VARCHAR(75) null,participationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,author VARCHAR(75) null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,mediaChoice BOOLEAN,descriptionChapeau VARCHAR(400) null,descriptionBody TEXT null,consultationPlacesBody TEXT null,imageId LONG,filesIds VARCHAR(75) null,eventsIds VARCHAR(75) null,placesIds VARCHAR(75) null,publicationDate DATE null,expirationDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table project_Participation";
 	public static final String ORDER_BY_JPQL = " ORDER BY participation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Participation.title ASC";
@@ -201,8 +197,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setImageWidth(soapModel.getImageWidth());
-		model.setImageHeight(soapModel.getImageHeight());
 		model.setMediaChoice(soapModel.getMediaChoice());
 		model.setDescriptionChapeau(soapModel.getDescriptionChapeau());
 		model.setDescriptionBody(soapModel.getDescriptionBody());
@@ -298,8 +292,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("imageWidth", getImageWidth());
-		attributes.put("imageHeight", getImageHeight());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("descriptionChapeau", getDescriptionChapeau());
 		attributes.put("descriptionBody", getDescriptionBody());
@@ -444,18 +436,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
-		}
-
-		Integer imageWidth = (Integer)attributes.get("imageWidth");
-
-		if (imageWidth != null) {
-			setImageWidth(imageWidth);
-		}
-
-		Integer imageHeight = (Integer)attributes.get("imageHeight");
-
-		if (imageHeight != null) {
-			setImageHeight(imageHeight);
 		}
 
 		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
@@ -885,28 +865,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@JSON
 	@Override
-	public int getImageWidth() {
-		return _imageWidth;
-	}
-
-	@Override
-	public void setImageWidth(int imageWidth) {
-		_imageWidth = imageWidth;
-	}
-
-	@JSON
-	@Override
-	public int getImageHeight() {
-		return _imageHeight;
-	}
-
-	@Override
-	public void setImageHeight(int imageHeight) {
-		_imageHeight = imageHeight;
-	}
-
-	@JSON
-	@Override
 	public boolean getMediaChoice() {
 		return _mediaChoice;
 	}
@@ -1189,8 +1147,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		participationImpl.setVideoUrl(getVideoUrl());
 		participationImpl.setExternalImageURL(getExternalImageURL());
 		participationImpl.setExternalImageCopyright(getExternalImageCopyright());
-		participationImpl.setImageWidth(getImageWidth());
-		participationImpl.setImageHeight(getImageHeight());
 		participationImpl.setMediaChoice(getMediaChoice());
 		participationImpl.setDescriptionChapeau(getDescriptionChapeau());
 		participationImpl.setDescriptionBody(getDescriptionBody());
@@ -1416,10 +1372,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 			participationCacheModel.externalImageCopyright = null;
 		}
 
-		participationCacheModel.imageWidth = getImageWidth();
-
-		participationCacheModel.imageHeight = getImageHeight();
-
 		participationCacheModel.mediaChoice = getMediaChoice();
 
 		participationCacheModel.descriptionChapeau = getDescriptionChapeau();
@@ -1496,7 +1448,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1540,10 +1492,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getExternalImageURL());
 		sb.append(", externalImageCopyright=");
 		sb.append(getExternalImageCopyright());
-		sb.append(", imageWidth=");
-		sb.append(getImageWidth());
-		sb.append(", imageHeight=");
-		sb.append(getImageHeight());
 		sb.append(", mediaChoice=");
 		sb.append(getMediaChoice());
 		sb.append(", descriptionChapeau=");
@@ -1571,7 +1519,7 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(103);
+		StringBundler sb = new StringBundler(97);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Participation");
@@ -1662,14 +1610,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 		sb.append(getExternalImageCopyright());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>imageWidth</column-name><column-value><![CDATA[");
-		sb.append(getImageWidth());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>imageHeight</column-name><column-value><![CDATA[");
-		sb.append(getImageHeight());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>mediaChoice</column-name><column-value><![CDATA[");
 		sb.append(getMediaChoice());
 		sb.append("]]></column-value></column>");
@@ -1746,8 +1686,6 @@ public class ParticipationModelImpl extends BaseModelImpl<Participation>
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private int _imageWidth;
-	private int _imageHeight;
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;

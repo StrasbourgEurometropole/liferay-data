@@ -49,8 +49,6 @@ public class ProjectSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setImageWidth(model.getImageWidth());
-		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setDetailURL(model.getDetailURL());
 		soapModel.setBudget(model.getBudget());
@@ -234,22 +232,6 @@ public class ProjectSoap implements Serializable {
 		_externalImageCopyright = externalImageCopyright;
 	}
 
-	public int getImageWidth() {
-		return _imageWidth;
-	}
-
-	public void setImageWidth(int imageWidth) {
-		_imageWidth = imageWidth;
-	}
-
-	public int getImageHeight() {
-		return _imageHeight;
-	}
-
-	public void setImageHeight(int imageHeight) {
-		_imageHeight = imageHeight;
-	}
-
 	public String getDescription() {
 		return _description;
 	}
@@ -353,8 +335,6 @@ public class ProjectSoap implements Serializable {
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private int _imageWidth;
-	private int _imageHeight;
 	private String _description;
 	private String _detailURL;
 	private String _budget;

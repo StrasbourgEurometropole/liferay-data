@@ -338,34 +338,6 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	public void setExternalImageCopyright(String externalImageCopyright);
 
 	/**
-	 * Returns the image width of this project.
-	 *
-	 * @return the image width of this project
-	 */
-	public int getImageWidth();
-
-	/**
-	 * Sets the image width of this project.
-	 *
-	 * @param imageWidth the image width of this project
-	 */
-	public void setImageWidth(int imageWidth);
-
-	/**
-	 * Returns the image height of this project.
-	 *
-	 * @return the image height of this project
-	 */
-	public int getImageHeight();
-
-	/**
-	 * Sets the image height of this project.
-	 *
-	 * @param imageHeight the image height of this project
-	 */
-	public void setImageHeight(int imageHeight);
-
-	/**
 	 * Returns the description of this project.
 	 *
 	 * @return the description of this project

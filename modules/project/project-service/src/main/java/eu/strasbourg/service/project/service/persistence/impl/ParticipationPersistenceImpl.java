@@ -2428,8 +2428,6 @@ public class ParticipationPersistenceImpl extends BasePersistenceImpl<Participat
 		participationImpl.setVideoUrl(participation.getVideoUrl());
 		participationImpl.setExternalImageURL(participation.getExternalImageURL());
 		participationImpl.setExternalImageCopyright(participation.getExternalImageCopyright());
-		participationImpl.setImageWidth(participation.getImageWidth());
-		participationImpl.setImageHeight(participation.getImageHeight());
 		participationImpl.setMediaChoice(participation.isMediaChoice());
 		participationImpl.setDescriptionChapeau(participation.getDescriptionChapeau());
 		participationImpl.setDescriptionBody(participation.getDescriptionBody());

@@ -40,7 +40,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.project.model.Participation;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.List;
@@ -193,7 +192,7 @@ public interface ParticipationLocalService extends BaseLocalService,
 	* @throws IOException
 	*/
 	public Participation updateParticipation(Participation participation,
-		ServiceContext sc) throws PortalException, IOException;
+		ServiceContext sc) throws PortalException;
 
 	/**
 	* Met à jour le statut de la participation par le framework workflow
@@ -339,8 +338,10 @@ public interface ParticipationLocalService extends BaseLocalService,
 
 	/**
 	* Met a jour le statut de toutes les participations
+	*
+	* @throws PortalException
 	*/
-	public void updateAllParticipationsStatus();
+	public void updateAllParticipationsStatus() throws PortalException;
 
 	/**
 	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
