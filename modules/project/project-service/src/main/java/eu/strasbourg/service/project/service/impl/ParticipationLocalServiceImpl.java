@@ -14,19 +14,15 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.LongStream;
 
-import javax.imageio.ImageIO;
-
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -36,22 +32,27 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseImpl;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.FriendlyURLs;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The implementation of the participation local service.
@@ -103,27 +104,12 @@ public class ParticipationLocalServiceImpl
 	 */
 	@Override
 	public Participation updateParticipation(Participation participation, ServiceContext sc)
-			throws PortalException, IOException {
+			throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		participation.setStatusByUserId(sc.getUserId());
 		participation.setStatusByUserName(user.getFullName());
 		participation.setStatusDate(sc.getModifiedDate());
-		
-		if(!Objects.isNull(participation.getExternalImageURL()) && participation.getExternalImageURL() != "") {
-			URL url = new URL(participation.getExternalImageURL());
-	        final BufferedImage bi = ImageIO.read(url);
-	        participation.setImageHeight(bi.getHeight());
-	        participation.setImageWidth(bi.getWidth());
-		}
-		else if (!Objects.isNull(participation.getImageId()) && participation.getImageId() != 0) {
-			String imageURL = FileEntryHelper.getFileEntryURL(participation.getImageId()); 
-			String completeImageURL = StrasbourgPropsUtil.getURL() + imageURL;
-			URL url = new URL(completeImageURL);
-	        final BufferedImage bi = ImageIO.read(url);
-	        participation.setImageHeight(bi.getHeight());
-	        participation.setImageWidth(bi.getWidth());
-		}
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			participation.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -131,6 +117,7 @@ public class ParticipationLocalServiceImpl
 			participation.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
 		participation = this.participationLocalService.updateParticipation(participation);
+		
 		this.updateAssetEntry(participation, sc);
 		this.reindex(participation, false);
 
@@ -266,15 +253,78 @@ public class ParticipationLocalServiceImpl
 	
 	/**
 	 * Met a jour le statut de toutes les participations
+	 * @throws PortalException 
 	 */
-	public void updateAllParticipationsStatus() {
-		List<Participation> participations = this.participationPersistence.findAll();
-		for (Participation participation : participations) {
-			participation.getParticipationStatus();
+	public void updateAllParticipationsStatus() throws PortalException {
+		// Recupere l'ID par defaut du portal
+		long companyId = PortalUtil.getDefaultCompanyId();
+		// Recupere le groupe du site via son nom
+		Group group = GroupLocalServiceUtil.getFriendlyURLGroup(companyId, FriendlyURLs.PLACIT_URL);
+		
+		if (group != null) {
+			// Recupere l'ID du site via son nom
+			long groupId = group.getGroupId();
+			// Recupere toutes les participations du site
+			List<Participation> participations = this.participationPersistence.findByGroupId(groupId);
+			// Recupere l'ID du vocabulaire de 'Statut participation'
+			long vocId = AssetVocabularyHelper.getVocabulary(VocabularyNames.PARTICIPATION_STATUS, groupId).getVocabularyId();
+			AssetEntry entry = null;
+			AssetCategory removedCategory = null;
+			AssetCategory addedCategory = null;
+			int nbUpdatedPart = 0;
+			
+			for (Participation participation : participations) {
+				entry = participation.getAssetEntry();
+				
+				// Cherche le precedent statut
+				for (AssetCategory cat : entry.getCategories()) {
+					if (cat.getVocabularyId() == vocId) {
+						removedCategory = cat;
+					}
+				}
+
+				// Calcule le statut et cherche la categorie associee
+				switch (participation.getParticipationStatus()) {
+					case "soon_arrived":
+						addedCategory = AssetVocabularyHelper.getCategory("a venir", groupId);
+						break;
+					case "finished":
+						addedCategory = AssetVocabularyHelper.getCategory("terminee", groupId);
+						break;
+					case "soon_finished":
+						addedCategory = AssetVocabularyHelper.getCategory("bientot terminee", groupId);
+						break;
+					case "new":
+						addedCategory = AssetVocabularyHelper.getCategory("nouvelle", groupId);
+						break;
+					case "in_progress":
+						addedCategory = AssetVocabularyHelper.getCategory("en cours", groupId);
+						break;
+				}
+				
+				// Si il y a eu changement de statut
+				boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();
+				
+				// Supprime le precedent statut
+				if (isChanged) {
+					AssetVocabularyHelper.removeCategoryToAssetEntry(removedCategory, entry);
+				}
+				
+				// Ajoute la categorie
+				if ((addedCategory != null && removedCategory == null) || (addedCategory != null && isChanged)) {
+					AssetVocabularyHelper.addCategoryToAssetEntry(addedCategory, entry);
+					this.reindex(participation, false);
+					nbUpdatedPart++;
+				}
+				
+			}
+		
+			_log.info("Updated " + nbUpdatedPart + " participations status");
 		}
 		
 	}
 	
+
 	/**
 	 * Reindex la participation dans le moteur de recherche
 	 */
@@ -353,5 +403,7 @@ public class ParticipationLocalServiceImpl
 
 		return participationPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+	
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 	
 }

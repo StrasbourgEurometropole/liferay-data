@@ -65,7 +65,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -97,10 +97,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		sb.append(externalImageURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
-		sb.append(", imageWidth=");
-		sb.append(imageWidth);
-		sb.append(", imageHeight=");
-		sb.append(imageHeight);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", detailURL=");
@@ -203,9 +199,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setExternalImageCopyright(externalImageCopyright);
 		}
 
-		projectImpl.setImageWidth(imageWidth);
-		projectImpl.setImageHeight(imageHeight);
-
 		if (description == null) {
 			projectImpl.setDescription(StringPool.BLANK);
 		}
@@ -301,10 +294,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		title = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
-
-		imageWidth = objectInput.readInt();
-
-		imageHeight = objectInput.readInt();
 		description = objectInput.readUTF();
 		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
@@ -381,10 +370,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
 		}
-
-		objectOutput.writeInt(imageWidth);
-
-		objectOutput.writeInt(imageHeight);
 
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -469,8 +454,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String title;
 	public String externalImageURL;
 	public String externalImageCopyright;
-	public int imageWidth;
-	public int imageHeight;
 	public String description;
 	public String detailURL;
 	public String budget;

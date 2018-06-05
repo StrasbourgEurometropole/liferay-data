@@ -89,8 +89,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "title", Types.VARCHAR },
 			{ "externalImageURL", Types.VARCHAR },
 			{ "externalImageCopyright", Types.VARCHAR },
-			{ "imageWidth", Types.INTEGER },
-			{ "imageHeight", Types.INTEGER },
 			{ "description", Types.CLOB },
 			{ "detailURL", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
@@ -121,8 +119,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("detailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
@@ -136,7 +132,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -185,8 +181,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		model.setTitle(soapModel.getTitle());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setImageWidth(soapModel.getImageWidth());
-		model.setImageHeight(soapModel.getImageHeight());
 		model.setDescription(soapModel.getDescription());
 		model.setDetailURL(soapModel.getDetailURL());
 		model.setBudget(soapModel.getBudget());
@@ -277,8 +271,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		attributes.put("title", getTitle());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("imageWidth", getImageWidth());
-		attributes.put("imageHeight", getImageHeight());
 		attributes.put("description", getDescription());
 		attributes.put("detailURL", getDetailURL());
 		attributes.put("budget", getBudget());
@@ -388,18 +380,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
-		}
-
-		Integer imageWidth = (Integer)attributes.get("imageWidth");
-
-		if (imageWidth != null) {
-			setImageWidth(imageWidth);
-		}
-
-		Integer imageHeight = (Integer)attributes.get("imageHeight");
-
-		if (imageHeight != null) {
-			setImageHeight(imageHeight);
 		}
 
 		String description = (String)attributes.get("description");
@@ -738,28 +718,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
-	public int getImageWidth() {
-		return _imageWidth;
-	}
-
-	@Override
-	public void setImageWidth(int imageWidth) {
-		_imageWidth = imageWidth;
-	}
-
-	@JSON
-	@Override
-	public int getImageHeight() {
-		return _imageHeight;
-	}
-
-	@Override
-	public void setImageHeight(int imageHeight) {
-		_imageHeight = imageHeight;
-	}
-
-	@JSON
-	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -1056,8 +1014,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		projectImpl.setTitle(getTitle());
 		projectImpl.setExternalImageURL(getExternalImageURL());
 		projectImpl.setExternalImageCopyright(getExternalImageCopyright());
-		projectImpl.setImageWidth(getImageWidth());
-		projectImpl.setImageHeight(getImageHeight());
 		projectImpl.setDescription(getDescription());
 		projectImpl.setDetailURL(getDetailURL());
 		projectImpl.setBudget(getBudget());
@@ -1236,10 +1192,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			projectCacheModel.externalImageCopyright = null;
 		}
 
-		projectCacheModel.imageWidth = getImageWidth();
-
-		projectCacheModel.imageHeight = getImageHeight();
-
 		projectCacheModel.description = getDescription();
 
 		String description = projectCacheModel.description;
@@ -1321,7 +1273,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1353,10 +1305,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(getExternalImageURL());
 		sb.append(", externalImageCopyright=");
 		sb.append(getExternalImageCopyright());
-		sb.append(", imageWidth=");
-		sb.append(getImageWidth());
-		sb.append(", imageHeight=");
-		sb.append(getImageHeight());
 		sb.append(", description=");
 		sb.append(getDescription());
 		sb.append(", detailURL=");
@@ -1386,7 +1334,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(88);
+		StringBundler sb = new StringBundler(82);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.Project");
@@ -1451,14 +1399,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		sb.append(
 			"<column><column-name>externalImageCopyright</column-name><column-value><![CDATA[");
 		sb.append(getExternalImageCopyright());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>imageWidth</column-name><column-value><![CDATA[");
-		sb.append(getImageWidth());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>imageHeight</column-name><column-value><![CDATA[");
-		sb.append(getImageHeight());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
@@ -1535,8 +1475,6 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private String _title;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private int _imageWidth;
-	private int _imageHeight;
 	private String _description;
 	private String _detailURL;
 	private String _budget;
