@@ -25,5 +25,6 @@
 		<field name="displayConfig" type="String">
 			<hint name="max-length">1000</hint>
 		</field>
+		<field name="pactSignature" type="Date" />
 	</model>
 </model-hints>

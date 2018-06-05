@@ -35,6 +35,7 @@ public class MediathequeDisplayContext {
 	private ThemeDisplay themeDisplay;
 	private MediathequeConfiguration configuration;
 	private String email;
+	private String cardNumber;
 	private String publikId;
 	private BorrowerResponse borrower;
 
@@ -109,10 +110,15 @@ public class MediathequeDisplayContext {
 	public void setBorrower(BorrowerResponse borrower) {
 		this.borrower = borrower;
 		this.email = borrower.getEmail();
+		this.cardNumber = borrower.getCardNumber();
 	}
 
 	public BorrowerResponse getBorrower() {
 		return this.borrower;
+	}
+	
+	public String getCardNumber() {
+		return this.cardNumber;
 	}
 
 	public String getTransformEmail() {
@@ -188,6 +194,7 @@ public class MediathequeDisplayContext {
 		if (Validator.isNull(dissociate.getCode_erreur())) {
 			// attente d'activation de la part de l'utilisateur
 			template = "etape1";
+			request.setAttribute("deleteAssociation", "ok");
 		} else {
 			// erreur technique -> TECHNIQUE
 			template = "etape4";

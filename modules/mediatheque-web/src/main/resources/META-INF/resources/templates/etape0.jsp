@@ -6,5 +6,4 @@
 		<p>
 			${dc.errorText}
 		</p>
-		<div class="error">${error}</div>
 </section>

@@ -81,7 +81,7 @@ public class MediathequeWebPortlet extends MVCPortlet {
 			}
 		}
 
-		if (template.equals("etape1")) {
+		if (template.equals("etape1") || template.equals("etape2C")) {
 			String link = ParamUtil.getString(request, "link");
 			if (link.equals("lier")) {
 				template = dc.link(request, response);

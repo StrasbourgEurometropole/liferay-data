@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
+import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -38,7 +39,8 @@ import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/entity-detail-view.jsp",
 		"javax.portlet.init-param.config-template=/entity-detail-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.supported-public-render-parameter=message"}, service = Portlet.class)
 public class EntityDetailPortlet extends MVCPortlet {
 
 	@Override
@@ -83,11 +85,18 @@ public class EntityDetailPortlet extends MVCPortlet {
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 			request.setAttribute("contextObjects", contextObjects);
 			
+			//Partage l'asset entry configurée dans la config. D'autres portlets peuvent ainsi la récupérer.
+			//Pour partager une variable en session il faut préfixer le nom de la variable par LIFERAY_SHARED_
+			PortletSession portletSession = request.getPortletSession();
+			portletSession.setAttribute("LIFERAY_SHARED_assetEntryID"
+					, entry != null ? entry.getEntryId() : null
+					, PortletSession.APPLICATION_SCOPE);
+			
 			if (entry != null) {
 				PortalUtil.setPageTitle(entry.getTitle(themeDisplay.getLocale()),
 						PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)));
 			}
-
+			
 			super.render(request, response);
 		} catch (Exception e) {
 			_log.error(e);

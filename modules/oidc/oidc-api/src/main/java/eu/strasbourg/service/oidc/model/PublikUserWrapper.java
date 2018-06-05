@@ -68,6 +68,7 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("email", getEmail());
 		attributes.put("mapConfig", getMapConfig());
 		attributes.put("displayConfig", getDisplayConfig());
+		attributes.put("pactSignature", getPactSignature());
 
 		return attributes;
 	}
@@ -138,6 +139,12 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (displayConfig != null) {
 			setDisplayConfig(displayConfig);
+		}
+
+		Date pactSignature = (Date)attributes.get("pactSignature");
+
+		if (pactSignature != null) {
+			setPactSignature(pactSignature);
 		}
 	}
 
@@ -307,6 +314,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	* Returns the pact signature of this publik user.
+	*
+	* @return the pact signature of this publik user
+	*/
+	@Override
+	public Date getPactSignature() {
+		return _publikUser.getPactSignature();
+	}
+
+	/**
 	* Returns the primary key of this publik user.
 	*
 	* @return the primary key of this publik user
@@ -435,6 +452,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setNew(boolean n) {
 		_publikUser.setNew(n);
+	}
+
+	/**
+	* Sets the pact signature of this publik user.
+	*
+	* @param pactSignature the pact signature of this publik user
+	*/
+	@Override
+	public void setPactSignature(Date pactSignature) {
+		_publikUser.setPactSignature(pactSignature);
 	}
 
 	/**

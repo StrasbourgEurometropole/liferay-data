@@ -12,8 +12,7 @@ create table place_Period (
 	RTOrangeThreshold LONG,
 	RTRedThreshold LONG,
 	RTMaxThreshold LONG,
-	placeId LONG,
-	subPlaceId LONG
+	placeId LONG
 );
 
 create table place_Place (
@@ -116,7 +115,8 @@ create table place_Slot (
 	startHour VARCHAR(75) null,
 	endHour VARCHAR(75) null,
 	comment_ STRING null,
-	periodId LONG
+	periodId LONG,
+	subPlaceId LONG
 );
 
 create table place_SubPlace (
