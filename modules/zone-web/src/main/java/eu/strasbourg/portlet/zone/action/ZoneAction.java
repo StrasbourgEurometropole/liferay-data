@@ -64,6 +64,10 @@ public class ZoneAction implements MVCActionCommand {
 		Street street = streets.get(0);
 		String secteurType = "zone_stationnement_resident";
 		JSONObject json = adictService.getCoordinatesForZone(street.getX(), street.getY(), secteurType);
+		if(json.getJSONArray("features").length() == 0) {
+			SessionErrors.add(request, "no-result");
+			return false;
+		}
 		
 		// on récupère le numéro de la zone
 		JSONArray features = json.getJSONArray("features");
