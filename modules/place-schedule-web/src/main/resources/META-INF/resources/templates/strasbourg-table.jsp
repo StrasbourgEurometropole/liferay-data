@@ -222,11 +222,11 @@
 												<c:otherwise>
 													<c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
 														<div class="opening-time ${isException ? 'exception' : '' }">
-														${openingTime.first} - ${openingTime.second}
-															<c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
-																<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;">(${placeSchedule.comments[loopStatus.index]})</div>
-															</c:if>
+														${openingTime.first} - ${openingTime.second}				
 														</div>
+														<c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
+															<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em; ${isException ? 'color: #F44336' : '' }">(${placeSchedule.comments[loopStatus.index]})</div>
+														</c:if>
 													</c:forEach> 
 												</c:otherwise>
 											</c:choose>

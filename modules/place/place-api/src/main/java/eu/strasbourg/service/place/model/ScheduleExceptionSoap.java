@@ -38,6 +38,11 @@ public class ScheduleExceptionSoap implements Serializable {
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setOpeningTimes(model.getOpeningTimes());
+		soapModel.setFirstComment(model.getFirstComment());
+		soapModel.setSecondComment(model.getSecondComment());
+		soapModel.setThirdComment(model.getThirdComment());
+		soapModel.setFourthComment(model.getFourthComment());
+		soapModel.setFifthComment(model.getFifthComment());
 		soapModel.setComment(model.getComment());
 		soapModel.setClosed(model.getClosed());
 		soapModel.setPlaceId(model.getPlaceId());
@@ -137,6 +142,46 @@ public class ScheduleExceptionSoap implements Serializable {
 		_openingTimes = openingTimes;
 	}
 
+	public String getFirstComment() {
+		return _firstComment;
+	}
+
+	public void setFirstComment(String firstComment) {
+		_firstComment = firstComment;
+	}
+
+	public String getSecondComment() {
+		return _secondComment;
+	}
+
+	public void setSecondComment(String secondComment) {
+		_secondComment = secondComment;
+	}
+
+	public String getThirdComment() {
+		return _thirdComment;
+	}
+
+	public void setThirdComment(String thirdComment) {
+		_thirdComment = thirdComment;
+	}
+
+	public String getFourthComment() {
+		return _fourthComment;
+	}
+
+	public void setFourthComment(String fourthComment) {
+		_fourthComment = fourthComment;
+	}
+
+	public String getFifthComment() {
+		return _fifthComment;
+	}
+
+	public void setFifthComment(String fifthComment) {
+		_fifthComment = fifthComment;
+	}
+
 	public String getComment() {
 		return _comment;
 	}
@@ -178,6 +223,11 @@ public class ScheduleExceptionSoap implements Serializable {
 	private Date _startDate;
 	private Date _endDate;
 	private String _openingTimes;
+	private String _firstComment;
+	private String _secondComment;
+	private String _thirdComment;
+	private String _fourthComment;
+	private String _fifthComment;
 	private String _comment;
 	private boolean _closed;
 	private long _placeId;

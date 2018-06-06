@@ -73,4 +73,9 @@ public interface ScheduleException extends ScheduleExceptionModel, PersistedMode
 	* Retourne la Nème heure de début
 	*/
 	public java.time.LocalTime getEndHour(int index);
+
+	/**
+	* Retourne liste des commentaires
+	*/
+	public java.lang.String[] getComments();
 }
