@@ -217,6 +217,15 @@
     }
 
 
+    /* ------------------------------------ LISTE */
+    .liste{
+
+        // Styles communs des panneaux de filtres
+        min-height: 100%;
+        padding: 30px;
+    }
+
+
     /* ------------------------------------ FILTERS */
     .filtres{
 
@@ -270,7 +279,7 @@
                 color: #707070;
                 font-weight: 700;
                 background-color: #FFFFFF;
-                padding: 20px 10px;
+                padding: 10px 10px;
                 width: 100%;
             }
 

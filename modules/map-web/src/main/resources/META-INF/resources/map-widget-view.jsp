@@ -36,7 +36,7 @@
                 <div id="aroundme__side" style="z-index: 406" >
                     <button class="side__trigger side__trigger--pull"></button>
                     <div class="side__overflow">
-                        <form class="filtres filtres--poi">
+                        <form class="liste filtres--poi">
                             <h2 class="filtres__title">
                                 <div class="icon mobile-only"></div>
                                 Liste

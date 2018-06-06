@@ -160,7 +160,7 @@
 				</c:if>
 	                <button class="side__trigger side__trigger--pull opened"></button>
 	                <div class="side__overflow">
-	                    <form class="filtres filtres--poi">
+	                    <form class="liste filtres--poi">
 	                        <h2 class="filtres__title">
 	                            <div class="icon mobile-only"></div>
 	                            Liste
