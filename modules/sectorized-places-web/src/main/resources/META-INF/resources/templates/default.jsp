@@ -35,7 +35,7 @@
 	   	<liferay-ui:error key="too-many-results" message="eu.too-many-results" targetNode=".seu-error-messages" />
 	</div>
 	
-	<!-- Résultats -->
+	<!-- RÃ©sultats -->
 	<c:if test="${not empty places}">
 		<div class="seu-view-results">
 			<div class="seu-result-count">${fn:length(places)} 
@@ -78,7 +78,7 @@
 		define.amd = define._amd;
 		<%--
 			Si la configuration demande qu'on force la recherche sur Strasbourg
-		 	on set cette variable globale utilisée dans le JS
+		 	on set cette variable globale utilisÃ©e dans le JS
 		--%>		
 		<c:choose>
 			<c:when test="${forceStrasbourg}">
