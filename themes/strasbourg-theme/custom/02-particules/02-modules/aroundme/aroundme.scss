@@ -222,7 +222,8 @@
 
         // Styles communs des panneaux de filtres
         min-height: 100%;
-        padding: 30px;
+        padding: 10px;
+        padding-top: 30px;
     }
 
 
@@ -262,8 +263,7 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 display: block;
-                margin: -20px -10px 20px -10px;
-                width: calc(100% + 20px);
+                margin-bottom: 10px;
             }
 
             a {
