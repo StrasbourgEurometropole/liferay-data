@@ -2531,6 +2531,7 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 
 			dbColumnNames.put("uuid", "uuid_");
 			dbColumnNames.put("comment", "comment_");
+			dbColumnNames.put("like", "like_");
 
 			field.set(this, dbColumnNames);
 		}
@@ -2971,6 +2972,8 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 		commentImpl.setComment(comment.getComment());
 		commentImpl.setAssetEntryId(comment.getAssetEntryId());
 		commentImpl.setPublikId(comment.getPublikId());
+		commentImpl.setLike(comment.getLike());
+		commentImpl.setDislike(comment.getDislike());
 
 		return commentImpl;
 	}
@@ -3393,6 +3396,6 @@ public class CommentPersistenceImpl extends BasePersistenceImpl<Comment>
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Comment exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(CommentPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "comment"
+				"uuid", "comment", "like"
 			});
 }

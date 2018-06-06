@@ -13,5 +13,7 @@ create table comment_Comment (
 	statusDate DATE null,
 	comment_ STRING null,
 	assetEntryId LONG,
-	publikId VARCHAR(75) null
+	publikId VARCHAR(75) null,
+	like_ LONG,
+	dislike LONG
 );
