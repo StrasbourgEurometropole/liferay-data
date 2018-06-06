@@ -586,6 +586,9 @@
     .leaflet-popup-content {
         margin: 0;
     }
+    .leaflet-popup-tip {
+        background: #31455d;
+    }
     .leaflet-div-icon {
         background: none;
         border: none;
@@ -641,8 +644,7 @@
             padding: 30px;
         }
         &__top{
-            border-bottom: solid 1px #dddddd;
-            padding-bottom: 20px;
+            padding-bottom: 10px;
         }
         &__title-block{
             display: flex;
@@ -681,8 +683,16 @@
             color: #707070;
             font-size: 1.4rem;
         }
+        &__middle{
+            border-top: solid 1px #dddddd;
+            border-bottom: solid 1px #dddddd;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+        }
         &__bottom{
-            padding-top: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
             display: flex;
         }
         &__left{
@@ -710,7 +720,7 @@
             margin: -30px -30px 20px -30px;
         }
         &__right{
-
+            border-left: solid 1px #dddddd;
         }
         &__amount{
             .infowindow__frequentation{

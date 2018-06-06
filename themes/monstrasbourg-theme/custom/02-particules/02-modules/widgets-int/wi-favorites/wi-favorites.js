@@ -61,6 +61,7 @@ $(function() {
         var groupId = $(this).data("groupId") ? $(this).data("groupId") : 0;
         var type = $(this).data("type");
         var title = $(this).data("title");
+        var isFavorite = true;
 
         // Si le favoris a déjà été ajouté par l'utilisateur
         if (htmlA[0].classList.contains('liked')) {
@@ -91,6 +92,7 @@ $(function() {
                     }
                 }
             );
+            isFavorite = false;
         } else {
             // Sinon appel du WS pour ajouter un favoris
             var favoriteToAdd = {
@@ -143,5 +145,15 @@ $(function() {
                 window.userFavorites = JSON.parse(json);
             }
         );
+
+        // On modfie les boutons correspondant sur la page
+        var favoriteButton = $('[data-type=' + type + '][data-id=' + id + ']')
+        if (isFavorite) {
+            favoriteButton.addClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.remove-from-favorite');
+        }else{
+            favoriteButton.removeClass('liked');
+            favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
+        }
     });
 });
