@@ -635,7 +635,7 @@
             background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
             position: absolute;
             top: 5px;
-            left: 5px;
+            right: 5px;
         }
         &__content{
             padding: 30px;
