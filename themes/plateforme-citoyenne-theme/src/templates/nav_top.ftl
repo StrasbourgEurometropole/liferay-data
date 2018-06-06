@@ -58,7 +58,7 @@
                     </a>
 
                     <div class="pro-right">
-                        <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                        
                         <#if request.session.getAttribute("publik_logged_in")!false>
                             <a href="${layoutHelper.getPublikProfileURL()}" class="pro-btn-connexion" title="Mon compte">
                                 <span class="flexbox">
@@ -105,18 +105,6 @@
                     </ul>
                 </nav>
             </div>
-
-
-            <div class="pro-menu-right">
-                <ul>
-                    <li class="pro-tooltip"><a href="page-carte.html" aria-label="Carte" title="Lien vers la carte interactive"><span class="icon-ico-map"></span></a><span class="tooltiptext">Voir la
-                            carte</span></li>
-                    <li class="pro-tooltip"><a href="#rechercher" aria-label="Rechercher" title="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a><span
-                            class="tooltiptext">Rechercher</span></li>
-                </ul>
-            </div>
-
-
             <div class="th-menu">
                 <span></span>
                 <span></span>

@@ -99,13 +99,13 @@
 				</div>
 			</aui:fieldset>
 			
-			<!-- PortÃ©e -->
+			<!-- PortÃÂ©e -->
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 				<liferay-ui:message key="scope-explanations" />
 				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
 			</aui:fieldset>
 			
-			<!-- PrÃ©filtre -->
+			<!-- PrÃÂ©filtre -->
 			<aui:fieldset collapsed="true" collapsible="true" label="prefilter">
 				<liferay-ui:message key="prefilter-explanations" />
 				<label><liferay-ui:message key="categories" /></label>
@@ -124,7 +124,7 @@
 				</p>
 			</aui:fieldset>
 
-			<!-- CritÃÂ¨res de recherche -->
+			<!-- CritÃÂÃÂ¨res de recherche -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="search-criterias">
 				<liferay-ui:message key="vocabularies-explanations" />
@@ -188,13 +188,13 @@
 				</p>
 			</aui:fieldset>
 			
-			<!-- Affichage par dÃ©faut -->
+			<!-- Affichage par dÃÂ©faut -->
 			<aui:fieldset collapsed="true" collapsible="true" label="default-display">
 				<liferay-ui:message key="default-display-explanations" />
-				<!-- Ne pas afficher de rÃ©sultats avant que l'utilisateur n'ait fait de recherche -->
+				<!-- Ne pas afficher de rÃÂ©sultats avant que l'utilisateur n'ait fait de recherche -->
 				<aui:input type="checkbox" name="hideResultsBeforeSearch" value="${hideResultsBeforeSearch}" label="hide-results-before-search" />
 				
-				<!-- Tri par dÃ©faut -->
+				<!-- Tri par dÃÂ©faut -->
 				<aui:select name="defaultSortField">
 					<aui:option value="modified_sortable" selected="${defaultSortField eq 'modified_sortable'}">
 						<liferay-ui:message key="modification-date" />
@@ -213,7 +213,7 @@
 					</aui:option>
 				</aui:select>
 				
-				<!-- Type de tri par dÃ©faut -->
+				<!-- Type de tri par dÃÂ©faut -->
 				<aui:select name="defaultSortType">
 					<aui:option value="asc" selected="${defaultSortType eq 'asc'}">
 						<liferay-ui:message key="asc" />
@@ -223,14 +223,14 @@
 					</aui:option>
 				</aui:select>
 				
-				<!-- Filtre par date par dÃ©faut --> 
+				<!-- Filtre par date par dÃÂ©faut --> 
 				<aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>
 			</aui:fieldset>
 			
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="display">
-				<!-- Nombre de rÃ©sultats par page -->
+				<!-- Nombre de rÃÂ©sultats par page -->
 				<aui:input type="number" name="delta" value="${delta}" />
 				
 				<!-- Formulaire de recherche -->
@@ -267,6 +267,9 @@
 					</aui:option>
 					<aui:option value="placit-participations" selected="${searchForm eq 'placit-participations'}">
 						<liferay-ui:message key="placit-participations" />
+					</aui:option>
+					<aui:option value="placit-news" selected="${searchForm eq 'placit-news'}">
+						<liferay-ui:message key="placit-news" />
 					</aui:option>
 				</aui:select>
 				
