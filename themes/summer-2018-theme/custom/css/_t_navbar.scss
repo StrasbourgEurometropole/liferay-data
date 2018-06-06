@@ -33,11 +33,6 @@
 		background: rgba($c_txt,0.3);
 		@include dl(2);
 		@include an(all,1);
-
-		@include desktop{
-			top: 191px;
-		}
-
 		@include tablet_portrait{
 			display: none;
 		}
