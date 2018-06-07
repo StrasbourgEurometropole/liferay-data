@@ -43,6 +43,8 @@
 		          		<c:set var="title" value="${dc.DeleteTag(dc.getJournalArticleTitle(article,locale))}"/>
 						<c:set var="chapo" value="${dc.DeleteTag(dc.getJournalArticleCatcher(article,locale))}"/>
 						<c:set var="image" value="${dc.getJournalArticleImage(article,locale)}"/>
+						<c:set var="id" value="${article.getArticleId()}"/>
+						<c:set var="groupId" value="${article.getGroupId()}"/>
 						<c:set var="currentURL" value="${assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry)}"/>
 						<c:set var="viewURL" value="${curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL)}"/>
 		              {
@@ -57,7 +59,9 @@
 		                title: '${dc.getJSONEncodedString(title)}',
 		                lead: '${dc.getJSONEncodedString(chapo)}',
 		                picture: '${image}',
-		                link: '${viewURL}'
+		                link: '${viewURL}',
+		                id: '${id}',
+		                groupId: '${groupId}'
 		              }
 		            </c:if>
 	        		<c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
@@ -69,6 +73,7 @@
 		                lead: '${dc.getJSONEncodedString(dc.DeleteTag(event.getDescription(locale)))}',
 		                link: '${homeURL}evenement/-/entity/id/${event.eventId}',
 		                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
+		                id: '${event.eventId}',
 		                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
 							<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
 							date_start: '',
@@ -153,6 +158,13 @@
                         <div class="title dotme" data-dot="3">__title__</div>
                         <div class="lead dotme" data-dot="7">__lead__</div>
                     </a>
+			        <a href="#" class="add-favorites"
+			            data-type="2" 
+			            data-title="__title__" 
+			            data-url="__link__" 
+			            data-id="__id__" >
+			            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+			        </a>
                 </div>
 
                 <!-- Template actu-->
@@ -165,6 +177,14 @@
                         <div class="picture" style="background-image: url(__picture__)">
                         </div> 
                     </a>
+			        <a href="#" class="add-favorites"
+			            data-type="6" 
+			            data-title="__title__" 
+			            data-url="__link__" 
+			            data-id="__id__"
+			            data-group-id="__groupId__">
+			            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
+			        </a>
                 </div>
 
                 <!--Template Mag-->
@@ -180,6 +200,14 @@
                             <div class="title dotme" data-dot="3">__title__</div>
                             <div class="lead dotme" data-dot="3">__lead__</div>
                         </div>
+                    </a>
+			        <a href="#" class="add-favorites"
+			            data-type="6" 
+			            data-title="__title__" 
+			            data-url="__link__" 
+			            data-id="__id__"
+			            data-group-id="__groupId__">
+			            <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                     </a>
                 </div>
             </div>
