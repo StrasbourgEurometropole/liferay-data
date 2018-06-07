@@ -256,6 +256,8 @@ public class ParticipationLocalServiceImpl
 	 * @throws PortalException 
 	 */
 	public void updateAllParticipationsStatus() throws PortalException {
+		_log.info("Start checking participations status");
+		
 		// Recupere l'ID par defaut du portal
 		long companyId = PortalUtil.getDefaultCompanyId();
 		// Recupere le groupe du site via son nom

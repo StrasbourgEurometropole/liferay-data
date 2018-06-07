@@ -14,11 +14,19 @@
 	            <div class="pro-facette-date">
 	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
 	                <span class="pro-wrapper-date">
-	                	<input type="text" id="startDate" name="start_date" class="frm_date" readonly="readonly">
-	                </span>
-	                <label for="endDate"><liferay-ui:message key="eu.erase" /></label>
-	                <span class="pro-wrapper-date"> 
-	                	<input type="text" id="endDate" name="end_date" class="frm_date" readonly="readonly">
+			            <input name="from" data-type="date" type="text" id="date-start"  class="frm_date"
+			            	readonly="readonly" value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">
+			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
+			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
+			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
+					</span>
+	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
+	                <span class="pro-wrapper-date">
+	                 	<input name="to" data-type="date" type="text" id="date-end" class="frm_date"
+			            	readonly="readonly" value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">
+			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
+			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
+			            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
 	                </span>
 	            </div>
 	        </div>
@@ -28,24 +36,28 @@
 
 <div class="pro-group">
     <div class="pro-header">
-        <h4><liferay-ui:message key="eu.state" /></h4>
+        <h4><liferay-ui:message key="eu.projects" /></h4>
         <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
     </div>
-    <fieldset class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
-        
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getParticipationStatus(groupID)}" />
-		<c:forEach
-			items="${dc.getDropdownRootCategories(statusVocabulary)}"
-			var="category"
-			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_1"
-				value="${category.categoryId}"
-				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_1_${catStatus.index}"
-				label="${category.getTitle(locale)}"
-				cssClass="move-to-grand-parent" />
-		</c:forEach>
+    <fieldset>
+        <legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
+        <div>
+            <select class="" id="projet"
+				name="<portlet:namespace />vocabulary_1">
+				<option><liferay-ui:message key="eu.project-choose" /></option>
+				<c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
+				<c:set var="projectStatusVocabulary"
+					value="${vocabularyAccessor.getProjects(groupID)}" />
+				<c:forEach
+					items="${dc.getDropdownRootCategories(projectStatusVocabulary)}"
+					var="category">
+					<c:set var="category" value="${category}" scope="request" />
+					<c:set var="dc" value="${dc}" scope="request" />
+					<c:set var="level" value="1" scope="request" />
+					<jsp:include page="/forms/category-option.jsp" />
+				</c:forEach>
+			</select>
+        </div>
     </fieldset>
 </div>
 
@@ -69,9 +81,10 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
-        
+
     </fieldset>
 </div>
+
 
 <div class="pro-group">
     <div class="pro-header">
@@ -79,9 +92,7 @@
         <span class="pro-remove"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
-        		
-		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
+        <c:set var="thematicVocabulary" value="${vocabularyAccessor.getEventThemes()}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
 			var="category"
@@ -93,7 +104,6 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
-		
     </fieldset>
 </div>
 
