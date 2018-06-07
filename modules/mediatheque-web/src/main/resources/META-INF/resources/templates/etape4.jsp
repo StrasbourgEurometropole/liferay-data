@@ -33,7 +33,7 @@
 		<c:if test="${dc.borrower.expireDate != null}">
 	        <c:set var="today" value="${dc.today}" />
 	        <c:if test="${today.isAfter(dc.borrower.expireDate)}">
-	        	<div class="error">
+	        	<div class="warning">
 	        		<strong><liferay-ui:message key="warning" /></strong><br>
 	        		<liferay-ui:message key="warning-text" />
 	        	</div>
