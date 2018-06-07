@@ -274,7 +274,11 @@
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
-                                    <span class="pro-time">Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time></span>
+                                    <span class="pro-time">
+                                        <#if event.firstStartDate?has_content>
+                                            Le <time datetime="2018-01-10">${event.firstStartDate?string("dd MMMM yyyy")}</time>
+                                        </#if>
+                                    </span>
                                     <p>À : ${event.getPlaceAlias(locale)}<br></p>
                                     <h3>
                                         ${eventTitleFirstPart}

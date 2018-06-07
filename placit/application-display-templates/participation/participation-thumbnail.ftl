@@ -1,4 +1,4 @@
-<!-- VIGNETTE D'UNE PARTICIPATION -->
+<!-- VIGNETTE PARTICIPATION -->
 
 <#setting locale = locale />
 
@@ -12,7 +12,7 @@
 <#switch entry.getParticipationStatus()>
     <#case "new">
         <#assign participationStatus = "Nouvelle" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
         <#break>
     <#case "soon_arrived">
         <#assign participationStatus = "À venir" />
@@ -20,11 +20,11 @@
         <#break>
     <#case "in_progress">
         <#assign participationStatus = "En cours" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
         <#break>
     <#case "soon_finished">
         <#assign participationStatus = "Bientôt terminée" />
-        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + "jour(s)" />
+        <#assign proDuree = "Fin dans " + entry.getTodayExpirationDifferenceDays() + " jour(s)" />
         <#break>
     <#case "finished">
         <#assign participationStatus = "Terminée" />
