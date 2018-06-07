@@ -134,7 +134,7 @@
 	                		${dc.pager.currentPage * dc.pager.delta - (dc.pager.currentPage * dc.pager.delta - dc.pager.count)}
 	                	</c:when>
 	                </c:choose>
-                	<liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.participation-minus-global" />
+                	<liferay-ui:message key="eu.among" /> ${dc.pager.count} <liferay-ui:message key="eu.event-minus-global" />
                 </p>
             </div>
 
