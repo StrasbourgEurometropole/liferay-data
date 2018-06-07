@@ -134,7 +134,14 @@
                         if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
                             var formated_info = '';
                             if (info_to_display == 'amount') {
-                                formated_info = '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
+                            	var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                                frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
+                                frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
+                                if (feature.properties[info_to_display]["label"] == "available-spots"){
+                                	frequentation += feature.properties[info_to_display]["frequentation"];
+                                }
+                                frequentation += '</div>';
+                                formated_info = frequentation;
                             } else if (info_to_display == "url") {
                                 var newTabAttribute = '';
                                 if (window.newTab) {
@@ -471,7 +478,6 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var markerIcon = new L.Icon({
                         iconUrl: '/o/mapweb/images/gps.png',
-                        iconSize: [25,25],
                         iconAnchor: [12, 12]
                     });
                     var homeMarker = L.marker([position.coords.latitude, position.coords.longitude], { icon: markerIcon }).addTo(mymap);

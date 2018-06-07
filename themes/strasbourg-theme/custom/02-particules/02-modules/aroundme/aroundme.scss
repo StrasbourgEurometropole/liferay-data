@@ -642,7 +642,7 @@
         }
         &__content{
             padding: 30px;
-            padding-bottom: 10px;
+            padding-bottom: 0px;
         }
         &__top{
             padding-bottom: 10px;
@@ -692,7 +692,7 @@
             display: flex;
         }
         &__bottom{
-            padding-top: 10px;
+            padding-top: 20px;
             padding-bottom: 10px;
             display: flex;
         }
@@ -722,6 +722,9 @@
         }
         &__right{
             border-left: solid 1px #dddddd;
+            width: calc(50% + 5px);
+            text-align: center;
+            padding: 0px 5px;
         }
         &__amount{
             .infowindow__frequentation{
@@ -735,6 +738,7 @@
                 height: 50px;
                 width: 50px;
                 flex-shrink: 0;
+                margin: 5px auto;
 
                 &.orange{
                     background-color: $crowded-orange;
@@ -753,6 +757,11 @@
                 &.red{
                     background-color: $crowded-red;
                 }
+            }
+            .crowded-label{
+                color: #31455d;
+                font-size: 1.3rem;
+                font-family: $main-font;
             }
         }
         &__url {
