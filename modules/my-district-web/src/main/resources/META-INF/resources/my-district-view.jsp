@@ -83,6 +83,9 @@
 							<h3><liferay-ui:message key="eu.place.address-details" /></h3>
 							<div class="rte">
 								<p style="margin-bottom: 0px;">
+									<c:if test="${not empty townHall.alias}">
+										${townHall.alias} <br />
+									</c:if>
 									<c:if test="${not empty townHall.addressStreet}">
 										${townHall.addressStreet} <br />
 									</c:if>
@@ -159,6 +162,9 @@
 							<h3><liferay-ui:message key="eu.place.address-details" /></h3>
 							<div class="rte">
 								<p style="margin-bottom: 0px;">
+									<c:if test="${not empty territoryDirection.alias}">
+										${territoryDirection.alias} <br />
+									</c:if>
 									<c:if test="${not empty territoryDirection.addressStreet}">
 										${territoryDirection.addressStreet} <br />
 									</c:if>
