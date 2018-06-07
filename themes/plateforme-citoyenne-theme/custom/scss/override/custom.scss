@@ -122,3 +122,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 //Fin style de la popup
+
+// Ajout de la marge des vignettes event dans le listing
+.pro-bloc-listing-event .pro-bloc-card-event {
+	margin : 14px;
+}
