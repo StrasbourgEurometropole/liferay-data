@@ -7,7 +7,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-ico-close"></span></span></button>
                     </div>
                     <div class="modal-body">                      
-                        <#if request.session.getAttribute("publik_logged_in")>
+                        <#if request.session.getAttribute("publik_logged_in")!false>
                             <div class="col-sm-6">
                                 <div class="pro-txt">
                                     <h2>Le Pacte</h2>
@@ -17,8 +17,7 @@
                                     <a href="${themeDisplay.getPortalURL()}${homeURL}pacte" class="pro-btn-yellow" title="Aller vers la page du Pacte">Consulter le pacte</a>
                                 </div>
                             </div>
-                        </#if>
-                        <#if !request.session.getAttribute("publik_logged_in")>
+                        <#else>
                             <div class="col-sm-6">
                                 <div class="pro-reagir">
                                     <div>
