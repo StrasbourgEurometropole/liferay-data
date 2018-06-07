@@ -337,6 +337,34 @@ public interface CommentModel extends BaseModel<Comment>, GroupedModel,
 	public void setPublikId(String publikId);
 
 	/**
+	 * Returns the like of this comment.
+	 *
+	 * @return the like of this comment
+	 */
+	public long getLike();
+
+	/**
+	 * Sets the like of this comment.
+	 *
+	 * @param like the like of this comment
+	 */
+	public void setLike(long like);
+
+	/**
+	 * Returns the dislike of this comment.
+	 *
+	 * @return the dislike of this comment
+	 */
+	public long getDislike();
+
+	/**
+	 * Sets the dislike of this comment.
+	 *
+	 * @param dislike the dislike of this comment
+	 */
+	public void setDislike(long dislike);
+
+	/**
 	 * Returns <code>true</code> if this comment is approved.
 	 *
 	 * @return <code>true</code> if this comment is approved; <code>false</code> otherwise

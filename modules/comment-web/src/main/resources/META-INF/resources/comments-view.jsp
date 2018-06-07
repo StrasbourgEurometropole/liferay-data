@@ -13,10 +13,16 @@
 	<div>
 		<div class="col-md-8">
 			<c:forEach var="comment" items="${comments}">
+			
 				<portlet:actionURL name="hideComment" var="hideComment">
-						<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
-						<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
-					</portlet:actionURL>
+					<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
+				</portlet:actionURL>
+					
+				<portlet:resourceURL id="like" var="likeURL">
+					<portlet:param name="commentId" value="${comment.commentId}"></portlet:param>
+				</portlet:resourceURL>
+				
 				<div class="pro-item">
 					<div class="pro-txt">
 						<span class="pro-name">${comment.getPublikUserName()}</span> <span
@@ -30,7 +36,12 @@
 							<p>${comment.comment}</p>
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
-									<div><a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
+									<a href="#pro-avis-like-pro" class="pro-like"
+										title="Mettre j'aime à cette vidéo" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
+										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
+										title="Mettre je n'aime pas à cette vidéo">${comment.dislike}</a>
+									<div>
+										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
 									</div>
 								</div>
 							</c:if>
@@ -60,8 +71,7 @@
 								  <c:otherwise>
 								    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
 								  </c:otherwise>
-								</c:choose>
-								></textarea>
+								</c:choose>></textarea>
 						</div>
 						<input type="submit" class="pro-btn-yellow" value="Envoyer" />
 					</form>
@@ -85,4 +95,19 @@
     		alert('<liferay-ui:message key="comment-empty" />');
     	}
 	});
+	
+
+	
+	function callServeResource(portletURL, likedislike) {
+			AUI().use('aui-io-request', function(A) {
+			A.io.request(portletURL, {
+				method : 'post',
+				data : {
+					<portlet:namespace/>action : likedislike
+				}
+			});
+		});
+	}
+			
+		
 </aui:script>

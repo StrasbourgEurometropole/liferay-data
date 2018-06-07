@@ -74,6 +74,8 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
+		attributes.put("like", getLike());
+		attributes.put("dislike", getDislike());
 
 		return attributes;
 	}
@@ -168,6 +170,18 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 		if (publikId != null) {
 			setPublikId(publikId);
+		}
+
+		Long like = (Long)attributes.get("like");
+
+		if (like != null) {
+			setLike(like);
+		}
+
+		Long dislike = (Long)attributes.get("dislike");
+
+		if (dislike != null) {
+			setDislike(dislike);
 		}
 	}
 
@@ -484,6 +498,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
+	* Returns the dislike of this comment.
+	*
+	* @return the dislike of this comment
+	*/
+	@Override
+	public long getDislike() {
+		return _comment.getDislike();
+	}
+
+	/**
 	* Returns the group ID of this comment.
 	*
 	* @return the group ID of this comment
@@ -491,6 +515,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public long getGroupId() {
 		return _comment.getGroupId();
+	}
+
+	/**
+	* Returns the like of this comment.
+	*
+	* @return the like of this comment
+	*/
+	@Override
+	public long getLike() {
+		return _comment.getLike();
 	}
 
 	/**
@@ -583,6 +617,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		_comment.setCreateDate(createDate);
 	}
 
+	/**
+	* Sets the dislike of this comment.
+	*
+	* @param dislike the dislike of this comment
+	*/
+	@Override
+	public void setDislike(long dislike) {
+		_comment.setDislike(dislike);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_comment.setExpandoBridgeAttributes(expandoBridge);
@@ -607,6 +651,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	@Override
 	public void setGroupId(long groupId) {
 		_comment.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the like of this comment.
+	*
+	* @param like the like of this comment
+	*/
+	@Override
+	public void setLike(long like) {
+		_comment.setLike(like);
 	}
 
 	/**

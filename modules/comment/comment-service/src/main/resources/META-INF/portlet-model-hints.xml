@@ -19,5 +19,7 @@
 		</field>
 		<field name="assetEntryId" type="long" />
 		<field name="publikId" type="String" />
+		<field name="like" type="long" />
+		<field name="dislike" type="long" />
 	</model>
 </model-hints>

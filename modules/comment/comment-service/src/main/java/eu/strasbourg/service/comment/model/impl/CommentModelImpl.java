@@ -89,7 +89,9 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "comment_", Types.VARCHAR },
 			{ "assetEntryId", Types.BIGINT },
-			{ "publikId", Types.VARCHAR }
+			{ "publikId", Types.VARCHAR },
+			{ "like_", Types.BIGINT },
+			{ "dislike", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -109,9 +111,11 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("assetEntryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("like_", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("dislike", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table comment_Comment (uuid_ VARCHAR(75) null,commentId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,comment_ STRING null,assetEntryId LONG,publikId VARCHAR(75) null,like_ LONG,dislike LONG)";
 	public static final String TABLE_SQL_DROP = "drop table comment_Comment";
 	public static final String ORDER_BY_JPQL = " ORDER BY comment.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY comment_Comment.createDate ASC";
@@ -162,6 +166,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		model.setComment(soapModel.getComment());
 		model.setAssetEntryId(soapModel.getAssetEntryId());
 		model.setPublikId(soapModel.getPublikId());
+		model.setLike(soapModel.getLike());
+		model.setDislike(soapModel.getDislike());
 
 		return model;
 	}
@@ -241,6 +247,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		attributes.put("comment", getComment());
 		attributes.put("assetEntryId", getAssetEntryId());
 		attributes.put("publikId", getPublikId());
+		attributes.put("like", getLike());
+		attributes.put("dislike", getDislike());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -338,6 +346,18 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 		if (publikId != null) {
 			setPublikId(publikId);
+		}
+
+		Long like = (Long)attributes.get("like");
+
+		if (like != null) {
+			setLike(like);
+		}
+
+		Long dislike = (Long)attributes.get("dislike");
+
+		if (dislike != null) {
+			setDislike(dislike);
 		}
 	}
 
@@ -627,6 +647,28 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		_publikId = publikId;
 	}
 
+	@JSON
+	@Override
+	public long getLike() {
+		return _like;
+	}
+
+	@Override
+	public void setLike(long like) {
+		_like = like;
+	}
+
+	@JSON
+	@Override
+	public long getDislike() {
+		return _dislike;
+	}
+
+	@Override
+	public void setDislike(long dislike) {
+		_dislike = dislike;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -759,6 +801,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		commentImpl.setComment(getComment());
 		commentImpl.setAssetEntryId(getAssetEntryId());
 		commentImpl.setPublikId(getPublikId());
+		commentImpl.setLike(getLike());
+		commentImpl.setDislike(getDislike());
 
 		commentImpl.resetOriginalValues();
 
@@ -927,12 +971,16 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			commentCacheModel.publikId = null;
 		}
 
+		commentCacheModel.like = getLike();
+
+		commentCacheModel.dislike = getDislike();
+
 		return commentCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -964,6 +1012,10 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 		sb.append(getAssetEntryId());
 		sb.append(", publikId=");
 		sb.append(getPublikId());
+		sb.append(", like=");
+		sb.append(getLike());
+		sb.append(", dislike=");
+		sb.append(getDislike());
 		sb.append("}");
 
 		return sb.toString();
@@ -971,7 +1023,7 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.comment.model.Comment");
@@ -1037,6 +1089,14 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 			"<column><column-name>publikId</column-name><column-value><![CDATA[");
 		sb.append(getPublikId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>like</column-name><column-value><![CDATA[");
+		sb.append(getLike());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>dislike</column-name><column-value><![CDATA[");
+		sb.append(getDislike());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1072,6 +1132,8 @@ public class CommentModelImpl extends BaseModelImpl<Comment>
 	private long _originalAssetEntryId;
 	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
+	private long _like;
+	private long _dislike;
 	private long _columnBitmask;
 	private Comment _escapedModel;
 }

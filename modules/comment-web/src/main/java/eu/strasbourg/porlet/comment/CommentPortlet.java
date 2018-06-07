@@ -1,6 +1,7 @@
 package eu.strasbourg.porlet.comment;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,8 @@ import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
@@ -170,6 +173,42 @@ public class CommentPortlet extends MVCPortlet {
 		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
 
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
+	}
+	
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
+		try {
+			String resourceID = resourceRequest.getResourceID();
+
+			if (resourceID.equals("like")) {
+				
+				String publikUserID = getPublikID(resourceRequest);
+				if (Validator.isNotNull(publikUserID)) {
+					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(publikUserID);
+					
+					//Dislike ou Like ?
+					String action = ParamUtil.getString(resourceRequest, "action");
+					Comment comment = CommentLocalServiceUtil.getComment(ParamUtil.getLong(resourceRequest, "commentId"));
+					
+					switch(action)
+					{
+						case "like" :
+							comment.setLike(comment.getLike() + 1);
+							break;
+						case "dislike" : 
+							comment.setDislike(comment.getDislike() + 1);
+							break;
+					}
+					
+					CommentLocalServiceUtil.updateComment(comment);
+				}
+			}
+		} catch (Exception e) {
+			_log.error(e);
+		}
+
+		super.serveResource(resourceRequest, resourceResponse);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

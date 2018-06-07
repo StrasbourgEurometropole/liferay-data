@@ -21,5 +21,7 @@
 		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="assetEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="like_" name="like" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="dislike" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>
