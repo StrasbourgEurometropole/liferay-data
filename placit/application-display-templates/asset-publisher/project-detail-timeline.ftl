@@ -20,7 +20,7 @@
 <#else>
     <#assign css = ""/>
 </#if>
-   <div href="${tl.link}" class="pro-jalon ${css}">
+   <a href="${tl.link}" class="pro-jalon ${css}">
         <div style="padding-top: 700px;">
             <div class="pro-date">
                 <div>
@@ -33,7 +33,7 @@
                 <h4>${tl.title}</h4>
             </div>
         </div>
-    </div>
+    </a>
 </#list>
 </div>
 <style>
