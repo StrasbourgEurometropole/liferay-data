@@ -96,6 +96,52 @@
             "required": false,
             "showLabel": true,
             "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Sélectionner l’alignement des données textuelles"
+            },
+            "options": [
+                {
+                    "value": "alignleft",
+                    "label": {
+                        "fr_FR": "A gauche"
+                    }
+                },
+                {
+                    "value": "aligncenter",
+                    "label": {
+                        "fr_FR": "Au milieu"
+                    }
+                },
+                {
+                    "value": "alignright",
+                    "label": {
+                        "fr_FR": "A droite"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": [
+                    "pro-captionmiddle"
+                ]
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "multiple": false,
+            "name": "selectAlignment",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "select"
         }
     ]
 }
