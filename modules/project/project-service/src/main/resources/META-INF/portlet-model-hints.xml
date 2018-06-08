@@ -80,7 +80,7 @@
 		<field name="detailURL" type="String" />
 		<field name="budget" type="String" />
 		<field name="label" type="String" />
-		<field name="duration" type="int" />
+		<field name="duration" type="String" />
 		<field name="partners" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

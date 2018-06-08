@@ -126,7 +126,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setLabel(label);
 			
 			// Durée
-			Integer duration = ParamUtil.getInteger(request, "duration");
+			String duration = ParamUtil.getString(request, "duration");
 			project.setDuration(duration);
 			
 			// Partenaires

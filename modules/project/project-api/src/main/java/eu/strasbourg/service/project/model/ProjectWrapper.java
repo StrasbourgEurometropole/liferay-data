@@ -206,7 +206,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setLabel(label);
 		}
 
-		Integer duration = (Integer)attributes.get("duration");
+		String duration = (String)attributes.get("duration");
 
 		if (duration != null) {
 			setDuration(duration);
@@ -386,16 +386,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Returns the duration of this project.
-	*
-	* @return the duration of this project
-	*/
-	@Override
-	public int getDuration() {
-		return _project.getDuration();
-	}
-
-	/**
 	* Returns the status of this project.
 	*
 	* @return the status of this project
@@ -496,6 +486,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getDistrictCategories(java.util.Locale locale) {
 		return _project.getDistrictCategories(locale);
+	}
+
+	/**
+	* Returns the duration of this project.
+	*
+	* @return the duration of this project
+	*/
+	@Override
+	public java.lang.String getDuration() {
+		return _project.getDuration();
 	}
 
 	/**
@@ -679,7 +679,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	/**
 	* Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
@@ -689,7 +689,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
@@ -912,7 +912,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* @param duration the duration of this project
 	*/
 	@Override
-	public void setDuration(int duration) {
+	public void setDuration(java.lang.String duration) {
 		_project.setDuration(duration);
 	}
 

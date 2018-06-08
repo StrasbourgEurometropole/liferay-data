@@ -52,7 +52,7 @@ create table project_Project (
 	detailURL VARCHAR(75) null,
 	budget VARCHAR(75) null,
 	label VARCHAR(75) null,
-	duration INTEGER,
+	duration VARCHAR(75) null,
 	partners TEXT null,
 	contactName VARCHAR(75) null,
 	contactLine1 VARCHAR(400) null,
