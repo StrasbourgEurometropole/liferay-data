@@ -21,11 +21,10 @@
             <!-- Parcours des entites de l'asset publisher -->
             <#list entries as curEntry>
             
-            
             <!-- Recuperation de l'entite -->
            <#assign entry = curEntry.getAssetRenderer().getEvent() />
             
-            <a href="${homeURL}détail-événement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+            <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                 <div>
                     <div class="pro-header-event">
                         <span class="pro-ico"><span class="icon-ico-debat"></span></span>

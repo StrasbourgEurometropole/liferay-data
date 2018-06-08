@@ -8,7 +8,7 @@
   <#assign homeURL = "/" />
 </#if>
 
-<a href="${homeURL}détail-événement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event"
+<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event"
     <#if entry.getMercatorY()?has_content >
         data-lat="${entry.getMercatorY()}" 
         data-lng="${entry.getMercatorX()}"
