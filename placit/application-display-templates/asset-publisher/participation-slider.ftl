@@ -13,11 +13,11 @@
 <section class="pro-bloc-slider pro-slider-participation">
     <div class="container">
         
-        <div class="col-lg-10 col-lg-offset-1">
+        <div>
             <h2>Les participations</h2>
         </div>
 
-        <div class="col-lg-10 col-lg-offset-1">
+        <div>
             <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
                 <!-- Parcours des entites de l'asset publisher -->
@@ -43,19 +43,22 @@
 
                     <#switch participationType>
                         <#case "Information">
-                            <#assign cssParticipationType = "information" />
+                            <#assign cssParticipationType = "pro-theme-information" />
                             <#break>
                         <#case "Consultation">
-                            <#assign cssParticipationType = "consultation" />
+                            <#assign cssParticipationType = "pro-theme-consultation" />
                             <#break>
                         <#case "Co-construction">
-                            <#assign cssParticipationType = "co-construire" />
+                            <#assign cssParticipationType = "pro-theme-co-construire" />
                             <#break>
                         <#case "Concertation">
-                            <#assign cssParticipationType = "concertation" />
+                            <#assign cssParticipationType = "pro-theme-concertation" />
                             <#break>
                         <#case "Enquête publique">
-                            <#assign cssParticipationType = "brun" />
+                            <#assign cssParticipationType = "pro-theme-brun" />
+                            <#break>
+                        <#default>
+                            <#assign cssParticipationType = "" />
                             <#break>
                     </#switch>
 
@@ -69,7 +72,7 @@
                         <#assign participationTitleFirstPart = participationTitle />
                     </#if>
 
-                    <div class="item pro-bloc-card-participation pro-theme-${cssParticipationType}" data-linkall="a">
+                    <div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
                         <div>
                             <div class="pro-header-participation">
                                 <figure role="group">

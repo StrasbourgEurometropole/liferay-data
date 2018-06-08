@@ -37,19 +37,22 @@
 
 <#switch participationType>
     <#case "Information">
-        <#assign cssParticipationType = "information" />
+        <#assign cssParticipationType = "pro-theme-information" />
         <#break>
     <#case "Consultation">
-        <#assign cssParticipationType = "consultation" />
+        <#assign cssParticipationType = "pro-theme-consultation" />
         <#break>
     <#case "Co-construction">
-        <#assign cssParticipationType = "co-construire" />
+        <#assign cssParticipationType = "pro-theme-co-construire" />
         <#break>
     <#case "Concertation">
-        <#assign cssParticipationType = "concertation" />
+        <#assign cssParticipationType = "pro-theme-concertation" />
         <#break>
     <#case "Enquête publique">
-        <#assign cssParticipationType = "enquete-publique" />
+        <#assign cssParticipationType = "pro-theme-enquete-publique" />
+        <#break>
+    <#default>
+        <#assign cssParticipationType = "" />
         <#break>
 </#switch>
 
@@ -78,7 +81,7 @@
     <#assign participationProject = entry.getProjectCategory() />
 </#if>
 
-<div class="item pro-bloc-card-participation pro-theme-${cssParticipationType}" data-linkall="a">
+<div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
     <div>
         <div class="pro-header-participation">
             <figure role="group">

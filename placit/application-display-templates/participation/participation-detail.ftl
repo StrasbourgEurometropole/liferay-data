@@ -21,19 +21,22 @@
 
 <#switch participationType>
     <#case "Information">
-        <#assign cssParticipationType = "information" />
+        <#assign cssParticipationType = "pro-theme-information" />
         <#break>
     <#case "Consultation">
-        <#assign cssParticipationType = "consultation" />
+        <#assign cssParticipationType = "pro-theme-consultation" />
         <#break>
     <#case "Co-construction">
-        <#assign cssParticipationType = "co-construire" />
+        <#assign cssParticipationType = "pro-theme-co-construire" />
         <#break>
     <#case "Concertation">
-        <#assign cssParticipationType = "concertation" />
+        <#assign cssParticipationType = "pro-theme-concertation" />
         <#break>
     <#case "Enquête publique">
-        <#assign cssParticipationType = "brun" />
+        <#assign cssParticipationType = "pro-theme-brun" />
+        <#break>
+    <#default>
+        <#assign cssParticipationType = "" />
         <#break>
 </#switch>
 
@@ -61,7 +64,7 @@
 
             <article>
                 <header>
-                    <div class="pro-header-participation pro-theme-${cssParticipationType}">
+                    <div class="pro-header-participation ${cssParticipationType}">
                         <h1>${entry.title}</h1>
                         <div class="pro-meta">
 
@@ -270,7 +273,7 @@
                             <#assign eventTitleFirstPart = eventTitle />
                         </#if>
 
-                        <a href="${homeURL}agenda/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+                        <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
                             <div>
                                 <div class="pro-header-event">
                                     <span class="pro-ico"><span class="icon-ico-debat"></span></span>
