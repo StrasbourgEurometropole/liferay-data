@@ -10,7 +10,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<section class="pro-bloc-slider">
+<section id="pro-link-projet" class="pro-bloc-slider">
             <div class="container">
                 <h2>Les projets :</h2>
                 <form class="pro-form-select">

@@ -37,7 +37,7 @@
              <#assign territoires = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire") />
 
 	            <div class="col-md-3 col-sm-6 col-xs-12">
-	                <a href="" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
+	                <a href="${homeURL}actualites/-/entity/id/${curEntry.getAssetRenderer().getArticle().articleId}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
 	                    <div class="img">
 	                        <figure role="group">
 	                            <img src='${thumbnail}' alt="Image agenda" width="360" height="174" class="fit-cover"/>

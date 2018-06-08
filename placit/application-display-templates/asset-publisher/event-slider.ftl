@@ -10,7 +10,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<section class="pro-bloc-slider pro-slider-event">
+<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
     <div class="container">
         <div>
             <h2>L’agenda</h2>

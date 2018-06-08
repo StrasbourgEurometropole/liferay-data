@@ -3,6 +3,12 @@
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
 <#--  récupération de l'id du webcontent -->
 <#assign journalArticleId = .vars['reserved-article-id'].data>
 <#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>
@@ -38,9 +44,9 @@
         
         <div id="breadcrumb">
             <span>
-                <span><a href="index.html">Accueil</a>
-                    <a href="listing-actu.html">Toutes les actualités</a>
-                    <span class="breadcrumb_last">Titre de l'actualité</span>
+                <span><a href="${homeURL}accueil">Accueil</a>
+                    <a href="${homeURL}actualites">Toutes les actualités</a>
+                    <span class="breadcrumb_last">${title.getData()}</span>
                 </span>
             </span>
         </div>
