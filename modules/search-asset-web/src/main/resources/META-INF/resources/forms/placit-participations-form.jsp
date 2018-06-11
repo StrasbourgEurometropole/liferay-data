@@ -39,10 +39,10 @@
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_1"
+			<aui:input type="checkbox" name="vocabulary_0"
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_1_${catStatus.index}"
+				id="vocabulary_0_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
@@ -62,10 +62,10 @@
 			items="${dc.getDropdownRootCategories(districtVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_2"
+			<aui:input type="checkbox" name="vocabulary_1"
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_2_${catStatus.index}"
+				id="vocabulary_1_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
@@ -86,10 +86,10 @@
 			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
 			var="category"
 			varStatus="catStatus">
-			<aui:input type="checkbox" name="vocabulary_3"
+			<aui:input type="checkbox" name="vocabulary_2"
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_3_${catStatus.index}"
+				id="vocabulary_2_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
