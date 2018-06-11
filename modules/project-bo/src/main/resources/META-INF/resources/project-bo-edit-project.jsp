@@ -22,7 +22,7 @@
 <div class="container-fluid-1280 main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
-	(voir mÃ©thode "validate" dans le saveAction de l'entitÃ©) --%>
+	(voir mÃÂ©thode "validate" dans le saveAction de l'entitÃÂ©) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -46,7 +46,7 @@
 				<%-- Champ : Description --%>
 				<aui:input name="description" required="true" />
 				
-				<%-- Selecteur : Image interne ou externe ? --%>
+				<%-- Selecteur : Image interne ou externe ? --%>	
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
 				<label><input type="radio" value="externalImage" name="imageType"
@@ -54,14 +54,14 @@
 				
 				<%-- Champ : Image interne --%>
 				<div class="internalImage" <c:if test="${(empty dc.project.imageId or dc.project.imageId eq 0) and not empty dc.project.externalImageURL }">style="display: none;"</c:if>>
-					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="true" />
+					<strasbourg-picker:image label="image" name="imageId" required="true" value="${dc.project.imageId}" global="true"/>
 				</div>
 				
 				<%-- Groupe de champs : Image externe --%>
 				<div class="externalImage" <c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">style="display: none;"</c:if>>
 					
 					<%-- Champ : URL de l'image externe --%>
-					<aui:input name="externalImageURL" >
+					<aui:input name="externalImageURL" helpMessage="help-image-size" >
 						<aui:validator name="required" errorMessage="this-field-is-required" />
 					</aui:input>
 					
@@ -176,8 +176,8 @@
 						</div>
 					</c:forEach>
 					
-					<%-- Variable : DÃ©finit les variables de gestion et de retour du selecteur 
-					(voir "autofields" dans le .js de l'edit de l'entitÃ©)  --%>
+					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
+					(voir "autofields" dans le .js de l'edit de l'entitÃÂ©)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
 							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
 						</c:if>
@@ -212,14 +212,14 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-			<%-- Composant : bouton de retour ÃÂÃÂ  la liste des entites --%>
+			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
 	
-	<%-- Variable : definit la phase de l'entitÃÂÃÂ© (utile pour l'action Jquery) --%>
+	<%-- Variable : definit la phase de l'entite (utile pour l'action Jquery) --%>
 	<liferay-util:html-top>
 		<script>
 			var editProject = true;
