@@ -402,14 +402,15 @@ public interface ProjectModel extends BaseModel<Project>, GroupedModel,
 	 *
 	 * @return the duration of this project
 	 */
-	public int getDuration();
+	@AutoEscape
+	public String getDuration();
 
 	/**
 	 * Sets the duration of this project.
 	 *
 	 * @param duration the duration of this project
 	 */
-	public void setDuration(int duration);
+	public void setDuration(String duration);
 
 	/**
 	 * Returns the partners of this project.

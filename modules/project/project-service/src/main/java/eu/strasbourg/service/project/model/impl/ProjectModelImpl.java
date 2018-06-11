@@ -93,7 +93,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			{ "detailURL", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
 			{ "label", Types.VARCHAR },
-			{ "duration", Types.INTEGER },
+			{ "duration", Types.VARCHAR },
 			{ "partners", Types.CLOB },
 			{ "contactName", Types.VARCHAR },
 			{ "contactLine1", Types.VARCHAR },
@@ -123,7 +123,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("detailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("label", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("duration", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("partners", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("contactName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactLine1", Types.VARCHAR);
@@ -132,7 +132,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration INTEGER,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_Project (uuid_ VARCHAR(75) null,projectId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(400) null,description TEXT null,detailURL VARCHAR(75) null,budget VARCHAR(75) null,label VARCHAR(75) null,duration VARCHAR(75) null,partners TEXT null,contactName VARCHAR(75) null,contactLine1 VARCHAR(400) null,contactLine2 VARCHAR(400) null,contactPhoneNumber VARCHAR(75) null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_Project";
 	public static final String ORDER_BY_JPQL = " ORDER BY project.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_Project.title ASC";
@@ -406,7 +406,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 			setLabel(label);
 		}
 
-		Integer duration = (Integer)attributes.get("duration");
+		String duration = (String)attributes.get("duration");
 
 		if (duration != null) {
 			setDuration(duration);
@@ -782,12 +782,17 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 	@JSON
 	@Override
-	public int getDuration() {
-		return _duration;
+	public String getDuration() {
+		if (_duration == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _duration;
+		}
 	}
 
 	@Override
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		_duration = duration;
 	}
 
@@ -1226,6 +1231,12 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 
 		projectCacheModel.duration = getDuration();
 
+		String duration = projectCacheModel.duration;
+
+		if ((duration != null) && (duration.length() == 0)) {
+			projectCacheModel.duration = null;
+		}
+
 		projectCacheModel.partners = getPartners();
 
 		String partners = projectCacheModel.partners;
@@ -1479,7 +1490,7 @@ public class ProjectModelImpl extends BaseModelImpl<Project>
 	private String _detailURL;
 	private String _budget;
 	private String _label;
-	private int _duration;
+	private String _duration;
 	private String _partners;
 	private String _contactName;
 	private String _contactLine1;

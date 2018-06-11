@@ -633,69 +633,6 @@ public class ProjectUtil {
 	}
 
 	/**
-	* Returns all the projects that the user has permission to view where groupId = &#63;.
-	*
-	* @param groupId the group ID
-	* @return the matching projects that the user has permission to view
-	*/
-	public static List<Project> filterFindByGroupId(long groupId) {
-		return getPersistence().filterFindByGroupId(groupId);
-	}
-
-	/**
-	* Returns a range of all the projects that the user has permission to view where groupId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param groupId the group ID
-	* @param start the lower bound of the range of projects
-	* @param end the upper bound of the range of projects (not inclusive)
-	* @return the range of matching projects that the user has permission to view
-	*/
-	public static List<Project> filterFindByGroupId(long groupId, int start,
-		int end) {
-		return getPersistence().filterFindByGroupId(groupId, start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the projects that the user has permissions to view where groupId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param groupId the group ID
-	* @param start the lower bound of the range of projects
-	* @param end the upper bound of the range of projects (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching projects that the user has permission to view
-	*/
-	public static List<Project> filterFindByGroupId(long groupId, int start,
-		int end, OrderByComparator<Project> orderByComparator) {
-		return getPersistence()
-				   .filterFindByGroupId(groupId, start, end, orderByComparator);
-	}
-
-	/**
-	* Returns the projects before and after the current project in the ordered set of projects that the user has permission to view where groupId = &#63;.
-	*
-	* @param projectId the primary key of the current project
-	* @param groupId the group ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next project
-	* @throws NoSuchProjectException if a project with the primary key could not be found
-	*/
-	public static Project[] filterFindByGroupId_PrevAndNext(long projectId,
-		long groupId, OrderByComparator<Project> orderByComparator)
-		throws eu.strasbourg.service.project.exception.NoSuchProjectException {
-		return getPersistence()
-				   .filterFindByGroupId_PrevAndNext(projectId, groupId,
-			orderByComparator);
-	}
-
-	/**
 	* Removes all the projects where groupId = &#63; from the database.
 	*
 	* @param groupId the group ID
@@ -712,16 +649,6 @@ public class ProjectUtil {
 	*/
 	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
-	}
-
-	/**
-	* Returns the number of projects that the user has permission to view where groupId = &#63;.
-	*
-	* @param groupId the group ID
-	* @return the number of matching projects that the user has permission to view
-	*/
-	public static int filterCountByGroupId(long groupId) {
-		return getPersistence().filterCountByGroupId(groupId);
 	}
 
 	/**

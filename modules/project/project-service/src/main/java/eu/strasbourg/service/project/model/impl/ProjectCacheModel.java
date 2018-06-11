@@ -227,7 +227,12 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setLabel(label);
 		}
 
-		projectImpl.setDuration(duration);
+		if (duration == null) {
+			projectImpl.setDuration(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setDuration(duration);
+		}
 
 		if (partners == null) {
 			projectImpl.setPartners(StringPool.BLANK);
@@ -298,8 +303,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		label = objectInput.readUTF();
-
-		duration = objectInput.readInt();
+		duration = objectInput.readUTF();
 		partners = objectInput.readUTF();
 		contactName = objectInput.readUTF();
 		contactLine1 = objectInput.readUTF();
@@ -399,7 +403,12 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(label);
 		}
 
-		objectOutput.writeInt(duration);
+		if (duration == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(duration);
+		}
 
 		if (partners == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -458,7 +467,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String detailURL;
 	public String budget;
 	public String label;
-	public int duration;
+	public String duration;
 	public String partners;
 	public String contactName;
 	public String contactLine1;

@@ -1,5 +1,16 @@
 <%@ include file="/search-asset-init.jsp"%>
-
+<!-- File d'ariane -->
+<div class="pro-wrapper-top-listing">
+	<div class="container">
+		<div id="breadcrumb">
+			<span> <span><a href="${dc.getHomeURL()}"><liferay-ui:message
+							key="eu.breadcrumb-home" /></a> <span class="breadcrumb_last"><liferay-ui:message
+							key="eu.breadcrumb-news" /></span> </span>
+			</span>
+		</div>
+	</div>
+</div>
+<!-- Listing -->
 <section class="container pro-listing" data-egalize=" > *">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="entriesSearchContainer"
@@ -146,7 +157,7 @@
 </div>
 <aui:script>
 	$(function() {
-		//Force la première tuille à prendre deux fois plus de place en hauteur de largeur
+		//Force la premiÃ¨re tuille Ã  prendre deux fois plus de place en hauteur de largeur
 		$('.col-md-3.col-sm-6.col-xs-12').first().removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
 		$('.pro-bloc-actu').first().addClass('pro-bloc-actu-large');
 		

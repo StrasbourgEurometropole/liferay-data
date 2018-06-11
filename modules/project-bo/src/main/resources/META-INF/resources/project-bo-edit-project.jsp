@@ -73,7 +73,7 @@
 				</div>
 				
 				<%-- Champ : URL detail du projet --%>
-				<aui:input name="detailURL" required="false" />
+				<aui:input name="detailURL" required="false" helpMessage="urlHelp2"/>
 				
 			</aui:fieldset>
 			
@@ -176,7 +176,11 @@
 						</div>
 					</c:forEach>
 					
+<<<<<<< HEAD
 					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
+=======
+					<%-- Variable : DÃÂ©finit les variables de gestion et de retour du selecteur 
+>>>>>>> origin/romain-placit
 					(voir "autofields" dans le .js de l'edit de l'entitÃÂ©)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
 							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
@@ -212,14 +216,22 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
+<<<<<<< HEAD
 			<%-- Composant : bouton de retour a la liste des entites --%>
+=======
+			<%-- Composant : bouton de retour ÃÂÃÂÃÂÃÂ  la liste des entites --%>
+>>>>>>> origin/romain-placit
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
 	
+<<<<<<< HEAD
 	<%-- Variable : definit la phase de l'entite (utile pour l'action Jquery) --%>
+=======
+	<%-- Variable : definit la phase de l'entitÃÂÃÂÃÂÃÂ© (utile pour l'action Jquery) --%>
+>>>>>>> origin/romain-placit
 	<liferay-util:html-top>
 		<script>
 			var editProject = true;

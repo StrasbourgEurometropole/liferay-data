@@ -73,14 +73,14 @@ public interface Project extends ProjectModel, PersistedModel {
 	/**
 	* Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories();
 
 	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 

@@ -6,7 +6,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-ico-close"></span></span></button>
                     </div>
-                    <div class="modal-body">                    
+                    <div class="modal-body">                      
                         <#if request.session.getAttribute("publik_logged_in")!false>
                             <div class="col-sm-6">
                                 <div class="pro-txt">

@@ -264,11 +264,11 @@ public class ProjectSoap implements Serializable {
 		_label = label;
 	}
 
-	public int getDuration() {
+	public String getDuration() {
 		return _duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		_duration = duration;
 	}
 
@@ -339,7 +339,7 @@ public class ProjectSoap implements Serializable {
 	private String _detailURL;
 	private String _budget;
 	private String _label;
-	private int _duration;
+	private String _duration;
 	private String _partners;
 	private String _contactName;
 	private String _contactLine1;

@@ -36,7 +36,7 @@
 		<!-- En bref -->
 		<column name="budget" type="String" />
 		<column name="label" type="String" />
-		<column name="duration" type="int" />
+		<column name="duration" type="String" />
 		<column name="partners" type="String" />
 		
 		<!-- Contact -->

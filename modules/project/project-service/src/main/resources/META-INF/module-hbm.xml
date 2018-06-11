@@ -62,7 +62,7 @@
 		<property name="detailURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="label" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="partners" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="contactName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="contactLine1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
