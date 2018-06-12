@@ -8,7 +8,7 @@
   <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay ni avec un compte Publik 
   (et qu'il n'est pas sur la page de bienvenue ni sur la page de validation médiathèque), 
   on le redirige vers la page de bienvenue -->
-  <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && (layout.getFriendlyURL() != "/bienvenue" || layout.getFriendlyURL() != "/validation-médiathèque")>
+  <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() != "/bienvenue" && layout.getFriendlyURL() != "/validation-mediatheque">
       <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
       <#else>

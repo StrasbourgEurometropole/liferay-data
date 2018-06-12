@@ -348,63 +348,9 @@
 						</span>
 					</a>
 				</div>
-				<div id="mega-templates">
-					<!-- Template actu-->
-					<div class="item actu">
-						<a href="__link__" class="link" title="__title__">
-							<div class="text">
-								<div class="title dotme" data-dot="3">__title__</div>
-								<div class="lead dotme" data-dot="3">__lead__</div>
-							</div>
-							<div class="picture" style="background-image: url(__picture__)">
-							</div>
-						</a>
-						<a href="#" class="add-favorites"
-						   data-type="6"
-						   data-title="__title__"
-						   data-url="__link__"
-						   data-id="__id__"
-						   data-group-id="__groupId__">
-							<span><liferay-ui:message key="eu.add-to-favorite" /></span>
-						</a>
-					</div>
-
-					<!--Template Mag-->
-					<div class="item mag">
-						<a href="__link__" class="link" title="__title__">
-							<div class="picture" style="background-image: url(__picture__)">
-							</div>
-							<div class="mag-logo">
-								<div class="mag-text">Mag'</div>
-								<div class="mag-picto"></div>
-							</div>
-							<div class="text">
-								<div class="title dotme" data-dot="3">__title__</div>
-								<div class="lead dotme" data-dot="3">__lead__</div>
-							</div>
-						</a>
-						<a href="#" class="add-favorites"
-						   data-type="6"
-						   data-title="__title__"
-						   data-url="__link__"
-						   data-id="__id__"
-						   data-group-id="__groupId__">
-							<span><liferay-ui:message key="eu.add-to-favorite" /></span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="seu-btn-line">
-				<a href="${homeURL}actualite" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-news" />">
-							<span class="flexbox">
-								<span class="btn-text"><liferay-ui:message key="eu.all-news" /></span>
-								<span class="btn-arrow"></span>
-							</span>
-				</a>
-			</div>
 			</c:if>
 			<c:if test="${empty dc.actusAndWebmags}">
-			<p><liferay-ui:message key="no-actu" /></p>
+				<p><liferay-ui:message key="no-actu" /></p>
 			</c:if>
 
 			<h1><liferay-ui:message key="district-events" /></h1>
@@ -493,40 +439,6 @@
 						</span>
 					</a>
 				</div>
-				<div id="mega-templates">
-					<!--Template Event-->
-					<div class="item event">
-						<a href="__link__" class="link" title="__title__">
-							<div class="date">
-								<div class="date-sup">
-									<span class="date-prefix">__date_prefix__</span>
-									<span class="date-start">__date_start__</span>
-									<span class="date-suffix">__date_suffix__</span>
-								</div>
-								<div class="date-end">__date_end__</div>
-							</div>
-							<div class="ville">__ville__</div>
-							<div class="title dotme" data-dot="3">__title__</div>
-							<div class="lead dotme" data-dot="7">__lead__</div>
-						</a>
-						<a href="#" class="add-favorites"
-						   data-type="2"
-						   data-title="__title__"
-						   data-url="__link__"
-						   data-id="__id__" >
-							<span><liferay-ui:message key="eu.add-to-favorite" /></span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="seu-btn-line">
-				<a href="${homeURL}agenda" class="btn-square--bordered--core" title="<liferay-ui:message key="eu.all-events" />">
-							<span class="flexbox">
-								<span class="btn-text"><liferay-ui:message key="eu.all-events" /></span>
-								<span class="btn-arrow"></span>
-							</span>
-				</a>
-			</div>
 			</c:if>
 			<c:if test="${empty dc.events}">
 			<p><liferay-ui:message key="no-event" /></p>
