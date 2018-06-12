@@ -128,3 +128,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 .pro-bloc-listing-event .pro-bloc-card-event {
 	margin : 14px;
 }
+
+// Ajout de la marge des icons des datepiker Pikaday
+.pro-bloc-facette form .pro-group fieldset>* .pro-facette-date input {
+	margin-right : 10px;
+}

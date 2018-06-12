@@ -22,7 +22,7 @@
 <div class="container-fluid-1280 main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
-	(voir mÃÂ©thode "validate" dans le saveAction de l'entitÃÂ©) --%>
+	(voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -162,7 +162,7 @@
 					</c:if>
 					
 					<c:forEach items="${dc.project.projectTimelines}" var="projectTimeline" varStatus="status">
-						<div class="lfr-form-row lfr-form-row-inline">
+ 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
 								<fmt:formatDate value="${projectTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
@@ -176,12 +176,8 @@
 						</div>
 					</c:forEach>
 					
-<<<<<<< HEAD
 					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
-=======
-					<%-- Variable : DÃÂ©finit les variables de gestion et de retour du selecteur 
->>>>>>> origin/romain-placit
-					(voir "autofields" dans le .js de l'edit de l'entitÃÂ©)  --%>
+					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
 							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
 						</c:if>
@@ -216,22 +212,14 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 			
-<<<<<<< HEAD
 			<%-- Composant : bouton de retour a la liste des entites --%>
-=======
-			<%-- Composant : bouton de retour ÃÂÃÂÃÂÃÂ  la liste des entites --%>
->>>>>>> origin/romain-placit
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
 	
-<<<<<<< HEAD
 	<%-- Variable : definit la phase de l'entite (utile pour l'action Jquery) --%>
-=======
-	<%-- Variable : definit la phase de l'entitÃÂÃÂÃÂÃÂ© (utile pour l'action Jquery) --%>
->>>>>>> origin/romain-placit
 	<liferay-util:html-top>
 		<script>
 			var editProject = true;
