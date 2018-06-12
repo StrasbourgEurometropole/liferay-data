@@ -1,3 +1,21 @@
+
+<!-- Recuperation de l'URL de "base" du site -->
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+
+<div id="breadcrumb">
+    <span>
+        <span>
+            <a href="${homeURL}">Accueil</a>
+            <a href="${homeURL}projets">Les projets</a>
+            <span class="breadcrumb_last">${entry.title}</span>
+        </span>
+    </span>
+</div>
+
 <div class="pro-bloc-bref">
     <h3>En bref</h3>
     <ul>

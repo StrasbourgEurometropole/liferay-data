@@ -1,0 +1,2 @@
+La plupart des templates sont dupliqués. Il existe une version avec et sans marge pour deux types de pages du site.
+Quand on modifie une version, il faut s'assurer que ça concerne l'autre version également.

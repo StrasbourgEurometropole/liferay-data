@@ -22,7 +22,6 @@
                         <option value="pro-projet-wacken">Wacken</option>
                     </select>
                 </form>
-                <a href="listing-actu.html" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
 
 
                 <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
