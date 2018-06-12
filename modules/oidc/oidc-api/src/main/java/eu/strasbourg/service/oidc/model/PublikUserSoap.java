@@ -44,6 +44,7 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setEmail(model.getEmail());
 		soapModel.setMapConfig(model.getMapConfig());
 		soapModel.setDisplayConfig(model.getDisplayConfig());
+		soapModel.setPactSignature(model.getPactSignature());
 
 		return soapModel;
 	}
@@ -184,6 +185,14 @@ public class PublikUserSoap implements Serializable {
 		_displayConfig = displayConfig;
 	}
 
+	public Date getPactSignature() {
+		return _pactSignature;
+	}
+
+	public void setPactSignature(Date pactSignature) {
+		_pactSignature = pactSignature;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -195,4 +204,5 @@ public class PublikUserSoap implements Serializable {
 	private String _email;
 	private String _mapConfig;
 	private String _displayConfig;
+	private Date _pactSignature;
 }

@@ -74,8 +74,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 		attributes.put("title", getTitle());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("imageWidth", getImageWidth());
-		attributes.put("imageHeight", getImageHeight());
 		attributes.put("description", getDescription());
 		attributes.put("detailURL", getDetailURL());
 		attributes.put("budget", getBudget());
@@ -184,18 +182,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setExternalImageCopyright(externalImageCopyright);
 		}
 
-		Integer imageWidth = (Integer)attributes.get("imageWidth");
-
-		if (imageWidth != null) {
-			setImageWidth(imageWidth);
-		}
-
-		Integer imageHeight = (Integer)attributes.get("imageHeight");
-
-		if (imageHeight != null) {
-			setImageHeight(imageHeight);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
@@ -220,7 +206,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 			setLabel(label);
 		}
 
-		Integer duration = (Integer)attributes.get("duration");
+		String duration = (String)attributes.get("duration");
 
 		if (duration != null) {
 			setDuration(duration);
@@ -400,36 +386,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Returns the duration of this project.
-	*
-	* @return the duration of this project
-	*/
-	@Override
-	public int getDuration() {
-		return _project.getDuration();
-	}
-
-	/**
-	* Returns the image height of this project.
-	*
-	* @return the image height of this project
-	*/
-	@Override
-	public int getImageHeight() {
-		return _project.getImageHeight();
-	}
-
-	/**
-	* Returns the image width of this project.
-	*
-	* @return the image width of this project
-	*/
-	@Override
-	public int getImageWidth() {
-		return _project.getImageWidth();
-	}
-
-	/**
 	* Returns the status of this project.
 	*
 	* @return the status of this project
@@ -530,6 +486,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public java.lang.String getDistrictCategories(java.util.Locale locale) {
 		return _project.getDistrictCategories(locale);
+	}
+
+	/**
+	* Returns the duration of this project.
+	*
+	* @return the duration of this project
+	*/
+	@Override
+	public java.lang.String getDuration() {
+		return _project.getDuration();
 	}
 
 	/**
@@ -713,7 +679,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	/**
 	* Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCityCategories() {
@@ -723,7 +689,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : la liste des catégories
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories() {
@@ -946,7 +912,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	* @param duration the duration of this project
 	*/
 	@Override
-	public void setDuration(int duration) {
+	public void setDuration(java.lang.String duration) {
 		_project.setDuration(duration);
 	}
 
@@ -998,16 +964,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Sets the image height of this project.
-	*
-	* @param imageHeight the image height of this project
-	*/
-	@Override
-	public void setImageHeight(int imageHeight) {
-		_project.setImageHeight(imageHeight);
-	}
-
-	/**
 	* Sets the image ID of this project.
 	*
 	* @param imageId the image ID of this project
@@ -1015,16 +971,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	@Override
 	public void setImageId(long imageId) {
 		_project.setImageId(imageId);
-	}
-
-	/**
-	* Sets the image width of this project.
-	*
-	* @param imageWidth the image width of this project
-	*/
-	@Override
-	public void setImageWidth(int imageWidth) {
-		_project.setImageWidth(imageWidth);
 	}
 
 	/**

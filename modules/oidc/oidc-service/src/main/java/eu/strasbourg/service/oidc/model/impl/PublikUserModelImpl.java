@@ -72,7 +72,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			{ "lastName", Types.VARCHAR },
 			{ "email", Types.VARCHAR },
 			{ "mapConfig", Types.VARCHAR },
-			{ "displayConfig", Types.VARCHAR }
+			{ "displayConfig", Types.VARCHAR },
+			{ "pactSignature", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -88,9 +89,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mapConfig", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("displayConfig", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("pactSignature", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.publikUserLiferayId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.publikUserLiferayId ASC";
@@ -160,6 +162,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		attributes.put("email", getEmail());
 		attributes.put("mapConfig", getMapConfig());
 		attributes.put("displayConfig", getDisplayConfig());
+		attributes.put("pactSignature", getPactSignature());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -233,6 +236,12 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 		if (displayConfig != null) {
 			setDisplayConfig(displayConfig);
+		}
+
+		Date pactSignature = (Date)attributes.get("pactSignature");
+
+		if (pactSignature != null) {
+			setPactSignature(pactSignature);
 		}
 	}
 
@@ -410,6 +419,16 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		_displayConfig = displayConfig;
 	}
 
+	@Override
+	public Date getPactSignature() {
+		return _pactSignature;
+	}
+
+	@Override
+	public void setPactSignature(Date pactSignature) {
+		_pactSignature = pactSignature;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -452,6 +471,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		publikUserImpl.setEmail(getEmail());
 		publikUserImpl.setMapConfig(getMapConfig());
 		publikUserImpl.setDisplayConfig(getDisplayConfig());
+		publikUserImpl.setPactSignature(getPactSignature());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -611,12 +631,21 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			publikUserCacheModel.displayConfig = null;
 		}
 
+		Date pactSignature = getPactSignature();
+
+		if (pactSignature != null) {
+			publikUserCacheModel.pactSignature = pactSignature.getTime();
+		}
+		else {
+			publikUserCacheModel.pactSignature = Long.MIN_VALUE;
+		}
+
 		return publikUserCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -640,6 +669,8 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		sb.append(getMapConfig());
 		sb.append(", displayConfig=");
 		sb.append(getDisplayConfig());
+		sb.append(", pactSignature=");
+		sb.append(getPactSignature());
 		sb.append("}");
 
 		return sb.toString();
@@ -647,7 +678,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.PublikUser");
@@ -697,6 +728,10 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 			"<column><column-name>displayConfig</column-name><column-value><![CDATA[");
 		sb.append(getDisplayConfig());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>pactSignature</column-name><column-value><![CDATA[");
+		sb.append(getPactSignature());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -721,6 +756,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 	private String _email;
 	private String _mapConfig;
 	private String _displayConfig;
+	private Date _pactSignature;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 }

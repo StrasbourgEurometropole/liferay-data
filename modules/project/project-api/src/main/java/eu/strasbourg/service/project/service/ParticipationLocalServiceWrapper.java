@@ -213,8 +213,7 @@ public class ParticipationLocalServiceWrapper
 	public eu.strasbourg.service.project.model.Participation updateParticipation(
 		eu.strasbourg.service.project.model.Participation participation,
 		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			java.io.IOException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _participationLocalService.updateParticipation(participation, sc);
 	}
 
@@ -418,9 +417,12 @@ public class ParticipationLocalServiceWrapper
 
 	/**
 	* Met a jour le statut de toutes les participations
+	*
+	* @throws PortalException
 	*/
 	@Override
-	public void updateAllParticipationsStatus() {
+	public void updateAllParticipationsStatus()
+		throws com.liferay.portal.kernel.exception.PortalException {
 		_participationLocalService.updateAllParticipationsStatus();
 	}
 

@@ -70,4 +70,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+	
+	public AssetVocabulary getProjects(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PROJECT, groupID);
+		} catch (Exception e) {
+			return null;
+		}		
+	}
 }

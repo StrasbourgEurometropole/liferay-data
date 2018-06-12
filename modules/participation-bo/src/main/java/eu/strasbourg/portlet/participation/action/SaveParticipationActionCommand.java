@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.participation.action;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -198,8 +197,6 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			_participationLocalService.updateParticipation(participation, sc);
 
 		} catch (PortalException e) {
-			_log.error(e);
-		} catch (IOException e) {
 			_log.error(e);
 		}
 

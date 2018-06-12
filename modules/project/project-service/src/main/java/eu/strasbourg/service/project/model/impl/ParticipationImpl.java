@@ -164,7 +164,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				continue;
 			}
 		}
-		return !cities.isEmpty() ? cities : null;
+		return cities;
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 				continue;
 			}
 		}
-		return !districts.isEmpty() ? districts : null;
+		return districts;
 	}
 	
 	/**
@@ -192,8 +192,9 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public AssetCategory getParticipationStatusCategory() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.PARTICIPATION_STATUS).get(0);
+		List<AssetCategory> listStatus = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PARTICIPATION_STATUS);
+		return listStatus.size() > 0 ? listStatus.get(0) : null;
 	}
 	
 	/**

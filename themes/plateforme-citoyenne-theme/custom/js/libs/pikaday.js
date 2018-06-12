@@ -180,7 +180,7 @@
         reposition: true,
 
         // the default output format for `.toString()` and `field` value
-        format: 'YYYY-MM-DD',
+        format: 'D/M/YYYY',
 
         // the toString function which gets passed a current date object and format
         // and returns a string

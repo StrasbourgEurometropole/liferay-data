@@ -66,7 +66,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(63);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -110,10 +110,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		sb.append(externalImageURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
-		sb.append(", imageWidth=");
-		sb.append(imageWidth);
-		sb.append(", imageHeight=");
-		sb.append(imageHeight);
 		sb.append(", mediaChoice=");
 		sb.append(mediaChoice);
 		sb.append(", descriptionChapeau=");
@@ -256,8 +252,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			participationImpl.setExternalImageCopyright(externalImageCopyright);
 		}
 
-		participationImpl.setImageWidth(imageWidth);
-		participationImpl.setImageHeight(imageHeight);
 		participationImpl.setMediaChoice(mediaChoice);
 
 		if (descriptionChapeau == null) {
@@ -352,10 +346,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
-
-		imageWidth = objectInput.readInt();
-
-		imageHeight = objectInput.readInt();
 
 		mediaChoice = objectInput.readBoolean();
 		descriptionChapeau = objectInput.readUTF();
@@ -474,10 +464,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			objectOutput.writeUTF(externalImageCopyright);
 		}
 
-		objectOutput.writeInt(imageWidth);
-
-		objectOutput.writeInt(imageHeight);
-
 		objectOutput.writeBoolean(mediaChoice);
 
 		if (descriptionChapeau == null) {
@@ -549,8 +535,6 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;
-	public int imageWidth;
-	public int imageHeight;
 	public boolean mediaChoice;
 	public String descriptionChapeau;
 	public String descriptionBody;

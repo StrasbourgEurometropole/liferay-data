@@ -55,8 +55,6 @@ public class ParticipationSoap implements Serializable {
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setImageWidth(model.getImageWidth());
-		soapModel.setImageHeight(model.getImageHeight());
 		soapModel.setMediaChoice(model.getMediaChoice());
 		soapModel.setDescriptionChapeau(model.getDescriptionChapeau());
 		soapModel.setDescriptionBody(model.getDescriptionBody());
@@ -287,22 +285,6 @@ public class ParticipationSoap implements Serializable {
 		_externalImageCopyright = externalImageCopyright;
 	}
 
-	public int getImageWidth() {
-		return _imageWidth;
-	}
-
-	public void setImageWidth(int imageWidth) {
-		_imageWidth = imageWidth;
-	}
-
-	public int getImageHeight() {
-		return _imageHeight;
-	}
-
-	public void setImageHeight(int imageHeight) {
-		_imageHeight = imageHeight;
-	}
-
 	public boolean getMediaChoice() {
 		return _mediaChoice;
 	}
@@ -408,8 +390,6 @@ public class ParticipationSoap implements Serializable {
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
-	private int _imageWidth;
-	private int _imageHeight;
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;

@@ -81,8 +81,6 @@ public class ParticipationWrapper implements Participation,
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
-		attributes.put("imageWidth", getImageWidth());
-		attributes.put("imageHeight", getImageHeight());
 		attributes.put("mediaChoice", getMediaChoice());
 		attributes.put("descriptionChapeau", getDescriptionChapeau());
 		attributes.put("descriptionBody", getDescriptionBody());
@@ -224,18 +222,6 @@ public class ParticipationWrapper implements Participation,
 
 		if (externalImageCopyright != null) {
 			setExternalImageCopyright(externalImageCopyright);
-		}
-
-		Integer imageWidth = (Integer)attributes.get("imageWidth");
-
-		if (imageWidth != null) {
-			setImageWidth(imageWidth);
-		}
-
-		Integer imageHeight = (Integer)attributes.get("imageHeight");
-
-		if (imageHeight != null) {
-			setImageHeight(imageHeight);
 		}
 
 		Boolean mediaChoice = (Boolean)attributes.get("mediaChoice");
@@ -471,26 +457,6 @@ public class ParticipationWrapper implements Participation,
 	public int compareTo(
 		eu.strasbourg.service.project.model.Participation participation) {
 		return _participation.compareTo(participation);
-	}
-
-	/**
-	* Returns the image height of this participation.
-	*
-	* @return the image height of this participation
-	*/
-	@Override
-	public int getImageHeight() {
-		return _participation.getImageHeight();
-	}
-
-	/**
-	* Returns the image width of this participation.
-	*
-	* @return the image width of this participation
-	*/
-	@Override
-	public int getImageWidth() {
-		return _participation.getImageWidth();
 	}
 
 	/**
@@ -1153,16 +1119,6 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Sets the image height of this participation.
-	*
-	* @param imageHeight the image height of this participation
-	*/
-	@Override
-	public void setImageHeight(int imageHeight) {
-		_participation.setImageHeight(imageHeight);
-	}
-
-	/**
 	* Sets the image ID of this participation.
 	*
 	* @param imageId the image ID of this participation
@@ -1170,16 +1126,6 @@ public class ParticipationWrapper implements Participation,
 	@Override
 	public void setImageId(long imageId) {
 		_participation.setImageId(imageId);
-	}
-
-	/**
-	* Sets the image width of this participation.
-	*
-	* @param imageWidth the image width of this participation
-	*/
-	@Override
-	public void setImageWidth(int imageWidth) {
-		_participation.setImageWidth(imageWidth);
 	}
 
 	/**

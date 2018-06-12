@@ -79,7 +79,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 	margin : 0px;
 }
 
-.pro-bloc-facette .pro-affiner:before {
+// Affichage du fond noir pour les commentaires et certains formulaires de recherches
+.pro-bloc-facette .pro-affiner:before, .pro-bloc-commentaires .pro-reagir>div:before, .pro-modal .modal-body .pro-reagir>div:before  {
 	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
 }
 
@@ -91,4 +92,44 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     position: fixed;
     background: white;
   }
+}
+
+//Amélioration de l'affichage d'un commentaire en l'absence de photo de profil d'un utilisateur
+.pro-bloc-commentaires .pro-item .pro-txt .pro-comment:before {
+	content : normal;
+}
+
+// Style pour la séparation de la popup de connexion entre la signature du pacte et la connexion de l'utilisateur.
+.pro-modal .modal-content {
+	height : unset;
+}
+
+.pro-modal .modal-body {
+	overflow : unset;
+}
+
+.pro-modal .modal-body .pro-reagir {
+	left : 50px;
+	position : relative;
+}
+
+.pro-modal .modal-dialog {
+	max-width : 600px;
+	position : relative;
+}
+
+.modal-body .col-sm-6 {
+	width : inherit;
+}
+
+//Fin style de la popup
+
+// Ajout de la marge des vignettes event dans le listing
+.pro-bloc-listing-event .pro-bloc-card-event {
+	margin : 14px;
+}
+
+// Ajout de la marge des icons des datepiker Pikaday
+.pro-bloc-facette form .pro-group fieldset>* .pro-facette-date input {
+	margin-right : 10px;
 }
