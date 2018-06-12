@@ -16,7 +16,15 @@
 			value="${configurationRenderURL}" />
 		
 		<aui:fieldset>
+			<aui:input name="liaisonURL" value="${liaisonURL}" type="text" label="liaison-URL" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
 			<aui:input name="residURL" value="${residURL}" type="text" label="resid-URL" />
+		</aui:fieldset>
+		
+		<aui:fieldset>
+			<aui:input name="zoneURL" value="${zoneURL}" type="text" label="zone-URL" />
 		</aui:fieldset>
 		
 		<aui:button-row>

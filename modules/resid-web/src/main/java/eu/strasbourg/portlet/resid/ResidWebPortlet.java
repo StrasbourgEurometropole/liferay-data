@@ -11,8 +11,11 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.portlet.resid.dossier.DossiersResponse;
+import eu.strasbourg.portlet.resid.dossier.DossiersWebService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -32,8 +35,24 @@ public class ResidWebPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		ResidDisplayContext dc = new ResidDisplayContext(themeDisplay);
-		request.setAttribute("dc", dc);
+		String publikInternalId = dc.getPublikID(request);
 
-		super.render(request, response);
+		DossiersResponse dossierResponse = DossiersWebService.getResponse(publikInternalId);
+		dc.setDossierResponse(dossierResponse);
+		
+		String template = "";
+
+		// si l'utilisateur a activé son lien				
+		if(Validator.isNull(dossierResponse)) {
+			template = "etape1";
+		}else {
+			template = "etape2";
+			if(dossierResponse.getCodeRetour() != 0) {
+				request.setAttribute("error", dossierResponse.getErreurDescription());
+			}
+		}
+		request.setAttribute("dc", dc);
+		
+		include("/templates/" + template + ".jsp", request, response);
 	}
 }

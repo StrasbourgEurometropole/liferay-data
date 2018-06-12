@@ -1,8 +1,5 @@
 package eu.strasbourg.portlet.resid.configuration;
 
-import java.util.Locale;
-import java.util.Map;
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -17,9 +14,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
-import com.liferay.portal.kernel.settings.LocalizedValuesMap;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -49,9 +44,17 @@ public class ResidConfigurationAction
 
 		if (cmd.equals("update")) {
 
+			// URL liaison
+			String liaisonURL = ParamUtil.getString(request, "liaisonURL");
+			setPreference(request, "liaisonURL", liaisonURL);
+
 			// URL resid
 			String residURL = ParamUtil.getString(request, "residURL");
 			setPreference(request, "residURL", residURL);
+
+			// URL zone
+			String zoneURL = ParamUtil.getString(request, "zoneURL");
+			setPreference(request, "zoneURL", zoneURL);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -70,7 +73,9 @@ public class ResidConfigurationAction
 			ResidConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						ResidConfiguration.class);
+			request.setAttribute("liaisonURL", configuration.liaisonURL());
 			request.setAttribute("residURL", configuration.residURL());
+			request.setAttribute("zoneURL", configuration.zoneURL());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);
