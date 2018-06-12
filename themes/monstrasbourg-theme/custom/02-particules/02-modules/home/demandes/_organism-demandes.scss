@@ -9,6 +9,10 @@
     align-items: flex-start;
     box-shadow: none;
 
+    .delete-wi {
+        background-image: url( svg-bg-uri($svg-filled-close, #ffffff) );
+    }
+
     @include RWD(tablet){            
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
