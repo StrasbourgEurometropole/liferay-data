@@ -87,7 +87,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	
 	/**
 	 * Retourne les sous-catégories 'Territoire' correspondant aux villes du projet
-	 * @return : null si vide, sinon la liste des catégories 
+	 * @return : la liste des catégories 
 	 */
 	@Override
 	public List<AssetCategory> getCityCategories() {
@@ -102,12 +102,12 @@ public class ProjectImpl extends ProjectBaseImpl {
 				continue;
 			}
 		}
-		return !cities.isEmpty() ? cities : null;
+		return cities;
 	}
 
 	/**
 	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du projet
-	 * @return : null si vide, sinon la liste des catégories 
+	 * @return : la liste des catégories 
 	 */
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
@@ -122,7 +122,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 				continue;
 			}
 		}
-		return !districts.isEmpty() ? districts : null;
+		return districts;
 	}
 	
 	/**

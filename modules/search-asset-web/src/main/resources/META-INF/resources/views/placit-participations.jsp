@@ -77,16 +77,16 @@
                 
             </div>
 
+			<!-- 
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="eu.most-searched" /></h4>
                 
-                <!-- 
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂÃÂ©matique</span>
+                        <span>Thematique</span>
                     </div>
-                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de l'enement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>37 </strong>Commentaire(s)</span>
@@ -96,21 +96,21 @@
                         </div>
                     </div>
                 </a>
-                -->
 
             </div>
+            -->
 
-
+			<!-- 
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="eu.least-noticed" /></h4>
                 
-                <!-- 
+                
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂÃÂ©matique</span>
+                        <span>Thematique</span>
                     </div>
-                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de l'evenement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>9 </strong>Commentaire(s)</span>
@@ -120,9 +120,9 @@
                         </div>
                     </div>
                 </a>
-                -->
-                
+                 
             </div>
+            -->
 
         </div>
     </div>

@@ -321,6 +321,24 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Ajoute une catégorie à un AssetEntry
+	 * @return
+	 */
+	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
+			    entry.getEntryId(), category.getCategoryId());
+	}
+	
+	/**
+	 * Retire une catégorie à un AssetEntry
+	 * @return
+	 */
+	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(
+			    entry.getEntryId(), category.getCategoryId());
+	}
 
 	/**
 	 * Vérifie si la catégorie est une piscine

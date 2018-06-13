@@ -5,6 +5,7 @@ import java.text.ParseException;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,6 +40,11 @@ public class ImportFoundObjectListener extends BaseSchedulerEntryMessageListener
 			DestinationNames.SCHEDULER_DISPATCH);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		schedulerEngineHelper.unregister(this);
+	}
+		
 	@Override
 	protected void doReceive(Message message) throws JSONException, PortalException, IOException, ParseException {
 		log.info("Start importing objtp");

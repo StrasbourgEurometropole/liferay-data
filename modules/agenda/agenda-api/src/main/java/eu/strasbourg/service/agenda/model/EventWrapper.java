@@ -960,6 +960,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	@Override
+	public java.lang.String getMercatorX() {
+		return _event.getMercatorX();
+	}
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	@Override
+	public java.lang.String getMercatorY() {
+		return _event.getMercatorY();
+	}
+
+	/**
 	* Returns the phone of this event.
 	*
 	* @return the phone of this event
@@ -1312,6 +1328,14 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getSubtitleCurrentValue() {
 		return _event.getSubtitleCurrentValue();
+	}
+
+	/**
+	* Retourne le label des territoires de l'événement
+	*/
+	@Override
+	public java.lang.String getTerritoryLabel(java.util.Locale locale) {
+		return _event.getTerritoryLabel(locale);
 	}
 
 	/**

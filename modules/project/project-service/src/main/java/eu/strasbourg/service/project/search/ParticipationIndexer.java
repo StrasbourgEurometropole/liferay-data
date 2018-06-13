@@ -1,5 +1,7 @@
 package eu.strasbourg.service.project.search;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +30,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 
 @Component(immediate = true, service = Indexer.class)
 public class ParticipationIndexer extends BaseIndexer<Participation> {
@@ -80,8 +83,17 @@ public class ParticipationIndexer extends BaseIndexer<Participation> {
 		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
 		
 		document.addNumber(Field.STATUS, participation.getStatus());
-		document.addDateSortable("publicationDate", participation.getPublicationDate());
-		document.addDateSortable("expirationDate", participation.getExpirationDate());
+		
+		Date publicationDate = participation.getPublicationDate();
+		Date expirationDate = participation.getExpirationDate();
+		List<Date> dates = new ArrayList<Date>();
+		dates.addAll(DateHelper.getDaysBetweenDates(publicationDate, expirationDate));
+		
+		document.addDateSortable("dates", dates.toArray(new Date[dates.size()]));
+		
+		document.addDateSortable("publicationDate", publicationDate);
+		document.addDateSortable("expirationDate", expirationDate);
+		
 		return document;
 	}
 	

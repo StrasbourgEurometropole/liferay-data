@@ -296,6 +296,22 @@ public class EventImpl extends EventBaseImpl {
 	public String getPlaceZipCode() {
 		return this.getPlace() == null ? super.getPlaceZipCode() : this.getPlace().getAddressZipCode();
 	}
+	
+	/**
+	 * Retourne les coordonnees mercator en axe X (longitude)
+	 */
+	@Override
+	public String getMercatorX() {
+		return this.getPlace() == null ? "" : this.getPlace().getMercatorX();
+	}
+	
+	/**
+	 * Retourne les coordonnees mercator en axe Y (latitude)
+	 */
+	@Override
+	public String getMercatorY() {
+		return this.getPlace() == null ? "" : this.getPlace().getMercatorY();
+	}
 
 	/**
 	 * Retourne l'accès
@@ -436,6 +452,21 @@ public class EventImpl extends EventBaseImpl {
 	public List<AssetCategory> getTerritories() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.TERRITORY);
+	}
+	
+	/**
+	 * Retourne le label des territoires de l'événement
+	 */
+	@Override
+	public String getTerritoryLabel(Locale locale) {
+		String territories = "";
+		for (AssetCategory territory : this.getTerritories()) {
+			if (territories.length() > 0) {
+				territories += " - ";
+			}
+			territories += territory.getTitle(locale);
+		}
+		return territories;
 	}
 
 	/**
