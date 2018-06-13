@@ -37,6 +37,7 @@ public class BorrowerResponse {
 		erreur_optionnel = json.getJSONObject("erreur_optionnel");
 		if (erreur_optionnel != null) {
 			email = erreur_optionnel.getString("email");
+			cardNumber = erreur_optionnel.getString("borrower_id");
 		}
 		err = json.getString("err");
 		count = json.getString("count");

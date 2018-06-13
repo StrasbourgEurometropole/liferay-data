@@ -63,9 +63,13 @@ public class ReindexEventsMessageListener
 		Indexer<Manifestation> manifestationIndexer = IndexerRegistryUtil
 			.getIndexer(Manifestation.class);
 		if (manifestationIndexer != null) {
+			try {
+				this._log.info("Finish reindexing events and manifestations");
+			} catch (Exception ex) {
+				this._log.warn("Fail to reindex events");
+			}
 			manifestationIndexer.reindex(companyIdStringArray);
 		}
-		this._log.info("Finish reindexing events and manifestations");
 	}
 
 	@Reference(unbind = "-")

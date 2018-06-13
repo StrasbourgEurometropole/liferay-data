@@ -152,6 +152,19 @@ public class SearchAssetDisplayContext {
 		url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
 		return valueToReturn;
 	}
+	
+	/**
+	 * Retourne l'URL de la page d'accueil
+	 */
+	public String getHomeURL() {
+		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
+			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
+		} else {
+			return "/";
+		}
+		
+	}
 
 	/**
 	 * Effectue concrètement la recherche
@@ -202,6 +215,7 @@ public class SearchAssetDisplayContext {
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+		
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
 		

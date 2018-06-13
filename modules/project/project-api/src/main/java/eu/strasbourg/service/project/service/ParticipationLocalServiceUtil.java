@@ -387,6 +387,13 @@ public class ParticipationLocalServiceUtil {
 	}
 
 	/**
+	* Met a jour le statut de toutes les participations
+	*/
+	public static void updateAllParticipationsStatus() {
+		getService().updateAllParticipationsStatus();
+	}
+
+	/**
 	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
 	*/
 	public static void updateStatus(

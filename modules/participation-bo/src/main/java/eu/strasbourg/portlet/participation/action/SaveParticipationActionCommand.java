@@ -125,19 +125,23 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			
 			// Image
 			Long imageId = ParamUtil.getLong(request, "imageId");
+			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			if (imageId > 0) { // Image interne
 				participation.setImageId(imageId);
 				participation.setExternalImageURL("");
 				participation.setExternalImageCopyright("");
-			} else { // Image interne
+			} else if (!Validator.isNull(externalImageURL)) { // Image interne
 				participation.setImageId((long) 0);
-				String externalImageURL = ParamUtil.getString(request,
-					"externalImageURL");
+				
 				participation.setExternalImageURL(externalImageURL);
 
 				String externalImageCopyright = ParamUtil.getString(request,
 					"externalImageCopyright");
 				participation.setExternalImageCopyright(externalImageCopyright);
+			} else {
+				participation.setImageId((long) 0);
+				participation.setExternalImageURL("");
+				participation.setExternalImageCopyright("");
 			}
 			
 			// ---------------------------------------------------------------

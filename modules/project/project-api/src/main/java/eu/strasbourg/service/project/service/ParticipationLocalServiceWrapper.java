@@ -417,6 +417,14 @@ public class ParticipationLocalServiceWrapper
 	}
 
 	/**
+	* Met a jour le statut de toutes les participations
+	*/
+	@Override
+	public void updateAllParticipationsStatus() {
+		_participationLocalService.updateAllParticipationsStatus();
+	}
+
+	/**
 	* Met à jour le statut de la participation "manuellement" (pas via le workflow)
 	*/
 	@Override
