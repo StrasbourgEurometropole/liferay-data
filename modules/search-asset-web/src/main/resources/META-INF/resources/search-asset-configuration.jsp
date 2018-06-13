@@ -213,11 +213,9 @@
 					</aui:option>
 				</aui:select>
 				
-<<<<<<< HEAD
-				<!-- Type de tri par dÃÂÃÂÃÂÃÂ©faut -->
-=======
+
+
 				<!-- Type de tri par defaut -->
->>>>>>> dc65697a0c4e7067e41c988dd6c70ba349779197
 				<aui:select name="defaultSortType">
 					<aui:option value="asc" selected="${defaultSortType eq 'asc'}">
 						<liferay-ui:message key="asc" />
@@ -234,11 +232,8 @@
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="display">
-<<<<<<< HEAD
-				<!-- Nombre de rÃÂÃÂÃÂÃÂ©sultats par page -->
-=======
+
 				<!-- Nombre de resultats par page -->
->>>>>>> dc65697a0c4e7067e41c988dd6c70ba349779197
 				<aui:input type="number" name="delta" value="${delta}" />
 				
 				<!-- Formulaire de recherche -->
