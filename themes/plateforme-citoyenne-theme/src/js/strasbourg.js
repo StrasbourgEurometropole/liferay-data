@@ -9327,7 +9327,7 @@ var objectFitImages = (function () {
         reposition: true,
 
         // the default output format for `.toString()` and `field` value
-        format: 'YYYY-MM-DD',
+        format: 'D/M/YYYY',
 
         // the toString function which gets passed a current date object and format
         // and returns a string
@@ -11208,34 +11208,31 @@ $('.bloc-iframe iframe').height(
 // Afficher une date
 
 $('.frm_date').each(function(){
-    var picker = new Pikaday({ field: this,format: 'DD/MM/YY', });
+    var picker = new Pikaday({ 
+    	field: this,
+    	toString(date, format) {
+	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
+	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+	        const year = date.getFullYear();
+	        return `${day}/${month}/${year}`;
+	    },
+	    onSelect: function(date) {
+            var name = picker._o.field.name;
+            if ($('input[data-name="' + name + 'Day"').length) {
+                var dayInput = $('input[data-name="' + name + 'Day"');
+                var monthInput = $('input[data-name="' + name + 'Month"');
+                var yearInput = $('input[data-name="' + name + 'Year"');
+                dayInput[0].value = date.getDate();
+                monthInput[0].value = date.getMonth();
+                yearInput[0].value = date.getFullYear();
+            }
+	    }
+    });
 });
 $('.pro-bloc-prefooter .pro-ico').on('click',function(e){
     e.preventDefault();
     $('.pro-bloc-prefooter .pro-ico').removeClass('active');
     $(this).addClass('active').siblings().removeClass('active');
-});
-
-
-$('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
-    e.preventDefault();
-    $(this).toggleClass('active');
-    if($(this).hasClass('active')){
-        $('h3',this).text('Vous avez adhéré au pacte');
-        $('span',this).css('display','none');
-        if($(this).hasClass('pro-disabled')){
-            $('h3',this).text('Signer');
-            $('span',this).css('display','block');
-        }
-    }
-    else if($(this).hasClass('pro-disabled')){
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
-    else{
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
 });
 // Slider Actu Quartiers - Changement de slider
 $('.pro-wrapper-quartier').first().addClass('active');

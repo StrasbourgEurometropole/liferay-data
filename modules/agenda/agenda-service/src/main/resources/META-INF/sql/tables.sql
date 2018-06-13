@@ -168,7 +168,7 @@ create table agenda_ImportReportLine (
 	lineId LONG not null primary key,
 	type_ VARCHAR(75) null,
 	status LONG,
-	log_ VARCHAR(75) null,
+	log_ TEXT null,
 	entityName VARCHAR(200) null,
 	entityExternalId VARCHAR(75) null,
 	entityId LONG,

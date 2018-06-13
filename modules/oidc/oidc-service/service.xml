@@ -19,6 +19,7 @@
 		<column name="email" type="String" />
 		<column name="mapConfig" type="String" />
 		<column name="displayConfig" type="String" />
+		<column name="pactSignature" type="Date" />
 
 	    <finder name="PublikId" return-type="PublikUser" unique="true" db-index="true">
 	      <finder-column name="publikId" />

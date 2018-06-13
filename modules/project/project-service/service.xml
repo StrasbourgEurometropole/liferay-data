@@ -30,15 +30,13 @@
 		<column name="title" type="String" />
 		<column name="externalImageURL" type="String" />
         <column name="externalImageCopyright" type="String" />
-        <column name="imageWidth" type="int" />
-        <column name="imageHeight" type="int" />
 		<column	name="description" type="String" />
 		<column name="detailURL" type="String" />
 		
 		<!-- En bref -->
 		<column name="budget" type="String" />
 		<column name="label" type="String" />
-		<column name="duration" type="int" />
+		<column name="duration" type="String" />
 		<column name="partners" type="String" />
 		
 		<!-- Contact -->
@@ -102,8 +100,6 @@
 		<column name="videoUrl" type="String" />
 		<column name="externalImageURL" type="String" />
         <column name="externalImageCopyright" type="String" />
-        <column name="imageWidth" type="int" />
-        <column name="imageHeight" type="int" />
 		<column name="mediaChoice" type="boolean" />
 		
 		<!-- Description -->

@@ -13,8 +13,6 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
-import eu.strasbourg.service.agenda.service.EventLocalService;
-import eu.strasbourg.service.agenda.service.ManifestationLocalService;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 
 /**
@@ -32,7 +30,7 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	protected void activate() {
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 15, TimeUnit.MINUTE));
+				getEventListenerClass(), 60, TimeUnit.MINUTE));
 
 		_schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
@@ -45,7 +43,7 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	
 	@Override
 	protected void doReceive(Message message) throws Exception {
-		
+		_participationLocalService.updateAllParticipationsStatus();
 	}
 	
 	@Reference(unbind = "-")

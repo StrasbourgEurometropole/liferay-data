@@ -428,34 +428,6 @@ public interface ParticipationModel extends BaseModel<Participation>,
 	public void setExternalImageCopyright(String externalImageCopyright);
 
 	/**
-	 * Returns the image width of this participation.
-	 *
-	 * @return the image width of this participation
-	 */
-	public int getImageWidth();
-
-	/**
-	 * Sets the image width of this participation.
-	 *
-	 * @param imageWidth the image width of this participation
-	 */
-	public void setImageWidth(int imageWidth);
-
-	/**
-	 * Returns the image height of this participation.
-	 *
-	 * @return the image height of this participation
-	 */
-	public int getImageHeight();
-
-	/**
-	 * Sets the image height of this participation.
-	 *
-	 * @param imageHeight the image height of this participation
-	 */
-	public void setImageHeight(int imageHeight);
-
-	/**
 	 * Returns the media choice of this participation.
 	 *
 	 * @return the media choice of this participation

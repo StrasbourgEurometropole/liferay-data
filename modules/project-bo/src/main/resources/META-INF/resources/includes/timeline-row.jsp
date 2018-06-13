@@ -6,4 +6,4 @@
 		
 <aui:input type="text" value="${param.title}" name="title${param.index}" label="Titre" inlineField="true" />
 
-<aui:input type="text" value="${param.link}" name="link${param.index}" label = "Lien" inlineField="true" />
+<aui:input type="text" value="${param.link}" name="link${param.index}" label = "Lien" inlineField="true" helpMessage="urlHelp"/>

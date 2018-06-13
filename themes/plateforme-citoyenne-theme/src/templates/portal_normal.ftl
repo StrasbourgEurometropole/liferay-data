@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no ">
-
+	
 	<@liferay_util["include"] page=top_head_include />
 	
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
@@ -29,8 +29,12 @@
 </#if>
 
 <div id="th-global">
+	
+	<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
 	<#include "${full_templates_path}/nav_top.ftl" />
+
+	<#include "${full_templates_path}/modal_connexion.ftl" />
 
 	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>

@@ -17,5 +17,6 @@
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="mapConfig" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="displayConfig" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="pactSignature" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

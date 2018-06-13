@@ -35,8 +35,6 @@
 		<field name="externalImageCopyright" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="imageWidth" type="int" />
-		<field name="imageHeight" type="int" />
 		<field name="mediaChoice" type="boolean" />
 		<field name="descriptionChapeau" type="String">
 			<hint name="max-length">400</hint>
@@ -76,15 +74,13 @@
 		<field name="externalImageCopyright" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="imageWidth" type="int" />
-		<field name="imageHeight" type="int" />
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="detailURL" type="String" />
 		<field name="budget" type="String" />
 		<field name="label" type="String" />
-		<field name="duration" type="int" />
+		<field name="duration" type="String" />
 		<field name="partners" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
