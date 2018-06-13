@@ -224,6 +224,20 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setDisplayConfig(String displayConfig);
 
+	/**
+	 * Returns the pact signature of this publik user.
+	 *
+	 * @return the pact signature of this publik user
+	 */
+	public Date getPactSignature();
+
+	/**
+	 * Sets the pact signature of this publik user.
+	 *
+	 * @param pactSignature the pact signature of this publik user
+	 */
+	public void setPactSignature(Date pactSignature);
+
 	@Override
 	public boolean isNew();
 

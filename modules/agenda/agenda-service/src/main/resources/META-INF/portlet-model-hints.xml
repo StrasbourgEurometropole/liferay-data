@@ -190,7 +190,9 @@
 		<field name="lineId" type="long" />
 		<field name="type" type="String" />
 		<field name="status" type="long" />
-		<field name="log" type="String" />
+		<field name="log" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="entityName" type="String">
 			<hint name="max-length">200</hint>
 		</field>

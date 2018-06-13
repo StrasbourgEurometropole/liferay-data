@@ -66,7 +66,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -90,6 +90,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		sb.append(mapConfig);
 		sb.append(", displayConfig=");
 		sb.append(displayConfig);
+		sb.append(", pactSignature=");
+		sb.append(pactSignature);
 		sb.append("}");
 
 		return sb.toString();
@@ -171,6 +173,13 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 			publikUserImpl.setDisplayConfig(displayConfig);
 		}
 
+		if (pactSignature == Long.MIN_VALUE) {
+			publikUserImpl.setPactSignature(null);
+		}
+		else {
+			publikUserImpl.setPactSignature(new Date(pactSignature));
+		}
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -190,6 +199,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		email = objectInput.readUTF();
 		mapConfig = objectInput.readUTF();
 		displayConfig = objectInput.readUTF();
+		pactSignature = objectInput.readLong();
 	}
 
 	@Override
@@ -254,6 +264,8 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		else {
 			objectOutput.writeUTF(displayConfig);
 		}
+
+		objectOutput.writeLong(pactSignature);
 	}
 
 	public String uuid;
@@ -267,4 +279,5 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public String email;
 	public String mapConfig;
 	public String displayConfig;
+	public long pactSignature;
 }

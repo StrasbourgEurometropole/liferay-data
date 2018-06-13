@@ -256,10 +256,14 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
-		Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
-		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-		DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-		return PlaceLocalServiceUtil.dynamicQuery(placeQuery);
+		if (classPks.size() > 0) {
+			Criterion idCriterion = RestrictionsFactoryUtil.in("placeId", classPks);
+			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+			DynamicQuery placeQuery = PlaceLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+			return PlaceLocalServiceUtil.dynamicQuery(placeQuery);
+		} else {
+			return new ArrayList<Place>();
+		}
 	}
 
 	private List<Event> getEvents(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
@@ -282,12 +286,16 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-		Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-		Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-		DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-		List<Event> events = EventLocalServiceUtil.dynamicQuery(eventQuery);
+		if (classPks.size() > 0) {
+			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
+			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+			List<Event> events = EventLocalServiceUtil.dynamicQuery(eventQuery);
 
-		return events;
+			return events;
+		} else {
+			return new ArrayList<Event>();
+		}
 	}
 
 	public JSONObject getFavoritesPois(String userId, long groupId) {

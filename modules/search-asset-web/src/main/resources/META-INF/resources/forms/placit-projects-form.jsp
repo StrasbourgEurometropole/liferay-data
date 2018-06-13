@@ -80,7 +80,7 @@
 </div>
 
 <div class="pro-group">
-	<input type="submit" name="rechercher"/>
+    <input type="submit" name="rechercher" value="Rechercher" />
 </div>
 
 <aui:input type="hidden" name="vocabulariesCount" value="3" />

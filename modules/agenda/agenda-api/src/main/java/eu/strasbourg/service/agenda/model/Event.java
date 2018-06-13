@@ -148,6 +148,16 @@ public interface Event extends EventModel, PersistedModel {
 	public java.lang.String getPlaceCity(java.util.Locale locale);
 
 	/**
+	* Retourne les coordonnees mercator en axe X (longitude)
+	*/
+	public java.lang.String getMercatorX();
+
+	/**
+	* Retourne les coordonnees mercator en axe Y (latitude)
+	*/
+	public java.lang.String getMercatorY();
+
+	/**
 	* Retourne true si l'événement est accessible pour au moins un type de
 	* handicap
 	*/
@@ -193,6 +203,11 @@ public interface Event extends EventModel, PersistedModel {
 	* Retourne les territoires de l'événement
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritories();
+
+	/**
+	* Retourne le label des territoires de l'événement
+	*/
+	public java.lang.String getTerritoryLabel(java.util.Locale locale);
 
 	/**
 	* Retourne les territoires de l'événement

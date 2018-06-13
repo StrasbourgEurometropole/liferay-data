@@ -65,7 +65,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(53);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -97,10 +97,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		sb.append(externalImageURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
-		sb.append(", imageWidth=");
-		sb.append(imageWidth);
-		sb.append(", imageHeight=");
-		sb.append(imageHeight);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", detailURL=");
@@ -203,9 +199,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setExternalImageCopyright(externalImageCopyright);
 		}
 
-		projectImpl.setImageWidth(imageWidth);
-		projectImpl.setImageHeight(imageHeight);
-
 		if (description == null) {
 			projectImpl.setDescription(StringPool.BLANK);
 		}
@@ -234,7 +227,12 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			projectImpl.setLabel(label);
 		}
 
-		projectImpl.setDuration(duration);
+		if (duration == null) {
+			projectImpl.setDuration(StringPool.BLANK);
+		}
+		else {
+			projectImpl.setDuration(duration);
+		}
 
 		if (partners == null) {
 			projectImpl.setPartners(StringPool.BLANK);
@@ -301,16 +299,11 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		title = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
-
-		imageWidth = objectInput.readInt();
-
-		imageHeight = objectInput.readInt();
 		description = objectInput.readUTF();
 		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		label = objectInput.readUTF();
-
-		duration = objectInput.readInt();
+		duration = objectInput.readUTF();
 		partners = objectInput.readUTF();
 		contactName = objectInput.readUTF();
 		contactLine1 = objectInput.readUTF();
@@ -382,10 +375,6 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(externalImageCopyright);
 		}
 
-		objectOutput.writeInt(imageWidth);
-
-		objectOutput.writeInt(imageHeight);
-
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -414,7 +403,12 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 			objectOutput.writeUTF(label);
 		}
 
-		objectOutput.writeInt(duration);
+		if (duration == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(duration);
+		}
 
 		if (partners == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -469,13 +463,11 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String title;
 	public String externalImageURL;
 	public String externalImageCopyright;
-	public int imageWidth;
-	public int imageHeight;
 	public String description;
 	public String detailURL;
 	public String budget;
 	public String label;
-	public int duration;
+	public String duration;
 	public String partners;
 	public String contactName;
 	public String contactLine1;
