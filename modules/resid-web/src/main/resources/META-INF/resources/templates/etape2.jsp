@@ -19,7 +19,7 @@
 					<div class="btn-minus"><liferay-ui:message key="dossier-x" arguments="${dossier.numeroDossier}" /></div>
 				</c:if>
 			</div>
-			<div id="dossier${dossier.numeroDossier}" <c:if test="${count.index gt 0}" > class="hide" </c:if>> 
+			<div id="dossier${dossier.numeroDossier}" <c:if test="${count.index gt 0}" > class="hide" </c:if> style="margin-bottom: 40px;"> 
 				<c:if test="${dossier.dateFinValiditeDossier != null}">
 			        <c:set var="today" value="${dc.today}" />
 			        <c:if test="${today.isAfter(dossier.dateFinValiditeDossier)}">
