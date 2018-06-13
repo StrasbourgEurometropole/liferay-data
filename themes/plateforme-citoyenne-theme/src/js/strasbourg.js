@@ -9327,21 +9327,14 @@ var objectFitImages = (function () {
         reposition: true,
 
         // the default output format for `.toString()` and `field` value
-        format: 'D/M/YYYY',
+        format: 'YYYY-MM-DD',
 
         // the toString function which gets passed a current date object and format
         // and returns a string
         toString: null,
 
         // used to create date object from current input string
-        parse: function (dateString, format) {
-            // dateString is the result of `toString` method
-            const parts = dateString.split('/');
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1] - 1, 10);
-            const year = parseInt(parts[1], 10);
-            return new Date(year, month, day);
-        },
+        parse: null,
 
         // the initial date to view when first opened
         defaultDate: null,
@@ -11217,14 +11210,24 @@ $('.bloc-iframe iframe').height(
 $('.frm_date').each(function(){
     var picker = new Pikaday({ 
     	field: this,
-    	format: 'D/M/YYYY',
+    	format: 'dd/mm/yy',
+    	firstInput: true,
     	toString(date, format) {
-	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
-	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-	        const year = date.getFullYear();
-	        return `${day}/${month}/${year}`;
+    		if (date.getMonth() < 12 && this.firstInput) {
+			    const day = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1; 
+			    const month = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+			    const year = date.getFullYear();
+			    this.firstInput = false;
+		    	return `${day}/${month}/${year}`;
+		    } else {
+		    	this.firstInput = false;
+		    	const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
+			    const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+			    const year = date.getFullYear();
+		    	return `${day}/${month}/${year}`;
+		    }
 	    },
-	    parse: function (dateString, format) {
+	    parse(dateString) {
 	        // dateString is the result of `toString` method
 	        const parts = dateString.split('/');
 	        const day = parseInt(parts[0], 10);

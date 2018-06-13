@@ -139,16 +139,16 @@
             		<form action="/" method="get">
 		                <label for="change-page" class="hide" aria-labelledby="change-page" aria-hidden="true" aria-label="change-page">Changer de page</label>
 		                <select id="change-page" name="change-page" onchange="location = this.value;">
-		                    <c:forEach var="page" items="${dc.pager.pages}">
+		                    <c:forEach var="pageIndex" begin="1" end="${dc.pager.count}">
 		                    	<c:choose>
-		                    		<c:when test="${page.index != dc.pager.lastPage}">
-			                			<option value="${dc.getURLForPage(page.index)}">
-											<liferay-ui:message key="eu.page" /> ${page.index} ( ${dc.pager.delta} )
+		                    		<c:when test="${pageIndex != dc.pager.lastPage}">
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+											<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta} )
 			                			</option>
 			                		</c:when>
 			                		<c:otherwise>
-			                			<option value="${dc.getURLForPage(page.index)}">
-			                				<liferay-ui:message key="eu.page" /> ${page.index} ( ${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)} )
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+			                				<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)} )
 			                			</option>
 			                		</c:otherwise>
 			                	</c:choose>

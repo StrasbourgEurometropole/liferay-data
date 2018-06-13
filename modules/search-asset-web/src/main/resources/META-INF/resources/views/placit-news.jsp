@@ -51,33 +51,27 @@
 			<div class="col-sm-6 col-xs-4 pull-left">
 
 				<!-- Pagination : selecteur de page -->
-				<c:if test="${dc.pager.lastPage > 1}">
-					<form action="/" method="get">
-						<label for="change-page" class="hide"
-							aria-labelledby="change-page" aria-hidden="true"
-							aria-label="change-page">Changer de page</label> <select
-							id="change-page" name="change-page"
-							onchange="location = this.value;">
-							<c:forEach var="page" items="${dc.pager.pages}">
-								<c:choose>
-									<c:when test="${page.index != dc.pager.lastPage}">
-										<option value="${dc.getURLForPage(page.index)}">
-											<liferay-ui:message key="eu.page" /> ${page.index} (
-											${dc.pager.delta} )
-										</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${dc.getURLForPage(page.index)}">
-											<liferay-ui:message key="eu.page" /> ${page.index} (
-											${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)}
-											)
-										</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
-					</form>
-				</c:if>
+            	<c:if test="${dc.pager.lastPage > 1}">
+            		<form action="/" method="get">
+		                <label for="change-page" class="hide" aria-labelledby="change-page" aria-hidden="true" aria-label="change-page">Changer de page</label>
+		                <select id="change-page" name="change-page" onchange="location = this.value;">
+		                    <c:forEach var="pageIndex" begin="1" end="${dc.pager.count}">
+		                    	<c:choose>
+		                    		<c:when test="${pageIndex != dc.pager.lastPage}">
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+											<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta} )
+			                			</option>
+			                		</c:when>
+			                		<c:otherwise>
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+			                				<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)} )
+			                			</option>
+			                		</c:otherwise>
+			                	</c:choose>
+			                </c:forEach>
+		                </select>
+		        	</form>
+	            </c:if>
 
 				<!-- Pagination : label -->
 				<p class="hidden-xs">
@@ -157,7 +151,7 @@
 </div>
 <aui:script>
 	$(function() {
-		//Force la premiÃ¨re tuille Ã  prendre deux fois plus de place en hauteur de largeur
+		//Force la premiÃÂ¨re tuille ÃÂ  prendre deux fois plus de place en hauteur de largeur
 		$('.col-md-3.col-sm-6.col-xs-12').first().removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
 		$('.pro-bloc-actu').first().addClass('pro-bloc-actu-large');
 		
