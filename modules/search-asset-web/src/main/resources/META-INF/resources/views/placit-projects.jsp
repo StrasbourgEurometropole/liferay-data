@@ -80,7 +80,7 @@
 	            		<form action="/" method="get">
 			                <label for="change-page" class="hide" aria-labelledby="change-page" aria-hidden="true" aria-label="change-page">Changer de page</label>
 			                <select id="change-page" name="change-page" onchange="location = this.value;">
-			                    <c:forEach var="pageIndex" begin="1" end="${dc.pager.count}">
+			                    <c:forEach var="pageIndex" begin="1" end="${dc.pager.lastPage}">
 			                    	<c:choose>
 			                    		<c:when test="${pageIndex != dc.pager.lastPage}">
 				                			<option value="${dc.getURLForPage(pageIndex)}">

@@ -123,6 +123,10 @@ ol {
 	letter-spacing: 2px;
 	display: block;
 	margin-bottom: 10px;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 blockquote {
