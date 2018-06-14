@@ -253,12 +253,12 @@ function comparDatesYMD(startDate, endDate) {
 	var startDay = parseInt(startDate.substr(8, 2));
 	var startMonth = parseInt(startDate.substr(5, 2)) - 1;
 	var startYear = parseInt(startDate.substr(0, 4));
-	var date1 = new Date(startDay, startMonth, startYear, 0, 0, 0, 0);
+	var date1 = new Date(startYear, startMonth, startDay, 0, 0, 0, 0);
 
-    var endDay = parseInt(startDate.substr(8, 2));
-    var endMonth = parseInt(startDate.substr(5, 2)) - 1;
-    var endYear = parseInt(startDate.substr(0, 4));
-    var date2 = new Date(endDay, endMonth, endYear, 0, 0, 0, 0);
+    var endDay = parseInt(endDate.substr(8, 2));
+    var endMonth = parseInt(endDate.substr(5, 2)) - 1;
+    var endYear = parseInt(endDate.substr(0, 4));
+    var date2 = new Date(endYear, endMonth, endDay, 0, 0, 0, 0);
 
 	// si la date d'arrviée et superieur a la date de depart en afficher un
 	// message d'erreur
