@@ -11157,6 +11157,8 @@ $('.pro-remove').on('click',function(){
    $(this).parents('.pro-group').find('input:checked').prop('checked',false);
 
     $(this).parents('.pro-group').find('input:text').val('');
+
+    $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
 });
 $('[data-frmval]').each(function(){
     this.setAttribute('placeholder',this.getAttribute('data-frmval'));
@@ -11210,22 +11212,11 @@ $('.bloc-iframe iframe').height(
 $('.frm_date').each(function(){
     var picker = new Pikaday({ 
     	field: this,
-    	format: 'dd/mm/yy',
-    	firstInput: true,
     	toString(date, format) {
-    		if (date.getMonth() < 12 && this.firstInput) {
-			    const day = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1; 
-			    const month = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-			    const year = date.getFullYear();
-			    this.firstInput = false;
-		    	return `${day}/${month}/${year}`;
-		    } else {
-		    	this.firstInput = false;
-		    	const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
-			    const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-			    const year = date.getFullYear();
-		    	return `${day}/${month}/${year}`;
-		    }
+	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
+	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+	        const year = date.getFullYear();
+	        return `${day}/${month}/${year}`;
 	    },
 	    parse(dateString) {
 	        // dateString is the result of `toString` method
