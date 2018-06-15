@@ -255,4 +255,7 @@ public class FavoritesDisplayContext {
 		return favoriteTypeFromUserFavorite;
 	}
 
+	public boolean showDeleteButton() {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
 }

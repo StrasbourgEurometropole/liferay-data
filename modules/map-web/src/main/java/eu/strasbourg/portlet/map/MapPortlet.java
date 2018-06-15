@@ -391,7 +391,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("address", address);
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
 			request.setAttribute("internalId", internalId);
-			MapDisplayContext dc = new MapDisplayContext();
+			MapDisplayContext dc = new MapDisplayContext(themeDisplay);
 			request.setAttribute("dc", dc);
 			if (widgetMod) {
 				request.setAttribute(getMVCPathAttributeName(renderResponse.getNamespace()), "/map-widget-view.jsp");

@@ -1,6 +1,9 @@
 <%@ include file="/family-space-init.jsp" %>
 
 <section id="family-space">
+	<c:if test="${showDeleteButton}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
     <h2><liferay-ui:message key="my-family-space" /></h2>
 		<!-- contenu web -->
 		<liferay-portlet:runtime

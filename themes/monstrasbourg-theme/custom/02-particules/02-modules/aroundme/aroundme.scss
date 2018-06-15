@@ -905,6 +905,7 @@
             width: 100%; //calc(100% - 40px);
             display: flex;
             flex-direction: column;
+            z-index: 200;
             &:before{
                 content: '';
                 position: fixed;
