@@ -124,6 +124,11 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public void hidePortlet(java.lang.String portletId) {
+		_strasbourgService.hidePortlet(portletId);
+	}
+
+	@Override
 	public StrasbourgService getWrappedService() {
 		return _strasbourgService;
 	}

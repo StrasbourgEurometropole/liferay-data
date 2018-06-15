@@ -13,11 +13,10 @@
 <c:if test="${dc.hasInterest()}">
 	<section id="actu-agenda">
 </c:if>
-	<portlet:resourceURL id="hidePortlet" var="portletURL">
-		<portlet:param name="portletName" value="news-agenda" />
-	</portlet:resourceURL>
 
-	<%--     <button class="delete-wi" value="${portletURL}"></button> --%>
+    <c:if test="${dc.showDeleteButton()}">
+	    <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+    </c:if>
 	<h2><liferay-ui:message key="actu-agenda" /></h2> 
 	<c:if test="${not dc.hasInterest()}">
 		<p>${dc.getNoInterestText()}</p>

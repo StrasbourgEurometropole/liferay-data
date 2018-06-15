@@ -28,7 +28,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=validation mediatheque", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.display-name=Validation m&eacute;diatheque", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/validation-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.VALIDATION_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)

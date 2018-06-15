@@ -58,6 +58,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
 
 public class InterestViewerDisplayContext {
@@ -468,5 +469,9 @@ public class InterestViewerDisplayContext {
 		Pattern p = Pattern.compile("<[^>]*>");
 		Matcher m = p.matcher(html); 
 		return m.replaceAll("");
+	}
+
+	public boolean showDeleteButton() {
+		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
 }
