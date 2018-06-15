@@ -30,10 +30,10 @@ create table place_Place (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	SIGid VARCHAR(75) null,
-	name VARCHAR(75) null,
-	addressComplement VARCHAR(75) null,
-	addressStreet VARCHAR(75) null,
-	addressDistribution VARCHAR(75) null,
+	name VARCHAR(400) null,
+	addressComplement VARCHAR(400) null,
+	addressStreet VARCHAR(400) null,
+	addressDistribution VARCHAR(400) null,
 	addressZipCode VARCHAR(75) null,
 	addressCountry VARCHAR(75) null,
 	mercatorX VARCHAR(75) null,
@@ -71,10 +71,10 @@ create table place_Place (
 	RTStatus VARCHAR(75) null,
 	RTLastUpdate DATE null,
 	imageId LONG,
-	imageIds VARCHAR(75) null,
-	videosIds VARCHAR(75) null,
+	imageIds VARCHAR(400) null,
+	videosIds VARCHAR(400) null,
 	priceId LONG,
-	documentsIds VARCHAR(75) null
+	documentsIds VARCHAR(400) null
 );
 
 create table place_Price (
