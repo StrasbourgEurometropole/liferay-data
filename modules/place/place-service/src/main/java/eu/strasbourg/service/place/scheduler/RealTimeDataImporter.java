@@ -127,8 +127,6 @@ public class RealTimeDataImporter extends BaseSchedulerEntryMessageListener {
 			place.setRTEnabled(true);
 			place.setRTLastUpdate(new Date());
 			_placeLocalService.updatePlace(place);
-			Indexer<Place> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Place.class);
-			indexer.reindex(place);
 
 			/*
 			 * System.out.println("Enabled : " + place.getRTEnabled());
