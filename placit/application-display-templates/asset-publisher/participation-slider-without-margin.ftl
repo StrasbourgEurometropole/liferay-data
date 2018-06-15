@@ -15,7 +15,7 @@
         
         <div>
             <h2>Les participations (${entries?size})</h2>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}participer" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
         </div>
 
         <div>

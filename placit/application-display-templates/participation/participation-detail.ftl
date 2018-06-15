@@ -99,7 +99,7 @@
                     <span>
                         <span>
                             <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}participation">Participations</a>
+                            <a href="${homeURL}participations">Participations</a>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
