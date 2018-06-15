@@ -24,7 +24,7 @@
     $('.navbar-brand').addClass('hidden');
 
     // Pour avoir tout le temps le menu sous forme Sticky
-    if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
+    if (((navigator.userAgent).match(/Tablet/i)) && height > width){
         $('body').addClass('ipad');
         $('.mns-nav').addClass("mns-nav-scroll");
         $('.mns-nav').addClass("mns-nav-ipad");
@@ -41,18 +41,20 @@
             // Quand on est connecté on a un menu de plus en haut de page, alors on fait 
             //deux margin différents pour que co ou pas on voit le sticky menuj
             if ($(".has-control-menu")[0]){
-                 $('.mns-nav').css('margin-top','105px')
+                 $('.mns-nav').css('margin-top','105px');
             }
             else {
-                $('.mns-nav').css('margin-top','40px')
+                $('.mns-nav').css('margin-top','40px');
+                $('.mns-nav-scroll-layer').css('top','211px');
             }
         }
         else{
             if ($(".has-control-menu")[0]){
-                 $('.mns-nav').css('margin-top','65px')
+                 $('.mns-nav').css('margin-top','65px');
             }
             else {
-                $('.mns-nav').css('margin-top','0px')
+                $('.mns-nav').css('margin-top','0px');
+                $('.mns-nav-scroll-layer').css('top','171px');
             }
         }
     });

@@ -10,7 +10,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<section class="pro-bloc-slider">
+<section id="pro-link-projet" class="pro-bloc-slider">
             <div class="container">
                 <h2>Les projets :</h2>
                 <form class="pro-form-select">
@@ -22,7 +22,7 @@
                         <option value="pro-projet-wacken">Wacken</option>
                     </select>
                 </form>
-                <a href="listing-actu.html" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
 
 
                 <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->

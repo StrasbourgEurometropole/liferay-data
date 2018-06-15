@@ -79,7 +79,7 @@
                                                                         <#if hasException></span></#if>
                                                                     </div>
                                                                     <#if schedule.comments[openingTime?index]?has_content>
-                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                        <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
                                                                     </#if>
                                                                 </#list>
                                                             </#if>
@@ -125,7 +125,7 @@
                                                                             <#if hasException></span></#if>
                                                                         </div>
                                                                         <#if schedule.comments[openingTime?index]?has_content>
-                                                                            <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                            <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
                                                                         </#if>
                                                                     </#list>
                                                                 </#if>
