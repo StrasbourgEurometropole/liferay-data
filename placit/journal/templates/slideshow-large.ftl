@@ -7,6 +7,7 @@
             <div class="item">
                 <figure class="fit-cover" role="group">
                     <img src="${cur_title.getChild("image").getData()}" width="1600" height="700" alt="${cur_title.getChild("image").getAttribute("alt")}"/>
+                    <figcaption>${cur_title.getChild("image").getChild("copyright").getData()}</figcaption>
                 </figure>
                 <div class="container caption ${cur_title.getChild("selectAlignment").getData()}">
                     <div class="col-xs-12">
