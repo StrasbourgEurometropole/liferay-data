@@ -242,6 +242,24 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 	
 	/**
+	 * Retourne le nombre d'événements publiés ratachés au projet
+	 * @return
+	 */
+	@Override
+	public int getNbPublishedEvents() {
+		List<AssetEntry> results = this.getEvents();
+		int nbPublishedResults = 0;
+		
+		for(AssetEntry result : results) {
+			if(result.isVisible()) {
+				nbPublishedResults++;
+			}
+		}
+		
+		return nbPublishedResults;
+	}
+	
+	/**
 	 * Retourne les thematiques du projet
 	 */
 	@Override

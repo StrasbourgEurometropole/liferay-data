@@ -127,6 +127,13 @@ public interface Project extends ProjectModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetEntry> getEvents();
 
 	/**
+	* Retourne le nombre d'événements publiés ratachés au projet
+	*
+	* @return
+	*/
+	public int getNbPublishedEvents();
+
+	/**
 	* Retourne les thematiques du projet
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
