@@ -421,3 +421,7 @@ Temporary Items
 liferay-workspace.iml
 
 /.idea/
+/modules/project/project.iml
+project-api/project-api.iml
+project-service/project-service.iml
+project.iml
