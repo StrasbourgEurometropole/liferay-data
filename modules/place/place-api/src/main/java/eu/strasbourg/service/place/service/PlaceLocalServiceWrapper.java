@@ -438,6 +438,21 @@ public class PlaceLocalServiceWrapper implements PlaceLocalService,
 		return _placeLocalService.findByKeywordCount(keyword, groupId);
 	}
 
+	@Override
+	public void updateRealTime()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_placeLocalService.updateRealTime();
+	}
+
+	@Override
+	public void updateRealTime(eu.strasbourg.service.place.model.Place place,
+		java.lang.String type, long occupation, long available, long capacity,
+		java.lang.String status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_placeLocalService.updateRealTime(place, type, occupation, available,
+			capacity, status);
+	}
+
 	/**
 	* Met à jour le statut du lieu "manuellement" (pas via le workflow)
 	*/

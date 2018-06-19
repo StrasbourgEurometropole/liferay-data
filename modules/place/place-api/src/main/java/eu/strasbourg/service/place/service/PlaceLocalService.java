@@ -356,6 +356,12 @@ public interface PlaceLocalService extends BaseLocalService,
 	*/
 	public long findByKeywordCount(java.lang.String keyword, long groupId);
 
+	public void updateRealTime() throws PortalException;
+
+	public void updateRealTime(Place place, java.lang.String type,
+		long occupation, long available, long capacity, java.lang.String status)
+		throws PortalException;
+
 	/**
 	* Met à jour le statut du lieu "manuellement" (pas via le workflow)
 	*/
