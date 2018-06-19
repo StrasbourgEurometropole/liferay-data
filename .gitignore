@@ -162,10 +162,7 @@ csx
 AppPackages/
 
 # Others
-<<<<<<< HEAD
 
-=======
->>>>>>> develop
 *.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
