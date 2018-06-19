@@ -99,7 +99,7 @@
                     <span>
                         <span>
                             <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}participation">Participations</a>
+                            <a href="${homeURL}participations">Participations</a>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
@@ -232,9 +232,13 @@
                         <div class="pro-contact">
                             <h4>Contact</h4>
                             <p>
-                                <strong><#if entry.getContactName() != ""> ${entry.contactName} <#else> Aucun contact renseigné pour le moment </#if></strong><br>
-                                <#if entry.getContactLine1() != ""> ${entry.contactLine1} </#if>
-                                <#if entry.getContactLine2() != ""> <br>${entry.contactLine2} </#if>
+                                <#if entry.contactName?has_content>
+                                    <strong> ${entry.contactName}</strong><br>
+                                    <#if entry.contactLine1?has_content> ${entry.contactLine1} </#if>
+                                    <#if entry.contactLine2?has_content> <br>${entry.contactLine2} </#if>
+                                <#else>
+                                    <strong>Aucun contact renseigné pour le moment </strong><br>
+                                </#if>
                             </p>
                             <#if entry.getContactPhoneNumber() != "">
                             	<a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>

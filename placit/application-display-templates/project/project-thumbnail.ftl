@@ -43,8 +43,8 @@
         </a>
 
         <ul>
-            <li><a href="${homeURL}participations" title="lien de la page" tabindex="-1">${entry.getParticipations()?size} Participation(s) en cours</a></li>
-            <li><a href="${homeURL}agenda" title="lien de la page" tabindex="-1">${entry.getEvents()?size} Événement(s) à venir</a></li>
+            <li><a href="${homeURL + entry.detailURL}#pro-link-participation" title="lien de la page" tabindex="-1">${entry.getParticipations()?size} Participation(s) en cours</a></li>
+            <li><a href="${homeURL + entry.detailURL}#pro-link-evenement" title="lien de la page" tabindex="-1">${entry.getEvents()?size} Événement(s) à venir</a></li>
         </ul>
 
     </div>

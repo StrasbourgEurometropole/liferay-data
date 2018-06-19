@@ -1,3 +1,4 @@
+<!-- DETAIL D'UN PROJET -->
 
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
@@ -19,10 +20,18 @@
 <div class="pro-bloc-bref">
     <h3>En bref</h3>
     <ul>
-        <li><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</li>
-        <li><span class="icon-ico-label"></span> <strong>Label : </strong>${entry.label}</li>
-        <li><span class="icon-ico-time"></span> <strong>Durée : </strong>${entry.duration}</li>
-        <li><span class="icon-ico-partenaire"></span> <strong>Les partenaires : </strong>${entry.partners}</li>
+        <#if entry.budget?has_content>
+            <li><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</li>
+        </#if>
+        <#if entry.label?has_content>
+            <li><span class="icon-ico-label"></span> <strong>Label : </strong>${entry.label}</li>
+        </#if>
+        <#if entry.duration?has_content>
+            <li><span class="icon-ico-time"></span> <strong>Durée : </strong>${entry.duration}</li>
+        </#if>
+        <#if entry.partners?has_content>
+            <li><span class="icon-ico-partenaire"></span> <strong>Les partenaires : </strong>${entry.partners}</li>
+        </#if>
     </ul>
  </div>
  
@@ -34,9 +43,13 @@
     <div class="pro-contact">
         <h4>Contact</h4>
         <p>
-            <strong>${entry.contactName}</strong><br>
-            ${entry.contactLine1}<br>
-            ${entry.contactLine2}
+            <#if entry.contactName?has_content>
+                <strong> ${entry.contactName}</strong><br>
+                <#if entry.contactLine1?has_content> ${entry.contactLine1} </#if>
+                <#if entry.contactLine2?has_content> <br>${entry.contactLine2} </#if>
+            <#else>
+                <strong>Aucun contact renseigné pour le moment </strong><br>
+            </#if>
         </p>
         <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
     </div>

@@ -11,10 +11,12 @@
     }
 </style>
 
-<#if videoUrl.getData()?has_content>
-    <div class="seu-container">
-        <div id="iframe-wrapper">
-            <iframe  scrolling="yes" height="1000px" frameborder="0" allowfullscreen  src="${videoUrl.getData()}"></iframe>
+<#if videoUrl??>
+    <#if videoUrl.getData()?has_content>
+        <div class="seu-container">
+            <div id="iframe-wrapper">
+                <iframe  scrolling="yes" height="1000px" frameborder="0" allowfullscreen  src="${videoUrl.getData()}"></iframe>
+            </div>
         </div>
-    </div>
+    </#if>
 </#if>

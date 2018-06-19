@@ -13,11 +13,12 @@
 <section id="pro-link-participation" class="pro-bloc-slider pro-slider-participation">
     <div class="container">
         
-        <div>
-            <h2>Les participations</h2>
+        <div class="col-lg-10 col-lg-offset-1">
+            <h2>Les participations (${entries?size})</h2>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
         </div>
 
-        <div>
+        <div class="col-lg-10 col-lg-offset-1">
             <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
                 <!-- Parcours des entites de l'asset publisher -->

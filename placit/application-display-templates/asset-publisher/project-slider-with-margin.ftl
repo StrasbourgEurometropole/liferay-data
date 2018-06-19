@@ -4,14 +4,16 @@
 <#setting locale = locale />
 <#assign quartiers = [] />
 <#assign nomQuartier = "test"/>
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <#list entries as curEntry>
-                            <!-- Recuperation de l'entite -->
+    <!-- Recuperation de l'entite -->
     <#assign entry = curEntry.getAssetRenderer().getProject() />
     <#assign districts = entry.getDistrictCategories()/>
     <#list districts as district>
@@ -24,29 +26,33 @@
 
     </#list>
 </#list>
+
 <section id="pro-link-projet" class="pro-bloc-slider">
     <div class="container">
-        <h2>Les projets :</h2>
-        <form class="pro-form-select">
-            <label for="quartiers" aria-hidden="true" class="hide">Quartiers</label>
-            <select id="quartiers" onchange="this.value;">
-                <option value="pro-projet-all">Tous les quartiers</option>
-                        <#list quartiers as quartier>
-                            <option value="pro-projet-${quartier}">${quartier}</option>
-                        </#list>
 
-            </select>
-        </form>
-        <a href="listing-actu.html" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
+        <div class="col-lg-10 col-lg-offset-1">
+            <h2>Les projets :</h2>
+            <form class="pro-form-select">
+                <label for="quartiers" aria-hidden="true" class="hide">Quartiers</label>
+                <select id="quartiers" onchange="this.value;">
+                    <option value="pro-projet-all">Tous les quartiers</option>
+                    <#list quartiers as quartier>
+                        <option value="pro-projet-${quartier}">${quartier}</option>
+                    </#list>
+                </select>
+            </form>
+            <a href="${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Voir tous les projets</a>
+        </div>
 
-        <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
-        <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+        <div class="col-lg-10 col-lg-offset-1">
+            <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
+            <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
 
-            <!-- Parcours des entites de l'asset publisher -->
-                    <#list entries as curEntry>
+                <!-- Parcours des entites de l'asset publisher -->
+                <#list entries as curEntry>
 
                     <!-- Recuperation de l'entite -->
-                        <#assign entry = curEntry.getAssetRenderer().getProject() />
+                    <#assign entry = curEntry.getAssetRenderer().getProject() />
 
                     <div class="item bloc-card-projet">
                         <a href="${homeURL + entry.detailURL}" title="détail du projet">
@@ -62,20 +68,33 @@
                             </div>
                         </a>
                         <ul>
-                            <li><a href="page-standard.html" title="Participation(s) du projet" tabindex="-1">${entry.getParticipations()?size} Participation(s) en cours</a></li>
-                            <li><a href="page-standard.html" title="Événement(s) du projet" tabindex="-1">${entry.getEvents()?size} Événement(s) à venir</a></li>
+                            <li>
+                                <a href="${homeURL + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
+                                    ${entry.getParticipations()?size} Participation(s) en cours
+                                </a>
+                            </li>
+                            <li>
+                                <a href="${homeURL + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
+                                    ${entry.getEvents()?size} Événement(s) à venir
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    </#list>
-        </div>
 
-                <#list quartiers as quartier>
+                </#list>
+            </div>
+
+            <#list quartiers as quartier>
+
                 <div id="pro-projet-${quartier}" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+
                     <!-- Parcours des entites de l'asset publisher -->
                     <#list entries as curEntry>
+
                         <!-- Recuperation de l'entite -->
                         <#assign entry = curEntry.getAssetRenderer().getProject() />
                         <#assign districts = entry.getDistrictCategories()/>
+                        
                         <#list districts as district>
                             <#if quartier==district.getTitle(locale)>
                                 <div class="item bloc-card-projet">
@@ -92,16 +111,29 @@
                                         </div>
                                     </a>
                                     <ul>
-                                        <li><a href="page-standard.html" title="Participation(s) du projet" tabindex="-1">${entry.getParticipations()?size} Participation(s) en cours</a></li>
-                                        <li><a href="page-standard.html" title="Événement(s) du projet" tabindex="-1">${entry.getEvents()?size} Événement(s) à venir</a></li>
+                                        <li>
+                                            <a href="${homeURL + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
+                                                ${entry.getParticipations()?size} Participation(s) en cours
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="${homeURL + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
+                                                ${entry.getEvents()?size} Événement(s) à venir
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             <#else >
 
                             </#if>
                         </#list>
+
                     </#list>
+
                 </div>
-                </#list>
+
+            </#list>
+
+        </div>   
     </div>
 </section>
