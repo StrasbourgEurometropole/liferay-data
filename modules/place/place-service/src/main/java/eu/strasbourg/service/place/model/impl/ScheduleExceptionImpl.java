@@ -145,4 +145,21 @@ public class ScheduleExceptionImpl extends ScheduleExceptionBaseImpl {
 		}
 		return openingLocalTimes.get(index).getSecond();
 	}
+	
+	
+	/**
+	 * Retourne liste des commentaires
+	 */
+	@Override
+	public String[] getComments() {
+		String[] comments = new String[5];
+		comments[0]= this.getFirstComment();
+		comments[1]= this.getSecondComment();
+		comments[2]= this.getThirdComment();
+		comments[3]= this.getFourthComment();
+		comments[4]= this.getFifthComment();
+		
+		return comments;
+	}
+	
 }

@@ -164,6 +164,12 @@
 		
 		<!-- Pour chaque exception il peut y avoir un ou plusieurs horaires -->
 		<column name="openingTimes" type="String" />
+		<!-- Pour chaque horaire il peut y avoir un commentaire -->
+		<column name="firstComment" type="String" localized="true" />
+		<column name="secondComment" type="String" localized="true" />
+		<column name="thirdComment" type="String" localized="true" />
+		<column name="fourthComment" type="String" localized="true" />
+		<column name="fifthComment" type="String" localized="true" />
 		
 		<column name="comment" type="String" localized="true" />
 		<column name="closed" type="boolean" />

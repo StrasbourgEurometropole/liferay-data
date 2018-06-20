@@ -30,7 +30,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="subPlaceId" type="hidden" />
 
-			<!-- Informations générale -->
+			<!-- Informations gÃ©nÃ©rale -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general-information">
 				
@@ -66,7 +66,7 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="horaire">
 				
-				<!-- Périodes & horaires -->
+				<!-- PÃ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 					
@@ -169,14 +169,19 @@
 										<liferay-util:param name="index" value="${status.count}" />
 										<liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
 										<liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
+										<liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
 										<liferay-util:param name="startHour2" value="${scheduleException.getStartHour(1)}" />
 										<liferay-util:param name="endHour2" value="${scheduleException.getEndHour(1)}" />
+										<liferay-util:param name="secondComment" value="${scheduleException.secondComment}" />
 										<liferay-util:param name="startHour3" value="${scheduleException.getStartHour(2)}" />
 										<liferay-util:param name="endHour3" value="${scheduleException.getEndHour(2)}" />
+										<liferay-util:param name="thirdComment" value="${scheduleException.thirdComment}" />
 										<liferay-util:param name="startHour4" value="${scheduleException.getStartHour(3)}" />
 										<liferay-util:param name="endHour4" value="${scheduleException.getEndHour(3)}" />
+										<liferay-util:param name="fourthComment" value="${scheduleException.fourthComment}" />
 										<liferay-util:param name="startHour5" value="${scheduleException.getStartHour(4)}" />
 										<liferay-util:param name="endHour5" value="${scheduleException.getEndHour(4)}" />
+										<liferay-util:param name="fifthComment" value="${scheduleException.fifthComment}" />
 										<liferay-util:param name="comment" value="${scheduleException.comment}" />
 										<liferay-util:param name="startDate" value="${formattedStartDate}" />
 										<liferay-util:param name="endDate" value="${formattedEndDate}" />

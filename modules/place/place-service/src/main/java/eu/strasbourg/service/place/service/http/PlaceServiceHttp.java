@@ -179,12 +179,43 @@ public class PlaceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
+		HttpPrincipal httpPrincipal, java.util.List<java.lang.String> typesId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
+					"getPlacesByTypes", _getPlacesByTypesParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, typesId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
 		HttpPrincipal httpPrincipal, java.lang.String territoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByTerritory", _getPlacesByTerritoryParameterTypes4);
+					"getPlacesByTerritory", _getPlacesByTerritoryParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					territoryId);
@@ -218,7 +249,7 @@ public class PlaceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
 					"getPlacesByNameAndLanguage",
-					_getPlacesByNameAndLanguageParameterTypes5);
+					_getPlacesByNameAndLanguageParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, name,
 					language);
@@ -252,7 +283,7 @@ public class PlaceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
 					"getPlacesByTerritoryAndType",
-					_getPlacesByTerritoryAndTypeParameterTypes6);
+					_getPlacesByTerritoryAndTypeParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					territoryId, typeId);
@@ -283,7 +314,7 @@ public class PlaceServiceHttp {
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getLegacyJSON", _getLegacyJSONParameterTypes7);
+					"getLegacyJSON", _getLegacyJSONParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -311,7 +342,7 @@ public class PlaceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
 					"getLegacyCategoriesJSON",
-					_getLegacyCategoriesJSONParameterTypes10);
+					_getLegacyCategoriesJSONParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -343,7 +374,7 @@ public class PlaceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
 					"getLegacyTerritoriesJSON",
-					_getLegacyTerritoriesJSONParameterTypes11);
+					_getLegacyTerritoriesJSONParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -374,7 +405,7 @@ public class PlaceServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getTypes", _getTypesParameterTypes12);
+					"getTypes", _getTypesParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -411,21 +442,24 @@ public class PlaceServiceHttp {
 	private static final Class<?>[] _getPlacesByTypeParameterTypes3 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getPlacesByTerritoryParameterTypes4 = new Class[] {
+	private static final Class<?>[] _getPlacesByTypesParameterTypes4 = new Class[] {
+			java.util.List.class
+		};
+	private static final Class<?>[] _getPlacesByTerritoryParameterTypes5 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getPlacesByNameAndLanguageParameterTypes5 = new Class[] {
+	private static final Class<?>[] _getPlacesByNameAndLanguageParameterTypes6 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getPlacesByTerritoryAndTypeParameterTypes6 = new Class[] {
+	private static final Class<?>[] _getPlacesByTerritoryAndTypeParameterTypes7 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getLegacyJSONParameterTypes7 = new Class[] {  };
-	private static final Class<?>[] _getLegacyCategoriesJSONParameterTypes10 = new Class[] {
+	private static final Class<?>[] _getLegacyJSONParameterTypes8 = new Class[] {  };
+	private static final Class<?>[] _getLegacyCategoriesJSONParameterTypes11 = new Class[] {
 			
 		};
-	private static final Class<?>[] _getLegacyTerritoriesJSONParameterTypes11 = new Class[] {
+	private static final Class<?>[] _getLegacyTerritoriesJSONParameterTypes12 = new Class[] {
 			
 		};
-	private static final Class<?>[] _getTypesParameterTypes12 = new Class[] {  };
+	private static final Class<?>[] _getTypesParameterTypes13 = new Class[] {  };
 }

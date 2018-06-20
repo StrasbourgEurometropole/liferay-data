@@ -895,6 +895,11 @@
 					    min-height: 3.5em;
 					    position: relative;
 					    display: none;
+					    text-decoration: none;
+
+					    &:hover {
+					    	text-decoration: underline;
+					    }
 					}
 
 					.entry-meta{
@@ -1349,9 +1354,12 @@
 		/* Menu de droite */
 		.col-md-4{
 			z-index: 1;
+			pointer-events: none;
 
 			/* Contenu escalier et galerie */ 
 			.portlet-boundary_com_liferay_journal_content_web_portlet_JournalContentPortlet_{
+
+				pointer-events: auto;
 
 				a{
 					border: none;
@@ -1439,6 +1447,8 @@
 
 			/* Contenu lire aussi */ 
 			.portlet-boundary_eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet_{
+
+				pointer-events: auto;
 
 				a{
 					border: none;

@@ -75,6 +75,11 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
 			{ "openingTimes", Types.VARCHAR },
+			{ "firstComment", Types.VARCHAR },
+			{ "secondComment", Types.VARCHAR },
+			{ "thirdComment", Types.VARCHAR },
+			{ "fourthComment", Types.VARCHAR },
+			{ "fifthComment", Types.VARCHAR },
 			{ "comment_", Types.VARCHAR },
 			{ "closed", Types.BOOLEAN },
 			{ "placeId", Types.BIGINT },
@@ -88,13 +93,18 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("openingTimes", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("firstComment", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("secondComment", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("thirdComment", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("fourthComment", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("fifthComment", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("comment_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("closed", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("subPlaceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,openingTimes VARCHAR(75) null,comment_ STRING null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_ScheduleException (uuid_ VARCHAR(75) null,exceptionId LONG not null primary key,startDate DATE null,endDate DATE null,openingTimes VARCHAR(75) null,firstComment STRING null,secondComment STRING null,thirdComment STRING null,fourthComment STRING null,fifthComment STRING null,comment_ STRING null,closed BOOLEAN,placeId LONG,subPlaceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_ScheduleException";
 	public static final String ORDER_BY_JPQL = " ORDER BY scheduleException.exceptionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_ScheduleException.exceptionId ASC";
@@ -159,6 +169,11 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("openingTimes", getOpeningTimes());
+		attributes.put("firstComment", getFirstComment());
+		attributes.put("secondComment", getSecondComment());
+		attributes.put("thirdComment", getThirdComment());
+		attributes.put("fourthComment", getFourthComment());
+		attributes.put("fifthComment", getFifthComment());
 		attributes.put("comment", getComment());
 		attributes.put("closed", getClosed());
 		attributes.put("placeId", getPlaceId());
@@ -200,6 +215,36 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 		if (openingTimes != null) {
 			setOpeningTimes(openingTimes);
+		}
+
+		String firstComment = (String)attributes.get("firstComment");
+
+		if (firstComment != null) {
+			setFirstComment(firstComment);
+		}
+
+		String secondComment = (String)attributes.get("secondComment");
+
+		if (secondComment != null) {
+			setSecondComment(secondComment);
+		}
+
+		String thirdComment = (String)attributes.get("thirdComment");
+
+		if (thirdComment != null) {
+			setThirdComment(thirdComment);
+		}
+
+		String fourthComment = (String)attributes.get("fourthComment");
+
+		if (fourthComment != null) {
+			setFourthComment(fourthComment);
+		}
+
+		String fifthComment = (String)attributes.get("fifthComment");
+
+		if (fifthComment != null) {
+			setFifthComment(fifthComment);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -293,6 +338,516 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	@Override
 	public void setOpeningTimes(String openingTimes) {
 		_openingTimes = openingTimes;
+	}
+
+	@Override
+	public String getFirstComment() {
+		if (_firstComment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _firstComment;
+		}
+	}
+
+	@Override
+	public String getFirstComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFirstComment(languageId);
+	}
+
+	@Override
+	public String getFirstComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFirstComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getFirstComment(String languageId) {
+		return LocalizationUtil.getLocalization(getFirstComment(), languageId);
+	}
+
+	@Override
+	public String getFirstComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getFirstComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getFirstCommentCurrentLanguageId() {
+		return _firstCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getFirstCommentCurrentValue() {
+		Locale locale = getLocale(_firstCommentCurrentLanguageId);
+
+		return getFirstComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getFirstCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getFirstComment());
+	}
+
+	@Override
+	public void setFirstComment(String firstComment) {
+		_firstComment = firstComment;
+	}
+
+	@Override
+	public void setFirstComment(String firstComment, Locale locale) {
+		setFirstComment(firstComment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFirstComment(String firstComment, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(firstComment)) {
+			setFirstComment(LocalizationUtil.updateLocalization(
+					getFirstComment(), "FirstComment", firstComment,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setFirstComment(LocalizationUtil.removeLocalization(
+					getFirstComment(), "FirstComment", languageId));
+		}
+	}
+
+	@Override
+	public void setFirstCommentCurrentLanguageId(String languageId) {
+		_firstCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setFirstCommentMap(Map<Locale, String> firstCommentMap) {
+		setFirstCommentMap(firstCommentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFirstCommentMap(Map<Locale, String> firstCommentMap,
+		Locale defaultLocale) {
+		if (firstCommentMap == null) {
+			return;
+		}
+
+		setFirstComment(LocalizationUtil.updateLocalization(firstCommentMap,
+				getFirstComment(), "FirstComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getSecondComment() {
+		if (_secondComment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _secondComment;
+		}
+	}
+
+	@Override
+	public String getSecondComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSecondComment(languageId);
+	}
+
+	@Override
+	public String getSecondComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getSecondComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getSecondComment(String languageId) {
+		return LocalizationUtil.getLocalization(getSecondComment(), languageId);
+	}
+
+	@Override
+	public String getSecondComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getSecondComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getSecondCommentCurrentLanguageId() {
+		return _secondCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getSecondCommentCurrentValue() {
+		Locale locale = getLocale(_secondCommentCurrentLanguageId);
+
+		return getSecondComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getSecondCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getSecondComment());
+	}
+
+	@Override
+	public void setSecondComment(String secondComment) {
+		_secondComment = secondComment;
+	}
+
+	@Override
+	public void setSecondComment(String secondComment, Locale locale) {
+		setSecondComment(secondComment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setSecondComment(String secondComment, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(secondComment)) {
+			setSecondComment(LocalizationUtil.updateLocalization(
+					getSecondComment(), "SecondComment", secondComment,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setSecondComment(LocalizationUtil.removeLocalization(
+					getSecondComment(), "SecondComment", languageId));
+		}
+	}
+
+	@Override
+	public void setSecondCommentCurrentLanguageId(String languageId) {
+		_secondCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setSecondCommentMap(Map<Locale, String> secondCommentMap) {
+		setSecondCommentMap(secondCommentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setSecondCommentMap(Map<Locale, String> secondCommentMap,
+		Locale defaultLocale) {
+		if (secondCommentMap == null) {
+			return;
+		}
+
+		setSecondComment(LocalizationUtil.updateLocalization(secondCommentMap,
+				getSecondComment(), "SecondComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getThirdComment() {
+		if (_thirdComment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _thirdComment;
+		}
+	}
+
+	@Override
+	public String getThirdComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getThirdComment(languageId);
+	}
+
+	@Override
+	public String getThirdComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getThirdComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getThirdComment(String languageId) {
+		return LocalizationUtil.getLocalization(getThirdComment(), languageId);
+	}
+
+	@Override
+	public String getThirdComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getThirdComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getThirdCommentCurrentLanguageId() {
+		return _thirdCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getThirdCommentCurrentValue() {
+		Locale locale = getLocale(_thirdCommentCurrentLanguageId);
+
+		return getThirdComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getThirdCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getThirdComment());
+	}
+
+	@Override
+	public void setThirdComment(String thirdComment) {
+		_thirdComment = thirdComment;
+	}
+
+	@Override
+	public void setThirdComment(String thirdComment, Locale locale) {
+		setThirdComment(thirdComment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setThirdComment(String thirdComment, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(thirdComment)) {
+			setThirdComment(LocalizationUtil.updateLocalization(
+					getThirdComment(), "ThirdComment", thirdComment,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setThirdComment(LocalizationUtil.removeLocalization(
+					getThirdComment(), "ThirdComment", languageId));
+		}
+	}
+
+	@Override
+	public void setThirdCommentCurrentLanguageId(String languageId) {
+		_thirdCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setThirdCommentMap(Map<Locale, String> thirdCommentMap) {
+		setThirdCommentMap(thirdCommentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setThirdCommentMap(Map<Locale, String> thirdCommentMap,
+		Locale defaultLocale) {
+		if (thirdCommentMap == null) {
+			return;
+		}
+
+		setThirdComment(LocalizationUtil.updateLocalization(thirdCommentMap,
+				getThirdComment(), "ThirdComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getFourthComment() {
+		if (_fourthComment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _fourthComment;
+		}
+	}
+
+	@Override
+	public String getFourthComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFourthComment(languageId);
+	}
+
+	@Override
+	public String getFourthComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFourthComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getFourthComment(String languageId) {
+		return LocalizationUtil.getLocalization(getFourthComment(), languageId);
+	}
+
+	@Override
+	public String getFourthComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getFourthComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getFourthCommentCurrentLanguageId() {
+		return _fourthCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getFourthCommentCurrentValue() {
+		Locale locale = getLocale(_fourthCommentCurrentLanguageId);
+
+		return getFourthComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getFourthCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getFourthComment());
+	}
+
+	@Override
+	public void setFourthComment(String fourthComment) {
+		_fourthComment = fourthComment;
+	}
+
+	@Override
+	public void setFourthComment(String fourthComment, Locale locale) {
+		setFourthComment(fourthComment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFourthComment(String fourthComment, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(fourthComment)) {
+			setFourthComment(LocalizationUtil.updateLocalization(
+					getFourthComment(), "FourthComment", fourthComment,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setFourthComment(LocalizationUtil.removeLocalization(
+					getFourthComment(), "FourthComment", languageId));
+		}
+	}
+
+	@Override
+	public void setFourthCommentCurrentLanguageId(String languageId) {
+		_fourthCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setFourthCommentMap(Map<Locale, String> fourthCommentMap) {
+		setFourthCommentMap(fourthCommentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFourthCommentMap(Map<Locale, String> fourthCommentMap,
+		Locale defaultLocale) {
+		if (fourthCommentMap == null) {
+			return;
+		}
+
+		setFourthComment(LocalizationUtil.updateLocalization(fourthCommentMap,
+				getFourthComment(), "FourthComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getFifthComment() {
+		if (_fifthComment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _fifthComment;
+		}
+	}
+
+	@Override
+	public String getFifthComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFifthComment(languageId);
+	}
+
+	@Override
+	public String getFifthComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getFifthComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getFifthComment(String languageId) {
+		return LocalizationUtil.getLocalization(getFifthComment(), languageId);
+	}
+
+	@Override
+	public String getFifthComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getFifthComment(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getFifthCommentCurrentLanguageId() {
+		return _fifthCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getFifthCommentCurrentValue() {
+		Locale locale = getLocale(_fifthCommentCurrentLanguageId);
+
+		return getFifthComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getFifthCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getFifthComment());
+	}
+
+	@Override
+	public void setFifthComment(String fifthComment) {
+		_fifthComment = fifthComment;
+	}
+
+	@Override
+	public void setFifthComment(String fifthComment, Locale locale) {
+		setFifthComment(fifthComment, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFifthComment(String fifthComment, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(fifthComment)) {
+			setFifthComment(LocalizationUtil.updateLocalization(
+					getFifthComment(), "FifthComment", fifthComment,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setFifthComment(LocalizationUtil.removeLocalization(
+					getFifthComment(), "FifthComment", languageId));
+		}
+	}
+
+	@Override
+	public void setFifthCommentCurrentLanguageId(String languageId) {
+		_fifthCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setFifthCommentMap(Map<Locale, String> fifthCommentMap) {
+		setFifthCommentMap(fifthCommentMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setFifthCommentMap(Map<Locale, String> fifthCommentMap,
+		Locale defaultLocale) {
+		if (fifthCommentMap == null) {
+			return;
+		}
+
+		setFifthComment(LocalizationUtil.updateLocalization(fifthCommentMap,
+				getFifthComment(), "FifthComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -474,6 +1029,61 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	public String[] getAvailableLanguageIds() {
 		Set<String> availableLanguageIds = new TreeSet<String>();
 
+		Map<Locale, String> firstCommentMap = getFirstCommentMap();
+
+		for (Map.Entry<Locale, String> entry : firstCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> secondCommentMap = getSecondCommentMap();
+
+		for (Map.Entry<Locale, String> entry : secondCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> thirdCommentMap = getThirdCommentMap();
+
+		for (Map.Entry<Locale, String> entry : thirdCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> fourthCommentMap = getFourthCommentMap();
+
+		for (Map.Entry<Locale, String> entry : fourthCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> fifthCommentMap = getFifthCommentMap();
+
+		for (Map.Entry<Locale, String> entry : fifthCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> commentMap = getCommentMap();
 
 		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
@@ -490,7 +1100,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String getDefaultLanguageId() {
-		String xml = getComment();
+		String xml = getFirstComment();
 
 		if (xml == null) {
 			return StringPool.BLANK;
@@ -521,6 +1131,61 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 		String modelDefaultLanguageId = getDefaultLanguageId();
 
+		String firstComment = getFirstComment(defaultLocale);
+
+		if (Validator.isNull(firstComment)) {
+			setFirstComment(getFirstComment(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setFirstComment(getFirstComment(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String secondComment = getSecondComment(defaultLocale);
+
+		if (Validator.isNull(secondComment)) {
+			setSecondComment(getSecondComment(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setSecondComment(getSecondComment(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String thirdComment = getThirdComment(defaultLocale);
+
+		if (Validator.isNull(thirdComment)) {
+			setThirdComment(getThirdComment(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setThirdComment(getThirdComment(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String fourthComment = getFourthComment(defaultLocale);
+
+		if (Validator.isNull(fourthComment)) {
+			setFourthComment(getFourthComment(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setFourthComment(getFourthComment(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String fifthComment = getFifthComment(defaultLocale);
+
+		if (Validator.isNull(fifthComment)) {
+			setFifthComment(getFifthComment(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setFifthComment(getFifthComment(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
 		String comment = getComment(defaultLocale);
 
 		if (Validator.isNull(comment)) {
@@ -550,6 +1215,11 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		scheduleExceptionImpl.setStartDate(getStartDate());
 		scheduleExceptionImpl.setEndDate(getEndDate());
 		scheduleExceptionImpl.setOpeningTimes(getOpeningTimes());
+		scheduleExceptionImpl.setFirstComment(getFirstComment());
+		scheduleExceptionImpl.setSecondComment(getSecondComment());
+		scheduleExceptionImpl.setThirdComment(getThirdComment());
+		scheduleExceptionImpl.setFourthComment(getFourthComment());
+		scheduleExceptionImpl.setFifthComment(getFifthComment());
 		scheduleExceptionImpl.setComment(getComment());
 		scheduleExceptionImpl.setClosed(getClosed());
 		scheduleExceptionImpl.setPlaceId(getPlaceId());
@@ -669,6 +1339,46 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 			scheduleExceptionCacheModel.openingTimes = null;
 		}
 
+		scheduleExceptionCacheModel.firstComment = getFirstComment();
+
+		String firstComment = scheduleExceptionCacheModel.firstComment;
+
+		if ((firstComment != null) && (firstComment.length() == 0)) {
+			scheduleExceptionCacheModel.firstComment = null;
+		}
+
+		scheduleExceptionCacheModel.secondComment = getSecondComment();
+
+		String secondComment = scheduleExceptionCacheModel.secondComment;
+
+		if ((secondComment != null) && (secondComment.length() == 0)) {
+			scheduleExceptionCacheModel.secondComment = null;
+		}
+
+		scheduleExceptionCacheModel.thirdComment = getThirdComment();
+
+		String thirdComment = scheduleExceptionCacheModel.thirdComment;
+
+		if ((thirdComment != null) && (thirdComment.length() == 0)) {
+			scheduleExceptionCacheModel.thirdComment = null;
+		}
+
+		scheduleExceptionCacheModel.fourthComment = getFourthComment();
+
+		String fourthComment = scheduleExceptionCacheModel.fourthComment;
+
+		if ((fourthComment != null) && (fourthComment.length() == 0)) {
+			scheduleExceptionCacheModel.fourthComment = null;
+		}
+
+		scheduleExceptionCacheModel.fifthComment = getFifthComment();
+
+		String fifthComment = scheduleExceptionCacheModel.fifthComment;
+
+		if ((fifthComment != null) && (fifthComment.length() == 0)) {
+			scheduleExceptionCacheModel.fifthComment = null;
+		}
+
 		scheduleExceptionCacheModel.comment = getComment();
 
 		String comment = scheduleExceptionCacheModel.comment;
@@ -688,7 +1398,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -700,6 +1410,16 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		sb.append(getEndDate());
 		sb.append(", openingTimes=");
 		sb.append(getOpeningTimes());
+		sb.append(", firstComment=");
+		sb.append(getFirstComment());
+		sb.append(", secondComment=");
+		sb.append(getSecondComment());
+		sb.append(", thirdComment=");
+		sb.append(getThirdComment());
+		sb.append(", fourthComment=");
+		sb.append(getFourthComment());
+		sb.append(", fifthComment=");
+		sb.append(getFifthComment());
 		sb.append(", comment=");
 		sb.append(getComment());
 		sb.append(", closed=");
@@ -715,7 +1435,7 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.ScheduleException");
@@ -740,6 +1460,26 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 		sb.append(
 			"<column><column-name>openingTimes</column-name><column-value><![CDATA[");
 		sb.append(getOpeningTimes());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>firstComment</column-name><column-value><![CDATA[");
+		sb.append(getFirstComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>secondComment</column-name><column-value><![CDATA[");
+		sb.append(getSecondComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>thirdComment</column-name><column-value><![CDATA[");
+		sb.append(getThirdComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>fourthComment</column-name><column-value><![CDATA[");
+		sb.append(getFourthComment());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>fifthComment</column-name><column-value><![CDATA[");
+		sb.append(getFifthComment());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>comment</column-name><column-value><![CDATA[");
@@ -773,6 +1513,16 @@ public class ScheduleExceptionModelImpl extends BaseModelImpl<ScheduleException>
 	private Date _startDate;
 	private Date _endDate;
 	private String _openingTimes;
+	private String _firstComment;
+	private String _firstCommentCurrentLanguageId;
+	private String _secondComment;
+	private String _secondCommentCurrentLanguageId;
+	private String _thirdComment;
+	private String _thirdCommentCurrentLanguageId;
+	private String _fourthComment;
+	private String _fourthCommentCurrentLanguageId;
+	private String _fifthComment;
+	private String _fifthCommentCurrentLanguageId;
 	private String _comment;
 	private String _commentCurrentLanguageId;
 	private boolean _closed;

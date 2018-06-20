@@ -66,7 +66,7 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -78,6 +78,16 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		sb.append(endDate);
 		sb.append(", openingTimes=");
 		sb.append(openingTimes);
+		sb.append(", firstComment=");
+		sb.append(firstComment);
+		sb.append(", secondComment=");
+		sb.append(secondComment);
+		sb.append(", thirdComment=");
+		sb.append(thirdComment);
+		sb.append(", fourthComment=");
+		sb.append(fourthComment);
+		sb.append(", fifthComment=");
+		sb.append(fifthComment);
 		sb.append(", comment=");
 		sb.append(comment);
 		sb.append(", closed=");
@@ -125,6 +135,41 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 			scheduleExceptionImpl.setOpeningTimes(openingTimes);
 		}
 
+		if (firstComment == null) {
+			scheduleExceptionImpl.setFirstComment(StringPool.BLANK);
+		}
+		else {
+			scheduleExceptionImpl.setFirstComment(firstComment);
+		}
+
+		if (secondComment == null) {
+			scheduleExceptionImpl.setSecondComment(StringPool.BLANK);
+		}
+		else {
+			scheduleExceptionImpl.setSecondComment(secondComment);
+		}
+
+		if (thirdComment == null) {
+			scheduleExceptionImpl.setThirdComment(StringPool.BLANK);
+		}
+		else {
+			scheduleExceptionImpl.setThirdComment(thirdComment);
+		}
+
+		if (fourthComment == null) {
+			scheduleExceptionImpl.setFourthComment(StringPool.BLANK);
+		}
+		else {
+			scheduleExceptionImpl.setFourthComment(fourthComment);
+		}
+
+		if (fifthComment == null) {
+			scheduleExceptionImpl.setFifthComment(StringPool.BLANK);
+		}
+		else {
+			scheduleExceptionImpl.setFifthComment(fifthComment);
+		}
+
 		if (comment == null) {
 			scheduleExceptionImpl.setComment(StringPool.BLANK);
 		}
@@ -149,6 +194,11 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 		openingTimes = objectInput.readUTF();
+		firstComment = objectInput.readUTF();
+		secondComment = objectInput.readUTF();
+		thirdComment = objectInput.readUTF();
+		fourthComment = objectInput.readUTF();
+		fifthComment = objectInput.readUTF();
 		comment = objectInput.readUTF();
 
 		closed = objectInput.readBoolean();
@@ -179,6 +229,41 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 			objectOutput.writeUTF(openingTimes);
 		}
 
+		if (firstComment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(firstComment);
+		}
+
+		if (secondComment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(secondComment);
+		}
+
+		if (thirdComment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(thirdComment);
+		}
+
+		if (fourthComment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(fourthComment);
+		}
+
+		if (fifthComment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(fifthComment);
+		}
+
 		if (comment == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -198,6 +283,11 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 	public long startDate;
 	public long endDate;
 	public String openingTimes;
+	public String firstComment;
+	public String secondComment;
+	public String thirdComment;
+	public String fourthComment;
+	public String fifthComment;
 	public String comment;
 	public boolean closed;
 	public long placeId;

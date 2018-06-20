@@ -145,6 +145,11 @@
 			<hint name="show-time">false</hint>
 		</field>
 		<field name="openingTimes" type="String" />
+		<field localized="true" name="firstComment" type="String" />
+		<field localized="true" name="secondComment" type="String" />
+		<field localized="true" name="thirdComment" type="String" />
+		<field localized="true" name="fourthComment" type="String" />
+		<field localized="true" name="fifthComment" type="String" />
 		<field localized="true" name="comment" type="String" />
 		<field name="closed" type="boolean" />
 		<field name="placeId" type="long" />

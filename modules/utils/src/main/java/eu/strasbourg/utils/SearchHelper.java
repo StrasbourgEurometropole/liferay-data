@@ -769,12 +769,21 @@ public class SearchHelper {
 	 */
 	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
 			Locale locale) {
+		return getPlaceWebServiceSearchHits(className, categoriesIds, keywords,locale, true);
+	}
+	
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour le webservice des
+	 * lieux
+	 */
+	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
+			Locale locale, boolean isAndQuery) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 
 			// Query
-			Query query = SearchHelper.getPlaceWebServiceQuery(className, categoriesIds, keywords, locale);
+			Query query = SearchHelper.getPlaceWebServiceQuery(className, categoriesIds, keywords, locale, isAndQuery);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -790,7 +799,7 @@ public class SearchHelper {
 	 * Retourne la requête pour le webservice des lieux
 	 */
 	private static Query getPlaceWebServiceQuery(String className, long[] categoriesIds, String keywords,
-			Locale locale) {
+			Locale locale, boolean isAndQuery) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
@@ -812,16 +821,31 @@ public class SearchHelper {
 			}
 
 			// Catégories
-			if (categoriesIds != null) {
-				for (long categoryId : categoriesIds) {
-					if (Validator.isNotNull(categoryId)) {
-						BooleanQuery categoryQuery = new BooleanQueryImpl();
-						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
-						query.add(categoryQuery, BooleanClauseOccur.MUST);
+			if (isAndQuery) {
+				if (categoriesIds != null) {
+					for (long categoryId : categoriesIds) {
+						if (Validator.isNotNull(categoryId)) {
+							BooleanQuery categoryQuery = new BooleanQueryImpl();
+							categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
+							query.add(categoryQuery, BooleanClauseOccur.MUST);
+						}
 					}
 				}
+			} 
+			else {
+				BooleanQuery categoriesQuery = new BooleanQueryImpl();
+				if (categoriesIds != null) {
+					for (long categoryId : categoriesIds) {
+						if (Validator.isNotNull(categoryId)) {
+							BooleanQuery categoryQuery = new BooleanQueryImpl();
+							categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
+							categoriesQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+						}
+					}
+				}
+				query.add(categoriesQuery, BooleanClauseOccur.MUST);
 			}
-
+			
 			return query;
 		} catch (
 

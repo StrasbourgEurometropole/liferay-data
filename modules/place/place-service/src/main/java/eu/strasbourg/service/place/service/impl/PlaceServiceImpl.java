@@ -27,17 +27,13 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 
 import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -115,6 +111,36 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
+	
+	
+	@Override
+	public JSONArray getPlacesByTypes(List<String> typesId) throws PortalException {
+		// Recherche du catégoryId
+		AssetVocabulary vocabularyTypeLieu = AssetVocabularyHelper
+				.getGlobalVocabulary("Type de lieu");
+		List<AssetCategory> categories = AssetVocabularyHelper
+				.getCategoriesByExternalsId(vocabularyTypeLieu, typesId);
+		List<Long> listCategoriesIds = new ArrayList<Long>();
+		for (AssetCategory assetCategory : categories) {
+			listCategoriesIds.add(assetCategory.getCategoryId());
+		}
+		
+		long[] categoriesIds = listCategoriesIds.stream().mapToLong(l -> l).toArray();
+
+		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
+				Place.class.getName(), categoriesIds, null, null, false);
+		List<Place> places = new ArrayList<Place>();
+		for (Document document : hits.getDocs()) {
+			Long placeId = GetterUtil
+					.getLong(document.get(Field.ENTRY_CLASS_PK));
+			Place place = this.placeLocalService.fetchPlace(placeId);
+			if (place != null) {
+				places.add(place);
+			}
+		}
+		return this.getApprovedJSONPlaces(places);
+	}
+	
 
 	@Override
 	public JSONArray getPlacesByTerritory(String territoryId)
