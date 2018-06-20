@@ -417,11 +417,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-liferay-workspace.iml
+*.iml
 
 /.idea/
-/modules/project/project.iml
-project-api/project-api.iml
-project-service/project-service.iml
-project.iml
