@@ -386,16 +386,6 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	/**
-	* Retourne le nombre d'événements publiés ratachés au projet
-	*
-	* @return
-	*/
-	@Override
-	public int getNbPublishedEvents() {
-		return _project.getNbPublishedEvents();
-	}
-
-	/**
 	* Returns the status of this project.
 	*
 	* @return the status of this project
