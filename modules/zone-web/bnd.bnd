@@ -1,0 +1,5 @@
+Bundle-Name: zone-web
+Bundle-SymbolicName: eu.strasbourg.portlet.zone
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.zone.constants
+Web-ContextPath: /zoneweb

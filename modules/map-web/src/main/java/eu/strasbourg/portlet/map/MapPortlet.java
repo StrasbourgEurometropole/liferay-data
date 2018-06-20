@@ -390,6 +390,7 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("showList", showList);
 			request.setAttribute("address", address);
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
+			request.setAttribute("internalId", internalId);
 			MapDisplayContext dc = new MapDisplayContext(themeDisplay);
 			request.setAttribute("dc", dc);
 			if (widgetMod) {

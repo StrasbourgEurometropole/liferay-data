@@ -33,7 +33,7 @@
 		<c:if test="${dc.borrower.expireDate != null}">
 	        <c:set var="today" value="${dc.today}" />
 	        <c:if test="${today.isAfter(dc.borrower.expireDate)}">
-	        	<div class="error">
+	        	<div class="warning">
 	        		<strong><liferay-ui:message key="warning" /></strong><br>
 	        		<liferay-ui:message key="warning-text" />
 	        	</div>
@@ -76,9 +76,11 @@
 			        				<liferay-ui:message key="return-date" />
 								</c:if>
 								 : 
-								<fmt:parseDate value="${media.returnDate}" pattern="yyyy-MM-dd" var="returnDate" type="both" />
-								<fmt:formatDate value="${returnDate}" type="date" var="newReturnDate" pattern="dd/MM/yyyy" />
-								${newReturnDate}
+			        			<c:if test="${not empty media.returnDate}">
+									<fmt:parseDate value="${media.returnDate}" pattern="yyyy-MM-dd" var="returnDate" type="both" />
+									<fmt:formatDate value="${returnDate}" type="date" var="newReturnDate" pattern="dd/MM/yyyy" />
+									${newReturnDate}
+								</c:if>
 							</c:if>
 						</p>
         			</div>
