@@ -104,9 +104,14 @@
 
                  <!-- Liste des quartiers de la participation -->
                 <#if participationDistricts?? >
-                    <#list participationDistricts as participationDistrict >
+                    <!-- si la taille de la liste correspond à tout les quartiers de strasbourg-->
+                    <#if participationDistricts?size ==10>
+                        <span>Tout les quartiers</span>
+                        <#else >
+                        <#list participationDistricts as participationDistrict >
                         <span>${participationDistrict.getTitle(locale)}</span>
-                    </#list>
+                        </#list>
+                    </#if>
                 </#if>
 
                 <!-- Liste des thématiques de la participation -->
