@@ -75,15 +75,4 @@ public class ResidDisplayContext {
 	public LocalDate getToday() {
 		return LocalDate.now();
 	}
-
-	public LocalDate getFirstDay(int year, int month) {
-		return LocalDate.of(year, month, 1);
-	}
-
-	public LocalDate getLastDay(int year, int month) {
-		LocalDate day = LocalDate.of(year, month, 1);
-		day = day.plusMonths(1);
-		day = day.minusDays(1);
-		return day;
-	}
 }

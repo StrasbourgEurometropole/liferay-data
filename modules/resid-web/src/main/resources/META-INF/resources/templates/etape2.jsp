@@ -30,7 +30,7 @@
 			        </c:if>
 				</c:if>
 				<c:set var="forfaits" value="${dossier.forfaits}" />
-				<c:if test="${empty forfaits}">
+				<c:if test="${empty forfaits and dossier.zone.typeUsager.code == 'RESID'}">
 		        	<div class="warning">
 		        		<strong><liferay-ui:message key="warning" /></strong><br>
 		        		<liferay-ui:message key="no-forfait-text" />
@@ -90,7 +90,7 @@
 						</div>
 						<div class="content">
 							<a href="${dc.zoneURL}" target="_blank" title="<liferay-ui:message key="zone-text-x" arguments="${zone.code}" /> - ${zone.intitule}(<liferay-ui:message key="eu.new-window"/>)" >
-								<liferay-ui:message key="zone-text-x" arguments="${zone.code}" /> - ${zone.intitule}
+								${zone.intitule}
 							</a>
 						</div>
 						<!-- fin de validité du titre -->
@@ -106,12 +106,19 @@
 								</c:if>
 							</p>
 						</div>
-						<!-- NumÃ©ro de dossier -->
+						<!-- Type -->
 						<div class="title">
-							<label><liferay-ui:message key="number-dossier" /></label>
+							<label><liferay-ui:message key="type" /></label>
 						</div>
 						<div class="content">
-							<p>${dossier.numeroDossier}</p>
+							<p>
+								<c:if test="${dossier.zone.typeUsager.code == 'RESID'}">
+									<liferay-ui:message key="type-resid" />
+								</c:if>
+								<c:if test="${dossier.zone.typeUsager.code == 'RESIDEO'}">
+									<liferay-ui:message key="type-resideo" />
+								</c:if>
+							</p>
 						</div>
 			        </div>
 				</div>
@@ -124,20 +131,49 @@
 			    			<div class="upper-title"><label><liferay-ui:message key="principal-vehicule" /></label></div>
 							<!-- immatriculation -->
 							<div class="title">
-								<label><liferay-ui:message key="immatriculation" /></label>
+								<label>
+									<c:if test="${!vehiculePrincipal.hasCarteGriseProvisoire()}">
+										<liferay-ui:message key="immatriculation" />
+									</c:if>
+									<c:if test="${vehiculePrincipal.hasCarteGriseProvisoire()}">
+										<liferay-ui:message key="immatriculation-provisoire" />
+									</c:if>
+								</label>
 							</div>
 							<div class="content">
 								<p>${vehiculePrincipal.immatriculation}</p>
 							</div>
+							<!-- validité carte grise -->
+							<c:if test="${vehiculePrincipal.hasCarteGriseProvisoire()}">
+								<div class="title">
+									<label><liferay-ui:message key="validity" /></label>
+								</div>
+								<div class="content">
+									<p>
+										<c:if test="${vehiculePrincipal.dateFinValidite != null}">
+											<fmt:parseDate value="${vehiculePrincipal.dateFinValidite}" pattern="yyyy-MM-dd" var="expireValidity" type="both" />
+											<fmt:formatDate value="${expireValidity}" type="date" var="newexpireValidity" pattern="dd/MM/yyyy" />
+											<liferay-ui:message key="until" /> ${newexpireValidity}
+										</c:if>
+									</p>
+								</div>
+							</c:if>
 				        </div>
 			        </c:if>
 				
 					<!-- Véhicule principal temporaire -->
 					<c:set var="vehiculePrincipalTemporaire" value="${dossier.vehiculePrincipalTemporaire}" />
 					<c:if test="${not empty vehiculePrincipalTemporaire}">
-						<!-- validity -->
 				        <div class="form-group">
 			    			<div class="upper-title"><label><liferay-ui:message key="temporary-vehicule" /></label></div>
+							<!-- immatriculation -->
+							<div class="title">
+								<label><liferay-ui:message key="immatriculation" /></label>
+							</div>
+							<div class="content">
+								<p>${vehiculePrincipalTemporaire.immatriculation}</p>
+							</div>
+							<!-- validity -->
 							<div class="title">
 								<label><liferay-ui:message key="validity" /></label>
 							</div>
@@ -150,13 +186,6 @@
 									</c:if>
 								</p>
 							</div>
-							<!-- immatriculation -->
-							<div class="title">
-								<label><liferay-ui:message key="immatriculation" /></label>
-							</div>
-							<div class="content">
-								<p>${vehiculePrincipalTemporaire.immatriculation}</p>
-							</div>
 				        </div>
 			   		</c:if>
 				</div>
@@ -167,16 +196,39 @@
 				        <div class="form-group">
 				    		<div class="upper-title"><label><liferay-ui:message key="forfaits" /></label></div>
 				    		<ul>
-								<c:forEach items="${forfaits}" var="forfait">
-									<li>
-										<fmt:parseDate value="${dc.getFirstDay(forfait.annee, forfait.moisCode)}" pattern="yyyy-MM-dd" var="startDate" type="both" />
-										<fmt:formatDate value="${startDate}" type="date" var="newStartDate" pattern="dd/MM/yyyy" />
-										<fmt:parseDate value="${dc.getLastDay(forfait.annee, forfait.moisCode)}" pattern="yyyy-MM-dd" var="endDate" type="both" />
-										<fmt:formatDate value="${endDate}" type="date" var="newEndDate" pattern="dd/MM/yyyy" />
-										<c:set value="${newStartDate}-${newEndDate}" var="dates"/>
-										<liferay-ui:message key="dates-x-x" arguments="${fn:split(dates , '-')}"/> 
-									</li>
-								</c:forEach> 
+								<c:forEach items="${forfaits}" var="forfait" varStatus="status">
+									<c:if test="${status.first}">
+										<c:set var="startForfait" value="${forfait.dateDebut}" />
+										<c:set var="endForfait" value="${forfait.dateFin}" />
+									</c:if>
+									<c:if test="${!status.first}">
+										<c:choose>
+										    <c:when test="${endForfait.plusDays(1) == forfait.dateDebut}">
+												<c:set var="endForfait" value="${forfait.dateFin}" />
+										    </c:when>    
+										    <c:otherwise>
+												<fmt:parseDate value="${startForfait}" pattern="yyyy-MM-dd" var="startDate" type="both" />
+												<fmt:formatDate value="${startDate}" type="date" var="newStartDate" pattern="dd/MM/yyyy" />
+												<fmt:parseDate value="${endForfait}" pattern="yyyy-MM-dd" var="endDate" type="both" />
+												<fmt:formatDate value="${endDate}" type="date" var="newEndDate" pattern="dd/MM/yyyy" />
+												<c:set value="${newStartDate}-${newEndDate}" var="dates"/>
+												<li>
+													<liferay-ui:message key="dates-x-x" arguments="${fn:split(dates , '-')}"/> 
+												</li>
+												<c:set var="startForfait" value="${forfait.dateDebut}" />
+												<c:set var="endForfait" value="${forfait.dateFin}" />
+										    </c:otherwise>
+										</c:choose>
+									</c:if>
+								</c:forEach>
+								<fmt:parseDate value="${startForfait}" pattern="yyyy-MM-dd" var="startDate" type="both" />
+								<fmt:formatDate value="${startDate}" type="date" var="newStartDate" pattern="dd/MM/yyyy" />
+								<fmt:parseDate value="${endForfait}" pattern="yyyy-MM-dd" var="endDate" type="both" />
+								<fmt:formatDate value="${endDate}" type="date" var="newEndDate" pattern="dd/MM/yyyy" />
+								<c:set value="${newStartDate}-${newEndDate}" var="dates"/>
+								<li>
+									<liferay-ui:message key="dates-x-x" arguments="${fn:split(dates , '-')}"/> 
+								</li> 
 				    		</ul>
 				    	</div>
 					</div>

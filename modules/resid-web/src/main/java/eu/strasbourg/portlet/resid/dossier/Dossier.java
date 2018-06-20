@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -129,7 +130,9 @@ public class Dossier {
 	}
 
 	public List<Forfait> getForfaits() {
-		return forfaits;
+		List<Forfait> forfaitList = forfaits.stream()
+				.sorted((f1, f2) -> f1.getDateDebut().compareTo(f2.getDateDebut())).collect(Collectors.toList());
+		return forfaitList;
 	}
 
 	public void setForfaits(List<Forfait> forfaits) {

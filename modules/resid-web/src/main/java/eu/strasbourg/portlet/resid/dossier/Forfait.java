@@ -12,6 +12,8 @@ public class Forfait {
 	public int moisCode;
 	public String moisIntitule;
 	public LocalDate dateAchat;
+	public LocalDate dateDebut;
+	public LocalDate dateFin;
 	
 	public Forfait(JSONObject json) {
 		annee = json.getInt("Annee");
@@ -20,6 +22,8 @@ public class Forfait {
     	if(Validator.isNotNull(json.getString("DateAchat")) && Validator.isNotNull(json.getJSONObject("DateAchat").getString("Date"))) {
     		dateAchat = LocalDate.parse(json.getJSONObject("DateAchat").getString("Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     	}
+    	dateDebut = LocalDate.of(annee, moisCode, 1);
+    	dateFin = dateDebut.plusMonths(1).minusDays(1);
 	}
 
 	public int getAnnee() {
@@ -52,5 +56,21 @@ public class Forfait {
 
 	public void setDateAchat(LocalDate dateAchat) {
 		this.dateAchat = dateAchat;
+	}
+
+	public LocalDate getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(LocalDate dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public LocalDate getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(LocalDate dateFin) {
+		this.dateFin = dateFin;
 	}
 }
