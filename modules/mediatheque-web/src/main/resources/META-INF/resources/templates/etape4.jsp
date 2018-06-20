@@ -90,13 +90,13 @@
 						<a class="btn-square--bordered--core" title="<liferay-ui:message key="eu.see-more" />" id="borrowingSeeMore">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-more" /></span>
-								<span class="btn-more"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 						<a class="btn-square--bordered--core hidden" title="<liferay-ui:message key="eu.see-less" />" id="borrowingSeeLess">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-less" /></span>
-								<span class="btn-minus"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 		        	</div>
@@ -129,13 +129,13 @@
 						<a class="btn-square--bordered--core" title="<liferay-ui:message key="eu.see-more" />" id="reservationSeeMore">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-more" /></span>
-								<span class="btn-more"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 						<a class="btn-square--bordered--core hidden" title="<liferay-ui:message key="eu.see-less" />" id="reservationSeeLess">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-less" /></span>
-								<span class="btn-minus"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 		        	</div>
