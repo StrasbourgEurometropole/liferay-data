@@ -33,13 +33,13 @@
 		<c:if test="${dc.borrower.expireDate != null}">
 	        <c:set var="today" value="${dc.today}" />
 	        <c:if test="${today.isAfter(dc.borrower.expireDate)}">
-	        	<div class="warning">
+	        	<div class="information">
 	        		<strong><liferay-ui:message key="warning" /></strong><br>
 	        		<liferay-ui:message key="warning-text" />
 	        	</div>
 	        </c:if>
-			<c:set var="nextWeek" value="${today.plusDays(7)}"/>
-	        <c:if test="${nextWeek.isAfter(dc.borrower.expireDate)}">
+			<c:set var="nextMonth" value="${today.plusMonths(1)}"/>
+	        <c:if test="${nextMonth.isAfter(dc.borrower.expireDate)}">
 	        	<div class="information">
 	        		<strong><liferay-ui:message key="information" /></strong><br>
 	        		<liferay-ui:message key="information-text" />
