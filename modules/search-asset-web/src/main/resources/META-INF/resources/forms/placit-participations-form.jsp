@@ -15,7 +15,7 @@
 	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
 	                <span class="pro-wrapper-date">
 	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date"
-			            	readonly="readonly" value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">
+			            	readonly="readonly" value="${dc.fromMonthValue}/${dc.fromDay}/${dc.fromYear}">
 			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
 			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
 			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
@@ -23,7 +23,7 @@
 	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
 	                <span class="pro-wrapper-date"> 
 	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date"
-			            	readonly="readonly" value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">
+			            	readonly="readonly" value="${dc.toMonthValue}/${dc.toDay}/${dc.toYear}">
 			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
 			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
 			            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />

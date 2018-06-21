@@ -8,15 +8,23 @@
 .pro-bloc-image-slider {
 	padding: 20px 0;
 	figure {
+		text-align: right;
 		margin: 0;
 		background: none !important;
-		figcaption{
-			display: block;
-			left: auto;
-			right: 20px;
+		figcaption {
 			z-index: 100;
 			position: relative;
+			margin-right: 20px;
 			bottom: -4px;
+			height: 100%;
+			padding-right: 15px;
+			display: inline-block;
+			width: 300px;
+			&:after {
+				position: absolute;
+				top: 1px;
+				right: 0;
+			}
 		}
 	}
 	.owl-carousel {

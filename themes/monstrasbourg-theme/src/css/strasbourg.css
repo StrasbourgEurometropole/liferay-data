@@ -4024,7 +4024,7 @@ a {
 .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
 .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
 .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
-.mseu-main-form textarea, #bills form input, #mediatheque form input, #serial input {
+.mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
   font-family: "OpenSans", arial;
   color: #505050;
   font-size: 1.8rem;
@@ -4032,7 +4032,7 @@ a {
 
 /* line 7, custom/02-particules/01-shared/typos/_quark-typo-forms.scss */
 .view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option),
-.mseu-main-form label:not(.option), #bills form label, #mediatheque form label {
+.mseu-main-form label:not(.option), #bills form label, #mediatheque label {
   font-weight: 600;
   font-family: "OpenSans", arial;
   color: #505050;
@@ -4123,7 +4123,7 @@ a {
       font-size: 1.6rem; } }
 
 /* line 71, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-#districts-configuration h1, #ecoles h1, #elu h1, #direction h1, #mairie h1, #sliders h1, #districts-configuration h3, #ecoles h3, #elu h3, #direction h3, #mairie h3, #sliders h3, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, #welcome-page .create-account-section h2, #welcome-page .description-section h2 {
+#districts-configuration h1, #ecoles h1, #elu h1, #direction h1, #mairie h1, #sliders h1, #districts-configuration h3, #ecoles h3, #elu h3, #direction h3, #mairie h3, #sliders h3, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #family-space h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, #welcome-page .create-account-section h2, #welcome-page .description-section h2 {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 3.5rem;
@@ -4539,7 +4539,7 @@ a {
 .view-filters .select2 .select2-selection, .generic-form .select2 .select2-selection, #rub_service .select2 .select2-selection,
 .mseu-main-form .select2 .select2-selection, .view-filters .filter-line .content input, .view-filters input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
 .mseu-main-form input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea, .generic-form textarea, #rub_service textarea,
-.mseu-main-form textarea, #bills form input, #mediatheque form input, #serial input {
+.mseu-main-form textarea, #bills form input, #mediatheque input, #serial input {
   width: 100%;
   height: 50px;
   background-color: #f6f6f6;
@@ -4553,7 +4553,7 @@ a {
   .view-filters .select2 .select2-selection:focus, .generic-form .select2 .select2-selection:focus, #rub_service .select2 .select2-selection:focus,
   .mseu-main-form .select2 .select2-selection:focus, .view-filters .filter-line .content input:focus, .view-filters input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .generic-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), #rub_service input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar),
   .mseu-main-form input:focus:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), .view-filters textarea:focus, .generic-form textarea:focus, #rub_service textarea:focus,
-  .mseu-main-form textarea:focus, #bills form input:focus, #mediatheque form input:focus, #serial input:focus {
+  .mseu-main-form textarea:focus, #bills form input:focus, #mediatheque input:focus, #serial input:focus {
     border-color: #31455d;
     outline: none;
     background-color: #FFFFFF; }
@@ -4561,7 +4561,7 @@ a {
   .view-filters .select2 .select2-selection::-webkit-input-placeholder, .generic-form .select2 .select2-selection::-webkit-input-placeholder, #rub_service .select2 .select2-selection::-webkit-input-placeholder,
   .mseu-main-form .select2 .select2-selection::-webkit-input-placeholder, .view-filters .filter-line .content input::-webkit-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-webkit-input-placeholder, .view-filters textarea::-webkit-input-placeholder, .generic-form textarea::-webkit-input-placeholder, #rub_service textarea::-webkit-input-placeholder,
-  .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #mediatheque form input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
+  .mseu-main-form textarea::-webkit-input-placeholder, #bills form input::-webkit-input-placeholder, #mediatheque input::-webkit-input-placeholder, #serial input::-webkit-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4570,7 +4570,7 @@ a {
   .view-filters .select2 .select2-selection::-moz-placeholder, .generic-form .select2 .select2-selection::-moz-placeholder, #rub_service .select2 .select2-selection::-moz-placeholder,
   .mseu-main-form .select2 .select2-selection::-moz-placeholder, .view-filters .filter-line .content input::-moz-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-moz-placeholder, .view-filters textarea::-moz-placeholder, .generic-form textarea::-moz-placeholder, #rub_service textarea::-moz-placeholder,
-  .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #mediatheque form input::-moz-placeholder, #serial input::-moz-placeholder {
+  .mseu-main-form textarea::-moz-placeholder, #bills form input::-moz-placeholder, #mediatheque input::-moz-placeholder, #serial input::-moz-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4579,7 +4579,7 @@ a {
   .view-filters .select2 .select2-selection::-ms-input-placeholder, .generic-form .select2 .select2-selection::-ms-input-placeholder, #rub_service .select2 .select2-selection::-ms-input-placeholder,
   .mseu-main-form .select2 .select2-selection::-ms-input-placeholder, .view-filters .filter-line .content input::-ms-input-placeholder, .view-filters input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .generic-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, #rub_service input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder,
   .mseu-main-form input:not(.webform-calendar):not([type="file"]):not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder, .view-filters textarea::-ms-input-placeholder, .generic-form textarea::-ms-input-placeholder, #rub_service textarea::-ms-input-placeholder,
-  .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #mediatheque form input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
+  .mseu-main-form textarea::-ms-input-placeholder, #bills form input::-ms-input-placeholder, #mediatheque input::-ms-input-placeholder, #serial input::-ms-input-placeholder {
     text-transform: uppercase;
     font-family: "MontSerrat", arial;
     font-size: 1.4rem;
@@ -4640,16 +4640,16 @@ a {
     opacity: 1; }
 
 /* line 2, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .error, #mediatheque form .error {
+#bills form .error, #mediatheque .error {
   border-color: #ff1818 !important; }
 
 /* line 5, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form span.error, #mediatheque form span.error {
+#bills form span.error, #mediatheque span.error {
   color: #ff1818;
   margin-top: 5px; }
 
 /* line 9, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .valid, #mediatheque form .valid {
+#bills form .valid, #mediatheque .valid {
   border-color: #31455d !important; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
@@ -4749,6 +4749,22 @@ a {
   .mseu-main-form a:focus {
     color: #2da192;
     text-decoration: underline; }
+
+/* line 1, custom/02-particules/02-modules/customize/_atom-customize-item.scss */
+.customize-item {
+  padding: 15px 40px; }
+  /* line 4, custom/02-particules/02-modules/customize/_atom-customize-item.scss */
+  .customize-item__date {
+    font-weight: 600;
+    font-size: 2.0rem;
+    color: #31455d; }
+  /* line 9, custom/02-particules/02-modules/customize/_atom-customize-item.scss */
+  .customize-item__lead {
+    font-size: 1.6rem;
+    color: #31455d; }
+  /* line 13, custom/02-particules/02-modules/customize/_atom-customize-item.scss */
+  .customize-item__date + .customize-item__lead {
+    margin-top: 10px; }
 
 /* line 1, custom/02-particules/02-modules/demarches/_atom-demarche-teaser.scss */
 .demarche-teaser {
@@ -7099,6 +7115,140 @@ a {
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%); }
 
+/* line 2, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+/* line 7, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__item + .customize-list__item {
+  margin-top: 2px; }
+
+/* line 12, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__toggle {
+  background-color: #fbb52d;
+  width: 130px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-left: 2px;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s; }
+  @media only screen and (max-width: 767px) {
+    /* line 12, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+    .customize-list__toggle {
+      width: 45px; } }
+
+/* line 26, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__state {
+  font-size: 1.4rem;
+  color: #31455d;
+  text-align: center; }
+  @media only screen and (max-width: 767px) {
+    /* line 26, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+    .customize-list__state {
+      display: none !important; } }
+  /* line 35, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+  .customize-list__state--read {
+    display: none; }
+
+/* line 40, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__toggle-trigger input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1; }
+
+/* line 45, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list__toggle-trigger label {
+  height: 25px;
+  width: 40px;
+  content: '';
+  position: relative;
+  cursor: pointer; }
+  /* line 51, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+  .customize-list__toggle-trigger label:after {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    height: 20px;
+    width: 20px;
+    content: '';
+    -webkit-box-shadow: grey 2px 2px 5px;
+            box-shadow: grey 2px 2px 5px;
+    -webkit-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out; }
+  /* line 64, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+  .customize-list__toggle-trigger label:before {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    height: 10px;
+    width: 100%;
+    left: 0;
+    background-color: #c1bfbf;
+    border-radius: 5px;
+    content: ''; }
+  @media only screen and (max-width: 767px) {
+    /* line 45, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+    .customize-list__toggle-trigger label {
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); } }
+
+/* line 83, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list .customize-item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background-color: #fbb52d;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s; }
+  @media only screen and (max-width: 767px) {
+    /* line 83, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+    .customize-list .customize-item {
+      padding: 10px 15px; }
+      /* line 90, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+      .customize-list .customize-item__date {
+        font-size: 1.7rem; }
+      /* line 93, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+      .customize-list .customize-item__lead {
+        font-size: 1.4rem; }
+      /* line 96, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+      .customize-list .customize-item__date + .customize-item__lead {
+        margin-top: 5px; } }
+
+/* line 104, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list .customize-list__item--read .customize-list__toggle-trigger label:after {
+  left: 100%;
+  -webkit-transform: translate(-100%, -50%);
+          transform: translate(-100%, -50%); }
+
+/* line 108, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list .customize-list__item--read .customize-list__toggle,
+.customize-list .customize-list__item--read .customize-item {
+  background-color: #f6f6f6; }
+
+/* line 113, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list .customize-list__item--read .customize-list__state--new {
+  display: none; }
+
+/* line 116, custom/02-particules/02-modules/customize/_molecule-customize-list.scss */
+.customize-list .customize-list__item--read .customize-list__state--read {
+  display: block; }
+
 /* line 3, custom/02-particules/02-modules/demandes/_molecule-demande-list.scss */
 .demande-list__item {
   position: relative; }
@@ -7264,39 +7414,33 @@ a {
     color: #31455d;
     margin-bottom: 40px; }
   /* line 26, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
-  #districts-configuration p, #ecoles p, #elu p, #direction p, #mairie p, #sliders p {
+  #districts-configuration p, #ecoles p, #elu p, #direction p, #mairie p, #sliders p, #districts-configuration ul, #ecoles ul, #elu ul, #direction ul, #mairie ul, #sliders ul {
     font-family: "OpenSans", arial;
     font-size: 1.8rem;
     font-weight: 400;
     color: #31455d;
     margin-bottom: 20px; }
   /* line 34, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  #districts-configuration ul, #ecoles ul, #elu ul, #direction ul, #mairie ul, #sliders ul {
+    list-style: disc; }
+  /* line 38, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
   #districts-configuration h3, #ecoles h3, #elu h3, #direction h3, #mairie h3, #sliders h3 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 10px; }
-  /* line 42, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+  /* line 46, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
   #districts-configuration .slider--mega .owl-item .item, #ecoles .slider--mega .owl-item .item, #elu .slider--mega .owl-item .item, #direction .slider--mega .owl-item .item, #mairie .slider--mega .owl-item .item, #sliders .slider--mega .owl-item .item {
     height: 471px; }
-    /* line 45, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    /* line 49, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
     #districts-configuration .slider--mega .owl-item .item .link, #ecoles .slider--mega .owl-item .item .link, #elu .slider--mega .owl-item .item .link, #direction .slider--mega .owl-item .item .link, #mairie .slider--mega .owl-item .item .link, #sliders .slider--mega .owl-item .item .link {
       height: 425px;
       overflow: hidden; }
-    /* line 50, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+    /* line 54, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
     #districts-configuration .slider--mega .owl-item .item .add-favorites, #ecoles .slider--mega .owl-item .item .add-favorites, #elu .slider--mega .owl-item .item .add-favorites, #direction .slider--mega .owl-item .item .add-favorites, #mairie .slider--mega .owl-item .item .add-favorites, #sliders .slider--mega .owl-item .item .add-favorites {
       padding-left: 20px;
       background-color: #FFFFFF;
-      padding-bottom: 2px; }
-      @media only screen and (min-width: 1280px) {
-        /* line 56, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
-        #districts-configuration .slider--mega .owl-item .item .add-favorites span, #ecoles .slider--mega .owl-item .item .add-favorites span, #elu .slider--mega .owl-item .item .add-favorites span, #direction .slider--mega .owl-item .item .add-favorites span, #mairie .slider--mega .owl-item .item .add-favorites span, #sliders .slider--mega .owl-item .item .add-favorites span {
-          top: -10px;
-          width: 100px; } }
-      @media only screen and (max-width: 1279px) {
-        /* line 50, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
-        #districts-configuration .slider--mega .owl-item .item .add-favorites, #ecoles .slider--mega .owl-item .item .add-favorites, #elu .slider--mega .owl-item .item .add-favorites, #direction .slider--mega .owl-item .item .add-favorites, #mairie .slider--mega .owl-item .item .add-favorites, #sliders .slider--mega .owl-item .item .add-favorites {
-          padding-bottom: 24px; } }
-  /* line 68, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
+      padding-bottom: 25px; }
+  /* line 61, custom/02-particules/02-modules/district/0-shared/_molecule_district-section.scss */
   #districts-configuration .slider--mega .owl-item .mag .add-favorites, #ecoles .slider--mega .owl-item .mag .add-favorites, #elu .slider--mega .owl-item .mag .add-favorites, #direction .slider--mega .owl-item .mag .add-favorites, #mairie .slider--mega .owl-item .mag .add-favorites, #sliders .slider--mega .owl-item .mag .add-favorites {
     background-color: #46cfc0; }
 
@@ -7900,7 +8044,7 @@ a {
     min-width: 75px; }
 
 /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-#actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+#actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #family-space, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
   padding: 45px 75px;
   border-radius: 5px;
   -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
@@ -7909,14 +8053,14 @@ a {
   background-color: #FFFFFF; }
   @media only screen and (max-width: 1279px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #family-space, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px; } }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
+    #actu-agenda, #alert-slider, #bills, #demandes, #mediatheque, #serial, #survey, #family-space, #vote, #favoris, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px 20px; } }
   /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+  #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #family-space .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
     position: absolute;
     top: 45px;
     right: 75px;
@@ -7930,24 +8074,24 @@ a {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
     @media only screen and (max-width: 1279px) {
       /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #family-space .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
         right: 45px; } }
     @media only screen and (max-width: 767px) {
       /* line 15, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
+      #actu-agenda .delete-wi, #alert-slider .delete-wi, #bills .delete-wi, #demandes .delete-wi, #mediatheque .delete-wi, #serial .delete-wi, #survey .delete-wi, #family-space .delete-wi, #vote .delete-wi, #favoris .delete-wi, #actu-agenda-no-interest .delete-wi, #une .delete-wi, #wi-aroundme .delete-wi {
         right: 20px;
         top: 20px; } }
     /* line 35, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda .delete-wi:hover, #alert-slider .delete-wi:hover, #bills .delete-wi:hover, #demandes .delete-wi:hover, #mediatheque .delete-wi:hover, #serial .delete-wi:hover, #survey .delete-wi:hover, #vote .delete-wi:hover, #favoris .delete-wi:hover, #actu-agenda-no-interest .delete-wi:hover, #une .delete-wi:hover, #wi-aroundme .delete-wi:hover, #actu-agenda .delete-wi:focus, #alert-slider .delete-wi:focus, #bills .delete-wi:focus, #demandes .delete-wi:focus, #mediatheque .delete-wi:focus, #serial .delete-wi:focus, #survey .delete-wi:focus, #vote .delete-wi:focus, #favoris .delete-wi:focus, #actu-agenda-no-interest .delete-wi:focus, #une .delete-wi:focus, #wi-aroundme .delete-wi:focus {
+    #actu-agenda .delete-wi:hover, #alert-slider .delete-wi:hover, #bills .delete-wi:hover, #demandes .delete-wi:hover, #mediatheque .delete-wi:hover, #serial .delete-wi:hover, #survey .delete-wi:hover, #family-space .delete-wi:hover, #vote .delete-wi:hover, #favoris .delete-wi:hover, #actu-agenda-no-interest .delete-wi:hover, #une .delete-wi:hover, #wi-aroundme .delete-wi:hover, #actu-agenda .delete-wi:focus, #alert-slider .delete-wi:focus, #bills .delete-wi:focus, #demandes .delete-wi:focus, #mediatheque .delete-wi:focus, #serial .delete-wi:focus, #survey .delete-wi:focus, #family-space .delete-wi:focus, #vote .delete-wi:focus, #favoris .delete-wi:focus, #actu-agenda-no-interest .delete-wi:focus, #une .delete-wi:focus, #wi-aroundme .delete-wi:focus {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
   /* line 40, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+  #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #family-space h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
     color: #31455d;
     width: 100%;
     text-align: center;
     margin-bottom: 25px; }
     /* line 47, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+    #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #family-space h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
       display: block;
       content: '';
       width: 53px;
@@ -7960,15 +8104,15 @@ a {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%2331455d' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
       @media only screen and (max-width: 767px) {
         /* line 47, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #family-space h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           width: 43px;
           height: 15px; } }
     @media only screen and (max-width: 767px) {
       /* line 40, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+      #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #mediatheque h2, #serial h2, #survey h2, #family-space h2, #vote h2, #favoris h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
         font-size: 2.5rem; }
         /* line 66, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #mediatheque h2:before, #serial h2:before, #survey h2:before, #family-space h2:before, #vote h2:before, #favoris h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           margin-bottom: 5px; } }
 
 /* line 2, custom/02-particules/02-modules/layouts/0-shared/sliders/slider-mega-slider/_molecule-home-slider.scss */
@@ -10006,8 +10150,8 @@ a {
       position: absolute;
       content: '';
       display: inline-block;
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       background-size: 17px;
       background-position: center;
       background-repeat: no-repeat;
@@ -10035,8 +10179,8 @@ a {
       @media only screen and (max-width: 767px) {
         /* line 101, custom/02-particules/02-modules/home/alert-slider/_organism-alert-slider.scss */
         #alert-slider .owl-nav > div {
-          width: 26px;
-          height: 26px;
+          width: 24px;
+          height: 24px;
           background-size: 10px; } }
 
 /* line 1, custom/02-particules/02-modules/home/bills/_organism-bills.scss */
@@ -10114,6 +10258,9 @@ a {
           align-items: flex-start;
   -webkit-box-shadow: none;
           box-shadow: none; }
+  /* line 12, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
+  #demandes .delete-wi {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff'  viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z'/%3E%3C/svg%3E"); }
   @media only screen and (max-width: 1279px) {
     /* line 1, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
     #demandes {
@@ -10121,18 +10268,18 @@ a {
       border-bottom-right-radius: 0;
       border-top-right-radius: 5px;
       border-top-left-radius: 5px; } }
-  /* line 19, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
+  /* line 23, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
   #demandes h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23ffffff' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-  /* line 22, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
+  /* line 26, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
   #demandes .demandes-list {
     margin-bottom: 65px; }
     @media only screen and (max-width: 1279px) {
-      /* line 22, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
+      /* line 26, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
       #demandes .demandes-list {
         margin-bottom: 45px; } }
     @media only screen and (max-width: 767px) {
-      /* line 28, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
+      /* line 32, custom/02-particules/02-modules/home/demandes/_organism-demandes.scss */
       #demandes .demandes-list .btn-text {
         text-transform: none !important; } }
 
@@ -10146,12 +10293,20 @@ a {
   #mediatheque p {
     font-size: 1.8rem;
     color: #5c5c5c;
-    margin-bottom: 20px; }
+    margin-bottom: 10px; }
     /* line 13, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque p strong {
+      font-weight: 600; }
+    /* line 17, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque p a {
+      color: #23527c;
+      text-decoration: underline;
+      font-weight: 600; }
+    /* line 23, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
     #mediatheque p .center {
       text-align: center; }
-  /* line 20, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-  #mediatheque form .webform-layout-box {
+  /* line 29, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .webform-layout-box {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -10159,41 +10314,78 @@ a {
         -ms-flex-pack: justify;
             justify-content: space-between; }
     @media only screen and (max-width: 767px) {
-      /* line 20, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-      #mediatheque form .webform-layout-box {
+      /* line 29, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque .webform-layout-box {
         display: block; } }
-  /* line 28, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-  #mediatheque form .form-group {
-    margin-bottom: 15px; }
+  /* line 37, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .form-group {
+    margin-bottom: 15px;
+    width: 100%; }
     @media only screen and (min-width: 767px) and (max-width: 1279px) {
-      /* line 28, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-      #mediatheque form .form-group {
+      /* line 37, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque .form-group {
         -webkit-box-flex: 1;
             -ms-flex: 1;
                 flex: 1; }
-        /* line 32, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-        #mediatheque form .form-group + .form-group {
+        /* line 43, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+        #mediatheque .form-group + .form-group {
           margin-left: 30px; } }
-  /* line 37, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-  #mediatheque form label {
-    margin-bottom: 10px; }
-    /* line 39, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-    #mediatheque form label .required {
+    /* line 48, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque .form-group .borrowing, #mediatheque .form-group .reservation {
+      margin-top: 10px; }
+    /* line 53, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque .form-group .out-of-date label, #mediatheque .form-group .out-of-date p {
+      color: red; }
+    /* line 58, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque .form-group a {
+      cursor: pointer;
+      height: 51px; }
+      /* line 62, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque .form-group a .btn-more {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 320 320'%3E%3Cpath d='M160 0C71.8 0 0 71.8 0 160s71.8 160 160 160C248.2 320 320 248.2 320 160S248.2 0 160 0L160 0zM160 299c-76.7 0-139-62.4-139-139S83.3 21 160 21c76.7 0 139 62.4 139 139S236.7 299 160 299L160 299zM160 299'/%3E%3Cpath d='M223.6 149.5h-53.1V96.4c0-5.8-4.7-10.5-10.5-10.5 -5.8 0-10.5 4.7-10.5 10.5v53.1h-53.1c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5h53.1v53.1c0 5.8 4.7 10.5 10.5 10.5 5.8 0 10.5-4.7 10.5-10.5v-53.1h53.1c5.8 0 10.5-4.7 10.5-10.5S229.4 149.5 223.6 149.5L223.6 149.5zM223.6 149.5'/%3E%3C/svg%3E");
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+        -ms-flex-negative: 0;
+            flex-shrink: 0; }
+      /* line 74, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+      #mediatheque .form-group a .btn-minus {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='320' height='320'%3E%3Ctitle%3E  background%3C/title%3E%3Crect height='402' width='582' y='-1' x='-1' fill='none'/%3E%3Ctitle%3E  Layer 1%3C/title%3E%3Cpath d='m160 0c-88.2 0-160 71.8-160 160s71.8 160 160 160c88.2 0 160-71.8 160-160s-71.8-160-160-160l0 0zm0 299c-76.7 0-139-62.4-139-139s62.3-139 139-139c76.7 0 139 62.4 139 139s-62.3 139-139 139l0 0zm0 0'/%3E%3Cpath d='m170.5 149.5l-21 0 -53.1 0c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5l53.1 0 21 0 53.1 0c5.8 0 10.5-4.7 10.5-10.5s-4.7-10.5-10.5-10.5l-53.1 0z'/%3E%3C/svg%3E");
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+        -ms-flex-negative: 0;
+            flex-shrink: 0; }
+  /* line 87, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .upper-title {
+    text-transform: uppercase;
+    margin-top: 20px; }
+  /* line 91, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque label {
+    margin-bottom: 5px; }
+    /* line 93, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque label .required {
       color: #ff1818; }
   @media only screen and (min-width: 1280px) {
-    /* line 44, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-    #mediatheque form input {
+    /* line 98, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque input {
       width: 420px; } }
   @media only screen and (max-width: 1279px) {
-    /* line 44, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-    #mediatheque form input {
+    /* line 98, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+    #mediatheque input {
       width: 100%; } }
-  /* line 53, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
-  #mediatheque form span.error {
-    display: block;
-    margin-top: 5px;
-    font-size: 1.4rem; }
-  /* line 60, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  /* line 107, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque strong {
+    font-weight: 600; }
+  /* line 111, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
   #mediatheque .error {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -10204,6 +10396,30 @@ a {
     padding-left: 60px;
     color: #505050;
     font-size: 18px; }
+  /* line 123, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .warning {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 15px 15px;
+    background-color: #FFDDDE;
+    padding: 15px 20px;
+    padding-left: 60px;
+    color: #505050;
+    font-size: 18px;
+    margin-bottom: 30px; }
+  /* line 136, custom/02-particules/02-modules/home/mediatheque/_organism-mediatheque.scss */
+  #mediatheque .information {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 15px 15px;
+    background-color: #DDEEFF;
+    padding: 15px 20px;
+    padding-left: 60px;
+    color: #505050;
+    font-size: 18px;
+    margin-bottom: 30px; }
 
 /* line 1, custom/02-particules/02-modules/home/serial/_organism-serial.scss */
 #serial {
@@ -10365,18 +10581,18 @@ a {
     z-index: 2; }
 
 /* line 1, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-#vote {
+#family-space, #vote {
   margin-bottom: 40px; }
   /* line 4, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-  #vote h2:before {
+  #family-space h2:before, #vote h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
   /* line 8, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-  #vote .rte {
+  #family-space .rte, #vote .rte {
     font-size: 1.8rem;
     color: #5c5c5c;
     text-align: center; }
     /* line 13, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .error {
+    #family-space .rte .error, #vote .rte .error {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-size: 20px;
@@ -10387,31 +10603,31 @@ a {
       margin: auto;
       margin-bottom: 25px; }
       /* line 24, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-      #vote .rte .error strong {
+      #family-space .rte .error strong, #vote .rte .error strong {
         font-weight: 600; }
     /* line 29, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .main-response {
+    #family-space .rte .main-response, #vote .rte .main-response {
       margin-bottom: 20px; }
       /* line 32, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-      #vote .rte .main-response a {
+      #family-space .rte .main-response a, #vote .rte .main-response a {
         color: #31455d;
         font-weight: 600;
         text-decoration: underline; }
     /* line 39, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .incomplet {
+    #family-space .rte .incomplet, #vote .rte .incomplet {
       padding-top: 10px;
       font-weight: 600; }
     /* line 44, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .warning {
+    #family-space .rte .warning, #vote .rte .warning {
       margin-bottom: 20px; }
     /* line 48, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .poll-address {
+    #family-space .rte .poll-address, #vote .rte .poll-address {
       margin-bottom: 20px; }
       /* line 51, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-      #vote .rte .poll-address .poll-number {
+      #family-space .rte .poll-address .poll-number, #vote .rte .poll-address .poll-number {
         font-weight: 600; }
     /* line 56, custom/02-particules/02-modules/home/vote/_organism-vote.scss */
-    #vote .rte .add-favorites {
+    #family-space .rte .add-favorites, #vote .rte .add-favorites {
       width: -webkit-max-content;
       width: -moz-max-content;
       width: max-content;
@@ -12835,8 +13051,9 @@ footer .footer .portlet {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
-          flex-direction: column; }
-  /* line 879, custom/02-particules/02-modules/aroundme/aroundme.scss */
+          flex-direction: column;
+  z-index: 200; }
+  /* line 880, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme:before {
     content: '';
     position: fixed;
@@ -12846,17 +13063,17 @@ footer .footer .portlet {
     height: 100%;
     z-index: 10;
     background-color: rgba(33, 33, 33, 0.8); }
-  /* line 889, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 890, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__center {
     height: 100%;
     z-index: 15; }
-  /* line 896, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 897, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme #aroundme__top {
     display: none !important; }
-  /* line 899, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 900, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__map {
     height: 100%; }
-  /* line 902, custom/02-particules/02-modules/aroundme/aroundme.scss */
+  /* line 903, custom/02-particules/02-modules/aroundme/aroundme.scss */
   .aroundme--fullscreen #aroundme .aroundme__ui--fullscreen {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 351.5 351.4'%3E%3Cpath class='st0' d='M214.2 143h94.7c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-38.2l78.7-78.7c2.4-2.4 2.4-6.3 0-8.6L332.1 1.8c-2.4-2.4-6.3-2.4-8.6 0l-78.7 78.7V42.3c0-3.4-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.8-6.1 6.1V137C208.1 140.2 210.9 143 214.2 143z'/%3E%3Cpath class='st0' d='M19 2L1.7 19.3c-2.4 2.3-2.4 6.2 0 8.6l78.7 78.7H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.7 6.1 6.1 6.1h94.7c3.3 0 6.1-2.7 6.1-6.1V42.4c0-3.3-2.7-6.1-6.1-6.1h-24.4c-3.4 0-6.1 2.7-6.1 6.1v38.2L27.7 1.9C25.3-0.5 21.5-0.5 19 2z'/%3E%3Cpath class='st0' d='M1.7 332.3L19 349.6c2.4 2.4 6.3 2.4 8.6 0l78.7-78.7v38.2c0 3.4 2.7 6.1 6.1 6.1h24.5c3.4 0 6.1-2.8 6.1-6.1v-94.7c0-3.4-2.8-6.1-6.1-6.1l0 0H42.2c-3.4 0-6.1 2.7-6.1 6.1v24.4c0 3.4 2.8 6.1 6.1 6.1h38.2L1.7 323.6C-0.7 326.1-0.7 329.9 1.7 332.3z'/%3E%3Cpath class='st0' d='M214.5 315.1h24.4c3.4 0 6.1-2.7 6.1-6.1v-38.2l78.7 78.7c2.4 2.4 6.3 2.4 8.6 0l17.3-17.3c2.4-2.4 2.4-6.3 0-8.6l-78.7-78.7h38.2c3.4 0 6.1-2.7 6.1-6.1v-24.4c0-3.4-2.8-6.1-6.1-6.1h-94.7l0 0c-3.4 0-6.1 2.8-6.1 6.1v94.7C208.4 312.4 211.2 315.1 214.5 315.1z'/%3E%3C/svg%3E"); }
 
@@ -13174,71 +13391,76 @@ footer .footer .portlet {
   /* line 4, custom/02-particules/02-modules/favoris/favoris.scss */
   #favoris h2:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-  /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
-  #favoris .favoris-grid {
-    margin-bottom: 50px; }
-    @media only screen and (min-width: 1280px) {
-      /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
-      #favoris .favoris-grid {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap; }
-        /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-        #favoris .favoris-grid .favoris-teaser {
-          width: calc(25% - ( ((4px - 1px) * 50) / 4)); }
-          /* line 52, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(4n+1) {
-            margin-right: 37.5px;
-            margin-left: 0; }
-          /* line 57, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(4n+2) {
-            margin-left: 12.5px;
-            margin-right: 25px; }
-          /* line 62, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(4n+3) {
-            margin-left: 25px;
-            margin-right: 12.5px; }
-          /* line 67, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(4n) {
-            margin-left: 37.5px;
-            margin-right: 0; } }
-    @media only screen and (min-width: 767px) and (max-width: 1279px) {
-      /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
-      #favoris .favoris-grid {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap; }
-        /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-        #favoris .favoris-grid .favoris-teaser {
-          width: calc(50% - ( ((2px - 1px) * 50) / 2)); }
-          /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(2n+1) {
-            margin-right: 25px;
-            margin-left: 0; }
-          /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
-          #favoris .favoris-grid .favoris-teaser:nth-child(2n) {
-            margin-left: 25px;
-            margin-right: 0; } }
-    @media only screen and (max-width: 767px) {
-      /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
-      #favoris .favoris-grid {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap; }
-        /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
-        #favoris .favoris-grid .favoris-teaser {
-          width: calc(100% - ( ((1px - 1px) * 0) / 1));
-          margin-left: 0 !important;
-          margin-right: 0 !important; } }
+  /* line 9, custom/02-particules/02-modules/favoris/favoris.scss */
+  #favoris .favoris-grid p {
+    font-size: 1.8rem;
+    color: #5c5c5c;
+    margin-bottom: 20px; }
+  /* line 15, custom/02-particules/02-modules/favoris/favoris.scss */
+  #favoris .favoris-grid .favoris-teaser {
+    margin-bottom: 30px; }
+  @media only screen and (min-width: 1280px) {
+    /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
+    #favoris .favoris-grid {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+      #favoris .favoris-grid .favoris-teaser {
+        width: calc(25% - ( ((4px - 1px) * 50) / 4)); }
+        /* line 52, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(4n+1) {
+          margin-right: 37.5px;
+          margin-left: 0; }
+        /* line 57, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(4n+2) {
+          margin-left: 12.5px;
+          margin-right: 25px; }
+        /* line 62, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(4n+3) {
+          margin-left: 25px;
+          margin-right: 12.5px; }
+        /* line 67, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(4n) {
+          margin-left: 37.5px;
+          margin-right: 0; } }
+  @media only screen and (min-width: 767px) and (max-width: 1279px) {
+    /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
+    #favoris .favoris-grid {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+      #favoris .favoris-grid .favoris-teaser {
+        width: calc(50% - ( ((2px - 1px) * 50) / 2)); }
+        /* line 25, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(2n+1) {
+          margin-right: 25px;
+          margin-left: 0; }
+        /* line 30, custom/00-conf/mixins/_grids-distribution.scss */
+        #favoris .favoris-grid .favoris-teaser:nth-child(2n) {
+          margin-left: 25px;
+          margin-right: 0; } }
+  @media only screen and (max-width: 767px) {
+    /* line 7, custom/02-particules/02-modules/favoris/favoris.scss */
+    #favoris .favoris-grid {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      /* line 15, custom/00-conf/mixins/_grids-distribution.scss */
+      #favoris .favoris-grid .favoris-teaser {
+        width: calc(100% - ( ((1px - 1px) * 0) / 1));
+        margin-left: 0 !important;
+        margin-right: 0 !important; } }
 
 @media (min-width: 767px) {
-  /* line 25, custom/02-particules/02-modules/favoris/favoris.scss */
+  /* line 35, custom/02-particules/02-modules/favoris/favoris.scss */
   .favoris-list .favoris-teaser {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -13248,16 +13470,16 @@ footer .footer .portlet {
             align-items: center;
     padding-bottom: 0;
     border-bottom: solid 2px #f6f6f6; }
-    /* line 31, custom/02-particules/02-modules/favoris/favoris.scss */
+    /* line 41, custom/02-particules/02-modules/favoris/favoris.scss */
     .favoris-list .favoris-teaser:after {
       display: none; }
-    /* line 35, custom/02-particules/02-modules/favoris/favoris.scss */
+    /* line 45, custom/02-particules/02-modules/favoris/favoris.scss */
     .favoris-list .favoris-teaser__link {
       padding: 20px 20px 20px 0;
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
-    /* line 40, custom/02-particules/02-modules/favoris/favoris.scss */
+    /* line 50, custom/02-particules/02-modules/favoris/favoris.scss */
     .favoris-list .favoris-teaser__trash {
       position: static;
       -ms-flex-negative: 0;
@@ -13268,7 +13490,7 @@ footer .footer .portlet {
       -webkit-box-direction: normal;
           -ms-flex-direction: column;
               flex-direction: column; }
-      /* line 46, custom/02-particules/02-modules/favoris/favoris.scss */
+      /* line 56, custom/02-particules/02-modules/favoris/favoris.scss */
       .favoris-list .favoris-teaser__trash:before {
         background-color: #f6f6f6;
         border-radius: 50%;
@@ -13279,7 +13501,7 @@ footer .footer .portlet {
         -webkit-transition: all, 0.5s;
         transition: all, 0.5s;
         margin-bottom: 5px; }
-      /* line 57, custom/02-particules/02-modules/favoris/favoris.scss */
+      /* line 67, custom/02-particules/02-modules/favoris/favoris.scss */
       .favoris-list .favoris-teaser__trash:hover:before, .favoris-list .favoris-teaser__trash:focus:before {
         background-color: #31455d;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f6f6f6' viewBox='0 0 512 512'%3E%3Cpath d='M465.4 48.2h-137.6V24C327.8 10.7 317.1 0 303.9 0h-95.8c-13.2 0-23.9 10.7-23.9 24V48.2H46.6c-6.7 0-12 5.4-12 12 0 6.7 5.4 12 12 12h22.3l15.2 396.4C85.1 493 104.8 512 129.1 512h253.8c24.3 0 44-19 45-43.3l15.2-396.4h22.3c6.7 0 12-5.4 12-12C477.5 53.6 472.1 48.2 465.4 48.2zM208.3 24.1h95.4v24.1h-95.4V24.1zM403.8 467.8c-0.4 11.3-9.6 20.1-20.9 20.1H129.1c-11.3 0-20.4-8.8-20.9-20.1L93 72.3h326L403.8 467.8z'/%3E%3Cpath d='M182.6 181.6c-0.1-6.6-5.5-11.8-12-11.8 -0.1 0-0.2 0-0.2 0 -6.7 0.1-11.9 5.6-11.8 12.3l3.8 196.6c0.1 6.6 5.5 11.8 12 11.8 0.1 0 0.2 0 0.2 0 6.7-0.1 11.9-5.6 11.8-12.3L182.6 181.6z'/%3E%3Cpath d='M256 169.8c-6.7 0-12 5.4-12 12v196.6c0 6.7 5.4 12 12 12 6.7 0 12-5.4 12-12V181.8C268 175.1 262.7 169.8 256 169.8z'/%3E%3Cpath d='M341.6 169.8c-6.6-0.1-12.2 5.2-12.3 11.8l-3.8 196.6c-0.1 6.7 5.2 12.2 11.8 12.3 0.1 0 0.2 0 0.2 0 6.5 0 11.9-5.2 12-11.8l3.8-196.6C353.6 175.4 348.3 169.9 341.6 169.8z'/%3E%3C/svg%3E"); } }
@@ -13521,6 +13743,58 @@ footer .footer .portlet {
 /* line 1, custom/02-particules/02-modules/home/alert-slider/alert-slider.scss */
 #alert-slider {
   margin-bottom: 40px; }
+
+/* line 1, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+#dissociateConfirm {
+  position: fixed;
+  background-color: #FFFFFF;
+  width: 70%;
+  max-width: 720px;
+  z-index: 9000;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 50px 70px;
+  border-radius: 7px; }
+  @media only screen and (max-width: 1279px) {
+    /* line 1, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+    #dissociateConfirm {
+      padding: 30px 40px; } }
+  @media only screen and (max-width: 767px) {
+    /* line 1, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+    #dissociateConfirm {
+      padding: 20px;
+      width: calc(100% - 40px); } }
+  /* line 23, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+  #dissociateConfirm .dissociateMessage {
+    margin-bottom: 4em;
+    font-family: "MontSerrat", arial;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: #505050; }
+    @media only screen and (max-width: 767px) {
+      /* line 23, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+      #dissociateConfirm .dissociateMessage {
+        margin-bottom: 2em; } }
+  /* line 35, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+  #dissociateConfirm .dissociateActions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    @media only screen and (max-width: 767px) {
+      /* line 35, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+      #dissociateConfirm .dissociateActions {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+                flex-direction: column-reverse; }
+        /* line 42, custom/02-particules/02-modules/home/mediatheque/dissociateConfirm.scss */
+        #dissociateConfirm .dissociateActions button + button {
+          margin-top: 20px; } }
 
 /* line 1, custom/02-particules/02-modules/home/survey/survey.scss */
 #survey {

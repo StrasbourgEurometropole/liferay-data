@@ -6,7 +6,7 @@
 <main class="seu-container">
     <h1>${title}</h1>
     
-    <!-- Nombre de rÃ©sultats et items par page -->
+    <!-- Nombre de rÃÂ©sultats et items par page -->
     <div class="seu-view-agenda" style="border-top: solid 2px #f6f6f6;">
 		<div class="seu-view-results">
 		    <div class="seu-result-count"> 
@@ -36,12 +36,11 @@
 	</div>
     
     <aui:form method="post" name="fm">
-		<!-- RÃ©sultats -->
+		<!-- RÃÂ©sultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 					searchContainer="${dc.searchContainer}">
 		<div class="objtp-gallery">
 		    <div id="objtp-detail-container"style="position: relative">
-		    <div class="gutter-sizer"></div>
 		    	<c:forEach items="${dc.paginatedResults}" var="object"> 
 		    		<c:if test="${not empty object.imageUrl}">
 		    		<fmt:formatDate value="${object.date}"
@@ -67,7 +66,7 @@
 			<c:if test="${dc.pager.lastPage > 1}">
 	            <ul class="seu-pagination unstyled">
 
-	            	<!-- Page prÃÂ©cÃÂ©dente -->
+	            	<!-- Page prÃÂÃÂ©cÃÂÃÂ©dente -->
 	                <li class="seu-pagin-prev seu-pagin-item">
 						<c:if test="${not dc.pager.onFirstPage}">
 		                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"

@@ -341,6 +341,35 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
+	 * Retourne les categorys ayant le vocabulaire "vocabulary" et une propriété
+	 * "externalId" ou "SIGId" ayant pour valeur "externalId". Retourne une liste vide si
+	 * aucune catégorie ne correspond à ces critères.
+	 */
+	public static List<AssetCategory> getCategoriesByExternalsId(AssetVocabulary vocabulary, List<String> externalsId) {
+		List<AssetCategory> categories = vocabulary.getCategories();
+		List<AssetCategory> categoriesResult = new ArrayList<AssetCategory>();
+		
+		for (String externalId : externalsId) {
+			for (AssetCategory category : categories) {
+		
+				String SIGIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
+				if (SIGIdProperty.equals(externalId)) {
+					categoriesResult.add(category);
+					break;
+				}
+				String externalIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),
+						"externalId");
+				if (externalIdProperty.equals(externalId)) {
+					categoriesResult.add(category);
+					break;
+				}
+			}
+		}
+		return categoriesResult;
+	}
+	
+		
+	/**
 	 * Vérifie si la catégorie est une piscine
 	 * 
 	 * @throws PortalException

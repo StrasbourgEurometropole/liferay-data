@@ -29,5 +29,6 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.isWidgetMode = ${widgetMod};
         window.aroundMePortletNamespace = '<portlet:namespace />';
         window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';
+        window.publikInternalId = '${internalId}';
     </aui:script>
 </liferay-util:body-top>

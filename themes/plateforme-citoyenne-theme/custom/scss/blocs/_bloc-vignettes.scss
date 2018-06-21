@@ -270,6 +270,8 @@
 				@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
 				text-transform: uppercase;
 				margin-bottom: 0;
+				height: 48px;
+				overflow: hidden;
 				@include addTransitionCurve();
 			}
 
@@ -552,11 +554,17 @@
 			letter-spacing: 2px;
 			display: block;
 			margin-bottom: 13px;
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 		h3 {
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
 			text-transform: uppercase;
 			margin-bottom: 10px;
+			height: 48px;
+			overflow: hidden;
 		}
 		p {
 			margin-bottom: 10px;
@@ -772,6 +780,8 @@
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 0 95px;
+			height: 50px;
+			overflow: hidden;
 			@include mobile {
 				margin: 0;
 			}
@@ -899,6 +909,9 @@
 			display: inline-block;
 			width: calc(100% - 70px);
 			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
 		.pro-number-comm {
@@ -942,6 +955,8 @@
 				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
 				text-transform: uppercase;
 				width: auto;
+				overflow: visible;
+				white-space: normal;
 			}
 		}
 	}
@@ -994,6 +1009,8 @@
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 5px 0;
+			height: 50px;
+			overflow: hidden;
 		}
 
 		a {
@@ -1296,6 +1313,8 @@
 		float: none;
 		margin: 10px 0 25px 0;
 		text-transform: uppercase;
+		height: 48px;
+		overflow: hidden;
 		@include addTransition();
 	}
 

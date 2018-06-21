@@ -1998,6 +1998,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		scheduleExceptionImpl.setStartDate(scheduleException.getStartDate());
 		scheduleExceptionImpl.setEndDate(scheduleException.getEndDate());
 		scheduleExceptionImpl.setOpeningTimes(scheduleException.getOpeningTimes());
+		scheduleExceptionImpl.setFirstComment(scheduleException.getFirstComment());
+		scheduleExceptionImpl.setSecondComment(scheduleException.getSecondComment());
+		scheduleExceptionImpl.setThirdComment(scheduleException.getThirdComment());
+		scheduleExceptionImpl.setFourthComment(scheduleException.getFourthComment());
+		scheduleExceptionImpl.setFifthComment(scheduleException.getFifthComment());
 		scheduleExceptionImpl.setComment(scheduleException.getComment());
 		scheduleExceptionImpl.setClosed(scheduleException.isClosed());
 		scheduleExceptionImpl.setPlaceId(scheduleException.getPlaceId());

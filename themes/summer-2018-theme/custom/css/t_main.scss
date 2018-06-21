@@ -785,15 +785,6 @@
 	@include mobile {
 		background-attachment: scroll !important;
 	}
-	&:after{
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		background: rgba($c_txt,0.4);
-		height: 100%;
-		width: 100%;
-	}
 	.caption{
 		position: absolute;
 		top: 45%;

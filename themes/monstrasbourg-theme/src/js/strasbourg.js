@@ -6962,8 +6962,8 @@ function setTemplateInfos(infos, category, $template, conf){
 function addToSlider(conf, elements){
     var nodeStringToAdd = '<div class="'+conf.pages_class+'">';
     var itemSeparator = 3;
-    if(elements[0].indexOf('big') != -1){
-        itemSeparator = 4;
+    if(elements[0].substr(elements[0].indexOf("class="),(elements[0].indexOf(">")-elements[0].indexOf("class"))).indexOf('big') != -1){
+        itemSeparator = 3;
         nodeStringToAdd = '<div class="'+conf.pages_class + ' '+conf.is_Big_Class+'">';
     }
     if(environment == 'tablette'){
@@ -6975,7 +6975,7 @@ function addToSlider(conf, elements){
     elements.forEach(function(element, index) {
         if(index%itemSeparator == 0 && index > 0){
             nodeStringToAdd += '</div><div class="'+conf.pages_class
-            if(elements[0].indexOf('big') != -1){
+            if(elements[0].substr(elements[0].indexOf("class="),(elements[0].indexOf(">")-elements[0].indexOf("class"))).indexOf('big') != -1){
                 nodeStringToAdd += ' '+conf.is_Big_Class;
             }
             nodeStringToAdd += '"">';
@@ -15163,144 +15163,40 @@ function megaSlider(slider, category){
     return select2;
   }));
   
-jQuery(function() {
-    jQuery('#formFactures').submit( function(event) {
-	    event.preventDefault();
-	    var errorMessage = '';
-	    var isValid = true;
-	    // Champs obligatoires
-	    if ($('input#ref').val().length === 0 ||
-	          $('input#year').val().length === 0 ||
-	          $('input#amount').val().length === 0 ||
-	          $('input#email').val().length === 0 ||
-	          $('#type_facture')[0].selectedIndex === '') {
-	      isValid = false;
-	      errorMessage += 'Veuillez renseigner tous les champs du formulaire.<br/>';
-	    } 
-	    // Type de facture
-	    var selectedFacture = $('#type_facture')[0].selectedIndex;
-		var type_facture = $('#type_facture')[0].options[selectedFacture].value;
-	    if (selectedFacture === '') {
-	      isValid = false;
-	      errorMessage += 'Veuillez choisir un type de facture.<br/>';
-	    } 
-	    // Numéro de commande
-	    if ($('input#ref').val().length < 6 || ($('input#ref').val().length < 13 && type_facture === 'water')) {
-	      isValid = false;
-	      errorMessage += 'Le numéro de la facture est vide ou trop court.<br/>';
-	    } 
-	    // Année
-	    if ($('input#year').val().length !== 4) {
-	      isValid = false;
-	      errorMessage += 'L\'année doit contenir 4 caractères numériques.<br/>';
-	    }else{
-		    if(new Date().getFullYear() - 1 !== parseInt($('input#year').val()) && new Date().getFullYear() !== parseInt($('input#year').val())) {
-		      isValid = false;
-		      errorMessage += 'L\'année doit correspondre à l\'année en cours ou à l\'année précédente.<br/>';
-	  		}
-	    }
-	    // Montant supérieur à 0
-	    if (parseInt($('input#amount').val()) === 0) {
-	    	isValid = false;
-	        errorMessage += 'Le montant à payer doit obligatoirement être supérieur à 0.<br/>';
-	    }
-	    // Email
-	    if ($('input#email').val().length === 0) {
-	      isValid = false;
-	      errorMessage += 'Veuillez renseigner l\'adresse mail.<br/>';
-	    }else{
-		    if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/.test($('input#email').val())) {
-		      isValid = false;
-		      errorMessage += 'L\'adresse mail n\'est pas valide.<br/>';
-		    } 
-		}
+(function ($) {
+    
+    function callServeResource(URL) {
+        AUI().use('aui-io-request', function(A) {
+            A.io.request(URL, {
+                method : 'post'
+            });
+        });
+    }
+    
+    $(document).ready(function(){
+        if($('.customize-list').length){
+            $list = $('.customize-list'),
+            $inputs = $list.find('input[type="checkbox"]');
 
-	    if (isValid) {
-		    jQuery('.errors').hide();
-
-			var url = window.tipiURL;
-			var appCode = "";
-			var clientNumber = "";
-			if (type_facture == "childhood") {
-				appCode = "PF";
-				clientNumber = "000696";
-			} else if (type_facture == "schoolRestaurant") {
-				appCode = "RS";
-				clientNumber = "000696";
-			} else if (type_facture == "afterSchool") {
-				appCode = "GA";
-				clientNumber = "000696";
-			} else if (type_facture == "water") {
-				appCode = "EA";
-				clientNumber = "007964";
-			}
-		  	url += 'numcli=' + clientNumber;
-			if (url.indexOf('saisie=T') === -1) { // En prod
-				url += '&year=' + $('input#year').val();
-				url += '&refdet=' + calculateRefdet($('input#year').val(), appCode, $('input#ref').val());
-			} else { // En test
-				url += '&year=9999';
-				url += '&refdet=999999990000000000000';
-			}
-
-			url += '&montant=' + calculatePrice();
-			url += '&mel=' + $('input#email').val();
-			url += '&objet=' + appCode;
-			url += '&urlcl=' + window.tipiCallbackURL;
-			window.open(url,'_blank','height=750, width=1050, toolbar=no, menubar=no,scrollbars=yes, resizable=yes, location=no, directories=no, status=no'); 
-			return false; 
-	    } else {
-	      jQuery('.errors').html(errorMessage).show();
-	    }
+            $inputs.on('change', function(){
+                var $item = $(this).closest('.customize-list__item');
+                if(!$item.hasClass('customize-list__item--read')){
+                    $item.addClass('customize-list__item--read');
+                    var hidePortletURL = $(this).data('hideUrl');
+                    if (hidePortletURL) {
+                        callServeResource(hidePortletURL);
+                    }
+                } else {
+                    $item.removeClass('customize-list__item--read');
+                    var showPortletURL = $(this).data('showUrl');
+                    if (showPortletURL) {
+                        callServeResource(showPortletURL);
+                    }
+                }
+            });
+        }
     });
-});
-
-/**
- * Formatage du parametre "price" de l'url de paiement
- */
-function calculatePrice() {
-  var amount = $('input#amount').val().split('.');
-  var integerPrice = amount[0];
-  var decimalPrice = amount[1] ? amount[1] : '0';
-
-  while (integerPrice.length < 2) {
-    integerPrice = '0' + integerPrice;
-  }
-  if(decimalPrice.length > 2){
-  	decimalPrice = decimalPrice.substr(0,2);
-  }
-  else{
-	  while (decimalPrice.length < 2) {
-	    decimalPrice = '0' + decimalPrice;
-	  }
-	}
-
-  return integerPrice + decimalPrice;
-}
-
-/**
- * Formatage du paramètre "refdet" de l'url de paiement
- */
-function calculateRefdet(year, appCode, ref) {
-  var refdet ;
-  refdet = year;
-  refdet += appCode;
-  refdet += '00';
-  refdet += formatRef(ref);
-  return refdet;
-}
-
-/**
- * Formatage du numero de facture
- */
-function formatRef(ref) 
-{ 
-  while (ref.length < 13) {
-    ref = '0' + ref;
-  }
-
-  return ref;
-}
+}(jQuery));
 jQuery(function() {
     jQuery('#formSuivi').submit( function() {
     	var codeSuivi = jQuery('#codeSuivi').val();
@@ -15506,6 +15402,214 @@ $(document).ready(function(){
             smartSpeed:450
         });
 
+    });
+ }(jQuery));
+
+jQuery(function() {
+    jQuery('#formFactures').submit( function(event) {
+	    event.preventDefault();
+	    var errorMessage = '';
+	    var isValid = true;
+	    // Champs obligatoires
+	    if ($('input#ref').val().length === 0 ||
+	          $('input#year').val().length === 0 ||
+	          $('input#amount').val().length === 0 ||
+	          $('input#email').val().length === 0 ||
+	          $('#type_facture')[0].selectedIndex === 0) {
+	      isValid = false;
+	      errorMessage += 'Veuillez renseigner tous les champs du formulaire.<br/>';
+	    } 
+	    // Type de facture
+	    var selectedFacture = $('#type_facture')[0].selectedIndex;
+		var type_facture = $('#type_facture')[0].options[selectedFacture].value;
+	    if (selectedFacture === 0) {
+	      isValid = false;
+	      errorMessage += 'Veuillez choisir un type de facture.<br/>';
+          $('div.customSelect').addClass('error');
+	    }else{
+          $('div.customSelect').removeClass('error');
+	    }
+	    // Numéro de commande
+	    if ($('input#ref').val().length < 6 || ($('input#ref').val().length < 13 && type_facture === 'water')) {
+	      isValid = false;
+	      errorMessage += 'Le numéro de la facture est vide ou trop court.<br/>';
+	    } 
+	    // Année
+	    if ($('input#year').val().length !== 4) {
+	      isValid = false;
+	      errorMessage += 'L\'année doit contenir 4 caractères numériques.<br/>';
+	    }else{
+		    if(new Date().getFullYear() - 1 !== parseInt($('input#year').val()) && new Date().getFullYear() !== parseInt($('input#year').val())) {
+		      isValid = false;
+		      errorMessage += 'L\'année doit correspondre à l\'année en cours ou à l\'année précédente.<br/>';
+	  		}
+	    }
+	    // Montant supérieur à 0
+	    if (parseInt($('input#amount').val()) === 0) {
+	    	isValid = false;
+	        errorMessage += 'Le montant à payer doit obligatoirement être supérieur à 0.<br/>';
+	    }
+	    // Email
+	    if ($('input#email').val().length === 0) {
+	      isValid = false;
+	      errorMessage += 'Veuillez renseigner l\'adresse mail.<br/>';
+	    }else{
+		    if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/.test($('input#email').val())) {
+		      isValid = false;
+		      errorMessage += 'L\'adresse mail n\'est pas valide.<br/>';
+		    } 
+		}
+
+	    if (isValid) {
+		    jQuery('.errors').hide();
+
+			var url = window.tipiURL;
+			var appCode = "";
+			var clientNumber = "";
+			if (type_facture == "childhood") {
+				appCode = "PF";
+				clientNumber = "000696";
+			} else if (type_facture == "schoolRestaurant") {
+				appCode = "RS";
+				clientNumber = "000696";
+			} else if (type_facture == "afterSchool") {
+				appCode = "GA";
+				clientNumber = "000696";
+			} else if (type_facture == "water") {
+				appCode = "EA";
+				clientNumber = "007964";
+			}
+		  	url += 'numcli=' + clientNumber;
+			if (url.indexOf('saisie=T') === -1) { // En prod
+				url += '&year=' + $('input#year').val();
+				url += '&refdet=' + calculateRefdet($('input#year').val(), appCode, $('input#ref').val());
+			} else { // En test
+				url += '&year=9999';
+				url += '&refdet=999999990000000000000';
+			}
+
+			url += '&montant=' + calculatePrice();
+			url += '&mel=' + $('input#email').val();
+			url += '&objet=' + appCode;
+			url += '&urlcl=' + window.tipiCallbackURL;
+			window.open(url,'_blank','height=750, width=1050, toolbar=no, menubar=no,scrollbars=yes, resizable=yes, location=no, directories=no, status=no'); 
+			return false; 
+	    } else {
+	      jQuery('.errors').html(errorMessage).show();
+	    }
+    });
+});
+
+/**
+ * Formatage du parametre "price" de l'url de paiement
+ */
+function calculatePrice() {
+  var amount = $('input#amount').val().split('.');
+  var integerPrice = amount[0];
+  var decimalPrice = amount[1] ? amount[1] : '0';
+
+  while (integerPrice.length < 2) {
+    integerPrice = '0' + integerPrice;
+  }
+  if(decimalPrice.length > 2){
+  	decimalPrice = decimalPrice.substr(0,2);
+  }
+  else{
+	  while (decimalPrice.length < 2) {
+	    decimalPrice = '0' + decimalPrice;
+	  }
+	}
+
+  return integerPrice + decimalPrice;
+}
+
+/**
+ * Formatage du paramètre "refdet" de l'url de paiement
+ */
+function calculateRefdet(year, appCode, ref) {
+  var refdet ;
+  refdet = year;
+  refdet += appCode;
+  refdet += '00';
+  refdet += formatRef(ref);
+  return refdet;
+}
+
+/**
+ * Formatage du numero de facture
+ */
+function formatRef(ref) 
+{ 
+  while (ref.length < 13) {
+    ref = '0' + ref;
+  }
+
+  return ref;
+}
+function destroyPopinMediatheque(){
+    $('#dissociateConfirm').remove().off('clickdissociateConfirm');
+    $('.mseu').off('click.dissociateconfirm').removeClass('overlayed');
+}
+function createPopinMediatheque(message, agree, deny){
+    var template = '<div id="dissociateConfirm"> \
+        <div class="dissociateMessage">##dissociateMessage##</div> \
+        <div class="dissociateActions"> \
+            <input type="hidden" id="dissociate" name="<portlet:namespace />dissociate" value="dissocier"> \
+            <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button> \
+            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">Valider</span><span class="btn-arrow"></span></span></button> \
+        </div> \
+    </div>';
+
+    template = template.replace('##dissociateMessage##', message);
+    $('body').append(template);
+    $('.mseu').addClass('overlayed');
+
+
+    $('#dissociateConfirm .deny').on('click.dissociateConfirm', function(e){
+        if(deny !== undefined){
+            deny();
+        }
+        destroyPopinMediatheque();
+    });
+    $('#dissociateConfirm .confirm').on('click.dissociateConfirm', function(){
+        destroyPopinMediatheque();
+        if(agree !== undefined){
+            agree();
+        }
+    });
+}
+(function ($) {
+    $('#borrowingSeeMore').on('click', function() {
+        for (i = 3; i < $("#borrowingCount").val(); i++) {
+            $('#borrowing_' + i).show();
+            $('#borrowing_' + i).removeClass("hidden");
+        }
+        $('#borrowingSeeMore').hide();
+        $('#borrowingSeeLess').removeClass("hidden");
+        $('#borrowingSeeLess').show();
+    });
+    $('#reservationSeeMore').on('click', function() {
+        for (i = 3; i < $("#reservationCount").val(); i++) {
+            $('#reservation_' + i).show();
+            $('#reservation_' + i).removeClass("hidden");
+        }
+        $('#reservationSeeMore').hide();
+        $('#reservationSeeLess').removeClass("hidden");
+        $('#reservationSeeLess').show();
+    });
+    $('#borrowingSeeLess').on('click', function() {
+        for (i = 3; i < $("#borrowingCount").val(); i++) {
+            $('#borrowing_' + i).hide();
+        }
+        $('#borrowingSeeMore').show();
+        $('#borrowingSeeLess').hide();
+    });
+    $('#reservationSeeLess').on('click', function() {
+        for (i = 3; i < $("#reservationCount").val(); i++) {
+            $('#reservation_' + i).hide();
+        }
+        $('#reservationSeeMore').show();
+        $('#reservationSeeLess').hide();
     });
  }(jQuery));
 
@@ -15952,27 +16056,27 @@ function dot(){
     $(document).ready(function(){
         if($('.mseu body.front').length){
             $('.delete-wi').on('click', function(){
-
+                var portletId = $(this).data('portletId');
                 var $section = $(this).closest('section');
-                var message = "Êtes vous sur de vouloir fermer le panneau ?";
-                var serveURL = this.value;
+                var message = "Êtes vous sur de vouloir masquer le widget ?";
                 var agree = function(){
                     $section.addClass('deleted');
 
-                    AUI().use('aui-io-request', function(A) {
-                        A.io.request(serveURL, {
-                            method : 'post'
-                        });
-                    });
-
+                    Liferay.Service(
+                        '/strasbourg.strasbourg/hide-portlet',
+                        {
+                            portletId: portletId
+                        }
+                    );
                     setTimeout(function(){
                         $section.slideUp();
-                    },100);
+                    }, 100);
                 };
                 createPopin(message, agree);
             });
         }
     });
 }(jQuery));
+
  
 define.amd = define._amd;

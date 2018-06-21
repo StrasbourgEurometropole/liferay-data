@@ -19,7 +19,6 @@
 </liferay-util:html-bottom>
 
 <section id="wi-aroundme">
-
     <div id="aroundme">
 
         <div id="aroundme__center">
@@ -36,7 +35,7 @@
                 <div id="aroundme__side" style="z-index: 406" >
                     <button class="side__trigger side__trigger--pull"></button>
                     <div class="side__overflow">
-                        <form class="filtres filtres--poi">
+                        <form class="liste filtres--poi">
                             <h2 class="filtres__title">
                                 <div class="icon mobile-only"></div>
                                 Liste
@@ -50,7 +49,11 @@
             </div>
         </div>
     </div>
-    <div class="meta">
+    <div class="meta" style="position: relative;">
+        <c:if test="${dc.showDeleteButton()}">
+            <button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}" style="top: 0;"></button>
+        </c:if>
+
         <h2>Autour de moi</h2>
         <p class="subtitle">${widgetIntro}</p>
         <div class="btn-line">

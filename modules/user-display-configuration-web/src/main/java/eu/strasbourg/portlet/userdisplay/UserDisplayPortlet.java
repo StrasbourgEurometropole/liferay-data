@@ -13,6 +13,9 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.portlet.userdisplay.configuration.UserDisplayConfiguration;
+import eu.strasbourg.portlet.userdisplay.configuration.UserDisplayConfigurationDisplayContext;
+import eu.strasbourg.utils.PortletHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.convert.ConvertProcessUtil;
@@ -53,29 +56,13 @@ public class UserDisplayPortlet extends MVCPortlet {
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			// Récupération du publik ID avec la session
-			String internalId = getPublikID(request);
-			
-			List<String> portlets = new ArrayList<String>(); // Tous les portlets
-			List<String> hiddenPortlets = new ArrayList<String>(); // Les portlets à ne pas afficher
+			UserDisplayConfiguration configuration = themeDisplay
+					.getPortletDisplay()
+					.getPortletInstanceConfiguration(UserDisplayConfiguration.class);
+			UserDisplayConfigurationDisplayContext dc  =
+					new UserDisplayConfigurationDisplayContext(themeDisplay, configuration);
 
-			//Attention, ne pas modifier le nom des portlets ici sous peine de casser les configurations déjà existantes
-			portlets.add("last-favorites");
-			portlets.add("news-agenda");
-			portlets.add("around-me");
-			portlets.add("signalement");
-
-			if (Validator.isNotNull(internalId) && Validator
-					.isNotNull(PublikUserLocalServiceUtil.getByPublikUserId(internalId).getDisplayConfig())) {
-				PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-
-				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-				JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
-				jsonArray.forEach(t -> hiddenPortlets.add((String) t));
-			}
-
-			request.setAttribute("portlets", portlets);
-			request.setAttribute("hiddenPortlets", hiddenPortlets);
+			request.setAttribute("dc", dc);
 		} catch (Exception e) {
 			_log.error(e);
 		}
@@ -87,48 +74,14 @@ public class UserDisplayPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		try {
 			String resourceID = resourceRequest.getResourceID();
+            HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(resourceRequest);
+            String portletId = ParamUtil.getString(resourceRequest, "portletId");
 
-			if (resourceID.equals("togglePortlet")) {
-
-				// Récupération du publik ID avec la session
-				String internalId = getPublikID(resourceRequest);
-
-				if (Validator.isNotNull(internalId)) {
-					PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-
-					// JSON initialisation
-					String userConfigString = user.getDisplayConfig();
-					if (Validator.isNull(userConfigString)) {
-						userConfigString = "{\"hiddenPortlets\":[]}";
-					}
-					JSONObject json = JSONFactoryUtil.createJSONObject(userConfigString);
-					JSONArray jsonArray = json.getJSONArray("hiddenPortlets");
-					
-					String portletName = ParamUtil.getString(resourceRequest, "portletName");
-	    			
-					//Récupération du portlet name : S'il existe dans la config utilisateur on le supprime
-					//Sinon on l'ajoute
-	    			if(Validator.isNotNull(portletName))
-	    			{
-	    				List<String> portlets = new ArrayList<String>(); 
-						jsonArray.forEach(a -> portlets.add((String)a));
-	    					
-	    				if(portlets.contains(portletName))
-	    					portlets.remove(portletName);
-	    				else
-	    					portlets.add(portletName);
-	    					
-	    				JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
-	    				portlets.forEach(a -> jsonArray2.put(a));
-	    				jsonArray = jsonArray2;
-	    			}
-
-					// Enregistrement des préférences utilisateur.
-					json.put("hiddenPortlets", jsonArray);
-					user.setDisplayConfig(json.toJSONString());
-					PublikUserLocalServiceUtil.updatePublikUser(user);
-				}
-			}
+			if (resourceID.equals("hidePortlet")) {
+                PortletHelper.hidePortlet(portletId);
+			} else if (resourceID.equals("showPortlet")) {
+                PortletHelper.showPortlet(portletId);
+            }
 		} catch (Exception e) {
 			_log.error(e);
 		}
@@ -136,11 +89,4 @@ public class UserDisplayPortlet extends MVCPortlet {
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 
-	private String getPublikID(PortletRequest resourceRequest) {
-
-		LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-		HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-
-		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
-	}
 }

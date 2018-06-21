@@ -366,6 +366,16 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					.updateStatus(newStatus, "", user);
 				this.campaignEventStatusLocalService
 					.updateCampaignEventStatus(status);
+				
+				// On envoie un mail si le statut est une demande de validation,
+				// une validation ou une demande de suppression
+				int[] statuses = { WorkflowConstants.STATUS_PENDING,
+					WorkflowConstants.STATUS_APPROVED,
+					WorkflowConstants.STATUS_IN_TRASH };
+				if (ArrayUtil.contains(statuses, newStatus)) {
+					campaignEvent.sendStatusMail();
+				}
+				
 			} else {
 				// Création du statut (au cas où l'utilisateur ne laisse pas de
 				// commentaire)

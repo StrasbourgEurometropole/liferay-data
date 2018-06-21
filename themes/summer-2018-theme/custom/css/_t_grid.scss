@@ -457,14 +457,93 @@
 		}
 
 		.mns-title{
-			border-bottom: 1px solid #838383;
+			
 			span{
 				@include ft($f_ms, 15px, 700, #b3b3b3, 26px);
 				text-transform: uppercase;
 				padding: 25px 15px 25px 0;
 				display: inline-block;
+				border-bottom: 1px solid #838383;
+			}
+
+			ul {
+			    padding: 0;
+			    margin-left: 0em;
+			    list-style: none;
+			}
+			
+			ul li {
+			    padding: 0;
+			    margin: 0;
+			    display: block;
+			    float: left;
+			    padding-left: 10px;
+			    margin-top: 10px;
+			}
+
+			ul li:first-child {
+			    padding-left: 0px;
+			}
+
+			ul li a {
+				 background-position: top left;
+			    -webkit-transition: all 0.3s ease;
+			    -moz-transition: all 0.3s ease;
+			    -o-transition: all 0.3s ease;
+			    -ms-transition: all 0.3s ease;
+			    -webkit-border-radius: 4px;
+
+			    display: block;
+			    text-indent: -999em;
+			    overflow: hidden;
+			    transition: all 0.3s ease;
+			    border-radius: 4px;
+			}
+
+			ul li a:hover {
+		    	opacity: 0.4;
+			}
+
+			a.btn-fb {
+			    background: transparent url(../images/btn/icone-facebook.png) center no-repeat;
+			    height: 22px;
+			    width: 22px;
+			    background-size: 25px 25px;
+
+			}
+
+			a.btn-dm {
+			    background: transparent url(../images/btn/icone-dailymotion.png) center no-repeat;
+			    height: 22px;
+			    width: 22px;
+			    background-size: 25px 25px;
+			    
+			}
+
+			a.btn-tw {
+			    background: transparent url(../images/btn/icone-twitter.png) center no-repeat;
+			    height: 22px;
+			    width: 22px;
+			    background-size: 25px 25px;
+			}
+
+			a.btn-tumblr {
+			    background: transparent url(../images/btn/icone-tumblr.png) center no-repeat;
+			    height: 22px;
+			    width: 22px;
+			    background-size: 25px 25px;
+			}
+
+			a.btn-instagram {
+			    background: transparent url(../images/btn/icone-instagram.png) center no-repeat;
+			    height: 22px;
+			    width: 22px;
+			    background-size: 25px 25px;
 			}
 		}
+
+		
+
 
 		.mns-first-column{
 			margin-top: 40px;

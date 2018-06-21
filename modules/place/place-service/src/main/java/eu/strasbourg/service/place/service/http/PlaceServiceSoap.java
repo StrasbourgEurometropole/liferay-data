@@ -120,6 +120,20 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	public static java.lang.String getPlacesByTypes(
+		java.util.List<java.lang.String> typesId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = PlaceServiceUtil.getPlacesByTypes(typesId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getPlacesByTerritory(
 		java.lang.String territoryId) throws RemoteException {
 		try {
