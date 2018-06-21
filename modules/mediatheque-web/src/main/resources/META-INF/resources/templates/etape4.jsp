@@ -33,13 +33,13 @@
 		<c:if test="${dc.borrower.expireDate != null}">
 	        <c:set var="today" value="${dc.today}" />
 	        <c:if test="${today.isAfter(dc.borrower.expireDate)}">
-	        	<div class="warning">
+	        	<div class="information">
 	        		<strong><liferay-ui:message key="warning" /></strong><br>
 	        		<liferay-ui:message key="warning-text" />
 	        	</div>
 	        </c:if>
-			<c:set var="nextWeek" value="${today.plusDays(7)}"/>
-	        <c:if test="${nextWeek.isAfter(dc.borrower.expireDate)}">
+			<c:set var="nextMonth" value="${today.plusMonths(1)}"/>
+	        <c:if test="${nextMonth.isAfter(dc.borrower.expireDate)}">
 	        	<div class="information">
 	        		<strong><liferay-ui:message key="information" /></strong><br>
 	        		<liferay-ui:message key="information-text" />
@@ -90,13 +90,13 @@
 						<a class="btn-square--bordered--core" title="<liferay-ui:message key="eu.see-more" />" id="borrowingSeeMore">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-more" /></span>
-								<span class="btn-more"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 						<a class="btn-square--bordered--core hidden" title="<liferay-ui:message key="eu.see-less" />" id="borrowingSeeLess">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-less" /></span>
-								<span class="btn-minus"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 		        	</div>
@@ -129,13 +129,13 @@
 						<a class="btn-square--bordered--core" title="<liferay-ui:message key="eu.see-more" />" id="reservationSeeMore">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-more" /></span>
-								<span class="btn-more"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 						<a class="btn-square--bordered--core hidden" title="<liferay-ui:message key="eu.see-less" />" id="reservationSeeLess">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="eu.see-less" /></span>
-								<span class="btn-minus"></span>
+								<span class="btn-arrow"></span>
 							</span>
 						</a>
 		        	</div>
