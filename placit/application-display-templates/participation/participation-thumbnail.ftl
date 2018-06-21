@@ -3,9 +3,9 @@
 <#setting locale = locale />
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-  <#assign homeURL = "/" />
+    <#assign homeURL = "/" />
 </#if>
 
 <!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
@@ -68,7 +68,7 @@
 
 <!-- Recuperation des quartiers de la participation -->
 <#if entry.getDistrictCategories()??>
-    <#assign participationDistricts = entry.getDistrictCategories() />
+    <#assign participationDistricts = entry.getDistrictTitle(locale) />
 </#if>
 
 <!-- Recuperation des thématiques de la participation -->
@@ -102,16 +102,9 @@
         <div class="pro-content-participation">
             <div class="pro-meta">
 
-                 <!-- Liste des quartiers de la participation -->
+                <!-- Liste des quartiers de la participation -->
                 <#if participationDistricts?? >
-                    <!-- si la taille de la liste correspond à tout les quartiers de strasbourg-->
-                    <#if participationDistricts?size ==10>
-                        <span>Tout les quartiers</span>
-                        <#else >
-                        <#list participationDistricts as participationDistrict >
-                        <span>${participationDistrict.getTitle(locale)}</span>
-                        </#list>
-                    </#if>
+                        <span>${participationDistricts}</span>
                 </#if>
 
                 <!-- Liste des thématiques de la participation -->
@@ -133,7 +126,7 @@
             </div>
             <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="Détail ''">
                 <h3>
-                    ${participationTitleFirstPart}
+                ${participationTitleFirstPart}
                     <br>
                     <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
                 </h3>
