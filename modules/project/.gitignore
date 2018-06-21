@@ -1,4 +1,4 @@
 .gradle/
 build/
 target/
-/.gitignore
+project-service.iml
