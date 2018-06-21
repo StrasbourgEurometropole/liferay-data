@@ -2,6 +2,11 @@
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 
 <@liferay_util["html-top"]>
     <meta property="og:title" content="${title.getData()?html}" />
@@ -26,7 +31,25 @@
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>
     </div>
-    <h1>${title.getData()}</h1>
+    <h1>
+        ${title.getData()}
+        <#assign journalArticleLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService")>
+        <#assign journalArticle = journalArticleLocalService.getArticle(groupId, .vars['reserved-article-id'].data)>
+        <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+        <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', journalArticle.getResourcePrimKey()) >
+        <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+        <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
+        <#if newsTypes?has_content>
+            <p class="seu-event-categories">
+                <#list newsTypes as type>
+                        <a href="${homeURL}actualite?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
+                            ${type.getTitle(locale)}
+                        </a>
+                        <#sep>, </#sep>
+                </#list>
+            </p>
+        </#if>
+    </h1>
     <div class="hat">
         <div>
             ${chapo.getData()}
