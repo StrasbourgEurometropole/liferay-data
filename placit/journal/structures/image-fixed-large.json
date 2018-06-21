@@ -66,16 +66,15 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
-            "indexType": "text",
+            "dataType": "string",
+            "indexType": "keyword",
             "localizable": true,
             "name": "legend",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
-            "type": "ddm-text-html"
+            "type": "text"
         }
     ]
 }
