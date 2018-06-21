@@ -175,7 +175,7 @@
 							</div>
 						</div>
 					</c:forEach>
-					
+
 					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
 					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
@@ -211,14 +211,14 @@
 			<c:if test="${not empty dc.project && dc.hasPermission('DELETE_PROJECT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
-			
+
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 			
 		</aui:button-row>
 
 	</aui:form>
-	
+
 	<%-- Variable : definit la phase de l'entite (utile pour l'action Jquery) --%>
 	<liferay-util:html-top>
 		<script>

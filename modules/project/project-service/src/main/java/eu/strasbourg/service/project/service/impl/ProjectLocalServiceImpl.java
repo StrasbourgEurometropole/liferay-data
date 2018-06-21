@@ -16,10 +16,10 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
@@ -68,7 +70,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.ProjectLocalServiceUtil} to access the project local service.
 	 */
-	
+
+	public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.class);
 	/**
 	 * Crée un projet vide avec une PK, non ajouté à la base de donnée
 	 */
@@ -88,10 +91,10 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		return project;
 	}
-	
+
 	/**
 	 * Met à jour un projet et l'enregistre en base de données
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Override
 	public Project updateProject(Project project, ServiceContext sc)
@@ -101,6 +104,23 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStatusByUserId(sc.getUserId());
 		project.setStatusByUserName(user.getFullName());
 		project.setStatusDate(sc.getModifiedDate());
+		List<ProjectTimeline> projectTimelines = project.getProjectTimelines();
+		if (projectTimelines !=null&&!projectTimelines.isEmpty()){
+			ProjectTimeline firstMilestone = projectTimelines.get(0);
+			log.info("firstMilestone : " + firstMilestone);
+			LocalDate dateStatusTemp = null;
+			if (null == firstMilestone.getLink()||firstMilestone.getLink().isEmpty()){
+				dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			} else {
+				log.error("la date du premier jalon est null et ca c'est pas bon !");
+				dateStatusTemp = LocalDate.now();
+			}
+			LocalDate firstMilestoneDate = dateStatusTemp;
+			projectTimelines.forEach(projectTimeline -> {
+				LocalDate dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				projectTimeline.setStartDay(Period.between(firstMilestoneDate,dateStatus).getDays());
+			});
+		}
 
 		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
 			project.setStatus(WorkflowConstants.STATUS_APPROVED);
@@ -113,7 +133,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		return project;
 	}
-	
+
 	/**
 	 * Met à jour l'AssetEntry rattachée au projet
 	 */
@@ -148,13 +168,13 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		// Réindexe le projet
 		this.reindex(project, false);
 	}
-	
+
 	/**
 	 * Met à jour le statut du projet par le framework workflow
 	 */
 	@Override
 	public Project updateStatus(long userId, long entryId, int status,
-			ServiceContext sc, Map<String, Serializable> workflowContext)
+								ServiceContext sc, Map<String, Serializable> workflowContext)
 			throws PortalException {
 		Date now = new Date();
 		// Statut de l'entité
@@ -181,7 +201,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		return project;
 	}
-	
+
 	/**
 	 * Met à jour le statut du projet "manuellement" (pas via le workflow)
 	 */
@@ -190,7 +210,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		this.updateStatus(project.getUserId(), project.getProjectId(), status, null,
 				null);
 	}
-	
+
 	/**
 	 * Supprime un projet
 	 */
@@ -224,10 +244,10 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			// Delete the AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Project.class.getName(),
 					projectId);
-			
+
 			// Supprime les timelines associées au projet
 			List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil
-				.getByProjectId(projectId);
+					.getByProjectId(projectId);
 			for (ProjectTimeline projectTimeline : projectTimelines) {
 				ProjectTimelineLocalServiceUtil.deleteProjectTimeline(projectTimeline);
 			}
@@ -247,7 +267,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		return project;
 	}
-	
+
 	/**
 	 * Reindex le projet dans le moteur de recherche
 	 */
@@ -260,27 +280,27 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			indexer.reindex(project);
 		}
 	}
-	
+
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à un projet
 	 */
 	@Override
 	public List<AssetVocabulary> getAttachedVocabularies(long groupId) {
 		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-			.getAssetVocabularies(-1, -1);
+				.getAssetVocabularies(-1, -1);
 		List<AssetVocabulary> attachedVocabularies = new ArrayList<AssetVocabulary>();
 		long classNameId = ClassNameLocalServiceUtil
-			.getClassNameId(Project.class);
+				.getClassNameId(Project.class);
 		for (AssetVocabulary vocabulary : vocabularies) {
 			if (vocabulary.getGroupId() == groupId
-				&& LongStream.of(vocabulary.getSelectedClassNameIds())
+					&& LongStream.of(vocabulary.getSelectedClassNameIds())
 					.anyMatch(c -> c == classNameId)) {
 				attachedVocabularies.add(vocabulary);
 			}
 		}
 		return attachedVocabularies;
 	}
-	
+
 	/**
 	 * Retourne tous les projets d'un groupe
 	 */
@@ -288,27 +308,27 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public List<Project> getByGroupId(long groupId) {
 		return this.projectPersistence.findByGroupId(groupId);
 	}
-	
+
 	/**
 	 * Recherche par mot clés
 	 */
 	@Override
 	public List<Project> findByKeyword(String keyword, long groupId, int start,
-		int end) {
+									   int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
-				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return projectPersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
-	
+
 	/**
 	 * Recherche par mot clés (compte)
 	 */
@@ -317,11 +337,11 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-				RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
-				.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+					.add(PropertyFactoryUtil.forName("groupId").eq(groupId));
 		}
 
 		return projectPersistence.countWithDynamicQuery(dynamicQuery);

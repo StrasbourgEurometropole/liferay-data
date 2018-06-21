@@ -2,14 +2,15 @@ Lors d'une livraison du thème par thuria, il y a quelques fichiers à ne pas écra
 
 Les librairies js suivantes :
 
-- jquery.selectric.min.js
-- pikaday.js
-- owlcarousel2-a11ylayer.js
+- js/libs/jquery.selectric.min.js
+- js/libs/pikaday.js
+- js/libs/owlcarousel2-a11ylayer.js
+- js/src-1/bloc-pickaday.js
 
 Le point d'entré sass strasbourg.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
 
 
-Le fichier bloc-prefooter.js :
+Le fichier js/src-1/bloc-prefooter.js :
 
 le code suivant a été enlevé, déplacé et adapté dans le fichier pacte-view.jsp du module pacte-web
 
