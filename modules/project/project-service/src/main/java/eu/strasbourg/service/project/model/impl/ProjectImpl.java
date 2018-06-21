@@ -112,7 +112,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 	@Override
 	public List<AssetCategory> getDistrictCategories() {
 		List<AssetCategory> territories = this.getTerritoryCategories();
-		List<AssetCategory> districts = new ArrayList<AssetCategory>();
+		List<AssetCategory> districts = new ArrayList<>();
 		for (AssetCategory territory : territories) {
 			try {
 				if (territory.getAncestors().size() == 2) {
