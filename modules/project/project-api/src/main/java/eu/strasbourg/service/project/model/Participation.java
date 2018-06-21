@@ -110,6 +110,13 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistrictCategories();
 
 	/**
+	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	*
+	* @return : null si vide, sinon la liste des catégories
+	*/
+	public java.lang.String getDistrictTitle(java.util.Locale locale);
+
+	/**
 	* Retourne le status de la participation
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getParticipationStatusCategory();
