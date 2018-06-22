@@ -171,6 +171,7 @@
 									<liferay-util:param name="date" value="${formattedDate}" />
 									<liferay-util:param name="title" value="${projectTimeline.title}" />
 									<liferay-util:param name="link" value="${projectTimeline.link}" />
+									<liferay-util:param name="spacing" value="${projectTimeline.spacing}" />
 								</liferay-util:include>
 							</div>
 						</div>
