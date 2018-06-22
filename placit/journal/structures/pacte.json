@@ -1,0 +1,56 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Image du préambule"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Annexes à télécharger"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "document-library",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "files",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-documentlibrary"
+        }
+    ]
+}
