@@ -137,7 +137,7 @@
             </div>
 
 
-            <div class="pro-bloc-accordion">
+            <div class="pro-bloc-accordion" style="margin-bottom: 0px">
                 <div class="col-xs-12"><h2>Les articles du Pacte</h2></div>
 
                 <div class="panel-group col-sm-9" id="accordion" role="tablist" aria-multiselectable="true">
