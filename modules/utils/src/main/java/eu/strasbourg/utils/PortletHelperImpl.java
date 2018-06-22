@@ -1,6 +1,8 @@
 package eu.strasbourg.utils;
 
+import javax.portlet.Portlet;
 import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -10,8 +12,6 @@ import eu.strasbourg.utils.api.PortletHelperService;
 
 @Component(
     immediate = true,
-    property = {
-    },
     service = PortletHelperService.class
 )
 public class PortletHelperImpl implements PortletHelperService {
@@ -28,15 +28,25 @@ public class PortletHelperImpl implements PortletHelperService {
 	/**
 	 * Retourne un boolean indiquant si le portlet doit être affiché ou non en fonction des
 	 * préférences de l'utilisateur dans le portlet user display configuration
-	 * @param themeDisplay
-	 * @param cssClassNames
-	 * @return
 	 */
-	public boolean hiddenDashboardPortlet(ThemeDisplay themeDisplay, String cssClassNames) {
-		return PortletHelper.hiddenDashboardPortlet(themeDisplay, cssClassNames);
+	public boolean isPortletDisplayedOnDashboard(ThemeDisplay themeDisplay, String cssClassNames) {
+		return PortletHelper.isPortletDisplayedOnDashboard(themeDisplay, cssClassNames);
 	}
-	
-	public void hidePortlet(ThemeDisplay themeDisplay, String portletName) {
-		PortletHelper.hidePortlet(themeDisplay, portletName);
+
+    public boolean showDeleteButtonOnDashboard(ThemeDisplay themeDisplay, String portletId) {
+	    return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, portletId);
+    }
+
+	public void showPortlet(String portletId) {
+		PortletHelper.showPortlet(portletId);
+	}
+
+
+	public void hidePortlet(String portletId) {
+		PortletHelper.hidePortlet(portletId);
+	}
+
+	public void togglePortlet(String portletId, boolean show) {
+		PortletHelper.togglePortlet(portletId, show);
 	}
 }

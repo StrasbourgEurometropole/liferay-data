@@ -9,7 +9,7 @@
 	portlet_title = htmlUtil.escape(portlet_display.getTitle())
 />
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<#if portletHelper.hiddenDashboardPortlet(themeDisplay, portlet_display.getCustomCSSClassName())>
+<#if portletHelper.isPortletDisplayedOnDashboard(themeDisplay, portlet_display.id)>
 	<section class="portlet" id="portlet_${portlet_id}">
 		<#if portlet_display.isPortletDecorate() && !portlet_display.isStateMax() && portlet_display.getPortletConfigurationIconMenu()?? && portlet_display.getPortletToolbar()??>
 			<#assign

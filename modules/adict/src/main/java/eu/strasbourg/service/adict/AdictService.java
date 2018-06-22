@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 
 public interface AdictService {
 	public List<Street> searchStreetNumbers(String query);
@@ -13,4 +14,5 @@ public interface AdictService {
 	public List<String> getSectorizedPlaceIdsForCoordinates(String x, String y, String sectorType);
 	public JSONArray getCoordinateForAddress(String address);
 	public AssetCategory getDistrictByAddressAndSector(String address, String sectorType);
+	public JSONObject getCoordinatesForZone(String x, String y, String sectorType);
 }

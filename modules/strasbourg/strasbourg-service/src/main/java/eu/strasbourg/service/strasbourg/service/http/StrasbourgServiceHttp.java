@@ -387,12 +387,34 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static void hidePortlet(HttpPrincipal httpPrincipal,
+		java.lang.String portletId) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"hidePortlet", _hidePortletParameterTypes14);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
 		HttpPrincipal httpPrincipal, java.lang.String address) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getCoordinateForAddress",
-					_getCoordinateForAddressParameterTypes14);
+					_getCoordinateForAddressParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, address);
 
@@ -453,7 +475,10 @@ public class StrasbourgServiceHttp {
 	private static final Class<?>[] _getFavoritesPoisCountParameterTypes13 = new Class[] {
 			long.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getCoordinateForAddressParameterTypes14 = new Class[] {
+	private static final Class<?>[] _hidePortletParameterTypes14 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getCoordinateForAddressParameterTypes15 = new Class[] {
 			java.lang.String.class
 		};
 }

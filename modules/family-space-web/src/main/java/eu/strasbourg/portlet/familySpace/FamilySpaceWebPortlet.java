@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.PortletHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -23,7 +24,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=espace famille", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.display-name=Espace famille", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/family-space-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/family-space-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.FAMILY_SPACE_WEB,
@@ -43,6 +44,8 @@ public class FamilySpaceWebPortlet extends MVCPortlet {
 				familySpaceURL = "#";
 			}
 			renderRequest.setAttribute("familySpaceURL", familySpaceURL);
+			renderRequest.setAttribute("showDeleteButton", PortletHelper.showDeleteButtonOnDashboard(themeDisplay,
+					themeDisplay.getPortletDisplay().getId()));
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

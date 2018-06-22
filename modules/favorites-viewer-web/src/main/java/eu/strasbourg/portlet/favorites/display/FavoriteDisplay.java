@@ -76,18 +76,20 @@ public class FavoriteDisplay {
 		if(favorite.getTypeId() == FavoriteType.NEWS.getId())
 		{
 			JournalArticle article = JournalArticleLocalServiceUtil.fetchLatestArticle(favorite.getEntityGroupId(), String.valueOf(favorite.getEntityId()),WorkflowConstants.STATUS_APPROVED);
-			this.news = article;
-			
-			AssetEntry newsEntry =AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), article.getResourcePrimKey());
-			List<AssetCategory> newsTypes=  AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(newsEntry, "type d'actualite");
-			String label = "";
-			for (AssetCategory typeCategory : newsTypes) {
-				if (label.length() > 0) {
-					label += ", ";
-				}
-				label += typeCategory.getTitle(themeDisplay.getLocale());
-			}
-			this.newsLabel = label;
+			if (article!= null) {
+                this.news = article;
+
+                AssetEntry newsEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(), article.getResourcePrimKey());
+                List<AssetCategory> newsTypes = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(newsEntry, "type d'actualite");
+                String label = "";
+                for (AssetCategory typeCategory : newsTypes) {
+                    if (label.length() > 0) {
+                        label += ", ";
+                    }
+                    label += typeCategory.getTitle(themeDisplay.getLocale());
+                }
+                this.newsLabel = label;
+            }
 		}
 		
 	}

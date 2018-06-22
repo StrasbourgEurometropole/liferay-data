@@ -3,7 +3,7 @@ create index IX_FF05E735 on place_Period (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_9DFD4BE7 on place_Place (SIGid[$COLUMN_LENGTH:75$]);
 create index IX_A56E7895 on place_Place (groupId);
-create index IX_240ACBB4 on place_Place (name[$COLUMN_LENGTH:75$]);
+create index IX_240ACBB4 on place_Place (name[$COLUMN_LENGTH:400$]);
 create index IX_7F1EBE5F on place_Place (priceId);
 create index IX_4F6FB669 on place_Place (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_FB14C32B on place_Place (uuid_[$COLUMN_LENGTH:75$], groupId);

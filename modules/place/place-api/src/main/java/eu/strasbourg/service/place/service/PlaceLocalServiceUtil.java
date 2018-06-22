@@ -415,6 +415,19 @@ public class PlaceLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
+	public static void updateRealTime()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateRealTime();
+	}
+
+	public static void updateRealTime(
+		eu.strasbourg.service.place.model.Place place, java.lang.String type,
+		long occupation, long available, long capacity, java.lang.String status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService()
+			.updateRealTime(place, type, occupation, available, capacity, status);
+	}
+
 	/**
 	* Met à jour le statut du lieu "manuellement" (pas via le workflow)
 	*/

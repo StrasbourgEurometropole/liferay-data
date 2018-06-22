@@ -2,22 +2,21 @@
     $(document).ready(function(){
         if($('.mseu body.front').length){
             $('.delete-wi').on('click', function(){
-
+                var portletId = $(this).data('portletId');
                 var $section = $(this).closest('section');
-                var message = "Êtes vous sur de vouloir fermer le panneau ?";
-                var serveURL = this.value;
+                var message = "Êtes vous sur de vouloir masquer le widget ?";
                 var agree = function(){
                     $section.addClass('deleted');
 
-                    AUI().use('aui-io-request', function(A) {
-                        A.io.request(serveURL, {
-                            method : 'post'
-                        });
-                    });
-
+                    Liferay.Service(
+                        '/strasbourg.strasbourg/hide-portlet',
+                        {
+                            portletId: portletId
+                        }
+                    );
                     setTimeout(function(){
                         $section.slideUp();
-                    },100);
+                    }, 100);
                 };
                 createPopin(message, agree);
             });

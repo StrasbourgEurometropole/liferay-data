@@ -16,6 +16,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.PortletHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONObject;
@@ -44,8 +45,9 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=vote-place-web Portlet", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/vote-place-view.jsp",
+		"javax.portlet.display-name=Mon bureau de vote",
 		"javax.portlet.name=" + StrasbourgPortletKeys.VOTE_PLACE_WEB, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class VotePlaceWebPortlet extends MVCPortlet {
@@ -115,11 +117,13 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 			}
 			request.setAttribute("champsNull", champsNull);
 		}
-
+		ThemeDisplay themeDisplay = ((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY));
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(
-				((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyId(), "/strasbourg.eu");
+				themeDisplay.getCompanyId(), "/strasbourg.eu");
 		String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
 		request.setAttribute("virtualHostName", virtualHostName);
+		request.setAttribute("showDeleteButton", PortletHelper.showDeleteButtonOnDashboard(themeDisplay,
+				themeDisplay.getPortletDisplay().getId()));
 		super.render(request, response);
 	}
 

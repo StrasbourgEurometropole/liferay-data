@@ -58,6 +58,8 @@ public class FelecWebServiceClient {
 
 			URL u = new URL(felecURL);
 			HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+			conn.setConnectTimeout(2000);
+			conn.setReadTimeout(2000);
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", type);

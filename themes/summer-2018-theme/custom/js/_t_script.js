@@ -120,7 +120,7 @@
 	});
 	
 	// Changement de comportement de la NavBar si nous sommes sur un iPad ou une tablette Android en mode portrait
-	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i) && height > width)) {
+	if (((navigator.userAgent).match(/Tablet/i) && height > width)) {
 		$('nav').addClass('mns-nav-scroll','mns-nav-ipad');
 	}
 	else if ((navigator.userAgent).match(/Android/i)){
@@ -171,7 +171,7 @@
 	var width = $(window).width();
 	// If qui sert pour quand on a un Header simple sur lequel on veut tt le temps le menu en sticky
 	if(!$('.mns-nav').hasClass("mns-nav-no-header")) {
-		if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width){
+		if (((navigator.userAgent).match(/Tablet/i)) && height > width){
 			$('body').addClass('ipad');
 			$('.mns-nav').addClass("mns-nav-scroll");
 			$('.mns-nav').addClass("mns-nav-ipad");

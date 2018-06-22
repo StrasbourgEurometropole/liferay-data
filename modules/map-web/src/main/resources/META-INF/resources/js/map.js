@@ -101,7 +101,7 @@
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
             // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url"];
+            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type"];
             var popupMarkup =
                 '<div class="aroundme__infowindow infowindow">' +
                 '     <button class="infowindow__close"></button>' +
@@ -111,7 +111,7 @@
                 '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
                 '         </div>' +
-                '         <div class="infowindow__bottom">' +
+                '         <div class="infowindow__middle">' +
                 '             <div class="infowindow__left">' +
                 '                 <div class="infowindow__opened"></div>' +
                 '                 <div class="infowindow__schedules"></div>' +
@@ -119,6 +119,9 @@
                 '             <div class="infowindow__right">' +
                 '                 <div class="infowindow__amount"></div>' +
                 '             </div>' +
+                '         </div>' +
+                '         <div class="infowindow__bottom">' +
+                '                 <div class="infowindow__type"></div>' +
                 '         </div>' +
                 '    </div>' +
                 '    <div class="infowindow__url"></div>' +
@@ -131,7 +134,14 @@
                         if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
                             var formated_info = '';
                             if (info_to_display == 'amount') {
-                                formated_info = '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
+                            	var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                                frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
+                                frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
+                                if (feature.properties[info_to_display]["label"] == "available-spots"){
+                                	frequentation += feature.properties[info_to_display]["frequentation"];
+                                }
+                                frequentation += '</div>';
+                                formated_info = frequentation;
                             } else if (info_to_display == "url") {
                                 var newTabAttribute = '';
                                 if (window.newTab) {
@@ -141,11 +151,39 @@
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
-                            } else if (info_to_display =="visual") {
+                            } else if (info_to_display =="visual" && !feature.properties.amount) {//on n'affiche pas l'image si c'est un lieu avec des horaires
                                 formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
-                            } else {
+                            } else if(info_to_display =="type") {
+                    			var addedFavorite = false;
+                    			if (window.userFavorites) {
+                    				var i;
+                    				for (i = 0; i < window.userFavorites.length; i++) {
+                    					if(window.userFavorites[i].typeId == feature.properties[info_to_display] && window.userFavorites[i].entityId == feature.properties["id"]){
+                    						addedFavorite = true;
+                    						break;
+                    					}
+                    				} 
+                    			}
+                    		
+                    			var lienFavori = '<a href="#" class="add-favorites';
+                    			if(addedFavorite){
+                    				lienFavori += ' liked';
+                    			}
+                    			lienFavori += '" style="display: flex; margin-bottom: 0px;" '
+                    				+ 'data-type="' + feature.properties[info_to_display] + '"' 
+                    		        + 'data-title="' + feature.properties["name"] + '"' 
+                    		        + 'data-url="' + feature.properties["url"] + '"' 
+                    		        + 'data-id="' + feature.properties["id"]+ '">';
+                    			if(addedFavorite){
+                    				lienFavori += '<span>' + Liferay.Language.get("eu.remove-from-favorite") + '</span>';
+                    			}else{
+                    				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
+                    			}
+                    			lienFavori += '</a>';
+                    			formated_info = lienFavori;
+                            } else if (info_to_display !="visual") {
                                 formated_info = feature.properties[info_to_display];
-                            }
+                            } 
                             $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
                         }
                     });
@@ -440,7 +478,6 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var markerIcon = new L.Icon({
                         iconUrl: '/o/mapweb/images/gps.png',
-                        iconSize: [25,25],
                         iconAnchor: [12, 12]
                     });
                     var homeMarker = L.marker([position.coords.latitude, position.coords.longitude], { icon: markerIcon }).addTo(mymap);

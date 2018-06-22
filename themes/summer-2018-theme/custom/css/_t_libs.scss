@@ -233,7 +233,7 @@
 	#owl-agenda .owl-item{
 		max-width: 260px;
         @media (max-width: 330px) {
-           max-width: 240px;
+           max-width: 220px;
         }
 		@include an(all,0.3);
 		img {

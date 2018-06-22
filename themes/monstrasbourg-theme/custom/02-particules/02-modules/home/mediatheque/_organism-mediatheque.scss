@@ -59,29 +59,13 @@
         	cursor: pointer;
      		height: 51px;
 
-        	.btn-more{
-                background-image: url( svg-bg-uri($svg-plus, $core-color) );   
-		        content: '';
-		        display: inline-block;
-		        width: 20px;
-		        height: 20px;
-		        background-size: 14px;
-		        background-position: center;
-		        background-repeat: no-repeat;
-		        flex-shrink: 0;     		
+        	.btn-arrow{
+                transform: rotate(90deg);      		
         	}
 
-        	.btn-minus{
-                background-image: url( svg-bg-uri($svg-minus, $core-color) ); 
-		        content: '';
-		        display: inline-block;
-		        width: 20px;
-		        height: 20px;
-		        background-size: 14px;
-		        background-position: center;
-		        background-repeat: no-repeat;
-		        flex-shrink: 0;       		
-        	}
+            &:hover .btn-arrow{
+                transform: rotate(-90deg);
+            }
         }
     }
     .upper-title{
@@ -121,7 +105,7 @@
     }
 
     .warning  {
-        background-image: url( svg-bg-uri($svg-warning, #5c5c5c) );
+        background-image: url(../images/picto-message-alerte.png);
         background-repeat: no-repeat;
         background-size: 20px;
         background-position: 15px 15px;
@@ -134,7 +118,7 @@
     }
 
     .information  {
-        background-image: url( svg-bg-uri($svg-exclamation, #5c5c5c) );
+        background-image: url(../images/picto-message-info.png);
         background-repeat: no-repeat;
         background-size: 20px;
         background-position: 15px 15px;

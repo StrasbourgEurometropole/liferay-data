@@ -27,6 +27,8 @@ public class PasserelleHelper {
 	public static HttpURLConnection readFromURL(String URL)
 			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
+		httpConn.setReadTimeout(5000);
+		httpConn.setReadTimeout(5000);
 		return httpConn;
 	}
 

@@ -38,6 +38,7 @@ import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.PortletHelper;
 
 /**
  * The implementation of the strasbourg remote service.
@@ -203,6 +204,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			userId = SessionParamUtil.getString(request, "publik_internal_id");
 		}
 		return getPoiService().getFavoritesPoisCount(userId, groupId, typeContenu);
+	}
+
+	@Override
+	public void hidePortlet(String portletId) {
+		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		PortletHelper.hidePortlet(portletId);
 	}
 
 	@Override

@@ -240,6 +240,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 		
 		return result;
 	}
+
 	
 	/**
 	 * Retourne les thematiques du projet

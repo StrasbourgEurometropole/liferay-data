@@ -119,6 +119,11 @@
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="openingTimes" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="firstComment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="secondComment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="thirdComment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="fourthComment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="fifthComment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="comment_" name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="closed" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="placeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
