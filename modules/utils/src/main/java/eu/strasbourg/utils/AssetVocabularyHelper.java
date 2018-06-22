@@ -2,6 +2,8 @@ package eu.strasbourg.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -526,5 +528,20 @@ public class AssetVocabularyHelper {
 		return json;
 	}
 
-	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+
+	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+		StringBuilder result = new StringBuilder();
+		if (assetCategories == null || assetCategories.isEmpty()) {
+			result.append("aucun quartier");
+		} else if (AssetVocabularyHelper.isAllDistrict(assetCategories.size())) {
+			result.append("tout les quartiers");
+		} else {
+			result.append(assetCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(locale))
+					.collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+
+		private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }
