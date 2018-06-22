@@ -172,7 +172,7 @@
                                                 <div class="col-md-4 col-sm-6">
                                                     <a>
                                                         <figure class="fit-cover">
-                                                            <img src="<#if place.getImageURL()?has_content> ${place.getImageURL()} </#if>" width="200" height="140" alt="Image du quartier"/>
+                                                            <#if place.getImageURL()?has_content><img src=" ${place.getImageURL()} " width="200" height="140" alt="Image du quartier"/></#if>
                                                         </figure>
                                                         <div>
                                                             <span class="pro-name">${place.getDistrict(locale)}</span>
