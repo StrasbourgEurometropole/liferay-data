@@ -143,3 +143,8 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 	color: inherit;
 }
 // Fin de la suppression
+
+// Affichage du fond jaune pour la page du pacte et peut-être ailleurs, l'avenir nous le dira
+.pro-page-pacte .pro-wrapper-content .pro-preambule:before  {
+	background: url(/o/plateforme-citoyenne-theme/images/background/bg-yellow.png);
+}
