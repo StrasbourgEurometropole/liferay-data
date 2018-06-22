@@ -130,14 +130,8 @@ public class ProjectImpl extends ProjectBaseImpl {
 	 */
 	@Override
 	public String getDistrictCategories(Locale locale) {
-		String districts = "";
-		for (AssetCategory type : this.getDistrictCategories()) {
-			if (districts.length() > 0) {
-				districts += " - ";
-			}
-			districts += type.getTitle(locale);
-		}
-		return districts;
+		List<AssetCategory> districts = getDistrictCategories();
+		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
 	}
 	
 	/**
