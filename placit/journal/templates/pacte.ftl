@@ -55,8 +55,9 @@
                     <div class="pro-annexes">
                         <h3>Annexes à télécharger</h3>
                         <ul>
-                            <#if files?has_content>
-                                <#list files.getSiblings() as file>
+                            <#list files.getSiblings() as file>
+
+                                <#if file.getData()?has_content >
 
                                     <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />    
                                     <#assign title = fileEntryHelper.getFileTitle(fileEntry.getFileEntryId(), locale) />
@@ -69,10 +70,9 @@
                                         </a>
                                     </li>
 
-                                </#list>
-                            <#else>
-                                Aucune annexe associée pour le moment.
-                            </#if>
+                                </#if>
+
+                            </#list>
                         </ul>
                     </div>
 
