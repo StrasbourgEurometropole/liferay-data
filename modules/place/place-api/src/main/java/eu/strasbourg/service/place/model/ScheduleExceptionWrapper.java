@@ -63,6 +63,11 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
 		attributes.put("openingTimes", getOpeningTimes());
+		attributes.put("firstComment", getFirstComment());
+		attributes.put("secondComment", getSecondComment());
+		attributes.put("thirdComment", getThirdComment());
+		attributes.put("fourthComment", getFourthComment());
+		attributes.put("fifthComment", getFifthComment());
 		attributes.put("comment", getComment());
 		attributes.put("closed", getClosed());
 		attributes.put("placeId", getPlaceId());
@@ -101,6 +106,36 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 
 		if (openingTimes != null) {
 			setOpeningTimes(openingTimes);
+		}
+
+		String firstComment = (String)attributes.get("firstComment");
+
+		if (firstComment != null) {
+			setFirstComment(firstComment);
+		}
+
+		String secondComment = (String)attributes.get("secondComment");
+
+		if (secondComment != null) {
+			setSecondComment(secondComment);
+		}
+
+		String thirdComment = (String)attributes.get("thirdComment");
+
+		if (thirdComment != null) {
+			setThirdComment(thirdComment);
+		}
+
+		String fourthComment = (String)attributes.get("fourthComment");
+
+		if (fourthComment != null) {
+			setFourthComment(fourthComment);
+		}
+
+		String fifthComment = (String)attributes.get("fifthComment");
+
+		if (fifthComment != null) {
+			setFifthComment(fifthComment);
 		}
 
 		String comment = (String)attributes.get("comment");
@@ -286,6 +321,210 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
+	* Returns the fifth comment of this schedule exception.
+	*
+	* @return the fifth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFifthComment() {
+		return _scheduleException.getFifthComment();
+	}
+
+	/**
+	* Returns the localized fifth comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized fifth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFifthComment(java.lang.String languageId) {
+		return _scheduleException.getFifthComment(languageId);
+	}
+
+	/**
+	* Returns the localized fifth comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized fifth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFifthComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getFifthComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized fifth comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized fifth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFifthComment(java.util.Locale locale) {
+		return _scheduleException.getFifthComment(locale);
+	}
+
+	/**
+	* Returns the localized fifth comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized fifth comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getFifthComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getFifthComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getFifthCommentCurrentLanguageId() {
+		return _scheduleException.getFifthCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getFifthCommentCurrentValue() {
+		return _scheduleException.getFifthCommentCurrentValue();
+	}
+
+	/**
+	* Returns the first comment of this schedule exception.
+	*
+	* @return the first comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFirstComment() {
+		return _scheduleException.getFirstComment();
+	}
+
+	/**
+	* Returns the localized first comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized first comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFirstComment(java.lang.String languageId) {
+		return _scheduleException.getFirstComment(languageId);
+	}
+
+	/**
+	* Returns the localized first comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized first comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFirstComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getFirstComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized first comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized first comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFirstComment(java.util.Locale locale) {
+		return _scheduleException.getFirstComment(locale);
+	}
+
+	/**
+	* Returns the localized first comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized first comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getFirstComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getFirstComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getFirstCommentCurrentLanguageId() {
+		return _scheduleException.getFirstCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getFirstCommentCurrentValue() {
+		return _scheduleException.getFirstCommentCurrentValue();
+	}
+
+	/**
+	* Returns the fourth comment of this schedule exception.
+	*
+	* @return the fourth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFourthComment() {
+		return _scheduleException.getFourthComment();
+	}
+
+	/**
+	* Returns the localized fourth comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized fourth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFourthComment(java.lang.String languageId) {
+		return _scheduleException.getFourthComment(languageId);
+	}
+
+	/**
+	* Returns the localized fourth comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized fourth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFourthComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getFourthComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized fourth comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized fourth comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getFourthComment(java.util.Locale locale) {
+		return _scheduleException.getFourthComment(locale);
+	}
+
+	/**
+	* Returns the localized fourth comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized fourth comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getFourthComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getFourthComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getFourthCommentCurrentLanguageId() {
+		return _scheduleException.getFourthCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getFourthCommentCurrentValue() {
+		return _scheduleException.getFourthCommentCurrentValue();
+	}
+
+	/**
 	* Returns the opening times of this schedule exception.
 	*
 	* @return the opening times of this schedule exception
@@ -293,6 +532,142 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public java.lang.String getOpeningTimes() {
 		return _scheduleException.getOpeningTimes();
+	}
+
+	/**
+	* Returns the second comment of this schedule exception.
+	*
+	* @return the second comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getSecondComment() {
+		return _scheduleException.getSecondComment();
+	}
+
+	/**
+	* Returns the localized second comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized second comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getSecondComment(java.lang.String languageId) {
+		return _scheduleException.getSecondComment(languageId);
+	}
+
+	/**
+	* Returns the localized second comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized second comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getSecondComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getSecondComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized second comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized second comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getSecondComment(java.util.Locale locale) {
+		return _scheduleException.getSecondComment(locale);
+	}
+
+	/**
+	* Returns the localized second comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized second comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getSecondComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getSecondComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getSecondCommentCurrentLanguageId() {
+		return _scheduleException.getSecondCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getSecondCommentCurrentValue() {
+		return _scheduleException.getSecondCommentCurrentValue();
+	}
+
+	/**
+	* Returns the third comment of this schedule exception.
+	*
+	* @return the third comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getThirdComment() {
+		return _scheduleException.getThirdComment();
+	}
+
+	/**
+	* Returns the localized third comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized third comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getThirdComment(java.lang.String languageId) {
+		return _scheduleException.getThirdComment(languageId);
+	}
+
+	/**
+	* Returns the localized third comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized third comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getThirdComment(java.lang.String languageId,
+		boolean useDefault) {
+		return _scheduleException.getThirdComment(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized third comment of this schedule exception in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized third comment of this schedule exception
+	*/
+	@Override
+	public java.lang.String getThirdComment(java.util.Locale locale) {
+		return _scheduleException.getThirdComment(locale);
+	}
+
+	/**
+	* Returns the localized third comment of this schedule exception in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized third comment of this schedule exception. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getThirdComment(java.util.Locale locale,
+		boolean useDefault) {
+		return _scheduleException.getThirdComment(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getThirdCommentCurrentLanguageId() {
+		return _scheduleException.getThirdCommentCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getThirdCommentCurrentValue() {
+		return _scheduleException.getThirdCommentCurrentValue();
 	}
 
 	/**
@@ -318,6 +693,14 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public java.lang.String[] getAvailableLanguageIds() {
 		return _scheduleException.getAvailableLanguageIds();
+	}
+
+	/**
+	* Retourne liste des commentaires
+	*/
+	@Override
+	public java.lang.String[] getComments() {
+		return _scheduleException.getComments();
 	}
 
 	/**
@@ -372,6 +755,56 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getCommentMap() {
 		return _scheduleException.getCommentMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized fifth comments of this schedule exception.
+	*
+	* @return the locales and localized fifth comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getFifthCommentMap() {
+		return _scheduleException.getFifthCommentMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized first comments of this schedule exception.
+	*
+	* @return the locales and localized first comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getFirstCommentMap() {
+		return _scheduleException.getFirstCommentMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized fourth comments of this schedule exception.
+	*
+	* @return the locales and localized fourth comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getFourthCommentMap() {
+		return _scheduleException.getFourthCommentMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized second comments of this schedule exception.
+	*
+	* @return the locales and localized second comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getSecondCommentMap() {
+		return _scheduleException.getSecondCommentMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized third comments of this schedule exception.
+	*
+	* @return the locales and localized third comments of this schedule exception
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getThirdCommentMap() {
+		return _scheduleException.getThirdCommentMap();
 	}
 
 	/**
@@ -546,6 +979,198 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 		_scheduleException.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	/**
+	* Sets the fifth comment of this schedule exception.
+	*
+	* @param fifthComment the fifth comment of this schedule exception
+	*/
+	@Override
+	public void setFifthComment(java.lang.String fifthComment) {
+		_scheduleException.setFifthComment(fifthComment);
+	}
+
+	/**
+	* Sets the localized fifth comment of this schedule exception in the language.
+	*
+	* @param fifthComment the localized fifth comment of this schedule exception
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setFifthComment(java.lang.String fifthComment,
+		java.util.Locale locale) {
+		_scheduleException.setFifthComment(fifthComment, locale);
+	}
+
+	/**
+	* Sets the localized fifth comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param fifthComment the localized fifth comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFifthComment(java.lang.String fifthComment,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_scheduleException.setFifthComment(fifthComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setFifthCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setFifthCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized fifth comments of this schedule exception from the map of locales and localized fifth comments.
+	*
+	* @param fifthCommentMap the locales and localized fifth comments of this schedule exception
+	*/
+	@Override
+	public void setFifthCommentMap(
+		Map<java.util.Locale, java.lang.String> fifthCommentMap) {
+		_scheduleException.setFifthCommentMap(fifthCommentMap);
+	}
+
+	/**
+	* Sets the localized fifth comments of this schedule exception from the map of locales and localized fifth comments, and sets the default locale.
+	*
+	* @param fifthCommentMap the locales and localized fifth comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFifthCommentMap(
+		Map<java.util.Locale, java.lang.String> fifthCommentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setFifthCommentMap(fifthCommentMap, defaultLocale);
+	}
+
+	/**
+	* Sets the first comment of this schedule exception.
+	*
+	* @param firstComment the first comment of this schedule exception
+	*/
+	@Override
+	public void setFirstComment(java.lang.String firstComment) {
+		_scheduleException.setFirstComment(firstComment);
+	}
+
+	/**
+	* Sets the localized first comment of this schedule exception in the language.
+	*
+	* @param firstComment the localized first comment of this schedule exception
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setFirstComment(java.lang.String firstComment,
+		java.util.Locale locale) {
+		_scheduleException.setFirstComment(firstComment, locale);
+	}
+
+	/**
+	* Sets the localized first comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param firstComment the localized first comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFirstComment(java.lang.String firstComment,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_scheduleException.setFirstComment(firstComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setFirstCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setFirstCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized first comments of this schedule exception from the map of locales and localized first comments.
+	*
+	* @param firstCommentMap the locales and localized first comments of this schedule exception
+	*/
+	@Override
+	public void setFirstCommentMap(
+		Map<java.util.Locale, java.lang.String> firstCommentMap) {
+		_scheduleException.setFirstCommentMap(firstCommentMap);
+	}
+
+	/**
+	* Sets the localized first comments of this schedule exception from the map of locales and localized first comments, and sets the default locale.
+	*
+	* @param firstCommentMap the locales and localized first comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFirstCommentMap(
+		Map<java.util.Locale, java.lang.String> firstCommentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setFirstCommentMap(firstCommentMap, defaultLocale);
+	}
+
+	/**
+	* Sets the fourth comment of this schedule exception.
+	*
+	* @param fourthComment the fourth comment of this schedule exception
+	*/
+	@Override
+	public void setFourthComment(java.lang.String fourthComment) {
+		_scheduleException.setFourthComment(fourthComment);
+	}
+
+	/**
+	* Sets the localized fourth comment of this schedule exception in the language.
+	*
+	* @param fourthComment the localized fourth comment of this schedule exception
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setFourthComment(java.lang.String fourthComment,
+		java.util.Locale locale) {
+		_scheduleException.setFourthComment(fourthComment, locale);
+	}
+
+	/**
+	* Sets the localized fourth comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param fourthComment the localized fourth comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFourthComment(java.lang.String fourthComment,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_scheduleException.setFourthComment(fourthComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setFourthCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setFourthCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized fourth comments of this schedule exception from the map of locales and localized fourth comments.
+	*
+	* @param fourthCommentMap the locales and localized fourth comments of this schedule exception
+	*/
+	@Override
+	public void setFourthCommentMap(
+		Map<java.util.Locale, java.lang.String> fourthCommentMap) {
+		_scheduleException.setFourthCommentMap(fourthCommentMap);
+	}
+
+	/**
+	* Sets the localized fourth comments of this schedule exception from the map of locales and localized fourth comments, and sets the default locale.
+	*
+	* @param fourthCommentMap the locales and localized fourth comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setFourthCommentMap(
+		Map<java.util.Locale, java.lang.String> fourthCommentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setFourthCommentMap(fourthCommentMap, defaultLocale);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_scheduleException.setNew(n);
@@ -587,6 +1212,70 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	}
 
 	/**
+	* Sets the second comment of this schedule exception.
+	*
+	* @param secondComment the second comment of this schedule exception
+	*/
+	@Override
+	public void setSecondComment(java.lang.String secondComment) {
+		_scheduleException.setSecondComment(secondComment);
+	}
+
+	/**
+	* Sets the localized second comment of this schedule exception in the language.
+	*
+	* @param secondComment the localized second comment of this schedule exception
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setSecondComment(java.lang.String secondComment,
+		java.util.Locale locale) {
+		_scheduleException.setSecondComment(secondComment, locale);
+	}
+
+	/**
+	* Sets the localized second comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param secondComment the localized second comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setSecondComment(java.lang.String secondComment,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_scheduleException.setSecondComment(secondComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setSecondCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setSecondCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized second comments of this schedule exception from the map of locales and localized second comments.
+	*
+	* @param secondCommentMap the locales and localized second comments of this schedule exception
+	*/
+	@Override
+	public void setSecondCommentMap(
+		Map<java.util.Locale, java.lang.String> secondCommentMap) {
+		_scheduleException.setSecondCommentMap(secondCommentMap);
+	}
+
+	/**
+	* Sets the localized second comments of this schedule exception from the map of locales and localized second comments, and sets the default locale.
+	*
+	* @param secondCommentMap the locales and localized second comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setSecondCommentMap(
+		Map<java.util.Locale, java.lang.String> secondCommentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setSecondCommentMap(secondCommentMap, defaultLocale);
+	}
+
+	/**
 	* Sets the start date of this schedule exception.
 	*
 	* @param startDate the start date of this schedule exception
@@ -604,6 +1293,70 @@ public class ScheduleExceptionWrapper implements ScheduleException,
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
 		_scheduleException.setSubPlaceId(subPlaceId);
+	}
+
+	/**
+	* Sets the third comment of this schedule exception.
+	*
+	* @param thirdComment the third comment of this schedule exception
+	*/
+	@Override
+	public void setThirdComment(java.lang.String thirdComment) {
+		_scheduleException.setThirdComment(thirdComment);
+	}
+
+	/**
+	* Sets the localized third comment of this schedule exception in the language.
+	*
+	* @param thirdComment the localized third comment of this schedule exception
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setThirdComment(java.lang.String thirdComment,
+		java.util.Locale locale) {
+		_scheduleException.setThirdComment(thirdComment, locale);
+	}
+
+	/**
+	* Sets the localized third comment of this schedule exception in the language, and sets the default locale.
+	*
+	* @param thirdComment the localized third comment of this schedule exception
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setThirdComment(java.lang.String thirdComment,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_scheduleException.setThirdComment(thirdComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setThirdCommentCurrentLanguageId(java.lang.String languageId) {
+		_scheduleException.setThirdCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized third comments of this schedule exception from the map of locales and localized third comments.
+	*
+	* @param thirdCommentMap the locales and localized third comments of this schedule exception
+	*/
+	@Override
+	public void setThirdCommentMap(
+		Map<java.util.Locale, java.lang.String> thirdCommentMap) {
+		_scheduleException.setThirdCommentMap(thirdCommentMap);
+	}
+
+	/**
+	* Sets the localized third comments of this schedule exception from the map of locales and localized third comments, and sets the default locale.
+	*
+	* @param thirdCommentMap the locales and localized third comments of this schedule exception
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setThirdCommentMap(
+		Map<java.util.Locale, java.lang.String> thirdCommentMap,
+		java.util.Locale defaultLocale) {
+		_scheduleException.setThirdCommentMap(thirdCommentMap, defaultLocale);
 	}
 
 	/**

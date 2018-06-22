@@ -213,12 +213,12 @@ public class ProjectImpl extends ProjectBaseImpl {
 	@Override
 	public List<AssetEntry> getParticipations() {
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
-		
+
 		if(getProjectCategory() != null)
 			result = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Participation.class.getName()))
+			.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
 		return result;
@@ -235,7 +235,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 			result = AssetEntryLocalServiceUtil
 			.getAssetCategoryAssetEntries(getProjectCategory()
 			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Event.class.getName()))
+			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
 			.collect(Collectors.toList());
 		
 		return result;

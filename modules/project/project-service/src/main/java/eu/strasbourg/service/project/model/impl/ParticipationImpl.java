@@ -82,7 +82,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		for (String eventIdsStr : this.getEventsIds().split(",")) {
 			Long eventId = GetterUtil.getLong(eventIdsStr);
 			Event event = EventLocalServiceUtil.fetchEvent(eventId);
-			if (event != null) {
+			if (event != null && event.getAssetEntry().isVisible()) {
 				events.add(event);
 			}
 		}

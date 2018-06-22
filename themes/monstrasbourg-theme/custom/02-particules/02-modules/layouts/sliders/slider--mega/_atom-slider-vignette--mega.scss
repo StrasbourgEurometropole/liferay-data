@@ -36,7 +36,7 @@
         font-weight: 600;
         font-size: 1.4rem;
         color: #7e7e7e;
-        line-height: 1.8;
+        line-height: 1.5;
 
         @include RWD(mobile){
             font-size: 1.2rem;
@@ -68,7 +68,7 @@
         font-size: 3.5rem;
         color: $second-color;
         text-transform: uppercase;  
-        margin-bottom: 40px;   
+        margin-bottom: 10px;   
         line-height: 1;   
         color:  #2da192;
         @include RWD(mobile){
@@ -230,7 +230,7 @@
             color: #2da192;
             text-transform: none;
             font-weight: 400;
-            margin-bottom: 10px;
+            margin-bottom: 40px;
             padding-left: 30px;
             position: relative;
 

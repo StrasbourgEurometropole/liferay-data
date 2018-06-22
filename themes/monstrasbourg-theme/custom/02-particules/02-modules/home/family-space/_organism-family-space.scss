@@ -1,5 +1,7 @@
 %organism-family-space{    
     @extend %molecule-home-section;
+    font-size: 1.8rem;
+    color: #5c5c5c;
 
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );

@@ -10,6 +10,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.PortletHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONArray;
@@ -72,6 +73,10 @@ public class DemarchesWebPortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
+
+			// Affichage ou non de la croix de masquage du module
+			renderRequest.setAttribute("showDeleteButton",
+					PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));
 
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {

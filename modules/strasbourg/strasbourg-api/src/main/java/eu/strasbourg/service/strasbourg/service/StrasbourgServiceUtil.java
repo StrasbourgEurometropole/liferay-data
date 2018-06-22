@@ -121,6 +121,10 @@ public class StrasbourgServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static void hidePortlet(java.lang.String portletId) {
+		getService().hidePortlet(portletId);
+	}
+
 	public static StrasbourgService getService() {
 		return _serviceTracker.getService();
 	}

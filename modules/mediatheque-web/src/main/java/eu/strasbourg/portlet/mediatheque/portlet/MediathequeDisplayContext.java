@@ -194,7 +194,7 @@ public class MediathequeDisplayContext {
 		if (Validator.isNull(dissociate.getCode_erreur())) {
 			// attente d'activation de la part de l'utilisateur
 			template = "etape1";
-			request.setAttribute("deleteAssociation", "ok");
+			request.setAttribute("dissociation", "ok");
 		} else {
 			// erreur technique -> TECHNIQUE
 			template = "etape4";

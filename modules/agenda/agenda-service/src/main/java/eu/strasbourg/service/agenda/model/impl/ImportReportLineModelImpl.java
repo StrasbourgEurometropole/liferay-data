@@ -65,7 +65,7 @@ public class ImportReportLineModelImpl extends BaseModelImpl<ImportReportLine>
 			{ "lineId", Types.BIGINT },
 			{ "type_", Types.VARCHAR },
 			{ "status", Types.BIGINT },
-			{ "log_", Types.VARCHAR },
+			{ "log_", Types.CLOB },
 			{ "entityName", Types.VARCHAR },
 			{ "entityExternalId", Types.VARCHAR },
 			{ "entityId", Types.BIGINT },
@@ -78,14 +78,14 @@ public class ImportReportLineModelImpl extends BaseModelImpl<ImportReportLine>
 		TABLE_COLUMNS_MAP.put("lineId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("log_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("log_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("entityName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("entityExternalId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("entityId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("reportId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_ImportReportLine (uuid_ VARCHAR(75) null,lineId LONG not null primary key,type_ VARCHAR(75) null,status LONG,log_ VARCHAR(75) null,entityName VARCHAR(200) null,entityExternalId VARCHAR(75) null,entityId LONG,reportId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_ImportReportLine (uuid_ VARCHAR(75) null,lineId LONG not null primary key,type_ VARCHAR(75) null,status LONG,log_ TEXT null,entityName VARCHAR(200) null,entityExternalId VARCHAR(75) null,entityId LONG,reportId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_ImportReportLine";
 	public static final String ORDER_BY_JPQL = " ORDER BY importReportLine.lineId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_ImportReportLine.lineId ASC";

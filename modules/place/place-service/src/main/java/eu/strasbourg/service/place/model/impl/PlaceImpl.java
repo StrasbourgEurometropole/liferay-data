@@ -1059,6 +1059,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 							scheduleException.getComment(locale), locale);
 					placeSchedule.setException(true);
 					placeSchedule.setOpeningTimes(scheduleException.getOpeningLocalTimes());
+					placeSchedule.setComments(scheduleException.getComments());
 					listPlaceSchedules.add(placeSchedule);
 				}
 			}

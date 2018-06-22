@@ -28,7 +28,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
  */
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.required-namespaced-parameters=false",
-		"javax.portlet.display-name=my-district-web Portlet", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.display-name=Mon quartier", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/my-district-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/my-district-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.MY_DISTRICT_WEB, "javax.portlet.resource-bundle=content.Language",
@@ -43,25 +43,6 @@ public class MyDistrictWebPortlet extends MVCPortlet {
 
 		request.setAttribute("dc", dc);
 		super.render(request, response);
-	}
-
-	@Override
-	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws IOException, PortletException {
-		try {
-			String resourceID = resourceRequest.getResourceID();
-			ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
-
-			if (resourceID.equals("hidePortlet")) {
-				String portletName = ParamUtil.getString(resourceRequest, "portletName");
-				PortletHelper.hidePortlet(themeDisplay, portletName);
-			}
-
-		} catch (Exception e) {
-			_log.error(e);
-		}
-
-		super.serveResource(resourceRequest, resourceResponse);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

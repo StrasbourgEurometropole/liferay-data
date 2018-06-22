@@ -184,7 +184,9 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 		for (Document document : hits.getDocs()) {
 			Event event = this.eventLocalService.fetchEvent(
 				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			events.add(event);
+			if(event != null) {
+				events.add(event);
+			}
 		}
 		return this.getApprovedJSONEvents(events);
 	}
@@ -202,7 +204,9 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 		for (Document document : hits.getDocs()) {
 			Event event = this.eventLocalService.fetchEvent(
 				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			events.add(event);
+			if(event != null) {
+				events.add(event);
+			}
 		}
 		return this.getApprovedJSONEvents(events);
 	}
@@ -214,16 +218,8 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 			return error("not authorized");
 		}
 		
-		Hits hits = SearchHelper.getEventWebServiceSearchHits(
-			Event.class.getName(), null, (long) 0, null);
-		List<Event> events = new ArrayList<Event>();
-		for (Document document : hits.getDocs()) {
-			Event event = this.eventLocalService.fetchEvent(
-				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			events.add(event);
-		}
-		events = events.stream().filter(e -> e.getPlaceSIGId().equals(placeSIGId))
-			.collect(Collectors.toList());
+		List<Event> events =  this.eventLocalService.findByPlaceSIGId(placeSIGId);
+
 		return this.getApprovedJSONEvents(events);
 	}
 
@@ -241,7 +237,9 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 		for (Document document : hits.getDocs()) {
 			Event event = this.eventLocalService.fetchEvent(
 				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-			events.add(event);
+			if(event != null) {
+				events.add(event);
+			}
 		}
 		return this.getApprovedJSONEvents(events);
 	}

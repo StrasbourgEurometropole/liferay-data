@@ -198,9 +198,17 @@ jQuery('.objtp-gallery').magnificPopup({
 		preload: [0,1] // Will preload 0 - before current, and 1 after the current image
 	},
 	image: {
+		markup: '<div class="mfp-figure">'+
+            '<div class="mfp-close"></div>'+
+            '<div class="mfp-img"></div>'+
+            '<div class="mfp-bottom-bar">'+
+              '<div class="mfp-title"></div>'+
+            '</div>'+
+          '</div>',
 		tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
 		titleSrc: function(item) {
 			return item.el.attr('title');
 		}
 	}
+	  
 });

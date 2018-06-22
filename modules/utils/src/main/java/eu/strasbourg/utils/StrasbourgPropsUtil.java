@@ -192,4 +192,8 @@ public class StrasbourgPropsUtil {
 	public static String getMediathequeDestroy(){
 		return PropsUtil.get("eu.strasbourg.mediatheque.destroy");
 	}
+
+	public static String getResidantURL(){
+		return PropsUtil.get("eu.strasbourg.resid.url");
+	}
 }

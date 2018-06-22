@@ -70,6 +70,12 @@ public class PlaceServiceUtil {
 		return getService().getPlacesByType(typeId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
+		java.util.List<java.lang.String> typesId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPlacesByTypes(typesId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getTypes()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getTypes();

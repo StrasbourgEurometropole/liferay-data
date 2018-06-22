@@ -1,0 +1,120 @@
+.customize-list{
+    &__item{
+        $this: &;
+        display: flex;
+    }
+    
+    &__item + &__item {
+        margin-top: 2px;
+    }
+
+    // Toggle l'état de la liste
+    &__toggle{
+        background-color: $third-color;
+        width: 130px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 2px;
+        transition: all 0.25s;
+
+        @include RWD(mobile){
+            width: 45px;
+        }
+    }
+    &__state{
+        font-size: 1.4rem;
+        color: $core-color;
+        text-align: center;
+
+        @include RWD(mobile){
+            display: none !important;
+        }
+        
+        &--read{
+            display: none;
+        }
+    }
+    &__toggle-trigger{
+        input{
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+        label{
+            height: 25px;
+            width: 40px;
+            content: '';
+            position: relative;
+            cursor: pointer;
+            &:after{
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                border-radius: 50%;
+                background-color: #FFFFFF;
+                height: 20px;
+                width: 20px;
+                content: '';
+                box-shadow: grey 2px 2px 5px; 
+                transition: all 0.25s ease-out;
+            }
+            &:before{
+                position: absolute;
+                top: 50%;
+                transform: translate(0, -50%);
+                height: 10px;
+                width: 100%;
+                left: 0;
+                background-color: #c1bfbf;
+                border-radius: 5px;
+                content: '';
+            }
+            @include RWD(mobile){
+                transform: scale(0.8);
+            }
+        }
+    }
+
+
+    // Notification Item
+    .customize-item{
+        flex: 1;
+        background-color: $third-color;
+        transition: all 0.25s;
+
+        @include RWD(mobile){
+            padding: 10px 15px;  
+            &__date{
+                font-size: 1.7rem;
+            }
+            &__lead{
+                font-size: 1.4rem;
+            }
+            &__date + .customize-item__lead{
+                margin-top: 5px;
+            }
+        }
+    }
+
+    // Etat lu
+    .customize-list__item--read{
+        .customize-list__toggle-trigger label:after{
+            left: 100%;
+            transform: translate(-100%, -50%);
+        }
+        .customize-list__toggle,
+        .customize-item{
+            background-color: #f6f6f6;
+        }
+
+        .customize-list__state--new{
+            display: none;
+        }
+        .customize-list__state--read{
+            display: block;
+        }
+    }
+}

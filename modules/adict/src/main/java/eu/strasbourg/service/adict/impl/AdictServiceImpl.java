@@ -33,8 +33,7 @@ public class AdictServiceImpl implements AdictService {
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 	/**
-	 * Retourne la liste des rues correspondant à la chaîne de caractères
-	 * "query"
+	 * Retourne la liste des rues correspondant à la chaîne de caractères "query"
 	 */
 	@Override
 	public List<Street> searchStreetNumbers(String query) {
@@ -69,8 +68,8 @@ public class AdictServiceImpl implements AdictService {
 	}
 
 	/**
-	 * Retourne la liste des rues correspondant à la chaîne de caractères
-	 * "query" et appartenant à la ville "city"
+	 * Retourne la liste des rues correspondant à la chaîne de caractères "query" et
+	 * appartenant à la ville "city"
 	 */
 	@Override
 	public List<Street> searchStreetNumbers(String query, String city) {
@@ -105,8 +104,8 @@ public class AdictServiceImpl implements AdictService {
 	}
 
 	/**
-	 * Retourne la liste des ID SIG des lieux des secteurs "sectorTypes" pour
-	 * les coordonnées "x" et "y"
+	 * Retourne la liste des ID SIG des lieux des secteurs "sectorTypes" pour les
+	 * coordonnées "x" et "y"
 	 */
 	@Override
 	public List<String> getSectorizedPlaceIdsForCoordinates(String x, String y, String[] sectorTypes) {
@@ -118,8 +117,8 @@ public class AdictServiceImpl implements AdictService {
 	}
 
 	/**
-	 * Retourne l'ID SIG du lieu du secteur "sectorTypes pour les coordonnées
-	 * "x" et "y"
+	 * Retourne l'ID SIG du lieu du secteur "sectorTypes pour les coordonnées "x" et
+	 * "y"
 	 */
 	@Override
 	public List<String> getSectorizedPlaceIdsForCoordinates(String x, String y, String sectorType) {
@@ -154,7 +153,8 @@ public class AdictServiceImpl implements AdictService {
 		AssetCategory district = null;
 		try {
 			JSONArray coordinates = getCoordinateForAddress(address);
-			List<String> sigIds = getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(), coordinates.get(1).toString(), sectorType);
+			List<String> sigIds = getSectorizedPlaceIdsForCoordinates(coordinates.get(0).toString(),
+					coordinates.get(1).toString(), sectorType);
 			if (!sigIds.isEmpty()) {
 				AssetVocabulary territoryVocabulary;
 				try {
@@ -190,6 +190,26 @@ public class AdictServiceImpl implements AdictService {
 			log.error(e);
 		}
 		return coordinates;
+	}
+
+	/**
+	 * Retourne les coordonnées du secteur
+	 */
+	@Override
+	public JSONObject getCoordinatesForZone(String x, String y, String sectorType) {
+		JSONObject json = null;
+		try {
+			x = HtmlUtil.escape(x);
+			y = HtmlUtil.escape(y);
+			sectorType = HtmlUtil.escape(sectorType);
+			String adictSectorBaseURL = StrasbourgPropsUtil.getAdictSectorBaseURL();
+			json = JSONHelper.readJsonFromURL(
+					adictSectorBaseURL + "&x=" + x + "&y=" + y + "&srid=4326&sector_type=" + sectorType);
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		return json;
 	}
 
 }

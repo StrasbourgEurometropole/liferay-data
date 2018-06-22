@@ -142,6 +142,14 @@ public class SearchHelper {
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
+
+				MatchQuery frTitleQuery = new MatchQuery("title_fr_FR", keywords);
+				frTitleQuery.setFuzziness(new Float(10));
+				keywordQuery.add(frTitleQuery, BooleanClauseOccur.SHOULD);
+
+				WildcardQuery frTitleWildcardQuery = new WildcardQueryImpl("title_fr_FR", "*" + keywords + "*");
+				keywordQuery.add(frTitleWildcardQuery, BooleanClauseOccur.SHOULD);
+
 				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION, keywords);
 				descriptionQuery.setFuzziness(new Float(10));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
@@ -761,12 +769,21 @@ public class SearchHelper {
 	 */
 	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
 			Locale locale) {
+		return getPlaceWebServiceSearchHits(className, categoriesIds, keywords,locale, true);
+	}
+	
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour le webservice des
+	 * lieux
+	 */
+	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
+			Locale locale, boolean isAndQuery) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 
 			// Query
-			Query query = SearchHelper.getPlaceWebServiceQuery(className, categoriesIds, keywords, locale);
+			Query query = SearchHelper.getPlaceWebServiceQuery(className, categoriesIds, keywords, locale, isAndQuery);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -782,7 +799,7 @@ public class SearchHelper {
 	 * Retourne la requête pour le webservice des lieux
 	 */
 	private static Query getPlaceWebServiceQuery(String className, long[] categoriesIds, String keywords,
-			Locale locale) {
+			Locale locale, boolean isAndQuery) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
@@ -793,27 +810,42 @@ public class SearchHelper {
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
-				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
+				MatchQuery titleQuery = new MatchQuery("title_fr_FR", keywords);
 				titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
-				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl("title_fr_FR", "*" + keywords + "*");
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);
 			}
 
 			// Catégories
-			if (categoriesIds != null) {
-				for (long categoryId : categoriesIds) {
-					if (Validator.isNotNull(categoryId)) {
-						BooleanQuery categoryQuery = new BooleanQueryImpl();
-						categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
-						query.add(categoryQuery, BooleanClauseOccur.MUST);
+			if (isAndQuery) {
+				if (categoriesIds != null) {
+					for (long categoryId : categoriesIds) {
+						if (Validator.isNotNull(categoryId)) {
+							BooleanQuery categoryQuery = new BooleanQueryImpl();
+							categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
+							query.add(categoryQuery, BooleanClauseOccur.MUST);
+						}
 					}
 				}
+			} 
+			else {
+				BooleanQuery categoriesQuery = new BooleanQueryImpl();
+				if (categoriesIds != null) {
+					for (long categoryId : categoriesIds) {
+						if (Validator.isNotNull(categoryId)) {
+							BooleanQuery categoryQuery = new BooleanQueryImpl();
+							categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId);
+							categoriesQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+						}
+					}
+				}
+				query.add(categoriesQuery, BooleanClauseOccur.MUST);
 			}
-
+			
 			return query;
 		} catch (
 
