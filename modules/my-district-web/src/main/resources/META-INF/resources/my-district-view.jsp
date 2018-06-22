@@ -12,7 +12,7 @@
 <c:if test="${empty dc.district}">
 	<div class="wi-wrapper">
         <div id="districts-configuration">
-            <h1>Mon quartier</h1>
+            <h1><liferay-ui:message key="my-district" /></h1>
             <p>
                 L'adresse renseign&eacute;e dans votre profil ne correspond pas &agrave; un quartier de Strasbourg.
                 <br>Vous pouvez voir les pages des quartiers de la ville en cliquant sur les liens ci-dessous.
@@ -56,7 +56,7 @@
 		<c:if test="${not empty official}">
 			<div class="wi-wrapper">
 				<section id="elu">
-					<h1><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h1>
+					<h2><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h2>
 					<img title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
 					<div class="seu-text">
 						<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
@@ -76,7 +76,7 @@
 		<c:if test="${not empty townHall}">
 			<div class="wi-wrapper">
 				<section id="mairie">
-					<h1><liferay-ui:message key="town-hall" /></h1>
+					<h2><liferay-ui:message key="town-hall" /></h2>
 					<p>${dc.townHallText}</p>
 					<div class="flexbox">
 						<div class="container-left">
@@ -155,7 +155,7 @@
 		<c:if test="${not empty territoryDirection}">
 			<div class="wi-wrapper">
 				<section id="direction">
-					<h1><liferay-ui:message key="territory-direction" /></h1>
+					<h2><liferay-ui:message key="territory-direction" /></h2>
 					<p>${dc.territoryDirectionText}</p>
 					<div class="flexbox">
 						<div class="container-left">
@@ -205,7 +205,7 @@
 		<c:if test="${not empty sectorSchools}">
 			<div class="wi-wrapper">
 				<section id="ecoles">
-					<h1><liferay-ui:message key="sector-schools" /></h1>
+					<h2><liferay-ui:message key="sector-schools" /></h2>
 					<div class="ecoles-grid">
 						<c:forEach items="${sectorSchools}" var="school">
 							<div class="ecoles-teaser">
@@ -248,7 +248,7 @@
 			<script type="text/javascript">
                 var mega_source = [];
 			</script>
-			<h1><liferay-ui:message key="district-actualities" /></h1>
+			<h2><liferay-ui:message key="district-actualities" /></h2>
 			<c:if test="${not empty dc.actusAndWebmags}">
 			    <script type="text/javascript">
 			        mega_source.push([
@@ -359,7 +359,7 @@
 				<p><liferay-ui:message key="no-actu" /></p>
 			</c:if>
 
-			<h1><liferay-ui:message key="district-events" /></h1>
+			<h2><liferay-ui:message key="district-events" /></h2>
 			<c:if test="${not empty dc.events}">
 			    <script type="text/javascript">
 		        	mega_source.push([

@@ -23,10 +23,10 @@
 	    <h1><liferay-ui:message key="auround-me" /></h1>
 	</c:if>
 	<c:if test="${districtUser}">
-	    <h1 class="aroundme--title">
+	    <h2 class="aroundme--title">
 	    	<liferay-ui:message key="my-district" /><br />
 	    	${district.getTitle(locale)}
-	    </h1>
+	    </h2>
 	</c:if>
 	<section id="wi-aroundme">
 		<div id="aroundme">
