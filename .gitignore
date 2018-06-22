@@ -421,3 +421,5 @@ Temporary Items
 liferay-workspace.iml
 
 /.idea/
+themes/plateforme-citoyenne-theme/src/css/strasbourg.css
+themes/plateforme-citoyenne-theme/src/js/strasbourg.js
