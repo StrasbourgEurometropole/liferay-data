@@ -109,12 +109,9 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStatusDate(sc.getModifiedDate());
 		List<ProjectTimeline> projectTimelines = project.getProjectTimelines();
 		if (projectTimelines !=null&&!projectTimelines.isEmpty()){
-            log.info("taille de la liste : " + projectTimelines.size());
 			ProjectTimeline firstMilestone = projectTimelines.get(0);
-			log.info("firstMilestone 2 : " + firstMilestone);
 			// On définit le premier jalon comme la date par référence.
             LocalDateTime dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            log.info("dateStatusTemp : " + dateStatusTemp.toString());
             projectTimelines.forEach(projectTimeline -> {
 				LocalDateTime dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 				projectTimeline.setStartDay(Math.toIntExact(Duration.between(dateStatusTemp,dateStatus).toDays()));
