@@ -14,31 +14,39 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface AssetVocabularyHelperService {
-	public List<AssetVocabulary> getVocabulariesForAssetType(long groupId, long classNameId);
+	List<AssetVocabulary> getVocabulariesForAssetType(long groupId, long classNameId);
 
 	/**
 	 * Retourne la liste des catégories rattachées à un AssetEntry
 	 */
-	public List<AssetCategory> getAssetEntryCategories(
-		AssetEntry entry);
+	List<AssetCategory> getAssetEntryCategories(
+			AssetEntry entry);
 
 	/**
 	 * Retourne la liste des catégories d'un vocabulaire spécifique rattachées à
 	 * un AssetEntry
-	 * 
+	 *
 	 */
-	public List<AssetCategory> getAssetEntryCategoriesByVocabulary(
-		AssetEntry entry, String vocabularyName);
+	List<AssetCategory> getAssetEntryCategoriesByVocabulary(
+			AssetEntry entry, String vocabularyName);
 
 	/**
 	 * Retourne la valeur d'une propriété d'une catégorie
 	 * Retourne une chaîne vide si la propriété n'existe pas
 	 */
-	public String getCategoryProperty(long categoryId, String key);
+	String getCategoryProperty(long categoryId, String key);
 
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
 	 * donné
 	 */
-	public AssetVocabulary getVocabulary(String vocabularyName, long groupId);
+	AssetVocabulary getVocabulary(String vocabularyName, long groupId);
+
+    /**
+     * méthode permettant de savoir si le nombre entré en parametre est égale au nombre de quartier total.
+     *
+     * @param listDistrictSizeToCompare le nombre de quartier présent dans l'asset.
+     * @return le boolean.
+     */
+    boolean isAllDistrict(int listDistrictSizeToCompare);
 }

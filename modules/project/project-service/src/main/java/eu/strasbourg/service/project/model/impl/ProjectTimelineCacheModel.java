@@ -66,12 +66,14 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{projectTimelineId=");
 		sb.append(projectTimelineId);
 		sb.append(", startDay=");
 		sb.append(startDay);
+		sb.append(", spacing=");
+		sb.append(spacing);
 		sb.append(", date=");
 		sb.append(date);
 		sb.append(", title=");
@@ -91,6 +93,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 
 		projectTimelineImpl.setProjectTimelineId(projectTimelineId);
 		projectTimelineImpl.setStartDay(startDay);
+		projectTimelineImpl.setSpacing(spacing);
 
 		if (date == Long.MIN_VALUE) {
 			projectTimelineImpl.setDate(null);
@@ -125,6 +128,8 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		projectTimelineId = objectInput.readLong();
 
 		startDay = objectInput.readInt();
+
+		spacing = objectInput.readInt();
 		date = objectInput.readLong();
 		title = objectInput.readUTF();
 		link = objectInput.readUTF();
@@ -138,6 +143,8 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		objectOutput.writeLong(projectTimelineId);
 
 		objectOutput.writeInt(startDay);
+
+		objectOutput.writeInt(spacing);
 		objectOutput.writeLong(date);
 
 		if (title == null) {
@@ -159,6 +166,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 
 	public long projectTimelineId;
 	public int startDay;
+	public int spacing;
 	public long date;
 	public String title;
 	public String link;

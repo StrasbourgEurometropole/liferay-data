@@ -882,6 +882,7 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 
 		projectTimelineImpl.setProjectTimelineId(projectTimeline.getProjectTimelineId());
 		projectTimelineImpl.setStartDay(projectTimeline.getStartDay());
+		projectTimelineImpl.setSpacing(projectTimeline.getSpacing());
 		projectTimelineImpl.setDate(projectTimeline.getDate());
 		projectTimelineImpl.setTitle(projectTimeline.getTitle());
 		projectTimelineImpl.setLink(projectTimeline.getLink());

@@ -417,8 +417,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-liferay-workspace.iml
+*.iml
 
 /.idea/
 themes/plateforme-citoyenne-theme/src/css/strasbourg.css

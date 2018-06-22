@@ -91,6 +91,20 @@ public interface ProjectTimelineModel extends BaseModel<ProjectTimeline> {
 	public void setStartDay(int startDay);
 
 	/**
+	 * Returns the spacing of this project timeline.
+	 *
+	 * @return the spacing of this project timeline
+	 */
+	public int getSpacing();
+
+	/**
+	 * Sets the spacing of this project timeline.
+	 *
+	 * @param spacing the spacing of this project timeline
+	 */
+	public void setSpacing(int spacing);
+
+	/**
 	 * Returns the date of this project timeline.
 	 *
 	 * @return the date of this project timeline

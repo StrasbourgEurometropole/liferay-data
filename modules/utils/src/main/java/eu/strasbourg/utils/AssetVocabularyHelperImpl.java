@@ -64,4 +64,9 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 		long groupId) {
 		return AssetVocabularyHelper.getVocabulary(vocabularyName, groupId);
 	}
+
+	@Override
+	public boolean isAllDistrict(int listDistrictSizeToCompare) {
+		return AssetVocabularyHelper.isAllDistrict(listDistrictSizeToCompare);
+	}
 }

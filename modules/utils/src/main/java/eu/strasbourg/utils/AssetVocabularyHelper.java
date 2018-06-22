@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * Classe Helper pour tout ce qui concerne les vocabulaires
@@ -92,6 +93,28 @@ public class AssetVocabularyHelper {
 		}
 		return null;
 	}
+
+	public static boolean isAllDistrict(int listDistrictSizeToCompare){
+        AssetVocabulary territoryVocabulary = null;
+        try {
+            territoryVocabulary = getGlobalVocabulary(VocabularyNames.TERRITORY);
+        } catch (PortalException ignored) {
+        }
+        assert territoryVocabulary != null;
+        List<AssetCategory> territories = territoryVocabulary.getCategories();
+	    int index = 0;
+	    if (territories!=null&&!territories.isEmpty()){
+            for (AssetCategory territory :territories) {
+                try {
+                    if (territory.getAncestors().size()==2){
+                        index++;
+                    }
+                } catch (PortalException ignored){
+                }
+            }
+        }
+        return index == listDistrictSizeToCompare;
+    }
 
 	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
@@ -411,7 +434,7 @@ public class AssetVocabularyHelper {
 	 * @throws PortalException
 	 */
 	public static Boolean isMairie(AssetCategory category) throws PortalException {
-		// TODO mairie de quartier et sentre administratif uniquement ou mairie de l'eurométropole également ?
+		// TODO mairie de quartier et centre administratif uniquement ou mairie de l'eurométropole également ?
 		if (category.getName().contains("Mairies")) {
 			return true;
 		}
