@@ -14,10 +14,6 @@
 #mns-global{
 	.mns-bloc-agenda{
 		position: relative;
-		margin: 65px 0 0px;
-		@include mobile{
-			margin: 65px 0 0;
-		}
 		a{
 			display: block;
 			text-align: start;
@@ -31,28 +27,6 @@
 
 
 			&:hover{
-				transform: translateY(-20px);
-				@include mobile {
-					transform: none;
-				}
-				@include tablet_portrait {
-					transform: none;
-				}
-				@include tablet_landscape {
-					transform: none;
-				}
-				img{
-					box-shadow: 0 -20px 28px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
-					@include mobile {
-						box-shadow: none;
-					}
-					@include tablet_portrait {
-						box-shadow: none;
-					}
-					@include tablet_landscape {
-						box-shadow: none;
-					}
-				}
 				.basic-link{
 					opacity: 1;
 				}

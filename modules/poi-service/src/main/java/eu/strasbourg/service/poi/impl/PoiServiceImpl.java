@@ -375,7 +375,7 @@ public class PoiServiceImpl implements PoiService {
 
 			JSONObject properties = JSONFactoryUtil.createJSONObject();
 			properties.put("name", place.getAlias(Locale.FRANCE));
-			properties.put("address", place.getAddressStreet() + " " + place.getAddressComplement() + " "
+			properties.put("address", place.getAddressStreet() + " " + place.getAddressComplement() + "<br>"
 					+ place.getAddressZipCode() + " " + place.getCity(Locale.FRANCE));
 			properties.put("visual", place.getImageURL());
 			// récupère l'url de détail du poi
@@ -482,17 +482,27 @@ public class PoiServiceImpl implements PoiService {
 			// Temps réel
 			if (place.getRTEnabled()) { // (place.isEnabled()) {
 				OccupationState occupation = place.getRealTime();
+				String title = "";
 				String frequentation = "";
+				String label = "";
 				String color = occupation.getCssClass();
 				if (place.isSwimmingPool()) {
+					title = "frequentation-real";
 					frequentation = occupation.getOccupation();
+					label = occupation.getLabel();
 				} else if (place.isMairie()) {
+					title = "time-real";
 					frequentation = occupation.getOccupation();
+					label = occupation.getLabel();
 				} else {
+					title = "occupation-real";
 					frequentation = occupation.getAvailable();
+					label = "available-spots";
 				}
 				JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
+				amountProperty.put("title", title);
 				amountProperty.put("frequentation", frequentation);
+				amountProperty.put("label", label);
 				amountProperty.put("color", color);
 				properties.put("amount", amountProperty);
 			}
@@ -518,7 +528,7 @@ public class PoiServiceImpl implements PoiService {
 			JSONObject properties = JSONFactoryUtil.createJSONObject();
 			properties.put("name", event.getTitle(Locale.FRANCE));
 			properties.put("address", event.getPlaceAlias(Locale.FRANCE) + " " + event.getPlaceAddress(Locale.FRANCE)
-					+ " " + event.getPlaceZipCode() + " " + event.getPlaceCity(Locale.FRANCE));
+					+ "<br>" + event.getPlaceZipCode() + " " + event.getPlaceCity(Locale.FRANCE));
 			properties.put("visual", event.getImageURL());
 			// récupère l'url de détail du poi
 			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -540,7 +550,7 @@ public class PoiServiceImpl implements PoiService {
 
 			// pour les favoris
 			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(event.getModelClassName()));
-			properties.put("id", event.getPlaceId());
+			properties.put("id", event.getEventId());
 
 			// Prochaine date
 			if (event.getFirstStartDate() != null) {

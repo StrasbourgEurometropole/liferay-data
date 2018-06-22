@@ -22,7 +22,7 @@
 <div class="container-fluid-1280 main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
-	(voir mÃÂ©thode "validate" dans le saveAction de l'entitÃÂ©) --%>
+	(voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -162,7 +162,7 @@
 					</c:if>
 					
 					<c:forEach items="${dc.project.projectTimelines}" var="projectTimeline" varStatus="status">
-						<div class="lfr-form-row lfr-form-row-inline">
+ 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
 								<fmt:formatDate value="${projectTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
@@ -176,8 +176,9 @@
 							</div>
 						</div>
 					</c:forEach>
-					<%-- Variable : Definit les variables de gestion et de retour du selecteur
-					(voir "autofields" dans le .js de l'edit de l'entitÃÂ©)  --%>
+
+					<%-- Variable : Definit les variables de gestion et de retour du selecteur 
+					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
 					<c:if test="${empty dc.project.projectTimelines}">
 							<aui:input type="hidden" name="projectTimelineIndexes" value="0" />
 						</c:if>

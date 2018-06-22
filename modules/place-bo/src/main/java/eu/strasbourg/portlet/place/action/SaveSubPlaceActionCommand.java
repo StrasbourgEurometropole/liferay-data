@@ -201,9 +201,25 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 					Date endDate = ParamUtil.getDate(request, "endDateScheduleException" + shedulesExceptionsIndex,
 							new SimpleDateFormat("yyyy-MM-dd"));
 					boolean closed = ParamUtil.getBoolean(request, "closed" + shedulesExceptionsIndex);
-
+					
+					Map<Locale, String> firstComment = LocalizationUtil.getLocalizationMap(request,
+							"firstComment" + shedulesExceptionsIndex);
+					Map<Locale, String> secondComment = LocalizationUtil.getLocalizationMap(request,
+							"secondComment" + shedulesExceptionsIndex);
+					Map<Locale, String> thirdComment = LocalizationUtil.getLocalizationMap(request,
+							"thirdComment" + shedulesExceptionsIndex);
+					Map<Locale, String> fourthComment = LocalizationUtil.getLocalizationMap(request,
+							"fourthComment" + shedulesExceptionsIndex);
+					Map<Locale, String> fifthComment = LocalizationUtil.getLocalizationMap(request,
+							"fifthComment" + shedulesExceptionsIndex);
+					
 					ScheduleException scheduleException = _scheduleExceptionLocalService.createScheduleException(sc);
 					scheduleException.setCommentMap(comment);
+					scheduleException.setFirstCommentMap(firstComment);
+					scheduleException.setSecondCommentMap(secondComment);
+					scheduleException.setThirdCommentMap(thirdComment);
+					scheduleException.setFourthCommentMap(fourthComment);
+					scheduleException.setFifthCommentMap(fifthComment);
 					scheduleException.setStartDate(startDate);
 					scheduleException.setEndDate(endDate);
 					scheduleException.setClosed(closed);

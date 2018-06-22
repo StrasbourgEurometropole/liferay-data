@@ -31,7 +31,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="placeId" type="hidden" />
 
-			<!-- Informations gÃ©ographique -->
+			<!-- Informations gÃÂ©ographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
 				
@@ -136,20 +136,20 @@
 				<aui:input name="presentation" />
 				
 				<aui:input name="serviceAndActivities"   />
-				<!-- Hack pour ajouter une validation sur les services et activitÃ©s -->
+				<!-- Hack pour ajouter une validation sur les services et activitÃÂ©s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="serviceAndActivitiesValidatorInputHelper" value="placeholder" />
 				</div>
 				
 				<aui:input name="characteristics" helpMessage="characteristics-help" />
-				<!-- Hack pour ajouter une validation sur les caractÃ©ristiques -->
+				<!-- Hack pour ajouter une validation sur les caractÃÂ©ristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
 				
 			</aui:fieldset>
 				
-			<!-- MÃ©dias -->
+			<!-- MÃÂ©dias -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
@@ -201,12 +201,12 @@
 
 			</aui:fieldset>
 				
-			<!-- AccÃ©s -->
+			<!-- AccÃÂ©s -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
 				<aui:input name="access" label="access-mod" helpMessage="access-mod-help" />
-				<!-- Hack pour ajouter une validation sur le mode d'accÃ¨s -->
+				<!-- Hack pour ajouter une validation sur le mode d'accÃÂ¨s -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessValidatorInputHelper" value="placeholder"/>
 				</div>		
@@ -215,7 +215,7 @@
 					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" global="true" />
 				
 				<aui:input name="accessForDisabled"  />
-				<!-- Hack pour ajouter une validation sur le service aux personnes handicapÃ©es -->
+				<!-- Hack pour ajouter une validation sur le service aux personnes handicapÃÂ©es -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessForDisabledValidatorInputHelper" value="placeholder"/>
 				</div>	
@@ -237,7 +237,7 @@
 				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
 					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
 				
-				<!-- PÃ©riodes & horaires -->
+				<!-- PÃÂ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="period-time">
 					
@@ -348,14 +348,19 @@
 										<liferay-util:param name="index" value="${status.count}" />
 										<liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
 										<liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
+										<liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
 										<liferay-util:param name="startHour2" value="${scheduleException.getStartHour(1)}" />
 										<liferay-util:param name="endHour2" value="${scheduleException.getEndHour(1)}" />
+										<liferay-util:param name="secondComment" value="${scheduleException.secondComment}" />
 										<liferay-util:param name="startHour3" value="${scheduleException.getStartHour(2)}" />
 										<liferay-util:param name="endHour3" value="${scheduleException.getEndHour(2)}" />
+										<liferay-util:param name="thirdComment" value="${scheduleException.thirdComment}" />
 										<liferay-util:param name="startHour4" value="${scheduleException.getStartHour(3)}" />
 										<liferay-util:param name="endHour4" value="${scheduleException.getEndHour(3)}" />
+										<liferay-util:param name="fourthComment" value="${scheduleException.fourthComment}" />
 										<liferay-util:param name="startHour5" value="${scheduleException.getStartHour(4)}" />
 										<liferay-util:param name="endHour5" value="${scheduleException.getEndHour(4)}" />
+										<liferay-util:param name="fifthComment" value="${scheduleException.fifthComment}" />
 										<liferay-util:param name="comment" value="${scheduleException.comment}" />
 										<liferay-util:param name="startDate" value="${formattedStartDate}" />
 										<liferay-util:param name="endDate" value="${formattedEndDate}" />
@@ -385,21 +390,21 @@
 					
 			</aui:fieldset>
 				
-			<!-- Informations complÃ©mentaires -->
+			<!-- Informations complÃÂ©mentaires -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
 				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
-				<!-- Hack pour ajouter une validation sur les inforrmations complÃ©mentaires -->
+				<!-- Hack pour ajouter une validation sur les inforrmations complÃÂ©mentaires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="additionalInformationValidatorInputHelper" value="placeholder"/>
 				</div>	
 				
 			</aui:fieldset>
 				
-			<!-- FrÃ©quentation temps rÃ©el -->
+			<!-- FrÃÂ©quentation temps rÃÂ©el -->
 			
 			<c:if test="${dc.place.isEnabled()}">
 				<aui:fieldset collapsed="false" collapsible="true"

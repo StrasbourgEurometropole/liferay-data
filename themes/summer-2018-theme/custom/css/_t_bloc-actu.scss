@@ -57,35 +57,6 @@
 		strong {
 			font-weight: 500;
 		}
-
-
-
-		&:hover{
-			a{
-				transform: translateY(-20px);
-				@include mobile {
-					transform: none;
-				}
-				@include tablet_portrait {
-					transform: none;
-				}
-				@include tablet_landscape {
-					transform: none;
-				}
-				img{
-					box-shadow: 0 -20px 28px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
-					@include mobile {
-						box-shadow: none;
-					}
-					@include tablet_portrait {
-						box-shadow: none;
-					}
-					@include tablet_landscape {
-						box-shadow: none;
-					}
-				}
-			}
-		}
 	}
 
 

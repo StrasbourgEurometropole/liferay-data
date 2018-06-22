@@ -65,13 +65,13 @@ public class BorrowerResponse {
 			for (Element loan : loans) {
 				borrowings.add(new Media(loan));
 			}
-			// affiche les emprunts sans date en premier
 			List<Media> borrowingsSorted = new ArrayList<Media>();
-			borrowingsSorted.addAll(
-					borrowings.stream().filter(b -> Validator.isNull(b.getReturnDate())).collect(Collectors.toList()));
 			// tri par date les emprunts
 			borrowingsSorted.addAll(borrowings.stream().filter(b -> Validator.isNotNull(b.getReturnDate()))
 					.sorted((l1, l2) -> l1.getReturnDate().compareTo(l2.getReturnDate())).collect(Collectors.toList()));
+			// affiche les emprunts sans date en dernier
+			borrowingsSorted.addAll(
+					borrowings.stream().filter(b -> Validator.isNull(b.getReturnDate())).collect(Collectors.toList()));
 
 			reservations = new ArrayList<Media>();
 			List<Element> resas = borrower.element("Reservations").elements("Reservation");
@@ -81,13 +81,13 @@ public class BorrowerResponse {
 					reservations.add(new Media(item));
 				}
 			}
-			// affiche les réservations sans date en premier
 			List<Media> reservationsSorted = new ArrayList<Media>();
-			reservationsSorted.addAll(reservations.stream().filter(b -> Validator.isNull(b.getRequestDate()))
-					.collect(Collectors.toList()));
 			// tri par date les réservations
 			reservationsSorted.addAll(reservations.stream().filter(b -> Validator.isNotNull(b.getRequestDate()))
 					.sorted((l1, l2) -> l1.getRequestDate().compareTo(l2.getRequestDate()))
+					.collect(Collectors.toList()));
+			// affiche les réservations sans date en dernier
+			reservationsSorted.addAll(reservations.stream().filter(b -> Validator.isNull(b.getRequestDate()))
 					.collect(Collectors.toList()));
 		} catch (DocumentException e) {
 			e.printStackTrace();

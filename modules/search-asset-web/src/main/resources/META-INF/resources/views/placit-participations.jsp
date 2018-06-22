@@ -77,16 +77,16 @@
                 
             </div>
 
+			<!-- 
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="eu.most-searched" /></h4>
                 
-                <!-- 
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂÃÂ©matique</span>
+                        <span>Thematique</span>
                     </div>
-                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de l'enement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>37 </strong>Commentaire(s)</span>
@@ -96,21 +96,21 @@
                         </div>
                     </div>
                 </a>
-                -->
 
             </div>
+            -->
 
-
+			<!-- 
             <div class="pro-widget-participation">
                 <h4><liferay-ui:message key="eu.least-noticed" /></h4>
                 
-                <!-- 
+                
                 <a href="detail-event.html" title="Lien vers Titre de l'evenement">
                     <div class="pro-meta">
                         <span>Quartier</span>
-                        <span>ThÃÂÃÂ©matique</span>
+                        <span>Thematique</span>
                     </div>
-                    <h3>Titre de lÃÂ¢ÃÂÃÂÃÂÃÂvÃÂÃÂ¨nement<br>Sur deux lignes</h3>
+                    <h3>Titre de l'evenement<br>Sur deux lignes</h3>
 
                     <div class="pro-meta-footer">
                         <span class="pro-comments"><strong>9 </strong>Commentaire(s)</span>
@@ -120,9 +120,9 @@
                         </div>
                     </div>
                 </a>
-                -->
-                
+                 
             </div>
+            -->
 
         </div>
     </div>
@@ -139,16 +139,16 @@
             		<form action="/" method="get">
 		                <label for="change-page" class="hide" aria-labelledby="change-page" aria-hidden="true" aria-label="change-page">Changer de page</label>
 		                <select id="change-page" name="change-page" onchange="location = this.value;">
-		                    <c:forEach var="page" items="${dc.pager.pages}">
+		                    <c:forEach var="pageIndex" begin="1" end="${dc.pager.lastPage}">
 		                    	<c:choose>
-		                    		<c:when test="${page.index != dc.pager.lastPage}">
-			                			<option value="${dc.getURLForPage(page.index)}">
-											<liferay-ui:message key="eu.page" /> ${page.index} ( ${dc.pager.delta} )
+		                    		<c:when test="${pageIndex != dc.pager.lastPage}">
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+											<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta} )
 			                			</option>
 			                		</c:when>
 			                		<c:otherwise>
-			                			<option value="${dc.getURLForPage(page.index)}">
-			                				<liferay-ui:message key="eu.page" /> ${page.index} ( ${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)} )
+			                			<option value="${dc.getURLForPage(pageIndex)}">
+			                				<liferay-ui:message key="eu.page" /> ${pageIndex} ( ${dc.pager.delta - ( dc.pager.lastPage * dc.pager.delta - dc.pager.count)} )
 			                			</option>
 			                		</c:otherwise>
 			                	</c:choose>

@@ -104,7 +104,7 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 	height : unset;
 }
 
-.modal-body {
+.pro-modal .modal-body {
 	overflow : unset;
 }
 
@@ -115,6 +115,7 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 
 .pro-modal .modal-dialog {
 	max-width : 600px;
+	position : relative;
 }
 
 .modal-body .col-sm-6 {
@@ -127,3 +128,18 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 .pro-bloc-listing-event .pro-bloc-card-event {
 	margin : 14px;
 }
+
+// Ajout de la marge des icons des datepiker Pikaday
+.pro-bloc-facette form .pro-group fieldset>* .pro-facette-date input {
+	margin-right : 10px;
+}
+
+// Suppression des surcharges de couleur sur le panneau d'ajout de contenu de Liferay
+.add-application-panel ul li {
+	color: inherit;
+}
+
+.add-application-panel h4, span.h4 {
+	color: inherit;
+}
+// Fin de la suppression

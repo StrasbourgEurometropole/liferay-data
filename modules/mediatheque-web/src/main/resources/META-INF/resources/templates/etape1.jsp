@@ -3,9 +3,9 @@
 <section id="mediatheque">
     <h2><liferay-ui:message key="account-mediatheque" /></h2>
 		<!-- Etape 1 -->
-		<c:if test="${not empty deleteAssociation and deleteAssocciation == 'ok'}">
+		<c:if test="${not empty dissociation and dissociation == 'ok'}">
 			<!-- Message d'information -->
-			<div><liferay-ui:message key="delete-association-text" /></div>
+			<div class="information"><liferay-ui:message key="delete-association-text" /></div>
 		</c:if>
 		<p>
 			${dc.demarcheText}

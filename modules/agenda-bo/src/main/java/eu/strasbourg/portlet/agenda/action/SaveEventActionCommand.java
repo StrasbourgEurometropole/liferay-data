@@ -310,6 +310,24 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			_log.error(e);
 		} catch (IOException e) {
 			_log.error(e);
+			// Si on rentre dans l'IOException, c'est qu'on a pas réussi à charger l'image fournie
+			// C'est sûrement une image externe dont l'URL n'est pas bonne ou plus valide
+			SessionErrors.add(request, "image-load-error");
+			// Si pas valide : on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+				.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request
+				.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				portletName, themeDisplay.getPlid(),
+				PortletRequest.RENDER_PHASE);
+
+			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("mvcPath",
+				"/agenda-bo-edit-event.jsp");
+			return false;
 		}
 
 		return true;

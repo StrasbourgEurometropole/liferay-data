@@ -36,7 +36,12 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 	public static final String CLASS_NAME = Place.class.getName();
 
 	public PlaceIndexer() {
-		setFilterSearch(true);
+        setDefaultSelectedFieldNames(
+                Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.CONTENT,
+                Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK, Field.GROUP_ID,
+                Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID, Field.TITLE, Field.UID);
+
+        setFilterSearch(true);
 		setPermissionAware(true);
 	}
 
@@ -67,6 +72,8 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 				assetCategories);
+
+		document.addText(Field.TITLE, place.getAlias(Locale.FRANCE));
 
 		document.addLocalizedText(Field.TITLE, place.getAliasMap());
 

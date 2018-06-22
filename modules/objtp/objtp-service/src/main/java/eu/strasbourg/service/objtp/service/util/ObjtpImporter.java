@@ -19,10 +19,18 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -227,7 +235,7 @@ public class ObjtpImporter {
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT, rollbackFor = {PortalException.class, SystemException.class,IOException.class,JSONException.class})
-	public ImportReportLineObjtp importObject(JSONObject objectJSON) throws IOException, PortalException, ParseException {
+	public ImportReportLineObjtp importObject(JSONObject objectJSON) throws PortalException, ParseException {
 		
 		ImportReportLineObjtp reportLine = new ImportReportLineObjtp();
 		
@@ -276,7 +284,6 @@ public class ObjtpImporter {
 		Date dateDepot = recievingFormat.parse(depotDate);
 		
 		object.setDate(dateDepot);
-		
 		// On récupère l'image associée à l'objet trouvé
 		String url = StrasbourgPropsUtil.getObjtpURL() + "image_objet?numero_objet="+ object.getNumber();
 		JSONObject json = null;
@@ -301,7 +308,7 @@ public class ObjtpImporter {
 			reportLine.error(LanguageUtil.get(bundle, "no-image-for-object"));
 			reportLine.setStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
 		}
-		else {
+		else {			
 			JSONObject image = imageArray.getJSONObject(0);
 			String imageBase64 = image.getString("image");
 			
@@ -312,8 +319,24 @@ public class ObjtpImporter {
 			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
 			long companyId = defaultCompany.getCompanyId();
 			long globalGroupId = defaultCompany.getGroup().getGroupId();
+			
+			Role adminRole;
+			try {
+				// On récupère les droits d'admin pour les donner au thread, pour pouvoir manipuler Documents et Medias
+				adminRole = RoleLocalServiceUtil.getRole(defaultCompany.getCompanyId(),"Administrator");
+			    List<User> adminUsers = UserLocalServiceUtil.getRoleUsers(adminRole.getRoleId());
+			    PrincipalThreadLocal.setName(adminUsers.get(0).getUserId());
+			    PermissionChecker permissionChecker =PermissionCheckerFactoryUtil.create(adminUsers.get(0));
+			    PermissionThreadLocal.setPermissionChecker(permissionChecker);
+			} catch (Exception e) {
+				// Dans le cas où ça plante sur la récupération des droits d'admin
+				reportLine.error("Erreur récupération de droit d'admin");
+				_log.error(e);
+				return reportLine;
+			}
+
 		    long repositoryId = DLFolderConstants.getDataRepositoryId(globalGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
-		  
+
 		    // serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
 		    ServiceContext serviceContext = new ServiceContext();
 		    serviceContext.setAddGroupPermissions(true);

@@ -2,6 +2,11 @@ package eu.strasbourg.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +14,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 
 /*
@@ -50,9 +57,11 @@ public class DateHelper {
 		if (start == null || end == null) {
 			return "";
 		}
-		
-		Calendar startCal = CalendarFactoryUtil.getCalendar(start.getTime());
-		Calendar endCal = CalendarFactoryUtil.getCalendar(end.getTime());
+
+		long nbMillisecond = start.getTime();
+		LocalDateTime startCal = LocalDateTime.ofInstant(Instant.ofEpochMilli(nbMillisecond), ZoneId.systemDefault());
+		nbMillisecond = end.getTime();
+		LocalDateTime endCal = LocalDateTime.ofInstant(Instant.ofEpochMilli(nbMillisecond), ZoneId.systemDefault());
 		// Si la période dure 1 jour
 		if (start.equals(end)) {
 			if (locale.equals(Locale.FRANCE)) { // le dd MMMM yyyy
@@ -67,12 +76,12 @@ public class DateHelper {
 			}
 		} else { // S'il dure plus longtemps
 			if (locale.equals(Locale.FRANCE)) {
-				result = "Du ";
-				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
-					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				result = "Du ";		
+				if (startCal.getMonth() == endCal.getMonth()
+					&& startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd", Locale.FRANCE);
 					result += df.format(start);
-				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				} else if (startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.FRANCE);
 					result += df.format(start);
 				} else {
@@ -83,11 +92,11 @@ public class DateHelper {
 				result += " au " + df.format(end);
 			} else if (locale.equals(Locale.GERMANY)) {
 				result = "Vom ";
-				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
-					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				if (startCal.getMonth() == endCal.getMonth()
+					&& startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd.", Locale.GERMANY);
 					result += df.format(start);
-				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				} else if (startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd. MMMM", Locale.GERMANY);
 					result += df.format(start);
 				} else {
@@ -98,11 +107,11 @@ public class DateHelper {
 				result += " bis zum " + df.format(end);
 			} else if (locale.equals(Locale.US)) {
 				result = "From ";
-				if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)
-					&& startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				if (startCal.getMonth() == endCal.getMonth()
+					&& startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd", Locale.US);
 					result += df.format(start);
-				} else if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+				} else if (startCal.getYear() == endCal.getYear()) {
 					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.US);
 					result += df.format(start);;
 				} else {

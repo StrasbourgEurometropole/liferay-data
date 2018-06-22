@@ -67,6 +67,13 @@ public class PlaceServiceWrapper implements PlaceService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
+		java.util.List<java.lang.String> typesId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _placeService.getPlacesByTypes(typesId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getTypes()
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _placeService.getTypes();

@@ -7,6 +7,9 @@
 </c:if>
 
 <section id="vote">
+	<c:if test="${showDeleteButton}">
+		<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+	</c:if>
     <h2><liferay-ui:message key="vote-place" /></h2>
 	<div class="felec-response rte">
     	<c:if test="${not empty champsNull}">

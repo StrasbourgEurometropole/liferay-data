@@ -63,6 +63,7 @@
 			</div>
 		</div>	
 	</div>
+	<aui:input name="firstComment${param.index}" label="comment-schedule" value="${param.firstComment}" localized="true" type="text"  /> 
 </div>
 
 
@@ -98,6 +99,7 @@
 			</aui:input>
 		</div>
 	</div>
+	<aui:input name="secondComment${param.index}" label="comment-schedule" value="${param.secondComment}" localized="true" type="text"  /> 
 </div>
 
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
@@ -125,6 +127,7 @@
 			</aui:input>
 		</div>
 	</div>
+	<aui:input name="thirdComment${param.index}" label="comment-schedule" value="${param.thirdComment}" localized="true" type="text"  /> 
 </div>
 
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
@@ -152,6 +155,7 @@
 			</aui:input>
 		</div>
 	</div>
+	<aui:input name="fourthComment${param.index}" label="comment-schedule" value="${param.fourthComment}" localized="true" type="text"  /> 
 </div>
 
 <div class="heure${param.index}" <c:if test="${not empty param and param.closed }">style="display: none;"</c:if>>
@@ -179,6 +183,7 @@
 			</aui:input>
 		</div>
 	</div>
+	<aui:input name="fifthComment${param.index}" label="comment-schedule" value="${param.fifthComment}" localized="true" type="text"  /> 
 </div>
 
 
