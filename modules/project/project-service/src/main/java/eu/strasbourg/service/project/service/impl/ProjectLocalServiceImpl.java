@@ -16,10 +16,13 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -106,19 +109,15 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStatusDate(sc.getModifiedDate());
 		List<ProjectTimeline> projectTimelines = project.getProjectTimelines();
 		if (projectTimelines !=null&&!projectTimelines.isEmpty()){
+            log.info("taille de la liste : " + projectTimelines.size());
 			ProjectTimeline firstMilestone = projectTimelines.get(0);
-			log.info("firstMilestone : " + firstMilestone);
-			LocalDate dateStatusTemp = null;
-			if (null == firstMilestone.getLink()||firstMilestone.getLink().isEmpty()){
-				dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			} else {
-				log.error("la date du premier jalon est null et ca c'est pas bon !");
-				dateStatusTemp = LocalDate.now();
-			}
-			LocalDate firstMilestoneDate = dateStatusTemp;
-			projectTimelines.forEach(projectTimeline -> {
-				LocalDate dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				projectTimeline.setStartDay(Period.between(firstMilestoneDate,dateStatus).getDays());
+			log.info("firstMilestone 2 : " + firstMilestone);
+			// On définit le premier jalon comme la date par référence.
+            LocalDateTime dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            log.info("dateStatusTemp : " + dateStatusTemp.toString());
+            projectTimelines.forEach(projectTimeline -> {
+				LocalDateTime dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				projectTimeline.setStartDay(Math.toIntExact(Duration.between(dateStatusTemp,dateStatus).toDays()));
 			});
 		}
 
