@@ -197,20 +197,8 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	 */
 	@Override
 	public String getDistrictTitle(Locale locale) {
-		StringBuilder result = new StringBuilder();
-		List<AssetCategory> districts = getDistrictCategories();
-		if (districts==null || districts.isEmpty()){
-			result.append("aucun quartier");
-		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
-			result.append("tout les quartiers");
-		} else {
-		    result.append(districts.stream()
-                    .map(district -> district.getTitle(locale))
-                    .collect(Collectors.joining(" - ")));
-			//districts.forEach(district -> result.append(district.getTitle(locale)).append(" - "));
-		}
-        log.info(result.toString());
-		return result.toString();
+        List<AssetCategory> districts = getDistrictCategories();
+        return AssetVocabularyHelper.getDistrictTitle(locale,districts);
 	}
 
 	/**
@@ -340,5 +328,5 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 			return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
 		}
 	}
-	
+
 }

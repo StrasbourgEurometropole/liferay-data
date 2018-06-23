@@ -16,10 +16,11 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -46,6 +47,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.model.ProjectTimelineModel;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 
@@ -105,20 +107,19 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		project.setStatusByUserName(user.getFullName());
 		project.setStatusDate(sc.getModifiedDate());
 		List<ProjectTimeline> projectTimelines = project.getProjectTimelines();
+
 		if (projectTimelines !=null&&!projectTimelines.isEmpty()){
+			log.info("taille de la liste : " + projectTimelines.size());
+			projectTimelines = sortProjectTimeLine(projectTimelines);
+			log.info("tri de liste : " + projectTimelines.toString());
 			ProjectTimeline firstMilestone = projectTimelines.get(0);
 			log.info("firstMilestone : " + firstMilestone);
-			LocalDate dateStatusTemp = null;
-			if (null == firstMilestone.getLink()||firstMilestone.getLink().isEmpty()){
-				dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			} else {
-				log.error("la date du premier jalon est null et ca c'est pas bon !");
-				dateStatusTemp = LocalDate.now();
-			}
-			LocalDate firstMilestoneDate = dateStatusTemp;
-			projectTimelines.forEach(projectTimeline -> {
-				LocalDate dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				projectTimeline.setStartDay(Period.between(firstMilestoneDate,dateStatus).getDays());
+			// On définit le premier jalon comme la date par référence.
+            LocalDateTime dateStatusTemp = firstMilestone.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            projectTimelines.forEach(projectTimeline -> {
+				LocalDateTime dateStatus = projectTimeline.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				log.info("dateStatus : " + dateStatus);
+				projectTimeline.setStartDay(Math.toIntExact(Duration.between(dateStatusTemp,dateStatus).toDays()));
 			});
 		}
 
@@ -132,6 +133,17 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		this.reindex(project, false);
 
 		return project;
+	}
+
+	private List<ProjectTimeline> sortProjectTimeLine(List<ProjectTimeline> projectTimelines) {
+		// on trie la liste par la date
+		log.info("list prétrié : "+projectTimelines.toString());
+		List<ProjectTimeline> resultList = projectTimelines
+				.stream()
+				.sorted(Comparator.comparing(ProjectTimelineModel::getDate))
+				.collect(Collectors.toList());
+		log.info("la liste triee : "+resultList.toString());
+		return resultList;
 	}
 
 	/**
