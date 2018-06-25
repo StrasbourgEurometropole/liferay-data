@@ -39,6 +39,11 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getAlerts() {
+		return _strasbourgService.getAlerts();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCopyright(
 		long groupId, java.lang.String uuid, java.lang.String language) {
 		return _strasbourgService.getCopyright(groupId, uuid, language);
@@ -74,6 +79,11 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	public com.liferay.portal.kernel.json.JSONObject getPois(
 		java.lang.String interests, long groupId) {
 		return _strasbourgService.getPois(interests, groupId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getTraffic() {
+		return _strasbourgService.getTraffic();
 	}
 
 	@Override

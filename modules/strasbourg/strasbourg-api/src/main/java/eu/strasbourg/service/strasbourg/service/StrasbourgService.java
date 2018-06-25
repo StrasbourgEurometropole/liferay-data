@@ -56,6 +56,9 @@ public interface StrasbourgService extends BaseService {
 	public JSONArray getCoordinateForAddress(java.lang.String address);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getAlerts();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCopyright(long groupId, java.lang.String uuid,
 		java.lang.String language);
 
@@ -77,6 +80,9 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPois(java.lang.String interests, long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getTraffic();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject searchStreets(java.lang.String query);

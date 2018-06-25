@@ -113,6 +113,10 @@ public class MapPortlet extends MVCPortlet {
 			String interestsDefaultsIdsString = ""; // Les intérêts affichés
 													// cochés
 			boolean showFavorites = false; // Affichage des favoris par défaut
+			boolean showTraffic = false; // Affichage de l'info trafic
+			String mode = ""; // Mode d'affichage
+			String linkCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
+			String linkInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
 			boolean showConfig = true; // Affichage de la zone de configuration
 			boolean showList = true; // Affichage de la liste à droite
 			List<AssetCategory> categories = null; // Les catégories actives
@@ -120,6 +124,7 @@ public class MapPortlet extends MVCPortlet {
 
 			// Est-ce que la config du portlet est défini ?
 			if (configuration.hasConfig()) {
+				mode = configuration.mode();
 				// Chargement de la configuration globale pour le mode widget
 				if (configuration.widgetMod()) {
 					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
@@ -130,17 +135,11 @@ public class MapPortlet extends MVCPortlet {
 						JSONObject json = JSONFactoryUtil.createJSONObject(globalConfig);
 						JSONArray jsonArray = json.getJSONArray("typesContenu");
 						typesContenu = jsonArray.join(",").replace("\"", "");
-						JSONArray jsonArrayCategories = json.getJSONArray("categoriesIds");
-						categoriesIdsString = jsonArrayCategories.join(",");
-						JSONArray jsonArrayCategoriesDefault = json.getJSONArray("categoriesDefaultsIds");
-						categoriesDefaultsIdsString = jsonArrayCategoriesDefault.join(",");
-						JSONArray jsonArrayPrefilterCategories = json.getJSONArray("prefilterCategoriesIds");
-						prefilterCategoriesIdsString = jsonArrayPrefilterCategories.join(",");
 						JSONArray jsonArrayInterests = json.getJSONArray("interestsIds");
 						interestsIdsString = jsonArrayInterests.join(",");
 						JSONArray jsonArrayInterestsDefault = json.getJSONArray("interestsDefaultsIds");
 						interestsDefaultsIdsString = jsonArrayInterestsDefault.join(",");
-						showFavorites = json.getBoolean("showFavorites");
+						showFavorites = false;
 						showConfig = json.getBoolean("showConfig");
 						showList = json.getBoolean("showList");
 					} catch (Exception ex) {
@@ -180,6 +179,9 @@ public class MapPortlet extends MVCPortlet {
 					interestsIdsString = configuration.interestsIds();
 					interestsDefaultsIdsString = configuration.interestsDefaultsIds();
 					showFavorites = configuration.showFavorites();
+					showTraffic = configuration.showTraffic();
+					linkCategoryId = configuration.linkCategoryId();
+					linkInterestId = configuration.linkInterestId();
 					showConfig = configuration.showConfig();
 					showList = configuration.showList();
 				}
@@ -289,7 +291,7 @@ public class MapPortlet extends MVCPortlet {
 			if (hasConfig) {
 				JSONObject userPortletConfig = null;
 				// Une config par portlet (nouvelle façon de faire)
-				if (userConfigString.startsWith("[")) {
+				if (userConfigString != null && userConfigString.startsWith("[")) {
 					JSONArray userConfigs =  JSONFactoryUtil.createJSONArray(userConfigString);
 					// On va recherche le configId correspondant
 					String configId = getConfigId();
@@ -370,7 +372,7 @@ public class MapPortlet extends MVCPortlet {
 				}
 				vocabularyGroup.put(vocabularyName, categoriesVocabulary);
 			}
-
+			
 			request.setAttribute("hasConfig", hasConfig);
 			request.setAttribute("widgetMod", widgetMod);
 			request.setAttribute("widgetIntro", configuration.widgetIntro());
@@ -386,6 +388,10 @@ public class MapPortlet extends MVCPortlet {
 			request.setAttribute("interestGroups", InterestGroupDisplay.getInterestGroups(interests));
 			request.setAttribute("interestsCheckedIds", interestsDefaultsIdsString);
 			request.setAttribute("showFavorites", showFavorites);
+			request.setAttribute("showTraffic", showTraffic);
+			request.setAttribute("mode", mode);
+			request.setAttribute("linkCategoryId", linkCategoryId);
+			request.setAttribute("linkInterestId", linkInterestId);
 			request.setAttribute("showConfig", showConfig);
 			request.setAttribute("showList", showList);
 			request.setAttribute("address", address);

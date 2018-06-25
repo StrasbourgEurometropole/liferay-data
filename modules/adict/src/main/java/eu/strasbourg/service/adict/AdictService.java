@@ -15,4 +15,6 @@ public interface AdictService {
 	public JSONArray getCoordinateForAddress(String address);
 	public AssetCategory getDistrictByAddressAndSector(String address, String sectorType);
 	public JSONObject getCoordinatesForZone(String x, String y, String sectorType);
+	public JSONObject getTraffic();
+	public JSONObject getAlerts();
 }

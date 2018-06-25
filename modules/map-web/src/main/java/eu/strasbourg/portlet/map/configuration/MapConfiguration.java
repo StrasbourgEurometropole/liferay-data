@@ -11,6 +11,9 @@ public interface MapConfiguration {
 	@Meta.AD(name = "hasConfig", required = false)
 	public boolean hasConfig();
 	
+	@Meta.AD(name = "mode", required = false)
+	public String mode();
+	
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
 	
@@ -40,6 +43,18 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "showFavorites", required = false)
 	public boolean showFavorites();
+	
+	@Meta.AD(name = "showTraffic", required = false)
+	public boolean showTraffic();
+	
+	@Meta.AD(name = "linkCategoryId", required = false)
+	public String linkCategoryId();
+
+	@Meta.AD(name = "categoryTitle", deflt = "", required = false)
+	public String categoryTitle();
+
+	@Meta.AD(name = "linkInterestId", deflt = "", required = false)
+	public String linkInterestId();
 	
 	@Meta.AD(name = "showConfig", required = false)
 	public boolean showConfig();
