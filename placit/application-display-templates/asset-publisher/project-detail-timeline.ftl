@@ -27,7 +27,7 @@
     <#assign css = ""/>
 </#if>
 <#if firstTimeLine != timeline>
-   <a href="${timeline.link}" class="pro-jalon ${css}">
+   <a <#if timeline.link?has_content> href="${timeline.link}" </#if> class="pro-jalon ${css}">
        <div style="padding-top: ${timeline.getSpacing()}px;">
            <div class="pro-date">
                <div>
