@@ -54,6 +54,7 @@
 		onReady: function (callback) {
 			var self = this;
 			this.player = $('iframe[src^="//www.dailymotion.com"]')[0];
+			$('iframe[src^="//www.dailymotion.com"]').attr("allow","autoplay");
 			var onReady = function (event) {
 				if ((event.data === 'event=apiready' || event.data === 'event=canplay') && event.origin === self.url) {
 					self.ended = false;
