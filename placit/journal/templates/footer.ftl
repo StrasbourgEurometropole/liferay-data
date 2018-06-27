@@ -2,7 +2,7 @@
 
 <root available-locales="fr_FR" default-locale="fr_FR">
 	<dynamic-element name="content" type="text_area" index-type="keyword" instance-id="fhpn">
-		<dynamic-content language-id="fr_FR"><![CDATA[
+		<dynamic-content language-id="fr_FR">
 <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
 <!-- <div class="social-share"><input class="toggle-input" id="toggle-input" type="checkbox" /> <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input"><span>Réseaux sociaux</span></label>
 <ul class="network-list">
@@ -111,6 +111,6 @@
                 <li><a href="page-standard.html" title="Lien vers la page Avertir">Avertir</a></li>
 </ul>
 </div>
-</div>]]></dynamic-content>
+</div></dynamic-content>
 	</dynamic-element>
 </root>

@@ -72,6 +72,6 @@
  <script>
     $(document).ready(function() {
         $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
-        $(".content-metadata-asset-addon-entries").hide();
+        $(".portlet-content>.portlet-title-text").hide();
     });
 </script>
