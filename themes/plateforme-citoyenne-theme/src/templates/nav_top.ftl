@@ -60,7 +60,7 @@
                     <div class="pro-right">
                         
                         <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${layoutHelper.getPublikProfileURL()}" class="pro-btn-connexion" title="Mon compte">
+                            <a href="${layoutHelper.getPublikProfileURL()}" target="_blank" class="pro-btn-connexion" title="Mon compte">
                                 <span class="flexbox">
                                     <span class="picto"></span>
                                     <span class="text">${request.session.getAttribute("publik_given_name")}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]}.</span>

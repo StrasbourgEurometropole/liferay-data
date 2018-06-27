@@ -20,11 +20,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -50,6 +53,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 @ProviderType
 public class ParticipationImpl extends ParticipationBaseImpl {
 
+    private final static Log log = LogFactoryUtil.getLog(ParticipationImpl.class);
 	private static final long serialVersionUID = 1311330918138728472L;
 
 	/*
@@ -68,7 +72,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		return AssetEntryLocalServiceUtil.fetchEntry(Participation.class.getName(),
 			this.getParticipationId());
 	}
-	
+
 	/**
 	 * Retourne la liste des événements liés à la participation
 	 */
@@ -78,7 +82,7 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		for (String eventIdsStr : this.getEventsIds().split(",")) {
 			Long eventId = GetterUtil.getLong(eventIdsStr);
 			Event event = EventLocalServiceUtil.fetchEvent(eventId);
-			if (event != null) {
+			if (event != null && event.getAssetEntry().isVisible()) {
 				events.add(event);
 			}
 		}
@@ -186,7 +190,27 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 		}
 		return districts;
 	}
-	
+
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	@Override
+	public String getDistrictLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> districts = getDistrictCategories();
+		if (districts==null || districts.isEmpty()){
+			result.append("aucun quartier");
+		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
+			result.append("tous les quartiers");
+		} else {
+		    result.append(districts.stream()
+                    .map(district -> district.getTitle(locale))
+                    .collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+
 	/**
 	 * Retourne le status de la participation
 	 */

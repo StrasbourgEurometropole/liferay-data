@@ -174,7 +174,11 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					// J + XX
 					/*Integer startDay = ParamUtil.getInteger(request,
 							"startDay" + timelineIndex);*/
-					
+
+					// SPACING
+					Integer spacing = ParamUtil.getInteger(request,
+							"spacing" + timelineIndex);
+
 					// Date
 					Date date = ParamUtil.getDate(request,
 							"date" + timelineIndex, dateFormat);
@@ -191,6 +195,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 						.createProjectTimeline();
 //                    projectTimeline.setStartDay(startDay);
 					projectTimeline.setDate(date);
+					projectTimeline.setSpacing(spacing);
 					projectTimeline.setTitle(timelineTitle);
 					projectTimeline.setLink(link);
 					projectTimeline.setProjectId(project.getProjectId());

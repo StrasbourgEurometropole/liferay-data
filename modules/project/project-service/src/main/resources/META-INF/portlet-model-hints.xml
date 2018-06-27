@@ -97,6 +97,7 @@
 	<model name="eu.strasbourg.service.project.model.ProjectTimeline">
 		<field name="projectTimelineId" type="long" />
 		<field name="startDay" type="int" />
+		<field name="spacing" type="int" />
 		<field name="date" type="Date" />
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>

@@ -3,52 +3,54 @@
 <portlet:resourceURL id="pacteSignature" var="pacteSignatureURL">
 </portlet:resourceURL>
 
-<section class="container pro-page-pacte">
-	<div class="row">
-		<div class="pro-bloc-accordion">
-			<div class="col-sm-9 col-xs-12 pro-bloc-facette">
-				<form method="get" action="/">
-					<div class="pro-group">
-						<fieldset class="pro-checkbox">
-							<legend aria-hidden="true" class="hide">
-								<liferay-ui:message key="pacte-legend" />
-							</legend>
-							<div>
-								<input type="checkbox" name="zone_vdl" id="type_v_1" value="1">
-								<label for="type_v_1"><liferay-ui:message
-										key="pacte-label" /></label>
-							</div>
-						</fieldset>
-					</div>
-				</form>
+<div class="pro-page-pacte">
+    <div class="container">
+		<div class="row">
+			<div class="pro-bloc-accordion" style="margin-top: 0px">
+				<div class="col-sm-9 col-xs-12 pro-bloc-facette">
+					<form method="get" action="/">
+						<div class="pro-group">
+							<fieldset class="pro-checkbox">
+								<legend aria-hidden="true" class="hide">
+									<liferay-ui:message key="pacte-legend" />
+								</legend>
+								<div>
+									<input type="checkbox" name="zone_vdl" id="type_v_1" value="1">
+									<label for="type_v_1"><liferay-ui:message
+											key="pacte-label" /></label>
+								</div>
+							</fieldset>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 <div class="pro-bloc-prefooter">
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 pro-signature-pacte">
-				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂ©tat dÃÂ©sactivÃÂ© du bouton -->
+				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂÃÂÃÂÃÂ©tat dÃÂÃÂÃÂÃÂ©sactivÃÂÃÂÃÂÃÂ© du bouton -->
 				<a href="#" onclick="callServeResource();" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
 					<div class="pro-svg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
 							height="59.09" viewBox="0 0 236.125 59.09" role="img">
                                     <defs>
                                         <style>
-.cls-1 {
-	fill: none;
-	stroke: #000;
-	stroke-width: 2px;
-	fill-rule: evenodd;
-}
-</style>
+										.cls-1 {
+											fill: none;
+											stroke: #000;
+											stroke-width: 2px;
+											fill-rule: evenodd;
+										}
+										</style>
                                     </defs>
                                     <path id="Forme_63"
 								data-name="Forme 63" class="cls-1"
 								d="M503,3845s24.047-19.45,31-32,2.16,22.27,13,22,44-13,44-13,6.457,15.31,28,2c10.7-6.61,2.414,6.51,31-1s26.523-35.57,16-31,5.617,23.09,28,24c28.344,1.15,42-8,42-8"
 								transform="translate(-502 -3788.5)" />
-                                </svg>
+                        	</svg>
 						<span class="icon-ico-pencil"></span>
 					</div>
 					<c:if test="${hasUserSigned}"><h3><liferay-ui:message key="pacte-adhere" /></h3>
@@ -59,6 +61,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 
 	<div class="pro-social-share-page">
 		<span>Partager sur :</span>
 		<ul>
@@ -83,6 +87,8 @@
 				</ul></li>
 		</ul>
 	</div>
+	 -->
+	 
 </div>
 
 <aui:script>

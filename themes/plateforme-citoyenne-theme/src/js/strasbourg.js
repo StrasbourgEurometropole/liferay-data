@@ -11213,13 +11213,13 @@ $('.frm_date').each(function(){
     var picker = new Pikaday({ 
     	field: this,
     	format: 'D/M/YYYY',
-    	toString(date, format) {
+    	toString: function(date, format) {
 	        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() ;
 	        const month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
 	        const year = date.getFullYear();
 	        return `${day}/${month}/${year}`;
 	    },
-	    parse(dateString) {
+	    parse: function(dateString) {
 	        // dateString is the result of `toString` method
 	        const parts = dateString.split('/');
 	        const day = parseInt(parts[0], 10);

@@ -459,14 +459,8 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getTerritoryLabel(Locale locale) {
-		String territories = "";
-		for (AssetCategory territory : this.getTerritories()) {
-			if (territories.length() > 0) {
-				territories += " - ";
-			}
-			territories += territory.getTitle(locale);
-		}
-		return territories;
+		List<AssetCategory> districts = getTerritories();
+		return AssetVocabularyHelper.getDistrictTitle(locale,districts);
 	}
 
 	/**

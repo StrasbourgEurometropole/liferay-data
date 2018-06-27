@@ -143,12 +143,18 @@
 		
 		<!-- Other fields -->
         <column name="startDay" type="int" />
+        <column name="spacing" type="int" />
         <column name="date" type="Date" />
         <column name="title" type="String" />
         <column name="link" type="String" />
         
         <!-- Links with other entities -->
         <column name="projectId" type="long"></column>
+        
+        <!-- Order -->
+		<order by="asc">
+			<order-column name="date" />
+		</order>
 		
 		<!-- Finder methods -->
 		<finder name="ProjectId" return-type="Collection">

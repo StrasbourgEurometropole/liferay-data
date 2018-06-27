@@ -28,23 +28,26 @@ public class ViewParticipationsDisplayContext extends ViewListBaseDisplayContext
 	public List<Participation> getParticipations() throws PortalException {
 		if (this._participations == null) {
 			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-			// Création de la liste d'objet
-			List<Participation> results = new ArrayList<Participation>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Participation participation = ParticipationLocalServiceUtil.fetchParticipation(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (participation != null) {
-						results.add(participation);
-					}
-				}
-			}
-			this._participations = results;
+			this._participations = createObjectList(hits);
 		}
 		return this._participations;
 	}
-	
+
+	private List<Participation> createObjectList(Hits hits) {
+		// Création de la liste d'objet
+		List<Participation> results = new ArrayList<>();
+		if (hits != null) {
+			for (Document document : hits.getDocs()) {
+				Participation participation = ParticipationLocalServiceUtil.fetchParticipation(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+				if (participation != null) {
+					results.add(participation);
+				}
+			}
+		}
+		return results;
+	}
+
 	/**
 	 * Retourne la liste des participations correspondant à la recherche lancée en ignorant la pagination
 	 */
@@ -52,16 +55,7 @@ public class ViewParticipationsDisplayContext extends ViewListBaseDisplayContext
 		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
 
 		// Création de la liste d'objet
-		List<Participation> results = new ArrayList<Participation>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				Participation participation = ParticipationLocalServiceUtil.fetchParticipation(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (participation != null) {
-					results.add(participation);
-				}
-			}
-		}
-		return results;
+		return createObjectList(hits);
 	}
 	
 	/**
@@ -88,5 +82,4 @@ public class ViewParticipationsDisplayContext extends ViewListBaseDisplayContext
 			StrasbourgPortletKeys.PARTICIPATION_BO, StrasbourgPortletKeys.PARTICIPATION_BO,
 			actionId);
 	}
-	
 }

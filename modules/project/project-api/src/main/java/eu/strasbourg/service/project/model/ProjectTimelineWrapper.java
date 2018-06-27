@@ -60,6 +60,7 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 
 		attributes.put("projectTimelineId", getProjectTimelineId());
 		attributes.put("startDay", getStartDay());
+		attributes.put("spacing", getSpacing());
 		attributes.put("date", getDate());
 		attributes.put("title", getTitle());
 		attributes.put("link", getLink());
@@ -80,6 +81,12 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 
 		if (startDay != null) {
 			setStartDay(startDay);
+		}
+
+		Integer spacing = (Integer)attributes.get("spacing");
+
+		if (spacing != null) {
+			setSpacing(spacing);
 		}
 
 		Date date = (Date)attributes.get("date");
@@ -146,6 +153,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	public int compareTo(
 		eu.strasbourg.service.project.model.ProjectTimeline projectTimeline) {
 		return _projectTimeline.compareTo(projectTimeline);
+	}
+
+	/**
+	* Returns the spacing of this project timeline.
+	*
+	* @return the spacing of this project timeline
+	*/
+	@Override
+	public int getSpacing() {
+		return _projectTimeline.getSpacing();
 	}
 
 	/**
@@ -327,6 +344,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	@Override
 	public void setProjectTimelineId(long projectTimelineId) {
 		_projectTimeline.setProjectTimelineId(projectTimelineId);
+	}
+
+	/**
+	* Sets the spacing of this project timeline.
+	*
+	* @param spacing the spacing of this project timeline
+	*/
+	@Override
+	public void setSpacing(int spacing) {
+		_projectTimeline.setSpacing(spacing);
 	}
 
 	/**

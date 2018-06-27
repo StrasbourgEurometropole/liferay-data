@@ -37,9 +37,9 @@
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
 									<a href="#pro-avis-like-pro" class="pro-like"
-										title="Mettre j'aime à cette vidéo" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
+										title="Mettre j'aime Ã  cette vidÃ©o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
 										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
-										title="Mettre je n'aime pas à cette vidéo">${comment.dislike}</a>
+										title="Mettre je n'aime pas Ã  cette vidÃ©o">${comment.dislike}</a>
 									<div>
 										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
 									</div>
@@ -96,7 +96,16 @@
     	}
 	});
 	
-
+	$("#message").click(function(e){
+	    if(!${isUserloggedIn}){
+	    	e.preventDefault();
+	    	$("#myModal").modal();
+    	}
+	    else if(!${hasUserSigned}){
+	    	e.preventDefault();
+	    	$("#myModal").modal();
+	    }
+	});
 	
 	function callServeResource(portletURL, likedislike) {
 			AUI().use('aui-io-request', function(A) {
