@@ -65,13 +65,13 @@
  }
  .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
     margin: 0;
-    padding: 15px 0;
+    padding: 7px 0;
 }
  </style>
  
  <script>
     $(document).ready(function() {
         $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
-        $(".portlet-content>.portlet-title-text").hide();
+        $(".content-metadata-asset-addon-entries").hide();
     });
 </script>
