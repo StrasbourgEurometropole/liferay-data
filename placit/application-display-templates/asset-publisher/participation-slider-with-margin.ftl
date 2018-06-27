@@ -63,16 +63,6 @@
                             <#break>
                     </#switch>
 
-                    <!-- Separation du titre de la participation  en deux parties -->
-                    <#assign participationTitle = entry.title >
-                    <#if participationTitle?length gt 15 && participationTitle?index_of(" ", 15) != -1 >
-                        <#assign breakIndex = participationTitle?index_of(" ", 15) >
-                        <#assign participationTitleFirstPart = participationTitle?substring(0, breakIndex) />
-                        <#assign participationTitleSecondPart = participationTitle?substring(breakIndex, participationTitle?length) />
-                    <#else>
-                        <#assign participationTitleFirstPart = participationTitle />
-                    </#if>
-
                     <div class="item pro-bloc-card-participation ${cssParticipationType}" data-linkall="a">
                         <div>
                             <div class="pro-header-participation">
@@ -87,11 +77,7 @@
                             </div>
                             <div class="pro-content-participation">
                                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
-                                    <h3>
-                                        ${participationTitleFirstPart}
-                                        <br>
-                                        <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
-                                    </h3>
+                                    <h3>${entry.title}</h3>
                                 </a>
                                 <span class="pro-time">
                                     Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>

@@ -56,16 +56,6 @@
         <#break>
 </#switch>
 
-<!-- Separation du titre de la participation  en deux parties -->
-<#assign participationTitle = entry.title >
-<#if participationTitle?length gt 15 && participationTitle?index_of(" ", 15) != -1 >
-    <#assign breakIndex = participationTitle?index_of(" ", 15) >
-    <#assign participationTitleFirstPart = participationTitle?substring(0, breakIndex) />
-    <#assign participationTitleSecondPart = participationTitle?substring(breakIndex, participationTitle?length) />
-<#else>
-    <#assign participationTitleFirstPart = participationTitle />
-</#if>
-
 <!-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
     <#assign participationThematics = entry.getThematicCategories() />
@@ -118,11 +108,7 @@
 
             </div>
             <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="Détail ''">
-                <h3>
-                ${participationTitleFirstPart}
-                    <br>
-                    <#if participationTitleSecondPart?has_content>${participationTitleSecondPart}</#if>
-                </h3>
+                <h3>${entry.title}</h3>
             </a>
             <span class="pro-time">
                 Le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
@@ -130,19 +116,19 @@
         </div>
 
         <!-- Selection du type de template selon le status de la participation -->
-        <#if participationStatus == "soon_arrived">
+        <#if participationStatus == "À venir">
             <div class="pro-footer-participation pro-participation-soon">
                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                     Bientôt disponible
                 </a>
             </div>
-        <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
+        <#elseif participationStatus == "Nouvelle" || participationStatus == "En cours" || participationStatus == "Bientôt terminée" >
             <div class="pro-footer-participation">
                 <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                     Réagissez...
                 </a>
             </div>
-        <#elseif participationStatus == "finished" >
+        <#elseif participationStatus == "Terminée" >
             <div class="pro-footer-participation pro-participation-deadline">
                 <p>Participation terminée</p>
             </div>
