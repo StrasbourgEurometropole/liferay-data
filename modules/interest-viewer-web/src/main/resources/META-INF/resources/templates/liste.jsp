@@ -115,4 +115,9 @@
 		margin-top: 40px;
 		margin-bottom: 40px;
 	}
+	
+	
+	#portlet_eu_strasbourg_portlet_interest_viewer_InterestViewerWebPortlet .seu-wi-agenda .seu-section-title:before{
+		content: initial;
+	}
 </style>

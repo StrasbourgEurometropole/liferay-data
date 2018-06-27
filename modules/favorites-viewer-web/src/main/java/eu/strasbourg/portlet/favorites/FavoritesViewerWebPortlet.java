@@ -82,25 +82,5 @@ public class FavoritesViewerWebPortlet extends MVCPortlet {
 		}
 	}
 	
-	@Override
-	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws IOException, PortletException {
-		try {
-			String resourceID = resourceRequest.getResourceID();
-			ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest
-					.getAttribute(WebKeys.THEME_DISPLAY);
-			
-			if (resourceID.equals("hidePortlet")) {
-				String portletName = ParamUtil.getString(resourceRequest, "portletName");
-				PortletHelper.hidePortlet(themeDisplay, portletName);
-			}
-			
-		} catch (Exception e) {
-			_log.error(e);
-		}
-
-		super.serveResource(resourceRequest, resourceResponse);
-	}
-	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

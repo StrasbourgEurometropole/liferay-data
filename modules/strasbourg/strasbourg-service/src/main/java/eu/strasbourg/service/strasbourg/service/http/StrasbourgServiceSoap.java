@@ -247,6 +247,18 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static void hidePortlet(java.lang.String portletId)
+		throws RemoteException {
+		try {
+			StrasbourgServiceUtil.hidePortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getCoordinateForAddress(
 		java.lang.String address) throws RemoteException {
 		try {

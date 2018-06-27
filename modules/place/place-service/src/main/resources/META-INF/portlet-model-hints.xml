@@ -40,10 +40,18 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="SIGid" type="String" />
-		<field name="name" type="String" />
-		<field name="addressComplement" type="String" />
-		<field name="addressStreet" type="String" />
-		<field name="addressDistribution" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="addressComplement" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="addressStreet" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="addressDistribution" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="addressZipCode" type="String" />
 		<field name="addressCountry" type="String" />
 		<field name="mercatorX" type="String" />
@@ -95,10 +103,16 @@
 		<field name="RTStatus" type="String" />
 		<field name="RTLastUpdate" type="Date" />
 		<field name="imageId" type="long" />
-		<field name="imageIds" type="String" />
-		<field name="videosIds" type="String" />
+		<field name="imageIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="videosIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="priceId" type="long" />
-		<field name="documentsIds" type="String" />
+		<field name="documentsIds" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.place.model.Price">
 		<field name="uuid" type="String" />

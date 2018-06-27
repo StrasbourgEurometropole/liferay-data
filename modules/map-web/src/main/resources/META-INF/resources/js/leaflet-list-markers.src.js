@@ -67,7 +67,7 @@ L.Control.ListMarkers = L.Control.extend({
 	_createItem: function(layer) {
 		var self = this;
 		var div = L.DomUtil.create('div', 'filtres__item form-group grid-item filtres__item--favorite'),
-			a = L.DomUtil.create('a', '', div),
+			a = L.DomUtil.create('a', 'infowindow__name', div),
 			that = this;
 
 		a.href = layer.feature.properties.url;

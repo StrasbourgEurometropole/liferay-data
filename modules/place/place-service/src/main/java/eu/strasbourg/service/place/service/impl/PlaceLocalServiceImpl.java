@@ -18,7 +18,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -27,6 +29,9 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
@@ -39,10 +44,16 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.place.MairieStateSOAPClient;
+import eu.strasbourg.service.place.ParkingStateClient;
+import eu.strasbourg.service.place.PoolStateSOAPClient;
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
@@ -210,6 +221,111 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
 		return place;
 	}
+
+	@Override
+	public void updateRealTime() throws PortalException {
+        // System.out.println("Start import of places real time data");
+        System.out.println("RT import started");
+
+        // Récupère tous les lieux ayant un externalId
+        List<Place> places = this.getPlaces(-1, -1);
+        List<Place> placesWithRT = places.stream().filter(p -> Validator.isNotNull(p.getRTExternalId()))
+                .collect(Collectors.toList());
+
+        // On boucle sur les lieux ayant du temps réel configuré
+        for (Place place : placesWithRT) {
+
+            String rtType = place.getRTType();
+            long rtOccupation = place.getRTOccupation();
+            long rtCapacity = place.getRTCapacity();
+            long rtAvailable = place.getRTAvailable();
+            String rtStatus = place.getRTStatus();
+			// System.out.println("Place : " + place.getAlias(Locale.FRANCE));
+			// S'ils n'ont pas de type, on set le type correctement
+			if (Validator.isNull(place.getRTType())) {
+				// System.out.println("Set of type");
+				for (AssetCategory type : place.getTypes()) {
+					String typeSigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
+					if (typeSigId.toLowerCase().equals("cat_06_05")) { // Piscines
+						rtType = "1";
+						// System.out.println("Type 1");
+					} else if (typeSigId.toLowerCase().equals("cat_12_07")) { // Mairies
+                        rtType = "3";
+						// System.out.println("Type 3");
+					} else { // Parkings
+                        rtType = "3";
+						// System.out.println("Type 2");
+					}
+				}
+			}
+
+			// On récupère les données temps réel
+			if (!place.getRTEnabled().equals("NO")) {
+				switch (place.getRTType()) {
+					case "1":
+						try {
+							long poolOccupation = PoolStateSOAPClient.getOccupation(place);
+							rtOccupation = poolOccupation;
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'piscine'");
+						}
+						break;
+
+					case "2":
+						try {
+							JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId());
+							String status = parkingData.getString("ds");
+							long capacity = Long.parseLong(parkingData.getString("dt"));
+							long available = Long.parseLong(parkingData.getString("df"));
+							rtAvailable = available;
+							rtOccupation  = capacity - available;
+							rtCapacity = capacity;
+							rtStatus = status;
+						} catch (Exception ex) {
+							log.error("Can not update real time data for 'parking'");
+						}
+						break;
+
+					case "3":
+						try {
+							long occupation = MairieStateSOAPClient.getWaitingTime(place.getRTExternalId());
+							place.setRTOccupation(occupation);
+						} catch (Exception ex) {
+							//ex.printStackTrace();
+							log.error("Can not update real time data for 'mairie'");
+						}
+						break;
+				}
+			}
+
+            this.updateRealTime(place, rtType, rtOccupation, rtAvailable, rtCapacity, rtStatus);
+        }
+        Indexer<Place> indexer = IndexerRegistryUtil
+                .nullSafeGetIndexer(Place.class);
+        indexer.reindex(placesWithRT);
+        Event event = EventLocalServiceUtil.getEvent(848044);
+        EventLocalServiceUtil.updateStatus(event, WorkflowConstants.STATUS_APPROVED);
+        System.out.println("RT import finished");
+    }
+
+	@Override
+    public void updateRealTime(Place place, String type, long occupation, long available, long capacity, String status)
+            throws PortalException {
+
+        place.setRTEnabled(true);
+        place.setRTLastUpdate(new Date());
+        place.setRTOccupation(occupation);
+        place.setRTAvailable(available);
+        place.setRTCapacity(capacity);
+        place.setRTStatus(status);
+        this.updatePlace(place);
+
+        AssetEntry entry = this.assetEntryLocalService
+                .getEntry(Place.class.getName(), place.getPrimaryKey());
+
+        this.assetEntryLocalService.updateAssetEntry(entry);
+
+    }
 
 	/**
 	 * Met à jour le statut du lieu "manuellement" (pas via le workflow)
@@ -391,5 +507,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	public Place getPlaceBySIGId(String idSIG) {
 		return this.placePersistence.fetchBySIGId(idSIG);
 	}
+
+	private Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

@@ -15,7 +15,7 @@
 			<div class="notification-text">Notifications</div>
 		</div>
 	</button>
-	<div class="notif-list" sttyle="width:230px;">
+	<div class="notif-list">
 		<c:choose>
 			<c:when test="${notifCount > 0}">
 				<c:forEach var="notif" items="${dc.results}" begin="0" end="2">
@@ -43,7 +43,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="notif-item">
-					<div class="notif-text" data-dot="2"><liferay-ui:message key="no-notification-unread" /></div>
+					<div class="notif-text no-notif" data-dot="2"><liferay-ui:message key="no-notification-unread" /></div>
 				</div>
 			</c:otherwise>
 		</c:choose>

@@ -5,60 +5,68 @@
 </h1>
 
 <aui:form method="POST" action="#" name="portletForm" id="portletForm">
-	<ul class="notification-list">
+	<ul class="customize-list">
 
-		<c:forEach var="portlet" items="${portlets}" varStatus="intPortlet">
+		<c:forEach var="portletId" items="${dc.portletIds}" varStatus="loopStatus">
+			<c:set var="displayStatus" value="${dc.getPortletDisplayStatus(portletId)}" />
 
-			<c:choose>
-				<c:when test="${fn:contains(hiddenPortlets, portlet)}">
-					<li class="notification-list__item notification-list__item--read">
-				</c:when>
-				<c:otherwise>
-					<li class="notification-list__item">
-				</c:otherwise>
-			</c:choose>
+			<c:if test="${displayStatus ne 'on_hidden'}">
+				<c:set var="displayDescription" value="${dc.getPortletDisplayDescription(portletId)}" />
+				<c:set var="displayTitle" value="${dc.getPortletDisplayTitle(portletId)}" />
+				<c:set var="hiddenByUser" value="${dc.isPortletHiddenByUser(portletId)}" />
+				<c:choose>
+					<c:when test="${(displayStatus eq 'on' or displayStatus eq 'on_disabled') and not hiddenByUser}">
+						<li class="customize-list__item">
+					</c:when>
+					<c:otherwise>
+						<li class="customize-list__item customize-list__item--read">
+					</c:otherwise>
+				</c:choose>
 
-			<div class="notification-item">
-				<div class="notification-item__date">
-					<liferay-ui:message key="${portlet}" />
-				</div>
-				<div class="notification-item__lead">
-					<liferay-ui:message key="${portlet}-description" />
-				</div>
-			</div>
-			
-			<portlet:resourceURL id="togglePortlet" var="portletURL">
-				<portlet:param name="portletName" value="${portlet}" />
-			</portlet:resourceURL>
-			
-			<div class="notification-list__toggle">
-				<div class="flexbox">
-					<div class="notification-list__toggle-trigger">
-						<input type="checkbox" name="portletName_${intPortlet.index}"
-							value="${portlet}"
-							id="portletId_${intPortlet.index}" onclick="callServeResource('${portletURL}');"/>
-						<label for="portletId_${intPortlet.index}"></label>
+
+				<div class="customize-item">
+					<div class="customize-item__date">
+						${displayTitle}
 					</div>
-					<div
-						class="notification-list__state notification-list__state--read">
-						<liferay-ui:message key="not-displayed" />
-					</div>
-					<div class="notification-list__state notification-list__state--new">
-						<liferay-ui:message key="displayed" />
+					<div class="customize-item__lead">
+						${displayDescription}
 					</div>
 				</div>
-			</div>
-			</li>
+
+				<portlet:resourceURL id="showPortlet" var="showPortletURL">
+					<portlet:param name="portletId" value="${portletId}" />
+				</portlet:resourceURL>
+				<portlet:resourceURL id="hidePortlet" var="hidePortletURL">
+					<portlet:param name="portletId" value="${portletId}" />
+				</portlet:resourceURL>
+
+				<div class="customize-list__toggle">
+					<div class="flexbox">
+						<div class="customize-list__toggle-trigger"
+							<c:if test="${displayStatus eq 'on_disabled'}">
+								style="opacity: 0.5"
+							</c:if>
+						>
+							<input type="checkbox" name="${portletId}Toggle" data-show-url="${showPortletURL}"
+								   data-hide-url="${hidePortletURL}" value="${portletId}"
+									<c:if test="${displayStatus eq 'on_disabled'}">disabled</c:if>
+								   id="portletId_${loopStatus.index}" />
+							<label for="portletId_${loopStatus.index}"></label>
+						</div>
+						<div
+								class="customize-list__state customize-list__state--read">
+							<liferay-ui:message key="not-displayed" />
+						</div>
+						<div class="customize-list__state customize-list__state--new">
+							<liferay-ui:message key="displayed" />
+						</div>
+					</div>
+				</div>
+				</li>
+			</c:if>
+
+
+
 		</c:forEach>
 	</ul>
 </aui:form>
-
-<aui:script>
-	function callServeResource(portletURL) {
-		AUI().use('aui-io-request', function(A) {
-			A.io.request(portletURL, {
-				method : 'post'
-			});
-		});
-	}
-</aui:script>

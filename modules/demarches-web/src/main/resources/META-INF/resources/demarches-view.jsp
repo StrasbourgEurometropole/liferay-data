@@ -1,6 +1,9 @@
 <%@ include file="/demarches-init.jsp" %>
  <div class="wi-wrapper">
     <section id="demandes">
+		<c:if test="${showDeleteButton}">
+			<button class="delete-wi" data-portlet-id="${themeDisplay.portletDisplay.id}"></button>
+		</c:if>
         <h2><liferay-ui:message key="follow-up-request" /></h2>
 			<c:if test="${not empty demarches}">
 				<ul class="demandes-list unstyled">
