@@ -31,7 +31,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 pro-signature-pacte">
-				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂÃÂ©tat dÃÂÃÂ©sactivÃÂÃÂ© du bouton -->
+				<!-- Ajouter la classe pro-disabled sur le <a> pour avoir l'ÃÂÃÂÃÂÃÂ©tat dÃÂÃÂÃÂÃÂ©sactivÃÂÃÂÃÂÃÂ© du bouton -->
 				<a href="#" onclick="callServeResource();" <c:if test="${hasUserSigned}">class="active"</c:if>><!-- class="pro-disabled" -->
 					<div class="pro-svg">
 						<svg xmlns="http://www.w3.org/2000/svg" width="236.125"
@@ -61,6 +61,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 
 	<div class="pro-social-share-page">
 		<span>Partager sur :</span>
 		<ul>
@@ -85,6 +87,8 @@
 				</ul></li>
 		</ul>
 	</div>
+	 -->
+	 
 </div>
 
 <aui:script>
