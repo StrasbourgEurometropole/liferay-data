@@ -63,7 +63,7 @@
                                 <span>Voir le projet</span>
                             </div>
                             <div class="content">
-                                <span class="location">${entry.getDistrictCategories(locale)}</span>
+                                <span class="location">${entry.getDistrictLabel(locale)}</span>
                                 <h3>${entry.title}</h3>
                             </div>
                         </a>
@@ -106,7 +106,7 @@
                                             <span>Voir le projet</span>
                                         </div>
                                         <div class="content">
-                                            <span class="location">${entry.getDistrictCategories(locale)}</span>
+                                            <span class="location">${entry.getDistrictLabel(locale)}</span>
                                             <h3>${entry.title}</h3>
                                         </div>
                                     </a>
