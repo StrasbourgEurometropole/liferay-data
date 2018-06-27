@@ -28,7 +28,7 @@
             </div>
 
             <div class="content">
-                <span class="location">${entry.getDistrictCategories(locale)}</span>
+                <span class="location">${entry.getDistrictLabel(locale)}</span>
                 <h3>${entry.title}</h3>
                 <div class="pro-wrap-thematique">
                     <!-- Liste des thématiques de la participation -->

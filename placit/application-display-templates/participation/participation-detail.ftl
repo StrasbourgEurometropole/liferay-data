@@ -40,11 +40,6 @@
         <#break>
 </#switch>
 
-<!-- Recuperation des quartiers de la participation -->
-<#if entry.getDistrictCategories()??>
-    <#assign participationDistricts = entry.getDistrictCategories() />
-</#if>
-
 <!-- Recuperation des thématiques de la participation -->
 <#if entry.getThematicCategories()??>
     <#assign participationThematics = entry.getThematicCategories() />
@@ -69,11 +64,7 @@
                         <div class="pro-meta">
 
                             <!-- Liste des quartiers de la participation -->
-                        	<#if participationDistricts?? >
-                            	<#list participationDistricts as participationDistrict >
-                            		<span>${participationDistrict.getTitle(locale)}</span>
-                            	</#list>
-                            </#if>
+                            <span>${entry.getDistrictLabel(locale)}</span>
 
                             <!-- Liste des thématiques de la participation -->
                             <#if participationThematics?? >
