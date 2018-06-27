@@ -1,6 +1,7 @@
 package eu.strasbourg.utils;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -69,4 +70,9 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public boolean isAllDistrict(int listDistrictSizeToCompare) {
 		return AssetVocabularyHelper.isAllDistrict(listDistrictSizeToCompare);
 	}
+
+    @Override
+    public String getDistrictTitle(Locale locale, List<AssetCategory> assetCategories) {
+        return AssetVocabularyHelper.getDistrictTitle(locale, assetCategories);
+    }
 }
