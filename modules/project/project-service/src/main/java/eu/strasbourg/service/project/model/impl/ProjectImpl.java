@@ -141,6 +141,26 @@ public class ProjectImpl extends ProjectBaseImpl {
 	}
 	
 	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers du projet
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	@Override
+	public String getDistrictLabel(Locale locale) {
+		StringBuilder result = new StringBuilder();
+		List<AssetCategory> districts = this.getDistrictCategories();
+		if (districts==null || districts.isEmpty()){
+			result.append("aucun quartier");
+		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
+			result.append("tous les quartiers");
+		} else {
+		    result.append(districts.stream()
+                    .map(district -> district.getTitle(locale))
+                    .collect(Collectors.joining(" - ")));
+		}
+		return result.toString();
+	}
+	
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	@Override

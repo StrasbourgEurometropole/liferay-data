@@ -192,24 +192,22 @@ public class ParticipationImpl extends ParticipationBaseImpl {
 	}
 
 	/**
-	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
-	 * @return : null si vide, sinon la liste des catégories
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	 */
 	@Override
-	public String getDistrictTitle(Locale locale) {
+	public String getDistrictLabel(Locale locale) {
 		StringBuilder result = new StringBuilder();
 		List<AssetCategory> districts = getDistrictCategories();
 		if (districts==null || districts.isEmpty()){
 			result.append("aucun quartier");
 		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
-			result.append("tout les quartiers");
+			result.append("tous les quartiers");
 		} else {
 		    result.append(districts.stream()
                     .map(district -> district.getTitle(locale))
                     .collect(Collectors.joining(" - ")));
-			//districts.forEach(district -> result.append(district.getTitle(locale)).append(" - "));
 		}
-        log.info(result.toString());
 		return result.toString();
 	}
 

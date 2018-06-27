@@ -581,13 +581,13 @@ public class ParticipationWrapper implements Participation,
 	}
 
 	/**
-	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la participation
+	* Retourne une chaine des 'Territoires' correspondant aux quartiers de la participation
 	*
-	* @return : null si vide, sinon la liste des catégories
+	* @return : Chaine des quartiers ou description "Aucun" ou "Tous"
 	*/
 	@Override
-	public java.lang.String getDistrictTitle(java.util.Locale locale) {
-		return _participation.getDistrictTitle(locale);
+	public java.lang.String getDistrictLabel(java.util.Locale locale) {
+		return _participation.getDistrictLabel(locale);
 	}
 
 	/**
