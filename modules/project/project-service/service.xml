@@ -150,6 +150,11 @@
         
         <!-- Links with other entities -->
         <column name="projectId" type="long"></column>
+        
+        <!-- Order -->
+		<order by="asc">
+			<order-column name="date" />
+		</order>
 		
 		<!-- Finder methods -->
 		<finder name="ProjectId" return-type="Collection">

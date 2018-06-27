@@ -104,7 +104,8 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 			ProjectTimelineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProjectId",
 			new String[] { Long.class.getName() },
-			ProjectTimelineModelImpl.PROJECTID_COLUMN_BITMASK);
+			ProjectTimelineModelImpl.PROJECTID_COLUMN_BITMASK |
+			ProjectTimelineModelImpl.DATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_PROJECTID = new FinderPath(ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProjectId",

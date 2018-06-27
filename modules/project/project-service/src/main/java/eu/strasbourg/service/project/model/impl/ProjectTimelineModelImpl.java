@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -89,8 +90,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,spacing INTEGER,date_ DATE null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
-	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.projectTimelineId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.projectTimelineId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.date ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.date_ ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -104,7 +105,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
 			true);
 	public static final long PROJECTID_COLUMN_BITMASK = 1L;
-	public static final long PROJECTTIMELINEID_COLUMN_BITMASK = 2L;
+	public static final long DATE_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -291,6 +292,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public void setDate(Date date) {
+		_columnBitmask = -1L;
+
 		_date = date;
 	}
 
@@ -395,17 +398,15 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public int compareTo(ProjectTimeline projectTimeline) {
-		long primaryKey = projectTimeline.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getDate(), projectTimeline.getDate());
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
