@@ -1,3 +1,5 @@
+<!-- DETAIL D'UN PROJET - ENTETE -->
+
 <#setting locale = locale />
 <#assign currEntry = entry.getAssetRenderer().getProject() />
 
