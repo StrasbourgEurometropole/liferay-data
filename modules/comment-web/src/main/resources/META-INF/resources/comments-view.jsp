@@ -36,14 +36,17 @@
 							<p>${comment.comment}</p>
 							<c:if test="${isAdmin}">
 								<div class="pro-interactions">
+									<!-- 
 									<a href="#pro-avis-like-pro" class="pro-like"
-										title="Mettre j'aime à cette vidéo" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
+										title="Mettre j'aime Ã  cette vidÃ©o" onclick="callServeResource('${likeURL}','like');">${comment.like}</a> <a
 										href="#pro-avis-dislike-pro" class="pro-dislike active" onclick="callServeResource('${likeURL}','dislike');"
-										title="Mettre je n'aime pas à cette vidéo">${comment.dislike}</a>
+										title="Mettre je n'aime pas Ã  cette vidÃ©o">${comment.dislike}</a>
+									-->
 									<div>
 										<a href="${hideComment}" title="Masquer le commentaire">Masquer</a>
 									</div>
 								</div>
+								 
 							</c:if>
 						</div>
 					</div>
