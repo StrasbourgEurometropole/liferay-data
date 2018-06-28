@@ -143,9 +143,9 @@ public class ProjectImpl extends ProjectBaseImpl {
 		StringBuilder result = new StringBuilder();
 		List<AssetCategory> districts = this.getDistrictCategories();
 		if (districts==null || districts.isEmpty()){
-			result.append("aucun quartier");
+			result.append("Aucun quartier");
 		} else if (AssetVocabularyHelper.isAllDistrict(districts.size())){
-			result.append("tous les quartiers");
+			result.append("Tous les quartiers");
 		} else {
 		    result.append(districts.stream()
                     .map(district -> district.getTitle(locale))
