@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
 
@@ -46,6 +48,8 @@ public class ProjectBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String tab = ParamUtil.getString(renderRequest, "tab");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		
 		renderResponse.setTitle("Projets");
 		
@@ -61,7 +65,13 @@ public class ProjectBOPortlet extends MVCPortlet {
 		if (cmd.equals("editProject")) {
 			EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);		
-		} else {
+		} else if (cmd.equals("editParticipation")) {
+			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);		
+		} else if (tab.equals("participations")) {
+			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse); 
+			renderRequest.setAttribute("dc", dc);
+		} else { // Else, we are on the projects list page
 			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse); 
 			renderRequest.setAttribute("dc", dc);
 		}
