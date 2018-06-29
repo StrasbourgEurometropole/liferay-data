@@ -27,7 +27,7 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 <#-- Template de la vignette -->
 
-<div class="col-md-3 col-sm-6 col-xs-12" style="min-height: 424px;">
+<div class="col-md-3 col-sm-6 col-xs-12">
 	<a href="${detailURL}" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">			
 		<div class="img">
 			<figure role="group">
